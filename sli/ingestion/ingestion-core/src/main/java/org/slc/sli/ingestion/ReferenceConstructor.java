@@ -32,13 +32,14 @@ public class ReferenceConstructor extends DefaultHandler {
     private Set<String> referenceObjectList;
 
     private boolean isInsideReferenceEntity;
+    private boolean startCharacters;
     private String currentReferenceXMLString;
-    private String tempVal;
+    private StringBuffer tempVal;
     private String currentReferenceId;
     private String topElementName;
 
     public ReferenceConstructor(Set<String> referenceSet) {
-        tempVal = "";
+        tempVal = new StringBuffer();
         topElementName = "";
         referenceObjects = new HashMap<String, String>();
         referenceObjectList = referenceSet;
@@ -109,7 +110,7 @@ public class ReferenceConstructor extends DefaultHandler {
 
         // If in reference, add element to reference body.
         if (isInsideReferenceEntity) {
-            currentReferenceXMLString += tempVal;
+            currentReferenceXMLString += tempVal.toString();
             currentReferenceXMLString += "\t<" + qName;
             if (attributes != null) {
                 for (int i = 0; i < attributes.getLength(); i++) {
@@ -118,6 +119,7 @@ public class ReferenceConstructor extends DefaultHandler {
             }
             currentReferenceXMLString += ">";
         }
+        startCharacters = true;
     }
 
     /**
@@ -138,10 +140,11 @@ public class ReferenceConstructor extends DefaultHandler {
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
         // Get characters between element markers.
-        tempVal = "";
-        for (int i = start; i < start + length; i++) {
-            tempVal += String.valueOf(ch[i]);
+        if (startCharacters) {
+            tempVal.delete(0, tempVal.length());
+            startCharacters = false;
         }
+            tempVal.append(ch, start, length);
     }
 
     /**
@@ -168,17 +171,18 @@ public class ReferenceConstructor extends DefaultHandler {
 
         // If in reference, add reference to reference map.
         if (isInsideReferenceEntity) {
-            currentReferenceXMLString += tempVal;
-            if (tempVal.contains("\n") && tempVal.trim().isEmpty()) {
+            currentReferenceXMLString += tempVal.toString();
+            if ((tempVal.toString().contains("\n")) && tempVal.toString().trim().isEmpty()) {
                 currentReferenceXMLString += "\t";
             }
-            tempVal = "\n\t";
+            tempVal.append("\n\t");
             currentReferenceXMLString += "</" + qName + ">";
             if (referenceObjectList.contains(qName)) {
                 referenceObjects.put(currentReferenceId, currentReferenceXMLString);
                 isInsideReferenceEntity = false;
             }
         }
+        startCharacters = true;
     }
 
 }

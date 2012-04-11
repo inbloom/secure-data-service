@@ -33,9 +33,10 @@ public class ReferenceResolver extends DefaultHandler {
     private BufferedWriter outputFileWriter;
 
     private String currentXMLString;
-    private String tempVal;
+    private StringBuffer tempVal;
     private String topElementName;
     private boolean isValidEntity;
+    private boolean startCharacters;
 
     private Set<String> referenceObjectList;
 
@@ -43,7 +44,7 @@ public class ReferenceResolver extends DefaultHandler {
         referenceObjects = referenceMap;
         referenceObjectList = referenceSet;
 
-        tempVal = "";
+        tempVal = new StringBuffer();
         topElementName = "";
         currentXMLString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         isValidEntity = true;
@@ -60,7 +61,8 @@ public class ReferenceResolver extends DefaultHandler {
      * @throws ParserConfigurationException
      * @throws IOException
      */
-    public void execute(String inputFilePath, String outputFilePath) throws SAXException, ParserConfigurationException, IOException {
+    public void execute(String inputFilePath, String outputFilePath) throws SAXException, ParserConfigurationException,
+            IOException {
         // Resolve references to references within the input file using the reference memory map.
         SAXParserFactory spf = SAXParserFactory.newInstance();
         File inputFile = new File(inputFilePath);
@@ -105,9 +107,10 @@ public class ReferenceResolver extends DefaultHandler {
         }
 
         // Expand XML references.
-        if ((qName.equals(topElementName)) && isValidEntity && referenceObjectList.contains(qName) && (attributes.getValue("id") != null)) {
-                // Reference top-level element.
-                isValidEntity = false;
+        if ((qName.equals(topElementName)) && isValidEntity && referenceObjectList.contains(qName)
+                && (attributes.getValue("id") != null)) {
+            // Reference top-level element.
+            isValidEntity = false;
         } else if (isValidEntity && referenceObjectList.contains(qName) && (attributes.getValue("ref") != null)) {
             // Reference to reference - get reference body from map.
             String refId = attributes.getValue("ref");
@@ -115,7 +118,7 @@ public class ReferenceResolver extends DefaultHandler {
                 isValidEntity = false;
                 currentXMLString += referenceObjects.get(refId);
             } else {
-                // Unresolved reference!  Abort processing.
+                // Unresolved reference! Abort processing.
                 SAXException se = new SAXException("Unresolved reference, id=\"" + refId + "\"");
                 throw (se);
             }
@@ -123,7 +126,7 @@ public class ReferenceResolver extends DefaultHandler {
 
         // Process non-reference XML element.
         if (isValidEntity) {
-            currentXMLString += tempVal;
+            currentXMLString += tempVal.toString();
             currentXMLString += "<" + qName;
             if (attributes != null) {
                 for (int i = 0; i < attributes.getLength(); i++) {
@@ -132,6 +135,7 @@ public class ReferenceResolver extends DefaultHandler {
             }
             currentXMLString += ">";
         }
+        startCharacters = true;
     }
 
     /**
@@ -152,10 +156,11 @@ public class ReferenceResolver extends DefaultHandler {
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
         // Get characters between element markers.
-        tempVal = "";
-        for (int i = start; i < start + length; i++) {
-            tempVal += String.valueOf(ch[i]);
+        if (startCharacters) {
+            tempVal.delete(0, tempVal.length());
+            startCharacters = false;
         }
+            tempVal.append(ch, start, length);
     }
 
     /**
@@ -184,14 +189,13 @@ public class ReferenceResolver extends DefaultHandler {
         if (!isValidEntity && referenceObjectList.contains(qName)) {
             isValidEntity = true;
         } else if (isValidEntity) {
-            currentXMLString += tempVal;
-            tempVal = "\n";
+            currentXMLString += tempVal.toString();
+            tempVal.append("\n");
             currentXMLString += "</" + qName + ">";
-
             writeXML(currentXMLString);
-
             currentXMLString = "";
         }
+        startCharacters = true;
     }
 
     private void writeXML(String xml) throws SAXException {
