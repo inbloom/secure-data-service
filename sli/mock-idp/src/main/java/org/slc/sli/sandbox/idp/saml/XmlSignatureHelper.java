@@ -55,6 +55,8 @@ import org.xml.sax.SAXException;
 /**
  * Class used for signing XML documents.
  * 
+ * TODO: Move to common library. THIS IS A STRAIGHT UP COPY-AND-PASTE OF THE ONE FROM THE API.
+ * 
  * @author shalka
  */
 @Component
