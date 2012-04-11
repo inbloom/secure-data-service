@@ -6,20 +6,20 @@
     entity: "listOfStudents",
     alias: "listOfStudents",
     params: {
-      assessmentFilter: {"ISAT Reading": "HIGHEST_EVER", "ISAT Writing": "MOST_RECENT_RESULT"}
+      assessmentFilter: {"ISAT Reading": "MOST_RECENT_RESULT", "ISAT Writing": "MOST_RECENT_RESULT"}
     }
   },
   root: 'students',
   items : [
     {name: "Student", field: "name.fullName"},
     {name: "ISAT Reading", items:[
-       {name: "Perf. Lvl.", field: "studentAssessmentAssociations.ISAT Reading.x"},
-       {name: "SS", field: "ISAT Reading.Scale score"},
-       {name: "%ile Rank", field: "ISAT Reading.Percentile"},
-       {name: "Lexile Score", field: "ISAT Reading.Other"}]},
+       {name: "Perf. Lvl.", field: "assessments.ISAT Reading.perfLevel"},
+       {name: "SS", field: "assessments.ISAT Reading.Scale score"},
+       {name: "%ile Rank", field: "assessments.ISAT Reading.Percentile"},
+       {name: "Lexile Score", field: "assessments.ISAT Reading.Other"}]},
      {name: "ISAT Writing (most recent)", items:[   
-       {name: "Perf. Lvl.", field: "ISAT Reading.Mastery level"},
-       {name: "SS", field: "ISAT Reading.Scale score"}]},
+       {name: "Perf. Lvl.", field: "assessments.ISAT Writing.perfLevel"},
+       {name: "SS", field: "assessments.ISAT Writing.Scale score"}]},
      {name: "Attendance", items:[   
        {name: "Absence Count", field: "attendance.AbsenceCount"}]}
   ] 

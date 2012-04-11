@@ -2,6 +2,7 @@ package org.slc.sli.manager.impl;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -130,6 +131,11 @@ public class PopulationManagerImpl implements PopulationManager {
         return g;
     }
 
+    /**
+     * Make enhancements that make it easier for front-end javascript to use the data
+     * 
+     * @param studentSummaries
+     */
     private void enhanceListOfStudents(List<GenericEntity> studentSummaries) {
         
         for (GenericEntity student : studentSummaries) {
@@ -143,6 +149,37 @@ public class PopulationManagerImpl implements PopulationManager {
             Map name = (Map) student.get("name");
             String fullName = (String) name.get("firstName") + " " + (String) name.get("lastSurname");
             name.put("fullName", fullName);
+            
+            // xform score format
+            Map studentAssmtAssocs = (Map) student.get("assessments");
+            if (studentAssmtAssocs == null)
+                continue;
+            
+            Collection<Map> assmtResults = (Collection<Map>) studentAssmtAssocs.values();
+            for (Map assmtResult : assmtResults) {
+                
+                if (assmtResult == null)
+                    continue;
+                
+                List<Map> scoreResults = (List<Map>) assmtResult.get("scoreResults");
+                for (Map scoreResult : scoreResults) {
+                    
+                    String type = (String) scoreResult.get("assessmentReportingMethod");
+                    String result = (String) scoreResult.get("result");
+                    assmtResult.put(type, result);
+                }
+                
+                List<Map> perfLevelsDescs = (List<Map>) assmtResult.get("performanceLevelDescriptors");
+                for (Map perfLevelDesc : perfLevelsDescs) {
+                    
+                    String perfLevel = (String) perfLevelDesc.get("description");
+                    assmtResult.put("perfLevel", perfLevel);
+                    break; // only get the first one
+                }
+            }
+
+            
+            
         }
     }
     
@@ -177,7 +214,7 @@ public class PopulationManagerImpl implements PopulationManager {
                 newAssmtResults.put(assmtName, assmt);
             }
             
-            summary.put(Constants.ATTR_STUDENT_ASSESSMENTS, newAssmtResults);
+            summary.put("assessments", newAssmtResults);
         }
     }
     
