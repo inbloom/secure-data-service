@@ -15,15 +15,14 @@ import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.slc.sli.view.TimedLogic2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi entities/associations such
@@ -207,8 +206,7 @@ public class PopulationManager implements Manager {
             //chosenAssessment = TimedLogic.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
         } else if (TimedLogic2.TIMESLOT_HIGHESTEVER.equals(timeSlot)) {
             chosenAssessment = TimedLogic2.getHighestEverAssessment(studentAssessmentFiltered);
-            /*} else if (TimedLogic2.TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
-            
+        /*} else if (TimedLogic2.TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
             List<GenericEntity> assessmentMetaData = new ArrayList<GenericEntity>();
             Set<String> assessmentIds = new HashSet<String>();
             for (GenericEntity studentAssessment : studentAssessmentFiltered) {
@@ -222,6 +220,7 @@ public class PopulationManager implements Manager {
             
             chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
             */
+
         } else {
             // Decide whether to throw runtime exception here. Should timed logic default @@@
             chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
