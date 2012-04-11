@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -34,7 +35,9 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static String thisIP = getHostIP();
     private static String thisName = getHostName();
     private static MongoTemplate template;
-
+    private static final String STR_TIMESTAMP_FORMAT = "yyyyMMdd hh:mm:ss.SSS";
+    private static final FastDateFormat formatter = FastDateFormat.getInstance(STR_TIMESTAMP_FORMAT);
+    
     public MongoTemplate getBatchJobMongoTemplate() {
         return template;
     }
@@ -117,8 +120,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
      * @return
      */
     public static BatchJobStatus logIngestionMetricInfo(String ingestionJobId, String stageName, String resourceId,
-            String sourceIp, String hostname, String startTimestamp, String stopTimeStamp, int recordCount,
-            int errorCount) {
+            String sourceIp, String hostname, String startTimestamp, String stopTimeStamp, long recordCount,
+            long errorCount) {
         if (ingestionJobId == null || stageName == null) {
             BatchJobStatus logStatus = new BatchJobStatus(false, "JobId [" + ingestionJobId + "] " + "or StageName["
                     + stageName + "] is null.", null);
@@ -248,4 +251,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
     
 
+    public static String getCurrentTimeStamp(){
+        String timeStamp = formatter.format(System.currentTimeMillis());
+        return timeStamp;
+    }
 }
