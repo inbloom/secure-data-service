@@ -259,7 +259,7 @@ public class DefaultCrudEndPointTest {
         List<EntityBody> entities = new ArrayList<EntityBody>();
         entities.add(body);
         
-        entities = crudEndPoint.appendOptionalFields(info, entities);
+        entities = crudEndPoint.appendOptionalFields(info, entities, ResourceNames.SECTIONS);
         
         assertEquals("Should only have one", 1, entities.size());
         assertEquals("Should match", body, entities.get(0));

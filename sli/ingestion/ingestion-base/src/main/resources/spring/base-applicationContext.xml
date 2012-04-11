@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+  <import resource="validation-context.xml" />
+  <import resource="handler-context.xml" />
+
+  <bean id="ingestionPropertiesPlaceholder"
+    class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
+
+    <!-- this avoids errors with *other* property placeholders -->
+    <property name="ignoreUnresolvablePlaceholders" value="true" />
+
+    <!-- this allows using an optional local properties file (ingestion-dev.properties) -->
+    <property name="ignoreResourceNotFound" value="true" />
+
+    <property name="locations">
+      <list>
+        <value>classpath:/config/${sli.env}/ingestion/ingestion_conf.properties</value>
+        <value>classpath:ingestion.properties</value>
+        <value>classpath:/config/${sli.env}/ingestion/queue.properties </value>
+        <!-- create this file with custom settings for your dev environment -->
+        <value>classpath:ingestion-dev.properties</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="lz"
+    class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone">
+    <property name="directory" value="${landingzone.inbounddir}"></property>
+  </bean>
+
+  <bean id="tempLz"
+    class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone" />
+
+  <!-- Main application context, contains all other contexts in /spring -->
+
+  <aop:aspectj-autoproxy />
+
+</beans>
+
+

@@ -4,10 +4,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.UUID;
+import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
+import java.util.zip.Inflater;
 
 import javax.annotation.PostConstruct;
 import javax.xml.parsers.DocumentBuilder;
@@ -38,6 +41,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import org.slc.sli.api.security.saml2.SAML2Validator;
+import org.slc.sli.api.security.saml2.XmlSignatureHelper;
 
 /**
  * Handles Saml composing, parsing and validating (signatures)
@@ -50,6 +54,7 @@ public class SamlHelper {
     
     private static final String POST_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST";
     private static final String ARTIFACT_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact";
+    private static final String NAMEID_FORMAT_TRANSIENT = "urn:oasis:names:tc:SAML:2.0:nameid-format:transient";
     
     private static final Logger LOG = LoggerFactory.getLogger(SamlHelper.class);
     
@@ -69,6 +74,9 @@ public class SamlHelper {
     
     @Autowired
     private SAML2Validator validator;
+    
+    @Autowired
+    private XmlSignatureHelper sign;
     
     @PostConstruct
     public void init() throws Exception {
@@ -91,6 +99,17 @@ public class SamlHelper {
     }
     
     /**
+     * Composes AuthnRequest using post binding
+     * 
+     * @param destination idp endpoint
+     * @param forceAuthn boolean indicating whether authentication at the idp should be enforced
+     * @return pair {saml message id, encoded saml message}
+     */
+    public Pair<String, String> createSamlAuthnRequestForRedirect(String destination, boolean forceAuthn) {
+        return composeAuthnRequest(destination, POST_BINDING, forceAuthn);
+    }
+    
+    /**
      * Composes AuthnRequest using artifact binding
      * 
      * @param destination
@@ -98,6 +117,28 @@ public class SamlHelper {
      */
     public Pair<String, String> createSamlAuthnRequestForRedirectArtifact(String destination) {
         return composeAuthnRequest(destination, ARTIFACT_BINDING);
+    }
+    
+    /**
+     * Composes LogoutRequest (binding-agnostic).
+     * @param destination idp endpoint
+     * @param userId unique identifier of user at idp
+     * @param sessionIndex unique identifier of current user session at idp
+     * @return deflated, base64-encoded and url encoded saml message
+     */
+    public String createSignedSamlLogoutRequest(String destination, String userId, String sessionIndex) {
+        return composeSignedLogoutRequest(destination, userId, sessionIndex);
+    }
+    
+    /**
+     * Composes LogoutRequest (binding-agnostic).
+     * 
+     * @param destination destination idp endpoint
+     * @param userId unique identifier of user at idp
+     * @return deflated, base64-encoded and url encoded saml message
+     */
+    public String createSamlLogoutRequest(String destination, String userId) {
+        return composeLogoutRequest(destination, userId);
     }
     
     /**
@@ -114,7 +155,7 @@ public class SamlHelper {
             
             org.w3c.dom.Document doc = domBuilder.parse(new InputSource(new StringReader(base64Decoded)));
             
-            // TODO verify digest and signature
+            // TODO verify digest and signature --> update to validator.isDocumentValidAndTrusted()
             if (!validator.isDocumentValid(doc)) {
                 throw new IllegalArgumentException("Invalid SAML message");
             }
@@ -124,6 +165,17 @@ public class SamlHelper {
         } catch (Exception e) {
             LOG.error("Error unmarshalling saml post", e);
             throw new IllegalArgumentException("Posted SAML isn't valid");
+        }
+    }
+    
+    public Document decodeSamlRedirect(String redirectData) {
+        try {
+            String xml = encodedStringToXml(redirectData);
+            LOG.debug(xml);            
+            org.w3c.dom.Document doc = domBuilder.parse(new InputSource(new StringReader(xml)));
+            return this.builder.build(doc);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Unable to decode redirect payload");
         }
     }
     
@@ -138,7 +190,6 @@ public class SamlHelper {
      * @return {generated messageId, deflated, base64-encoded and url encoded saml message} java doesn't have tuples :(
      * @throws Exception
      * 
-     * 
      */
     @SuppressWarnings("unchecked")
     private Pair<String, String> composeAuthnRequest(String destination, String binding) {
@@ -150,7 +201,7 @@ public class SamlHelper {
         doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
         doc.getRootElement().getAttributes().add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
         doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
-        doc.getRootElement().getAttributes().add(new Attribute("ForceAuthn", "false"));
+        doc.getRootElement().getAttributes().add(new Attribute("ForceAuthn", "true"));
         doc.getRootElement().getAttributes().add(new Attribute("IsPassive", "false"));
         doc.getRootElement().getAttributes().add(new Attribute("ProtocolBinding", binding));
         
@@ -174,17 +225,185 @@ public class SamlHelper {
         
         doc.getRootElement().addContent(authnContext);
         
-        // TODO sign and add digest
-        
+        // add signature and digest here
         try {
             String xmlString = nodeToXmlString(domer.output(doc));
-            
-            LOG.debug(xmlString);
-            
+            LOG.debug(xmlString);            
             return Pair.of(id, xmlToEncodedString(xmlString));
         } catch (Exception e) {
             LOG.error("Error composing AuthnRequest", e);
             throw new IllegalArgumentException("Couldn't compose AuthnRequest", e);
+        }
+    }
+    
+    /**
+     * Generates AuthnRequest and converts it to valid form for HTTP-Redirect binding
+     * 
+     * AssertionConsumerServiceURL attribute can be added to root element, but seems not required. If added, must match an
+     * endpoint that was sent to the idp during federation (sp.xml)
+     * SPNameQualifier attribute can be added to NameId, but seems not required. Same as IssuerName
+     * 
+     * @param destination idp url to where the message is going
+     * @param binding binding to be specified in saml
+     * @param forceAuthn boolean indicating whether authentication at the idp should be forced onto user
+     * @return {generated messageId, deflated, base64-encoded and url encoded saml message} java doesn't have tuples :(
+     * @throws Exception
+     * 
+     */
+    @SuppressWarnings("unchecked")
+    private Pair<String, String> composeAuthnRequest(String destination, String binding, boolean forceAuthn) {
+        Document doc = new Document();
+        
+        String id = "sli-" + UUID.randomUUID().toString();
+        doc.setRootElement(new Element("AuthnRequest", SAMLP_NS));
+        doc.getRootElement().getAttributes().add(new Attribute("ID", id));
+        doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
+        doc.getRootElement().getAttributes().add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
+        doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
+        doc.getRootElement().getAttributes().add(new Attribute("ForceAuthn", String.valueOf(forceAuthn)));
+        doc.getRootElement().getAttributes().add(new Attribute("IsPassive", "false"));
+        doc.getRootElement().getAttributes().add(new Attribute("ProtocolBinding", binding));
+        
+        Element issuer = new Element("Issuer", SAML_NS);
+        issuer.addContent(this.issuerName);
+        
+        doc.getRootElement().addContent(issuer);
+        
+        Element nameId = new Element("NameIDPolicy", SAMLP_NS);
+        nameId.getAttributes().add(new Attribute("Format", "urn:oasis:names:tc:SAML:2.0:nameid-format:transient"));
+        nameId.getAttributes().add(new Attribute("AllowCreate", "true"));
+        nameId.getAttributes().add(new Attribute("SPNameQualifier", this.issuerName));
+        
+        doc.getRootElement().addContent(nameId);
+        
+        Element authnContext = new Element("RequestedAuthnContext", SAMLP_NS);
+        authnContext.getAttributes().add(new Attribute("Comparison", "exact"));
+        Element classRef = new Element("AuthnContextClassRef", SAML_NS);
+        classRef.addContent("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
+        authnContext.addContent(classRef);
+        
+        doc.getRootElement().addContent(authnContext);
+        
+        // add signature and digest here
+        try {
+            String xmlString = nodeToXmlString(domer.output(doc));
+            LOG.debug(xmlString);            
+            return Pair.of(id, xmlToEncodedString(xmlString));
+        } catch (Exception e) {
+            LOG.error("Error composing AuthnRequest", e);
+            throw new IllegalArgumentException("Couldn't compose AuthnRequest", e);
+        }
+    }
+    
+    /**
+     * Composes a Logout Request (for SP-initiated Single Logout). Example of Logout Request:
+     * 
+     * <samlp:LogoutRequest
+     * xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+     * ID="21B78E9C6C8ECF16F01E4A0F15AB2D46"
+     * IssueInstant="2010-04-28T21:36:11.230Z"
+     * Version="2.0">
+     * <saml:Issuer xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">https://dloomac.service-now.com</saml2:Issuer>
+     * <saml:NameID xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+     * Format="urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
+     * NameQualifier="http://idp.ssocircle.com"
+     * SPNameQualifier="https://dloomac.service-now.com/navpage.do">
+     * david.loo@service-now.com
+     * </saml:NameID>
+     * <samlp:SessionIndex>s211b2f811485b2a1d2cc4db2b271933c286771104</samlp:SessionIndex>
+     * </samlp:LogoutRequest>
+     * 
+     * @param destination IDP endpoint
+     * @return deflated, base64-encoded and url encoded saml message
+     */
+    @SuppressWarnings("unchecked")
+    private String composeLogoutRequest(String destination, String userId) {
+        Document doc = new Document();
+        
+        String id = "sli-" + UUID.randomUUID().toString();
+        doc.setRootElement(new Element("LogoutRequest", SAMLP_NS));
+        doc.getRootElement().getAttributes().add(new Attribute("ID", id));
+        doc.getRootElement().getAttributes().add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
+        doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
+        doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
+        
+        Element issuer = new Element("Issuer", SAML_NS);
+        issuer.addContent(this.issuerName);
+        doc.getRootElement().addContent(issuer);
+        
+        Element nameId = new Element("NameID", SAML_NS);
+        nameId.getAttributes().add(new Attribute("Format", NAMEID_FORMAT_TRANSIENT));
+        nameId.getAttributes().add(new Attribute("NameQualifier", destination));
+        nameId.getAttributes().add(new Attribute("SPNameQualifier", this.issuerName));
+        nameId.setText(userId);
+        
+        doc.getRootElement().addContent(nameId);
+        
+        // add signature and digest here
+        try {
+            org.w3c.dom.Document dom = domer.output(doc);
+            dom = sign.signSamlAssertion(dom);
+            String xmlString = nodeToXmlString(dom);
+            LOG.debug(xmlString);
+            return xmlToEncodedString(xmlString);
+        } catch (Exception e) {
+            LOG.error("Error composing LogoutRequest", e);
+            throw new IllegalArgumentException("Couldn't compose LogoutRequest", e);
+        }
+    }
+    
+    /**
+     * Composes a Logout Request (for SP-initiated Single Logout). Example of Logout Request:
+     * 
+     * @param destination IDP endpoint
+     * @param userId unique id of user
+     * @param sessionIndex unique identifier of session at idp
+     * @return deflated, base64-encoded and url encoded saml message
+     */
+    @SuppressWarnings("unchecked")
+    private String composeSignedLogoutRequest(String destination, String userId, String sessionIndex) {
+        Document doc = new Document();
+        
+        if (destination.equals(null)) {
+            throw new IllegalArgumentException("idp destination cannot be null");
+        } else if (userId.equals(null)) {
+            throw new IllegalArgumentException("user id cannot be null");
+        } else if (sessionIndex.equals(null)) {
+            throw new IllegalArgumentException("session index cannot be null");
+        }
+        
+        String id = "sli-" + UUID.randomUUID().toString();
+        doc.setRootElement(new Element("LogoutRequest", SAMLP_NS));
+        doc.getRootElement().getAttributes().add(new Attribute("ID", id));
+        doc.getRootElement().getAttributes().add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
+        doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
+        doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
+        
+        Element issuer = new Element("Issuer", SAML_NS);
+        issuer.addContent(this.issuerName);
+        doc.getRootElement().addContent(issuer);
+        
+        Element nameId = new Element("NameID", SAML_NS);
+        nameId.getAttributes().add(new Attribute("Format", NAMEID_FORMAT_TRANSIENT));
+        nameId.getAttributes().add(new Attribute("NameQualifier", destination));
+        nameId.getAttributes().add(new Attribute("SPNameQualifier", this.issuerName));
+        nameId.setText(userId);
+        
+        doc.getRootElement().addContent(nameId);
+        
+        Element sessionIndexElement = new Element("SessionIndex", SAMLP_NS);
+        sessionIndexElement.setText(sessionIndex);
+        doc.getRootElement().addContent(sessionIndexElement);
+        
+        try {
+            org.w3c.dom.Document dom = domer.output(doc);
+            dom = this.sign.signSamlAssertion(dom);
+            String xmlString = nodeToXmlString(dom);
+            LOG.debug(xmlString);
+            return xmlToEncodedString(xmlString);
+        } catch (Exception e) {
+            LOG.error("Error composing LogoutRequest", e);
+            throw new IllegalArgumentException("Couldn't compose LogoutRequest", e);
         }
     }
     
@@ -230,5 +449,26 @@ public class SamlHelper {
         deflaterOutputStream.close();
         String base64 = Base64.encodeBase64String(byteArrayOutputStream.toByteArray());
         return URLEncoder.encode(base64, "UTF-8");
+    }
+    
+    private static String encodedStringToXml(String msg) throws DataFormatException, UnsupportedEncodingException {
+        //msg = URLDecoder.decode(msg, "UTF-8");
+        
+        byte[] bytes = Base64.decodeBase64(msg);
+        
+        Inflater inf = new Inflater(true);
+        inf.setInput(bytes);
+        
+        byte[] result = new byte[10024];
+        
+        int len = 0;
+        while (!inf.finished()) {
+            len += inf.inflate(result);
+        }
+        
+        inf.end();
+        
+        return new String(result, 0, len, "UTF-8");
+        
     }
 }

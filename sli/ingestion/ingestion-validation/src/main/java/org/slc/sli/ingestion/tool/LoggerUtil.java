@@ -9,6 +9,8 @@ import ch.qos.logback.core.FileAppender;
 
 import org.slf4j.LoggerFactory;
 
+
+
 /**
  * Provides logging to console or file for the offline tool
  *
@@ -27,7 +29,6 @@ public class LoggerUtil {
     private static ConsoleAppender<ILoggingEvent> consoleAppender;
 
     static {
-        System.setProperty("logback.configurationFile", "logback-tool.xml");
         loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         logger = loggerContext.getLogger(LoggerUtil.class);
         consoleAppender = (ConsoleAppender<ILoggingEvent>) logger.getAppender("ConsoleAppender");
