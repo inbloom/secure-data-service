@@ -104,9 +104,7 @@ public class PopulationManagerImpl implements PopulationManager {
                 continue;
             String id = studentSummary.getString(Constants.ATTR_ID);
             studentSummary.put(Constants.ATTR_PROGRAMS, studentProgramMap.get(id));
-            
-            // clean out some unneeded gunk
-            studentSummary.remove(Constants.ATTR_LINKS);
+
         }
         
         return studentSummaries;
@@ -126,12 +124,30 @@ public class PopulationManagerImpl implements PopulationManager {
         
         // apply assmt filters
         applyAssessmentFilters(studentSummaries, config);
+    
+        // data enhancements
+        enhanceListOfStudents(studentSummaries);
         
         GenericEntity g = new GenericEntity();
         g.put("students", studentSummaries);
         return g;
     }
 
+    private void enhanceListOfStudents(List<GenericEntity> studentSummaries) {
+        
+        for (GenericEntity student : studentSummaries) {
+            if (student == null)
+                continue;
+            
+            // clean out some unneeded gunk
+            student.remove(Constants.ATTR_LINKS);
+         
+            // add full name
+            Map name = (Map) student.get("name");
+            String fullName = (String) name.get("firstName") + " " + (String) name.get("lastSurname");
+            name.put("fullName", fullName);
+        }
+    }
     
     /**
      * Find the required assessment results according to the data configuration. Filter out the rest.
