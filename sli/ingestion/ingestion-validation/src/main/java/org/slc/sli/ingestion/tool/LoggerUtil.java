@@ -29,7 +29,6 @@ public class LoggerUtil {
     private static ConsoleAppender<ILoggingEvent> consoleAppender;
 
     static {
-        //System.setProperty("logback.configurationFile", "logback-tool.xml");
         loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         logger = loggerContext.getLogger(LoggerUtil.class);
         consoleAppender = (ConsoleAppender<ILoggingEvent>) logger.getAppender("ConsoleAppender");

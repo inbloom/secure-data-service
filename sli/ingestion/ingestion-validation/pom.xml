@@ -20,14 +20,6 @@
       <groupId>org.slc.sli.ingestion</groupId>
       <artifactId>ingestion-base</artifactId>
       <exclusions>
-<!--         <exclusion> -->
-<!--           <groupId>commons-logging</groupId> -->
-<!--           <artifactId>commons-logging</artifactId> -->
-<!--          </exclusion> -->
-<!--         <exclusion> -->
-<!--           <groupId>org.slf4j</groupId> -->
-<!--           <artifactId>slf4j-api</artifactId> -->
-<!--         </exclusion> -->
         <exclusion>
         	<artifactId>spring-data-mongodb</artifactId>
         	<groupId>org.springframework.data</groupId>
