@@ -41,7 +41,7 @@
 					<#if address.addressType == "Home" >
 	    				Address:
     				<#else>
-    					${address.addressType}
+    					${address.addressType}:
     				</#if>
 				</#if>
 				</th>
