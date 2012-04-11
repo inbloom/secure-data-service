@@ -23,7 +23,6 @@ import org.scribe.model.OAuthConfig;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
-
 import org.slc.sli.api.client.Constants;
 import org.slc.sli.api.client.security.SliApi;
 

@@ -13,7 +13,7 @@ INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
 INGESTION_MODE = PropLoader.getProps['ingestion_mode']
-
+INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_data_store']
 ############################################################
 # STEPS: BEFORE
 ############################################################
@@ -28,6 +28,10 @@ end
 
 Given /^I am using local data store$/ do
   @local_file_store_path = File.dirname(__FILE__) + '/../../test_data/'
+end
+
+Given /^I am using destination-local data store$/ do
+  @local_file_store_path = INGESTION_DESTINATION_DATA_STORE
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
@@ -103,6 +107,10 @@ Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_nam
   @source_file_name = file_name
 
   FileUtils.rm_r zip_dir
+end
+
+Given /^I want to ingest locally provided data "([^"]*)" file as the payload of the ingestion job$/ do |file_path|
+  @source_file_name = file_path
 end
 
 Given /^the following collections are empty in datastore:$/ do |table|
@@ -211,6 +219,21 @@ When /^zip file is scp to ingestion landing zone$/ do
   assert(true, "File Not Uploaded")
 end
 
+
+When /^local zip file is moved to ingestion landing zone$/ do
+  @source_path = @local_file_store_path + @source_file_name
+  @destination_path = @landing_zone_path + @source_file_name
+
+  puts "Source = " + @source_path
+  puts "Destination = " + @destination_path
+
+  assert(@destination_path != nil, "Destination path was nil")
+  assert(@source_path != nil, "Source path was nil")
+
+  runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/remoteCopy.sh " + @source_path + " " + @destination_path);
+
+  assert(true, "File Not Uploaded")
+end
 
 ############################################################
 # STEPS: THEN

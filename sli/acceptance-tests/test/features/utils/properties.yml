@@ -21,6 +21,7 @@ ingestion_db: "localhost"
 ingestion_database_name: "sli"
 ingestion_server_url: "testing1.slidev.org"
 ingestion_mode: "local"
+ingestion_destination_data_store: "../ingestion/target/performanceData/"
 
 DB_HOST: "localhost"
 api_database_name : "sli"

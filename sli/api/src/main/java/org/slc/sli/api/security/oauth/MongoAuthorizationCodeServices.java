@@ -10,7 +10,6 @@ import java.util.Set;
 import javax.ws.rs.core.UriBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -74,6 +73,13 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
         assert false;   //this shouldn't be used because we bypass the normal Spring oauth authorize call
     }
     
+    /**
+     * Initial creation of authorization code entity (pre-authentication).
+     * @param clientId unique identifier of application.
+     * @param state sanity check for preventing csrf.
+     * @param clientRedirectUri base URI of application (specified during registration).
+     * @param samlId message identifier of saml message generated.
+     */
     protected void create(String clientId, String state, String clientRedirectUri, String samlId) {
         final EntityBody authorizationCode = new EntityBody();
         String redirectUri = clientDetailService.loadClientByClientId(clientId).getWebServerRedirectUri();
@@ -97,13 +103,19 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
         });
     }
     
-    public String createAuthorizationCodeForMessageId(String samlId, final SLIPrincipal principal) {
+    /**
+     * Updates authorization code entity (post-authentication).
+     * @param samlId message identifier of saml message generated.
+     * @param principal sli principal entity.
+     * @param sessionIndex unique identifier of session created at idp.
+     * @return URI to be redirected to (according to OAuth 2.0 specification)
+     */
+    public String createAuthorizationCodeForMessageId(String samlId, final SLIPrincipal principal, final String sessionIndex) {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
         neutralQuery.addCriteria(new NeutralCriteria("samlId", "=", samlId));
-        
-        
+                
         Iterable<Entity> results = repo.findAll(OAUTH_AUTHORIZATION_CODE, neutralQuery);
         Entity e = results.iterator().next();
         
@@ -120,6 +132,7 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
                 authorizationCode.put("userName", principal.getName());
                 authorizationCode.put("adminRealm", principal.getAdminRealm());
                 authorizationCode.put("edOrg", principal.getEdOrg());
+                authorizationCode.put("sessionIndex", sessionIndex);
                 getService().update(id, authorizationCode);
                 return authorizationCode;
             }
@@ -177,19 +190,19 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
             });
             ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
             authorities.addAll(authoritiesSet);
-           // Authentication authentication = new AnonymousAuthenticationToken(user.getId(), user, authorities);
-            Authentication authentication =  new PreAuthenticatedAuthenticationToken(user, clientToken, authorities);
+            // Authentication authentication = new AnonymousAuthenticationToken(user.getId(), user, authorities);
+            PreAuthenticatedAuthenticationToken authentication =  new PreAuthenticatedAuthenticationToken(user, clientToken, authorities);
+            authentication.setDetails((String) body.get("sessionIndex"));
             toReturn = new UnconfirmedAuthorizationCodeAuthenticationTokenHolder(clientToken, authentication);
         }
         return toReturn;
     }
     
     /**
-     * Gets the EntityService associated with the OAuth 2.0 session collection.
-     * 
+     * Gets the EntityService associated with the OAuth 2.0 authorization code collection.
      * @return Instance of EntityService for performing collection operations.
      */
-    public EntityService getService() {
+    private EntityService getService() {
         EntityDefinition defn = store.lookupByResourceName(OAUTH_AUTHORIZATION_CODE);
         return defn.getService();
     }

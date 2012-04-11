@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -28,18 +29,16 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
         DirtiesContextTestExecutionListener.class })
 public class DefaultSAML2ValidatorTest {
     
+    @Autowired
     private DefaultSAML2Validator validator;
+    
     private DocumentBuilder builder;
     
     @Before
     public void setUp() throws Exception {
-        validator = new DefaultSAML2Validator();
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        
         dbf.setNamespaceAware(true);
-        
         builder = dbf.newDocumentBuilder();
-        
     }
     
     @After
@@ -97,13 +96,6 @@ public class DefaultSAML2ValidatorTest {
         Document doc = getDocument("complete-invalid.xml");
         Assert.isTrue(!validator.isDigestValid(doc));
     }
-    
-    // TECH DEBT : enable this test when ADFS signing token has been correctly set up --> post PI3 demo
-    // @Test
-    // public void testIsTrustedAssertionTrusted() throws Exception {
-    // Document doc = getDocument("adfs-valid.xml");
-    // Assert.isTrue(validator.isDocumentTrusted(doc));
-    // }
     
     @Test
     public void testIsUntrustedAssertionTrusted() throws Exception {
