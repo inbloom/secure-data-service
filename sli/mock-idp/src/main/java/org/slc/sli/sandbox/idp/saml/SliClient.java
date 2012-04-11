@@ -7,7 +7,6 @@ import java.util.Arrays;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -57,7 +56,7 @@ public class SliClient {
             URI redirectUri = httpclient.execute(post, new ResponseHandler<URI>() {
                 
                 @Override
-                public URI handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
+                public URI handleResponse(HttpResponse response) throws IOException {
                     int status = response.getStatusLine().getStatusCode();
                     if (!(status == 307 || status == 301 || status == 302)) {
                         response.getEntity().writeTo(System.err);

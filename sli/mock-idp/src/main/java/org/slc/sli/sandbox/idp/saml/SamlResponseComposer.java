@@ -40,7 +40,7 @@ public class SamlResponseComposer {
     @Autowired
     XmlSignatureHelper signer;
     
-    private static String ROLE_TEMPLATE = "<saml:AttributeValue xmlns:xs='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='xs:string'>__ROLE__</saml:AttributeValue>";
+    private static final String ROLE_TEMPLATE = "<saml:AttributeValue xmlns:xs='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='xs:string'>__ROLE__</saml:AttributeValue>";
     
     public String componseResponse(String destination, String issuer, String requestId, String userId, String userName,
             List<String> roles) {

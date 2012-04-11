@@ -11,7 +11,6 @@ import org.apache.http.HeaderElement;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -37,7 +36,7 @@ public class SliClientTest {
     
     @SuppressWarnings("unchecked")
     @Test
-    public void testPostResponse() throws ClientProtocolException, IOException {
+    public void testPostResponse() throws IOException {
         HttpClient http = Mockito.mock(HttpClient.class);
         Mockito.when(http.execute(Mockito.any(HttpUriRequest.class), Mockito.any(ResponseHandler.class))).thenAnswer(
                 new Answer<URI>() {

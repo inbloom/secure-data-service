@@ -15,6 +15,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+/**
+ * Decodes SAMLRequests and parses out the relevant information.
+ * 
+ * @author Ryan Farris <rfarris@wgen.net>
+ * 
+ */
 @Component
 public class SamlRequestDecoder {
     
@@ -25,7 +31,7 @@ public class SamlRequestDecoder {
         private final String destination;
         private final String id;
         
-        private SamlRequest(String destination, String id) {
+        SamlRequest(String destination, String id) {
             this.destination = destination;
             this.id = id;
         }

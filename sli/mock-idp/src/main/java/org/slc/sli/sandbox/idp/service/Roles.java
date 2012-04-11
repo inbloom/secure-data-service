@@ -18,7 +18,7 @@ public class Roles {
     public static class Role {
         String name;
         
-        private Role(String name) {
+        Role(String name) {
             this.name = name;
         }
         

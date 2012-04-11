@@ -5,17 +5,26 @@ import org.slc.sli.sandbox.idp.saml.SamlRequestDecoder.SamlRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Service that decodes SAMLRequests prior to login form being displayed.
+ * 
+ * @author Ryan Farris <rfarris@wgen.net>
+ * 
+ */
 @Component
 public class AuthRequests {
     
     @Autowired
     SamlRequestDecoder samlDecoder;
     
+    /**
+     * Holds information from the initial request that's eventually needed to complete login.
+     */
     public static class Request {
         private final String tenant;
         private final SamlRequest saml;
         
-        private Request(String tenant, SamlRequest saml) {
+        Request(String tenant, SamlRequest saml) {
             this.tenant = tenant;
             this.saml = saml;
         }
