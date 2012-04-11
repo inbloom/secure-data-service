@@ -95,7 +95,7 @@ public class AggregationLoader {
             InputStream in = getClass().getResourceAsStream(pathPrefix + file);
             String command = loadJavascriptFile(in);
 
-            if (executeString(command)) {
+            if (!executeString(command)) {
                 allFilesLoaded = false;
             }
         }
@@ -139,7 +139,7 @@ public class AggregationLoader {
     /**
      * Executes a command given in a string
      * @param command The command to execute against the mongo template
-     * @return true if command was executed sucessfully, false otherwise
+     * @return true if command was executed successfully, false otherwise
      */
     private boolean executeString(String command) {
         return template.executeCommand("{\"$eval\":\"" + StringEscapeUtils.escapeJava(command) + "\"}").ok();
