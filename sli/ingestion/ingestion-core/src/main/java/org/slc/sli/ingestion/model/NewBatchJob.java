@@ -52,7 +52,7 @@ public final class NewBatchJob {
         List<Stage> stages = new LinkedList<Stage>();
         this.stages = stages;
         List<ResourceEntry> resourceEntries = new LinkedList<ResourceEntry>();
-        this.resourceEntries = resourceEntries;       
+        this.resourceEntries = resourceEntries;
     }
     
     //mongoTemplate requires this constructor.

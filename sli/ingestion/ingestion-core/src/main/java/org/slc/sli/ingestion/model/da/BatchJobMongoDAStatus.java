@@ -5,13 +5,13 @@ package org.slc.sli.ingestion.model.da;
  * @author ldalgado
  *
  */
-public class BatchJobStatus {
+public class BatchJobMongoDAStatus {
 
     private boolean success; 
     private String message;  
     private Object result;
     
-    public BatchJobStatus(boolean success, String message, Object result) {
+    public BatchJobMongoDAStatus(boolean success, String message, Object result) {
         super();
         this.success = success;
         this.message = message;
@@ -19,7 +19,7 @@ public class BatchJobStatus {
     }
     
     //mongoTemplate requires this constructor.
-    public BatchJobStatus() {
+    public BatchJobMongoDAStatus() {
     }
 
     public boolean isSuccess() {
