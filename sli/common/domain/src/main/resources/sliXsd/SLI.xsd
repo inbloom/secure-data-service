@@ -2566,18 +2566,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:element>
-                <xs:element name="dailyAttendance" minOccurs="0" maxOccurs="1">
+                <xs:element name="dailyAttendance" type="dailyAttendanceType" minOccurs="0" maxOccurs="1">
                     <xs:annotation>
                         <xs:documentation>
                             Daily attendance for the student at the school. Attendance is partitioned by school year.
+                            School years must be unique per school year attendance.
                         </xs:documentation>
                     </xs:annotation>
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="schoolYearAttendance" type="schoolYearAttendanceType" minOccurs="0"
-                                        maxOccurs="unbounded"/>
-                        </xs:sequence>
-                    </xs:complexType>
                     <xs:unique name="uniqueSchoolYears">
                         <xs:selector xpath="schoolYearAttendance"/>
                         <xs:field xpath="@schoolYear"/>
