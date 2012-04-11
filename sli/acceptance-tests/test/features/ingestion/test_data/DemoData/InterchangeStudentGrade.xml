@@ -63,13 +63,45 @@
         </SectionIdentity>
       </SectionReference>
     </GradebookEntry>
-
-
-    <StudentAcademicRecord id="SAR-91919001-1">
-      <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
-        <Credit>5</Credit>
-      </CumulativeCreditsAttempted>
-      <StudentReference>
+    
+    <StudentAcademicRecord id="SAR-91919021-1">
+        <CumulativeCreditsEarned CreditType="Carnegie unit" CreditConversion="0">
+            <Credit>50.00</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
+            <Credit>50.00</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>0</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>0</CumulativeGradePointAverage>
+        <GradeValueQualifier>GradeValueQualifier1</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>0</ClassRank>
+            <TotalNumberInClass>0</TotalNumberInClass>
+            <PercentageRanking>0</PercentageRanking>
+            <ClassRankingDate>2006-05-04</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Honor roll</AcademicHonorsType>
+            <HonorsDescription>HonorsDescription4</HonorsDescription>
+            <HonorAwardDate>2006-05-04</HonorAwardDate>
+        </AcademicHonors>
+        <AcademicHonors>
+            <AcademicHonorsType>Honor roll</AcademicHonorsType>
+            <HonorsDescription>HonorsDescription5</HonorsDescription>
+            <HonorAwardDate>2006-05-04</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>RecognitionDescription4</RecognitionDescription>
+            <RecognitionAwardDate>2006-05-04</RecognitionAwardDate>
+        </Recognitions>
+        <Recognitions>
+            <RecognitionType>Athletic awards</RecognitionType>
+            <RecognitionDescription>RecognitionDescription5</RecognitionDescription>
+            <RecognitionAwardDate>2006-05-04</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2006-05-04</ProjectedGraduationDate>
+        <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>91919001</StudentUniqueStateId>
         </StudentIdentity>
@@ -79,6 +111,9 @@
           <SessionName>Fall 2010 Daybreak Central High</SessionName>
         </SessionIdentity>
       </SessionReference>
+        <ReportCardReference id="ID097" ref="ID000"/>
+        <ReportCardReference id="ID099" ref="ID095"/>
+        <DiplomaReference id="ID101" ref="ID044"/>
     </StudentAcademicRecord>
     <CourseTranscript>
       <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -100,7 +135,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-91919001-1"/>
+      <StudentAcademicRecordReference ref="SAR-91919021-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919001-2">
@@ -315,7 +350,7 @@
       </CreditsEarned>
       <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
       <FinalLetterGradeEarned>F</FinalLetterGradeEarned>
-      <FinalNumericGradeEarned>57</FinalNumericGradeEarned>
+      <FinalNumericGradeEarned>1</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
           <CourseCode IdentificationSystem="CSSC course code">
@@ -1075,7 +1110,7 @@
       </CreditsEarned>
       <GradeLevelWhenTaken>Tenth grade</GradeLevelWhenTaken>
       <FinalLetterGradeEarned>F</FinalLetterGradeEarned>
-      <FinalNumericGradeEarned>57</FinalNumericGradeEarned>
+      <FinalNumericGradeEarned>2</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
           <CourseCode IdentificationSystem="CSSC course code">
@@ -1091,21 +1126,6 @@
       <StudentAcademicRecordReference ref="SAR-91919014-1"/>
     </CourseTranscript>
 
-    <StudentAcademicRecord id="SAR-91919001-1">
-      <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
-        <Credit>5</Credit>
-      </CumulativeCreditsAttempted>
-      <StudentReference>
-        <StudentIdentity>
-          <StudentUniqueStateId>91919001</StudentUniqueStateId>
-        </StudentIdentity>
-      </StudentReference>
-      <SessionReference>
-        <SessionIdentity>
-          <SessionName>Fall 2010 Daybreak Central High</SessionName>
-        </SessionIdentity>
-      </SessionReference>
-    </StudentAcademicRecord>
     <CourseTranscript>
       <CourseAttemptResult>Pass</CourseAttemptResult>
       <CreditsEarned CreditType="Carnegie unit" CreditConversion="0">
@@ -1166,7 +1186,7 @@
       </EducationOrganizationReference>
       <StudentAcademicRecordReference ref="SAR-91919015-1"/>  
     </CourseTranscript>
-
+<!--
     <StudentAcademicRecord id="SAR-91919001-1">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -1204,7 +1224,7 @@
       </EducationOrganizationReference>
       <StudentAcademicRecordReference ref="SAR-91919015-1"/>  
     </CourseTranscript>
-
+-->
     <StudentAcademicRecord id="SAR-91919016-1">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -2837,7 +2857,7 @@
       </CreditsEarned>
       <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
       <FinalLetterGradeEarned>F</FinalLetterGradeEarned>
-      <FinalNumericGradeEarned>57</FinalNumericGradeEarned>
+      <FinalNumericGradeEarned>3</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
           <CourseCode IdentificationSystem="CSSC course code">
@@ -3575,7 +3595,7 @@
       </CreditsEarned>
       <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
       <FinalLetterGradeEarned>F</FinalLetterGradeEarned>
-      <FinalNumericGradeEarned>57</FinalNumericGradeEarned>
+      <FinalNumericGradeEarned>4</FinalNumericGradeEarned>
       <CourseReference>
         <CourseIdentity>
           <CourseCode IdentificationSystem="CSSC course code">
@@ -5732,4 +5752,5 @@
       </StudentSectionAssociationReference>
       <GradebookEntryReference id="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
+    
 </InterchangeStudentGrade>

@@ -44,34 +44,22 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
     }
 
     public void loadData() {
-
         LOG.info("Loading data for transformation.");
 
-        loadCollectionFromDb("studentTranscriptAssociation");
+        this.loadCollectionFromDb("studentTranscriptAssociation");
         LOG.info("StudentTranscriptAssociation is loaded into local storage.  Total Count = " + collections.get("studentTranscriptAssociation").size());
-
-        loadCollectionFromDb("studentAcademicRecord");
-        LOG.info("StudentAcademicRecord is loaded into local storage.  Total Count = "
-                + collections.get("studentAcademicRecord").size());
      }
 
     public void transform() {
         LOG.debug("Transforming data: Injecting studentAcademicRecords into studentTranscriptAssociation");
 
         HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
-        String studentAcademicRecordId;
-
+        
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("studentTranscriptAssociation").entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
 
             Map<String, Object> attrs = neutralRecord.getAttributes();
-            studentAcademicRecordId = (String) attrs.get("studentAcademicRecordId");
-
-            String studentUniqueStateId = getStudentId(studentAcademicRecordId, new HashMap<String, Map<String, Object>>());
-
-            attrs.put("studentId", studentUniqueStateId);
-            attrs.remove("studentAcademicRecordId");
-
+            
             if (attrs.get("creditsAttempted") == null) {
                 attrs.remove("creditsAttempted");
             }
