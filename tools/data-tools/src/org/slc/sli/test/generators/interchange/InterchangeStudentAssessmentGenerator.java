@@ -19,6 +19,7 @@ import org.slc.sli.test.edfi.entities.relations.ObjectiveAssessmentMeta;
 import org.slc.sli.test.edfi.entities.relations.StudentMeta;
 import org.slc.sli.test.generators.AssessmentGenerator;
 import org.slc.sli.test.generators.AssessmentItemGenerator;
+import org.slc.sli.test.generators.ObjectiveAssessmentGenerator;
 import org.slc.sli.test.generators.StudentAssessmentGenerator;
 import org.slc.sli.test.generators.StudentAssessmentItemGenerator;
 import org.slc.sli.test.generators.StudentGenerator;
@@ -96,7 +97,7 @@ public class InterchangeStudentAssessmentGenerator {
 
                 int studentObjectiveAssessmentId = 0;
                 for (ObjectiveAssessmentMeta objectiveAssessmentMeta : objectiveAssessmentMetas) {
-                    ObjectiveAssessmentReferenceType objectiveAssessmentRef = AssessmentGenerator
+                    ObjectiveAssessmentReferenceType objectiveAssessmentRef = ObjectiveAssessmentGenerator
                             .getObjectiveAssessmentReferenceType(objectiveAssessmentMeta.id);
                     StudentObjectiveAssessment studentObjectiveAssessment = studentObjectiveAssessmentGen.generate(
                             "SOA_" + studentId + "_" + (studentObjectiveAssessmentId++), assessmentRef,
