@@ -3,6 +3,7 @@ package org.slc.sli.test.mappingGenerator;
 import java.io.File;
 import java.io.PrintStream;
 
+import org.slc.sli.test.edfi.entities.InterchangeAssessmentMetadata;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrgCalendar;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrganization;
 import org.slc.sli.test.edfi.entities.InterchangeMasterSchedule;
@@ -13,6 +14,7 @@ import org.slc.sli.test.edfi.entities.InterchangeStudentAttendance;
 import org.slc.sli.test.edfi.entities.InterchangeStudentCohort;
 import org.slc.sli.test.edfi.entities.InterchangeStudentEnrollment;
 import org.slc.sli.test.edfi.entities.InterchangeStudentProgram;
+import org.slc.sli.test.generators.interchange.InterchangeAssessmentMetadataGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeEdOrgCalGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeEdOrgGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeMasterScheduleGenerator;
@@ -102,12 +104,14 @@ public class StateEdFiXmlGenerator {
         studentEnrollment();
 
         studentProgram();
-        
+
         studentCohort();
 
         studentAttendance();
 
         studentAssessment();
+
+        assessmentMetaData();
     }
 
     /**
@@ -253,7 +257,7 @@ public class StateEdFiXmlGenerator {
 
         DataUtils.writeControlFile(rootOutputPath + "MainControlFile.ctl", "StudentCohort", xmlFilePath);
     }
-    
+
     /**
      * Generate InterchangeStudentAssessment data and use Jaxb to output the XML file.
      *
@@ -268,5 +272,21 @@ public class StateEdFiXmlGenerator {
         JaxbUtils.marshal(studentAssessment, new PrintStream(xmlFilePath));
 
         DataUtils.writeControlFile(rootOutputPath + "MainControlFile.ctl", "StudentAssessment", xmlFilePath);
+    }
+
+    /**
+     * Generate InterchangeAssessmentMetadata data and use Jaxb to output the XML file.
+     *
+     * @throws Exception
+     */
+    private static void assessmentMetaData() throws Exception {
+
+        InterchangeAssessmentMetadata assessmentMetadata = InterchangeAssessmentMetadataGenerator.generate();
+
+        String xmlFilePath = rootOutputPath + "/InterchangeAssessmentMetadata.xml";
+
+        JaxbUtils.marshal(assessmentMetadata, new PrintStream(xmlFilePath));
+
+        DataUtils.writeControlFile(rootOutputPath + "MainControlFile.ctl", "InterchangeAssessmentMetadata", xmlFilePath);
     }
 }
