@@ -39,6 +39,41 @@
     </StateEducationAgencyReference>
   </LocalEducationAgency>
 
+  <Course>
+    <CourseTitle>8th Grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>8th Grade English</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference></EducationOrganizationReference>
+  </Course>
+
+  <Course>
+    <CourseTitle>Algebra-11</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Algebra-11</ID>
+    </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference></EducationOrganizationReference>
+  </Course>
+
   <School>
     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
      <EducationOrgIdentificationCode IdentificationSystem="School">
@@ -57,6 +92,53 @@
     </Address>
     <Telephone InstitutionTelephoneNumberType="Main">
       <TelephoneNumber>(917)-555-3312</TelephoneNumber>
+    </Telephone>
+    <GradesOffered>
+      <GradeLevel>Kindergarten</GradeLevel>
+      <GradeLevel>First grade</GradeLevel>
+      <GradeLevel>Second grade</GradeLevel>
+      <GradeLevel>Third grade</GradeLevel>
+      <GradeLevel>Fourth grade</GradeLevel>
+      <GradeLevel>Fifth grade</GradeLevel>
+      <GradeLevel>Sixth grade</GradeLevel>
+      <GradeLevel>Seventh grade</GradeLevel>
+      <GradeLevel>Eighth grade</GradeLevel>
+      <GradeLevel>Ninth grade</GradeLevel>
+      <GradeLevel>Tenth grade</GradeLevel>
+      <GradeLevel>Eighth grade</GradeLevel>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Elementary School</SchoolCategory>
+    </SchoolCategories>
+    <LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+      <EducationOrgIdentificationCode IdentificationSystem="SEA">
+        <ID>IL-DAYBREAK</ID>
+      </EducationOrgIdentificationCode>
+    </LocalEducationAgencyReference>
+  </School>
+
+  <School>
+    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+     <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>Daybreak Central High</ID>
+     </EducationOrgIdentificationCode>
+    <NameOfInstitution>Daybreak Central High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <Address AddressType="Physical">
+      <StreetNumberName>111 Ave X</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>10120</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0299</TelephoneNumber>
     </Telephone>
     <GradesOffered>
       <GradeLevel>Kindergarten</GradeLevel>

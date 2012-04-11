@@ -23,4 +23,25 @@
     </GradingPeriodReference>
   </Session>
 
+  <Session>
+    <SessionName>Fall 2011 Daybreak Central High</SessionName>
+    <SchoolYear>2011-2012</SchoolYear>
+    <Term>Fall Semester</Term>
+    <BeginDate>2011-09-06</BeginDate>
+    <EndDate>2011-12-16</EndDate>
+    <TotalInstructionalDays>75</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </Session>
+
 </InterchangeEducationOrgCalendar>
