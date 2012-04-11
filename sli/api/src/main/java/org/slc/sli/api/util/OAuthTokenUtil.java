@@ -136,16 +136,8 @@ public class OAuthTokenUtil {
             }
         });
 
-        ClientToken client = new ClientToken((String) data.get("clientId"),
-                resourceIds,
-                (String) data.get("clientSecret"),
-                scope,
-                clientAuthorities);
-        UnconfirmedAuthorizationCodeClientToken token = new UnconfirmedAuthorizationCodeClientToken(client.getClientId(),
-                client.getClientSecret(),
-                scope,
-                (String) data.get("state"),
-                (String) data.get("requestedRedirect"));
+        ClientToken client = new ClientToken((String) data.get("clientId"), resourceIds, (String) data.get("clientSecret"), scope, clientAuthorities);
+        UnconfirmedAuthorizationCodeClientToken token = new UnconfirmedAuthorizationCodeClientToken(client.getClientId(), client.getClientSecret(), scope, (String) data.get("state"), (String) data.get("requestedRedirect"));
         PreAuthenticatedAuthenticationToken user = new PreAuthenticatedAuthenticationToken(principal, token, userAuthorities);
         user.setDetails((String) data.get("sessionIndex"));
         return new OAuth2Authentication(client, user);

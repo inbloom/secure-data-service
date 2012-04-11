@@ -26,8 +26,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 
+import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.oauth.MongoAuthorizationCodeServices;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
@@ -60,7 +60,7 @@ public class SamlFederationResource {
     private SamlAttributeTransformer transformer;
     
     @Autowired
-    private MongoAuthorizationCodeServices authCodeServices;
+    private OauthSessionManager sessionManager;
     
     @Value("${sli.security.sp.issuerName}")
     private String metadataSpIssuerName;
@@ -128,12 +128,11 @@ public class SamlFederationResource {
         principal.setAdminRealm(attributes.getFirst("adminRealm"));
         
         // create sessionIndex --> this should probably be more advanced in the future
-        String sessionIndex = samlMessageId;        
-        String redirect = authCodeServices.createAuthorizationCodeForMessageId(inResponseTo, principal, sessionIndex);
+        URI redirect = this.sessionManager.composeRedirect(inResponseTo);
         
         // create cookie here corresponding to session passed into authorization code above
         // TODO: make this into an http-only cookie by updating the javax.servlet.api-servlet version in the sli/pom.xml to 3.0+
-        Cookie cookie = new Cookie("_tla", sessionIndex);
+        Cookie cookie = new Cookie("_tla", samlMessageId);
         cookie.setDomain(".slidev.org");
         cookie.setPath("/");       
         response.addCookie(cookie);
@@ -147,7 +146,7 @@ public class SamlFederationResource {
         }
         principal.setEdOrg(edOrg);
         
-        return Response.temporaryRedirect(URI.create(redirect)).build();
+        return Response.temporaryRedirect(redirect).build();
     }
     
     private Entity fetchOne(String collection, NeutralQuery neutralQuery) {
