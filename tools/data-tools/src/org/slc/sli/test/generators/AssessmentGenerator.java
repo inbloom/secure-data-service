@@ -86,14 +86,14 @@ public class AssessmentGenerator {
         return assessment;
     }
 
-    public static AssessmentReferenceType getAssessmentReference(final String assessmentTitle, final String assessmentId) {
+    public static AssessmentReferenceType getAssessmentReference(final String assessmentId) {
         AssessmentIdentificationCode aic = new AssessmentIdentificationCode();
         aic.setID(assessmentId);
         aic.setIdentificationSystem(AssessmentIdentificationSystemType.SCHOOL);
+
         AssessmentIdentityType ait = new AssessmentIdentityType();
         ait.getAssessmentIdentificationCode().add(aic);
-        if (assessmentTitle != null)
-            ait.setAssessmentTitle(assessmentTitle);
+
         AssessmentReferenceType art = new AssessmentReferenceType();
         art.setAssessmentIdentity(ait);
         return art;
