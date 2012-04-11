@@ -71,9 +71,9 @@ public class ReferenceResolver extends DefaultHandler {
             outputFileWriter = new BufferedWriter(fstream);
             SAXParser sp = spf.newSAXParser();
             sp.parse(inputFile, this);
-            outputFileWriter.close();
         } catch (SAXException se) {
             LOG.error("Error resolving references in XML file " + inputFile.getName() + ": " + se.getMessage());
+            System.out.println("Error resolving references in XML file " + inputFile.getName() + ": " + se.getMessage());
             throw (se);
         } catch (ParserConfigurationException pce) {
             LOG.error("Error configuring parser for XML file " + inputFile.getName() + ": " + pce.getMessage());
@@ -81,6 +81,8 @@ public class ReferenceResolver extends DefaultHandler {
         } catch (IOException ie) {
             LOG.error("Error writing expanded XML file " + inputFile.getName() + ": " + ie.getMessage());
             throw (ie);
+        } finally {
+            outputFileWriter.close();
         }
     }
 
