@@ -282,7 +282,7 @@ public class AuthController {
                         realmId = (String) authenticationMap.get("realm");
                     }
                     return realmId;
-                } catch(Exception e) {
+                } catch (Exception e) {
                     LOG.debug("caught {} exception trying to resolve authentication realm... returning null", e.getClass());
                     return null;
                 }

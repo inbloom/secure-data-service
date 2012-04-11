@@ -253,10 +253,7 @@ public class OAuthTokenUtil {
         removeTokensTask.setUserName(userName);
         removeTokensTask.setRealmId(realmId);
         Object result = SecurityUtil.sudoRun(removeTokensTask);
-        if (Boolean.valueOf(result.toString()) == true) {
-            return true;
-        }
-        return false;
+        return Boolean.valueOf(result.toString());
     }
 
     public boolean deleteTokensForPrincipal(Authentication oAuth) {
