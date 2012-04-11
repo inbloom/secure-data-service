@@ -80,11 +80,33 @@ public class IdNormalizer {
             return;
         }
 
+        String resolvedReferences = "";
+
         try {
             for (RefDef reference : entityConfig.getReferences()) {
+
+
+                resolvedReferences += "       collectionName = " + reference.getRef().getCollectionName();
+
+                for (List<Field> fields : reference.getRef().getChoiceOfFields()) {
+                    for (Field field : fields) { 
+                        for (FieldValue fv : field.getValues()) {
+                            if (fv.getRef() == null) {
+                                Object entityValue = PropertyUtils.getProperty(entity, fv.getValueSource());
+                                if (entityValue != null) {
+                                    if (!(entityValue instanceof Collection)) {
+                                        resolvedReferences += ", value = " + entityValue.toString() + "\n";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
                 String fieldPath = reference.getFieldPath();
                 
-                String id = resolveInternalId(entity, tenantId, reference.getRef(), fieldPath, errorReport);
+                String id = resolveInternalId(entity, tenantId, reference.getRef(), fieldPath, errorReport, resolvedReferences);
+
 
                 if (errorReport.hasErrors()) {
                     return;
@@ -94,22 +116,42 @@ public class IdNormalizer {
             }
         } catch (Exception e) {
             LOG.error("Error accessing property", e);
-            errorReport.error("Failed to resolve a reference (1). ", this);
+            String errorMessage = "ERROR: Failed to resolve a reference" + "\n"
+                    + "       Entity   " + entity.getType() + "\n";
+
+            if (resolvedReferences != null && !resolvedReferences.equals("")) {
+                errorMessage += "     The failure can be identified with the following reference information: " + "\n"
+                              + resolvedReferences;
+            }
+            
+            errorReport.error(errorMessage, this);
         }
     }
 
-    public String resolveInternalId(Entity entity, String tenantId, Ref refConfig, String fieldPath, ErrorReport errorReport) {
-        List<String> ids = resolveInternalIds(entity, tenantId, refConfig, fieldPath, errorReport);
+    public String resolveInternalId(Entity entity, String tenantId, Ref refConfig, String fieldPath, ErrorReport errorReport, String resolvedReferences) {
+        List<String> ids = resolveReferenceInternalIds(entity, tenantId, refConfig, fieldPath, errorReport);
 
         if (ids.size() == 0) {
-            errorReport.error("Failed to resolve a reference (2)", this);
+
+            String errorMessage = "ERROR: Failed to resolve a reference" + "\n"
+                                + "       Entity   " + entity.getType() + "\n"
+                                + "       Field    " + refConfig.getCollectionName() + "\n";
+
+            if (resolvedReferences != null && !resolvedReferences.equals("")) {
+                errorMessage += "     The failure can be identified with the following reference information: " + "\n"
+                              + resolvedReferences;
+            }
+
+            errorReport.error(errorMessage, this);
+
             return null;
         }
 
         return ids.get(0);
     }
 
-    public List<String> resolveInternalIds(Entity entity, String tenantId, Ref refConfig, String fieldPath, ErrorReport errorReport) {
+    private List<String> resolveReferenceInternalIds(Entity entity, String tenantId, Ref refConfig, String fieldPath, ErrorReport errorReport) {
+
         ProxyErrorReport proxyErrorReport = new ProxyErrorReport(errorReport);
         
         Query filter = new Query();
@@ -125,7 +167,7 @@ public class IdNormalizer {
 
                     for (FieldValue fv : field.getValues()) {
                         if (fv.getRef() != null) {
-                            filterValues.addAll(resolveInternalIds(entity, tenantId, fv.getRef(), fieldPath, proxyErrorReport));
+                            filterValues.addAll(resolveReferenceInternalIds(entity, tenantId, fv.getRef(), fieldPath, proxyErrorReport));
                         } else {
                             Object entityValue = PropertyUtils.getProperty(entity, fv.getValueSource());
                             if (entityValue instanceof Collection) {
@@ -149,7 +191,7 @@ public class IdNormalizer {
             }
         } catch (Exception e) {
             LOG.error("Error accessing property", e);
-            errorReport.error("Failed to resolve a reference (3)", this);
+            proxyErrorReport.error("Failed to resolve a reference (3).", this);
         }
 
         if (proxyErrorReport.hasErrors()) {
@@ -160,7 +202,7 @@ public class IdNormalizer {
 
         List<String> ids = new ArrayList<String>();
 
-        if (foundRecords != null) {
+        if (foundRecords != null && foundRecords.iterator().hasNext()) {
             for (Entity record : foundRecords) {
                 ids.add(record.getEntityId());
             }

@@ -22,6 +22,7 @@
                 <value>${smooks.targetselector.xml.stateEducationAgency}</value>
                 <value>${smooks.targetselector.xml.localEducationAgency}</value>
                 <value>${smooks.targetselector.xml.course}</value>
+								<value>${smooks.targetselector.xml.program}</value>
               </list>
             </constructor-arg>
           </bean>
