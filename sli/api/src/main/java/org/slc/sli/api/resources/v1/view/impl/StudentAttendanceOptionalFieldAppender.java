@@ -123,7 +123,7 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
             //get the begin date
             Date startDate = null;
             try {
-                startDate = getBeginDate(session, section, yearSuffix);
+                startDate = getBeginDate(studentIds, session, yearSuffix);
             } catch (ParseException e) {
                 warn("Could not parse session date");
             }
@@ -149,39 +149,43 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
     /**
      * Returns the earliest date out of the sessions with the same
      * school year as the given session
-     * @param selectedSession The selected session
-     * @param selectedSection The selectd section
+     * @param studentIds The selected session
+     * @param selectedSession The selected section
+     * @param yearSuffix The number of years to go back
      * @return
      */
-    protected Date getBeginDate(EntityBody selectedSession, EntityBody selectedSection, int yearSuffix) throws ParseException {
-        Date startDate = new Date(System.currentTimeMillis());
+    protected Date getBeginDate(List<String> studentIds, EntityBody selectedSession, int yearSuffix) throws ParseException {
+        Date startDate = null;
+
         //get the school years
         List<String> schoolYears = getSchoolYears((String) selectedSession.get("schoolYear"), yearSuffix);
 
-        if (!schoolYears.isEmpty()) {
-            List<EntityBody> allSessions = optionalFieldAppenderHelper.queryEntities(ResourceNames.SESSIONS, "schoolYear", schoolYears);
+        //get all the student section associations
+        List<EntityBody> allStudentSectionAssociations = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_SECTION_ASSOCIATIONS,
+                ParameterConstants.STUDENT_ID, studentIds);
 
-            List<String> allSessionIds = optionalFieldAppenderHelper.getIdList(allSessions, "id");
-            List<EntityBody> allSchoolSessionAssociations = optionalFieldAppenderHelper.queryEntities(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS,
-                    ParameterConstants.SESSION_ID, allSessionIds);
+        //get all the sectionIds
+        List<String> sectionIds = optionalFieldAppenderHelper.getIdList(allStudentSectionAssociations, ParameterConstants.SECTION_ID);
+        //get all the sections
+        List<EntityBody> allSections = optionalFieldAppenderHelper.queryEntities(ResourceNames.SECTIONS, "_id", sectionIds);
+        //get all the sessionIds
+        List<String> allSessionIds = optionalFieldAppenderHelper.getIdList(allSections, ParameterConstants.SESSION_ID);
 
-            List<EntityBody> schoolSessionAssociationsForSchool = optionalFieldAppenderHelper.getEntitySubList(allSchoolSessionAssociations,
-                    ParameterConstants.SCHOOL_ID, (String) selectedSection.get(ParameterConstants.SCHOOL_ID));
+        //create query to get the sessions with correct school years
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, allSessionIds));
+        neutralQuery.addCriteria(new NeutralCriteria("schoolYear", NeutralCriteria.CRITERIA_IN, schoolYears));
+        //execute the query
+        List<EntityBody> allSessions = optionalFieldAppenderHelper.queryEntities(ResourceNames.SESSIONS, neutralQuery);
 
-            List<String> sessionIdsForSchool = optionalFieldAppenderHelper.getIdList(schoolSessionAssociationsForSchool,
-                    ParameterConstants.SESSION_ID);
+        //go through and find the earliest date
+        startDate = new Date(System.currentTimeMillis());
+        for (EntityBody session : allSessions) {
+            Date date = formatter.parse((String) session.get("beginDate"));
 
-            for (String id : sessionIdsForSchool) {
-                EntityBody session = optionalFieldAppenderHelper.getEntityFromList(allSessions, "id", id);
-
-                Date date = formatter.parse((String) session.get("beginDate"));
-
-                if (date.before(startDate)) {
-                    startDate = date;
-                }
+            if (date.before(startDate)) {
+                startDate = date;
             }
-        } else {
-            startDate = formatter.parse((String) selectedSession.get("beginDate"));
         }
 
         return startDate;

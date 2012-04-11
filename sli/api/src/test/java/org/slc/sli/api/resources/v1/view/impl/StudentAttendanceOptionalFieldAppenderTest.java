@@ -68,27 +68,27 @@ public class StudentAttendanceOptionalFieldAppenderTest {
     }
 
     private void setupMockForApplyOptionalField() {
-        String beginDate1 = "2011-10-20", beginDate2 = "2008-09-10", beginDate3 = "2010-11-12";
+        String beginDate1 = "2011-10-20", beginDate2 = "2008-09-10",
+                beginDate3 = "2010-11-12", beginDate4 = "2007-01-01";
 
         Entity session1 = repo.create("session", createSession(beginDate1, "1999-2000"));
         Entity session2 = repo.create("session", createSession(beginDate2, "1999-2000"));
         Entity session3 = repo.create("session", createSession(beginDate3, "1999-2000"));
+        Entity session4 = repo.create("session", createSession(beginDate3, "1998-1999"));
 
-        String schoolId1 = repo.create("school", createSchool("Daybreak High")).getEntityId();
-        String schoolId2 = repo.create("school", createSchool("Sunset High")).getEntityId();
-
-        String sectionId1 = repo.create("section", createSection(session1.getEntityId(), schoolId1)).getEntityId();
-        String sectionId2 = repo.create("section", createSection(session2.getEntityId(), schoolId2)).getEntityId();
-
-        repo.create("schoolSessionAssociation", createSchoolSessionAssociation(schoolId1,
-                session1.getEntityId()));
-        repo.create("schoolSessionAssociation", createSchoolSessionAssociation(schoolId1, session2.getEntityId()));
-        repo.create("schoolSessionAssociation", createSchoolSessionAssociation(schoolId2, session3.getEntityId()));
+        String sectionId1 = repo.create("section", createSection(session1.getEntityId())).getEntityId();
+        String sectionId2 = repo.create("section", createSection(session2.getEntityId())).getEntityId();
+        String sectionId3 = repo.create("section", createSection(session3.getEntityId())).getEntityId();
+        String sectionId4 = repo.create("section", createSection(session4.getEntityId())).getEntityId();
 
         Entity studentSectionAssociation1 = repo.create("studentSectionAssociation",
                 createStudentSectionAssociation(studentEntity.getEntityId(), sectionId1));
         Entity studentSectionAssociation2 = repo.create("studentSectionAssociation",
                 createStudentSectionAssociation(studentEntity.getEntityId(), sectionId2));
+        repo.create("studentSectionAssociation",
+                createStudentSectionAssociation(studentEntity.getEntityId(), sectionId3));
+        repo.create("studentSectionAssociation",
+                createStudentSectionAssociation(studentEntity.getEntityId(), sectionId4));
 
         List<EntityBody> list = new ArrayList<EntityBody>();
         list.add(makeEntityBody(studentSectionAssociation1));
@@ -129,25 +129,32 @@ public class StudentAttendanceOptionalFieldAppenderTest {
 
     @Test
     public void testGetBeginDate() throws ParseException {
-        String beginDate1 = "2011-10-20", beginDate2 = "2008-09-10", beginDate3 = "2010-11-12";
+        String beginDate1 = "2011-10-20", beginDate2 = "2008-09-10",
+                beginDate3 = "2010-11-12", beginDate4 = "2007-01-01";
 
         Entity selectedSession = repo.create("session", createSession(beginDate1, "1999-2000"));
-        String sessionId2 = repo.create("session", createSession(beginDate2, "1999-2000")).getEntityId();
-        String sessionId3 = repo.create("session", createSession(beginDate3, "1999-2000")).getEntityId();
+        Entity session2 = repo.create("session", createSession(beginDate2, "1999-2000"));
+        Entity session3 = repo.create("session", createSession(beginDate3, "1999-2000"));
+        Entity session4 = repo.create("session", createSession(beginDate4, "1998-1999"));
 
-        String schoolId1 = repo.create("school", createSchool("Daybreak High")).getEntityId();
-        String schoolId2 = repo.create("school", createSchool("Sunset High")).getEntityId();
+        String sectionId1 = repo.create("section", createSection(selectedSession.getEntityId())).getEntityId();
+        String sectionId2 = repo.create("section", createSection(session2.getEntityId())).getEntityId();
+        String sectionId3 = repo.create("section", createSection(session3.getEntityId())).getEntityId();
+        String sectionId4 = repo.create("section", createSection(session4.getEntityId())).getEntityId();
 
-        Entity selectedSection = repo.create("section", createSection(selectedSession.getEntityId(),
-                schoolId1));
+        repo.create("studentSectionAssociation",
+                createStudentSectionAssociation(studentEntity.getEntityId(), sectionId1));
+        repo.create("studentSectionAssociation",
+                createStudentSectionAssociation(studentEntity.getEntityId(), sectionId2));
+        repo.create("studentSectionAssociation",
+                createStudentSectionAssociation(studentEntity.getEntityId(), sectionId3));
+        repo.create("studentSectionAssociation",
+                createStudentSectionAssociation(studentEntity.getEntityId(), sectionId4));
 
-        repo.create("schoolSessionAssociation", createSchoolSessionAssociation(schoolId1,
-                selectedSession.getEntityId()));
-        repo.create("schoolSessionAssociation", createSchoolSessionAssociation(schoolId1, sessionId2));
-        repo.create("schoolSessionAssociation", createSchoolSessionAssociation(schoolId2, sessionId3));
+        List<String> studentIds = new ArrayList<String>();
+        studentIds.add(studentEntity.getEntityId());
 
-        Date date = studentAttendanceOptionalFieldAppender.getBeginDate(makeEntityBody(selectedSession),
-                makeEntityBody(selectedSection), 1);
+        Date date = studentAttendanceOptionalFieldAppender.getBeginDate(studentIds, makeEntityBody(selectedSession), 1);
 
         assertNotNull("Should not be null", date);
         assertEquals("Should match", beginDate2, formatter.format(date));
@@ -226,10 +233,9 @@ public class StudentAttendanceOptionalFieldAppenderTest {
         return entity;
     }
 
-    private Map<String, Object> createSection(String sessionId, String schoolId) {
+    private Map<String, Object> createSection(String sessionId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("sessionId", sessionId);
-        entity.put("schoolId", schoolId);
 
         return entity;
     }
