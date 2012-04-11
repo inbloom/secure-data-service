@@ -1,5 +1,5 @@
 { "_id" : { "$binary" : "ZUUkF5b+S1rhPG55sBOGUQ==", "$type" : "03" },
-  "body" : { "idp" : { "id" : "http://local.slidev.org:8082/mock-idp",
+  "body" : { "idp" : { "id" : "http://local.slidev.org:8082/mock-idp?tenant=SLI",
       "redirectEndpoint" : "http://local.slidev.org:8082/mock-idp?tenant=SLI" },
     "mappings" : { "role" : [ 
         { "sliRoleName" : "SLI Administrator",

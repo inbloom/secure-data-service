@@ -28,7 +28,7 @@ public class LoginService {
     @Autowired
     SliClient sliClient;
     
-    private static String issuer = "http://local.slidev.org:8082/mock-idp";
+    private static String issuerBase = "http://local.slidev.org:8082/mock-idp";
     
     /**
      * Submits identity assertion to the API based upon the user's choices.
@@ -46,6 +46,8 @@ public class LoginService {
         
         LOG.info("Login for user: {} roles: {} inResponseTo: {} destination: {}", new Object[] { user.getId(), roles,
                 requestInfo.getRequestId(), destination.toString() });
+        
+        String issuer = issuerBase + "?tenant=" + requestInfo.getTenant();
         
         String encodedResponse = samlComposer.componseResponse(destination.toString(), issuer,
                 requestInfo.getRequestId(), user.getId(), user.getUserName(), roles);
