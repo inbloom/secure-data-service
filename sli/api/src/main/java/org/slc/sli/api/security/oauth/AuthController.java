@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.saml.SamlHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
@@ -62,8 +63,6 @@ public class AuthController {
     
     private static final Pattern BASIC_AUTH = Pattern.compile("Basic (.+)", Pattern.CASE_INSENSITIVE);
     
-    private OAuth2SerializationService serializationService = new DefaultOAuth2SerializationService();
-    
     @Autowired
     private EntityDefinitionStore store;
     
@@ -82,7 +81,12 @@ public class AuthController {
     @Autowired
     private ClientDetailsService clientDetailsService;
     
+    @Autowired
+    private OauthSessionManager sessionManager;
+
     private AuthorizationCodeTokenGranter granter;
+    private OAuth2SerializationService serializationService = new DefaultOAuth2SerializationService();
+
 
     @PostConstruct
     public void init() {
@@ -176,6 +180,8 @@ public class AuthController {
             model.addAttribute("errorMsg", "No relay state provided.  User won't be redirected back to the application");
         }
         
+        //  Create session
+        
         return "realms";
     }
     
@@ -191,7 +197,9 @@ public class AuthController {
         parameters.put("code", authorizationCode);
         parameters.put("redirect_uri", redirectUri);
         
+
         Pair<String, String> tuple = Pair.of(clientId, clientSecret); // extractClientCredentials(authz);
+
         OAuth2AccessToken token = granter.grant("authorization_code", parameters, tuple.getLeft(), tuple.getRight(), new HashSet<String>());
         
         HttpHeaders headers = new HttpHeaders();
