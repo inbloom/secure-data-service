@@ -194,42 +194,60 @@ public class StudentProgressManager implements Manager {
     public Map<String, Map<String, GenericEntity>> getCurrentProgressForStudents(final String token, List<String> studentIds, 
             String selectedSection) {
         Map<String, Map<String, GenericEntity>> results = new HashMap<String, Map<String, GenericEntity>>();
-        
-        //build the params
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(Constants.ATTR_SECTION_ID, selectedSection);
-        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_NUMERIC_GRADE_EARNED + "," + Constants.ATTR_DATE_FULFILLED + "," + Constants.ATTR_GRADEBOOK_ENTRY_ID);
-        
-        Map<String, String> gradebookParams = new HashMap<String, String>();
-        gradebookParams.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_GRADEBOOK_ENTRY_TYPE);
-        
-        for (String studentId : studentIds) {
-            log.debug("Progress data [studentId] {}", studentId);
-            
-            List<GenericEntity> studentGradebookEntries = entityManager.getStudentSectionGradebookEntries(token, studentId, params);
-            
-            for (GenericEntity studentGradebookEntry : studentGradebookEntries) {
-                studentGradebookEntry.remove("links");
-                studentGradebookEntry.remove("entityType");
-                log.debug("Progress data [studentGradebookEntry] {}", studentGradebookEntry);
-                
-                GenericEntity gradebookEntry = entityManager.getEntity(token, Constants.ATTR_GRADEBOOK_ENTRIES, studentGradebookEntry.getString(Constants.ATTR_GRADEBOOK_ENTRY_ID), gradebookParams);
-                
-                //add the gradebook entry Id                
-                studentGradebookEntry.put(Constants.ATTR_GRADEBOOK_ENTRY_TYPE, gradebookEntry.getString(Constants.ATTR_GRADEBOOK_ENTRY_TYPE));
-                
-                //add the student gradebook entry to the map
-                if (results.get(studentId) != null) {
-                    results.get(studentId).put(gradebookEntry.getString(Constants.ATTR_ID), studentGradebookEntry);
-                } else {
-                    Map<String, GenericEntity> gradebookEntries = new HashMap<String, GenericEntity>();
-                    gradebookEntries.put(gradebookEntry.getString(Constants.ATTR_ID), studentGradebookEntry);
-                    
-                    results.put(studentId, gradebookEntries);
-                }
 
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(Constants.ATTR_OPTIONAL_FIELDS, Constants.ATTR_GRADEBOOK_VIEW);
+
+        List<GenericEntity> students = entityManager.getStudentsWithGradebookEntries(token, selectedSection);
+
+        for (GenericEntity student : students) {
+            String studentId = student.getString("id");
+
+            @SuppressWarnings("unchecked")
+            List<Map<String, GenericEntity>> studentGradebookEntries = (List<Map<String, GenericEntity>>) student.get("studentSectionGradebookEntries");
+
+            for (Map<String, GenericEntity> studentGradebookEntry : studentGradebookEntries) {
+
+                results.put(studentId, null);
+                log.debug("Progress data [studentGradebookEntry] {}", studentGradebookEntry);
             }
         }
+
+//        //build the params
+//        Map<String, String> params = new HashMap<String, String>();
+//        params.put(Constants.ATTR_SECTION_ID, selectedSection);
+//        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_NUMERIC_GRADE_EARNED + "," + Constants.ATTR_DATE_FULFILLED + "," + Constants.ATTR_GRADEBOOK_ENTRY_ID);
+//
+//        Map<String, String> gradebookParams = new HashMap<String, String>();
+//        gradebookParams.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_GRADEBOOK_ENTRY_TYPE);
+//
+//        for (String studentId : studentIds) {
+//            log.debug("Progress data [studentId] {}", studentId);
+//
+//            List<GenericEntity> studentGradebookEntries = entityManager.getStudentSectionGradebookEntries(token, studentId, params);
+//
+//            for (GenericEntity studentGradebookEntry : studentGradebookEntries) {
+//                studentGradebookEntry.remove("links");
+//                studentGradebookEntry.remove("entityType");
+//                log.debug("Progress data [studentGradebookEntry] {}", studentGradebookEntry);
+//
+//                GenericEntity gradebookEntry = entityManager.getEntity(token, Constants.ATTR_GRADEBOOK_ENTRIES, studentGradebookEntry.getString(Constants.ATTR_GRADEBOOK_ENTRY_ID), gradebookParams);
+//
+//                //add the gradebook entry Id
+//                studentGradebookEntry.put(Constants.ATTR_GRADEBOOK_ENTRY_TYPE, gradebookEntry.getString(Constants.ATTR_GRADEBOOK_ENTRY_TYPE));
+//
+//                //add the student gradebook entry to the map
+//                if (results.get(studentId) != null) {
+//                    results.get(studentId).put(gradebookEntry.getString(Constants.ATTR_ID), studentGradebookEntry);
+//                } else {
+//                    Map<String, GenericEntity> gradebookEntries = new HashMap<String, GenericEntity>();
+//                    gradebookEntries.put(gradebookEntry.getString(Constants.ATTR_ID), studentGradebookEntry);
+//
+//                    results.put(studentId, gradebookEntries);
+//                }
+//
+//            }
+//        }
         
         
         
