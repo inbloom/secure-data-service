@@ -9,11 +9,13 @@
 
   var tableId = '${id}';
   var panelConfig = config[gridId];
+  var options={};
+  jQuery.extend(options, panelConfig, {items:panelConfig.items[0].items});
   DashboardUtil.getData(
     gridId, 
-    'sectionId=c6df5e32-e5da-4e6e-a19a-d0f5c889bb72', 
+    'sectionId=e107127f-e91f-4424-bb5a-309515e5e656', 
     function(panelData){
-      DashboardUtil.makeGrid(tableId, panelConfig, panelData, {
+      DashboardUtil.makeGrid(tableId, options, panelData, {
       onSelectRow: function(rowid, status) { 
         window.open(DashboardUtil.getPageUrl('student', 'id=' + rowid), "_blank")}})});
 
