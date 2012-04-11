@@ -830,7 +830,7 @@ end
 # Dashboard tests start
 ############################################################
 desc "Run Dashboard Tests"
-task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests, :dashboardLozengesTests,
+task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests,
   :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoLiveTests] do
   displayFailureReport()
   if $SUCCESS
@@ -854,11 +854,6 @@ end
 desc "Run Dashboard High School view Tests"
 task :dashboardHSViewTests do
   runTests("test/features/dashboard/dash/high_school_view.feature")
-end
-
-desc "Run Dashboard Program Participation and Student Info Tests"
-task :dashboardLozengesTests do
-  runTests("test/features/dashboard/dash/lozenges.feature")
 end
 
 desc "Run Dashboard user based view selection tests"
