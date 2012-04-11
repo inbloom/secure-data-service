@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
+/**
+ * Handles login form submissions.
+ * 
+ * @author Ryan Farris <rfarris@wgen.net>
+ * 
+ */
 @Controller
 public class Login {
     

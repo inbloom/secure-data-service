@@ -28,12 +28,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class SliClient {
     
+    String destination = "http://local.slidev.org:8080/api/rest/saml/sso/post";
+    
+    private HttpClient httpclient = new DefaultHttpClient();
+    
     /**
      * Retrieve the destination URI to which the SAMLResponse should be sent.
-     * TODO: Does this really need to come from saml metadata?
      */
     public URI findDestination() {
-        return URI.create("http://local.slidev.org:8080/api/rest/saml/sso/post");
+        return URI.create(destination);
     }
     
     /**
@@ -46,7 +49,6 @@ public class SliClient {
      */
     public URI postResponse(URI destination, String encodedResponse) {
         try {
-            HttpClient httpclient = new DefaultHttpClient();
             HttpPost post = new HttpPost(destination);
             UrlEncodedFormEntity data = new UrlEncodedFormEntity(Arrays.asList(new BasicNameValuePair("SAMLResponse",
                     encodedResponse)), "UTF-8");
@@ -72,5 +74,9 @@ public class SliClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    protected void setHttpClient(HttpClient client) {
+        this.httpclient = client;
     }
 }

@@ -20,9 +20,11 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slc.sli.sandbox.idp.service.Users;
 import org.slc.sli.sandbox.idp.service.Users.User;
 
+/**
+ * Unit tests
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class UsersTest {
     
@@ -124,5 +126,48 @@ public class UsersTest {
         assertEquals("d", users.get(1).getLastName());
         assertEquals("2", users.get(1).getId());
         assertEquals("Teacher", users.get(1).getType());
+        
+        Mockito.when(repo.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenAnswer(
+                new Answer<Entity>() {
+                    
+                    @Override
+                    public Entity answer(InvocationOnMock invocation) throws Throwable {
+                        Object[] args = invocation.getArguments();
+                        assertTrue("staff".equals(args[0]) || "teacher".equals(args[0]));
+                        NeutralQuery query = (NeutralQuery) args[1];
+                        assertEquals(2, query.getCriteria().size());
+                        NeutralCriteria criteria = query.getCriteria().get(0);
+                        
+                        assertEquals(false, criteria.canBePrefixed());
+                        assertEquals("metaData.tenantId", criteria.getKey());
+                        assertEquals("=", criteria.getOperator());
+                        assertEquals("TEST", criteria.getValue());
+                        
+                        criteria = query.getCriteria().get(1);
+                        
+                        assertEquals(true, criteria.canBePrefixed());
+                        assertEquals("staffUniqueStateId", criteria.getKey());
+                        assertEquals("=", criteria.getOperator());
+                        assertTrue("1".equals(criteria.getValue()) || "2".equals(criteria.getValue()));
+                        if ("1".equals(criteria.getValue()) && "staff".equals(args[0])) {
+                            return staffEntity;
+                        } else if ("2".equals(criteria.getValue()) && "teacher".equals(args[0])) {
+                            return teacherEntity;
+                        } else {
+                            return null;
+                        }
+                    }
+                });
+        User user = userService.getUser("TEST", "1");
+        assertEquals("a", user.getFirstName());
+        assertEquals("b", user.getLastName());
+        assertEquals("1", user.getId());
+        assertEquals("a b", user.getUserName());
+        
+        user = userService.getUser("TEST", "2");
+        assertEquals("c", user.getFirstName());
+        assertEquals("d", user.getLastName());
+        assertEquals("2", user.getId());
+        assertEquals("c d", user.getUserName());
     }
 }

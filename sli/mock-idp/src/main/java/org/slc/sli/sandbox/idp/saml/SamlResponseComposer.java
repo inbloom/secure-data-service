@@ -3,7 +3,6 @@ package org.slc.sli.sandbox.idp.saml;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,12 +47,6 @@ public class SamlResponseComposer {
         
         String unsignedResponse = createUnsignedResponse(destination, issuer, requestId, userId, userName, roles);
         byte[] signedResponse = signResponse(unsignedResponse);
-        try {
-            System.err.println(new String(signedResponse, "UTF8"));
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         return Base64.encodeBase64String(signedResponse);
     }
     

@@ -11,9 +11,11 @@ import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slc.sli.sandbox.idp.service.Roles;
 import org.slc.sli.sandbox.idp.service.Roles.Role;
 
+/**
+ * Unit tests
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class RolesTest {
     

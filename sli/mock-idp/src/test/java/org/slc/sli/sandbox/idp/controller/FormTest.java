@@ -1,6 +1,8 @@
 package org.slc.sli.sandbox.idp.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
@@ -18,6 +20,9 @@ import org.slc.sli.sandbox.idp.service.Roles;
 import org.slc.sli.sandbox.idp.service.Users;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Unit tests
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class FormTest {
     
@@ -46,5 +51,12 @@ public class FormTest {
         Mockito.verify(userService).getAvailableUsers("tenant");
         Mockito.verify(tenantService).processRequest("encodedSamlRequest", "tenant");
         Mockito.verify(session).setAttribute(Form.REQUEST_INFO, request);
+        
+        try {
+            con.form(null, "tenant", session);
+            fail("Expecting exception");
+        } catch (RuntimeException e) {
+            assertTrue(true);
+        }
     }
 }

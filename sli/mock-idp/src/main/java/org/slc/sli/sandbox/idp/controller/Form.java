@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Handles requests for the IDP's services
+ * Prepares data needed to display the login form.
  */
 @Controller
 public class Form {
@@ -41,14 +41,12 @@ public class Form {
             @RequestParam("tenant") String tenantId, HttpSession session) throws IOException {
         ModelAndView mav = new ModelAndView("form");
         AuthRequests.Request requestInfo = tenantService.processRequest(encodedSamlRequest, tenantId);
-        String tenant;
         if (requestInfo == null) {
-            tenant = "SLI"; // TEMP TESTING CODE
-            mav.addObject("error", "No tenant found.  Defaulting to SLI");
-        } else {
-            tenant = requestInfo.getTenant();
-            session.setAttribute(REQUEST_INFO, requestInfo);
+            throw new RuntimeException("No valid SAMLRequest found.");
         }
+        String tenant = requestInfo.getTenant();
+        session.setAttribute(REQUEST_INFO, requestInfo);
+        
         mav.addObject("tenant", tenant);
         mav.addObject("users", userService.getAvailableUsers(tenant));
         mav.addObject("roles", roleService.getAvailableRoles());
