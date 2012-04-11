@@ -196,7 +196,7 @@ desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceCanonicalDataTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest,
-                         :ingestionOfflineSimpleTest, :ingestionBatchJobDataModelTest] do
+                         :ingestionOfflineSimpleTest, :ingestionBatchJobTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -267,17 +267,12 @@ end
 
 desc "Run Ingestion Batch Job Tests"
 task :ingestionBatchJobTest do
-  runTests("test/features/ingestion/features/ingestion_BatchJob.feature")
+  runTests("test/features/ingestion/features/ingestion_batchJob.feature")
 end
 
 desc "Run Ingestion XSD Validation Test"
 task :ingestionXsdValidationTest do
   runTests("test/features/ingestion/features/xsd_validation.feature")
-end
-
-desc "Run Ingestion Batch Job Data Model Test"
-task :ingestionBatchJobDataModelTest do
-  runTests("test/features/ingestion/features/ingestion_batchJob_datamodel.feature")
 end
 
 # This task SHOULD NOT BE ADDED to the general ingestion test suite

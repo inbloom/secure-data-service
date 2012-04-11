@@ -319,6 +319,30 @@ Then /^I check to find if record is in collection:$/ do |table|
   assert(@result == "true", "Some records are not found in collection.")
 end
 
+Then /^I check to find if record is in batch job collection:$/ do |table|
+  @db   = @conn[INGESTION_BATCHJOB_DB_NAME]
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @db.collection(row["collectionName"])
+
+    if row["searchType"] == "integer"
+      @entity_count = @entity_collection.find({row["searchParameter"] => row["searchValue"].to_i}).count().to_s
+    else
+      @entity_count = @entity_collection.find({row["searchParameter"] => row["searchValue"]}).count().to_s
+    end
+
+    puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
+
+    if @entity_count.to_s != row["expectedRecordCount"].to_s
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Some records are not found in collection.")
+end
+
 
 Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do |collection, field, value|
   @db = @conn[INGESTION_DB_NAME]
