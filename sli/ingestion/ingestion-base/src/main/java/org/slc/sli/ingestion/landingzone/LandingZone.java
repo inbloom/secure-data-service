@@ -40,6 +40,10 @@ public interface LandingZone {
      */
     public String getMd5Hex(File file) throws IOException;
     
+    /**
+     * 
+     * @return Location of LZ (e.g., folder, URL, etc.)
+     */
     public String getLZId();
     
 }
