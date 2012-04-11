@@ -269,6 +269,12 @@ task :ingestionXsdValidationTest do
   runTests("test/features/ingestion/features/xsd_validation.feature")
 end
 
+# This task SHOULD NOT BE ADDED to the general ingestion test suite
+desc "Run Ingestion Performance Tests"
+task :ingestionPerformanceTest do
+  runTests("test/features/ingestion/features/performance_testing.feature")
+end
+
 ############################################################
 # Ingestion Offline Tool tests start
 ############################################################
@@ -931,10 +937,6 @@ task :dashboardHidePagesTests do
   runTests("test/features/dashboard/dash/display_hide_pages.feature")
 end
 
-desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
-task :localDashboardTests => [:realmInit,:importUnifiedData,:dashboardTests] do
-
-end
 
 ############################################################
 # Dashboard tests end

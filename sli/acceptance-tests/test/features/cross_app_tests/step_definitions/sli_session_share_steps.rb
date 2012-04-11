@@ -22,25 +22,33 @@ Then /^I am redirected to the databrowser home page$/ do
 end
 
 When /^I navigate to the dashboard page$/ do
-  @driver.get PropLoader.getProps['dashboard_server_url']
+  @driver.get PropLoader.getProps['dashboard_server_address'] + PropLoader.getProps['dashboard_app_prefix_live_mode']
+  begin
+    @driver.switch_to.alert.accept
+  rescue
+  end
 end
 
 Then /^I do not see any login pages$/ do
-  failed = true;
+  success = false
   begin
     @driver.find_element(:name, "Login.Submit")
   rescue
-    failed = false
+    success = true
   end
-  assert(failed, webdriverDebugMessage(@driver,"User was redirected to a login page when they shouldn't have"))
+  assert(success, webdriverDebugMessage(@driver,"User was redirected to a login page when they shouldn't have"))
 end
 
 Then /^I am redirected to the dashboard home page$/ do
-  assertWithWait("Failed to be directed to Datashboards's LoS page")  {@driver.page_source.include?("SLI Dashboard - List of Students")}
+  assertWithWait("Failed to be directed to Dashboards's LoS page")  {@driver.page_source.include?("SLI Dashboard - List of Students")}
 end
 
 When /^I navigate to the databrowser page$/ do
   @driver.get PropLoader.getProps['databrowser_server_url']
+  begin
+    @driver.switch_to.alert.accept
+  rescue
+  end
 end
 
 When /^I click on the logout link$/ do
@@ -53,7 +61,7 @@ Then /^I should see a message that I was logged out$/ do
 end
 
 Then /^I should forced to reauthenticate to gain access$/ do
-  assertWithWait("Did not find the authentication page"){@driver.find_element(:name, "Login.Submit")}
+  assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}
 end
 
 When /^I navigate to the dashboard home page$/ do
