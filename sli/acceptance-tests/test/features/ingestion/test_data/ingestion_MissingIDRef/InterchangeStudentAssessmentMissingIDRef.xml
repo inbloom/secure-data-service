@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentAssessment xsi:schemaLocation="http://ed-fi.org/0100 C:/Projects/TSDS/trunk/src/Etl/EdFi.Etl.EdFi/Ed-Fi/Interchange-StudentAssessment.xsd" xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<StudentReference id="STU-1001">
+	<StudentIdentity>
+		<StudentUniqueStateId>800000000</StudentUniqueStateId>
+		<Name>
+			<FirstName>Lashawn</FirstName>
+			<LastSurname>Aldama</LastSurname>
+		</Name>
+		<BirthDate>2001-01-23</BirthDate>
+		<Sex>Female</Sex>
+	</StudentIdentity>
+</StudentReference>
+
+<StudentReference id="STU-02">
+	<StudentIdentity>
+		<StudentUniqueStateId>800000001</StudentUniqueStateId>
+		<Name>
+			<FirstName>Alton</FirstName>
+			<LastSurname>Ausiello</LastSurname>
+		</Name>
+		<BirthDate>1994-08-02</BirthDate>
+		<Sex>Female</Sex>
+	</StudentIdentity>
+</StudentReference>
+
+<StudentReference id="STU-03">
+	<StudentIdentity>
+		<StudentUniqueStateId>800000003</StudentUniqueStateId>
+		<Name>
+			<FirstName>Dominic</FirstName>
+			<LastSurname>Bavinon</LastSurname>
+		</Name>
+		<BirthDate>1994-08-02</BirthDate>
+		<Sex>Female</Sex>
+	</StudentIdentity>
+</StudentReference>
+
+<AssessmentReference id="ISAT-0">
+	<AssessmentIdentity>
+             <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                  <ID>Grade 8 2011 ISAT Reading</ID>
+             </AssessmentIdentificationCode>
+	</AssessmentIdentity>
+</AssessmentReference>
+
+<AssessmentReference id="ISAT-111">
+	<AssessmentIdentity>
+             <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                  <ID>Grade 8 2011 ISAT Writing</ID>
+             </AssessmentIdentificationCode>
+	</AssessmentIdentity>
+</AssessmentReference>
+
+<AssessmentReference id="ISAT-2">
+	<AssessmentIdentity>
+               <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                   <ID>Grade 8 2011 ISAT Writing</ID>
+               </AssessmentIdentificationCode>
+	</AssessmentIdentity>
+</AssessmentReference>
+
+<StudentAssessment>
+	<AdministrationDate>2010-12-01</AdministrationDate>
+	<SerialNumber>0</SerialNumber>
+	<AdministrationLanguage>English</AdministrationLanguage>
+	<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+	<RetestIndicator>Primary Administration</RetestIndicator>
+	<ScoreResults AssessmentReportingMethod="Raw score">
+		<Result>0</Result>
+	</ScoreResults>
+	<StudentReference ref="STU-01"/>
+	<AssessmentReference ref="ISAT-0"/>
+</StudentAssessment>
+
+<StudentAssessment>
+	<AdministrationDate>2010-12-01</AdministrationDate>
+	<SerialNumber>0</SerialNumber>
+	<AdministrationLanguage>English</AdministrationLanguage>
+	<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+	<RetestIndicator>Primary Administration</RetestIndicator>
+	<ScoreResults AssessmentReportingMethod="Raw score">
+		<Result>0</Result>
+	</ScoreResults>
+	<StudentReference ref="STU-02"/>
+	<AssessmentReference ref="ISAT-1"/>
+</StudentAssessment>
+<StudentAssessment>
+	<AdministrationDate>2010-12-01</AdministrationDate>
+	<SerialNumber>0</SerialNumber>
+	<AdministrationLanguage>English</AdministrationLanguage>
+	<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+	<RetestIndicator>Primary Administration</RetestIndicator>
+	<ScoreResults AssessmentReportingMethod="Raw score">
+		<Result>0</Result>
+	</ScoreResults>
+	<StudentReference ref="STU-03"/>
+	<AssessmentReference ref="ISAT-2"/>
+</StudentAssessment>
+
+</InterchangeStudentAssessment>

@@ -5,19 +5,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.slc.sli.config.ViewConfig;
-import org.slc.sli.entity.Config;
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.util.Constants;
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.slc.sli.config.ViewConfig;
+import org.slc.sli.entity.Config;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
+import org.slc.sli.view.TimedLogic2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +92,6 @@ public class PopulationManager implements Manager {
         long startTime = System.nanoTime();
         // Initialize student summaries
 
-        //List<GenericEntity> studentSummaries = entityManager.getStudents(token, studentIds);
         List<GenericEntity> studentSummaries = entityManager.getStudents(token, sectionId, studentIds);
         log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for student section view: {}", (System.nanoTime() - startTime) * 1.0e-9);
         
@@ -101,45 +102,139 @@ public class PopulationManager implements Manager {
             List<String> programs = (List<String>) studentProgram.get(Constants.ATTR_PROGRAMS);
             studentProgramMap.put(studentProgram.getString(Constants.ATTR_STUDENT_ID), programs);
         }
-
-        //Map<String, Object> studentAttendanceMap = createStudentAttendanceMap(token, studentIds, sessionId);
         
-        // Add programs, attendance, and student assessment results to summaries
+        // Add programs
         for (GenericEntity studentSummary : studentSummaries) {
             if (studentSummary == null)
                 continue;
             String id = studentSummary.getString(Constants.ATTR_ID);
             studentSummary.put(Constants.ATTR_PROGRAMS, studentProgramMap.get(id));
-            //studentSummary.put(Constants.ATTR_STUDENT_ATTENDANCES, studentAttendanceMap.get(id));
+            
+            // clean out some unneeded gunk
+            studentSummary.remove(Constants.ATTR_LINKS);
         }
         
         return studentSummaries;
     }
     
-    public Map<String, Object> createStudentAttendanceMap(String token, List<String> studentIds, String sessionId) {
+    
+    /**
+     * Get data for the list of students
+     * 
+     * @return
+     */
+    @EntityMapping("listOfStudents")
+    public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
+    
+        // get student summary data
+        List<GenericEntity> studentSummaries = getStudentSummaries(token, null, null,
+                null, (String) sectionId);
         
-        // Get attendance
-        Map<String, Object> studentAttendanceMap = new HashMap<String, Object>();
-        long startTime = System.nanoTime();
+        // apply assmt filters
+        applyAssessmentFilters(studentSummaries, config);
         
-        List<String> dates = getSessionDates(token, sessionId);
-        for (String studentId : studentIds) {
-            long studentTime = System.nanoTime();
-            List<GenericEntity> studentAttendance = getStudentAttendance(token, studentId, null, null);
-            log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for single: {}", (System.nanoTime() - studentTime) * 1.0e-9);
-
-            if (studentAttendance != null && !studentAttendance.isEmpty())
-                studentAttendanceMap.put(studentId, studentAttendance);
-        }
-        double endTime = (System.nanoTime() - startTime) * 1.0e-9;
-        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for attendance: {}\t Avg per student: {}", endTime, endTime
-                / studentIds.size());
-        return studentAttendanceMap;
+        GenericEntity g = new GenericEntity();
+        g.put("students", studentSummaries);
+        return g;
     }
+
+    
+    /**
+     * Find the required assessment results according to the data configuration. Filter out the rest.
+     */
+    private void applyAssessmentFilters(List<GenericEntity> studentSummaries, Config.Data config) {
+        
+        // Loop through student summaries
+        for (GenericEntity summary : studentSummaries) {
+            
+            // Grab the student's assmt results. Grab assmt filters from config.
+            List<Map> assmtResults = (List<Map>) (summary.remove(Constants.ATTR_STUDENT_ASSESSMENTS));
+
+            Map<String, String> assmtFilters = (Map<String, String>) (config.getParams().get("assessmentFilter"));
+            if (assmtFilters == null) {
+                return;
+            }
+            
+            Map<String, Object> newAssmtResults = new LinkedHashMap<String, Object>();
+            
+            // Loop through assmt filters
+            for (String assmtName : assmtFilters.keySet()) {
+            
+                String timedLogic = assmtFilters.get(assmtName);
+                
+                // Apply filter. Add result to student summary.
+                Map assmt = applyAssessmentFilter(assmtResults, assmtName, timedLogic);
+                
+                //Map<String, Map> assmt2 = new LinkedHashMap<String, Map>();
+                //assmt2.put(timedLogic, assmt);
+                newAssmtResults.put(assmtName, assmt);
+            }
+            
+            summary.put(Constants.ATTR_STUDENT_ASSESSMENTS, newAssmtResults);
+        }
+    }
+    
+    /**
+     * Filter a list of assessment results, based on the assessment name and timed logic
+     * 
+     * @param assmtResults
+     * @param assmtName
+     * @param timedLogic
+     * @return
+     */
+    private Map applyAssessmentFilter(List<Map> assmtResults, String assmtName, String timeSlot) {
+        
+        // filter by assmtName
+        List<Map> studentAssessmentFiltered = new ArrayList<Map>();
+        for (Map assmtResult : assmtResults) {
+            String family = (String) ((Map) (assmtResult.get("assessments"))).get("assessmentFamilyHierarchyName");
+            if (family.contains(assmtName)) {
+                studentAssessmentFiltered.add(assmtResult);
+            }
+        }
+        
+        if (studentAssessmentFiltered.size() == 0) {
+            return null;
+        }
+        
+        // call timed logic
+        Map chosenAssessment = null;
+        
+        if (TimedLogic2.TIMESLOT_MOSTRECENTRESULT.equals(timeSlot)) {
+            chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
+        //} else if (TimedLogic2.TIMESLOT_HIGHESTEVER.equals(timeSlot) && !objAssmtCode.equals("")) {
+            //chosenAssessment = TimedLogic.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
+        } else if (TimedLogic2.TIMESLOT_HIGHESTEVER.equals(timeSlot)) {
+            chosenAssessment = TimedLogic2.getHighestEverAssessment(studentAssessmentFiltered);
+        /*} else if (TimedLogic2.TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
+            List<GenericEntity> assessmentMetaData = new ArrayList<GenericEntity>();
+            Set<String> assessmentIds = new HashSet<String>();
+            for (GenericEntity studentAssessment : studentAssessmentFiltered) {
+                String assessmentId = studentAssessment.getString(Constants.ATTR_ASSESSMENT_ID);
+                if (!assessmentIds.contains(assessmentId)) {
+                    GenericEntity assessment = metaDataResolver.getAssmtById(assessmentId);
+                    assessmentMetaData.add(assessment);
+                    assessmentIds.add(assessmentId);
+                }
+            }
+            
+            chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
+            */
+
+        } else {
+            // Decide whether to throw runtime exception here. Should timed logic default @@@
+            chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
+        }        
+        
+        
+        return chosenAssessment;
+    }
+    
     
     private List<GenericEntity> getStudentAttendance(String token, String studentId, String startDate, String endDate) {
         return entityManager.getAttendance(token, studentId, startDate, endDate);
     }
+
     
     /**
      * Get a list of assessment results for one student, filtered by assessment name
