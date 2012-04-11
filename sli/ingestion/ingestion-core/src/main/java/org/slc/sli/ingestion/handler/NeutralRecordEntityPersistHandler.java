@@ -16,6 +16,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.util.IdNormalizer;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
@@ -87,13 +88,13 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
     private void reportErrors(List<ValidationError> errors, NeutralRecordEntity entity, ErrorReport errorReport) {
         for (ValidationError err : errors) {
 
-            String message = "ERROR: There has been a data validation error when saving an entity" + "\n" +
-                             "       Error      " + err.getType().name() + "\n" +
-                             "       Entity     " + entity.getType() + "\n" +
-                             "       Instance   " + entity.getRecordNumberInFile() + "\n" +
-                             "       Field      " + err.getFieldName() + "\n" +
-                             "       Value      " + err.getFieldValue() + "\n" +
-                             "       Expected   " + Arrays.toString(err.getExpectedTypes())  + "\n";
+            String message = "ERROR: There has been a data validation error when saving an entity" + "\n"
+                           + "       Error      " + err.getType().name() + "\n"
+                           + "       Entity     " + entity.getType() + "\n"
+                           + "       Instance   " + entity.getRecordNumberInFile() + "\n"
+                           + "       Field      " + err.getFieldName() + "\n"
+                           + "       Value      " + err.getFieldValue() + "\n"
+                           + "       Expected   " + Arrays.toString(err.getExpectedTypes())  + "\n";
             errorReport.error(message, this);
         }
     }
@@ -245,7 +246,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
     }
 
     protected String getFailureMessage(String code, Object... args) {
-        return messageSource.getMessage(code, args, "#?" + code + "?#", null);
+        return MessageSourceHelper.getMessage(messageSource, code, args);
     }
 
     public void setEntityRepository(Repository<Entity> entityRepository) {

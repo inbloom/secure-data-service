@@ -32,8 +32,15 @@ public class StudentGradebookOptionalFieldAppender implements OptionalFieldAppen
         List<String> sectionIds = new ArrayList<String>(optionalFieldAppenderHelper.getSectionIds(entities));
 
         //get the list of student section grade book entries for all sections
-        List<EntityBody> studentSectionGradebookEntries = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES,
-                ParameterConstants.SECTION_ID, sectionIds);
+        List<EntityBody> studentSectionGradebookEntries;
+        if (sectionIds.size() != 0) {
+            studentSectionGradebookEntries = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES,
+                    ParameterConstants.SECTION_ID, sectionIds);
+        } else {
+            List<String> studentIds = new ArrayList<String>(optionalFieldAppenderHelper.getIdList(entities, "id"));
+            studentSectionGradebookEntries = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES,
+                    ParameterConstants.STUDENT_ID, studentIds);
+        }
 
         //get all gradebook entry ids
         List<String> gradebookEntryIds = optionalFieldAppenderHelper.getIdList(studentSectionGradebookEntries, ParameterConstants.GRADEBOOK_ENTRY_ID);

@@ -1,6 +1,7 @@
 /** TODO: structure this in a flexible way. separate layout and style? separate customizable and non-customizable? **/
 
 /**** CSS Reset ****/
+/** Theme */
 body {
     color: #333333;
     font-family: Arial,Helvetica,sans-serif;
@@ -16,10 +17,10 @@ body {
     clear:both;
 }
 .panel-header {
-    border-bottom: 1px solid #CCCCCC;
+    border-top: 1px solid #CCCCCC;
     height: 28px;
     margin-left: 0;
-    padding-left: 6px;
+    padding-left: 0px;
     padding-top: 8px;
     vertical-align: middle;
 }
@@ -28,6 +29,14 @@ body {
     padding: 5px;
     font-size: 13px;
 }
+.panel-container {
+	position:relative;
+}
+.panel-container .panel-item {
+	float:left;
+    top:0;
+    right:0;
+}
 .panel-content .tabular table {
 	border-right: 0 solid #DDDDDD;
     border-top: 0 solid #DDDDDD; 
@@ -35,6 +44,7 @@ body {
     font-weight: normal;
     margin-bottom: 18px;
     margin-top: 0;
+    table-layout: fixed;
 }
 .panel-content .tabular table tr td{
     float: right;
@@ -43,6 +53,9 @@ body {
     padding-top: 6px;
     text-align: left;
     line-height: 4px;
+}
+.panel-content .tabular table tr td div{
+    padding: 0px 0px 12px 0px;
 }
 .panel-content .tabular table th{
     color: #999999;
@@ -103,11 +116,29 @@ h6 {
 }
 h7 {
     font-family: Arial,Helvetica,sans-serif;
-    font-size: 20px;
+    font-size: 22px;
     font-style: normal;
     font-weight: lighter;
 }
-.ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column {
+/** JQueryUI overrides */
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { background: #f2f2f2 url(../images/ui-bg_glass_75_f2f2f2_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #555555; }
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #000000; text-decoration: none; }
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid transparent; background: #dadada url(../images/ui-bg_glass_75_dadada_1x400.png) 100% 100% repeat-x; font-weight: normal; color: #212121; }
+.ui-state-hover a, .ui-state-hover a:hover { color: #212121; text-decoration: none;}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #aaaaaa; background: #ffffff url(../images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #212121; }
+.ui-tabs { position: relative;} /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
+.ui-tabs .ui-tabs-nav { margin: 0; border-bottom: 2px solid #000000; }
+.ui-tabs .ui-tabs-nav li { list-style: none; float: left; position: relative; top: 2px; margin: 0 .2em 1px 0; padding: 0; white-space: nowrap; background-color: #F2F2F2;}
+.ui-tabs .ui-tabs-nav li a { float: left; text-decoration: none; border: 1px solid transparent;border-radius: 0 0 0 0;line-height: 10px;margin-right: 2px;padding-left: 12px;padding-right: 12px;padding-bottom: 9px;padding-top: 9px;}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected { margin-bottom: 0; padding-bottom: 0px;background-color: #FFFFFF;border-color: #000000 #000000 #FFFFFF; border-width: 2px;font-weight: bold;}
+.ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl {  }
+.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr {  }
+.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {  }
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br { }
+
+/** JQGrid overrides */
+.ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column-header {
     background: url("../images/ui-bg_glass_65_ffffff_1x400.png") repeat-x scroll 50% 50% #FFFFFF;
     border-bottom: 2px solid #000000;
     border-right: 0px none;
@@ -117,15 +148,28 @@ h7 {
     font-weight: normal;
     font-size:13px;
 }
+
 th.ui-th-column div {
     white-space: normal !important;
     height: auto !important;
     padding: 2px;
     text-align: left;
 }
-.ui-widget-no-border .ui-jqgrid tr.jqgrow td { font-size:13px;color: #333333; padding: 4px 5px;border: 0px none;}
+.ui-jqgrid-bdiv {border-collapse: collapse;}
+.ui-widget-no-border .ui-jqgrid tr.jqgrow td {font-size:13px;color: #333333; padding: 4px 5px;border-top: 1px solid #DDDDDD;border-right-style:hidden;white-space: normal !important;}
 .ui-widget-no-border .ui-jqgrid tr.jqgrow th { border: 0px none; padding: 4px 5px;}
 .ui-widget-no-border .ui-corner-all {border: 0px none;}
+
+
+/* Custom */
+/* Contact Info panel related */
+.contactInfoItem {
+	width:30%;
+}
+.contactInfoData {
+	width:200px;
+}
+
 .row {
     margin-left: -20px;
 }
@@ -321,15 +365,4 @@ th.ui-th-column div {
 {
     font-size: 12px;
     height: 20px;
-}
-.panel-container {
-	position:relative;
-}
-.panel-container .panel-item {
-	float:left;
-    top:0;
-    right:0;
-}
-.contactInfoItem {
-	width:300px;
 }

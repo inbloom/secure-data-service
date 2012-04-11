@@ -30,10 +30,16 @@ import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.association.StudentAssessmentAssociationResource;
 import org.slc.sli.api.resources.v1.association.StudentCohortAssociation;
+import org.slc.sli.api.resources.v1.association.StudentParentAssociationResource;
 import org.slc.sli.api.resources.v1.association.StudentProgramAssociationResource;
+import org.slc.sli.api.resources.v1.association.StudentSchoolAssociationResource;
+import org.slc.sli.api.resources.v1.association.StudentSectionAssociationResource;
+import org.slc.sli.api.resources.v1.association.StudentTranscriptAssociationResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +76,40 @@ public class StudentResourceTest {
     ProgramResource programResource;
 
     @Autowired
+    AssessmentResource assessmentResource;
+
+    @Autowired
+    ParentResource parentResource;
+
+    @Autowired
+    AttendanceResource attendanceResource;
+
+    @Autowired
+    SchoolResource schoolResource;
+
+    @Autowired
+    SectionResource sectionResource;
+
+    @Autowired
+    CourseResource courseResource;
+
+    @Autowired
     StudentProgramAssociationResource studentProgramAssociationResource;
+
+    @Autowired
+    StudentAssessmentAssociationResource studentAssessmentAssociationResource;
+
+    @Autowired
+    StudentParentAssociationResource studentParentAssociationResource;
+
+    @Autowired
+    StudentSchoolAssociationResource studentSchoolAssociationResource;
+
+    @Autowired
+    StudentSectionAssociationResource studentSectionAssociationResource;
+
+    @Autowired
+    StudentTranscriptAssociationResource studentTranscriptAssociationResource;
 
     @Autowired
     private SecurityContextInjector injector;
@@ -363,7 +402,7 @@ public class StudentResourceTest {
 
         createResponse = studentProgramAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
 
-        Response response = programResource.getStudentProgramAssociations(programId, httpHeaders, uriInfo);
+        Response response = studentResource.getStudentProgramAssociations(studentId, httpHeaders, uriInfo);
         
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
 
@@ -426,6 +465,197 @@ public class StudentResourceTest {
         assertNotNull("Should return an entity", body);
         assertEquals("studentUniqueStateId should be 1001", "1001", body.get("programId"));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
+    }
+
+    @Test
+    public void testGetStudentAssessmentAssociations() {
+        Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String studentId = parseIdFromLocation(createResponse);
+        createResponse = assessmentResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("AssessmentResource")), httpHeaders, uriInfo);
+        String assessmentId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StudentAssessmentAssociationResource", "StudentResource", studentId, "AssessmentResource", assessmentId);
+        studentAssessmentAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = studentResource.getStudentAssessmentAssociations(studentId, httpHeaders, uriInfo);
+        ResourceTestUtil.assertions(response);
+    }
+
+    @Test
+    public void testGetStudentAssessmentAssociationsAssessments() {
+        Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String studentId = parseIdFromLocation(createResponse);
+        createResponse = assessmentResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("AssessmentResource")), httpHeaders, uriInfo);
+        String assessmentId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StudentAssessmentAssociationResource", "StudentResource", studentId, "AssessmentResource", assessmentId);
+        studentAssessmentAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = studentResource.getStudentAssessmentAssociationsAssessments(studentId, httpHeaders, uriInfo);
+        ResourceTestUtil.assertions(response);
+    }
+
+    @Test
+    public void testGetStudentParentAssociations() {
+        Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String studentId = parseIdFromLocation(createResponse);
+        createResponse = parentResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("ParentResource")), httpHeaders, uriInfo);
+        String parentId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StudentParentAssociationResource", "StudentResource", studentId, "ParentResource", parentId);
+        studentParentAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = studentResource.getStudentParentAssociations(studentId, httpHeaders, uriInfo);
+        ResourceTestUtil.assertions(response);
+    }
+
+    @Test
+    public void testGetStudentParentAssociationCourses() {
+        Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String studentId = parseIdFromLocation(createResponse);
+        createResponse = parentResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("ParentResource")), httpHeaders, uriInfo);
+        String parentId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StudentParentAssociationResource", "StudentResource", studentId, "ParentResource", parentId);
+        studentParentAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = studentResource.getStudentParentAssociationCourses(studentId, httpHeaders, uriInfo);
+        ResourceTestUtil.assertions(response);
+    }
+
+    @Test
+    public void testGetStudentsAttendance() {
+        Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String studentId = parseIdFromLocation(createResponse);
+        Map<String, Object> map = ResourceTestUtil.createTestEntity("AttendanceResource");
+        map.put(ParameterConstants.STUDENT_ID, studentId);
+        createResponse = attendanceResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = studentResource.getStudentsAttendance(studentId, httpHeaders, uriInfo);
+        ResourceTestUtil.assertions(response);
+    }
+
+    @Test
+    public void testGetStudentSchoolAssociations() {
+        Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String studentId = parseIdFromLocation(createResponse);
+        createResponse = schoolResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("SchoolResource")), httpHeaders, uriInfo);
+        String schoolId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StudentSchoolAssociationResource", "StudentResource", studentId, "SchoolResource", schoolId);
+        studentSchoolAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = studentResource.getStudentSchoolAssociations(studentId, httpHeaders, uriInfo);
+        ResourceTestUtil.assertions(response);
+    }
+
+    @Test
+    public void testGetStudentSchoolAssociationSchools() {
+        Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String studentId = parseIdFromLocation(createResponse);
+        createResponse = schoolResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("SchoolResource")), httpHeaders, uriInfo);
+        String schoolId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StudentSchoolAssociationResource", "StudentResource", studentId, "SchoolResource", schoolId);
+        studentSchoolAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = studentResource.getStudentSchoolAssociationSchools(studentId, httpHeaders, uriInfo);
+        ResourceTestUtil.assertions(response);
+    }
+
+    @Test
+    public void testGetStudentSectionAssociations() {
+        Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String studentId = parseIdFromLocation(createResponse);
+        createResponse = sectionResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("SectionResource")), httpHeaders, uriInfo);
+        String sectionId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StudentSectionAssociationResource", "StudentResource", studentId, "SectionResource", sectionId);
+        studentSectionAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = studentResource.getStudentSectionAssociations(studentId, httpHeaders, uriInfo);
+        ResourceTestUtil.assertions(response);
+    }
+
+    @Test
+    public void testGetStudentSectionAssociationSections() {
+        Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String studentId = parseIdFromLocation(createResponse);
+        createResponse = sectionResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("SectionResource")), httpHeaders, uriInfo);
+        String sectionId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StudentSectionAssociationResource", "StudentResource", studentId, "SectionResource", sectionId);
+        studentSectionAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = studentResource.getStudentSectionAssociationSections(studentId, httpHeaders, uriInfo);
+        ResourceTestUtil.assertions(response);
+    }
+
+    @Test
+     public void testGetStudentTranscriptAssociations() {
+        Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String studentId = parseIdFromLocation(createResponse);
+        createResponse = courseResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("CourseResource")), httpHeaders, uriInfo);
+        String courseId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StudentTranscriptAssociationResource", "StudentResource", studentId, "CourseResource", courseId);
+        studentTranscriptAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = studentResource.getStudentTranscriptAssociations(studentId, httpHeaders, uriInfo);
+        ResourceTestUtil.assertions(response);
+    }
+
+    @Test
+    public void testGetStudentTranscriptAssociationCourses() {
+        Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String studentId = parseIdFromLocation(createResponse);
+        createResponse = courseResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("CourseResource")), httpHeaders, uriInfo);
+        String courseId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StudentTranscriptAssociationResource", "StudentResource", studentId, "CourseResource", courseId);
+        studentTranscriptAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = studentResource.getStudentTranscriptAssociationCourses(studentId, httpHeaders, uriInfo);
+        ResourceTestUtil.assertions(response);
+    }
+
+    @Test
+    public void testReadWithGrade() {
+        Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        String studentId = parseIdFromLocation(createResponse);
+        createResponse = schoolResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("SchoolResource")), httpHeaders, uriInfo);
+        String schoolId = parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StudentSchoolAssociationResource", "StudentResource", studentId, "SchoolResource", schoolId);
+        map.put("entryGradeLevel", "First grade");
+        map.put("entryDate", "2001-09-01");
+        studentSchoolAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = studentResource.readWithGrade(studentId, httpHeaders, uriInfo);
+        EntityBody body = ResourceTestUtil.assertions(response);
+        assertEquals("Grade level should match", "First grade", body.get("gradeLevel"));
     }
 
     private UriInfo buildMockUriInfo(final String queryString) throws Exception {

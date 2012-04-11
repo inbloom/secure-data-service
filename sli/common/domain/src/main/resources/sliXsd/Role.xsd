@@ -11,6 +11,7 @@
          <xs:sequence>
             <xs:element name="name" type="xs:string" />
             <xs:element name="rights" type="rightList" />
+            <xs:element name="admin" type="xs:boolean" />
          </xs:sequence>
       </xs:complexType>
    </xs:element>

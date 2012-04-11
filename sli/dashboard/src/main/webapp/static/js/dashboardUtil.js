@@ -2,7 +2,25 @@
  * dashboardUtil: contains javascript utility functions useful to dashbaord
  */
 
-DashboardUtil = new Object();
+
+var counterInt = 1;
+
+counter = function() {
+	counterInt ++;
+	return counterInt;
+}
+
+DashboardUtil = {
+		widgetConfig: {}
+};
+if (typeof widgetConfigArray != 'undefined') {
+for (var i in widgetConfigArray) {
+	DashboardUtil.widgetConfig[widgetConfigArray[i].id] = widgetConfigArray[i];
+}
+}
+DashboardUtil.getWidgetConfig = function(widgetName) {
+	return DashboardUtil.widgetConfig[widgetName];
+}
 
 DashboardUtil.getElementFontSize = function (element)
 {
@@ -66,9 +84,7 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
         }
         
     }
-    options = jQuery.extend(options, {colNames: colNames, 
-         colModel: colModel
-    });
+    options = jQuery.extend(options, {colNames: colNames, colModel: colModel});
     jQuery(this).jqGrid(options);
     if (groupHeaders.length > 0) {
     	jQuery(this).jqGrid('setGroupHeaders', {
@@ -80,13 +96,21 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
     jQuery(this).addClass('.jqgrid-header');
 }
 
-DashboardUtil.makeGrid = function (tableId, panelConfig, panelData)
+DashboardUtil.makeGrid = function (tableId, panelConfig, panelData, options)
 {
-	jQuery("#" + tableId).sliGrid(panelConfig, { 
-    	data: panelData,
-        datatype: "local", 
-        height: 'auto',
-        viewrecords: true} ); 
+	// for some reason root config doesn't work with local data, so manually extract
+	if (panelConfig.root) {
+		panelData = panelData[panelConfig.root];
+	}
+	gridOptions = { 
+	    	data: panelData,
+	        datatype: 'local', 
+	        height: 'auto',
+	        viewrecords: true};
+	if (options) {
+		gridOptions = jQuery.extend(gridOptions, options);
+	}
+	return jQuery("#" + tableId).sliGrid(panelConfig, gridOptions); 
 };
 
 var EnumSorter = function(params) {
@@ -181,3 +205,78 @@ DashboardUtil.getStyleDeclaration = function (element)
     return compStyle;
 };
 
+DashboardUtil.getLozenges = function(renderTo, student) {
+	var config = DashboardUtil.getWidgetConfig("lozenge");
+	var item, condition, configItem;
+	for (var i in config.items) {
+		configItem = config.items[i];
+		condition = configItem.condition;
+		item = student[condition.field];
+		if (item) {
+			for (var y in condition.value) {
+				if (condition.value[y] == item) {
+					var id = renderTo + "-" + counter();
+					$("#" + renderTo).append('<span id="' + id + '" class="lozenge"/>');
+					$("#" + id).sliLozenge({label: configItem.name, color: configItem.color, style: configItem.style});
+				}
+			}
+		}
+	}
+};
+
+(function( $ ) {
+	  $.widget( "ui.sliLozenge", {
+	    options: { 
+	    },
+	    // These options will be used as defaults if options is not provided
+	    baseOptions: { 
+	    	strokewidth: 1,
+	        white: "#FFFFFF",
+	        color: "#000000",
+	        label: "N/A",
+	        style: "solid",
+	        fontSize: "9px"
+	    },
+	 
+	    // Set up the widget
+	    _create: function() {
+	    	var options = {};
+	    	jQuery.extend(options, this.baseOptions, this.options);
+	    	// get width, height from the element
+	    	options.width = $(this.element[0]).width();
+	    	options.height = $(this.element[0]).height();
+	    	
+	    	// calculate and create rounded rectangle
+	        var paper = Raphael(this.element[0], options.width, options.height);
+
+	        // draw the rectangle
+	        var rect = paper.rect(1, 1, options.width-2, options.height-2, Math.floor(options.width / 4))
+	        rect.attr("fill", options.color);
+	        rect.attr("stroke", options.color);
+	        rect.attr("stroke-width", options.strokewidth);
+	        rect.attr("fill-opacity", options.style == "solid" ? 1 : 0);
+
+	        // draw the text
+	        var text = paper.text(Math.floor(options.width / 2), Math.floor(options.height / 2), options.label)
+	        text.attr("font-size", options.fontSize)
+	        text.attr("stroke-width", options.strokewidth)
+	        text.attr("stroke", options.style == "solid" ? options.white : options.color);
+	    },
+	 
+	    // Use the destroy method to clean up any modifications your widget has made to the DOM
+	    destroy: function() {
+	      $.Widget.prototype.destroy.call( this );
+	    }
+	  });
+	}( jQuery ) );
+
+
+DashboardUtil.getData = function(componentId, queryString, callback) {
+	$.ajax({
+		  url: contextRootPath + '/service/data/' + componentId + '?' + queryString,
+		  success: callback});
+}
+
+DashboardUtil.getPageUrl = function(componentId, queryString) {
+	return contextRootPath + '/service/layout/' + componentId + ((queryString) ? ('?' + queryString) : '');
+}

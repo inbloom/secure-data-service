@@ -29,17 +29,20 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
+ * Defines the means to process Session entities,
+ * and retrieve their associated school and course entities.
+ *
  * Prototype new api end points and versioning
- * 
+ *
  * @author jstokes
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.SESSIONS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class SessionResource extends DefaultCrudEndpoint {
-    
+
     @Autowired
     public SessionResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.SESSIONS);
@@ -47,7 +50,7 @@ public class SessionResource extends DefaultCrudEndpoint {
 
     /**
      * Returns all $$sessions$$ entities for which the logged in User has permission and context.
-     * 
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -61,14 +64,14 @@ public class SessionResource extends DefaultCrudEndpoint {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
      * Create a new $$sessions$$ entity.
-     * 
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -82,14 +85,14 @@ public class SessionResource extends DefaultCrudEndpoint {
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response create(final EntityBody newEntityBody, 
+    public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
      * Get a single $$sessions$$ entity
-     * 
+     *
      * @param sessionId
      *            The Id of the $$sessions$$.
      * @param headers
@@ -108,7 +111,7 @@ public class SessionResource extends DefaultCrudEndpoint {
 
     /**
      * Delete a $$sessions$$ entity
-     * 
+     *
      * @param sessionId
      *            The Id of the $$sessions$$.
      * @param headers
@@ -120,14 +123,14 @@ public class SessionResource extends DefaultCrudEndpoint {
      */
     @DELETE
     @Path("{" + ParameterConstants.SESSION_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.SESSION_ID) final String sessionId, 
+    public Response delete(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.delete(sessionId, headers, uriInfo);
     }
 
     /**
      * Update an existing $$sessions$$ entity.
-     * 
+     *
      * @param sessionId
      *            The id of the $$sessions$$.
      * @param newEntityBody
@@ -142,16 +145,16 @@ public class SessionResource extends DefaultCrudEndpoint {
     @PUT
     @Path("{" + ParameterConstants.SESSION_ID + "}")
     public Response update(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
-            final EntityBody newEntityBody, 
+            final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(sessionId, newEntityBody, headers, uriInfo);
     }
-    
+
 
     /**
      * Returns each $$schoolSessionAssociations$$ that
      * references the given $$schools$$
-     * 
+     *
      * @param sessionId
      *            The id of the $$sessions$$.
      * @param offset
@@ -170,16 +173,16 @@ public class SessionResource extends DefaultCrudEndpoint {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS)
     public Response getSchoolSessionAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String sessionId,
-            @Context HttpHeaders headers, 
+            @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "sessionId", sessionId, headers, uriInfo);
     }
-    
+
 
     /**
      * Returns each $$schools$$ associated to the given session through
-     * a $$schoolSessionAssociations$$ 
-     * 
+     * a $$schoolSessionAssociations$$
+     *
      * @param sessionId
      *            The id of the $$sessions$$.
      * @param headers
@@ -191,8 +194,8 @@ public class SessionResource extends DefaultCrudEndpoint {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS + "/" + PathConstants.SCHOOLS)
-    public Response getSchoolSessionAssociationSessions(@PathParam(ParameterConstants.SCHOOL_ID) final String sessionId,
-            @Context HttpHeaders headers, 
+    public Response getSchoolSessionAssociationSchools(@PathParam(ParameterConstants.SCHOOL_ID) final String sessionId,
+            @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "sessionId", sessionId, "schoolId", ResourceNames.SCHOOLS, headers, uriInfo);
     }
@@ -200,7 +203,7 @@ public class SessionResource extends DefaultCrudEndpoint {
     /**
      * Returns each $$sessionCourseAssociations$$ that
      * references the given $$sessions$$
-     * 
+     *
      * @param sessionId
      *            The id of the $$sessions$$.
      * @param offset
@@ -219,16 +222,16 @@ public class SessionResource extends DefaultCrudEndpoint {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.SESSION_ID + "}" + "/" + PathConstants.SESSION_COURSE_ASSOCIATIONS)
     public Response getSessionCourseAssociations(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
-            @Context HttpHeaders headers, 
+            @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "sessionId", sessionId, headers, uriInfo);
     }
-    
+
 
     /**
      * Returns each $$courses$$ associated to the given session through
-     * a $$sessionCourseAssociations$$ 
-     * 
+     * a $$sessionCourseAssociations$$
+     *
      * @param sessionId
      *            The id of the $$sessions$$.
      * @param headers
@@ -241,7 +244,7 @@ public class SessionResource extends DefaultCrudEndpoint {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Path("{" + ParameterConstants.SESSION_ID + "}" + "/" + PathConstants.SESSION_COURSE_ASSOCIATIONS + "/" + PathConstants.COURSES)
     public Response getSessionCourseAssociationCourses(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
-            @Context HttpHeaders headers, 
+            @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "sessionId", sessionId, "courseId", ResourceNames.COURSES, headers, uriInfo);
     }

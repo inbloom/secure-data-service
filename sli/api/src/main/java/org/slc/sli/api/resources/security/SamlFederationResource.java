@@ -7,15 +7,17 @@ import java.net.URI;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
 import org.jdom.Document;
-import org.jdom.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,7 @@ import org.slc.sli.domain.Repository;
  * @author dkornishev
  */
 @Component
-@Path("/saml")
+@Path("saml")
 public class SamlFederationResource {
     
     private static final Logger LOG = LoggerFactory.getLogger(SamlFederationResource.class);
@@ -83,13 +85,15 @@ public class SamlFederationResource {
     @POST
     @Path("sso/post")
     @SuppressWarnings("unchecked")
-    public Response consume(@FormParam("SAMLResponse") String postData) throws Exception {
+    public Response consume(@FormParam("SAMLResponse") String postData, 
+            @Context HttpServletResponse response) throws Exception {
         
-        LOG.info("Received a SAML post...");
-        
+        LOG.info("Received a SAML post for SSO...");
+
         Document doc = saml.decodeSamlPost(postData);
         
         String inResponseTo = doc.getRootElement().getAttributeValue("InResponseTo");
+        String samlMessageId = doc.getRootElement().getAttributeValue("ID");
         String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
         
         NeutralQuery neutralQuery = new NeutralQuery();
@@ -102,15 +106,14 @@ public class SamlFederationResource {
             throw new IllegalStateException("Failed to locate realm: " + issuer);
         }
         
-        Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS)
-                .getChild("AttributeStatement", SamlHelper.SAML_NS);
-        List<Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
+        org.jdom.Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS).getChild("AttributeStatement", SamlHelper.SAML_NS);
+        List<org.jdom.Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
         
         LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
-        for (Element attributeNode : attributeNodes) {
+        for (org.jdom.Element attributeNode : attributeNodes) {
             String samlAttributeName = attributeNode.getAttributeValue("Name");
-            List<Element> valueNodes = attributeNode.getChildren("AttributeValue", SamlHelper.SAML_NS);
-            for (Element valueNode : valueNodes) {
+            List<org.jdom.Element> valueNodes = attributeNode.getChildren("AttributeValue", SamlHelper.SAML_NS);
+            for (org.jdom.Element valueNode : valueNodes) {
                 attributes.add(samlAttributeName, valueNode.getText());
             }
         }
@@ -123,23 +126,22 @@ public class SamlFederationResource {
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
         principal.setAdminRealm(attributes.getFirst("adminRealm"));
-        String edOrg = attributes.getFirst("edOrg");
         
-        //TODO: This is a temporary hack because of how we're storing the edOrg in LDAP.
-        //Once we have a dedicated edOrg attribute, we can strip out this part
-        if (edOrg != null && edOrg.indexOf(' ') > -1) {
-            edOrg = edOrg.substring(0, edOrg.indexOf(' '));
-        }
+        // create sessionIndex --> this should probably be more advanced in the future
+        String sessionIndex = samlMessageId;        
+        String edOrg = attributes.getFirst("edOrg");
         principal.setEdOrg(edOrg);
-        String redirect = authCodeServices.createAuthorizationCodeForMessageId(inResponseTo, principal);
+        
+        String redirect = authCodeServices.createAuthorizationCodeForMessageId(inResponseTo, principal, sessionIndex);
+        
+        // create cookie here corresponding to session passed into authorization code above
+        // TODO: make this into an http-only cookie by updating the javax.servlet.api-servlet version in the sli/pom.xml to 3.0+
+        Cookie cookie = new Cookie("_tla", sessionIndex);
+        cookie.setDomain(".slidev.org");
+        cookie.setPath("/");       
+        response.addCookie(cookie);
         
         return Response.temporaryRedirect(URI.create(redirect)).build();
-    }
-    
-    @POST
-    @Path("slo/post")
-    public void processSingleLogoutPost() {
-        // TODO slo will post something here, what? Need those arguments
     }
     
     private Entity fetchOne(String collection, NeutralQuery neutralQuery) {

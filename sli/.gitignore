@@ -9,3 +9,4 @@ target
 TEST-*.xml
 *.tmp
 acceptance-tests/test/features/ingestion/test_data/*.zip
+ingestion/ingestion-base/src/test/resources/zip/unzip/*

@@ -11,16 +11,24 @@ public abstract class AbstractModelElement implements HasIdentity, HasTaggedValu
     
     private final Identifier id;
     private final List<TaggedValue> taggedValues;
+    /**
+     * Intentionally protected and available to derived classes.
+     */
+    protected final LazyLookup lookup;
     
-    public AbstractModelElement(final Identifier id, final List<TaggedValue> taggedValues) {
+    public AbstractModelElement(final Identifier id, final List<TaggedValue> taggedValues, final LazyLookup lookup) {
         if (id == null) {
             throw new NullPointerException("id");
         }
         if (taggedValues == null) {
             throw new NullPointerException("taggedValues");
         }
+        if (lookup == null) {
+            throw new NullPointerException("lookup");
+        }
         this.id = id;
         this.taggedValues = Collections.unmodifiableList(new ArrayList<TaggedValue>(taggedValues));
+        this.lookup = lookup;
     }
     
     @Override
