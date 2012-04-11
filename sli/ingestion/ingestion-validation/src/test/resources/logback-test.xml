@@ -22,12 +22,11 @@
       <encoder>
              <pattern>%date %-5level %msg%n</pattern>
       </encoder>
-      <target>System.err</target>
   </appender>
 
    <logger name="org.slc.sli.ingestion.tool.LoggerUtil" level="INFO" >
-   <appender-ref ref="ConsoleAppender"/>
+     <appender-ref ref="ConsoleAppender"/>
    </logger>
 
-
+   <root level="OFF" />
 </configuration>

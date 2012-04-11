@@ -19,6 +19,32 @@
     <dependency>
       <groupId>org.slc.sli.ingestion</groupId>
       <artifactId>ingestion-base</artifactId>
+      <exclusions>
+<!--         <exclusion> -->
+<!--           <groupId>commons-logging</groupId> -->
+<!--           <artifactId>commons-logging</artifactId> -->
+<!--          </exclusion> -->
+<!--         <exclusion> -->
+<!--           <groupId>org.slf4j</groupId> -->
+<!--           <artifactId>slf4j-api</artifactId> -->
+<!--         </exclusion> -->
+        <exclusion>
+        	<artifactId>spring-data-mongodb</artifactId>
+        	<groupId>org.springframework.data</groupId>
+        </exclusion>
+        <exclusion>
+        	<artifactId>spring-security-core</artifactId>
+        	<groupId>org.springframework.security</groupId>
+        </exclusion>
+        <exclusion>
+        	<artifactId>spring-data-commons-core</artifactId>
+        	<groupId>org.springframework.data</groupId>
+        </exclusion>
+        <exclusion>
+        	<artifactId>spring-webmvc</artifactId>
+        	<groupId>org.springframework</groupId>
+        </exclusion>
+     </exclusions>
     </dependency>
 
     <!-- Spring Test dependency -->
