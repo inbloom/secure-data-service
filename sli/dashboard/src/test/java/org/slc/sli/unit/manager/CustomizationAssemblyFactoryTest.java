@@ -24,7 +24,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.ModelAndViewConfig;
-import org.slc.sli.manager.Manager;
+import org.slc.sli.manager.Manager.EntityMapping;
+import org.slc.sli.manager.Manager.EntityMappingManager;
 import org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl;
 import org.slc.sli.util.DashboardException;
 
@@ -115,7 +116,8 @@ public class CustomizationAssemblyFactoryTest {
      *
      */
     @Component
-    public static class BadManagerWithWrongEntitySignature implements Manager {
+    @EntityMappingManager
+    public static class BadManagerWithWrongEntitySignature {
         
         /**
          * Bad signature mapping
@@ -150,7 +152,8 @@ public class CustomizationAssemblyFactoryTest {
      *
      */
     @Component
-    public static class BadManagerWithDuplicate implements Manager {
+    @EntityMappingManager
+    public static class BadManagerWithDuplicate {
         
         /**
          * Good 
@@ -196,7 +199,8 @@ public class CustomizationAssemblyFactoryTest {
      *
      */
     @Component
-    public static class GoodManager implements Manager {
+    @EntityMappingManager
+    public static class GoodManager {
         
         /**
          * Good signature mapping

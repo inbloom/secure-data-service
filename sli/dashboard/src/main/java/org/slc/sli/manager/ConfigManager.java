@@ -20,7 +20,7 @@ import org.slc.sli.entity.EdOrgKey;
  * 
  * @author dwu
  */
-public interface ConfigManager extends Manager {
+public interface ConfigManager {
     public ViewConfigSet getConfigSet(String userId);
     public ViewConfig getConfig(String userId, String viewName);
     public List<LozengeConfig> getLozengeConfig(String userId);

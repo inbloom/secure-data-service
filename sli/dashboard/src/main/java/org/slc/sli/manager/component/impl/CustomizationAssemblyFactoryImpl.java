@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.googlecode.ehcache.annotations.Cacheable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -23,6 +21,7 @@ import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.Manager;
 import org.slc.sli.manager.UserEdOrgManager;
+import org.slc.sli.manager.Manager.EntityMappingManager;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.DashboardException;
 import org.slc.sli.util.SecurityUtil;
@@ -173,13 +172,13 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
      *
      */
     private class InvokableSet {
-        Manager manager;
+        Object manager;
         Method method;
-        InvokableSet(Manager manager, Method method) {
+        InvokableSet(Object manager, Method method) {
             this.manager = manager;
             this.method = method;
         }
-        public Manager getManager() {
+        public Object getManager() {
             return manager;
         }
         public Method getMethod() {
@@ -189,27 +188,44 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     
     private void populateEntityReferenceToManagerMethodMap() {
         Map<String, InvokableSet> entityReferenceToManagerMethodMap = new HashMap<String, InvokableSet>();
-        Manager.EntityMapping entityMapping;
-        for (Manager manager : applicationContext.getBeansOfType(Manager.class).values())
-        {
+       
+        boolean foundInterface = false;
+        for (Object manager : applicationContext.getBeansWithAnnotation(EntityMappingManager.class).values()) {
             logger.info(manager.getClass().getCanonicalName());
-            for (Method m : manager.getClass().getMethods()) {
-                entityMapping = m.getAnnotation(Manager.EntityMapping.class);
-                if (entityMapping != null) {
-                    if (entityReferenceToManagerMethodMap.containsKey(entityMapping.value()))
-                    {
-                        throw new DashboardException("Duplicate entity mapping references found for " + entityMapping.value() + ". Fix!!!");
-                    }
-                    if (!Arrays.equals(ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE, m.getParameterTypes())) {
-                        throw new DashboardException(
-                                "Wrong signature for the method for " + entityMapping.value() + ". Expected is " 
-                                + ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE.toString() + "!!!");
-                    }
-                    entityReferenceToManagerMethodMap.put(entityMapping.value(), new InvokableSet(manager, m));
+            // managers can be advised (proxied) so original annotation are not seen on the method but
+            // still available on the interface
+            foundInterface = false;
+            for (Class<?> type : manager.getClass().getInterfaces()) {
+                if (type.isAnnotationPresent(EntityMappingManager.class)) {
+                    foundInterface = true;
+                    findEntityReferencesForType(entityReferenceToManagerMethodMap, type, manager);
                 }
+            }
+            if (!foundInterface) {
+                findEntityReferencesForType(entityReferenceToManagerMethodMap, manager.getClass(), manager);
             }
         }
         this.entityReferenceToManagerMethodMap = Collections.unmodifiableMap(entityReferenceToManagerMethodMap);
+    }
+    
+    private final void findEntityReferencesForType(
+            Map<String, InvokableSet> entityReferenceToManagerMethodMap, Class<?> type, Object instance) {
+        Manager.EntityMapping entityMapping;
+        for (Method m : type.getDeclaredMethods()) {
+            entityMapping = m.getAnnotation(Manager.EntityMapping.class);
+            if (entityMapping != null) {
+                if (entityReferenceToManagerMethodMap.containsKey(entityMapping.value())) {
+                    throw new DashboardException("Duplicate entity mapping references found for "
+                            + entityMapping.value() + ". Fix!!!");
+                }
+                if (!Arrays.equals(ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE, m.getParameterTypes())) {
+                    throw new DashboardException("Wrong signature for the method for "
+                            + entityMapping.value() + ". Expected is "
+                            + ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE.toString() + "!!!");
+                }
+                entityReferenceToManagerMethodMap.put(entityMapping.value(), new InvokableSet(instance, m));
+            }
+        }
     }
     
     protected InvokableSet getInvokableSet(String entityRef) {
@@ -226,7 +242,6 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     }
     
     @Override
-    @Cacheable(cacheName = "user.panel.data")
     public GenericEntity getDataComponent(String componentId, Object entityKey) {
         return getDataComponent(componentId, entityKey, getConfig(componentId).getData());
     }

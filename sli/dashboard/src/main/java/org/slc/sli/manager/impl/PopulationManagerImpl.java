@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.googlecode.ehcache.annotations.Cacheable;
+
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -113,7 +115,7 @@ public class PopulationManagerImpl implements PopulationManager {
      * @see org.slc.sli.manager.PopulationManagerI#getListOfStudents(java.lang.String, java.lang.Object, org.slc.sli.entity.Config.Data)
      */
     @Override
-    @EntityMapping("listOfStudents")
+    @Cacheable(cacheName = "user.panel.data")
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
     
         // get student summary data
@@ -317,7 +319,6 @@ public class PopulationManagerImpl implements PopulationManager {
      * @see org.slc.sli.manager.PopulationManagerI#getStudent(java.lang.String, java.lang.Object, org.slc.sli.entity.Config.Data)
      */
     @Override
-    @EntityMapping("student")
     public GenericEntity getStudent(String token, Object studentId, Config.Data config) {
         String key = (String) studentId;
         return entityManager.getStudentForCSIPanel(token, key);
@@ -327,7 +328,6 @@ public class PopulationManagerImpl implements PopulationManager {
      * @see org.slc.sli.manager.PopulationManagerI#getAttendance(java.lang.String, java.lang.Object, org.slc.sli.entity.Config.Data)
      */
     @Override
-    @EntityMapping("studentAttendance")
     public GenericEntity getAttendance(String token, Object studentIdObj, Config.Data config) {
         String studentId = (String) studentIdObj;
         // TODO: start using periods
