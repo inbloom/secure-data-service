@@ -2,10 +2,10 @@ package org.slc.sli.api.resources.v1.view.impl;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -41,6 +41,8 @@ public class StudentAttendanceOptionalFieldAppenderTest {
     @Autowired
     private StudentAttendanceOptionalFieldAppender studentAttendanceOptionalFieldAppender;
 
+    private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
     @Autowired
     private SecurityContextInjector injector;
 
@@ -51,42 +53,13 @@ public class StudentAttendanceOptionalFieldAppenderTest {
 
     @Before
     public void setup() {
-        String beginDate1 = "2011-10-20", beginDate2 = "2008-09-10";
+        repo.deleteAll();
 
         // inject administrator security context for unit testing
         injector.setAdminContextWithElevatedRights();
 
+        //create the student entity
         studentEntity = repo.create("student", createTestStudentEntity());
-        String studentId = studentEntity.getEntityId();
-
-        String sessionId1 = repo.create("session", createSession(beginDate1)).getEntityId();
-        String sessionId2 = repo.create("session", createSession(beginDate2)).getEntityId();
-
-        String sectionId1 = repo.create("section", createSection(sessionId1)).getEntityId();
-        String sectionId2 = repo.create("section", createSection(sessionId2)).getEntityId();
-
-        Entity studentSectionAssociation1 = repo.create("studentSectionAssociation", createStudentSectionAssociation(studentId, sectionId1));
-        Entity studentSectionAssociation2 = repo.create("studentSectionAssociation", createStudentSectionAssociation(studentId, sectionId2));
-
-        EntityBody body1 = new EntityBody();
-        body1.putAll(studentSectionAssociation1.getBody());
-        body1.put("id", studentSectionAssociation1.getEntityId());
-
-        EntityBody body2 = new EntityBody();
-        body2.putAll(studentSectionAssociation2.getBody());
-        body2.put("id", studentSectionAssociation2.getEntityId());
-
-        List<EntityBody> list = new ArrayList<EntityBody>();
-        list.add(body1);
-        list.add(body2);
-
-        studentEntity.getBody().put("studentSectionAssociation", list);
-
-        repo.create("attendance", createAttendance(studentId, "2012-03-10"));
-        repo.create("attendance", createAttendance(studentId, "2011-11-12"));
-        repo.create("attendance", createAttendance(studentId, "2009-08-07"));
-        repo.create("attendance", createAttendance(studentId, "2011-12-12"));
-        repo.create("attendance", createAttendance(studentId, "2006-12-12"));
     }
 
     @After
@@ -94,13 +67,48 @@ public class StudentAttendanceOptionalFieldAppenderTest {
         SecurityContextHolder.clearContext();
     }
 
+    private void setupMockForApplyOptionalField() {
+        String beginDate1 = "2011-10-20", beginDate2 = "2008-09-10", beginDate3 = "2010-11-12";
+
+        Entity session1 = repo.create("session", createSession(beginDate1, "1999-2000"));
+        Entity session2 = repo.create("session", createSession(beginDate2, "1999-2000"));
+        Entity session3 = repo.create("session", createSession(beginDate3, "1999-2000"));
+
+        String schoolId1 = repo.create("school", createSchool("Daybreak High")).getEntityId();
+        String schoolId2 = repo.create("school", createSchool("Sunset High")).getEntityId();
+
+        String sectionId1 = repo.create("section", createSection(session1.getEntityId(), schoolId1)).getEntityId();
+        String sectionId2 = repo.create("section", createSection(session2.getEntityId(), schoolId2)).getEntityId();
+
+        repo.create("schoolSessionAssociation", createSchoolSessionAssociation(schoolId1,
+                session1.getEntityId()));
+        repo.create("schoolSessionAssociation", createSchoolSessionAssociation(schoolId1, session2.getEntityId()));
+        repo.create("schoolSessionAssociation", createSchoolSessionAssociation(schoolId2, session3.getEntityId()));
+
+        Entity studentSectionAssociation1 = repo.create("studentSectionAssociation",
+                createStudentSectionAssociation(studentEntity.getEntityId(), sectionId1));
+        Entity studentSectionAssociation2 = repo.create("studentSectionAssociation",
+                createStudentSectionAssociation(studentEntity.getEntityId(), sectionId2));
+
+        List<EntityBody> list = new ArrayList<EntityBody>();
+        list.add(makeEntityBody(studentSectionAssociation1));
+        list.add(makeEntityBody(studentSectionAssociation2));
+
+        studentEntity.getBody().put("studentSectionAssociation", list);
+
+        repo.create("attendance", createAttendance(studentEntity.getEntityId(), "2012-03-10"));
+        repo.create("attendance", createAttendance(studentEntity.getEntityId(), "2011-11-12"));
+        repo.create("attendance", createAttendance(studentEntity.getEntityId(), "2009-08-07"));
+        repo.create("attendance", createAttendance(studentEntity.getEntityId(), "2011-12-12"));
+        repo.create("attendance", createAttendance(studentEntity.getEntityId(), "2006-12-12"));
+    }
+
     @Test
     public void testApplyOptionalField() {
+        setupMockForApplyOptionalField();
+
         List<EntityBody> entities = new ArrayList<EntityBody>();
-        EntityBody body = new EntityBody();
-        body.putAll(studentEntity.getBody());
-        body.put("id", studentEntity.getEntityId());
-        entities.add(body);
+        entities.add(makeEntityBody(studentEntity));
 
         entities = studentAttendanceOptionalFieldAppender.applyOptionalField(entities);
 
@@ -119,6 +127,90 @@ public class StudentAttendanceOptionalFieldAppenderTest {
 
     }
 
+    @Test
+    public void testGetBeginDate() throws ParseException {
+        String beginDate1 = "2011-10-20", beginDate2 = "2008-09-10", beginDate3 = "2010-11-12";
+
+        Entity selectedSession = repo.create("session", createSession(beginDate1, "1999-2000"));
+        String sessionId2 = repo.create("session", createSession(beginDate2, "1999-2000")).getEntityId();
+        String sessionId3 = repo.create("session", createSession(beginDate3, "1999-2000")).getEntityId();
+
+        String schoolId1 = repo.create("school", createSchool("Daybreak High")).getEntityId();
+        String schoolId2 = repo.create("school", createSchool("Sunset High")).getEntityId();
+
+        Entity selectedSection = repo.create("section", createSection(selectedSession.getEntityId(),
+                schoolId1));
+
+        repo.create("schoolSessionAssociation", createSchoolSessionAssociation(schoolId1,
+                selectedSession.getEntityId()));
+        repo.create("schoolSessionAssociation", createSchoolSessionAssociation(schoolId1, sessionId2));
+        repo.create("schoolSessionAssociation", createSchoolSessionAssociation(schoolId2, sessionId3));
+
+        Date date = studentAttendanceOptionalFieldAppender.getBeginDate(makeEntityBody(selectedSession),
+                makeEntityBody(selectedSection), 1);
+
+        assertNotNull("Should not be null", date);
+        assertEquals("Should match", beginDate2, formatter.format(date));
+    }
+
+    @Test
+    public void testGetSchoolYears() {
+        String currentSchoolYear = "1999-2000";
+
+        List<String> schoolYears = studentAttendanceOptionalFieldAppender.getSchoolYears(currentSchoolYear, 1);
+        assertEquals("Should match", 1, schoolYears.size());
+        assertEquals("Should match", "1999-2000", schoolYears.get(0));
+
+        schoolYears = studentAttendanceOptionalFieldAppender.getSchoolYears(currentSchoolYear, 2);
+        assertEquals("Should match", 2, schoolYears.size());
+        assertEquals("Should match", "1999-2000", schoolYears.get(0));
+        assertEquals("Should match", "1998-1999", schoolYears.get(1));
+
+        schoolYears = studentAttendanceOptionalFieldAppender.getSchoolYears(currentSchoolYear, 3);
+        assertEquals("Should match", 3, schoolYears.size());
+        assertEquals("Should match", "1999-2000", schoolYears.get(0));
+        assertEquals("Should match", "1998-1999", schoolYears.get(1));
+        assertEquals("Should match", "1997-1998", schoolYears.get(2));
+
+        schoolYears = studentAttendanceOptionalFieldAppender.getSchoolYears(currentSchoolYear, -1);
+        assertEquals("Should match", 1, schoolYears.size());
+        assertEquals("Should match", "1999-2000", schoolYears.get(0));
+
+        schoolYears = studentAttendanceOptionalFieldAppender.getSchoolYears("year1-year2", 1);
+        assertEquals("Should match", 1, schoolYears.size());
+        assertEquals("Should match", "year1-year2", schoolYears.get(0));
+
+        schoolYears = studentAttendanceOptionalFieldAppender.getSchoolYears("year1-year2", 2);
+        assertEquals("Should match", 1, schoolYears.size());
+        assertEquals("Should match", "year1-year2", schoolYears.get(0));
+
+        schoolYears = studentAttendanceOptionalFieldAppender.getSchoolYears("", 2);
+        assertEquals("Should match", 0, schoolYears.size());
+
+        schoolYears = studentAttendanceOptionalFieldAppender.getSchoolYears(null, 2);
+        assertEquals("Should match", 0, schoolYears.size());
+    }
+
+    @Test
+    public void testGetYearSuffix() {
+        assertEquals("Should match", 1, studentAttendanceOptionalFieldAppender.getYearSuffix("1"));
+        assertEquals("Should match", 2, studentAttendanceOptionalFieldAppender.getYearSuffix("2"));
+        assertEquals("Should match", 3, studentAttendanceOptionalFieldAppender.getYearSuffix("3"));
+        assertEquals("Should match", 4, studentAttendanceOptionalFieldAppender.getYearSuffix("4"));
+        assertEquals("Should match", 4, studentAttendanceOptionalFieldAppender.getYearSuffix("100"));
+        assertEquals("Should match", 1, studentAttendanceOptionalFieldAppender.getYearSuffix("not a number"));
+        assertEquals("Should match", 2, studentAttendanceOptionalFieldAppender.getYearSuffix("-2"));
+        assertEquals("Should match", 4, studentAttendanceOptionalFieldAppender.getYearSuffix("-100"));
+    }
+
+    private EntityBody makeEntityBody(Entity entity) {
+        EntityBody body = new EntityBody();
+        body.putAll(entity.getBody());
+        body.put("id", entity.getEntityId());
+
+        return body;
+    }
+
     private Map<String, Object> createTestStudentEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("field2", 2);
@@ -134,16 +226,17 @@ public class StudentAttendanceOptionalFieldAppenderTest {
         return entity;
     }
 
-    private Map<String, Object> createSection(String sessionId) {
+    private Map<String, Object> createSection(String sessionId, String schoolId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("sessionId", sessionId);
+        entity.put("schoolId", schoolId);
 
         return entity;
     }
 
-    private Map<String, Object> createSession(String beginDate) {
+    private Map<String, Object> createSession(String beginDate, String schoolYear) {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("schoolYear", "1999");
+        entity.put("schoolYear", schoolYear);
         entity.put("beginDate", beginDate);
 
         return entity;
@@ -153,6 +246,21 @@ public class StudentAttendanceOptionalFieldAppenderTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("studentId", studentId);
         entity.put("eventDate", eventDate);
+
+        return entity;
+    }
+
+    private Map<String, Object> createSchool(String name) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("name", name);
+
+        return entity;
+    }
+
+    private Map<String, Object> createSchoolSessionAssociation(String schoolId, String sessionId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("schoolId", schoolId);
+        entity.put("sessionId", sessionId);
 
         return entity;
     }
