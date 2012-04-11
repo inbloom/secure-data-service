@@ -36,12 +36,12 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 78    |
-        | studentSchoolAssociation    | 162   |
+        | studentSchoolAssociation    | 174   |
         | course                      | 89    |
         | educationOrganization       | 3     |
         | school                      | 4     |
         | section                     | 90    |
-        | studentSectionAssociation   | 290   |
+        | studentSectionAssociation   | 259   |
         | teacher                     | 3     |
         | staff                       | 2     |
         | staffEducationOrganizationAssociation| 2|
@@ -66,7 +66,7 @@ Then I should see following map of entry counts in the corresponding collections
        | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 15073 records." in the resulting batch job file
+    And I should see "Processed 15119 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -83,8 +83,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStaffAssociation.xml records considered: 15" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records ingested successfully: 15" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records considered: 452" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 452" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered: 498" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 498" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records considered: 522" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records ingested successfully: 522" in the resulting batch job file
