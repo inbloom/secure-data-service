@@ -1,23 +1,9 @@
 package org.slc.sli.api.resources.v1.entity;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
-
-import com.sun.jersey.api.uri.UriBuilderImpl;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
-
 import org.junit.runner.RunWith;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
@@ -33,11 +19,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * JUnit for section resources
@@ -81,7 +71,7 @@ public class SectionResourceTest {
 
     @Before
     public void setup() throws Exception {
-        uriInfo = buildMockUriInfo(null);
+        uriInfo = ResourceTestUtil.buildMockUriInfo(null);
 
         // inject administrator security context for unit testing
         injector.setAdminContextWithElevatedRights();
@@ -98,10 +88,10 @@ public class SectionResourceTest {
     public void testGetTeacherSectionAssociations() {
         Response createResponse = sectionResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(sectionResourceName)), httpHeaders, uriInfo);
-        String sectionId = parseIdFromLocation(createResponse);
+        String sectionId = ResourceTestUtil.parseIdFromLocation(createResponse);
         createResponse = teacherResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(teacherResourceName)), httpHeaders, uriInfo);
-        String teacherId = parseIdFromLocation(createResponse);
+        String teacherId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
                 teacherSectionAssociationResourceName, sectionResourceName, sectionId, teacherResourceName, teacherId);
@@ -115,10 +105,10 @@ public class SectionResourceTest {
     public void testGetTeacherSectionAssociationTeachers() {
         Response createResponse = sectionResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(sectionResourceName)), httpHeaders, uriInfo);
-        String sectionId = parseIdFromLocation(createResponse);
+        String sectionId = ResourceTestUtil.parseIdFromLocation(createResponse);
         createResponse = teacherResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(teacherResourceName)), httpHeaders, uriInfo);
-        String teacherId = parseIdFromLocation(createResponse);
+        String teacherId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
                 teacherSectionAssociationResourceName, sectionResourceName, sectionId, teacherResourceName, teacherId);
@@ -132,10 +122,10 @@ public class SectionResourceTest {
     public void testGetSectionAssessmentAssociations() {
         Response createResponse = sectionResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(sectionResourceName)), httpHeaders, uriInfo);
-        String sectionId = parseIdFromLocation(createResponse);
+        String sectionId = ResourceTestUtil.parseIdFromLocation(createResponse);
         createResponse = assessmentResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(assessmentResourceName)), httpHeaders, uriInfo);
-        String assessmentId = parseIdFromLocation(createResponse);
+        String assessmentId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
                 sectionAssessmentAssociationResourceName, sectionResourceName, sectionId, assessmentResourceName, assessmentId);
@@ -149,10 +139,10 @@ public class SectionResourceTest {
     public void testGetSectionAssessmentAssociationAssessments() {
         Response createResponse = sectionResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(sectionResourceName)), httpHeaders, uriInfo);
-        String sectionId = parseIdFromLocation(createResponse);
+        String sectionId = ResourceTestUtil.parseIdFromLocation(createResponse);
         createResponse = assessmentResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(assessmentResourceName)), httpHeaders, uriInfo);
-        String assessmentId = parseIdFromLocation(createResponse);
+        String assessmentId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
                 sectionAssessmentAssociationResourceName, sectionResourceName, sectionId, assessmentResourceName, assessmentId);
@@ -166,10 +156,10 @@ public class SectionResourceTest {
     public void testGetStudentSectionAssociations() {
         Response createResponse = sectionResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(sectionResourceName)), httpHeaders, uriInfo);
-        String sectionId = parseIdFromLocation(createResponse);
+        String sectionId = ResourceTestUtil.parseIdFromLocation(createResponse);
         createResponse = studentResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(studentResourceName)), httpHeaders, uriInfo);
-        String studentId = parseIdFromLocation(createResponse);
+        String studentId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
                 studentSectionAssociationResourceName, sectionResourceName, sectionId, studentResourceName, studentId);
@@ -183,10 +173,10 @@ public class SectionResourceTest {
     public void testGetStudentSectionAssociationStudents() {
         Response createResponse = sectionResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(sectionResourceName)), httpHeaders, uriInfo);
-        String sectionId = parseIdFromLocation(createResponse);
+        String sectionId = ResourceTestUtil.parseIdFromLocation(createResponse);
         createResponse = studentResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(studentResourceName)), httpHeaders, uriInfo);
-        String studentId = parseIdFromLocation(createResponse);
+        String studentId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
                 studentSectionAssociationResourceName, sectionResourceName, sectionId, studentResourceName, studentId);
@@ -194,51 +184,5 @@ public class SectionResourceTest {
 
         Response response = sectionResource.getStudentSectionAssociationStudents(sectionId, httpHeaders, uriInfo);
         ResourceTestUtil.assertions(response);
-    }
-
-    private UriInfo buildMockUriInfo(final String queryString) throws Exception {
-        UriInfo mock = mock(UriInfo.class);
-        when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
-
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("absolute");
-            }
-        });
-        when(mock.getBaseUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("base");
-            }
-        });
-        when(mock.getRequestUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("request");
-            }
-        });
-
-        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMapImpl>() {
-            @Override
-            public MultivaluedMapImpl answer(InvocationOnMock invocationOnMock) throws Throwable {
-                return new MultivaluedMapImpl();
-            }
-        });
-
-        when(mock.getRequestUri()).thenReturn(new UriBuilderImpl().replaceQuery(queryString).build(new Object[] {}));
-        return mock;
-    }
-
-    private static String parseIdFromLocation(Response response) {
-        List<Object> locationHeaders = response.getMetadata().get("Location");
-        assertNotNull(locationHeaders);
-        assertEquals(1, locationHeaders.size());
-        Pattern regex = Pattern.compile(".+/([\\w-]+)$");
-        Matcher matcher = regex.matcher((String) locationHeaders.get(0));
-        matcher.find();
-        assertEquals(1, matcher.groupCount());
-        return matcher.group(1);
     }
 }
