@@ -77,8 +77,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     return Collections.emptyList();
                 }
             }
-        }
-        else {
+        } else {
             LOG.error("EdFi2SLI Transform has resulted in either a null or empty list of transformed SimpleEntities.");            
         }
 
