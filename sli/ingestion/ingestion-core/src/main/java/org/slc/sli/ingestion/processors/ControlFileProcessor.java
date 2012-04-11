@@ -50,7 +50,7 @@ public class ControlFileProcessor implements Processor {
             NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
             
             Stage stage = new Stage();
-            stage.setStageName("ControlFileProcessor");
+            stage.setStageName(BatchJobStageType.CONTROL_FILE_PROCESSING.getName());
             stage.startStage();
             // TODO JobLogStatus
             // Create the stage and metric

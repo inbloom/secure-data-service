@@ -117,9 +117,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Data transformation.")
                 .process(transformationProcessor)
                 .to(workItemQueueUri)
-            .when(header("IngestionMessageType").isEqualTo(MessageType.MERGE_REQUEST.name()))
-                .process(nrMergeProcessor)
-                .to(workItemQueueUri)
+// Call to NeutralRecordMergeProcessor has been deprecated.
+//            .when(header("IngestionMessageType").isEqualTo(MessageType.MERGE_REQUEST.name()))
+//                .process(nrMergeProcessor)
+//                .to(workItemQueueUri)
             .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
                 .to("direct:persist")
             .when(header("IngestionMessageType").isEqualTo(MessageType.ERROR.name()))

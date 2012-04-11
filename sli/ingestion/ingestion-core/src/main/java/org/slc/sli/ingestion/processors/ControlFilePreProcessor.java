@@ -13,8 +13,10 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
@@ -60,7 +62,7 @@ public class ControlFilePreProcessor implements Processor {
             }
 
             Stage stage = new Stage();
-            stage.setStageName("ControlFilePreProcessor");
+            stage.setStageName(BatchJobStageType.CONTROL_FILE_PREPROCESSING.getName());
             stage.startStage();
             newJob.setSourceId(landingZone.getLZId());
             
@@ -70,6 +72,13 @@ public class ControlFilePreProcessor implements Processor {
 
             newJob.setTotalFiles(cf.getFileEntries().size());
 
+            for (IngestionFileEntry file : cf.getFileEntries()) {
+                ResourceEntry resourceEntry = new ResourceEntry();
+                resourceEntry.update(file.getFileFormat().toString(),file.getFileType().toString(),file.getChecksum(),0,0);
+                resourceEntry.setResourceName(file.getFileName());
+                newJob.getResourceEntries().add(resourceEntry);
+            }
+            
             stage.stopStage();
             newJob.getStages().add(stage);
             batchJobDAO.saveBatchJob(newJob);

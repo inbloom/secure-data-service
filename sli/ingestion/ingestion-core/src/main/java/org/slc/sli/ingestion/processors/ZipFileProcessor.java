@@ -59,7 +59,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             batchJobId = NewBatchJob.createId(zipFile.getName());
             NewBatchJob newJob = new NewBatchJob(batchJobId);
             Stage stage = new Stage();
-            stage.setStageName("ZipFileProcessor");
+            stage.setStageName(BatchJobStageType.ZIP_FILE_PROCESSING.getName());
             stage.startStage();
 
             exchange.getIn().setHeader("BatchJobId", batchJobId);

@@ -25,7 +25,7 @@ import org.slc.sli.util.performance.Profiled;
  * type has been collapsed
  * into another in the sliXsd data model. These 'processed' NeutralRecords will later be mapped to
  * Entity (sliXsd).
- * 
+ * @deprecated This will be removed at a later date.
  */
 @Component
 public class NeutralRecordsMergeProcessor implements Processor {
@@ -60,8 +60,6 @@ public class NeutralRecordsMergeProcessor implements Processor {
         mergeNeutralRecordsInBatchJob(job);
         
         // batchJobDAO.stopStage(batchJobId, BatchJobStageType.EDFI_PROCESSING);
-        batchJobDAO.saveBatchJob(newJob);
-        
         exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
     }
     
