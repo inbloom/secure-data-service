@@ -39,5 +39,7 @@ public interface LandingZone {
      * @throws IOException
      */
     public String getMd5Hex(File file) throws IOException;
-
+    
+    public String getLZId();
+    
 }
