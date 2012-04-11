@@ -210,6 +210,8 @@ public class StudentProgressManager implements Manager {
                 // This doesn't cast well - have to manually create Generic Entity from Map<String, Object>
                 GenericEntity geStudentGradebookEntry = new GenericEntity();
                 geStudentGradebookEntry.putAll(studentGradebookEntry);
+                geStudentGradebookEntry.put("gradebookEntryType",
+                        ((Map<String, Object>) geStudentGradebookEntry.get("gradebookEntries")).get("gradebookEntryType"));
 
                 gradebookEntries.put(studentGradebookEntry.get("id").toString(), geStudentGradebookEntry);
                 log.debug("Progress data [studentGradebookEntry] {}", studentGradebookEntry);
