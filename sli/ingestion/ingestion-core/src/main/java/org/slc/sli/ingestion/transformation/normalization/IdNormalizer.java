@@ -84,12 +84,6 @@ public class IdNormalizer {
             for (RefDef reference : entityConfig.getReferences()) {
                 String fieldPath = reference.getFieldPath();
                 
-                if (fieldPath.equals("body.studentId")) {
-                    System.out.println("Resolving " + fieldPath);
-                } else if (entity.getType().equals("studentAcademicRecord")) {
-                    System.out.println("Resolving SAR");
-                }
-                
                 String id = resolveInternalId(entity, tenantId, reference.getRef(), fieldPath, errorReport);
 
                 if (errorReport.hasErrors()) {
@@ -100,8 +94,7 @@ public class IdNormalizer {
             }
         } catch (Exception e) {
             LOG.error("Error accessing property", e);
-            System.out.println("Error! " + entity.getBody());
-            errorReport.error("Failed to resolve a reference1. TenantId: " + tenantId + " Entity: " + entity.getBody(), this);
+            errorReport.error("Failed to resolve a reference (1). ", this);
         }
     }
 
@@ -109,7 +102,7 @@ public class IdNormalizer {
         List<String> ids = resolveInternalIds(entity, tenantId, refConfig, fieldPath, errorReport);
 
         if (ids.size() == 0) {
-            errorReport.error("Failed to resolve a reference2. TenantId: " + tenantId + " Entity: " + entity.getBody(), this);
+            errorReport.error("Failed to resolve a reference (2)", this);
             return null;
         }
 
@@ -156,7 +149,7 @@ public class IdNormalizer {
             }
         } catch (Exception e) {
             LOG.error("Error accessing property", e);
-            proxyErrorReport.error("Failed to resolve a reference3. TenantId: " + tenantId + " Entity: " + entity.getBody(), this);
+            errorReport.error("Failed to resolve a reference (3)", this);
         }
 
         if (proxyErrorReport.hasErrors()) {

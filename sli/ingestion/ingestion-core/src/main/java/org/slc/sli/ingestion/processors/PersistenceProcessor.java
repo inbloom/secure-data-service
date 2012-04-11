@@ -201,16 +201,7 @@ public class PersistenceProcessor implements Processor {
 
                 NeutralRecord neutralRecord = nrFileReader.next();
                 
-                //System.out.println("Persisting a " + neutralRecord.getRecordType());
-                if (neutralRecord.getRecordType().equals("studentAcademicRecord")) {
-                    System.out.print("SAR "/* + neutralRecord*/);
-                } else if (neutralRecord.getRecordType().equals("studentTranscriptAssociation")) {
-                    System.out.print("STA "/* + neutralRecord*/);
-                }
-
                 if (!transformedCollections.contains(neutralRecord.getRecordType())) {
-                    
-                    
                     if (persistedCollections.contains(neutralRecord.getRecordType())) {
                         //this doesn't exist in collection, persist
 
@@ -231,8 +222,6 @@ public class PersistenceProcessor implements Processor {
                 } else {
                     //process collection of the entities from db
                     LOG.debug("processing staged collection: {}", neutralRecord.getRecordType());
-                    System.out.println("processing staged collection: " + neutralRecord.getRecordType());
-                    
                     if (!processedStagedCollections.contains(neutralRecord.getRecordType())) {
                         //collection wasn't processed yet
                         
@@ -248,7 +237,7 @@ public class PersistenceProcessor implements Processor {
                             neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed");
                         }
                         
-                        if (neutralRecordData != null ) {
+                        if (neutralRecordData != null) {
                             for (NeutralRecord nr : neutralRecordData) {
                                 nr.setSourceId(tenantId);
                                 nr.setRecordType(neutralRecord.getRecordType());
@@ -266,6 +255,8 @@ public class PersistenceProcessor implements Processor {
                                     numFailed++;
                                 }
                             }
+                        } else {
+                            numFailed++;
                         }
                     }
                 }
