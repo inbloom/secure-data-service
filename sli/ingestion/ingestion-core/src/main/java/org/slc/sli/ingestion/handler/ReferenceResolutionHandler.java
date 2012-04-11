@@ -29,6 +29,7 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<File, F
     private Map<String, String> referenceObjects = new HashMap<String, String>();
 
     private File xmlInputFile = null;
+    private File xmlOutputFile = null;
 
     private Set<String> referenceObjectList = new HashSet<String>() {
         private static final long serialVersionUID = 1L;
@@ -53,7 +54,6 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<File, F
         try {
             referenceObjects = rc.execute(inputFilePath);
         } catch (Exception e) {
-            // Report the error.
             log("Cannot extract references from XML file " + xmlInputFile.getName());
         }
 
@@ -75,12 +75,12 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<File, F
         long startTime = System.currentTimeMillis();
 
         ReferenceResolver rr = new ReferenceResolver(referenceSet, referenceObjects);
-        File outputFile = new File(outputFilePath);
+        xmlOutputFile = new File(outputFilePath);
         try {
             rr.execute(inputFilePath, outputFilePath);
         } catch (Exception e) {
             // Delete the output file and report the error.
-            outputFile.delete();
+            xmlOutputFile.delete();
             log("Cannot resolve references in XML file " + xmlInputFile.getName());
         }
 
@@ -90,6 +90,7 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<File, F
     private void log(String errorMessage) {
         LOG.error(errorMessage);
         errorReport.error(errorMessage, ReferenceResolutionHandler.class);
+        System.out.println(errorMessage);
     }
 
     /**
@@ -113,7 +114,11 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<File, F
         resolveReferences(referenceObjectList, inputFilePathname, outputFilePathname);
 
         // Move the expanded output file to the input file, and return it.
-        return null;
+        xmlInputFile.delete();
+        if (!xmlOutputFile.renameTo(xmlInputFile)) {
+            log("Error renaming " + xmlOutputFile.getName() + " to " + xmlInputFile.getName());
+        }
+        return xmlOutputFile;
     }
 
     public void setReferenceObjectList(Set<String> referenceObjectList) {

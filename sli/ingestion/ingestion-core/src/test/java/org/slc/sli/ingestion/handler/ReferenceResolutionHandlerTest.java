@@ -1,16 +1,20 @@
 package org.slc.sli.ingestion.handler;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
+ *
+ * @author tshewchuk
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -22,14 +26,15 @@ public class ReferenceResolutionHandlerTest {
     private final ErrorReport errorReport = new TestErrorReport();
 
     /**
+     * @throws FileNotFoundException
      *
      */
     @Test
-    public void testdoHandling() {
+    public void testdoHandling() throws FileNotFoundException {
 
         // Test the XML file expander on a large test file.
-        File inputFile = new File("C:\\Users\\tshewchuk\\workspace\\data\\Test_XML_Expander\\studentAssessment_1000.xml");
-            referenceResolutionHandler.doHandling(inputFile, errorReport);
+        File inputFile = IngestionTest.getFile("ReferenceResolution/studentAssessment_1000.xml");
+        referenceResolutionHandler.doHandling(inputFile, errorReport);
     }
 
 }

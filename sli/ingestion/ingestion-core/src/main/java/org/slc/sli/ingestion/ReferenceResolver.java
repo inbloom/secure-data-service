@@ -32,9 +32,9 @@ public class ReferenceResolver extends DefaultHandler {
 
     private BufferedWriter outputFileWriter;
 
-    private String tempVal;
-
     private String currentXMLString;
+    private String tempVal;
+    private String topElementName;
     private boolean isValidEntity;
 
     private Set<String> referenceObjectList;
@@ -44,6 +44,7 @@ public class ReferenceResolver extends DefaultHandler {
         referenceObjectList = referenceSet;
 
         tempVal = "";
+        topElementName = "";
         currentXMLString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         isValidEntity = true;
     }
@@ -98,27 +99,34 @@ public class ReferenceResolver extends DefaultHandler {
      */
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        if (isValidEntity && referenceObjectList.contains(qName) && (attributes.getValue("id") != null)) {
-            // reference object
-            isValidEntity = false;
-        } else if (isValidEntity && referenceObjectList.contains(qName) && (attributes.getValue("ref") != null)) {
-            // reference reference
+        // Mark if top-level element.
+        if ((!qName.startsWith("Interchange")) && topElementName.isEmpty()) {
+            topElementName = qName;
+        }
 
-            // get reference xml from map
-            if (referenceObjects.containsKey(attributes.getValue("ref"))) {
+        // Expand XML references.
+        if ((qName.equals(topElementName)) && isValidEntity && referenceObjectList.contains(qName) && (attributes.getValue("id") != null)) {
+                // Reference top-level element.
                 isValidEntity = false;
-                currentXMLString += referenceObjects.get(attributes.getValue("ref"));
-                // } else {
-                // isValidEntity = true;
+        } else if (isValidEntity && referenceObjectList.contains(qName) && (attributes.getValue("ref") != null)) {
+            // Reference to reference - get reference body from map.
+            String refId = attributes.getValue("ref");
+            if (referenceObjects.containsKey(refId)) {
+                isValidEntity = false;
+                currentXMLString += referenceObjects.get(refId);
+            } else {
+                // Unresolved reference!  Abort processing.
+                SAXException se = new SAXException("Unresolved reference, id=\"" + refId + "\"");
+                throw (se);
             }
         }
 
+        // Process non-reference XML element.
         if (isValidEntity) {
             currentXMLString += tempVal;
             currentXMLString += "<" + qName;
             if (attributes != null) {
                 for (int i = 0; i < attributes.getLength(); i++) {
-                    currentXMLString += " ";
                     currentXMLString += " " + attributes.getQName(i) + "=\"" + attributes.getValue(i) + "\"";
                 }
             }
@@ -143,9 +151,10 @@ public class ReferenceResolver extends DefaultHandler {
      */
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
+        // Get characters between element markers.
         tempVal = "";
         for (int i = start; i < start + length; i++) {
-            tempVal += ch[i];
+            tempVal += String.valueOf(ch[i]);
         }
     }
 
@@ -166,9 +175,14 @@ public class ReferenceResolver extends DefaultHandler {
      */
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
+        // Unmark if top-level element.
+        if (qName.equals(topElementName)) {
+            topElementName = "";
+        }
+
+        // Write element to output file.
         if (!isValidEntity && referenceObjectList.contains(qName)) {
             isValidEntity = true;
-
         } else if (isValidEntity) {
             currentXMLString += tempVal;
             tempVal = "\n";
@@ -180,12 +194,13 @@ public class ReferenceResolver extends DefaultHandler {
         }
     }
 
-    private void writeXML(String xml) {
-        // System.out.println(xml);
+    private void writeXML(String xml) throws SAXException {
         try {
             outputFileWriter.write(xml);
         } catch (IOException e) {
-            e.printStackTrace();
+            SAXException se = new SAXException(e.getMessage());
+            throw (se);
         }
     }
+
 }
