@@ -2,12 +2,9 @@ package org.slc.sli.manager;
 
 import java.util.List;
 
-import com.googlecode.ehcache.annotations.Cacheable;
-
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.manager.Manager.EntityMapping;
 
 /**
  * 

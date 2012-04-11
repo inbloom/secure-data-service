@@ -11,8 +11,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.googlecode.ehcache.annotations.Cacheable;
-
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -26,7 +24,6 @@ import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
-import org.slc.sli.manager.Manager.EntityMapping;
 import org.slc.sli.util.Constants;
 import org.slc.sli.view.TimedLogic2;
 
@@ -216,22 +213,22 @@ public class PopulationManagerImpl implements PopulationManager {
             //chosenAssessment = TimedLogic.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
         } else if (TimedLogic2.TIMESLOT_HIGHESTEVER.equals(timeSlot)) {
             chosenAssessment = TimedLogic2.getHighestEverAssessment(studentAssessmentFiltered);
-        } else if (TimedLogic2.TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
-            /*
-            List<GenericEntity> assessmentMetaData = new ArrayList<GenericEntity>();
-            Set<String> assessmentIds = new HashSet<String>();
-            for (GenericEntity studentAssessment : studentAssessmentFiltered) {
-                String assessmentId = studentAssessment.getString(Constants.ATTR_ASSESSMENT_ID);
-                if (!assessmentIds.contains(assessmentId)) {
-                    GenericEntity assessment = metaDataResolver.getAssmtById(assessmentId);
-                    assessmentMetaData.add(assessment);
-                    assessmentIds.add(assessmentId);
-                }
-            }
-            
-            chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
-            */
-            
+//        } else if (TimedLogic2.TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
+//            /*
+//            List<GenericEntity> assessmentMetaData = new ArrayList<GenericEntity>();
+//            Set<String> assessmentIds = new HashSet<String>();
+//            for (GenericEntity studentAssessment : studentAssessmentFiltered) {
+//                String assessmentId = studentAssessment.getString(Constants.ATTR_ASSESSMENT_ID);
+//                if (!assessmentIds.contains(assessmentId)) {
+//                    GenericEntity assessment = metaDataResolver.getAssmtById(assessmentId);
+//                    assessmentMetaData.add(assessment);
+//                    assessmentIds.add(assessmentId);
+//                }
+//            }
+//            
+//            chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
+//            */
+//            
         } else {
             // Decide whether to throw runtime exception here. Should timed logic default @@@
             chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);

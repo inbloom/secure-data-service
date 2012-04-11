@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.googlecode.ehcache.annotations.Cacheable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -224,6 +226,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     }
     
     @Override
+    @Cacheable(cacheName = "user.panel.data")
     public GenericEntity getDataComponent(String componentId, Object entityKey) {
         return getDataComponent(componentId, entityKey, getConfig(componentId).getData());
     }
