@@ -20,7 +20,7 @@
         { "sliRoleName" : "Leader",
           "clientRoleName" : [ 
             "Leader" ] } ] },
-    "name" : "Mock IDP - localhost",
+    "name" : "Mock IDP - localhost (SLI)",
     "saml" : { "field" : [ 
         { "clientName" : "roles",
           "sliName" : "roles",
@@ -40,6 +40,6 @@
         { "clientName" : "userName",
           "sliName" : "userName",
           "transform" : "(.+)" } ] },
-    "tenantId" : "mock-localhost" },
+    "tenantId" : "SLI" },
   "metadata" : {},
   "type" : "realm" }
