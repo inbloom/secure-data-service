@@ -967,7 +967,7 @@ end
 ############################################################
 
 desc "Run JavaSDK sampleApp acceptance tests"
-task :JavaSDKSampleAppTest => [:realmInit] do
+task :JavaSDKSampleAppTest => [:realmInitNoPeople] do
     runTests("test/features/dashboard/JavaSDK/sampleApp.feature")
     displayFailureReport()
   if $SUCCESS
