@@ -31,6 +31,7 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | resourceEntries.0.recordCount  | 0                       |integer        |
   | newBatchJob    | 1                   | resourceEntries.0.errorCount   | 0                       |integer        |
 
+
    And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeEducationOrganization.xml records considered: 1" in the resulting batch job file
