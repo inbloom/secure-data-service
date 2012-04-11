@@ -18,7 +18,7 @@
 
     <dependency>
       <groupId>org.slc.sli.ingestion</groupId>
-      <artifactId>ingestion-core</artifactId>
+      <artifactId>ingestion-base</artifactId>
     </dependency>
 
     <!-- Spring Test dependency -->
@@ -27,6 +27,14 @@
       <artifactId>spring-test</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>junit-addons</groupId>
+      <artifactId>junit-addons</artifactId>
+      <version>1.4</version>
+      <scope>test</scope>
+    </dependency>
+
 
   </dependencies>
 

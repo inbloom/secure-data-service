@@ -20,9 +20,9 @@ import org.slc.sli.test.generators.interchange.InterchangeEdOrgGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeMasterScheduleGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStaffAssociationGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentAssessmentGenerator;
+import org.slc.sli.test.generators.interchange.InterchangeStudentAttendanceGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentCohortGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentEnrollmentGenerator;
-import org.slc.sli.test.generators.interchange.InterchangeStudentAttendanceGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentProgramGenerator;
 import org.slc.sli.test.utils.DataUtils;
@@ -223,7 +223,7 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentAttendance, new PrintStream(xmlFilePath));
 
-        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "studentAttendance", xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentAttendance", xmlFilePath);
     }
 
     /**
@@ -239,7 +239,7 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentProgram, new PrintStream(xmlFilePath));
 
-        DataUtils.writeControlFile(rootOutputPath + "MainControlFile.ctl", "StudentProgram", xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentProgram", xmlFilePath);
     }
 
     /**
@@ -255,7 +255,7 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentCohort, new PrintStream(xmlFilePath));
 
-        DataUtils.writeControlFile(rootOutputPath + "MainControlFile.ctl", "StudentCohort", xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentCohort", xmlFilePath);
     }
 
     /**
@@ -271,7 +271,7 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentAssessment, new PrintStream(xmlFilePath));
 
-        DataUtils.writeControlFile(rootOutputPath + "MainControlFile.ctl", "StudentAssessment", xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentAssessment", xmlFilePath);
     }
 
     /**
@@ -287,6 +287,7 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(assessmentMetadata, new PrintStream(xmlFilePath));
 
-        DataUtils.writeControlFile(rootOutputPath + "MainControlFile.ctl", "InterchangeAssessmentMetadata", xmlFilePath);
+        DataUtils
+                .writeControlFile(rootOutputPath + "MainControlFile.ctl", "InterchangeAssessmentMetadata", xmlFilePath);
     }
 }

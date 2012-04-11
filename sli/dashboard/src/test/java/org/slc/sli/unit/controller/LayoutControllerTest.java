@@ -11,20 +11,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 import org.slc.sli.controller.GenericLayoutController;
 import org.slc.sli.entity.Config;
+import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.StudentProgramUtil;
 import org.slc.sli.manager.ConfigManager;
-import org.slc.sli.manager.InstitutionalHierarchyManager;
+import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl;
 
 /**
@@ -48,12 +46,8 @@ public class LayoutControllerTest {
         protected String getTokenId() {
             return "1";
         }
-        
-        protected String getUsername() {
-            return "lkim";
-        }
-        
-        protected GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
+
+        public GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
             GenericEntity simpleMaleStudentEntity = new GenericEntity();
             simpleMaleStudentEntity.put("id", "1");
             simpleMaleStudentEntity.put("gender", "male");
@@ -83,25 +77,23 @@ public class LayoutControllerTest {
             return "lkim";
         }
         
+        public String getToken() {
+            return "";
+        }
+        
         public void populateModelLegacyItems(ModelMap model) {
             
         }
         
     }
     
-    private AnnotationMethodHandlerAdapter handlerAdapter;
-    
     private LayoutControllerMock layoutController;
-    
-    private MockHttpServletRequest request;
-    private MockHttpServletResponse response;
-    
-    // private HandlerAdapter handlerAdapter;
-    // private LayoutController layoutController;
     
     @Before
     public void setUp() throws Exception {
-        configManager.setInstitutionalHierarchyManager(new InstitutionalHierarchyManager() {
+        layoutController = new LayoutControllerMock();
+        dataFactory.setConfigManager(configManager);
+        dataFactory.setUserEdOrgManager(new UserEdOrgManager() {
             
             @Override
             public List<GenericEntity> getUserInstHierarchy(String token) {
@@ -109,15 +101,11 @@ public class LayoutControllerTest {
             }
             
             @Override
-            public String getUserDistrictId(String token) {
-                return "aa";
+            public EdOrgKey getUserEdOrg(String token) {
+                return new EdOrgKey("fake");
             }
         });
-        layoutController = new LayoutControllerMock();
-        dataFactory.setConfigManager(configManager);
-        layoutController.setCustomizedDataFactory(dataFactory);
-        layoutController.setConfigManager(configManager);
-        
+        layoutController.setCustomizedDataFactory(dataFactory);   
     }
     
     /*
