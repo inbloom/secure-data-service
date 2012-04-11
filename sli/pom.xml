@@ -78,8 +78,7 @@
 
 		<!-- GSON -->
 		<gson.version>2.1</gson.version>
-        <sli.home>${project.parent.basedir}</sli.home>
-
+        <sli.home>${project.basedir}</sli.home>
 	</properties>
 
 	<!-- Environment profiles. A profile encapsulates a set of properties and
@@ -102,7 +101,7 @@
 			<properties>
 				<sli.env>local</sli.env>
 				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/localKeyStore.jks</sli.encryption.keyStore>
-                <sli.conf>${sli.home}/sli-configuration/src/main/resources/config/local/sli.properties</sli.conf>
+                <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
 			</properties>
 		</profile>
 
@@ -1018,7 +1017,7 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
                             <phase>compile</phase>
                             <configuration>
                                 <executable>ruby </executable>
-                                <commandlineArgs>${project.basedir}/config/scripts/webapp-provision.rb ${project.basedir}/config/config.in/canonical_config.yml dev ${project.basedir}/config/properties/sli</commandlineArgs>
+                                <commandlineArgs>${project.basedir}/config/scripts/webapp-provision.rb ${project.basedir}/config/config.in/canonical_config.yml ${sli.env} ${sli.conf}</commandlineArgs>
                             </configuration>
                         </execution>
                     </executions>

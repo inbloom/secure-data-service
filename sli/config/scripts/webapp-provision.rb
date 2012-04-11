@@ -23,8 +23,7 @@ end
 
 def write_prop_file(config, output_fname, env)
 	lines = ["# Generated properties file do not edit directly"] + get_properties(config)
-	fname = output_fname + "_#{env}.properties"
-	File.open(fname, "w") do |f|
+	File.open(output_fname, "w") do |f|
 		f.puts(lines)
 	end
 end
