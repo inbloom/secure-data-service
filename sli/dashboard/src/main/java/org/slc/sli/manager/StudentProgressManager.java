@@ -195,22 +195,27 @@ public class StudentProgressManager implements Manager {
             String selectedSection) {
         Map<String, Map<String, GenericEntity>> results = new HashMap<String, Map<String, GenericEntity>>();
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(Constants.ATTR_OPTIONAL_FIELDS, Constants.ATTR_GRADEBOOK_VIEW);
-
         List<GenericEntity> students = entityManager.getStudentsWithGradebookEntries(token, selectedSection);
 
         for (GenericEntity student : students) {
             String studentId = student.getString("id");
 
             @SuppressWarnings("unchecked")
-            List<Map<String, GenericEntity>> studentGradebookEntries = (List<Map<String, GenericEntity>>) student.get("studentSectionGradebookEntries");
+            List<Map<String, Object>> studentGradebookEntries = (List<Map<String, Object>>) student.get("studentSectionGradebookEntries");
 
-            for (Map<String, GenericEntity> studentGradebookEntry : studentGradebookEntries) {
+            Map<String, GenericEntity> gradebookEntries = new HashMap<String, GenericEntity>();
 
-                results.put(studentId, null);
+            for (Map<String, Object> studentGradebookEntry : studentGradebookEntries) {
+
+                // This doesn't cast well - have to manually create Generic Entity from Map<String, Object>
+                GenericEntity geStudentGradebookEntry = new GenericEntity();
+                geStudentGradebookEntry.putAll(studentGradebookEntry);
+
+                gradebookEntries.put(studentGradebookEntry.get("id").toString(), geStudentGradebookEntry);
                 log.debug("Progress data [studentGradebookEntry] {}", studentGradebookEntry);
             }
+
+            results.put(studentId, gradebookEntries);
         }
 
 //        //build the params
@@ -249,11 +254,10 @@ public class StudentProgressManager implements Manager {
 //            }
 //        }
         
-        
-        
+
         return results;
     }
-    
+
     /**
      * Parses a numeric grade to a double
      * @param numericGrade The numeric grade as a string
