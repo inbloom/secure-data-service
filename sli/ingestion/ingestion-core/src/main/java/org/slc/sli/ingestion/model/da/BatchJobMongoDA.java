@@ -45,7 +45,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
     
     @Override
-    public BatchJobStatus saveBatchJob(NewBatchJob job) {
+    public BatchJobMongoDAStatus saveBatchJob(NewBatchJob job) {
         if (job != null)
             template.save(job);
         return null;
@@ -67,10 +67,10 @@ public class BatchJobMongoDA implements BatchJobDAO {
      * @param stopTimeStamp
      * @return
      */
-    public static BatchJobStatus logIngestionStageInfo(String ingestionJobId, String stageName, String status,
+    public static BatchJobMongoDAStatus logIngestionStageInfo(String ingestionJobId, String stageName, String status,
             String startTimestamp, String stopTimeStamp) {
         if (ingestionJobId == null || stageName == null) {
-            BatchJobStatus logStatus = new BatchJobStatus(false, "JobId [" + ingestionJobId + "] " + "or StageName["
+            BatchJobMongoDAStatus logStatus = new BatchJobMongoDAStatus(false, "JobId [" + ingestionJobId + "] " + "or StageName["
                     + stageName + "] is null.", null);
             LOG.warn("Cannot log NewBatchJob status to MongoDB. ingestionJobId or stageName is null!");
             return logStatus;
@@ -100,7 +100,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
             job.getStages().add(newStage);
             template.save(job);
         }
-        return new BatchJobStatus(true, "Created Job Stage.", job);
+        return new BatchJobMongoDAStatus(true, "Created Job Stage.", job);
     }
 
     /**
@@ -116,11 +116,11 @@ public class BatchJobMongoDA implements BatchJobDAO {
      * @param errorCount
      * @return
      */
-    public static BatchJobStatus logIngestionMetricInfo(String ingestionJobId, String stageName, String resourceId,
+    public static BatchJobMongoDAStatus logIngestionMetricInfo(String ingestionJobId, String stageName, String resourceId,
             String sourceIp, String hostname, String startTimestamp, String stopTimeStamp, int recordCount,
             int errorCount) {
         if (ingestionJobId == null || stageName == null) {
-            BatchJobStatus logStatus = new BatchJobStatus(false, "JobId [" + ingestionJobId + "] " + "or StageName["
+            BatchJobMongoDAStatus logStatus = new BatchJobMongoDAStatus(false, "JobId [" + ingestionJobId + "] " + "or StageName["
                     + stageName + "] is null.", null);
             LOG.warn("Cannot log IngestionMetric status to MongoDB. ingestionJobId or stageName is null!");
             return logStatus;
@@ -177,7 +177,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
             job.getStages().add(newStage);
             template.save(job);
         }
-        return new BatchJobStatus(true, "Created Job Metric.", job);
+        return new BatchJobMongoDAStatus(true, "Created Job Metric.", job);
     }
 
     private static String getHostIP() {
@@ -216,7 +216,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
      * @param errorDetail
      * @return
      */
-    public static BatchJobStatus logIngestionError(String ingestionJobId, String stageName, String resourceId,
+    public static BatchJobMongoDAStatus logIngestionError(String ingestionJobId, String stageName, String resourceId,
             String sourceIp, String hostname, String recordIdentifier, String timestamp, String severity,
             String errorType, String errorDetail) {
         
@@ -236,7 +236,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
         Error error = new Error(ingestionJobId, stageName, resourceId, sourceIp, hostname, recordIdentifier, timestamp,
                 severity, errorType, errorDetail);
         template.save(error);
-        return new BatchJobStatus(true, "Created Job Error.", error);
+        return new BatchJobMongoDAStatus(true, "Created Job Error.", error);
     }
 
     public static void logBatchError(String batchJobId, String severity, String errorType, String errorDetail) {
@@ -247,5 +247,4 @@ public class BatchJobMongoDA implements BatchJobDAO {
         logIngestionError(batchJobId, stage.getName(), null, null, null, null, null, severity, errorType, errorDetail);
     }
     
-
 }
