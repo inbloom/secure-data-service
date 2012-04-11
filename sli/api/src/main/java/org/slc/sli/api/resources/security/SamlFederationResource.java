@@ -129,6 +129,9 @@ public class SamlFederationResource {
         
         // create sessionIndex --> this should probably be more advanced in the future
         String sessionIndex = samlMessageId;        
+        String edOrg = attributes.getFirst("edOrg");
+        principal.setEdOrg(edOrg);
+        
         String redirect = authCodeServices.createAuthorizationCodeForMessageId(inResponseTo, principal, sessionIndex);
         
         // create cookie here corresponding to session passed into authorization code above
@@ -137,15 +140,6 @@ public class SamlFederationResource {
         cookie.setDomain(".slidev.org");
         cookie.setPath("/");       
         response.addCookie(cookie);
-        
-        String edOrg = attributes.getFirst("edOrg");
-        
-        // TODO: This is a temporary hack because of how we're storing the edOrg in LDAP.
-        // Once we have a dedicated edOrg attribute, we can strip out this part
-        if (edOrg != null && edOrg.indexOf(' ') > -1) {
-            edOrg = edOrg.substring(0, edOrg.indexOf(' '));
-        }
-        principal.setEdOrg(edOrg);
         
         return Response.temporaryRedirect(URI.create(redirect)).build();
     }

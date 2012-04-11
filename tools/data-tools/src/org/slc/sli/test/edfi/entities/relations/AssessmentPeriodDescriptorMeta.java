@@ -12,4 +12,9 @@ public class AssessmentPeriodDescriptorMeta {
         return new AssessmentPeriodDescriptorMeta(id);
     }
 
+    @Override
+    public String toString() {
+        return "AssessmentPeriodDescriptorMeta [id=" + id + "]";
+    }
+
 }

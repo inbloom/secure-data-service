@@ -1,9 +1,7 @@
 package org.slc.sli.ingestion.tool;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.List;
 
 import org.slf4j.Logger;
 
@@ -15,9 +13,9 @@ import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.validation.ComplexValidator;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
-import org.slc.sli.ingestion.validation.Validator;
 
 /**
  * Validation Controller reads zip file or ctl file in a give directory and applies set of pre-defined validators.
@@ -29,80 +27,60 @@ public class ValidationController {
 
     private BatchJobAssembler batchJobAssembler;
 
-    private List<? extends Validator<IngestionFileEntry>> validators;
+    //private List<? extends Validator<IngestionFileEntry>> validators;
+    private ComplexValidator<IngestionFileEntry> complexValidator;
 
-    private static Logger logger = null;
+
+
+    private static Logger logger = LoggerUtil.getLogger();
+
+    private static ErrorReport errorReport = new LoggingErrorReport(logger);
 
     /*
      * retrieve zip file or control file from the input directory and invoke
      * relevant validator
      */
-    void doValidation(File path) {
-
-        logger = LoggerUtil.getLogger();
-        BatchJob job = null;
+    public void doValidation(File path) {
         if (path.isFile() && path.getName().endsWith(".ctl")) {
-            job = processControlFile(path);
+            processControlFile(path);
         } else if (path.isFile() && path.getName().endsWith(".zip")) {
-            job = processZip(path);
+            processZip(path);
         } else {
             logger.error("Invalid input: No clt/zip file found");
-            return;
-        }
-
-        if (job == null) {
-            logger.error("Invalid input: No clt/zip file found");
-            return;
-        }
-
-        if (job.getFaultsReport().hasErrors()) {
-            for (Fault fault : job.getFaultsReport().getFaults()) {
-                if (fault.isError()) {
-                    logger.error(fault.getMessage());
-                } else {
-                    logger.warn(fault.getMessage());
-                }
-            }
-        } else {
-            processXMLValidators(job);
         }
     }
 
-    private void processXMLValidators(BatchJob job) {
-        ErrorReport errorReport = new LoggingErrorReport(logger);
+    public void processValidators(BatchJob job) {
         boolean isValid = false;
         for (IngestionFileEntry ife : job.getFiles()) {
             logger.info("Processing file: {} ...", ife.getFileName());
-            for (Validator<IngestionFileEntry> validator : validators) {
-                isValid = validator.isValid(ife, errorReport);
+            isValid = complexValidator.isValid(ife, errorReport);
                 if (!isValid) {
-                    break;
+                    logger.info("Processing of file: {} resulted in errors.", ife.getFileName());
+                    continue;
                 }
+                logger.info("Processing of file: {} completed.", ife.getFileName());
             }
         }
-    }
 
-    private BatchJob processZip(File zipFile) {
-        ErrorReport errorReport = new LoggingErrorReport(logger);
+    public void processZip(File zipFile) {
 
         logger.info("Processing a zip file [{}] ...", zipFile.getAbsolutePath());
 
         File ctlFile = zipFileHandler.handle(zipFile, errorReport);
 
-        BatchJob job = null;
-
         if (!errorReport.hasErrors()) {
 
-            job = processControlFile(ctlFile);
+            processControlFile(ctlFile);
         }
 
         logger.info("Zip file [{}] processing is complete.", zipFile.getAbsolutePath());
-
-        return job;
     }
 
-    private BatchJob processControlFile(File ctlFile) {
-        logger.info("Processing a conotrol file [{}] ...", ctlFile.getAbsolutePath());
+    public void processControlFile(File ctlFile) {
+        BatchJob job = null;
+
+        logger.info("Processing a control file [{}] ...", ctlFile.getAbsolutePath());
 
         try {
             LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone();
@@ -111,27 +89,26 @@ public class ValidationController {
 
             ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, lz);
 
-            return batchJobAssembler.assembleJob(cfd);
+            job = batchJobAssembler.assembleJob(cfd);
 
+            for (Fault fault : job.getFaultsReport().getFaults()) {
+                if (fault.isError()) {
+                    logger.error(fault.getMessage());
+                } else {
+                    logger.warn(fault.getMessage());
+                }
+            }
+
+            if (job != null) {
+                processValidators(job);
+            }
         } catch (IOException e) {
             logger.error("Cannot parse control file", ValidationController.class);
         } finally {
             logger.info("Control file [{}] processing is complete.", ctlFile.getAbsolutePath());
         }
-
-        return null;
     }
 
-    /**
-     *  Filters all the ctl files in the specified directory
-     * @author mpatel
-     *
-     */
-    public class CtlFilter implements FilenameFilter {
-        public boolean accept(File d, String n) {
-            return n.endsWith(".ctl");
-        }
-    }
 
     public ZipFileHandler getZipFileHandler() {
         return zipFileHandler;
@@ -149,12 +126,13 @@ public class ValidationController {
         this.batchJobAssembler = batchJobAssembler;
     }
 
-    public List<? extends Validator<IngestionFileEntry>> getValidators() {
-        return validators;
+    public ComplexValidator<IngestionFileEntry> getComplexValidator() {
+        return complexValidator;
     }
 
-    public void setValidators(List<? extends Validator<IngestionFileEntry>> validators) {
-        this.validators = validators;
+    public void setComplexValidator(ComplexValidator<IngestionFileEntry> complexValidator) {
+        this.complexValidator = complexValidator;
     }
+
 
 }
