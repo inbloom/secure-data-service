@@ -185,41 +185,6 @@ public class AssessmentGenerator {
     }
 
    /////////////////////////////////////////////////////////////////////////
-    public static AssessmentItem getAssessmentItem(
-            final LearningStandardReferenceType learningStandardRef) {
-        AssessmentItem  assessmentItem = new AssessmentItem();
-        assessmentItem.setIdentificationCode("IdentificationCode");
-        assessmentItem.setItemCategory(ItemCategoryType.ANALYTIC);
-        assessmentItem.setMaxRawScore(RAND_INT_100);
-        assessmentItem.setCorrectResponse("CorrectResponse");
-        if (learningStandardRef != null) {
-            assessmentItem.getLearningStandardReference().
-            add(learningStandardRef);
-        }
-        assessmentItem.setNomenclature("Nomenclature");
-        return assessmentItem;
-    }
-
-    public static AssessmentItemReferenceType getAssessmentItemReferenceType(
-            final String code) {
-        AssessmentItemReferenceType ref = new AssessmentItemReferenceType();
-        AssessmentItemIdentityType identity = new AssessmentItemIdentityType();
-        ref.setAssessmentItemIdentity(identity);
-        identity.setAssessmentItemIdentificationCode(code);
-        return ref;
-    }
-
-    public static AssessmentItemReferenceType getAssessmentItemReferenceType(
-            final AssessmentItem item) {
-        AssessmentItemReferenceType ref = new AssessmentItemReferenceType();
-        AssessmentItemIdentityType identity = new AssessmentItemIdentityType();
-        ref.setAssessmentItemIdentity(identity);
-        identity.setAssessmentItemIdentificationCode(
-                item.getIdentificationCode());
-        return ref;
-    }
-
-   /////////////////////////////////////////////////////////////////////////
     public static AssessmentPeriodDescriptor getAssessmentPeriodDescriptor() {
         AssessmentPeriodDescriptor assessmentPeriodDescriptor =
                 new AssessmentPeriodDescriptor();
