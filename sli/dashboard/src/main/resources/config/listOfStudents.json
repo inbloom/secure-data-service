@@ -15,12 +15,14 @@
     {name: "ISAT Reading", items:[
        {name: "Perf. Lvl.", field: "assessments.ISAT Reading.perfLevel"},
        {name: "SS", field: "assessments.ISAT Reading.Scale score"},
-       {name: "%ile Rank", field: "assessments.ISAT Reading.Percentile"},
        {name: "Lexile Score", field: "assessments.ISAT Reading.Other"}]},
      {name: "ISAT Writing (most recent)", items:[   
        {name: "Perf. Lvl.", field: "assessments.ISAT Writing.perfLevel"},
        {name: "SS", field: "assessments.ISAT Writing.Scale score"}]},
      {name: "Attendance", items:[   
-       {name: "Absence Count", field: "attendance.AbsenceCount"}]}
+       {name: "Absence Count", field: "attendances.absenceCount"},
+       {name: "Attendance Rate %", field: "attendances.attendanceRate"},
+       {name: "Tardy Count", field: "attendances.tardyCount"},
+       {name: "Tardy Rate %", field: "attendances.tardyRate"}]}
   ] 
 }

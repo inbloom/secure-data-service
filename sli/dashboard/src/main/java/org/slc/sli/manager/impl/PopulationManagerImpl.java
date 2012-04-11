@@ -180,7 +180,36 @@ public class PopulationManagerImpl implements PopulationManager {
                 }
             }
 
-            
+            // tally up attendance data
+            Map<String, Object> attendanceBody = (Map<String, Object>) student.get(Constants.ATTR_STUDENT_ATTENDANCES);
+            if (attendanceBody != null) {
+                
+                List<Map<String, Object>> attendances = (List<Map<String, Object>>) attendanceBody.get(Constants.ATTR_STUDENT_ATTENDANCES);
+                int absenceCount = 0;
+                int tardyCount = 0;
+                if (attendances != null) {
+                    for (Map attendance : attendances) {
+                    
+                        String event = (String) attendance.get("attendanceEventCategory");
+                    
+                        if (event.contains("Absence")) {
+                            absenceCount++;
+                    
+                        } else if (event.contains("Tardy")) {
+                            tardyCount++;
+                        }                        
+                    }
+                
+                    int attendanceRate = Math.round(((float) (attendances.size() - absenceCount) / attendances.size()) * 100);
+                    int tardyRate = Math.round(((float) (tardyCount / attendances.size())) * 100);
+                
+                    attendanceBody.remove(Constants.ATTR_STUDENT_ATTENDANCES);
+                    attendanceBody.put("absenceCount", absenceCount);
+                    attendanceBody.put("tardyCount", tardyCount);
+                    attendanceBody.put("attendanceRate", attendanceRate);
+                    attendanceBody.put("tardyRate", tardyRate);
+                }
+            }            
             
         }
     }
