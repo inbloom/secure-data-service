@@ -1,12 +1,28 @@
 package org.slc.sli.api.resources.v1.entity;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import javax.persistence.EntityNotFoundException;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -17,39 +33,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import javax.persistence.EntityNotFoundException;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
-
-import com.sun.jersey.api.uri.UriBuilderImpl;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.slc.sli.api.resources.util.ResourceTestUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.util.ResourceConstants;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for v1 entity resources CRUD methods
@@ -83,7 +73,7 @@ public class EntityResourcesCrudTest {
         packageName = this.getClass().getPackage().getName();
         classesToTest = getClassNames(packageName);
 
-        uriInfo = buildMockUriInfo(null);
+        uriInfo = ResourceTestUtil.buildMockUriInfo(null);
 
         // inject administrator security context for unit testing
         injector.setAdminContextWithElevatedRights();
@@ -106,7 +96,7 @@ public class EntityResourcesCrudTest {
             Response response = getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName)));
             assertNotNull("Response is null", response);
             assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
-            assertNotNull("ID should not be null", parseIdFromLocation(response));
+            assertNotNull("ID should not be null", ResourceTestUtil.parseIdFromLocation(response));
         }
     }
 
@@ -117,7 +107,7 @@ public class EntityResourcesCrudTest {
             if (Arrays.asList(classesNotToTest).contains(resourceName)) {
                 continue;
             }
-            String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
+            String id = ResourceTestUtil.parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
             Response response = getReadResponse(classToTest, id);
             assertNotNull("Response is null", response);
             Object responseEntityObj = response.getEntity();
@@ -192,7 +182,7 @@ public class EntityResourcesCrudTest {
 
     private Response getUpdateResponse(String classToTest) {
         String resourceName = classToTest.replace(packageName + ".", "");
-        String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
+        String id = ResourceTestUtil.parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
 
         @SuppressWarnings("rawtypes")
         Class[] paramTypes = { String.class, EntityBody.class, HttpHeaders.class, UriInfo.class };
@@ -211,7 +201,7 @@ public class EntityResourcesCrudTest {
     
     private Response getDeleteResponse(String classToTest) {
         String resourceName = classToTest.replace(packageName + ".", "");
-        String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
+        String id = ResourceTestUtil.parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
 
         @SuppressWarnings("rawtypes")
         Class[] paramTypes = { String.class, HttpHeaders.class, UriInfo.class };        
@@ -302,50 +292,5 @@ public class EntityResourcesCrudTest {
             }
         }
         return classes;
-    }
-
-    public UriInfo buildMockUriInfo(final String queryString) throws Exception {
-        UriInfo mock = mock(UriInfo.class);
-        when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
-
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("absolute");
-            }
-        });
-        when(mock.getBaseUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("base");
-            }
-        });
-        when(mock.getRequestUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("request");
-            }
-        });
-        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMap>() {
-            @Override
-            public MultivaluedMap answer(InvocationOnMock invocationOnMock) throws Throwable {
-                return new MultivaluedMapImpl();
-            }
-        });
-
-        when(mock.getRequestUri()).thenReturn(new UriBuilderImpl().replaceQuery(queryString).build(new Object[] {}));
-        return mock;
-    }
-
-    private static String parseIdFromLocation(Response response) {
-        List<Object> locationHeaders = response.getMetadata().get("Location");
-        assertNotNull(locationHeaders);
-        assertEquals(1, locationHeaders.size());
-        Pattern regex = Pattern.compile(".+/([\\w-]+)$");
-        Matcher matcher = regex.matcher((String) locationHeaders.get(0));
-        matcher.find();
-        assertEquals(1, matcher.groupCount());
-        return matcher.group(1);
     }
 }

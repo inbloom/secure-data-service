@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1.entity;
+package org.slc.sli.api.resources.v1.association;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
@@ -8,8 +8,8 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.association.SchoolSessionAssociationResource;
-import org.slc.sli.api.resources.v1.association.SessionCourseAssociationResource;
+import org.slc.sli.api.resources.v1.entity.CourseResource;
+import org.slc.sli.api.resources.v1.entity.SessionResource;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -25,12 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * JUnit for session resources
- *
+ * JUnit tests for SessionCourseAssociationResource
  * @author chung
  *
  */
@@ -38,29 +38,23 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class SessionResourceTest {
+public class SessionCourseAssociationResourceTest {
 
     private final String sessionResourceName = "SessionResource";
-    private final String schoolResourceName = "SchoolResource";
     private final String courseResourceName = "CourseResource";
-    private final String schoolSessionAssociationResourceName = "SchoolSessionAssociationResource";
-    private final String sessionCourseAssociationResourceName = "sessionCourseAssociationResource";
+    private final String sessionCourseAssociationResourceName = "SessionCourseAssociationResource";
 
     @Autowired
     private SecurityContextInjector injector;
     @Autowired
     private SessionResource sessionResource;
     @Autowired
-    private SchoolResource schoolResource;
-    @Autowired
     private CourseResource courseResource;
-    @Autowired
-    private SchoolSessionAssociationResource schoolSessionAssociationResource;
     @Autowired
     private SessionCourseAssociationResource sessionCourseAssociationResource;
 
-    HttpHeaders httpHeaders;
-    UriInfo uriInfo;
+    private UriInfo uriInfo;
+    private HttpHeaders httpHeaders;
 
     @Before
     public void setup() throws Exception {
@@ -78,41 +72,7 @@ public class SessionResourceTest {
     }
 
     @Test
-    public void testGetSchoolSessionAssociations() {
-        Response createResponse = sessionResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(sessionResourceName)), httpHeaders, uriInfo);
-        String sessionId = ResourceTestUtil.parseIdFromLocation(createResponse);
-        createResponse = schoolResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(schoolResourceName)), httpHeaders, uriInfo);
-        String schoolId = ResourceTestUtil.parseIdFromLocation(createResponse);
-
-        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
-                schoolSessionAssociationResourceName, sessionResourceName, sessionId, schoolResourceName, schoolId);
-        schoolSessionAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
-
-        Response response = sessionResource.getSchoolSessionAssociations(sessionId, httpHeaders, uriInfo);
-        ResourceTestUtil.assertions(response);
-    }
-
-    @Test
-    public void testGetSchoolSessionAssociationSchools() {
-        Response createResponse = sessionResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(sessionResourceName)), httpHeaders, uriInfo);
-        String sessionId = ResourceTestUtil.parseIdFromLocation(createResponse);
-        createResponse = schoolResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(schoolResourceName)), httpHeaders, uriInfo);
-        String schoolId = ResourceTestUtil.parseIdFromLocation(createResponse);
-
-        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
-                schoolSessionAssociationResourceName, sessionResourceName, sessionId, schoolResourceName, schoolId);
-        schoolSessionAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
-
-        Response response = sessionResource.getSchoolSessionAssociationSchools(sessionId, httpHeaders, uriInfo);
-        ResourceTestUtil.assertions(response);
-    }
-
-    @Test
-    public void testGetSessionCourseAssociations() {
+    public void testGetCourses() {
         Response createResponse = sessionResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(sessionResourceName)), httpHeaders, uriInfo);
         String sessionId = ResourceTestUtil.parseIdFromLocation(createResponse);
@@ -122,14 +82,17 @@ public class SessionResourceTest {
 
         Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
                 sessionCourseAssociationResourceName, sessionResourceName, sessionId, courseResourceName, courseId);
-        sessionCourseAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+        createResponse = sessionCourseAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
 
-        Response response = sessionResource.getSessionCourseAssociations(sessionId, httpHeaders, uriInfo);
-        ResourceTestUtil.assertions(response);
+        Response response = sessionCourseAssociationResource.getCourses(id, 0, 100, httpHeaders, uriInfo);
+        EntityBody body = ResourceTestUtil.assertions(response);
+        assertEquals("Entity type should match", "course", body.get("entityType"));
+        assertEquals("ID should match", courseId, body.get("id"));
     }
 
     @Test
-    public void testGetSessionCourseAssociationCourses() {
+    public void testGetSessions() {
         Response createResponse = sessionResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(sessionResourceName)), httpHeaders, uriInfo);
         String sessionId = ResourceTestUtil.parseIdFromLocation(createResponse);
@@ -139,9 +102,12 @@ public class SessionResourceTest {
 
         Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
                 sessionCourseAssociationResourceName, sessionResourceName, sessionId, courseResourceName, courseId);
-        sessionCourseAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+        createResponse = sessionCourseAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
 
-        Response response = sessionResource.getSessionCourseAssociationCourses(sessionId, httpHeaders, uriInfo);
-        ResourceTestUtil.assertions(response);
+        Response response = sessionCourseAssociationResource.getSessions(id, 0, 100, httpHeaders, uriInfo);
+        EntityBody body = ResourceTestUtil.assertions(response);
+        assertEquals("Entity type should match", "session", body.get("entityType"));
+        assertEquals("ID should match", sessionId, body.get("id"));
     }
 }
