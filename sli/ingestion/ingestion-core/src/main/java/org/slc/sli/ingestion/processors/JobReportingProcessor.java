@@ -154,9 +154,9 @@ public class JobReportingProcessor implements Processor {
             Metrics metric = getStageMetric(job, BatchJobStageType.PERSISTENCE_PROCESSING, 
                     resourceEntry.getResourceId());
             if (metric != null) {
-                int numProcessed = metric.getRecordCount();
-                int numFailed = metric.getErrorCount();
-                int numPassed = metric.getRecordCount() - numFailed;
+                Long numProcessed = metric.getRecordCount();
+                Long numFailed = metric.getErrorCount();
+                Long numPassed = metric.getRecordCount() - numFailed;
                 
                 jobLogger.info(id + " records considered: " + numProcessed);
                 jobLogger.info(id + " records ingested successfully: " + numPassed);

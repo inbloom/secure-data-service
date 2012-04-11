@@ -230,14 +230,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
         if (hostname == null)
             hostname = thisName;
         
-        if (timestamp == null) {
-            // TODO: may need to make this faster
-            Calendar cal = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd:HH-mm-ss");
-            timestamp = sdf.format(cal.getTime());
-        }
-        
-        Error error = new Error(ingestionJobId, stageName, resourceId, sourceIp, hostname, recordIdentifier, timestamp,
+        Error error = new Error(ingestionJobId, stageName, resourceId, sourceIp, hostname, recordIdentifier, getCurrentTimeStamp(),
                 severity, errorType, errorDetail);
         template.save(error);
         return new BatchJobMongoDAStatus(true, "Created Job Error.", error);
