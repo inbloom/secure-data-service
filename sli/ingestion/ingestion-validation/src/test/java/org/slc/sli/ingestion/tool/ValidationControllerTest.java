@@ -138,7 +138,7 @@ public class ValidationControllerTest {
 
     @Test
     public void testValidatorInValid() throws IOException, NoSuchFieldException, IllegalAccessException {
-        Resource xmlResource = new ClassPathResource("emptyxml/InterchangeStudent.xml");
+        Resource xmlResource = new ClassPathResource("emptyXml/InterchangeStudent.xml");
         File xmlFile = xmlResource.getFile();
 
         IngestionFileEntry ife = Mockito.mock(IngestionFileEntry.class);
