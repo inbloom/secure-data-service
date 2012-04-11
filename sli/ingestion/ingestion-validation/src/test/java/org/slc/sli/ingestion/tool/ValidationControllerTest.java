@@ -31,6 +31,7 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 public class ValidationControllerTest {
 
     final String controlFileName = "test/MainControlFile.ctl";
+    final String invalidControlFile = "test/MainControlFileCheckSumError.ctl";
     final String zipFileName = "zipFile/Session1.zip";
     @Autowired
     private ValidationController validationController;
@@ -177,6 +178,33 @@ public class ValidationControllerTest {
 
         validationController.processValidators(job);
         Mockito.verify(log, Mockito.atLeastOnce()).info("Processing of file: {} completed.", ife.getFileName());
+    }
+
+    @Test
+    public void testValidProcessControlFile() throws IOException {
+        Resource ctlFileResource = new ClassPathResource(controlFileName);
+        File ctlFile = ctlFileResource.getFile();
+
+        ValidationController vc = Mockito.spy(validationController);
+
+        vc.processControlFile(ctlFile);
+
+        Mockito.verify(vc).processValidators(Mockito.any(BatchJob.class));
+    }
+
+    @Test
+    public void testInvalidProcessControlFile() throws IOException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        Resource ctlFileResource = new ClassPathResource(invalidControlFile);
+        File ctlFile = ctlFileResource.getFile();
+
+        Logger log = Mockito.mock(Logger.class);
+        Field logField = validationController.getClass().getDeclaredField("logger");
+        logField.setAccessible(true);
+        logField.set(null, log);
+
+        validationController.processControlFile(ctlFile);
+
+        Mockito.verify(log).error(Mockito.anyString());
     }
 
 }

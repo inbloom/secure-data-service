@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -65,6 +66,9 @@ public class EntityResourcesCrudTest {
     private String packageName;
     private String[] classesToTest;
 
+    // this array contains classes that should be excluded
+    private String[] classesNotToTest = { "LearningStandardResource" };
+
     @Autowired
     EntityDefinitionStore entityDefs;
 
@@ -95,10 +99,10 @@ public class EntityResourcesCrudTest {
     @Test
     public void testCreate() {
         for (String classToTest : classesToTest) {
-            if (classToTest.contains("LearningStandardResource")) { // remove this when the resource is implemented
+            String resourceName = classToTest.replace(packageName + ".", "");
+            if (Arrays.asList(classesNotToTest).contains(resourceName)) {
                 continue;
             }
-            String resourceName = classToTest.replace(packageName + ".", "");
             Response response = getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName)));
             assertNotNull("Response is null", response);
             assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
@@ -109,10 +113,10 @@ public class EntityResourcesCrudTest {
     @Test
     public void testRead() {
         for (String classToTest : classesToTest) {
-            if (classToTest.contains("LearningStandardResource")) { // remove this when the resource is implemented
+            String resourceName = classToTest.replace(packageName + ".", "");
+            if (Arrays.asList(classesNotToTest).contains(resourceName)) {
                 continue;
             }
-            String resourceName = classToTest.replace(packageName + ".", "");
             String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
             Response response = getReadResponse(classToTest, id);
             assertNotNull("Response is null", response);
@@ -127,7 +131,8 @@ public class EntityResourcesCrudTest {
     @Test
     public void testUpdate() {
         for (String classToTest : classesToTest) {
-            if (classToTest.contains("LearningStandardResource")) { // remove this when the resource is implemented
+            String resourceName = classToTest.replace(packageName + ".", "");
+            if (Arrays.asList(classesNotToTest).contains(resourceName)) {
                 continue;
             }
             Response response = getUpdateResponse(classToTest);
@@ -139,7 +144,8 @@ public class EntityResourcesCrudTest {
     @Test
     public void testDelete() {
         for (String classToTest : classesToTest) {
-            if (classToTest.contains("LearningStandardResource")) { // remove this when the resource is implemented
+            String resourceName = classToTest.replace(packageName + ".", "");
+            if (Arrays.asList(classesNotToTest).contains(resourceName)) {
                 continue;
             }
             Response response = getDeleteResponse(classToTest);
@@ -151,10 +157,10 @@ public class EntityResourcesCrudTest {
     @Test
     public void testReadAll() {
         for (String classToTest : classesToTest) {
-            if (classToTest.contains("LearningStandardResource")) { // remove this when the resource is implemented
+            String resourceName = classToTest.replace(packageName + ".", "");
+            if (Arrays.asList(classesNotToTest).contains(resourceName)) {
                 continue;
             }
-            String resourceName = classToTest.replace(packageName + ".", "");
             getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName)));
             getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestSecondaryEntity(resourceName)));
             Response response = getReadAllResponse(classToTest);
