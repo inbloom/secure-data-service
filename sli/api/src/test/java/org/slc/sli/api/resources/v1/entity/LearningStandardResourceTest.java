@@ -44,4 +44,10 @@ public class LearningStandardResourceTest {
         Response res = learningStandardResource.delete(null, null, null);
         assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
     }
+
+    @Test
+    public void testUpdate() {
+        Response res = learningStandardResource.update(null, null, null, null);
+        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
+    }
 }

@@ -119,8 +119,6 @@ public class ConfigManagerTest {
         Assert.assertEquals("x", condition.getField());
         Assert.assertEquals(3, condition.getValue().length);
         //
-        Assert.assertEquals("Data [entityRef=studentAttendance, entityAlias=studentAttendance, params={}]", config
-                .getData().toString());
         Assert.assertEquals("Condition [field=x, value=[x, y, z]]", condition.toString());
         Assert.assertEquals("ViewItem [width=90, type=string, color=null, style=null, formatter=null, params=null]",
                 items[0].toString());
