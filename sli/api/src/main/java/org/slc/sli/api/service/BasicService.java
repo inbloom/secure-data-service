@@ -56,6 +56,7 @@ public class BasicService implements EntityService {
     private static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
     private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
     private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
+    private static final String METADATA = "metaData";
     
     private String collectionName;
     private List<Treatment> treatments;
@@ -306,7 +307,25 @@ public class BasicService implements EntityService {
         } else if (allowed.size() < 0) {
             LOG.debug("super list logic --> only true when using DefaultEntityContextResolver");
         } else {
-            localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
+            Set<String> ids = new HashSet<String>();
+            List<NeutralCriteria> criterias = neutralQuery.getCriteria();
+            for (NeutralCriteria criteria : criterias) {
+                if (criteria.getKey().equals("_id")) {
+                    @SuppressWarnings("unchecked")
+                    List<String> idList = (List<String>) criteria.getValue();
+                    ids.addAll(idList);
+                }
+            }
+
+            if (!ids.isEmpty()) {
+                Set<String> allowedSet = new HashSet<String>(allowed);
+                ids.retainAll(allowedSet);
+
+                List<String> finalIds = new ArrayList<String>(ids);
+                localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", finalIds));
+            } else {
+                localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
+            }
         }
         
         List<EntityBody> results = new ArrayList<EntityBody>();
@@ -442,15 +461,15 @@ public class BasicService implements EntityService {
      */
     private EntityBody makeEntityBody(Entity entity) {
         EntityBody toReturn = new EntityBody(entity.getBody());
+
+        toReturn.put(METADATA, entity.getMetaData());
+
         for (Treatment treatment : treatments) {
             toReturn = treatment.toExposed(toReturn, defn, entity.getEntityId());
         }
         
         // Blank out fields inaccessible to the user
-        // @@@ Temporarily comment this out because this apparently would filter out fields even for
-        // Educators who should have access
-        // @@@ , to unblock teams requiring their users to have access to these fields (03/02/2012)
-        // filterFields(toReturn, "");
+        filterFields(toReturn, "");
         
         return toReturn;
     }
@@ -614,6 +633,11 @@ public class BasicService implements EntityService {
                 } else {
                     String fieldPath = prefix + fieldName;
                     Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
+                    
+                    if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
+                        neededRight = Right.ADMIN_ACCESS;
+                    }
+                    
                     LOG.debug("Field {} requires {}", fieldPath, neededRight);
                     
                     if (!auths.contains(neededRight)) {

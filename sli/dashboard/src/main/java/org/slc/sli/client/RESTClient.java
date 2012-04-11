@@ -81,12 +81,12 @@ public class RESTClient {
 
             HttpHeaders headers = new HttpHeaders();
             // headers.add(API_SESSION_KEY, token);
-            headers.add("Authorization", "Bearer" + token);
+            headers.add("Authorization", "Bearer " + token);
             HttpEntity entity = new HttpEntity(headers);
             logger.debug("Accessing API at: {}", url);
             HttpEntity<String> response = null;
             try {
-                response = template.exchange(url.toString(), HttpMethod.GET, entity, String.class);
+                response = exchange(url.toString(), HttpMethod.GET, entity, String.class);
             } catch (HttpClientErrorException e) {
                 logger.debug("Catch HttpClientException: {}",  e.getStatusCode());
             }
@@ -114,5 +114,9 @@ public class RESTClient {
 
     public void setTemplate(RestTemplate template) {
         this.template = template;
-    }    
+    }
+    
+    public HttpEntity<String> exchange(String url, HttpMethod method, HttpEntity entity, Class cl) {
+        return this.template.exchange(url, method, entity, cl);
+    }
 }

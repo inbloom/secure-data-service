@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,20 +21,20 @@ import org.slc.sli.domain.Entity;
 
 /**
  * JUnit for validating section
- * 
+ *
  * @author nbrown
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SectionValidationTest {
-    
+
     @Autowired
     private EntityValidator validator;
-    
+
     @Autowired
     private DummyEntityRepository repo;
-    
+
     @Before
     public void init() {
         repo.clean();
@@ -44,7 +44,7 @@ public class SectionValidationTest {
         repo.addEntity("program", "program1", ValidationTestUtils.makeDummyEntity("program", "program1"));
         repo.addEntity("program", "program2", ValidationTestUtils.makeDummyEntity("program", "program2"));
     }
-    
+
     private Entity goodSection() {
         final Map<String, Object> goodSection = new HashMap<String, Object>();
         goodSection.put("uniqueSectionCode", "Math101");
@@ -64,31 +64,31 @@ public class SectionValidationTest {
         programs.add("program1");
         programs.add("program2");
         goodSection.put("programReference", programs);
-        
+
         return new Entity() {
-            
+
             @Override
             public String getType() {
                 return "section";
             }
-            
+
             @Override
             public String getEntityId() {
                 return "id";
             }
-            
+
             @Override
             public Map<String, Object> getBody() {
                 return goodSection;
             }
-            
+
             @Override
             public Map<String, Object> getMetaData() {
                 return new HashMap<String, Object>();
             }
         };
     }
-    
+
     @Test
     public void testSectionValidation() {
         Entity goodSection = goodSection();
@@ -104,7 +104,7 @@ public class SectionValidationTest {
         goodSection.getBody().put("courseId", "INVALID");
         validator.validate(goodSection);
     }
-    
+
     @Test
     public void testMinimumSection() {
         Entity minSection = goodSection();
@@ -114,7 +114,7 @@ public class SectionValidationTest {
         minSection.getBody().remove("availableCredit");
         assertTrue(validator.validate(minSection));
     }
-    
+
     @Test
     public void testMissingRequiredFields() {
         Entity missingSectionCode = goodSection();
@@ -126,6 +126,6 @@ public class SectionValidationTest {
             ValidationError error = errors.get(0);
             assertEquals(ValidationError.ErrorType.REQUIRED_FIELD_MISSING, error.getType());
         }
-        
+
     }
 }

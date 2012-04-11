@@ -47,6 +47,11 @@ public class MockAPIClient implements APIClient {
     public GenericEntity getStudent(final String token, String studentId) {
         return this.getEntity(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_STUDENTS_FILE), studentId);
     }
+
+    @Override
+    public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
+        return getStudents(token, studentIds);
+    }
     
     @Override
     public List<GenericEntity> getStudents(final String token, List<String> studentIds) {
@@ -358,6 +363,13 @@ public class MockAPIClient implements APIClient {
     
     @Override
     public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId, Map<String, String> params) {
+        return null;
+    }
+
+    @Override
+    public List<GenericEntity> getStudentEnrollment(final String token,
+            GenericEntity student) {
+        // TODO Auto-generated method stub
         return null;
     }
 

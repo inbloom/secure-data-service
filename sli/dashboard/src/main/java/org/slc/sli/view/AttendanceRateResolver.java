@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * @author pwolf
  *
  */
@@ -37,7 +37,11 @@ public class AttendanceRateResolver implements AggregateRatioResolver {
 
     @Override
     public int getSize(Field configField) {
-        List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
+        Map<String, Object> attendanceBody = (Map<String, Object>) student.get(Constants.ATTR_STUDENT_ATTENDANCES);
+        if (attendanceBody == null)
+            return 0;
+
+        List<Map<String, Object>> attendances = (List<Map<String, Object>>) attendanceBody.get(Constants.ATTR_STUDENT_ATTENDANCES);
         if (attendances == null)
             return 0;
         return attendances.size();
@@ -45,7 +49,12 @@ public class AttendanceRateResolver implements AggregateRatioResolver {
 
     @Override
     public int getCountForPath(Field configField) {
-        List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
+        Map<String, Object> attendanceBody = (Map<String, Object>) student.get(Constants.ATTR_STUDENT_ATTENDANCES);
+        if (attendanceBody == null)
+            return 0;
+
+        List<Map<String, Object>> attendances = (List<Map<String, Object>>) attendanceBody.get(Constants.ATTR_STUDENT_ATTENDANCES);
+
         int count = 0;
         if (attendances != null)
             if (configField.getValue().equals(ATTENDANCE_RATE)) {
@@ -56,8 +65,8 @@ public class AttendanceRateResolver implements AggregateRatioResolver {
         assert false;   //should never get here unless it's an known field value
         return 0;
     }
-    
-    private int getAttendanceCount(List<Map> attendances) {
+
+    private int getAttendanceCount(List<Map<String, Object>> attendances) {
         int count = attendances.size();
         for (Map attendance : attendances) {
             String value = (String) attendance.get(CATEGORY);
@@ -68,7 +77,7 @@ public class AttendanceRateResolver implements AggregateRatioResolver {
         return count;
     }
 
-    private int getTardyCount(List<Map> attendances) {
+    private int getTardyCount(List<Map<String, Object>> attendances) {
         int count = 0;
         for (Map attendance : attendances) {
             String value = (String) attendance.get(CATEGORY);
@@ -88,7 +97,7 @@ public class AttendanceRateResolver implements AggregateRatioResolver {
             return new int[] {90, 95, 99};
         }
         return new int[] {};
-        
+
     }
 
 }

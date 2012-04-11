@@ -66,7 +66,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
     private static final String BAD_STUDENT_ID = "234567";
     private static final String REGION_ID = "https://devapp1.slidev.org:443/sp";
     private static final String METADATA_BLOCK = "metaData";
-    private static final String REGION_ID_FIELD = "idNamespace";
+    private static final String REGION_ID_FIELD = "tenantId";
     private static final String EXTERNAL_ID_FIELD = "externalId";
 
     private final Map<String, String> schoolFilterFields = new HashMap<String, String>();
@@ -98,7 +98,9 @@ public class NeutralRecordfEntityPersistHandlerTest {
                 .thenReturn(studentSchoolAssociationFound);
 
         mockedValidator = mock(Validator.class);
-        entityPersistHandler.setPreValidator(mockedValidator);
+        List<Validator<NeutralRecordEntity>> mockedValidators = new ArrayList<Validator<NeutralRecordEntity>>();
+        mockedValidators.add(mockedValidator);
+        entityPersistHandler.setPreValidators(mockedValidators);
     }
 
     /*
@@ -136,7 +138,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
 
         // Create a new student entity, and test creating it in the data store.
         NeutralRecordEntity studentEntity = createStudentEntity();
-        studentEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
+        studentEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.setEntityRepository(entityRepository);
         entityPersistHandler.doHandling(studentEntity, fr);
 
@@ -169,7 +171,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
         when(entityRepository.update("student", studentEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
-        studentEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
+        studentEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentEntity, fr);
 
         verify(entityRepository).update("student", studentEntity);
@@ -198,7 +200,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
         when(entityRepository.update(eq("student"), eq(studentEntity))).thenThrow(
                 new EntityValidationException(existingStudentEntity.getEntityId(), "student", Arrays.asList(error)));
 
-        studentEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
+        studentEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.setEntityRepository(entityRepository);
         entityPersistHandler.doHandling(studentEntity, fr);
 
@@ -238,7 +240,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
         when(entityRepository.findAllByPaths(eq("school"), eq(schoolFilterFields), any(NeutralQuery.class))).thenReturn(schoolList);
 
         NeutralRecordEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID);
-        studentSchoolAssociationEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
+        studentSchoolAssociationEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.setEntityRepository(entityRepository);
         entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
         verify(entityRepository).create(studentSchoolAssociationEntity.getType(),
@@ -288,7 +290,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
 
         when(entityRepository.update(eq("studentSchoolAssociation"), eq(studentSchoolAssociationEntity))).thenReturn(true);
 
-        studentSchoolAssociationEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
+        studentSchoolAssociationEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.setEntityRepository(entityRepository);
         entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
 
@@ -329,7 +331,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
         when(entityRepository.update("studentSchoolAssociation", studentSchoolAssociationEntity)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
-        studentSchoolAssociationEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
+        studentSchoolAssociationEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
 
         verify(entityRepository, never()).update("studentSchoolAssociation", studentSchoolAssociationEntity);
@@ -346,7 +348,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
         studentSchoolAssociationEntity.setAttributeField("studentId", BAD_STUDENT_ID);
 
         FaultsReport fr = new FaultsReport();
-        studentSchoolAssociationEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
+        studentSchoolAssociationEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
         verify(mockedEntityRepository, never()).create(studentSchoolAssociationEntity.getType(),
                 studentSchoolAssociationEntity.getBody(), studentSchoolAssociationEntity.getMetaData(),
@@ -462,7 +464,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
         testNr.setLocalParentIds(localParentIds);
 
         NeutralRecordEntity testEntity = new NeutralRecordEntity(testNr);
-        testEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), nameSpace);
+        testEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), nameSpace);
 
         //create an entity to reference
         NeutralRecordEntity refEntity = new NeutralRecordEntity(new NeutralRecord());
@@ -472,7 +474,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
 
         //mock the db lookup
         Map<String, String> testFilterFields = new HashMap<String, String>();
-        testFilterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), nameSpace);
+        testFilterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey(), nameSpace);
         testFilterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.EXTERNAL_ID.getKey(), externalId);
 
         when(mockedEntityRepository.findAllByPaths(eq(collectionName), eq(testFilterFields), any(NeutralQuery.class)))
@@ -539,7 +541,7 @@ public class NeutralRecordfEntityPersistHandlerTest {
         when(entityRepository.findAllByPaths(eq("school"), eq(schoolFilterFields), any(NeutralQuery.class))).thenReturn(schoolList);
 
         NeutralRecordEntity teacherSchoolAssociationEntity = createTeacherSchoolAssociationEntity(STUDENT_ID);
-        teacherSchoolAssociationEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), REGION_ID);
+        teacherSchoolAssociationEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
         entityPersistHandler.setEntityRepository(entityRepository);
         entityPersistHandler.doHandling(teacherSchoolAssociationEntity, fr);
         verify(entityRepository).create(teacherSchoolAssociationEntity.getType(),

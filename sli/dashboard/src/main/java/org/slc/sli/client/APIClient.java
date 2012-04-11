@@ -32,6 +32,8 @@ public interface APIClient {
 
     public GenericEntity getParentEducationalOrganization(final String token, GenericEntity educationalOrganization);
     
+    public List<GenericEntity> getStudentEnrollment(final String token, GenericEntity student);
+    
     /**
      * Returns a list of courses for a given student and query params
      * i.e students/{studentId}/studentCourseAssociations/courses?subejctArea="math"&includeFields=courseId,name
@@ -83,6 +85,15 @@ public interface APIClient {
      */
     public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId, Map<String, String> params);
 
+    /**
+     * Return a list of students for a section with the optional fields
+     * @param token Security token
+     * @param sectionId The sectionId
+     * @param studentIds The studentIds (this is only here to get MockClient working)
+     * @return
+     */
+    public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds);
+    
     public GenericEntity getTeacherForSection(String sectionId, String token);
     
     public GenericEntity getHomeRoomForStudent(String studentId, String token);

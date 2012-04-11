@@ -7,12 +7,10 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Sunset School District 4526" and click go
 When I login as "linda.kim" "linda.kim1234"
-And I wait for "2" seconds
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
-And I wait for "10" seconds
 
 Scenario: Student has 1 email, 1 address, 1 phone
 Given I click on student "Imelda Lindsey"
@@ -30,7 +28,7 @@ And the list of address includes
 Chicago, IL 60139-2152
 """
 #Display/Hide tab based on ELL
-And there are "5" Tabs
+And there are "6" Tabs
 And the lozenges count is "0"
 
 Scenario: Student has 2 phone numbers, 3 emails, 2 addresses
@@ -82,6 +80,12 @@ And the list of address includes
 351
 Chicago, IL 60908-1028
 """
+And the list of address includes 
+"""
+9857 Kingsborough 2nd Walk
+Toronto, WA A1B 2C3
+CA
+"""
 
 @wip
 Scenario:  An address with countryCode other than US
@@ -127,7 +131,7 @@ And the list of address includes
 4606 Albemarle Road, APT 5760
 Chicago, IL 60457-1957
 """
-And the order of the addressess is  "4256 Wyckoff Street;4606 Albemarle Road"
+And the order of the addressess is "4256 Wyckoff Street;4606 Albemarle Road"
 
 @wip
 Scenario: Max (10) phone numbers 

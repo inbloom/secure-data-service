@@ -15,10 +15,10 @@ import org.slc.sli.util.Constants;
  */
 public class AttendanceAbsenceResolver implements AggregateResolver {
     private static Logger logger = LoggerFactory.getLogger(AttendanceAbsenceResolver.class);
-    
+
 
     private GenericEntity student;
-    
+
     public static final String CATEGORY = "attendanceEventCategory";
     public static final String TARDY_VALUE = "ATTENDANCE.TardyCount";
     public static final String ABSENT_VALUE = "ATTENDANCE.AbsenceCount";
@@ -37,7 +37,8 @@ public class AttendanceAbsenceResolver implements AggregateResolver {
     @Override
     public int getCountForPath(Field configField) {
         // TODO: This should be a lot more generic.
-        List<Map> attendances = student.getList(Constants.ATTR_STUDENT_ATTENDANCES);
+        Map<String, Object> attendanceBody = (Map<String, Object>) student.get(Constants.ATTR_STUDENT_ATTENDANCES);
+        List<Map<String, Object>> attendances = (List<Map<String, Object>>) attendanceBody.get(Constants.ATTR_STUDENT_ATTENDANCES);
         int count = 0;
         if (attendances != null) {
             for (Map attendance : attendances) {
@@ -56,7 +57,7 @@ public class AttendanceAbsenceResolver implements AggregateResolver {
         }
         return count;
     }
-    
+
     @Override
     public int[] getCutoffPoints(Field field) {
         return new int[]{0, 5, 10, 11};

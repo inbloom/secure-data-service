@@ -58,6 +58,7 @@ When I select section "7th Grade English - Sec. 3"
 And I wait for "2" seconds
 Then there is no lozenges for student "Student Fake" 
 
+
 @wip
 Scenario: Check student attribute lozenges against live
 #covered in student profile test

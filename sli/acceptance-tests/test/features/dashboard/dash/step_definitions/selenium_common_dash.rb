@@ -11,6 +11,8 @@ end
 
 Given /^the server is in "([^"]*)" mode$/ do |serverMode|
   @appPrefix = "dashboard_app_prefix_" + serverMode + "_mode"
+  # Setting an explicit timeout for elements that may take a long time to load
+  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60) 
 end
 
 def localLogin (username, password)
@@ -79,7 +81,7 @@ def clickButton(button, by)
 end
 
 def selectOption(selectFieldId, optionToSelect)
-  select = @driver.find_element(:id, selectFieldId)
+  select = @explicitWait.until{@driver.find_element(:id, selectFieldId)}
   all_options = select.find_elements(:tag_name, "option")
   optionFound = false
   all_options.each do |option|
@@ -93,8 +95,8 @@ end
 
 # TODO: add this paramteres (tableRef, by), also may want to add TR class
 def countTableRows()
-  wait = Selenium::WebDriver::Wait.new(:timeout => 30) 
-  tableRows = wait.until{@driver.find_elements(:css, "tr.listRow")}
+  @explicitWait.until{@driver.find_elements(:id,"studentList")}
+  tableRows = @driver.find_elements(:css, "tr.listRow")
   puts "# of TR = " +  @driver.find_elements(:css, "tr").length.to_s + ", table rows = " + tableRows.length.to_s
   return tableRows.length
 end

@@ -1,6 +1,8 @@
 package org.slc.sli.api.representation;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -21,4 +23,17 @@ public class EntityBody extends HashMap<String, Object> {
         super(m);
     }
 
+    @SuppressWarnings("unchecked")
+    public List<String> getId(String idKey) {
+        List<String> idList = new ArrayList<String>();
+        Object value = this.get(idKey);
+        if (value instanceof String) {
+            idList.add((String) value);
+        } else if (value instanceof List<?>) {
+            for (String id : (List<String>) value) {
+                idList.add(id);
+            }
+        }
+        return idList;
+    }
 }

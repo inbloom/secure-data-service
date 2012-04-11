@@ -12,7 +12,11 @@
     <description>API</description>
 
     <dependencies>
-
+         <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.5</version>
+        </dependency>
          <dependency>
              <groupId>org.slc.sli.common</groupId>
              <artifactId>domain</artifactId>

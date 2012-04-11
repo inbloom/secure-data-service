@@ -4,14 +4,15 @@ Background: I have a landing zone route configured
     Given I am using local data store
 	And I am using preconfigured Ingestion Landing Zone
 
-
+@smoke
 Scenario: Ingested Student data should be encrypted
 	Given I post "encryption.zip" file as the payload of the ingestion job
 	And the following collections are empty in datastore:
         | collectionName              |
         | student                     |   
 	When zip file is scp to ingestion landing zone
-		And a batch job log has been created
+	And I am willing to wait upto 10 seconds for ingestion to complete
+	And a batch job log has been created
 	Then I should see "Processed 1 records." in the resulting batch job file
 	 	And I should see following map of entry counts in the corresponding collections:
 	        | collectionName              | count |

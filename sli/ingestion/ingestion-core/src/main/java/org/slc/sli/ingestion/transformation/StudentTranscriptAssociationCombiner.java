@@ -3,11 +3,7 @@ package org.slc.sli.ingestion.transformation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +70,11 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
             String studentUniqueStateId = getStudentId(studentAcademicRecordId, new HashMap<String, Map<String, Object>>());
 
             attrs.put("studentId", studentUniqueStateId);
-            attrs.remove ("studentAcademicRecordId");
+            attrs.remove("studentAcademicRecordId");
+
+            if (attrs.get("creditsAttempted") == null) {
+                attrs.remove("creditsAttempted");
+            }
 
             neutralRecord.setAttributes(attrs);
             newCollection.put(neutralRecord.getRecordId(), neutralRecord);

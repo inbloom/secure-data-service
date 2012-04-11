@@ -45,6 +45,7 @@ public final class Constants {
     public static final String MM_KEY_VIEW_CONFIG = "viewConfig";
     public static final String MM_KEY_VIEW_CONFIGS = "viewConfigs";
     public static final String MM_KEY_VIEW_CONFIGS_JSON = "viewConfigsJson";
+    public static final String MM_KEY_WIDGET_CONFIGS_JSON = "widgetConfig";
     public static final String MM_KEY_LAYOUT = "layout";
     public static final String MM_KEY_DATA = "data";
     public static final String MM_KEY_DATA_JSON = "dataJson";
@@ -55,6 +56,7 @@ public final class Constants {
     public static final String MM_KEY_ATTENDANCE = "attendances";
     public static final String MM_KEY_HISTORICAL = "historicaldata";
     public static final String MM_KEY_GRADEBOOK_ENTRY_DATA = "gradebookEntryData";
+
     
     // entity attributes
     public static final String ATTR_COURSES = "courses";
@@ -110,7 +112,7 @@ public final class Constants {
     public static final String ATTR_ASSESSMENTS = "assessments";
     public static final String ATTR_COHORT_YEAR = "cohortYear";
     public static final String ATTR_UNIQUE_SECTION_CODE = "uniqueSectionCode";
-    public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessments";
+    public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessmentAssociations";
     public static final String ATTR_COURSE_ID = "courseId";
     public static final String ATTR_STUDENT_ATTENDANCES = "attendances";
     public static final String ATTR_PARENT_EDORG = "parentEducationAgencyReference";
@@ -132,6 +134,9 @@ public final class Constants {
     public static final String ATTR_GRADEBOOK_ENTRY_ID = "gradebookEntryId";
     public static final String ATTR_GRADEBOOK_ENTRY_TYPE = "gradebookEntryType";
     public static final String ATTR_GRADEBOOK_ENTRIES = "gradebookEntries";
+    public static final String ATTR_GRADE_LEVEL = "gradeLevel";
+    public static final String ATTR_STUDENT_ENROLLMENT = "studentEnrollment";
+    public static final String ATTR_SCHOOL = "school";
     
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
@@ -145,7 +150,7 @@ public final class Constants {
     
     // Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Limited";
-
+    
     // AddressType Constants
     public static final String TYPE_ADDRESS_HOME = "Home";
     public static final String TYPE_ADDRESS_PHYSICAL = "Physical";
@@ -170,7 +175,14 @@ public final class Constants {
     public static final String TYPE_EMAIL_WORK = "Work";
     public static final String TYPE_EMAIL_ORGANIZATION = "Organization";
     public static final String TYPE_EMAIL_OTHER = "Other";
+
+    public static final String CONTEXT_ROOT_PATH = "CONTEXT_ROOT_PATH";
     
+    // extra elements added by API
+    public static final String METADATA = "metaData";
+    public static final String EXTERNAL_ID = "externalId";
+
+
     /**
      * Contains the possible values for FRE participation
      */

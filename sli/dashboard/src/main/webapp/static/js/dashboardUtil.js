@@ -2,7 +2,25 @@
  * dashboardUtil: contains javascript utility functions useful to dashbaord
  */
 
-DashboardUtil = new Object();
+
+var counterInt = 1;
+
+counter = function() {
+	counterInt ++;
+	return counterInt;
+}
+
+DashboardUtil = {
+		widgetConfig: {}
+};
+if (typeof widgetConfigArray != 'undefined') {
+for (var i in widgetConfigArray) {
+	DashboardUtil.widgetConfig[widgetConfigArray[i].id] = widgetConfigArray[i];
+}
+}
+DashboardUtil.getWidgetConfig = function(widgetName) {
+	return DashboardUtil.widgetConfig[widgetName];
+}
 
 DashboardUtil.getElementFontSize = function (element)
 {
@@ -59,6 +77,9 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
             if (item1.params) {
         	  colModelItem.formatoptions = item1.params;
             }
+            if (item1.align) {
+            	colModelItem.align = item1.align;
+            }
             colModel.push( colModelItem );
         }
         
@@ -73,6 +94,8 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
       	  groupHeaders:groupHeaders
       	});
     }
+    jQuery(this).removeClass('.ui-widget-header');
+    jQuery(this).addClass('.jqgrid-header');
 }
 
 DashboardUtil.makeGrid = function (tableId, panelConfig, panelData)
@@ -81,8 +104,7 @@ DashboardUtil.makeGrid = function (tableId, panelConfig, panelData)
     	data: panelData,
         datatype: "local", 
         height: 'auto',
-        viewrecords: true,
-        caption: panelConfig.name} ); 
+        viewrecords: true} ); 
 };
 
 var EnumSorter = function(params) {
@@ -149,10 +171,10 @@ function PercentCompleteFormatter(value, options, rowObject) {
 /*
  * Check for ajax error response
  */
-DashboardUtil.checkAjaxError = function(XMLHttpRequest)
+DashboardUtil.checkAjaxError = function(XMLHttpRequest, requestUrl)
 {
     if(XMLHttpRequest.status != 200) {
-        DashboardUtil.displayErrorPage();
+        window.location = requestUrl;
     }
 }
 
@@ -177,3 +199,67 @@ DashboardUtil.getStyleDeclaration = function (element)
     return compStyle;
 };
 
+DashboardUtil.getLozenges = function(renderTo, student) {
+	var config = DashboardUtil.getWidgetConfig("lozenge");
+	var item, condition, configItem;
+	for (var i in config.items) {
+		configItem = config.items[i];
+		condition = configItem.condition;
+		item = student[condition.field];
+		if (item) {
+			for (var y in condition.value) {
+				if (condition.value[y] == item) {
+					var id = renderTo + "-" + counter();
+					$("#" + renderTo).append('<span id="' + id + '" class="lozenge"/>');
+					$("#" + id).sliLozenge({label: configItem.name, color: configItem.color, style: configItem.style});
+				}
+			}
+		}
+	}
+};
+
+(function( $ ) {
+	  $.widget( "ui.sliLozenge", {
+	    options: { 
+	    },
+	    // These options will be used as defaults if options is not provided
+	    baseOptions: { 
+	    	strokewidth: 1,
+	        white: "#FFFFFF",
+	        color: "#000000",
+	        label: "N/A",
+	        style: "solid",
+	        fontSize: "9px"
+	    },
+	 
+	    // Set up the widget
+	    _create: function() {
+	    	var options = {};
+	    	jQuery.extend(options, this.baseOptions, this.options);
+	    	// get width, height from the element
+	    	options.width = $(this.element[0]).width();
+	    	options.height = $(this.element[0]).height();
+	    	
+	    	// calculate and create rounded rectangle
+	        var paper = Raphael(this.element[0], options.width, options.height);
+
+	        // draw the rectangle
+	        var rect = paper.rect(1, 1, options.width-2, options.height-2, Math.floor(options.width / 4))
+	        rect.attr("fill", options.color);
+	        rect.attr("stroke", options.color);
+	        rect.attr("stroke-width", options.strokewidth);
+	        rect.attr("fill-opacity", options.style == "solid" ? 1 : 0);
+
+	        // draw the text
+	        var text = paper.text(Math.floor(options.width / 2), Math.floor(options.height / 2), options.label)
+	        text.attr("font-size", options.fontSize)
+	        text.attr("stroke-width", options.strokewidth)
+	        text.attr("stroke", options.style == "solid" ? options.white : options.color);
+	    },
+	 
+	    // Use the destroy method to clean up any modifications your widget has made to the DOM
+	    destroy: function() {
+	      $.Widget.prototype.destroy.call( this );
+	    }
+	  });
+	}( jQuery ) );

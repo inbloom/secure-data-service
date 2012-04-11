@@ -16,6 +16,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.util.IdNormalizer;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
@@ -137,7 +138,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
                 collection = WordUtils.uncapitalize(externalIdEntry.getKey());
                 fieldName = collection + "Id";
             }
-            String idNamespace = entity.getMetaData().get(EntityMetadataKey.ID_NAMESPACE.getKey()).toString();
+            String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
 
             String internalId = "";
 
@@ -146,13 +147,13 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
             if (Map.class.isInstance(externalIdEntry.getValue())) {
 
                 Map<?, ?> externalSearchCriteria = (Map<?, ?>) externalIdEntry.getValue();
-                internalId = IdNormalizer.resolveInternalId(entityRepository, collection, idNamespace,
+                internalId = IdNormalizer.resolveInternalId(entityRepository, collection, tenantId,
                         externalSearchCriteria, errorReport);
 
             } else {
 
                 String externalId = externalIdEntry.getValue().toString();
-                internalId = IdNormalizer.resolveInternalId(entityRepository, collection, idNamespace, externalId,
+                internalId = IdNormalizer.resolveInternalId(entityRepository, collection, tenantId, externalId,
                         errorReport);
             }
 
@@ -213,10 +214,10 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
      * @return Look-up filter
      */
     public Map<String, String> createEntityLookupFilter(NeutralRecordEntity entity, ErrorReport errorReport) {
-        String regionId = entity.getMetaData().get(EntityMetadataKey.ID_NAMESPACE.getKey()).toString();
+        String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
 
         Map<String, String> filter = new HashMap<String, String>();
-        filter.put(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey(), regionId);
+        filter.put(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey(), tenantId);
 
         if (entity.isAssociation()) {
             // Lookup each associated entity in the data store.
@@ -240,7 +241,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
     }
 
     protected String getFailureMessage(String code, Object... args) {
-        return messageSource.getMessage(code, args, "#?" + code + "?#", null);
+        return MessageSourceHelper.getMessage(messageSource, code, args);
     }
 
     public void setEntityRepository(Repository<Entity> entityRepository) {

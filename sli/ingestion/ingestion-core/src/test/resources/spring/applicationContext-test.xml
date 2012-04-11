@@ -23,7 +23,7 @@
         <value>classpath:ingestion-dev.properties</value>
 
         <value>classpath:/config/${sli.env}/ingestion/test.properties </value>
-        
+
         <value>classpath:/data-access/dal/config/${sli.env}/project.properties</value>
 
         <!-- override specific properties for testing -->
@@ -36,6 +36,8 @@
   <import resource="classpath:/spring/db.xml" />
   <import resource="dal-context.xml" />
   <import resource="persistence-context.xml" />
+  <import resource="validation-context.xml" />
+    <import resource="handler-context.xml" />
 
 
   <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"
@@ -54,7 +56,6 @@
   <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
 
   <bean id="repo" class="org.slc.sli.ingestion.validation.IngestionDummyEntityRepository" />
-
 
   <context:annotation-config />
 
@@ -94,17 +95,22 @@
     <property name="lzDirectory" value="${landingzone.inbounddir}" />
   </bean>
 
-  <bean id="xmlFileHandler" parent="smooksFileHandler">
-    <property name="preValidator">
-      <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+    <bean id="xmlFileHandler" parent="smooksFileHandler">
+    <property name="preValidators" >
+        <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+            <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+            <ref bean="xsdValidator"/>
+        </util:list>
     </property>
   </bean>
 
-  <bean id="csvFileHandler" parent="smooksFileHandler">
-    <property name="preValidator">
-      <bean class="org.slc.sli.ingestion.landingzone.validation.CsvFileValidator" />
-    </property>
-  </bean>
+    <bean id="csvFileHandler" parent="smooksFileHandler">
+        <property name="preValidators">
+            <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+                <bean class="org.slc.sli.ingestion.landingzone.validation.CsvFileValidator" />
+            </util:list>
+        </property>
+    </bean>
 
   <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor">
     <property name="fileHandlerMap">

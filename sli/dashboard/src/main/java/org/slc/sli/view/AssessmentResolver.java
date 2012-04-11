@@ -122,7 +122,7 @@ public class AssessmentResolver {
                 }
             }
         }
-        
+
         // find the right field value by match dataPointName
         List<Map> perfLevelDescriptors = studentAssmt.getList(Constants.ATTR_PERFORMANCE_LEVEL_DESCRIPTOR);
         

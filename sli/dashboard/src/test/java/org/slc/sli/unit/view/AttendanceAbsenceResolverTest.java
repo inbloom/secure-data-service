@@ -15,13 +15,13 @@ import org.slc.sli.view.AttendanceAbsenceResolver;
 
 /**
  * Test for the AttendanceAbsenceResolverTest
- * 
+ *
  */
 public class AttendanceAbsenceResolverTest {
-    
+
     private AttendanceAbsenceResolver resolver;
     private GenericEntity mockStudent;
-    
+
     @Before
     public void setUp() throws Exception {
         resolver = new AttendanceAbsenceResolver();
@@ -39,9 +39,11 @@ public class AttendanceAbsenceResolverTest {
     public void testGetCountForPath() throws Exception {
         List<Map> attendances = new ArrayList<Map>();
         for (int i = 0; i < 20; ++i) {
-            attendances.add(getValidAttendanceObject());  
+            attendances.add(getValidAttendanceObject());
         }
-        mockStudent.put("attendances", attendances);
+        GenericEntity body = new GenericEntity();
+        body.put("attendances", attendances);
+        mockStudent.put("attendances", body);
         Field f = new Field();
         f.setValue("ATTENDANCE.AbsenceCount");
         assert (resolver.getCountForPath(f) == 20);
@@ -58,22 +60,27 @@ public class AttendanceAbsenceResolverTest {
         }
         Field f = new Field();
         f.setValue("ATTENDANCE.AbsenceCount");
-        mockStudent.put("attendances", attendances);
+
+        GenericEntity body = new GenericEntity();
+        body.put("attendances", attendances);
+        mockStudent.put("attendances", body);
         assert (resolver.getCountForPath(f) == 20);
     }
-    
+
     @Test
     public void testTardyCount() {
         List<Map> attendances = new ArrayList<Map>();
         for (int i = 0; i < 17; i++) {
             attendances.add(getInvalidAttendanceObject());
         }
-        mockStudent.put("attendances", attendances);
+        GenericEntity body = new GenericEntity();
+        body.put("attendances", attendances);
+        mockStudent.put("attendances", body);
         Field f = new Field();
         f.setValue("ATTENDANCE.TardyCount");
         assert (resolver.getCountForPath(f) == 17);
     }
-    
+
     @Test
     public void testTardyCountMixed() {
         List<Map> attendances = new ArrayList<Map>();
@@ -85,7 +92,9 @@ public class AttendanceAbsenceResolverTest {
         }
         Field f = new Field();
         f.setValue("ATTENDANCE.TardyCount");
-        mockStudent.put("attendances", attendances);
+        GenericEntity body = new GenericEntity();
+        body.put("attendances", attendances);
+        mockStudent.put("attendances", body);
         assert (resolver.getCountForPath(f) == 15);
     }
 

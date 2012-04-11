@@ -1,3 +1,13 @@
+module Logging::Layouts
+
+
+  class Parseable < ::Logging::Layout
+
+
+
+DIRECTIVE_TABLE['remote_ip'] = 'Thread.current[:remote]'
+end
+end
 
 Logging::Rails.configure do |config|
 
@@ -5,11 +15,13 @@ Logging::Rails.configure do |config|
   Logging.format_as :inspect
 
   # All loggers in SLI should use this pattern
-   commonPattern = 'AWEOMSE [%d] %-5l %c : %m\n'
+  commonPattern = '[%d] %-5l %c : %m\n'
 
+  
 
   # The default layout used by the appenders.
-  layout = Logging.layouts.pattern(:pattern => commonPattern )
+  layout = Logging.layouts.json
+  layout.items = %w[timestamp level logger message remote_ip]
   # Setup a color scheme called 'bright' than can be used to add color codes
   # to the pattern layout. Color schemes should only be used with appenders
   # that write to STDOUT or STDERR; inserting terminal color codes into a file
@@ -33,10 +45,7 @@ Logging::Rails.configure do |config|
   #
   Logging.appenders.stdout( 'stdout',
     :auto_flushing => true,
-    :layout => Logging.layouts.pattern(
-      :pattern => commonPattern,
-      :color_scheme => 'bright'
-    )
+    :layout => layout
   ) if config.log_to.include? 'stdout'
 
   # Configure an appender that will write log events to a file. The file will
