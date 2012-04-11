@@ -117,6 +117,9 @@ DashboardUtil.Grid = {};
 DashboardUtil.Grid.Formatters = {
 		/* formatoptions : {1:{color:'green'}, 2:{color:'grey'},...} */
 		CutPoint : function(value, options, rowObject) {
+			if (!value) {
+				return '';
+			}
 			var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);
 			for (var cutPoint in cutPoints) {
 				color = cutPoints[cutPoint].color;
@@ -127,6 +130,9 @@ DashboardUtil.Grid.Formatters = {
 			return "<span style='color:" + cutPoints[cutPoint].color + "'>" + value + "</span>";
 		},
 		CutPointReverse : function(value, options, rowObject) {
+			if (!value) {
+				return '';
+			}
 			var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);
 			var color = "#cccccc";
 			for (var cutPoint in cutPoints) {
