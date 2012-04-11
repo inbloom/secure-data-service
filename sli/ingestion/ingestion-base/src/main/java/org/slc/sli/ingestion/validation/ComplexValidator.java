@@ -11,6 +11,14 @@ import java.util.List;
 public class ComplexValidator<T> extends SimpleValidator<T> {
     private List<? extends Validator<T>> validators;
 
+    public List<? extends Validator<T>> getValidators() {
+        return validators;
+    }
+
+    public void setValidators(List<? extends Validator<T>> validators) {
+        this.validators = validators;
+    }
+
     @Override
     public boolean isValid(T object, ErrorReport callback) {
         for (Validator<T> validator : validators) {
