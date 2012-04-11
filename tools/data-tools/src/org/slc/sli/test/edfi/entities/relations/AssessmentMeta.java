@@ -11,12 +11,14 @@ public final class AssessmentMeta {
     public final List<String> performanceLevelDescriptorIds;
     public String assessmentFamilyId;
     public String assessmentPeriodDescriptorId;
+    public final List<String> sectionIds;
 
     private AssessmentMeta(String id) {
         this.id = id;
         this.objectiveAssessmentIds = new ArrayList<String>();
         this.assessmentItemIds = new ArrayList<String>();
         this.performanceLevelDescriptorIds = new ArrayList<String>();
+        this.sectionIds = new ArrayList<String>();
     }
 
     public static AssessmentMeta create(String id) {
@@ -28,7 +30,7 @@ public final class AssessmentMeta {
         return "AssessmentMeta [id=" + id + ", objectiveAssessmentIds=" + objectiveAssessmentIds
                 + ", assessmentItemIds=" + assessmentItemIds + ", performanceLevelDescriptorIds="
                 + performanceLevelDescriptorIds + ", assessmentFamilyId=" + assessmentFamilyId
-                + ", assessmentPeriodDescriptorId=" + assessmentPeriodDescriptorId + "]";
+                + ", assessmentPeriodDescriptorId=" + assessmentPeriodDescriptorId + ", sectionIds=" + sectionIds + "]";
     }
 
 }
