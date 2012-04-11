@@ -1,0 +1,7 @@
+{
+  id : "listOfStudentsPage",
+  type: "LAYOUT",
+  items: [
+    {id : "listOfStudents", name: "1-8 ELA View", type: "PANEL"}
+  ]
+}

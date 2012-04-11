@@ -240,7 +240,8 @@ public class StaffCohortAssociationTest {
                 return new UriBuilderImpl().path("request");
             }
         });
-        
+
+        when(mock.getQueryParameters(true)).thenReturn(new MultivaluedMapImpl());
         when(mock.getRequestUri()).thenReturn(new UriBuilderImpl().replaceQuery(queryString).build(new Object[] {}));
         return mock;
     }
