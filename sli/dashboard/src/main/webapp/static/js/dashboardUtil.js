@@ -113,66 +113,91 @@ DashboardUtil.makeGrid = function (tableId, panelConfig, panelData, options)
 	return jQuery("#" + tableId).sliGrid(panelConfig, gridOptions); 
 };
 
-var EnumSorter = function(params) {
-	var enumHash = {};
-	for (var i in params.sortEnum) {
-		enumHash[params.sortEnum[i]] = i;
-	}
-	return function(value, rowObject) {
-		var i = enumHash[value];
-		return i ? i : -1;
-	}
-	
+DashboardUtil.Grid = {};
+DashboardUtil.Grid.Formatters = {
+		/* formatoptions : {1:{color:'green'}, 2:{color:'grey'},...} */
+		CutPoint : function(value, options, rowObject) {
+			var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);
+			for (var cutPoint in cutPoints) {
+				color = cutPoints[cutPoint].color;
+				if (value - cutPoint <= 0) {
+					break;
+			    }
+		    }
+			return "<span style='color:" + cutPoints[cutPoint].color + "'>" + value + "</span>";
+		},
+		CutPointReverse : function(value, options, rowObject) {
+			var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);
+			var color = "#cccccc";
+			for (var cutPoint in cutPoints) {
+				if (value - cutPoint <= 0) {
+					break;
+			    }
+				color = cutPoints[cutPoint].color;
+		    }
+			return "<span style='color:" + color + "'>" + value + "</span>";
+		},
+		PercentBar: function (value, options, rowObject) {
+		    if (value == null || value === "") {
+		      return "";
+		    }
+
+		    var color;
+		    var colorValue = value;
+		    var formatoptions = options.colModel.formatoptions;
+		    if (formatoptions && formatoptions.reverse == true) {
+		    	colorValue = 100 - value;
+		    }
+		    var low = 30, medium = 70;
+		    if (formatoptions && formatoptions.low) {
+		    	low = formatoptions.low;
+		    }
+		    if (formatoptions && formatoptions.medium) {
+		    	medium = formatoptions.medium;
+		    }
+		    
+		    if (colorValue < low) {
+		      color = "red";
+		    } else if (colorValue < medium) {
+		      color = "silver";
+		    } else {
+		      color = "green";
+		    }
+
+		    return "<span style='display: inline-block;height: 6px;-moz-border-radius: 3px;-webkit-border-radius: 3px;background:" + color + ";width:" + value * .9 + "%'></span>";
+		  }
+};
+
+DashboardUtil.Grid.Sorters = {
+		Enum: function(params) {
+			var enumHash = {};
+			for (var i in params.sortEnum) {
+				enumHash[params.sortEnum[i]] = i;
+			}
+			return function(value, rowObject) {
+				var i = enumHash[value];
+				return i ? i : -1;
+			}
+			
+		}
 }
 
-function PercentBarFormatter(value, options, rowObject) {
-    if (value == null || value === "") {
-      return "";
-    }
+compareInt = function compare(a,b){return a-b;}
+compareIntReverse = function compare(a,b){return b-a;}
 
-    var color;
-    var colorValue = value;
-    var formatoptions = options.colModel.formatoptions;
-    if (formatoptions && formatoptions.reverse == true) {
-    	colorValue = 100 - value;
+DashboardUtil.sortObject = function(o, compare) {
+    var sorted = {},
+    key, a = [];
+    for (key in o) {
+        if (o.hasOwnProperty(key)) 
+        	a.push(key);
     }
-    var low = 30, medium = 70;
-    if (formatoptions && formatoptions.low) {
-    	low = formatoptions.low;
+    a.sort(compare);
+    for (key = 0; key < a.length; key++) {
+        sorted[a[key]] = o[a[key]];
     }
-    if (formatoptions && formatoptions.medium) {
-    	medium = formatoptions.medium;
-    }
-    
-    if (colorValue < low) {
-      color = "red";
-    } else if (colorValue < medium) {
-      color = "silver";
-    } else {
-      color = "green";
-    }
-
-    return "<span style='display: inline-block;height: 6px;-moz-border-radius: 3px;-webkit-border-radius: 3px;background:" + color + ";width:" + value * .9 + "%'></span>";
-  }
-
-function PercentCompleteFormatter(value, options, rowObject) {
-	var formatoptions = options.colModel.formatoptions;
-	var colorValue = value;
-	if (formatoptions && formatoptions.reverse == true) {
-    	colorValue = 100 - value;
-    }
-	var low = 50;
-    if (formatoptions && formatoptions.low) {
-    	low = formatoptions.low;
-    }
-    if (value == null || value === "") {
-      return "-";
-    } else if (colorValue < low) {
-      return "<span style='color:red;font-weight:bold;'>" + value + "%</span>";
-    } else {
-      return "<span style='color:green'>" + value + "%</span>";
-    }
-  }
+    return sorted;
+}
 
 /*
  * Check for ajax error response

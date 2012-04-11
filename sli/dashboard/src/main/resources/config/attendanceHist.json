@@ -11,12 +11,12 @@
   root: 'attendance',
   items : [
     {id: "col0", name: "Month", type:"FIELD", datatype: "string", field: "eventDate", width: 90},
-    {id: "col1", name: "Attendance Rate %", type:"FIELD", datatype: "string", field: "attendanceRate", width: 100, sorter: 'float', formatter: PercentCompleteFormatter, params:{low:92}},
-    {id: "col1", name: "Attendance Rate", type:"FIELD", datatype: "string", field: "attendanceRate", width: 100, sorter: 'float', formatter: PercentBarFormatter, params:{low:85, medium:92}},
+    {id: "col1", name: "Attendance Rate %", type:"FIELD", datatype: "string", field: "attendanceRate", width: 100, sorter: 'float', formatter: DashboardUtil.Grid.Formatters.CutPoint, params:{cutPoints:{90:{color:'#B40610'}, 95:{color:'#7FC124'}, 99:{color:'#438746'}}}},
+    {id: "col1", name: "Attendance Rate", type:"FIELD", datatype: "string", field: "attendanceRate", width: 100, sorter: 'float', formatter: DashboardUtil.Grid.Formatters.PercentBar, params:{low:85, medium:92}},
     {id: "col2", name: "Exc Absebse", type:"FIELD", datatype: "string", field: "excusedAbsenceCount", sorter: 'int', width: 70},
     {id: "col3", name: "Unex Absense", type:"FIELD", datatype: "string", field: "unexcusedAbsenceCount", sorter: 'int', width: 70},
     {id: "col4", name: "Tardies", type:"FIELD", datatype: "string", field: "tardyCount", width: 50, sorter: 'int'},
-    {id: "col5", name: "Tardy Rate %", type:"FIELD", datatype: "string", field: "tardyRate", width: 70, sorter: 'float', formatter: PercentCompleteFormatter, params:{reverse:true, low:95}},
+    {id: "col5", name: "Tardy Rate %", type:"FIELD", datatype: "string", field: "tardyRate", width: 70, sorter: 'float', formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#7FC124'}, 5:{color:	'#DFC836'}, 10:{color:'#DFC836'}, 11:{color:'#B40610'}}}},
     {id: "col6", name: "Out Of", type:"FIELD", datatype: "string", field: "totalCount", width: 50, sorter: 'int'}
   ] 
 }
