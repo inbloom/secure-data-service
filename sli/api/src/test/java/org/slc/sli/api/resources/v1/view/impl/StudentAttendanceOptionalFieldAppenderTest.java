@@ -1,11 +1,17 @@
 package org.slc.sli.api.resources.v1.view.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Date;
 
 import org.junit.After;
 import org.junit.Before;
@@ -110,7 +116,7 @@ public class StudentAttendanceOptionalFieldAppenderTest {
         List<EntityBody> entities = new ArrayList<EntityBody>();
         entities.add(makeEntityBody(studentEntity));
 
-        entities = studentAttendanceOptionalFieldAppender.applyOptionalField(entities);
+        entities = studentAttendanceOptionalFieldAppender.applyOptionalField(entities, null);
 
         assertEquals("Should be 1", 1, entities.size());
         assertNotNull("Should not be null", entities.get(0).get("attendances"));
@@ -205,9 +211,11 @@ public class StudentAttendanceOptionalFieldAppenderTest {
         assertEquals("Should match", 3, studentAttendanceOptionalFieldAppender.getYearSuffix("3"));
         assertEquals("Should match", 4, studentAttendanceOptionalFieldAppender.getYearSuffix("4"));
         assertEquals("Should match", 4, studentAttendanceOptionalFieldAppender.getYearSuffix("100"));
-        assertEquals("Should match", 1, studentAttendanceOptionalFieldAppender.getYearSuffix("not a number"));
+        assertEquals("Should match", 0, studentAttendanceOptionalFieldAppender.getYearSuffix("not a number"));
         assertEquals("Should match", 2, studentAttendanceOptionalFieldAppender.getYearSuffix("-2"));
         assertEquals("Should match", 4, studentAttendanceOptionalFieldAppender.getYearSuffix("-100"));
+        assertEquals("Should match", 0, studentAttendanceOptionalFieldAppender.getYearSuffix(null));
+        assertEquals("Should match", 0, studentAttendanceOptionalFieldAppender.getYearSuffix(""));
     }
 
     private EntityBody makeEntityBody(Entity entity) {

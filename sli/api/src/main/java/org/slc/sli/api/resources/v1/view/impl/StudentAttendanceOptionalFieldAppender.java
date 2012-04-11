@@ -41,9 +41,9 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
     }
 
     @Override
-    public List<EntityBody> applyOptionalField(List<EntityBody> entities) {
+    public List<EntityBody> applyOptionalField(List<EntityBody> entities, String parameters) {
         //get the year suffix from the params
-        int yearSuffix = getYearSuffix("1");
+        int yearSuffix = getYearSuffix(parameters);
         //get the student Ids
         List<String> studentIds = optionalFieldAppenderHelper.getIdList(entities, "id");
 
@@ -59,8 +59,7 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
                 "_id", sessionIds);
 
         //get the attendances per selectedSession
-        Map<String, List<EntityBody>> attendancePerSession = getAttendances(studentIds, sessions,
-                sections, yearSuffix);
+        Map<String, List<EntityBody>> attendancePerSession = getAttendances(studentIds, sessions, yearSuffix);
 
         //add attendances to student's entityBody
         for (EntityBody student : entities) {
@@ -109,17 +108,12 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
      * @param sessions List of sessions
      * @return
      */
-    protected Map<String, List<EntityBody>> getAttendances(List<String> studentIds, List<EntityBody> sessions,
-                                                           List<EntityBody> sections, int yearSuffix) {
+    protected Map<String, List<EntityBody>> getAttendances(List<String> studentIds, List<EntityBody> sessions, int yearSuffix) {
         Map<String, List<EntityBody>> attendancePerSession = new HashMap<String, List<EntityBody>>();
 
         //init the end date
         Date endDate = new Date(System.currentTimeMillis());
         for (EntityBody session : sessions) {
-            //get the current section
-            EntityBody section = optionalFieldAppenderHelper.getEntityFromList(sections, ParameterConstants.SESSION_ID,
-                    (String) session.get("id"));
-
             //get the begin date
             Date startDate = null;
             try {
@@ -156,6 +150,11 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
      */
     protected Date getBeginDate(List<String> studentIds, EntityBody selectedSession, int yearSuffix) throws ParseException {
         Date startDate = null;
+
+        //if no year is defined default to the current session
+        if (yearSuffix == 0) {
+            return formatter.parse((String) selectedSession.get("beginDate"));
+        }
 
         //get the school years
         List<String> schoolYears = getSchoolYears((String) selectedSession.get("schoolYear"), yearSuffix);
@@ -206,15 +205,17 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
 
         schoolYears.add(currentSchoolYear);
 
-        for (int i=1; i<years; i++) {
+        for (int i = 1; i < years; i++) {
             StringTokenizer st = new StringTokenizer(currentSchoolYear, "-");
             String prefix = null, suffix = null;
 
             int index = 0;
+            String token = null;
             while (st.hasMoreTokens()) {
+                token = st.nextToken();
                 switch (index) {
-                    case 0: prefix = st.nextToken(); break;
-                    case 1: suffix = st.nextToken(); break;
+                    case 0: prefix = token; break;
+                    case 1: suffix = token; break;
                 }
                 ++index;
             }
@@ -222,9 +223,9 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
             if (prefix != null && suffix != null) {
                 try {
                     StringBuffer buffer = new StringBuffer();
-                    buffer.append(Integer.parseInt(prefix) -1);
+                    buffer.append(Integer.parseInt(prefix) - 1);
                     buffer.append("-");
-                    buffer.append(Integer.parseInt(suffix)-1);
+                    buffer.append(Integer.parseInt(suffix) - 1);
 
                     currentSchoolYear = buffer.toString();
                     schoolYears.add(currentSchoolYear);
@@ -243,17 +244,19 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
      * @return
      */
     protected int getYearSuffix(String params) {
-        int yearSuffix = 1;
+        int yearSuffix = 0;
 
-        try {
-            //parse the params
-            yearSuffix = Integer.parseInt(params);
-            yearSuffix = Math.abs(yearSuffix);
+        if (params != null && !params.isEmpty()) {
+            try {
+                //parse the params
+                yearSuffix = Integer.parseInt(params);
+                yearSuffix = Math.abs(yearSuffix);
 
-            //cap the years at 4
-            yearSuffix = (yearSuffix > 4) ? 4 : yearSuffix;
-        } catch(NumberFormatException e) {
-            warn("Could not parse param to year {}", params);
+                //cap the years at 4
+                yearSuffix = (yearSuffix > 4) ? 4 : yearSuffix;
+            } catch (NumberFormatException e) {
+                warn("Could not parse param to year {}", params);
+            }
         }
 
         return yearSuffix;

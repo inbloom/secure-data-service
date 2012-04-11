@@ -85,7 +85,7 @@ public class StudentTranscriptOptionalFieldAppenderTest {
         body.put("id", studentEntity.getEntityId());
         entities.add(body);
 
-        entities = studentTranscriptOptionalFieldAppender.applyOptionalField(entities);
+        entities = studentTranscriptOptionalFieldAppender.applyOptionalField(entities, null);
 
         assertEquals("Should match", 1, entities.size());
 

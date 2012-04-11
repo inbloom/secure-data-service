@@ -31,11 +31,12 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 
-import java.util.Arrays;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.List;
+import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 /**
  * Prototype new api end points and versioning base class
@@ -539,12 +540,16 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         if (optionalFields != null) {
             for (String type : optionalFields) {
                 for (String appenderType : type.split(",")) {
+                    Map<String, String> values = extractOptionalFieldParams(appenderType);
+
                     sb.append(baseEndpoint);
                     sb.append("_");
-                    sb.append(appenderType);
+                    sb.append(values.get(OptionalFieldAppenderFactory.APPENDER_PREFIX));
+
                     OptionalFieldAppender appender = factory.getOptionalFieldAppender(sb.toString());
                     if (appender != null) {
-                        entities = appender.applyOptionalField(entities);
+                        entities = appender.applyOptionalField(entities,
+                                values.get(OptionalFieldAppenderFactory.PARAM_PREFIX));
                     }
 
                     sb.delete(0, sb.length());
@@ -553,6 +558,38 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         }
 
         return entities;
+    }
+
+    /**
+     * Extract the parameters from the optional field value
+     * @param optionalFieldValue The optional field value
+     * @return
+     */
+    protected Map<String, String> extractOptionalFieldParams(String optionalFieldValue) {
+        Map<String, String> values = new HashMap<String, String>();
+        String appender = null, params = null;
+
+        if (optionalFieldValue.contains(".")) {
+            StringTokenizer st = new StringTokenizer(optionalFieldValue, ".");
+
+            int index = 0;
+            String token = null;
+            while (st.hasMoreTokens()) {
+                token = st.nextToken();
+                switch(index) {
+                    case 0: appender = token; break;
+                    case 1: params = token; break;
+                }
+                ++index;
+            }
+        } else {
+            appender = optionalFieldValue;
+        }
+
+        values.put(OptionalFieldAppenderFactory.APPENDER_PREFIX, appender);
+        values.put(OptionalFieldAppenderFactory.PARAM_PREFIX, params);
+
+        return values;
     }
 
     private Response.ResponseBuilder addPagingHeaders(Response.ResponseBuilder resp, long total, UriInfo info) {
