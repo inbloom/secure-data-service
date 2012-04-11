@@ -90,17 +90,9 @@ public class GradebookEntryResource extends DefaultCrudEndpoint {
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
-<<<<<<< HEAD
-     *              URI information including path and query parameters
-     * @return result of CRUD operation
-     * @response.param {@name Location} {@style header} {@type
-     *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessible.}
-=======
      *              URI information including path and 
      * @return response containing ID/location of newly created entity
      * @response.representation.201.mediaType HTTP headers with a CREATED status code.
->>>>>>> aaf0fa9ab68b4ce1fa7f007adaf5234f3e537d27
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })

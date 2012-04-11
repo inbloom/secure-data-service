@@ -1265,7 +1265,7 @@
     <!-- jb:value property="jobId" data="" / -->
     <jb:expression property="recordType">'course'</jb:expression>
 
-    <!-- There can be multiple CourseCode entities so this is not really unique across Courses -->
+    <!-- Use courseCode so that every instance of a same-titled course will be stored -->
     <jb:value property="localId" data="InterchangeEducationOrganization/Course/CourseTitle" />
     <jb:wiring property="attributes" beanIdRef="courseAttributes" />
 
@@ -2725,4 +2725,33 @@
   </jb:bean>
   <!-- End StudentProgramAssociation mapping -->
 
+	<!-- Program mapping -->
+	<jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/Program">
+		<jb:expression property="recordType">'program'</jb:expression>
+		<jb:value property="localId" data="InterchangeEducationOrganization/Program/ProgramId" />
+		<jb:wiring property="attributes" beanIdRef="programAttributes" />
+	</jb:bean>
+	
+	<jb:bean beanId="programAttributes" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Program">
+		<!-- ProgramId - simple type -->
+		<jb:value property="programId" data="Program/ProgramId" />
+		<!-- ProgramType - simple type -->
+		<jb:value property="programType" data="Program/ProgramType" />
+		<!-- ProgramSponsor - simple type -->
+		<jb:value property="programSponsor" data="Program/ProgramSponsor" />
+		<!-- Services - complex type -->
+		<jb:wiring property="services" beanIdRef="Program_ServiceDescriptorTypeArray" />
+	</jb:bean>
+	
+	<!-- ServiceDescriptorType -->
+  <jb:bean beanId="Program_ServiceDescriptorTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Program">
+    <jb:wiring beanIdRef="Program_ServiceDescriptorType" />
+  </jb:bean>
+
+  <jb:bean beanId="Program_ServiceDescriptorType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Program/Services">
+    <jb:value property="codeValue" data="InterchangeEducationOrganization/Program/Services/CodeValue" />
+    <jb:value property="shortDescription" data="InterchangeEducationOrganization/Program/Services/ShortDescription" />
+    <jb:value property="description" data="InterchangeEducationOrganization/Program/Services/Description" />
+  </jb:bean>
+	
 </smooks-resource-list>

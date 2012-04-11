@@ -3,10 +3,13 @@ package org.slc.sli.manager.component.impl;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.googlecode.ehcache.annotations.Cacheable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +22,7 @@ import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.Manager;
+import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.DashboardException;
 import org.slc.sli.util.SecurityUtil;
@@ -34,23 +38,29 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     private Logger logger = LoggerFactory.getLogger(getClass());
     private ApplicationContext applicationContext;
     private ConfigManager configManager;
+    private UserEdOrgManager userEdOrgManager;
     private Map<String, InvokableSet> entityReferenceToManagerMethodMap;
 
     
     public void setConfigManager(ConfigManager configManager) {
         this.configManager = configManager;
     }
+    
+    public void setUserEdOrgManager(UserEdOrgManager userEdOrgManager) {
+        this.userEdOrgManager = userEdOrgManager;
+    }
 
     protected String getTokenId() {
         return SecurityUtil.getToken();
     }
     
-    protected String getUsername() {
-        return SecurityUtil.getUsername();
+    protected Config getConfig(String componentId) {
+        return configManager.getComponentConfig(userEdOrgManager.getUserEdOrg(getTokenId()), componentId);
     }
     
-    protected Config getConfig(String componentId) {
-        return configManager.getComponentConfig(getUsername(), componentId);
+    @Override
+    public Collection<Config> getWidgetConfigs() {
+        return configManager.getWidgetConfigs(userEdOrgManager.getUserEdOrg(getTokenId()));
     }
     
     /**
@@ -122,7 +132,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
                         "Unable to find config for " + componentId + " and entity id " + entityKey + ", config " + componentId);
             } 
             Config.Data dataConfig = config.getData();
-            if (dataConfig != null && !model.hasDataForAlias(dataConfig.getAlias())) {
+            if (dataConfig != null && !dataConfig.isLazy() && !model.hasDataForAlias(dataConfig.getAlias())) {
                 entity = getDataComponent(componentId, entityKey, dataConfig);
                 model.addData(dataConfig.getAlias(), entity);
             }
@@ -215,13 +225,12 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         return this.entityReferenceToManagerMethodMap.containsKey(entityRef);
     }
     
-    /**
-     * Get data for the declared entity reference
-     * @param componentId - component to get data for
-     * @param entityKey - entity key for the component
-     * @param config - data config for the component
-     * @return entity
-     */
+    @Override
+    @Cacheable(cacheName = "user.panel.data")
+    public GenericEntity getDataComponent(String componentId, Object entityKey) {
+        return getDataComponent(componentId, entityKey, getConfig(componentId).getData());
+    }
+
     protected GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
         InvokableSet set = this.getInvokableSet(config.getEntityRef());
         if (set == null) {

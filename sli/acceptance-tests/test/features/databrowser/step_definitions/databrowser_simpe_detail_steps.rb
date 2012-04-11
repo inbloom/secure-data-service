@@ -51,7 +51,7 @@ Then /^I should see my available links labeled$/ do
 end
 
 When /^I click on the Logout link$/ do
-  @driver.find_element(:link_text, "Logout")
+  @driver.find_element(:link, "Logout").click
 end
 
 Then /^I am redirected to a page that informs me that I have signed out$/ do
@@ -61,7 +61,7 @@ end
 
 Then /^I am forced to reauthenticate to access the databrowser$/ do
   @driver.get PropLoader.getProps['databrowser_server_url']
-  assertWithWait("Was not redirected to the IDP login page")  { @driver.find_element(:name, "Login.Submit") }
+  assertWithWait("Was not redirected to Realm chooser") {@driver.title.index("Choose your realm") != nil}
 end
 
 Given /^I have navigated to the "([^"]*)" page of the Data Browser$/ do |arg1|

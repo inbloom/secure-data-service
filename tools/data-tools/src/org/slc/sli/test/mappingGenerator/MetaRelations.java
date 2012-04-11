@@ -3,9 +3,12 @@ package org.slc.sli.test.mappingGenerator;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slc.sli.test.edfi.entities.relations.AssessmentItemMeta;
+import org.slc.sli.test.edfi.entities.relations.AssessmentMeta;
 import org.slc.sli.test.edfi.entities.relations.CohortMeta;
 import org.slc.sli.test.edfi.entities.relations.CourseMeta;
 import org.slc.sli.test.edfi.entities.relations.LeaMeta;
+import org.slc.sli.test.edfi.entities.relations.ObjectiveAssessmentMeta;
 import org.slc.sli.test.edfi.entities.relations.ProgramMeta;
 import org.slc.sli.test.edfi.entities.relations.SchoolMeta;
 import org.slc.sli.test.edfi.entities.relations.SeaMeta;
@@ -32,6 +35,10 @@ public final class MetaRelations {
     private static final int FREE_STANDING_COHORT_SIZE = 4;
     private static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
 
+    private static final int TOTAL_ASSSESSMENTS = 1;
+    private static final int TOTAL_OBJECTIVE_ASSESSMENTS = 1;
+    private static final int TOTAL_ASSESSMENT_ITEMS = 1;
+
     // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
     public static final Map<String, SeaMeta> SEA_MAP = new HashMap<String, SeaMeta>();
     public static final Map<String, LeaMeta> LEA_MAP = new HashMap<String, LeaMeta>();
@@ -51,6 +58,12 @@ public final class MetaRelations {
 
     public static final Map<String, CohortMeta> COHORT_MAP = new HashMap<String, CohortMeta>();
 
+    public static final Map<String, AssessmentMeta> ASSESSMENT_MAP = new HashMap<String, AssessmentMeta>();
+
+    public static final Map<String, ObjectiveAssessmentMeta> OBJECTIVE_ASSESSMENT_MAP = new HashMap<String, ObjectiveAssessmentMeta>();
+
+    public static final Map<String, AssessmentItemMeta> ASSESSMENT_ITEM_MAP = new HashMap<String, AssessmentItemMeta>();
+
     /**
      * The top level call to start the XML generation process is
      * to 'buildSeas'
@@ -58,6 +71,8 @@ public final class MetaRelations {
     public static void buildFromSea() {
 
         long startTime = System.currentTimeMillis();
+
+        AssessmentMetaRelations.buildStandaloneAssessments();
 
         buildSeas();
 
@@ -155,8 +170,8 @@ public final class MetaRelations {
         Map<String, ProgramMeta> programForSchool = buildProgramsForSchool(schoolMeta);
 
         Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
-                    sessionsForSchool, programForSchool);
-        
+                sessionsForSchool, programForSchool);
+
         Map<String, CohortMeta> freeStandingCohortsForSchool = buildFreeStandingCohortsForSchool(schoolMeta);
 
         addSectionsToTeachers(sectionsForSchool, teachersForSchool);
@@ -168,6 +183,8 @@ public final class MetaRelations {
         addStaffToPrograms(programForSchool, staffForSea);
 
         addStaffStudentToFreeStandingCohorts(freeStandingCohortsForSchool, studentsForSchool, staffForSea);
+
+        buildAssessmentForSchool();
 
     }
 
@@ -367,24 +384,25 @@ public final class MetaRelations {
 
     /**
      * Generate free-standing (non-program-affiliated cohorts for school.
-     * 
+     *
      * freeStandingCohortsForSchool is used later in this class
      * COHORT_MAP is used to actually generate the XML.
-     * 
+     *
      * @param schoolMeta
      */
     private static Map<String, CohortMeta> buildFreeStandingCohortsForSchool(SchoolMeta schoolMeta) {
 
-        Map<String, CohortMeta> freeStandingCohortsForSchool = new HashMap<String, CohortMeta>(FREE_STANDING_COHORT_PER_SCHOOL);
-        for(int idNum = 0; idNum < FREE_STANDING_COHORT_PER_SCHOOL; idNum++) {
+        Map<String, CohortMeta> freeStandingCohortsForSchool = new HashMap<String, CohortMeta>(
+                FREE_STANDING_COHORT_PER_SCHOOL);
+        for (int idNum = 0; idNum < FREE_STANDING_COHORT_PER_SCHOOL; idNum++) {
             CohortMeta cohortMeta = new CohortMeta("coh" + idNum, schoolMeta);
             freeStandingCohortsForSchool.put(cohortMeta.id, cohortMeta);
             COHORT_MAP.put(cohortMeta.id, cohortMeta);
         }
         return freeStandingCohortsForSchool;
-        
+
     }
-    
+
     /**
      * Correlates teachers and sections on a 'per school' basis.
      *
@@ -501,26 +519,43 @@ public final class MetaRelations {
 
     /**
      * Assign staff and student to the school's free-standing cohorts
-     * 
+     *
      * @param freeStandingCohortsForSchool
      * @param studentsForSchool
      * @param staffForSea
      */
     private static void addStaffStudentToFreeStandingCohorts(Map<String, CohortMeta> freeStandingCohortsForSchool,
-                                                             Map<String, StudentMeta> studentsForSchool,
-                                                             Map<String, StaffMeta> staffForSea) {
+            Map<String, StudentMeta> studentsForSchool, Map<String, StaffMeta> staffForSea) {
         Object[] studentIds = studentsForSchool.keySet().toArray();
         Object[] staffIds = staffForSea.keySet().toArray();
-        int studentIdsIndx = 0; 
+        int studentIdsIndx = 0;
         int staffIdsIndx = 0;
-        
+
         for (CohortMeta cohortMeta : freeStandingCohortsForSchool.values()) {
-            for(int idNum = 0; idNum < FREE_STANDING_COHORT_SIZE; idNum++) {
+            for (int idNum = 0; idNum < FREE_STANDING_COHORT_SIZE; idNum++) {
                 cohortMeta.studentIds.add((String) studentIds[studentIdsIndx]);
                 studentIdsIndx = (studentIdsIndx + 1) % studentIds.length;
             }
             cohortMeta.staffIds.add((String) staffIds[staffIdsIndx]);
             staffIdsIndx = (staffIdsIndx + 1) % staffIds.length;
+        }
+    }
+
+    /**
+     * Build meta data for Assessment related entities
+     */
+    private static void buildAssessmentForSchool() {
+        for (int i = 0; i < TOTAL_ASSSESSMENTS; i++) {
+            String id = "assessment" + i;
+            ASSESSMENT_MAP.put(id, AssessmentMeta.create(id));
+        }
+        for (int i = 0; i < TOTAL_ASSESSMENT_ITEMS; i++) {
+            String id = "assessmentItem" + i;
+            ASSESSMENT_ITEM_MAP.put(id, AssessmentItemMeta.create(id));
+        }
+        for (int i = 0; i < TOTAL_OBJECTIVE_ASSESSMENTS; i++) {
+            String id = "objectiveAssessment" + i;
+            OBJECTIVE_ASSESSMENT_MAP.put(id, ObjectiveAssessmentMeta.create(id));
         }
     }
 }
