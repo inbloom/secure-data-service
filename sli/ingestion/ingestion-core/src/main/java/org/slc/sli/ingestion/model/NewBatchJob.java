@@ -122,26 +122,4 @@ public final class NewBatchJob {
         return id;
     }
     
-    public void startStage(Stage batchJobStage) {
-        long startTime = System.currentTimeMillis();
-        batchJobStage.setStatus("running");
-        batchJobStage.setStartTimestamp(String.valueOf(startTime));
-    }
-
-    public void stopStage(Stage batchJobStage) {
-        long stopTime = System.currentTimeMillis();
-        batchJobStage.setStatus("finished");
-        batchJobStage.setStopTimestamp(String.valueOf(stopTime));
-    }
-
-    public void startMetric(BatchJobStageType stage, String resourceId) {
-        // TODO: create a metric with startTimeStamp of now in the db
-        long startTime = System.currentTimeMillis();
-    }
-    
-    public void stopMetric(BatchJobStageType stage, String resourceId) {
-        // TODO: create a metric with startTimeStamp of now in the db
-        long stopTime = System.currentTimeMillis();
-    }
-    
 }

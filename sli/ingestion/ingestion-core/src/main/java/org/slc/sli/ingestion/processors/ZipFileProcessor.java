@@ -60,7 +60,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             NewBatchJob newJob = new NewBatchJob(batchJobId);
             Stage stage = new Stage();
             stage.setStageName("ZipFileProcessor");
-            newJob.startStage(stage);
+            stage.startStage();
 
             exchange.getIn().setHeader("BatchJobId", batchJobId);
             BatchJobDAO batchJobDAO = new BatchJobMongoDA();
@@ -73,7 +73,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             resourceName.setResourceName(zipFile.getName());
             newJob.getResourceEntries().add(resourceName);
 
-            newJob.stopStage(stage);
+            stage.stopStage();
             newJob.getStages().add(stage);
             batchJobDAO.saveBatchJob(newJob);
             

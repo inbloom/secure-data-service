@@ -51,7 +51,7 @@ public class ControlFileProcessor implements Processor {
             
             Stage stage = new Stage();
             stage.setStageName("ControlFileProcessor");
-            newJob.startStage(stage);
+            stage.startStage();
             // TODO JobLogStatus
             // Create the stage and metric
             // JobLogStatus.startStage(batchJobId, stageName)
@@ -71,7 +71,7 @@ public class ControlFileProcessor implements Processor {
 
             // TODO Create the stage and metric
             // JobLogStatus.completeStage(batchJobId, stageName)
-            newJob.stopStage(stage);
+            stage.stopStage();
             newJob.getStages().add(stage);
             batchJobDAO.saveBatchJob(newJob);
 

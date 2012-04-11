@@ -84,4 +84,17 @@ public class Stage {
          if (startTimestamp != null) this.startTimestamp = startTimestamp;
          if (stopTimestamp != null) this.stopTimestamp = stopTimestamp;
     }
+    
+    public void startStage() {
+        long startTime = System.currentTimeMillis();
+        this.setStatus("running");
+        this.setStartTimestamp(String.valueOf(startTime));
+    }
+
+    public void stopStage() {
+        long stopTime = System.currentTimeMillis();
+        this.setStatus("finished");
+        this.setStopTimestamp(String.valueOf(stopTime));
+    }
+
 }

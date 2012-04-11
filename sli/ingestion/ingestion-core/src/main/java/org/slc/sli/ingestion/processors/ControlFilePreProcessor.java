@@ -61,15 +61,15 @@ public class ControlFilePreProcessor implements Processor {
 
             Stage stage = new Stage();
             stage.setStageName("ControlFilePreProcessor");
-            newJob.startStage(stage);
+            stage.startStage();
 
             // JobLogStatus.startStage(batchJobId, stageName)
             
             ControlFile cf = ControlFile.parse(controlFile);
 
             newJob.setTotalFiles(cf.getFileEntries().size());
+            stage.stopStage();
             newJob.getStages().add(stage);
-            newJob.stopStage(stage);
             batchJobDAO.saveBatchJob(newJob);
  
             // set headers for ingestion routing

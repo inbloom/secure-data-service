@@ -1,5 +1,7 @@
 package org.slc.sli.ingestion.model;
 
+import org.slc.sli.ingestion.BatchJobStageType;
+
 /**
  * Model for metrics of an ingestion job with resolution into its stage and resource
  *
@@ -109,4 +111,15 @@ public class Metrics {
         this.recordCount = recordCount;
         this.errorCount = errorCount;
     }
+
+    public void startMetric(BatchJobStageType stage, String resourceId) {
+        // TODO: create a metric with startTimeStamp of now in the db
+        long startTime = System.currentTimeMillis();
+    }
+    
+    public void stopMetric(BatchJobStageType stage, String resourceId) {
+        // TODO: create a metric with startTimeStamp of now in the db
+        long stopTime = System.currentTimeMillis();
+    }
+    
 }
