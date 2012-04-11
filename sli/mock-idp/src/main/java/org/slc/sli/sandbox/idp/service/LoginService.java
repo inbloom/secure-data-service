@@ -3,9 +3,11 @@ package org.slc.sli.sandbox.idp.service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.security.GeneralSecurityException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -15,14 +17,21 @@ import javax.xml.crypto.MarshalException;
 import javax.xml.crypto.dsig.XMLSignatureException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.slc.sli.sandbox.idp.saml.XmlSignatureHelper;
 import org.slc.sli.sandbox.idp.service.Users.User;
 import org.slf4j.Logger;
@@ -42,7 +51,7 @@ public class LoginService {
     XmlSignatureHelper signer;
     
     // @Value("${sli.idp.response-location}")
-    String destination = "http://localhost:8080/api/saml/sso/post";
+    String destination = "http://local.slidev.org:8080/api/rest/saml/sso/post";
     String issuer = "http://local.slidev.org:8082/mock-idp";
     
     String roleTemplate = "<saml:AttributeValue xmlns:xs='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='xs:string'>__ROLE__</saml:AttributeValue>";
@@ -82,8 +91,8 @@ public class LoginService {
             Document unsignedDoc = docFactory.newDocumentBuilder().parse(stringSource);
             Document signedDoc = signer.signSamlAssertion(unsignedDoc);
             
+            // any transforms (indentation, etc) will break the XML Signatures. No touch!
             Transformer trans = TransformerFactory.newInstance().newTransformer();
-            trans.setOutputProperty(OutputKeys.INDENT, "yes");
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             trans.transform(new DOMSource(signedDoc), new StreamResult(bos));
             signedXml = new String(bos.toByteArray(), "UTF8");
@@ -107,7 +116,34 @@ public class LoginService {
         
         LOG.debug("signed xml: {}", new Object[] { signedXml });
         
-        return URI.create("http://localhost:8082");
+        URI redirectUri = sendSamlResponse(signedXml, this.destination);
+        
+        return redirectUri;
+    }
+    
+    private static URI sendSamlResponse(String samlResponse, String destination) {
+        try {
+            String encodedSamlResponse = Base64.encodeBase64String(samlResponse.getBytes("UTF-8"));
+            
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost post = new HttpPost(destination);
+            UrlEncodedFormEntity data = new UrlEncodedFormEntity(Arrays.asList(new BasicNameValuePair("SAMLResponse",
+                    encodedSamlResponse)), "UTF-8");
+            
+            post.setEntity(data);
+            HttpResponse response = httpclient.execute(post);
+            int status = response.getStatusLine().getStatusCode();
+            if (!(status == 307 || status == 301 || status == 302)) {
+                throw new RuntimeException("Expected redirect, recieved: " + status);
+            }
+            Header location = response.getFirstHeader("Location");
+            URI redirectUri = URI.create(location.getValue());
+            return redirectUri;
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     private static String currentTimeUTC() {

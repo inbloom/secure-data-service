@@ -34,6 +34,7 @@ public class AuthRequests {
             return null;
         }
         SamlRequest request = samlDecoder.decode(encodedSamlRequest);
+        // TODO ensure tenantName (from query param) matches what's on Destination.
         return new Request(tenantName, request);
     }
 }
