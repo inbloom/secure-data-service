@@ -62,12 +62,14 @@ public class ControlFilePreProcessor implements Processor {
             Stage stage = new Stage();
             stage.setStageName("ControlFilePreProcessor");
             stage.startStage();
-
+            newJob.setSourceId(landingZone.getLZId());
+            
             // JobLogStatus.startStage(batchJobId, stageName)
             
             ControlFile cf = ControlFile.parse(controlFile);
 
             newJob.setTotalFiles(cf.getFileEntries().size());
+
             stage.stopStage();
             newJob.getStages().add(stage);
             batchJobDAO.saveBatchJob(newJob);
