@@ -267,7 +267,7 @@ end
 
 desc "Run Ingestion Batch Job Tests"
 task :ingestionBatchJobTest do
-  runTests("test/features/ingestion/features/ingestion_batchjob.feature")
+  runTests("test/features/ingestion/features/ingestion_BatchJob.feature")
 end
 
 desc "Run Ingestion XSD Validation Test"
