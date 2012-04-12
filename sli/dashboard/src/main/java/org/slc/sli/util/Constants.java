@@ -137,6 +137,8 @@ public final class Constants {
     public static final String ATTR_GRADE_LEVEL = "gradeLevel";
     public static final String ATTR_STUDENT_ENROLLMENT = "studentEnrollment";
     public static final String ATTR_SCHOOL = "school";
+    public static final String ATTR_HEADER_STRING = "headerString";
+    public static final String ATTR_FOOTER_STRING = "footerString";
     
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";

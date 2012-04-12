@@ -34,6 +34,10 @@ public interface APIClient {
     
     public List<GenericEntity> getStudentEnrollment(final String token, GenericEntity student);
     
+    public String getHeader(String token);
+
+    public String getFooter(String token);
+    
     /**
      * Returns a list of courses for a given student and query params
      * i.e students/{studentId}/studentCourseAssociations/courses?subejctArea="math"&includeFields=courseId,name
