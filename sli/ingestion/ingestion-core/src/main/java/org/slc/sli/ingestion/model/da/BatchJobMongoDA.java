@@ -1,8 +1,6 @@
 package org.slc.sli.ingestion.model.da;
 
 import java.net.InetAddress;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -206,6 +204,12 @@ public class BatchJobMongoDA implements BatchJobDAO {
         return name;
     }
 
+    public static BatchJobMongoDAStatus findBatchJobErrors(String jobId) {
+        Query query = new Query(Criteria.where("batchJobId").is(jobId));
+        List <Error> errors = template.find(query, Error.class, "error");
+        return new BatchJobMongoDAStatus(true, "Returned errors for " + jobId, errors);
+    }
+    
     /**
      *
      * @param IngestionJobId

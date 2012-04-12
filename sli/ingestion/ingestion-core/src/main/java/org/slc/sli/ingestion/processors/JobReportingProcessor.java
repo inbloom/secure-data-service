@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.processors;
 
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.camel.Exchange;
@@ -13,6 +14,7 @@ import org.slc.sli.ingestion.BatchJobLogger;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.Fault;
+import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.NewBatchJobLogger;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -21,8 +23,10 @@ import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
+import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
+import org.slc.sli.ingestion.model.da.BatchJobMongoDAStatus;
 import org.slc.sli.ingestion.queues.MessageType;
 
 /**
@@ -146,47 +150,58 @@ public class JobReportingProcessor implements Processor {
         int totalErrors = 0;
         
         // new batch job impl writes out persistence stage resource metrics
-        for (ResourceEntry resourceEntry : job.getResourceEntries()) {
-            String id = "[file] " + resourceEntry.getResourceName();
-            jobLogger.info(id + " (" + resourceEntry.getResourceFormat()
-                    + "/" + resourceEntry.getResourceType() + ")");
-            
-            Metrics metric = getStageMetric(job, BatchJobStageType.PERSISTENCE_PROCESSING, 
-                    resourceEntry.getResourceId());
-            if (metric != null) {
-                Long numProcessed = metric.getRecordCount();
-                Long numFailed = metric.getErrorCount();
-                Long numPassed = metric.getRecordCount() - numFailed;
-                
-                jobLogger.info(id + " records considered: " + numProcessed);
-                jobLogger.info(id + " records ingested successfully: " + numPassed);
-                jobLogger.info(id + " records failed: " + numFailed);
-                
-                totalProcessed += numProcessed;
-                totalErrors += numFailed;
+        for (Metrics metric : getStageMetrics(job, BatchJobStageType.PERSISTENCE_PROCESSING)) {
+            ResourceEntry resourceEntry = getResourceEntry(job, metric.getResourceId());
+            if (resourceEntry == null) {
+                jobLogger.error("The resource referenced by metric by resourceId " + metric.getResourceId() + " is not defined for this job");
+                continue;
             }
-        }
-        
-        // write properties
-        if (job.getBatchProperties() != null) {
             
+            String id = "[file] " + resourceEntry.getResourceName();
+            jobLogger.info(id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType() + ")");
+            
+            Long numProcessed = metric.getRecordCount();
+            Long numFailed = metric.getErrorCount();
+            Long numPassed = metric.getRecordCount() - numFailed;
+            
+            jobLogger.info(id + " records considered: " + numProcessed);
+            jobLogger.info(id + " records ingested successfully: " + numPassed);
+            jobLogger.info(id + " records failed: " + numFailed);
+            
+            totalProcessed += numProcessed;
+            totalErrors += numFailed;
+        }
+
+        // write properties
+        if (job.getBatchProperties() != null)  {
             for (Entry<String, String> entry : job.getBatchProperties().entrySet()) {
                 jobLogger.info("[configProperty] " + entry.getKey() + ": " + entry.getValue());
             }
-
         }
         
-//        FaultsReport fr = job.getFaultsReport();
-//
-//        // TODO BatchJobUtils these errors need to be pulled from the db, write the DA interface to get the faults
-//        for (Fault fault : fr.getFaults()) {
-//            if (fault.isError()) {
-//                jobLogger.error(fault.getMessage());
-//            } else {
-//                jobLogger.warn(fault.getMessage());
-//            }
-//        }
-//
+        BatchJobMongoDAStatus status = BatchJobMongoDA.findBatchJobErrors(job.getId());
+        if (status != null && status.isSuccess()) {
+            for (Error error : (List<Error>)status.getResult()) {
+                if (error.getSeverity().equals(FaultType.TYPE_ERROR.getName())) {
+                    jobLogger.error(
+                            error.getSourceIp() + " " 
+                            + error.getHostname() + " " 
+                            + error.getStageName() + " "
+                            + error.getResourceId() + " " 
+                            + error.getRecordIdentifier() + " " 
+                            + error.getErrorDetail());
+                } else if (error.getSeverity() == FaultType.TYPE_WARNING.getName()) {
+                    jobLogger.warn(
+                            error.getSourceIp() + " " 
+                            + error.getHostname() + " " 
+                            + error.getStageName() + " "
+                            + error.getResourceId() + " " 
+                            + error.getRecordIdentifier() + " " 
+                            + error.getErrorDetail());
+                }
+
+            }
+        }
 
         if (totalErrors == 0) {
             jobLogger.info("All records processed successfully.");
@@ -206,14 +221,23 @@ public class JobReportingProcessor implements Processor {
         batchJobDAO.saveBatchJob(job);
    }
 
-    private Metrics getStageMetric(NewBatchJob job, BatchJobStageType stageType, String resourceId) {
+    private ResourceEntry getResourceEntry(NewBatchJob job, String resourceId) {
+        for (ResourceEntry entry : job.getResourceEntries()) {
+            System.out.println("Looking at resource " + entry.getResourceName());
+            if (entry.getResourceName().equals(resourceId)) {
+                System.out.println("Matched resource " + entry.getResourceName());
+                return entry;
+            }
+        }
+        return null;
+    }
+
+    private List<Metrics> getStageMetrics(NewBatchJob job, BatchJobStageType stageType) {
         for (Stage stage : job.getStages()) {
-            if (stage.getStageName() == stageType.getName()) {
-                for (Metrics metric : stage.getMetrics()) {
-                    if (metric.getResourceId() == resourceId) {
-                        return metric;
-                    }
-                }
+            System.out.println("Looking at stage " + stage.getStageName());
+            if (stage.getStageName().equals(stageType.getName())) {
+                System.out.println("Matched stage " + stage.getStageName());
+                return stage.getMetrics();
             }
         }
         
