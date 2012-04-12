@@ -110,9 +110,10 @@ public class StateEdFiXmlGenerator {
 
         studentAttendance();
 
+        assessmentMetaData();
+
         studentAssessment();
 
-        assessmentMetaData();
     }
 
     /**
@@ -224,7 +225,7 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentAttendance, new PrintStream(xmlFilePath));
 
-        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentAttendance", xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "Attendance", xmlFilePath);
     }
 
     /**
@@ -240,7 +241,9 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentProgram, new PrintStream(xmlFilePath));
 
-        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentProgram", xmlFilePath);
+        // TODO: uncomment when ingestion supports this
+        // DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentProgram",
+        // xmlFilePath);
     }
 
     /**
@@ -256,7 +259,25 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentCohort, new PrintStream(xmlFilePath));
 
-        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentCohort", xmlFilePath);
+        // TODO: uncomment when ingestion supports this
+        // DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentCohort",
+        // xmlFilePath);
+    }
+
+    /**
+     * Generate InterchangeAssessmentMetadata data and use Jaxb to output the XML file.
+     *
+     * @throws Exception
+     */
+    private static void assessmentMetaData() throws Exception {
+
+        InterchangeAssessmentMetadata assessmentMetadata = InterchangeAssessmentMetadataGenerator.generate();
+
+        String xmlFilePath = rootOutputPath + "/InterchangeAssessmentMetadata.xml";
+
+        JaxbUtils.marshal(assessmentMetadata, new PrintStream(xmlFilePath));
+
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "AssessmentMetadata", xmlFilePath);
     }
 
     /**
@@ -275,20 +296,4 @@ public class StateEdFiXmlGenerator {
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentAssessment", xmlFilePath);
     }
 
-    /**
-     * Generate InterchangeAssessmentMetadata data and use Jaxb to output the XML file.
-     *
-     * @throws Exception
-     */
-    private static void assessmentMetaData() throws Exception {
-
-        InterchangeAssessmentMetadata assessmentMetadata = InterchangeAssessmentMetadataGenerator.generate();
-
-        String xmlFilePath = rootOutputPath + "/InterchangeAssessmentMetadata.xml";
-
-        JaxbUtils.marshal(assessmentMetadata, new PrintStream(xmlFilePath));
-
-        DataUtils
-                .writeControlFile(rootOutputPath + "MainControlFile.ctl", "InterchangeAssessmentMetadata", xmlFilePath);
-    }
 }
