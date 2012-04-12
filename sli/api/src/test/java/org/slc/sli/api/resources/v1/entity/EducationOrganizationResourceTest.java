@@ -1,34 +1,14 @@
 package org.slc.sli.api.resources.v1.entity;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
-
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.association.StaffEducationOrganizationAssociation;
@@ -41,8 +21,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import com.sun.jersey.api.uri.UriBuilderImpl;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for the resource representing an education organization
@@ -72,7 +65,7 @@ public class EducationOrganizationResourceTest {
     
     @Before
     public void setup() throws Exception {
-        uriInfo = buildMockUriInfo(null);
+        uriInfo = ResourceTestUtil.buildMockUriInfo(null);
         
         // inject administrator security context for unit testing
         injector.setAdminContextWithElevatedRights();
@@ -132,7 +125,7 @@ public class EducationOrganizationResourceTest {
         Response response = edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
             
-        String id = parseIdFromLocation(response);
+        String id = ResourceTestUtil.parseIdFromLocation(response);
         assertNotNull("ID should not be null", id);
     }
     
@@ -140,7 +133,7 @@ public class EducationOrganizationResourceTest {
     public void testRead() {
         //create one entity
         Response createResponse = edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        String id = parseIdFromLocation(createResponse);
+        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
         Response response = edOrgResource.read(id, httpHeaders, uriInfo);
         
         Object responseEntityObj = response.getEntity();
@@ -160,7 +153,7 @@ public class EducationOrganizationResourceTest {
     public void testDelete() {
         //create one entity
         Response createResponse = edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        String id = parseIdFromLocation(createResponse);
+        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
         
         //delete it
         Response response = edOrgResource.delete(id, httpHeaders, uriInfo);
@@ -181,7 +174,7 @@ public class EducationOrganizationResourceTest {
     public void testUpdate() {
         //create one entity
         Response createResponse = edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        String id = parseIdFromLocation(createResponse);
+        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
         
         //update it
         Response response = edOrgResource.update(id, new EntityBody(createTestUpdateEntity()), httpHeaders, uriInfo);
@@ -217,10 +210,10 @@ public class EducationOrganizationResourceTest {
     public void testGetStaffEducationOrganizationAssociations() {
         //create ed org entity
         Response createResponse = edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        String edOrgId = parseIdFromLocation(createResponse);
+        String edOrgId = ResourceTestUtil.parseIdFromLocation(createResponse);
         //create staff entity
         createResponse = staffResource.create(new EntityBody(createStaffTestEntity()), httpHeaders, uriInfo);
-        String staffId = parseIdFromLocation(createResponse);
+        String staffId = ResourceTestUtil.parseIdFromLocation(createResponse);
         // create association entity
         staffEducationOrganizationAssociationResource.create(new EntityBody(
                 createStaffEdOrgAssocTestEntity(staffId, edOrgId)), httpHeaders, uriInfo);
@@ -255,10 +248,10 @@ public class EducationOrganizationResourceTest {
     public void testGetStaffEducationOrganizationAssociationStaff() {
         //create ed org entity
         Response createResponse = edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        String edOrgId = parseIdFromLocation(createResponse);
+        String edOrgId = ResourceTestUtil.parseIdFromLocation(createResponse);
         //create staff entity
         createResponse = staffResource.create(new EntityBody(createStaffTestEntity()), httpHeaders, uriInfo);
-        String staffId = parseIdFromLocation(createResponse);
+        String staffId = ResourceTestUtil.parseIdFromLocation(createResponse);
         // create association entity
         staffEducationOrganizationAssociationResource.create(new EntityBody(
                 createStaffEdOrgAssocTestEntity(staffId, edOrgId)), httpHeaders, uriInfo);
@@ -307,57 +300,12 @@ public class EducationOrganizationResourceTest {
         assertEquals(ParameterConstants.EDUCATION_ORGANIZATION_ID + " should be 5678", body2.get(ParameterConstants.EDUCATION_ORGANIZATION_ID), 5678);
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
     }
-    
-    private UriInfo buildMockUriInfo(final String queryString) throws Exception {
-        UriInfo mock = mock(UriInfo.class);
-        when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
-            
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("absolute");
-            }
-        });
-        when(mock.getBaseUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-            
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("base");
-            }
-        });
-        when(mock.getRequestUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-            
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("request");
-            }
-        });
-        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMapImpl>() {
-            @Override
-            public MultivaluedMapImpl answer(InvocationOnMock invocationOnMock) throws Throwable {
-                return new MultivaluedMapImpl();
-            }
-        });
-        
-        when(mock.getRequestUri()).thenReturn(new UriBuilderImpl().replaceQuery(queryString).build(new Object[] {}));
-        return mock;
-    }
-    
+
     private String getIDList(String resource) {
         //create more resources
         Response createResponse1 = edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         Response createResponse2 = edOrgResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
         
-        return parseIdFromLocation(createResponse1) + "," + parseIdFromLocation(createResponse2);
-    }
-    
-    private static String parseIdFromLocation(Response response) {
-        List<Object> locationHeaders = response.getMetadata().get("Location");
-        assertNotNull(locationHeaders);
-        assertEquals(1, locationHeaders.size());
-        Pattern regex = Pattern.compile(".+/([\\w-]+)$");
-        Matcher matcher = regex.matcher((String) locationHeaders.get(0));
-        matcher.find();
-        assertEquals(1, matcher.groupCount());
-        return matcher.group(1);
+        return ResourceTestUtil.parseIdFromLocation(createResponse1) + "," + ResourceTestUtil.parseIdFromLocation(createResponse2);
     }
 }

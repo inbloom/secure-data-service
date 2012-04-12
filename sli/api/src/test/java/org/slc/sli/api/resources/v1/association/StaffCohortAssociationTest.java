@@ -11,26 +11,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.entity.CohortResource;
+import org.slc.sli.api.resources.v1.entity.StaffResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +38,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import com.sun.jersey.api.uri.UriBuilderImpl;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
@@ -55,7 +52,11 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 public class StaffCohortAssociationTest {
 
     @Autowired
-    StaffCohortAssociation staffCohortAssn; //class under test 
+    StaffCohortAssociation staffCohortAssn; //class under test
+    @Autowired
+    StaffResource staffResource;
+    @Autowired
+    CohortResource cohortResource;
 
     @Autowired
     private SecurityContextInjector injector;
@@ -65,7 +66,7 @@ public class StaffCohortAssociationTest {
     
     @Before
     public void setup() throws Exception {
-        uriInfo = buildMockUriInfo(null);
+        uriInfo = ResourceTestUtil.buildMockUriInfo(null);
         
         // inject administrator security context for unit testing
         injector.setAdminContextWithElevatedRights();
@@ -117,7 +118,7 @@ public class StaffCohortAssociationTest {
         Response response = staffCohortAssn.create(new EntityBody(createTestAssociation()), httpHeaders, uriInfo);
         assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
             
-        String id = parseIdFromLocation(response);
+        String id = ResourceTestUtil.parseIdFromLocation(response);
         assertNotNull("ID should not be null", id);
     }
     
@@ -125,7 +126,7 @@ public class StaffCohortAssociationTest {
     public void testRead() {
         //create one entity
         Response createResponse = staffCohortAssn.create(new EntityBody(createTestAssociation()), httpHeaders, uriInfo);
-        String id = parseIdFromLocation(createResponse);
+        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
         Response response = staffCohortAssn.read(id, httpHeaders, uriInfo);
         
         Object responseEntityObj = response.getEntity();
@@ -145,7 +146,7 @@ public class StaffCohortAssociationTest {
     public void testDelete() {
         //create one entity
         Response createResponse = staffCohortAssn.create(new EntityBody(createTestAssociation()), httpHeaders, uriInfo);
-        String id = parseIdFromLocation(createResponse);
+        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
         
         //delete it
         Response response = staffCohortAssn.delete(id, httpHeaders, uriInfo);
@@ -166,7 +167,7 @@ public class StaffCohortAssociationTest {
     public void testUpdate() {
         //create one entity
         Response createResponse = staffCohortAssn.create(new EntityBody(createTestAssociation()), httpHeaders, uriInfo);
-        String id = parseIdFromLocation(createResponse);
+        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
         
         //update it
         Response response = staffCohortAssn.update(id, new EntityBody(createTestUpdateAssociation()), httpHeaders, uriInfo);
@@ -216,52 +217,52 @@ public class StaffCohortAssociationTest {
         assertEquals(StaffCohortAssociation.BEGIN_DATE + " should be " + secondBeginDate, secondBeginDate, body2.get(StaffCohortAssociation.BEGIN_DATE));
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
     }
-    
-    private UriInfo buildMockUriInfo(final String queryString) throws Exception {
-        UriInfo mock = mock(UriInfo.class);
-        when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
-            
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("absolute");
-            }
-        });
-        when(mock.getBaseUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-            
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("base");
-            }
-        });
-        when(mock.getRequestUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-            
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("request");
-            }
-        });
 
-        when(mock.getQueryParameters(true)).thenReturn(new MultivaluedMapImpl());
-        when(mock.getRequestUri()).thenReturn(new UriBuilderImpl().replaceQuery(queryString).build(new Object[] {}));
-        return mock;
+    @Test
+    public void testGetStaffCohortAssocationStaff() {
+        Response createResponse = staffResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("StaffResource")), httpHeaders, uriInfo);
+        String staffId = ResourceTestUtil.parseIdFromLocation(createResponse);
+        createResponse = cohortResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("CohortResource")), httpHeaders, uriInfo);
+        String cohortId = ResourceTestUtil.parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StaffCohortAssociation", "StaffResource", staffId, "CohortResource", cohortId);
+        createResponse = staffCohortAssn.create(new EntityBody(map), httpHeaders, uriInfo);
+        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
+
+        Response response = staffCohortAssn.getStaffCohortAssocationStaff(id, 0, 100, httpHeaders, uriInfo);
+        EntityBody body = ResourceTestUtil.assertions(response);
+        assertEquals("Entity type should match", "staff", body.get("entityType"));
+        assertEquals("ID should match", staffId, body.get("id"));
     }
-    
+
+    @Test
+    public void testGetStaffCohortAssocationCohorts() {
+        Response createResponse = staffResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("StaffResource")), httpHeaders, uriInfo);
+        String staffId = ResourceTestUtil.parseIdFromLocation(createResponse);
+        createResponse = cohortResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("CohortResource")), httpHeaders, uriInfo);
+        String cohortId = ResourceTestUtil.parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StaffCohortAssociation", "StaffResource", staffId, "CohortResource", cohortId);
+        createResponse = staffCohortAssn.create(new EntityBody(map), httpHeaders, uriInfo);
+        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
+
+        Response response = staffCohortAssn.getStaffCohortAssocationCohorts(id, 0, 100, httpHeaders, uriInfo);
+        EntityBody body = ResourceTestUtil.assertions(response);
+        assertEquals("Entity type should match", "cohort", body.get("entityType"));
+        assertEquals("ID should match", cohortId, body.get("id"));
+    }
+
     private String getIDList(String resource) {
         //create more resources
         Response createResponse1 = staffCohortAssn.create(new EntityBody(createTestAssociation()), httpHeaders, uriInfo);
         Response createResponse2 = staffCohortAssn.create(new EntityBody(createTestSecondaryAssociation()), httpHeaders, uriInfo);
         
-        return parseIdFromLocation(createResponse1) + "," + parseIdFromLocation(createResponse2);
-    }
-    
-    private static String parseIdFromLocation(Response response) {
-        List<Object> locationHeaders = response.getMetadata().get("Location");
-        assertNotNull(locationHeaders);
-        assertEquals(1, locationHeaders.size());
-        Pattern regex = Pattern.compile(".+/([\\w-]+)$");
-        Matcher matcher = regex.matcher((String) locationHeaders.get(0));
-        matcher.find();
-        assertEquals(1, matcher.groupCount());
-        return matcher.group(1);
+        return ResourceTestUtil.parseIdFromLocation(createResponse1) + "," + ResourceTestUtil.parseIdFromLocation(createResponse2);
     }
 }

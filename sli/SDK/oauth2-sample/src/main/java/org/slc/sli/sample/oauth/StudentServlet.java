@@ -18,18 +18,20 @@ import org.slc.sli.sample.oauth.model.Teachers;
  * Sample servlet that returns student data.
  */
 public class StudentServlet extends HttpServlet {
-    
+
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 818013212675276117L;
-    
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         BasicClient client = (BasicClient) req.getSession().getAttribute("client");
         List<String> names = Students.getNames(client);
         Map<String, String> tenantIdMap = Teachers.getTenantIdMap(client);
         Map<String, String> firstOne = new HashMap<String, String>();
+        List<String> roles = Teachers.getRoles(client);
+        List<String> accessRights = Teachers.getAccessRights(client);
         if (tenantIdMap != null && tenantIdMap.size() >= 1) {
             String firstKey = tenantIdMap.keySet().iterator().next();
             firstOne.put(firstKey, tenantIdMap.get(firstKey));
@@ -40,7 +42,9 @@ public class StudentServlet extends HttpServlet {
         }
         req.setAttribute("tenantMap", firstOne);
         req.setAttribute("grades", grades);
+        req.setAttribute("roles", roles);
+        req.setAttribute("accessRights", accessRights);
         req.getRequestDispatcher("WEB-INF/students.jsp").forward(req, resp);
     }
-    
+
 }

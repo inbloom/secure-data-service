@@ -69,6 +69,7 @@ public class IdNormalizationTest {
 
         //Testing findByQuery returns null
         internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath", new DummyErrorReport(), "");
+
         Assert.assertEquals(null, internalId);
     }
 
@@ -174,6 +175,7 @@ public class IdNormalizationTest {
         idNorm.setEntityRepository(repo);
 
         String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath", new DummyErrorReport(), "");
+
         Assert.assertEquals("123", internalId);
     }
 
