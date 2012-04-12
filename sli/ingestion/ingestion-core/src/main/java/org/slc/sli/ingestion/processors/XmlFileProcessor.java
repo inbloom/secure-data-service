@@ -34,7 +34,7 @@ public class XmlFileProcessor implements Processor {
             for (IngestionFileEntry fe : batchJob.getFiles()) {
 
 
-                //fe = referenceResolutionHandler.handle(fe, fe.getErrorReport());
+                fe = referenceResolutionHandler.handle(fe, fe.getErrorReport());
 
 
                 if (fe.getErrorReport().hasErrors()) {
