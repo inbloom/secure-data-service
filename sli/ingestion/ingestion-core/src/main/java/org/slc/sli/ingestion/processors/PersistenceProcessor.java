@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
@@ -143,8 +144,12 @@ public class PersistenceProcessor implements Processor {
                     job.getFaultsReport().error(
                             "Errors found for input file \"" + fe.getFileName() + "\". See \"error." + fe.getFileName()
                                     + "\" for details.", this);
-                    
-                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, "Error", "Error", "See \"error." + fe.getFileName() + "\" for details.");
+                                        
+                    for(Fault fault:job.getFaultsReport().getFaults()){
+                        String faultMessage = fault.getMessage();
+                        String faultLevel  = fault.isError() ? "Error" : fault.isWarning() ? "Warning" : "Unknown";
+                        BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);    
+                    }
                 }
 
                 String filename = fe.getFileName();
