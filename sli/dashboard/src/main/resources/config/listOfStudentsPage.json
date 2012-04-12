@@ -2,6 +2,7 @@
   id : "listOfStudentsPage",
   type: "LAYOUT",
   items: [
+    {id : "populationWidget", name: "test", type: "PANEL"},
     {id : "listOfStudents", name: "1-8 ELA View", type: "PANEL"}
   ]
 }

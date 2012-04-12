@@ -2,8 +2,10 @@ package org.slc.sli.manager;
 
 import java.util.List;
 
+import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.EdOrgKey;
+import org.slc.sli.manager.Manager.EntityMapping;
 import org.slc.sli.manager.Manager.EntityMappingManager;
 
 /**
@@ -15,4 +17,6 @@ import org.slc.sli.manager.Manager.EntityMappingManager;
 public interface UserEdOrgManager {
     public List<GenericEntity> getUserInstHierarchy(String token);
     public EdOrgKey getUserEdOrg(String token);
+    @EntityMapping("userEdOrg")
+    public GenericEntity getUserInstHierarchy(String token, Object key, Config.Data config);
 }
