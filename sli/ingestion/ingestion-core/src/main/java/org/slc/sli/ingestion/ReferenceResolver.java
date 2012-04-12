@@ -10,8 +10,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -25,8 +23,6 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class ReferenceResolver extends DefaultHandler {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ReferenceResolver.class);
-
     private Map<String, String> referenceObjects;
 
     private BufferedWriter outputFileWriter;
@@ -36,8 +32,6 @@ public class ReferenceResolver extends DefaultHandler {
     private String topElementName;
     private boolean isValidEntity;
     private boolean startCharacters;
-    private int numRefsToReferences = 0;
-    private int numEntities = 0;
 
     public ReferenceResolver(Map<String, String> referenceMap) {
         referenceObjects = referenceMap;
@@ -60,7 +54,7 @@ public class ReferenceResolver extends DefaultHandler {
      * @throws ParserConfigurationException
      * @throws IOException
      */
-    public void execute(String inputFilePath, String outputFilePath, int[] numRefsToReferences, int[] numEntities)
+    public void execute(String inputFilePath, String outputFilePath)
             throws SAXException, ParserConfigurationException, IOException {
         // Resolve references to references within the input file using the reference memory map.
         SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -71,19 +65,17 @@ public class ReferenceResolver extends DefaultHandler {
             SAXParser sp = spf.newSAXParser();
             sp.parse(inputFile, this);
         } catch (SAXException se) {
-            LOG.error("Error resolving references in XML file " + inputFile.getName() + ": " + se.getMessage());
+            // Just rethrow the exception to caller.
             throw (se);
         } catch (ParserConfigurationException pce) {
-            LOG.error("Error configuring parser for XML file " + inputFile.getName() + ": " + pce.getMessage());
+            // Just rethrow the exception to caller.
             throw (pce);
         } catch (IOException ie) {
-            LOG.error("Error writing expanded XML file " + inputFile.getName() + ": " + ie.getMessage());
+            // Just rethrow the exception to caller.
             throw (ie);
         } finally {
             outputFileWriter.close();
         }
-        numRefsToReferences[0] = this.numRefsToReferences;
-        numEntities[0] = this.numEntities;
     }
 
     /**
@@ -124,7 +116,6 @@ public class ReferenceResolver extends DefaultHandler {
                 SAXException se = new SAXException("Unresolved reference, id=\"" + refId + "\"");
                 throw (se);
             }
-            numRefsToReferences++;
         }
 
         // Process non-reference XML element.
@@ -184,9 +175,6 @@ public class ReferenceResolver extends DefaultHandler {
         // Unmark if top-level element.
         if (qName.equals(topElementName)) {
             topElementName = "";
-            if (isValidEntity) {
-                numEntities++;
-            }
         }
 
         // Write element to output file.

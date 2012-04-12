@@ -1,6 +1,5 @@
 package org.slc.sli.ingestion;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,8 +8,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -23,8 +20,6 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  */
 public class ReferenceConstructor extends DefaultHandler {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ReferenceConstructor.class);
 
     private Map<String, String> referenceObjects;
 
@@ -54,25 +49,11 @@ public class ReferenceConstructor extends DefaultHandler {
      * @throws ParserConfigurationException
      * @throws IOException
      */
-    public Map<String, String> execute(String filePath, int[] numReferences) throws SAXException,
-            ParserConfigurationException, IOException {
+    public Map<String, String> execute(String filePath) throws SAXException, ParserConfigurationException, IOException {
         // Extract references bodies from the input file into the memory map.
         SAXParserFactory spf = SAXParserFactory.newInstance();
-        File inputFile = new File(filePath);
-        try {
-            SAXParser sp = spf.newSAXParser();
-            sp.parse(filePath, this);
-        } catch (SAXException se) {
-            LOG.error("Error parsing XML file " + inputFile.getName() + ": " + se.getMessage());
-            throw (se);
-        } catch (ParserConfigurationException pce) {
-            LOG.error("Error configuring parser for XML file " + inputFile.getName() + ": " + pce.getMessage());
-            throw (pce);
-        } catch (IOException ie) {
-            LOG.error("Error reading XML file " + inputFile.getName() + ": " + ie.getMessage());
-            throw (ie);
-        }
-        numReferences[0] = referenceObjects.size();
+        SAXParser sp = spf.newSAXParser();
+        sp.parse(filePath, this);
         return referenceObjects;
     }
 
