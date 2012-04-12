@@ -326,6 +326,12 @@ public class XmlSignatureHelper {
             return insertLocation;
         }
         
+        nodeList = element.getElementsByTagNameNS(SAML_ASSERTION_NS_URI_V20, "NameID");
+        if (nodeList.getLength() != 0) {
+            insertLocation = nodeList.item(nodeList.getLength() - 1);
+            return insertLocation;
+        }
+        
         return null;
     }
     

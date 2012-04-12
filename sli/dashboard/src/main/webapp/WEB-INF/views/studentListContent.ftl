@@ -131,7 +131,7 @@
 </#list>
 
 <#else>
-  There are no applicable views for your students.
+  There are no applicable views for your students or no students are associated with this teacher.
 </#if>
 
 </table>

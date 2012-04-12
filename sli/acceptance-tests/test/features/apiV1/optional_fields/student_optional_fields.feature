@@ -13,11 +13,13 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     Then I should receive a return code of 200
 
     # Attendaces
-    And I should find "attendances" in "attendances"
+    And I should find "1" "attendances"
+    And I should find "161" "attendances" in it
     When I look at the first one
-    Then I should see "attendanceEventType" is "Daily Attendance" in it
-    Then I should see "entityType" is "attendance" in it
-    Then I should see "studentId" is "<STUDENT_ID>" in it
+    Then I should see "eventDate" is "2012-01-26" in it
+    And I should see "attendanceEventType" is "Daily Attendance" in it
+    And I should see "entityType" is "attendance" in it
+    And I should see "studentId" is "<STUDENT_ID>" in it
 
     # Assessments
     And I should find "1" "studentAssessmentAssociations"

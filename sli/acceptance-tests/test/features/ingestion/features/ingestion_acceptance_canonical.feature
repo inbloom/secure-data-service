@@ -4,8 +4,7 @@ Background: I have a landing zone route configured
 Given I am using local data store
     And I am using preconfigured Ingestion Landing Zone
 
-@smoke
-@integration
+@smoke @integration
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
 Given I post "AcceptanceCanonicalData.zip" file as the payload of the ingestion job
     And the following collections are empty in datastore:
@@ -31,6 +30,9 @@ Given I post "AcceptanceCanonicalData.zip" file as the payload of the ingestion 
         | parent                      |
         | studentParentAssociation    |
         | attendance                  |
+        | program                     |
+        | staffProgramAssociation     |
+        | studentProgramAssociation   |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
@@ -43,8 +45,8 @@ Then I should see following map of entry counts in the corresponding collections
         | section                     | 90    |
         | studentSectionAssociation   | 259   |
         | teacher                     | 3     |
-        | staff                       | 2     |
-        | staffEducationOrganizationAssociation| 2|
+        | staff                       | 11    |
+        | staffEducationOrganizationAssociation| 8|
         | teacherSchoolAssociation    | 4     |
         | teacherSectionAssociation   | 4     |
         | session                     | 22    |
@@ -54,8 +56,11 @@ Then I should see following map of entry counts in the corresponding collections
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
-        | studentSectionGradebookEntry| 78   |
+        | studentSectionGradebookEntry| 78    |
         | attendance                  | 13650 |
+        | program                     | 2     |
+        | staffProgramAssociation     | 0     |
+        | studentProgramAssociation   | 0     |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
@@ -66,13 +71,15 @@ Then I should see following map of entry counts in the corresponding collections
        | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 15119 records." in the resulting batch job file
+       | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-1            | string               |
+       | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-2            | string               |
+    And I should see "Processed 15136 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records considered: 97" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records ingested successfully: 97" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records considered: 99" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records ingested successfully: 99" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records considered: 22" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 22" in the resulting batch job file
@@ -80,8 +87,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeMasterSchedule.xml records considered: 90" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 90" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 15" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 15" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered: 30" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 30" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records considered: 498" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 498" in the resulting batch job file
