@@ -8,8 +8,6 @@ public final class StudentMeta {
     public final List<String> schoolIds;
     public final List<String> sectionIds;
 
-    public final List<String> assessmentIds;
-
     public final String simpleId;
 
     public StudentMeta(String id, SchoolMeta schoolMeta) {
@@ -20,15 +18,13 @@ public final class StudentMeta {
 
         this.sectionIds = new ArrayList<String>();
 
-        this.assessmentIds = new ArrayList<String>();
-
         this.simpleId = id;
     }
 
     @Override
     public String toString() {
-        return "StudentMeta [id=" + id + ", schoolIds=" + schoolIds + ", sectionIds=" + sectionIds + ", assessmentIds="
-                + assessmentIds + ", simpleId=" + simpleId + "]";
+        return "StudentMeta [id=" + id + ", schoolIds=" + schoolIds + ", sectionIds=" + sectionIds + ", simpleId="
+                + simpleId + "]";
     }
 
 }
