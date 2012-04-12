@@ -71,11 +71,11 @@ public class ControlFilePreProcessor implements Processor {
 
             for (IngestionFileEntry file : cf.getFileEntries()) {
                 ResourceEntry resourceEntry = new ResourceEntry();
-                resourceEntry.update(file.getFileFormat().toString(),file.getFileType().toString(),file.getChecksum(),0,0);
+                resourceEntry.update(file.getFileFormat().toString(), file.getFileType().toString(), file.getChecksum(), 0, 0);
                 resourceEntry.setResourceName(file.getFileName());
                 newJob.getResourceEntries().add(resourceEntry);
             }
-            
+
             stage.stopStage();
             newJob.getStages().add(stage);
             batchJobDAO.saveBatchJob(newJob);

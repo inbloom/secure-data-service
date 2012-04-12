@@ -85,7 +85,7 @@ public class PersistenceProcessor implements Processor {
     @ExtractBatchJobIdToContext
     @Profiled
     public void process(Exchange exchange) {
-        
+
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         if (batchJobId == null) {
             exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
@@ -118,18 +118,18 @@ public class PersistenceProcessor implements Processor {
 
             for (IngestionFileEntry fe : job.getFiles()) {
 
-                // batchJobDAO.startMetric(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName())                
+                // batchJobDAO.startMetric(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName())
                 Metrics metric =  new Metrics();
-                metric.setStartTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
-                metric.startMetric(BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName());
+                //metric.setStartTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
+                metric.startMetric();
                 metric.setResourceId(fe.getFileName());
-                if(stage.getMetrics() == null){
+                if (stage.getMetrics() == null) {
                     List<Metrics> metricsList  = new ArrayList<Metrics>();
                     stage.setMetrics(metricsList);
                 }
                 stage.getMetrics().add(metric);
                 batchJobDAO.saveBatchJob(newJob);
-                
+
                 ErrorReport errorReportForFile = null;
                 try {
                     errorReportForFile = processIngestionStream(fe, tenantId, getTransformedCollections(), new HashSet<String>());
@@ -154,14 +154,14 @@ public class PersistenceProcessor implements Processor {
                 String processedPropName = filename + ".records.processed";
                 //String passedPropName = filename + ".records.passed";
                 String failedPropName = filename + ".records.failed";
-                long processedCount = (Long)exchange.getProperty(processedPropName);
+                long processedCount = (Long) exchange.getProperty(processedPropName);
                 //long passedCount = (Long)exchange.getProperty(passedPropName);
-                long failedCount = (Long)exchange.getProperty(failedPropName);
-                metric.stopMetric(BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName());
-                metric.setStopTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
+                long failedCount = (Long) exchange.getProperty(failedPropName);
+                metric.stopMetric();
+                //metric.setStopTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
                 metric.setRecordCount(processedCount);
                 metric.setErrorCount(failedCount);
-                                
+
             }
 
             // Update Camel Exchange processor output result
@@ -172,7 +172,7 @@ public class PersistenceProcessor implements Processor {
 
             // Log statistics
             LOG.info("Persisted Ingestion files for batch job [{}] in {} ms", job, endTime - startTime);
-            BatchJobMongoDA.logIngestionStageInfo(batchJobId, "Persistence", "Ended",null, BatchJobMongoDA.getCurrentTimeStamp());
+            BatchJobMongoDA.logIngestionStageInfo(batchJobId, "Persistence", "Ended", null, BatchJobMongoDA.getCurrentTimeStamp());
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
