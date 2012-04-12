@@ -24,7 +24,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeStudentAssessment_Valid.xml records considered: 1000" in the resulting batch job file
   And I should see "InterchangeStudentAssessment_Valid.xml records ingested successfully: 1000" in the resulting batch job file
   And I should see "InterchangeStudentAssessment_Valid.xml records failed: 0" in the resulting batch job file
-  And I should see "studentAssessment_Valid.xml: Resolved 2000 references to 110 Ed-Fi references for 1000 Ed-Fi entities" in the resulting batch job file
+  And I should see "studentAssessment_Valid.xml: Resolved references" in the resulting batch job file
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
 Given I post "studentAssessment_MissingIDRef.zip" file as the payload of the ingestion job
@@ -43,7 +43,6 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeStudentAssessment_MissingIDRef.xml records failed: 1000" in the resulting batch job file
   And I should see "Error resolving references in XML file studentAssessment_MissingIDRef.xml: Unresolved reference, id=" in the resulting batch job file
   And I should see "STU-1" in the resulting batch job file
-  And I should see "Cannot resolve references in XML file studentAssessment_MissingIDRef.xml" in the resulting batch job file
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
 Given I post "studentAssessment_MalformedXML.zip" file as the payload of the ingestion job
@@ -56,7 +55,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName              | count    |
      | studentAssessment           | 0        |
   And I should see "Processed 0 records." in the resulting batch job file
-  And I should see an error log file created
+  Then I should see an error log file created
   And I should see "InterchangeStudentAssessment_MalformedXML.xml records considered: 1000" in the resulting batch job file
   And I should see "InterchangeStudentAssessment_MalformedXML.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "InterchangeStudentAssessment_MalformedXML.xml records failed: 1000" in the resulting batch job file
@@ -64,5 +63,4 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "StudentReference" in the resulting batch job file
   And I should see "must be terminated by the matching end-tag " in the resulting batch job file
   And I should see "</StudentReference>" in the resulting batch job file
-  And I should see "Cannot extract references from XML file studentAssessment_MalformedXML.xml" in the resulting batch job file
 
