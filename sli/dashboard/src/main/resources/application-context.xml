@@ -44,6 +44,10 @@
         <property name="entityManager" ref="entityManager"/>
     </bean>
 
+    <bean id="portalWSManager" class="org.slc.sli.manager.impl.PortalWSManagerImpl">
+        <property name="apiClient" ref="apiClient"/>
+    </bean>
+
     <bean id="viewManager" class="org.slc.sli.manager.ViewManager">
         <property name="entityManager" ref="entityManager"/>
     </bean>
@@ -55,6 +59,9 @@
 	<bean id= "apiClient" class="org.slc.sli.client.LiveAPIClient">
 	    <property name="restClient" ref="restClient" />
 	    <property name="apiUrl" value="${api.server.url}" />
+	    <property name="portalHeaderUrl" value="${portal.header.url}" />
+	    <property name="portalFooterUrl" value="${portal.footer.url}" />
+	    
 	</bean>
 	
 	<alias alias="apiClientRef" name="${api.client}"/>
