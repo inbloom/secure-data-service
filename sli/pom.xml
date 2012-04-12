@@ -975,6 +975,17 @@
                                 <commandlineArgs>${project.basedir}/config/scripts/webapp-provision.rb ${project.basedir}/config/config.in/canonical_config.yml ${sli.env} ${sli.conf}</commandlineArgs>
                             </configuration>
                         </execution>
+                        <execution>
+                            <id>generate-test-config-files</id>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                            <phase>compile</phase>
+                            <configuration>
+                                <executable>ruby </executable>
+                                <commandlineArgs>${project.basedir}/config/scripts/webapp-provision.rb ${project.basedir}/config/config.in/canonical_config.yml test-${sli.env} ${sli.test.conf}</commandlineArgs>
+                            </configuration>
+                        </execution>
                     </executions>
                 </plugin>
 
