@@ -83,7 +83,7 @@ public class AuthController {
      * @return Entity Service.
      */
     public EntityService getOauthAccessTokenEntityService() {
-        EntityDefinition defn = store.lookupByResourceName("oauth_access_token");
+        EntityDefinition defn = store.lookupByResourceName("userSession");
         return defn.getService();
     }
     
@@ -221,7 +221,6 @@ public class AuthController {
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint, forceAuthn);
         
         this.sessionManager.createAppSession(sessionId, clientId, redirectUri, state, tenantId, tuple.getLeft());
-        // authCodeService.create(clientId, state, redirectUri, tuple.getLeft());
         
         LOG.debug("redirecting to: {}", endpoint);
         

@@ -15,6 +15,7 @@ import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jdom.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -126,9 +127,9 @@ public class SamlFederationResource {
         principal.setEdOrg(attributes.getFirst("edOrg"));
         
         // create sessionIndex --> this should probably be more advanced in the future
-        URI redirect = this.sessionManager.composeRedirect(inResponseTo, principal);
+        Pair<String, URI> tuple = this.sessionManager.composeRedirect(inResponseTo, principal);
         
-        return Response.temporaryRedirect(redirect).cookie(new NewCookie("_tla", samlMessageId, "/", ".slidev.org", "", 300, false)).build();
+        return Response.temporaryRedirect(tuple.getRight()).cookie(new NewCookie("_tla", tuple.getLeft(), "/", ".slidev.org", "", 300, false)).build();
     }
     
     private Entity fetchOne(String collection, NeutralQuery neutralQuery) {
