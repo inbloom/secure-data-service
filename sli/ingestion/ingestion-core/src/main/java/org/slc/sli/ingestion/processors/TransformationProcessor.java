@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -52,7 +53,7 @@ public class TransformationProcessor implements Processor {
         NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
         
         Stage stage = new Stage();
-        stage.setStageName("TransformationProcessor");
+        stage.setStageName(BatchJobStageType.TRANSFORMATION_PROCESSING.getName());
         stage.startStage();
 
         BatchJob job = exchange.getIn().getBody(BatchJob.class);

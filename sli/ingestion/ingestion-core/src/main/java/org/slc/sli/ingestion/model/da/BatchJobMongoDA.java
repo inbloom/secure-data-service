@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -34,7 +35,9 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static String thisIP = getHostIP();
     private static String thisName = getHostName();
     private static MongoTemplate template;
-
+    private static final String STR_TIMESTAMP_FORMAT = "yyyyMMdd hh:mm:ss.SSS";
+    private static final FastDateFormat formatter = FastDateFormat.getInstance(STR_TIMESTAMP_FORMAT);
+    
     public MongoTemplate getBatchJobMongoTemplate() {
         return template;
     }
@@ -45,7 +48,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
     
     @Override
-    public BatchJobStatus saveBatchJob(NewBatchJob job) {
+    public BatchJobMongoDAStatus saveBatchJob(NewBatchJob job) {
         if (job != null)
             template.save(job);
         return null;
@@ -67,10 +70,10 @@ public class BatchJobMongoDA implements BatchJobDAO {
      * @param stopTimeStamp
      * @return
      */
-    public static BatchJobStatus logIngestionStageInfo(String ingestionJobId, String stageName, String status,
+    public static BatchJobMongoDAStatus logIngestionStageInfo(String ingestionJobId, String stageName, String status,
             String startTimestamp, String stopTimeStamp) {
         if (ingestionJobId == null || stageName == null) {
-            BatchJobStatus logStatus = new BatchJobStatus(false, "JobId [" + ingestionJobId + "] " + "or StageName["
+            BatchJobMongoDAStatus logStatus = new BatchJobMongoDAStatus(false, "JobId [" + ingestionJobId + "] " + "or StageName["
                     + stageName + "] is null.", null);
             LOG.warn("Cannot log NewBatchJob status to MongoDB. ingestionJobId or stageName is null!");
             return logStatus;
@@ -100,7 +103,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
             job.getStages().add(newStage);
             template.save(job);
         }
-        return new BatchJobStatus(true, "Created Job Stage.", job);
+        return new BatchJobMongoDAStatus(true, "Created Job Stage.", job);
     }
 
     /**
@@ -116,11 +119,12 @@ public class BatchJobMongoDA implements BatchJobDAO {
      * @param errorCount
      * @return
      */
-    public static BatchJobStatus logIngestionMetricInfo(String ingestionJobId, String stageName, String resourceId,
-            String sourceIp, String hostname, String startTimestamp, String stopTimeStamp, int recordCount,
-            int errorCount) {
+
+    public static BatchJobMongoDAStatus logIngestionMetricInfo(String ingestionJobId, String stageName, String resourceId,
+            String sourceIp, String hostname, String startTimestamp, String stopTimeStamp, long recordCount,
+            long errorCount) {
         if (ingestionJobId == null || stageName == null) {
-            BatchJobStatus logStatus = new BatchJobStatus(false, "JobId [" + ingestionJobId + "] " + "or StageName["
+            BatchJobMongoDAStatus logStatus = new BatchJobMongoDAStatus(false, "JobId [" + ingestionJobId + "] " + "or StageName["
                     + stageName + "] is null.", null);
             LOG.warn("Cannot log IngestionMetric status to MongoDB. ingestionJobId or stageName is null!");
             return logStatus;
@@ -177,7 +181,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
             job.getStages().add(newStage);
             template.save(job);
         }
-        return new BatchJobStatus(true, "Created Job Metric.", job);
+        return new BatchJobMongoDAStatus(true, "Created Job Metric.", job);
     }
 
     private static String getHostIP() {
@@ -216,7 +220,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
      * @param errorDetail
      * @return
      */
-    public static BatchJobStatus logIngestionError(String ingestionJobId, String stageName, String resourceId,
+    public static BatchJobMongoDAStatus logIngestionError(String ingestionJobId, String stageName, String resourceId,
             String sourceIp, String hostname, String recordIdentifier, String timestamp, String severity,
             String errorType, String errorDetail) {
         
@@ -226,17 +230,10 @@ public class BatchJobMongoDA implements BatchJobDAO {
         if (hostname == null)
             hostname = thisName;
         
-        if (timestamp == null) {
-            // TODO: may need to make this faster
-            Calendar cal = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd:HH-mm-ss");
-            timestamp = sdf.format(cal.getTime());
-        }
-        
-        Error error = new Error(ingestionJobId, stageName, resourceId, sourceIp, hostname, recordIdentifier, timestamp,
+        Error error = new Error(ingestionJobId, stageName, resourceId, sourceIp, hostname, recordIdentifier, getCurrentTimeStamp(),
                 severity, errorType, errorDetail);
         template.save(error);
-        return new BatchJobStatus(true, "Created Job Error.", error);
+        return new BatchJobMongoDAStatus(true, "Created Job Error.", error);
     }
 
     public static void logBatchError(String batchJobId, String severity, String errorType, String errorDetail) {
@@ -247,5 +244,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
         logIngestionError(batchJobId, stage.getName(), null, null, null, null, null, severity, errorType, errorDetail);
     }
     
-
+    public static String getCurrentTimeStamp(){
+        String timeStamp = formatter.format(System.currentTimeMillis());
+        return timeStamp;
+    }
 }

@@ -15,14 +15,15 @@ import org.slc.sli.ingestion.landingzone.LandingZone;
 
 /**
  *
- * @author jsa
- *
+ * @author bsuzuki
+ * TODO remove this class after batch job switch over
+ * Just for testing - should use BatchJobLogger after switch over
  */
-public class BatchJobLogger {
+public class NewBatchJobLogger {
 
     public static Logger createLoggerForJob(String jobId, LandingZone lz) throws IOException {
 
-        File logFile = lz.getLogFile(jobId);
+        File logFile = new File(lz.getLZId() + "/newJob-" + jobId + ".txt");
 
         LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
 

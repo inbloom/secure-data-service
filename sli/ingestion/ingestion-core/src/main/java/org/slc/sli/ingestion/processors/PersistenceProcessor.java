@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
@@ -32,7 +33,9 @@ import org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
+import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
@@ -91,12 +94,15 @@ public class PersistenceProcessor implements Processor {
         }
         BatchJobDAO batchJobDAO = new BatchJobMongoDA();
         NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
-        // batchJobDAO.startStage(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING);
-
+        Stage stage = new Stage();
+        newJob.getStages().add(stage);
+        stage.setStageName(BatchJobStageType.PERSISTENCE_PROCESSING.getName());
+        stage.startStage();
+        batchJobDAO.saveBatchJob(newJob);
         BatchJob job = exchange.getIn().getBody(BatchJob.class);
 
         try {
-            // TODO BatchJobUtils this won't be needed later
+            //BatchJobMongoDA.logIngestionStageInfo(batchJobId, "Persistence", "Started", BatchJobMongoDA.getCurrentTimeStamp(), null);
             long startTime = System.currentTimeMillis();
 
             // TODO this should be determined based on the sourceId
@@ -112,14 +118,25 @@ public class PersistenceProcessor implements Processor {
 
             for (IngestionFileEntry fe : job.getFiles()) {
 
-                // batchJobDAO.startMetric(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName())
-
+                // batchJobDAO.startMetric(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName())                
+                Metrics metric =  new Metrics();
+                metric.setStartTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
+                metric.startMetric(BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName());
+                metric.setResourceId(fe.getFileName());
+                if(stage.getMetrics() == null){
+                    List<Metrics> metricsList  = new ArrayList<Metrics>();
+                    stage.setMetrics(metricsList);
+                }
+                stage.getMetrics().add(metric);
+                batchJobDAO.saveBatchJob(newJob);
+                
                 ErrorReport errorReportForFile = null;
                 try {
                     errorReportForFile = processIngestionStream(fe, tenantId, getTransformedCollections(), new HashSet<String>());
 
                 } catch (IOException e) {
                     job.getFaultsReport().error("Internal error reading neutral representation of input file.", this);
+                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, "Exception", "Exception", e.getMessage());
                 }
 
                 // batchJobDAO.stopMetric(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING,
@@ -130,8 +147,21 @@ public class PersistenceProcessor implements Processor {
                     job.getFaultsReport().error(
                             "Errors found for input file \"" + fe.getFileName() + "\". See \"error." + fe.getFileName()
                                     + "\" for details.", this);
+                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, "Error", "Error", "See \"error." + fe.getFileName() + "\" for details.");
                 }
 
+                String filename = fe.getFileName();
+                String processedPropName = filename + ".records.processed";
+                //String passedPropName = filename + ".records.passed";
+                String failedPropName = filename + ".records.failed";
+                long processedCount = (Long)exchange.getProperty(processedPropName);
+                //long passedCount = (Long)exchange.getProperty(passedPropName);
+                long failedCount = (Long)exchange.getProperty(failedPropName);
+                metric.stopMetric(BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName());
+                metric.setStopTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
+                metric.setRecordCount(processedCount);
+                metric.setErrorCount(failedCount);
+                                
             }
 
             // Update Camel Exchange processor output result
@@ -142,17 +172,20 @@ public class PersistenceProcessor implements Processor {
 
             // Log statistics
             LOG.info("Persisted Ingestion files for batch job [{}] in {} ms", job, endTime - startTime);
-
+            BatchJobMongoDA.logIngestionStageInfo(batchJobId, "Persistence", "Ended",null, BatchJobMongoDA.getCurrentTimeStamp());
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             LOG.error("Exception:", exception);
+            BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, "Error", "Exception",  exception.getMessage());
 
         } finally {
             neutralRecordMongoAccess.cleanupGroupedCollections();
         }
 
         // batchJobDAO.stopStage(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING);
+        //batchJobDAO.saveBatchJob(newJob);
+        stage.stopStage();
         batchJobDAO.saveBatchJob(newJob);
 
     }

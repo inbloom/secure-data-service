@@ -24,7 +24,7 @@ import org.slc.sli.ingestion.util.FileUtils;
 
 /**
  * Class used to convert edfi assessments from the metadata interchange into their SLI counterparts
- * 
+ * @deprecated This will be removed at a later date.
  * @author nbrown
  * 
  */

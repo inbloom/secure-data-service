@@ -20,7 +20,7 @@ public class Metrics {
 
     private long recordCount;
 
-    private int errorCount;
+    private long errorCount;
 
     // mongoTemplate requires this constructor.
     public Metrics() {
@@ -31,7 +31,7 @@ public class Metrics {
     }
 
     public Metrics(String resourceId, String sourceIp, String hostname, String startTimestamp, String stopTimestamp,
-            int recordCount, int errorCount) {
+            long recordCount, long errorCount) {
         super();
         this.resourceId = resourceId;
         this.sourceIp = sourceIp;
@@ -90,16 +90,16 @@ public class Metrics {
         this.recordCount = recordCount;
     }
 
-    public int getErrorCount() {
+    public long getErrorCount() {
         return errorCount;
     }
 
-    public void setErrorCount(int errorCount) {
+    public void setErrorCount(long errorCount) {
         this.errorCount = errorCount;
     }
 
     public void update(String resourceId, String sourceIp, String hostname, String startTimestamp,
-            String stopTimestamp, int recordCount, int errorCount) {
+            String stopTimestamp, long recordCount, long errorCount) {
         if (resourceId != null)
             this.resourceId = resourceId;
         if (sourceIp != null)
