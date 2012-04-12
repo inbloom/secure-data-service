@@ -137,7 +137,7 @@ DashboardUtil.Grid.Formatters = {
 			var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);
 			var color = "#cccccc";
 			for (var cutPoint in cutPoints) {
-				if (value - cutPoint <= 0) {
+				if (value - cutPoint < 0) {
 					break;
 			    }
 				color = cutPoints[cutPoint].color;

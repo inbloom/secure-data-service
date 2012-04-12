@@ -13,7 +13,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 
 /**
@@ -90,17 +89,17 @@ public class TimedLogic2 {
      * on objective assessment identification code (i.e. SAT-Reading)
      */
     
-    public static GenericEntity getHighestEverObjAssmt(List<GenericEntity> saaList, final String objAssmtCode) {
+    public static Map getHighestEverObjAssmt(List<Map> saaList, final String objAssmtCode) {
         if (objAssmtCode == null || objAssmtCode.equals(""))
             return null;
-        Collections.sort(saaList, new Comparator<GenericEntity>() {
+        Collections.sort(saaList, new Comparator<Map>() {
             
-            public int compare(GenericEntity o1, GenericEntity o2) {
+            public int compare(Map o1, Map o2) {
                 if (o1 == null || o2 == null)
                     return 0;
                 try {
-                    List<Map> studentObjAssmts1 = o1.getList(Constants.ATTR_STUDENT_OBJECTIVE_ASSESSMENTS);
-                    List<Map> studentObjAssmts2 = o2.getList(Constants.ATTR_STUDENT_OBJECTIVE_ASSESSMENTS);
+                    List<Map> studentObjAssmts1 = (List<Map>) o1.get(Constants.ATTR_STUDENT_OBJECTIVE_ASSESSMENTS);
+                    List<Map> studentObjAssmts2 = (List<Map>) o2.get(Constants.ATTR_STUDENT_OBJECTIVE_ASSESSMENTS);
                     List<Map<String, String>> scoreResults1 = getScoreResults(studentObjAssmts1, objAssmtCode);
                     List<Map<String, String>> scoreResults2 = getScoreResults(studentObjAssmts2, objAssmtCode);
                     String score1 = getScoreFromScoreResults(scoreResults1);
@@ -128,28 +127,28 @@ public class TimedLogic2 {
      * - assessment with lastest beginDate that is not in the future
      * - if there is no assessment window, most recent studentAssessment admin date is used
      */
-    public static GenericEntity getMostRecentAssessmentWindow(Collection<GenericEntity> results,
-            Collection<GenericEntity> assessmentMetaData) {
+    public static Map getMostRecentAssessmentWindow(Collection<Map> results,
+            Collection<Map> assessmentMetaData) {
         
         AssessmentPeriod window = getMostRecentWindow(assessmentMetaData);
         
         if (window != null) {
-            GenericEntity best = null;
-            for (GenericEntity studentAssessment : results) {
-                String date = studentAssessment.getString(Constants.ATTR_ADMIN_DATE);
+            Map best = null;
+            for (Map studentAssessment : results) {
+                String date = (String) studentAssessment.get(Constants.ATTR_ADMIN_DATE);
                 if (window.beginDate.compareTo(date) <= 0 && window.endDate.compareTo(date) >= 0) {
-                    if (best == null || date.compareTo(best.getString(Constants.ATTR_ADMIN_DATE)) > 0) {
+                    if (best == null || date.compareTo((String) best.get(Constants.ATTR_ADMIN_DATE)) > 0) {
                         best = studentAssessment;
                     }
                 }
             }
             return best;
         } else {
-            GenericEntity mostRecent = null;
-            for (GenericEntity studentAssessment : results) {
-                String date = studentAssessment.getString(Constants.ATTR_ADMIN_DATE);
+            Map mostRecent = null;
+            for (Map studentAssessment : results) {
+                String date = (String) studentAssessment.get(Constants.ATTR_ADMIN_DATE);
                 if (date != null
-                        && (mostRecent == null || date.compareTo(mostRecent.getString(Constants.ATTR_ADMIN_DATE)) >= 0)) {
+                        && (mostRecent == null || date.compareTo((String) mostRecent.get(Constants.ATTR_ADMIN_DATE)) >= 0)) {
                     mostRecent = studentAssessment;
                 }
             }
@@ -157,10 +156,10 @@ public class TimedLogic2 {
         }
     }
     
-    private static AssessmentPeriod getMostRecentWindow(Collection<GenericEntity> assessmentMetaData) {
+    private static AssessmentPeriod getMostRecentWindow(Collection<Map> assessmentMetaData) {
         String now = javax.xml.bind.DatatypeConverter.printDate(Calendar.getInstance());
         List<AssessmentPeriod> periods = new ArrayList<AssessmentPeriod>();
-        for (GenericEntity assessment : assessmentMetaData) {
+        for (Map assessment : assessmentMetaData) {
             @SuppressWarnings("unchecked")
             Map<String, String> periodDescriptor = (Map<String, String>) assessment.get(Constants.ATTR_ASSESSMENT_PERIOD_DESCRIPTOR);
             if (periodDescriptor == null) {
@@ -193,11 +192,11 @@ public class TimedLogic2 {
      * Sortable assessment period. Protected level for unit tests.
      */
     protected static class AssessmentPeriod implements Comparable<AssessmentPeriod> {
-        final GenericEntity assessment;
+        final Map assessment;
         final String beginDate;
         final String endDate;
         
-        public AssessmentPeriod(GenericEntity assessment, String beginDate, String endDate) {
+        public AssessmentPeriod(Map assessment, String beginDate, String endDate) {
             this.assessment = assessment;
             this.beginDate = beginDate;
             this.endDate = endDate;

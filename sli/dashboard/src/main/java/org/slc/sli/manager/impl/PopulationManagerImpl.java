@@ -271,29 +271,35 @@ public class PopulationManagerImpl implements PopulationManager {
         
         // call timed logic
         Map chosenAssessment = null;
+        // TODO: fix objective assessment code and use it
+        String objAssmtCode = "";
         
         if (TimedLogic2.TIMESLOT_MOSTRECENTRESULT.equals(timeSlot)) {
             chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
-        //} else if (TimedLogic2.TIMESLOT_HIGHESTEVER.equals(timeSlot) && !objAssmtCode.equals("")) {
-            //chosenAssessment = TimedLogic.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
+        } else if (TimedLogic2.TIMESLOT_HIGHESTEVER.equals(timeSlot) && !objAssmtCode.equals("")) {
+            chosenAssessment = TimedLogic2.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
         } else if (TimedLogic2.TIMESLOT_HIGHESTEVER.equals(timeSlot)) {
             chosenAssessment = TimedLogic2.getHighestEverAssessment(studentAssessmentFiltered);
-//        } else if (TimedLogic2.TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
-//            /*
-//            List<GenericEntity> assessmentMetaData = new ArrayList<GenericEntity>();
-//            Set<String> assessmentIds = new HashSet<String>();
-//            for (GenericEntity studentAssessment : studentAssessmentFiltered) {
-//                String assessmentId = studentAssessment.getString(Constants.ATTR_ASSESSMENT_ID);
-//                if (!assessmentIds.contains(assessmentId)) {
-//                    GenericEntity assessment = metaDataResolver.getAssmtById(assessmentId);
-//                    assessmentMetaData.add(assessment);
-//                    assessmentIds.add(assessmentId);
-//                }
-//            }
-//            
-//            chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
-//            */
-//            
+        } else if (TimedLogic2.TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
+            
+            List<Map> assessmentMetaData = new ArrayList<Map>();
+            
+            // TODO: get the assessment meta data
+            /*
+            Set<String> assessmentIds = new HashSet<String>();
+            for (Map studentAssessment : studentAssessmentFiltered) {
+                String assessmentId = (String) studentAssessment.get(Constants.ATTR_ASSESSMENT_ID);
+                if (!assessmentIds.contains(assessmentId)) {
+                    GenericEntity assessment = metaDataResolver.getAssmtById(assessmentId);
+                    assessmentMetaData.add(assessment);
+                    assessmentIds.add(assessmentId);
+                }
+            }
+            */
+            
+            chosenAssessment = TimedLogic2.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
+            
+            
         } else {
             // Decide whether to throw runtime exception here. Should timed logic default @@@
             chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
