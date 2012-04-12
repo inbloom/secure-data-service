@@ -194,7 +194,7 @@ end
 ############################################################
 desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceCanonicalDataTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
-                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests,
+                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest] do
   displayFailureReport()
   if $SUCCESS
@@ -217,6 +217,11 @@ end
 desc "Run Ingestion Session Test"
 task :ingestionSessionTest do
   runTests("test/features/ingestion/features/ingestion_session.feature")
+end
+
+desc "Run Ingestion Program Test"
+task :ingestionProgramTest do
+  runTests("test/features/ingestion/features/ingestion_program.feature")
 end
 
 desc "Run Ingestion Negative Tests"
@@ -1006,7 +1011,7 @@ desc "Import Storied Data Set"
 task :importStoriedData do
   testHash = Hash[]
   $collectionSet.each do |collection|
-    testHash["#{collection}"] = "storied_data/sds_#{collection}.json" 
+    testHash["#{collection}"] = "storied_data/sds_#{collection}.json"
   end
   setMultipleFixtureFiles(testHash)
 end

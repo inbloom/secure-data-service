@@ -67,7 +67,7 @@ public class IdNormalizer {
             String errorMessage = "ERROR: Failed to resolve a reference" + "\n"
                                 + "       Entity   " + entity.getType() + "\n";
 
-            if (resolvedReferences != null && !resolvedReferences.equals ("")) {
+            if (resolvedReferences != null && !resolvedReferences.equals("")) {
                 errorMessage += "     The failure can be identified with the following reference information: " + "\n"
                               + resolvedReferences;
             }
@@ -86,7 +86,7 @@ public class IdNormalizer {
                                 + "       Entity   " + entity.getType() + "\n"
                                 + "       Field    " + refConfig.getCollectionName() + "\n";
 
-            if (resolvedReferences != null && !resolvedReferences.equals ("")) {
+            if (resolvedReferences != null && !resolvedReferences.equals("")) {
                 errorMessage += "     The failure can be identified with the following reference information: " + "\n"
                               + resolvedReferences;
             }
