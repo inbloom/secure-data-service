@@ -41,6 +41,8 @@ public class LoginServiceTest {
     public void testLogin() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, KeyException,
             TransformerException, MarshalException, XMLSignatureException {
         
+        login.setIssuerBase("http://local.slidev.org:8082/mock-idp");
+        
         List<String> roles = Arrays.asList("role1", "role2");
         URI destUri = URI.create("destUri");
         
