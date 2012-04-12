@@ -112,7 +112,9 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                     builder.queryParam("state", appSession.get("state"));
                 }
                 
-                session.getBody().put("principal", jsoner.convertValue(principal, Map.class));
+                Map<String, Object> mapForm = jsoner.convertValue(principal, Map.class);
+                mapForm.remove("entity");
+                session.getBody().put("principal", mapForm);
                 repo.update(SESSION_COLLECTION, session);
                 redirect = builder.build();
                 break;
