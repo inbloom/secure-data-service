@@ -44,10 +44,6 @@ Given /^no record exists in "([^\"]*)" with a "([^\"]*)" of "([^\"]*)"$/ do |col
   col.find({field => value}).count().should == 0
 end
 
-Given /^parameter "([^\"]*)" is "([^\"]*)"$/ do |param, value|
-  step %Q{parameter "#{param}" "=" "#{value}"}
-end
-
 Given /^parameter "([^\"]*)" is not "([^\"]*)"$/ do |param, value|
   step %Q{parameter "#{param}" "!=" "#{value}"}
 end
@@ -72,15 +68,7 @@ Given /^parameter "([^"]*)" matches via regex "([^"]*)"$/ do |param, value|
   step %Q{parameter "#{param}" "=~" "#{value}"}
 end
 
-Given /^parameter "([^\"]*)" "([^\"]*)" "([^\"]*)"$/ do |param, op, value|
-  if !defined? @queryParams
-    @queryParams = []
-  end
-  @queryParams.delete_if do |entry|
-    entry.start_with? param
-  end
-  @queryParams << URI.escape("#{param}#{op}#{value}")
-end
+
 
 Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   @fields = {
