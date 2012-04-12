@@ -1,5 +1,9 @@
 package org.slc.sli.api.security.context.traversal;
 
+import static junit.framework.Assert.assertTrue;
+
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,17 +16,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import java.util.List;
-
-import static junit.framework.Assert.assertTrue;
-
 /**
  * Test to see if we can get from one node to another.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/spring/applicationContext-test.xml" })
-@TestExecutionListeners({WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-           DirtiesContextTestExecutionListener.class })
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class })
 public class BrutePathFinderTest {
 
     @Autowired
