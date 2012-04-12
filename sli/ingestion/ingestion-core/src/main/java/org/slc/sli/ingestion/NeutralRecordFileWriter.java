@@ -141,10 +141,10 @@ public class NeutralRecordFileWriter {
         }
 
         synchronized (this.nrCount) {
-            if (this.nrCount.contains(record.recordType)) {
-                this.nrCount.put(record.recordType, this.nrCount.get(record.recordType) + 1);
+            if (this.nrCount.containsKey(record.getRecordType())) {
+                this.nrCount.put(record.getRecordType(), this.nrCount.get(record.getRecordType()) + 1L);
             } else {
-                this.nrCount.put(record.recordType, new Long(1L));
+                this.nrCount.put(record.getRecordType(), new Long(1L));
             }
         }
 
