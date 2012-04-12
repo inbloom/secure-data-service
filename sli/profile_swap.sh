@@ -8,7 +8,7 @@ fi
 
 #Take care of build profiles for Spring
 echo "Altering dashboard/api/ingetion projects..."
-grep -lR "sli.dev.subdomain=" sli-configuration/* dashboard/* SDK/oauth2-sample/* | xargs -L 1 sed -i "" -e "s/sli\.dev\.subdomain=.*/sli.dev.subdomain=$hostname/g"
+grep -lR "sli.dev.subdomain:" config/* | xargs -L 1 sed -i "" -e "s/sli\.dev\.subdomain:.*/sli.dev.subdomain: $hostname/g"
 grep -lR "\${sli.dev.subdomain}" SDK/oauth2-sample/* | xargs -L 1 sed -i "" -e "s/\${sli\.dev\.subdomain}/$hostname/g"
 
 #Take care of fixture data for applications
