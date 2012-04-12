@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 
+import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
@@ -26,7 +27,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
     }
 
     @Override
-    File doHandling(File zipFile, ErrorReport errorReport, Long count) {
+    File doHandling(File zipFile, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
         try {
             File dir = ZipFileUtil.extract(zipFile);
             LOG.info("Extracted zip file to {}", dir.getAbsolutePath());

@@ -155,7 +155,7 @@ public class PersistenceProcessor implements Processor {
                 //metric.stopMetric(BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName());
                 metric.setStopTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
                 metric.setRecordCount(processedCount);
-                metric.setErrorCount(failedCount);                                
+                metric.setErrorCount(failedCount);
             }
 
             // Update Camel Exchange processor output result
