@@ -230,7 +230,8 @@ When /^local zip file is moved to ingestion landing zone$/ do
   assert(@destination_path != nil, "Destination path was nil")
   assert(@source_path != nil, "Source path was nil")
 
-  runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/remoteCopy.sh " + @source_path + " " + @destination_path);
+  runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/remoteCopy.sh");
+  @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/remoteCopy.sh " + @source_path + " " + @destination_path);
 
   assert(true, "File Not Uploaded")
 end
@@ -256,6 +257,12 @@ Then /^I should see following map of entry counts in the corresponding collectio
 
   assert(@result == "true", "Some records didn't load successfully.")
 end
+
+Then /^I should say that we started processing$/ do
+  puts "Ingestion Performance Dataset started Ingesting.  Please wait a few hours for it to complete."
+  assert(true, "Some records didn't load successfully.")
+end
+
 
 Then /^I check to find if record is in collection:$/ do |table|
   @db   = @conn[INGESTION_DB_NAME]

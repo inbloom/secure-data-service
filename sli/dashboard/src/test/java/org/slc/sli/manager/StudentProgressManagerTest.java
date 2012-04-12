@@ -182,27 +182,10 @@ public class StudentProgressManagerTest {
     public void testGetCurrentProgressForStudents() {
         String token = "token";
         String selectedSection = "5678";
-        
-        //add the students
-        List<String> students = new ArrayList<String>();
-        students.add(STUDENTID);
-        
-        GenericEntity gradebook1 = new GenericEntity();
-        gradebook1.put("id", "9999");
-        gradebook1.put("numericGradeEarned", 84.0);
-        gradebook1.put("dateFulfilled", "2011-05-15");
-        gradebook1.put("gradebookEntryId", "5555");
-        GenericEntity gradebook2 = new GenericEntity();
-        gradebook2.put("id", "9998");
-        gradebook2.put("numericGradeEarned", 88.0);
-        gradebook2.put("dateFulfilled", "2011-06-30");
-        gradebook2.put("gradebookEntryId", "5556");
-        GenericEntity gradebook3 = new GenericEntity();
-        gradebook3.put("id", "9997");
-        gradebook3.put("numericGradeEarned", 81.0);
-        gradebook3.put("dateFulfilled", "2010-05-02");
-        gradebook3.put("gradebookEntryId", "5557");
-        
+
+        List<GenericEntity> studentInfos = new ArrayList<GenericEntity>();
+        GenericEntity studentInfo = new GenericEntity();
+
         GenericEntity gradebookEntry1 = new GenericEntity();
         gradebookEntry1.put("id", "5555");
         gradebookEntry1.put("gradebookEntryType", "Unit Test");
@@ -212,29 +195,39 @@ public class StudentProgressManagerTest {
         GenericEntity gradebookEntry3 = new GenericEntity();
         gradebookEntry3.put("id", "5557");
         gradebookEntry3.put("gradebookEntryType", "Unit Test");
-        
-        //add the associations
-        List<GenericEntity> gradebookEntries = new ArrayList<GenericEntity>();
-        gradebookEntries.add(gradebook1);
-        gradebookEntries.add(gradebook2);
-        gradebookEntries.add(gradebook3);
-        
-        //create the params maps
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(Constants.ATTR_SECTION_ID, selectedSection);
-        params.put(Constants.PARAM_INCLUDE_FIELDS, "numericGradeEarned,dateFulfilled,gradebookEntryId");
-        
-        when(mockEntity.getStudentSectionGradebookEntries(token, STUDENTID, params)).thenReturn(gradebookEntries);
-        
-        Map<String, String> params1 = new HashMap<String, String>();
-        params1.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_GRADEBOOK_ENTRY_TYPE);
-     
-        when(mockEntity.getEntity(token, Constants.ATTR_GRADEBOOK_ENTRIES, "5555", params1)).thenReturn(gradebookEntry1);
-        when(mockEntity.getEntity(token, Constants.ATTR_GRADEBOOK_ENTRIES, "5556", params1)).thenReturn(gradebookEntry2);
-        when(mockEntity.getEntity(token, Constants.ATTR_GRADEBOOK_ENTRIES, "5557", params1)).thenReturn(gradebookEntry3);
+
+        GenericEntity gradebook1 = new GenericEntity();
+        gradebook1.put("id", "9999");
+        gradebook1.put("numericGradeEarned", 84.0);
+        gradebook1.put("dateFulfilled", "2011-05-15");
+        gradebook1.put("gradebookEntryId", "5555");
+        gradebook1.put(Constants.ATTR_GRADEBOOK_ENTRIES, gradebookEntry1);
+        GenericEntity gradebook2 = new GenericEntity();
+        gradebook2.put("id", "9998");
+        gradebook2.put("numericGradeEarned", 88.0);
+        gradebook2.put("dateFulfilled", "2011-06-30");
+        gradebook2.put("gradebookEntryId", "5556");
+        gradebook2.put(Constants.ATTR_GRADEBOOK_ENTRIES, gradebookEntry2);
+        GenericEntity gradebook3 = new GenericEntity();
+        gradebook3.put("id", "9997");
+        gradebook3.put("numericGradeEarned", 81.0);
+        gradebook3.put("dateFulfilled", "2010-05-02");
+        gradebook3.put("gradebookEntryId", "5557");
+        gradebook3.put(Constants.ATTR_GRADEBOOK_ENTRIES, gradebookEntry3);
+
+        List<GenericEntity> gradebooks = new ArrayList<GenericEntity>();
+        gradebooks.add(gradebook1);
+        gradebooks.add(gradebook2);
+        gradebooks.add(gradebook3);
+
+        studentInfo.put(Constants.ATTR_STUDENT_SECTION_GRADEBOOK, gradebooks);
+        studentInfo.put("id", STUDENTID);
+        studentInfos.add(studentInfo);
+
+        when(mockEntity.getStudentsWithGradebookEntries(token, selectedSection)).thenReturn(studentInfos);
         
         //call the method
-        Map<String, Map<String, GenericEntity>> results = manager.getCurrentProgressForStudents(token, students, selectedSection);
+        Map<String, Map<String, GenericEntity>> results = manager.getCurrentProgressForStudents(token, new ArrayList<String>(), selectedSection);
         assertEquals("Size should be 1", 1, results.size());
         
         Map<String, GenericEntity> tests = results.get(STUDENTID);
