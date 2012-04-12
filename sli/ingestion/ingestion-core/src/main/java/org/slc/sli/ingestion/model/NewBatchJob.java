@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.util.performance.PutResultInContext;
 
 /**
@@ -40,10 +41,11 @@ public final class NewBatchJob {
      */
     @PutResultInContext(returnName = "ingestionBatchJobId")
     public static String createId(String filename) {
-        if (filename == null)
+        if (filename == null) {
             return System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
-        else
+        } else {
             return filename + "-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+        }
     }
 
     public NewBatchJob(String id) {
@@ -66,14 +68,17 @@ public final class NewBatchJob {
         this.sourceId = sourceId;
         this.status = status;
         this.totalFiles = totalFiles;
-        if (batchProperties == null)
+        if (batchProperties == null) {
             batchProperties = new HashMap<String, String>();
+        }
         this.batchProperties = batchProperties;
-        if (stages == null)
+        if (stages == null) {
             stages = new LinkedList<Stage>();
+        }
         this.stages = stages;
-        if (resourceEntries == null)
+        if (resourceEntries == null) {
             resourceEntries = new LinkedList<ResourceEntry>();
+        }
         this.resourceEntries = resourceEntries;
     }
 
@@ -120,5 +125,38 @@ public final class NewBatchJob {
     public String getId() {
         return id;
     }
+
+    /**
+     * Method to return the ResourceEntry for a given resourceId
+     * returns null if no matching entry is found
+     *
+     * @param resourceId
+     */
+    public ResourceEntry getResourceEntry(String resourceId) {
+        for (ResourceEntry entry : this.getResourceEntries()) {
+            String entryResourceId = entry.getResourceId();
+            if (entryResourceId.equals(resourceId)) {
+                return entry;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Method to return the List of metrics for a given stageType
+     * returns null if no matching metrics are found
+     *
+     * @param stageType
+     */
+    public List<Metrics> getStageMetrics(BatchJobStageType stageType) {
+        for (Stage stage : this.getStages()) {
+            if (stage.getStageName().equals(stageType.getName())) {
+                return stage.getMetrics();
+            }
+        }
+
+        return null;
+    }
+
 
 }

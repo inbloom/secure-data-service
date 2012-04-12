@@ -49,6 +49,15 @@ public class JobReportingProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
+        processExistingBatchJob(exchange);
+
+        // TODO we are doing both in parallel for now, but will replace the existing once testing is done
+        // this writes to a newJobxxx.txt output file in the lz
+        processUsingNewBatchJob(exchange);
+    }
+
+    public void processExistingBatchJob(Exchange exchange) throws Exception {
+
         BatchJob job = exchange.getIn().getBody(BatchJob.class); // existing impl
 
         Logger jobLogger = BatchJobLogger.createLoggerForJob(job.getId(), landingZone);  // existing impl
@@ -116,9 +125,6 @@ public class JobReportingProcessor implements Processor {
         // clean up after ourselves
         ((ch.qos.logback.classic.Logger) jobLogger).detachAndStopAllAppenders();
 
-        // TODO do new batch job processing in parallel
-        processUsingNewBatchJob(exchange);
-
     }
 
 
@@ -140,7 +146,7 @@ public class JobReportingProcessor implements Processor {
 
         Logger jobLogger;
         // TODO uncomment below remove NewBatchJobLogger class and call below on switch over
-        //      used to avoid acceptance test failing
+        //      used to avoid acceptance tests failing
 //        jobLogger = BatchJobLogger.createLoggerForJob(job.getId(), landingZone);
         jobLogger = NewBatchJobLogger.createLoggerForJob(job.getId(), landingZone);
         jobLogger.info("jobId: " + job.getId());
@@ -150,10 +156,10 @@ public class JobReportingProcessor implements Processor {
         int totalErrors = 0;
 
         // new batch job impl writes out persistence stage resource metrics
-        List<Metrics> metrics = getStageMetrics(job, BatchJobStageType.PERSISTENCE_PROCESSING);
+        List<Metrics> metrics = job.getStageMetrics(BatchJobStageType.PERSISTENCE_PROCESSING);
         if (metrics != null) {
             for (Metrics metric : metrics) {
-                ResourceEntry resourceEntry = getResourceEntry(job, metric.getResourceId());
+                ResourceEntry resourceEntry = job.getResourceEntry(metric.getResourceId());
                 if (resourceEntry == null) {
                     jobLogger.error("The resource referenced by metric by resourceId " + metric.getResourceId()
                             + " is not defined for this job");
@@ -186,6 +192,9 @@ public class JobReportingProcessor implements Processor {
 
         BatchJobMongoDAStatus status = BatchJobMongoDA.findBatchJobErrors(job.getId());
         if (status != null && status.isSuccess()) {
+
+            // TODO handle large numbers of errors
+            @SuppressWarnings("unchecked")
             List<Error> errors = (List<Error>) status.getResult();
             for (Error error : errors) {
                 if (error.getSeverity().equals(FaultType.TYPE_ERROR.getName())) {
@@ -226,24 +235,5 @@ public class JobReportingProcessor implements Processor {
         job.getStages().add(stage);
         batchJobDAO.saveBatchJob(job);
    }
-
-    private ResourceEntry getResourceEntry(NewBatchJob job, String resourceId) {
-        for (ResourceEntry entry : job.getResourceEntries()) {
-            if (entry.getResourceName().equals(resourceId)) {
-                return entry;
-            }
-        }
-        return null;
-    }
-
-    private List<Metrics> getStageMetrics(NewBatchJob job, BatchJobStageType stageType) {
-        for (Stage stage : job.getStages()) {
-            if (stage.getStageName().equals(stageType.getName())) {
-                return stage.getMetrics();
-            }
-        }
-
-        return null;
-    }
 
 }

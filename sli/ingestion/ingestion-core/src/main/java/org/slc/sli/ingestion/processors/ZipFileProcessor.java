@@ -1,6 +1,7 @@
  package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
@@ -12,16 +13,17 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.util.performance.Profiled;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 
 /**
  * Zip file handler.
@@ -55,6 +57,8 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             // TODO BJI: create job in the db
             batchJobId = NewBatchJob.createId(zipFile.getName());
             NewBatchJob newJob = new NewBatchJob(batchJobId);
+            newJob.setStatus(BatchJobStatusType.STARTED.getName());
+
             Stage stage = new Stage();
             stage.setStageName(BatchJobStageType.ZIP_FILE_PROCESSING.getName());
             stage.startStage();

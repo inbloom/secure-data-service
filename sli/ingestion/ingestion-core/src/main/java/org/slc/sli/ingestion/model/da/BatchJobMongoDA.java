@@ -206,6 +206,13 @@ public class BatchJobMongoDA implements BatchJobDAO {
         return name;
     }
 
+    /**
+     * Return all the errors associated with a batch job id
+     * TODO support very large result sets
+     *
+     * @param jobId
+     * @return
+     */
     public static BatchJobMongoDAStatus findBatchJobErrors(String jobId) {
         Query query = new Query(Criteria.where("batchJobId").is(jobId));
         List<Error> errors = template.find(query, Error.class, "error");

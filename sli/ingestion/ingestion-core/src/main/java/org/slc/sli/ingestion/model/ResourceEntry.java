@@ -27,12 +27,15 @@ public final class ResourceEntry {
     }
 
     public void update(String fileFormat, String fileType, String checksum, int recordCount, int errorCount) {
-        if (fileFormat != null)
+        if (fileFormat != null) {
             this.resourceFormat = fileFormat;
-        if (fileType != null)
+        }
+        if (fileType != null) {
             this.resourceType = fileType;
-        if (checksum != null)
+        }
+        if (checksum != null) {
             this.checksum = checksum;
+        }
         this.recordCount = recordCount;
         this.errorCount = errorCount;
     }
@@ -43,6 +46,7 @@ public final class ResourceEntry {
 
     public void setResourceId(String resourceId) {
         this.resourceId = resourceId;
+        this.resourceName = resourceId;
     }
 
     public String getResourceName() {
@@ -51,6 +55,7 @@ public final class ResourceEntry {
 
     public void setResourceName(String resourceName) {
         this.resourceName = resourceName;
+        this.resourceId = resourceName;
     }
 
     public String getResourceFormat() {

@@ -1,12 +1,14 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
@@ -54,14 +56,16 @@ public class ControlFilePreProcessor implements Processor {
                 exchange.getIn().setHeader("BatchJobId", batchJobId);
                 log.info("Created job [{}]", batchJobId);
                 newJob = new NewBatchJob(batchJobId);
+                newJob.setStatus(BatchJobStatusType.STARTED.getName());
             } else {
                 newJob = batchJobDAO.findBatchJobById(batchJobId);
             }
 
+            newJob.setSourceId(landingZone.getLZId());
+
             Stage stage = new Stage();
             stage.setStageName(BatchJobStageType.CONTROL_FILE_PREPROCESSING.getName());
             stage.startStage();
-            newJob.setSourceId(landingZone.getLZId());
 
             // JobLogStatus.startStage(batchJobId, stageName)
 
