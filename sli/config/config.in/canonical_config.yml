@@ -71,6 +71,7 @@ default:
         sli.log4j.logger.org.apache.camel: WARN
         sli.log4j.logger.org.apache.activemq: WARN
         sli.log4j.logger.org.springframework: WARN
+        log.path: /home/stephan/logs
 
 acceptance-tests: 
     api: 
