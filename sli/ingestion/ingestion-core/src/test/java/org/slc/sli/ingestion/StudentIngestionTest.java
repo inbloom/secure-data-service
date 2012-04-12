@@ -69,7 +69,7 @@ public class StudentIngestionTest {
         File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
         String tenantId = "SLI";
-        persistenceProcessor.processIngestionStream(neutralRecordsFile, tenantId);
+        persistenceProcessor.processIngestionStream("batchJobId", neutralRecordsFile, tenantId);
 
         verifyStudents(studentRepository, numberOfStudents);
 
@@ -96,7 +96,7 @@ public class StudentIngestionTest {
         edFiProcessor.processFileEntry(inputFileEntry, inputFileEntry.getErrorReport(), null);
 
         String tenantId = "SLI";
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);
+        persistenceProcessor.processIngestionStream("batchJobId", inputFileEntry.getNeutralRecordFile(), tenantId);
 
         verifyStudents(studentRepository, numberOfStudents);
 
@@ -123,7 +123,7 @@ public class StudentIngestionTest {
         edFiProcessor.processFileEntry(inputFileEntry, inputFileEntry.getErrorReport(), null);
 
         String tenantId = "SLI";
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);
+        persistenceProcessor.processIngestionStream("batchJobId", inputFileEntry.getNeutralRecordFile(), tenantId);
 
         verifyStudents(studentRepository, numberOfStudents);
 
@@ -146,7 +146,7 @@ public class StudentIngestionTest {
         edFiProcessor.processFileEntry(inputFileEntry, inputFileEntry.getErrorReport(), null);
 
         String tenantId = "SLI";
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);
+        persistenceProcessor.processIngestionStream("batchJobId", inputFileEntry.getNeutralRecordFile(), tenantId);
 
         assertEquals(100, IngestionTest.getTotalCountOfEntityInRepository(studentRepository, studentEntityType));
 

@@ -84,7 +84,7 @@ public class StudentSchoolAssociationIngestionTest {
         edFiProcessor.processFileEntry(inputFileEntry, inputFileEntry.getErrorReport(), null);
 
         String tenantId = "SLI";
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);
+        persistenceProcessor.processIngestionStream("batchJobId", inputFileEntry.getNeutralRecordFile(), tenantId);
 
         verifyStudentSchoolAssociations(repository, numberOfStudentSchoolAssociations);
 
@@ -117,7 +117,7 @@ public class StudentSchoolAssociationIngestionTest {
         edFiProcessor.processFileEntry(inputFileEntry, inputFileEntry.getErrorReport(), null);
 
         String tenantId = "SLI";
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);
+        persistenceProcessor.processIngestionStream("batchJobId", inputFileEntry.getNeutralRecordFile(), tenantId);
 
         verifyStudentSchoolAssociations(repository, numberOfStudentSchoolAssociations);
 
@@ -133,7 +133,7 @@ public class StudentSchoolAssociationIngestionTest {
         File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
         String tenantId = "SLI";
-        persistenceProcessor.processIngestionStream(neutralRecordsFile, tenantId);
+        persistenceProcessor.processIngestionStream("batchJobId", neutralRecordsFile, tenantId);
 
     }
 
@@ -146,7 +146,7 @@ public class StudentSchoolAssociationIngestionTest {
         File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
         String tenantId = "SLI";
-        persistenceProcessor.processIngestionStream(neutralRecordsFile, tenantId);
+        persistenceProcessor.processIngestionStream("batchJobId", neutralRecordsFile, tenantId);
 
     }
 

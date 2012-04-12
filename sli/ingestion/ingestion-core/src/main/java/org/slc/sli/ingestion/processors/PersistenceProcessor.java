@@ -43,7 +43,7 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.LoggingErrorReport;
+import org.slc.sli.ingestion.validation.LoggingFaultReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
 import org.slc.sli.util.performance.Profiled;
 
@@ -130,7 +130,7 @@ public class PersistenceProcessor implements Processor {
 
                 ErrorReport errorReportForFile = null;
                 try {
-                    errorReportForFile = processIngestionStream(fe, tenantId, getTransformedCollections(), new HashSet<String>());
+                    errorReportForFile = processIngestionStream(batchJobId, fe, tenantId, getTransformedCollections(), new HashSet<String>());
 
                 } catch (IOException e) {
                     job.getFaultsReport().error("Internal error reading neutral representation of input file.", this);
@@ -197,9 +197,9 @@ public class PersistenceProcessor implements Processor {
      * @param tenantId
      * @throws IOException
      */
-    public ErrorReport processIngestionStream(IngestionFileEntry ingestionFileEntry, String tenantId,
+    public ErrorReport processIngestionStream(String batchJobId, IngestionFileEntry ingestionFileEntry, String tenantId,
             ArrayList<String> transformedCollections, Set<String> processedStagedCollections) throws IOException {
-        return processIngestionStream(ingestionFileEntry.getNeutralRecordFile(), ingestionFileEntry.getFileName(),
+        return processIngestionStream(batchJobId, ingestionFileEntry.getNeutralRecordFile(), ingestionFileEntry.getFileName(),
                 tenantId, transformedCollections, processedStagedCollections);
     }
 
@@ -211,12 +211,12 @@ public class PersistenceProcessor implements Processor {
      * @param tenantId
      * @throws IOException
      */
-    public ErrorReport processIngestionStream(File neutralRecordsFile, String tenantId) throws IOException {
-        return processIngestionStream(neutralRecordsFile, neutralRecordsFile.getName(), tenantId,
+    public ErrorReport processIngestionStream(String batchJobId, File neutralRecordsFile, String tenantId) throws IOException {
+        return processIngestionStream(batchJobId, neutralRecordsFile, neutralRecordsFile.getName(), tenantId,
                 new ArrayList<String>(), new HashSet<String>());
     }
 
-    private ErrorReport processIngestionStream(File neutralRecordsFile, String originalInputFileName,
+    private ErrorReport processIngestionStream(String batchJobId, File neutralRecordsFile, String originalInputFileName,
             String tenantId, ArrayList<String> transformedCollections, Set<String> processedStagedCollections)
             throws IOException {
 
@@ -224,7 +224,7 @@ public class PersistenceProcessor implements Processor {
         long numFailed = 0;
 
         ch.qos.logback.classic.Logger errorLogger = createErrorLoggerForFile(originalInputFileName);
-        ErrorReport recordLevelErrorsInFile = new LoggingErrorReport(errorLogger);
+        LoggingFaultReport recordLevelErrorsInFile = new LoggingFaultReport(errorLogger);
 
         NeutralRecordFileReader nrFileReader = null;
         try {
@@ -252,6 +252,11 @@ public class PersistenceProcessor implements Processor {
 
                         if (errorReport.hasErrors()) {
                             numFailed++;
+                            for (Fault fault:recordLevelErrorsInFile.getFaults()) {
+                                String faultMessage = fault.getMessage();
+                                String faultLevel  = fault.isError() ? "Error" : fault.isWarning() ? "Warning" : "Unknown";
+                                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);    
+                            }                             
                         }
                     }
                 } else {
@@ -275,6 +280,11 @@ public class PersistenceProcessor implements Processor {
 
                                 if (errorReport.hasErrors()) {
                                     numFailed++;
+                                }
+                                for (Fault fault:recordLevelErrorsInFile.getFaults()) {
+                                    String faultMessage = fault.getMessage();
+                                    String faultLevel  = fault.isError() ? "Error" : fault.isWarning() ? "Warning" : "Unknown";
+                                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);    
                                 }
                             }
 
