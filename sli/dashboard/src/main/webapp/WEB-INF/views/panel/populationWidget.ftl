@@ -45,7 +45,7 @@ function populateCourseMenu(edorgIndex,schoolIndex){
 
 function populateSectionMenu(edorgIndex,schoolIndex, courseIndex){
     var temp = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections
-    var y = "<select id=\"sectionSelect\" onChange=\"printStudentList("+edorgIndex+","+schoolIndex+","+courseIndex+", this.value, 0)\">"
+    var y = "<select id=\"sectionSelect\" onChange=\"printStudentList(instHierarchy["+edorgIndex+"].schools["+schoolIndex+"].courses["+courseIndex+"].sections,this.value)\">"
     y += "<option value=\"\"></option>"
     var i = 0
     for(;i < temp.length;i++){
