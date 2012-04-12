@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -29,8 +28,6 @@ public class ReferenceConstructor extends DefaultHandler {
 
     private Map<String, String> referenceObjects;
 
-    private Set<String> referenceObjectList;
-
     private boolean isInsideReferenceEntity;
     private boolean startCharacters;
     private String currentReferenceXMLString;
@@ -38,11 +35,10 @@ public class ReferenceConstructor extends DefaultHandler {
     private String currentReferenceId;
     private String topElementName;
 
-    public ReferenceConstructor(Set<String> referenceSet) {
+    public ReferenceConstructor() {
         tempVal = new StringBuffer();
         topElementName = "";
         referenceObjects = new HashMap<String, String>();
-        referenceObjectList = referenceSet;
     }
 
     /**
@@ -58,7 +54,8 @@ public class ReferenceConstructor extends DefaultHandler {
      * @throws ParserConfigurationException
      * @throws IOException
      */
-    public Map<String, String> execute(String filePath) throws SAXException, ParserConfigurationException, IOException {
+    public Map<String, String> execute(String filePath, int[] numReferences) throws SAXException,
+            ParserConfigurationException, IOException {
         // Extract references bodies from the input file into the memory map.
         SAXParserFactory spf = SAXParserFactory.newInstance();
         File inputFile = new File(filePath);
@@ -75,6 +72,7 @@ public class ReferenceConstructor extends DefaultHandler {
             LOG.error("Error reading XML file " + inputFile.getName() + ": " + ie.getMessage());
             throw (ie);
         }
+        numReferences[0] = referenceObjects.size();
         return referenceObjects;
     }
 
@@ -101,8 +99,7 @@ public class ReferenceConstructor extends DefaultHandler {
         }
 
         // Check if top-level element is a reference.
-        if ((qName.equals(topElementName)) && referenceObjectList.contains(qName)
-                && (attributes.getValue("id") != null)) {
+        if (qName.equals(topElementName) && qName.endsWith("Reference") && (attributes.getValue("id") != null)) {
             currentReferenceXMLString = new String();
             currentReferenceId = attributes.getValue("id");
             isInsideReferenceEntity = true;
@@ -175,7 +172,7 @@ public class ReferenceConstructor extends DefaultHandler {
             }
             tempVal.append("\n\t");
             currentReferenceXMLString += "</" + qName + ">";
-            if (referenceObjectList.contains(qName)) {
+            if (qName.endsWith("Reference")) {
                 referenceObjects.put(currentReferenceId, currentReferenceXMLString);
                 isInsideReferenceEntity = false;
             }

@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -37,12 +36,11 @@ public class ReferenceResolver extends DefaultHandler {
     private String topElementName;
     private boolean isValidEntity;
     private boolean startCharacters;
+    private int numRefsToReferences = 0;
+    private int numEntities = 0;
 
-    private Set<String> referenceObjectList;
-
-    public ReferenceResolver(Set<String> referenceSet, Map<String, String> referenceMap) {
+    public ReferenceResolver(Map<String, String> referenceMap) {
         referenceObjects = referenceMap;
-        referenceObjectList = referenceSet;
 
         tempVal = new StringBuffer();
         topElementName = "";
@@ -62,8 +60,8 @@ public class ReferenceResolver extends DefaultHandler {
      * @throws ParserConfigurationException
      * @throws IOException
      */
-    public void execute(String inputFilePath, String outputFilePath) throws SAXException, ParserConfigurationException,
-            IOException {
+    public void execute(String inputFilePath, String outputFilePath, int[] numRefsToReferences, int[] numEntities)
+            throws SAXException, ParserConfigurationException, IOException {
         // Resolve references to references within the input file using the reference memory map.
         SAXParserFactory spf = SAXParserFactory.newInstance();
         File inputFile = new File(inputFilePath);
@@ -84,6 +82,8 @@ public class ReferenceResolver extends DefaultHandler {
         } finally {
             outputFileWriter.close();
         }
+        numRefsToReferences[0] = this.numRefsToReferences;
+        numEntities[0] = this.numEntities;
     }
 
     /**
@@ -109,11 +109,11 @@ public class ReferenceResolver extends DefaultHandler {
         }
 
         // Expand XML references.
-        if ((qName.equals(topElementName)) && isValidEntity && referenceObjectList.contains(qName)
+        if ((qName.equals(topElementName)) && isValidEntity && qName.endsWith("Reference")
                 && (attributes.getValue("id") != null)) {
             // Reference top-level element.
             isValidEntity = false;
-        } else if (isValidEntity && referenceObjectList.contains(qName) && (attributes.getValue("ref") != null)) {
+        } else if (isValidEntity && qName.endsWith("Reference") && (attributes.getValue("ref") != null)) {
             // Reference to reference - get reference body from map.
             String refId = attributes.getValue("ref");
             if (referenceObjects.containsKey(refId)) {
@@ -124,6 +124,7 @@ public class ReferenceResolver extends DefaultHandler {
                 SAXException se = new SAXException("Unresolved reference, id=\"" + refId + "\"");
                 throw (se);
             }
+            numRefsToReferences++;
         }
 
         // Process non-reference XML element.
@@ -183,10 +184,13 @@ public class ReferenceResolver extends DefaultHandler {
         // Unmark if top-level element.
         if (qName.equals(topElementName)) {
             topElementName = "";
+            if (isValidEntity) {
+                numEntities++;
+            }
         }
 
         // Write element to output file.
-        if (!isValidEntity && referenceObjectList.contains(qName)) {
+        if (!isValidEntity && qName.endsWith("Reference")) {
             isValidEntity = true;
         } else if (isValidEntity) {
             currentXMLString += tempVal.toString();
@@ -207,6 +211,7 @@ public class ReferenceResolver extends DefaultHandler {
      * @throws SAXException
      */
     private void writeXML(String xml) throws SAXException {
+        // Write the input string to the output XML file.
         try {
             outputFileWriter.write(xml);
         } catch (IOException e) {

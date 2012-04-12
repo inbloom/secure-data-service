@@ -2,9 +2,7 @@ package org.slc.sli.ingestion.handler;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,36 +31,26 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
     private File xmlInputFile = null;
     private File xmlOutputFile = null;
 
-    private Set<String> referenceObjectList = new HashSet<String>() {
-        private static final long serialVersionUID = 1L;
-        {
-            add("StudentReference");
-            add("AssessmentReference");
-        }
-    };
+    private long runTimeMSec = 0;
 
     /**
      * Construct the memory map of reference bodies.
      *
-     * @param referenceSet
-     *            Set of viable reference names.
      * @param inputFilePath
      *            Full pathname of input XML file to be expanded.
      */
-    private boolean constructReferenceMap(Set<String> referenceSet, String inputFilePath) {
+    private boolean constructReferenceMap(String inputFilePath, int[] numReferences) {
+        // Construct the reference map in memory.
         long startTime = System.currentTimeMillis();
-
-        ReferenceConstructor rc = new ReferenceConstructor(referenceSet);
+        ReferenceConstructor rc = new ReferenceConstructor();
         try {
-            referenceObjects = rc.execute(inputFilePath);
+            referenceObjects = rc.execute(inputFilePath, numReferences);
         } catch (Exception e) {
             // Report the error.
-            log("Cannot extract references from XML file " + xmlInputFile.getName());
+            logError("Cannot extract references from XML file " + xmlInputFile.getName());
             return false;
         }
-
-        log(xmlInputFile.getName() + ": Reference Map Population took (ms): "
-                + (System.currentTimeMillis() - startTime));
+        runTimeMSec += System.currentTimeMillis() - startTime;
         return true;
     }
 
@@ -70,38 +58,37 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
      * Resolve and expand the references to references within input file entities using the
      * reference map.
      *
-     * @param referenceSet
-     *            Set of viable reference names.
      * @param inputFilePath
      *            Full pathname of input XML file to be expanded.
      * @param outputFilePath
      *            Full pathname of expanded output XML file to be written.
      */
-    private boolean resolveReferences(Set<String> referenceSet, String inputFilePath, String outputFilePath) {
+    private boolean resolveReferences(String inputFilePath, String outputFilePath, int[] numRefsToReferences,
+            int[] numEntities) {
+        // Resolve references to references using reference map; write to output file.
         long startTime = System.currentTimeMillis();
-
         xmlOutputFile = new File(outputFilePath);
-        ReferenceResolver rr = new ReferenceResolver(referenceSet, referenceObjects);
+        ReferenceResolver rr = new ReferenceResolver(referenceObjects);
         try {
-            rr.execute(inputFilePath, outputFilePath);
+            rr.execute(inputFilePath, outputFilePath, numRefsToReferences, numEntities);
         } catch (Exception e) {
             // Delete the output file and report the error.
             xmlOutputFile.delete();
-            log("Cannot resolve references in XML file " + xmlInputFile.getName());
+            logError("Cannot resolve references in XML file " + xmlInputFile.getName());
             return false;
         }
-
-        log(xmlInputFile.getName() + ": XML Denormalization took (ms): " + (System.currentTimeMillis() - startTime));
+        runTimeMSec += System.currentTimeMillis() - startTime;
         return true;
     }
 
     /**
-     * Output an error message to the log and error files.
+     * Write an error message to the log and error files.
      *
      * @param errorMessage
      *            Error message to be written to the log and error files.
      */
-    private void log(String errorMessage) {
+    private void logError(String errorMessage) {
+        // Log errors.
         LOG.error(errorMessage);
         errorReport.error(errorMessage, ReferenceResolutionHandler.class);
     }
@@ -109,35 +96,42 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
     /**
      * Do the actual reference resolution handling of the input file.
      *
-     * @param item
+     * @param fileEntry
      *            Input XML file containing entities with references to references and the reference
      *            bodies.
      * @param errorReport
      *            Error report for reporting errors/warnings.
      */
     @Override
-    IngestionFileEntry doHandling(IngestionFileEntry item, ErrorReport errorReport) {
+    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport) {
         // Create the expanded output file.
-        xmlInputFile = item.getFile();
+        xmlInputFile = fileEntry.getFile();
         this.errorReport = errorReport;
         String inputFilePathname = xmlInputFile.getPath();
         String outputFilePathname = inputFilePathname.substring(0, inputFilePathname.lastIndexOf(".xml"))
                 + "_RESOLVED.xml";
 
         // First, construct the reference list.
-        boolean referenceMapConstructed = constructReferenceMap(referenceObjectList, inputFilePathname);
+        int[] numReferences = { 0 };
+        boolean referenceMapConstructed = constructReferenceMap(inputFilePathname, numReferences);
         if (referenceMapConstructed) {
             // Next, resolve the references.
-            boolean referencesResolved = resolveReferences(referenceObjectList, inputFilePathname, outputFilePathname);
+            int[] numRefsToReferences = { 0 }, numEntities = { 0 };
+            boolean referencesResolved = resolveReferences(inputFilePathname, outputFilePathname, numRefsToReferences,
+                    numEntities);
             if (referencesResolved) {
                 // Move the expanded output file to the input file, and return it.
                 xmlInputFile.delete();
                 if (!xmlOutputFile.renameTo(xmlInputFile)) {
-                    log("Error renaming " + xmlOutputFile.getName() + " to " + xmlInputFile.getName());
+                    logError("Error renaming " + xmlOutputFile.getName() + " to " + xmlInputFile.getName());
                 }
-                IngestionFileEntry outputFileEntry = new IngestionFileEntry(item.getFileFormat(), item.getFileType(),
-                        xmlOutputFile.getName(), MD5.calculate(xmlOutputFile));
+                IngestionFileEntry outputFileEntry = new IngestionFileEntry(fileEntry.getFileFormat(),
+                        fileEntry.getFileType(), xmlOutputFile.getName(), MD5.calculate(xmlOutputFile));
                 outputFileEntry.setFile(xmlOutputFile);
+                double runTimeSec = runTimeMSec / 1000.0;
+                LOG.info(xmlInputFile.getName() + ": Resolved " + numRefsToReferences[0] + " references to "
+                        + numReferences[0] + " Ed-Fi references for " + numEntities[0] + " Ed-Fi entities in "
+                        + runTimeSec + " seconds");
                 return outputFileEntry;
             } else {
                 return null;
@@ -147,7 +141,4 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
         }
     }
 
-    public void setReferenceObjectList(Set<String> referenceObjectList) {
-        this.referenceObjectList = referenceObjectList;
-    }
 }

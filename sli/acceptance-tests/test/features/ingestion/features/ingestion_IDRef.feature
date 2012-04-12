@@ -16,14 +16,15 @@ Then I should see following map of entry counts in the corresponding collections
      | studentAssessment           | 1000     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             |
-     | studentAssessment           | 100                 | body.studentAssessment      |
-     | studentAssessment           | 100                 | body.StudentReference       |
-     | studentAssessment           | 100                 | body.AssessmentReference    |
+     | studentAssessment           | 1000                | body.studentAssessment      |
+     | studentAssessment           | 1000                | body.StudentReference       |
+     | studentAssessment           | 1000                | body.AssessmentReference    |
   And I should see "Processed 1000 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "InterchangeStudentAssessment_Valid.xml records considered: 1000" in the resulting batch job file
   And I should see "InterchangeStudentAssessment_Valid.xml records ingested successfully: 1000" in the resulting batch job file
   And I should see "InterchangeStudentAssessment_Valid.xml records failed: 0" in the resulting batch job file
+  And I should see "studentAssessment_Valid.xml: Resolved 2000 references to 110 Ed-Fi references for 1000 Ed-Fi entities" in the resulting batch job file
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
 Given I post "studentAssessment_MissingIDRef.zip" file as the payload of the ingestion job
