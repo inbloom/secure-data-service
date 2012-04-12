@@ -6,7 +6,7 @@ Given I am using local data store
 
 @smoke @integration
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
-Given I post "AcceptanceCanonicalData.zip" file as the payload of the ingestion job
+Given I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
     And the following collections are empty in datastore:
         | collectionName              |
         | student                     |
