@@ -67,7 +67,7 @@ public class InterchangeStudentAttendanceGenerator {
             }
         }
 
-        System.out.println("generated " + objGenCounter + " StudentAttendanceEvent Association objects in: "
+        System.out.println("generated " + objGenCounter + " AttendanceEvent objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 

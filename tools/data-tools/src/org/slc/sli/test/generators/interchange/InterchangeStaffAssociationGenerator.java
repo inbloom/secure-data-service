@@ -61,7 +61,8 @@ public class InterchangeStaffAssociationGenerator {
 
         generateStaff(interchangeObjects, MetaRelations.STAFF_MAP.values());
 
-        generateStaffEdOrgEmploymentAssoc(interchangeObjects, MetaRelations.STAFF_MAP.values());
+        // TODO: remove when we support (post-alpha?)
+        //generateStaffEdOrgEmploymentAssoc(interchangeObjects, MetaRelations.STAFF_MAP.values());
 
         generateStaffEdOrgAssignmentAssoc(interchangeObjects, MetaRelations.STAFF_MAP.values());
 

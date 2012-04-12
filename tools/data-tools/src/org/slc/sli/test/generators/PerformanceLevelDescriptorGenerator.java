@@ -29,6 +29,8 @@ public class PerformanceLevelDescriptorGenerator {
 
         perfLevelDescType.getCodeValueOrDescription().add(
                 OBJECT_FACTORY.createPerformanceLevelDescriptorTypeCodeValue(perfLevelDescCodeValue));
+        perfLevelDescType.getCodeValueOrDescription().add(
+                OBJECT_FACTORY.createPerformanceLevelDescriptorTypeDescription(perfLevelDescCodeValue));
         return perfLevelDescType;
     }
 }
