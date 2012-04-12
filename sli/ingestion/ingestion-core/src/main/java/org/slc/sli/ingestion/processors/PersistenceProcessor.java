@@ -149,12 +149,12 @@ public class PersistenceProcessor implements Processor {
                 String filename = fe.getFileName();
                 String processedPropName = filename + ".records.processed";
                 String failedPropName = filename + ".records.failed";
-                long processedCount = (Long)exchange.getProperty(processedPropName);
-                long failedCount = (Long)exchange.getProperty(failedPropName);
+                long processedCount = (Long) exchange.getProperty(processedPropName);
+                long failedCount = (Long) exchange.getProperty(failedPropName);
                 //metric.stopMetric(BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName());
                 metric.setStopTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
                 metric.setRecordCount(processedCount);
-                metric.setErrorCount(failedCount);                                
+                metric.setErrorCount(failedCount);
             }
 
             // Update Camel Exchange processor output result
