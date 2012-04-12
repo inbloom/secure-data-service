@@ -241,7 +241,7 @@ DashboardUtil.getStyleDeclaration = function (element)
     return compStyle;
 };
 
-DashboardUtil.getLozenges = function(student) {
+DashboardUtil.renderLozenges = function(student) {
 	var config = DashboardUtil.getWidgetConfig("lozenge");
 	var item, condition, configItem;
 	var lozenges = '';
