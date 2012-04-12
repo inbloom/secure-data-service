@@ -23,6 +23,7 @@ Then I should be redirected to the Mock IDP page for the realm
 When I select "John Doe" from the user drop down
 And I select "IT Administrator" from role selector
 And I click Login
+And I wait for 5 second
 Then I should be redirected to sample app web page
 Then I have "IT Administrator" access to the sandbox tenancy
 And I am able to write student data
@@ -37,6 +38,7 @@ Then I should be redirected to the Mock IDP page for the realm
 When I select "John Doe" from the user drop down
 And I select "Educator"  and "Leader" from role selector
 And I click Login
+And I wait for 5 second
 Then I should be redirected to sample app web page
 Then I have "Educator" and "Leader" access to the sandbox tenancy
 And I am able Read student data

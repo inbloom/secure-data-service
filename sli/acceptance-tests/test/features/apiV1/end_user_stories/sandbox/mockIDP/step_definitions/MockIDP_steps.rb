@@ -101,8 +101,11 @@ When /^I click Login$/ do
   clickButton("login_button","id")
 end
 
+When /^I wait for (\d+) second$/ do |arg1|
+  sleep(Integer(arg1))
+end
+
 Then /^I should be redirected to sample app web page$/ do
-  sleep(60)
   sampleAppUrl = PropLoader.getProps['sampleApp_server_address']
   assert(@driver.current_url.start_with?(sampleAppUrl))
 end
