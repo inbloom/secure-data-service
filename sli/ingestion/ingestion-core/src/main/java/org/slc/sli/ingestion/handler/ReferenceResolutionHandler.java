@@ -61,7 +61,8 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
             return false;
         }
 
-        log(xmlInputFile.getName() + ": Reference Map Population took (ms): " + (System.currentTimeMillis() - startTime));
+        log(xmlInputFile.getName() + ": Reference Map Population took (ms): "
+                + (System.currentTimeMillis() - startTime));
         return true;
     }
 
@@ -94,10 +95,15 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
         return true;
     }
 
+    /**
+     * Output an error message to the log and error files.
+     *
+     * @param errorMessage
+     *            Error message to be written to the log and error files.
+     */
     private void log(String errorMessage) {
         LOG.error(errorMessage);
         errorReport.error(errorMessage, ReferenceResolutionHandler.class);
-        System.out.println(errorMessage);
     }
 
     /**

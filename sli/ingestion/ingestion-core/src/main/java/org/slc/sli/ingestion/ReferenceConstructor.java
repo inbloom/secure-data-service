@@ -53,6 +53,7 @@ public class ReferenceConstructor extends DefaultHandler {
      *
      * @return Map<String, String>
      *         Memory map of all references within the input file.
+     *
      * @throws SAXException
      * @throws ParserConfigurationException
      * @throws IOException
@@ -66,7 +67,6 @@ public class ReferenceConstructor extends DefaultHandler {
             sp.parse(filePath, this);
         } catch (SAXException se) {
             LOG.error("Error parsing XML file " + inputFile.getName() + ": " + se.getMessage());
-            System.out.println("Error parsing XML file " + inputFile.getName() + ": " + se.getMessage());
             throw (se);
         } catch (ParserConfigurationException pce) {
             LOG.error("Error configuring parser for XML file " + inputFile.getName() + ": " + pce.getMessage());
@@ -125,14 +125,12 @@ public class ReferenceConstructor extends DefaultHandler {
     /**
      * SAX parser callback method for XML element internal characters.
      *
-     * @param uri
-     *            Element URI returned by SAX
-     * @param localName
-     *            Element local name returned by SAX
-     * @param qName
-     *            Element qualified name returned by SAX
-     * @param attributes
-     *            Element attribute name/value set returned by SAX
+     * @param ch
+     *            Character array returned by SAX
+     * @param start
+     *            Start index in character array returned by SAX
+     * @param length
+     *            Length of character string returned by SAX
      *
      * @throws SAXException
      *             Parser exception thrown by SAX
@@ -144,7 +142,7 @@ public class ReferenceConstructor extends DefaultHandler {
             tempVal.delete(0, tempVal.length());
             startCharacters = false;
         }
-            tempVal.append(ch, start, length);
+        tempVal.append(ch, start, length);
     }
 
     /**

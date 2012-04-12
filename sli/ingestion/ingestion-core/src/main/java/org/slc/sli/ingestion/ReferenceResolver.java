@@ -57,6 +57,7 @@ public class ReferenceResolver extends DefaultHandler {
      *            Full pathname of input XML file to be expanded.
      * @param outputFilePath
      *            Full pathname of expanded output XML file to be written.
+     *
      * @throws SAXException
      * @throws ParserConfigurationException
      * @throws IOException
@@ -73,7 +74,6 @@ public class ReferenceResolver extends DefaultHandler {
             sp.parse(inputFile, this);
         } catch (SAXException se) {
             LOG.error("Error resolving references in XML file " + inputFile.getName() + ": " + se.getMessage());
-            System.out.println("Error resolving references in XML file " + inputFile.getName() + ": " + se.getMessage());
             throw (se);
         } catch (ParserConfigurationException pce) {
             LOG.error("Error configuring parser for XML file " + inputFile.getName() + ": " + pce.getMessage());
@@ -143,14 +143,12 @@ public class ReferenceResolver extends DefaultHandler {
     /**
      * SAX parser callback method for XML element internal characters.
      *
-     * @param uri
-     *            Element URI returned by SAX
-     * @param localName
-     *            Element local name returned by SAX
-     * @param qName
-     *            Element qualified name returned by SAX
-     * @param attributes
-     *            Element attribute name/value set returned by SAX
+     * @param ch
+     *            Character array returned by SAX
+     * @param start
+     *            Start index in character array returned by SAX
+     * @param length
+     *            Length of character string returned by SAX
      *
      * @throws SAXException
      *             Parser exception thrown by SAX
@@ -162,7 +160,7 @@ public class ReferenceResolver extends DefaultHandler {
             tempVal.delete(0, tempVal.length());
             startCharacters = false;
         }
-            tempVal.append(ch, start, length);
+        tempVal.append(ch, start, length);
     }
 
     /**
@@ -200,6 +198,14 @@ public class ReferenceResolver extends DefaultHandler {
         startCharacters = true;
     }
 
+    /**
+     * Write the input string to the output XML file.
+     *
+     * @param xml
+     *            Full pathname of output XML file to be written.
+     *
+     * @throws SAXException
+     */
     private void writeXML(String xml) throws SAXException {
         try {
             outputFileWriter.write(xml);
