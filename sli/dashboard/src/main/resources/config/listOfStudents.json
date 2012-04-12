@@ -20,6 +20,7 @@
   items : [
     {name: "Middle School ELA View", items: [
       {name: "Student", width: 200, field: "name.fullName", formatter:'showlink', params: {baseLinkUrl:'student', idName:'id', target:"_blank", showAction=""}},
+      {name: "", width: 60, field: "programParticipation", formatter: DashboardUtil.Grid.Formatters.Lozenge},
       {name: "ISAT Reading", items:[
         {name: "Perf. Lvl.", field: "assessments.ISAT Reading.perfLevel"},
         {name: "SS", field: "assessments.ISAT Reading.Scale score"},
@@ -35,6 +36,7 @@
     ]},
     {name: "Early Literacy View", items: [
       {name: "Student", field: "name.fullName", width:100},
+      {name: "", width: 60, field: "programParticipation", formatter: DashboardUtil.Grid.Formatters.Lozenge},
       {name: "DIBELS Next", items:[
         {name: "Perf. Lvl.", field: "assessments.DIBELS Next.perfLevel", width:100}]},
       {name: "Reading", items:[          
@@ -46,6 +48,7 @@
     ]},
     {name: "College Ready ELA View", items: [
       {name: "Student", field: "name.fullName", width:100},
+      {name: "", width: 60, field: "programParticipation", formatter: DashboardUtil.Grid.Formatters.Lozenge},
       {name: "Reading Test Scores (Highest)", items:[
         {name: "SAT", field: "assessments.SAT Reading.x", width:100},
         {name: "%ile", field: "assessments.SAT Reading.percentile", width:100}]},   

@@ -13,7 +13,7 @@
   jQuery.extend(options, panelConfig, {items:panelConfig.items[0].items});
   DashboardUtil.getData(
     gridId, 
-    'sectionId=e107127f-e91f-4424-bb5a-309515e5e656', 
+    'sectionId=95c00f08-ce12-4618-816b-6a305867b2cf', 
     function(panelData){
       DashboardUtil.makeGrid(tableId, options, panelData, {})});
 

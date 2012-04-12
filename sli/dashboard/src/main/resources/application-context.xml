@@ -76,5 +76,6 @@
         <property name="configManager" ref="configManager"/>
         <property name="userEdOrgManager" ref="userEdOrgManager"/>
         <property name="cacheManager" ref="cacheManager"/>
+        <property name="useCache" value="${panel.data.use.cache:true}"/>
     </bean>
 </beans>

@@ -23,8 +23,8 @@ import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.Manager;
-import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.manager.Manager.EntityMappingManager;
+import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.DashboardException;
 import org.slc.sli.util.SecurityUtil;
@@ -35,7 +35,7 @@ import org.slc.sli.util.SecurityUtil;
  *
  */
 public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFactory, ApplicationContextAware {
-    public static final Class<?>[] ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE = 
+    public static final Class<?>[] ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE =
             new Class[]{String.class, Object.class, Config.Data.class};
     private static final String DATA_CACHE_REGION = "user.panel.data";
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -44,33 +44,38 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     private UserEdOrgManager userEdOrgManager;
     private Map<String, InvokableSet> entityReferenceToManagerMethodMap;
     private CacheManager cacheManager;
+    private boolean useCache;
 
-    
+
     public void setConfigManager(ConfigManager configManager) {
         this.configManager = configManager;
     }
-    
+
     public void setUserEdOrgManager(UserEdOrgManager userEdOrgManager) {
         this.userEdOrgManager = userEdOrgManager;
     }
-    
+
     public void setCacheManager(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
+    }
+
+    public void setUseCache(boolean useCache) {
+        this.useCache = useCache;
     }
 
     protected String getTokenId() {
         return SecurityUtil.getToken();
     }
-    
+
     protected Config getConfig(String componentId) {
         return configManager.getComponentConfig(userEdOrgManager.getUserEdOrg(getTokenId()), componentId);
     }
-    
+
     @Override
     public Collection<Config> getWidgetConfigs() {
         return configManager.getWidgetConfigs(userEdOrgManager.getUserEdOrg(getTokenId()));
     }
-    
+
     /**
      * Check declared condition against the entity
      * @param config - config for the component
@@ -100,22 +105,25 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             if (childEntity instanceof Number) {
                 double childNumber = ((Number) childEntity).doubleValue();
                 for (Object n : values) {
-                    if (childNumber == ((Number) n).doubleValue())
+                    if (childNumber == ((Number) n).doubleValue()) {
                         return true;
+                    }
                 }
             } else if (childEntity instanceof String) {
                 String childString = (String) childEntity;
                 for (Object n : values) {
-                    if (childString.equalsIgnoreCase((String) n))
+                    if (childString.equalsIgnoreCase((String) n)) {
                         return true;
+                    }
                 }
-            } else
+            } else {
                 throw new DashboardException("Unsupported data type for condition. Only allow string and numbers");
+            }
             return false;
         }
         return true;
     }
-    
+
     /**
      * Traverse the config tree and populate the necessary entity and config objects
      * @param model - model to populate
@@ -125,7 +133,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
      * @param depth - depth of the recursion
      */
     private Config populateModelRecursively(
-        ModelAndViewConfig model, String componentId, Object entityKey, Config.Item parentToComponentConfigRef, 
+        ModelAndViewConfig model, String componentId, Object entityKey, Config.Item parentToComponentConfigRef,
         GenericEntity parentEntity, int depth
     ) {
         if (depth > 5) {
@@ -138,14 +146,15 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             if (config == null) {
                 throw new DashboardException(
                         "Unable to find config for " + componentId + " and entity id " + entityKey + ", config " + componentId);
-            } 
+            }
             Config.Data dataConfig = config.getData();
             if (dataConfig != null && !dataConfig.isLazy() && !model.hasDataForAlias(dataConfig.getAlias())) {
                 entity = getDataComponent(componentId, entityKey, dataConfig);
                 model.addData(dataConfig.getAlias(), entity);
             }
-            if (!checkCondition(config, entity))
+            if (!checkCondition(config, entity)) {
                 return null;
+            }
         }
         if (config.getItems() != null) {
             List<Config.Item> items = new ArrayList<Config.Item>();
@@ -168,13 +177,13 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
 
     @Override
     public ModelAndViewConfig getModelAndViewConfig(String componentId, Object entityKey) {
-        
+
         ModelAndViewConfig modelAndViewConfig = new ModelAndViewConfig();
         populateModelRecursively(modelAndViewConfig, componentId, entityKey, null, null, 0);
         return modelAndViewConfig;
     }
-    
-    
+
+
     /**
      * Internal convenience class for method caching
      * @author agrebneva
@@ -194,10 +203,10 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             return method;
         }
     }
-    
+
     private void populateEntityReferenceToManagerMethodMap() {
         Map<String, InvokableSet> entityReferenceToManagerMethodMap = new HashMap<String, InvokableSet>();
-       
+
         boolean foundInterface = false;
         for (Object manager : applicationContext.getBeansWithAnnotation(EntityMappingManager.class).values()) {
             logger.info(manager.getClass().getCanonicalName());
@@ -216,7 +225,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         }
         this.entityReferenceToManagerMethodMap = Collections.unmodifiableMap(entityReferenceToManagerMethodMap);
     }
-    
+
     private final void findEntityReferencesForType(
             Map<String, InvokableSet> entityReferenceToManagerMethodMap, Class<?> type, Object instance) {
         Manager.EntityMapping entityMapping;
@@ -236,11 +245,11 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             }
         }
     }
-    
+
     protected InvokableSet getInvokableSet(String entityRef) {
         return this.entityReferenceToManagerMethodMap.get(entityRef);
     }
-    
+
     /**
      * For UTs
      * @param entityRef
@@ -249,14 +258,14 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     public boolean hasCachedEntityMapperReference(String entityRef) {
         return this.entityReferenceToManagerMethodMap.containsKey(entityRef);
     }
-    
+
     @Override
     public GenericEntity getDataComponent(String componentId, Object entityKey) {
         return getDataComponent(componentId, entityKey, getConfig(componentId).getData());
     }
-    
+
     protected GenericEntity getCached(CacheKey cacheKey) {
-        if (cacheManager != null) {
+        if (cacheManager != null && this.useCache) {
             Element elem = cacheManager.getCache(DATA_CACHE_REGION).get(cacheKey);
             if (elem != null) {
                 return (GenericEntity) elem.getValue();
@@ -264,13 +273,13 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         }
         return null;
     }
-    
+
     protected void addCached(CacheKey cacheKey, GenericEntity value) {
-        if (cacheManager != null) {
+        if (cacheManager != null && this.useCache) {
             cacheManager.getCache(DATA_CACHE_REGION).put(new Element(cacheKey, value));
         }
     }
-    
+
     protected GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
         CacheKey cacheKey = new CacheKey(getTokenId(), componentId, entityKey, config);
         GenericEntity value = getCached(cacheKey);
@@ -297,7 +306,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
        this.applicationContext = applicationContext;
        populateEntityReferenceToManagerMethodMap();
     }
-    
+
     /**
      * Internal generic key type for panel.data
      * @author agrebneva
@@ -308,7 +317,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         private Object entityKey;
         private Config.Data config;
         private String tokenId;
-        
+
         private CacheKey(String token, String componentId, Object entityKey, Config.Data config) {
             this.componentId = componentId;
             this.entityKey = entityKey;
@@ -328,33 +337,44 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj)
+            if (this == obj) {
                 return true;
-            if (obj == null)
+            }
+            if (obj == null) {
                 return false;
-            if (getClass() != obj.getClass())
+            }
+            if (getClass() != obj.getClass()) {
                 return false;
+            }
             CacheKey other = (CacheKey) obj;
             if (componentId == null) {
-                if (other.componentId != null)
+                if (other.componentId != null) {
                     return false;
-            } else if (!componentId.equals(other.componentId))
+                }
+            } else if (!componentId.equals(other.componentId)) {
                 return false;
+            }
             if (config == null) {
-                if (other.config != null)
+                if (other.config != null) {
                     return false;
-            } else if (!config.equals(other.config))
+                }
+            } else if (!config.equals(other.config)) {
                 return false;
+            }
             if (entityKey == null) {
-                if (other.entityKey != null)
+                if (other.entityKey != null) {
                     return false;
-            } else if (!entityKey.equals(other.entityKey))
+                }
+            } else if (!entityKey.equals(other.entityKey)) {
                 return false;
+            }
             if (tokenId == null) {
-                if (other.tokenId != null)
+                if (other.tokenId != null) {
                     return false;
-            } else if (!tokenId.equals(other.tokenId))
+                }
+            } else if (!tokenId.equals(other.tokenId)) {
                 return false;
+            }
             return true;
         }
     }

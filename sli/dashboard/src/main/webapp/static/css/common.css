@@ -171,6 +171,24 @@ th.ui-th-column div {
 	width:250px;
 }
 
+.lozenge-widget-ell
+{
+    font-size: 11px;
+    font-weight:bold;
+    text-decoration:underline;
+    color:#20C7C5;
+}
+
+.lozenge-widget-fre
+{
+    font-size: 11px;
+    font-weight:bold;
+    text-decoration:underline;
+    color:#8083fc;
+}
+
+/*old*/
+
 .row {
     margin-left: -20px;
 }
