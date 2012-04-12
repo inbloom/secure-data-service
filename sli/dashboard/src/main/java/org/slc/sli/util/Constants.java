@@ -139,6 +139,7 @@ public final class Constants {
     public static final String ATTR_SCHOOL = "school";
     public static final String ATTR_OPTIONAL_FIELDS = "optionalFields";
     public static final String ATTR_GRADEBOOK_VIEW = "gradebookView";
+    public static final String ATTR_STUDENT_SECTION_GRADEBOOK = "studentSectionGradebookEntries";
 
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
