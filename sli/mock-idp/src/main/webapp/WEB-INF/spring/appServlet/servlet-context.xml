@@ -10,7 +10,12 @@
   <beans:bean id="idpProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     <beans:property name="ignoreUnresolvablePlaceholders" value="true" />
     <beans:property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
-    <beans:property name="location" value="classpath:/config/${sli.env}-mock-idp.properties" />
+    <beans:property name="locations">
+      <beans:list>
+        <beans:value>classpath:/config/${sli.env}-mock-idp.properties</beans:value>
+        <beans:value>classpath*:/config/${sli.env}/api/security/security.properties</beans:value>
+      </beans:list>
+    </beans:property>
   </beans:bean>
 
   <!-- Enables the Spring MVC @Controller programming model -->
