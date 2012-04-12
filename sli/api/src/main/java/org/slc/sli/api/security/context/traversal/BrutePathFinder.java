@@ -27,40 +27,49 @@ public class BrutePathFinder implements SecurityPathFinder {
                 SecurityNodeBuilder.buildNode("teacher").addConnection(EntityNames.SECTION, "sectionId", null)
                         .construct());
         nodeMap.put(EntityNames.SECTION,
-                SecurityNodeBuilder.buildNode(EntityNames.SECTION).addConnection("teacher", "teacherId", null)
+                SecurityNodeBuilder.buildNode(EntityNames.SECTION)
+                        .addConnection(EntityNames.TEACHER, "teacherId", null)
                         .addConnection(EntityNames.STUDENT, "studentId", "sectionStudentAssociation").construct());
         nodeMap.put(
                 EntityNames.STUDENT,
                 SecurityNodeBuilder.buildNode(EntityNames.STUDENT)
                         .addConnection(EntityNames.SECTION, "sectionId", null)
                         .addConnection(EntityNames.ASSESSMENT, "assessmentId", null).construct());
+        
+        nodeMap.put(EntityNames.ASSESSMENT,
+                SecurityNodeBuilder.buildNode(EntityNames.ASSESSMENT)
+                        .addConnection(EntityNames.STUDENT, "studentId", null).construct());
     }
 
     @Override
     public List<SecurityNode> find(String from, String to) {
         Stack<SecurityNode> exploring = new Stack<SecurityNode>();
         List<SecurityNode> explored = new ArrayList<SecurityNode>();
-        SecurityNode temp = null;
-        temp = nodeMap.get(from);
+        SecurityNode temp = nodeMap.get(from);
         exploring.push(temp);
         debug("Starting with node: {}", temp.getName());
         while (!exploring.empty()) {
             temp = exploring.pop();
-            explored.add(temp);
             debug("Marking {} as explored", temp.getName());
+            explored.add(temp);
             if (checkForFinalNode(to, temp)) {
                 debug("Returning a path of size {}", explored.size());
                 return explored;
             }
+            boolean enqueued = false;
             for (Map<String, String> connection : temp.getConnections()) {
                 if (!explored.contains(nodeMap.get(connection.get("entity")))) {
                     debug("Enqueuing: {}", connection.get("entity"));
                     exploring.push(nodeMap.get(connection.get("entity")));
+                    enqueued = true;
                 }
+            }
+            if (!enqueued) {
+                explored.remove(temp);
             }
         }
         debug("NO PATH FOUND FROM {} to {}", new String[] {from, to});
-        return null;
+        return new ArrayList<SecurityNode>();
     }
 
     private boolean checkForFinalNode(String to, SecurityNode temp) {
