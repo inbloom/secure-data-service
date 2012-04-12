@@ -15,7 +15,7 @@ import org.slc.sli.test.edfi.entities.SpecialAccommodationItemType;
 import org.slc.sli.test.edfi.entities.SpecialAccommodationsType;
 import org.slc.sli.test.edfi.entities.StudentAssessment;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
-import org.slc.sli.test.edfi.entities.relations.StudentMeta;
+import org.slc.sli.test.edfi.entities.relations.StudentAssessmentMeta;
 
 public class StudentAssessmentGenerator {
     private boolean optional = true;
@@ -93,8 +93,9 @@ public class StudentAssessmentGenerator {
         return sa;
     }
 
-    public static StudentAssessment generateLowFi(StudentMeta studentMeta, String assessmentId) {
+    public static StudentAssessment generateLowFi(StudentAssessmentMeta studentAssessmentMeta) {
         StudentAssessment sa = new StudentAssessment();
+        sa.setId(studentAssessmentMeta.xmlId);
 
         sa.setAdministrationDate("2011-05-08");
         sa.setAdministrationEndDate("2012-05-08");
@@ -144,9 +145,9 @@ public class StudentAssessmentGenerator {
 
         // TODO: add performanceLevels
 
-        sa.setStudentReference(StudentGenerator.getStudentReferenceType(studentMeta.id));
+        sa.setStudentReference(StudentGenerator.getStudentReferenceType(studentAssessmentMeta.studentId));
 
-        sa.setAssessmentReference(AssessmentGenerator.getAssessmentReference(assessmentId));
+        sa.setAssessmentReference(AssessmentGenerator.getAssessmentReference(studentAssessmentMeta.assessmentId));
 
         return sa;
     }
