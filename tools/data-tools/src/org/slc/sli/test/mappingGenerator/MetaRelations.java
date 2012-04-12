@@ -3,12 +3,9 @@ package org.slc.sli.test.mappingGenerator;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.test.edfi.entities.relations.AssessmentItemMeta;
-import org.slc.sli.test.edfi.entities.relations.AssessmentMeta;
 import org.slc.sli.test.edfi.entities.relations.CohortMeta;
 import org.slc.sli.test.edfi.entities.relations.CourseMeta;
 import org.slc.sli.test.edfi.entities.relations.LeaMeta;
-import org.slc.sli.test.edfi.entities.relations.ObjectiveAssessmentMeta;
 import org.slc.sli.test.edfi.entities.relations.ProgramMeta;
 import org.slc.sli.test.edfi.entities.relations.SchoolMeta;
 import org.slc.sli.test.edfi.entities.relations.SeaMeta;
@@ -21,23 +18,20 @@ import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
 public final class MetaRelations {
 
     // knobs to control number of entities to create
-    private static final int TOTAL_SEAS = 1;
-    private static final int LEAS_PER_SEA = 1;
-    private static final int STAFF_PER_SEA = 3;
-    private static final int SCHOOLS_PER_LEA = 2;
-    private static final int COURSES_PER_SCHOOL = 2;
-    private static final int SESSIONS_PER_SCHOOL = 1;
-    private static final int SECTIONS_PER_COURSE_SESSION = 1;
-    private static final int TEACHERS_PER_SCHOOL = 1;
-    private static final int STUDENTS_PER_SCHOOL = 25;
-    private static final int PROGRAMS_PER_SCHOOL = 2;
-    private static final int FREE_STANDING_COHORT_PER_SCHOOL = 2;
-    private static final int FREE_STANDING_COHORT_SIZE = 4;
-    private static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
-
-    private static final int TOTAL_ASSSESSMENTS = 1;
-    private static final int TOTAL_OBJECTIVE_ASSESSMENTS = 1;
-    private static final int TOTAL_ASSESSMENT_ITEMS = 1;
+    public static final int TOTAL_SEAS = 1;
+    public static final int LEAS_PER_SEA = 1;
+    public static final int STAFF_PER_SEA = 3;
+    public static final int SCHOOLS_PER_LEA = 2;
+    public static final int COURSES_PER_SCHOOL = 2;
+    public static final int SESSIONS_PER_SCHOOL = 1;
+    public static final int SECTIONS_PER_COURSE_SESSION = 1;
+    public static final int TEACHERS_PER_SCHOOL = 1;
+    public static final int STUDENTS_PER_SCHOOL = 25;
+    public static final int PROGRAMS_PER_SCHOOL = 2;
+    public static final int FREE_STANDING_COHORT_PER_SCHOOL = 2;
+    public static final int FREE_STANDING_COHORT_SIZE = 4;
+    public static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
+    public static final int ASSESSMENTS_PER_STUDENT = 10;
 
     // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
     public static final Map<String, SeaMeta> SEA_MAP = new HashMap<String, SeaMeta>();
@@ -58,12 +52,6 @@ public final class MetaRelations {
 
     public static final Map<String, CohortMeta> COHORT_MAP = new HashMap<String, CohortMeta>();
 
-    public static final Map<String, AssessmentMeta> ASSESSMENT_MAP = new HashMap<String, AssessmentMeta>();
-
-    public static final Map<String, ObjectiveAssessmentMeta> OBJECTIVE_ASSESSMENT_MAP = new HashMap<String, ObjectiveAssessmentMeta>();
-
-    public static final Map<String, AssessmentItemMeta> ASSESSMENT_ITEM_MAP = new HashMap<String, AssessmentItemMeta>();
-
     /**
      * The top level call to start the XML generation process is
      * to 'buildSeas'
@@ -72,9 +60,11 @@ public final class MetaRelations {
 
         long startTime = System.currentTimeMillis();
 
+        buildSeas();
+
         AssessmentMetaRelations.buildStandaloneAssessments();
 
-        buildSeas();
+        assignAssessmentsToStudents();
 
         System.out.println("Time taken to build entity relations: " + (System.currentTimeMillis() - startTime));
 
@@ -183,8 +173,6 @@ public final class MetaRelations {
         addStaffToPrograms(programForSchool, staffForSea);
 
         addStaffStudentToFreeStandingCohorts(freeStandingCohortsForSchool, studentsForSchool, staffForSea);
-
-        buildAssessmentForSchool();
 
     }
 
@@ -541,21 +529,12 @@ public final class MetaRelations {
         }
     }
 
-    /**
-     * Build meta data for Assessment related entities
-     */
-    private static void buildAssessmentForSchool() {
-        for (int i = 0; i < TOTAL_ASSSESSMENTS; i++) {
-            String id = "assessment" + i;
-            ASSESSMENT_MAP.put(id, AssessmentMeta.create(id));
-        }
-        for (int i = 0; i < TOTAL_ASSESSMENT_ITEMS; i++) {
-            String id = "assessmentItem" + i;
-            ASSESSMENT_ITEM_MAP.put(id, AssessmentItemMeta.create(id));
-        }
-        for (int i = 0; i < TOTAL_OBJECTIVE_ASSESSMENTS; i++) {
-            String id = "objectiveAssessment" + i;
-            OBJECTIVE_ASSESSMENT_MAP.put(id, ObjectiveAssessmentMeta.create(id));
+    private static void assignAssessmentsToStudents() {
+        for (StudentMeta studentMeta : STUDENT_MAP.values()) {
+            for (int count = 0; count < ASSESSMENTS_PER_STUDENT; count++) {
+                String randomAssessmentId = AssessmentMetaRelations.getRandomAssessmentMeta().id;
+                studentMeta.assessmentIds.add(randomAssessmentId);
+            }
         }
     }
 }
