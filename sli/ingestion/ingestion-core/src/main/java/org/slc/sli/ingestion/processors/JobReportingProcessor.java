@@ -223,9 +223,7 @@ public class JobReportingProcessor implements Processor {
 
     private ResourceEntry getResourceEntry(NewBatchJob job, String resourceId) {
         for (ResourceEntry entry : job.getResourceEntries()) {
-            System.out.println("Looking at resource " + entry.getResourceName());
             if (entry.getResourceName().equals(resourceId)) {
-                System.out.println("Matched resource " + entry.getResourceName());
                 return entry;
             }
         }
@@ -234,9 +232,7 @@ public class JobReportingProcessor implements Processor {
 
     private List<Metrics> getStageMetrics(NewBatchJob job, BatchJobStageType stageType) {
         for (Stage stage : job.getStages()) {
-            System.out.println("Looking at stage " + stage.getStageName());
             if (stage.getStageName().equals(stageType.getName())) {
-                System.out.println("Matched stage " + stage.getStageName());
                 return stage.getMetrics();
             }
         }
