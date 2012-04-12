@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
  * 
  */
 public interface OauthSessionManager {
-    public void createAppSession(String sessionId, String clientId, String redirectUri, String state, String samlId);
+    public void createAppSession(String sessionId, String clientId, String redirectUri, String state, String tenantId, String samlId);
     public URI composeRedirect(String samlId, SLIPrincipal principal);
     public String verify(String code, Pair<String, String> clientCredentials) throws BadCredentialsException;
     public OAuth2Authentication getAuthentication(String authz);

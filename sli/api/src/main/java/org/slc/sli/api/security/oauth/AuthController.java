@@ -194,19 +194,24 @@ public class AuthController {
         String realmId = doesIdMapToValidOAuthSession(sessionId);
         boolean forceAuthn = (sessionId != null && realmId != null) ? false : true;
         
-        String endpoint = SecurityUtil.sudoRun(new SecurityTask<String>() {
+        EntityBody realmEnt = SecurityUtil.sudoRun(new SecurityTask<EntityBody>() {
             @Override
-            public String execute() {
+            public EntityBody execute() {
                 EntityBody body = getRealmEntityService().get(realmIndex);
                 if (body == null) {
                     throw new IllegalArgumentException("couldn't locate idp for realm: " + realmIndex);
                 }
-                
-                @SuppressWarnings("unchecked")
-                Map<String, String> idpData = (Map<String, String>) body.get("idp");
-                return (String) idpData.get("redirectEndpoint");
+                return body;
             }
         });
+        
+        @SuppressWarnings("unused")
+        String tenantId = (String) realmEnt.get("tenantId");
+        
+        @SuppressWarnings("unchecked")
+        Map<String, String> idpData = (Map<String, String>) realmEnt.get("idp");
+        String endpoint = (String) idpData.get("redirectEndpoint");
+        
         if (endpoint == null) {
             throw new IllegalArgumentException("realm " + realmIndex + " doesn't have an endpoint");
         }
@@ -215,7 +220,7 @@ public class AuthController {
         LOG.debug("creating saml authnrequest with ForceAuthn equal to {}", forceAuthn);
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint, forceAuthn);
         
-        this.sessionManager.createAppSession(sessionId, clientId, redirectUri, state, tuple.getLeft());
+        this.sessionManager.createAppSession(sessionId, clientId, redirectUri, state, tenantId, tuple.getLeft());
         // authCodeService.create(clientId, state, redirectUri, tuple.getLeft());
         
         LOG.debug("redirecting to: {}", endpoint);

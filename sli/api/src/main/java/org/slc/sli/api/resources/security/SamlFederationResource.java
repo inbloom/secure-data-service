@@ -123,14 +123,7 @@ public class SamlFederationResource {
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
         principal.setAdminRealm(attributes.getFirst("adminRealm"));
-        
-        // TODO: This is a temporary hack because of how we're storing the edOrg in LDAP.
-        // Once we have a dedicated edOrg attribute, we can strip out this part
-        String edOrg = attributes.getFirst("edOrg");
-        if (edOrg != null && edOrg.indexOf(' ') > -1) {
-            edOrg = edOrg.substring(0, edOrg.indexOf(' '));
-        }
-        principal.setEdOrg(edOrg);
+        principal.setEdOrg(attributes.getFirst("edOrg"));
         
         // create sessionIndex --> this should probably be more advanced in the future
         URI redirect = this.sessionManager.composeRedirect(inResponseTo, principal);

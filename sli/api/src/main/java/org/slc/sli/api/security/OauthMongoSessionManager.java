@@ -1,5 +1,6 @@
 package org.slc.sli.api.security;
 
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,7 +74,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public void createAppSession(String sessionId, String clientId, String redirectUri, String state, String samlId) {
+    public void createAppSession(String sessionId, String clientId, String redirectUri, String state, String tenantId, String samlId) {
         // TODO check for error conditions
         // clientId exists (app)
         // redirectUri matches (app)
@@ -84,6 +85,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             sessionEntity = repo.create(SESSION_COLLECTION, new HashMap<String, Object>());
             sessionEntity.getBody().put("expiration", System.currentTimeMillis() + this.sessionLength);
             sessionEntity.getBody().put("hardLogout", System.currentTimeMillis() + this.hardLogout);
+            sessionEntity.getBody().put("tenantId", tenantId);
             sessionEntity.getBody().put("appSession", new ArrayList<Map<String, Object>>());
         }
         
@@ -207,9 +209,15 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                     List<Map<String, Object>> sessions = (List<Map<String, Object>>) sessionEntity.getBody().get("appSession");
                     for (Map<String, Object> session : sessions) {
                         if (session.get("token").equals(accessToken)) {
+
                             ClientToken token = new ClientToken((String) session.get("clientId"), null /* secret not needed */, null /* Scope is unused */);
+                            //Spring doesn't provide a setter for the approved field (used by isAuthorized), so we set it the hard way
+                            Field approved = ClientToken.class.getDeclaredField("approved");
+                            approved.setAccessible(true);
+                            approved.set(token, true);
+                            
                             final SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"), SLIPrincipal.class);
-                            principal.setEntity(locator.locate(principal.getId().split("@")[1], principal.getExternalId()).getEntity());
+                            principal.setEntity(locator.locate((String) sessionEntity.getBody().get("tenantId"), principal.getExternalId()).getEntity());
                             Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getRealm(), principal.getRoles());
                             PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(principal, null /* Credentials */, authorities);
                             userToken.setAuthenticated(true);
