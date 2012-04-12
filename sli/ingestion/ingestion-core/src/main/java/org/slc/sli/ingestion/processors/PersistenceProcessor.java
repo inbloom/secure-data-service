@@ -143,14 +143,15 @@ public class PersistenceProcessor implements Processor {
                     job.getFaultsReport().error(
                             "Errors found for input file \"" + fe.getFileName() + "\". See \"error." + fe.getFileName()
                                     + "\" for details.", this);
+                    
                     BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, "Error", "Error", "See \"error." + fe.getFileName() + "\" for details.");
                 }
 
                 String filename = fe.getFileName();
                 String processedPropName = filename + ".records.processed";
                 String failedPropName = filename + ".records.failed";
-                long processedCount = (Long)exchange.getProperty(processedPropName);
-                long failedCount = (Long)exchange.getProperty(failedPropName);
+                long processedCount = (Long) exchange.getProperty(processedPropName);
+                long failedCount = (Long) exchange.getProperty(failedPropName);
                 //metric.stopMetric(BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName());
                 metric.setStopTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
                 metric.setRecordCount(processedCount);
