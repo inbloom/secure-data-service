@@ -1,6 +1,8 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.util.Enumeration;
+import java.util.HashMap;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -72,6 +74,17 @@ public class ControlFilePreProcessor implements Processor {
             ControlFile cf = ControlFile.parse(controlFile);
 
             newJob.setTotalFiles(cf.getFileEntries().size());
+
+            HashMap<String, String> batchProperties = new HashMap<String, String>();
+            Enumeration<Object> keys = cf.getConfigProperties().keys();
+            Enumeration<Object> elements = cf.getConfigProperties().elements();
+
+            while (keys.hasMoreElements()) {
+                String key = keys.nextElement().toString();
+                String element = elements.nextElement().toString();
+                batchProperties.put(key, element);
+            }
+            newJob.setBatchProperties(batchProperties);
 
             for (IngestionFileEntry file : cf.getFileEntries()) {
                 ResourceEntry resourceEntry = new ResourceEntry();
