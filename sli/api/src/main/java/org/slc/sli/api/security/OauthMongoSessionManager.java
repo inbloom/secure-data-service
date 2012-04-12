@@ -113,7 +113,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                 }
                 
                 session.getBody().put("principal", jsoner.convertValue(principal, Map.class));
-                
+                repo.update(SESSION_COLLECTION, session);
                 redirect = builder.build();
                 break;
             }
