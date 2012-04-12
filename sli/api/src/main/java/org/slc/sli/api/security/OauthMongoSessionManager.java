@@ -3,6 +3,7 @@ package org.slc.sli.api.security;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,6 +26,11 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.security.resolve.ClientRoleResolver;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
+import org.slc.sli.api.security.resolve.UserLocator;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -52,6 +58,12 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     
     @Autowired
     private Repository<Entity> repo;
+    
+    @Autowired
+    private RolesToRightsResolver resolver;
+    
+    @Autowired
+    private UserLocator locator;
     
     private ObjectMapper jsoner = new ObjectMapper();
     
@@ -196,11 +208,10 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                     for (Map<String, Object> session : sessions) {
                         if (session.get("token").equals(accessToken)) {
                             ClientToken token = new ClientToken((String) session.get("clientId"), null /* secret not needed */, null /* Scope is unused */);
-                            SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"), SLIPrincipal.class);
-                            PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(principal, null /* Credentials */, new ArrayList<GrantedAuthority>() /*
-                                                                                                                                                                                          * TODO wire in
-                                                                                                                                                                                          * authorities
-                                                                                                                                                                                          */);
+                            final SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"), SLIPrincipal.class);
+                            principal.setEntity(locator.locate(principal.getId().split("@")[1], principal.getExternalId()).getEntity());
+                            Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getRealm(), principal.getRoles());
+                            PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(principal, null /* Credentials */, authorities);
                             userToken.setAuthenticated(true);
                             auth = new OAuth2Authentication(token, userToken);
                             break;
@@ -214,6 +225,16 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             }
         }
         return auth;
+    }
+    
+    private Collection<GrantedAuthority> resolveAuthorities(final String realm, final List<String> roleNames) {
+        Collection<GrantedAuthority> userAuthorities = SecurityUtil.sudoRun(new SecurityTask<Collection<GrantedAuthority>>() {
+            @Override
+            public Collection<GrantedAuthority> execute() {
+                return resolver.resolveRoles(realm, roleNames);
+            }
+        });
+        return userAuthorities;
     }
     
     private OAuth2Authentication createAnonymousAuth() {
