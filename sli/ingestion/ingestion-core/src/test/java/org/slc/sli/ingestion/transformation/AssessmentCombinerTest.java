@@ -18,6 +18,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
@@ -96,15 +98,13 @@ public class AssessmentCombinerTest {
         Mockito.when(repository.findByPaths("assessmentPeriodDescriptor", pdPath)).thenReturn(
                 Arrays.asList(buildTestPeriodDescriptor()));
         
-        Map<String, String> oaPath1 = new HashMap<String, String>();
-        oaPath1.put("body.id", OBJ1_ID);
-        Mockito.when(repository.findByPaths("objectiveAssessment", oaPath1)).thenReturn(
-                Arrays.asList(buildTestObjAssmt(OBJ1_ID)));
+        Mockito.when(
+                repository.findOne("objectiveAssessment", new NeutralQuery(new NeutralCriteria("id", "=", OBJ1_ID))))
+                .thenReturn(buildTestObjAssmt(OBJ1_ID));
         
-        Map<String, String> oaPath2 = new HashMap<String, String>();
-        oaPath2.put("body.id", OBJ2_ID);
-        Mockito.when(repository.findByPaths("objectiveAssessment", oaPath2)).thenReturn(
-                Arrays.asList(buildTestObjAssmt(OBJ2_ID)));
+        Mockito.when(
+                repository.findOne("objectiveAssessment", new NeutralQuery(new NeutralCriteria("id", "=", OBJ2_ID))))
+                .thenReturn(buildTestObjAssmt(OBJ2_ID));
         
     }
     
@@ -151,14 +151,13 @@ public class AssessmentCombinerTest {
         NeutralRecord superObjAssessmentActual = buildTestObjAssmt(superOA);
         superObjAssessmentActual.setAttributeField("subObjective", buildTestObjAssmt(subOA).getAttributes());
         
-        Map<String, String> superOAPath = new HashMap<String, String>();
-        superOAPath.put("body.id", superOA);
-        Mockito.when(repository.findByPaths("objectiveAssessment", superOAPath)).thenReturn(
-                Arrays.asList(superObjAssessmentRef));
-        Map<String, String> subOAPath = new HashMap<String, String>();
-        subOAPath.put("body.id", subOA);
-        Mockito.when(repository.findByPaths("objectiveAssessment", subOAPath)).thenReturn(
-                Arrays.asList(buildTestObjAssmt(subOA)));
+        Mockito.when(
+                repository.findOne("objectiveAssessment", new NeutralQuery(new NeutralCriteria("id", "=", superOA))))
+                .thenReturn(superObjAssessmentRef);
+        
+        Mockito.when(repository.findOne("objectiveAssessment", new NeutralQuery(new NeutralCriteria("id", "=", subOA))))
+                .thenReturn(buildTestObjAssmt(subOA));
+        
         NeutralRecord assessment = buildTestAssessmentNeutralRecord();
         assessment.setAttributeField("objectiveAssessmentRefs", Arrays.asList(superOA));
         Mockito.when(
