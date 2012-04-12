@@ -8,8 +8,9 @@ import java.util.Stack;
 
 import javax.annotation.PostConstruct;
 
-import org.slc.sli.api.security.context.traversal.graph.Node;
-import org.slc.sli.api.security.context.traversal.graph.NodeBuilder;
+import org.slc.sli.api.config.EntityNames;
+import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
+import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,22 +18,29 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class BrutePathFinder implements SecurityPathFinder {
-    private Map<String, Node> nodeMap;
+    private Map<String, SecurityNode> nodeMap;
 
     @PostConstruct
     public void init() {
-        nodeMap = new HashMap<String, Node>();
-        nodeMap.put("teacher", NodeBuilder.buildNode("teacher").addConnection("section", "sectionId", null).construct());
-        nodeMap.put("section", NodeBuilder.buildNode("section").addConnection("teacher", "teacherId", null).
-                addConnection("student", "studentId", "sectionStudentAssociation").construct());
-        nodeMap.put("student", NodeBuilder.buildNode("student").addConnection("section", "sectionId", null).construct());
+        nodeMap = new HashMap<String, SecurityNode>();
+        nodeMap.put("teacher",
+                SecurityNodeBuilder.buildNode("teacher").addConnection(EntityNames.SECTION, "sectionId", null)
+                        .construct());
+        nodeMap.put(EntityNames.SECTION,
+                SecurityNodeBuilder.buildNode(EntityNames.SECTION).addConnection("teacher", "teacherId", null)
+                        .addConnection(EntityNames.STUDENT, "studentId", "sectionStudentAssociation").construct());
+        nodeMap.put(
+                EntityNames.STUDENT,
+                SecurityNodeBuilder.buildNode(EntityNames.STUDENT)
+                        .addConnection(EntityNames.SECTION, "sectionId", null)
+                        .addConnection(EntityNames.ASSESSMENT, "assessmentId", null).construct());
     }
 
     @Override
-    public List<Node> find(String from, String to) {
-        Stack<Node> exploring = new Stack<Node>();
-        List<Node> explored = new ArrayList<Node>();
-        Node temp = null;
+    public List<SecurityNode> find(String from, String to) {
+        Stack<SecurityNode> exploring = new Stack<SecurityNode>();
+        List<SecurityNode> explored = new ArrayList<SecurityNode>();
+        SecurityNode temp = null;
         temp = nodeMap.get(from);
         exploring.push(temp);
         debug("Starting with node: {}", temp.getName());
@@ -55,11 +63,19 @@ public class BrutePathFinder implements SecurityPathFinder {
         return null;
     }
 
-    private boolean checkForFinalNode(String to, Node temp) {
+    private boolean checkForFinalNode(String to, SecurityNode temp) {
         return temp.getName().equals(to);
     }
 
-    public void setNodeMap(Map<String, Node> nodeMap) {
+    public void setNodeMap(Map<String, SecurityNode> nodeMap) {
         this.nodeMap = nodeMap;
     }
+    
+    /**
+     * @return the nodeMap
+     */
+    public Map<String, SecurityNode> getNodeMap() {
+        return nodeMap;
+    }
+
 }

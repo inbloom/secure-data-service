@@ -13,13 +13,13 @@ import static junit.framework.Assert.assertTrue;
 /**
  * Basic Node test.
  */
-public class NodeTest {
+public class SecurityNodeTest {
 
-    private Node node;
+    private SecurityNode node;
 
     @Before
     public void setUp() throws Exception {
-        node = NodeBuilder.buildNode("simple").addConnection("SomeWhere", "SomeWhereId", null).construct();
+        node = SecurityNodeBuilder.buildNode("simple").addConnection("SomeWhere", "SomeWhereId", null).construct();
     }
 
     @After
