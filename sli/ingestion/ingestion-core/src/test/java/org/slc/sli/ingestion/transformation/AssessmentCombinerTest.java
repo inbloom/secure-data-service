@@ -21,7 +21,6 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -47,7 +46,7 @@ public class AssessmentCombinerTest {
     
     private String batchJobId = "10001";
     
-    private final static String PERIOD_DESCRIPTOR_CODE_VALUE = "Spring2012";
+    private static final String PERIOD_DESCRIPTOR_CODE_VALUE = "Spring2012";
     
     @Before
     public void setup() {
