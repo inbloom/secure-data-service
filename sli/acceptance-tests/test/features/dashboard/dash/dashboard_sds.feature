@@ -43,7 +43,7 @@ And the list of phone number includes "309-555-2449"
 And the phone number "309-555-2449" is of type "Home"
 And there are "0" addresses
 #And there are "4" student enrollment history entries
-And Student Enrollment History includes " ;East Daybreak Junior High;6;2009-09-07; ; ; ;"
+And Student Enrollment History includes " ;East Daybreak Junior High;6;2009-09-07; ;2010-05-11;End of school year"
 And Student Enrollment History includes " ; ;5;2008-09-05; ;2009-05-11;End of school year"
 And Student Enrollment History includes " ; ;4;2007-09-12; ;2008-05-10;End of school year"
 And Student Enrollment History includes " ; ;3;2006-09-11; ;2007-05-09;Student is in a different public school in the same local education agency"
