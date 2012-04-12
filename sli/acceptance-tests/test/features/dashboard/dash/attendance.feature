@@ -234,7 +234,7 @@ Scenario: Monster test until LOS is faster
       And the class for id "ATTENDANCE.TardyRate" for student "Charde Lowery" is "perfLevel5"
       And the count for id "ATTENDANCE.TardyRate" for student "Jolene Ashley" is "4"
       And the class for id "ATTENDANCE.TardyRate" for student "Jolene Ashley" is "perfLevel4"
-      And the count for id "ATTENDANCE.TardyRate" for student "Delilah Sims" is "5"
+      And the count for id "ATTENDANCE.TardyRate" for student "Delilah Sims" is "6"
       And the class for id "ATTENDANCE.TardyRate" for student "Delilah Sims" is "perfLevel4"
       And the count for id "ATTENDANCE.TardyRate" for student "Arsenio Durham" is "14"
       And the class for id "ATTENDANCE.TardyRate" for student "Arsenio Durham" is "perfLevel1"
