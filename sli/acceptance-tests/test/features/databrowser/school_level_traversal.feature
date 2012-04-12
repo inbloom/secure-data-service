@@ -1,3 +1,4 @@
+@wip
 Feature: Traversal of school level data
 
 Scenario: Leader traversing through the available school data in the Data Browser

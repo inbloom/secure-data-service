@@ -1,4 +1,3 @@
-
 @wip
 Feature: State level traversal of data
 
