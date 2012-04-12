@@ -1,9 +1,6 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
@@ -43,7 +40,7 @@ public class ControlFilePreProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
 
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
-        
+
         // TODO handle invalid control file (user error)
         // TODO handle IOException or other system error
         try {
@@ -54,7 +51,7 @@ public class ControlFilePreProcessor implements Processor {
                 batchJobId = NewBatchJob.createId(controlFile.getName());
                 exchange.getIn().setHeader("BatchJobId", batchJobId);
                 log.info("Created job [{}]", batchJobId);
-                newJob = new NewBatchJob(batchJobId);                
+                newJob = new NewBatchJob(batchJobId);
             } else {
                 newJob = batchJobDAO.findBatchJobById(batchJobId);
             }
@@ -63,9 +60,9 @@ public class ControlFilePreProcessor implements Processor {
             stage.setStageName("ControlFilePreProcessor");
             stage.startStage();
             newJob.setSourceId(landingZone.getLZId());
-            
+
             // JobLogStatus.startStage(batchJobId, stageName)
-            
+
             ControlFile cf = ControlFile.parse(controlFile);
 
             newJob.setTotalFiles(cf.getFileEntries().size());
@@ -73,7 +70,7 @@ public class ControlFilePreProcessor implements Processor {
             stage.stopStage();
             newJob.getStages().add(stage);
             batchJobDAO.saveBatchJob(newJob);
- 
+
             // set headers for ingestion routing
             exchange.getIn().setBody(new ControlFileDescriptor(cf, landingZone), ControlFileDescriptor.class);
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());

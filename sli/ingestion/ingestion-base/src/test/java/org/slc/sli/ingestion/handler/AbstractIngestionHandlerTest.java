@@ -29,6 +29,7 @@ public class AbstractIngestionHandlerTest {
         handler = Mockito.mock(AbstractIngestionHandler.class);
         Mockito.doCallRealMethod().when(handler).handle(Mockito.any());
         Mockito.doCallRealMethod().when(handler).handle(Mockito.any(), Mockito.any(ErrorReport.class));
+        Mockito.doCallRealMethod().when(handler).handle(Mockito.any(), Mockito.any(ErrorReport.class), Mockito.any(Long.class));
         Mockito.doCallRealMethod().when(handler).pre(Mockito.any(), Mockito.any(ErrorReport.class));
         Mockito.doCallRealMethod().when(handler).post(Mockito.any(), Mockito.any(ErrorReport.class));
         Mockito.doCallRealMethod().when(handler).setPreValidators(Mockito.anyList());
@@ -47,7 +48,7 @@ public class AbstractIngestionHandlerTest {
         handler.setPostValidators(postValidators);
 
         Object ife = Mockito.mock(Object.class);
-        Mockito.when(handler.doHandling(Mockito.any(Object.class), Mockito.any(ErrorReport.class))).thenReturn(ife);
+        Mockito.when(handler.doHandling(Mockito.any(Object.class), Mockito.any(ErrorReport.class), Mockito.any(Long.class))).thenReturn(ife);
 
         Object fileEntry = null;
         fileEntry = handler.handle(ife);

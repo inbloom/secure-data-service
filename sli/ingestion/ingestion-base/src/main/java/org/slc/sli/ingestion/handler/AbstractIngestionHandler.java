@@ -19,7 +19,7 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
 
     List<? extends Validator<T>> postValidators;
 
-    abstract O doHandling(T item, ErrorReport errorReport);
+    abstract O doHandling(T item, ErrorReport errorReport, Long count);
 
     void pre(T item, ErrorReport errorReport) {
         if (preValidators != null) {
@@ -52,6 +52,10 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
 
     @Override
     public O handle(T item, ErrorReport errorReport) {
+        return handle(item, errorReport, new Long(0L));
+    }
+
+    public O handle(T item, ErrorReport errorReport, Long count) {
 
         O o = null;
 
@@ -59,7 +63,7 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
 
         if (!errorReport.hasErrors()) {
 
-            o = doHandling(item, errorReport);
+            o = doHandling(item, errorReport, count);
 
             post(item, errorReport);
         }

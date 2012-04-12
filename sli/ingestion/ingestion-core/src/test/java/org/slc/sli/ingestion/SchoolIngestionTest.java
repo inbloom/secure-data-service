@@ -93,7 +93,7 @@ public class SchoolIngestionTest {
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
 
-        edFiProcessor.processFileEntry(inputFileEntry);
+        edFiProcessor.processFileEntry(inputFileEntry, inputFileEntry.getErrorReport(), null);
 
         String tenantId = "SLI";
         persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);
@@ -120,7 +120,7 @@ public class SchoolIngestionTest {
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
 
-        edFiProcessor.processFileEntry(inputFileEntry);
+        edFiProcessor.processFileEntry(inputFileEntry, inputFileEntry.getErrorReport(), null);
 
         String tenantId = "SLI";
         persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);
@@ -143,7 +143,7 @@ public class SchoolIngestionTest {
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
 
-        edFiProcessor.processFileEntry(inputFileEntry);
+        edFiProcessor.processFileEntry(inputFileEntry, inputFileEntry.getErrorReport(), null);
 
         String tenantId = "SLI";
         persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);

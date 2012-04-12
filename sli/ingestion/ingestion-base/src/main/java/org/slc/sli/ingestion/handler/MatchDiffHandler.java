@@ -27,8 +27,12 @@ public class MatchDiffHandler extends AbstractIngestionHandler<IngestionFileEntr
     private File newRecordFile;
     private File currentRecordFile;
 
-    @Override
     IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport) {
+        return doHandling(fileEntry, errorReport, null);
+    }
+
+    @Override
+    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, Long count) {
         try {
             // load new and current state files to HDFS
             loadFiles(fileEntry, errorReport);

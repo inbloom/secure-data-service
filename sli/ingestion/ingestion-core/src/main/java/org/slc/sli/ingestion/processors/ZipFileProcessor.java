@@ -1,9 +1,6 @@
  package org.slc.sli.ingestion.processors;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
@@ -68,7 +65,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             ErrorReport errorReport = job.getFaultsReport();
 
             File ctlFile = handler.handle(zipFile, errorReport);
-            
+
             ResourceEntry resourceName = new ResourceEntry();
             resourceName.setResourceName(zipFile.getName());
             newJob.getResourceEntries().add(resourceName);
@@ -76,7 +73,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             stage.stopStage();
             newJob.getStages().add(stage);
             batchJobDAO.saveBatchJob(newJob);
-            
+
             if (errorReport.hasErrors()) {
                 exchange.getIn().setBody(job, BatchJob.class);
                 exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
