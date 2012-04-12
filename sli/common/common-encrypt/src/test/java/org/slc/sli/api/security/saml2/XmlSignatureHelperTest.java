@@ -19,44 +19,41 @@ import org.jdom.JDOMException;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-
 /**
  * Unit tests for the XML Signature Helper class.
- * 
+ *
  * @author shalka
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class })
 public class XmlSignatureHelperTest {
-    
-    @Autowired
-    private DefaultSAML2Validator validator;
-    
-    @Autowired
-    private XmlSignatureHelper signatureHelper;
-    
+
+    private DefaultSAML2Validator validator = new DefaultSAML2Validator();
+
+    private XmlSignatureHelper signatureHelper = new XmlSignatureHelper();
+
     private DocumentBuilder builder;
-    
+
     @Before
     public void setUp() throws Exception {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
         builder = dbf.newDocumentBuilder();
+        /*
+         * There's not really a great solution to configuring this. sli-configuration props would be
+         * path dependent (e.g. either sli/common/common-encrypt or sli/api/ would work, but not
+         * both), or we can require them to be system properties, which makes it harder to run unit
+         * tests in eclipse.
+         *
+         * This way unit test scope just works, and running api or ingestion uses the normal
+         * sli-configuration props
+         */
+        validator.setTrustedCertificatesStore("./trust/trustedCertificates");
+        signatureHelper.setKeyStore("../../data-access/dal/keyStore/localKeyStore.jks");
+        signatureHelper.setPropertiesFile("../../data-access/dal/keyStore/localEncryption.properties");
     }
-    
+
     private Document getDocument(final String fileName) {
         InputStream is = this.getClass().getClassLoader().getResourceAsStream(fileName);
         try {
@@ -65,14 +62,14 @@ public class XmlSignatureHelperTest {
             return null;
         }
     }
-    
+
     @Test
     public void checkSamlUntrusted() throws KeyStoreException, InvalidAlgorithmParameterException,
             CertificateException, NoSuchAlgorithmException, MarshalException {
         Document document = getDocument("adfs-invalid.xml");
         Assert.assertTrue(!validator.isDocumentTrusted(document));
     }
-    
+
     @Ignore
     @Test
     public void signSamlArtifactResolve() throws JDOMException, TransformerException, NoSuchAlgorithmException,
@@ -84,7 +81,7 @@ public class XmlSignatureHelperTest {
         boolean foundSignedInfo = false;
         boolean foundSignatureValue = false;
         boolean foundKeyInfo = false;
-        
+
         // traverse the saml to find the signature element and its child nodes
         NodeList list = signedDom.getChildNodes();
         if (list.item(0).getNodeName().equals("samlp:ArtifactResolve")) {

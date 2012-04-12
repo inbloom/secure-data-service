@@ -13,6 +13,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,7 +28,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class SliClient {
     
-    String destination = "http://local.slidev.org:8080/api/rest/saml/sso/post";
+    @Value("${sli.mock-idp.response-destination}")
+    String destination;
     
     private HttpClient httpclient = new DefaultHttpClient();
     
@@ -77,5 +79,9 @@ public class SliClient {
     
     protected void setHttpClient(HttpClient client) {
         this.httpclient = client;
+    }
+    
+    protected void setDestination(String dest) {
+        this.destination = dest;
     }
 }
