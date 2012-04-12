@@ -22,7 +22,7 @@ public class Stage {
     private String status;
 
     private String startTimestamp;
-    
+
     private String stopTimestamp;
 
     private List<Metrics> metrics;
@@ -73,20 +73,23 @@ public class Stage {
     }
 
     public List<Metrics> getMetrics() {
+        if (metrics == null) {
+            metrics = new  LinkedList<Metrics>();
+        }
         return metrics;
     }
 
     public void setMetrics(List<Metrics> metrics) {
         this.metrics = metrics;
     }
-    
+
     public void update(String stageName, String status, String startTimestamp, String stopTimestamp) {
          if (stageName != null) this.stageName = stageName;
          if (status != null) this.status = status;
          if (startTimestamp != null) this.startTimestamp = startTimestamp;
          if (stopTimestamp != null) this.stopTimestamp = stopTimestamp;
     }
-    
+
     public void startStage() {
         this.setStatus("running");
         this.setStartTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
