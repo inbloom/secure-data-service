@@ -36,7 +36,7 @@ public class StaffProgramAssociationEntityTest {
 
         String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
 
-        String targetSelector = "?/StaffProgramAssociation";
+        String targetSelector = "InterchangeStudentProgram/StaffProgramAssociation";
 
         String edfiXml = null;
 
@@ -54,6 +54,7 @@ public class StaffProgramAssociationEntityTest {
         checkValidNeutralRecord(neutralRecord);
     }
 
+    @SuppressWarnings("unchecked")
     private void checkValidNeutralRecord(NeutralRecord neutralRecord) {
         assertEquals("Expecting different record type", "staffProgramAssociation", neutralRecord.getRecordType());
 
@@ -65,32 +66,30 @@ public class StaffProgramAssociationEntityTest {
         Map<String, Object> attributes = neutralRecord.getAttributes();
 
         assertEquals("Expected different entity id", "", attributes.get("staffProgramAssociationId"));
-        assertEquals("Expected different staff id", "linda.kim", attributes.get("staffId"));
-        assertEquals("Expected different program id", "ACC-TEST-PROG-1", attributes.get("programId"));
-        assertEquals("Expected different education organization id", "IL", attributes.get("educationOrganizationId"));
+
+        List<Map<String, Object>> staffReferences = (List<Map<String, Object>>) attributes.get("staffReference");
+        assertNotNull("Expected non-null list of staff references", staffReferences);
+        assertEquals("Expected 2 staff references", 2, staffReferences.size());
+
+        Map<String, Object> staff1 = staffReferences.get(0);
+        assertEquals("Expected different staff id", "linda.kim", staff1.get("staffId"));
+
+        Map<String, Object> staff2 = staffReferences.get(1);
+        assertEquals("Expected different staff id", "rbraverman", staff2.get("staffId"));
+
+        List<Map<String, Object>> programReferences = (List<Map<String, Object>>) attributes.get("programReference");
+        assertNotNull("Expected non-null list of program references", programReferences);
+        assertEquals("Expected 2 program references", 2, programReferences.size());
+
+        Map<String, Object> program1 = programReferences.get(0);
+        assertEquals("Expected different program id", "ACC-TEST-PROG-1", program1.get("programId"));
+
+        Map<String, Object> program2 = programReferences.get(1);
+        assertEquals("Expected different program id", "ACC-TEST-PROG-2", program2.get("programId"));
 
         assertEquals("Expected different begin date", "2011-01-01", attributes.get("beginDate"));
-        assertEquals("Expected different end date", "2011-12-31", attributes.get("endDate"));
-        assertEquals("Expected different reason exited", "Program completion", attributes.get("reasonExited"));
-
-        @SuppressWarnings("unchecked")
-        List<Map<String, Object>> services = (List<Map<String, Object>>) attributes.get("services");
-
-        assertNotNull("Expected non-null list of services", services);
-
-        assertEquals("Expected two services", 2, services.size());
-
-        Map<String, Object> service1 = services.get(0);
-        assertNotNull("Expected non-null service", service1);
-        assertEquals("Expected different short description of service", "Short description for acceptance test staffProgramAssociation service 1", service1.get("shortDescription"));
-        assertEquals("Expected different description of service", "This is a longer description of the services provided by acceptance test staffProgramAssociation service 1. More detail could be provided here.", service1.get("description"));
-        assertEquals("Expected different service code value", "Test service 1", service1.get("codeValue"));
-
-        Map<String, Object> service2 = services.get(1);
-        assertNotNull("Expected non-null service", service2);
-        assertEquals("Expected different short description of service", "Short description for acceptance test staffProgramAssociation service 2", service2.get("shortDescription"));
-        assertEquals("Expected different description of service", "This is a longer description of the services provided by acceptance test staffProgramAssociation service 2. More detail could be provided here.", service2.get("description"));
-        assertEquals("Expected different service code value", "Test service 2", service2.get("codeValue"));
+        assertEquals("Expected different end date", "2012-02-15", attributes.get("endDate"));
+        assertEquals("Expected different student record access", "true", attributes.get("studentRecordAccess"));
     }
 
 }
