@@ -214,7 +214,7 @@ public class PopulationManagerImpl implements PopulationManager {
     /**
      * Find the required assessment results according to the data configuration. Filter out the rest.
      */
-    private void applyAssessmentFilters(List<GenericEntity> studentSummaries, Config.Data config) {
+    public void applyAssessmentFilters(List<GenericEntity> studentSummaries, Config.Data config) {
         
         // Loop through student summaries
         for (GenericEntity summary : studentSummaries) {
