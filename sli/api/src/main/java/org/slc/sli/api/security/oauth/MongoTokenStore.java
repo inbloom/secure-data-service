@@ -2,6 +2,13 @@ package org.slc.sli.api.security.oauth;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -13,12 +20,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.stereotype.Component;
 
 /**
  * Responsible for storage and management of access and refresh tokens for OAuth
@@ -45,6 +46,7 @@ public class MongoTokenStore implements TokenStore {
      * corresponds to the specified Access Token. Assume that, if an Access
      * Token exists, and it is valid, then the user has already authenticated.
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public OAuth2Authentication readAuthentication(OAuth2AccessToken token) {
         NeutralQuery neutralQuery = new NeutralQuery();
@@ -63,6 +65,7 @@ public class MongoTokenStore implements TokenStore {
      * Finds the OAuth2Authentication object in the oauthSession collection that
      * corresponds to the specified Refresh Token.
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public OAuth2Authentication readAuthentication(ExpiringOAuth2RefreshToken token) {
         
@@ -107,6 +110,7 @@ public class MongoTokenStore implements TokenStore {
      * Determines if there is a valid Access Token in the oauthSessions
      * collection that matches the specified Access Token value.
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public OAuth2AccessToken readAccessToken(String tokenValue) {
         
@@ -122,13 +126,12 @@ public class MongoTokenStore implements TokenStore {
         }
         return null;
     }
-
+    
     /**
-     * Removes the Access Token's validation by expiring it immediately.
+     * Removes the OAuth access token from the oauth_access_token collection in mongo.
      */
     @Override
     public void removeAccessToken(String tokenValue) {
-
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("token=" + tokenValue));
         neutralQuery.setOffset(0);
@@ -155,9 +158,7 @@ public class MongoTokenStore implements TokenStore {
      */
     @Override
     public ExpiringOAuth2RefreshToken readRefreshToken(String tokenValue) {
-
-        throw new RuntimeException("Refresh tokens not supported");
-        
+        throw new RuntimeException("Refresh tokens not supported");        
     }
 
     /**
@@ -165,7 +166,6 @@ public class MongoTokenStore implements TokenStore {
      */
     @Override
     public void removeRefreshToken(String tokenValue) {
-
         throw new RuntimeException("Refresh tokens not supported");
     }
 
@@ -176,7 +176,6 @@ public class MongoTokenStore implements TokenStore {
      */
     @Override
     public void removeAccessTokenUsingRefreshToken(String refreshToken) {
-
         throw new RuntimeException("Refresh tokens not supported");
     }
 

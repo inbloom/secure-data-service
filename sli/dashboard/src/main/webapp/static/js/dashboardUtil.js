@@ -84,9 +84,7 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
         }
         
     }
-    options = jQuery.extend(options, {colNames: colNames, 
-         colModel: colModel
-    });
+    options = jQuery.extend(options, {colNames: colNames, colModel: colModel});
     jQuery(this).jqGrid(options);
     if (groupHeaders.length > 0) {
     	jQuery(this).jqGrid('setGroupHeaders', {
@@ -98,13 +96,21 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
     jQuery(this).addClass('.jqgrid-header');
 }
 
-DashboardUtil.makeGrid = function (tableId, panelConfig, panelData)
+DashboardUtil.makeGrid = function (tableId, panelConfig, panelData, options)
 {
-	jQuery("#" + tableId).sliGrid(panelConfig, { 
-    	data: panelData,
-        datatype: "local", 
-        height: 'auto',
-        viewrecords: true} ); 
+	// for some reason root config doesn't work with local data, so manually extract
+	if (panelConfig.root) {
+		panelData = panelData[panelConfig.root];
+	}
+	gridOptions = { 
+	    	data: panelData,
+	        datatype: 'local', 
+	        height: 'auto',
+	        viewrecords: true};
+	if (options) {
+		gridOptions = jQuery.extend(gridOptions, options);
+	}
+	return jQuery("#" + tableId).sliGrid(panelConfig, gridOptions); 
 };
 
 var EnumSorter = function(params) {
@@ -263,3 +269,14 @@ DashboardUtil.getLozenges = function(renderTo, student) {
 	    }
 	  });
 	}( jQuery ) );
+
+
+DashboardUtil.getData = function(componentId, queryString, callback) {
+	$.ajax({
+		  url: contextRootPath + '/service/data/' + componentId + '?' + queryString,
+		  success: callback});
+}
+
+DashboardUtil.getPageUrl = function(componentId, queryString) {
+	return contextRootPath + '/service/layout/' + componentId + ((queryString) ? ('?' + queryString) : '');
+}

@@ -30,6 +30,9 @@ public enum EntityType {
     /** School information */
     SCHOOLS("school", "schools"),
     
+    /** staff information */
+    STAFFS("staff", "staffs"),
+
     /** Student information */
     STUDENTS("student", "students"),
     

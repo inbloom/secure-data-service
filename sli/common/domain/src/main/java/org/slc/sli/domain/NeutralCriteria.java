@@ -18,7 +18,8 @@ public class NeutralCriteria {
     public static final String CRITERIA_IN = "in";
     
     static final String[] SUPPORTED_COMPARISON_OPERATORS = new String[] { ">=", "<=", "!=", "=~", "=", "<", ">" };
-    
+    public static final String OPERATOR_EQUAL = "=";
+
     public NeutralCriteria(String criteria) {
         this.canBePrefixed = true;
         for (String comparisonOperator : NeutralCriteria.SUPPORTED_COMPARISON_OPERATORS) {

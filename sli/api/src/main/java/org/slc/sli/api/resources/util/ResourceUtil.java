@@ -239,7 +239,6 @@ public class ResourceUtil {
         return links;
     }
 
-    @SuppressWarnings("unchecked")
     private static List<EmbeddedLink> getReferenceLinks(final EntityDefinition defn, final EntityBody entityBody,
             final UriInfo uriInfo) {
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
@@ -357,7 +356,7 @@ public class ResourceUtil {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth instanceof AnonymousAuthenticationToken) {
+        if (auth instanceof AnonymousAuthenticationToken || auth.getPrincipal() instanceof String) {
             throw new InsufficientAuthenticationException("Login Required");
         }
 
