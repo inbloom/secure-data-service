@@ -66,6 +66,7 @@ public class ReferenceConstructor extends DefaultHandler {
             sp.parse(filePath, this);
         } catch (SAXException se) {
             LOG.error("Error parsing XML file " + inputFile.getName() + ": " + se.getMessage());
+            System.out.println("Error parsing XML file " + inputFile.getName() + ": " + se.getMessage());
             throw (se);
         } catch (ParserConfigurationException pce) {
             LOG.error("Error configuring parser for XML file " + inputFile.getName() + ": " + pce.getMessage());
@@ -74,7 +75,6 @@ public class ReferenceConstructor extends DefaultHandler {
             LOG.error("Error reading XML file " + inputFile.getName() + ": " + ie.getMessage());
             throw (ie);
         }
-
         return referenceObjects;
     }
 

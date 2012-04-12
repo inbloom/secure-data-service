@@ -56,6 +56,7 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
         try {
             referenceObjects = rc.execute(inputFilePath);
         } catch (Exception e) {
+            // Report the error.
             log("Cannot extract references from XML file " + xmlInputFile.getName());
             return false;
         }
