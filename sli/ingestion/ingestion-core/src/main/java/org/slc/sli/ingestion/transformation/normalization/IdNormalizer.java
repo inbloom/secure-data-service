@@ -3,6 +3,7 @@ package org.slc.sli.ingestion.transformation.normalization;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
@@ -40,27 +41,37 @@ public class IdNormalizer {
             for (RefDef reference : entityConfig.getReferences()) {
 
                 resolvedReferences += "       collectionName = " + reference.getRef().getCollectionName();
+                resolvedReferences += getResolvedRefString(entity, reference.getRef());
 
-                for (List<Field> fields : reference.getRef().getChoiceOfFields()) {
-                    for (Field field : fields) { 
-                        for (FieldValue fv : field.getValues()) {
-                            if (fv.getRef() == null) {
-                                Object entityValue = PropertyUtils.getProperty(entity, fv.getValueSource());
-                                if (!(entityValue instanceof Collection)) {
-                                    resolvedReferences += ", value = " + entityValue.toString() + "\n";
-                                }
-                            }
-                        }
+                List<String> ids = resolveReferenceInternalIds(entity, tenantId, reference.getRef(), errorReport);
+
+                int numRefInstances = getNumRefInstances(entity, reference.getRef());
+                if (ids.size() != numRefInstances) {
+                    LOG.error("Error in number of resolved internal ids");
+                    String errorMessage = "ERROR: Wrong number of resolved references" + "\n"
+                                        + "       Entity   " + entity.getType() + "\n";
+
+                    if (resolvedReferences != null && !resolvedReferences.equals("")) {
+                        errorMessage += "     The failure can be identified with the following reference information: " + "\n"
+                                      + resolvedReferences;
                     }
+
+                    errorReport.error(errorMessage, this);
                 }
-
-                String id = resolveInternalId(entity, tenantId, reference.getRef(), errorReport, resolvedReferences);
-
+                
                 if (errorReport.hasErrors()) {
                     return;
                 }
 
-                PropertyUtils.setProperty(entity, reference.getFieldPath(), id);
+                if (reference.getRef().isRefList()) {
+                    //for lists of references set the properties on each element of the resolved ID list
+                    for(int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
+                        String fieldPath = reference.getFieldPath() + ".[" + Integer.toString(refIndex)+ "]";
+                        PropertyUtils.setProperty(entity, fieldPath, ids.get(refIndex));
+                    }
+                } else {
+                    PropertyUtils.setProperty(entity, reference.getFieldPath(), ids.get(0));
+                }
             }
         } catch (Exception e) {
             LOG.error("Error accessing property", e);
@@ -106,32 +117,40 @@ public class IdNormalizer {
         Query filter = new Query();
 
         try {
+            int numRefInstances = getNumRefInstances(entity, refConfig);
+            
+            //if the reference is a list of references loop over all elements adding an 'or' query statement for each
             for (List<Field> fields : refConfig.getChoiceOfFields()) {
                 Query choice = new Query();
 
                 choice.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
 
-                for (Field field : fields) {
-                    List<Object> filterValues = new ArrayList<Object>();
+                for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
+                    for (Field field : fields) {
+                        List<Object> filterValues = new ArrayList<Object>();
 
-                    for (FieldValue fv : field.getValues()) {
-                        if (fv.getRef() != null) {
-                            filterValues.addAll(resolveReferenceInternalIds(entity, tenantId, fv.getRef(), proxyErrorReport));
-                        } else {
-                            Object entityValue = PropertyUtils.getProperty(entity, fv.getValueSource());
-                            if (entityValue instanceof Collection) {
-                                Collection<?> entityValues = (Collection<?>) entityValue;
-                                filterValues.addAll(entityValues);
+                        for (FieldValue fv : field.getValues()) {
+                            if (fv.getRef() != null) {
+                                filterValues.addAll(resolveReferenceInternalIds(entity, tenantId, fv.getRef(), proxyErrorReport));
                             } else {
-                                filterValues.add(entityValue.toString());
+                                String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig, refIndex);
+                                Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
+                                
+                               //TODO this doesn't take account of lists of references that are not within the top level
+                                if (entityValue instanceof Collection) {
+                                    Collection<?> entityValues = (Collection<?>) entityValue;
+                                    filterValues.addAll(entityValues);
+                                } else {
+                                    filterValues.add(entityValue.toString());
+                                }
                             }
                         }
+
+                        choice.addCriteria(Criteria.where(field.getPath()).in(filterValues));
                     }
 
-                    choice.addCriteria(Criteria.where(field.getPath()).in(filterValues));
+                    filter.or(choice);
                 }
-
-                filter.or(choice);
             }
         } catch (Exception e) {
             LOG.error("Error accessing property", e);
@@ -167,6 +186,68 @@ public class IdNormalizer {
      */
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
+    }
+    
+    /**
+     * Returns the number of reference instances of a Ref object in a given entity
+     */
+    private int getNumRefInstances(Entity entity, Ref refConfig) throws Exception {
+        int numRefInstances = 1;
+        if (refConfig.isRefList()) {
+            List<?> refValues = (List<?>) PropertyUtils.getProperty(entity, refConfig.getRefObjectPath());
+            numRefInstances = refValues.size();
+        }
+        return numRefInstances;
+    }
+
+    /**
+     * Constructs the property name used by PropertyUtils.getProperty for indexed references 
+     */
+    private String constructIndexedPropertyName(String valueSource, Ref refConfig, int refIndex) {
+        String result = valueSource;
+        
+        if (refConfig.isRefList()) {
+            result = "";
+            String refObjectPath = refConfig.getRefObjectPath();
+            //split the valueSource by .
+            StringTokenizer tokenizer = new StringTokenizer(valueSource, ".");
+            while(tokenizer.hasMoreTokens()) {
+                String token = tokenizer.nextToken();
+                result += token;
+                if (result.equals(refObjectPath)) {
+                    result += ".[" + Integer.toString(refIndex) + "]";
+                }
+                if( tokenizer.hasMoreTokens() ) {
+                    result += ".";
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+    /*
+     * Returns a string listing all resolved references in the specified entity
+     */
+    private String getResolvedRefString(Entity entity, Ref refConfig) throws Exception{
+        String resolvedRefs = "";
+        int numRefInstances = getNumRefInstances(entity, refConfig);
+        for (List<Field> fields : refConfig.getChoiceOfFields()) {
+            for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
+                for (Field field : fields) { 
+                    for (FieldValue fv : field.getValues()) {
+                        if (fv.getRef() == null) {
+                            String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig, refIndex);
+                            Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
+                            if (!(entityValue instanceof Collection)) {
+                                resolvedRefs += ", value = " + entityValue.toString() + "\n";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return resolvedRefs;
     }
 
 }
