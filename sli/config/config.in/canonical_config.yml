@@ -1,0 +1,630 @@
+---
+default: 
+    api: &API-DEFAULT
+        # Set of substitution filters used for local builds
+        #
+        # Security
+        sli.security.noSession.landing.url: http://local.slidev.org:8080/api/oauth/authorize?response_type=code
+
+        # Security SAML
+        sli.security.sp.issuerName: http://local.slidev.org:8080
+
+        # Trusted Certificate Authority Store
+        sli.trust.certificates: ../common/common-util/trust/trustedCertificates
+
+        #Support Email
+        sli.support.email: sli@slc.org
+
+    data-access: &DATA-ACCESS-DEFAULT
+        # Mongo DB Options
+        sli.mongodb.database: sli
+        sli.mongodb.host: localhost
+        sli.mongodb.port: 27017
+        sli.mongodb.user: 
+        sli.mongodb.pass: 
+
+        # Ingestion Staging DB
+        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.host: localhost
+        sli.ingestion.staging.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.user: 
+        sli.ingestion.staging.mongodb.pass: 
+
+        # Test specific properties 
+        sli.test.prop: ci DAL Context Test Property
+
+    ingestion: &INGESTION-DEFAULT
+        landingzone.inbounddir: C:/lz/
+        logging.path: C:/lz/logs
+
+        sli.ingestion.queue.workItem.host: 
+        sli.ingestion.queue.workItem.port: 
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.queue.workItem.keystore: 
+        sli.ingestion.queue.workItem.keystorePassword: 
+
+    misc: &MISC-DEFAULT
+        sli.encryption.keyStorePass: changeit
+        sli.encryption.dalKeyAlias: dalKey
+        sli.encryption.dalKeyPass: changeit
+        sli.wildcard.x509certificate.alias: wildcard
+
+        api.client: apiClient
+        api.server.url: http://local.slidev.org:8080/
+        security.server.url: https://openam1.slidev.org/
+        oauth.client.id: K2e7Dwhq5J
+        oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+        oauth.redirect: http://local.slidev.org:8888/dashboard/callback
+
+        #specify "driver" and "custom" directory name for a user domain based configuration
+        panel.config.driver.dir: config
+        panel.config.custom.dir: custom
+
+        # properties used by the mock IDP
+        sli.idp.issuer: http://localhost:8081/
+        sli.idp.response-location: http://localhost:8080/api/saml/sso        
+
+        # POTENTIALL UNUSED PROPERTIES - added by Stephan Altmueller
+        sli.dev.subdomain: ci
+        sli.log4j.rootLogger: INFO, out
+        sli.log4j.logger.org.apache.camel: WARN
+        sli.log4j.logger.org.apache.activemq: WARN
+        sli.log4j.logger.org.springframework: WARN
+
+acceptance-tests: 
+    api: 
+        <<: *API-DEFAULT
+        # acceptance-tests/api/security/security.properties
+        #
+        # Set of substitution filters used for ci builds
+        #
+        # Security
+        sli.security.noSession.landing.url: https://nxbuild.slidev.org/api/oauth/authorize?response_type=code
+
+        # Security SAML
+        sli.security.sp.issuerName: https://nxbuild.slidev.org
+
+        #Support Email
+        sli.support.email: sli@slc.org
+    data-access:
+        <<: *DATA-ACCESS-DEFAULT
+        # acceptance-tests/data-access/db.properties
+        #
+        # Set of substitution filters used for acceptance test builds
+        #
+
+        # Mongo DB Options
+        sli.mongodb.database: sli
+        sli.mongodb.host: nxbuild.slidev.org
+        sli.mongodb.port: 27017
+        #sli.mongodb.user =
+        #sli.mongodb.pass =
+
+        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.host: nxbuild.slidev.org
+        sli.ingestion.staging.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.user: 
+        sli.ingestion.staging.mongodb.pass: 
+
+    ingestion:
+        <<: *INGESTION-DEFAULT
+        # acceptance-tests/ingestion/queue.properties
+        sli.ingestion.queue.workItem.host: devmq1.slidev.org
+        sli.ingestion.queue.workItem.port: 5445
+        sli.ingestion.queue.workItem.queueURI: jms-hornetq:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
+    misc:
+        <<: *MISC-DEFAULT
+
+ci:
+    api:
+        <<: *API-DEFAULT
+        # ci/api/security/security.properties
+        #
+        # Set of substitution filters used for ci builds
+        #
+        # Security
+        sli.security.noSession.landing.url: https://testapi1.slidev.org/api/oauth/authorize?response_type=code
+
+        # Security SAML
+        sli.security.sp.issuerName: https://testapi1.slidev.org
+
+        # Trusted Certificate Authority Store
+        sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
+
+        #Support Email
+        sli.support.email: sli@slc.org
+    data-access:
+        <<: *DATA-ACCESS-DEFAULT
+        # ci/data-access/db.properties
+        #
+        # Set of substitution filters used for ci builds
+        #
+
+        # Mongo DB Options
+
+        sli.mongodb.database: sli
+        sli.mongodb.host: testdal1.slidev.org
+        sli.mongodb.port: 27017
+        #sli.mongodb.user =
+        #sli.mongodb.pass =
+
+        # Ingestion Staging DB
+        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.host: testdal1.slidev.org
+        sli.ingestion.staging.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.user: 
+        sli.ingestion.staging.mongodb.pass: 
+
+    ingestion:
+        <<: *INGESTION-DEFAULT
+        # ci/ingestion/ingestion_conf.properties
+        landingzone.inbounddir: /home/ingestion/lz/inbound
+        logging.path: /home/ingestion/logs
+        # ci/ingestion/queue.properties
+        sli.ingestion.queue.workItem.host: devmq1.slidev.org
+        sli.ingestion.queue.workItem.port: 5445
+        sli.ingestion.queue.workItem.queueURI: jms-hornetq:IngestionWorkItemAccept
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
+
+    misc:
+        <<: *MISC-DEFAULT
+
+dev:
+    api:
+        <<: *API-DEFAULT
+        # dev/api/security/security.properties
+        #
+        # Set of substitution filters used for ci builds
+        #
+
+        # Security
+        sli.security.noSession.landing.url: https://devapi1.slidev.org/api/oauth/authorize?response_type=code
+
+        # Security SAML
+        sli.security.sp.issuerName: https://devapi1.slidev.org
+
+        # Trusted Certificate Authority Store
+        sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
+
+        #Support Email
+        sli.support.email: sli@slc.org
+    data-access:
+        <<: *DATA-ACCESS-DEFAULT
+        # dev/data-access/db.properties
+        #
+        # Set of substitution filters used for ci builds
+        #
+
+        # Hibernate Options
+
+
+        # MySQL Options
+
+
+
+        # Mongo DB Options
+
+        sli.mongodb.database: sli
+        sli.mongodb.host: devdal1.slidev.org
+        sli.mongodb.port: 27017
+        #sli.mongodb.user =
+        #sli.mongodb.pass =
+
+        # Ingestion Staging DB
+        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.host: devdal1.slidev.org
+        sli.ingestion.staging.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.user: 
+        sli.ingestion.staging.mongodb.pass: 
+
+    ingestion:
+        <<: *INGESTION-DEFAULT
+        # dev/ingestion/ingestion_conf.properties
+        landingzone.inbounddir: /home/ingestion/lz/inbound
+        logging.path: /home/ingestion/logs
+        # dev/ingestion/queue.properties
+        sli.ingestion.queue.workItem.host: 
+        sli.ingestion.queue.workItem.port: 
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.queue.workItem.keystore: 
+        sli.ingestion.queue.workItem.keystorePassword: 
+
+    misc:
+        <<: *MISC-DEFAULT
+
+devapp1:
+    api:
+        <<: *API-DEFAULT    
+        # devapp1/api/security/security.properties
+        #
+        # Set of substitution filters used for devapp1 builds
+        #
+
+        # Security
+        sli.security.noSession.landing.url: https://devapp1.slidev.org/api/oauth/authorize?response_type=code
+
+        # Security SAML
+        sli.security.sp.issuerName: https://devapp1.slidev.org
+
+        # Trusted Certificate Authority Store
+        sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
+
+        #Support Email
+        sli.support.email: sli@slc.org
+    data-access:
+        <<: *DATA-ACCESS-DEFAULT
+        # devapp1/data-access/db.properties
+        #
+        # Set of substitution filters used for devapp1 builds
+        #
+        # Mongo DB Options
+        sli.mongodb.database: devapp1
+        sli.mongodb.host: devdal1.slidev.org
+        sli.mongodb.port: 27017
+        #sli.mongodb.user =
+        #sli.mongodb.pass =
+        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.host: devdal1.slidev.org
+        sli.ingestion.staging.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.user: 
+        sli.ingestion.staging.mongodb.pass: 
+
+    ingestion:
+        <<: *INGESTION-DEFAULT
+        # devapp1/ingestion/ingestion_conf.properties
+        landingzone.inbounddir: /home/ingestion/lz/inbound
+        logging.path: /home/ingestion/logs
+        # devapp1/ingestion/queue.properties
+        sli.ingestion.queue.workItem.host: 
+        sli.ingestion.queue.workItem.port: 
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.queue.workItem.keystore: 
+        sli.ingestion.queue.workItem.keystorePassword: 
+
+    misc:
+        <<: *MISC-DEFAULT
+
+local:
+    api:
+        <<: *API-DEFAULT
+        # local/api/security/security.properties
+        #
+        # Set of substitution filters used for local builds
+        #
+
+        # Security
+        sli.security.noSession.landing.url: http://local.slidev.org:8080/api/oauth/authorize?response_type=code
+
+        # Security SAML
+        sli.security.sp.issuerName: http://local.slidev.org:8080
+
+        # Trusted Certificate Authority Store
+        sli.trust.certificates: ../common/common-util/trust/trustedCertificates
+
+        #Support Email
+        sli.support.email: sli@slc.org
+    data-access:
+        <<: *DATA-ACCESS-DEFAULT
+        # local/data-access/db.properties
+        #
+        # Set of substitution filters used for local builds
+        #
+
+        # Hibernate Options
+
+
+
+        # MySQL Options -- In memory for local profile
+
+
+
+        # Mongo DB Options
+
+        sli.mongodb.database: sli
+        sli.mongodb.host: localhost
+        sli.mongodb.port: 27017
+        sli.mongodb.user: 
+        sli.mongodb.pass: 
+
+        # Ingestion Staging DB
+        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.host: localhost
+        sli.ingestion.staging.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.user: 
+        sli.ingestion.staging.mongodb.pass: 
+    ingestion:
+        <<: *INGESTION-DEFAULT
+        # local/ingestion/ingestion_conf.properties
+        landingzone.inbounddir: C:/lz/
+        logging.path: C:/lz/logs
+        # local/ingestion/queue.properties
+        sli.ingestion.queue.workItem.host: 
+        sli.ingestion.queue.workItem.port: 
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.queue.workItem.keystore: 
+        sli.ingestion.queue.workItem.keystorePassword: 
+
+    misc:
+        <<: *MISC-DEFAULT
+
+        # Log4J options
+        sli.log4j.rootLogger: INFO, out
+        sli.log4j.logger.org.apache.camel: WARN
+        sli.log4j.logger.org.apache.activemq: WARN
+        sli.log4j.logger.org.springframework: WARN
+
+nxbuild2:
+    api:
+        <<: *API-DEFAULT    
+        # nxbuild2/api/security/security.properties
+        #
+        # Set of substitution filters used for ci builds
+        #
+
+        # Security
+        sli.security.noSession.landing.url: https://nxbuild2.slidev.org/api/oauth/authorize?response_type=code
+
+        # Security SAML
+        sli.security.sp.issuerName: https://nxbuild2.slidev.org
+
+        # Trusted Certificate Authority Store
+        sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
+
+        #Support Email
+        sli.support.email: sli@slc.org
+    data-access:
+        <<: *DATA-ACCESS-DEFAULT
+        # nxbuild2/data-access/db.properties
+        #
+        # Set of substitution filters used for acceptance test builds
+        #
+
+        # Mongo DB Options
+
+        sli.mongodb.database: sli
+        sli.mongodb.host: nxbuild2.slidev.org
+        sli.mongodb.port: 27017
+        #sli.mongodb.user =
+        #sli.mongodb.pass =
+
+        # Ingestion Staging DB
+        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.host: nxbuild2.slidev.org
+        sli.ingestion.staging.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.user: 
+        sli.ingestion.staging.mongodb.pass: 
+
+    ingestion:
+        <<: *INGESTION-DEFAULT
+        # nxbuild2/ingestion/queue.properties
+        sli.ingestion.queue.workItem.host: 
+        sli.ingestion.queue.workItem.port: 
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
+    misc:
+        <<: *MISC-DEFAULT
+
+team:
+    api:
+        <<: *API-DEFAULT
+        # team/api/security/security.properties
+        #
+        # Set of substitution filters used for ci builds
+        #
+        # Security
+        sli.security.noSession.landing.url: https://${sli.dev.subdomain}.slidev.org/api/oauth/authorize?response_type=code
+
+        # Security SAML
+        sli.security.sp.issuerName: https://${sli.dev.subdomain}.slidev.org
+
+        #Support Email
+        sli.support.email: sli@slc.org
+    data-access:
+        <<: *DATA-ACCESS-DEFAULT
+        # team/data-access/db.properties
+        #
+        # Set of substitution filters used for ci builds
+        #
+
+        # Mongo DB Options
+        sli.mongodb.database: sli
+        sli.mongodb.host: localhost
+        sli.mongodb.port: 27017
+        #sli.mongodb.user =
+        #sli.mongodb.pass =
+
+        # Ingestion Staging DB
+        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.host: localhost
+        sli.ingestion.staging.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.user: 
+        sli.ingestion.staging.mongodb.pass: 
+
+    ingestion:
+        <<: *INGESTION-DEFAULT
+        # team/ingestion/ingestion_conf.properties
+        landingzone.inbounddir: /home/ingestion/lz/inbound
+        logging.path: /home/ingestion/logs
+        # team/ingestion/queue.properties
+        sli.ingestion.queue.workItem.host: localhost
+        sli.ingestion.queue.workItem.port: 5445
+        sli.ingestion.queue.workItem.queueURI: jms-hornetq:IngestionWorkItemAccept
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
+
+    misc:
+        <<: *MISC-DEFAULT
+        sli.dev.subdomain: ci
+
+test-acceptance-tests:
+    test:
+        # acceptance-tests/data-access/test.properties
+        #
+        # Set of substitution filters used for acceptance test builds.  These properties are used
+        # when running unit tests.
+        #
+
+        # Mongo DB Options
+        sli.mongodb.database: unittest
+        sli.mongodb.host: nxbuild.slidev.org
+        sli.mongodb.port: 27017
+        sli.mongodb.user: 
+        sli.mongodb.pass: 
+
+        # acceptance-tests/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
+        # Test specific properties
+        sli.test.prop: ci DAL Context Test Property
+
+test-ci:
+    test:
+            # ci/data-access/test.properties
+        #
+        # Set of substitution filters used for ci test builds.  These properties are used
+        # when running unit tests.
+        #
+
+        # Mongo DB Options
+
+        sli.mongodb.database: unittest
+        sli.mongodb.host: testdal1.slidev.org
+        sli.mongodb.port: 27017
+        sli.mongodb.user: 
+        sli.mongodb.pass: 
+
+        # Test specific properties
+
+        sli.test.prop: ci DAL Context Test Property
+
+        # ci/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
+test-dev:
+    test:
+        # dev/data-access/test.properties
+        #
+        # Set of substitution filters used for ci test builds.  These properties are used
+        # when running unit tests.
+        #
+        # Mongo DB Options
+
+        sli.mongodb.database: unittest
+        sli.mongodb.host: devdal1.slidev.org
+        sli.mongodb.port: 27017
+        sli.mongodb.user: 
+        sli.mongodb.pass: 
+
+        # Test specific properties
+
+        sli.test.prop: ci DAL Context Test Property
+
+        # dev/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
+
+test-devapp1:
+    test:
+        # devapp1/data-access/test.properties
+        #
+        # Set of substitution filters used for ci test builds.  These properties are used
+        # when running unit tests.
+        #
+        # Mongo DB Options
+        sli.mongodb.database: unittest
+        sli.mongodb.host: testdal1.slidev.org
+        sli.mongodb.port: 27017
+        sli.mongodb.user: 
+        sli.mongodb.pass: 
+
+        # Test specific properties
+
+        sli.test.prop: ci DAL Context Test Property
+
+        # devapp1/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
+
+test-local:
+    test:
+        # local/data-access/test.properties
+        #
+        # Set of substitution filters used for local test builds.  These properties are used
+        # to run unit tests.
+        #
+
+        # Mongo DB Options
+        sli.mongodb.database: unittest
+        sli.mongodb.host: localhost
+        sli.mongodb.port: 27017
+        sli.mongodb.user: 
+        sli.mongodb.pass: 
+
+        # Test specific properties
+        sli.test.prop: local DAL Context Test Property
+
+        # local/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
+test-nxbuild2:
+    test:
+        # nxbuild2/data-access/test.properties
+        #
+        # Set of substitution filters used for acceptance test builds.  These properties are used
+        # when running unit tests.
+        #
+        # Mongo DB Options
+        sli.mongodb.database: unittest
+        sli.mongodb.host: nxbuild2.slidev.org
+        sli.mongodb.port: 27017
+        sli.mongodb.user: 
+        sli.mongodb.pass: 
+
+        # Test specific properties
+
+        sli.test.prop: ci DAL Context Test Property
+
+        # nxbuild2/ingestion/test.properties
+        sli.ingestion.queue.workItem.host: 
+        sli.ingestion.queue.workItem.port: 
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 
+        sli.ingestion.queue.workItem.keystore: 
+        sli.ingestion.queue.workItem.keystorePassword: 
+
+test-team:
+    test:
+        # team/data-access/test.properties
+        #
+        # Set of substitution filters used for ci test builds.  These properties are used
+        # when running unit tests.
+        #
+        # Mongo DB Options
+        sli.mongodb.database: unittest
+        sli.mongodb.host: localhost
+        sli.mongodb.port: 27017
+        sli.mongodb.user: 
+        sli.mongodb.pass: 
+
+        # Test specific properties
+
+        sli.test.prop: ci DAL Context Test Property
+        # team/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
