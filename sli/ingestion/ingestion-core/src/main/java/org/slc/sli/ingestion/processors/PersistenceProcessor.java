@@ -151,7 +151,7 @@ public class PersistenceProcessor implements Processor {
                 String failedPropName = filename + ".records.failed";
                 long processedCount = (Long)exchange.getProperty(processedPropName);
                 long failedCount = (Long)exchange.getProperty(failedPropName);
-                metric.stopMetric(BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName());
+                //metric.stopMetric(BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName());
                 metric.setStopTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
                 metric.setRecordCount(processedCount);
                 metric.setErrorCount(failedCount);                                
