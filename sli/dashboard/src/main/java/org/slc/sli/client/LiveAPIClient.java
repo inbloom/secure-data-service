@@ -197,6 +197,11 @@ public class LiveAPIClient implements APIClient {
                 + "/studentSectionAssociations" + "/students" + "?optionalFields=assessments,attendances.1", token, false);
     }
 
+    public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId) {
+        return createEntitiesFromAPI(getApiUrl() + "/v1" + SECTIONS_URL + sectionId + "/studentSectionAssociations"
+                + "/students" + "?optionalFields=gradebook", token, false);
+    }
+
     /**
      * Get one section
      */
