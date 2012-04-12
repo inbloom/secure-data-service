@@ -103,23 +103,6 @@ acceptance-tests:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user: 
         sli.ingestion.staging.mongodb.pass: 
-        # acceptance-tests/data-access/test.properties
-        #
-        # Set of substitution filters used for acceptance test builds.  These properties are used
-        # when running unit tests.
-        #
-
-        # Mongo DB Options
-
-        sli.mongodb.database: unittest
-        sli.mongodb.host: nxbuild.slidev.org
-        sli.mongodb.port: 27017
-        sli.mongodb.user: 
-        sli.mongodb.pass: 
-
-        # Test specific properties
-
-        sli.test.prop: ci DAL Context Test Property
 
     ingestion:
         <<: *INGESTION-DEFAULT
@@ -130,10 +113,6 @@ acceptance-tests:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
-        # acceptance-tests/ingestion/test.properties
-        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
-        sli.ingestion.queue.workItem.concurrentConsumers: 4
-
     misc:
         <<: *MISC-DEFAULT
 ci:
@@ -175,26 +154,7 @@ ci:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user: 
         sli.ingestion.staging.mongodb.pass: 
-        # ci/data-access/test.properties
-        #
-        # Set of substitution filters used for ci test builds.  These properties are used
-        # when running unit tests.
-        #
 
-        # MySQL Options
-
-
-        # Mongo DB Options
-
-        sli.mongodb.database: unittest
-        sli.mongodb.host: testdal1.slidev.org
-        sli.mongodb.port: 27017
-        sli.mongodb.user: 
-        sli.mongodb.pass: 
-
-        # Test specific properties
-
-        sli.test.prop: ci DAL Context Test Property
     ingestion:
         <<: *INGESTION-DEFAULT
         # ci/ingestion/ingestion_conf.properties
@@ -207,9 +167,6 @@ ci:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
-        # ci/ingestion/test.properties
-        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
-        sli.ingestion.queue.workItem.concurrentConsumers: 4
 
     misc:
         <<: *MISC-DEFAULT
@@ -261,26 +218,7 @@ dev:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user: 
         sli.ingestion.staging.mongodb.pass: 
-        # dev/data-access/test.properties
-        #
-        # Set of substitution filters used for ci test builds.  These properties are used
-        # when running unit tests.
-        #
 
-        # MySQL Options
-
-
-        # Mongo DB Options
-
-        sli.mongodb.database: unittest
-        sli.mongodb.host: devdal1.slidev.org
-        sli.mongodb.port: 27017
-        sli.mongodb.user: 
-        sli.mongodb.pass: 
-
-        # Test specific properties
-
-        sli.test.prop: ci DAL Context Test Property
     ingestion:
         <<: *INGESTION-DEFAULT
         # dev/ingestion/ingestion_conf.properties
@@ -293,9 +231,7 @@ dev:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: 
         sli.ingestion.queue.workItem.keystorePassword: 
-        # dev/ingestion/test.properties
-        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
-        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
     misc:
         <<: *MISC-DEFAULT
 
@@ -324,16 +260,7 @@ devapp1:
         #
         # Set of substitution filters used for devapp1 builds
         #
-
-        # Hibernate Options
-
-
-        # MySQL Options
-
-
-
         # Mongo DB Options
-
         sli.mongodb.database: devapp1
         sli.mongodb.host: devdal1.slidev.org
         sli.mongodb.port: 27017
@@ -345,26 +272,6 @@ devapp1:
         sli.ingestion.staging.mongodb.user: 
         sli.ingestion.staging.mongodb.pass: 
 
-        # devapp1/data-access/test.properties
-        #
-        # Set of substitution filters used for ci test builds.  These properties are used
-        # when running unit tests.
-        #
-
-        # MySQL Options
-
-
-        # Mongo DB Options
-
-        sli.mongodb.database: unittest
-        sli.mongodb.host: testdal1.slidev.org
-        sli.mongodb.port: 27017
-        sli.mongodb.user: 
-        sli.mongodb.pass: 
-
-        # Test specific properties
-
-        sli.test.prop: ci DAL Context Test Property
     ingestion:
         <<: *INGESTION-DEFAULT
         # devapp1/ingestion/ingestion_conf.properties
@@ -377,9 +284,7 @@ devapp1:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: 
         sli.ingestion.queue.workItem.keystorePassword: 
-        # devapp1/ingestion/test.properties
-        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
-        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
     misc:
         <<: *MISC-DEFAULT
 
@@ -431,21 +336,6 @@ local:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user: 
         sli.ingestion.staging.mongodb.pass: 
-        # local/data-access/test.properties
-        #
-        # Set of substitution filters used for local test builds.  These properties are used
-        # to run unit tests.
-        #
-
-        # Mongo DB Options
-        sli.mongodb.database: unittest
-        sli.mongodb.host: localhost
-        sli.mongodb.port: 27017
-        sli.mongodb.user: 
-        sli.mongodb.pass: 
-
-        # Test specific properties
-        sli.test.prop: local DAL Context Test Property
     ingestion:
         <<: *INGESTION-DEFAULT
         # local/ingestion/ingestion_conf.properties
@@ -458,9 +348,7 @@ local:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: 
         sli.ingestion.queue.workItem.keystorePassword: 
-        # local/ingestion/test.properties
-        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
-        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
     misc:
         <<: *MISC-DEFAULT
 
@@ -510,23 +398,6 @@ nxbuild2:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user: 
         sli.ingestion.staging.mongodb.pass: 
-        # nxbuild2/data-access/test.properties
-        #
-        # Set of substitution filters used for acceptance test builds.  These properties are used
-        # when running unit tests.
-        #
-
-        # Mongo DB Options
-
-        sli.mongodb.database: unittest
-        sli.mongodb.host: nxbuild2.slidev.org
-        sli.mongodb.port: 27017
-        sli.mongodb.user: 
-        sli.mongodb.pass: 
-
-        # Test specific properties
-
-        sli.test.prop: ci DAL Context Test Property
 
     ingestion:
         <<: *INGESTION-DEFAULT
@@ -535,13 +406,7 @@ nxbuild2:
         sli.ingestion.queue.workItem.port: 
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
-        # nxbuild2/ingestion/test.properties
-        sli.ingestion.queue.workItem.host: 
-        sli.ingestion.queue.workItem.port: 
-        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
-        sli.ingestion.queue.workItem.concurrentConsumers: 
-        sli.ingestion.queue.workItem.keystore: 
-        sli.ingestion.queue.workItem.keystorePassword: 
+
     misc:
         <<: *MISC-DEFAULT
 
@@ -580,26 +445,7 @@ team:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user: 
         sli.ingestion.staging.mongodb.pass: 
-        # team/data-access/test.properties
-        #
-        # Set of substitution filters used for ci test builds.  These properties are used
-        # when running unit tests.
-        #
 
-        # MySQL Options
-
-
-        # Mongo DB Options
-
-        sli.mongodb.database: unittest
-        sli.mongodb.host: localhost
-        sli.mongodb.port: 27017
-        sli.mongodb.user: 
-        sli.mongodb.pass: 
-
-        # Test specific properties
-
-        sli.test.prop: ci DAL Context Test Property
     ingestion:
         <<: *INGESTION-DEFAULT
         # team/ingestion/ingestion_conf.properties
@@ -612,10 +458,172 @@ team:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
-        # team/ingestion/test.properties
-        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
-        sli.ingestion.queue.workItem.concurrentConsumers: 4
 
     misc:
         <<: *MISC-DEFAULT
         sli.dev.subdomain: ci
+
+test-acceptance-tests:
+    test:
+        # acceptance-tests/data-access/test.properties
+        #
+        # Set of substitution filters used for acceptance test builds.  These properties are used
+        # when running unit tests.
+        #
+
+        # Mongo DB Options
+        sli.mongodb.database: unittest
+        sli.mongodb.host: nxbuild.slidev.org
+        sli.mongodb.port: 27017
+        sli.mongodb.user: 
+        sli.mongodb.pass: 
+
+        # acceptance-tests/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
+        # Test specific properties
+        sli.test.prop: ci DAL Context Test Property
+
+test-ci:
+    test:
+            # ci/data-access/test.properties
+        #
+        # Set of substitution filters used for ci test builds.  These properties are used
+        # when running unit tests.
+        #
+
+        # Mongo DB Options
+
+        sli.mongodb.database: unittest
+        sli.mongodb.host: testdal1.slidev.org
+        sli.mongodb.port: 27017
+        sli.mongodb.user: 
+        sli.mongodb.pass: 
+
+        # Test specific properties
+
+        sli.test.prop: ci DAL Context Test Property
+
+        # ci/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
+test-dev:
+    test:
+        # dev/data-access/test.properties
+        #
+        # Set of substitution filters used for ci test builds.  These properties are used
+        # when running unit tests.
+        #
+        # Mongo DB Options
+
+        sli.mongodb.database: unittest
+        sli.mongodb.host: devdal1.slidev.org
+        sli.mongodb.port: 27017
+        sli.mongodb.user: 
+        sli.mongodb.pass: 
+
+        # Test specific properties
+
+        sli.test.prop: ci DAL Context Test Property
+
+        # dev/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
+
+test-devapp1:
+    test:
+        # devapp1/data-access/test.properties
+        #
+        # Set of substitution filters used for ci test builds.  These properties are used
+        # when running unit tests.
+        #
+        # Mongo DB Options
+        sli.mongodb.database: unittest
+        sli.mongodb.host: testdal1.slidev.org
+        sli.mongodb.port: 27017
+        sli.mongodb.user: 
+        sli.mongodb.pass: 
+
+        # Test specific properties
+
+        sli.test.prop: ci DAL Context Test Property
+
+        # devapp1/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
+
+test-local:
+    test:
+        # local/data-access/test.properties
+        #
+        # Set of substitution filters used for local test builds.  These properties are used
+        # to run unit tests.
+        #
+
+        # Mongo DB Options
+        sli.mongodb.database: unittest
+        sli.mongodb.host: localhost
+        sli.mongodb.port: 27017
+        sli.mongodb.user: 
+        sli.mongodb.pass: 
+
+        # Test specific properties
+        sli.test.prop: local DAL Context Test Property
+
+        # local/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
+
+
+
+test-nxbuild2:
+    test:
+        # nxbuild2/data-access/test.properties
+        #
+        # Set of substitution filters used for acceptance test builds.  These properties are used
+        # when running unit tests.
+        #
+        # Mongo DB Options
+        sli.mongodb.database: unittest
+        sli.mongodb.host: nxbuild2.slidev.org
+        sli.mongodb.port: 27017
+        sli.mongodb.user: 
+        sli.mongodb.pass: 
+
+        # Test specific properties
+
+        sli.test.prop: ci DAL Context Test Property
+
+        # nxbuild2/ingestion/test.properties
+        sli.ingestion.queue.workItem.host: 
+        sli.ingestion.queue.workItem.port: 
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 
+        sli.ingestion.queue.workItem.keystore: 
+        sli.ingestion.queue.workItem.keystorePassword: 
+
+test-team:
+    test:
+        # team/data-access/test.properties
+        #
+        # Set of substitution filters used for ci test builds.  These properties are used
+        # when running unit tests.
+        #
+        # Mongo DB Options
+        sli.mongodb.database: unittest
+        sli.mongodb.host: localhost
+        sli.mongodb.port: 27017
+        sli.mongodb.user: 
+        sli.mongodb.pass: 
+
+        # Test specific properties
+
+        sli.test.prop: ci DAL Context Test Property
+        # team/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
