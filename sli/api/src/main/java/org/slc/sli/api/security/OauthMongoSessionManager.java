@@ -27,7 +27,6 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.util.SecurityUtil;
@@ -101,7 +100,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public URI composeRedirect(String samlId, SLIPrincipal principal) {
+    public Pair<String, URI> composeRedirect(String samlId, SLIPrincipal principal) {
         NeutralQuery nq = new NeutralQuery();
         nq.addCriteria(new NeutralCriteria("appSession.samlId", "=", samlId));
         
@@ -135,7 +134,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             }
         }
         
-        return redirect;
+        return Pair.of(session.getEntityId(), redirect);
     }
     
     /**
