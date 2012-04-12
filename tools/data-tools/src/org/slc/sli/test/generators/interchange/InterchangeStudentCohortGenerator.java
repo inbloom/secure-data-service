@@ -8,7 +8,7 @@ import org.slc.sli.test.edfi.entities.Cohort;
 import org.slc.sli.test.edfi.entities.InterchangeStudentCohort;
 import org.slc.sli.test.edfi.entities.StaffCohortAssociation;
 import org.slc.sli.test.edfi.entities.StudentCohortAssociation;
-import org.slc.sli.test.edfi.entities.relations.CohortMeta;
+import org.slc.sli.test.edfi.entities.meta.CohortMeta;
 import org.slc.sli.test.generators.CohortGenerator;
 import org.slc.sli.test.generators.StaffCohortAssociationGenerator;
 import org.slc.sli.test.generators.StudentCohortAssociationGenerator;

@@ -4,7 +4,7 @@ import org.slc.sli.test.edfi.entities.ObjectFactory;
 import org.slc.sli.test.edfi.entities.PerformanceBaseType;
 import org.slc.sli.test.edfi.entities.PerformanceLevelDescriptor;
 import org.slc.sli.test.edfi.entities.PerformanceLevelDescriptorType;
-import org.slc.sli.test.edfi.entities.relations.PerformanceLevelDescriptorMeta;
+import org.slc.sli.test.edfi.entities.meta.PerformanceLevelDescriptorMeta;
 
 public class PerformanceLevelDescriptorGenerator {
 

@@ -8,7 +8,7 @@ import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.TeacherSectionAssociation;
-import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
+import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 
 public class TeacherSectionAssociationGenerator {
     private Random r = new Random();

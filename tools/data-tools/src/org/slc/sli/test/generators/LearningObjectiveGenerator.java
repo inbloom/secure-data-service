@@ -8,7 +8,7 @@ import org.slc.sli.test.edfi.entities.LearningObjectiveReferenceType;
 import org.slc.sli.test.edfi.entities.LearningStandardId;
 import org.slc.sli.test.edfi.entities.LearningStandardIdentityType;
 import org.slc.sli.test.edfi.entities.LearningStandardReferenceType;
-import org.slc.sli.test.edfi.entities.relations.LearningObjectiveMeta;
+import org.slc.sli.test.edfi.entities.meta.LearningObjectiveMeta;
 
 public class LearningObjectiveGenerator {
 

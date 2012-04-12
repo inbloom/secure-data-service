@@ -9,7 +9,7 @@ import org.slc.sli.test.edfi.entities.AssessmentIdentificationCode;
 import org.slc.sli.test.edfi.entities.AssessmentIdentificationSystemType;
 import org.slc.sli.test.edfi.entities.ContentStandardType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
-import org.slc.sli.test.edfi.entities.relations.AssessmentFamilyMeta;
+import org.slc.sli.test.edfi.entities.meta.AssessmentFamilyMeta;
 
 public class AssessmentFamilyGenerator {
 

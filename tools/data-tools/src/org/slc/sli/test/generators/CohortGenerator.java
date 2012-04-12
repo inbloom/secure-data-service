@@ -11,7 +11,7 @@ import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.ProgramIdentityType;
 import org.slc.sli.test.edfi.entities.ProgramReferenceType;
-import org.slc.sli.test.edfi.entities.relations.CohortMeta;
+import org.slc.sli.test.edfi.entities.meta.CohortMeta;
 
 /**
  * Generates Cohort data

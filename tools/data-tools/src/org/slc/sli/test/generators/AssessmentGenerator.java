@@ -16,7 +16,7 @@ import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.ObjectiveAssessment;
 import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
-import org.slc.sli.test.edfi.entities.relations.AssessmentMeta;
+import org.slc.sli.test.edfi.entities.meta.AssessmentMeta;
 
 public class AssessmentGenerator {
 

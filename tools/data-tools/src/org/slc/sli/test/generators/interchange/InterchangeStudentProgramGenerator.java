@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import org.slc.sli.test.edfi.entities.InterchangeStudentProgram;
-import org.slc.sli.test.edfi.entities.relations.ProgramMeta;
+import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.StudentProgramAssociation;
 import org.slc.sli.test.edfi.entities.ServiceDescriptor;
 import org.slc.sli.test.edfi.entities.ObjectFactory;

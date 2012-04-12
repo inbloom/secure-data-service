@@ -6,7 +6,7 @@ import org.slc.sli.test.edfi.entities.StaffClassificationType;
 import org.slc.sli.test.edfi.entities.StaffEducationOrgAssignmentAssociation;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
-import org.slc.sli.test.edfi.entities.relations.StaffMeta;
+import org.slc.sli.test.edfi.entities.meta.StaffMeta;
 
 public class StaffEdOrgAssignmentAssociationGenerator {
 

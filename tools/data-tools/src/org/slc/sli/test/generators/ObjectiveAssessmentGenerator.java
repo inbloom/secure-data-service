@@ -5,7 +5,7 @@ import org.slc.sli.test.edfi.entities.AssessmentReportingMethodType;
 import org.slc.sli.test.edfi.entities.ObjectiveAssessment;
 import org.slc.sli.test.edfi.entities.ObjectiveAssessmentIdentityType;
 import org.slc.sli.test.edfi.entities.ObjectiveAssessmentReferenceType;
-import org.slc.sli.test.edfi.entities.relations.ObjectiveAssessmentMeta;
+import org.slc.sli.test.edfi.entities.meta.ObjectiveAssessmentMeta;
 
 public class ObjectiveAssessmentGenerator {
 

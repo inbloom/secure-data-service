@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.slc.sli.test.edfi.entities.InterchangeStudent;
 import org.slc.sli.test.edfi.entities.Student;
-import org.slc.sli.test.edfi.entities.relations.StudentMeta;
+import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.generators.FastStudentGenerator;
 import org.slc.sli.test.mappingGenerator.MetaRelations;
 import org.slc.sli.test.mappingGenerator.StateEdFiXmlGenerator;

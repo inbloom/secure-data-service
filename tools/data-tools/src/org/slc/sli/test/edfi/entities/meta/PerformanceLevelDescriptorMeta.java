@@ -1,4 +1,4 @@
-package org.slc.sli.test.edfi.entities.relations;
+package org.slc.sli.test.edfi.entities.meta;
 
 public final class PerformanceLevelDescriptorMeta {
 

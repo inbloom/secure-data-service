@@ -6,14 +6,14 @@ import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
-import org.slc.sli.test.edfi.entities.relations.AssessmentFamilyMeta;
-import org.slc.sli.test.edfi.entities.relations.AssessmentItemMeta;
-import org.slc.sli.test.edfi.entities.relations.AssessmentMeta;
-import org.slc.sli.test.edfi.entities.relations.AssessmentPeriodDescriptorMeta;
-import org.slc.sli.test.edfi.entities.relations.LearningObjectiveMeta;
-import org.slc.sli.test.edfi.entities.relations.LearningStandardMeta;
-import org.slc.sli.test.edfi.entities.relations.ObjectiveAssessmentMeta;
-import org.slc.sli.test.edfi.entities.relations.PerformanceLevelDescriptorMeta;
+import org.slc.sli.test.edfi.entities.meta.AssessmentFamilyMeta;
+import org.slc.sli.test.edfi.entities.meta.AssessmentItemMeta;
+import org.slc.sli.test.edfi.entities.meta.AssessmentMeta;
+import org.slc.sli.test.edfi.entities.meta.AssessmentPeriodDescriptorMeta;
+import org.slc.sli.test.edfi.entities.meta.LearningObjectiveMeta;
+import org.slc.sli.test.edfi.entities.meta.LearningStandardMeta;
+import org.slc.sli.test.edfi.entities.meta.ObjectiveAssessmentMeta;
+import org.slc.sli.test.edfi.entities.meta.PerformanceLevelDescriptorMeta;
 
 public class AssessmentMetaRelations {
 

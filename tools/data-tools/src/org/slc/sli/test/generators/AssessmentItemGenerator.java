@@ -4,7 +4,7 @@ import org.slc.sli.test.edfi.entities.AssessmentItem;
 import org.slc.sli.test.edfi.entities.AssessmentItemIdentityType;
 import org.slc.sli.test.edfi.entities.AssessmentItemReferenceType;
 import org.slc.sli.test.edfi.entities.ItemCategoryType;
-import org.slc.sli.test.edfi.entities.relations.AssessmentItemMeta;
+import org.slc.sli.test.edfi.entities.meta.AssessmentItemMeta;
 
 public class AssessmentItemGenerator {
 

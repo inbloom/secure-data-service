@@ -3,18 +3,18 @@ package org.slc.sli.test.mappingGenerator;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.test.edfi.entities.relations.CohortMeta;
-import org.slc.sli.test.edfi.entities.relations.CourseMeta;
-import org.slc.sli.test.edfi.entities.relations.LeaMeta;
-import org.slc.sli.test.edfi.entities.relations.ProgramMeta;
-import org.slc.sli.test.edfi.entities.relations.SchoolMeta;
-import org.slc.sli.test.edfi.entities.relations.SeaMeta;
-import org.slc.sli.test.edfi.entities.relations.SectionMeta;
-import org.slc.sli.test.edfi.entities.relations.SessionMeta;
-import org.slc.sli.test.edfi.entities.relations.StaffMeta;
-import org.slc.sli.test.edfi.entities.relations.StudentAssessmentMeta;
-import org.slc.sli.test.edfi.entities.relations.StudentMeta;
-import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
+import org.slc.sli.test.edfi.entities.meta.CohortMeta;
+import org.slc.sli.test.edfi.entities.meta.CourseMeta;
+import org.slc.sli.test.edfi.entities.meta.LeaMeta;
+import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
+import org.slc.sli.test.edfi.entities.meta.SchoolMeta;
+import org.slc.sli.test.edfi.entities.meta.SeaMeta;
+import org.slc.sli.test.edfi.entities.meta.SectionMeta;
+import org.slc.sli.test.edfi.entities.meta.SessionMeta;
+import org.slc.sli.test.edfi.entities.meta.StaffMeta;
+import org.slc.sli.test.edfi.entities.meta.StudentAssessmentMeta;
+import org.slc.sli.test.edfi.entities.meta.StudentMeta;
+import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 
 public final class MetaRelations {
 

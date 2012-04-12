@@ -13,7 +13,7 @@ import org.slc.sli.test.edfi.entities.CohortReferenceType;
 import org.slc.sli.test.edfi.entities.StudentCohortAssociation;
 import org.slc.sli.test.edfi.entities.StudentIdentityType;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
-import org.slc.sli.test.edfi.entities.relations.CohortMeta;
+import org.slc.sli.test.edfi.entities.meta.CohortMeta;
 
 /**
  * Generates StudentCohortAssociation data
