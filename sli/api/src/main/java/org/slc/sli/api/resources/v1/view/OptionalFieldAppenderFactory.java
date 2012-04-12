@@ -20,6 +20,8 @@ import org.slc.sli.api.resources.v1.ParameterConstants;
 @Component
 public class OptionalFieldAppenderFactory {
     private Map<String, OptionalFieldAppender> generators = null;
+    public static final String APPENDER_PREFIX = "appender";
+    public static final String PARAM_PREFIX = "params";
     
     @Autowired
     private OptionalFieldAppender studentAssessmentOptionalFieldAppender;
