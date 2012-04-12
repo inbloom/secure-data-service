@@ -12,7 +12,7 @@ import org.slc.sli.view.GradebookEntryResolver;
 import org.slc.sli.view.HistoricalDataResolver;
 import org.slc.sli.view.LozengeConfigResolver;
 import org.slc.sli.view.StudentResolver;
-import org.slc.sli.view.modifier.HistoricalViewModifier;
+//import org.slc.sli.view.modifier.HistoricalViewModifier;
 import org.slc.sli.view.modifier.ViewModifier;
 import org.slc.sli.view.modifier.GradebookViewModifer;
 import org.slc.sli.view.AssessmentResolver;
@@ -121,7 +121,7 @@ public class StudentListContentController extends DashboardController {
                 ViewModifier gradebookViewModifier = new GradebookViewModifer(gradebookEntryResolver);
                 viewManager.apply(gradebookViewModifier);
 
-                LOG.warn("@@@@@@@@@@@@@@@@@@ Benchmark for gradebookEntry: {}", (System.nanoTime() - startTime) * 1.0e-9);
+                LOG.info("@@@@@@@@@@@@@@@@@@ Benchmark for gradebookEntry: {}", (System.nanoTime() - startTime) * 1.0e-9);
 
             }
             
