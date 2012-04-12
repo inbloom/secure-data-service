@@ -154,6 +154,6 @@ public class SecuritySessionResource {
      * @return true (indicating user is authenticated) or false (indicating user is NOT authenticated).
      */
     private boolean isAuthenticated(SecurityContext securityContext) {
-        return !(securityContext == null || securityContext.getAuthentication() == null || securityContext.getAuthentication().getCredentials() == null || securityContext.getAuthentication().getCredentials().equals(""));
+        return securityContext.getAuthentication().isAuthenticated();
     }
 }
