@@ -91,7 +91,6 @@ acceptance-tests:
         #
 
         # Mongo DB Options
-
         sli.mongodb.database: sli
         sli.mongodb.host: nxbuild.slidev.org
         sli.mongodb.port: 27017
@@ -577,9 +576,6 @@ test-local:
         # local/ingestion/test.properties
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
-
-
-
 
 test-nxbuild2:
     test:

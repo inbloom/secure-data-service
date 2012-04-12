@@ -80,6 +80,7 @@
 		<gson.version>2.1</gson.version>
         <sli.home>${project.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
+        <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf> 
 	</properties>
 
 	<!-- Environment profiles. A profile encapsulates a set of properties and
@@ -173,7 +174,7 @@
 	</profiles>
 
 	<modules>
-		<module>sli-configuration</module>
+		<!-- <module>sli-configuration</module> --> 
 		<module>common</module>
 		<module>data-access</module>
 		<module>api</module>
@@ -181,7 +182,7 @@
 		<module>ingestion</module>
 		<module>dashboard</module>
 		<module>acceptance-tests</module>
-		<module>ingestion-sli-configuration</module>
+		<!-- <module>ingestion-sli-configuration</module> --> 
         <module>SDK</module>
   </modules>
 
@@ -189,11 +190,11 @@
 		<dependencies>
 
 			<!-- WGEN dependencies -->
-			<dependency>
+<!--			<dependency>
 				<groupId>org.slc.sli</groupId>
 				<artifactId>sli-configuration</artifactId>
 				<version>${project.version}</version>
-			</dependency>
+			</dependency> --> 
 
 			<dependency>
 				<groupId>org.slc.sli.common</groupId>
@@ -959,6 +960,7 @@ org.eclipse.jdt.ui.staticondemandthreshold=99
 					<systemPropertyVariables>
 						<emma.rt.control>false</emma.rt.control>
                         <sli.conf>${sli.conf}</sli.conf>
+                        <sli.test.conf>${sli.test.conf}</sli.test.conf>
 						<sli.env>${sli.env}</sli.env>
 						<sli.encryption.keyStore>${sli.encryption.keyStore}</sli.encryption.keyStore>
 						<sli.encryption.properties>${sli.encryption.properties}</sli.encryption.properties>

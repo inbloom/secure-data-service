@@ -20,6 +20,10 @@
 		<apiclientclass>org.slc.sli.client.MockAPIClient</apiclientclass>
         <sli.home>${project.parent.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
+
+        <sli.home>${project.parent.basedir}</sli.home>
+        <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
+        <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>     
 	</properties>
 
 	<profiles>

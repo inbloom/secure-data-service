@@ -137,11 +137,11 @@
         </property>
       </activation>
       <dependencies>
-        <dependency>
+<!--        <dependency>
           <groupId>org.slc.sli</groupId>
           <artifactId>sli-configuration</artifactId>
           <scope>test</scope>
-        </dependency>
+        </dependency> --> 
       </dependencies>
     </profile>
   </profiles>

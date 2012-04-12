@@ -26,11 +26,11 @@
 	<dependencyManagement>
 		<dependencies>
 
-			<dependency>
+<!--			<dependency>
 				<groupId>org.slc.sli</groupId>
 				<artifactId>sli-configuration</artifactId>
 				<version>${project.version}</version>
-			</dependency>
+			</dependency> --> 
 		</dependencies>
 	</dependencyManagement>
 

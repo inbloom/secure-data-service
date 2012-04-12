@@ -85,10 +85,10 @@
         </property>
       </activation>
       <dependencies>
-        <dependency>
+<!--        <dependency>
           <groupId>org.slc.sli</groupId>
           <artifactId>sli-configuration</artifactId>
-        </dependency>
+        </dependency> -->
       </dependencies>
     </profile>
   </profiles>
