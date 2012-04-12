@@ -96,7 +96,7 @@ public class PersistenceProcessor implements Processor {
         NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
         Stage stage = new Stage();
         newJob.getStages().add(stage);
-        stage.setStageName("PersistenceProcessor");
+        stage.setStageName(BatchJobStageType.PERSISTENCE_PROCESSING.getName());
         stage.startStage();
         batchJobDAO.saveBatchJob(newJob);
         BatchJob job = exchange.getIn().getBody(BatchJob.class);
