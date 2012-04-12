@@ -19,14 +19,15 @@ import org.slc.sli.api.client.impl.BasicQuery;
  * Sample domain wrapper.
  */
 public class Students {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(Students.class);
-    
+
     @SuppressWarnings("unchecked")
     public static List<String> getNames(BasicClient client) throws IOException {
         EntityCollection collection = new EntityCollection();
         try {
-            client.read(collection, EntityType.STUDENTS, BasicQuery.EMPTY_QUERY);
+            client.read(collection, EntityType.STUDENTS, BasicQuery.Builder.create().startIndex(0).maxResults(10)
+                    .build());
         } catch (URISyntaxException e) {
             LOG.error("Exception occurred", e);
         }
@@ -38,10 +39,10 @@ public class Students {
         }
         return toReturn;
     }
-    
+
     @SuppressWarnings("javadoc")
     public static int getGrade(BasicClient client, String studentName) {
         return 0;
     }
-    
+
 }
