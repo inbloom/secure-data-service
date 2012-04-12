@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -34,11 +37,13 @@ import org.slc.sli.util.SecurityUtil;
 public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFactory, ApplicationContextAware {
     public static final Class<?>[] ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE = 
             new Class[]{String.class, Object.class, Config.Data.class};
+    private static final String DATA_CACHE_REGION = "user.panel.data";
     private Logger logger = LoggerFactory.getLogger(getClass());
     private ApplicationContext applicationContext;
     private ConfigManager configManager;
     private UserEdOrgManager userEdOrgManager;
     private Map<String, InvokableSet> entityReferenceToManagerMethodMap;
+    private CacheManager cacheManager;
 
     
     public void setConfigManager(ConfigManager configManager) {
@@ -47,6 +52,10 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     
     public void setUserEdOrgManager(UserEdOrgManager userEdOrgManager) {
         this.userEdOrgManager = userEdOrgManager;
+    }
+    
+    public void setCacheManager(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
     }
 
     protected String getTokenId() {
@@ -245,14 +254,37 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     public GenericEntity getDataComponent(String componentId, Object entityKey) {
         return getDataComponent(componentId, entityKey, getConfig(componentId).getData());
     }
-
+    
+    protected GenericEntity getCached(CacheKey cacheKey) {
+        if (cacheManager != null) {
+            Element elem = cacheManager.getCache(DATA_CACHE_REGION).get(cacheKey);
+            if (elem != null) {
+                return (GenericEntity) elem.getValue();
+            }
+        }
+        return null;
+    }
+    
+    protected void addCached(CacheKey cacheKey, GenericEntity value) {
+        if (cacheManager != null) {
+            cacheManager.getCache(DATA_CACHE_REGION).put(new Element(cacheKey, value));
+        }
+    }
+    
     protected GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
+        CacheKey cacheKey = new CacheKey(getTokenId(), componentId, entityKey, config);
+        GenericEntity value = getCached(cacheKey);
+        if (value != null) {
+            return value;
+        }
         InvokableSet set = this.getInvokableSet(config.getEntityRef());
         if (set == null) {
             throw new DashboardException("No entity mapping references found for " + config.getEntityRef() + ". Fix!!!");
         }
         try {
-            return (GenericEntity) set.getMethod().invoke(set.getManager(), getTokenId(), entityKey, config);
+            value = (GenericEntity) set.getMethod().invoke(set.getManager(), getTokenId(), entityKey, config);
+            addCached(cacheKey, value);
+            return value;
         } catch (Throwable t) {
             logger.error("Unable to invoke population manager for " + componentId + " and entity id " + entityKey
                     + ", config " + componentId, t);
@@ -264,5 +296,66 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
        this.applicationContext = applicationContext;
        populateEntityReferenceToManagerMethodMap();
+    }
+    
+    /**
+     * Internal generic key type for panel.data
+     * @author agrebneva
+     *
+     */
+    private static final class CacheKey {
+        private String componentId;
+        private Object entityKey;
+        private Config.Data config;
+        private String tokenId;
+        
+        private CacheKey(String token, String componentId, Object entityKey, Config.Data config) {
+            this.componentId = componentId;
+            this.entityKey = entityKey;
+            this.config = config;
+            this.tokenId = token;
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = prime + ((componentId == null) ? 0 : componentId.hashCode());
+            result = prime * result + ((config == null) ? 0 : config.hashCode());
+            result = prime * result + ((entityKey == null) ? 0 : entityKey.hashCode());
+            result = prime * result + ((tokenId == null) ? 0 : tokenId.hashCode());
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            CacheKey other = (CacheKey) obj;
+            if (componentId == null) {
+                if (other.componentId != null)
+                    return false;
+            } else if (!componentId.equals(other.componentId))
+                return false;
+            if (config == null) {
+                if (other.config != null)
+                    return false;
+            } else if (!config.equals(other.config))
+                return false;
+            if (entityKey == null) {
+                if (other.entityKey != null)
+                    return false;
+            } else if (!entityKey.equals(other.entityKey))
+                return false;
+            if (tokenId == null) {
+                if (other.tokenId != null)
+                    return false;
+            } else if (!tokenId.equals(other.tokenId))
+                return false;
+            return true;
+        }
     }
 }

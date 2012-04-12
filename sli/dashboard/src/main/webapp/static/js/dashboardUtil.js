@@ -69,7 +69,7 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
         	colNames.push(item1.name); 
             var colModelItem = {name:item1.field,index:item1.field,width:item1.width};
             if (item1.formatter) {
-          	    colModelItem.formatter = eval(item1.formatter);
+          	    colModelItem.formatter = (eval('typeof ' + item1.formatter) == 'function') ? eval(item1.formatter) : item1.formatter;
             }
             if (item1.sorter) {
             	colModelItem.sorttype = (eval('typeof ' + item1.sorter) == 'function') ? eval(item1.sorter)(item1.params) : item1.sorter;
@@ -171,7 +171,13 @@ DashboardUtil.Grid.Formatters = {
 		    }
 
 		    return "<span style='display: inline-block;height: 6px;-moz-border-radius: 3px;-webkit-border-radius: 3px;background:" + color + ";width:" + value * .9 + "%'></span>";
-		  }
+		},
+		  
+		Lozenge: function(value, options, rowObject) {
+			var id = "los-col-" +counter();
+			var newDiv = '<span id="' + id + '" class="lozenge"/>';
+			
+		}
 };
 
 DashboardUtil.Grid.Sorters = {

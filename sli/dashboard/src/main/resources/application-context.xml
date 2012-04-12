@@ -15,7 +15,7 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
 >
 
-    <context:property-placeholder location="classpath:${env}.properties,classpath:local.properties,${prop.location}" ignore-resource-not-found="true" />
+    <context:property-placeholder location="classpath:${env:dev}.properties,classpath:local.properties,${prop.location}" ignore-resource-not-found="true" />
    
     <ehcache:annotation-driven cache-manager="cacheManager" />
     
@@ -68,5 +68,6 @@
     <bean id="dataFactory" class="org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl">
         <property name="configManager" ref="configManager"/>
         <property name="userEdOrgManager" ref="userEdOrgManager"/>
+        <property name="cacheManager" ref="cacheManager"/>
     </bean>
 </beans>
