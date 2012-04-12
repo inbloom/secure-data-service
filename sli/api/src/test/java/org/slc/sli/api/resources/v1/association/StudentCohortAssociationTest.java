@@ -27,6 +27,8 @@ import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.entity.CohortResource;
+import org.slc.sli.api.resources.v1.entity.StudentResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,10 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
         DirtiesContextTestExecutionListener.class })
 public class StudentCohortAssociationTest {
 
+    @Autowired
+    StudentResource studentResource;
+    @Autowired
+    CohortResource cohortResource;
     @Autowired
     StudentCohortAssociation studentCohortAssn; //class under test 
 
@@ -229,6 +235,46 @@ public class StudentCohortAssociationTest {
         assertNotNull("Should not be null", body2);
         assertEquals(StudentCohortAssociation.BEGIN_DATE + " should be " + secondBeginDate, secondBeginDate, body2.get(StudentCohortAssociation.BEGIN_DATE));
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
+    }
+
+    @Test
+    public void testGetStudentCohortAssocationStudents() {
+        Response createResponse = studentResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("StudentResource")), httpHeaders, uriInfo);
+        String studentId = ResourceTestUtil.parseIdFromLocation(createResponse);
+        createResponse = cohortResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("CohortResource")), httpHeaders, uriInfo);
+        String cohortId = ResourceTestUtil.parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StudentCohortAssociation", "StudentResource", studentId, "CohortResource", cohortId);
+        createResponse = studentCohortAssn.create(new EntityBody(map), httpHeaders, uriInfo);
+        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
+
+        Response response = studentCohortAssn.getStudentCohortAssocationStudents(id, 0, 100, httpHeaders, uriInfo);
+        EntityBody body = ResourceTestUtil.assertions(response);
+        assertEquals("Entity type should match", "student", body.get("entityType"));
+        assertEquals("ID should match", studentId, body.get("id"));
+    }
+
+    @Test
+    public void testGetStudentCohortAssocationCohorts() {
+        Response createResponse = studentResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("StudentResource")), httpHeaders, uriInfo);
+        String studentId = ResourceTestUtil.parseIdFromLocation(createResponse);
+        createResponse = cohortResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("CohortResource")), httpHeaders, uriInfo);
+        String cohortId = ResourceTestUtil.parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StudentCohortAssociation", "StudentResource", studentId, "CohortResource", cohortId);
+        createResponse = studentCohortAssn.create(new EntityBody(map), httpHeaders, uriInfo);
+        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
+
+        Response response = studentCohortAssn.getStudentCohortAssocationCohorts(id, 0, 100, httpHeaders, uriInfo);
+        EntityBody body = ResourceTestUtil.assertions(response);
+        assertEquals("Entity type should match", "cohort", body.get("entityType"));
+        assertEquals("ID should match", cohortId, body.get("id"));
     }
     
     private String getIDList(String resource) {
