@@ -16,7 +16,6 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
-import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
@@ -73,9 +72,9 @@ public class EdFiProcessor implements Processor {
             for (IngestionFileEntry fe : batchJob.getFiles()) {
 
                 // batchJobDAO.startMetric(batchJobId, BatchJobStageType.EDFI_PROCESSING, fe.getFileName())
-                Metrics metrics = new Metrics(fe.getFileName(), localhost.getHostAddress(), localhost.getHostName());
-                stage.getMetrics().add(metrics);
-                batchJobDAO.saveBatchJob(newJob);
+//                Metrics metrics = new Metrics(fe.getFileName(), localhost.getHostAddress(), localhost.getHostName());
+//                stage.getMetrics().add(metrics);
+//                batchJobDAO.saveBatchJob(newJob);
 
                 Long count = 0L;
 
@@ -88,10 +87,10 @@ public class EdFiProcessor implements Processor {
                 // batchJobDAO.stopMetric(batchJobId, BatchJobStageType.EDFI_PROCESSING,
                 // fe.getFileName(), fe.getRecordCount, fe.getFaultsReport.getFaults().size())
 
-                metrics.setRecordCount(count.longValue());
-                metrics.setErrorCount(fe.getFaultsReport().getFaults().size());
-                metrics.stopMetric();
-                batchJobDAO.saveBatchJob(newJob);
+//                metrics.setRecordCount(count.longValue());
+//                metrics.setErrorCount(fe.getFaultsReport().getFaults().size());
+//                metrics.stopMetric();
+//                batchJobDAO.saveBatchJob(newJob);
             }
 
             stage.stopStage();

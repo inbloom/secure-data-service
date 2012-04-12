@@ -19,11 +19,11 @@ import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.NewBatchJobLogger;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LandingZone;
+import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
-import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDAStatus;
@@ -115,15 +115,15 @@ public class JobReportingProcessor implements Processor {
 
         // clean up after ourselves
         ((ch.qos.logback.classic.Logger) jobLogger).detachAndStopAllAppenders();
-        
+
         // TODO do new batch job processing in parallel
         processUsingNewBatchJob(exchange);
-        
+
     }
 
-    
+
     private void processUsingNewBatchJob(Exchange exchange) throws Exception {
-        
+
         // get job from the batch job db
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         if (batchJobId == null) {
@@ -148,28 +148,33 @@ public class JobReportingProcessor implements Processor {
         // based on the PersistenceProcessor counts
         int totalProcessed = 0;
         int totalErrors = 0;
-        
+
         // new batch job impl writes out persistence stage resource metrics
-        for (Metrics metric : getStageMetrics(job, BatchJobStageType.PERSISTENCE_PROCESSING)) {
-            ResourceEntry resourceEntry = getResourceEntry(job, metric.getResourceId());
-            if (resourceEntry == null) {
-                jobLogger.error("The resource referenced by metric by resourceId " + metric.getResourceId() + " is not defined for this job");
-                continue;
+        List<Metrics> metrics = getStageMetrics(job, BatchJobStageType.PERSISTENCE_PROCESSING);
+        if (metrics != null) {
+            for (Metrics metric : metrics) {
+                ResourceEntry resourceEntry = getResourceEntry(job, metric.getResourceId());
+                if (resourceEntry == null) {
+                    jobLogger.error("The resource referenced by metric by resourceId " + metric.getResourceId()
+                            + " is not defined for this job");
+                    continue;
+                }
+
+                String id = "[file] " + resourceEntry.getResourceName();
+                jobLogger.info(id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType()
+                        + ")");
+
+                Long numProcessed = metric.getRecordCount();
+                Long numFailed = metric.getErrorCount();
+                Long numPassed = metric.getRecordCount() - numFailed;
+
+                jobLogger.info(id + " records considered: " + numProcessed);
+                jobLogger.info(id + " records ingested successfully: " + numPassed);
+                jobLogger.info(id + " records failed: " + numFailed);
+
+                totalProcessed += numProcessed;
+                totalErrors += numFailed;
             }
-            
-            String id = "[file] " + resourceEntry.getResourceName();
-            jobLogger.info(id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType() + ")");
-            
-            Long numProcessed = metric.getRecordCount();
-            Long numFailed = metric.getErrorCount();
-            Long numPassed = metric.getRecordCount() - numFailed;
-            
-            jobLogger.info(id + " records considered: " + numProcessed);
-            jobLogger.info(id + " records ingested successfully: " + numPassed);
-            jobLogger.info(id + " records failed: " + numFailed);
-            
-            totalProcessed += numProcessed;
-            totalErrors += numFailed;
         }
 
         // write properties
@@ -178,25 +183,26 @@ public class JobReportingProcessor implements Processor {
                 jobLogger.info("[configProperty] " + entry.getKey() + ": " + entry.getValue());
             }
         }
-        
+
         BatchJobMongoDAStatus status = BatchJobMongoDA.findBatchJobErrors(job.getId());
         if (status != null && status.isSuccess()) {
-            for (Error error : (List<Error>)status.getResult()) {
+            List<Error> errors = (List<Error>) status.getResult();
+            for (Error error : errors) {
                 if (error.getSeverity().equals(FaultType.TYPE_ERROR.getName())) {
                     jobLogger.error(
-                            error.getSourceIp() + " " 
-                            + error.getHostname() + " " 
+                            error.getSourceIp() + " "
+                            + error.getHostname() + " "
                             + error.getStageName() + " "
-                            + error.getResourceId() + " " 
-                            + error.getRecordIdentifier() + " " 
+                            + error.getResourceId() + " "
+                            + error.getRecordIdentifier() + " "
                             + error.getErrorDetail());
                 } else if (error.getSeverity() == FaultType.TYPE_WARNING.getName()) {
                     jobLogger.warn(
-                            error.getSourceIp() + " " 
-                            + error.getHostname() + " " 
+                            error.getSourceIp() + " "
+                            + error.getHostname() + " "
                             + error.getStageName() + " "
-                            + error.getResourceId() + " " 
-                            + error.getRecordIdentifier() + " " 
+                            + error.getResourceId() + " "
+                            + error.getRecordIdentifier() + " "
                             + error.getErrorDetail());
                 }
 
@@ -205,10 +211,10 @@ public class JobReportingProcessor implements Processor {
 
         if (totalErrors == 0) {
             jobLogger.info("All records processed successfully.");
-            job.setStatus(BatchJobStatusType.COMPLETED_SUCCESSFULLY.getName());            
+            job.setStatus(BatchJobStatusType.COMPLETED_SUCCESSFULLY.getName());
         } else {
             jobLogger.info("Not all records were processed completely due to errors.");
-            job.setStatus(BatchJobStatusType.COMPLETED_WITH_ERRORS.getName());            
+            job.setStatus(BatchJobStatusType.COMPLETED_WITH_ERRORS.getName());
         }
 
         jobLogger.info("Processed " + totalProcessed + " records.");
@@ -236,7 +242,7 @@ public class JobReportingProcessor implements Processor {
                 return stage.getMetrics();
             }
         }
-        
+
         return null;
     }
 

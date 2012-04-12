@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJobStageType;
@@ -47,8 +46,9 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     @Override
     public BatchJobMongoDAStatus saveBatchJob(NewBatchJob job) {
-        if (job != null)
+        if (job != null) {
             template.save(job);
+        }
         return null;
     }
 
@@ -127,10 +127,12 @@ public class BatchJobMongoDA implements BatchJobDAO {
             LOG.warn("Cannot log IngestionMetric status to MongoDB. ingestionJobId or stageName is null!");
             return logStatus;
         }
-        if (sourceIp == null)
+        if (sourceIp == null) {
             sourceIp = thisIP;
-        if (hostname == null)
+        }
+        if (hostname == null) {
             hostname = thisName;
+        }
         NewBatchJob job = template.findById(ingestionJobId, NewBatchJob.class);
         if (job != null) {
             boolean foundStage = false;
@@ -206,10 +208,10 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     public static BatchJobMongoDAStatus findBatchJobErrors(String jobId) {
         Query query = new Query(Criteria.where("batchJobId").is(jobId));
-        List <Error> errors = template.find(query, Error.class, "error");
+        List<Error> errors = template.find(query, Error.class, "error");
         return new BatchJobMongoDAStatus(true, "Returned errors for " + jobId, errors);
     }
-    
+
     /**
      *
      * @param IngestionJobId
@@ -228,11 +230,13 @@ public class BatchJobMongoDA implements BatchJobDAO {
             String sourceIp, String hostname, String recordIdentifier, String timestamp, String severity,
             String errorType, String errorDetail) {
 
-        if (sourceIp == null)
+        if (sourceIp == null) {
             sourceIp = thisIP;
+        }
 
-        if (hostname == null)
+        if (hostname == null) {
             hostname = thisName;
+        }
 
         Error error = new Error(ingestionJobId, stageName, resourceId, sourceIp, hostname, recordIdentifier, getCurrentTimeStamp(),
                 severity, errorType, errorDetail);
