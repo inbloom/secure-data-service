@@ -22,6 +22,11 @@
                 <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/program.xml" />
             </bean>
         </entry>
+		<entry key="studentProgramAssociation">
+            <bean class="org.milyn.Smooks">
+                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentProgramAssociation.xml" />
+            </bean>
+        </entry>
     </util:map>
 
     <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
@@ -69,6 +74,23 @@
 						<ref bean="programString" />
 					</list>
 				</constructor-arg>
+    </bean>
+
+	<bean id="studentProgramAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
+        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+		<property name="passThroughCollectionList" ref="studentProgramAssociationPassThroughCollectionList" />
+    </bean>
+		
+	<bean id="studentProgramAssociationString" class="java.lang.String">
+		<constructor-arg value="studentProgramAssociation"/>		
+	</bean>
+		
+	<bean id="studentProgramAssociationPassThroughCollectionList" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<ref bean="studentProgramAssociationString" />
+			</list>
+		</constructor-arg>
     </bean>
 
 </beans>
