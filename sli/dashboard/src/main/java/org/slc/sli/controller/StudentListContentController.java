@@ -13,10 +13,12 @@ import org.slc.sli.view.HistoricalDataResolver;
 import org.slc.sli.view.LozengeConfigResolver;
 import org.slc.sli.view.StudentResolver;
 //import org.slc.sli.view.modifier.HistoricalViewModifier;
-//import org.slc.sli.view.modifier.ViewModifier;
-//import org.slc.sli.view.modifier.GradebookViewModifer;
+import org.slc.sli.view.modifier.ViewModifier;
+import org.slc.sli.view.modifier.GradebookViewModifer;
 import org.slc.sli.view.AssessmentResolver;
 import org.slc.sli.view.AttendanceResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -50,7 +52,8 @@ public class StudentListContentController extends DashboardController {
     private PopulationManager populationManager;
     private ViewManager viewManager;
     private StudentProgressManager progressManager;
-    
+    private static final Logger LOG = LoggerFactory.getLogger(StudentListContentController.class);
+
     public StudentListContentController() {
     }
     
@@ -102,21 +105,25 @@ public class StudentListContentController extends DashboardController {
             /*Commenting this part out due to performance issues
             * TODO: uncomment
             * */
-//            if (viewConfig.getName().equals(Constants.MIDDLE_SCHOOL_VIEW)) {
-//
+            if (viewConfig.getName().equals(Constants.MIDDLE_SCHOOL_VIEW)) {
+
 //                HistoricalDataResolver historicalDataResolver = getHistoricalDataResolver(selectedCourseId, uids);
 //                model.addAttribute(Constants.MM_KEY_HISTORICAL, historicalDataResolver);
 //
 //                ViewModifier historicalViewModifier = new HistoricalViewModifier(historicalDataResolver);
 //                viewManager.apply(historicalViewModifier);
-//
-//                GradebookEntryResolver gradebookEntryResolver = getGradebookEntryResolver(selectedSectionId, uids);
-//                model.addAttribute(Constants.MM_KEY_GRADEBOOK_ENTRY_DATA, gradebookEntryResolver);
-//
-//                ViewModifier gradebookViewModifier = new GradebookViewModifer(gradebookEntryResolver);
-//                viewManager.apply(gradebookViewModifier);
-//
-//            }
+
+                long startTime = System.nanoTime();
+
+                GradebookEntryResolver gradebookEntryResolver = getGradebookEntryResolver(selectedSectionId, uids);
+                model.addAttribute(Constants.MM_KEY_GRADEBOOK_ENTRY_DATA, gradebookEntryResolver);
+
+                ViewModifier gradebookViewModifier = new GradebookViewModifer(gradebookEntryResolver);
+                viewManager.apply(gradebookViewModifier);
+
+                LOG.info("@@@@@@@@@@@@@@@@@@ Benchmark for gradebookEntry: {}", (System.nanoTime() - startTime) * 1.0e-9);
+
+            }
             
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);
             
