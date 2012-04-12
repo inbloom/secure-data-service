@@ -106,7 +106,8 @@ DashboardUtil.makeGrid = function (tableId, panelConfig, panelData, options)
 	    	data: panelData,
 	        datatype: 'local', 
 	        height: 'auto',
-	        viewrecords: true};
+	        viewrecords: true,
+	        rowNum: 10000};
 	if (options) {
 		gridOptions = jQuery.extend(gridOptions, options);
 	}
@@ -117,7 +118,7 @@ DashboardUtil.Grid = {};
 DashboardUtil.Grid.Formatters = {
 		/* formatoptions : {1:{color:'green'}, 2:{color:'grey'},...} */
 		CutPoint : function(value, options, rowObject) {
-			if (!value) {
+			if (!value && value != 0) {
 				return '';
 			}
 			var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);
@@ -130,7 +131,7 @@ DashboardUtil.Grid.Formatters = {
 			return "<span style='color:" + cutPoints[cutPoint].color + "'>" + value + "</span>";
 		},
 		CutPointReverse : function(value, options, rowObject) {
-			if (!value) {
+			if (!value && value != 0) {
 				return '';
 			}
 			var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);

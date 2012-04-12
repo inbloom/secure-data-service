@@ -201,7 +201,7 @@ public class PopulationManagerImpl implements PopulationManager {
                     }
                 
                     int attendanceRate = Math.round(((float) (attendances.size() - absenceCount) / attendances.size()) * 100);
-                    int tardyRate = Math.round(((float) (tardyCount / attendances.size())) * 100);
+                    int tardyRate = Math.round(((float) tardyCount / attendances.size()) * 100);
                 
                     attendanceBody.remove(Constants.ATTR_STUDENT_ATTENDANCES);
                     attendanceBody.put("absenceCount", absenceCount);

@@ -29,9 +29,9 @@
         {name: "SS", field: "assessments.ISAT Writing.Scale score"}]},
       {name: "Attendance (current school year)", items:[   
         {name: "Absence Count", field: "attendances.absenceCount",  formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#7FC124'}, 5:{color:  '#DFC836'}, 10:{color:'#DFC836'}, 11:{color:'#B40610'}}}},
-        {name: "Attendance Rate %", field: "attendances.attendanceRate", formatter: DashboardUtil.Grid.Formatters.CutPoint, params:{cutPoints:{90:{color:'#B40610'}, 95:{color:'#7FC124'}, 99:{color:'#438746'}}}},
-        {name: "Tardy Count", field: "attendances.tardyCount"},
-        {name: "Tardy Rate %", field: "attendances.tardyRate"}]}
+        {name: "Attendance Rate %", field: "attendances.attendanceRate", formatter: DashboardUtil.Grid.Formatters.CutPoint, params:{cutPoints:{89:{color:'#B40610'}, 94:{color:'#DFC836'}, 98:{color:'#7FC124'}, 100:{color:'#438746'}}}},
+        {name: "Tardy Count", field: "attendances.tardyCount", formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#7FC124'}, 5:{color:  '#DFC836'}, 10:{color:'#DFC836'}, 11:{color:'#B40610'}}}},
+        {name: "Tardy Rate %", field: "attendances.tardyRate", formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#7FC124'}, 5:{color:  '#DFC836'}, 10:{color:'#DFC836'}, 11:{color:'#B40610'}}}}]}
     ]},
     {name: "Early Literacy View", items: [
       {name: "Student", field: "name.fullName"},
@@ -42,7 +42,7 @@
         {name: "Prof. Level", field: "assessments.TRC.profLevel"}]},
       {name: "Attendance", items:[   
         {name: "Absence Count", field: "attendances.absenceCount",  formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#7FC124'}, 5:{color:  '#DFC836'}, 10:{color:'#DFC836'}, 11:{color:'#B40610'}}}},
-        {name: "Tardy Count", field: "attendances.tardyCount"}]}
+        {name: "Tardy Count", field: "attendances.tardyCount", formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#7FC124'}, 5:{color:  '#DFC836'}, 10:{color:'#DFC836'}, 11:{color:'#B40610'}}}}]}
     ]},
     {name: "College Ready ELA View", items: [
       {name: "Student", field: "name.fullName"},
@@ -57,9 +57,9 @@
         {name: "Lit.", field: "assessments.AP Literature.x"}]},                   
       {name: "Attendance", items:[   
         {name: "Absence Count", field: "attendances.absenceCount",  formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#7FC124'}, 5:{color:  '#DFC836'}, 10:{color:'#DFC836'}, 11:{color:'#B40610'}}}},
-        {name: "Attendance Rate %", field: "attendances.attendanceRate", formatter: DashboardUtil.Grid.Formatters.CutPoint, params:{cutPoints:{90:{color:'#B40610'}, 95:{color:'#7FC124'}, 99:{color:'#438746'}}}},
-        {name: "Tardy Count", field: "attendances.tardyCount"},
-        {name: "Tardy Rate %", field: "attendances.tardyRate"}]}
+        {name: "Attendance Rate %", field: "attendances.attendanceRate", formatter: DashboardUtil.Grid.Formatters.CutPoint, params:{cutPoints:{89:{color:'#B40610'}, 94:{color:'#DFC836'}, 98:{color:'#7FC124'}, 100:{color:'#438746'}}}},
+        {name: "Tardy Count", field: "attendances.tardyCount", formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#7FC124'}, 5:{color:  '#DFC836'}, 10:{color:'#DFC836'}, 11:{color:'#B40610'}}}},
+        {name: "Tardy Rate %", field: "attendances.tardyRate", formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#7FC124'}, 5:{color:  '#DFC836'}, 10:{color:'#DFC836'}, 11:{color:'#B40610'}}}}]}
     ]}
   ] 
 }
