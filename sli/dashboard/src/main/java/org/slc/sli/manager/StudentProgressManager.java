@@ -213,7 +213,7 @@ public class StudentProgressManager implements Manager {
                 geStudentGradebookEntry.put("gradebookEntryType",
                         ((Map<String, Object>) geStudentGradebookEntry.get("gradebookEntries")).get("gradebookEntryType"));
 
-                gradebookEntries.put(studentGradebookEntry.get("id").toString(), geStudentGradebookEntry);
+                gradebookEntries.put(studentGradebookEntry.get("gradebookEntryId").toString(), geStudentGradebookEntry);
                 log.debug("Progress data [studentGradebookEntry] {}", studentGradebookEntry);
             }
 
