@@ -1,4 +1,4 @@
-package org.slc.sli.test.mappingGenerator;
+package org.slc.sli.test.edfi.entities.meta.relations;
 
 import java.util.HashMap;
 import java.util.Map;

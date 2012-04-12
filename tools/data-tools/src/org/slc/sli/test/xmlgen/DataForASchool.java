@@ -1,4 +1,4 @@
-package org.slc.sli.test.mappingGenerator;
+package org.slc.sli.test.xmlgen;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -26,8 +26,8 @@ import org.slc.sli.test.generators.StudentParentAssociationGenerator;
 import org.slc.sli.test.generators.StudentSchoolAssociationGenerator;
 import org.slc.sli.test.generators.TeacherGenerator;
 import org.slc.sli.test.generators.TeacherSchoolAssociationGenerator;
-import org.slc.sli.test.mappingGenerator.internals.*;
 import org.slc.sli.test.utils.ValidateSchema;
+import org.slc.sli.test.xmlgen.internals.*;
 
 public class DataForASchool {
     private String prefix = "a";

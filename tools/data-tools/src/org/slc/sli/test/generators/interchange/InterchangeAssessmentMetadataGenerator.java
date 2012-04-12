@@ -23,6 +23,7 @@ import org.slc.sli.test.edfi.entities.meta.LearningObjectiveMeta;
 import org.slc.sli.test.edfi.entities.meta.LearningStandardMeta;
 import org.slc.sli.test.edfi.entities.meta.ObjectiveAssessmentMeta;
 import org.slc.sli.test.edfi.entities.meta.PerformanceLevelDescriptorMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 import org.slc.sli.test.generators.AssessmentFamilyGenerator;
 import org.slc.sli.test.generators.AssessmentGenerator;
 import org.slc.sli.test.generators.AssessmentItemGenerator;
@@ -31,8 +32,7 @@ import org.slc.sli.test.generators.LearningObjectiveGenerator;
 import org.slc.sli.test.generators.LearningStandardGenerator;
 import org.slc.sli.test.generators.ObjectiveAssessmentGenerator;
 import org.slc.sli.test.generators.PerformanceLevelDescriptorGenerator;
-import org.slc.sli.test.mappingGenerator.AssessmentMetaRelations;
-import org.slc.sli.test.mappingGenerator.StateEdFiXmlGenerator;
+import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public class InterchangeAssessmentMetadataGenerator {
 

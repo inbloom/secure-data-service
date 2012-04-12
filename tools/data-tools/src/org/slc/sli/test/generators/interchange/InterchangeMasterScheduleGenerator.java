@@ -7,9 +7,9 @@ import org.slc.sli.test.edfi.entities.ComplexObjectType;
 import org.slc.sli.test.edfi.entities.InterchangeMasterSchedule;
 import org.slc.sli.test.edfi.entities.Section;
 import org.slc.sli.test.edfi.entities.meta.SectionMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.SectionGenerator;
-import org.slc.sli.test.mappingGenerator.MetaRelations;
-import org.slc.sli.test.mappingGenerator.StateEdFiXmlGenerator;
+import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
  * Generates the Master Schedule Interchange as derived from the variable:

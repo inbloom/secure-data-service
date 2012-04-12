@@ -8,7 +8,7 @@ import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.ScoreResult;
 import org.slc.sli.test.edfi.entities.StudentAssessment;
 import org.slc.sli.test.edfi.entities.StudentObjectiveAssessment;
-import org.slc.sli.test.mappingGenerator.AssessmentMetaRelations;
+import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 
 public class StudentObjectiveAssessmentGenerator {
     private static final Random RANDOM = new Random();

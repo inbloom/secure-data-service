@@ -1,4 +1,4 @@
-package org.slc.sli.test.mappingGenerator.internals;
+package org.slc.sli.test.xmlgen.internals;
 
 public class StudentSchoolAssociationInternal {
     public String student;

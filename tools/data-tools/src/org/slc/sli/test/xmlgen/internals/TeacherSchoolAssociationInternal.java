@@ -1,4 +1,4 @@
-package org.slc.sli.test.mappingGenerator.internals;
+package org.slc.sli.test.xmlgen.internals;
 
 import java.util.ArrayList;
 import java.util.List;

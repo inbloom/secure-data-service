@@ -1,4 +1,4 @@
-package org.slc.sli.test.mappingGenerator;
+package org.slc.sli.test.xmlgen;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -14,6 +14,7 @@ import org.slc.sli.test.edfi.entities.InterchangeStudentAttendance;
 import org.slc.sli.test.edfi.entities.InterchangeStudentCohort;
 import org.slc.sli.test.edfi.entities.InterchangeStudentEnrollment;
 import org.slc.sli.test.edfi.entities.InterchangeStudentProgram;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.interchange.InterchangeAssessmentMetadataGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeEdOrgCalGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeEdOrgGenerator;

@@ -16,7 +16,7 @@ import org.slc.sli.test.edfi.entities.SpecialAccommodationsType;
 import org.slc.sli.test.edfi.entities.StudentAssessment;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
 import org.slc.sli.test.edfi.entities.meta.StudentAssessmentMeta;
-import org.slc.sli.test.mappingGenerator.AssessmentMetaRelations;
+import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 
 public class StudentAssessmentGenerator {
     private boolean optional = true;

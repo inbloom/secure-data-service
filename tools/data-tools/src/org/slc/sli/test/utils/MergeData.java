@@ -1,4 +1,4 @@
-package org.slc.sli.test.mappingGenerator;
+package org.slc.sli.test.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
