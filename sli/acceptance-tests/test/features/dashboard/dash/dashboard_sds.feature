@@ -17,11 +17,12 @@ When I select section "8th Grade English - Sec 6"
 Then I see a list of 28 students
 And the list includes: "Matt Sollars"
 And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
+And there is no lozenges for student "Lettie Hose"
 And I click on student "Matt Sollars"
 And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
 And their id shown in proflie is "800000025"
-And their grade is "7"
+And their grade is "8"
 And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
