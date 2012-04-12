@@ -14,6 +14,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.util.IdNormalizer;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
@@ -47,7 +48,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
     }
 
     @Override
-    Entity doHandling(NeutralRecordEntity entity, ErrorReport errorReport, Long count) {
+    Entity doHandling(NeutralRecordEntity entity, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
 
         matchEntity(entity, errorReport);
 

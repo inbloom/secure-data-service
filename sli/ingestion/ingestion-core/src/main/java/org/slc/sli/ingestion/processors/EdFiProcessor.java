@@ -13,6 +13,7 @@ import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
@@ -77,10 +78,10 @@ public class EdFiProcessor implements Processor {
                 stage.getMetrics().add(metrics);
                 batchJobDAO.saveBatchJob(newJob);
 
-                Long count = 0L;
+                FileProcessStatus fileProcessStatus = new FileProcessStatus();
 
                 ErrorReport errorReport = fe.getErrorReport();
-                processFileEntry(fe, errorReport, count);
+                processFileEntry(fe, errorReport, fileProcessStatus);
                 batchJob.getFaultsReport().append(fe.getFaultsReport());
 
                 // TODO Add recordCount variables to IngestionFileEntry to be populated when files
@@ -88,7 +89,7 @@ public class EdFiProcessor implements Processor {
                 // batchJobDAO.stopMetric(batchJobId, BatchJobStageType.EDFI_PROCESSING,
                 // fe.getFileName(), fe.getRecordCount, fe.getFaultsReport.getFaults().size())
 
-                metrics.setRecordCount(count.longValue());
+                metrics.setRecordCount(fileProcessStatus.getTotalRecordCount());
                 metrics.setErrorCount(fe.getFaultsReport().getFaults().size());
                 metrics.stopMetric();
                 batchJobDAO.saveBatchJob(newJob);
@@ -117,7 +118,7 @@ public class EdFiProcessor implements Processor {
 
     }
 
-    public void processFileEntry(IngestionFileEntry fe, ErrorReport errorReport, Long count) {
+    public void processFileEntry(IngestionFileEntry fe, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
 
         if (fe.getFileType() != null) {
 
@@ -128,7 +129,7 @@ public class EdFiProcessor implements Processor {
                     .get(fileFormat);
 
             if (fileHandler != null) {
-                fileHandler.handle(fe, errorReport, count);
+                fileHandler.handle(fe, errorReport, fileProcessStatus);
 
             } else {
                 throw new IllegalArgumentException("Unsupported file format: " + fe.getFileType().getFileFormat());

@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
@@ -37,10 +38,10 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     private String lzDirectory;
 
     @Override
-    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, Long count) {
+    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
         try {
 
-            generateNeutralRecord(fileEntry, errorReport, count);
+            generateNeutralRecord(fileEntry, errorReport, fileProcessStatus);
 
         } catch (IOException e) {
             LOG.error("IOException", e);
@@ -54,7 +55,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         return fileEntry;
     }
 
-    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport, Long count) throws IOException,
+    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) throws IOException,
             SAXException {
 
         File neutralRecordOutFile = createTempFile();
@@ -79,11 +80,13 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         } finally {
             IOUtils.closeQuietly(inputStream);
 
-            count = 0L;
+            long count = 0L;
             Hashtable<String, Long> counts = nrFileWriter.getNRCount();
             for (String type : counts.keySet()) {
                 count += counts.get(type);
             }
+
+            fileProcessStatus.setTotalRecordCount(count);
 
             nrFileWriter.close();
         }

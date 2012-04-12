@@ -3,6 +3,7 @@ package org.slc.sli.ingestion.handler;
 import java.io.File;
 import java.io.IOException;
 
+import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.validation.ErrorReport;
@@ -32,7 +33,7 @@ public class MatchDiffHandler extends AbstractIngestionHandler<IngestionFileEntr
     }
 
     @Override
-    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, Long count) {
+    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
         try {
             // load new and current state files to HDFS
             loadFiles(fileEntry, errorReport);
