@@ -35,6 +35,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class AssessmentCombinerTest {
     
+    private static final String OBJ2_ID = "Obj2";
+    
+    private static final String OBJ1_ID = "Obj1";
+    
     @Autowired
     private AssessmentCombiner combiner;
     
@@ -87,7 +91,18 @@ public class AssessmentCombinerTest {
         
         Map<String, String> pdPath = new HashMap<String, String>();
         pdPath.put("body.codeValue", PERIOD_DESCRIPTOR_CODE_VALUE);
-        Mockito.when(repository.findByPaths("assessmentPeriodDescriptor", pdPath)).thenReturn(Arrays.asList(buildTestPeriodDescriptor()));
+        Mockito.when(repository.findByPaths("assessmentPeriodDescriptor", pdPath)).thenReturn(
+                Arrays.asList(buildTestPeriodDescriptor()));
+        
+        Map<String, String> oaPath1 = new HashMap<String, String>();
+        oaPath1.put("body.id", OBJ1_ID);
+        Mockito.when(repository.findByPaths("objectiveAssessment", oaPath1)).thenReturn(
+                Arrays.asList(buildTestObjAssmt(OBJ1_ID)));
+        
+        Map<String, String> oaPath2 = new HashMap<String, String>();
+        oaPath2.put("body.id", OBJ2_ID);
+        Mockito.when(repository.findByPaths("objectiveAssessment", oaPath2)).thenReturn(
+                Arrays.asList(buildTestObjAssmt(OBJ2_ID)));
         
     }
     
@@ -114,7 +129,10 @@ public class AssessmentCombinerTest {
                 
                 NeutralRecord neutralRecord = neutralRecordEntry.getValue();
                 assertEquals("606L2.606L1", neutralRecord.getAttributes().get("assessmentFamilyHierarchyName"));
-                assertEquals(buildTestPeriodDescriptor().getAttributes(), neutralRecord.getAttributes().get("assessmentPeriodDescriptor"));
+                assertEquals(buildTestPeriodDescriptor().getAttributes(),
+                        neutralRecord.getAttributes().get("assessmentPeriodDescriptor"));
+                assertEquals(Arrays.asList(buildTestObjAssmt(OBJ1_ID).getAttributes(), buildTestObjAssmt(OBJ2_ID)
+                        .getAttributes()), neutralRecord.getAttributes().get("objectiveAssessment"));
             }
         }
     }
@@ -173,6 +191,7 @@ public class AssessmentCombinerTest {
         assessment.setAttributeField("nomenclature", "nomenclature");
         
         assessment.setAttributeField("periodDescriptorRef", PERIOD_DESCRIPTOR_CODE_VALUE);
+        assessment.setAttributeField("objectiveAssessmentRefs", Arrays.asList(OBJ1_ID, OBJ2_ID));
         
         return assessment;
     }
@@ -237,6 +256,14 @@ public class AssessmentCombinerTest {
         rec.setRecordType("assessmentPeriodDescriptor");
         rec.setAttributeField("codeValue", PERIOD_DESCRIPTOR_CODE_VALUE);
         rec.setAttributeField("description", "Spring 2012");
+        return rec;
+    }
+    
+    private NeutralRecord buildTestObjAssmt(String idCode) {
+        NeutralRecord rec = new NeutralRecord();
+        rec.setRecordType("objectiveAssessment");
+        rec.setAttributeField("identificationCode", idCode);
+        
         return rec;
     }
     
