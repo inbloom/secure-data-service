@@ -7,13 +7,11 @@ import java.net.URI;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.Context;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
@@ -85,11 +83,10 @@ public class SamlFederationResource {
     @POST
     @Path("sso/post")
     @SuppressWarnings("unchecked")
-    public Response consume(@FormParam("SAMLResponse") String postData, 
-            @Context HttpServletResponse response) throws Exception {
+    public Response consume(@FormParam("SAMLResponse") String postData) throws Exception {
         
         LOG.info("Received a SAML post for SSO...");
-
+        
         Document doc = saml.decodeSamlPost(postData);
         
         String inResponseTo = doc.getRootElement().getAttributeValue("InResponseTo");
@@ -127,26 +124,18 @@ public class SamlFederationResource {
         principal.setRealm(realm.getEntityId());
         principal.setAdminRealm(attributes.getFirst("adminRealm"));
         
-        // create sessionIndex --> this should probably be more advanced in the future
-        URI redirect = this.sessionManager.composeRedirect(inResponseTo);
-        
-        // create cookie here corresponding to session passed into authorization code above
-        // TODO: make this into an http-only cookie by updating the javax.servlet.api-servlet version in the sli/pom.xml to 3.0+
-        Cookie cookie = new Cookie("_tla", samlMessageId);
-        cookie.setDomain(".slidev.org");
-        cookie.setPath("/");       
-        response.addCookie(cookie);
-        
-        String edOrg = attributes.getFirst("edOrg");
-        
         // TODO: This is a temporary hack because of how we're storing the edOrg in LDAP.
         // Once we have a dedicated edOrg attribute, we can strip out this part
+        String edOrg = attributes.getFirst("edOrg");
         if (edOrg != null && edOrg.indexOf(' ') > -1) {
             edOrg = edOrg.substring(0, edOrg.indexOf(' '));
         }
         principal.setEdOrg(edOrg);
         
-        return Response.temporaryRedirect(redirect).build();
+        // create sessionIndex --> this should probably be more advanced in the future
+        URI redirect = this.sessionManager.composeRedirect(inResponseTo, principal);
+        
+        return Response.temporaryRedirect(redirect).cookie(new NewCookie("_tla", samlMessageId, "/", ".slidev.org", "", 300, false)).build();
     }
     
     private Entity fetchOne(String collection, NeutralQuery neutralQuery) {

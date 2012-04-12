@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sun.jersey.core.util.Base64;
@@ -22,12 +21,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.common.DefaultOAuth2SerializationService;
-import org.springframework.security.oauth2.common.OAuth2SerializationService;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
-import org.springframework.security.oauth2.provider.code.AuthorizationCodeTokenGranter;
-import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -69,26 +62,10 @@ public class AuthController {
     
     @Autowired
     private SamlHelper saml;
-    
-    @Autowired
-    private AuthorizationServerTokenServices tokenServices;
-    
-    @Autowired
-    private AuthorizationCodeServices authorizationCodeServices;
-    
-    @Autowired
-    private ClientDetailsService clientDetailsService;
-    
+      
     @Autowired
     private OauthSessionManager sessionManager;
     
-    private AuthorizationCodeTokenGranter granter;
-    private OAuth2SerializationService serializationService = new DefaultOAuth2SerializationService();
-    
-    @PostConstruct
-    public void init() {
-        granter = new AuthorizationCodeTokenGranter(tokenServices, authorizationCodeServices, clientDetailsService);
-    }
     
     /**
      * Returns the Entity Service that will make calls to the realm collection.
