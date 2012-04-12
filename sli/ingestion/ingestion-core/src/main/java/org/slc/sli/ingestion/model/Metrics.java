@@ -1,7 +1,5 @@
 package org.slc.sli.ingestion.model;
 
-import org.slc.sli.ingestion.BatchJobStageType;
-
 /**
  * Model for metrics of an ingestion job with resolution into its stage and resource
  *
@@ -26,6 +24,10 @@ public class Metrics {
 
     // mongoTemplate requires this constructor.
     public Metrics() {
+    }
+
+    public Metrics(String resourceId, String sourceIp, String hostname) {
+        this(resourceId, sourceIp, hostname, null, null, 0, 0);
     }
 
     public Metrics(String resourceId, String sourceIp, String hostname, String startTimestamp, String stopTimestamp,
@@ -112,14 +114,14 @@ public class Metrics {
         this.errorCount = errorCount;
     }
 
-    public void startMetric(BatchJobStageType stage, String resourceId) {
+    public void startMetric() {
         // TODO: create a metric with startTimeStamp of now in the db
         long startTime = System.currentTimeMillis();
     }
-    
-    public void stopMetric(BatchJobStageType stage, String resourceId) {
+
+    public void stopMetric() {
         // TODO: create a metric with startTimeStamp of now in the db
         long stopTime = System.currentTimeMillis();
     }
-    
+
 }

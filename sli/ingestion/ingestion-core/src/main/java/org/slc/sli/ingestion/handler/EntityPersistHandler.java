@@ -31,8 +31,12 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     private MessageSource messageSource;
 
-    @Override
     Entity doHandling(SimpleEntity entity, ErrorReport errorReport) {
+        return doHandling(entity, errorReport, null);
+    }
+
+    @Override
+    Entity doHandling(SimpleEntity entity, ErrorReport errorReport, Long count) {
         try {
             return persist(entity);
         } catch (EntityValidationException ex) {

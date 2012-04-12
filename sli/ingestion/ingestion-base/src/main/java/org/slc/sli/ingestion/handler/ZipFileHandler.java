@@ -21,9 +21,12 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
 
      private MessageSource messageSource;
 
-    @Override
     File doHandling(File zipFile, ErrorReport errorReport) {
+        return doHandling(zipFile, errorReport, null);
+    }
 
+    @Override
+    File doHandling(File zipFile, ErrorReport errorReport, Long count) {
         try {
             File dir = ZipFileUtil.extract(zipFile);
             LOG.info("Extracted zip file to {}", dir.getAbsolutePath());
@@ -41,5 +44,6 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
+
 
 }

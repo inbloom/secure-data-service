@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Hashtable;
 
 import javax.xml.transform.stream.StreamSource;
 
@@ -36,10 +37,10 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     private String lzDirectory;
 
     @Override
-    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport) {
+    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, Long count) {
         try {
 
-            generateNeutralRecord(fileEntry, errorReport);
+            generateNeutralRecord(fileEntry, errorReport, count);
 
         } catch (IOException e) {
             LOG.error("IOException", e);
@@ -53,7 +54,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         return fileEntry;
     }
 
-    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) throws IOException,
+    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport, Long count) throws IOException,
             SAXException {
 
         File neutralRecordOutFile = createTempFile();
@@ -77,6 +78,13 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
             IOUtils.closeQuietly(inputStream);
+
+            count = 0L;
+            Hashtable<String, Long> counts = nrFileWriter.getNRCount();
+            for (String type : counts.keySet()) {
+                count += counts.get(type);
+            }
+
             nrFileWriter.close();
         }
     }

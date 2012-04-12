@@ -81,7 +81,7 @@ public class StudentSchoolAssociationIngestionTest {
                 FileType.XML_STUDENT_ENROLLMENT, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
 
-        edFiProcessor.processFileEntry(inputFileEntry);
+        edFiProcessor.processFileEntry(inputFileEntry, inputFileEntry.getErrorReport(), null);
 
         String tenantId = "SLI";
         persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);
@@ -114,7 +114,7 @@ public class StudentSchoolAssociationIngestionTest {
                 FileType.CSV_STUDENT_SCHOOL_ASSOCIATION, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
 
-        edFiProcessor.processFileEntry(inputFileEntry);
+        edFiProcessor.processFileEntry(inputFileEntry, inputFileEntry.getErrorReport(), null);
 
         String tenantId = "SLI";
         persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);

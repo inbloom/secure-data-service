@@ -34,8 +34,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static String thisName = getHostName();
     private static MongoTemplate template;
     private static final String STR_TIMESTAMP_FORMAT = "yyyyMMdd hh:mm:ss.SSS";
-    private static final FastDateFormat formatter = FastDateFormat.getInstance(STR_TIMESTAMP_FORMAT);
-    
+    private static final FastDateFormat FORMATTER = FastDateFormat.getInstance(STR_TIMESTAMP_FORMAT);
+
     public MongoTemplate getBatchJobMongoTemplate() {
         return template;
     }
@@ -44,7 +44,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     public void setBatchJobMongoTemplate(MongoTemplate mongoTemplate) {
         template = mongoTemplate;
     }
-    
+
     @Override
     public BatchJobMongoDAStatus saveBatchJob(NewBatchJob job) {
         if (job != null)
@@ -227,13 +227,13 @@ public class BatchJobMongoDA implements BatchJobDAO {
     public static BatchJobMongoDAStatus logIngestionError(String ingestionJobId, String stageName, String resourceId,
             String sourceIp, String hostname, String recordIdentifier, String timestamp, String severity,
             String errorType, String errorDetail) {
-        
+
         if (sourceIp == null)
             sourceIp = thisIP;
-        
+
         if (hostname == null)
             hostname = thisName;
-        
+
         Error error = new Error(ingestionJobId, stageName, resourceId, sourceIp, hostname, recordIdentifier, getCurrentTimeStamp(),
                 severity, errorType, errorDetail);
         template.save(error);
@@ -243,13 +243,13 @@ public class BatchJobMongoDA implements BatchJobDAO {
     public static void logBatchError(String batchJobId, String severity, String errorType, String errorDetail) {
         logIngestionError(batchJobId, null, null, null, null, null, null, severity, errorType, errorDetail);
     }
-    
+
     public static void logBatchStageError(String batchJobId, BatchJobStageType stage, String severity, String errorType, String errorDetail) {
         logIngestionError(batchJobId, stage.getName(), null, null, null, null, null, severity, errorType, errorDetail);
     }
-    
-    public static String getCurrentTimeStamp(){
-        String timeStamp = formatter.format(System.currentTimeMillis());
+
+    public static String getCurrentTimeStamp() {
+        String timeStamp = FORMATTER.format(System.currentTimeMillis());
         return timeStamp;
     }
 }

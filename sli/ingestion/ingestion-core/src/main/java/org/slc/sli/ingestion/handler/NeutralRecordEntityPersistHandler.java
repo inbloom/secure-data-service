@@ -42,8 +42,12 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
 
     private MessageSource messageSource;
 
-    @Override
     Entity doHandling(NeutralRecordEntity entity, ErrorReport errorReport) {
+        return doHandling(entity, errorReport, null);
+    }
+
+    @Override
+    Entity doHandling(NeutralRecordEntity entity, ErrorReport errorReport, Long count) {
 
         matchEntity(entity, errorReport);
 

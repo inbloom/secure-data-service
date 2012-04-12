@@ -34,4 +34,17 @@ public interface Handler<T, O> {
      */
     O handle(T item, ErrorReport errorReport);
 
+//    /**
+//     * Handle the provided type and utilize the provided ErrorReport to track errors.
+//     *
+//     * @param item
+//     *            the object we want to handle
+//     * @param errorReport
+//     *            an ErrorReport implementation in which errors can be tracked
+//     * @param count
+//     *            number of records are handled
+//     * @return object defined in concrete implementation
+//     */
+//    O handle(T item, ErrorReport errorReport, Long count);
+
 }
