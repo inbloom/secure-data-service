@@ -5,7 +5,6 @@ Given I am using destination-local data store
     And I am using preconfigured Ingestion Landing Zone
 
 @smoke
-@integration
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job
 Given I want to ingest locally provided data "PerformanceData.zip" file as the payload of the ingestion job
 When local zip file is moved to ingestion landing zone

@@ -3,6 +3,7 @@ package org.slc.sli.test.mappingGenerator;
 import java.io.File;
 import java.io.PrintStream;
 
+import org.slc.sli.test.edfi.entities.InterchangeAssessmentMetadata;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrgCalendar;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrganization;
 import org.slc.sli.test.edfi.entities.InterchangeMasterSchedule;
@@ -13,14 +14,15 @@ import org.slc.sli.test.edfi.entities.InterchangeStudentAttendance;
 import org.slc.sli.test.edfi.entities.InterchangeStudentCohort;
 import org.slc.sli.test.edfi.entities.InterchangeStudentEnrollment;
 import org.slc.sli.test.edfi.entities.InterchangeStudentProgram;
+import org.slc.sli.test.generators.interchange.InterchangeAssessmentMetadataGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeEdOrgCalGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeEdOrgGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeMasterScheduleGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStaffAssociationGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentAssessmentGenerator;
+import org.slc.sli.test.generators.interchange.InterchangeStudentAttendanceGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentCohortGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentEnrollmentGenerator;
-import org.slc.sli.test.generators.interchange.InterchangeStudentAttendanceGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentProgramGenerator;
 import org.slc.sli.test.utils.DataUtils;
@@ -63,7 +65,7 @@ public class StateEdFiXmlGenerator {
 
         processProgramArguments(args);
 
-        MetaRelations.buildFromSea();
+        MetaRelations.construct();
 
         generateAndMarshalInterchanges();
 
@@ -101,13 +103,15 @@ public class StateEdFiXmlGenerator {
 
         studentEnrollment();
 
-        //studentProgram();
-        
-        //studentCohort();
+        studentProgram();
 
-        //studentAttendance();
+        studentCohort();
+
+        studentAttendance();
 
         studentAssessment();
+
+        assessmentMetaData();
     }
 
     /**
@@ -253,7 +257,7 @@ public class StateEdFiXmlGenerator {
 
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentCohort", xmlFilePath);
     }
-    
+
     /**
      * Generate InterchangeStudentAssessment data and use Jaxb to output the XML file.
      *
@@ -268,5 +272,22 @@ public class StateEdFiXmlGenerator {
         JaxbUtils.marshal(studentAssessment, new PrintStream(xmlFilePath));
 
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentAssessment", xmlFilePath);
+    }
+
+    /**
+     * Generate InterchangeAssessmentMetadata data and use Jaxb to output the XML file.
+     *
+     * @throws Exception
+     */
+    private static void assessmentMetaData() throws Exception {
+
+        InterchangeAssessmentMetadata assessmentMetadata = InterchangeAssessmentMetadataGenerator.generate();
+
+        String xmlFilePath = rootOutputPath + "/InterchangeAssessmentMetadata.xml";
+
+        JaxbUtils.marshal(assessmentMetadata, new PrintStream(xmlFilePath));
+
+        DataUtils
+                .writeControlFile(rootOutputPath + "MainControlFile.ctl", "InterchangeAssessmentMetadata", xmlFilePath);
     }
 }

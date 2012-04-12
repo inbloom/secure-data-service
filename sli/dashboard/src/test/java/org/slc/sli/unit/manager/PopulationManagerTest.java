@@ -22,6 +22,7 @@ import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
+import org.slc.sli.manager.impl.PopulationManagerImpl;
 
 /**
  * 
@@ -37,7 +38,7 @@ public class PopulationManagerTest {
     
     @Before
     public void setUp() throws Exception {
-        manager = new PopulationManager();
+        manager = new PopulationManagerImpl();
         mockEntity = mock(EntityManager.class);
         manager.setEntityManager(mockEntity);
 
@@ -103,7 +104,7 @@ public class PopulationManagerTest {
         PowerMockito.doReturn(new ArrayList<GenericEntity>()).when(mockedEntityManager, "getSessionsByYear", token, null);
         
         // run it
-        PopulationManager popMan = new PopulationManager();
+        PopulationManager popMan = new PopulationManagerImpl();
         popMan.setEntityManager(mockedEntityManager);
         
         List<GenericEntity> studentSummaries = popMan.getStudentSummaries(token, studentIds, null, null, sectionId); 
