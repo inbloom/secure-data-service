@@ -49,18 +49,24 @@ public class StudentObjectiveAssessmentGenerator {
     public static StudentObjectiveAssessment generateLowFi(StudentAssessment studentAssessment) {
         StudentObjectiveAssessment soa = new StudentObjectiveAssessment();
 
+        // score results
         ScoreResult scoreResult = new ScoreResult();
         scoreResult.setAssessmentReportingMethod(AssessmentReportingMethodType.values()[RANDOM
                 .nextInt(AssessmentReportingMethodType.values().length)]);
         scoreResult.setResult("score result");
         soa.getScoreResults().add(scoreResult);
 
-        // TODO: add performance levels
+        // performance levels
+        String randomPerfLevelDescId = AssessmentMetaRelations.getRandomPerfLevelDescMeta().id;
+        soa.getPerformanceLevels().add(
+                PerformanceLevelDescriptorGenerator.getPerformanceLevelDescriptorType(randomPerfLevelDescId));
 
+        // student reference
         ReferenceType studentAssessmentReference = new ReferenceType();
         studentAssessmentReference.setRef(studentAssessment);
         soa.setStudentTestAssessmentReference(studentAssessmentReference);
 
+        // objective assessment
         String randomObjAssessCode = AssessmentMetaRelations.getRandomObjectiveAssessmentMeta().id;
         soa.setObjectiveAssessmentReference(ObjectiveAssessmentGenerator
                 .getObjectiveAssessmentReferenceType(randomObjAssessCode));
