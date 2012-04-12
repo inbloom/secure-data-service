@@ -35,14 +35,16 @@ import org.springframework.context.ApplicationContext;
  */
 public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
     
-    private SecretKey key;
+    private Cipher encryptCipher;
+    private Cipher decryptCipher;
+
     private static final Logger LOG = LoggerFactory.getLogger(AesCipher.class);
     
     public AesCipher() {
     }
     
     public AesCipher(SecretKey key) {
-        this.key = key;
+        this.setKey(key);
     }
     
     @Override
@@ -129,9 +131,8 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
     
     private String encryptFromBytes(byte[] data) {
         try {
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            byte[] encrypted = cipher.doFinal(data);
+            
+            byte[] encrypted = this.encryptCipher.doFinal(data);
             String encodedData = Base64.encodeBase64String(encrypted);
             return encodedData;
         } catch (GeneralSecurityException e) {
@@ -142,9 +143,7 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
     private byte[] decryptToBytes(String encodedData) {
         byte[] data = Base64.decodeBase64(encodedData);
         try {
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            byte[] decrypted = cipher.doFinal(data);
+            byte[] decrypted = this.decryptCipher.doFinal(data);
             return decrypted;
         } catch (GeneralSecurityException e) {
             throw new RuntimeException(e);
@@ -212,6 +211,18 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
         if (!(key instanceof SecretKey)) {
             throw new RuntimeException("Expected key of type SecretKey, got " + key.getClass());
         }
-        this.key = (SecretKey) key;
+        this.setKey((SecretKey) key);
+    }
+    
+    protected void setKey(SecretKey key) {
+        try {
+            this.encryptCipher = Cipher.getInstance("AES");
+            this.encryptCipher.init(Cipher.ENCRYPT_MODE, key);
+            
+            this.decryptCipher = Cipher.getInstance("AES");
+            this.decryptCipher.init(Cipher.DECRYPT_MODE, key);
+        } catch (GeneralSecurityException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
