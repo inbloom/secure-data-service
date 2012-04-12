@@ -21,8 +21,12 @@
     {name: "Middle School ELA View", items: [
       {name: "Student", width: 200, field: "name.fullName", formatter:'showlink', params: {baseLinkUrl:'student', idName:'id', target:"_blank", showAction=""}},
       {name: "ISAT Reading", items:[
-        {name: "Perf. Lvl.", field: "assessments.ISAT Writing.perfLevel", width:100},
-        {name: "SS", field: "assessments.ISAT Writing.Scale score", width:100}]},
+        {name: "Perf. Lvl.", field: "assessments.ISAT Reading.perfLevel"},
+        {name: "SS", field: "assessments.ISAT Reading.Scale score"},
+        {name: "Lexile Score", field: "assessments.ISAT Reading.Other"}]},
+      {name: "ISAT Writing (most recent)", items:[   
+        {name: "Perf. Lvl.", field: "assessments.ISAT Writing.perfLevel"},
+        {name: "SS", field: "assessments.ISAT Writing.Scale score"}]},
       {name: "Attendance (current school year)", items:[   
         {name: "Absence Count", field: "attendances.absenceCount", width:100, formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#7FC124'}, 5:{color:  '#DFC836'}, 10:{color:'#DFC836'}, 11:{color:'#B40610'}}}},
         {name: "Attendance Rate %", field: "attendances.attendanceRate", width:100, formatter: DashboardUtil.Grid.Formatters.CutPoint, params:{cutPoints:{90:{color:'#B40610'}, 95:{color:'#7FC124'}, 99:{color:'#438746'}}}},
