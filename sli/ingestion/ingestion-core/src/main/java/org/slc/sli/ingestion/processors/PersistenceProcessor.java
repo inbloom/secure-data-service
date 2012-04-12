@@ -102,7 +102,6 @@ public class PersistenceProcessor implements Processor {
         BatchJob job = exchange.getIn().getBody(BatchJob.class);
 
         try {
-            //BatchJobMongoDA.logIngestionStageInfo(batchJobId, "Persistence", "Started", BatchJobMongoDA.getCurrentTimeStamp(), null);
             long startTime = System.currentTimeMillis();
 
             // TODO this should be determined based on the sourceId
@@ -117,8 +116,6 @@ public class PersistenceProcessor implements Processor {
             neutralRecordMongoAccess.registerBatchId(job.getId());
 
             for (IngestionFileEntry fe : job.getFiles()) {
-
-                // batchJobDAO.startMetric(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName())
                 Metrics metric =  new Metrics();
                 //metric.setStartTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
                 metric.startMetric();
@@ -139,7 +136,6 @@ public class PersistenceProcessor implements Processor {
                     BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, "Exception", "Exception", e.getMessage());
                 }
 
-                // batchJobDAO.stopMetric(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING,
                 // fe.getFileName(), fe.getRecordCount, fe.getFaultsReport.getFaults().size())
 
                 // Inform user if there were any record-level errors encountered
@@ -152,16 +148,13 @@ public class PersistenceProcessor implements Processor {
 
                 String filename = fe.getFileName();
                 String processedPropName = filename + ".records.processed";
-                //String passedPropName = filename + ".records.passed";
                 String failedPropName = filename + ".records.failed";
-                long processedCount = (Long) exchange.getProperty(processedPropName);
-                //long passedCount = (Long)exchange.getProperty(passedPropName);
-                long failedCount = (Long) exchange.getProperty(failedPropName);
-                metric.stopMetric();
-                //metric.setStopTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
+                long processedCount = (Long)exchange.getProperty(processedPropName);
+                long failedCount = (Long)exchange.getProperty(failedPropName);
+                //metric.stopMetric(BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName());
+                metric.setStopTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
                 metric.setRecordCount(processedCount);
-                metric.setErrorCount(failedCount);
-
+                metric.setErrorCount(failedCount);                                
             }
 
             // Update Camel Exchange processor output result
@@ -183,8 +176,6 @@ public class PersistenceProcessor implements Processor {
             neutralRecordMongoAccess.cleanupGroupedCollections();
         }
 
-        // batchJobDAO.stopStage(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING);
-        //batchJobDAO.saveBatchJob(newJob);
         stage.stopStage();
         batchJobDAO.saveBatchJob(newJob);
 
