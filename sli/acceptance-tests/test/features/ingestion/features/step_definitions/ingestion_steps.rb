@@ -230,7 +230,8 @@ When /^local zip file is moved to ingestion landing zone$/ do
   assert(@destination_path != nil, "Destination path was nil")
   assert(@source_path != nil, "Source path was nil")
 
-  runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/remoteCopy.sh " + @source_path + " " + @destination_path);
+  runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/remoteCopy.sh");
+  @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/remoteCopy.sh " + @source_path + " " + @destination_path);
 
   assert(true, "File Not Uploaded")
 end
