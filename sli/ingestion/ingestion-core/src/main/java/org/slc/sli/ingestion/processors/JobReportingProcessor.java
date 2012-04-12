@@ -1,7 +1,7 @@
 package org.slc.sli.ingestion.processors;
 
 import java.util.Enumeration;
-import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -14,6 +14,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.NewBatchJobLogger;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.model.Metrics;
@@ -112,7 +113,7 @@ public class JobReportingProcessor implements Processor {
         ((ch.qos.logback.classic.Logger) jobLogger).detachAndStopAllAppenders();
         
         // TODO do new batch job processing in parallel
-//        processUsingNewBatchJob(exchange);
+        processUsingNewBatchJob(exchange);
         
     }
 
@@ -134,7 +135,10 @@ public class JobReportingProcessor implements Processor {
         stage.startStage();
 
         Logger jobLogger;
-        jobLogger = BatchJobLogger.createLoggerForJob(job.getId(), landingZone);
+        // TODO uncomment below remove NewBatchJobLogger class and call below on switch over
+        //      used to avoid acceptance test failing
+//        jobLogger = BatchJobLogger.createLoggerForJob(job.getId(), landingZone);
+        jobLogger = NewBatchJobLogger.createLoggerForJob(job.getId(), landingZone);
         jobLogger.info("jobId: " + job.getId());
 
         // based on the PersistenceProcessor counts
@@ -150,9 +154,9 @@ public class JobReportingProcessor implements Processor {
             Metrics metric = getStageMetric(job, BatchJobStageType.PERSISTENCE_PROCESSING, 
                     resourceEntry.getResourceId());
             if (metric != null) {
-                int numProcessed = metric.getRecordCount();
-                int numFailed = metric.getErrorCount();
-                int numPassed = metric.getRecordCount() - numFailed;
+                Long numProcessed = metric.getRecordCount();
+                Long numFailed = metric.getErrorCount();
+                Long numPassed = metric.getRecordCount() - numFailed;
                 
                 jobLogger.info(id + " records considered: " + numProcessed);
                 jobLogger.info(id + " records ingested successfully: " + numPassed);
@@ -164,10 +168,14 @@ public class JobReportingProcessor implements Processor {
         }
         
         // write properties
-        for (Map.Entry<String, String> entry : job.getBatchProperties().entrySet()) {
-            jobLogger.info("[configProperty] " + entry.getKey() + ": " + entry.getValue());            
-        }
+        if (job.getBatchProperties() != null) {
+            
+            for (Entry<String, String> entry : job.getBatchProperties().entrySet()) {
+                jobLogger.info("[configProperty] " + entry.getKey() + ": " + entry.getValue());
+            }
 
+        }
+        
 //        FaultsReport fr = job.getFaultsReport();
 //
 //        // TODO BatchJobUtils these errors need to be pulled from the db, write the DA interface to get the faults
@@ -179,28 +187,17 @@ public class JobReportingProcessor implements Processor {
 //            }
 //        }
 //
-//        if (fr.hasErrors()) {
-//            jobLogger.info("Not all records were processed completely due to errors.");
-//            newJob.setStatus(BatchJobStatusType.COMPLETED_SUCCESSFULLY.getName());
-//        } else {
-//            jobLogger.info("All records processed successfully.");
-//            newJob.setStatus(BatchJobStatusType.COMPLETED_SUCCESSFULLY.getName());
-//        }
-//
-//        // This header is set in PersistenceProcessor
-//        // TODO get this from the persistence processor
-//        if (exchange.getProperty("records.processed") != null) {
-//            jobLogger.info("Processed " + exchange.getProperty("records.processed") + " records.");
-//        }
 
         if (totalErrors == 0) {
-            jobLogger.info("Not all records were processed completely due to errors.");
-            job.setStatus(BatchJobStatusType.COMPLETED_WITH_ERRORS.getName());            
-        } else {
             jobLogger.info("All records processed successfully.");
             job.setStatus(BatchJobStatusType.COMPLETED_SUCCESSFULLY.getName());            
+        } else {
+            jobLogger.info("Not all records were processed completely due to errors.");
+            job.setStatus(BatchJobStatusType.COMPLETED_WITH_ERRORS.getName());            
         }
-        
+
+        jobLogger.info("Processed " + totalProcessed + " records.");
+
         // clean up after ourselves
         ((ch.qos.logback.classic.Logger) jobLogger).detachAndStopAllAppenders();
 
