@@ -12,6 +12,7 @@ import org.slc.sli.test.edfi.entities.relations.SeaMeta;
 import org.slc.sli.test.edfi.entities.relations.SectionMeta;
 import org.slc.sli.test.edfi.entities.relations.SessionMeta;
 import org.slc.sli.test.edfi.entities.relations.StaffMeta;
+import org.slc.sli.test.edfi.entities.relations.StudentAssessmentMeta;
 import org.slc.sli.test.edfi.entities.relations.StudentMeta;
 import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
 
@@ -52,11 +53,12 @@ public final class MetaRelations {
 
     public static final Map<String, CohortMeta> COHORT_MAP = new HashMap<String, CohortMeta>();
 
+    public static final Map<String, StudentAssessmentMeta> STUDENT_ASSES_MAP = new HashMap<String, StudentAssessmentMeta>();
+
     /**
-     * The top level call to start the XML generation process is
-     * to 'buildSeas'
+     * Construct the meta relationships necessary for XML interchanges
      */
-    public static void buildFromSea() {
+    public static void construct() {
 
         long startTime = System.currentTimeMillis();
 
@@ -66,7 +68,7 @@ public final class MetaRelations {
 
         assignAssessmentsToStudents();
 
-        System.out.println("Time taken to build entity relations: " + (System.currentTimeMillis() - startTime));
+        System.out.println("Time taken to build entity relationships: " + (System.currentTimeMillis() - startTime));
 
     }
 
@@ -532,8 +534,10 @@ public final class MetaRelations {
     private static void assignAssessmentsToStudents() {
         for (StudentMeta studentMeta : STUDENT_MAP.values()) {
             for (int count = 0; count < ASSESSMENTS_PER_STUDENT; count++) {
-                String randomAssessmentId = AssessmentMetaRelations.getRandomAssessmentMeta().id;
-                studentMeta.assessmentIds.add(randomAssessmentId);
+
+                StudentAssessmentMeta studentAssessmentMeta = StudentAssessmentMeta.create(studentMeta,
+                        AssessmentMetaRelations.getRandomAssessmentMeta());
+                STUDENT_ASSES_MAP.put(studentAssessmentMeta.xmlId, studentAssessmentMeta);
             }
         }
     }
