@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +53,7 @@ public class AssessmentCombinerTest {
     
     private static final String PERIOD_DESCRIPTOR_CODE_VALUE = "Spring2012";
     
+    @SuppressWarnings("deprecation")
     @Before
     public void setup() {
         
@@ -110,6 +112,21 @@ public class AssessmentCombinerTest {
     @Test
     public void testAssessments() {
         
+        Collection<NeutralRecord> transformedCollections = getTransformedAssessments();
+        
+        // Compare the result
+        for (NeutralRecord neutralRecord : transformedCollections) {
+            
+            assertEquals("606L2.606L1", neutralRecord.getAttributes().get("assessmentFamilyHierarchyName"));
+            assertEquals(buildTestPeriodDescriptor().getAttributes(),
+                    neutralRecord.getAttributes().get("assessmentPeriodDescriptor"));
+            assertEquals(Arrays.asList(buildTestObjAssmt(OBJ1_ID).getAttributes(), buildTestObjAssmt(OBJ2_ID)
+                    .getAttributes()), neutralRecord.getAttributes().get("objectiveAssessment"));
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    private Collection<NeutralRecord> getTransformedAssessments() {
         // Performing the transformation
         combiner.perform(batchJobId);
         
@@ -121,19 +138,36 @@ public class AssessmentCombinerTest {
         } catch (Exception e) {
             Assert.fail();
         }
+        return transformedCollections.get("assessment").values();
+    }
+    
+    @SuppressWarnings({ "deprecation", "unchecked" })
+    @Test
+    public void testHierarchicalAssessments() {
+        String superOA = "SuperObjAssessment";
+        String subOA = "SubObjAssessment";
+        NeutralRecord superObjAssessmentRef = buildTestObjAssmt(superOA);
+        superObjAssessmentRef.setAttributeField("subObjectiveRef", subOA);
+        NeutralRecord superObjAssessmentActual = buildTestObjAssmt(superOA);
+        superObjAssessmentActual.setAttributeField("subObjective", buildTestObjAssmt(subOA).getAttributes());
         
-        // Compare the result
-        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
+        Map<String, String> superOAPath = new HashMap<String, String>();
+        superOAPath.put("body.id", superOA);
+        Mockito.when(repository.findByPaths("objectiveAssessment", superOAPath)).thenReturn(
+                Arrays.asList(superObjAssessmentRef));
+        Map<String, String> subOAPath = new HashMap<String, String>();
+        subOAPath.put("body.id", subOA);
+        Mockito.when(repository.findByPaths("objectiveAssessment", subOAPath)).thenReturn(
+                Arrays.asList(buildTestObjAssmt(subOA)));
+        NeutralRecord assessment = buildTestAssessmentNeutralRecord();
+        assessment.setAttributeField("objectiveAssessmentRefs", Arrays.asList(superOA));
+        Mockito.when(
+                repository.findByQuery(Mockito.eq("assessment"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
+                .thenReturn(Arrays.asList(assessment));
+        for (NeutralRecord neutralRecord : getTransformedAssessments()) {
+            assertEquals(Arrays.asList(superObjAssessmentActual.getAttributes()),
+                    neutralRecord.getAttributes().get("objectiveAssessment"));
             
-            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
-                
-                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-                assertEquals("606L2.606L1", neutralRecord.getAttributes().get("assessmentFamilyHierarchyName"));
-                assertEquals(buildTestPeriodDescriptor().getAttributes(),
-                        neutralRecord.getAttributes().get("assessmentPeriodDescriptor"));
-                assertEquals(Arrays.asList(buildTestObjAssmt(OBJ1_ID).getAttributes(), buildTestObjAssmt(OBJ2_ID)
-                        .getAttributes()), neutralRecord.getAttributes().get("objectiveAssessment"));
-            }
         }
     }
     
