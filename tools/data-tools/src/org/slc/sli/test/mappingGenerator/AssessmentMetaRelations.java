@@ -38,13 +38,13 @@ public class AssessmentMetaRelations {
 
     // constants
     private static final Random RANDOM = new Random();
-    private static final String ASSESS_PREFIX = "assess";
-    private static final String OBJ_ASSESS_PREFIX = "objAssess";
-    private static final String LEARN_OBJ_PREFIX = "learnObj";
-    private static final String ASSESSMENT_ITEM_PREFIX = "assessItem";
-    private static final String LEARN_STD_PREFIX = "learnStd";
+    private static final String ASSESS_PREFIX = "as";
+    private static final String OBJ_ASSESS_PREFIX = "objas";
+    private static final String LEARN_OBJ_PREFIX = "lobj";
+    private static final String ASSESSMENT_ITEM_PREFIX = "asit";
+    private static final String LEARN_STD_PREFIX = "lstd";
     private static final String PERF_LEVEL_DESC_PREFIX = "pld";
-    private static final String ASSESS_FAMILY_PREFIX = "assessFam";
+    private static final String ASSESS_FAMILY_PREFIX = "asFam";
     private static final String ASSESS_PERIOD_DESC_PREFIX = "apd";
 
     public static void buildStandaloneAssessments() {
