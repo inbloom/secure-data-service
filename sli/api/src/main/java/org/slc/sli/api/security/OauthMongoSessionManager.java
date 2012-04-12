@@ -234,6 +234,23 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         return auth;
     }
     
+    /**
+     * Determines if the specified mongo id maps to a valid OAuth access token.
+     * 
+     * @param mongoId id of the oauth session in mongo.
+     * @return id of realm (valid session) or null (not a valid session).
+     */
+    @Override
+    public Entity getSession(String sessionId) {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("_id", "=", sessionId));
+        
+        Entity session = repo.findOne(SESSION_COLLECTION, neutralQuery);
+        
+        return session;
+    }
+
+    
     private Collection<GrantedAuthority> resolveAuthorities(final String realm, final List<String> roleNames) {
         Collection<GrantedAuthority> userAuthorities = SecurityUtil.sudoRun(new SecurityTask<Collection<GrantedAuthority>>() {
             @Override
