@@ -61,6 +61,10 @@ default:
         panel.config.driver.dir: config
         panel.config.custom.dir: custom
 
+        # properties used by the mock IDP
+        sli.idp.issuer: http://localhost:8081/
+        sli.idp.response-location: http://localhost:8080/api/saml/sso        
+
         # POTENTIALL UNUSED PROPERTIES - added by Stephan Altmueller
         sli.dev.subdomain: ci
         sli.log4j.rootLogger: INFO, out
@@ -114,6 +118,7 @@ acceptance-tests:
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
     misc:
         <<: *MISC-DEFAULT
+
 ci:
     api:
         <<: *API-DEFAULT
