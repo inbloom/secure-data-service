@@ -256,10 +256,10 @@
   <Course>
     <CourseTitle>8th Grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>English Language and Literature</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>8th Grade English</ID>
     </CourseCode>
+    <SubjectArea>English Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -279,10 +279,10 @@
   <Course>
     <CourseTitle>American Literature</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>English Language and Literature</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>American Literature</ID>
     </CourseCode>
+    <SubjectArea>English Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -302,10 +302,10 @@
   <Course>
     <CourseTitle>Special Elective: Debate Clinic</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>English Language and Literature</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Special Elective: Debate Clinic</ID>
     </CourseCode>
+    <SubjectArea>English Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -327,10 +327,10 @@
   <Course>
     <CourseTitle>7th Grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>English Language and Literature</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>7th Grade English</ID>
     </CourseCode>
+    <SubjectArea>English Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -350,10 +350,10 @@
   <Course>
     <CourseTitle>7th Grade Composition</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>English Language and Literature</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>7th Grade Composition</ID>
     </CourseCode>
+    <SubjectArea>English Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -395,10 +395,10 @@
   <Course>
     <CourseTitle>10th Grade Writing</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>English Language and Literature</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>10th Grade Writing</ID>
     </CourseCode>
+    <SubjectArea>English Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -418,10 +418,10 @@
   <Course>
     <CourseTitle>10th Grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>English Language and Literature</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>10th Grade English</ID>
     </CourseCode>
+    <SubjectArea>English Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -443,10 +443,10 @@
   <Course>
     <CourseTitle>Algebra II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Mathematics</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Algebra II</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -466,10 +466,10 @@
   <Course>
     <CourseTitle>State History II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>State History II</ID>
     </CourseCode>
+    <SubjectArea>Social Studies</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -489,10 +489,10 @@
   <Course>
     <CourseTitle>Earth Sciences II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Science</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Earth Sciences II</ID>
     </CourseCode>
+    <SubjectArea>Science</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -512,10 +512,10 @@
   <Course>
     <CourseTitle>Vocal Performance II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Vocal Performance II</ID>
     </CourseCode>
+    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -535,10 +535,10 @@
   <Course>
     <CourseTitle>Nutrition</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Nutrition</ID>
     </CourseCode>
+    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -558,10 +558,10 @@
   <Course>
     <CourseTitle>Algebra I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Mathematics</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Algebra I</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -581,10 +581,10 @@
   <Course>
     <CourseTitle>State History I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>State History I</ID>
     </CourseCode>
+    <SubjectArea>Social Studies</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -604,10 +604,10 @@
   <Course>
     <CourseTitle>Earth Sciences I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Science</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Earth Sciences I</ID>
     </CourseCode>
+    <SubjectArea>Science</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -627,10 +627,10 @@
   <Course>
     <CourseTitle>Vocal Performance I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Vocal Performance I</ID>
     </CourseCode>
+    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -650,10 +650,10 @@
   <Course>
     <CourseTitle>Weight Training</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Weight Training</ID>
     </CourseCode>
+    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -673,10 +673,10 @@
   <Course>
     <CourseTitle>English 9B ELL</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>English Language and Literature</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>English 9B ELL</ID>
     </CourseCode>
+    <SubjectArea>English Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -696,10 +696,10 @@
   <Course>
     <CourseTitle>Basic Math II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Mathematics</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Basic Math II</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -719,10 +719,10 @@
   <Course>
     <CourseTitle>World History II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>World History II</ID>
     </CourseCode>
+    <SubjectArea>Social Studies</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -742,10 +742,10 @@
   <Course>
     <CourseTitle>Environmental Studies II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Science</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Environmental Studies II</ID>
     </CourseCode>
+    <SubjectArea>Science</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -765,10 +765,10 @@
   <Course>
     <CourseTitle>Vocal Ensemble II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Vocal Ensemble II</ID>
     </CourseCode>
+    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -788,10 +788,10 @@
   <Course>
     <CourseTitle>Track and Field</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Track and Field</ID>
     </CourseCode>
+    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -811,10 +811,10 @@
   <Course>
     <CourseTitle>English 9A ELL</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>English Language and Literature</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>English 9A ELL</ID>
     </CourseCode>
+    <SubjectArea>English Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -834,10 +834,10 @@
   <Course>
     <CourseTitle>Basic Math I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Mathematics</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Basic Math I</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -857,10 +857,10 @@
   <Course>
     <CourseTitle>World History I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>World History I</ID>
     </CourseCode>
+    <SubjectArea>Social Studies</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -880,10 +880,10 @@
   <Course>
     <CourseTitle>Environmental Studies I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Science</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Environmental Studies I</ID>
     </CourseCode>
+    <SubjectArea>Science</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -903,10 +903,10 @@
   <Course>
     <CourseTitle>Vocal Ensemble I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Vocal Ensemble I</ID>
     </CourseCode>
+    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -926,10 +926,10 @@
   <Course>
     <CourseTitle>Yoga and Fitness</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Yoga and Fitness</ID>
     </CourseCode>
+    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -949,10 +949,10 @@
   <Course>
     <CourseTitle>ELA 8B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>English Language and Literature</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>ELA 8B</ID>
     </CourseCode>
+    <SubjectArea>English Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -972,10 +972,10 @@
   <Course>
     <CourseTitle>Pre-Algebra II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Mathematics</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Pre-Algebra II</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -995,10 +995,10 @@
   <Course>
     <CourseTitle>U.S. History II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>U.S. History II</ID>
     </CourseCode>
+    <SubjectArea>Social Studies</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1018,10 +1018,10 @@
   <Course>
     <CourseTitle>Science 8B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Science</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Science 8B</ID>
     </CourseCode>
+    <SubjectArea>Science</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1041,10 +1041,10 @@
   <Course>
     <CourseTitle>Choir B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Choir B</ID>
     </CourseCode>
+    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1064,10 +1064,10 @@
   <Course>
     <CourseTitle>Phys-Ed 8B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Phys-Ed 8B</ID>
     </CourseCode>
+    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1087,10 +1087,10 @@
   <Course>
     <CourseTitle>ELA 8A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>English Language and Literature</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>ELA 8A</ID>
     </CourseCode>
+    <SubjectArea>English Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1110,10 +1110,10 @@
   <Course>
     <CourseTitle>Pre-Algebra I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Mathematics</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Pre-Algebra I</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1133,10 +1133,10 @@
   <Course>
     <CourseTitle>U.S. History I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>U.S. History I</ID>
     </CourseCode>
+    <SubjectArea>Social Studies</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1156,10 +1156,10 @@
   <Course>
     <CourseTitle>Science 8A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Science</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Science 8A</ID>
     </CourseCode>
+    <SubjectArea>Science</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1179,10 +1179,10 @@
   <Course>
     <CourseTitle>Choir A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Choir A</ID>
     </CourseCode>
+    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1202,10 +1202,10 @@
   <Course>
     <CourseTitle>Phys-Ed 8A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Phys-Ed 8A</ID>
     </CourseCode>
+    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1228,10 +1228,10 @@
   <Course>
     <CourseTitle>Math 7B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Mathematics</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Math 7B</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1251,10 +1251,10 @@
   <Course>
     <CourseTitle>State History II-G7</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>State History II-G7</ID>
     </CourseCode>
+    <SubjectArea>Social Studies</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1274,10 +1274,10 @@
   <Course>
     <CourseTitle>Science 7B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Science</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Science 7B</ID>
     </CourseCode>
+    <SubjectArea>Science</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1297,10 +1297,10 @@
   <Course>
     <CourseTitle>Spanish II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Foreign Language and Literature</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Spanish II</ID>
     </CourseCode>
+    <SubjectArea>Foreign Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1320,10 +1320,10 @@
   <Course>
     <CourseTitle>Jazz Band</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Jazz Band</ID>
     </CourseCode>
+    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1343,10 +1343,10 @@
   <Course>
     <CourseTitle>Math 7A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Mathematics</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Math 7A</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1366,10 +1366,10 @@
   <Course>
     <CourseTitle>State History I-G7</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>State History I-G7</ID>
     </CourseCode>
+    <SubjectArea>Social Studies</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1389,10 +1389,10 @@
   <Course>
     <CourseTitle>Science 7A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Science</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Science 7A</ID>
     </CourseCode>
+    <SubjectArea>Science</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1412,10 +1412,10 @@
   <Course>
     <CourseTitle>Spanish I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Foreign Language and Literature</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Spanish I</ID>
     </CourseCode>
+    <SubjectArea>Foreign Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1435,10 +1435,10 @@
   <Course>
     <CourseTitle>Conditioning</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Conditioning</ID>
     </CourseCode>
+    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1458,10 +1458,10 @@
   <Course>
     <CourseTitle>ELA 6B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>English Language and Literature</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>ELA 6B</ID>
     </CourseCode>
+    <SubjectArea>English Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1481,10 +1481,10 @@
   <Course>
     <CourseTitle>Math 6B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Mathematics</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Math 6B</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1504,10 +1504,10 @@
   <Course>
     <CourseTitle>World History II-G6</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>World History II-G6</ID>
     </CourseCode>
+    <SubjectArea>Social Studies</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1527,10 +1527,10 @@
   <Course>
     <CourseTitle>Science 6B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Science</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Science 6B</ID>
     </CourseCode>
+    <SubjectArea>Science</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1550,10 +1550,10 @@
   <Course>
     <CourseTitle>Drama II</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Drama II</ID>
     </CourseCode>
+    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1573,10 +1573,10 @@
   <Course>
     <CourseTitle>Nutrition</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Nutrition</ID>
     </CourseCode>
+    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1596,10 +1596,10 @@
   <Course>
     <CourseTitle>ELA 6A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>English Language and Literature</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>ELA 6A</ID>
     </CourseCode>
+    <SubjectArea>English Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1619,10 +1619,10 @@
   <Course>
     <CourseTitle>Math 6A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Mathematics</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Math 6A</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1642,10 +1642,10 @@
   <Course>
     <CourseTitle>World History I-G6</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>World History I-G6</ID>
     </CourseCode>
+    <SubjectArea>Social Studies</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1665,10 +1665,10 @@
   <Course>
     <CourseTitle>Science 6A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Science</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Science 6A</ID>
     </CourseCode>
+    <SubjectArea>Science</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1688,10 +1688,10 @@
   <Course>
     <CourseTitle>Drama I</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Drama I</ID>
     </CourseCode>
+    <SubjectArea>Fine and Performing Arts</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1711,10 +1711,10 @@
   <Course>
     <CourseTitle>Team Sports</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Team Sports</ID>
     </CourseCode>
+    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1734,10 +1734,10 @@
   <Course>
     <CourseTitle>Reading 5B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Reading</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Reading 5B</ID>
     </CourseCode>
+    <SubjectArea>Reading</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1757,10 +1757,10 @@
   <Course>
     <CourseTitle>Writing 5B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Writing</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Writing 5B</ID>
     </CourseCode>
+    <SubjectArea>Writing</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1780,10 +1780,10 @@
   <Course>
     <CourseTitle>Math 5B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Mathematics</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Math 5B</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1803,10 +1803,10 @@
   <Course>
     <CourseTitle>Geography-5</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Geography-5</ID>
     </CourseCode>
+    <SubjectArea>Social Studies</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1826,10 +1826,10 @@
   <Course>
     <CourseTitle>Science 5B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Science</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Science 5B</ID>
     </CourseCode>
+    <SubjectArea>Science</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1849,10 +1849,10 @@
   <Course>
     <CourseTitle>Phys-Ed 5B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Phys-Ed 5B</ID>
     </CourseCode>
+    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1872,10 +1872,10 @@
   <Course>
     <CourseTitle>Reading 5A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Reading</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Reading 5A</ID>
     </CourseCode>
+    <SubjectArea>Reading</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1895,10 +1895,10 @@
   <Course>
     <CourseTitle>Writing 5A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Writing</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Writing 5A</ID>
     </CourseCode>
+    <SubjectArea>Writing</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1918,10 +1918,10 @@
   <Course>
     <CourseTitle>Math 5A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Mathematics</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Math 5A</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1941,10 +1941,10 @@
   <Course>
     <CourseTitle>Government-5</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Government-5</ID>
     </CourseCode>
+    <SubjectArea>Social Studies</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1964,10 +1964,10 @@
   <Course>
     <CourseTitle>Science 5A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Science</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Science 5A</ID>
     </CourseCode>
+    <SubjectArea>Science</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -1987,10 +1987,10 @@
   <Course>
     <CourseTitle>Phys-Ed 5A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Phys-Ed 5A</ID>
     </CourseCode>
+    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -2010,10 +2010,10 @@
   <Course>
     <CourseTitle>Reading 4B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Reading</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Reading 4B</ID>
     </CourseCode>
+    <SubjectArea>Reading</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -2033,10 +2033,10 @@
   <Course>
     <CourseTitle>Writing 4B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Writing</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Writing 4B</ID>
     </CourseCode>
+    <SubjectArea>Writing</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -2056,10 +2056,10 @@
   <Course>
     <CourseTitle>Math 4B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Mathematics</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Math 4B</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -2079,10 +2079,10 @@
   <Course>
     <CourseTitle>Geography-4</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Geography-4</ID>
     </CourseCode>
+    <SubjectArea>Social Studies</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -2102,10 +2102,10 @@
   <Course>
     <CourseTitle>Science 4B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Science</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Science 4B</ID>
     </CourseCode>
+    <SubjectArea>Science</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -2125,10 +2125,10 @@
   <Course>
     <CourseTitle>Phys-Ed 4B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Phys-Ed 4B</ID>
     </CourseCode>
+    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -2148,10 +2148,10 @@
   <Course>
     <CourseTitle>Reading 4A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Reading</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Reading 4A</ID>
     </CourseCode>
+    <SubjectArea>Reading</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -2171,10 +2171,10 @@
   <Course>
     <CourseTitle>Writing 4A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Writing</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Writing 4A</ID>
     </CourseCode>
+    <SubjectArea>Writing</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -2194,10 +2194,10 @@
   <Course>
     <CourseTitle>Math 4A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Mathematics</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Math 4A</ID>
     </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -2217,10 +2217,10 @@
   <Course>
     <CourseTitle>Government-4</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Social Studies</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Government-4</ID>
     </CourseCode>
+    <SubjectArea>Social Studies</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -2240,10 +2240,10 @@
   <Course>
     <CourseTitle>Science 4A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Science</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Science 4A</ID>
     </CourseCode>
+    <SubjectArea>Science</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
@@ -2263,10 +2263,10 @@
   <Course>
     <CourseTitle>Phys-Ed 4A</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
-    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <CourseCode IdentificationSystem="CSSC course code">
       <ID>Phys-Ed 4A</ID>
     </CourseCode>
+    <SubjectArea>Physical, Health, and Safety Education</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>

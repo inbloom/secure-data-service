@@ -15,17 +15,15 @@
 		<ProgramReference>
 			<ProgramIdentity>
 				<ProgramId>ACC-TEST-PROG-1</ProgramId>
-				<ProgramType>Regular education</ProgramType>
 			</ProgramIdentity>
 		</ProgramReference>
 		<ProgramReference>
 			<ProgramIdentity>
 				<ProgramId>ACC-TEST-PROG-2</ProgramId>
-				<ProgramType>Remedial education</ProgramType>
 			</ProgramIdentity>
 		</ProgramReference>
 		<BeginDate>2011-01-01</BeginDate>
 		<EndDate>2012-02-15</EndDate>
 		<StudentRecordAccess>true</StudentRecordAccess>
-  </StudentProgramAssociation>
+  </StaffProgramAssociation>
 </InterchangeStudentProgram>

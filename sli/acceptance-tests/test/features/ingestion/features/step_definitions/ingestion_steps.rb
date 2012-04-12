@@ -258,7 +258,7 @@ Then /^I should see following map of entry counts in the corresponding collectio
   assert(@result == "true", "Some records didn't load successfully.")
 end
 
-Then /^I should say that we started processing$/ do |table|
+Then /^I should say that we started processing$/ do
   puts "Ingestion Performance Dataset started Ingesting.  Please wait a few hours for it to complete."
   assert(true, "Some records didn't load successfully.")
 end
