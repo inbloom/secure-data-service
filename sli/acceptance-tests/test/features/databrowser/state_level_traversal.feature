@@ -19,15 +19,6 @@ And the Data Browser is denied for <district>
 When I open the Data Browser
 Then I can not traverse to the <teacher> within <district>
 
-Scenario: IT Administrator trying to edit data through API in a school within own state
-
-Given I am an authenticated SEA end user
-And my role is IT Administrator
-And the <district> have approved the Data Browser
-When I impersonate that I am using Data Browser 
-And I make a call to edit any data in my <district> school
-Then the data is edited
-
 Scenario: Aggregate Viewer traversing through the available state data in the Data Browser when all districts have approve the Data Browser
 
 Given I am an authenticated SEA end user
@@ -47,9 +38,3 @@ And I open the Data Browser
 When I try to access an edor within (including) <district>
 Then I get a message that I am not authorized 
 
-Scenario: Aggregate Viewer trying to access non-edorg info data through API
-
-Given I am an authenticated SEA end user
-And my role is Aggregate Viewer
-When I make an API call to get student within a school of my district
-Then I get message that I am not authorized
