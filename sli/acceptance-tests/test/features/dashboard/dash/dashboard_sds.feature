@@ -1,3 +1,4 @@
+
 Feature:  Dashboard Tests For SDS Data
 
 Background:
@@ -6,7 +7,7 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
 
- @integration
+@integration
 Scenario: View Matt Sollars
 When I login as "linda.kim" "linda.kim1234"
 When I select ed org "Daybreak School District 4529"
@@ -20,7 +21,7 @@ And I click on student "Matt Sollars"
 And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
 And their id shown in proflie is "800000025"
-And their grade is "6"
+And their grade is "7"
 And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
@@ -40,13 +41,13 @@ And there are "1" phone numbers
 And the list of phone number includes "309-555-2449"
 And the phone number "309-555-2449" is of type "Home"
 And there are "0" addresses
-And there are "4" student enrollment history entries
-And Student Enrollment History in row "1" includes " ;East Daybreak Junior High;6;2009-09-07; ; ; ;"
-And Student Enrollment History in row "2" includes " ; ;5;2008-09-05; ;2009-05-11;End of school year"
-And Student Enrollment History in row "3" includes " ; ;4;2007-09-12; ;2008-05-10;End of school year"
-And Student Enrollment History in row "4" includes " ; ;3;2006-09-11; ;2007-05-09;Student is in a different public school in the same local education agency"
+#And there are "4" student enrollment history entries
+And Student Enrollment History includes " ;East Daybreak Junior High;6;2009-09-07; ; ; ;"
+And Student Enrollment History includes " ; ;5;2008-09-05; ;2009-05-11;End of school year"
+And Student Enrollment History includes " ; ;4;2007-09-12; ;2008-05-10;End of school year"
+And Student Enrollment History includes " ; ;3;2006-09-11; ;2007-05-09;Student is in a different public school in the same local education agency"
 
- @integration 
+@integration 
 Scenario: View Mi-Ha Tran
 When I login as "rbraverman" "rbraverman1234"
 When I select ed org "Daybreak School District 4529"
@@ -96,11 +97,11 @@ And the list of address includes
 Daybreak, IL 75229
 """
 And the order of the addressess is "34 Northshore Ave;82 N. Central Pkwy."
-And there are "2" student enrollment history entries
-And Student Enrollment History in row "1" includes " ;South Daybreak Elementary;1;2011-09-05; ; ; ;"
-And Student Enrollment History in row "2" includes " ;South Daybreak Elementary;K;2010-09-03; ;2011-05-11;End of school year"
+#And there are "2" student enrollment history entries
+And Student Enrollment History includes " ;South Daybreak Elementary;1;2011-09-05; ; ; ;"
+And Student Enrollment History includes " ;South Daybreak Elementary;K;2010-09-03; ;2011-05-11;End of school year"
 
- @integration
+@integration
 Scenario: View Carmen Ortiz
 When I login as "cgray" "cgray1234"
 When I select ed org "Daybreak School District 4529"
@@ -132,14 +133,14 @@ And there are "1" phone numbers
 And the list of phone number includes "309-555-9372"
 And the phone number "309-555-9372" is of type "Other"
 And there are "0" addresses
-And there are "9" student enrollment history entries
-And Student Enrollment History in row "1" includes " ;Daybreak Central High;11;2011-09-08; ; ; ;"
-And Student Enrollment History in row "2" includes " ;Daybreak Central High;10;2010-09-08; ;2011-05-11;End of school year"
-And Student Enrollment History in row "3" includes " ;Daybreak Central High;9;2009-09-08; ;2010-05-11;End of school year"
-And Student Enrollment History in row "4" includes " ; ;8;2008-09-11; ;2009-05-08;Exited"
-And Student Enrollment History in row "5" includes " ; ;7;2008-03-11; ;2008-05-08;End of school year"
-And Student Enrollment History in row "6" includes " ; ;7;2007-09-14; ;2008-02-12;Student is in a different public school in the same local education agency"
-And Student Enrollment History in row "7" includes " ; ;6;2006-09-11; ;2007-05-14;End of school year"
-And Student Enrollment History in row "8" includes " ; ;5;2005-09-09; ;2006-05-15;Exited"
-And Student Enrollment History in row "9" includes " ; ;2;2002-09-12; ;2003-04-12;Expelled or involuntarily withdrawn"
+#And there are "9" student enrollment history entries
+And Student Enrollment History includes " ;Daybreak Central High;11;2011-09-08; ; ; ;"
+And Student Enrollment History includes " ;Daybreak Central High;10;2010-09-08; ;2011-05-11;End of school year"
+And Student Enrollment History includes " ;Daybreak Central High;9;2009-09-08; ;2010-05-11;End of school year"
+And Student Enrollment History includes " ; ;8;2008-09-11; ;2009-05-08;Exited"
+And Student Enrollment History includes " ; ;7;2008-03-11; ;2008-05-08;End of school year"
+And Student Enrollment History includes " ; ;7;2007-09-14; ;2008-02-12;Student is in a different public school in the same local education agency"
+And Student Enrollment History includes " ; ;6;2006-09-11; ;2007-05-14;End of school year"
+And Student Enrollment History includes " ; ;5;2005-09-09; ;2006-05-15;Exited"
+And Student Enrollment History includes " ; ;2;2002-09-12; ;2003-04-12;Expelled or involuntarily withdrawn"
 
