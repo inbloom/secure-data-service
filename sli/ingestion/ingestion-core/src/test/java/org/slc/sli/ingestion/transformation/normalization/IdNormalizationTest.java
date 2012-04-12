@@ -59,14 +59,14 @@ public class IdNormalizationTest {
 
         idNorm.setEntityRepository(repo);
 
-        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport());
+        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport(), "");
 
         Assert.assertEquals("123", internalId);
 
         idNorm.setEntityRepository(repoNull);
 
         //Testing findByQuery returns null
-        internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport());
+        internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport(), "");
         Assert.assertEquals(null, internalId);
     }
 
@@ -171,7 +171,7 @@ public class IdNormalizationTest {
 
         idNorm.setEntityRepository(repo);
 
-        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport());
+        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport(), "");
 
         Assert.assertEquals("123", internalId);
     }
@@ -225,11 +225,11 @@ public class IdNormalizationTest {
 
         idNorm.setEntityRepository(repo);
 
-        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport());
+        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport(), "");
 
         Assert.assertEquals("123", internalId);
 
-        String secinternalId = idNorm.resolveInternalId(entity, "someNamespace", secondCollection, new DummyErrorReport());
+        String secinternalId = idNorm.resolveInternalId(entity, "someNamespace", secondCollection, new DummyErrorReport(), "");
         Assert.assertEquals("456", secinternalId);
     }
 }

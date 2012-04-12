@@ -194,7 +194,7 @@ end
 ############################################################
 desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceCanonicalDataTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
-                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests,
+                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest] do
   displayFailureReport()
   if $SUCCESS
@@ -217,6 +217,11 @@ end
 desc "Run Ingestion Session Test"
 task :ingestionSessionTest do
   runTests("test/features/ingestion/features/ingestion_session.feature")
+end
+
+desc "Run Ingestion Program Test"
+task :ingestionProgramTest do
+  runTests("test/features/ingestion/features/ingestion_program.feature")
 end
 
 desc "Run Ingestion Negative Tests"
@@ -919,11 +924,37 @@ end
 
 desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
 task :localDashboardTests => [:realmInit,:importUnifiedData,:dashboardTests] do
+end
 
+desc "Run dashboard integration tests"
+task :dashboardSdsTests do
+  runTests("test/features/dashboard/dash/dashboard_sds.feature")
 end
 
 ############################################################
 # Dashboard tests end
+############################################################
+
+############################################################
+# Integration Tests start
+############################################################
+
+desc "Run Integration Acceptance Tests"
+task :integrationTests => [:realmInitNoPeople] do
+  OTHER_TAGS = OTHER_TAGS+" --tags @integration"
+  Rake::Task["ingestionAcceptanceCanonicalDataTest"].execute
+  Rake::Task["crossAppTests"].execute
+  Rake::Task["dashboardSdsTests"].execute
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+############################################################
+# Integration Tests end
 ############################################################
 
 ############################################################
@@ -932,14 +963,7 @@ end
 
 desc "Run cross application testing"
 task :crossAppTests do
-  Rake::Task["importUnifiedData"].execute
-  runTests("test/features/cross_app_tests/")
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
+  runTests("test/features/cross_app_tests")
 end
 
 ############################################################
@@ -987,7 +1011,7 @@ desc "Import Storied Data Set"
 task :importStoriedData do
   testHash = Hash[]
   $collectionSet.each do |collection|
-    testHash["#{collection}"] = "storied_data/sds_#{collection}.json" 
+    testHash["#{collection}"] = "storied_data/sds_#{collection}.json"
   end
   setMultipleFixtureFiles(testHash)
 end

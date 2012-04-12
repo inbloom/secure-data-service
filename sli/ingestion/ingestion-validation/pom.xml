@@ -19,6 +19,24 @@
     <dependency>
       <groupId>org.slc.sli.ingestion</groupId>
       <artifactId>ingestion-base</artifactId>
+      <exclusions>
+        <exclusion>
+        	<artifactId>spring-data-mongodb</artifactId>
+        	<groupId>org.springframework.data</groupId>
+        </exclusion>
+        <exclusion>
+        	<artifactId>spring-security-core</artifactId>
+        	<groupId>org.springframework.security</groupId>
+        </exclusion>
+        <exclusion>
+        	<artifactId>spring-data-commons-core</artifactId>
+        	<groupId>org.springframework.data</groupId>
+        </exclusion>
+        <exclusion>
+        	<artifactId>spring-webmvc</artifactId>
+        	<groupId>org.springframework</groupId>
+        </exclusion>
+     </exclusions>
     </dependency>
 
     <!-- Spring Test dependency -->
@@ -27,6 +45,14 @@
       <artifactId>spring-test</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>junit-addons</groupId>
+      <artifactId>junit-addons</artifactId>
+      <version>1.4</version>
+      <scope>test</scope>
+    </dependency>
+
 
   </dependencies>
 
