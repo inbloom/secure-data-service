@@ -1,6 +1,9 @@
 package org.slc.sli.ingestion.transformation;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,31 +37,29 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class AssessmentCombinerTest {
     
     @Autowired
-    AssessmentCombiner combiner;
+    private AssessmentCombiner combiner;
     
     @Mock
-    Criteria jobIdCriteria;
+    private NeutralRecordMongoAccess neutralRecordMongoAccess;
     
     @Mock
-    NeutralRecordMongoAccess neutralRecordMongoAccess;
+    private NeutralRecordRepository repository = Mockito.mock(NeutralRecordRepository.class);
     
-    @Mock
-    NeutralRecordRepository repository = Mockito.mock(NeutralRecordRepository.class);
+    private String batchJobId = "10001";
     
-    String batchJobId = "10001";
+    private final static String PERIOD_DESCRIPTOR_CODE_VALUE = "Spring2012";
     
     @Before
     public void setup() {
         
-        jobIdCriteria = Criteria.where("batchJobId").is(batchJobId);
         MockitoAnnotations.initMocks(this);
         
         combiner.setNeutralRecordMongoAccess(neutralRecordMongoAccess);
         Mockito.when(neutralRecordMongoAccess.getRecordRepository()).thenReturn(repository);
         
         NeutralRecord assessment = buildTestAssessmentNeutralRecord();
-        List<NeutralRecord> data = new ArrayList<NeutralRecord>();
-        data.add(assessment);
+        List<NeutralRecord> assessments = new ArrayList<NeutralRecord>();
+        assessments.add(assessment);
         
         NeutralRecord assessmentF1 = buildTestAssessmentFamilyNeutralRecord("606L1", true);
         List<NeutralRecord> assessmentFamily1 = new ArrayList<NeutralRecord>();
@@ -66,13 +67,14 @@ public class AssessmentCombinerTest {
         List<NeutralRecord> assessmentFamily2 = new ArrayList<NeutralRecord>();
         NeutralRecord assessmentF2 = buildTestAssessmentFamilyNeutralRecord("606L2", false);
         assessmentFamily2.add(assessmentF2);
+        List<NeutralRecord> families = Arrays.asList(assessmentF1, assessmentF2);
         
         Mockito.when(
                 repository.findByQuery(Mockito.eq("assessment"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
-                .thenReturn(data);
+                .thenReturn(assessments);
         Mockito.when(
                 repository.findByQuery(Mockito.eq("assessmentFamily"), Mockito.any(Query.class), Mockito.eq(0),
-                        Mockito.eq(0))).thenReturn(assessmentFamily1);
+                        Mockito.eq(0))).thenReturn(families);
         
         Map<String, String> path1 = new HashMap<String, String>();
         path1.put("body.AssessmentFamilyIdentificationCode.ID", "606L1");
@@ -84,11 +86,15 @@ public class AssessmentCombinerTest {
         Mockito.when(repository.findByPaths(Mockito.eq("assessmentFamily"), Mockito.eq(path2))).thenReturn(
                 assessmentFamily2);
         
+        Map<String, String> pdPath = new HashMap<String, String>();
+        pdPath.put("body.codeValue", PERIOD_DESCRIPTOR_CODE_VALUE);
+        Mockito.when(repository.findByPaths("assessmentPeriodDescriptor", pdPath)).thenReturn(Arrays.asList(buildTestPeriodDescriptor()));
+        
     }
     
     @SuppressWarnings("unchecked")
     @Test
-    public void testLoadData() {
+    public void testAssessments() {
         
         // Performing the transformation
         combiner.perform(batchJobId);
@@ -108,7 +114,8 @@ public class AssessmentCombinerTest {
             for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
                 
                 NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-                Assert.assertEquals("606L2.606L1", neutralRecord.getAttributes().get("assessmentFamilyHierarchyName"));
+                assertEquals("606L2.606L1", neutralRecord.getAttributes().get("assessmentFamilyHierarchyName"));
+                assertEquals(buildTestPeriodDescriptor().getAttributes(), neutralRecord.getAttributes().get("assessmentPeriodDescriptor"));
             }
         }
     }
@@ -166,6 +173,8 @@ public class AssessmentCombinerTest {
         assessment.setAttributeField("maxRawScore", "2400");
         assessment.setAttributeField("nomenclature", "nomenclature");
         
+        assessment.setAttributeField("periodDescriptorRef", PERIOD_DESCRIPTOR_CODE_VALUE);
+        
         return assessment;
     }
     
@@ -222,6 +231,14 @@ public class AssessmentCombinerTest {
             assessmentFamily.setAttributeField("parentAssessmentFamilyId", "606L2");
         
         return assessmentFamily;
+    }
+    
+    private NeutralRecord buildTestPeriodDescriptor() {
+        NeutralRecord rec = new NeutralRecord();
+        rec.setRecordType("assessmentPeriodDescriptor");
+        rec.setAttributeField("codeValue", PERIOD_DESCRIPTOR_CODE_VALUE);
+        rec.setAttributeField("description", "Spring 2012");
+        return rec;
     }
     
 }
