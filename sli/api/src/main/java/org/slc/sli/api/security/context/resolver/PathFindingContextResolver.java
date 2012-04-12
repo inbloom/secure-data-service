@@ -61,7 +61,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
     public List<String> findAccessible(Entity principal) {
         List<SecurityNode> path = pathFinder.find(fromEntity, toEntity);
         if (path == null)
-            return null;
+            return new ArrayList<String>();
         List<String> ids = new ArrayList<String>(Arrays.asList(principal.getEntityId()));
         SecurityNode current = path.get(0);
         for (int i = 1; i< path.size(); ++i) {
@@ -70,6 +70,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
             String repoName = getResourceName(next, connection);
             Iterable<String> idSet = repository.findAllIds(repoName, buildQuery(ids, connection));
             fixIds(ids, idSet);
+            current = path.get(i);
         }
         return ids;
     }
@@ -82,7 +83,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
     }
 
     private String getResourceName(SecurityNode next, Map<String, String> connection) {
-        return connection.get(SecurityNode.CONNECTION_ASSOCIATION) != null ? (String) connection
+        return connection.get(SecurityNode.CONNECTION_ASSOCIATION).length() != 0 ? (String) connection
                 .get(SecurityNode.CONNECTION_ASSOCIATION) : next.getName();
     }
 

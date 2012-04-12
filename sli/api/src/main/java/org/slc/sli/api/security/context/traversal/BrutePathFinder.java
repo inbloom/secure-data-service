@@ -24,21 +24,21 @@ public class BrutePathFinder implements SecurityPathFinder {
     public void init() {
         nodeMap = new HashMap<String, SecurityNode>();
         nodeMap.put("teacher",
-                SecurityNodeBuilder.buildNode("teacher").addConnection(EntityNames.SECTION, "sectionId", null)
+                SecurityNodeBuilder.buildNode("teacher").addConnection(EntityNames.SECTION, "sectionId", "")
                         .construct());
         nodeMap.put(EntityNames.SECTION,
                 SecurityNodeBuilder.buildNode(EntityNames.SECTION)
-                        .addConnection(EntityNames.TEACHER, "teacherId", null)
+.addConnection(EntityNames.TEACHER, "teacherId", "")
                         .addConnection(EntityNames.STUDENT, "studentId", "sectionStudentAssociation").construct());
         nodeMap.put(
                 EntityNames.STUDENT,
                 SecurityNodeBuilder.buildNode(EntityNames.STUDENT)
-                        .addConnection(EntityNames.SECTION, "sectionId", null)
-                        .addConnection(EntityNames.ASSESSMENT, "assessmentId", null).construct());
+.addConnection(EntityNames.SECTION, "sectionId", "")
+                        .addConnection(EntityNames.ASSESSMENT, "assessmentId", "").construct());
         
         nodeMap.put(EntityNames.ASSESSMENT,
                 SecurityNodeBuilder.buildNode(EntityNames.ASSESSMENT)
-                        .addConnection(EntityNames.STUDENT, "studentId", null).construct());
+                        .addConnection(EntityNames.STUDENT, "studentId", "").construct());
     }
 
     @Override
