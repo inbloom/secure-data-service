@@ -17,11 +17,12 @@ When I select section "8th Grade English - Sec 6"
 Then I see a list of 28 students
 And the list includes: "Matt Sollars"
 And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
+And there is no lozenges for student "Lettie Hose"
 And I click on student "Matt Sollars"
 And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
 And their id shown in proflie is "800000025"
-And their grade is "7"
+And their grade is "8"
 And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
@@ -42,7 +43,7 @@ And the list of phone number includes "309-555-2449"
 And the phone number "309-555-2449" is of type "Home"
 And there are "0" addresses
 #And there are "4" student enrollment history entries
-And Student Enrollment History includes " ;East Daybreak Junior High;6;2009-09-07; ; ; ;"
+And Student Enrollment History includes " ;East Daybreak Junior High;6;2009-09-07; ;2010-05-11;End of school year"
 And Student Enrollment History includes " ; ;5;2008-09-05; ;2009-05-11;End of school year"
 And Student Enrollment History includes " ; ;4;2007-09-12; ;2008-05-10;End of school year"
 And Student Enrollment History includes " ; ;3;2006-09-11; ;2007-05-09;Student is in a different public school in the same local education agency"

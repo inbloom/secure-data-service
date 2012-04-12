@@ -15,9 +15,7 @@
     gridId, 
     'sectionId=e107127f-e91f-4424-bb5a-309515e5e656', 
     function(panelData){
-      DashboardUtil.makeGrid(tableId, options, panelData, {
-      onSelectRow: function(rowid, status) { 
-        window.open(DashboardUtil.getPageUrl('student', 'id=' + rowid), "_blank")}})});
+      DashboardUtil.makeGrid(tableId, options, panelData, {})});
 
    
 
