@@ -1,4 +1,4 @@
-package org.slc.sli.modeling.xsd2xmi;
+package org.slc.sli.modeling.xsd2xmi.extract;
 
 import java.util.HashMap;
 import java.util.Map;

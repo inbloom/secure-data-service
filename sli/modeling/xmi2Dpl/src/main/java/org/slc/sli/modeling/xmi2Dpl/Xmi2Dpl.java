@@ -21,7 +21,7 @@ public final class Xmi2Dpl {
     
     public static void main(final String[] args) {
         try {
-            final Model model = XmiReader.readInterchange("../data/SLI.xmi");
+            final Model model = XmiReader.readModel("../data/SLI.xmi");
             final boolean showClassTypes = true;
             final boolean showDataTypes = true;
             final boolean showEnumTypes = true;
