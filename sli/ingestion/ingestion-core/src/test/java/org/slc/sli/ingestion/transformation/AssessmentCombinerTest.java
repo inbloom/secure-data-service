@@ -147,9 +147,10 @@ public class AssessmentCombinerTest {
         String superOA = "SuperObjAssessment";
         String subOA = "SubObjAssessment";
         NeutralRecord superObjAssessmentRef = buildTestObjAssmt(superOA);
-        superObjAssessmentRef.setAttributeField("subObjectiveRef", subOA);
+        superObjAssessmentRef.setAttributeField("subObjectiveRefs", Arrays.asList(subOA));
         NeutralRecord superObjAssessmentActual = buildTestObjAssmt(superOA);
-        superObjAssessmentActual.setAttributeField("subObjective", buildTestObjAssmt(subOA).getAttributes());
+        superObjAssessmentActual.setAttributeField("subObjectives",
+                Arrays.asList(buildTestObjAssmt(subOA).getAttributes()));
         
         Mockito.when(
                 repository.findOne("objectiveAssessment", new NeutralQuery(new NeutralCriteria("id", "=", superOA))))
