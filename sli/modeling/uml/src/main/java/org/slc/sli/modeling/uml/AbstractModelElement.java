@@ -10,30 +10,32 @@ import java.util.List;
 public abstract class AbstractModelElement implements HasIdentity, HasTaggedValues {
     
     private final Identifier id;
+    private final ReferenceType kind;
     private final List<TaggedValue> taggedValues;
-    /**
-     * Intentionally protected and available to derived classes.
-     */
-    protected final LazyLookup lookup;
     
-    public AbstractModelElement(final Identifier id, final List<TaggedValue> taggedValues, final LazyLookup lookup) {
+    public AbstractModelElement(final Identifier id, final ReferenceType kind, final List<TaggedValue> taggedValues) {
         if (id == null) {
             throw new NullPointerException("id");
+        }
+        if (kind == null) {
+            throw new NullPointerException("kind");
         }
         if (taggedValues == null) {
             throw new NullPointerException("taggedValues");
         }
-        if (lookup == null) {
-            throw new NullPointerException("lookup");
-        }
         this.id = id;
+        this.kind = kind;
         this.taggedValues = Collections.unmodifiableList(new ArrayList<TaggedValue>(taggedValues));
-        this.lookup = lookup;
     }
     
     @Override
     public final Identifier getId() {
         return id;
+    }
+    
+    @Override
+    public final ReferenceType getKind() {
+        return kind;
     }
     
     @Override
