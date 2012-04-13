@@ -54,11 +54,15 @@ Then /^I should find "([^\"]*)" in "([^\"]*)"$/ do |key, collection|
 end
 
 Then /^I should see "([^\"]*)" is "([^\"]*)" in it$/ do |key, value|
-  assert(@col[key] == convert(value), "Expected #{value}, received #{@col[key]}")
+  assert(@col[key].to_s == value.to_s, "Expected #{value}, received #{@col[key]}")
 end
 
 Then /^I should find "([\d]*)" "([^\"]*)"$/ do |count, collection|
-  @col = @result[0][collection]
+  if @result.is_a?(Array)
+    @col = @result[0][collection]
+  elsif @result.is_a?(Hash)
+    @col = @result[collection]
+  end
   assert(@col != nil, "Response contains no #{collection}")
   assert(@col.length == convert(count), "Expected #{count} #{collection}, received #{@col.length}")
 end
@@ -81,7 +85,11 @@ end
 
 Then /^inside "([^\"]*)"$/ do |key|
   if !defined? @col
-    @col = @result[0]
+    if @result.is_a?(Array)
+      @col = @result[0]
+    elsif @result.is_a?(Hash)
+      @col = @result
+    end
   end
   if !defined? @colStack
     @colStack = []
