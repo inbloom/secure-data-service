@@ -6,6 +6,7 @@ import java.util.HashSet;
 public class DisciplineActionMeta {
 
     public Set<String> incidentIds;
+    public Set<String> studentIds;
     public Set<String> staffIds;
 
     public String schoolId; 
@@ -17,13 +18,14 @@ public class DisciplineActionMeta {
 
         incidentIds = new HashSet<String>();
         staffIds = new HashSet<String>();
+        studentIds = new HashSet<String>();
 
         schoolId = schoolMeta.id;
     }
 
     @Override
     public String toString() {
-        return "DisciplineActionMeta [id=" + id + ",incidentIds=" + incidentIds + ",staffIds=" + staffIds + "]";
+        return "DisciplineActionMeta [id=" + id + ",incidentIds=" + incidentIds + ",staffIds=" + staffIds + ",studentIds=" + studentIds + "]";
     }
 
 }
