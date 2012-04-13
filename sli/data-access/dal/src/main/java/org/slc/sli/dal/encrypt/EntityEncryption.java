@@ -19,49 +19,47 @@ import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Provides encryption/decryption of entities based upon what is marked as PII in the data model.
- * 
+ *
  * @author Ryan Farris <rfarris@wgen.net>
- * 
+ *
  */
 public class EntityEncryption {
     private static final Logger LOG = LoggerFactory.getLogger(EntityEncryption.class);
-    
+
     @Autowired
     Cipher aes;
-    
+
     @Autowired
     SchemaRepository schemaReg;
-    
+
     Map<NeutralSchema, Map<String, Object>> piiMapCache = new ConcurrentHashMap<NeutralSchema, Map<String, Object>>();
-    
+
     public Map<String, Object> encrypt(String entityType, Map<String, Object> body) {
-        NeutralSchema schema = schemaReg.getSchema(entityType);
-        Map<String, Object> piiMap = buildPiiMap(schema);
+        Map<String, Object> piiMap = buildPiiMap(entityType);
         if (piiMap == null) {
             return body;
         }
-        
+
         Map<String, Object> clonedEntity = cloneEntity(body);
         encryptInPlace(piiMap, clonedEntity, Operation.ENCRYPT);
         return clonedEntity;
     }
-    
+
     public Map<String, Object> decrypt(String entityType, Map<String, Object> body) {
-        NeutralSchema schema = schemaReg.getSchema(entityType);
-        Map<String, Object> piiMap = buildPiiMap(schema);
+        Map<String, Object> piiMap = buildPiiMap(entityType);
         if (piiMap == null) {
             return body;
         }
-        
+
         Map<String, Object> clonedEntity = cloneEntity(body);
         encryptInPlace(piiMap, clonedEntity, Operation.DECRYPT);
         return clonedEntity;
     }
-    
+
     public String encryptSingleValue(Object value) {
         return aes.encrypt(value);
     }
-    
+
     public Object decryptSingleValue(Object value) {
         if (!(value instanceof String)) {
             LOG.warn("Value was expected to be encrypted but wasn't: {}", value);
@@ -74,11 +72,11 @@ public class EntityEncryption {
         }
         return decrypted;
     }
-    
+
     private static enum Operation {
         ENCRYPT, DECRYPT;
     }
-    
+
     @SuppressWarnings({ "unchecked" })
     private void encryptInPlace(Map<String, Object> piiMap, Map<String, Object> body, Operation op) {
         if (piiMap == null) {
@@ -146,10 +144,10 @@ public class EntityEncryption {
                 }
                 body.put(piiField.getKey(), newValue);
             }
-            
+
         }
     }
-    
+
     private Map<String, Object> cloneEntity(Map<String, Object> body) {
         Map<String, Object> clone = new HashMap<String, Object>();
         for (Map.Entry<String, Object> entry : body.entrySet()) {
@@ -157,7 +155,7 @@ public class EntityEncryption {
         }
         return clone;
     }
-    
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private void cloneEntity(Object parent, String key, Object value) {
         if (value instanceof Map) {
@@ -194,16 +192,19 @@ public class EntityEncryption {
             }
         }
     }
-    
+
     /**
      * Build a tree structure where all leaves are fields that should be PII.
      * Returns null if no data for this schema is PII
      */
     @SuppressWarnings("unchecked")
-    private Map<String, Object> buildPiiMap(NeutralSchema schema) {
+    protected Map<String, Object> buildPiiMap(String entityType) {
+        NeutralSchema schema = schemaReg.getSchema(entityType);
+
         if (schema == null) {
             return null;
         }
+
         Map<String, Object> piiMap = piiMapCache.get(schema);
         if (piiMap == null) {
             piiMap = (Map<String, Object>) recursiveBuildPiiMap(schema);
@@ -218,7 +219,7 @@ public class EntityEncryption {
             return piiMap;
         }
     }
-    
+
     private Object recursiveBuildPiiMap(NeutralSchema schema) {
         if (schema == null) {
             return null;
