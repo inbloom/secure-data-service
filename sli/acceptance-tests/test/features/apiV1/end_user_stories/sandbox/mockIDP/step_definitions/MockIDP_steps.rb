@@ -2,22 +2,45 @@ require_relative '../../../../../utils/sli_utils.rb'
 require_relative '../../../../../dashboard/dash/step_definitions/selenium_common_dash.rb'
 
 Given /^I have selected the realm using the realm selector$/ do
-  url = PropLoader.getProps['mockIDP_realm_url']+"?"+URI.escape(PropLoader.getProps['mockIDP_realm_params'])
+  url = PropLoader.getProps['mockIDP_realm_server_address']+"api/oauth/authorize?"+URI.escape(PropLoader.getProps['mockIDP_realm_params'])
   @driver.get url
-   sleep(1)
-   
-   #assume the user selected the mock sli realm
+  sleep(1)
+
+  #assume the user selected the mock sli realm
   realmName= PropLoader.getProps['mockIDP_realm_SLI']
- realm_select = @driver.find_element(:name=> "realmId")
+  realm_select = @driver.find_element(:name=> "realmId")
   options = realm_select.find_elements(:tag_name=>"option")
   options.each do |e1|
     if (e1.text == realmName)
-      e1.click()
-      break
+    e1.click()
+    break
     end
   end
   clickButton("go", "id")
-  
+
+end
+
+Given /^I navigate to sample app web page$/ do
+  sampleAppUrl = PropLoader.getProps['sampleApp_server_address']
+  url = sampleAppUrl+"oauth2-sample"
+  @driver.get url
+end
+
+Then /^I will be redirected to realm selector web page$/ do
+
+  assert(@driver.current_url.include?("/api/oauth/authorize"))
+end
+
+When /^I select the "([^"]*)" realm$/ do |realmName|
+  realm_select = @driver.find_element(:name=> "realmId")
+  options = realm_select.find_elements(:tag_name=>"option")
+  options.each do |e1|
+    if (e1.text == realmName)
+    e1.click()
+    break
+    end
+  end
+  clickButton("go", "id")
 end
 
 Then /^I should be redirected to the Mock IDP page for the realm$/ do
@@ -51,7 +74,7 @@ Then /^the heading of the Mock IDP Page is realm followed by "([^"]*)"$/ do |arg
   found = false
   headers.each do |header|
     if header.text.should include "IDP"
-      found=true
+    found=true
     end
   end
   assert(found,"no realm info found in mock IDP page!")
@@ -59,42 +82,52 @@ end
 
 
 When /^I select "([^"]*)" from the user drop down$/ do |arg1|
-  userSelect=@driver.find_element(:id, "selected_user")
-  user=@driver.find_element(:xpath, "//option[@value='"+arg1+"']")
-  @driver.action.click(userSelect).click(user).perform
+  select_by_id("Doe, John (Staff)","selected_user")
 end
 
 Then /^I select "([^"]*)" from role selector$/ do |arg1|
-  #roleSelect=@driver.find_element(:id, "selected_roles")
   role=@driver.find_element(:xpath, "//option[@value='"+arg1+"']")
-  @driver.action.click(role).perform
+  role.click
 end
 
 Then /^I select "([^"]*)"  and "([^"]*)" from role selector$/ do |arg1, arg2|
-  # roleSelect=@driver.find_element(:id, "selected_roles")
   role1=@driver.find_element(:xpath, "//option[@value='"+arg1+"']")
   role2=@driver.find_element(:xpath, "//option[@value='"+arg2+"']")
-  @driver.action.key_down(:control).click(role1).click(role2).key_up(:control).perform
+  role1.click
+  role2.click
 end
 
 When /^I click Login$/ do
- @driver.find_element(:id, "login_button").click
+  clickButton("login_button","id")
+end
+
+When /^I wait for (\d+) second$/ do |arg1|
+  sleep(Integer(arg1))
+end
+
+Then /^I should be redirected to sample app web page$/ do
+  sampleAppUrl = PropLoader.getProps['sampleApp_server_address']
+  assert(@driver.current_url.start_with?(sampleAppUrl))
+end
+
+Then /^I am able Read student data$/ do
+  rights =@driver.find_element(:xpath,"//td[@id='accessRights']")
+  rights.text.should include("READ_GENERAL")
 end
 
 Then /^I have "([^"]*)" access to the sandbox tenancy$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  roles=@driver.find_element(:xpath,"//td[@id='roles']")
+  roles.text.should include(arg1)
 end
 
 Then /^I am able to write student data$/ do
-  pending # express the regexp above with the code you wish you had
+  rights =@driver.find_element(:xpath,"//td[@id='accessRights']")
+  rights.text.should include("WRITE_GENERAL")
 end
 
 Then /^I have "([^"]*)" and "([^"]*)" access to the sandbox tenancy$/ do |arg1,arg2|
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^I am able "([^"]*)" student data$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  roles=@driver.find_element(:xpath,"//td[@id='roles']")
+  roles.text.should include(arg1,arg2)
 end
 
 Given /^I am logged in to Mock\-IDP$/ do
@@ -109,7 +142,10 @@ Then /^I am logged out$/ do
   pending # express the regexp above with the code you wish you had
 end
 
-Then /^I am redirected to Realm Selector$/ do
-  pending # express the regexp above with the code you wish you had
+def select_by_id(elem, select)
+  Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, select)).
+      select_by(:text, elem)
+rescue Selenium::WebDriver::Error::NoSuchElementError
+  false
 end
 
