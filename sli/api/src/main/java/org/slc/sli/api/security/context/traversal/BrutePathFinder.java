@@ -23,17 +23,18 @@ public class BrutePathFinder implements SecurityPathFinder {
     @PostConstruct
     public void init() {
         nodeMap = new HashMap<String, SecurityNode>();
-        nodeMap.put("teacher",
-                SecurityNodeBuilder.buildNode("teacher").addConnection(EntityNames.SECTION, "sectionId", "")
+        nodeMap.put(EntityNames.TEACHER,
+                SecurityNodeBuilder.buildNode("teacher")
+                        .addConnection(EntityNames.SECTION, "sectionId", EntityNames.TEACHER_SECTION_ASSOCIATION)
                         .construct());
         nodeMap.put(EntityNames.SECTION,
                 SecurityNodeBuilder.buildNode(EntityNames.SECTION)
-.addConnection(EntityNames.TEACHER, "teacherId", "")
-                        .addConnection(EntityNames.STUDENT, "studentId", "sectionStudentAssociation").construct());
-        nodeMap.put(
-                EntityNames.STUDENT,
+                        .addConnection(EntityNames.TEACHER, "teacherId", EntityNames.TEACHER_SECTION_ASSOCIATION)
+                        .addConnection(EntityNames.STUDENT, "studentId", EntityNames.STUDENT_SECTION_ASSOCIATION)
+                        .construct());
+        nodeMap.put(EntityNames.STUDENT,
                 SecurityNodeBuilder.buildNode(EntityNames.STUDENT)
-.addConnection(EntityNames.SECTION, "sectionId", "")
+                        .addConnection(EntityNames.SECTION, "sectionId", EntityNames.STUDENT_SECTION_ASSOCIATION)
                         .addConnection(EntityNames.ASSESSMENT, "assessmentId", "").construct());
         
         nodeMap.put(EntityNames.ASSESSMENT,

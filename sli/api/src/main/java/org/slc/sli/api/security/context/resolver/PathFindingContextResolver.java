@@ -9,13 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.api.config.AssociationDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.BrutePathFinder;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +33,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
     private AssociativeContextHelper helper;
     
     @Autowired
-    private Repository<Entity> repository;
+    private EntityDefinitionStore store;
 
     private String fromEntity;
     private String toEntity;
@@ -67,23 +66,32 @@ public class PathFindingContextResolver implements EntityContextResolver {
         for (int i = 1; i< path.size(); ++i) {
             SecurityNode next = path.get(i);
             Map<String, String> connection = current.getConnectionForEntity(next.getName());
+            Iterable<String> idSet = new ArrayList<String>();
             String repoName = getResourceName(next, connection);
-            Iterable<String> idSet = repository.findAllIds(repoName, buildQuery(ids, connection));
+            debug("Getting Ids From {}", repoName);
+            if (isAssociative(next, connection)) {
+                AssociationDefinition ad = (AssociationDefinition) store.lookupByEntityType(repoName);
+                List<String> keys = helper.getAssocKeys(current.getName(), ad);
+                idSet = helper.findEntitiesContainingReference(repoName, keys.get(0),
+                        connection.get(SecurityNode.CONNECTION_FIELD_NAME), ids);
+            } else {
+                idSet = helper.findEntitiesContainingReference(repoName,
+                        connection.get(SecurityNode.CONNECTION_FIELD_NAME), ids);
+            }
+
             fixIds(ids, idSet);
             current = path.get(i);
         }
+        debug("We found {} ids", ids);
         return ids;
     }
 
-    private NeutralQuery buildQuery(List<String> ids, Map<String, String> connection) {
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria(connection.get(SecurityNode.CONNECTION_FIELD_NAME),
-                NeutralCriteria.CRITERIA_IN, ids));
-        return query;
+    private boolean isAssociative(SecurityNode next, Map<String, String> connection) {
+        return connection.get(SecurityNode.CONNECTION_ASSOCIATION).length() != 0;
     }
 
     private String getResourceName(SecurityNode next, Map<String, String> connection) {
-        return connection.get(SecurityNode.CONNECTION_ASSOCIATION).length() != 0 ? (String) connection
+        return isAssociative(next, connection) ? (String) connection
                 .get(SecurityNode.CONNECTION_ASSOCIATION) : next.getName();
     }
 
@@ -103,11 +111,11 @@ public class PathFindingContextResolver implements EntityContextResolver {
     }
     
     /**
-     * @param repository
-     *            the repository to set
+     * @param helper
+     *            the helper to set
      */
-    public void setRepository(Repository<Entity> repository) {
-        this.repository = repository;
+    public void setHelper(AssociativeContextHelper helper) {
+        this.helper = helper;
     }
 
 }

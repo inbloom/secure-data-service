@@ -16,11 +16,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityNames;
+import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -41,15 +41,19 @@ public class PathFindingContextResolverTest {
     @Autowired
     private PathFindingContextResolver resolver;
     
-    private Repository<Entity> mockRepo;
+    private AssociativeContextHelper mockHelper;
 
     /**
      * @throws java.lang.Exception
      */
     @Before
     public void setUp() throws Exception {
-        mockRepo = Mockito.mock(Repository.class);
-        resolver.setRepository(mockRepo);
+        mockHelper = Mockito.mock(AssociativeContextHelper.class);
+        resolver.setHelper(mockHelper);
+        List<String> tsKeys = Arrays.asList(new String[] { "teacherId", "sectionId" });
+        List<String> ssKeys = Arrays.asList(new String[] { "sectionId", "studentId" });
+        when(mockHelper.getAssocKeys(eq(EntityNames.TEACHER), any(AssociationDefinition.class))).thenReturn(tsKeys);
+        when(mockHelper.getAssocKeys(eq(EntityNames.SECTION), any(AssociationDefinition.class))).thenReturn(ssKeys);
     }
 
     @Test
@@ -64,10 +68,12 @@ public class PathFindingContextResolverTest {
         Entity mockEntity = Mockito.mock(Entity.class);
         when(mockEntity.getEntityId()).thenReturn("1");
         List<String> finalList = Arrays.asList(new String[] { "2", "3", "4" });
-        
+        List<String> keys = Arrays.asList(new String[] { "teacherId", "sectionId" });
         assertTrue(resolver.canResolve(EntityNames.TEACHER, EntityNames.SECTION));
-        
-        when(mockRepo.findAllIds(eq(EntityNames.SECTION), any(NeutralQuery.class))).thenReturn(finalList);
+        when(
+                mockHelper.findEntitiesContainingReference(eq(EntityNames.TEACHER_SECTION_ASSOCIATION),
+                        eq("teacherId"),
+                        eq("sectionId"), any(List.class))).thenReturn(finalList);
         List<String> returned = resolver.findAccessible(mockEntity);
         assertTrue(returned.size() == finalList.size());
         for (String id : finalList) {
@@ -83,10 +89,14 @@ public class PathFindingContextResolverTest {
         List<String> finalList = Arrays.asList(new String[] { "5", "6", "7" });
         
         assertTrue(resolver.canResolve(EntityNames.TEACHER, EntityNames.STUDENT));
-        
-        when(mockRepo.findAllIds(eq(EntityNames.SECTION), any(NeutralQuery.class))).thenReturn(
+        when(
+                mockHelper.findEntitiesContainingReference(eq(EntityNames.TEACHER_SECTION_ASSOCIATION),
+                        eq("teacherId"), eq("sectionId"), any(List.class))).thenReturn(
                 Arrays.asList(new String[] { "2", "3", "4" }));
-        when(mockRepo.findAllIds(eq(EntityNames.STUDENT), any(NeutralQuery.class))).thenReturn(finalList);
+        
+        when(
+                mockHelper.findEntitiesContainingReference(eq(EntityNames.STUDENT_SECTION_ASSOCIATION),
+                        eq("sectionId"), eq("studentId"), any(List.class))).thenReturn(finalList);
         List<String> returned = resolver.findAccessible(mockEntity);
         assertTrue(returned.size() == finalList.size());
         for (String id : finalList) {
