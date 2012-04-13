@@ -499,6 +499,15 @@
                             </xs:appinfo>
                         </xs:annotation>
                     </xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="objectiveAssessments" type="objectiveAssessment">
+						<xs:annotation>
+							<xs:documentation>
+								Subsets of the assessment that address
+								specific learning objectives.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
