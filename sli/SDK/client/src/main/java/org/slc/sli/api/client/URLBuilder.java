@@ -83,13 +83,6 @@ public final class URLBuilder {
     }
     
     /**
-     * Indicate we want the targets of an association, not the association itself.
-     */
-    public void targets() {
-        targets = true;
-    }
-    
-    /**
      * Builds the URL.
      * 
      * @return URL represented by the values set in this builder.
@@ -97,10 +90,6 @@ public final class URLBuilder {
      *             if the URL is not valid.
      */
     public URL build() throws MalformedURLException {
-        
-        if (targets) {
-            addPath(EntityType.TARGETS.getResource());
-        }
         return new URL(url.toString());
     }
     
