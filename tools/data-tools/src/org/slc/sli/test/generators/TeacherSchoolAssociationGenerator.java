@@ -12,7 +12,7 @@ import org.slc.sli.test.edfi.entities.ProgramAssignmentType;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.TeacherSchoolAssociation;
-import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
+import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 
 public class TeacherSchoolAssociationGenerator {
     public TeacherSchoolAssociation generate(String staffId, List<String> stateOrgIds) {

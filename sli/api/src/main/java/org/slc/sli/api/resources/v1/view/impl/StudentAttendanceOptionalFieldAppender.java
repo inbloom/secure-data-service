@@ -112,7 +112,7 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
         Map<String, List<EntityBody>> attendancePerSession = new HashMap<String, List<EntityBody>>();
 
         //init the end date
-        Date endDate = new Date(System.currentTimeMillis());
+        //Date endDate = new Date(System.currentTimeMillis());
         for (EntityBody session : sessions) {
             //get the begin date
             Date startDate = null;
@@ -125,8 +125,9 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
             if (startDate != null) {
                 //setup the query
                 NeutralQuery neutralQuery = new NeutralQuery();
+                neutralQuery.setLimit(0);
                 neutralQuery.addCriteria(new NeutralCriteria("eventDate", ">=", formatter.format(startDate)));
-                neutralQuery.addCriteria(new NeutralCriteria("eventDate", "<=", formatter.format(endDate)));
+                //neutralQuery.addCriteria(new NeutralCriteria("eventDate", "<=", formatter.format(endDate)));
                 neutralQuery.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.CRITERIA_IN, studentIds));
 
                 //get the attendances
@@ -172,6 +173,7 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
 
         //create query to get the sessions with correct school years
         NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setLimit(0);
         neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, allSessionIds));
         neutralQuery.addCriteria(new NeutralCriteria("schoolYear", NeutralCriteria.CRITERIA_IN, schoolYears));
         //execute the query

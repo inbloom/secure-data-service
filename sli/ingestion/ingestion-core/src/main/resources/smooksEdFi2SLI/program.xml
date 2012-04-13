@@ -24,20 +24,20 @@
     </jb:bean>
 
     <jb:bean beanId="programBody" class="java.util.HashMap" createOnElement="attributes">
-				<jb:value property="programId" data="attributes programId" />
-				<jb:value property="programType" data="attributes programType" />
-				<jb:value property="programSponsor" data="attributes programSponsor" />
-				<jb:wiring property="services" beanIdRef="ServiceDescriptorTypeArray" />
+        <jb:value property="programId" data="attributes programId" />
+        <jb:value property="programType" data="attributes programType" />
+        <jb:value property="programSponsor" data="attributes programSponsor" />
+        <jb:wiring property="services" beanIdRef="ServiceDescriptorTypeArray" />
     </jb:bean>
-		
-		<jb:bean beanId="ServiceDescriptorTypeArray" class="java.util.ArrayList" createOnElement="attributes">
-				<jb:wiring beanIdRef="ServiceDescriptorType" />
-		</jb:bean>
 
-		<jb:bean beanId="ServiceDescriptorType" class="java.util.HashMap" createOnElement="services element">
-				<jb:value property="codeValue" data="services element codeValue" />
-				<jb:value property="shortDescription" data="services element shortDescription" />
-				<jb:value property="description" data="services element description" />
-		</jb:bean>
+    <jb:bean beanId="ServiceDescriptorTypeArray" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:wiring beanIdRef="ServiceDescriptorType" />
+    </jb:bean>
+
+    <jb:bean beanId="ServiceDescriptorType" class="java.util.HashMap" createOnElement="services element">
+        <jb:value property="codeValue" data="services element codeValue" />
+        <jb:value property="shortDescription" data="services element shortDescription" />
+        <jb:value property="description" data="services element description" />
+    </jb:bean>
 
 </smooks-resource-list>

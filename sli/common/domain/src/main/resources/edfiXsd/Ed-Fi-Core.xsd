@@ -2889,6 +2889,11 @@ Met standard
 							<xs:documentation>Association to the student-section association with which the grade is awarded.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="GradebookEntryReference" type="ReferenceType">
+						<xs:annotation>
+							<xs:documentation>The Gradebook Entry associated with the student grade or score.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

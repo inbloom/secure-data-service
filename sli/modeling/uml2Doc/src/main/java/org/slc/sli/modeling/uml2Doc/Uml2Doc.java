@@ -14,12 +14,11 @@ public final class Uml2Doc {
     
     public static void main(final String[] args) {
         try {
-            final Model model = XmiReader.readInterchange("../data/SLI.xmi");
-            final Documentation<Reference> docSource = DocumentationReader
-                    .readInterchange("../data/documentation-source.xml");
+            final Model model = XmiReader.readModel("../data/SLI.xmi");
+            final Documentation<Reference> docSource = DocumentationReader.readDocumentation("../data/sli-pim-cfg.xml");
             final Documentation<Type> docExpanded = DocumentationExpander.expand(docSource, model);
             
-            DocumentationWriter.writeDocument(docExpanded, model, "documentation-generated.xml");
+            DocumentationWriter.writeDocument(docExpanded, model, "sli-pim-tmp.xml");
         } catch (final FileNotFoundException e) {
             e.printStackTrace();
         }

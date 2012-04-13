@@ -2,6 +2,12 @@ Feature: Sort and page API results
 
 Background: 
 	Given I am logged in using "demo" "demo1234" to realm "SLI"
+	
+
+Scenario: Check default limit of 50
+  Given format "application/json"
+  When I navigate to GET "/v1/students"
+  Then I should receive a collection with 50 elements
 
 Scenario: Sorting a collection of student school association links by entryGradeLevel, ascending
 	Given format "application/json"

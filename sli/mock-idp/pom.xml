@@ -22,6 +22,12 @@
   <dependencies>
 
     <dependency>
+      <groupId>org.slc.sli.common</groupId>
+      <artifactId>common-encrypt</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <scope>provided</scope>
@@ -52,7 +58,7 @@
       <groupId>org.slc.sli.dal</groupId>
       <artifactId>dal</artifactId>
     </dependency>
-    
+
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
@@ -75,7 +81,7 @@
   </dependencies>
 
   <build>
-    <finalName>idp</finalName>
+    <finalName>mock-idp</finalName>
 
     <plugins>
       <plugin>
