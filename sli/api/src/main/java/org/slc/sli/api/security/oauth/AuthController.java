@@ -35,6 +35,7 @@ import org.slc.sli.api.security.saml.SamlHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 
 /**
@@ -217,8 +218,11 @@ public class AuthController {
     private String getRealmId(final String sessionId) {
         String realmId = null;
         if (sessionId != null) {
-            Map<String, Object> principal = (Map<String, Object>) this.sessionManager.getSession(sessionId).getBody().get("principal");
-            realmId = (String) principal.get("realm");
+            Entity session = this.sessionManager.getSession(sessionId);
+            if (session != null) {
+                Map<String, Object> principal = (Map<String, Object>) session.getBody().get("principal");
+                realmId = (String) principal.get("realm");
+            }
         }
         
         return realmId;

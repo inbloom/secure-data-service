@@ -208,17 +208,17 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                     List<Map<String, Object>> sessions = (List<Map<String, Object>>) sessionEntity.getBody().get("appSession");
                     for (Map<String, Object> session : sessions) {
                         if (session.get("token").equals(accessToken)) {
-
+                            
                             ClientToken token = new ClientToken((String) session.get("clientId"), null /* secret not needed */, null /* Scope is unused */);
-                            //Spring doesn't provide a setter for the approved field (used by isAuthorized), so we set it the hard way
+                            // Spring doesn't provide a setter for the approved field (used by isAuthorized), so we set it the hard way
                             Field approved = ClientToken.class.getDeclaredField("approved");
                             approved.setAccessible(true);
                             approved.set(token, true);
                             
-                            final SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"), SLIPrincipal.class);
+                            SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"), SLIPrincipal.class);
                             principal.setEntity(locator.locate((String) sessionEntity.getBody().get("tenantId"), principal.getExternalId()).getEntity());
                             Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getRealm(), principal.getRoles());
-                            PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(principal, null /* Credentials */, authorities);
+                            PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(principal, accessToken, authorities);
                             userToken.setAuthenticated(true);
                             auth = new OAuth2Authentication(token, userToken);
                             break;
@@ -249,7 +249,21 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         
         return session;
     }
-
+    
+    @Override
+    public boolean logout(String accessToken) {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("appSession.token", "=", accessToken));
+        
+        Entity session = repo.findOne(SESSION_COLLECTION, neutralQuery);
+        
+        boolean deleted = false;
+        if (session != null) {
+            deleted = repo.delete(SESSION_COLLECTION, session.getEntityId());
+        }
+        
+        return deleted;
+    }
     
     private Collection<GrantedAuthority> resolveAuthorities(final String realm, final List<String> roleNames) {
         Collection<GrantedAuthority> userAuthorities = SecurityUtil.sudoRun(new SecurityTask<Collection<GrantedAuthority>>() {
@@ -269,6 +283,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     private Entity findEntityForAccessToken(String token) {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("appSession.token", "=", token));
+        neutralQuery.addCriteria(new NeutralCriteria("expiration", ">", System.currentTimeMillis()));
+        neutralQuery.addCriteria(new NeutralCriteria("hardLogout", ">", System.currentTimeMillis()));
         return repo.findOne(SESSION_COLLECTION, neutralQuery);
     }
     

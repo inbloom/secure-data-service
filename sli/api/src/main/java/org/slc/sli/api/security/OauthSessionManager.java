@@ -20,4 +20,5 @@ public interface OauthSessionManager {
     public String verify(String code, Pair<String, String> clientCredentials) throws BadCredentialsException;
     public OAuth2Authentication getAuthentication(String authz);
     public Entity getSession(String sessionId);
+    public boolean logout(String accessToken);
 }
