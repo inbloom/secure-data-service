@@ -16,7 +16,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import org.slc.sli.modeling.uml.AbstractModelElement;
+import org.slc.sli.modeling.psm.PsmClassType;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
@@ -24,8 +24,6 @@ import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.EnumLiteral;
 import org.slc.sli.modeling.uml.EnumType;
 import org.slc.sli.modeling.uml.Generalization;
-import org.slc.sli.modeling.uml.HasName;
-import org.slc.sli.modeling.uml.HasType;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.Multiplicity;
@@ -42,10 +40,14 @@ import org.slc.sli.modeling.xsd.XsdNamespace;
 /**
  * Writes a UML {@link Model} to a file (by name) or {@link OutputStream}.
  */
-public final class Uml2XsdWriter {
+final class Uml2XsdWriter {
     
+    private static final String NAMESPACE_SLI = "http://slc-sli/ed-org/0.1";
     private static final String NAMESPACE_XS = XsdNamespace.URI;
+    
+    private static final String PREFIX_SLI = "sli";
     private static final String PREFIX_XS = "xs";
+    private static final QName SLI_REFERENCE_TYPE = new QName(NAMESPACE_SLI, "ReferenceType", PREFIX_SLI);
     /**
      * xs:string is the default type that we use for a data type that has no generalizations.
      */
@@ -69,8 +71,10 @@ public final class Uml2XsdWriter {
         }
     }
     
-    private static final void base(final Type type, final XMLStreamWriter xsw) throws XMLStreamException {
-        base(type.getName(), xsw);
+    private static final void base(final Type type, final Uml2XsdPlugin plugin, final XMLStreamWriter xsw)
+            throws XMLStreamException {
+        final QName name = plugin.getTypeName(type.getName());
+        base(name, xsw);
     }
     
     private static final void closeQuiet(final Closeable closeable) {
@@ -78,33 +82,6 @@ public final class Uml2XsdWriter {
             closeable.close();
         } catch (final IOException e) {
             // Ignore.
-        }
-    }
-    
-    private static final void complexType(final ClassType complexType, final XMLStreamWriter xsw)
-            throws XMLStreamException {
-        writeStartElement(XsdElementName.COMPLEX_TYPE, xsw);
-        try {
-            name(complexType, xsw);
-            final Type base = getBase(complexType);
-            if (base == null) {
-                writeSequence(complexType, xsw);
-            } else {
-                writeStartElement(XsdElementName.COMPLEX_CONTENT, xsw);
-                try {
-                    writeStartElement(XsdElementName.EXTENSION, xsw);
-                    base(base, xsw);
-                    try {
-                        writeSequence(complexType, xsw);
-                    } finally {
-                        writeEndElement(xsw);
-                    }
-                } finally {
-                    writeEndElement(xsw);
-                }
-            }
-        } finally {
-            writeEndElement(xsw);
         }
     }
     
@@ -124,6 +101,18 @@ public final class Uml2XsdWriter {
             } else {
                 throw new AssertionError(type.getName());
             }
+        }
+    }
+    
+    /**
+     * Not all association ends have names so we synthesize a name based upon the type.
+     */
+    private static final QName getName(final AssociationEnd element) {
+        if (!element.getName().getLocalPart().trim().isEmpty()) {
+            return element.getName();
+        } else {
+            // Name using the element type. Could be more sophisticated here.
+            return new Uml2XsdSyntheticHasName(element).getName();
         }
     }
     
@@ -148,8 +137,7 @@ public final class Uml2XsdWriter {
         xsw.writeAttribute(XsdAttributeName.MIN_OCCURS.getLocalName(), toString(value));
     }
     
-    private static final void name(final HasName hasName, final XMLStreamWriter xsw) throws XMLStreamException {
-        final QName name = hasName.getName();
+    private static final void name(final QName name, final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeAttribute(XsdAttributeName.NAME.getLocalName(), name.toString());
     }
     
@@ -174,44 +162,62 @@ public final class Uml2XsdWriter {
      * @throws XMLStreamException
      *             if anything bad happens.
      */
-    private static final void schema(final Model model, final XMLStreamWriter xsw) throws XMLStreamException {
+    private static final void schema(final List<PsmClassType<Type>> elements, final Model model,
+            final Uml2XsdPlugin plugin, final XMLStreamWriter xsw) throws XMLStreamException {
         writeStartElement(XsdElementName.SCHEMA, xsw);
         try {
             xsw.writeNamespace(PREFIX_XS, NAMESPACE_XS);
+            if (plugin.isEnabled(SLI_REFERENCE_TYPE)) {
+                xsw.writeNamespace(PREFIX_SLI, NAMESPACE_SLI);
+            }
             attributeFormDefault(false, xsw);
             elementFormDefault(true, xsw);
+            for (final PsmClassType<Type> element : elements) {
+                writeElement(element, plugin, xsw);
+            }
             final Map<Identifier, DataType> dataTypeMap = model.getDataTypeMap();
             for (final Identifier key : dataTypeMap.keySet()) {
                 final DataType type = dataTypeMap.get(key);
-                simpleType(type, xsw);
+                simpleType(type, plugin, xsw);
             }
             final Map<Identifier, EnumType> enumTypeMap = model.getEnumTypeMap();
             for (final Identifier key : enumTypeMap.keySet()) {
                 final EnumType type = enumTypeMap.get(key);
-                simpleType(type, xsw);
+                simpleType(type, plugin, xsw);
             }
             final Map<Identifier, ClassType> classTypeMap = model.getClassTypeMap();
             for (final Identifier key : classTypeMap.keySet()) {
                 final ClassType type = classTypeMap.get(key);
-                complexType(type, xsw);
+                writeComplexType(type, plugin, xsw);
             }
         } finally {
             xsw.writeEndElement();
         }
     }
     
-    private static final void simpleType(final DataType simpleType, final XMLStreamWriter xsw)
-            throws XMLStreamException {
+    private static final void simpleType(final DataType simpleType, final Uml2XsdPlugin plugin,
+            final XMLStreamWriter xsw) throws XMLStreamException {
         if (!isW3cXmlSchemaType(simpleType.getName())) {
             writeStartElement(XsdElementName.SIMPLE_TYPE, xsw);
             try {
-                name(simpleType, xsw);
-                writeAnnotation(simpleType, xsw);
+                name(plugin.getTypeName(simpleType.getName()), xsw);
+                writeStartElement(XsdElementName.ANNOTATION, xsw);
+                try {
+                    for (final TaggedValue taggedValue : simpleType.getTaggedValues()) {
+                        final TagDefinition tagDefinition = taggedValue.getTagDefinition();
+                        final QName name = tagDefinition.getName();
+                        if (TagDefinition.NAME_DOCUMENTATION.equals(name)) {
+                            writeDocumentation(taggedValue, xsw);
+                        }
+                    }
+                } finally {
+                    writeEndElement(xsw);
+                }
                 writeStartElement(XsdElementName.RESTRICTION, xsw);
                 try {
                     final Type base = getBase(simpleType);
                     if (base != null) {
-                        base(base, xsw);
+                        base(base, plugin, xsw);
                     } else {
                         base(STRING, xsw);
                     }
@@ -249,17 +255,28 @@ public final class Uml2XsdWriter {
         }
     }
     
-    private static final void simpleType(final EnumType simpleType, final XMLStreamWriter xsw)
-            throws XMLStreamException {
+    private static final void simpleType(final EnumType simpleType, final Uml2XsdPlugin plugin,
+            final XMLStreamWriter xsw) throws XMLStreamException {
         writeStartElement(XsdElementName.SIMPLE_TYPE, xsw);
         try {
-            name(simpleType, xsw);
-            writeAnnotation(simpleType, xsw);
+            name(plugin.getTypeName(simpleType.getName()), xsw);
+            writeStartElement(XsdElementName.ANNOTATION, xsw);
+            try {
+                for (final TaggedValue taggedValue : simpleType.getTaggedValues()) {
+                    final TagDefinition tagDefinition = taggedValue.getTagDefinition();
+                    final QName name = tagDefinition.getName();
+                    if (TagDefinition.NAME_DOCUMENTATION.equals(name)) {
+                        writeDocumentation(taggedValue, xsw);
+                    }
+                }
+            } finally {
+                writeEndElement(xsw);
+            }
             writeStartElement(XsdElementName.RESTRICTION, xsw);
             try {
                 final Type base = getBase(simpleType);
                 if (base != null) {
-                    base(base, xsw);
+                    base(base, plugin, xsw);
                 } else {
                     base(TOKEN, xsw);
                 }
@@ -296,8 +313,8 @@ public final class Uml2XsdWriter {
         }
     }
     
-    private static final void type(final HasType element, final XMLStreamWriter xsw) throws XMLStreamException {
-        final QName name = element.getType().getName();
+    private static final void type(final QName name, final Uml2XsdPlugin plugin, final XMLStreamWriter xsw)
+            throws XMLStreamException {
         xsw.writeAttribute(XsdAttributeName.TYPE.getLocalName(), lexicalName(name));
     }
     
@@ -305,15 +322,76 @@ public final class Uml2XsdWriter {
         xsw.writeAttribute(XsdAttributeName.VALUE.getLocalName(), value);
     }
     
-    private static final void writeAnnotation(final AbstractModelElement element, final XMLStreamWriter xsw)
-            throws XMLStreamException {
-        writeStartElement(XsdElementName.ANNOTATION, xsw);
+    @SuppressWarnings("unused")
+    private static final void writeAssociationElement(final ClassType complexType, final AssociationEnd element,
+            final Uml2XsdPlugin plugin, final XMLStreamWriter xsw) throws XMLStreamException {
+        writeStartElement(XsdElementName.ELEMENT, xsw);
         try {
-            for (final TaggedValue taggedValue : element.getTaggedValues()) {
-                final TagDefinition tagDefinition = taggedValue.getTagDefinition();
-                final QName name = tagDefinition.getName();
-                if (TagDefinition.NAME_DOCUMENTATION.equals(name)) {
-                    writeDocumentation(taggedValue, xsw);
+            name(plugin.getElementName(getName(element), true), xsw);
+            type(plugin.getElementType(element.getType().getName(), true), plugin, xsw);
+            occurrences(element.getMultiplicity(), xsw);
+            writeStartElement(XsdElementName.ANNOTATION, xsw);
+            try {
+                for (final TaggedValue taggedValue : element.getTaggedValues()) {
+                    final TagDefinition tagDefinition = taggedValue.getTagDefinition();
+                    if (TagDefinition.NAME_DOCUMENTATION.equals(tagDefinition.getName())) {
+                        writeDocumentation(taggedValue, xsw);
+                    }
+                }
+                if (plugin.isEnabled(SLI_REFERENCE_TYPE)) {
+                    writeStartElement(XsdElementName.APPINFO, xsw);
+                    try {
+                        xsw.writeStartElement(SLI_REFERENCE_TYPE.getPrefix(), SLI_REFERENCE_TYPE.getLocalPart(),
+                                SLI_REFERENCE_TYPE.getNamespaceURI());
+                        xsw.writeCharacters(plugin.getTypeName(element.getType().getName()).getLocalPart());
+                        xsw.writeEndElement();
+                    } finally {
+                        writeEndElement(xsw);
+                    }
+                }
+            } finally {
+                writeEndElement(xsw);
+            }
+        } finally {
+            writeEndElement(xsw);
+        }
+    }
+    
+    private static final void writeAssociationElements(final ClassType complexType, final Uml2XsdPlugin plugin,
+            final XMLStreamWriter xsw) throws XMLStreamException {
+        for (final AssociationEnd element : complexType.getAssociationEnds()) {
+            plugin.writeAssociationElement(complexType, element, new Uml2XsdPluginWriterAdapter(xsw, PREFIX_XS));
+        }
+    }
+    
+    private static final void writeAttributeElements(final ClassType complexType, final Uml2XsdPlugin plugin,
+            final XMLStreamWriter xsw) throws XMLStreamException {
+        for (final Attribute element : complexType.getAttributes()) {
+            writeElement(complexType, element, plugin, xsw);
+        }
+    }
+    
+    private static final void writeComplexType(final ClassType complexType, final Uml2XsdPlugin plugin,
+            final XMLStreamWriter xsw) throws XMLStreamException {
+        writeStartElement(XsdElementName.COMPLEX_TYPE, xsw);
+        try {
+            final QName name = plugin.getTypeName(complexType.getName());
+            name(name, xsw);
+            final Type base = getBase(complexType);
+            if (base == null) {
+                writeElements(complexType, plugin, xsw);
+            } else {
+                writeStartElement(XsdElementName.COMPLEX_CONTENT, xsw);
+                try {
+                    writeStartElement(XsdElementName.EXTENSION, xsw);
+                    base(base, plugin, xsw);
+                    try {
+                        writeElements(complexType, plugin, xsw);
+                    } finally {
+                        writeEndElement(xsw);
+                    }
+                } finally {
+                    writeEndElement(xsw);
                 }
             }
         } finally {
@@ -321,13 +399,14 @@ public final class Uml2XsdWriter {
         }
     }
     
-    public static final void writeDocument(final Model model, final OutputStream outstream) {
+    public static final void writeDocument(final List<PsmClassType<Type>> elements, final Model model,
+            final Uml2XsdPlugin plugin, final OutputStream outstream) {
         final XMLOutputFactory xof = XMLOutputFactory.newInstance();
         try {
             final XMLStreamWriter xsw = new IndentingXMLStreamWriter(xof.createXMLStreamWriter(outstream, "UTF-8"));
             xsw.writeStartDocument("UTF-8", "1.0");
             try {
-                schema(model, xsw);
+                schema(elements, model, plugin, xsw);
             } finally {
                 xsw.writeEndDocument();
             }
@@ -338,11 +417,12 @@ public final class Uml2XsdWriter {
         }
     }
     
-    public static final void writeDocument(final Model model, final String fileName) {
+    public static final void writeDocument(final List<PsmClassType<Type>> elements, final Model model,
+            final Uml2XsdPlugin plugin, final String fileName) {
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(fileName));
             try {
-                writeDocument(model, outstream);
+                writeDocument(elements, model, plugin, outstream);
             } finally {
                 closeQuiet(outstream);
             }
@@ -361,42 +441,67 @@ public final class Uml2XsdWriter {
         }
     }
     
-    private static final void writeFacet(final XsdElementName name, TaggedValue taggedValue, final XMLStreamWriter xsw)
-            throws XMLStreamException {
-        writeStartElement(name, xsw);
-        try {
-            value(collapseWhitespace(taggedValue.getValue()), xsw);
-        } finally {
-            writeEndElement(xsw);
-        }
-    }
-    
-    private static final void writeElement(final Attribute element, final XMLStreamWriter xsw)
-            throws XMLStreamException {
+    private static final void writeElement(final ClassType complexType, final Attribute element,
+            final Uml2XsdPlugin plugin, final XMLStreamWriter xsw) throws XMLStreamException {
         writeStartElement(XsdElementName.ELEMENT, xsw);
         try {
-            name(element, xsw);
-            type(element, xsw);
+            final QName name = plugin.getElementName(element.getName(), false);
+            name(name, xsw);
+            final QName type = plugin.getElementType(element.getType().getName(), false);
+            type(type, plugin, xsw);
             occurrences(element.getMultiplicity(), xsw);
-            writeAnnotation(element, xsw);
-        } finally {
-            writeEndElement(xsw);
-        }
-    }
-    
-    private static final void writeElement(final AssociationEnd element, final XMLStreamWriter xsw)
-            throws XMLStreamException {
-        writeStartElement(XsdElementName.ELEMENT, xsw);
-        try {
-            if (!element.getName().getLocalPart().trim().isEmpty()) {
-                name(element, xsw);
-            } else {
-                // Name using the element type. Could be more sophisticated here.
-                name(new Uml2XsdSyntheticHasName(element), xsw);
+            writeStartElement(XsdElementName.ANNOTATION, xsw);
+            try {
+                for (final TaggedValue taggedValue : element.getTaggedValues()) {
+                    final TagDefinition tagDefinition = taggedValue.getTagDefinition();
+                    if (TagDefinition.NAME_DOCUMENTATION.equals(tagDefinition.getName())) {
+                        writeDocumentation(taggedValue, xsw);
+                    }
+                }
+            } finally {
+                writeEndElement(xsw);
             }
-            type(element, xsw);
-            occurrences(element.getMultiplicity(), xsw);
-            writeAnnotation(element, xsw);
+        } finally {
+            writeEndElement(xsw);
+        }
+    }
+    
+    private static final void writeElement(final PsmClassType<Type> element, final Uml2XsdPlugin plugin,
+            final XMLStreamWriter xsw) throws XMLStreamException {
+        writeStartElement(XsdElementName.ELEMENT, xsw);
+        try {
+            final QName name = plugin.getElementName(element);
+            name(name, xsw);
+            final QName type = plugin.getElementType(element.getType().getName(), false);
+            type(type, plugin, xsw);
+            writeStartElement(XsdElementName.ANNOTATION, xsw);
+            try {
+                for (final TaggedValue taggedValue : element.getType().getTaggedValues()) {
+                    final TagDefinition tagDefinition = taggedValue.getTagDefinition();
+                    if (TagDefinition.NAME_DOCUMENTATION.equals(tagDefinition.getName())) {
+                        writeDocumentation(taggedValue, xsw);
+                    }
+                }
+            } finally {
+                writeEndElement(xsw);
+            }
+        } finally {
+            writeEndElement(xsw);
+        }
+    }
+    
+    private static final void writeElements(final ClassType complexType, final Uml2XsdPlugin plugin,
+            final XMLStreamWriter xsw) throws XMLStreamException {
+        /**
+         * We are virtually forced to write all the elements inside the xs:sequence compositor
+         * because of the restrictions on xs:all:
+         * 1) xs:all is not a particle so it cannot be embedded inside a compositor.
+         * 2) xs:all does not accept elements whose occurences are greater than one.
+         */
+        writeStartElement(XsdElementName.SEQUENCE, xsw);
+        try {
+            writeAttributeElements(complexType, plugin, xsw);
+            writeAssociationElements(complexType, plugin, xsw);
         } finally {
             writeEndElement(xsw);
         }
@@ -406,20 +511,11 @@ public final class Uml2XsdWriter {
         xsw.writeEndElement();
     }
     
-    private static final void writeSequence(final ClassType complexType, final XMLStreamWriter xsw)
+    private static final void writeFacet(final XsdElementName name, TaggedValue taggedValue, final XMLStreamWriter xsw)
             throws XMLStreamException {
-        writeStartElement(XsdElementName.SEQUENCE, xsw);
+        writeStartElement(name, xsw);
         try {
-            for (final Attribute element : complexType.getAttributes()) {
-                writeElement(element, xsw);
-            }
-            for (final AssociationEnd element : complexType.getAssociationEnds()) {
-                if (element.isNavigable()) {
-                    writeElement(element, xsw);
-                }
-            }
-        } catch (final RuntimeException e) {
-            throw new RuntimeException(complexType.getName().getLocalPart(), e);
+            value(collapseWhitespace(taggedValue.getValue()), xsw);
         } finally {
             writeEndElement(xsw);
         }

@@ -24,8 +24,8 @@ public final class TagDefinition extends AbstractModelElement implements HasName
     public static final QName NAME_PATTERN = new QName("pattern");
     
     public TagDefinition(final Identifier id, final List<TaggedValue> taggedValues, final QName name,
-            final Multiplicity multiplicity, final LazyLookup lookup) {
-        super(id, taggedValues, lookup);
+            final Multiplicity multiplicity) {
+        super(id, ReferenceType.TAG_DEFINITION, taggedValues);
         if (name == null) {
             throw new NullPointerException("name");
         }

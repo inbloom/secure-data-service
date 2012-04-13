@@ -30,11 +30,14 @@ public class OptionalFieldAppenderFactory {
     private OptionalFieldAppender studentAttendanceOptionalFieldAppender;
 
     @Autowired
+    private OptionalFieldAppender studentAllAttendanceOptionalFieldAppender;
+
+    @Autowired
     private OptionalFieldAppender studentGradebookOptionalFieldAppender;
 
     @Autowired
     private OptionalFieldAppender studentTranscriptOptionalFieldAppender;
-    
+
     public OptionalFieldAppenderFactory() {
     }
     
@@ -49,6 +52,7 @@ public class OptionalFieldAppenderFactory {
         generators.put(ResourceNames.SECTIONS + "_" + ParameterConstants.OPTIONAL_FIELD_TRANSCRIPT, studentTranscriptOptionalFieldAppender);
 
         generators.put(ResourceNames.STUDENTS + "_" + ParameterConstants.OPTIONAL_FIELD_ASSESSMENTS, studentAssessmentOptionalFieldAppender);
+        generators.put(ResourceNames.STUDENTS + "_" + ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, studentAllAttendanceOptionalFieldAppender);
         generators.put(ResourceNames.STUDENTS + "_" + ParameterConstants.OPTIONAL_FIELD_GRADEBOOK, studentGradebookOptionalFieldAppender);
         generators.put(ResourceNames.STUDENTS + "_" + ParameterConstants.OPTIONAL_FIELD_TRANSCRIPT, studentTranscriptOptionalFieldAppender);
     }

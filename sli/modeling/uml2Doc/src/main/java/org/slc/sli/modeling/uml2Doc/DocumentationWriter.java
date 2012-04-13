@@ -202,6 +202,12 @@ public final class DocumentationWriter {
             } finally {
                 xsw.writeEndElement();
             }
+            xsw.writeStartElement(DocumentationElements.DESCRIPTION.getLocalPart());
+            try {
+                xsw.writeCharacters(diagram.getDescription());
+            } finally {
+                xsw.writeEndElement();
+            }
         } finally {
             xsw.writeEndElement();
         }
@@ -279,7 +285,7 @@ public final class DocumentationWriter {
             final Type type = entity.getType();
             xsw.writeStartElement(DocumentationElements.CLASS.getLocalPart());
             try {
-                final Identifier id = type.getReference().getIdRef();
+                final Identifier id = type.getId();
                 xsw.writeAttribute(XmiAttributeName.IDREF.getLocalName(), id.toString());
             } finally {
                 xsw.writeEndElement();

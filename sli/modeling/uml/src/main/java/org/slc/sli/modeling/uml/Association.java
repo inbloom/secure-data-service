@@ -13,8 +13,8 @@ public final class Association extends AbstractModelElement implements HasName {
     private final AssociationEnd rhs;
     
     public Association(final Identifier id, final QName name, final AssociationEnd lhs, final AssociationEnd rhs,
-            final List<TaggedValue> taggedValues, final LazyLookup lookup) {
-        super(id, taggedValues, lookup);
+            final List<TaggedValue> taggedValues) {
+        super(id, ReferenceType.ASSOCIATION, taggedValues);
         if (name == null) {
             throw new NullPointerException("name");
         }
