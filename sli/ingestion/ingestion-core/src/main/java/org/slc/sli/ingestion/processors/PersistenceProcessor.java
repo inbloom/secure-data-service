@@ -24,6 +24,7 @@ import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
+import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
@@ -117,10 +118,10 @@ public class PersistenceProcessor implements Processor {
             neutralRecordMongoAccess.registerBatchId(job.getId());
 
             for (IngestionFileEntry fe : job.getFiles()) {
+                String filename = fe.getFileName();
                 Metrics metric =  new Metrics();
-                //metric.setStartTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
                 metric.startMetric();
-                metric.setResourceId(fe.getFileName());
+                metric.setResourceId(filename);
                 if (stage.getMetrics() == null) {
                     List<Metrics> metricsList  = new ArrayList<Metrics>();
                     stage.setMetrics(metricsList);
@@ -134,10 +135,8 @@ public class PersistenceProcessor implements Processor {
 
                 } catch (IOException e) {
                     job.getFaultsReport().error("Internal error reading neutral representation of input file.", this);
-                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, "Exception", "Exception", e.getMessage());
+                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, FaultType.TYPE_ERROR.getName(), "Exception", e.getMessage());
                 }
-
-                // fe.getFileName(), fe.getRecordCount, fe.getFaultsReport.getFaults().size())
 
                 // Inform user if there were any record-level errors encountered
                 if (errorReportForFile != null && errorReportForFile.hasErrors()) {
@@ -147,20 +146,18 @@ public class PersistenceProcessor implements Processor {
                                         
                     for (Fault fault:job.getFaultsReport().getFaults()) {
                         String faultMessage = fault.getMessage();
-                        String faultLevel  = fault.isError() ? "Error" : fault.isWarning() ? "Warning" : "Unknown";
-                        BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);    
+                        BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, FaultType.TYPE_ERROR.getName(), "Error", faultMessage);    
                     }
                 }
 
-                String filename = fe.getFileName();
                 String processedPropName = filename + ".records.processed";
                 String failedPropName = filename + ".records.failed";
                 long processedCount = (Long) exchange.getProperty(processedPropName);
                 long failedCount = (Long) exchange.getProperty(failedPropName);
-                //metric.stopMetric(BatchJobStageType.PERSISTENCE_PROCESSING, fe.getFileName());
-                metric.setStopTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
                 metric.setRecordCount(processedCount);
                 metric.setErrorCount(failedCount);
+                metric.stopMetric();
+                batchJobDAO.saveBatchJob(newJob);
             }
 
             // Update Camel Exchange processor output result
@@ -171,12 +168,11 @@ public class PersistenceProcessor implements Processor {
 
             // Log statistics
             LOG.info("Persisted Ingestion files for batch job [{}] in {} ms", job, endTime - startTime);
-            BatchJobMongoDA.logIngestionStageInfo(batchJobId, "Persistence", "Ended", null, BatchJobMongoDA.getCurrentTimeStamp());
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             LOG.error("Exception:", exception);
-            BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, "Error", "Exception",  exception.getMessage());
+            BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, FaultType.TYPE_ERROR.getName(), "Exception",  exception.getMessage());
 
         } finally {
             neutralRecordMongoAccess.cleanupGroupedCollections();
@@ -254,7 +250,8 @@ public class PersistenceProcessor implements Processor {
                             numFailed++;
                             for (Fault fault:recordLevelErrorsInFile.getFaults()) {
                                 String faultMessage = fault.getMessage();
-                                String faultLevel  = fault.isError() ? "Error" : fault.isWarning() ? "Warning" : "Unknown";
+                                if (faultMessage != null) faultMessage = faultMessage.replaceAll("\r|\n", " ");
+                                String faultLevel  = fault.isError() ? FaultType.TYPE_ERROR.getName() : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
                                 BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);    
                             }                             
                         }
@@ -283,7 +280,8 @@ public class PersistenceProcessor implements Processor {
                                 }
                                 for (Fault fault:recordLevelErrorsInFile.getFaults()) {
                                     String faultMessage = fault.getMessage();
-                                    String faultLevel  = fault.isError() ? "Error" : fault.isWarning() ? "Warning" : "Unknown";
+                                    if (faultMessage != null) faultMessage = faultMessage.replaceAll("\r|\n", " ");
+                                    String faultLevel  = fault.isError() ? FaultType.TYPE_ERROR.getName() : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
                                     BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);    
                                 }
                             }
