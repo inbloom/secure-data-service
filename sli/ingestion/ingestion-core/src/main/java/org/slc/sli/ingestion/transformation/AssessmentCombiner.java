@@ -25,8 +25,8 @@ import org.springframework.data.mongodb.core.query.Query;
  */
 public class AssessmentCombiner extends AbstractTransformationStrategy {
     
-    private static final String SUB_OBJECTIVE_REFS = "subObjectiveRefs";
-
+    public static final String SUB_OBJECTIVE_REFS = "subObjectiveRefs";
+    
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
     
     private Map<String, Map<Object, NeutralRecord>> collections;
