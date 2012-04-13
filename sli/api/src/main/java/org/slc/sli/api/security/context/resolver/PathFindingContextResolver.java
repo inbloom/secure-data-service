@@ -58,9 +58,11 @@ public class PathFindingContextResolver implements EntityContextResolver {
      */
     @Override
     public List<String> findAccessible(Entity principal) {
-        List<SecurityNode> path = pathFinder.find(fromEntity, toEntity);
-        if (path == null)
-            return new ArrayList<String>();
+        List<SecurityNode> path = new ArrayList<SecurityNode>();
+        path = pathFinder.getPreDefinedPath(fromEntity, toEntity);
+        if (path.size() == 0) {
+            path = pathFinder.find(fromEntity, toEntity);
+        }
         List<String> ids = new ArrayList<String>(Arrays.asList(principal.getEntityId()));
         SecurityNode current = path.get(0);
         for (int i = 1; i< path.size(); ++i) {
@@ -72,6 +74,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
             if (isAssociative(next, connection)) {
                 AssociationDefinition ad = (AssociationDefinition) store.lookupByEntityType(repoName);
                 List<String> keys = helper.getAssocKeys(current.getName(), ad);
+                debug("Association keys found {}", keys.toString());
                 idSet = helper.findEntitiesContainingReference(repoName, keys.get(0),
                         connection.get(SecurityNode.CONNECTION_FIELD_NAME), ids);
             } else {

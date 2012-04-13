@@ -1,6 +1,7 @@
 package org.slc.sli.api.security.context.traversal;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,10 +21,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class BrutePathFinder implements SecurityPathFinder {
     private Map<String, SecurityNode> nodeMap;
+    private Map<String, List<SecurityNode>> prePath;
 
     @PostConstruct
     public void init() {
         nodeMap = new HashMap<String, SecurityNode>();
+        prePath = new HashMap<String, List<SecurityNode>>();
         nodeMap.put(EntityNames.TEACHER,
                 SecurityNodeBuilder.buildNode("teacher")
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)
@@ -47,6 +50,11 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap.put(EntityNames.ASSESSMENT,
                 SecurityNodeBuilder.buildNode(EntityNames.ASSESSMENT)
                         .addConnection(EntityNames.STUDENT, "studentId", "").construct());
+        
+        prePath.put(
+                EntityNames.TEACHER + EntityNames.TEACHER,
+                Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SCHOOL),
+                        nodeMap.get(EntityNames.TEACHER)));
     }
 
     @Override
@@ -77,6 +85,22 @@ public class BrutePathFinder implements SecurityPathFinder {
             }
         }
         debug("NO PATH FOUND FROM {} to {}", new String[] {from, to});
+        return new ArrayList<SecurityNode>();
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.slc.sli.api.security.context.traversal.SecurityPathFinder#getPreDefinedPath(java.lang
+     * .String, java.lang.String)
+     */
+    @Override
+    public List<SecurityNode> getPreDefinedPath(String from, String to) {
+        if(prePath.containsKey(from+to)) {
+            return prePath.get(from + to);
+        }
         return new ArrayList<SecurityNode>();
     }
 

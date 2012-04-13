@@ -65,11 +65,13 @@ public class BrutePathFinderTest {
         assertTrue(path.get(1).getName().equals("section"));
         assertTrue(path.get(2).getName().equals("teacher"));
     }
+
     
     @Test
-    public void testOneStepFind() throws Exception {
-        path = pathFinder.find("teacher", "teacher");
+    public void testGetPredefinedTest() throws Exception {
+        path = pathFinder.getPreDefinedPath("teacher", "teacher");
         assertTrue(path.size() == 3);
-        assertTrue(path.get(0).getName().equals("teacher"));
+        path = pathFinder.getPreDefinedPath("waffles", "pancakes");
+        assertTrue(path.size() == 0);
     }
 }

@@ -55,6 +55,7 @@ public class PathFindingContextResolverTest {
         List<String> ssKeys = Arrays.asList(new String[] { "sectionId", "studentId" });
         when(mockHelper.getAssocKeys(eq(EntityNames.TEACHER), any(AssociationDefinition.class))).thenReturn(tsKeys);
         when(mockHelper.getAssocKeys(eq(EntityNames.SECTION), any(AssociationDefinition.class))).thenReturn(ssKeys);
+
     }
 
     @Test
@@ -111,8 +112,12 @@ public class PathFindingContextResolverTest {
         Entity mockEntity = Mockito.mock(Entity.class);
         when(mockEntity.getEntityId()).thenReturn("1");
         List<String> finalList = Arrays.asList(new String[] { "1" });
-        
+        List<String> tsKeys1 = Arrays.asList(new String[] { "schoolId", "teacherId" });
+        List<String> tsKeys2 = Arrays.asList(new String[] { "teacherId", "schoolId" });
+
         assertTrue(resolver.canResolve(EntityNames.TEACHER, EntityNames.TEACHER));
+        when(mockHelper.getAssocKeys(eq(EntityNames.SCHOOL), any(AssociationDefinition.class))).thenReturn(tsKeys1);
+        when(mockHelper.getAssocKeys(eq(EntityNames.TEACHER), any(AssociationDefinition.class))).thenReturn(tsKeys2);
         when(
                 mockHelper.findEntitiesContainingReference(eq(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS),
                         eq("teacherId"), eq("schoolId"), any(List.class))).thenReturn(
