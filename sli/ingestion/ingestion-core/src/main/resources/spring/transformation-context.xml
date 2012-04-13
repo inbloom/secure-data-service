@@ -70,21 +70,9 @@
 
 	<bean id="studentProgramAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-		<property name="passThroughCollectionList" ref="studentProgramAssociationPassThroughCollectionList" />
+		<property name="passThroughCollectionName" value="studentProgramAssociation" />
     </bean>
 		
-	<bean id="studentProgramAssociationString" class="java.lang.String">
-		<constructor-arg value="studentProgramAssociation"/>		
-	</bean>
-		
-	<bean id="studentProgramAssociationPassThroughCollectionList" class="java.util.ArrayList">
-		<constructor-arg>
-			<list>
-				<ref bean="studentProgramAssociationString" />
-			</list>
-		</constructor-arg>
-    </bean>
-
 </beans>
 
 

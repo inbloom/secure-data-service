@@ -2570,49 +2570,36 @@
     createOnElement="InterchangeStudentProgram/StudentProgramAssociation">
     <jb:expression property="recordType">'studentProgramAssociation'</jb:expression>
     <jb:expression property="association">true</jb:expression>
-<!--    <jb:wiring property="localParentIds" beanIdRef="studentProgramAssociationParentIds" /> -->
     <jb:wiring property="attributes" beanIdRef="studentProgramAssociationAttributes" />
   </jb:bean>
-
-<!--  <jb:bean beanId="studentProgramAssociationParentIds" class="java.util.HashMap"
-    createOnElement="InterchangeStudentProgram/StudentProgramAssociation">
-    <jb:wiring property="Student" beanIdRef="StudentProgramAssociation_ParentIds_StudentReference" />
-    <jb:wiring property="Program" beanIdRef="StudentProgramAssociation_ParentIds_ProgramReference" />
-    <jb:wiring property="EducationOrganization" beanIdRef="StudentProgramAssociation_ParentIds_EducationOrganizationReference" />
-  </jb:bean>
-
-  <jb:bean beanId="StudentProgramAssociation_ParentIds_StudentReference" class="java.util.HashMap" createOnElement="InterchangeStudentProgram/StudentProgramAssociation">
-    <jb:wiring property="Student#metaData.externalId" data="StudentProgramAssociation/StudentReference" />
-  </jb:bean>
-
-  <jb:bean beanId="StudentProgramAssociation_ParentIds_ProgramReference" class="java.util.HashMap" createOnElement="InterchangeStudentProgram/StudentProgramAssociation">
-    <jb:wiring property="Program#metaData.externalId" data="StudentProgramAssociation/ProgramReference" />
-  </jb:bean>
-
-  <jb:bean beanId="StudentProgramAssociation_ParentIds_EducationOrganizationReference" class="java.util.HashMap" createOnElement="InterchangeStudentProgram/StudentProgramAssociation">
-    <jb:wiring property="EducationOrganization#metaData.externalId" data="StudentProgramAssociation/EducationOrganizationReference" />
-  </jb:bean> -->
 
   <jb:bean beanId="studentProgramAssociationAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentProgram/StudentProgramAssociation">
     <jb:wiring property="StudentReference" beanIdRef="StudentProgramAssociation_StudentReference" />
-<!--    <jb:value property="studentId" data="StudentReference/StudentIdentity/StudentUniqueStateId" /> --> <!-- the data doesn't actually matter - this will be filled in by the transform -->
     <jb:wiring property="ProgramReference" beanIdRef="StudentProgramAssociation_ProgramReference" />
-<!--    <jb:value property="programId" data="ProgramReference/ProgramIdentity/ProgramId" /> --> <!-- the data doesn't actually matter - this will be filled in by the transform -->    
     <jb:wiring property="Services" beanIdRef="StudentProgramAssociation_ServicesArray" />
     <jb:value property="BeginDate" data="StudentProgramAssociation/BeginDate" />
     <jb:value property="EndDate" data="StudentProgramAssociation/EndDate" />
     <jb:value property="ReasonExited" data="StudentProgramAssociation/ReasonExited" />
     <jb:wiring property="EducationOrganizationReference" beanIdRef="StudentProgramAssociation_EducationOrganizationReference" />
-<!--    <jb:value property="educationOrganizationId" data="EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" /> --> <!-- the data doesn't actually matter (and in this case isn't quite correct) - this will be filled in by the transform -->    
   </jb:bean>
 
   <jb:bean beanId="StudentProgramAssociation_ServicesArray" 
   	class="java.util.ArrayList" 
   	createOnElement="InterchangeStudentProgram/StudentProgramAssociation">
-    <jb:value data="StudentProgramAssociation/Services" />
+    <jb:wiring beanIdRef="StudentProgramAssociation_Services" />
   </jb:bean>
 
+  <jb:bean beanId="Program_ServiceDescriptorTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Program">
+    <jb:wiring beanIdRef="Program_ServiceDescriptorType" />
+  </jb:bean>
+
+  <jb:bean beanId="StudentProgramAssociation_Services" class="java.util.HashMap" createOnElement="InterchangeStudentProgram/StudentProgramAssociation/Services">
+    <jb:value property="CodeValue" data="StudentProgramAssociation/Services/CodeValue" />
+    <jb:value property="ShortDescription" data="StudentProgramAssociation/Services/ShortDescription" />
+    <jb:value property="Description" data="StudentProgramAssociation/Services/Description" />
+  </jb:bean>
+	
   <!-- StudentProgramAssociation supporting objects: StudentReference -->
 
   <jb:bean beanId="StudentProgramAssociation_StudentReference" 
