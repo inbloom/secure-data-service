@@ -6,8 +6,8 @@ import java.util.UUID;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
+
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.ingestion.NeutralRecord;
 
@@ -18,11 +18,14 @@ import org.slc.sli.ingestion.NeutralRecord;
  */
 public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBObject> {
 
-    @Autowired(required = false)
     private EntityEncryption encryptor;
 
-    public void setEncryptor(EntityEncryption encryptor) {
-        this.encryptor = encryptor;
+    public EntityEncryption getStagingEncryptor() {
+        return encryptor;
+    }
+
+    public void setStagingEncryptor(EntityEncryption stagingEncryptor) {
+        this.encryptor = stagingEncryptor;
     }
 
     @Override
