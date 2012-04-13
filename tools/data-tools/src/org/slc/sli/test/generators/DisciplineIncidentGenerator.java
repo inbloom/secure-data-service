@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.xml.bind.JAXBElement;
 
 import org.apache.log4j.Logger;
+import org.slc.sli.test.edfi.entities.BehaviorCategoryType;
 import org.slc.sli.test.edfi.entities.BehaviorDescriptorType;
 import org.slc.sli.test.edfi.entities.DisciplineIncident;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
@@ -65,17 +66,14 @@ public class DisciplineIncidentGenerator {
        incident.setIncidentLocation(GeneratorUtils.generateIncidentLocationType());
        incident.setReporterDescription(GeneratorUtils.generateReporterDescriptionType());
        incident.setReporterName("Discipline Incident Reporter-"+disciplineIncidentId);
-       WeaponsType wt = new WeaponsType();
-       wt.getWeapon().add(GeneratorUtils.generateWeaponItemType());
-       incident.setWeapons(wt);
        incident.setReportedToLawEnforcement(new Boolean(rand.nextBoolean()));
-       incident.setCaseNumber("CaseNumber-"+rand.nextInt());
        
        //add Behaviors
        ObjectFactory factory = new ObjectFactory();
+       int count = 0;
        double prob = 1.0D / BehaviorDescriptor.values().length;
        for(BehaviorDescriptor behaviorDescriptor : BehaviorDescriptor.values()) {
-           if (rand.nextDouble() < prob) {
+           if (rand.nextDouble() < prob || count==(BehaviorDescriptor.values().length-1)) {
                BehaviorDescriptorType behaviorDescriptorType = new BehaviorDescriptorType();
                JAXBElement<String> behaviorDescriptorCode =  factory.createBehaviorDescriptorTypeCodeValue(behaviorDescriptor.codeValue);
                JAXBElement<String> behaviorDescriptorShortDescription =  factory.createBehaviorDescriptorTypeShortDescription(behaviorDescriptor.shortDescription);
@@ -84,7 +82,9 @@ public class DisciplineIncidentGenerator {
                behaviorDescriptorType.getCodeValueOrShortDescriptionOrDescription().add(behaviorDescriptorShortDescription);
                behaviorDescriptorType.getCodeValueOrShortDescriptionOrDescription().add(behaviorDescriptorDescription);
                incident.getBehaviors().add(behaviorDescriptorType);
+               break;
            }
+           ++count;
        }
        
        //add SecondaryBehavior
@@ -93,6 +93,10 @@ public class DisciplineIncidentGenerator {
        sb.setBehaviorCategory(GeneratorUtils.generateBehaviorCategoryType());
        incident.getSecondaryBehaviors().add(sb);
 
+       incident.setCaseNumber("CaseNumber-"+rand.nextInt(99999999));
+       WeaponsType wt = new WeaponsType();
+       wt.getWeapon().add(GeneratorUtils.generateWeaponItemType());
+       incident.setWeapons(wt);
        // construct and add the school references
        EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
        edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);

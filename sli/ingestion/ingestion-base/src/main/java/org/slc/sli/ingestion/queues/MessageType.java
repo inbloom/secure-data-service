@@ -6,6 +6,7 @@ package org.slc.sli.ingestion.queues;
  */
 public enum MessageType {
     BATCH_REQUEST,
+    PURGE,
     BULK_TRANSFORM_REQUEST,
     PERSIST_REQUEST,
     ERROR,
