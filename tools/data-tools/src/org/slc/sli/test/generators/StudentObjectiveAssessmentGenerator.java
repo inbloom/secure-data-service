@@ -8,7 +8,7 @@ import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.ScoreResult;
 import org.slc.sli.test.edfi.entities.StudentAssessment;
 import org.slc.sli.test.edfi.entities.StudentObjectiveAssessment;
-import org.slc.sli.test.mappingGenerator.AssessmentMetaRelations;
+import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 
 public class StudentObjectiveAssessmentGenerator {
     private static final Random RANDOM = new Random();
@@ -49,18 +49,24 @@ public class StudentObjectiveAssessmentGenerator {
     public static StudentObjectiveAssessment generateLowFi(StudentAssessment studentAssessment) {
         StudentObjectiveAssessment soa = new StudentObjectiveAssessment();
 
+        // score results
         ScoreResult scoreResult = new ScoreResult();
         scoreResult.setAssessmentReportingMethod(AssessmentReportingMethodType.values()[RANDOM
                 .nextInt(AssessmentReportingMethodType.values().length)]);
         scoreResult.setResult("score result");
         soa.getScoreResults().add(scoreResult);
 
-        // TODO: add performance levels
+        // performance levels
+        String randomPerfLevelDescId = AssessmentMetaRelations.getRandomPerfLevelDescMeta().id;
+        soa.getPerformanceLevels().add(
+                PerformanceLevelDescriptorGenerator.getPerformanceLevelDescriptorType(randomPerfLevelDescId));
 
+        // student reference
         ReferenceType studentAssessmentReference = new ReferenceType();
         studentAssessmentReference.setRef(studentAssessment);
         soa.setStudentTestAssessmentReference(studentAssessmentReference);
 
+        // objective assessment
         String randomObjAssessCode = AssessmentMetaRelations.getRandomObjectiveAssessmentMeta().id;
         soa.setObjectiveAssessmentReference(ObjectiveAssessmentGenerator
                 .getObjectiveAssessmentReferenceType(randomObjAssessCode));

@@ -193,7 +193,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionAcceptanceCanonicalDataTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
+task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest] do
   displayFailureReport()
@@ -209,9 +209,9 @@ task :ingestionDemoDataTest do
   runTests("test/features/ingestion/features/ingestion_demo.feature")
 end
 
-desc "Run Ingestion Acceptance Canonical Data Tests"
-task :ingestionAcceptanceCanonicalDataTest do
-  runTests("test/features/ingestion/features/ingestion_acceptance_canonical.feature")
+desc "Run Ingestion Acceptance SDS Tests"
+task :ingestionAcceptanceSdsTest do
+  runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
 end
 
 desc "Run Ingestion Session Test"
@@ -952,7 +952,7 @@ end
 desc "Run Integration Acceptance Tests"
 task :integrationTests => [:realmInitNoPeople] do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
-  Rake::Task["ingestionAcceptanceCanonicalDataTest"].execute
+  Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
   Rake::Task["dashboardSdsTests"].execute
   displayFailureReport()
@@ -1001,7 +1001,7 @@ end
 
 desc "Export Storied Test Data"
 task :exportStoriedData do
-  Rake::Task["ingestionAcceptanceCanonicalDataTest"].execute
+  Rake::Task["ingestionAcceptanceSdsTest"].execute
   if $SUCCESS
     $collectionSet.each do |collection|
       sh "rm -f test/data/storied_data/sds_#{collection}.json"
