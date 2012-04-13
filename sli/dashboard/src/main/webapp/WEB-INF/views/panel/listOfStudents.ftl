@@ -18,5 +18,9 @@
         function(panelData){
           DashboardUtil.makeGrid(tableId, options, panelData, {})});
     }
+    function clearStudentList()
+    {
+        $('#${id}').jqGrid("GridUnload");
+    }
     </script>
 

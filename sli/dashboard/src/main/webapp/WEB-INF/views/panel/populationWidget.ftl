@@ -8,7 +8,7 @@
 </div>
 <script type="text/javascript" >
 function populateInstHierarchy(){
-    var y = "<select id=\"edOrgSelect\" onChange=\"populateSchoolMenu(this.value)\">"
+    var y = "<select id=\"edOrgSelect\" onChange=\"clearStudentList();populateSchoolMenu(this.value)\">"
     y += "<option value=\"-1\"></option>"
     var i = 0;
     for(i = 0;i<instHierarchy.length;i++){
@@ -21,7 +21,7 @@ function populateInstHierarchy(){
 function populateSchoolMenu(edorgIndex){
     var temp = instHierarchy[edorgIndex].schools
 
-    var y = "<select id=\"schoolSelect\" onChange=\"populateCourseMenu("+edorgIndex+",this.value)\">"
+    var y = "<select id=\"schoolSelect\" onChange=\"clearStudentList();populateCourseMenu("+edorgIndex+",this.value)\">"
     y += "<option value=\"-1\"></option>"   
     var i = 0;
     for(i = 0;i<temp.length;i++){
@@ -34,7 +34,7 @@ function populateSchoolMenu(edorgIndex){
 function populateCourseMenu(edorgIndex,schoolIndex){
     var temp = instHierarchy[edorgIndex].schools[schoolIndex].courses
  
-    var y = "<select id=\"courseSelect\" onChange=\"populateSectionMenu("+edorgIndex+","+schoolIndex+",this.value)\">"
+    var y = "<select id=\"courseSelect\" onChange=\"clearStudentList();populateSectionMenu("+edorgIndex+","+schoolIndex+",this.value)\">"
     y += "<option value=\"\"></option>"
     var j = 0;
     for(j = 0;j < temp.length;j++){
@@ -45,7 +45,7 @@ function populateCourseMenu(edorgIndex,schoolIndex){
 
 function populateSectionMenu(edorgIndex,schoolIndex, courseIndex){
     var temp = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections
-    var y = "<select id=\"sectionSelect\" onChange=\"printStudentList(instHierarchy["+edorgIndex+"].schools["+schoolIndex+"].courses["+courseIndex+"].sections,this.value)\">"
+    var y = "<select id=\"sectionSelect\" onChange=\"clearStudentList();printStudentList(instHierarchy["+edorgIndex+"].schools["+schoolIndex+"].courses["+courseIndex+"].sections,this.value)\">"
     y += "<option value=\"\"></option>"
     var i = 0
     for(;i < temp.length;i++){
