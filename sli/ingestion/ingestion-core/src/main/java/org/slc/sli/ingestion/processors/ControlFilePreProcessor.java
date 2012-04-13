@@ -73,7 +73,16 @@ public class ControlFilePreProcessor implements Processor {
                 newJob = batchJobDAO.findBatchJobById(batchJobId);
             }
 
-            newJob.setSourceId(landingZone.getLZId());
+
+            // TODO Make getting the path a little nicer (i.e.,  not
+            // stripping the zip temp path
+            String done = new String(".done");
+            int endString = landingZone.getLZId().indexOf(done);
+            if (endString != -1) {
+                newJob.setSourceId(landingZone.getLZId().substring(0, endString));
+            } else {
+                newJob.setSourceId(landingZone.getLZId());
+            }
 
             Stage stage = new Stage();
             stage.setStageName(BatchJobStageType.CONTROL_FILE_PREPROCESSING.getName());
@@ -99,7 +108,8 @@ public class ControlFilePreProcessor implements Processor {
             for (IngestionFileEntry file : cf.getFileEntries()) {
                 ResourceEntry resourceEntry = new ResourceEntry();
                 resourceEntry.update(file.getFileFormat().toString(), file.getFileType().toString(), file.getChecksum(), 0, 0);
-                resourceEntry.setResourceName(file.getFileName());
+                resourceEntry.setResourceName(newJob.getSourceId()+file.getFileName());
+                resourceEntry.setResourceId(file.getFileName());
                 newJob.getResourceEntries().add(resourceEntry);
             }
 
@@ -144,7 +154,16 @@ public class ControlFilePreProcessor implements Processor {
                 newJob = batchJobDAO.findBatchJobById(batchJobId);
             }
 
-            newJob.setSourceId(landingZone.getLZId());
+
+            // TODO Make getting the path a little nicer (i.e.,  not
+            // stripping the zip temp path
+            String done = new String(".done");
+            int endString = landingZone.getLZId().indexOf(done);
+            if (endString != -1) {
+                newJob.setSourceId(landingZone.getLZId().substring(0, endString));
+            } else {
+                newJob.setSourceId(landingZone.getLZId());
+            }
 
             Stage stage = new Stage();
             stage.setStageName(BatchJobStageType.CONTROL_FILE_PREPROCESSING.getName());
@@ -170,7 +189,8 @@ public class ControlFilePreProcessor implements Processor {
             for (IngestionFileEntry file : cf.getFileEntries()) {
                 ResourceEntry resourceEntry = new ResourceEntry();
                 resourceEntry.update(file.getFileFormat().toString(), file.getFileType().toString(), file.getChecksum(), 0, 0);
-                resourceEntry.setResourceName(file.getFileName());
+                resourceEntry.setResourceName(newJob.getSourceId()+file.getFileName());
+                resourceEntry.setResourceId(file.getFileName());
                 newJob.getResourceEntries().add(resourceEntry);
             }
 

@@ -29,10 +29,10 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | stages.2.stageName             | ControlFileProcessing    |string        |
   | newBatchJob    | 1                   | stages.2.status                | finished                 |string        |
   #resources
-  | newBatchJob    | 1                   | resourceEntries.0.resourceName | BatchJob.zip            |string         |
+  | newBatchJob    | 1                   | resourceEntries.0.resourceName   | BatchJob.zip            |string         |
   | newBatchJob    | 1                   | resourceEntries.0.recordCount  | 0                       |integer        |
   | newBatchJob    | 1                   | resourceEntries.0.errorCount   | 0                       |integer        |
-  | newBatchJob    | 1                   | resourceEntries.1.resourceName | InterchangeEducationOrganization.xml |string         |
+  | newBatchJob    | 1                   | resourceEntries.1.resourceId   | InterchangeEducationOrganization.xml |string         |
   | newBatchJob    | 1                   | resourceEntries.1.resourceFormat | EDFI_XML              |string         |
   | newBatchJob    | 1                   | resourceEntries.1.resourceType | XML_EDUCATION_ORGANIZATION |string         |
 
