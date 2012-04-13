@@ -1,5 +1,5 @@
 @wip
-Feature: ACT Assessment Ingestion Test
+Feature: AP Assessment Ingestion Test
 
 Background: I have a landing zone route configured
 Given I am using local data store
