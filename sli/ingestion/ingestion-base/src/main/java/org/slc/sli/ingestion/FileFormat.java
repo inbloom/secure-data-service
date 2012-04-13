@@ -9,7 +9,8 @@ package org.slc.sli.ingestion;
 public enum FileFormat {
 
     EDFI_XML("edfi-xml", "xml"),
-    CSV("csv", "csv");
+    CSV("csv", "csv"),
+    NEUTRALRECORD("neutralrecord", "tmp");
 
     private final String code;
     private final String extension;

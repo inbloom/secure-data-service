@@ -103,8 +103,8 @@ public class EdFiProcessor implements Processor {
 
                 ResourceEntry resource = new ResourceEntry();
                 resource.setResourceId(fileProcessStatus.getOutputFileName());
-                resource.setResourceName(fileProcessStatus.getOutputFileName());
-                resource.setResourceFormat("NEUTRALRECORD_XML");
+                resource.setResourceName(fileProcessStatus.getOutputFilePath());
+                resource.setResourceFormat(FileFormat.NEUTRALRECORD.toString());
                 resource.setResourceType(fe.getFileType().getName());
                 resource.setRecordCount((int) fileProcessStatus.getTotalRecordCount());
 
