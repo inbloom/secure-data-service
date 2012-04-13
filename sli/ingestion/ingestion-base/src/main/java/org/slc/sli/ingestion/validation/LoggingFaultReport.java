@@ -4,10 +4,9 @@ import org.slc.sli.ingestion.FaultsReport;
 import org.slf4j.Logger;
 
 /**
- * ErrorReport implementation that is constructed with a logger and uses that logger to act on
- * errors and warnings.
+ * FaultReport implementation that gathers errors and also logs them to file.
  *
- * @author dduran
+ * @author ldalgado
  *
  */
 public class LoggingFaultReport extends FaultsReport {

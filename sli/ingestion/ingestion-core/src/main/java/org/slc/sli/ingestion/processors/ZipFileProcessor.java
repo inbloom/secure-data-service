@@ -1,7 +1,6 @@
  package org.slc.sli.ingestion.processors;
 
 import java.io.File;
-import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -15,10 +14,10 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
-import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
+import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
@@ -129,26 +128,11 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             exchange.getIn().setHeader("BatchJobId", batchJobId);
             BatchJobDAO batchJobDAO = new BatchJobMongoDA();
 
-//            ErrorReport errorReport = job.getFaultsReport();
             FaultsReport errorReport = new FaultsReport();
 
             File ctlFile = handler.handle(zipFile, errorReport);
 
-            if (errorReport.hasErrors()) {
-                List<Fault> faults = errorReport.getFaults();
-                for ( Fault fault : faults ) {
-                    String errorType = new String();
-                    if (fault.isError()) {
-                        errorType = "ERROR";
-                    } else if (fault.isWarning()) {
-                        errorType = "WARNING";
-                    } else {
-                        errorType = "OTHER";
-                    }
-                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSING,
-                            FaultType.TYPE_ERROR.getName(), errorType, fault.getMessage());
-                }
-            }
+            Error.writeErrorsToMongo(batchJobId, errorReport);
 
             ResourceEntry resourceName = new ResourceEntry();
             resourceName.setResourceName(zipFile.getName());

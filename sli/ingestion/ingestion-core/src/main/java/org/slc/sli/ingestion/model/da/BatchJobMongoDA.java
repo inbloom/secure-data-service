@@ -54,7 +54,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     @Override
     public NewBatchJob findBatchJobById(String batchJobId) {
-        // TODO Auto-generated method stub
         Query query = new Query(Criteria.where("_id").is(batchJobId));
         return template.findOne(query, NewBatchJob.class);
     }
@@ -86,7 +85,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
                     stage.update(stageName, status, startTimestamp, stopTimeStamp);
                     template.save(job);
                     jobStageModified = true;
-                    continue;
+                    break;
                 }
             }
             if (!jobStageModified) {
@@ -117,7 +116,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
      * @param errorCount
      * @return
      */
-
     public static BatchJobMongoDAStatus logIngestionMetricInfo(String ingestionJobId, String stageName, String resourceId,
             String sourceIp, String hostname, String startTimestamp, String stopTimeStamp, long recordCount,
             long errorCount) {
@@ -148,6 +146,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
                             metric.update(resourceId, sourceIp, hostname, startTimestamp, stopTimeStamp, recordCount,
                                     errorCount);
                             template.save(job);
+                            break;
                         }
                     }
                     if (!foundMetric) {

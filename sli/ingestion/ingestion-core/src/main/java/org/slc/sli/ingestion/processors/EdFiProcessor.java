@@ -94,8 +94,8 @@ public class EdFiProcessor implements Processor {
                         errorCount++;
                     }
                     String faultMessage = fault.getMessage();
-                    String faultLevel  = fault.isError() ? "Error" : fault.isWarning() ? "Warning" : "Unknown";
-                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.EDFI_PROCESSING, faultLevel, "Error", faultMessage);
+                    String faultLevel  = fault.isError() ? FaultType.TYPE_ERROR.getName() : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
+                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.EDFI_PROCESSING, faultLevel, faultLevel, faultMessage);
                 }
 
                 metrics.setErrorCount(errorCount);

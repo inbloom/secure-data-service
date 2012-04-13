@@ -1,8 +1,6 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
-import java.util.Enumeration;
-import java.util.HashMap;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -14,10 +12,8 @@ import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.model.NewBatchJob;
-import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
@@ -94,25 +90,6 @@ public class ControlFilePreProcessor implements Processor {
 
             newJob.setTotalFiles(cf.getFileEntries().size());
 
-            HashMap<String, String> batchProperties = new HashMap<String, String>();
-            Enumeration<Object> keys = cf.getConfigProperties().keys();
-            Enumeration<Object> elements = cf.getConfigProperties().elements();
-
-            while (keys.hasMoreElements()) {
-                String key = keys.nextElement().toString();
-                String element = elements.nextElement().toString();
-                batchProperties.put(key, element);
-            }
-            newJob.setBatchProperties(batchProperties);
-
-            for (IngestionFileEntry file : cf.getFileEntries()) {
-                ResourceEntry resourceEntry = new ResourceEntry();
-                resourceEntry.update(file.getFileFormat().toString(), file.getFileType().toString(), file.getChecksum(), 0, 0);
-                resourceEntry.setResourceName(newJob.getSourceId()+file.getFileName());
-                resourceEntry.setResourceId(file.getFileName());
-                newJob.getResourceEntries().add(resourceEntry);
-            }
-
             stage.stopStage();
             newJob.getStages().add(stage);
             batchJobDAO.saveBatchJob(newJob);
@@ -174,25 +151,6 @@ public class ControlFilePreProcessor implements Processor {
             ControlFile cf = ControlFile.parse(controlFile);
 
             newJob.setTotalFiles(cf.getFileEntries().size());
-
-            HashMap<String, String> batchProperties = new HashMap<String, String>();
-            Enumeration<Object> keys = cf.getConfigProperties().keys();
-            Enumeration<Object> elements = cf.getConfigProperties().elements();
-
-            while (keys.hasMoreElements()) {
-                String key = keys.nextElement().toString();
-                String element = elements.nextElement().toString();
-                batchProperties.put(key, element);
-            }
-            newJob.setBatchProperties(batchProperties);
-
-            for (IngestionFileEntry file : cf.getFileEntries()) {
-                ResourceEntry resourceEntry = new ResourceEntry();
-                resourceEntry.update(file.getFileFormat().toString(), file.getFileType().toString(), file.getChecksum(), 0, 0);
-                resourceEntry.setResourceName(newJob.getSourceId()+file.getFileName());
-                resourceEntry.setResourceId(file.getFileName());
-                newJob.getResourceEntries().add(resourceEntry);
-            }
 
             stage.stopStage();
             newJob.getStages().add(stage);
