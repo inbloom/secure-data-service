@@ -17,8 +17,8 @@ public class URLBuilderTest {
         List<String> ids = Arrays.asList("1", "2", "3", "4", "5");
         builder.addPath(Constants.API_SERVER_PATH).addPath(EntityType.STUDENTS.getResource()).ids(ids);
         URL url = builder.build();
-        assertEquals("the URL should be http://localhost/api/rest/v1/students/(1,2,3,4,5)", "http://localhost/"
-                + Constants.API_SERVER_PATH + "/students/(1,2,3,4,5)", url.toString());
+        assertEquals("the URL should be http://localhost/api/rest/v1/students/1,2,3,4,5", "http://localhost/"
+                + Constants.API_SERVER_PATH + "/students/1,2,3,4,5", url.toString());
     }
     
     @Test(expected = MalformedURLException.class)

@@ -75,11 +75,10 @@ public final class URLBuilder {
     public URLBuilder ids(final List<String> ids) {
         StringBuffer idCollection = new StringBuffer();
         if (ids != null && ids.size() > 0) {
-            idCollection.append("(");
             for (String id : ids) {
                 idCollection.append(id + ",");
             }
-            idCollection.deleteCharAt(idCollection.lastIndexOf(",")).append(")");
+            idCollection.deleteCharAt(idCollection.lastIndexOf(","));
         }
         addPath(idCollection.toString());
         return this;
