@@ -38,7 +38,8 @@ $collectionSet = ["student",
                   "studentSectionGradebookEntry",
                   "parent",
                   "studentParentAssociation",
-                  "attendance"]
+                  "attendance",
+                  "program"]
 
 #######################################################################################################
 # Helper defs
@@ -331,7 +332,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1TargetTests,
                      :v1EndUserStoryAssessmentTests,
                      :v1EndUserStoryCustomEntityTests,
-                     :v1StudentOptionalFieldsTests] do
+                     :v1StudentOptionalFieldsTests,
+                     :v1SingleStudentViewTests] do
   displayFailureReport()
 end
 
@@ -759,6 +761,12 @@ desc "Run V1 Student Optional Fields Tests"
 task :v1StudentOptionalFieldsTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/optional_fields/student_optional_fields.feature")
+end
+
+desc "Run V1 Single Student View Tests"
+task :v1SingleStudentViewTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/optional_fields/single_student_view.feature")
 end
 
 ############################################################

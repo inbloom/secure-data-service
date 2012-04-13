@@ -1,76 +1,80 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="false"%>
 <html>
 <head>
-	<title>Mock IDP</title>
-	<style type="text/css">
-span.header {
-	display:inline-block;
-	font-size: 18px;
-	width: 500px;
-	border-style: solid;
-	border-width: 1px;
-	margin: 30px 30px;
-	padding:30px 30px;
+<title>Mock IDP</title>
+<style type="text/css">
+.tenant {
+	color: #438746
 }
 
-form {
-	margin: 30px 30px;
+.realm-name {
+	padding: 30px;
+	background-color: #EEE;
+	border: thick;
+	-webkit-border-radius: 6px;
+	-mox-border-radius: 6px;
+	border-radius: 6px;
+	margin-top: 30px;
 }
 
-div.logout {
-	position: absolute;
-	left: 700px;
-	top:  45px;
+.form-container {
+	margin: 10px;
+	margin-top: 30px;
 }
-
-#login_button {
-	position: relative;
-	left: 200px;
-}
-
-.error {
-	font-size: 18px;
-	color: red;
-}
-	</style>
+</style>
+<link href="resources/bootstrap.css" rel="stylesheet">
 </head>
 <body>
 
-<div class="header">
-	<span class="header">${tenant} IDP</span>
-</div>
+	<div class="container">
 
-<div class="error">
-	<span class="error">${error}</span>
-</div>
-<div class='user_select'>
-	<form id="login_form" action="login" method="post">
-		<label for="selected_user">User:</label>
-		<select id="selected_user" name="selected_user">
-			<c:forEach items="${users}" var="user">
-				<option value="${user.id}">${user.lastName}, ${user.firstName} (${user.type})</option>
-			</c:forEach>
-		</select>
-		<br />
-		<label for="selected_roles">Roles:</label>
-		<select id="selected_roles" multiple="multiple" name="selected_roles">
-			<c:forEach items="${roles}" var="role">
-				<option value="${role.id}">${role.name}</option>
-			</c:forEach>
-		</select>
-		<br />
-		<input id="login_button" name="commit" type="submit" value="Login" />
-	</form>
-</div>
+		<div class="realm-name">
+			<h1>
+				<span class="heading">Mock Identity Provider for</span> <span class="tenant">${tenant}</span>
+			</h1>
+		</div>
 
-<br />
-<br />
-<div class='logout'>
-	<form id="logout_form" action="logout" method="post">
-		<input id="logout_button" name="commit" type="submit" value="Logout" />
-	</form>
-</div>
+		<div class='form-container'>
+			<form id="login_form" action="login" method="post"
+				class="form-horizontal">
+				<fieldset>
+					<div class="control-group">
+						<label for="selected_user" class="control-label">User:</label>
+						<div class="controls">
+							<select id="selected_user" name="selected_user"
+								class="input-xlarge">
+								<c:forEach items="${users}" var="user">
+									<option value="${user.id}">${user.lastName},
+										${user.firstName} (${user.type})</option>
+								</c:forEach>
+							</select>
+							<p class="help-block">Staff and Teachers available to this
+								tenant</p>
+						</div>
+					</div>
+					<div class="control-group">
+						<label for="selected_roles" class="control-label">Roles:</label>
+						<div class="controls">
+							<select id="selected_roles" multiple="multiple"
+								name="selected_roles" class="input-xlarge">
+								<c:forEach items="${roles}" var="role">
+									<option value="${role.id}">${role.name}</option>
+								</c:forEach>
+							</select>
+							<p class="help-block">Select one or more roles using Ctl/Apple+Click</p>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<input id="login_button" name="commit" type="submit" value="Login" class="btn" />
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+
+	</div>
 
 </body>
 </html>
