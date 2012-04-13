@@ -16,6 +16,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.controller.StudentListController;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.manager.PortalWSManager;
 import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.manager.impl.UserEdOrgManagerImpl;
 import org.slc.sli.security.SLIPrincipal;
@@ -65,6 +66,22 @@ public class StudentListControllerTest {
         Mockito.when(SecurityUtil.getPrincipal()).thenReturn(fakeUser);
 
         studentListController.setInstitutionalHierarchyManager(mockedInstManager);
+        PortalWSManager portalWSManager = new PortalWSManager() {
+            
+            @Override
+            public String getHeader(String token) {
+                // TODO Auto-generated method stub
+                return "div_main";
+            }
+            
+            @Override
+            public String getFooter(String token) {
+                // TODO Auto-generated method stub
+                return "div_main";
+            }
+        };
+        
+        studentListController.setPortalWSManager(portalWSManager);
         ModelAndView mav = studentListController.retrieveStudentList(model);
         assertEquals("fake", model.get("username"));
         assertEquals("[]", model.get("instHierarchy"));

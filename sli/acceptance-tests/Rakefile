@@ -38,7 +38,8 @@ $collectionSet = ["student",
                   "studentSectionGradebookEntry",
                   "parent",
                   "studentParentAssociation",
-                  "attendance"]
+                  "attendance",
+                  "program"]
 
 #######################################################################################################
 # Helper defs
@@ -828,7 +829,7 @@ task :idpAuthTests => [:realmInit] do
 end
 
 desc "Run Sandbox Mock IDP Authentication Selenium Tests"
-task :mockIDPAuthTests => [:realmInit] do
+task :mockIDPAuthTests => [:realmInit, :importSandboxData] do
   runTests("test/features/apiV1/end_user_stories/sandbox/mockIDP/MockIDP.feature")
   displayFailureReport()
   if $SUCCESS
@@ -946,6 +947,11 @@ end
 desc "Run dashboard integration tests"
 task :dashboardSdsTests do
   runTests("test/features/dashboard/dash/dashboard_sds.feature")
+end
+
+desc "Run dashboard integrated Tests - Student Contact info"
+task :dashboardSdsContactInfoTests do
+  runTests("test/features/dashboard/dash/contact_info_sds.feature")
 end
 
 ############################################################
