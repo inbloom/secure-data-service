@@ -5,9 +5,21 @@ package org.slc.sli.modeling.xsd;
  */
 public enum XsdElementName {
     /**
+     * all
+     */
+    ALL("all"),
+    /**
      * annotation
      */
     ANNOTATION("annotation"),
+    /**
+     * appinfo
+     */
+    APPINFO("appinfo"),
+    /**
+     * choice
+     */
+    CHOICE("choice"),
     /**
      * complexContent
      */

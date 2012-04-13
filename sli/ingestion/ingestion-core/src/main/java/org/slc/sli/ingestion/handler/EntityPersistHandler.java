@@ -69,9 +69,13 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     private void reportErrors(List<ValidationError> errors, SimpleEntity entity, ErrorReport errorReport) {
         for (ValidationError err : errors) {
-            String message = getFailureMessage("DAL_" + err.getType().name(), entity.getType(),
-                    entity.getRecordNumber(), err.getFieldName(), err.getFieldValue(),
-                    Arrays.toString(err.getExpectedTypes()));
+
+            String message = "ERROR: There has been a data validation error when saving an entity" + "\n"
+                           + "       Error      " + err.getType().name() + "\n"
+                           + "       Entity     " + entity.getType() + "\n"
+                           + "       Field      " + err.getFieldName() + "\n"
+                           + "       Value      " + err.getFieldValue() + "\n"
+                           + "       Expected   " + Arrays.toString(err.getExpectedTypes()) + "\n";
             errorReport.error(message, this);
         }
     }

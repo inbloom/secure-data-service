@@ -18,8 +18,8 @@ public class BasicQuery implements Query {
     private static final String SORT_ORDER_KEY = "sort-order";
     private static final String SORT_ASCENDING = "ascending";
     private static final String SORT_DESCENDING = "descending";
-    private static final String START_INDEX_KEY = "start-index";
-    private static final String MAX_RESULTS_KEY = "max-results";
+    private static final String START_INDEX_KEY = "offset";
+    private static final String MAX_RESULTS_KEY = "limit";
     private static final String FULL_ENTITIES_KEY = "full-entities";
     private static final String INCLUDE_CUSTOM_ENTITIES = "includeCustom";
 

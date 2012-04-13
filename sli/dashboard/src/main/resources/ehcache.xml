@@ -19,4 +19,10 @@
         maxElementsInMemory="100" overflowToDisk="false" diskPersistent="false"
         timeToIdleSeconds="1800" timeToLiveSeconds="1800"
         memoryStoreEvictionPolicy="LRU" />
+        
+    <cache name="user.panel.data" eternal="false"
+        maxElementsInMemory="100" overflowToDisk="false" diskPersistent="false"
+        timeToIdleSeconds="600" timeToLiveSeconds="600"
+        memoryStoreEvictionPolicy="LRU" />
+        
 </ehcache>

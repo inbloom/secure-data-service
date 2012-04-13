@@ -26,7 +26,13 @@ Scenario: Post a zip file where the first record has an incorrect enum for an at
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
-  And I should see "Record 1: Enumeration mismatch for field <sex> (provided: [Boy], expected: [[Female, Male]])" in the resulting error log file
+  And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
+  And I should see "     Error      ENUMERATION_MISMATCH" in the resulting error log file
+  And I should see "     Entity     student" in the resulting error log file
+  And I should see "     Instance   1" in the resulting error log file
+  And I should see "     Field      sex" in the resulting error log file
+  And I should see "     Value      Boy" in the resulting error log file
+  And I should see "     Expected   [Female, Male]" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "student.xml records considered: 2" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
@@ -40,7 +46,13 @@ Scenario: Post a zip file where the first record has a bad attribute should fail
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
-  And I should see "Record 1: Missing or empty field <studentUniqueStateId>" in the resulting error log file
+  And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
+  And I should see "     Error      REQUIRED_FIELD_MISSING" in the resulting error log file
+  And I should see "     Entity     student" in the resulting error log file
+  And I should see "     Instance   1" in the resulting error log file
+  And I should see "     Field      studentUniqueStateId" in the resulting error log file
+  And I should see "     Value      " in the resulting error log file
+  And I should see "     Expected   [STRING]" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 2 records." in the resulting batch job file
   And I should see "student.xml records considered: 2" in the resulting batch job file
@@ -55,7 +67,13 @@ Scenario: Post a zip file where the second record has a bad attribute should fai
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
-  And I should see "Record 2: Missing or empty field <studentUniqueStateId>" in the resulting error log file
+  And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
+  And I should see "     Error      REQUIRED_FIELD_MISSING" in the resulting error log file
+  And I should see "     Entity     student" in the resulting error log file
+  And I should see "     Instance   2" in the resulting error log file
+  And I should see "     Field      studentUniqueStateId" in the resulting error log file
+  And I should see "     Value      " in the resulting error log file
+  And I should see "     Expected   [STRING]" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 2 records." in the resulting batch job file
   And I should see "student.xml records considered: 2" in the resulting batch job file
@@ -71,7 +89,13 @@ Scenario: Post a zip file where the first record has an undefined attribute shou
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
-  And I should see "Record 1: Unknown Field <FullName>" in the resulting error log file
+  And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
+  And I should see "     Error      REQUIRED_FIELD_MISSING" in the resulting error log file
+  And I should see "     Entity     student" in the resulting error log file
+  And I should see "     Instance   1" in the resulting error log file
+  And I should see "     Field      firstName" in the resulting error log file
+  And I should see "     Value      " in the resulting error log file
+  And I should see "     Expected   [STRING]" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 2 records." in the resulting batch job file
   And I should see "student.xml records considered: 2" in the resulting batch job file
@@ -86,7 +110,13 @@ Scenario: Post a zip file where the first record has a missing attribute should 
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
-  And I should see "Record 1: Missing or empty field <firstName>" in the resulting error log file
+  And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
+  And I should see "       Error      REQUIRED_FIELD_MISSING" in the resulting error log file
+  And I should see "       Entity     student" in the resulting error log file
+  And I should see "       Instance   1" in the resulting error log file
+  And I should see "       Field      firstName" in the resulting error log file
+  And I should see "       Value      " in the resulting error log file
+  And I should see "       Expected   [STRING]" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 2 records." in the resulting batch job file
   And I should see "student.xml records considered: 2" in the resulting batch job file

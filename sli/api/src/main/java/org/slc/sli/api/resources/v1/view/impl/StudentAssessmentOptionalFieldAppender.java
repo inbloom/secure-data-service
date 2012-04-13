@@ -28,7 +28,7 @@ public class StudentAssessmentOptionalFieldAppender implements OptionalFieldAppe
     }
     
     @Override
-    public List<EntityBody> applyOptionalField(List<EntityBody> entities) {
+    public List<EntityBody> applyOptionalField(List<EntityBody> entities, String parameters) {
         
         //get the student Ids
         List<String> studentIds = optionalFieldAppenderHelper.getIdList(entities, "id");

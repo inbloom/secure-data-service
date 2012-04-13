@@ -1,17 +1,27 @@
 package org.slc.sli.api.resources.util;
 
+import com.sun.jersey.api.uri.UriBuilderImpl;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.slc.sli.api.representation.EntityBody;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Utils for entity resource unit tests
@@ -81,5 +91,45 @@ public class ResourceTestUtil {
         assertNotNull("Should return an entity", body);
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
         return body;
+    }
+
+    public static UriInfo buildMockUriInfo(final String queryString) throws Exception {
+        UriInfo mock = mock(UriInfo.class);
+        when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
+
+            @Override
+            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
+                return new UriBuilderImpl().path("absolute");
+            }
+        });
+        when(mock.getBaseUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
+
+            @Override
+            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
+                return new UriBuilderImpl().path("base");
+            }
+        });
+        when(mock.getRequestUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
+
+            @Override
+            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
+                return new UriBuilderImpl().path("request");
+            }
+        });
+
+        when(mock.getQueryParameters(true)).thenReturn(new MultivaluedMapImpl());
+        when(mock.getRequestUri()).thenReturn(new UriBuilderImpl().replaceQuery(queryString).build(new Object[] {}));
+        return mock;
+    }
+
+    public static String parseIdFromLocation(Response response) {
+        List<Object> locationHeaders = response.getMetadata().get("Location");
+        assertNotNull(locationHeaders);
+        assertEquals(1, locationHeaders.size());
+        Pattern regex = Pattern.compile(".+/([\\w-]+)$");
+        Matcher matcher = regex.matcher((String) locationHeaders.get(0));
+        matcher.find();
+        assertEquals(1, matcher.groupCount());
+        return matcher.group(1);
     }
 }

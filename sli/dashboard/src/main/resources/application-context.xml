@@ -40,7 +40,7 @@
       <property name="apiClient" ref="apiClientRef"/>
     </bean>  
     
-    <bean id="populationManager" class="org.slc.sli.manager.PopulationManager">
+    <bean id="populationManager" class="org.slc.sli.manager.impl.PopulationManagerImpl">
         <property name="entityManager" ref="entityManager"/>
     </bean>
 

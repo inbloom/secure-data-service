@@ -9,7 +9,7 @@ import javax.xml.namespace.QName;
 /**
  * The representation of an enumeration.
  */
-public final class EnumType extends AbstractModelElement implements Type {
+public final class EnumType extends AbstractModelElementWithLookup implements Type {
     /**
      * The name of the enumeration type.
      */
@@ -21,7 +21,7 @@ public final class EnumType extends AbstractModelElement implements Type {
     
     public EnumType(final Identifier id, final QName name, final List<EnumLiteral> literals,
             final List<TaggedValue> taggedValues, final LazyLookup lookup) {
-        super(id, taggedValues, lookup);
+        super(id, ReferenceType.ENUM_TYPE, taggedValues, lookup);
         if (name == null) {
             throw new NullPointerException("name");
         }
@@ -44,23 +44,18 @@ public final class EnumType extends AbstractModelElement implements Type {
     }
     
     @Override
-    public Reference getReference() {
-        return new Reference(getId(), ReferenceType.ENUM_TYPE);
-    }
-    
-    @Override
     public List<Generalization> getGeneralizationBase() {
-        return lookup.getGeneralizationBase(getReference());
+        return lookup.getGeneralizationBase(this);
     }
     
     @Override
     public List<Generalization> getGeneralizationDerived() {
-        return lookup.getGeneralizationDerived(getReference());
+        return lookup.getGeneralizationDerived(this);
     }
     
     @Override
     public List<AssociationEnd> getAssociationEnds() {
-        return lookup.getAssociationEnds(getReference());
+        return lookup.getAssociationEnds(this);
     }
     
     @Override

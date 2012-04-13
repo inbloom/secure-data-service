@@ -10,16 +10,16 @@ import org.slc.sli.test.edfi.entities.StaffEducationOrgEmploymentAssociation;
 import org.slc.sli.test.edfi.entities.Teacher;
 import org.slc.sli.test.edfi.entities.TeacherSchoolAssociation;
 import org.slc.sli.test.edfi.entities.TeacherSectionAssociation;
-import org.slc.sli.test.edfi.entities.relations.StaffMeta;
-import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
+import org.slc.sli.test.edfi.entities.meta.StaffMeta;
+import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.StaffEdOrgAssignmentAssociationGenerator;
 import org.slc.sli.test.generators.StaffEdOrgEmploymentAssociationGenerator;
 import org.slc.sli.test.generators.StaffGenerator;
 import org.slc.sli.test.generators.TeacherGenerator;
 import org.slc.sli.test.generators.TeacherSchoolAssociationGenerator;
 import org.slc.sli.test.generators.TeacherSectionAssociationGenerator;
-import org.slc.sli.test.mappingGenerator.MetaRelations;
-import org.slc.sli.test.mappingGenerator.StateEdFiXmlGenerator;
+import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
  * Generates the Staff Association Interchange as derived from the associations
@@ -61,7 +61,8 @@ public class InterchangeStaffAssociationGenerator {
 
         generateStaff(interchangeObjects, MetaRelations.STAFF_MAP.values());
 
-        generateStaffEdOrgEmploymentAssoc(interchangeObjects, MetaRelations.STAFF_MAP.values());
+        // TODO: remove when we support (post-alpha?)
+        //generateStaffEdOrgEmploymentAssoc(interchangeObjects, MetaRelations.STAFF_MAP.values());
 
         generateStaffEdOrgAssignmentAssoc(interchangeObjects, MetaRelations.STAFF_MAP.values());
 
