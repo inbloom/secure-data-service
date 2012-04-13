@@ -126,7 +126,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 79    |
-        | studentSchoolAssociation    | 175   |
+        | studentSchoolAssociation    | 168   |
         | course                      | 90    |
         | educationOrganization       | 3     |
         | school                      | 4     |
@@ -186,7 +186,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 87    |
-        | studentSchoolAssociation    | 183   |
+        | studentSchoolAssociation    | 176   |
         | course                      | 98    |
         | educationOrganization       | 6     |
         | school                      | 8     |
