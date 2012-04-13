@@ -11,13 +11,13 @@ import java.util.Map;
  */
 public final class URLBuilder {
     private static final String ENCODING = "UTF-8";
-    
+
     private final StringBuffer url = new StringBuffer();
     private boolean targets = false;
-    
+
     /**
      * Start building a new URL with the provided base location.
-     * 
+     *
      * @param baseUrl
      *            - base URL of the ReSTful API.
      * @return URLBuilder instance
@@ -27,10 +27,10 @@ public final class URLBuilder {
         rval.addPath(baseUrl);
         return rval;
     }
-    
+
     /**
      * Append a path fragment to the current URL path.
-     * 
+     *
      * @param path
      *            URL fragment to add.
      * @return Updated URLBuilder instance.
@@ -40,10 +40,10 @@ public final class URLBuilder {
         url.append(path);
         return this;
     }
-    
+
     /**
      * Append a path element for accessing the provided entity type.
-     * 
+     *
      * @param type
      *            Entity type of interest.
      * @return Updated URLBuilder instance.
@@ -52,61 +52,61 @@ public final class URLBuilder {
         addPath(type.getResource());
         return this;
     }
-    
+
     /**
      * Append an entity id to the path
-     * 
-     * @Param id Entity ID
+     *
+     * @param id Entity ID
      * @return Updated URLBuilder instance.
      */
     public URLBuilder id(final String id) {
         addPath(id);
         return this;
     }
-    
+
     /**
      * Apply the given query to the URL.
-     * 
+     *
      * @param query
      * @return Updated URLBuilder instance.
      */
     public URLBuilder query(final Query query) {
-        
+
         Map<String, Object> params = query.getParameters();
         if (params != null) {
             for (Map.Entry<String, Object> entry : params.entrySet()) {
                 addQueryParameter(entry.getKey(), entry.getValue());
             }
         }
-        
+
         return this;
     }
-    
+
     /**
      * Indicate we want the targets of an association, not the association itself.
      */
     public void targets() {
         targets = true;
     }
-    
+
     /**
      * Builds the URL.
-     * 
+     *
      * @return URL represented by the values set in this builder.
      * @throws MalformedURLException
      *             if the URL is not valid.
      */
     public URL build() throws MalformedURLException {
-        
+
         if (targets) {
             addPath(EntityType.TARGETS.getResource());
         }
         return new URL(url.toString());
     }
-    
+
     /**
      * Add a URL Query parameter to the URL.
-     * 
+     *
      * @param key
      *            query parameter name
      * @param value
@@ -130,7 +130,7 @@ public final class URLBuilder {
         }
         return this;
     }
-    
+
     private URLBuilder addPathSeparaterIfNeeded() {
         if (url.length() > 0 && url.charAt(url.length() - 1) != '/') {
             url.append("/");
