@@ -17,9 +17,14 @@
                 <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentTranscriptAssociation.xml" />
             </bean>
         </entry>
-				<entry key="program">
+        <entry key="program">
             <bean class="org.milyn.Smooks">
                 <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/program.xml" />
+            </bean>
+        </entry>
+        <entry key="staffProgramAssociation">
+            <bean class="org.milyn.Smooks">
+                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffProgramAssociation.xml" />
             </bean>
         </entry>
     </util:map>
@@ -54,21 +59,38 @@
         <property name="searchPath" value="classpath:smooksEdFi2SLI/" />
     </bean>
 
-		<bean id="programTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
+    <bean id="programTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-				<property name="passThroughCollectionList" ref="programPassThroughCollectionList" />
+        <property name="passThroughCollectionList" ref="programPassThroughCollectionList" />
     </bean>
-		
-		<bean id="programString" class="java.lang.String">
-				<constructor-arg value="program"/>		
-		</bean>
-		
-		<bean id="programPassThroughCollectionList" class="java.util.ArrayList">
-				<constructor-arg>
-					<list>
-						<ref bean="programString" />
-					</list>
-				</constructor-arg>
+    
+    <bean id="staffProgramAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
+        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+        <property name="passThroughCollectionList" ref="staffProgramAssociationPassThroughCollectionList" />
+    </bean>
+    
+    <bean id="programString" class="java.lang.String">
+        <constructor-arg value="program"/>
+    </bean>
+    
+    <bean id="staffProgramAssociationString" class="java.lang.String">
+        <constructor-arg value="staffProgramAssociation"/>
+    </bean>
+
+    <bean id="programPassThroughCollectionList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref bean="programString" />
+            </list>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="staffProgramAssociationPassThroughCollectionList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref bean="staffProgramAssociationString" />
+            </list>
+        </constructor-arg>
     </bean>
 
 </beans>
