@@ -2,12 +2,10 @@ package org.slc.sli.ingestion.transformation;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -16,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.NeutralRecord;
 
 /**
- * Transformer for Program entities.
+ * Transformation strategy to persist data as-is, no actual transformation
  *
  * @author vmcglaughlin
  */
@@ -26,17 +24,16 @@ public class PassThroughTransformationStrategy extends AbstractTransformationStr
 
     private static final Logger LOG = LoggerFactory.getLogger(PassThroughTransformationStrategy.class);
 
-    private Map<String, Map<Object, NeutralRecord>> collections;
+    private Map<Object, NeutralRecord> collection;
 
-    @Autowired
-    private List<String> passThroughCollectionList;
+    private String passThroughCollectionName;
 
     public PassThroughTransformationStrategy() {
-        this.collections = new HashMap<String, Map<Object, NeutralRecord>>();
+        this.collection = new HashMap<Object, NeutralRecord>();
     }
 
     /**
-     * The chaining of transformation steps. This implementation assumes that all data will be
+     * The chaining of transformation steps. This implementation forces that all data will be
      * processed in "one-go"
      */
     @Override
@@ -46,35 +43,31 @@ public class PassThroughTransformationStrategy extends AbstractTransformationStr
         persist();
     }
 
-    public void loadData() {
+    private void loadData() {
         LOG.info("Loading data for transformation.");
 
-        if (passThroughCollectionList == null || passThroughCollectionList.isEmpty()) {
-            LOG.warn("No collections specified to pass through, null or empty");
+        if (passThroughCollectionName == null || passThroughCollectionName.isEmpty()) {
+            LOG.warn("Collection to pass through not specified, null or empty");
             return;
         }
 
-        for (String collection : passThroughCollectionList) {
-            loadCollectionFromDb(collection);
-            LOG.info("{} is loaded into local storage.  Total Count = {}", collection, collections.get(collection).size());
-        }
+        loadCollectionFromDb(passThroughCollectionName);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", passThroughCollectionName, collection.size());
      }
 
-    public void transform() {
+    private void transform() {
         LOG.info("Transforming data: No transformation, straight pass-through");
     }
 
-    public void persist() {
-        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : collections.entrySet()) {
-            LOG.info("Persisting {} data to storage.", collectionEntry.getKey());
+    private void persist() {
+        LOG.info("Persisting {} data to storage.", passThroughCollectionName);
 
-            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
+        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collection.entrySet()) {
 
-                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-                neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
+            NeutralRecord neutralRecord = neutralRecordEntry.getValue();
+            neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
 
-                getNeutralRecordMongoAccess().getRecordRepository().create(neutralRecord);
-            }
+            getNeutralRecordMongoAccess().getRecordRepository().create(neutralRecord);
         }
     }
 
@@ -84,13 +77,12 @@ public class PassThroughTransformationStrategy extends AbstractTransformationStr
      * @param collectionName
      */
     private void loadCollectionFromDb(String collectionName) {
-
         Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
 
+        @SuppressWarnings("deprecation")
         Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQuery(collectionName,
                 new Query(jobIdCriteria), 0, 0);
 
-        Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
         NeutralRecord tempNr;
 
         Iterator<NeutralRecord> iter = data.iterator();
@@ -98,21 +90,19 @@ public class PassThroughTransformationStrategy extends AbstractTransformationStr
             tempNr = iter.next();
             collection.put(tempNr.getRecordId(), tempNr);
         }
-
-        collections.put(collectionName, collection);
     }
 
     /**
-     * @return the passThroughCollectionList
+     * @return the passThroughCollectionName
      */
-    public List<String> getPassThroughCollectionList() {
-        return passThroughCollectionList;
+    public String getPassThroughCollectionName() {
+        return passThroughCollectionName;
     }
 
     /**
-     * @param passThroughCollectionList the passThroughCollectionList to set
+     * @param passThroughCollectionName the passThroughCollectionName to set
      */
-    public void setPassThroughCollectionList(List<String> passThroughCollectionList) {
-        this.passThroughCollectionList = passThroughCollectionList;
+    public void setPassThroughCollectionName(String passThroughCollectionName) {
+        this.passThroughCollectionName = passThroughCollectionName;
     }
 }

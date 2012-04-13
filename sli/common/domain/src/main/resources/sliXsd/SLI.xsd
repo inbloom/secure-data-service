@@ -1465,79 +1465,159 @@
         </xs:complexType>
     </xs:element>
 
-    <!-- <xs:element name="studentAcademicRecordsAssociation"> <xs:annotation>
-         <xs:documentation>This association contains the cumulative record of academic
-         achievements and the collection of student grades for the student at the
-         end of a semester or school year. </xs:documentation> </xs:annotation> <xs:complexType>
-         <xs:sequence> <xs:element name="studentId" type="xs:string"> <xs:annotation>
-         <xs:documentation>The student who was enrolled for the session. </xs:documentation>
-         </xs:annotation> </xs:element> <xs:element name="sessionId" type="xs:string">
-         <xs:annotation> <xs:documentation>The session the student was enrolled in.
-         </xs:documentation> </xs:annotation> </xs:element> <xs:element name="studentTranscriptAssociationId"
-         type="xs:string"> <xs:annotation> <xs:documentation>Grades for the classes
-         attended by the student for this grading period.</xs:documentation> </xs:annotation>
-         </xs:element> <xs:element name="GPAGivenGradingPeriod" type="xs:double">
-         <xs:annotation> <xs:documentation>A measure of average performance in all
-         courses taken by an individual for the current grading period. </xs:documentation>
-         </xs:annotation> </xs:element> <xs:element name="GPACumulative" type="xs:double">
-         <xs:annotation> <xs:documentation>A measure of cumulative average performance
-         in all courses taken by an individual from the beginning of the school year
-         through the current grading period. </xs:documentation> </xs:annotation>
-         </xs:element> <xs:element name="numberOfDaysAbsent" minOccurs="0"> <xs:annotation>
-         <xs:documentation>The number of days an individual is absent when school
-         is in session during a given reporting period. </xs:documentation> </xs:annotation>
-         <xs:simpleType> <xs:restriction base="xs:double"> <xs:minInclusive value="0"
-         /> </xs:restriction> </xs:simpleType> </xs:element> <xs:element name="numberOfDaysInAttendance"
-         minOccurs="0"> <xs:annotation> <xs:documentation>The number of days an individual
-         is present when school is in session during a given reporting period. </xs:documentation>
-         </xs:annotation> <xs:simpleType> <xs:restriction base="xs:double"> <xs:minInclusive
-         value="0" /> </xs:restriction> </xs:simpleType> </xs:element> <xs:element
-         name="numberOfDaysTardy" minOccurs="0"> <xs:annotation> <xs:documentation>The
-         number of days an individual is tardy during a given reporting period.</xs:documentation>
-         </xs:annotation> <xs:simpleType> <xs:restriction base="xs:int"> <xs:minInclusive
-         value="0" /> </xs:restriction> </xs:simpleType> </xs:element> <xs:element
-         name="cumulativeCreditsEarned" type="credits" minOccurs="0"> <xs:annotation>
-         <xs:documentation>The cumulative number of credits an individual earns by
-         completing courses or examinations during his or her enrollment in the current
-         school as well as those credits transferred from schools in which the individual
-         had been previously enrolled.</xs:documentation> </xs:annotation> </xs:element>
-         <xs:element name="cumulativeCreditsAttempted" type="credits" minOccurs="0">
-         <xs:annotation> <xs:documentation>The cumulative number of credits an individual
-         attempts to earn by taking courses during his or her enrollment in the current
-         school as well as those credits transferred from schools in which the individual
-         had been previously enrolled. </xs:documentation> </xs:annotation> </xs:element>
-         <xs:element name="cumulativeGradePointsEarned" type="xs:double" minOccurs="0">
-         <xs:annotation> <xs:documentation>The cumulative number of grade points an
-         individual earns by successfully completing courses or examinations during
-         his or her enrollment in the current school as well as those transferred
-         from schools in which the individual had been previously enrolled.</xs:documentation>
-         </xs:annotation> </xs:element> <xs:element name="cumulativeGradePointAverage"
-         type="xs:double" minOccurs="0"> <xs:annotation> <xs:documentation>A measure
-         of average performance in all courses taken by an individual during his or
-         her school career as determined for record-keeping purposes. This is obtained
-         by dividing the total grade points received by the total number of credits
-         attempted. This usually includes grade points received and credits attempted
-         in his or her current school as well as those transferred from schools in
-         which the individual was previously enrolled.</xs:documentation> </xs:annotation>
-         </xs:element> <xs:element name="gradeValueQualifier" type="gradeValueQualifier"
-         minOccurs="0"> <xs:annotation> <xs:documentation>The scale of equivalents,
-         if applicable, for grades awarded as indicators of performance in schoolwork.
-         For example, numerical equivalents for letter grades used in determining
-         a student's Grade Point Average (A=4, B=3, C=2, D=1 in a four-point system)
-         or letter equivalents for percentage grades (90-100%=A, 80-90%=B, etc.).
-         </xs:documentation> </xs:annotation> </xs:element> <xs:element name="classRanking"
-         type="classRanking" minOccurs="0"> <xs:annotation> <xs:documentation>The
-         academic rank information of a student in relation to his or her graduating
-         class.</xs:documentation> </xs:annotation> </xs:element> <xs:element name="academicHonors"
-         type="academicHonor" minOccurs="0" maxOccurs="unbounded"> <xs:annotation>
-         <xs:documentation>Academic distinctions earned by or awarded to the student.</xs:documentation>
-         </xs:annotation> </xs:element> <xs:element name="recognitions" type="recognition"
-         minOccurs="0" maxOccurs="unbounded"> <xs:annotation> <xs:documentation>Recognitions
-         given to the student for accomplishments in a co-curricular, or extra-curricular
-         activity. </xs:documentation> </xs:annotation> </xs:element> <xs:element
-         name="projectedGraduationDate" type="xs:date" minOccurs="0"> <xs:annotation>
-         <xs:documentation>The month and year the student is projected to graduate.</xs:documentation>
-         </xs:annotation> </xs:element> </xs:sequence> </xs:complexType> </xs:element> -->
+    <xs:element name="studentAcademicRecord">
+        <xs:annotation>
+            <xs:documentation>This association contains the cumulative
+                record of academic
+                achievements and the collection of student grades for the student at the
+                end of a semester or school year.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="studentId" type="reference">
+                    <xs:annotation>
+                        <xs:documentation>The student who was enrolled for
+                            the session.
+                        </xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>student</sli:ReferenceType>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="sessionId" type="reference">
+                    <xs:annotation>
+                        <xs:documentation>Grades for the classes
+                            attended by the student for this grading period.
+                        </xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>session</sli:ReferenceType>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <!--
+                <xs:element name="GPAGivenGradingPeriod" type="xs:double">
+                    <xs:annotation>
+                        <xs:documentation>The
+                            number of days an individual is tardy during a given reporting period.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:int">
+                                        <xs:minInclusive value="0" />
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                -->
+                <xs:element name="cumulativeCreditsEarned" type="credits"
+                            minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>The cumulative number of credits
+                            an individual earns by
+                            completing courses or examinations during his or her enrollment in the
+                            current
+                            school as well as those credits transferred from schools in which the
+                            individual
+                            had been previously enrolled.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="cumulativeCreditsAttempted"
+                            type="credits" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>The cumulative number of credits
+                            an individual
+                            attempts to earn by taking courses during his or her enrollment in the
+                            current
+                            school as well as those credits transferred from schools in which the
+                            individual
+                            had been previously enrolled.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="cumulativeGradePointsEarned"
+                            type="xs:double" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>The cumulative number of grade
+                            points an
+                            individual earns by successfully completing courses or examinations during
+                            his or her enrollment in the current school as
+                            well as those transferred
+                            from schools in which the individual had been previously enrolled.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="cumulativeGradePointAverage"
+                            type="xs:double" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>A measure
+                            of average performance in all courses taken by an individual during
+                            his or
+                            her school career as determined for record-keeping purposes. This is
+                            obtained
+                            by dividing the total grade points received by the total number of
+                            credits
+                            attempted. This usually includes grade points received and credits attempted
+                            in his or her current school as well as those
+                            transferred from schools in
+                            which the individual was previously enrolled.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="gradeValueQualifier" type="gradeValueQualifier"
+                            minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>The scale of equivalents,
+                            if applicable, for grades awarded as indicators of performance in
+                            schoolwork.
+                            For example, numerical equivalents for letter grades used in
+                            determining
+                            a student's Grade Point Average (A=4, B=3, C=2, D=1 in a four-point
+                            system)
+                            or letter equivalents for percentage grades (90-100%=A, 80-90%=B,
+                            etc.).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="classRanking" type="classRanking"
+                            minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>The
+                            academic rank information of a student in relation to his or her
+                            graduating
+                            class.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="academicHonors" type="academicHonor"
+                            minOccurs="0" maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:documentation>Academic distinctions earned by or
+                            awarded to the student.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="recognitions" type="recognition"
+                            minOccurs="0" maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:documentation>Recognitions
+                            given to the student for accomplishments in a co-curricular, or
+                            extra-curricular
+                            activity.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="projectedGraduationDate" type="xs:date"
+                            minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>The month and year the student is
+                            projected to graduate.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 
     <xs:element name="staffProgramAssociation">
         <xs:annotation>

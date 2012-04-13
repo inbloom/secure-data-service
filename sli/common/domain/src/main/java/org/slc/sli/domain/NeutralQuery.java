@@ -3,6 +3,7 @@ package org.slc.sli.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * A neutral query contains a list of criteria that is independent of any specific database implementation.
  * 
@@ -41,7 +42,7 @@ public class NeutralQuery {
         this.queryCriteria = new ArrayList<NeutralCriteria>();
         this.orQueries = new ArrayList<NeutralQuery>();
         this.offset = 0;
-        this.limit = 0;
+        this.limit = 50;
     }
     
 

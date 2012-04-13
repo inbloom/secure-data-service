@@ -21,6 +21,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.v1.entity.StudentResource;
+import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -263,6 +264,29 @@ public class DefaultCrudEndPointTest {
         
         assertEquals("Should only have one", 1, entities.size());
         assertEquals("Should match", body, entities.get(0));
+    }
+
+    @Test
+    public void testExtractOptionalFieldParams() {
+        Map<String, String> values = crudEndPoint.extractOptionalFieldParams("attendances.1");
+        assertEquals("Should match", "attendances", values.get(OptionalFieldAppenderFactory.APPENDER_PREFIX));
+        assertEquals("Should match", "1", values.get(OptionalFieldAppenderFactory.PARAM_PREFIX));
+
+        values = crudEndPoint.extractOptionalFieldParams("attendances");
+        assertEquals("Should match", "attendances", values.get(OptionalFieldAppenderFactory.APPENDER_PREFIX));
+        assertEquals("Should match", null, values.get(OptionalFieldAppenderFactory.PARAM_PREFIX));
+
+        values = crudEndPoint.extractOptionalFieldParams("attendances.1.2.3");
+        assertEquals("Should match", "attendances", values.get(OptionalFieldAppenderFactory.APPENDER_PREFIX));
+        assertEquals("Should match", "1", values.get(OptionalFieldAppenderFactory.PARAM_PREFIX));
+
+        values = crudEndPoint.extractOptionalFieldParams("attendances%1");
+        assertEquals("Should match", "attendances%1", values.get(OptionalFieldAppenderFactory.APPENDER_PREFIX));
+        assertEquals("Should match", null, values.get(OptionalFieldAppenderFactory.PARAM_PREFIX));
+
+        values = crudEndPoint.extractOptionalFieldParams("attendances.someparam");
+        assertEquals("Should match", "attendances", values.get(OptionalFieldAppenderFactory.APPENDER_PREFIX));
+        assertEquals("Should match", "someparam", values.get(OptionalFieldAppenderFactory.PARAM_PREFIX));
     }
     
     @Test

@@ -21,7 +21,7 @@ final class Uml2XsdSyntheticHasName implements HasName {
     public QName getName() {
         final Occurs upperBound = end.getMultiplicity().getRange().getUpper();
         final boolean plural = Occurs.UNBOUNDED.equals(upperBound);
-        return adjustPlurality(camelCase(end.getType().getName()), plural);
+        return adjustPlurality(Uml2XsdTools.camelCase(end.getType().getName()), plural);
     }
     
     private static final QName adjustPlurality(final QName name, final boolean plural) {
@@ -31,10 +31,5 @@ final class Uml2XsdSyntheticHasName implements HasName {
         } else {
             return name;
         }
-    }
-    
-    private static final QName camelCase(final QName name) {
-        final String text = name.getLocalPart();
-        return new QName(text.substring(0, 1).toLowerCase().concat(text.substring(1)));
     }
 }

@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+
 require 'optparse'
 require 'mongo'
 
@@ -56,7 +58,7 @@ puts "Inserting tenant #{tenant} with country #{country} and state #{state}"
 
 coll.update({ "tenantId" => tenant}, { "$set" =>
     { "tenantId" => tenant,
-      "geograpicLocation" => {
+      "geographicLocation" => {
           "country" => country,
           "region" => state
        },

@@ -52,6 +52,10 @@ public class MockAPIClient implements APIClient {
     public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
         return getStudents(token, studentIds);
     }
+
+    public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId) {
+        return null;
+    }
     
     @Override
     public List<GenericEntity> getStudents(final String token, List<String> studentIds) {
@@ -369,6 +373,18 @@ public class MockAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getStudentEnrollment(final String token,
             GenericEntity student) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getHeader(String token) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getFooter(String token) {
         // TODO Auto-generated method stub
         return null;
     }

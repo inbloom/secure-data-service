@@ -7,7 +7,7 @@ import javax.xml.namespace.QName;
 /**
  * The end of an association between two classes.
  */
-public final class AssociationEnd extends AbstractModelElement implements HasName, HasType {
+public final class AssociationEnd extends AbstractModelElementWithLookup implements HasName, HasType, HasMultiplicity {
     /**
      * The multiplicity of the association end. Typically 0 or 1. Never <code>null</code>.
      */
@@ -28,7 +28,7 @@ public final class AssociationEnd extends AbstractModelElement implements HasNam
     public AssociationEnd(final Multiplicity multiplicity, final QName name, final boolean isNavigable,
             final Identifier id, final List<TaggedValue> taggedValues, final Reference reference,
             final LazyLookup lookup) {
-        super(id, taggedValues, lookup);
+        super(id, ReferenceType.ASSOCIATION_END, taggedValues, lookup);
         if (name == null) {
             throw new NullPointerException("name");
         } else if (name.getLocalPart().trim().isEmpty()) {
@@ -70,8 +70,13 @@ public final class AssociationEnd extends AbstractModelElement implements HasNam
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("{");
-        // sb.append("id: " + id).append(", ");
-        sb.append("reference: " + getType().getName());
+        sb.append("id: " + getId());
+        sb.append(", ");
+        if (lookup.isEnabled()) {
+            sb.append("reference: " + lookup.getType(reference).getName());
+        } else {
+            sb.append("reference: " + reference);
+        }
         sb.append(", ");
         sb.append("multiplicity: " + multiplicity);
         if (!getTaggedValues().isEmpty()) {
