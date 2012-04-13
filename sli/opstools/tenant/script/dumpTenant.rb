@@ -8,7 +8,7 @@ db = "sli"
 table = "tenant"
 
 opts = OptionParser.new do |opts|
-    opts.banner = "Usage: addTenant [-m mongo=#{mongo}]"
+    opts.banner = "Usage: dropTenant [-m mongo=#{mongo}]"
     opts.on('-m mongo', '--mongo mongo', 'Mono Host server')     { |m| mongo = m }
     opts.on('-h', '--help', 'Display command line options') do
         puts opts
@@ -32,11 +32,5 @@ if coll == nil then
     exit
 end
 
-puts "Removing collection"
-r = coll.remove
-if r then
-    puts "Collection removed"
-else
-    puts "Collection removal failed; exiting."
-    exit
-end
+puts "Dumping collection"
+r = coll.find.each { |row| puts row.inspect }
