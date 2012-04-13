@@ -1,27 +1,19 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
-import java.util.Enumeration;
-import java.util.HashMap;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LandingZone;
-import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
-import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
-import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
@@ -36,9 +28,6 @@ import org.slc.sli.ingestion.queues.MessageType;
 public class ControlFilePreProcessor implements Processor {
 
     private LandingZone landingZone;
-
-    @Autowired
-    private ControlFileValidator validator;
 
     Logger log = LoggerFactory.getLogger(ZipFileProcessor.class);
 
@@ -100,25 +89,6 @@ public class ControlFilePreProcessor implements Processor {
             ControlFile cf = ControlFile.parse(controlFile);
 
             newJob.setTotalFiles(cf.getFileEntries().size());
-
-            HashMap<String, String> batchProperties = new HashMap<String, String>();
-            Enumeration<Object> keys = cf.getConfigProperties().keys();
-            Enumeration<Object> elements = cf.getConfigProperties().elements();
-
-            while (keys.hasMoreElements()) {
-                String key = keys.nextElement().toString();
-                String element = elements.nextElement().toString();
-                batchProperties.put(key, element);
-            }
-            newJob.setBatchProperties(batchProperties);
-
-            for (IngestionFileEntry file : cf.getFileEntries()) {
-                ResourceEntry resourceEntry = new ResourceEntry();
-                resourceEntry.update(file.getFileFormat().toString(), file.getFileType().getName(), file.getChecksum(), 0, 0);
-                resourceEntry.setResourceName(newJob.getSourceId() + file.getFileName());
-                resourceEntry.setResourceId(file.getFileName());
-                newJob.getResourceEntries().add(resourceEntry);
-            }
 
             stage.stopStage();
             newJob.getStages().add(stage);
@@ -182,50 +152,6 @@ public class ControlFilePreProcessor implements Processor {
 
             newJob.setTotalFiles(cf.getFileEntries().size());
 
-            HashMap<String, String> batchProperties = new HashMap<String, String>();
-            Enumeration<Object> keys = cf.getConfigProperties().keys();
-            Enumeration<Object> elements = cf.getConfigProperties().elements();
-
-            while (keys.hasMoreElements()) {
-                String key = keys.nextElement().toString();
-                String element = elements.nextElement().toString();
-                batchProperties.put(key, element);
-            }
-            newJob.setBatchProperties(batchProperties);
-
-            FaultsReport errorReport = new FaultsReport();
-            ControlFileDescriptor cfd = new ControlFileDescriptor(cf, landingZone);
-
-            //TODO Deal with validator being autowired in BatchJobAssembler
-            // This code should live there anyway.
-            if (validator.isValid(cfd, errorReport)) {
-                    for (IngestionFileEntry file : cf.getFileEntries()) {
-                    ResourceEntry resourceEntry = new ResourceEntry();
-                    resourceEntry.update(file.getFileFormat().toString(), file.getFileType().getName(), file.getChecksum(), 0, 0);
-                    resourceEntry.setResourceName(newJob.getSourceId() + file.getFileName());
-                    resourceEntry.setResourceId(file.getFileName());
-                    newJob.getResourceEntries().add(resourceEntry);
-                }
-            }
-
-            Error.writeErrorsToMongo(batchJobId, errorReport);
-/**
-            if (errorReport.hasErrors()) {
-                List<Fault> faults = errorReport.getFaults();
-                for ( Fault fault : faults ) {
-                    String errorType = new String();
-                    if (fault.isError()) {
-                        errorType = "ERROR";
-                    } else if (fault.isWarning()) {
-                        errorType = "WARNING";
-                    } else {
-                        errorType = "OTHER";
-                    }
-                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSING,
-                            FaultType.TYPE_ERROR.getName(), errorType, fault.getMessage());
-                }
-            }
-*/
             stage.stopStage();
             newJob.getStages().add(stage);
             batchJobDAO.saveBatchJob(newJob);

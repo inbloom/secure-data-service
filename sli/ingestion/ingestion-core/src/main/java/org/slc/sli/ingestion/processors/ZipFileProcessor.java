@@ -128,29 +128,12 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             exchange.getIn().setHeader("BatchJobId", batchJobId);
             BatchJobDAO batchJobDAO = new BatchJobMongoDA();
 
-//            ErrorReport errorReport = job.getFaultsReport();
             FaultsReport errorReport = new FaultsReport();
 
             File ctlFile = handler.handle(zipFile, errorReport);
 
             Error.writeErrorsToMongo(batchJobId, errorReport);
-/**
-            if (errorReport.hasErrors()) {
-                List<Fault> faults = errorReport.getFaults();
-                for ( Fault fault : faults ) {
-                    String errorType = new String();
-                    if (fault.isError()) {
-                        errorType = "ERROR";
-                    } else if (fault.isWarning()) {
-                        errorType = "WARNING";
-                    } else {
-                        errorType = "OTHER";
-                    }
-                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSING,
-                            FaultType.TYPE_ERROR.getName(), errorType, fault.getMessage());
-                }
-            }
-*/
+
             ResourceEntry resourceName = new ResourceEntry();
             resourceName.setResourceName(zipFile.getName());
             newJob.getResourceEntries().add(resourceName);

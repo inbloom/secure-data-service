@@ -1,5 +1,8 @@
 package org.slc.sli.ingestion.processors;
 
+import java.util.Enumeration;
+import java.util.HashMap;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
@@ -10,9 +13,15 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
+import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
+import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
@@ -27,6 +36,9 @@ import org.slc.sli.util.performance.Profiled;
  */
 @Component
 public class ControlFileProcessor implements Processor {
+
+    @Autowired
+    private ControlFileValidator validator;
 
     private Logger log = LoggerFactory.getLogger(ControlFileProcessor.class);
 
@@ -72,6 +84,27 @@ public class ControlFileProcessor implements Processor {
 
             BatchJob job = getJobAssembler()
                     .assembleJob(cfd, (String) exchange.getIn().getHeader("CamelFileNameOnly"));
+
+            ControlFile cf = cfd.getFileItem();
+
+            HashMap<String, String> batchProperties = new HashMap<String, String>();
+            Enumeration<Object> keys = cf.getConfigProperties().keys();
+            Enumeration<Object> elements = cf.getConfigProperties().elements();
+
+            while (keys.hasMoreElements()) {
+                String key = keys.nextElement().toString();
+                String element = elements.nextElement().toString();
+                batchProperties.put(key, element);
+            }
+            newJob.setBatchProperties(batchProperties);
+
+            for (IngestionFileEntry file : cf.getFileEntries()) {
+                ResourceEntry resourceEntry = new ResourceEntry();
+                resourceEntry.update(file.getFileFormat().toString(), file.getFileType().getName(), file.getChecksum(), 0, 0);
+                resourceEntry.setResourceName(newJob.getSourceId() + file.getFileName());
+                resourceEntry.setResourceId(file.getFileName());
+                newJob.getResourceEntries().add(resourceEntry);
+            }
 
             long endTime = System.currentTimeMillis();
             log.info("Assembled batch job [{}] in {} ms", job.getId(), endTime - startTime);
@@ -129,10 +162,41 @@ public class ControlFileProcessor implements Processor {
 
             ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
 
-            //TODO Double-check, but I no longer think this is necessary.  The
-            // filenames are already persisted in the database from the pre-processor step
+
 //            BatchJob job = getJobAssembler()
 //                    .assembleJob(cfd, (String) exchange.getIn().getHeader("CamelFileNameOnly"));
+
+            // TODO This code is basically the new job assembler.  move it to a
+            // better place.
+            ControlFile cf = cfd.getFileItem();
+
+            HashMap<String, String> batchProperties = new HashMap<String, String>();
+            Enumeration<Object> keys = cf.getConfigProperties().keys();
+            Enumeration<Object> elements = cf.getConfigProperties().elements();
+
+            while (keys.hasMoreElements()) {
+                String key = keys.nextElement().toString();
+                String element = elements.nextElement().toString();
+                batchProperties.put(key, element);
+            }
+            newJob.setBatchProperties(batchProperties);
+
+            FaultsReport errorReport = new FaultsReport();
+//            ControlFileDescriptor cfd = new ControlFileDescriptor(cf, landingZone);
+
+            //TODO Deal with validator being autowired in BatchJobAssembler
+            // This code should live there anyway.
+            if (validator.isValid(cfd, errorReport)) {
+                for (IngestionFileEntry file : cf.getFileEntries()) {
+                    ResourceEntry resourceEntry = new ResourceEntry();
+                    resourceEntry.update(file.getFileFormat().toString(), file.getFileType().getName(), file.getChecksum(), 0, 0);
+                    resourceEntry.setResourceName(newJob.getSourceId() + file.getFileName());
+                    resourceEntry.setResourceId(file.getFileName());
+                    newJob.getResourceEntries().add(resourceEntry);
+                }
+            }
+
+            Error.writeErrorsToMongo(batchJobId, errorReport);
 
             long endTime = System.currentTimeMillis();
             log.info("Assembled batch job [{}] in {} ms", newJob.getId(), endTime - startTime);
@@ -150,7 +214,7 @@ public class ControlFileProcessor implements Processor {
             exchange.getIn().setBody(newJob, NewBatchJob.class);
 
             // set headers
-            // TODO FIX THIS HAS ERRORS SECTION
+            // This error section is now handled by the writeErrorsToMongo above
 //            exchange.getIn().setHeader("hasErrors", job.getFaultsReport().hasErrors());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BULK_TRANSFORM_REQUEST.name());
 
