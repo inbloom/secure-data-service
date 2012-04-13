@@ -142,7 +142,7 @@ end
 
 def dirContainsBatchJobLog?(dir)
   Dir.foreach(dir) do |file|
-    if /^job-.*.log$/.match file
+    if /^job-#{@source_file_name}.*.log$/.match file
       return true
     end
   end
@@ -164,7 +164,7 @@ When /^a batch job log has been created$/ do
 
     iters.times do |i|
       @findJobLog = runShellCommand(File.dirname(__FILE__) + "/../../util/findJobLog.sh")
-      if /job-.*.log/.match @findJobLog
+      if /job-#{@source_file_name}.*.log/.match @findJobLog
         puts "Result of find job log: " + @findJobLog
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true

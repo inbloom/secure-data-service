@@ -3,7 +3,7 @@ package org.slc.sli.test.generators;
 import org.slc.sli.test.edfi.entities.AssessmentPeriodDescriptor;
 import org.slc.sli.test.edfi.entities.AssessmentPeriodDescriptorType;
 import org.slc.sli.test.edfi.entities.ObjectFactory;
-import org.slc.sli.test.edfi.entities.relations.AssessmentPeriodDescriptorMeta;
+import org.slc.sli.test.edfi.entities.meta.AssessmentPeriodDescriptorMeta;
 
 public class AssessmentPeriodDescriptorGenerator {
 

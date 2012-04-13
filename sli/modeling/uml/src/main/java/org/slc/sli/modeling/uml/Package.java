@@ -13,8 +13,8 @@ public final class Package extends AbstractModelElement implements HasName {
     private final Model ownedElements;
     
     public Package(final QName name, final Identifier id, final List<TaggedValue> taggedValues,
-            final Model ownedElements, final LazyLookup lookup) {
-        super(id, taggedValues, lookup);
+            final Model ownedElements) {
+        super(id, ReferenceType.PACKAGE, taggedValues);
         if (name == null) {
             throw new NullPointerException("name");
         }

@@ -16,6 +16,7 @@
     <module>domain</module>
     <module>common-test-data</module>
     <module>common-util</module>
+    <module>common-encrypt</module>
   </modules>
 
   <dependencyManagement>
