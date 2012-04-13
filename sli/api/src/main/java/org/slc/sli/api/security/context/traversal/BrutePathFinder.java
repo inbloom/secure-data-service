@@ -9,6 +9,7 @@ import java.util.Stack;
 import javax.annotation.PostConstruct;
 
 import org.slc.sli.api.config.EntityNames;
+import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,13 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap = new HashMap<String, SecurityNode>();
         nodeMap.put(EntityNames.TEACHER,
                 SecurityNodeBuilder.buildNode("teacher")
+                        .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)
                         .addConnection(EntityNames.SECTION, "sectionId", EntityNames.TEACHER_SECTION_ASSOCIATION)
+                        .construct());
+        nodeMap.put(
+                EntityNames.SCHOOL,
+                SecurityNodeBuilder.buildNode(EntityNames.SCHOOL)
+                        .addConnection(EntityNames.TEACHER, "teacherId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)
                         .construct());
         nodeMap.put(EntityNames.SECTION,
                 SecurityNodeBuilder.buildNode(EntityNames.SECTION)

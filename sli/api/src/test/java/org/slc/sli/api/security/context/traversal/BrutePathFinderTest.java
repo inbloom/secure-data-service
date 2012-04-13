@@ -4,6 +4,7 @@ import static junit.framework.Assert.assertTrue;
 
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,15 +28,20 @@ public class BrutePathFinderTest {
 
     @Autowired
     private BrutePathFinder pathFinder;
+    private List<SecurityNode> path;
 
     @Before
     public void setUp() throws Exception {
-
+        path = null;
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+        path = null;
     }
 
     @Test
     public void testGetSimplePath() throws Exception {
-        List<SecurityNode> path = null;
         path = pathFinder.find("teacher", "student");
         assertTrue(path.size() == 3);
         assertTrue(path.get(0).getName().equals("teacher"));
@@ -45,7 +51,6 @@ public class BrutePathFinderTest {
 
     @Test
     public void testGet2PartPath() throws Exception {
-        List<SecurityNode> path = null;
         path = pathFinder.find("teacher", "section");
         assertTrue(path.size() == 2);
         assertTrue(path.get(0).getName().equals("teacher"));
@@ -54,11 +59,17 @@ public class BrutePathFinderTest {
 
     @Test
     public void testReverseFind() throws Exception {
-        List<SecurityNode> path = null;
         path = pathFinder.find("student", "teacher");
         assertTrue(path.size() == 3);
         assertTrue(path.get(0).getName().equals("student"));
         assertTrue(path.get(1).getName().equals("section"));
         assertTrue(path.get(2).getName().equals("teacher"));
+    }
+    
+    @Test
+    public void testOneStepFind() throws Exception {
+        path = pathFinder.find("teacher", "teacher");
+        assertTrue(path.size() == 3);
+        assertTrue(path.get(0).getName().equals("teacher"));
     }
 }
