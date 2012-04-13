@@ -131,7 +131,7 @@ end
 task :appInit do
   setFixture("application", "application_fixture.json")
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
-  setFixture("oauth_access_token", "oauth_authentication_tokens.json")
+  setFixture("userSession", "oauth_authentication_tokens.json")
 end
 
 # This task will be used for end-to-end integration tests but currently just run all
