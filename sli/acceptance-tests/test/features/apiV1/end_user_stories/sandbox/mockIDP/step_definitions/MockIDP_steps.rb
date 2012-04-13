@@ -27,7 +27,7 @@ Given /^I navigate to sample app web page$/ do
 end
 
 Then /^I will be redirected to realm selector web page$/ do
-
+  puts @driver.current_url
   assert(@driver.current_url.include?("/api/oauth/authorize"))
 end
 
