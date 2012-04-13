@@ -120,6 +120,7 @@ public class Config {
         protected String entity;
         protected String alias;
         protected Map<String, Object> params;
+        protected boolean lazy;
         
         public Data() {
         }
@@ -142,9 +143,8 @@ public class Config {
             return params;
         }
         
-        @Override
-        public String toString() {
-            return "Data [entityRef=" + entity + ", entityAlias=" + alias + ", params=" + params + "]";
+        public boolean isLazy() {
+            return lazy;
         }
     }
     

@@ -18,6 +18,7 @@ public interface Manager {
      */
     @Target(value = { ElementType.METHOD })
     @Retention(RetentionPolicy.RUNTIME)
+    @java.lang.annotation.Inherited
     public @interface EntityMapping {
         String value();
     }

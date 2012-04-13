@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import ch.qos.logback.classic.Logger;
-
+import org.slf4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -19,7 +18,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class OfflineTool {
 
-    private Logger logger = LoggerUtil.getLogger();
+    private static Logger logger = LoggerUtil.getLogger();
     public static void main(String[] args) throws IOException {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
 
@@ -53,6 +52,7 @@ public class OfflineTool {
             if (file.isDirectory()) {
                 logger.error("Illegal option - directory path. Expecting a Zip or a Ctl file");
                 logger.error("Usage: " + appName + " [Zip/Ctl File]");
+                return;
             }
         }
         Date date = new Date();

@@ -74,7 +74,7 @@ public class StudentGradebookOptionalFieldAppenderTest {
         List<EntityBody> entities = new ArrayList<EntityBody>();
         entities.add(new EntityBody(createTestStudentEntityWithSectionAssociation(STUDENT_ID, SECTION_ID)));
 
-        entities = studentGradebookOptionalFieldAppender.applyOptionalField(entities);
+        entities = studentGradebookOptionalFieldAppender.applyOptionalField(entities, null);
         assertEquals("Should be 1", 1, entities.size());
 
         List<EntityBody> studentSectionGradebookAssociations = (List<EntityBody>) entities.get(0).get("studentSectionGradebookEntries");

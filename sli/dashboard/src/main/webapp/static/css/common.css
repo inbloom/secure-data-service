@@ -138,7 +138,7 @@ h7 {
 .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br { }
 
 /** JQGrid overrides */
-.ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column {
+.ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column-header {
     background: url("../images/ui-bg_glass_65_ffffff_1x400.png") repeat-x scroll 50% 50% #FFFFFF;
     border-bottom: 2px solid #000000;
     border-right: 0px none;
@@ -148,6 +148,7 @@ h7 {
     font-weight: normal;
     font-size:13px;
 }
+
 th.ui-th-column div {
     white-space: normal !important;
     height: auto !important;

@@ -11,5 +11,5 @@ import org.slc.sli.api.representation.EntityBody;
  *
  */
 public interface OptionalFieldAppender {
-    public List<EntityBody> applyOptionalField(List<EntityBody> entities);
+    public List<EntityBody> applyOptionalField(List<EntityBody> entities, String parameters);
 }

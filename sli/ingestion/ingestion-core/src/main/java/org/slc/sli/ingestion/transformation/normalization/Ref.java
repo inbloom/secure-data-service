@@ -11,6 +11,8 @@ import java.util.List;
 public class Ref {
     private String collectionName;
     private List<List<Field>> choiceOfFields;
+    private boolean isRefList = false;
+    private String refObjectPath;
 
     public String getCollectionName() {
         return collectionName;
@@ -26,6 +28,22 @@ public class Ref {
 
     public void setChoiceOfFields(List<List<Field>> choiceOfFields) {
         this.choiceOfFields = choiceOfFields;
+    }
+    
+    public boolean isRefList() {
+        return isRefList;
+    }
+
+    public void setIsRefList(boolean isRefList) {
+        this.isRefList = isRefList;
+    }
+    
+    public String getRefObjectPath() {
+        return refObjectPath;
+    }
+
+    public void setRefObjectPath(String refObjectPath) {
+        this.refObjectPath = refObjectPath;
     }
 
 }

@@ -205,7 +205,14 @@ public class NeutralRecordfEntityPersistHandlerTest {
         entityPersistHandler.doHandling(studentEntity, fr);
 
         Assert.assertTrue("Error report should contain errors", fr.hasErrors());
-        Assert.assertEquals("Entity student - Record 0: Missing or empty field <field>", fr.getFaults().get(0).getMessage());
+                String message = "ERROR: There has been a data validation error when saving an entity\n"
+                               + "       Error      REQUIRED_FIELD_MISSING\n"
+                               + "       Entity     student\n"
+                               + "       Instance   0\n"
+                               + "       Field      field\n"
+                               + "       Value      null\n"
+                               + "       Expected   [String]\n";
+        Assert.assertEquals(message, fr.getFaults().get(0).getMessage());
     }
 
     /**

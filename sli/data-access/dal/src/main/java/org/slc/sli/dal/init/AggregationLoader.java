@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,47 +44,58 @@ public class AggregationLoader {
 
     @PostConstruct
     public void init() {
-        try {
-            if (template != null) {
-                List<String> files = new ArrayList<String>();
-
-                files.add("cleanupFunctions/cleanupBodyAndId.js");
-                files.add("finalizeFunctions/finalizePerf1to4.js");
-
-                files.add("mapFunctions/mapDistrictPerf1to4.js");
-                files.add("mapFunctions/mapSchoolPerf1to4.js");
-                files.add("mapFunctions/mapSectionAttendance.js");
-                files.add("mapFunctions/mapTeacherPerf1to4.js");
-
-                files.add("other/uuid.js");
-                files.add("other/uuidhelpers.js");
-
-                files.add("reduceFunctions/reducePerf1to4.js");
-                files.add("reduceFunctions/reduceSectionAttendance.js");
-
-                if (loadJavascriptFiles(files)) {
-                    LOG.info("All aggregation definitions loaded.");
-                } else {
-                    LOG.warn("All aggregation definitions not loaded.");
-                }
+        if (template != null) {
+            if (loadJavascriptFiles(getFiles(), PATH_PREFIX)) {
+                LOG.info("All aggregation definitions loaded.");
+            } else {
+                LOG.warn("All aggregation definitions not loaded.");
             }
-        } catch (URISyntaxException e) {
-            LOG.warn("Could not load aggregation definitions {}", new Object[] {e});
         }
     }
 
     /**
+     * Retrieves the list of files to be loaded
+     * @return list of files to load
+     */
+    protected List<String> getFiles() {
+        List<String> files = new ArrayList<String>();
+
+        files.add("cleanupFunctions/cleanupBodyAndId.js");
+        files.add("finalizeFunctions/finalizePerf1to4.js");
+
+        files.add("mapFunctions/mapDistrictPerf1to4.js");
+        files.add("mapFunctions/mapSchoolPerf1to4.js");
+        files.add("mapFunctions/mapSectionAttendance.js");
+        files.add("mapFunctions/mapTeacherPerf1to4.js");
+
+        files.add("other/uuid.js");
+        files.add("other/uuidhelpers.js");
+
+        files.add("reduceFunctions/reducePerf1to4.js");
+        files.add("reduceFunctions/reduceSectionAttendance.js");
+
+        return files;
+    }
+
+    /**
      * Loads the javascript files from the given list
+     * @param pathPrefix
+     *            location of files to load
+     * @param files
+     *            list of files to load
      *
      * @return true if all definition folders process without producing any errors
      */
-    private boolean loadJavascriptFiles(List<String> files) throws URISyntaxException {
+    private boolean loadJavascriptFiles(List<String> files, String pathPrefix) {
 
         boolean allFilesLoaded = true;
 
         //go through and load the files
         for (String file : files) {
-            if (!loadJavascriptFile(file)) {
+            InputStream in = getClass().getResourceAsStream(pathPrefix + file);
+            String command = loadJavascriptFile(in);
+
+            if (!executeString(command)) {
                 allFilesLoaded = false;
             }
         }
@@ -96,33 +106,42 @@ public class AggregationLoader {
     /**
      * Loads a specific javascript file into Mongo's javascript shell.
      *
-     * @param fileName
-     *            name of the file to be loaded
-     * @return true if successful, false otherwise
+     * @param in
+     *          The input stream to read from
+     * @return the file loaded as a string
      */
-    private boolean loadJavascriptFile(String fileName) {
+    protected String loadJavascriptFile(InputStream in) {
 
         // file IO can throw IOException(s)
         try {
-            InputStream in = getClass().getResourceAsStream(PATH_PREFIX + fileName);
+
+            if (in == null) return "";
 
             StringBuffer fileData = new StringBuffer();
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String temp = br.readLine();
             while (temp != null) {
-                fileData.append(temp + "\n");
+                fileData.append(temp);
+                fileData.append("\n");
                 temp = br.readLine();
             }
             br.close();
             fileData.append("\n");
 
-            // tell mongo to execute what was just read from the file
-            // return OK status from command execution
-            return template.executeCommand("{\"$eval\":\"" + StringEscapeUtils.escapeJava(fileData.toString()) + "\"}")
-                    .ok();
+            return fileData.toString();
+
         } catch (IOException ioe) {
-            LOG.debug("Failed to load definition file: {}", fileName);
-            return false;
+            LOG.debug("Failed to load definition file");
+            return "";
         }
+    }
+
+    /**
+     * Executes a command given in a string
+     * @param command The command to execute against the mongo template
+     * @return true if command was executed successfully, false otherwise
+     */
+    private boolean executeString(String command) {
+        return template.executeCommand("{\"$eval\":\"" + StringEscapeUtils.escapeJava(command) + "\"}").ok();
     }
 }

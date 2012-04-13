@@ -142,7 +142,7 @@ end
 
 def dirContainsBatchJobLog?(dir)
   Dir.foreach(dir) do |file|
-    if /^job-.*.log$/.match file
+    if /^job-#{@source_file_name}.*.log$/.match file
       return true
     end
   end
@@ -164,7 +164,7 @@ When /^a batch job log has been created$/ do
 
     iters.times do |i|
       @findJobLog = runShellCommand(File.dirname(__FILE__) + "/../../util/findJobLog.sh")
-      if /job-.*.log/.match @findJobLog
+      if /job-#{@source_file_name}.*.log/.match @findJobLog
         puts "Result of find job log: " + @findJobLog
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
@@ -230,7 +230,8 @@ When /^local zip file is moved to ingestion landing zone$/ do
   assert(@destination_path != nil, "Destination path was nil")
   assert(@source_path != nil, "Source path was nil")
 
-  runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/remoteCopy.sh " + @source_path + " " + @destination_path);
+  runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/remoteCopy.sh");
+  @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/remoteCopy.sh " + @source_path + " " + @destination_path);
 
   assert(true, "File Not Uploaded")
 end
@@ -256,6 +257,12 @@ Then /^I should see following map of entry counts in the corresponding collectio
 
   assert(@result == "true", "Some records didn't load successfully.")
 end
+
+Then /^I should say that we started processing$/ do
+  puts "Ingestion Performance Dataset started Ingesting.  Please wait a few hours for it to complete."
+  assert(true, "Some records didn't load successfully.")
+end
+
 
 Then /^I check to find if record is in collection:$/ do |table|
   @db   = @conn[INGESTION_DB_NAME]

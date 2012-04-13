@@ -55,12 +55,21 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         if (terminationError == null) {
 
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
+            
+            boolean writeRecord = true;
+            
+            if (neutralRecord.getRecordType().equals("studentAcademicRecord") && neutralRecord.getRecordId() != null) {
+                writeRecord = false;
+            }
+            
+            if (writeRecord) {
 
-            // Write NeutralRecord to file
-            nrfWriter.writeRecord(neutralRecord);
+                // Write NeutralRecord to file
+                nrfWriter.writeRecord(neutralRecord);
 
-            // write NeutralRecord to mongodb staging database
-            nrMongoStagingWriter.writeResource(neutralRecord);
+                // write NeutralRecord to mongodb staging database
+                nrMongoStagingWriter.writeResource(neutralRecord);
+            }
 
         } else {
 

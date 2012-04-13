@@ -52,6 +52,7 @@ public class AuthController {
     
     private static final Pattern BASIC_AUTH = Pattern.compile("Basic (.+)", Pattern.CASE_INSENSITIVE);
     
+    
     @Autowired
     private EntityDefinitionStore store;
     
@@ -75,6 +76,19 @@ public class AuthController {
     }
     
     /**
+<<<<<<< HEAD
+=======
+     * Returns the Entity Service that will make calls to the oauth_access_token collection.
+     * 
+     * @return Entity Service.
+     */
+    public EntityService getOauthAccessTokenEntityService() {
+        EntityDefinition defn = store.lookupByResourceName("oauth_access_token");
+        return defn.getService();
+    }
+    
+    /**
+>>>>>>> master
      * Calls api to list available realms and injects into model
      * 
      * @param model
@@ -154,7 +168,7 @@ public class AuthController {
         
         String token = this.sessionManager.verify(authorizationCode, Pair.of(clientId, clientSecret));
         // OAuth2AccessToken token = granter.grant("authorization_code", parameters, tuple.getLeft(), tuple.getRight(), new HashSet<String>());
-        
+
         HttpHeaders headers = new HttpHeaders();
         headers.set("Cache-Control", "no-store");
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -211,7 +225,9 @@ public class AuthController {
         
         LOG.debug("redirecting to: {}", endpoint);
         
-        return "redirect:" + endpoint + "?SAMLRequest=" + tuple.getRight();
+        String redirectUrl = endpoint.contains("?") ? endpoint + "&SAMLRequest=" + tuple.getRight() : endpoint
+                + "?SAMLRequest=" + tuple.getRight();
+        return "redirect:" + redirectUrl;
     }
     
     @SuppressWarnings("unchecked")

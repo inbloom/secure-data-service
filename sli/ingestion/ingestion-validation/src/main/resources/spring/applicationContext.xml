@@ -12,10 +12,14 @@
 <import resource="classpath:/spring/validation-context.xml" />
 <import resource="classpath:/spring/handler-context.xml" />
 
-  <util:list id="validators" value-type="org.slc.sli.ingestion.validation.SimpleValidatorSpring">
+  <util:list id="validatorsList" value-type="org.slc.sli.ingestion.validation.SimpleValidatorSpring">
       <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
       <ref bean="xsdValidator"/>
   </util:list>
+
+  <bean id="complexValidator" class="org.slc.sli.ingestion.validation.ComplexValidator">
+      <property name="validators" ref="validatorsList" />
+  </bean>
 
     <bean id="OfflineTool" class="org.slc.sli.ingestion.tool.OfflineTool">
         <property name="controller" ref="validationController" />
@@ -28,6 +32,6 @@
     <bean id="validationController" class="org.slc.sli.ingestion.tool.ValidationController">
         <property name="zipFileHandler" ref="zipFileHandler"/>
         <property name="batchJobAssembler" ref="batchJobAssembler"/>
-        <property name="validators" ref="validators"/>
+        <property name="ComplexValidator" ref="complexValidator"/>
      </bean>
 </beans>

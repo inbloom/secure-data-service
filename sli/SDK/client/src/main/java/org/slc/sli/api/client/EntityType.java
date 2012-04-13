@@ -1,6 +1,5 @@
 package org.slc.sli.api.client;
 
-
 /**
  * 
  * Enumeration of available entity types in SLI. Entities are currently mapped to
@@ -14,73 +13,86 @@ public enum EntityType {
      * naming conventions between entity type name, ReST path, and entity type reported by the API
      * in JSON. If these become reconciled, this enum becomes simple.
      */
-    
+
+    /** resource for security session check */
+    SECURITY_SESSION_CHECK("securitySessionCheck", "system/session/check"),
+
+    /** resource for security session logout */
+    SECURITY_SESSION_LOGOUT("securitySessionLogout", "system/session/logout"),
+
+    /** resource for security session check */
+    SECURITY_SESSION_DEBUG("securitySessionDebug", "system/session/debug"),
+
     /** association destinations, the exact content depends on context. */
     TARGETS(null, "targets"),
-    
+
     /** sections that define the classes available during a session. */
     SECTIONS("section", "sections"),
-    
+
     /** Association between students and their school(s). */
-    STUDENT_SCHOOL_ASSOCIATIONS("studentSchoolAssociation", "student-school-associations"),
-    
+    STUDENT_SCHOOL_ASSOCIATIONS("studentSchoolAssociation", "studentSchoolAssociations"),
+
     /** Association between students and their sections. */
-    STUDENT_SECTION_ASSOCIATIONS("studentSectionAssociation", "student-section-associations"),
-    
+    STUDENT_SECTION_ASSOCIATIONS("studentSectionAssociation", "studentSectionAssociations"),
+
     /** School information */
     SCHOOLS("school", "schools"),
-    
+
+    /** staff information */
+    STAFFS("staff", "staffs"),
+
     /** Student information */
     STUDENTS("student", "students"),
-    
+
     /** Course information */
     COURSES("course", "courses"),
-    
+
     /** Educational organization. */
-    EDUCATIONAL_ORGANIZATIONS("educationOrganization", "education-organizations"),
-    
+    EDUCATIONAL_ORGANIZATIONS("educationOrganization", "educationOrganizations"),
+
     /** Association between a school and an educational organization */
     EDUCATIONAL_ORGANIZATION_SCHOOL_ASSOCIATIONS("educationOrganizationSchoolAssociation",
-            "educationOrganization-school-associations"),
-            
+            "educationOrganizationSchoolAssociations"),
+
     /** Association between one educational organization and another */
-    EDUCATIONAL_ORGANIZATION_ASSOCOCATIONS("educationOrganizationAssociation", "educationOrganization-associations"),
-    
+    EDUCATIONAL_ORGANIZATION_ASSOCOCATIONS("educationOrganizationAssociation", "educationOrganizationAssociations"),
+
     /**
      * Resource home, exact location dependent on context. For example, a teacher has a different
      * home resource than an administrator.
      */
     HOME(null, "home"),
-    
+
     /** Mapping of a teacher to one or more sections */
-    TEACHER_SECTION_ASSOCIATIONS("teacherSectionAssociation", "teacher-section-assocations"),
-    
+    TEACHER_SECTION_ASSOCIATIONS("teacherSectionAssociation", "teacherSectionAssociations"),
+
     /** Mapping of a teacher to one more more schools in which they teach. */
-    TEACHER_SCHOOL_ASSOCIATIONS("teacherSchoolAssociation", "teacher-school-associations"),
-    
+    TEACHER_SCHOOL_ASSOCIATIONS("teacherSchoolAssociation", "teacherSchoolAssociations"),
+
     /** Mapping of a course to one more more sections that offer the course. */
-    COURSE_SECTION_ASSOCIATIONS("courseSectionAssociation", "course-section-associations"),
-    
+    COURSE_SECTION_ASSOCIATIONS("courseSectionAssociation", "courseSectionAssociations"),
+
     /** Mapping of a school to available sections. */
-    SECTION_SCHOOL_ASSOCIATIONS("sectionSchoolAssociation", "section-school-associations"),
-    
+    SECTION_SCHOOL_ASSOCIATIONS("sectionSchoolAssociation", "sectionSchoolAssociations"),
+
     /** Mapping of a student to his or her assessments. */
-    STUDENT_ASSESSMENT_ASSOCIATIONS("studentAssessmentAssociation", "student-assessment-associations"),
-    
+    STUDENT_ASSESSMENT_ASSOCIATIONS("studentAssessmentAssociation", "studentAssessmentAssociations"),
+
     /** Assessment information. */
     ASSESSMENTS("assessment", "assessments"),
-    
+
     /** Teacher information. */
     TEACHERS("teacher", "teachers"),
-    
+
     /** DisciplineIncident information. */
     DISCIPLINE_INCIDENTS("disciplineIncident", "disciplineIncidents"),
-    
+
     /** disciplineAction information. */
     DISCIPLINE_ACTIONS("disciplineAction", "disciplineActions"),
-    
+
     /** Association between students and their disciplineIncidents. */
-    STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS("studentDisciplineIncidentAssociation", "student-disciplineIncident-associations"),
+    STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS("studentDisciplineIncidentAssociation",
+            "studentDisciplineIncidentAssociations"),
 
     /** Program information */
     PROGRAMS("program", "programs"),
@@ -102,11 +114,10 @@ public enum EntityType {
 
     /** Generic type used when no matching type is found */
     GENERIC("generic", null);
-    
+
     private final String type;
     private final String resource;
-    
-    
+
     /**
      * Basic constructor
      * 
@@ -119,7 +130,7 @@ public enum EntityType {
         this.type = type;
         this.resource = resource;
     }
-    
+
     /**
      * Get the type associated with the entity.
      * 
@@ -128,7 +139,7 @@ public enum EntityType {
     public String getEntityType() {
         return type;
     }
-    
+
     /**
      * Get the ReSTful URL fragment used to interact with the entity type.
      * 
@@ -137,12 +148,12 @@ public enum EntityType {
     public String getResource() {
         return resource;
     }
-    
+
     @Override
     public String toString() {
         return type;
     }
-    
+
     /**
      * Find a matching enum given the API type.
      * 
@@ -158,5 +169,5 @@ public enum EntityType {
         }
         return null;
     }
-    
+
 }
