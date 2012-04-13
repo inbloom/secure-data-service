@@ -7,7 +7,7 @@ package org.slc.sli.ingestion;
  *
  */
 public enum BatchJobStatusType {
-    STARTED("Started"),
+    RUNNING("Running"),
     UNDEFINED("Undefined"),
     COMPLETED_WITH_ERRORS("CompletedWithErrors"),
     COMPLETED_SUCCESSFULLY("CompletedSuccessfully");

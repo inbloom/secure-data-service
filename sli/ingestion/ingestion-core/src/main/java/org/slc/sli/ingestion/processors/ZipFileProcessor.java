@@ -65,7 +65,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             // TODO BJI: create job in the db
             batchJobId = NewBatchJob.createId(zipFile.getName());
             NewBatchJob newJob = new NewBatchJob(batchJobId);
-            newJob.setStatus(BatchJobStatusType.STARTED.getName());
+            newJob.setStatus(BatchJobStatusType.RUNNING.getName());
 
             Stage stage = new Stage();
             stage.setStageName(BatchJobStageType.ZIP_FILE_PROCESSING.getName());
@@ -118,7 +118,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             // TODO BJI: create job in the db
             batchJobId = NewBatchJob.createId(zipFile.getName());
             NewBatchJob newJob = new NewBatchJob(batchJobId);
-            newJob.setStatus(BatchJobStatusType.STARTED.getName());
+            newJob.setStatus(BatchJobStatusType.RUNNING.getName());
 
             Stage stage = new Stage();
             stage.setStageName(BatchJobStageType.ZIP_FILE_PROCESSING.getName());
