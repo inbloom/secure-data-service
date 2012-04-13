@@ -58,10 +58,10 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
     @SuppressWarnings("unchecked")
     private List<SimpleEntity> getEntityListResult(JavaResult result) {
         List<SimpleEntity> entityList = new ArrayList<SimpleEntity>();
-        for(Entry<String, Object> resEntry : result.getResultMap().entrySet()) {
-            if (resEntry.getValue() instanceof List){
+        for (Entry<String, Object> resEntry : result.getResultMap().entrySet()) {
+            if (resEntry.getValue() instanceof List) {
                 List<?> list = (List<?>) resEntry.getValue();
-                if(list.size() != 0 && list.get(0) instanceof SimpleEntity) {
+                if (list.size() != 0 && list.get(0) instanceof SimpleEntity) {
                     entityList = (List<SimpleEntity>) list;
                     break;
                 }
