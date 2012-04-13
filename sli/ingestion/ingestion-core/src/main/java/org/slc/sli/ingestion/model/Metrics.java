@@ -1,5 +1,7 @@
 package org.slc.sli.ingestion.model;
 
+import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
+
 /**
  * Model for metrics of an ingestion job with resolution into its stage and resource
  *
@@ -100,28 +102,31 @@ public class Metrics {
 
     public void update(String resourceId, String sourceIp, String hostname, String startTimestamp,
             String stopTimestamp, long recordCount, long errorCount) {
-        if (resourceId != null)
+        if (resourceId != null) {
             this.resourceId = resourceId;
-        if (sourceIp != null)
+        }
+        if (sourceIp != null) {
             this.sourceIp = sourceIp;
-        if (hostname != null)
+        }
+        if (hostname != null) {
             this.hostname = hostname;
-        if (startTimestamp != null)
+        }
+        if (startTimestamp != null) {
             this.startTimestamp = startTimestamp;
-        if (stopTimestamp != null)
+        }
+        if (stopTimestamp != null) {
             this.stopTimestamp = stopTimestamp;
+        }
         this.recordCount = recordCount;
         this.errorCount = errorCount;
     }
 
     public void startMetric() {
-        // TODO: create a metric with startTimeStamp of now in the db
-        long startTime = System.currentTimeMillis();
+        this.setStartTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
     }
 
     public void stopMetric() {
-        // TODO: create a metric with startTimeStamp of now in the db
-        long stopTime = System.currentTimeMillis();
+        this.setStopTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
     }
 
 }
