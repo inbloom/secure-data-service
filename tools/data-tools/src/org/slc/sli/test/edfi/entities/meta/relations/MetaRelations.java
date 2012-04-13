@@ -15,6 +15,8 @@ import org.slc.sli.test.edfi.entities.meta.StaffMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentAssessmentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
+import org.slc.sli.test.edfi.entities.meta.DisciplineActionMeta;
+import org.slc.sli.test.edfi.entities.meta.DisciplineIncidentMeta;
 
 public final class MetaRelations {
 
@@ -33,6 +35,8 @@ public final class MetaRelations {
     public static final int FREE_STANDING_COHORT_SIZE = 4;
     public static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
     public static final int ASSESSMENTS_PER_STUDENT = 10;
+    public static final int INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = 10;
+    public static final int DISCPLINE_ACTIONS_PER_SCHOOL = 3;
 
     // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
     public static final Map<String, SeaMeta> SEA_MAP = new HashMap<String, SeaMeta>();
@@ -55,6 +59,10 @@ public final class MetaRelations {
 
     public static final Map<String, StudentAssessmentMeta> STUDENT_ASSES_MAP = new HashMap<String, StudentAssessmentMeta>();
 
+    public static final Map<String, DisciplineIncidentMeta> DISCIPLINE_INCIDENT_MAP = new HashMap<String, DisciplineIncidentMeta>();
+    
+    public static final Map<String, DisciplineActionMeta> DISCIPLINE_ACTION_MAP = new HashMap<String, DisciplineActionMeta>();
+    
     /**
      * Construct the meta relationships necessary for XML interchanges
      */
@@ -165,6 +173,10 @@ public final class MetaRelations {
                 sessionsForSchool, programForSchool);
 
         Map<String, CohortMeta> freeStandingCohortsForSchool = buildFreeStandingCohortsForSchool(schoolMeta);
+        
+        Map<String, DisciplineIncidentMeta> disciplineIncidentsForSchool = buildDisciplineIncidentsForSchool(studentsForSchool, schoolMeta);
+        
+        Map<String, DisciplineActionMeta> disciplineActionsForSchool = buildDisciplineActionsForSchool(disciplineIncidentsForSchool, schoolMeta);
 
         addSectionsToTeachers(sectionsForSchool, teachersForSchool);
 
@@ -391,6 +403,24 @@ public final class MetaRelations {
         }
         return freeStandingCohortsForSchool;
 
+    }
+
+    /**
+     * Generates discipline incidents for a school. 
+     * 
+     * @param schoolMeta
+     * @param studentsForSchool
+     */
+    private static Map<String, DisciplineIncidentMeta> buildDisciplineIncidentsForSchool(Map<String, StudentMeta> studentsForSchool, SchoolMeta schoolMeta) {
+        Map<String, DisciplineIncidentMeta> disciplineIncidentsForSchool = new HashMap<String, DisciplineIncidentMeta>();  
+        // @@@ To be added. 
+        return disciplineIncidentsForSchool; 
+    }
+    
+    private static Map<String, DisciplineActionMeta> buildDisciplineActionsForSchool(Map<String, DisciplineIncidentMeta> disciplineIncidentsForSchool, SchoolMeta schoolMeta) {
+        Map<String, DisciplineActionMeta> disciplineActionForSchool = new HashMap<String, DisciplineActionMeta>();  
+        // @@@ To be added. 
+        return disciplineActionForSchool; 
     }
 
     /**

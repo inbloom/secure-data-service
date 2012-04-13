@@ -38,7 +38,8 @@ $collectionSet = ["student",
                   "studentSectionGradebookEntry",
                   "parent",
                   "studentParentAssociation",
-                  "attendance"]
+                  "attendance",
+                  "program"]
 
 #######################################################################################################
 # Helper defs
