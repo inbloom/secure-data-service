@@ -148,7 +148,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                             subObjectiveRef);
                 }
             }
-            objectiveAssessment.put("objectiveAssessment", subObjectives);
+            objectiveAssessment.put("objectiveAssessments", subObjectives);
         }
         objectiveAssessment.remove(SUB_OBJECTIVE_REFS);
         
