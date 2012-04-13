@@ -36,6 +36,7 @@ public final class MetaRelations {
     public static final int FREE_STANDING_COHORT_SIZE = 0;
     public static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
     public static final int ASSESSMENTS_PER_STUDENT = 10;
+    public static final int ATTENDANCE_PER_STUDENT_SECTION = 1;
     public static final int DISCPLINE_ACTIONS_PER_SCHOOL = 2;
     public static final int DISCPLINE_INCIDENTS_PER_SCHOOL = 5;
     public static final int INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = 10;
