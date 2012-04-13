@@ -377,4 +377,16 @@ public class MockAPIClient implements APIClient {
         return null;
     }
 
+    @Override
+    public String getHeader(String token) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getFooter(String token) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
