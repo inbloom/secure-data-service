@@ -39,8 +39,9 @@ public class DisciplineIncidentGenerator {
    public static DisciplineIncident generateLowFi(DisciplineIncidentMeta meta) {
        String disciplineIncidentId = meta.id;
        String schoolId = meta.schoolId;
+       String staffId = meta.staffId;
        
-       return generateLowFi(disciplineIncidentId, schoolId, null);
+       return generateLowFi(disciplineIncidentId, schoolId, staffId);
    }
 
    /**
