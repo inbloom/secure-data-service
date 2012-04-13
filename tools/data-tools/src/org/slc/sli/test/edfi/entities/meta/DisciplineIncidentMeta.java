@@ -13,6 +13,7 @@ public class DisciplineIncidentMeta {
 
     public DisciplineIncidentMeta(String id, SchoolMeta schoolMeta) {
         this.id = schoolMeta.id + "-" + id;
+        this.schoolId = schoolMeta.id;
 
         studentIds = new HashSet<String>();
         schoolId = schoolMeta.id;
