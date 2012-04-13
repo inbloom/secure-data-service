@@ -9,15 +9,16 @@ import javax.xml.bind.JAXBElement;
 import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.DisciplineAction;
 import org.slc.sli.test.edfi.entities.DisciplineDescriptorType;
-import org.slc.sli.test.edfi.entities.DisciplineIncident;
 import org.slc.sli.test.edfi.entities.DisciplineIncidentIdentityType;
 import org.slc.sli.test.edfi.entities.DisciplineIncidentReferenceType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.ObjectFactory;
+import org.slc.sli.test.edfi.entities.StaffIdentityType;
+import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.StudentIdentityType;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
-import org.slc.sli.test.edfi.entities.meta.DisciplineIncidentMeta;
+import org.slc.sli.test.edfi.entities.meta.DisciplineActionMeta;
 
 /**
 * Generates DisciplineIncident data
@@ -32,45 +33,51 @@ public class DisciplineActionGenerator {
     private static String date = "2011-03-04";
 
     
-//    /**
-//     * Generates a DisciplineAction from a DisciplineIncidentMeta.
-//     *
-//     * @param meta
-//     * 
-//     * @return <code>DisciplineAction</code>
-//     */
-//    public static DisciplineAction generateLowFi(DisciplineIncidentMeta meta) {
-//        String disciplineIncidentId = meta.id;
-//        String schoolId = meta.schoolId;
-//        
-//        return generateLowFi(disciplineIncidentId, schoolId, null);
-//    }
+    /**
+     * Generates a DisciplineAction from a DisciplineActionMeta.
+     *
+     * @param meta
+     * 
+     * @return <code>DisciplineAction</code>
+     */
+    public static DisciplineAction generateLowFi(DisciplineActionMeta meta) {
+        String disciplineActionId = meta.id;
+        String schoolId = meta.schoolId;
+        Collection<String> incidentIds = meta.incidentIds;
+        Collection<String> studentIds = meta.studentIds;
+        Collection<String> staffIds = meta.staffIds;
+        
+        return generateLowFi(disciplineActionId, incidentIds, studentIds, staffIds, schoolId);
+    }
 
     /**
      * Generates a DisciplineAction for a disciplineActionId
-     * with a list of disciplineIncidentIds, a list of studentIds,
-     * a responsibilitySchoolId and a assignmentSchoolId as references.
+     * with a list of disciplineIncidentIds, a list of studentIds, a list of staffIds
+     * and a responsibilitySchoolId.
      *
      * @param disciplineActionId
      * @param disciplineIncidentIds
      * @param studentIds
+     * @param staffIds
      * @param responsibilitySchoolId
-     * @param assignmentSchoolId
      * 
      * @return <code>DisciplineAction</code>
      */
     public static DisciplineAction generateLowFi(String disciplineActionId, 
                                                  Collection<String> disciplineIncidentIds, 
                                                  Collection<String> studentIds, 
-                                                 String responsibilitySchoolId,
-                                                 String assignmentSchoolId) {
+                                                 Collection<String> staffIds, 
+                                                 String responsibilitySchoolId) {
         DisciplineAction action = generateLowFi(disciplineActionId, disciplineIncidentIds, studentIds, responsibilitySchoolId);
         
-        EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
-        edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(assignmentSchoolId);
-        EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
-        schoolRef.setEducationalOrgIdentity(edOrgIdentity);
-        action.setAssignmentSchoolReference(schoolRef);
+        // construct and add the staff reference
+        for (String staffId : staffIds) {
+            StaffIdentityType sit = new StaffIdentityType();
+            sit.setStaffUniqueStateId(staffId);
+            StaffReferenceType srt = new StaffReferenceType();
+            srt.setStaffIdentity(sit);
+            action.getStaffReference().add(srt);            
+        }
         
         return action;
     }
