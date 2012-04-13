@@ -3,7 +3,6 @@ package org.slc.sli.ingestion.processors;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
-import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.landingzone.ControlFile;
@@ -21,6 +19,7 @@ import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
+import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
@@ -113,32 +112,12 @@ public class ControlFilePreProcessor implements Processor {
             }
             newJob.setBatchProperties(batchProperties);
 
-            FaultsReport errorReport = new FaultsReport();
-
-            ControlFileDescriptor cfd = new ControlFileDescriptor(cf, landingZone);
-
             for (IngestionFileEntry file : cf.getFileEntries()) {
                 ResourceEntry resourceEntry = new ResourceEntry();
                 resourceEntry.update(file.getFileFormat().toString(), file.getFileType().getName(), file.getChecksum(), 0, 0);
-                resourceEntry.setResourceName(newJob.getSourceId()+file.getFileName());
+                resourceEntry.setResourceName(newJob.getSourceId() + file.getFileName());
                 resourceEntry.setResourceId(file.getFileName());
                 newJob.getResourceEntries().add(resourceEntry);
-            }
-
-            if (errorReport.hasErrors()) {
-                List<Fault> faults = errorReport.getFaults();
-                for ( Fault fault : faults ) {
-                    String errorType = new String();
-                    if (fault.isError()) {
-                        errorType = "ERROR";
-                    } else if (fault.isWarning()) {
-                        errorType = "WARNING";
-                    } else {
-                        errorType = "OTHER";
-                    }
-                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSING,
-                            FaultType.TYPE_ERROR.getName(), errorType, fault.getMessage());
-                }
             }
 
             stage.stopStage();
@@ -223,12 +202,14 @@ public class ControlFilePreProcessor implements Processor {
                     for (IngestionFileEntry file : cf.getFileEntries()) {
                     ResourceEntry resourceEntry = new ResourceEntry();
                     resourceEntry.update(file.getFileFormat().toString(), file.getFileType().getName(), file.getChecksum(), 0, 0);
-                    resourceEntry.setResourceName(newJob.getSourceId()+file.getFileName());
+                    resourceEntry.setResourceName(newJob.getSourceId() + file.getFileName());
                     resourceEntry.setResourceId(file.getFileName());
                     newJob.getResourceEntries().add(resourceEntry);
                 }
             }
 
+            Error.writeErrorsToMongo(batchJobId, errorReport);
+/**
             if (errorReport.hasErrors()) {
                 List<Fault> faults = errorReport.getFaults();
                 for ( Fault fault : faults ) {
@@ -244,7 +225,7 @@ public class ControlFilePreProcessor implements Processor {
                             FaultType.TYPE_ERROR.getName(), errorType, fault.getMessage());
                 }
             }
-
+*/
             stage.stopStage();
             newJob.getStages().add(stage);
             batchJobDAO.saveBatchJob(newJob);
