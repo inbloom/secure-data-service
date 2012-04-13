@@ -35,11 +35,10 @@ public class XmlFileProcessor implements Processor {
 
 
                 fe = referenceResolutionHandler.handle(fe, fe.getErrorReport());
-
+                batchJob.getFaultsReport().append(fe.getFaultsReport());
 
                 if (fe.getErrorReport().hasErrors()) {
                     hasErrors = true;
-                    batchJob.getFaultsReport().append(fe.getFaultsReport());
                 }
 
             }
