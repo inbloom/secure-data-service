@@ -612,23 +612,15 @@ public final class MetaRelations {
         int disciplineIncidentIndx = 0;
         Object[] staffMetas = staffForSea.values().toArray();
         int staffIndx = 0;
+        Object[] studentMetas = studentsForSchool.values().toArray();
+        int studentIndx = 0;
 
-        // assign one every INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT student to a discipline incident
-        int count = 0;
-        for(StudentMeta studentMeta : studentsForSchool.values()) {
-            if(count % INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT == 0) {
-                DisciplineIncidentMeta disciplineIncidentMeta = (DisciplineIncidentMeta) disciplineIncidentMetas[disciplineIncidentIndx];
-                disciplineIncidentMeta.studentIds.add(studentMeta.id);
-                disciplineIncidentIndx = (disciplineIncidentIndx + 1) % disciplineIncidentMetas.length;
-            }
-            count++;
-        }
-        
-        // assign a staff to each discipline incident.
+        // assign a student to each discipline incident.
         for(DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentsForSchool.values()) {
-            StaffMeta staffMeta = (StaffMeta) staffMetas[staffIndx];
-            disciplineIncidentMeta.staffId = staffMeta.id;
-            staffIndx = (staffIndx + 1) % staffMetas.length;
+            StudentMeta studentMeta = (StudentMeta) studentMetas[studentIndx];
+            disciplineIncidentMeta.studentIds.add(studentMeta.id);
+            studentIndx = (studentIndx + 1) % staffMetas.length;
+            
         }
         
         // assign all students in all discipline incidents involved in a discipline action in that action.
