@@ -37,7 +37,7 @@ public class InterchangeStudentCohortGenerator {
 
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println("generated " + interchangeObjects.size() + " InterchangeStudentProgram entries in: "
+        System.out.println("generated " + interchangeObjects.size() + " InterchangeStudentCohort entries in: "
                 + (System.currentTimeMillis() - startTime));
         return interchange;
     }
