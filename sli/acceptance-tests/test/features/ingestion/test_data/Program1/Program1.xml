@@ -12,7 +12,7 @@
 		</Services>
 		<Services>
 			<CodeValue>Test service 2</CodeValue>
-			<ShortDescription>Short description for program 1 service 1</ShortDescription>
+			<ShortDescription>Short description for program 1 service 2</ShortDescription>
 			<Description>This is a longer description of the services provided by program 1 service 2. More detail could be provided here.</Description>
 		</Services>
 		</Program>

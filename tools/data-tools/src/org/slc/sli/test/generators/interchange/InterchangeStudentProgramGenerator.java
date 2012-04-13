@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.ArrayList;
 
 import org.slc.sli.test.edfi.entities.InterchangeStudentProgram;
-import org.slc.sli.test.edfi.entities.relations.ProgramMeta;
+import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.edfi.entities.StudentProgramAssociation;
 import org.slc.sli.test.edfi.entities.ServiceDescriptor;
 import org.slc.sli.test.edfi.entities.ObjectFactory;
 import org.slc.sli.test.generators.ProgramGenerator;
 import org.slc.sli.test.generators.StudentProgramAssociationGenerator;
-import org.slc.sli.test.mappingGenerator.MetaRelations;
-import org.slc.sli.test.mappingGenerator.StateEdFiXmlGenerator;
+import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
  * Generates the Student Program Interchange as derived from the associations
