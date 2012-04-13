@@ -949,6 +949,11 @@ task :dashboardSdsTests do
   runTests("test/features/dashboard/dash/dashboard_sds.feature")
 end
 
+desc "Run dashboard integrated Tests - Student Contact info"
+task :dashboardSdsContactInfoTests do
+  runTests("test/features/dashboard/dash/contact_info_sds.feature")
+end
+
 ############################################################
 # Dashboard tests end
 ############################################################

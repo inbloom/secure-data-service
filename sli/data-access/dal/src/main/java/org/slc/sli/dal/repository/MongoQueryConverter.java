@@ -6,22 +6,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.QueryParseException;
-
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.dal.encrypt.EntityEncryption;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ListSchema;
 import org.slc.sli.validation.schema.NeutralSchema;
@@ -30,7 +28,7 @@ import org.slc.sli.validation.schema.NeutralSchema;
  * mongodb implementation of the entity repository interface that provides basic
  * CRUD and field query methods for entities including core entities and
  * association entities
- * 
+ *
  * @author Dong Liu dliu@wgen.net
  * @author kmyers
  */
@@ -39,36 +37,37 @@ public class MongoQueryConverter {
     private static final String MONGO_ID = "_id";
     private static final String MONGO_BODY = "body.";
     private static final String ENCRYPTION_ERROR = "Unable to perform search operation on PII field ";
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(MongoQueryConverter.class);
 
     @Autowired
     private IdConverter idConverter;
 
     @Autowired(required = false)
+    @Qualifier("entityEncryption")
     private EntityEncryption encryptor;
 
     @Autowired
     private SchemaRepository schemaRepo;
-    
+
     /**
      * Each operator (>, <, !=, etc) mapped to how to create a Mongo criteria for it
-     * 
-     * 
+     *
+     *
      * @author kmyers
      *
      */
     protected interface MongoCriteriaGenerator {
         public Criteria generateCriteria(NeutralCriteria neutralCriteria);
     }
-    
+
     private Map<String, MongoCriteriaGenerator> operatorImplementations;
-    
-    
+
+
     @SuppressWarnings("unchecked")
     private List<Object> convertIds(Object rawValues) {
         List<String> idList = null;
-        
+
         //type checking
         if (rawValues instanceof List<?>) {
             try {
@@ -76,19 +75,19 @@ public class MongoQueryConverter {
             } catch (ClassCastException cce) {
                 throw new RuntimeException("IDs must be List<String>");
             }
-            
+
         } else if (rawValues instanceof String) {
             String ids = (String) rawValues;
             idList = Arrays.asList(ids.split(","));
         }
-        
+
         if (idList == null) {
             throw new QueryParseException("Invalid paramater for IDs", rawValues.toString());
         }
-        
+
         //conversion
         List<Object> databaseIds = new ArrayList<Object>();
-        
+
         for (String id : idList) {
             Object databaseId = idConverter.toDatabaseId(id);
             if (databaseId == null) {
@@ -96,14 +95,14 @@ public class MongoQueryConverter {
             }
             databaseIds.add(databaseId);
         }
-        
+
         return databaseIds;
     }
-    
+
     public MongoQueryConverter() {
-        
+
         this.operatorImplementations = new HashMap<String, MongoCriteriaGenerator>();
-        
+
         // =
         this.operatorImplementations.put("=", new MongoCriteriaGenerator() {
             @SuppressWarnings("unchecked")
@@ -122,7 +121,7 @@ public class MongoQueryConverter {
                 }
             }
         });
-        
+
         // =
         this.operatorImplementations.put("in", new MongoCriteriaGenerator() {
             @SuppressWarnings("unchecked")
@@ -152,28 +151,28 @@ public class MongoQueryConverter {
                     return Criteria.where(prefixKey(neutralCriteria)).lte(neutralCriteria.getValue());
             }
         });
-        
+
         // !=
         this.operatorImplementations.put("!=", new MongoCriteriaGenerator() {
             public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
                     return Criteria.where(prefixKey(neutralCriteria)).ne(neutralCriteria.getValue());
             }
         });
-        
+
         // =~
         this.operatorImplementations.put("=~", new MongoCriteriaGenerator() {
             public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
                     return Criteria.where(prefixKey(neutralCriteria)).regex((String) neutralCriteria.getValue());
             }
         });
-        
+
         // <
         this.operatorImplementations.put("<", new MongoCriteriaGenerator() {
             public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
                     return Criteria.where(prefixKey(neutralCriteria)).lt(neutralCriteria.getValue());
             }
         });
-        
+
         // >
         this.operatorImplementations.put(">", new MongoCriteriaGenerator() {
             public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
@@ -181,17 +180,17 @@ public class MongoQueryConverter {
             }
         });
     }
-    
+
     /**
      * Returns the provided string with body. appended if the key is not "_id" and the criteria allows a prefix.
-     * 
-     * 
+     *
+     *
      * @param neutralCriteria
      * @return
      */
     protected static String prefixKey(NeutralCriteria neutralCriteria) {
         String key = neutralCriteria.getKey();
-        
+
         if (key.equals(MONGO_ID)) {
             return key;
         } else if (neutralCriteria.canBePrefixed()) {
@@ -200,20 +199,20 @@ public class MongoQueryConverter {
             return key;
         }
     }
-    
+
     /**
      * Converts a given neutral query into a mongo Query object where each argument has
      * been converted into the proper type.
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * @param entityName name of collection being queried against
      * @param neutralQuery database independent representation of query to be read
      * @return a mongo specific database query implementation of the neutral query
      */
     public Query convert(String entityName, NeutralQuery neutralQuery) {
         Query mongoQuery = new Query();
-        
+
         if (neutralQuery != null) {
             // Include fields
             if (neutralQuery.getIncludeFields() != null) {
@@ -225,19 +224,19 @@ public class MongoQueryConverter {
                     mongoQuery.fields().exclude(MONGO_BODY + excludeField);
                 }
             }
-            
+
             // offset
             if (neutralQuery.getOffset() > 0) {
                 mongoQuery.skip(neutralQuery.getOffset());
             }
-            
+
             // limit
             if (neutralQuery.getLimit() > 0) {
                 mongoQuery.limit(neutralQuery.getLimit());
             }
 
             NeutralSchema entitySchema = this.schemaRepo.getSchema(entityName);
-            
+
             // sorting
             if (neutralQuery.getSortBy() != null) {
                 if (neutralQuery.getSortOrder() != null) {
@@ -247,7 +246,7 @@ public class MongoQueryConverter {
                 } else { // default to ascending order
                     mongoQuery.sort().on(MONGO_BODY + neutralQuery.getSortBy(), Order.ASCENDING);
                 }
-                
+
                 NeutralSchema fieldSchema = this.getFieldSchema(entitySchema, neutralQuery.getSortBy());
                 if (fieldSchema != null && fieldSchema.isPii()) {
                     throw new QueryParseException(ENCRYPTION_ERROR + " cannot be sorted on", neutralQuery.toString());
@@ -261,25 +260,25 @@ public class MongoQueryConverter {
                 Object value = neutralCriteria.getValue();
                 Object originalValue = value;
                 NeutralSchema fieldSchema = this.getFieldSchema(entitySchema, key);
-                
+
                 if (fieldSchema != null) {
                     value = fieldSchema.convert(neutralCriteria.getValue());
                     if (fieldSchema.isPii()) {
                         if (operator.contains("<") || operator.contains(">") || operator.contains("~")) {
                             throw new QueryParseException(ENCRYPTION_ERROR + value, neutralQuery.toString());
                         }
-                        
+
                         if (encryptor != null) {
                             value = encryptor.encryptSingleValue(value);
                         }
                     }
                 }
-                
+
                 neutralCriteria.setValue(value);
                 mongoQuery.addCriteria(this.operatorImplementations.get(operator).generateCriteria(neutralCriteria));
                 neutralCriteria.setValue(originalValue);
             }
-            
+
             Query[] mongoOrQueries = this.translateQueries(entityName, neutralQuery.getOrQueries());
             if (mongoOrQueries.length > 0) {
                 mongoQuery.or(mongoOrQueries);
@@ -288,26 +287,26 @@ public class MongoQueryConverter {
 
         return mongoQuery;
     }
-    
+
     private Query[] translateQueries(String entityName, List<NeutralQuery> queries) {
         if (queries == null || queries.isEmpty()) {
             return new Query[]{};
         }
-        
+
         Query[] mongoQueries = new Query[queries.size()];
-        
+
         for (int i = 0; i < mongoQueries.length; i++) {
             mongoQueries[i] = this.convert(entityName, queries.get(i));
         }
-        
+
         return mongoQueries;
     }
-    
+
 
     private NeutralSchema getNestedSchema(NeutralSchema schema, String field) {
         if (schema == null)
             return null;
-        
+
         switch (schema.getSchemaType()) {
             case STRING:
             case INTEGER:
@@ -346,7 +345,7 @@ public class MongoQueryConverter {
             }
         }
     }
-    
+
     private NeutralSchema getFieldSchema(NeutralSchema schema, String dottedField) {
         for (String field : dottedField.split("\\.")) {
             schema = this.getNestedSchema(schema, field);
@@ -355,8 +354,8 @@ public class MongoQueryConverter {
             } else
                 LOG.info("nested schema type is {}", "NULL");
         }
-        
+
         return schema;
     }
-    
+
 }
