@@ -2,11 +2,10 @@ Feature: User authenticates against a mock IDP
  
 Background: Realm selector is set up to reflect two sandbox tenancies and database has redirect links
 Given I have an open web browser
- 
+
+
+@wip
 Scenario: Mock IDP Page components
- 
- # there is a 1:1 mapping between realm and tenancy
- 
 Given I have selected the realm using the realm selector
 Then I should be redirected to the Mock IDP page for the realm
 And the Mock IDP Page has a drop down with all the users defined in tenancy
