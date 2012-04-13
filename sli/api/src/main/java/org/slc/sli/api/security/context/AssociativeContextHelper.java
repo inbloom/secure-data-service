@@ -3,10 +3,10 @@ package org.slc.sli.api.security.context;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -137,7 +137,7 @@ public class AssociativeContextHelper {
         Iterable<Entity> entities = getReferenceEntities(collectionName, referenceLocation, referenceIds);
         List<String> foundIds = new ArrayList<String>();
         for (Entity e : entities) {
-            EntityBody body = (EntityBody) e.getBody();
+            Map<String, Object> body = e.getBody();
             foundIds.add((String) body.get(returnedReference));
         }
         return foundIds;
