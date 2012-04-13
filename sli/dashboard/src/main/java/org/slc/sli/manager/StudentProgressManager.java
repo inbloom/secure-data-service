@@ -39,57 +39,106 @@ public class StudentProgressManager implements Manager {
      * @param selectedCourse The course to get information for
      * @return
      */
+    @SuppressWarnings("unchecked")
     public Map<String, List<GenericEntity>> getStudentHistoricalAssessments(final String token, List<String> studentIds, 
-            String selectedCourse) {
+            String selectedCourse, String selectedSection) {
         Map<String, List<GenericEntity>> results = new HashMap<String, List<GenericEntity>>();
         
         //get the subject area
         String subjectArea = getSubjectArea(token, selectedCourse);
-        
-        //build the params
         Map<String, String> params = new HashMap<String, String>();
-        if (subjectArea != null)
-            params.put(Constants.ATTR_SUBJECTAREA, subjectArea);
-        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_COURSE_TITLE);
-        
-        for (String studentId : studentIds) {
-            log.debug("Historical data [studentId] {}", studentId);
-            
-            //get the courses in the subject area for the given student
-            List<GenericEntity> courses = entityManager.getCourses(token, studentId, params);
-            log.debug("Historical data [courses] {}", courses);
-            
-            for (GenericEntity course : courses) {
-                log.debug("Historical data [course] {}", course);
-                
-                //get the sections for the course
-                List<GenericEntity> sections = getSectionsForCourse(token, studentId, course.getString(Constants.ATTR_ID));
-                
-                for (GenericEntity section : sections) {
-                    section.remove("entityType");
-                    section.remove("links");
-                    
-                    //add the new data
-                    section.put(Constants.ATTR_COURSE_TITLE, course.getString(Constants.ATTR_COURSE_TITLE));
-                    section.put(Constants.ATTR_SUBJECTAREA, subjectArea);
-                    section.put(Constants.ATTR_COURSE_TITLE, section.getString(Constants.ATTR_UNIQUE_SECTION_CODE));
-                    
-                    //add the section to the map
-                    if (results.get(studentId) != null) {
-                        results.get(studentId).add(section);
-                    } else {
-                        List<GenericEntity> list = new ArrayList<GenericEntity>();
-                        list.add(section);
-                        
-                        results.put(studentId, list);
-                    }
-                }                
+
+        List<GenericEntity> students = entityManager.getCourses(token, selectedSection, params);
+
+        if (students == null) return results;
+        for (GenericEntity student : students) {
+            String studentId = student.getString("id");
+            List<GenericEntity> transcriptData = new ArrayList<GenericEntity>();
+
+            Map<String, Object> transcript = (Map<String, Object>) student.get("transcript");
+            List<Map<String, Object>> studentTranscriptAssociations = (List<Map<String, Object>>) transcript.get("studentTranscriptAssociations");
+            List<Map<String, Object>> studentSectionAssociations = (List<Map<String, Object>>) transcript.get("studentSectionAssociations");
+
+            // skip if we have no associations or we have no previous transcripts
+            if (studentSectionAssociations == null || studentTranscriptAssociations == null) continue;
+
+            filterBySubjectArea(studentSectionAssociations, subjectArea);
+
+            for (Map<String, Object> studentSectionAssoc : studentSectionAssociations) {
+                // Get the course transcript for a particular section
+                Map<String, Object> courseTranscript = getCourseTranscriptForSection(studentSectionAssoc, studentTranscriptAssociations);
+                // skip this course if we can't find previous info
+                if (courseTranscript == null) continue;
+
+                GenericEntity data = new GenericEntity();
+                data.put("finalLetterGradeEarned", courseTranscript.get("finalNumericGradeEarned").toString());
+                data.put("courseTitle", getCourseTitle(studentSectionAssoc));
+                data.put("schoolYear", getSchoolYear(studentSectionAssoc));
+
+                transcriptData.add(data);
             }
+
+            results.put(studentId, transcriptData);
         }
-        
+
         return results;
     }
-    
+
+    @SuppressWarnings("unchecked")
+    private String getSchoolYear(Map<String, Object> studentSectionAssoc) {
+        String schoolYear = "";
+        Map<String, Object> section = (Map<String, Object>) studentSectionAssoc.get("sections");
+        if (section != null) {
+            Map<String, Object> session = (Map<String, Object>) section.get("sessions");
+            if (session != null) {
+                schoolYear = session.get("schoolYear").toString();
+            }
+        }
+
+        return schoolYear;
+    }
+
+    @SuppressWarnings("unchecked")
+    private String getCourseTitle(Map<String, Object> studentSectionAssoc) {
+        String courseTitle = "";
+
+        Map<String, Object> section = (Map<String, Object>) studentSectionAssoc.get("sections");
+        if (section != null) {
+            Map<String, Object> course = (Map<String, Object>) section.get("courses");
+            if (course != null) {
+                courseTitle = course.get("courseTitle").toString();
+            }
+        }
+
+        return courseTitle;
+    }
+
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> getCourseTranscriptForSection(Map<String, Object> studentSectionAssoc,
+                                                              List<Map<String, Object>> studentTranscriptAssociations) {
+        String courseId = "";
+        Map<String, Object> section = (Map<String, Object>) studentSectionAssoc.get("sections");
+        if (section != null) {
+            Map<String, Object> course = (Map<String, Object>) section.get("courses");
+            if (course != null) {
+                courseId = course.get("id").toString();
+            }
+        }
+
+        for (Map<String, Object> studentTranscriptAssociation : studentTranscriptAssociations) {
+            if (courseId.equals(studentTranscriptAssociation.get("courseId").toString()))
+                return studentTranscriptAssociation;
+        }
+
+        return null;
+    }
+
+    private void filterBySubjectArea(List<Map<String, Object>> studentSectionAssociations, String subjectArea) {
+        if (subjectArea == null) return;
+        // some logic here to do true filtering
+    }
+
     /**
      * Get the subject area for the selected  course
      * @param token Security token
@@ -118,38 +167,14 @@ public class StudentProgressManager implements Manager {
     public SortedSet<String> applySessionAndTranscriptInformation(final String token, Map<String, 
             List<GenericEntity>> historicalData) {
         SortedSet<String> results = new TreeSet<String>();
-        
-        //build the params
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_SCHOOL_YEAR + "," + Constants.ATTR_TERM);
-        
-        for (Map.Entry<String, List<GenericEntity>> sectionData : historicalData.entrySet()) {
-            String studentId = sectionData.getKey();
-            List<GenericEntity> list = sectionData.getValue();
-            
-            //get the assessment list
-            for (GenericEntity section : list) {
-                //get the session
-                GenericEntity session = entityManager.getEntity(token, Constants.ATTR_SESSIONS, section.getString(Constants.ATTR_SESSION_ID), params);
-                //add the school year
-                results.add(session.getString(Constants.ATTR_SCHOOL_YEAR) + " " + session.getString(Constants.ATTR_TERM));
-                
-                //get the studentCourseAssociation for the given student and course
-                List<GenericEntity> transcripts = getStudentCourseAssociations(token, studentId, section.getString(Constants.ATTR_COURSE_ID));
-                
-                for (GenericEntity transcript : transcripts) {                    
-                    log.debug("Historical data [studentTranscriptAssociations] {}", transcript);
-                    
-                    section.put(Constants.ATTR_FINAL_LETTER_GRADE, transcript.getString(Constants.ATTR_FINAL_LETTER_GRADE));
-                    section.put(Constants.ATTR_SCHOOL_YEAR, session.getString(Constants.ATTR_SCHOOL_YEAR) 
-                            + " " + session.getString(Constants.ATTR_TERM));
-                }
+
+        for (List<GenericEntity> studentTranscripts : historicalData.values()) {
+            for (GenericEntity transcript : studentTranscripts) {
+                String schoolYear = transcript.getString("schoolYear");
+                if (schoolYear != null) results.add(schoolYear);
             }
-            
-            //sort by the school year
-            Collections.sort(list, new SchoolYearComparator());
         }
-        
+
         return results;
     }
         

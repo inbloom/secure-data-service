@@ -107,7 +107,7 @@ public class StudentProgressManagerTest {
         when(mockEntity.getEntity(token, "courses", selectedCourseId, new HashMap<String, String>())).thenReturn(subjectAreaEntity);
         when(mockEntity.getSections(token, STUDENTID, params2)).thenReturn(sections);
         
-        Map<String, List<GenericEntity>> results = manager.getStudentHistoricalAssessments(token, students, selectedCourseId);
+        Map<String, List<GenericEntity>> results = manager.getStudentHistoricalAssessments(token, students, selectedCourseId, null);
         
         assertEquals("Should have one result", 1, results.size());
         assertTrue("Should have a key with the student Id", results.keySet().contains(STUDENTID));
