@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 
@@ -59,14 +60,16 @@ public class IdNormalizationTest {
 
         idNorm.setEntityRepository(repo);
 
-        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport(),"");
+        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath", new DummyErrorReport(), "");
+
 
         Assert.assertEquals("123", internalId);
 
         idNorm.setEntityRepository(repoNull);
 
         //Testing findByQuery returns null
-        internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport(),"");
+        internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath", new DummyErrorReport(), "");
+
         Assert.assertEquals(null, internalId);
     }
 
@@ -171,7 +174,7 @@ public class IdNormalizationTest {
 
         idNorm.setEntityRepository(repo);
 
-        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport(),"");
+        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath", new DummyErrorReport(), "");
 
         Assert.assertEquals("123", internalId);
     }
@@ -225,11 +228,45 @@ public class IdNormalizationTest {
 
         idNorm.setEntityRepository(repo);
 
-        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport(),"");
+        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath", new DummyErrorReport(), "");
 
         Assert.assertEquals("123", internalId);
 
-        String secinternalId = idNorm.resolveInternalId(entity, "someNamespace", secondCollection, new DummyErrorReport(),"");
+        String secinternalId = idNorm.resolveInternalId(entity, "someNamespace", secondCollection, "someFieldPath", new DummyErrorReport(), "");
+
         Assert.assertEquals("456", secinternalId);
+    }
+
+    @Test
+    public void testSuccessfulComplexIdResolution() throws IdResolutionException {
+        
+        //create and add dummy complex ID normalizer
+        IdNormalizer.complexIdNormalizers.put("dummyCollection:dummyField", new ComplexIdNormalizer() {
+            public List<String> resolveInternalId(Entity entity, NeutralQuery neutralQuery, Repository<Entity> entityRepository) {
+                return null;
+            }
+        });
+        
+        IdNormalizer idNormalizer = new IdNormalizer();
+        Entity entity = new MongoEntity("dummyCollection", new HashMap<String, Object>());
+        NeutralQuery neutralQuery = new NeutralQuery();
+        
+        idNormalizer.resolveComplexInternalId(entity, "dummyField", neutralQuery);
+    }
+    
+    @Test(expected = IdResolutionException.class)
+    public void testFailedComplexIdResolution() throws IdResolutionException {
+        IdNormalizer idNormalizer = new IdNormalizer();
+        
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("studentAcademicRecordId", "SAR-ID-123");
+
+        Entity entity = new MongoEntity("studentTranscriptAssociation", body);
+        NeutralQuery neutralQuery = new NeutralQuery();
+        
+        Repository<Entity> repo = Mockito.mock(Repository.class);
+        Mockito.when(repo.findOne(Mockito.eq("studentAcademicRecord"), Mockito.any(NeutralQuery.class))).thenReturn(null);
+        
+        idNormalizer.resolveComplexInternalId(entity, "undefinedField", neutralQuery);
     }
 }

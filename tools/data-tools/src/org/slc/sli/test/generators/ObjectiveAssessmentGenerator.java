@@ -12,6 +12,7 @@ public class ObjectiveAssessmentGenerator {
     public static ObjectiveAssessment generateLowFi(final ObjectiveAssessmentMeta objAssessMeta) {
 
         ObjectiveAssessment objectiveAssessment = new ObjectiveAssessment();
+        objectiveAssessment.setId(objAssessMeta.id);
         objectiveAssessment.setIdentificationCode(objAssessMeta.id);
         objectiveAssessment.setMaxRawScore(100);
 

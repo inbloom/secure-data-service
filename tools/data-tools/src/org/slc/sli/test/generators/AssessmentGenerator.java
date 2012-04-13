@@ -1,5 +1,7 @@
 package org.slc.sli.test.generators;
 
+import java.util.Map;
+
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
 import org.slc.sli.test.edfi.entities.Assessment;
 import org.slc.sli.test.edfi.entities.AssessmentCategoryType;
@@ -11,12 +13,14 @@ import org.slc.sli.test.edfi.entities.AssessmentReferenceType;
 import org.slc.sli.test.edfi.entities.AssessmentReportingMethodType;
 import org.slc.sli.test.edfi.entities.ContentStandardType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
+import org.slc.sli.test.edfi.entities.ObjectiveAssessment;
+import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.relations.AssessmentMeta;
 
 public class AssessmentGenerator {
 
-    public static Assessment generateLowFi(AssessmentMeta assessmentMeta) {
+    public static Assessment generateLowFi(AssessmentMeta assessmentMeta, Map<String, ObjectiveAssessment> objAssessMap) {
         Assessment assessment = new Assessment();
 
         assessment.setAssessmentTitle(assessmentMeta.id + "Title");
@@ -60,12 +64,16 @@ public class AssessmentGenerator {
 
         // AssessmentItemReference
         for (String assessItemIdString : assessmentMeta.assessmentItemIds) {
-            // TODO: this is only modeled as XML ReferenceType...
+            // TODO: this is only modeled as XML ReferenceType... (AssessmentItem is post-alpha?)
         }
 
         // ObjectiveAssessmentReference
-        for (String relatedObjAssessmentIdString : assessmentMeta.objectiveAssessmentIds) {
-            // TODO: this is only modeled as XML ReferenceType...
+        for (String objAssessmentIdString : assessmentMeta.objectiveAssessmentIds) {
+            if (objAssessMap.get(objAssessmentIdString) != null) {
+                ReferenceType objAssessRef = new ReferenceType();
+                objAssessRef.setRef(objAssessMap.get(objAssessmentIdString));
+                assessment.getObjectiveAssessmentReference().add(objAssessRef);
+            }
         }
 
         // AssessmentFamilyReference
@@ -86,14 +94,14 @@ public class AssessmentGenerator {
         return assessment;
     }
 
-    public static AssessmentReferenceType getAssessmentReference(final String assessmentTitle, final String assessmentId) {
+    public static AssessmentReferenceType getAssessmentReference(final String assessmentId) {
         AssessmentIdentificationCode aic = new AssessmentIdentificationCode();
         aic.setID(assessmentId);
         aic.setIdentificationSystem(AssessmentIdentificationSystemType.SCHOOL);
+
         AssessmentIdentityType ait = new AssessmentIdentityType();
         ait.getAssessmentIdentificationCode().add(aic);
-        if (assessmentTitle != null)
-            ait.setAssessmentTitle(assessmentTitle);
+
         AssessmentReferenceType art = new AssessmentReferenceType();
         art.setAssessmentIdentity(ait);
         return art;

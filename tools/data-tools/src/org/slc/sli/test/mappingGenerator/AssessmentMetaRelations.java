@@ -18,7 +18,7 @@ import org.slc.sli.test.edfi.entities.relations.PerformanceLevelDescriptorMeta;
 public class AssessmentMetaRelations {
 
     // knobs to control number of entities to create
-    public static final int ASSESSMENTS = 1;
+    public static final int ASSESSMENTS = 2;
     public static final int OBJ_ASSESS_PER_DEPENDANT = 2;
     public static final int LEARN_OBJ_PER_OBJ_ASSES = 2;
     public static final int ASSESS_ITEM_PER_DEPENDANT = 2;
@@ -36,33 +36,33 @@ public class AssessmentMetaRelations {
     public static final Map<String, AssessmentFamilyMeta> ASSESSMENT_FAMILY_MAP = new TreeMap<String, AssessmentFamilyMeta>();
     public static final Map<String, AssessmentPeriodDescriptorMeta> ASSESS_PERIOD_DESC_MAP = new TreeMap<String, AssessmentPeriodDescriptorMeta>();
 
-    // private constants
+    // constants
     private static final Random RANDOM = new Random();
-    private static final String ASSESS_PREFIX = "assess";
-    private static final String OBJ_ASSESS_PREFIX = "objAssess";
-    private static final String LEARN_OBJ_PREFIX = "learnObj";
-    private static final String ASSESS_ITEM_PREFIX = "assessItem";
-    private static final String LEARN_STD_PREFIX = "learnStd";
+    private static final String ASSESS_PREFIX = "as";
+    private static final String OBJ_ASSESS_PREFIX = "objas";
+    private static final String LEARN_OBJ_PREFIX = "lobj";
+    private static final String ASSESSMENT_ITEM_PREFIX = "asit";
+    private static final String LEARN_STD_PREFIX = "lstd";
     private static final String PERF_LEVEL_DESC_PREFIX = "pld";
-    private static final String ASSESS_FAMILY_PREFIX = "assessFam";
+    private static final String ASSESS_FAMILY_PREFIX = "asFam";
     private static final String ASSESS_PERIOD_DESC_PREFIX = "apd";
 
     public static void buildStandaloneAssessments() {
         long startTime = System.currentTimeMillis();
 
-        buildAssessment();
+        buildAssessments();
 
         System.out.println("Time taken to build Assessment entity relations: "
                 + (System.currentTimeMillis() - startTime));
     }
 
-    private static void buildAssessment() {
+    private static void buildAssessments() {
 
         for (int idNum = 0; idNum < ASSESSMENTS; idNum++) {
 
             AssessmentMeta assessmentMeta = AssessmentMeta.create(ASSESS_PREFIX + idNum);
 
-            // getSections
+            // TODO: sections
 
             for (ObjectiveAssessmentMeta objAssessMeta : aggregateObjectiveAssessments()) {
                 assessmentMeta.objectiveAssessmentIds.add(objAssessMeta.id);
@@ -147,9 +147,8 @@ public class AssessmentMetaRelations {
     private static ObjectiveAssessmentMeta getOrCreateObjectiveAssessment() {
         ObjectiveAssessmentMeta objAssessMeta = null;
 
-        if (OBJECTIVE_ASSESSMENT_MAP.size() > 0 && RANDOM.nextBoolean()) {
-            objAssessMeta = OBJECTIVE_ASSESSMENT_MAP.get(OBJ_ASSESS_PREFIX
-                    + RANDOM.nextInt(OBJECTIVE_ASSESSMENT_MAP.size()));
+        if (RANDOM.nextBoolean()) {
+            objAssessMeta = getRandomObjectiveAssessmentMeta();
         }
 
         if (objAssessMeta == null) {
@@ -161,9 +160,8 @@ public class AssessmentMetaRelations {
     private static LearningObjectiveMeta getOrCreateLearningObjective() {
         LearningObjectiveMeta learningObjectiveMeta = null;
 
-        if (LEARNING_OBJECTIVE_MAP.size() > 0 && RANDOM.nextBoolean()) {
-            learningObjectiveMeta = LEARNING_OBJECTIVE_MAP.get(LEARN_OBJ_PREFIX
-                    + RANDOM.nextInt(LEARNING_OBJECTIVE_MAP.size()));
+        if (RANDOM.nextBoolean()) {
+            learningObjectiveMeta = getRandomLearningObjectiveMeta();
         }
 
         if (learningObjectiveMeta == null) {
@@ -175,9 +173,8 @@ public class AssessmentMetaRelations {
     private static AssessmentItemMeta getOrCreateAssessmentItem() {
         AssessmentItemMeta assessmentItemMeta = null;
 
-        if (ASSESSMENT_ITEM_MAP.size() > 0 && RANDOM.nextBoolean()) {
-            assessmentItemMeta = ASSESSMENT_ITEM_MAP.get(ASSESS_ITEM_PREFIX
-                    + RANDOM.nextInt(ASSESSMENT_ITEM_MAP.size()));
+        if (RANDOM.nextBoolean()) {
+            assessmentItemMeta = getRandomAssessmentItemMeta();
         }
 
         if (assessmentItemMeta == null) {
@@ -189,8 +186,8 @@ public class AssessmentMetaRelations {
     private static LearningStandardMeta getOrCreateLearningStandard() {
         LearningStandardMeta learningStandardMeta = null;
 
-        if (LEARN_STD_MAP.size() > 0 && RANDOM.nextBoolean()) {
-            learningStandardMeta = LEARN_STD_MAP.get(LEARN_STD_PREFIX + RANDOM.nextInt(LEARN_STD_MAP.size()));
+        if (RANDOM.nextBoolean()) {
+            learningStandardMeta = getRandomLearningStandardMeta();
         }
 
         if (learningStandardMeta == null) {
@@ -202,9 +199,8 @@ public class AssessmentMetaRelations {
     private static PerformanceLevelDescriptorMeta getOrCreatePerfLevelDesc() {
         PerformanceLevelDescriptorMeta perfLevelDescMeta = null;
 
-        if (PERF_LEVEL_DESC_MAP.size() > 0 && RANDOM.nextBoolean()) {
-            perfLevelDescMeta = PERF_LEVEL_DESC_MAP.get(PERF_LEVEL_DESC_PREFIX
-                    + RANDOM.nextInt(PERF_LEVEL_DESC_MAP.size()));
+        if (RANDOM.nextBoolean()) {
+            perfLevelDescMeta = getRandomPerfLevelDescMeta();
         }
 
         if (perfLevelDescMeta == null) {
@@ -216,9 +212,8 @@ public class AssessmentMetaRelations {
     private static AssessmentFamilyMeta getOrCreateAssessmentFamily() {
         AssessmentFamilyMeta assessmentFamilyMeta = null;
 
-        if (ASSESSMENT_FAMILY_MAP.size() > 0 && RANDOM.nextBoolean()) {
-            assessmentFamilyMeta = ASSESSMENT_FAMILY_MAP.get(ASSESS_FAMILY_PREFIX
-                    + RANDOM.nextInt(ASSESSMENT_FAMILY_MAP.size()));
+        if (RANDOM.nextBoolean()) {
+            assessmentFamilyMeta = getRandomAssessmentFamilyMeta();
         }
 
         if (assessmentFamilyMeta == null) {
@@ -230,9 +225,8 @@ public class AssessmentMetaRelations {
     private static AssessmentPeriodDescriptorMeta getOrCreateAssessmentPeriodDescriptor() {
         AssessmentPeriodDescriptorMeta assessPeriodDescMeta = null;
 
-        if (ASSESS_PERIOD_DESC_MAP.size() != 0 && RANDOM.nextBoolean()) {
-            assessPeriodDescMeta = ASSESS_PERIOD_DESC_MAP.get(ASSESS_PERIOD_DESC_PREFIX
-                    + RANDOM.nextInt(ASSESS_PERIOD_DESC_MAP.size()));
+        if (RANDOM.nextBoolean()) {
+            assessPeriodDescMeta = getRandomAssessmentPeriodDescriptorMeta();
         }
 
         if (assessPeriodDescMeta == null) {
@@ -277,7 +271,7 @@ public class AssessmentMetaRelations {
     }
 
     private static AssessmentItemMeta createAssessmentItem() {
-        AssessmentItemMeta assessmentItemMeta = AssessmentItemMeta.create(ASSESS_ITEM_PREFIX
+        AssessmentItemMeta assessmentItemMeta = AssessmentItemMeta.create(ASSESSMENT_ITEM_PREFIX
                 + ASSESSMENT_ITEM_MAP.size());
 
         for (LearningStandardMeta learningStandardMeta : aggregateLearningStandards()) {
@@ -317,6 +311,71 @@ public class AssessmentMetaRelations {
                 .create(ASSESS_PERIOD_DESC_PREFIX + ASSESS_PERIOD_DESC_MAP.size());
         ASSESS_PERIOD_DESC_MAP.put(assessPeriodDescMeta.id, assessPeriodDescMeta);
         return assessPeriodDescMeta;
+    }
+
+    public static AssessmentMeta getRandomAssessmentMeta() {
+        AssessmentMeta random = null;
+        if (ASSESSMENT_MAP.size() > 0) {
+            random = ASSESSMENT_MAP.get(ASSESS_PREFIX + RANDOM.nextInt(ASSESSMENT_MAP.size()));
+        }
+        return random;
+    }
+
+    public static ObjectiveAssessmentMeta getRandomObjectiveAssessmentMeta() {
+        ObjectiveAssessmentMeta random = null;
+        if (OBJECTIVE_ASSESSMENT_MAP.size() > 0) {
+            random = OBJECTIVE_ASSESSMENT_MAP.get(OBJ_ASSESS_PREFIX + RANDOM.nextInt(OBJECTIVE_ASSESSMENT_MAP.size()));
+        }
+        return random;
+    }
+
+    public static LearningObjectiveMeta getRandomLearningObjectiveMeta() {
+        LearningObjectiveMeta random = null;
+        if (LEARNING_OBJECTIVE_MAP.size() > 0) {
+            random = LEARNING_OBJECTIVE_MAP.get(LEARN_OBJ_PREFIX + RANDOM.nextInt(LEARNING_OBJECTIVE_MAP.size()));
+        }
+        return random;
+    }
+
+    public static AssessmentItemMeta getRandomAssessmentItemMeta() {
+        AssessmentItemMeta random = null;
+        if (ASSESSMENT_ITEM_MAP.size() > 0) {
+            random = ASSESSMENT_ITEM_MAP.get(ASSESSMENT_ITEM_PREFIX + RANDOM.nextInt(ASSESSMENT_ITEM_MAP.size()));
+        }
+        return random;
+    }
+
+    public static LearningStandardMeta getRandomLearningStandardMeta() {
+        LearningStandardMeta random = null;
+        if (LEARN_STD_MAP.size() > 0) {
+            random = LEARN_STD_MAP.get(LEARN_STD_PREFIX + RANDOM.nextInt(LEARN_STD_MAP.size()));
+        }
+        return random;
+    }
+
+    public static PerformanceLevelDescriptorMeta getRandomPerfLevelDescMeta() {
+        PerformanceLevelDescriptorMeta random = null;
+        if (PERF_LEVEL_DESC_MAP.size() > 0) {
+            random = PERF_LEVEL_DESC_MAP.get(PERF_LEVEL_DESC_PREFIX + RANDOM.nextInt(PERF_LEVEL_DESC_MAP.size()));
+        }
+        return random;
+    }
+
+    public static AssessmentFamilyMeta getRandomAssessmentFamilyMeta() {
+        AssessmentFamilyMeta random = null;
+        if (ASSESSMENT_FAMILY_MAP.size() > 0) {
+            random = ASSESSMENT_FAMILY_MAP.get(ASSESS_FAMILY_PREFIX + RANDOM.nextInt(ASSESSMENT_FAMILY_MAP.size()));
+        }
+        return random;
+    }
+
+    public static AssessmentPeriodDescriptorMeta getRandomAssessmentPeriodDescriptorMeta() {
+        AssessmentPeriodDescriptorMeta random = null;
+        if (ASSESS_PERIOD_DESC_MAP.size() > 0) {
+            random = ASSESS_PERIOD_DESC_MAP.get(ASSESS_PERIOD_DESC_PREFIX
+                    + RANDOM.nextInt(ASSESS_PERIOD_DESC_MAP.size()));
+        }
+        return random;
     }
 
     public static void main(String[] args) {

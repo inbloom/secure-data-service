@@ -65,7 +65,7 @@ public class StateEdFiXmlGenerator {
 
         processProgramArguments(args);
 
-        MetaRelations.buildFromSea();
+        MetaRelations.construct();
 
         generateAndMarshalInterchanges();
 
