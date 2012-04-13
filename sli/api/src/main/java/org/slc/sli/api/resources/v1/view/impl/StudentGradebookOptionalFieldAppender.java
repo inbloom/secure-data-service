@@ -26,7 +26,7 @@ public class StudentGradebookOptionalFieldAppender implements OptionalFieldAppen
 
 
     @Override
-    public List<EntityBody> applyOptionalField(List<EntityBody> entities) {
+    public List<EntityBody> applyOptionalField(List<EntityBody> entities, String parameters) {
 
         //get the section Ids
         List<String> sectionIds = new ArrayList<String>(optionalFieldAppenderHelper.getSectionIds(entities));

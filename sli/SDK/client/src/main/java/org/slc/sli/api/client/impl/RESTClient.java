@@ -32,7 +32,7 @@ import org.slc.sli.api.client.security.SliApi;
  */
 public class RESTClient {
     
-    private static final String SESSION_CHECK_PREFIX = "api/rest/system/session/check";
+    private static final String SESSION_CHECK_PREFIX = "api/rest/v1/system/session/check";
     
     private static Logger logger = Logger.getLogger("RESTClient");
     private String apiServerUri = null;

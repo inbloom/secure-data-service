@@ -1,0 +1,7 @@
+.settings
+.project
+.checkstyle
+.classpath
+target
+.git
+.pydevproject

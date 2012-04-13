@@ -15,7 +15,8 @@ import org.slc.sli.test.edfi.entities.SpecialAccommodationItemType;
 import org.slc.sli.test.edfi.entities.SpecialAccommodationsType;
 import org.slc.sli.test.edfi.entities.StudentAssessment;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
-import org.slc.sli.test.edfi.entities.relations.StudentMeta;
+import org.slc.sli.test.edfi.entities.meta.StudentAssessmentMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 
 public class StudentAssessmentGenerator {
     private boolean optional = true;
@@ -93,8 +94,9 @@ public class StudentAssessmentGenerator {
         return sa;
     }
 
-    public static StudentAssessment generateLowFi(StudentMeta studentMeta, String assessmentId) {
+    public static StudentAssessment generateLowFi(StudentAssessmentMeta studentAssessmentMeta) {
         StudentAssessment sa = new StudentAssessment();
+        sa.setId(studentAssessmentMeta.xmlId);
 
         sa.setAdministrationDate("2011-05-08");
         sa.setAdministrationEndDate("2012-05-08");
@@ -142,11 +144,16 @@ public class StudentAssessmentGenerator {
 
         sa.setGradeLevelWhenAssessed(GradeLevelType.values()[RANDOM.nextInt(GradeLevelType.values().length)]);
 
-        // TODO: add performanceLevels
+        // performanceLevels
+        String randomPerfLevelDescId = AssessmentMetaRelations.getRandomPerfLevelDescMeta().id;
+        sa.getPerformanceLevels().add(
+                PerformanceLevelDescriptorGenerator.getPerformanceLevelDescriptorType(randomPerfLevelDescId));
 
-        sa.setStudentReference(StudentGenerator.getStudentReferenceType(studentMeta.id));
+        // student reference
+        sa.setStudentReference(StudentGenerator.getStudentReferenceType(studentAssessmentMeta.studentId));
 
-        sa.setAssessmentReference(AssessmentGenerator.getAssessmentReference(assessmentId));
+        // assessment reference
+        sa.setAssessmentReference(AssessmentGenerator.getAssessmentReference(studentAssessmentMeta.assessmentId));
 
         return sa;
     }

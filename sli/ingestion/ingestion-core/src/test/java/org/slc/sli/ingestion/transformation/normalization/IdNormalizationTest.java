@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
@@ -65,14 +66,16 @@ public class IdNormalizationTest {
 
         idNorm.setEntityRepository(repo);
 
-        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport(), "");
+        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath", new DummyErrorReport(), "");
+
 
         Assert.assertEquals("123", internalId);
 
         idNorm.setEntityRepository(repoNull);
 
         //Testing findByQuery returns null
-        internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport(), "");
+        internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath", new DummyErrorReport(), "");
+
         Assert.assertEquals(null, internalId);
     }
 
@@ -177,7 +180,7 @@ public class IdNormalizationTest {
 
         idNorm.setEntityRepository(repo);
 
-        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport(), "");
+        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath", new DummyErrorReport(), "");
 
         Assert.assertEquals("123", internalId);
     }
@@ -231,38 +234,49 @@ public class IdNormalizationTest {
 
         idNorm.setEntityRepository(repo);
 
-        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, new DummyErrorReport(), "");
+        String internalId = idNorm.resolveInternalId(entity, "someNamespace", myCollectionId, "someFieldPath", new DummyErrorReport(), "");
 
         Assert.assertEquals("123", internalId);
 
-        String secinternalId = idNorm.resolveInternalId(entity, "someNamespace", secondCollection, new DummyErrorReport(), "");
+        String secinternalId = idNorm.resolveInternalId(entity, "someNamespace", secondCollection, "someFieldPath", new DummyErrorReport(), "");
+
         Assert.assertEquals("456", secinternalId);
     }
-    
-    private Entity getTestRefListEntity() {
-        Map<String, Object> firstRef = new HashMap<String, Object>();
-        firstRef.put("idField", "externalId1");
-        Map<String, Object> secondRef = new HashMap<String, Object>();
-        secondRef.put("idField", "externalId2");
-        List<Object> refList = new ArrayList<Object>();
-        refList.add(firstRef);
-        refList.add(secondRef);
-        Map<String, Object> attributes = new HashMap<String, Object>();
-        attributes.put("refField", refList);
+
+    @Test
+    public void testSuccessfulComplexIdResolution() throws IdResolutionException {
         
-        List<Object> idList = new ArrayList<Object>();
-        idList.add("");
-        idList.add("");
-        attributes.put("refIds", idList);
+        //create and add dummy complex ID normalizer
+        IdNormalizer.complexIdNormalizers.put("dummyCollection:dummyField", new ComplexIdNormalizer() {
+            public List<String> resolveInternalId(Entity entity, NeutralQuery neutralQuery, Repository<Entity> entityRepository) {
+                return null;
+            }
+        });
         
-        NeutralRecord nr = new NeutralRecord();
-        nr.setAttributes(attributes);
-        Entity entity = new NeutralRecordEntity(nr);
+        IdNormalizer idNormalizer = new IdNormalizer();
+        Entity entity = new MongoEntity("dummyCollection", new HashMap<String, Object>());
+        NeutralQuery neutralQuery = new NeutralQuery();
         
-        return entity;
+        idNormalizer.resolveComplexInternalId(entity, "dummyField", neutralQuery);
     }
     
-    @SuppressWarnings("unchecked")
+    @Test(expected = IdResolutionException.class)
+    public void testFailedComplexIdResolution() throws IdResolutionException {
+        IdNormalizer idNormalizer = new IdNormalizer();
+        
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("studentAcademicRecordId", "SAR-ID-123");
+
+        Entity entity = new MongoEntity("studentTranscriptAssociation", body);
+        NeutralQuery neutralQuery = new NeutralQuery();
+        
+        Repository<Entity> repo = Mockito.mock(Repository.class);
+        Mockito.when(repo.findOne(Mockito.eq("studentAcademicRecord"), Mockito.any(NeutralQuery.class))).thenReturn(null);
+        
+        idNormalizer.resolveComplexInternalId(entity, "undefinedField", neutralQuery);
+    }
+    
+    @SuppressWarnings({ "unchecked", "deprecation" })
     @Test
     public void testResolveRefList() {
         final String collectionName = "collectionName";
@@ -307,7 +321,7 @@ public class IdNormalizationTest {
         expectedEntityList.add(expectedEntity2);
         
         IdNormalizer idNorm = new IdNormalizer();
-        @SuppressWarnings("unchecked")
+
         Repository<Entity> repo = Mockito.mock(Repository.class);
         
         //mock the repo query note this doesn't test whether the query was constructed correctly
@@ -325,5 +339,26 @@ public class IdNormalizationTest {
         assertEquals("attribute refIds second element should be resolved to GUID_2", "GUID_2", refIds.get(1));
     }
     
-    
+    private Entity getTestRefListEntity() {
+        Map<String, Object> firstRef = new HashMap<String, Object>();
+        firstRef.put("idField", "externalId1");
+        Map<String, Object> secondRef = new HashMap<String, Object>();
+        secondRef.put("idField", "externalId2");
+        List<Object> refList = new ArrayList<Object>();
+        refList.add(firstRef);
+        refList.add(secondRef);
+        Map<String, Object> attributes = new HashMap<String, Object>();
+        attributes.put("refField", refList);
+        
+        List<Object> idList = new ArrayList<Object>();
+        idList.add("");
+        idList.add("");
+        attributes.put("refIds", idList);
+        
+        NeutralRecord nr = new NeutralRecord();
+        nr.setAttributes(attributes);
+        Entity entity = new NeutralRecordEntity(nr);
+        
+        return entity;
+    }
 }

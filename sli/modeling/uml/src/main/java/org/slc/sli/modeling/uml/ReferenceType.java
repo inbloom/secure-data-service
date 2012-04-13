@@ -7,6 +7,18 @@ public enum ReferenceType {
     /**
      * 
      */
+    ASSOCIATION,
+    /**
+     * 
+     */
+    ASSOCIATION_END,
+    /**
+     * 
+     */
+    ATTRIBUTE,
+    /**
+     * 
+     */
     CLASS_TYPE,
     /**
      * 
@@ -19,7 +31,31 @@ public enum ReferenceType {
     /**
      * 
      */
+    ENUM_LITERAL,
+    /**
+     * 
+     */
+    GENERALIZATION,
+    /**
+     * 
+     */
+    MULTIPLICITY,
+    /**
+     * 
+     */
+    PACKAGE,
+    /**
+     * 
+     */
+    RANGE,
+    /**
+     * 
+     */
     TAG_DEFINITION,
+    /**
+     * 
+     */
+    TAGGED_VALUE,
     /**
      * The type cannot be determined (usually due to lazy loading).
      */
