@@ -66,7 +66,7 @@ When /^the lozenges count is "([^"]*)"$/ do |lozengesCount|
   csiContent = @driver.find_element(:class, "csi")
   labelFound = false
   
-  all_lozenges = csiContent.find_elements(:tag_name, "svg")
+  all_lozenges = csiContent.find_elements(:xpath, "//span[contains(@class,'lozenge')]")
 
   assert(lozengesCount.to_i == all_lozenges.length, "Actual lozenges count is:" + all_lozenges.length.to_s)
 end
