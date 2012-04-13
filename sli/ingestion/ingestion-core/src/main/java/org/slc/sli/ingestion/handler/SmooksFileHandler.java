@@ -60,6 +60,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
         File neutralRecordOutFile = createTempFile();
 
+        fileProcessStatus.setOutputFilePath(neutralRecordOutFile.getAbsolutePath());
         fileProcessStatus.setOutputFileName(neutralRecordOutFile.getName());
 
         NeutralRecordFileWriter nrFileWriter = new NeutralRecordFileWriter(neutralRecordOutFile);
