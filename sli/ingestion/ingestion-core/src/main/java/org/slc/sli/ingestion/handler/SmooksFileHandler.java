@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Hashtable;
 
 import javax.xml.transform.stream.StreamSource;
 
@@ -16,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
@@ -36,10 +38,10 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     private String lzDirectory;
 
     @Override
-    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport) {
+    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
         try {
 
-            generateNeutralRecord(fileEntry, errorReport);
+            generateNeutralRecord(fileEntry, errorReport, fileProcessStatus);
 
         } catch (IOException e) {
             LOG.error("IOException", e);
@@ -53,10 +55,13 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         return fileEntry;
     }
 
-    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) throws IOException,
+    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) throws IOException,
             SAXException {
 
         File neutralRecordOutFile = createTempFile();
+
+        fileProcessStatus.setOutputFilePath(neutralRecordOutFile.getAbsolutePath());
+        fileProcessStatus.setOutputFileName(neutralRecordOutFile.getName());
 
         NeutralRecordFileWriter nrFileWriter = new NeutralRecordFileWriter(neutralRecordOutFile);
 
@@ -77,6 +82,15 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
             IOUtils.closeQuietly(inputStream);
+
+            long count = 0L;
+            Hashtable<String, Long> counts = nrFileWriter.getNRCount();
+            for (String type : counts.keySet()) {
+                count += counts.get(type);
+            }
+
+            fileProcessStatus.setTotalRecordCount(count);
+
             nrFileWriter.close();
         }
     }

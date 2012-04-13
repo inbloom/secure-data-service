@@ -197,7 +197,7 @@ desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionStudentProgramAssociationTest] do
+                         :ingestionStudentProgramAssociationTest, :ingestionBatchJobTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -279,6 +279,11 @@ end
 desc "Run Ingestion Gradebook Entry Test"
 task :ingestionGradebookEntryTests do
   runTests("test/features/ingestion/features/ingestion_GradebookEntry.feature")
+end
+
+desc "Run Ingestion Batch Job Tests"
+task :ingestionBatchJobTest do
+  runTests("test/features/ingestion/features/ingestion_BatchJob.feature")
 end
 
 desc "Run Ingestion XSD Validation Test"

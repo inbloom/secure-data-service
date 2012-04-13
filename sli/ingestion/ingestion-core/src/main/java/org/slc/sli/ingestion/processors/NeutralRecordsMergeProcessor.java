@@ -13,8 +13,10 @@ import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
+import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.util.performance.Profiled;
 
 /**
@@ -23,7 +25,7 @@ import org.slc.sli.util.performance.Profiled;
  * type has been collapsed
  * into another in the sliXsd data model. These 'processed' NeutralRecords will later be mapped to
  * Entity (sliXsd).
- * 
+ * @deprecated This will be removed at a later date.
  */
 @Component
 public class NeutralRecordsMergeProcessor implements Processor {
@@ -42,20 +44,22 @@ public class NeutralRecordsMergeProcessor implements Processor {
     @ExtractBatchJobIdToContext
     @Profiled
     public void process(Exchange exchange) {
-
-        // TODO: get the batchjob from the state manager
-        // Get the batch job ID from the exchange
-//      String batchJobId = exchange.getIn().getBody(String.class);
-//      BatchJobUtils.startStage(batchJobId, this.getClass().getName());
-//      BatchJob batchJob = BatchJobUtils.getBatchJob(batchJobId);
-        BatchJob job = BatchJobUtils.getBatchJobUsingStateManager(exchange);
-
+        
+        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
+        if (batchJobId == null) {
+            exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        }
+        BatchJobDAO batchJobDAO = new BatchJobMongoDA();
+        NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+        // batchJobDAO.startStage(batchJobId, BatchJobStageType.EDFI_PROCESSING);
+        
+        BatchJob job = exchange.getIn().getBody(BatchJob.class);
+        
         mergeNeutralRecordsInBatchJob(job);
-
-        BatchJobUtils.saveBatchJobUsingStateManager(job);
-        // TODO When the interface firms up we should set the stage stopTimeStamp in job before saving to db, rather than after really
-        BatchJobUtils.stopStage(job.getId(), this.getClass().getName());
-
+        
+        // batchJobDAO.stopStage(batchJobId, BatchJobStageType.EDFI_PROCESSING);
         exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
     }
     
@@ -63,9 +67,10 @@ public class NeutralRecordsMergeProcessor implements Processor {
         LOG.info("merging NeutralRecord entries in BatchJob: {}", job);
         for (IngestionFileEntry file : job.getFiles()) {
             
-            // TODO BatchJobUtil.startMetric(job.getId(), this.getClass().getName(), file.getFileName())
-
             if (FileType.XML_ASSESSMENT_METADATA.equals(file.getFileType())) {
+                
+                // batchJobDAO.startMetric(batchJobId, BatchJobStageType.EDFI_PROCESSING, file.getFileName());
+                
                 try {
                     assessmentConvertor.doConversion(file);
                 } catch (IOException e) {
@@ -73,11 +78,11 @@ public class NeutralRecordsMergeProcessor implements Processor {
                     LOG.error(errorText, e);
                     job.getErrorReport().error(errorText, NeutralRecordsMergeProcessor.class);
                 }
+                
+                // batchJobDAO.stopMetric(batchJobId, BatchJobStageType.EDFI_PROCESSING,
+                // fe.getFileName(), fe.getRecordCount, fe.getFaultsReport.getFaults().size())
             }
-
-            // TODO Add a recordCount variables to IngestionFileEntry for each file (i.e. original, neutral, ...) - see if things have changed with transform
-            // TODO BatchJobUtil.stopMetric(job.getId(), this.getClass().getName(), file.getFileName(), file.getNeutralRecordCount(), file.getFaultsReport.getFaults().size())
-
+            
         }
         
     }
