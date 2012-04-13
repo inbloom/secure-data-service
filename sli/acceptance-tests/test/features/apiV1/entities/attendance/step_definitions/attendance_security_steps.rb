@@ -8,8 +8,8 @@ Transform /the student "([^"]*)"/ do |arg1|
 end
 
 Transform /the specific attendance event "([^"]*)"/ do |arg1|
-  id = "b80ba316-8a6d-4223-8070-917eb8aadb7c" if arg1 == "Marvin Miller Attendance event"
-  id = "0e5034ac-b055-4485-9855-27bf6210f1e6" if arg1 == "Delilah D. Sims Attendance event"
+  id = "d807ec49-2178-4f00-aa40-05165f70dcc4" if arg1 == "Marvin Miller Attendance event"
+  id = "43259915-3ab8-4501-993f-0b0cbb1152c5" if arg1 == "Delilah D. Sims Attendance event"
   id
 end
 

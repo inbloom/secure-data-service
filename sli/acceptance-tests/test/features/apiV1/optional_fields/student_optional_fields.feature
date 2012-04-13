@@ -9,6 +9,7 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     Given optional field "attendances"
     And optional field "assessments"
     And optional field "gradebook"
+    And parameter "limit" is "0"
     When I navigate to GET "/v1/sections/<SECTION ID>/studentSectionAssociations/students"
     Then I should receive a return code of 200
 
