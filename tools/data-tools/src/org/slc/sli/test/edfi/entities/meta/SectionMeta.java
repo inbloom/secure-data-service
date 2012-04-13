@@ -15,9 +15,8 @@ public class SectionMeta {
         String schoolIdNoAlpha = schoolMeta.id.replaceAll("[a-z]", "");
         String sessionIdNoAlpha = courseMeta.simpleId.replaceAll("[a-z]", "");
         String courseIdNoAlpha = sessionMeta.simpleId.replaceAll("[a-z]", "");
-        String programIdNoAlpha = programMeta == null ? "" : programMeta.id.replaceAll("[a-z]", "");
 
-        this.id = schoolIdNoAlpha + "-" + sessionIdNoAlpha + "-" + courseIdNoAlpha + "-" + id + "-" + programIdNoAlpha;
+        this.id = schoolIdNoAlpha + "-" + sessionIdNoAlpha + "-" + courseIdNoAlpha + "-" + id;
         this.schoolId = schoolMeta.id;
         this.courseId = courseMeta.id;
         this.sessionId = sessionMeta.id;
