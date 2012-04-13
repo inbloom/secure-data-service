@@ -14,18 +14,18 @@ import org.springframework.stereotype.Component;
 
 /**
  * Control file processor.
- * 
+ *
  * @author okrook
- * 
+ *
  */
 @Component
 public class ControlFileProcessor implements Processor {
-    
+
     private Logger log = LoggerFactory.getLogger(ControlFileProcessor.class);
-    
+
     @Autowired
     private BatchJobAssembler jobAssembler;
-    
+
     @Override
     @Profiled
     public void process(Exchange exchange) throws Exception {
@@ -34,10 +34,10 @@ public class ControlFileProcessor implements Processor {
             /* TODO JobLogStatus
                // Get the batch job ID from the exchange
                batchJobId = exchange.getIn().getBody(String.class);
-               
+
                // Get the job from the db
                BatchJob job = JobLogStatus.getJob(batchJobId)
-               
+
                // Create the stage and metric
                JobLogStatus.startStage(batchJobId, stageName)
              */
@@ -65,7 +65,7 @@ public class ControlFileProcessor implements Processor {
 
             // set headers
             exchange.getIn().setHeader("hasErrors", job.getFaultsReport().hasErrors());
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.BULK_TRANSFORM_REQUEST.name());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
 
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
@@ -78,13 +78,13 @@ public class ControlFileProcessor implements Processor {
             log.error("Exception:", exception);
         }
     }
-    
+
     public BatchJobAssembler getJobAssembler() {
         return jobAssembler;
     }
-    
+
     public void setJobAssembler(BatchJobAssembler jobAssembler) {
         this.jobAssembler = jobAssembler;
     }
-    
+
 }
