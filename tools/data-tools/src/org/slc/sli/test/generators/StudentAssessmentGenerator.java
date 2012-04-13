@@ -15,7 +15,8 @@ import org.slc.sli.test.edfi.entities.SpecialAccommodationItemType;
 import org.slc.sli.test.edfi.entities.SpecialAccommodationsType;
 import org.slc.sli.test.edfi.entities.StudentAssessment;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
-import org.slc.sli.test.edfi.entities.relations.StudentAssessmentMeta;
+import org.slc.sli.test.edfi.entities.meta.StudentAssessmentMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 
 public class StudentAssessmentGenerator {
     private boolean optional = true;
@@ -143,10 +144,15 @@ public class StudentAssessmentGenerator {
 
         sa.setGradeLevelWhenAssessed(GradeLevelType.values()[RANDOM.nextInt(GradeLevelType.values().length)]);
 
-        // TODO: add performanceLevels
+        // performanceLevels
+        String randomPerfLevelDescId = AssessmentMetaRelations.getRandomPerfLevelDescMeta().id;
+        sa.getPerformanceLevels().add(
+                PerformanceLevelDescriptorGenerator.getPerformanceLevelDescriptorType(randomPerfLevelDescId));
 
+        // student reference
         sa.setStudentReference(StudentGenerator.getStudentReferenceType(studentAssessmentMeta.studentId));
 
+        // assessment reference
         sa.setAssessmentReference(AssessmentGenerator.getAssessmentReference(studentAssessmentMeta.assessmentId));
 
         return sa;
