@@ -187,6 +187,23 @@ th.ui-th-column div {
     color:#8083fc;
 }
 
+.color-widget-darkgreen
+{
+    color:#438746;
+}
+.color-widget-green
+{
+    color:#7FC124;
+}
+.color-widget-yellow
+{
+    color:#DFC836;
+}
+.color-widget-red
+{
+    color:#B40610;
+}
+
 /*old*/
 
 .row {

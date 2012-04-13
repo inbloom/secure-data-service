@@ -122,27 +122,28 @@ DashboardUtil.Grid.Formatters = {
 				return '';
 			}
 			var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);
+			var style;
 			for (var cutPoint in cutPoints) {
-				color = cutPoints[cutPoint].color;
+				style = cutPoints[cutPoint].style;
 				if (value - cutPoint <= 0) {
 					break;
 			    }
 		    }
-			return "<span style='color:" + cutPoints[cutPoint].color + "'>" + value + "</span>";
+			return "<span class='" + cutPoints[cutPoint].style + "'>" + value + "</span>";
 		},
 		CutPointReverse : function(value, options, rowObject) {
 			if (!value && value != 0) {
 				return '';
 			}
 			var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);
-			var color = "#cccccc";
+			var style;
 			for (var cutPoint in cutPoints) {
 				if (value - cutPoint < 0) {
 					break;
 			    }
-				color = cutPoints[cutPoint].color;
+				style = cutPoints[cutPoint].style;
 		    }
-			return "<span style='color:" + color + "'>" + value + "</span>";
+			return "<span class='" + style + "'>" + value + "</span>";
 		},
 		PercentBar: function (value, options, rowObject) {
 		    if (value == null || value === "") {
