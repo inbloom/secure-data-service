@@ -1,22 +1,21 @@
 package org.slc.sli.ingestion.transformation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import org.slc.sli.ingestion.NeutralRecord;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of attendance events} mappings and
  * stores in the appopriate student-school or student-section associations.
- *  
+ *
  * @author shalka
  */
 public class AttendanceTransformer extends AbstractTransformationStrategy {
@@ -46,27 +45,30 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     public void loadData() {
         LOG.info("Loading data for attendance transformation.");
 
-        loadCollectionFromDb("attendance");
+        List<String> collectionsToLoad = Arrays.asList("attendance", "school", "student", "studentSchoolAssociation");
+
+        for (String collectionName : collectionsToLoad) {
+            Map<Object, NeutralRecord> collection = getCollectionFromDb(collectionName);
+            collections.put(collectionName, collection);
+            LOG.info("{} is loaded into local storage.  Total Count = {}", collectionName, collection.size());
+        }
+
         LOG.info("Attendance data is loaded into local storage.  Total Count = " + collections.get("attendance").size());
 
+        // NOTE
         // loadCollection needs to be augmented to return a boolean value indicating whether or not the
         // requested collection was added to the 'collections' local entity
         // -> if not, need to check actual mongo for entities
-        
-        // loadCollectionFromDb("school");
-        // loadCollectionFromDb("student");
-        
+
         // need to get interchanges for this information --> definitely
-        // loadCollectionFromDb("schoolSessionAssociation"); --> get list of sessionIds from schoolId
-        // loadCollectionFromDb("session"); --> get list of sessions (as Map<String, Object>)
+        // getCollectionFromDb("schoolSessionAssociation"); --> get list of sessionIds from schoolId
+        // getCollectionFromDb("session"); --> get list of sessions (as Map<String, Object>)
         // iterate over sessions and add them into studentSchoolAssociation.body.dailyAttendance as Maps (with _year equal to schoolYear from session)
-        
+
         // TODO: will (eventually) need a filter here to determine what type of attendance data is being loaded
         // -> can be daily attendance (added to studentSchoolAssociation)
         // -> can be section attendance (added to studentSectionAssociation)
-        
-        loadCollectionFromDb("studentSchoolAssociation");
-        LOG.info("Student School Associations is loaded into local storage.  Total Count = " + collections.get("studentSchoolAssociation").size());
+
     }
 
     public void transform() {
@@ -78,8 +80,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 //        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("attendance").entrySet()) {
 //            NeutralRecord neutralRecord = neutralRecordEntry.getValue();
 
-            
-            // get the key of parent
+
+        // get the key of parent
 //            Map<String, Object> attrs = neutralRecord.getAttributes();
 //            key = (String) attrs.get("parentAssessmentFamilyId");
 //            String familyHierarchyName = "";
@@ -111,7 +113,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 //        }
 //
 //        transformedCollections.put("studentSchoolAssociation", newCollection);
-        
+
         LOG.debug("Finished transforming data.");
     }
 
@@ -144,16 +146,16 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 //                getNeutralRecordMongoAccess().getRecordRepository().create(neutralRecord);
 //            }
 //        }
-        
+
         LOG.info("Finished persisting transformed attendance data into mongo.");
     }
 
     /**
-     * Stores all items in collection found in database to local storage (HashMap)
+     * Returns all collection entities found in temp ingestion database
      *
      * @param collectionName
      */
-    private void loadCollectionFromDb(String collectionName) {
+    private Map<Object, NeutralRecord> getCollectionFromDb(String collectionName) {
         Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
 
         Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQuery(collectionName,
@@ -162,12 +164,13 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
         NeutralRecord tempNr;
 
-        Iterator<NeutralRecord> iter = data.iterator();
-        while (iter.hasNext()) {
-            tempNr = iter.next();
+        Iterator<NeutralRecord> neutralRecordIterator = data.iterator();
+        while (neutralRecordIterator.hasNext()) {
+            tempNr = neutralRecordIterator.next();
             collection.put(tempNr.getRecordId(), tempNr);
         }
 
-        collections.put(collectionName, collection);
+        return collection;
     }
+
 }
