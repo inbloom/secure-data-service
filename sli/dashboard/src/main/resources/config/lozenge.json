@@ -2,7 +2,7 @@
   id : "lozenge",
   type : "WIDGET",
   items : [
-    {name: "ELL", description: "English Language Learner", condition :{field: "limitedEnglishProficiency", value: ["Limited"]}, color: "#20c7c5", style: "solid"},
-    {name: "FRE", description: "Free Lunch", condition :{field: "schoolFoodServicesEligibility", value: ["FREE"]}, color: "#20c7c5", style: "solid"}
+    {name: "ELL", description: "English Language Learner", condition :{field: "limitedEnglishProficiency", value: ["Limited"]}, style: "lozenge-widget-ell"},
+    {name: "FRE", description: "Free Lunch", condition :{field: "schoolFoodServicesEligibility", value: ["FREE"]}, style: "lozenge-widget-fre"}
   ] 
 }

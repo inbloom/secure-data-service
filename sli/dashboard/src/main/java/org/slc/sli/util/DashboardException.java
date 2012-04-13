@@ -11,4 +11,8 @@ public class DashboardException extends RuntimeException {
     public DashboardException(String message) {
         super(message);
     }
+
+    public DashboardException(String message, Throwable t) {
+        super(message, t);
+    }
 }

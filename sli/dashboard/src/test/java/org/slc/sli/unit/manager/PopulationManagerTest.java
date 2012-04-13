@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.manager.impl.PopulationManagerImpl;
+import org.slc.sli.util.Constants;
 
 /**
  * 
@@ -191,4 +193,53 @@ public class PopulationManagerTest {
         
     }
 
+    @Test
+    public void testApplyAssessmentFilters() throws Exception {
+        
+        // set up studentSummaries
+        List<GenericEntity> studentSummaries = new ArrayList<GenericEntity>();
+        GenericEntity student = new GenericEntity();
+        studentSummaries.add(student);
+        
+        List<Map> assmtResults = new ArrayList<Map>();
+        Map assmtResult1 = new HashMap();
+        Map assmts1 = new HashMap();
+        assmts1.put("assessmentFamilyHierarchyName", "ISAT.ISAT Reading for Grades 3-8.ISAT Reading for Grade 8");
+        assmtResult1.put("assessments", assmts1);
+        assmtResult1.put("administrationDate", "2011-05-01");
+        assmtResults.add(assmtResult1);
+        
+        Map assmtResult2 = new HashMap();
+        Map assmts2 = new HashMap();
+        assmts2.put("assessmentFamilyHierarchyName", "ISAT.ISAT Reading for Grades 3-8.ISAT Reading for Grade 8");
+        assmtResult2.put("assessments", assmts2);
+        assmtResult2.put("administrationDate", "2011-03-01");
+        assmtResults.add(assmtResult2);
+        
+        Map assmtResult3 = new HashMap();
+        Map assmts3 = new HashMap();
+        assmts3.put("assessmentFamilyHierarchyName", "Dummy Assessment Family");
+        assmtResult3.put("assessments", assmts3);
+        assmtResult3.put("administrationDate", "2011-02-01");
+        assmtResults.add(assmtResult3);
+        
+        student.put(Constants.ATTR_STUDENT_ASSESSMENTS, assmtResults);
+        
+        // set up config
+        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, String> assmtFilter = new HashMap<String, String>();
+        assmtFilter.put("ISAT Reading", "MOST_RECENT_RESULT");
+        params.put("assessmentFilter", assmtFilter);
+        Config.Data config = new Config.Data("entity", "alias", params);
+        
+        // make the call
+        PopulationManagerImpl pm = new PopulationManagerImpl();
+        pm.applyAssessmentFilters(studentSummaries, config);
+        
+        // check that two of the three assmts got filtered out
+        Map filteredAssmts = (Map) student.get("assessments");
+        Map filteredAssmt = (Map) filteredAssmts.get("ISAT Reading");
+        Assert.assertEquals(1, filteredAssmts.size());
+        Assert.assertEquals("2011-05-01", filteredAssmt.get("administrationDate"));
+    }
 }
