@@ -95,6 +95,20 @@ Then /^Student Enrollment History includes "([^"]*)"$/ do |expectedEnrollment|
   assert(found, "Enrollment is not found")
 end
 
+When /^I see a header on the page that has the text "([^"]*)"$/ do |expectedText|
+  header = @explicitWait.until{@driver.find_element(:class, "div_main")}
+  logo = header.find_elements(:tag_name,"img")
+  assert(logo.length == 1, "Header logo img is not found")
+  headerText = header.find_element(:class, "header_right")
+  
+  assert(headerText.attribute("innerHTML").to_s.lstrip.rstrip.include?(expectedText), "Header text is not found")
+end
+
+When /^I see a footer on the page that has the text "([^"]*)"$/ do |expectedText|
+  footer = @driver.find_element(:class, "div_footer")
+  assert(footer.attribute("innerHTML").to_s.lstrip.rstrip.include?(expectedText), "Footer text is not found")
+end
+
 def clickOnStudent(name)
   studentTable = @explicitWait.until{@driver.find_element(:id, "studentList")}
   all_tds = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
