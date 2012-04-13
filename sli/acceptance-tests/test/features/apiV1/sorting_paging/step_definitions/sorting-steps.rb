@@ -23,16 +23,6 @@ Transform /^(\/[\w-]+\/)(<.+>)\/targets$/ do |uri, template|
   Transform(uri + template) + "/targets"
 end
 
-Given /^parameter "([^\"]*)" is "([^\"]*)"$/ do |param, value|
-  if !defined? @queryParams
-    @queryParams = []
-  end
-  @queryParams.delete_if do |entry|
-    entry.start_with? param
-  end
-  @queryParams << "#{param}=#{value}"
-end
-
 Then /^I should receive a collection$/ do
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Expected array of links")
