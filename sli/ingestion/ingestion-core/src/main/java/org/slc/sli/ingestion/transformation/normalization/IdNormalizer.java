@@ -138,8 +138,8 @@ public class IdNormalizer {
 
                 if (reference.getRef().isRefList()) {
                     //for lists of references set the properties on each element of the resolved ID list
-                    for(int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
-                        String indexedFieldPath = fieldPath + ".[" + Integer.toString(refIndex)+ "]";
+                    for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
+                        String indexedFieldPath = fieldPath + ".[" + Integer.toString(refIndex) + "]";
                         PropertyUtils.setProperty(entity, indexedFieldPath, ids.get(refIndex));
                     }
                 } else {
@@ -300,13 +300,13 @@ public class IdNormalizer {
             String refObjectPath = refConfig.getRefObjectPath();
             //split the valueSource by .
             StringTokenizer tokenizer = new StringTokenizer(valueSource, ".");
-            while(tokenizer.hasMoreTokens()) {
+            while (tokenizer.hasMoreTokens()) {
                 String token = tokenizer.nextToken();
                 result += token;
                 if (result.equals(refObjectPath)) {
                     result += ".[" + Integer.toString(refIndex) + "]";
                 }
-                if( tokenizer.hasMoreTokens() ) {
+                if (tokenizer.hasMoreTokens()) {
                     result += ".";
                 }
             }
