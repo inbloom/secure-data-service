@@ -30,7 +30,7 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap.put(EntityNames.TEACHER,
                 SecurityNodeBuilder.buildNode("teacher")
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)
-                        .addConnection(EntityNames.SECTION, "sectionId", EntityNames.TEACHER_SECTION_ASSOCIATION)
+                        .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS)
                         .construct());
         nodeMap.put(
                 EntityNames.SCHOOL,
@@ -39,12 +39,12 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .construct());
         nodeMap.put(EntityNames.SECTION,
                 SecurityNodeBuilder.buildNode(EntityNames.SECTION)
-                        .addConnection(EntityNames.TEACHER, "teacherId", EntityNames.TEACHER_SECTION_ASSOCIATION)
-                        .addConnection(EntityNames.STUDENT, "studentId", EntityNames.STUDENT_SECTION_ASSOCIATION)
+                        .addConnection(EntityNames.TEACHER, "teacherId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS)
+                        .addConnection(EntityNames.STUDENT, "studentId", ResourceNames.STUDENT_SECTION_ASSOCIATIONS)
                         .construct());
         nodeMap.put(EntityNames.STUDENT,
                 SecurityNodeBuilder.buildNode(EntityNames.STUDENT)
-                        .addConnection(EntityNames.SECTION, "sectionId", EntityNames.STUDENT_SECTION_ASSOCIATION)
+                        .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.STUDENT_SECTION_ASSOCIATIONS)
                         .addConnection(EntityNames.ASSESSMENT, "assessmentId", "").construct());
         
         nodeMap.put(EntityNames.ASSESSMENT,

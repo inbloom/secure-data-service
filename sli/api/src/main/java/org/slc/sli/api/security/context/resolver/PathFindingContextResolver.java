@@ -72,10 +72,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
             String repoName = getResourceName(next, connection);
             debug("Getting Ids From {}", repoName);
             if (isAssociative(next, connection)) {
-                AssociationDefinition ad = (AssociationDefinition) store.lookupByEntityType(repoName);
+                AssociationDefinition ad = (AssociationDefinition) store.lookupByResourceName(repoName);
                 List<String> keys = helper.getAssocKeys(current.getName(), ad);
-                debug("Association keys found {}", keys.toString());
-                idSet = helper.findEntitiesContainingReference(repoName, keys.get(0),
+                idSet = helper.findEntitiesContainingReference(ad.getStoredCollectionName(), keys.get(0),
                         connection.get(SecurityNode.CONNECTION_FIELD_NAME), ids);
             } else {
                 idSet = helper.findEntitiesContainingReference(repoName,

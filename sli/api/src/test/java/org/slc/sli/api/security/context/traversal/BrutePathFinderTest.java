@@ -65,6 +65,14 @@ public class BrutePathFinderTest {
         assertTrue(path.get(1).getName().equals("section"));
         assertTrue(path.get(2).getName().equals("teacher"));
     }
+    
+    @Test
+    public void testTeacherSchool() throws Exception {
+        path = pathFinder.find("teacher", "school");
+        assertTrue(path.size() == 2);
+        assertTrue(path.get(0).getName().equals("teacher"));
+        assertTrue(path.get(1).getName().equals("school"));
+    }
 
     
     @Test

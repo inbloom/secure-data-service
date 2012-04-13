@@ -18,7 +18,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityNames;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
@@ -119,12 +118,12 @@ public class PathFindingContextResolverTest {
         when(mockHelper.getAssocKeys(eq(EntityNames.SCHOOL), any(AssociationDefinition.class))).thenReturn(tsKeys1);
         when(mockHelper.getAssocKeys(eq(EntityNames.TEACHER), any(AssociationDefinition.class))).thenReturn(tsKeys2);
         when(
-                mockHelper.findEntitiesContainingReference(eq(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS),
+                mockHelper.findEntitiesContainingReference(eq("teacherSchoolAssociation"),
                         eq("teacherId"), eq("schoolId"), any(List.class))).thenReturn(
                 Arrays.asList(new String[] { "2", "3", "4" }));
         
         when(
-                mockHelper.findEntitiesContainingReference(eq(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS),
+                mockHelper.findEntitiesContainingReference(eq("teacherSchoolAssociation"),
                         eq("schoolId"), eq("teacherId"), any(List.class))).thenReturn(finalList);
         List<String> returned = resolver.findAccessible(mockEntity);
         assertTrue(returned.size() == finalList.size());
