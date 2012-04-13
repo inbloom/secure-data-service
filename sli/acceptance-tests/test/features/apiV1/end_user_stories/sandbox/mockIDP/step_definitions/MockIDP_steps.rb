@@ -68,16 +68,13 @@ Then /^the Mock IDP Page has a log out link$/ do
   logOut.should_not==nil
 end
 
-Then /^the heading of the Mock IDP Page is realm followed by "([^"]*)"$/ do |arg1|
-  headers = @driver.find_elements(:xpath, "//span[@class='header']")
-  headers.should_not==nil
-  found = false
-  headers.each do |header|
-    if header.text.should include "IDP"
-    found=true
-    end
-  end
-  assert(found,"no realm info found in mock IDP page!")
+Then /^the heading of the Mock IDP Page is "([^"]*)" followed by the realm "([^"]*)"$/ do |heading, realm|
+  heading_text = @driver.find_elements(:xpath, "//span[@class='heading']")
+  heading_text.size.should == 1
+  heading_text[0].text.should include heading
+  realm_text = @driver.find_elements(:xpath, "//span[@class='tenant']")
+  realm_text.size.should == 1
+  realm_text[0].text.should include realm
 end
 
 
