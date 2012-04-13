@@ -245,7 +245,7 @@ Scenario: Monster test until LOS is faster
       And the class for id "ATTENDANCE.AttendanceRate" for student "Alec Swanson" is "perfLevel4"
       And the count for id "ATTENDANCE.AttendanceRate" for student "Nomlanga Mccormick" is "96"
       And the class for id "ATTENDANCE.AttendanceRate" for student "Nomlanga Mccormick" is "perfLevel4"
-      And the count for id "ATTENDANCE.AttendanceRate" for student "Johnny Patel" is "87"
+      And the count for id "ATTENDANCE.AttendanceRate" for student "Johnny Patel" is "88"
       And the class for id "ATTENDANCE.AttendanceRate" for student "Johnny Patel" is "perfLevel1"
       And I should see a table heading "Absence Count"
       And the count for id "ATTENDANCE.AbsenceCount" for student "Charde Lowery" is "10"

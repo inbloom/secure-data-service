@@ -1,0 +1,62 @@
+{
+    "keyFields" : [ "body.studentId", "body.programId", "body.beginDate"],
+	"references" :
+	[{
+        "fieldPath" : "body.studentId",
+        "ref" :
+        {
+	        "collectionName" : "student",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    { 
+        "fieldPath" : "body.programId",
+        "ref" :
+        {
+	        "collectionName" : "program",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.ProgramReference.ProgramIdentity.ProgramId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    {
+        "fieldPath" : "body.educationOrganizationId",
+        "ref" :
+        {
+	        "collectionName" : "educationOrganization",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.EducationOrganizationReference.EducationalOrgIdentity.StateOrganizationId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    }]
+}
+

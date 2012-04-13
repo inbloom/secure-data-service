@@ -12,6 +12,7 @@ import java.util.Vector;
 
 import com.googlecode.ehcache.annotations.Cacheable;
 
+import org.slc.sli.entity.Config.Data;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.manager.ApiClientManager;
@@ -40,14 +41,16 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     @Cacheable(cacheName = "user.district")
     public EdOrgKey getUserEdOrg(String token) {
         // get list of school
-        // Delete this comment after Replace getToken() to token when token passes actual token
+        // Delete this comment after Replace getToken() to token when token
+        // passes actual token
         // instead of username
         List<GenericEntity> schools = getApiClient().getSchools(getToken(), null);
         if (!schools.isEmpty()) {
             // read first school
             GenericEntity school = schools.get(0);
             // read parenet organization
-            // Delete this comment after Replace getToken() to token when token passes actual token
+            // Delete this comment after Replace getToken() to token when token
+            // passes actual token
             // instead of username
             GenericEntity parentEdOrg = getParentEducationalOrganization(getToken(), school);
             @SuppressWarnings("unchecked")
@@ -63,10 +66,10 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     }
     
     /**
-     * Returns the institutional hierarchy visible to the user with the given auth token as a list
-     * of generic entities,
-     * with the ed-org level flattened
-     * This assumes there are no cycles in the education organization hierarchy tree.
+     * Returns the institutional hierarchy visible to the user with the given
+     * auth token as a list of generic entities, with the ed-org level flattened
+     * This assumes there are no cycles in the education organization hierarchy
+     * tree.
      * 
      * @return
      */
@@ -79,13 +82,15 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             return new ArrayList<GenericEntity>();
         }
         
-        // This maps ids from educational organisations to schools reachable from it via the "child"
+        // This maps ids from educational organisations to schools reachable
+        // from it via the "child"
         // relationship
         Map<String, HashSet<GenericEntity>> schoolReachableFromEdOrg = new HashMap<String, HashSet<GenericEntity>>();
         // This just maps ed org ids to ed org objects.
         Map<String, GenericEntity> edOrgIdMap = new HashMap<String, GenericEntity>();
         
-        // traverse the ancestor chain from each school and find ed orgs that the school is
+        // traverse the ancestor chain from each school and find ed orgs that
+        // the school is
         // reachable from
         for (int i = 0; i < schools.size(); i++) {
             GenericEntity edOrg = getParentEducationalOrganization(token, schools.get(i));
@@ -98,7 +103,10 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                     schoolReachableFromEdOrg.put(edOrgId, new HashSet<GenericEntity>());
                 }
                 schoolReachableFromEdOrg.get(edOrgId).add(schools.get(i));
-                edOrg = getParentEducationalOrganization(token, edOrg); // next in the ancestor
+                edOrg = getParentEducationalOrganization(token, edOrg); // next
+                                                                        // in
+                                                                        // the
+                                                                        // ancestor
                                                                         // chain
             }
         }
@@ -159,6 +167,14 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             throw new RuntimeException("error creating json object for dummy edOrg");
         }
         return retVal;
+    }
+    
+    @Override
+    public GenericEntity getUserInstHierarchy(String token, Object key, Data config) {
+        List<GenericEntity> entities = getUserInstHierarchy(token);
+        GenericEntity entity = new GenericEntity();
+        entity.put("root", entities);
+        return entity;
     }
     
 }

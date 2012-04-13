@@ -54,6 +54,20 @@ When /^I navigate to GET "([^\"]*)"$/ do |uri|
   end
 end
 
+Given /^parameter "([^\"]*)" is "([^\"]*)"$/ do |param, value|
+  step %Q{parameter "#{param}" "=" "#{value}"}
+end
+
+Given /^parameter "([^\"]*)" "([^\"]*)" "([^\"]*)"$/ do |param, op, value|
+  if !defined? @queryParams
+    @queryParams = []
+  end
+  @queryParams.delete_if do |entry|
+    entry.start_with? param
+  end
+  @queryParams << URI.escape("#{param}#{op}#{value}")
+end
+
 When /^I navigate to DELETE "([^"]*)"$/ do |uri|
   restHttpDelete(uri)
   assert(@res != nil, "Response from rest-client DELETE is nil")

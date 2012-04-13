@@ -38,7 +38,8 @@ $collectionSet = ["student",
                   "studentSectionGradebookEntry",
                   "parent",
                   "studentParentAssociation",
-                  "attendance"]
+                  "attendance",
+                  "program"]
 
 #######################################################################################################
 # Helper defs
@@ -331,7 +332,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1TargetTests,
                      :v1EndUserStoryAssessmentTests,
                      :v1EndUserStoryCustomEntityTests,
-                     :v1StudentOptionalFieldsTests] do
+                     :v1StudentOptionalFieldsTests,
+                     :v1SingleStudentViewTests] do
   displayFailureReport()
 end
 
@@ -761,6 +763,12 @@ task :v1StudentOptionalFieldsTests => [:realmInit] do
   runTests("test/features/apiV1/optional_fields/student_optional_fields.feature")
 end
 
+desc "Run V1 Single Student View Tests"
+task :v1SingleStudentViewTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/optional_fields/single_student_view.feature")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################
@@ -821,7 +829,7 @@ task :idpAuthTests => [:realmInit] do
 end
 
 desc "Run Sandbox Mock IDP Authentication Selenium Tests"
-task :mockIDPAuthTests => [:realmInit] do
+task :mockIDPAuthTests => [:realmInit, :importSandboxData] do
   runTests("test/features/apiV1/end_user_stories/sandbox/mockIDP/MockIDP.feature")
   displayFailureReport()
   if $SUCCESS
@@ -939,6 +947,11 @@ end
 desc "Run dashboard integration tests"
 task :dashboardSdsTests do
   runTests("test/features/dashboard/dash/dashboard_sds.feature")
+end
+
+desc "Run dashboard integrated Tests - Student Contact info"
+task :dashboardSdsContactInfoTests do
+  runTests("test/features/dashboard/dash/contact_info_sds.feature")
 end
 
 ############################################################

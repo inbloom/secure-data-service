@@ -100,6 +100,25 @@ public class RESTClient {
         return null;
     }
 
+    public String getJsonRequest(String path) {
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> response = null;
+        try {
+        response = exchange(path, HttpMethod.GET, new HttpEntity(headers), String.class);
+        } catch (HttpClientErrorException e) {
+            logger.debug("Catch HttpClientException: {}",  e.getStatusCode());
+        }
+        
+        if (response == null) {
+            return null;
+        }
+        
+        JsonParser parser = new JsonParser();
+        String jsonText = parser.parse(response.getBody()).getAsString();
+        return jsonText;
+        
+    }
+     
     public String getSecurityUrl() {
         return securityUrl;
     }

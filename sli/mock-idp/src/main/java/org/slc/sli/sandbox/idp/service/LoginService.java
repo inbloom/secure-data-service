@@ -9,6 +9,7 @@ import org.slc.sli.sandbox.idp.service.Users.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,7 +29,14 @@ public class LoginService {
     @Autowired
     SliClient sliClient;
     
-    private static String issuer = "http://local.slidev.org:8082/mock-idp";
+    /**
+     * This is the base of the issuer that gets encoded in the SAMLResponse. It will have
+     * ?tenant=<tenant> appended to it. The issuer must be unique, and match the field 'body.idp.id'
+     * in a realm document, otherwise the API will not be able to figure out which tenant this
+     * request is for.
+     */
+    @Value("${sli.mock-idp.issuer-base}")
+    private String issuerBase;
     
     /**
      * Submits identity assertion to the API based upon the user's choices.
@@ -47,10 +55,16 @@ public class LoginService {
         LOG.info("Login for user: {} roles: {} inResponseTo: {} destination: {}", new Object[] { user.getId(), roles,
                 requestInfo.getRequestId(), destination.toString() });
         
+        String issuer = issuerBase + "?tenant=" + requestInfo.getTenant();
+        
         String encodedResponse = samlComposer.componseResponse(destination.toString(), issuer,
                 requestInfo.getRequestId(), user.getId(), user.getUserName(), roles);
         
         URI redirectUri = sliClient.postResponse(destination, encodedResponse);
         return redirectUri;
+    }
+    
+    protected void setIssuerBase(String base) {
+        this.issuerBase = base;
     }
 }

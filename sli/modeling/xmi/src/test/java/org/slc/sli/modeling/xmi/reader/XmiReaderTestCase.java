@@ -32,7 +32,8 @@ public final class XmiReaderTestCase extends TestCase {
         final Map<Identifier, Generalization> generalizations = new HashMap<Identifier, Generalization>();
         final Map<Identifier, TagDefinition> tagDefinitions = new HashMap<Identifier, TagDefinition>();
         
-        final Model modelIn = new Model(classTypes, dataTypes, enumTypes, associations, generalizations, tagDefinitions);
+        final Model modelIn = new Model("", classTypes, dataTypes, enumTypes, associations, generalizations,
+                tagDefinitions);
         
         final String text = serialized(modelIn);
         final InputStream stream;
@@ -41,7 +42,7 @@ public final class XmiReaderTestCase extends TestCase {
         } catch (final UnsupportedEncodingException e) {
             throw new AssertionError(e);
         }
-        final Model modelOut = XmiReader.readInterchange(stream);
+        final Model modelOut = XmiReader.readModel(stream);
         assertEquals(modelIn, modelOut);
     }
     
