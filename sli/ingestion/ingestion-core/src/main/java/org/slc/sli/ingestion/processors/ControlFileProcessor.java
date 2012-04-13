@@ -100,7 +100,8 @@ public class ControlFileProcessor implements Processor {
 
             for (IngestionFileEntry file : cf.getFileEntries()) {
                 ResourceEntry resourceEntry = new ResourceEntry();
-                resourceEntry.update(file.getFileFormat().toString(), file.getFileType().getName(), file.getChecksum(), 0, 0);
+                resourceEntry.update( file.getFileFormat().getCode() ,
+                        file.getFileType().getName(), file.getChecksum(), 0, 0);
                 resourceEntry.setResourceName(newJob.getSourceId() + file.getFileName());
                 resourceEntry.setResourceId(file.getFileName());
                 newJob.getResourceEntries().add(resourceEntry);
@@ -189,7 +190,8 @@ public class ControlFileProcessor implements Processor {
             if (validator.isValid(cfd, errorReport)) {
                 for (IngestionFileEntry file : cf.getFileEntries()) {
                     ResourceEntry resourceEntry = new ResourceEntry();
-                    resourceEntry.update(file.getFileFormat().toString(), file.getFileType().getName(), file.getChecksum(), 0, 0);
+                    resourceEntry.update( file.getFileFormat().getCode() ,
+                            file.getFileType().getName(), file.getChecksum(), 0, 0);
                     resourceEntry.setResourceName(newJob.getSourceId() + file.getFileName());
                     resourceEntry.setResourceId(file.getFileName());
                     newJob.getResourceEntries().add(resourceEntry);
