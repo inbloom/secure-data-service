@@ -5,19 +5,22 @@
     <table id="${id}"></table>
   </div>
   <script type="text/javascript">
-  var gridId = 'listOfStudents';
-
-  var tableId = '${id}';
-  var panelConfig = config[gridId];
-  DashboardUtil.getData(
-    gridId, 
-    'sectionId=da5b4d1a-63a3-46d6-a4f1-396b3308af83', 
-    function(panelData){
-      DashboardUtil.makeGrid(tableId, panelConfig, panelData, {
-      onSelectRow: function(rowid, status) { 
-        window.open(DashboardUtil.getPageUrl('student', 'id=' + rowid), "_blank")}})});
-
-   
-
+  function printStudentList(sections,index)
+  {
+      var gridId = 'listOfStudents';
+      var tableId = '${id}';
+      var panelConfig = config[gridId];
+      var options={};
+      jQuery.extend(options, panelConfig, {items:panelConfig.items[0].items});
+      DashboardUtil.getData(
+        gridId, 
+        'sectionId='+sections[index].id, 
+        function(panelData){
+          DashboardUtil.makeGrid(tableId, options, panelData, {})});
+    }
+    function clearStudentList()
+    {
+        $('#${id}').jqGrid("GridUnload");
+    }
     </script>
 

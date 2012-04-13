@@ -7,7 +7,7 @@ import javax.xml.namespace.QName;
 /**
  * A generalization expresses the child isA parent relationship between two model elements.
  */
-public final class Generalization extends AbstractModelElement implements HasName {
+public final class Generalization extends AbstractModelElementWithLookup implements HasName {
     
     private final QName name;
     private final Reference child;
@@ -15,7 +15,7 @@ public final class Generalization extends AbstractModelElement implements HasNam
     
     public Generalization(final QName name, final Identifier id, final List<TaggedValue> taggedValues,
             final Reference child, final Reference parent, final LazyLookup lookup) {
-        super(id, taggedValues, lookup);
+        super(id, ReferenceType.GENERALIZATION, taggedValues, lookup);
         if (name == null) {
             throw new NullPointerException("name");
         }

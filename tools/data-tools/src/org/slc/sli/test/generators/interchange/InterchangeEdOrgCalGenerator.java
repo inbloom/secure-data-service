@@ -6,10 +6,10 @@ import java.util.List;
 import org.slc.sli.test.edfi.entities.ComplexObjectType;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrgCalendar;
 import org.slc.sli.test.edfi.entities.Session;
-import org.slc.sli.test.edfi.entities.relations.SessionMeta;
+import org.slc.sli.test.edfi.entities.meta.SessionMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.SessionGenerator;
-import org.slc.sli.test.mappingGenerator.MetaRelations;
-import org.slc.sli.test.mappingGenerator.StateEdFiXmlGenerator;
+import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
  * Generates the Education Organization Calendar Interchange derived from the variable:

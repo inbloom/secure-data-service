@@ -12,7 +12,7 @@ import org.slc.sli.test.edfi.entities.StaffCohortAssociation;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.StudentCohortAssociation;
-import org.slc.sli.test.edfi.entities.relations.CohortMeta;
+import org.slc.sli.test.edfi.entities.meta.CohortMeta;
 
 public class StaffCohortAssociationGenerator {
 	private static final Logger log = Logger.getLogger(StaffCohortAssociationGenerator.class);

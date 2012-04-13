@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * A tagged value is a tag value that is placed on a model element and conforms to a tag definition.
  */
-public final class TaggedValue extends AbstractModelElement {
+public final class TaggedValue extends AbstractModelElementWithLookup {
     /**
      * The value of the tagged value. Never <code>null</code>.
      */
@@ -17,7 +17,7 @@ public final class TaggedValue extends AbstractModelElement {
     
     public TaggedValue(final Identifier id, final List<TaggedValue> taggedValues, final String value,
             final Reference tagDefinition, final LazyLookup lookup) {
-        super(id, taggedValues, lookup);
+        super(id, ReferenceType.TAGGED_VALUE, taggedValues, lookup);
         if (value == null) {
             throw new NullPointerException("value");
         }
