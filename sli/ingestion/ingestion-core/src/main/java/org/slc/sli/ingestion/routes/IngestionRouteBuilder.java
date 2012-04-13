@@ -24,6 +24,7 @@ import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.NeutralRecordsMergeProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
+import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
@@ -47,12 +48,15 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     ZipFileProcessor zipFileProcessor;
 
+    @Autowired
+    PurgeProcessor purgeProcessor;
+
     @Autowired(required = true)
     PersistenceProcessor persistenceProcessor;
 
     @Autowired
     TransformationProcessor transformationProcessor;
-    
+
     @Autowired
     NeutralRecordsMergeProcessor nrMergeProcessor;
 
@@ -67,7 +71,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Value("${sli.ingestion.queue.workItem.concurrentConsumers}")
     private int concurrentConsumers;
-    
+
     @Override
     public void configure() throws Exception {
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
@@ -117,6 +121,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing control file.")
                 .process(ctlFileProcessor)
                 .to("direct:assembledJobs")
+            .when(header("IngestionMessageType").isEqualTo(MessageType.PURGE.name()))
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Performing Purge Operation.")
+                .process(purgeProcessor)
+                .to("direct:stop")
             .when(header("IngestionMessageType").isEqualTo(MessageType.BULK_TRANSFORM_REQUEST.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
                 .process(edFiProcessor)
@@ -234,7 +242,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
                         // clean up after ourselves
                         jobLogger.detachAndStopAllAppenders();
-                        
+
                         BatchJobUtils.saveBatchJobUsingStateManager(job);
                         BatchJobUtils.completeBatchJob(job.getId());
                     }
