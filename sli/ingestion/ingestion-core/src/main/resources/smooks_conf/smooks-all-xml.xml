@@ -1343,6 +1343,8 @@
 
     <jb:value property="nomenclature" data="ObjectiveAssessment/Nomenclature" />
 
+    <jb:wiring property="subObjectiveRefs" beanIdRef="SubObjectiveAssessmentsArray" />
+
   </jb:bean>
 
   <!-- AssessmentItemReferenceType -->
@@ -1353,6 +1355,15 @@
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentItemReference">
     <jb:value property="id" data="ObjectiveAssessment/AssessmentItemReference/@id" />
     <jb:value property="ref" data="ObjectiveAssessment/AssessmentItemReference/@ref" />
+  </jb:bean>
+
+  <jb:bean beanId="SubObjectiveAssessmentsArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
+    <jb:wiring beanIdRef="SubObjectiveAssessmentsRef" />
+  </jb:bean>
+  <jb:bean beanId="SubObjectiveAssessmentsRef" class="java.util.HashMap"
+    createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/ObjectiveAssessmentReference">
+    <jb:value property="id" data="ObjectiveAssessment/ObjectiveAssessmentReference/@id" />
+    <jb:value property="ref" data="ObjectiveAssessment/ObjectiveAssessmentReference/@ref" />
   </jb:bean>
 
   <!-- LearningObjectiveReferenceType -->
