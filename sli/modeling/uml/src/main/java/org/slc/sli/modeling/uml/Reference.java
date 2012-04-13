@@ -3,7 +3,7 @@ package org.slc.sli.modeling.uml;
 /**
  * A polymorphic reference that includes the identifier and the type.
  */
-public final class Reference {
+public final class Reference implements HasIdentity {
     /**
      * The identifier part of the reference.
      */
@@ -34,7 +34,7 @@ public final class Reference {
         return sb.toString();
     }
     
-    public Identifier getIdRef() {
+    public Identifier getId() {
         return id;
     }
     

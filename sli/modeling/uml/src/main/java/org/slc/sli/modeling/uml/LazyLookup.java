@@ -9,13 +9,18 @@ import java.util.List;
 public interface LazyLookup {
     
     /**
+     * Determines whether it is legal to use the dereferencing functions.
+     */
+    boolean isEnabled();
+    
+    /**
      * Returns the type specified by the reference.
      * 
      * @param reference
      *            The reference to the type.
      * @return the type required.
      */
-    Type getType(Reference reference);
+    Type getType(HasIdentity reference);
     
     /**
      * Returns the tag definition for the specified reference.
@@ -24,7 +29,7 @@ public interface LazyLookup {
      *            The reference to the tag definition.
      * @return the tag definition required.
      */
-    TagDefinition getTagDefinition(Reference reference);
+    TagDefinition getTagDefinition(HasIdentity reference);
     
     /**
      * Returns a list of generalizations for the derived reference.
@@ -33,7 +38,7 @@ public interface LazyLookup {
      *            The derived reference.
      * @return The base generalizations.
      */
-    List<Generalization> getGeneralizationBase(Reference derived);
+    List<Generalization> getGeneralizationBase(HasIdentity derived);
     
     /**
      * Returns a list of generalizations for the derived reference.
@@ -42,7 +47,7 @@ public interface LazyLookup {
      *            The base type reference.
      * @return The base generalizations.
      */
-    List<Generalization> getGeneralizationDerived(Reference base);
+    List<Generalization> getGeneralizationDerived(HasIdentity base);
     
     /**
      * Returns a list of association ends for the type reference.
@@ -51,5 +56,5 @@ public interface LazyLookup {
      *            The type reference.
      * @return The type associations.
      */
-    List<AssociationEnd> getAssociationEnds(Reference type);
+    List<AssociationEnd> getAssociationEnds(HasIdentity type);
 }

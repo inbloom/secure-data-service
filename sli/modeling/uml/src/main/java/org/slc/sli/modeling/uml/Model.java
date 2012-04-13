@@ -9,6 +9,7 @@ import java.util.Map;
  */
 public final class Model {
     
+    private final String name;
     private final Map<Identifier, Association> associations;
     private final Map<Identifier, ClassType> classTypes;
     private final Map<Identifier, DataType> dataTypes;
@@ -16,9 +17,13 @@ public final class Model {
     private final Map<Identifier, Generalization> generalizations;
     private final Map<Identifier, TagDefinition> tagDefinitions;
     
-    public Model(final Map<Identifier, ClassType> classTypes, final Map<Identifier, DataType> dataTypes,
-            final Map<Identifier, EnumType> enumTypes, final Map<Identifier, Association> associations,
-            final Map<Identifier, Generalization> generalizations, final Map<Identifier, TagDefinition> tagDefinitions) {
+    public Model(final String name, final Map<Identifier, ClassType> classTypes,
+            final Map<Identifier, DataType> dataTypes, final Map<Identifier, EnumType> enumTypes,
+            final Map<Identifier, Association> associations, final Map<Identifier, Generalization> generalizations,
+            final Map<Identifier, TagDefinition> tagDefinitions) {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
         if (classTypes == null) {
             throw new NullPointerException("classTypes");
         }
@@ -37,6 +42,7 @@ public final class Model {
         if (tagDefinitions == null) {
             throw new NullPointerException("tagDefinitions");
         }
+        this.name = name;
         this.classTypes = Collections.unmodifiableMap(new HashMap<Identifier, ClassType>(classTypes));
         this.dataTypes = Collections.unmodifiableMap(new HashMap<Identifier, DataType>(dataTypes));
         this.enumTypes = Collections.unmodifiableMap(new HashMap<Identifier, EnumType>(enumTypes));
@@ -53,6 +59,10 @@ public final class Model {
         } else {
             return false;
         }
+    }
+    
+    public String getName() {
+        return name;
     }
     
     public Map<Identifier, Association> getAssociationMap() {

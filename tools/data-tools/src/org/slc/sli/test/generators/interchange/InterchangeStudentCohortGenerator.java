@@ -8,12 +8,12 @@ import org.slc.sli.test.edfi.entities.Cohort;
 import org.slc.sli.test.edfi.entities.InterchangeStudentCohort;
 import org.slc.sli.test.edfi.entities.StaffCohortAssociation;
 import org.slc.sli.test.edfi.entities.StudentCohortAssociation;
-import org.slc.sli.test.edfi.entities.relations.CohortMeta;
+import org.slc.sli.test.edfi.entities.meta.CohortMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.CohortGenerator;
 import org.slc.sli.test.generators.StaffCohortAssociationGenerator;
 import org.slc.sli.test.generators.StudentCohortAssociationGenerator;
-import org.slc.sli.test.mappingGenerator.MetaRelations;
-import org.slc.sli.test.mappingGenerator.StateEdFiXmlGenerator;
+import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
  * Generates the Student Cohort Interchange as derived from the associations
