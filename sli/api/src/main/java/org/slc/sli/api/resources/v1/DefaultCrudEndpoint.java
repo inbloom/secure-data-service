@@ -631,8 +631,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @return result of CRUD operation
      */
     public Response readAll(final int offset, final int limit, HttpHeaders headers, final UriInfo uriInfo) {
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
         return this.readAll(typeName, headers, uriInfo);
     }
     
