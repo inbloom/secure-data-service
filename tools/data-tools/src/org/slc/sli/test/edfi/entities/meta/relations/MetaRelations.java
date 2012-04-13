@@ -2,6 +2,7 @@ package org.slc.sli.test.edfi.entities.meta.relations;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.slc.sli.test.edfi.entities.meta.CohortMeta;
 import org.slc.sli.test.edfi.entities.meta.CourseMeta;
@@ -20,40 +21,38 @@ public final class MetaRelations {
 
     // knobs to control number of entities to create
     public static final int TOTAL_SEAS = 1;
-    public static final int LEAS_PER_SEA = 1;
-    public static final int STAFF_PER_SEA = 3;
+    public static final int LEAS_PER_SEA = 2;
+    public static final int STAFF_PER_SEA = 0;
     public static final int SCHOOLS_PER_LEA = 2;
     public static final int COURSES_PER_SCHOOL = 2;
     public static final int SESSIONS_PER_SCHOOL = 1;
     public static final int SECTIONS_PER_COURSE_SESSION = 1;
-    public static final int TEACHERS_PER_SCHOOL = 1;
-    public static final int STUDENTS_PER_SCHOOL = 25;
-    public static final int PROGRAMS_PER_SCHOOL = 2;
-    public static final int FREE_STANDING_COHORT_PER_SCHOOL = 2;
-    public static final int FREE_STANDING_COHORT_SIZE = 4;
+    public static final int TEACHERS_PER_SCHOOL = 10;
+    public static final int STUDENTS_PER_SCHOOL = 10;
+    public static final int PROGRAMS_PER_SCHOOL = 0;
+    public static final int FREE_STANDING_COHORT_PER_SCHOOL = 0;
+    public static final int FREE_STANDING_COHORT_SIZE = 0;
     public static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
-    public static final int ASSESSMENTS_PER_STUDENT = 10;
+    public static final int ASSESSMENTS_PER_STUDENT = 5;
+    public static final int ATTENDANCE_PER_STUDENT_SECTION = 1;
 
     // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
-    public static final Map<String, SeaMeta> SEA_MAP = new HashMap<String, SeaMeta>();
-    public static final Map<String, LeaMeta> LEA_MAP = new HashMap<String, LeaMeta>();
-    public static final Map<String, SchoolMeta> SCHOOL_MAP = new HashMap<String, SchoolMeta>();
-    public static final Map<String, CourseMeta> COURSE_MAP = new HashMap<String, CourseMeta>();
+    // TODO: do we need maps? maybe just use Collections?
+    public static final Map<String, SeaMeta> SEA_MAP = new TreeMap<String, SeaMeta>();
+    public static final Map<String, LeaMeta> LEA_MAP = new TreeMap<String, LeaMeta>();
+    public static final Map<String, SchoolMeta> SCHOOL_MAP = new TreeMap<String, SchoolMeta>();
+    public static final Map<String, CourseMeta> COURSE_MAP = new TreeMap<String, CourseMeta>();
+    public static final Map<String, SessionMeta> SESSION_MAP = new TreeMap<String, SessionMeta>();
+    public static final Map<String, SectionMeta> SECTION_MAP = new TreeMap<String, SectionMeta>();
+    public static final Map<String, StaffMeta> STAFF_MAP = new TreeMap<String, StaffMeta>();
+    public static final Map<String, TeacherMeta> TEACHER_MAP = new TreeMap<String, TeacherMeta>();
+    public static final Map<String, StudentMeta> STUDENT_MAP = new TreeMap<String, StudentMeta>();
+    public static final Map<String, ProgramMeta> PROGRAM_MAP = new TreeMap<String, ProgramMeta>();
+    public static final Map<String, CohortMeta> COHORT_MAP = new TreeMap<String, CohortMeta>();
+    public static final Map<String, StudentAssessmentMeta> STUDENT_ASSES_MAP = new TreeMap<String, StudentAssessmentMeta>();
 
-    public static final Map<String, SessionMeta> SESSION_MAP = new HashMap<String, SessionMeta>();
-
-    public static final Map<String, SectionMeta> SECTION_MAP = new HashMap<String, SectionMeta>();
-
-    public static final Map<String, StaffMeta> STAFF_MAP = new HashMap<String, StaffMeta>();
-    public static final Map<String, TeacherMeta> TEACHER_MAP = new HashMap<String, TeacherMeta>();
-
-    public static final Map<String, StudentMeta> STUDENT_MAP = new HashMap<String, StudentMeta>();
-
-    public static final Map<String, ProgramMeta> PROGRAM_MAP = new HashMap<String, ProgramMeta>();
-
-    public static final Map<String, CohortMeta> COHORT_MAP = new HashMap<String, CohortMeta>();
-
-    public static final Map<String, StudentAssessmentMeta> STUDENT_ASSES_MAP = new HashMap<String, StudentAssessmentMeta>();
+    public static final String SEA_PREFIX = "caprica";
+    public static final String FIRST_TEACHER_ID = "lroslin";
 
     /**
      * Construct the meta relationships necessary for XML interchanges
@@ -79,7 +78,7 @@ public final class MetaRelations {
 
         for (int idNum = 0; idNum < TOTAL_SEAS; idNum++) {
 
-            SeaMeta seaMeta = new SeaMeta("sea" + idNum);
+            SeaMeta seaMeta = new SeaMeta(SEA_PREFIX + idNum);
 
             SEA_MAP.put(seaMeta.id, seaMeta);
 
@@ -178,6 +177,9 @@ public final class MetaRelations {
 
     }
 
+    // hacky way to generate 1 special teacher
+    private static boolean createdSpecialTeacher = false;
+
     /**
      * Generate the teachers for this school.
      * teachersInSchoolMap is used later in this class.
@@ -192,9 +194,10 @@ public final class MetaRelations {
         for (int idNum = 0; idNum < TEACHERS_PER_SCHOOL; idNum++) {
 
             TeacherMeta teacherMeta;
-            if (idNum == 0) {
-                // hardcode first teacher as he is set up in ny idp
-                teacherMeta = TeacherMeta.create("wadama", schoolMeta);
+            if (!createdSpecialTeacher) {
+                // hardcode first teacher so we can log in as established user
+                teacherMeta = TeacherMeta.create(FIRST_TEACHER_ID, schoolMeta);
+                createdSpecialTeacher = true;
             } else {
                 teacherMeta = TeacherMeta.createWithChainedId("teacher" + idNum, schoolMeta);
             }
@@ -311,7 +314,7 @@ public final class MetaRelations {
                     // program reference in section is optional; will create one program reference
                     // for every inverse-probability-section-has-program section
                     ProgramMeta programMeta = null;
-                    if (sectionMapForSchool.size() % INV_PROB_SECTION_HAS_PROGRAM == 0) {
+                    if (programMetas.length > 0 && sectionMapForSchool.size() % INV_PROB_SECTION_HAS_PROGRAM == 0) {
                         programMeta = (ProgramMeta) programMetas[programCounter];
                         programCounter = (programCounter + 1) % programMetas.length;
                     }
