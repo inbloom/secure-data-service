@@ -38,6 +38,7 @@ public class OptionalFieldAppenderHelper {
 
         EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
         NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setLimit(0);
         neutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.CRITERIA_IN, values));
 
         return (List<EntityBody>) entityDef.getService().list(neutralQuery);
