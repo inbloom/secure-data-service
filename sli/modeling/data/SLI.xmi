@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Sat Apr 07 19:08:56 EDT 2012'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Apr 10 16:52:51 EDT 2012'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.34(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -9339,29 +9339,6 @@
               </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
                 <UML:DataType xmi.idref = 'e9456507-5195-4c17-956e-b737f4e13b75'/>
-              </UML:StructuralFeature.type>
-            </UML:Attribute>
-            <UML:Attribute xmi.id = 'fe8aa474-81a4-4f45-94aa-e2fc9605e83b' name = 'staffReference'
-              isSpecification = 'false'>
-              <UML:StructuralFeature.multiplicity>
-                <UML:Multiplicity xmi.id = '759c10e4-3631-4473-ae98-4741be5730a0'>
-                  <UML:Multiplicity.range>
-                    <UML:MultiplicityRange xmi.id = '93542257-b6c1-4617-9bfd-8a1d5f7b7af3' lower = '1'
-                      upper = '1'/>
-                  </UML:Multiplicity.range>
-                </UML:Multiplicity>
-              </UML:StructuralFeature.multiplicity>
-              <UML:ModelElement.taggedValue>
-                <UML:TaggedValue xmi.id = '11ed09e4-2816-4aec-85d8-2460ace158d2' isSpecification = 'false'>
-                  <UML:TaggedValue.dataValue>The staff associated with this
-											leave event.</UML:TaggedValue.dataValue>
-                  <UML:TaggedValue.type>
-                    <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
-                  </UML:TaggedValue.type>
-                </UML:TaggedValue>
-              </UML:ModelElement.taggedValue>
-              <UML:StructuralFeature.type>
-                <UML:Class xmi.idref = '463ae43c-e6d1-4b7a-810f-6e1733acf328'/>
               </UML:StructuralFeature.type>
             </UML:Attribute>
           </UML:Classifier.feature>
@@ -26154,7 +26131,8 @@
           </UML:Generalization.parent>
         </UML:Generalization>
         <UML:Association xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062D3'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'EducationOrganization-StudentProgramAssociation' isSpecification = 'false'
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000063A4'
               isSpecification = 'false'>
@@ -26167,8 +26145,8 @@
           </UML:ModelElement.taggedValue>
           <UML:Association.connection>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062D4'
-              name = 'educationOrganization' visibility = 'public' isSpecification = 'false'
-              isNavigable = 'false' ordering = 'unordered' aggregation = 'composite' targetScope = 'instance'
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              ordering = 'unordered' aggregation = 'composite' targetScope = 'instance'
               changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062D7'>
@@ -26178,12 +26156,21 @@
                   </UML:Multiplicity.range>
                 </UML:Multiplicity>
               </UML:AssociationEnd.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020BD'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>The education organization associated with the program.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
               <UML:AssociationEnd.participant>
                 <UML:Class xmi.idref = 'd6a2e45d-54d5-4933-ac32-f4a36d1edcac'/>
               </UML:AssociationEnd.participant>
             </UML:AssociationEnd>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062D5'
-              name = 'programs' visibility = 'public' isSpecification = 'false' isNavigable = 'false'
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
               ordering = 'unordered' aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062D9'>
@@ -26200,7 +26187,8 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062DA'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'EducationOrganization-School' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062E1'
               isSpecification = 'false'>
@@ -26229,7 +26217,7 @@
               </UML:AssociationEnd.participant>
             </UML:AssociationEnd>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062DC'
-              name = 'schools' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
               ordering = 'unordered' aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062E0'>
@@ -26246,7 +26234,8 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062E4'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'School-StudentSchoolAssociation' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062E9'
               isSpecification = 'false'>
@@ -26258,7 +26247,7 @@
           </UML:ModelElement.taggedValue>
           <UML:Association.connection>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062E5'
-              name = 'school' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
               ordering = 'unordered' aggregation = 'composite' targetScope = 'instance'
               changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
@@ -26291,7 +26280,8 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062EA'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'Student-StudentSchoolAssociation' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062EF'
               isSpecification = 'false'>
@@ -26303,7 +26293,7 @@
           </UML:ModelElement.taggedValue>
           <UML:Association.connection>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062EB'
-              name = 'student' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
               ordering = 'unordered' aggregation = 'composite' targetScope = 'instance'
               changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
@@ -26336,7 +26326,8 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062F4'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'Student-StudentSectionAssociation' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062FE'
               isSpecification = 'false'>
@@ -26348,7 +26339,7 @@
           </UML:ModelElement.taggedValue>
           <UML:Association.connection>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062F5'
-              name = 'student' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
               ordering = 'unordered' aggregation = 'composite' targetScope = 'instance'
               changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
@@ -26364,9 +26355,8 @@
               </UML:AssociationEnd.participant>
             </UML:AssociationEnd>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062F6'
-              name = 'studentSectionAssociations' visibility = 'public' isSpecification = 'false'
-              isNavigable = 'true' ordering = 'unordered' aggregation = 'none' targetScope = 'instance'
-              changeability = 'changeable'>
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              ordering = 'unordered' aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id = '10-71-1-42-4e41f717:13664195697:-8000:00000000000020BC'>
                   <UML:Multiplicity.range>
@@ -26382,7 +26372,8 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062F7'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'Section-StudentSectionAssociation' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062FF'
               isSpecification = 'false'>
@@ -26395,7 +26386,7 @@
           </UML:ModelElement.taggedValue>
           <UML:Association.connection>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062F8'
-              name = 'section' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
               ordering = 'unordered' aggregation = 'composite' targetScope = 'instance'
               changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
@@ -26411,9 +26402,8 @@
               </UML:AssociationEnd.participant>
             </UML:AssociationEnd>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:00000000000062F9'
-              name = 'studentSectionAssociations' visibility = 'public' isSpecification = 'false'
-              isNavigable = 'true' ordering = 'unordered' aggregation = 'none' targetScope = 'instance'
-              changeability = 'changeable'>
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              ordering = 'unordered' aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id = '10-71-1-42-4e41f717:13664195697:-8000:00000000000020BE'>
                   <UML:Multiplicity.range>
@@ -26429,12 +26419,12 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006300'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'Student-StudentProgramAssociation' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006305'
               isSpecification = 'false'>
-              <UML:TaggedValue.dataValue>The student associated with the
-									program.</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.dataValue></UML:TaggedValue.dataValue>
               <UML:TaggedValue.type>
                 <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
               </UML:TaggedValue.type>
@@ -26442,7 +26432,7 @@
           </UML:ModelElement.taggedValue>
           <UML:Association.connection>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006301'
-              name = 'student' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
               ordering = 'unordered' aggregation = 'composite' targetScope = 'instance'
               changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
@@ -26453,14 +26443,22 @@
                   </UML:Multiplicity.range>
                 </UML:Multiplicity>
               </UML:AssociationEnd.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020BC'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>The student associated with the program.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
               <UML:AssociationEnd.participant>
                 <UML:Class xmi.idref = 'a7842b10-af81-4d4f-96e0-e3554e9f9f7a'/>
               </UML:AssociationEnd.participant>
             </UML:AssociationEnd>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006302'
-              name = 'studentProgramAssociations' visibility = 'public' isSpecification = 'false'
-              isNavigable = 'true' ordering = 'unordered' aggregation = 'none' targetScope = 'instance'
-              changeability = 'changeable'>
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              ordering = 'unordered' aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006307'>
                   <UML:Multiplicity.range>
@@ -26476,12 +26474,12 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006308'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'Program-StudentProgramAssociation' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:000000000000630D'
               isSpecification = 'false'>
-              <UML:TaggedValue.dataValue>The program associated with the
-									student.</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.dataValue></UML:TaggedValue.dataValue>
               <UML:TaggedValue.type>
                 <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
               </UML:TaggedValue.type>
@@ -26489,7 +26487,7 @@
           </UML:ModelElement.taggedValue>
           <UML:Association.connection>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006309'
-              name = 'program' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
               ordering = 'unordered' aggregation = 'composite' targetScope = 'instance'
               changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
@@ -26500,14 +26498,22 @@
                   </UML:Multiplicity.range>
                 </UML:Multiplicity>
               </UML:AssociationEnd.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020BB'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>The program associated with the student.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
               <UML:AssociationEnd.participant>
                 <UML:Class xmi.idref = 'fc020a07-dd4f-4c7d-96a6-4ad56d3d797d'/>
               </UML:AssociationEnd.participant>
             </UML:AssociationEnd>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:000000000000630A'
-              name = 'studentProgramAssociations' visibility = 'public' isSpecification = 'false'
-              isNavigable = 'true' ordering = 'unordered' aggregation = 'none' targetScope = 'instance'
-              changeability = 'changeable'>
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              ordering = 'unordered' aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:000000000000630F'>
                   <UML:Multiplicity.range>
@@ -26523,7 +26529,7 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006310'
-          name = 'staffProgramAssociations' isSpecification = 'false' isRoot = 'false'
+          name = 'Staff-StaffProgramAssociation' isSpecification = 'false' isRoot = 'false'
           isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006317'
@@ -26537,7 +26543,7 @@
           </UML:ModelElement.taggedValue>
           <UML:Association.connection>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006311'
-              name = 'staff' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
               ordering = 'unordered' aggregation = 'composite' targetScope = 'instance'
               changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
@@ -26553,9 +26559,8 @@
               </UML:AssociationEnd.participant>
             </UML:AssociationEnd>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006312'
-              name = 'staffProgramAssociations' visibility = 'public' isSpecification = 'false'
-              isNavigable = 'true' ordering = 'unordered' aggregation = 'none' targetScope = 'instance'
-              changeability = 'changeable'>
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              ordering = 'unordered' aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006316'>
                   <UML:Multiplicity.range>
@@ -26571,7 +26576,8 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006318'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'Program-StaffProgramAssociation' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:000000000000631F'
               isSpecification = 'false'>
@@ -26583,7 +26589,7 @@
           </UML:ModelElement.taggedValue>
           <UML:Association.connection>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006319'
-              name = 'program' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
               ordering = 'unordered' aggregation = 'composite' targetScope = 'instance'
               changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
@@ -26599,9 +26605,8 @@
               </UML:AssociationEnd.participant>
             </UML:AssociationEnd>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:000000000000631A'
-              name = 'staffProgramAssociations' visibility = 'public' isSpecification = 'false'
-              isNavigable = 'true' ordering = 'unordered' aggregation = 'none' targetScope = 'instance'
-              changeability = 'changeable'>
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              ordering = 'unordered' aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:000000000000631E'>
                   <UML:Multiplicity.range>
@@ -26617,7 +26622,8 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006330'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'Program-Section' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+          isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006335'
               isSpecification = 'false'>
@@ -26630,7 +26636,7 @@
           </UML:ModelElement.taggedValue>
           <UML:Association.connection>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006331'
-              name = 'programs' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
               ordering = 'unordered' aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006334'>
@@ -26645,7 +26651,7 @@
               </UML:AssociationEnd.participant>
             </UML:AssociationEnd>
             <UML:AssociationEnd xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006332'
-              name = 'sections' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              name = '' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
               ordering = 'unordered' aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id = '10-71-1-42-4e41f717:13664195697:-8000:00000000000020C2'>
@@ -26872,7 +26878,8 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:0000000000006356'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'Section-ClassPeriod' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '-64--88-1-75-2e3d9f32:13660d1622f:-8000:000000000000635B'
               isSpecification = 'false'>
@@ -28455,7 +28462,8 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '10-71-1-42-4e41f717:13664195697:-8000:0000000000002073'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'Student-CourseTranscript' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false'>
           <UML:Association.connection>
             <UML:AssociationEnd xmi.id = '10-71-1-42-4e41f717:13664195697:-8000:0000000000002074'
               name = 'student' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
@@ -28474,8 +28482,9 @@
               </UML:AssociationEnd.participant>
             </UML:AssociationEnd>
             <UML:AssociationEnd xmi.id = '10-71-1-42-4e41f717:13664195697:-8000:0000000000002075'
-              visibility = 'public' isSpecification = 'false' isNavigable = 'true' ordering = 'unordered'
-              aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+              name = 'courseTranscripts' visibility = 'public' isSpecification = 'false'
+              isNavigable = 'true' ordering = 'unordered' aggregation = 'none' targetScope = 'instance'
+              changeability = 'changeable'>
               <UML:AssociationEnd.multiplicity>
                 <UML:Multiplicity xmi.id = '10-71-1-42-4e41f717:13664195697:-8000:000000000000207A'>
                   <UML:Multiplicity.range>
@@ -28772,7 +28781,8 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '10-71-1-42-4e41f717:13664195697:-8000:00000000000020A5'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'StudentCompetency-StudentCompetencyObjective' isSpecification = 'false'
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '10-71-1-42-4e41f717:13664195697:-8000:00000000000020AA'
               isSpecification = 'false'>
@@ -28946,7 +28956,8 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '10-71-1-42-4e41f717:13664195697:-8000:00000000000020CB'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'Session-BellSchedule' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '10-71-1-42-4e41f717:13664195697:-8000:00000000000020D0'
               isSpecification = 'false'>
@@ -29129,7 +29140,8 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '10-71-1-42-4e41f717:13664195697:-8000:00000000000020ED'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'DisciplineIncident-Staff' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '10-71-1-42-4e41f717:13664195697:-8000:00000000000020F2'
               isSpecification = 'false'>
@@ -29446,6 +29458,15 @@
         <UML:Class xmi.id = '-64--88-1-76-69298e72:1366a3178b0:-8000:0000000000003AB6'
           name = 'StudentAssessment' visibility = 'public' isSpecification = 'false'
           isRoot = 'false' isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id = '10-71-1-42--7c4b48f2:1369df89e54:-8000:0000000000003A27'
+              isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>This entity represents the analysis or scoring of a student&apos;s response on an assessment. The analysis results in a value that represents a student&apos;s performance on a set of items on a test.</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
           <UML:Classifier.feature>
             <UML:Attribute xmi.id = '12d96392-bf72-44a7-b351-39cd33bf13f3' name = 'administrationDate'
               isSpecification = 'false'>
@@ -29802,7 +29823,8 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '-64--88-1-76-69298e72:1366a3178b0:-8000:0000000000003ABA'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'Assessment-StudentAssessment' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false'>
           <UML:Association.connection>
             <UML:AssociationEnd xmi.id = '-64--88-1-76-69298e72:1366a3178b0:-8000:0000000000003ABB'
               name = 'assessment' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
@@ -29950,7 +29972,8 @@
           </UML:Association.connection>
         </UML:Association>
         <UML:Association xmi.id = '10-71-1-42-4dde7cf9:136781d91f8:-8000:00000000000051E3'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          name = 'Session-CourseOffering' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false'>
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id = '10-71-1-42-4dde7cf9:136781d91f8:-8000:00000000000051E8'
               isSpecification = 'false'>
@@ -30145,21 +30168,109 @@
             <UML:DataType xmi.idref = '08d9c7c2-93a7-4741-95f4-0ad085b7e47a'/>
           </UML:Generalization.parent>
         </UML:Generalization>
-        <UML:Association xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020BD'
-          name = '' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+        <UML:DataType xmi.id = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020BE'
+          name = 'Reference' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+          isAbstract = 'false'>
+          <UML:GeneralizableElement.generalization>
+            <UML:Generalization xmi.idref = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020C1'/>
+          </UML:GeneralizableElement.generalization>
+        </UML:DataType>
+        <UML:DataType xmi.id = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020BF'
+          name = 'UUID' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+          isAbstract = 'false'>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020C7'
+              isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020C2'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+          <UML:GeneralizableElement.generalization>
+            <UML:Generalization xmi.idref = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020C0'/>
+          </UML:GeneralizableElement.generalization>
+        </UML:DataType>
+        <UML:Generalization xmi.id = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020C0'
+          isSpecification = 'false'>
+          <UML:Generalization.child>
+            <UML:DataType xmi.idref = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020BF'/>
+          </UML:Generalization.child>
+          <UML:Generalization.parent>
+            <UML:DataType xmi.idref = '08d9c7c2-93a7-4741-95f4-0ad085b7e47a'/>
+          </UML:Generalization.parent>
+        </UML:Generalization>
+        <UML:Generalization xmi.id = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020C1'
+          isSpecification = 'false'>
+          <UML:Generalization.child>
+            <UML:DataType xmi.idref = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020BE'/>
+          </UML:Generalization.child>
+          <UML:Generalization.parent>
+            <UML:DataType xmi.idref = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020BF'/>
+          </UML:Generalization.parent>
+        </UML:Generalization>
+        <UML:TagDefinition xmi.id = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020C2'
+          name = 'pattern' isSpecification = 'false'>
+          <UML:TagDefinition.multiplicity>
+            <UML:Multiplicity xmi.id = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020C6'>
+              <UML:Multiplicity.range>
+                <UML:MultiplicityRange xmi.id = '10-71-1-42--4092f992:13696f36e84:-8000:00000000000020C5'
+                  lower = '0' upper = '1'/>
+              </UML:Multiplicity.range>
+            </UML:Multiplicity>
+          </UML:TagDefinition.multiplicity>
+        </UML:TagDefinition>
+        <UML:Association xmi.id = '-64--88-1-75--202ac4d2:136993a0cb8:-8000:00000000000020C3'
+          name = 'Staff-LeaveEvent' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+          isAbstract = 'false'>
           <UML:Association.connection>
-            <UML:AssociationEnd xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020BE'
-              visibility = 'public' isSpecification = 'false' isNavigable = 'true' ordering = 'unordered'
-              aggregation = 'composite' targetScope = 'instance' changeability = 'changeable'>
+            <UML:AssociationEnd xmi.id = '-64--88-1-75--202ac4d2:136993a0cb8:-8000:00000000000020C4'
+              name = 'staff' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              ordering = 'unordered' aggregation = 'composite' targetScope = 'instance'
+              changeability = 'changeable'>
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity xmi.id = '-64--88-1-75--202ac4d2:136993a0cb8:-8000:00000000000020C7'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '-64--88-1-75--202ac4d2:136993a0cb8:-8000:00000000000020C6'
+                      lower = '1' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '-64--88-1-75--202ac4d2:136993a0cb8:-8000:00000000000020CA'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>The staff associated with this leave event.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
               <UML:AssociationEnd.participant>
-                <UML:Class xmi.idref = 'fc020a07-dd4f-4c7d-96a6-4ad56d3d797d'/>
+                <UML:Class xmi.idref = '00d5f1e0-960d-4695-9441-8d084fc45060'/>
               </UML:AssociationEnd.participant>
             </UML:AssociationEnd>
-            <UML:AssociationEnd xmi.id = '-64--88-1-75-7860a053:1368dce9a7c:-8000:00000000000020BF'
-              visibility = 'public' isSpecification = 'false' isNavigable = 'true' ordering = 'unordered'
-              aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+            <UML:AssociationEnd xmi.id = '-64--88-1-75--202ac4d2:136993a0cb8:-8000:00000000000020C5'
+              name = 'leaveEvents' visibility = 'public' isSpecification = 'false' isNavigable = 'true'
+              ordering = 'unordered' aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity xmi.id = '-64--88-1-75--202ac4d2:136993a0cb8:-8000:00000000000020C9'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '-64--88-1-75--202ac4d2:136993a0cb8:-8000:00000000000020C8'
+                      lower = '0' upper = '-1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '-64--88-1-75--202ac4d2:136993a0cb8:-8000:00000000000020CB'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>The leave events associated with this staff.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '534b42d2-ab0d-4272-8b71-7125c112eac2'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
               <UML:AssociationEnd.participant>
-                <UML:Class xmi.idref = '8e8dbb35-3be0-481b-83eb-5d92f0b18877'/>
+                <UML:Class xmi.idref = 'd35ca024-efec-49af-b4ee-1186afb78a33'/>
               </UML:AssociationEnd.participant>
             </UML:AssociationEnd>
           </UML:Association.connection>

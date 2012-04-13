@@ -6,11 +6,11 @@ import java.util.List;
 import org.slc.sli.test.edfi.entities.InterchangeStudentEnrollment;
 import org.slc.sli.test.edfi.entities.StudentSchoolAssociation;
 import org.slc.sli.test.edfi.entities.StudentSectionAssociation;
-import org.slc.sli.test.edfi.entities.relations.StudentMeta;
+import org.slc.sli.test.edfi.entities.meta.StudentMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.StudentSchoolAssociationGenerator;
 import org.slc.sli.test.generators.StudentSectionAssociationGenerator;
-import org.slc.sli.test.mappingGenerator.MetaRelations;
-import org.slc.sli.test.mappingGenerator.StateEdFiXmlGenerator;
+import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
  * Generates the Student Enrollment Interchange as derived from the associations

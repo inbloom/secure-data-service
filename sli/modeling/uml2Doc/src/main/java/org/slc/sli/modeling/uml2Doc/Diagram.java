@@ -3,16 +3,21 @@ package org.slc.sli.modeling.uml2Doc;
 public final class Diagram {
     private final String title;
     private final String source;
+    private final String description;
     
-    public Diagram(final String title, final String source) {
+    public Diagram(final String title, final String source, final String description) {
         if (title == null) {
             throw new NullPointerException("title");
         }
         if (source == null) {
             throw new NullPointerException("source");
         }
+        if (description == null) {
+            throw new NullPointerException("description");
+        }
         this.title = title;
         this.source = source;
+        this.description = description;
     }
     
     @Override
@@ -22,6 +27,8 @@ public final class Diagram {
         sb.append("title : \"").append(title).append("\"");
         sb.append(", ");
         sb.append("source : \"").append(source).append("\"");
+        sb.append(", ");
+        sb.append("description : \"").append(description).append("\"");
         sb.append("}");
         return sb.toString();
     }
@@ -32,5 +39,9 @@ public final class Diagram {
     
     public String getSource() {
         return source;
+    }
+    
+    public String getDescription() {
+        return description;
     }
 }

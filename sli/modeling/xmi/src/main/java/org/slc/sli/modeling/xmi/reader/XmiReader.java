@@ -162,7 +162,7 @@ public final class XmiReader {
                 }
                 case XMLStreamConstants.END_ELEMENT: {
                     assertName(XmiElementName.ASSOCIATION, reader);
-                    return new Association(id, name, connection.getLHS(), connection.getRHS(), taggedValues, lookup);
+                    return new Association(id, name, connection.getLHS(), connection.getRHS(), taggedValues);
                 }
                 case XMLStreamConstants.CHARACTERS: {
                     // Ignore.
@@ -220,8 +220,8 @@ public final class XmiReader {
             final QName name = new QName(localName);
             final boolean isNavigable = getBoolean(XmiAttributeName.IS_NAVIGABLE, true, reader);
             Reference participant = null;
-            final Range range = new Range(Identifier.random(), Occurs.ONE, Occurs.ONE, EMPTY_TAGGED_VALUE_LIST, lookup);
-            Multiplicity multiplicity = new Multiplicity(Identifier.random(), EMPTY_TAGGED_VALUE_LIST, range, lookup);
+            final Range range = new Range(Identifier.random(), Occurs.ONE, Occurs.ONE, EMPTY_TAGGED_VALUE_LIST);
+            Multiplicity multiplicity = new Multiplicity(Identifier.random(), EMPTY_TAGGED_VALUE_LIST, range);
             while (reader.hasNext()) {
                 reader.next();
                 switch (reader.getEventType()) {
@@ -634,7 +634,7 @@ public final class XmiReader {
                 }
                 case XMLStreamConstants.END_ELEMENT: {
                     assertName(XmiElementName.ENUMERATION_LITERAL, reader);
-                    return new EnumLiteral(id, name, taggedValues, lookup);
+                    return new EnumLiteral(id, name, taggedValues);
                 }
                 case XMLStreamConstants.CHARACTERS: {
                     // Ignore.
@@ -686,7 +686,7 @@ public final class XmiReader {
      *            The {@link InputStream}.
      * @return The parsed {@link Model}.
      */
-    public static final Model readInterchange(final InputStream stream) {
+    public static final Model readModel(final InputStream stream) {
         final XMLInputFactory factory = XMLInputFactory.newInstance();
         try {
             final XMLStreamReader reader = factory.createXMLStreamReader(stream);
@@ -703,10 +703,10 @@ public final class XmiReader {
         }
     }
     
-    public static final Model readInterchange(final String fileName) throws FileNotFoundException {
+    public static final Model readModel(final String fileName) throws FileNotFoundException {
         final InputStream istream = new BufferedInputStream(new FileInputStream(fileName));
         try {
-            return readInterchange(istream);
+            return readModel(istream);
         } finally {
             closeQuiet(istream);
         }
@@ -782,7 +782,7 @@ public final class XmiReader {
                 }
                 case XMLStreamConstants.END_ELEMENT: {
                     assertName(XmiElementName.MULTIPLICITY, reader);
-                    return new Multiplicity(id, EMPTY_TAGGED_VALUE_LIST, range, lookup);
+                    return new Multiplicity(id, EMPTY_TAGGED_VALUE_LIST, range);
                 }
                 case XMLStreamConstants.CHARACTERS: {
                     // Ignore.
@@ -843,7 +843,7 @@ public final class XmiReader {
                 }
                 case XMLStreamConstants.END_ELEMENT: {
                     assertName(XmiElementName.MULTIPLICITY_RANGE, reader);
-                    return new Range(id, lowerBound, upperBound, EMPTY_TAGGED_VALUE_LIST, lookup);
+                    return new Range(id, lowerBound, upperBound, EMPTY_TAGGED_VALUE_LIST);
                 }
                 case XMLStreamConstants.CHARACTERS: {
                     // Ignore.
@@ -964,8 +964,8 @@ public final class XmiReader {
                         }
                         case XMLStreamConstants.END_ELEMENT: {
                             if ("Namespace.ownedElement".equals(reader.getLocalName())) {
-                                return new Model(classTypes, dataTypes, enumTypes, associations, generalizations,
-                                        tagDefinitions);
+                                return new Model("FIXME", classTypes, dataTypes, enumTypes, associations,
+                                        generalizations, tagDefinitions);
                             } else {
                                 throw new AssertionError(reader.getLocalName());
                             }
@@ -1103,7 +1103,7 @@ public final class XmiReader {
                 }
                 case XMLStreamConstants.END_ELEMENT: {
                     assertName(XmiElementName.TAG_DEFINITION, reader);
-                    return new TagDefinition(id, taggedValues, name, multiplicity, lookup);
+                    return new TagDefinition(id, taggedValues, name, multiplicity);
                 }
                 case XMLStreamConstants.CHARACTERS: {
                     // Ignore.
@@ -1141,7 +1141,7 @@ public final class XmiReader {
                 }
                 case XMLStreamConstants.END_ELEMENT: {
                     assertName(XmiElementName.PACKAGE, reader);
-                    return new Package(name, id, taggedValues, ownedElements, lookup);
+                    return new Package(name, id, taggedValues, ownedElements);
                 }
                 case XMLStreamConstants.CHARACTERS: {
                     // Ignore.

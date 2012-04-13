@@ -7,7 +7,7 @@ import org.slc.sli.test.edfi.entities.EmploymentStatusType;
 import org.slc.sli.test.edfi.entities.StaffEducationOrgEmploymentAssociation;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
-import org.slc.sli.test.edfi.entities.relations.StaffMeta;
+import org.slc.sli.test.edfi.entities.meta.StaffMeta;
 
 public class StaffEdOrgEmploymentAssociationGenerator {
 

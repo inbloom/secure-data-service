@@ -50,7 +50,7 @@ public final class DocumentationExpander {
     }
     
     private static final Entity<Type> dereferenceEntity(final Entity<Reference> entity, final Model model) {
-        final Type type = model.getClassTypeMap().get(entity.getType().getIdRef());
+        final Type type = model.getClassTypeMap().get(entity.getType().getId());
         return new Entity<Type>(entity.getTitle(), type, entity.getDiagrams());
     }
     
