@@ -16,25 +16,18 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import com.sun.jersey.api.uri.UriBuilderImpl;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -79,7 +72,7 @@ public class AssociationResourcesCrudTest {
         packageName = this.getClass().getPackage().getName();
         classesToTest = getClassNames(packageName);
 
-        uriInfo = buildMockUriInfo(null);
+        uriInfo = ResourceTestUtil.buildMockUriInfo(null);
 
         // inject administrator security context for unit testing
         injector.setAdminContextWithElevatedRights();
@@ -99,7 +92,7 @@ public class AssociationResourcesCrudTest {
             Response response = getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName)));
             assertNotNull("Response is null", response);
             assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
-            assertNotNull("ID should not be null", parseIdFromLocation(response));
+            assertNotNull("ID should not be null", ResourceTestUtil.parseIdFromLocation(response));
         }
     }
 
@@ -107,7 +100,7 @@ public class AssociationResourcesCrudTest {
     public void testRead() {
         for (String classToTest : classesToTest) {
             String resourceName = classToTest.replace(packageName + ".", "");
-            String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
+            String id = ResourceTestUtil.parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
             Response response = getReadResponse(classToTest, id);
             assertNotNull("Response is null", response);
             Object responseEntityObj = response.getEntity();
@@ -171,7 +164,7 @@ public class AssociationResourcesCrudTest {
 
     private Response getUpdateResponse(String classToTest) {
         String resourceName = classToTest.replace(packageName + ".", "");
-        String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
+        String id = ResourceTestUtil.parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
 
         @SuppressWarnings("rawtypes")
         Class[] paramTypes = { String.class, EntityBody.class, HttpHeaders.class, UriInfo.class };
@@ -190,7 +183,7 @@ public class AssociationResourcesCrudTest {
 
     private Response getDeleteResponse(String classToTest) {
         String resourceName = classToTest.replace(packageName + ".", "");
-        String id = parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
+        String id = ResourceTestUtil.parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
 
         @SuppressWarnings("rawtypes")
         Class[] paramTypes = { String.class, HttpHeaders.class, UriInfo.class };
@@ -281,50 +274,5 @@ public class AssociationResourcesCrudTest {
             }
         }
         return classes;
-    }
-
-    public UriInfo buildMockUriInfo(final String queryString) throws Exception {
-        UriInfo mock = mock(UriInfo.class);
-        when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
-
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("absolute");
-            }
-        });
-        when(mock.getBaseUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("base");
-            }
-        });
-        when(mock.getRequestUriBuilder()).thenAnswer(new Answer<UriBuilder>() {
-
-            @Override
-            public UriBuilder answer(InvocationOnMock invocation) throws Throwable {
-                return new UriBuilderImpl().path("request");
-            }
-        });
-        when(mock.getQueryParameters(true)).thenAnswer(new Answer<MultivaluedMap>() {
-            @Override
-            public MultivaluedMap answer(InvocationOnMock invocationOnMock) throws Throwable {
-                return new MultivaluedMapImpl();
-            }
-        });
-
-        when(mock.getRequestUri()).thenReturn(new UriBuilderImpl().replaceQuery(queryString).build(new Object[] {}));
-        return mock;
-    }
-
-    private static String parseIdFromLocation(Response response) {
-        List<Object> locationHeaders = response.getMetadata().get("Location");
-        assertNotNull(locationHeaders);
-        assertEquals(1, locationHeaders.size());
-        Pattern regex = Pattern.compile(".+/([\\w-]+)$");
-        Matcher matcher = regex.matcher((String) locationHeaders.get(0));
-        matcher.find();
-        assertEquals(1, matcher.groupCount());
-        return matcher.group(1);
     }
 }

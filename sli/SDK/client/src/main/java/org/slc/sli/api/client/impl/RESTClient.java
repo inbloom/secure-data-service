@@ -23,7 +23,6 @@ import org.scribe.model.OAuthConfig;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
-
 import org.slc.sli.api.client.Constants;
 import org.slc.sli.api.client.security.SliApi;
 
@@ -33,7 +32,7 @@ import org.slc.sli.api.client.security.SliApi;
  */
 public class RESTClient {
     
-    private static final String SESSION_CHECK_PREFIX = "api/rest/system/session/check";
+    private static final String SESSION_CHECK_PREFIX = "api/rest/v1/system/session/check";
     
     private static Logger logger = Logger.getLogger("RESTClient");
     private String apiServerUri = null;
@@ -58,7 +57,8 @@ public class RESTClient {
      */
     public RESTClient(final URL apiServerURL, final String clientId, final String clientSecret, final URL callbackURL) {
         client = ClientFactory.newClient();
-        apiServerUri = apiServerURL.toString() + Constants.API_SERVER_PATH;
+        apiServerUri = apiServerURL.toString().endsWith("/") ? apiServerURL.toString() + Constants.API_SERVER_PATH
+                : apiServerURL.toString() + "/" + Constants.API_SERVER_PATH;
         
         sliApi = new SliApi();
         SliApi.setBaseUrl(apiServerURL);

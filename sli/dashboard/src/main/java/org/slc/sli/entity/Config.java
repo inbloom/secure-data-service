@@ -120,6 +120,7 @@ public class Config {
         protected String entity;
         protected String alias;
         protected Map<String, Object> params;
+        protected boolean lazy;
         
         public Data() {
         }
@@ -142,9 +143,48 @@ public class Config {
             return params;
         }
         
+        public boolean isLazy() {
+            return lazy;
+        }
+
         @Override
-        public String toString() {
-            return "Data [entityRef=" + entity + ", entityAlias=" + alias + ", params=" + params + "]";
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((alias == null) ? 0 : alias.hashCode());
+            result = prime * result + ((entity == null) ? 0 : entity.hashCode());
+            result = prime * result + (lazy ? 1231 : 1237);
+            result = prime * result + ((params == null) ? 0 : params.hashCode());
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            Data other = (Data) obj;
+            if (alias == null) {
+                if (other.alias != null)
+                    return false;
+            } else if (!alias.equals(other.alias))
+                return false;
+            if (entity == null) {
+                if (other.entity != null)
+                    return false;
+            } else if (!entity.equals(other.entity))
+                return false;
+            if (lazy != other.lazy)
+                return false;
+            if (params == null) {
+                if (other.params != null)
+                    return false;
+            } else if (!params.equals(other.params))
+                return false;
+            return true;
         }
     }
     

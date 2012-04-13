@@ -33,6 +33,12 @@ public interface APIClient {
     public GenericEntity getParentEducationalOrganization(final String token, GenericEntity educationalOrganization);
     
     public List<GenericEntity> getStudentEnrollment(final String token, GenericEntity student);
+
+    public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId);
+    
+    public String getHeader(String token);
+
+    public String getFooter(String token);
     
     /**
      * Returns a list of courses for a given student and query params

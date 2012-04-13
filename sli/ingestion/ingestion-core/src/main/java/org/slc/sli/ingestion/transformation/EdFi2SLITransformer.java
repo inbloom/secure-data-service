@@ -62,22 +62,23 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
 
         if (transformed != null && !transformed.isEmpty()) {
-            LOG.error("EdFi2SLI Transform has resulted in either a null or empty list of transformed SimpleEntities.");
-        }
 
-        for (SimpleEntity entity : transformed) {
+            for (SimpleEntity entity : transformed) {
 
-            if (entity.getMetaData() == null) {
-                entity.setMetaData(new HashMap<String, Object>());
+                   if (entity.getMetaData() == null) {
+                    entity.setMetaData(new HashMap<String, Object>());
+                }
+
+                entity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), item.getSourceId());
+
+                matchEntity(entity, errorReport);
+
+                if (errorReport.hasErrors()) {
+                    return Collections.emptyList();
+                }
             }
-
-            entity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), item.getSourceId());
-
-            matchEntity(entity, errorReport);
-
-            if (errorReport.hasErrors()) {
-                return Collections.emptyList();
-            }
+        } else {
+            LOG.error("EdFi2SLI Transform has resulted in either a null or empty list of transformed SimpleEntities.");            
         }
 
         return transformed;
@@ -142,6 +143,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         try {
             for (String field : entityConfig.getKeyFields()) {
+                //TODO this does not support using anything from a list
                 Object fieldValue = PropertyUtils.getProperty(entity, field);
                 filter.put(field, (String) fieldValue);
             }

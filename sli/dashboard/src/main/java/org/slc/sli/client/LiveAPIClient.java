@@ -54,6 +54,17 @@ public class LiveAPIClient implements APIClient {
     @Value("${api.server.url}")
     private String apiUrl;
     
+    private String portalHeaderUrl;
+    private String portalFooterUrl;
+    
+    public void setPortalHeaderUrl(String portalHeaderUrl) {
+        this.portalHeaderUrl = portalHeaderUrl;
+    }
+
+    public void setPortalFooterUrl(String portalFooterUrl) {
+        this.portalFooterUrl = portalFooterUrl;
+    }
+
     private RESTClient restClient;
     private Gson gson;
     
@@ -194,7 +205,12 @@ public class LiveAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
         return createEntitiesFromAPI(getApiUrl() + "/v1" + SECTIONS_URL + sectionId
-                + "/studentSectionAssociations" + "/students" + "?optionalFields=assessments,attendances", token, false);
+                + "/studentSectionAssociations" + "/students" + "?optionalFields=assessments,attendances.1", token, false);
+    }
+
+    public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId) {
+        return createEntitiesFromAPI(getApiUrl() + "/v1" + SECTIONS_URL + sectionId + "/studentSectionAssociations"
+                + "/students" + "?optionalFields=gradebook", token, false);
     }
 
     /**
@@ -803,4 +819,23 @@ public class LiveAPIClient implements APIClient {
     public void setApiUrl(String apiUrl) {
         this.apiUrl = apiUrl;
     }
+
+    /*
+     * 
+     * TODO: HARDCODED Token, because lycans server is bad. Change to incoming token
+     */
+    @Override
+    public String getHeader(String token) {
+        return restClient.getJsonRequest(portalHeaderUrl + "e88cb6d1-771d-46ac-a207-2e58d7f12196");
+    }
+    
+    /*
+     * 
+     * TODO: HARDCODED Token, because lycans server is bad. Change to incoming token
+     */
+    @Override
+    public String getFooter(String token) {
+        return restClient.getJsonRequest(portalFooterUrl + "e88cb6d1-771d-46ac-a207-2e58d7f12196");
+    }
+    
 }

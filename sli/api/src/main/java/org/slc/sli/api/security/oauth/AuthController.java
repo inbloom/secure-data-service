@@ -83,14 +83,15 @@ public class AuthController {
     private ClientDetailsService clientDetailsService;
     
     private AuthorizationCodeTokenGranter granter;
-
+    
     @PostConstruct
     public void init() {
         granter = new AuthorizationCodeTokenGranter(tokenServices, authorizationCodeServices, clientDetailsService);
     }
-
+    
     /**
      * Returns the Entity Service that will make calls to the realm collection.
+     * 
      * @return Entity Service.
      */
     public EntityService getRealmEntityService() {
@@ -100,13 +101,14 @@ public class AuthController {
     
     /**
      * Returns the Entity Service that will make calls to the oauth_access_token collection.
+     * 
      * @return Entity Service.
      */
     public EntityService getOauthAccessTokenEntityService() {
         EntityDefinition defn = store.lookupByResourceName("oauth_access_token");
         return defn.getService();
     }
-        
+    
     /**
      * Calls api to list available realms and injects into model
      * 
@@ -117,13 +119,11 @@ public class AuthController {
      */
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "authorize", method = RequestMethod.GET)
-    public String listRealms(
-            @RequestParam(value = "redirect_uri", required = false) final String relayState,
-            @RequestParam(value = "RealmName", required = false) final String realmName, 
-            @RequestParam(value = "client_id", required = true) final String clientId, 
+    public String listRealms(@RequestParam(value = "redirect_uri", required = false) final String relayState,
+            @RequestParam(value = "RealmName", required = false) final String realmName,
+            @RequestParam(value = "client_id", required = true) final String clientId,
             @RequestParam(value = "state", required = false) final String state,
-            @CookieValue(value = "_tla", required = false) final String sessionIndex,
-            final HttpServletResponse res, 
+            @CookieValue(value = "_tla", required = false) final String sessionIndex, final HttpServletResponse res,
             final Model model) throws IOException {
         
         if (sessionIndex != null) {
@@ -133,9 +133,9 @@ public class AuthController {
                 return ssoInit(realmId, sessionIndex, relayState, clientId, state, res, model);
             } else {
                 LOG.debug("session does not map to a valid oauth session");
-            }            
+            }
         }
-
+        
         Object result = SecurityUtil.sudoRun(new SecurityTask<Object>() {
             @Override
             public Object execute() {
@@ -150,7 +150,8 @@ public class AuthController {
                     if (realmName != null && realmName.length() > 0) {
                         if (realmName.equals(node.get("name"))) {
                             try {
-                                return ssoInit(node.get("id").toString(), sessionIndex, relayState, clientId, state, res, model);
+                                return ssoInit(node.get("id").toString(), sessionIndex, relayState, clientId, state,
+                                        res, model);
                             } catch (IOException e) {
                                 LOG.error("Error initiating SSO", e);
                             }
@@ -158,13 +159,13 @@ public class AuthController {
                     }
                 }
                 return map;
-            }            
+            }
         });
         
         if (result instanceof String) {
             return (String) result;
         }
-
+        
         Map<String, String> map = (Map<String, String>) result;
         model.addAttribute("dummy", new HashMap<String, String>());
         model.addAttribute("realms", map);
@@ -180,19 +181,17 @@ public class AuthController {
     }
     
     @RequestMapping(value = "token", method = { RequestMethod.POST, RequestMethod.GET })
-    public ResponseEntity<String> getAccessToken(
-            @RequestParam("code") String authorizationCode, 
-            @RequestParam("redirect_uri") String redirectUri, 
+    public ResponseEntity<String> getAccessToken(@RequestParam("code") String authorizationCode,
+            @RequestParam("redirect_uri") String redirectUri,
             @RequestHeader(value = "Authorization", required = false) String authz,
-            @RequestParam("client_id") String clientId, 
-            @RequestParam("client_secret") String clientSecret, 
-            Model model) {
+            @RequestParam("client_id") String clientId, @RequestParam("client_secret") String clientSecret, Model model) {
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("code", authorizationCode);
         parameters.put("redirect_uri", redirectUri);
         
         Pair<String, String> tuple = Pair.of(clientId, clientSecret); // extractClientCredentials(authz);
-        OAuth2AccessToken token = granter.grant("authorization_code", parameters, tuple.getLeft(), tuple.getRight(), new HashSet<String>());
+        OAuth2AccessToken token = granter.grant("authorization_code", parameters, tuple.getLeft(), tuple.getRight(),
+                new HashSet<String>());
         
         HttpHeaders headers = new HttpHeaders();
         headers.set("Cache-Control", "no-store");
@@ -210,14 +209,12 @@ public class AuthController {
      * @throws IOException
      */
     @RequestMapping(value = "sso", method = { RequestMethod.GET, RequestMethod.POST })
-    public String ssoInit(
-            @RequestParam(value = "realmId", required = true) final String realmIndex,
+    public String ssoInit(@RequestParam(value = "realmId", required = true) final String realmIndex,
             @RequestParam(value = "sessionId", required = false) final String sessionIndex,
-            @RequestParam(value = "redirect_uri", required = false) String appRelayState, 
-            @RequestParam(value = "clientId", required = true) final String clientId, 
-            @RequestParam(value = "state", required = false) final String state,
-            HttpServletResponse res, 
-            Model model) throws IOException {
+            @RequestParam(value = "redirect_uri", required = false) String appRelayState,
+            @RequestParam(value = "clientId", required = true) final String clientId,
+            @RequestParam(value = "state", required = false) final String state, HttpServletResponse res, Model model)
+            throws IOException {
         
         String realmId = doesIdMapToValidOAuthSession(sessionIndex);
         boolean forceAuthn = (sessionIndex != null && realmId != null) ? false : true;
@@ -246,14 +243,16 @@ public class AuthController {
         authCodeService.create(clientId, state, appRelayState, tuple.getLeft());
         LOG.debug("redirecting to: {}", endpoint);
         
-        return "redirect:" + endpoint + "?SAMLRequest=" + tuple.getRight();
+        String redirectUrl = endpoint.contains("?") ? endpoint + "&SAMLRequest=" + tuple.getRight() : endpoint
+                + "?SAMLRequest=" + tuple.getRight();
+        return "redirect:" + redirectUrl;
     }
     
-    
-
     /**
      * Determines if the specified mongo id maps to a valid OAuth access token.
-     * @param mongoId id of the oauth session in mongo.
+     * 
+     * @param mongoId
+     *            id of the oauth session in mongo.
      * @return id of realm (valid session) or null (not a valid session).
      */
     public String doesIdMapToValidOAuthSession(final String mongoId) {
@@ -265,12 +264,12 @@ public class AuthController {
                     neutralQuery.addCriteria(new NeutralCriteria("authentication.sessionIndex", "=", mongoId));
                     neutralQuery.setOffset(0);
                     neutralQuery.setLimit(1);
-                        
+                    
                     LOG.debug("searching in oauth_access_token for a sessionIndex with value: {}", mongoId);
                     
                     Iterable<String> enumeratedIds = getOauthAccessTokenEntityService().listIds(neutralQuery);
                     List<String> tokenIds = convertIterableToList(enumeratedIds);
-                        
+                    
                     String realmId = null;
                     if (tokenIds.size() > 0) {
                         LOG.debug("found a matching access token id: {}", tokenIds);
@@ -283,10 +282,11 @@ public class AuthController {
                     }
                     return realmId;
                 } catch (Exception e) {
-                    LOG.debug("caught {} exception trying to resolve authentication realm... returning null", e.getClass());
+                    LOG.debug("caught {} exception trying to resolve authentication realm... returning null",
+                            e.getClass());
                     return null;
                 }
-            }    
+            }
         });
         return realmId;
     }
@@ -310,5 +310,5 @@ public class AuthController {
         } else {
             throw new IllegalArgumentException("Client auth must be provided");
         }
-    } 
+    }
 }

@@ -1,5 +1,6 @@
 package org.slc.sli.modeling.xsd2xmi.xsd;
 
+import java.io.BufferedInputStream;
 import java.io.Closeable;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,6 +9,7 @@ import java.io.InputStream;
 
 import org.apache.ws.commons.schema.XmlSchema;
 import org.apache.ws.commons.schema.XmlSchemaCollection;
+import org.apache.ws.commons.schema.resolver.URIResolver;
 import org.xml.sax.InputSource;
 
 /**
@@ -15,17 +17,19 @@ import org.xml.sax.InputSource;
  */
 public final class XsdReader {
     
-    public static final XmlSchema readSchema(final String fileName) throws FileNotFoundException {
-        final FileInputStream istream = new FileInputStream(fileName);
+    public static final XmlSchema readSchema(final String fileName, final URIResolver schemaResolver)
+            throws FileNotFoundException {
+        final InputStream istream = new BufferedInputStream(new FileInputStream(fileName));
         try {
-            return readSchema(istream);
+            return readSchema(istream, schemaResolver);
         } finally {
             closeQuiet(istream);
         }
     }
     
-    private static final XmlSchema readSchema(final InputStream istream) {
+    private static final XmlSchema readSchema(final InputStream istream, final URIResolver schemaResolver) {
         final XmlSchemaCollection schemaCollection = new XmlSchemaCollection();
+        schemaCollection.setSchemaResolver(schemaResolver);
         return schemaCollection.read(new InputSource(istream), null);
     }
     

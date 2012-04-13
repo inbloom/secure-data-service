@@ -11,9 +11,8 @@ public final class EnumLiteral extends AbstractModelElement implements HasName {
     
     private final QName name;
     
-    public EnumLiteral(final Identifier id, final QName name, final List<TaggedValue> taggedValues,
-            final LazyLookup lookup) {
-        super(id, taggedValues, lookup);
+    public EnumLiteral(final Identifier id, final QName name, final List<TaggedValue> taggedValues) {
+        super(id, ReferenceType.ENUM_LITERAL, taggedValues);
         if (name == null) {
             throw new NullPointerException("name");
         }
