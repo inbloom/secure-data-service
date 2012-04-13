@@ -81,7 +81,7 @@
   </dependencies>
 
   <build>
-    <finalName>idp</finalName>
+    <finalName>mock-idp</finalName>
 
     <plugins>
       <plugin>

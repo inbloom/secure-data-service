@@ -29,7 +29,13 @@
   </jb:bean>
 
   <jb:bean beanId="StudentProgramAssociation_ServicesArray" class="java.util.ArrayList" createOnElement="attributes">
-    <jb:value data="services element" />
+    <jb:wiring beanIdRef="StudentProgramAssociation_Services" />
+  </jb:bean>
+
+  <jb:bean beanId="StudentProgramAssociation_Services" class="java.util.HashMap" createOnElement="services element">
+    <jb:value property="codeValue" data="Services element CodeValue" />
+    <jb:value property="shortDescription" data="Services element ShortDescription" />
+    <jb:value property="description" data="Services element Description" />
   </jb:bean>
 
 </smooks-resource-list>
