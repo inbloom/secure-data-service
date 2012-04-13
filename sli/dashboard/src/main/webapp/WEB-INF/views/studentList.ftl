@@ -1,5 +1,6 @@
 <html>
 <head>
+<#include "layout/layout_header.ftl">
 <!-- Frameworks -->
 <script type="text/javascript" src="static/js/3p/jquery-1.7.1.js"></script>
 <script type="text/javascript" src="static/js/3p/raphael-min.js"></script>
@@ -21,10 +22,6 @@ $.ajaxSetup ({cache: false});
 </head>
 <body onLoad="populateInstHierarchy()">
 <div id="container">
-
-    <div id="header">
-		<#include "header.ftl">
-    </div>
     
     <div id="banner">
         <h1>
@@ -58,3 +55,5 @@ $.ajaxSetup ({cache: false});
 
 </body>
 </html>
+
+<#include "layout/layout_footer.ftl">

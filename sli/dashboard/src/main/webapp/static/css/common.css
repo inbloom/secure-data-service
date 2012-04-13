@@ -159,7 +159,8 @@ th.ui-th-column div {
 .ui-widget-no-border .ui-jqgrid tr.jqgrow td {font-size:13px;color: #333333; padding: 4px 5px;border-top: 1px solid #DDDDDD;border-right-style:hidden;white-space: normal !important;}
 .ui-widget-no-border .ui-jqgrid tr.jqgrow th { border: 0px none; padding: 4px 5px;}
 .ui-widget-no-border .ui-corner-all {border: 0px none;}
-
+.ui-widget-no-border .ui-widget-content a{ color: #000000; text-decoration: none; }
+.ui-widget-no-border .ui-state-hover a,.ui-widget-no-border  .ui-state-hover a:hover{ color: #000000; text-decoration: underline; }
 
 /* Custom */
 /* Contact Info panel related */
@@ -167,8 +168,26 @@ th.ui-th-column div {
 	width:30%;
 }
 .contactInfoData {
-	width:200px;
+	width:250px;
 }
+
+.lozenge-widget-ell
+{
+    font-size: 11px;
+    font-weight:bold;
+    text-decoration:underline;
+    color:#20C7C5;
+}
+
+.lozenge-widget-fre
+{
+    font-size: 11px;
+    font-weight:bold;
+    text-decoration:underline;
+    color:#8083fc;
+}
+
+/*old*/
 
 .row {
     margin-left: -20px;
