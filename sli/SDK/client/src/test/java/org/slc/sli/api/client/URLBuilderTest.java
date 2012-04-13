@@ -9,6 +9,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+/**
+ * Unit test for URL builder
+ * 
+ * 
+ */
 public class URLBuilderTest {
 
     @Test
