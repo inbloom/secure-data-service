@@ -76,6 +76,7 @@ public class EdFiProcessor implements Processor {
             for (IngestionFileEntry fe : batchJob.getFiles()) {
 
                 Metrics metrics = new Metrics(fe.getFileName(), localhost.getHostAddress(), localhost.getHostName());
+                metrics.startMetric();
                 stage.getMetrics().add(metrics);
                 batchJobDAO.saveBatchJob(newJob);
 
@@ -88,10 +89,13 @@ public class EdFiProcessor implements Processor {
                 metrics.setRecordCount(fileProcessStatus.getTotalRecordCount());
 
                 int errorCount = 0;
-                for (Fault f : fe.getFaultsReport().getFaults()) {
-                    if (f.isError()) {
+                for (Fault fault : fe.getFaultsReport().getFaults()) {
+                    if (fault.isError()) {
                         errorCount++;
                     }
+                    String faultMessage = fault.getMessage();
+                    String faultLevel  = fault.isError() ? "Error" : fault.isWarning() ? "Warning" : "Unknown";
+                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.EDFI_PROCESSING, faultLevel, "Error", faultMessage);
                 }
 
                 metrics.setErrorCount(errorCount);
