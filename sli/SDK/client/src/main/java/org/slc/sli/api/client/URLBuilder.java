@@ -14,7 +14,6 @@ public final class URLBuilder {
     private static final String ENCODING = "UTF-8";
     
     private final StringBuffer url = new StringBuffer();
-    private boolean targets = false;
     
     /**
      * Start building a new URL with the provided base location.
