@@ -15,8 +15,8 @@
 			<ShortDescription>Short description for program 1 service 2</ShortDescription>
 			<Description>This is a longer description of the services provided by program 1 service 2. More detail could be provided here.</Description>
 		</Services>
-		</Program>
-		<Program>
+	</Program>
+	<Program>
 			<ProgramId>ACC-TEST-PROG-2</ProgramId>
 		<ProgramType>Remedial Education</ProgramType>
 		<ProgramSponsor>Local Education Agency</ProgramSponsor>
@@ -30,7 +30,7 @@
 			<ShortDescription>Short description for program 2 service 2</ShortDescription>
 			<Description>This is a longer description of the services provided by program 2 service 2. More detail could be provided here.</Description>
 		</Services>
-  </Program>
+	</Program>
 	<Program>
 			<ProgramId>ACC-TEST-PROG-3</ProgramId>
 		<ProgramType>Remedial Education</ProgramType>
