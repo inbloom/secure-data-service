@@ -4,10 +4,6 @@ When /^I click on student "([^"]*)"$/ do |name|
   clickOnStudent(name)
 end
 
-When /^I click on student at index "([^"]*)"$/ do |studentIndex|
-  clickOnStudentAtIndex(studentIndex)
-end
-
 When /^I view its student profile$/ do
 
   csiContent = @explicitWait.until{@driver.find_element(:class, "csi")}
@@ -70,7 +66,7 @@ When /^the lozenges count is "([^"]*)"$/ do |lozengesCount|
   csiContent = @driver.find_element(:class, "csi")
   labelFound = false
   
-  all_lozenges = csiContent.find_elements(:tag_name, "svg")
+  all_lozenges = csiContent.find_elements(:xpath, "//span[contains(@class,'lozenge')]")
 
   assert(lozengesCount.to_i == all_lozenges.length, "Actual lozenges count is:" + all_lozenges.length.to_s)
 end
@@ -103,14 +99,11 @@ def clickOnStudent(name)
   studentTable = @explicitWait.until{@driver.find_element(:id, "studentList")}
   all_tds = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
   
+  # for new LOS - actually not needed here
+  # los = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
+  # all_tds = los.find_element(:xpath,"td[contains(@aria-describedby,'name.fullName')]")
+  
   @driver.find_element(:link, name).click
-end
-
-def clickOnStudentAtIndex(studentIndex)
-  studentTable = @driver.find_element(:id, "studentList");
-  all_tds = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
-  studentNames = all_tds[studentIndex.to_i].find_elements(:tag_name, "a")
-  studentNames[0].click()
 end
 
 def getEnrollmentHistoryEntries()
@@ -126,7 +119,7 @@ end
 def verifyEnrollmentHistoryEntryExists(rowIndex, expectedEnrollment)
   expectedArray = expectedEnrollment.split(';')
   rowIndex = rowIndex.to_i
-  assert(expectedArray.length == 7, "Missing expected enrollment history element, actual # of elements: " + expectedArray.length.to_s )
+  assert(expectedArray.length == 8, "Missing expected enrollment history element, actual # of elements: " + expectedArray.length.to_s )
 
   rows = getEnrollmentHistoryEntries()
   
@@ -138,16 +131,17 @@ def verifyEnrollmentHistoryEntryExists(rowIndex, expectedEnrollment)
   school = rows[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'nameOfInstitution')]")
   gradeLevel = rows[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'entryGradeLevel')]")
   entryDate = rows[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'entryDate')]")
+  entryType = rows[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'entryType')]")
   transfer = rows[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'transfer')]")
   exitWithdrawDate = rows[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'exitWithdrawDate')]")
   exitWithdrawType = rows[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'exitWithdrawType')]")
     
-  enrollmentArray = [ schoolYear, school, gradeLevel, entryDate, transfer, exitWithdrawDate, exitWithdrawType ] 
+  enrollmentArray = [ schoolYear, school, gradeLevel, entryDate, entryType, transfer, exitWithdrawDate, exitWithdrawType ] 
     
   for j in (0..expectedArray.length-1)
     if (enrollmentArray[j].text != expectedArray[j])
       found = false
-      puts "Discrency - Actual: " + enrollmentArray[j].text + " Expected: " + expectedArray[j]
+      #puts "Discrency - Actual: " + enrollmentArray[j].text + " Expected: " + expectedArray[j]
     end
   end  
   return found  
