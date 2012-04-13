@@ -119,7 +119,7 @@ public class ControlFilePreProcessor implements Processor {
 
             for (IngestionFileEntry file : cf.getFileEntries()) {
                 ResourceEntry resourceEntry = new ResourceEntry();
-                resourceEntry.update(file.getFileFormat().toString(), file.getFileType().toString(), file.getChecksum(), 0, 0);
+                resourceEntry.update(file.getFileFormat().toString(), file.getFileType().getName(), file.getChecksum(), 0, 0);
                 resourceEntry.setResourceName(newJob.getSourceId()+file.getFileName());
                 resourceEntry.setResourceId(file.getFileName());
                 newJob.getResourceEntries().add(resourceEntry);
@@ -217,12 +217,12 @@ public class ControlFilePreProcessor implements Processor {
             FaultsReport errorReport = new FaultsReport();
             ControlFileDescriptor cfd = new ControlFileDescriptor(cf, landingZone);
 
-            //TODO Deal with validator being autowired in BatchJObAssembler
+            //TODO Deal with validator being autowired in BatchJobAssembler
             // This code should live there anyway.
             if (validator.isValid(cfd, errorReport)) {
                     for (IngestionFileEntry file : cf.getFileEntries()) {
                     ResourceEntry resourceEntry = new ResourceEntry();
-                    resourceEntry.update(file.getFileFormat().toString(), file.getFileType().toString(), file.getChecksum(), 0, 0);
+                    resourceEntry.update(file.getFileFormat().toString(), file.getFileType().getName(), file.getChecksum(), 0, 0);
                     resourceEntry.setResourceName(newJob.getSourceId()+file.getFileName());
                     resourceEntry.setResourceId(file.getFileName());
                     newJob.getResourceEntries().add(resourceEntry);
