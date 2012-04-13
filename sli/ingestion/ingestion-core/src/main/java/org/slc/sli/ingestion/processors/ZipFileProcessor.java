@@ -1,6 +1,7 @@
  package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
+import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
@@ -128,15 +130,24 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             BatchJobDAO batchJobDAO = new BatchJobMongoDA();
 
 //            ErrorReport errorReport = job.getFaultsReport();
-            ErrorReport errorReport = new FaultsReport();
+            FaultsReport errorReport = new FaultsReport();
 
             File ctlFile = handler.handle(zipFile, errorReport);
 
-//TODO Double check that these are only ever FATAL bad ZIP file errors.
-//TODO Replace "FATAL" et al with defined data-types.
             if (errorReport.hasErrors()) {
-                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSING,
-                        "FATAL", "errorType", "errorDetail");
+                List<Fault> faults = errorReport.getFaults();
+                for ( Fault fault : faults ) {
+                    String errorType = new String();
+                    if (fault.isError()) {
+                        errorType = "ERROR";
+                    } else if (fault.isWarning()) {
+                        errorType = "WARNING";
+                    } else {
+                        errorType = "OTHER";
+                    }
+                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSING,
+                            FaultType.TYPE_ERROR.getName(), errorType, fault.getMessage());
+                }
             }
 
             ResourceEntry resourceName = new ResourceEntry();
@@ -160,7 +171,8 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             log.error("Exception:", exception);
             if (batchJobId != null) {
-                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSING, FaultType.TYPE_ERROR.getName(), null, exception.toString());
+                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSING,
+                        FaultType.TYPE_ERROR.getName(), null, exception.toString());
             }
         }
     }

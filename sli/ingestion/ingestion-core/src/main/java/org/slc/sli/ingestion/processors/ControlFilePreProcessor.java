@@ -3,19 +3,24 @@ package org.slc.sli.ingestion.processors;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
+import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LandingZone;
+import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
@@ -32,6 +37,9 @@ import org.slc.sli.ingestion.queues.MessageType;
 public class ControlFilePreProcessor implements Processor {
 
     private LandingZone landingZone;
+
+    @Autowired
+    private ControlFileValidator validator;
 
     Logger log = LoggerFactory.getLogger(ZipFileProcessor.class);
 
@@ -73,7 +81,16 @@ public class ControlFilePreProcessor implements Processor {
                 newJob = batchJobDAO.findBatchJobById(batchJobId);
             }
 
-            newJob.setSourceId(landingZone.getLZId());
+
+            // TODO Make getting the path a little nicer (i.e.,  not
+            // stripping the zip temp path
+            String done = new String(".done");
+            int endString = landingZone.getLZId().indexOf(done);
+            if (endString != -1) {
+                newJob.setSourceId(landingZone.getLZId().substring(0, endString));
+            } else {
+                newJob.setSourceId(landingZone.getLZId());
+            }
 
             Stage stage = new Stage();
             stage.setStageName(BatchJobStageType.CONTROL_FILE_PREPROCESSING.getName());
@@ -96,11 +113,32 @@ public class ControlFilePreProcessor implements Processor {
             }
             newJob.setBatchProperties(batchProperties);
 
+            FaultsReport errorReport = new FaultsReport();
+
+            ControlFileDescriptor cfd = new ControlFileDescriptor(cf, landingZone);
+
             for (IngestionFileEntry file : cf.getFileEntries()) {
                 ResourceEntry resourceEntry = new ResourceEntry();
-                resourceEntry.update(file.getFileFormat().toString(), file.getFileType().toString(), file.getChecksum(), 0, 0);
-                resourceEntry.setResourceName(file.getFileName());
+                resourceEntry.update(file.getFileFormat().toString(), file.getFileType().getName(), file.getChecksum(), 0, 0);
+                resourceEntry.setResourceName(newJob.getSourceId()+file.getFileName());
+                resourceEntry.setResourceId(file.getFileName());
                 newJob.getResourceEntries().add(resourceEntry);
+            }
+
+            if (errorReport.hasErrors()) {
+                List<Fault> faults = errorReport.getFaults();
+                for ( Fault fault : faults ) {
+                    String errorType = new String();
+                    if (fault.isError()) {
+                        errorType = "ERROR";
+                    } else if (fault.isWarning()) {
+                        errorType = "WARNING";
+                    } else {
+                        errorType = "OTHER";
+                    }
+                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSING,
+                            FaultType.TYPE_ERROR.getName(), errorType, fault.getMessage());
+                }
             }
 
             stage.stopStage();
@@ -144,7 +182,16 @@ public class ControlFilePreProcessor implements Processor {
                 newJob = batchJobDAO.findBatchJobById(batchJobId);
             }
 
-            newJob.setSourceId(landingZone.getLZId());
+
+            // TODO Make getting the path a little nicer (i.e.,  not
+            // stripping the zip temp path
+            String done = new String(".done");
+            int endString = landingZone.getLZId().indexOf(done);
+            if (endString != -1) {
+                newJob.setSourceId(landingZone.getLZId().substring(0, endString));
+            } else {
+                newJob.setSourceId(landingZone.getLZId());
+            }
 
             Stage stage = new Stage();
             stage.setStageName(BatchJobStageType.CONTROL_FILE_PREPROCESSING.getName());
@@ -167,11 +214,35 @@ public class ControlFilePreProcessor implements Processor {
             }
             newJob.setBatchProperties(batchProperties);
 
-            for (IngestionFileEntry file : cf.getFileEntries()) {
-                ResourceEntry resourceEntry = new ResourceEntry();
-                resourceEntry.update(file.getFileFormat().toString(), file.getFileType().toString(), file.getChecksum(), 0, 0);
-                resourceEntry.setResourceName(file.getFileName());
-                newJob.getResourceEntries().add(resourceEntry);
+            FaultsReport errorReport = new FaultsReport();
+            ControlFileDescriptor cfd = new ControlFileDescriptor(cf, landingZone);
+
+            //TODO Deal with validator being autowired in BatchJobAssembler
+            // This code should live there anyway.
+            if (validator.isValid(cfd, errorReport)) {
+                    for (IngestionFileEntry file : cf.getFileEntries()) {
+                    ResourceEntry resourceEntry = new ResourceEntry();
+                    resourceEntry.update(file.getFileFormat().toString(), file.getFileType().getName(), file.getChecksum(), 0, 0);
+                    resourceEntry.setResourceName(newJob.getSourceId()+file.getFileName());
+                    resourceEntry.setResourceId(file.getFileName());
+                    newJob.getResourceEntries().add(resourceEntry);
+                }
+            }
+
+            if (errorReport.hasErrors()) {
+                List<Fault> faults = errorReport.getFaults();
+                for ( Fault fault : faults ) {
+                    String errorType = new String();
+                    if (fault.isError()) {
+                        errorType = "ERROR";
+                    } else if (fault.isWarning()) {
+                        errorType = "WARNING";
+                    } else {
+                        errorType = "OTHER";
+                    }
+                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSING,
+                            FaultType.TYPE_ERROR.getName(), errorType, fault.getMessage());
+                }
             }
 
             stage.stopStage();

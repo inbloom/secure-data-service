@@ -44,18 +44,16 @@ public final class ResourceEntry {
         return resourceId;
     }
 
-    public void setResourceId(String resourceId) {
-        this.resourceId = resourceId;
-        this.resourceName = resourceId;
-    }
-
     public String getResourceName() {
         return resourceName;
     }
 
     public void setResourceName(String resourceName) {
         this.resourceName = resourceName;
-        this.resourceId = resourceName;
+    }
+
+    public void setResourceId(String resourceId) {
+        this.resourceId = resourceId;
     }
 
     public String getResourceFormat() {
