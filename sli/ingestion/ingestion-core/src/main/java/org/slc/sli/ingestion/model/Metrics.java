@@ -1,5 +1,10 @@
 package org.slc.sli.ingestion.model;
 
+import org.apache.commons.lang.time.FastDateFormat;
+
+import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
+
+
 /**
  * Model for metrics of an ingestion job with resolution into its stage and resource
  *
@@ -22,6 +27,10 @@ public class Metrics {
 
     private long errorCount;
 
+    private static final String STR_TIMESTAMP_FORMAT = "yyyyMMdd hh:mm:ss.SSS";
+    
+    private static final FastDateFormat FORMATTER = FastDateFormat.getInstance(STR_TIMESTAMP_FORMAT);
+    
     // mongoTemplate requires this constructor.
     public Metrics() {
     }
@@ -115,13 +124,10 @@ public class Metrics {
     }
 
     public void startMetric() {
-        // TODO: create a metric with startTimeStamp of now in the db
-        long startTime = System.currentTimeMillis();
+        this.setStartTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
     }
 
     public void stopMetric() {
-        // TODO: create a metric with startTimeStamp of now in the db
-        long stopTime = System.currentTimeMillis();
+        this.setStopTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
     }
-
 }
