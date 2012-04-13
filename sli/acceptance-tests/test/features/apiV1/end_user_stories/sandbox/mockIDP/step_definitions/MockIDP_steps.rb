@@ -7,7 +7,7 @@ Given /^I have selected the realm using the realm selector$/ do
   sleep(1)
 
   #assume the user selected the mock sli realm
-  realmName= PropLoader.getProps['mockIDP_realm_SLI']
+  realmName= PropLoader.getProps['mockIDP_realm_SLI'] + " - " + PropLoader.getProps['mockIDP_realm_suffix']
   realm_select = @driver.find_element(:name=> "realmId")
   options = realm_select.find_elements(:tag_name=>"option")
   options.each do |e1|
@@ -32,6 +32,7 @@ Then /^I will be redirected to realm selector web page$/ do
 end
 
 When /^I select the "([^"]*)" realm$/ do |realmName|
+  realmName = realmName + " - " + PropLoader.getProps['mockIDP_realm_suffix']
   realm_select = @driver.find_element(:name=> "realmId")
   options = realm_select.find_elements(:tag_name=>"option")
   options.each do |e1|

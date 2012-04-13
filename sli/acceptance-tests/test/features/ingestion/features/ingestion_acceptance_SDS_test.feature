@@ -38,7 +38,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 78    |
-        | studentSchoolAssociation    | 174   |
+        | studentSchoolAssociation    | 167   |
         | course                      | 89    |
         | educationOrganization       | 3     |
         | school                      | 4     |
@@ -73,7 +73,7 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-1            | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-2            | string               |
-    And I should see "Processed 15136 records." in the resulting batch job file
+    And I should see "Processed 15129 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -90,8 +90,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStaffAssociation.xml records considered: 30" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records ingested successfully: 30" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records considered: 498" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 498" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered: 491" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 491" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records considered: 522" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records ingested successfully: 522" in the resulting batch job file
@@ -126,7 +126,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 79    |
-        | studentSchoolAssociation    | 175   |
+        | studentSchoolAssociation    | 168   |
         | course                      | 90    |
         | educationOrganization       | 3     |
         | school                      | 4     |
@@ -186,7 +186,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 87    |
-        | studentSchoolAssociation    | 183   |
+        | studentSchoolAssociation    | 176   |
         | course                      | 98    |
         | educationOrganization       | 6     |
         | school                      | 8     |

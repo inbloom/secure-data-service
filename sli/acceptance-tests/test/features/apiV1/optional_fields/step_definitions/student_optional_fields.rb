@@ -10,8 +10,8 @@ require_relative '../../entities/common.rb'
 Transform /^<(.+)>$/ do |template|
   id = template
   id = "706ee3be-0dae-4e98-9525-f564e05aa388" if template == "SECTION ID"
-  id = "bac890d6-b580-4d9d-a0d4-8bce4e8d351a" if template == "STUDENT SECTION ASSOC ID"
-  id = "f917478f-a6f2-4f78-ad9d-bf5972b5567b" if template == "COURSE ID"
+  id = "e7b6521b-7bed-890a-d4b5-c4b25a29fc7e" if template == "STUDENT SECTION ASSOC ID"
+  id = "53777181-3519-4111-9210-529350429899" if template == "COURSE ID"
   id = "32930275-a9f3-4eaa-866f-7b35efc303ee" if template == "SCHOOL ID"
   id = "dd69083f-a053-4819-a3cd-a162cdc627d7" if template == "STUDENT_ID"
   id
@@ -96,4 +96,24 @@ Then /^inside "([^\"]*)"$/ do |key|
   end
   @colStack.push @col
   @col = @col[key]
+end
+
+Then /^I should see the year "([\d]*)" in none of the attendance entries$/ do |year|
+  bool = true
+  @col.each do |col|
+    if col["eventDate"].include? year.to_s
+      bool = false
+    end
+  end
+  assert(bool, "Found some attendance data in the year #{year}")
+end
+
+Then /^I should see the year "([\d]*)" in some of the attendance entries$/ do |year|
+  bool = false
+  @col.each do |col|
+    if col["eventDate"].include? year.to_s
+      bool = true
+    end
+  end
+  assert(bool, "Cannot find attendance data in the year #{year}")
 end

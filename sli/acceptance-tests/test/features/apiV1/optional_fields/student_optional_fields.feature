@@ -16,6 +16,8 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     # Attendaces
     And I should find "1" "attendances"
     And I should find "74" "attendances" in it
+    And I should see the year "2011" in none of the attendance entries
+    And I should see the year "2012" in some of the attendance entries
     When I look at the first one
     Then I should see "eventDate" is "2012-01-26" in it
     And I should see "attendanceEventType" is "Daily Attendance" in it
@@ -31,6 +33,18 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     And I should see "academicSubject" is "Reading" in it
     And I should see "assessmentTitle" is "SAT" in it
     And I should see "entityType" is "assessment" in it
+    And I should find "3" "objectiveAssessment" in it
+    When I look at the first one
+    Then I should see "identificationCode" is "SAT-Writing" in it
+    And I should see "maxRawScore" is "800" in it
+    And I should see "percentOfAssessment" is "33" in it
+    When I go back up one level
+    Then I should find "3" "studentObjectiveAssessments" in it
+    When I look at the first one
+    Then I should find "2" "scoreResults" in it
+    When I look at the first one
+    Then I should see "assessmentReportingMethod" is "Scale score" in it
+    And I should see "result" is "680" in it
 
     # Gradebook Entries
     And I should find "3" "studentSectionGradebookEntries"
@@ -50,21 +64,21 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
 
     # Transcript
     And inside "transcript"
-    And I should find "1" "studentSectionAssociations" in it
+    And I should find "2" "studentSectionAssociations" in it
     And I should find "sections" expanded in each of them
     When I look at the first one
     Then I should see "id" is "<STUDENT SECTION ASSOC ID>" in it
     And inside "sections"
     And I should see "courseId" is "<COURSE ID>" in it
     And I should see "schoolId" is "<SCHOOL ID>" in it
-    And I should see "uniqueSectionCode" is "8th Grade English - Sec 6" in it
+    And I should see "uniqueSectionCode" is "algebraIIS11" in it
     And inside "sessions"
-    And I should see "sessionName" is "Spring 2012" in it
+    And I should see "sessionName" is "Fall 2011" in it
     When I go back up one level
     Then inside "courses"
-    And I should see "courseDescription" is "Intro to Russian" in it
+    And I should see "courseDescription" is "Intro to French" in it
     
- Scenario: Applying optional fields - transcript - studentTranscriptAssociations
+  Scenario: Applying optional fields - transcript - studentTranscriptAssociations
     Given optional field "transcript"
     When I navigate to GET "/v1/sections/<SECTION ID>/studentSectionAssociations/students"
     Then I should receive a return code of 200
@@ -73,3 +87,13 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     And I should find "1" "studentTranscriptAssociations" in it
     When I look at the first one
     And I should see "finalLetterGradeEarned" is "B" in it
+
+  Scenario: Applying optional fields - attendances with year filter
+    Given optional field "attendances.1"
+    When I navigate to GET "/v1/sections/<SECTION ID>/studentSectionAssociations/students"
+    Then I should receive a return code of 200
+
+    And I should find "1" "attendances"
+    And I should find "161" "attendances" in it
+    And I should see the year "2011" in some of the attendance entries
+    And I should see the year "2012" in some of the attendance entries

@@ -5,13 +5,16 @@ import java.util.List;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.manager.Manager.EntityMapping;
+import org.slc.sli.manager.Manager.EntityMappingManager;
 
 /**
  * 
  * @author dwu
  *
  */
-public interface PopulationManager extends Manager {
+@EntityMappingManager
+public interface PopulationManager {
 
     /**
      * Get assessments taken by a group of students
@@ -44,6 +47,7 @@ public interface PopulationManager extends Manager {
      * 
      * @return
      */
+    @EntityMapping("listOfStudents")
     public abstract GenericEntity getListOfStudents(String token,
             Object sectionId, Config.Data config);
 

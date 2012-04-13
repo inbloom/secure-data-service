@@ -720,20 +720,6 @@
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>900000016</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-  <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
         <StudentUniqueStateId>900000017</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
@@ -843,94 +829,7 @@
     <EntryDate>2010-09-01</EntryDate>
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
   </StudentSchoolAssociation>
-  
-  <!-- student-school associations for the remainder of Carmen Ortiz history -->
-  <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000016</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2009-09-01</EntryDate>
-    <EntryGradeLevel>Ninth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-  <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>900000016</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2008-09-01</EntryDate>
-    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
 
-  <!-- student-school associations for the remainder of Matt Sollars history -->
-  <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>800000025</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2009-09-01</EntryDate>
-    <EntryGradeLevel>Sixth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-  <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>800000025</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2008-09-01</EntryDate>
-    <EntryGradeLevel>Fifth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-  <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>800000025</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2007-09-01</EntryDate>
-    <EntryGradeLevel>Fourth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-  <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>800000025</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2006-09-01</EntryDate>
-    <EntryGradeLevel>Third grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
 
   <!-- student-school associations for the 8th graders in middle school -->
   <StudentSchoolAssociation>
@@ -1294,9 +1193,43 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
+    <EntryDate>2011-09-01</EntryDate>
+    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
+  <!-- student-school associations for the remainder of Matt Sollars history -->
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2010-09-01</EntryDate>
+    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
+    <EntryType>Next year school</EntryType>	
+    <ExitWithdrawDate>2011-05-11</ExitWithdrawDate>
+    <ExitWithdrawType>End of school year</ExitWithdrawType>	
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
     <EntryDate>2009-09-07</EntryDate>
     <EntryGradeLevel>Sixth grade</EntryGradeLevel>
     <EntryType>Transfer from a public school in the same local education agency</EntryType>	
+    <ExitWithdrawDate>2010-05-11</ExitWithdrawDate>
+    <ExitWithdrawType>End of school year</ExitWithdrawType>	
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -1719,20 +1652,6 @@
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>800000024</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Seventh grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
-  <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>800000025</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SchoolReference>
@@ -2371,20 +2290,6 @@
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>100000016</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <EntryDate>2010-09-01</EntryDate>
-    <EntryGradeLevel>Kindergarten</EntryGradeLevel>
-  </StudentSchoolAssociation>
-  <StudentSchoolAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>100000017</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SchoolReference>
@@ -6685,7 +6590,7 @@
         <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>false</HomeroomIndicator>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
