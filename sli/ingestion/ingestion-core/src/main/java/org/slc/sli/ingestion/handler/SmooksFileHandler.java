@@ -60,6 +60,8 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
         File neutralRecordOutFile = createTempFile();
 
+        fileProcessStatus.setOutputFileName(neutralRecordOutFile.getName());
+
         NeutralRecordFileWriter nrFileWriter = new NeutralRecordFileWriter(neutralRecordOutFile);
 
         // create instance of Smooks (with visitors already added)

@@ -8,6 +8,8 @@ public class FileProcessStatus {
 
     private long totalRecordCount;
 
+    private String outputFile;
+
     public String getJobId() {
         return this.jobId;
     }
@@ -22,5 +24,13 @@ public class FileProcessStatus {
 
     public void setTotalRecordCount(long totalRecordCount) {
         this.totalRecordCount = totalRecordCount;
+    }
+
+    public String getOutputFileName() {
+        return this.outputFile;
+    }
+
+    public void setOutputFileName(String outputFile) {
+        this.outputFile = outputFile;
     }
 }

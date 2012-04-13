@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
@@ -19,6 +20,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
@@ -73,7 +75,6 @@ public class EdFiProcessor implements Processor {
 
             for (IngestionFileEntry fe : batchJob.getFiles()) {
 
-                // batchJobDAO.startMetric(batchJobId, BatchJobStageType.EDFI_PROCESSING, fe.getFileName())
                 Metrics metrics = new Metrics(fe.getFileName(), localhost.getHostAddress(), localhost.getHostName());
                 stage.getMetrics().add(metrics);
                 batchJobDAO.saveBatchJob(newJob);
@@ -84,14 +85,26 @@ public class EdFiProcessor implements Processor {
                 processFileEntry(fe, errorReport, fileProcessStatus);
                 batchJob.getFaultsReport().append(fe.getFaultsReport());
 
-                // TODO Add recordCount variables to IngestionFileEntry to be populated when files
-                // are added or processed initially
-                // batchJobDAO.stopMetric(batchJobId, BatchJobStageType.EDFI_PROCESSING,
-                // fe.getFileName(), fe.getRecordCount, fe.getFaultsReport.getFaults().size())
-
                 metrics.setRecordCount(fileProcessStatus.getTotalRecordCount());
-                metrics.setErrorCount(fe.getFaultsReport().getFaults().size());
+
+                int errorCount = 0;
+                for (Fault f : fe.getFaultsReport().getFaults()) {
+                    if (f.isError()) {
+                        errorCount++;
+                    }
+                }
+
+                metrics.setErrorCount(errorCount);
                 metrics.stopMetric();
+
+                ResourceEntry resource = new ResourceEntry();
+                resource.setResourceId(fileProcessStatus.getOutputFileName());
+                resource.setResourceName(fileProcessStatus.getOutputFileName());
+                resource.setResourceFormat("NEUTRALRECORD_XML");
+                resource.setResourceType(fe.getFileType().getName());
+                resource.setRecordCount((int) fileProcessStatus.getTotalRecordCount());
+
+                newJob.getResourceEntries().add(resource);
                 batchJobDAO.saveBatchJob(newJob);
             }
 
