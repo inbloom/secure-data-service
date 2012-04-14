@@ -15,14 +15,7 @@
   
   <jb:bean beanId="staffProgramAssociation" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
     <jb:expression property="type">'staffProgramAssociation'</jb:expression>
-    <jb:wiring property="metaData" beanIdRef="staffProgramAssociationMeta" />
     <jb:wiring property="body" beanIdRef="staffProgramAssocoiationBody" />
-  </jb:bean>
-  
-  <!-- TODO put something sensible in the meta data -->
-  
-  <jb:bean beanId="staffProgramAssociationMeta" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="externalId" data="attributes beginDate" />
   </jb:bean>
   
   <jb:bean beanId="staffProgramAssocoiationBody" class="java.util.HashMap" createOnElement="attributes">
@@ -32,6 +25,10 @@
     <jb:wiring property="programId" beanIdRef="staffProgramAssociation_programIdArray" />
   
     <jb:value property="beginDate" data="attributes beginDate" />
+    
+    <jb:value property="endDate" data="attributes endDate" />
+    
+    <jb:value property="studentRecordAccess" data="attributes studentRecordAccess" decoder="Boolean"/>
   
   </jb:bean>
   

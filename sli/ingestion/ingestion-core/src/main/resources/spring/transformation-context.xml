@@ -76,7 +76,7 @@
     <bean id="staffProgramAssociationTransformationStrategy" 
             class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-        <property name="passThroughCollectionList" value="staffProgramAssociation" />
+        <property name="passThroughCollectionName" value="staffProgramAssociation" />
     </bean>
 
 	<bean id="studentProgramAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">

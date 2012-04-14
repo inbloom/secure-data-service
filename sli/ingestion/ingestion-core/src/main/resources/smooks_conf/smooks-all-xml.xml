@@ -2814,7 +2814,11 @@
     <jb:wiring property="programId" beanIdRef="staffProgramAssociation_programIdArray" />
 
     <jb:value property="beginDate" data="StaffProgramAssociation/BeginDate" />
-
+    
+    <jb:value property="endDate" data="StaffProgramAssociation/EndDate" />
+    
+    <jb:value property="studentRecordAccess" data="StaffProgramAssociation/StudentRecordAccess" decoder="Boolean"/>
+    
   </jb:bean>
 
   <jb:bean beanId="staffProgramAssociation_staffReferenceArray" class="java.util.ArrayList"
@@ -2856,6 +2860,5 @@
     createOnElement="InterchangeStudentProgram/StaffProgramAssociation">
     <jb:value data="StaffProgramAssociation/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
-
 
 </smooks-resource-list>
