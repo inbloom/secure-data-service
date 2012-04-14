@@ -120,10 +120,10 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     }
     
     private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef) {
-        return getObjectiveAssessment(objectiveAssessmentRef, Collections.emptySet());
+        return getObjectiveAssessment(objectiveAssessmentRef, Collections.<String> emptySet());
     }
     
-    private Map<String, Object> getObjectiveAssessment(Object objectiveAssessmentRef, Set<Object> parentObjs) {
+    private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, Set<String> parentObjs) {
         
         Map<String, Object> objectiveAssessment = getNeutralRecordMongoAccess()
                 .getRecordRepository()
@@ -134,12 +134,12 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         
         List<?> subObjectiveRefs = (List<?>) objectiveAssessment.get(SUB_OBJECTIVE_REFS);
         if (subObjectiveRefs != null && !subObjectiveRefs.isEmpty()) {
-            Set<Object> newParents = new HashSet<Object>(parentObjs);
+            Set<String> newParents = new HashSet<String>(parentObjs);
             newParents.add(objectiveAssessmentRef);
             List<Map<String, Object>> subObjectives = new ArrayList<Map<String, Object>>();
             for (Object subObjectiveRef : subObjectiveRefs) {
                 if (!newParents.contains(subObjectiveRef)) {
-                    Map<String, Object> subAssessment = getObjectiveAssessment(subObjectiveRef, newParents);
+                    Map<String, Object> subAssessment = getObjectiveAssessment((String) subObjectiveRef, newParents);
                     subObjectives.add(subAssessment);
                 } else {
                     // sorry Mr. Hofstadter, no infinitely recursive assessments allowed due to

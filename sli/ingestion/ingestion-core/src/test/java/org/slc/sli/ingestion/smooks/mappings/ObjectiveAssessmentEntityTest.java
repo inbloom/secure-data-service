@@ -56,7 +56,7 @@ public class ObjectiveAssessmentEntityTest {
             + "</LearningStandardId>"
             + "</LearningStandardIdentity>"
             + "</LearningStandardReference>"
-            + "<ObjectiveAssessmentReference id=\"EOA12\" ref=\"sub\">"
+            + "<ObjectiveAssessmentReference id=\"EOA13\" ref=\"sub\">"
             + "</ObjectiveAssessmentReference>"
             + "</ObjectiveAssessment>"
             + "<ObjectiveAssessment id=\"sub\">"
@@ -134,8 +134,8 @@ public class ObjectiveAssessmentEntityTest {
         Assert.assertEquals("codevalue", performanceLevel.get("codeValue"));
         
         List<?> subObjectiveAssessments = (List<?>) entity.get(AssessmentCombiner.SUB_OBJECTIVE_REFS);
-        Map<?, ?> subObjectiveAssessment = (Map<?, ?>) subObjectiveAssessments.get(0);
-        Assert.assertEquals("sub", subObjectiveAssessment.get("ref"));
+        String subObjectiveAssessment = (String) subObjectiveAssessments.get(0);
+        Assert.assertEquals("sub", subObjectiveAssessment);
         
     }
     
