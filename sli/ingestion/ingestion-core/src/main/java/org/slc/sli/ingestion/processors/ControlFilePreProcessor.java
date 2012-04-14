@@ -72,13 +72,13 @@ public class ControlFilePreProcessor implements Processor {
 
             // TODO Make getting the path a little nicer (i.e.,  not
             // stripping the zip temp path
-            String done = new String(".done");
-            int endString = landingZone.getLZId().indexOf(done);
-            if (endString != -1) {
-                newJob.setSourceId(landingZone.getLZId().substring(0, endString));
-            } else {
-                newJob.setSourceId(landingZone.getLZId());
-            }
+            //String done = new String(".done");
+            //int endString = landingZone.getLZId().indexOf(done);
+            //if (endString != -1) {
+            //    newJob.setSourceId(landingZone.getLZId().substring(0, endString));
+            //} else {
+                newJob.setSourceId(landingZone.getLZId() + "/");
+            //}
 
             Stage stage = new Stage();
             stage.setStageName(BatchJobStageType.CONTROL_FILE_PREPROCESSING.getName());
@@ -134,13 +134,13 @@ public class ControlFilePreProcessor implements Processor {
 
             // TODO Make getting the path a little nicer (i.e.,  not
             // stripping the zip temp path
-            String done = new String(".done");
-            int endString = landingZone.getLZId().indexOf(done);
-            if (endString != -1) {
-                newJob.setSourceId(landingZone.getLZId().substring(0, endString));
-            } else {
-                newJob.setSourceId(landingZone.getLZId());
-            }
+            //String done = new String(".done");
+            //int endString = landingZone.getLZId().indexOf(done);
+            //if (endString != -1) {
+            //    newJob.setSourceId(landingZone.getLZId().substring(0, endString));
+            //} else {
+                newJob.setSourceId(landingZone.getLZId() + "/");
+            //}
 
             Stage stage = new Stage();
             stage.setStageName(BatchJobStageType.CONTROL_FILE_PREPROCESSING.getName());
