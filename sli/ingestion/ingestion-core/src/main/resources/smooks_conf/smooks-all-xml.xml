@@ -1496,22 +1496,32 @@
   <jb:bean beanId="assessmentPerformanceLevelTypeArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/Assessment">
     <jb:wiring beanIdRef="assessmentPerformanceLevelType" />
   </jb:bean>
+  
   <jb:bean beanId="assessmentPerformanceLevelType" class="java.util.HashMap"
     createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentPerformanceLevel">
-    <jb:wiring property="performanceLevelDescriptor" beanIdRef="assessmentPerformanceLevelDescriptorType" />
+    <jb:wiring property="performanceLevelDescriptor" beanIdRef="assessmentPerformanceLevelDescriptorArray" />
     <jb:value property="assessmentReportingMethod"
       data="InterchangeAssessmentMetadata/Assessment/AssessmentPerformanceLevel/AssessmentReportingMethod" />
     <jb:value property="minimumScore" data="InterchangeAssessmentMetadata/Assessment/AssessmentPerformanceLevel/MinimumScore"
-      decoder="Integer" default="null" />
+      decoder="Integer"/>
     <jb:value property="maximumScore" data="InterchangeAssessmentMetadata/Assessment/AssessmentPerformanceLevel/MaximumScore"
-      decoder="Integer" default="null" />
+      decoder="Integer"/>
   </jb:bean>
-  <jb:bean beanId="assessmentPerformanceLevelDescriptorType" class="java.util.HashMap"
+  
+   <jb:bean beanId="assessmentPerformanceLevelDescriptorArray" class="java.util.ArrayList"
     createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentPerformanceLevel/PerformanceLevel">
-    <jb:value property="id" data="Assessment/AssessmentPerformanceLevel/PerformanceLevel/@id" />
-    <jb:value property="ref" data="Assessment/AssessmentPerformanceLevel/PerformanceLevel/@ref" />
-    <jb:value property="codeValue" data="Assessment/AssessmentPerformanceLevel/PerformanceLevel/CodeValue" />
-    <jb:value property="description" data="Assessment/AssessmentPerformanceLevel/PerformanceLevel/Description" />
+    <jb:wiring beanIdRef="assessmentPerformanceDescriptorCodeValue" />
+    <jb:wiring beanIdRef="assessmentPerformanceDescriptorDescription" />
+  </jb:bean>
+
+  <jb:bean beanId="assessmentPerformanceDescriptorDescription" class="java.util.HashMap"
+    createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentPerformanceLevel/PerformanceLevel/Description">
+    <jb:value property="description" data="AssessmentPerformanceLevel/PerformanceLevel/Description" />
+  </jb:bean>
+
+  <jb:bean beanId="assessmentPerformanceDescriptorCodeValue" class="java.util.HashMap"
+    createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentPerformanceLevel/PerformanceLevel/CodeValue">
+    <jb:value property="codeValue" data="AssessmentPerformanceLevel/PerformanceLevel/CodeValue" />
   </jb:bean>
 
   <jb:bean beanId="assessmentPeriodType" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/Assessment/AssessmentPeriod">
@@ -1841,24 +1851,26 @@
     <jb:value property="assessmentReportingMethod" data="InterchangeStudentAssessment/StudentAssessment/ScoreResults/@AssessmentReportingMethod" />
     <jb:value property="result" data="InterchangeStudentAssessment/StudentAssessment/ScoreResults/Result" />
   </jb:bean>
-
+  
   <jb:bean beanId="performanceLevelsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentAssessment">
-    <jb:wiring beanIdRef="performanceLevelDescriptorTypeMap" />
-  </jb:bean>
-  <jb:bean beanId="performanceLevelDescriptorTypeMap" class="java.util.HashMap"
-    createOnElement="InterchangeStudentAssessment/StudentAssessment/PerformanceLevels">
-    <jb:value property="id" data="InterchangeStudentAssessment/StudentAssessment/PerformanceLevels/@id" />
-    <jb:value property="ref" data="InterchangeStudentAssessment/StudentAssessment/PerformanceLevels/@ref" />
-    <jb:value property="codeValue" data="InterchangeStudentAssessment/StudentAssessment/PerformanceLevels/CodeValue" />
-    <jb:value property="description" data="InterchangeStudentAssessment/StudentAssessment/PerformanceLevels/Description" />
+    <jb:wiring beanIdRef="performanceLevelsTypeArrayIntermediate" />
   </jb:bean>
 
-  <jb:bean beanId="codeValueArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentAssessment/PerformanceLevels">
-    <jb:value data="InterchangeStudentAssessment/StudentAssessment/PerformanceLevels/CodeValue" />
+  <jb:bean beanId="performanceLevelsTypeArrayIntermediate" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentAssessment">
+    <jb:wiring beanIdRef="studentAssessmentPerformanceDescriptorCodeValue" />
+    <jb:wiring beanIdRef="studentAssessmentPerformanceDescriptorDescription" />
   </jb:bean>
-  <jb:bean beanId="descriptionArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentAssessment/PerformanceLevels">
-    <jb:value data="InterchangeStudentAssessment/StudentAssessment/PerformanceLevels/Description" />
+
+  <jb:bean beanId="studentAssessmentPerformanceDescriptorDescription" class="java.util.HashMap"
+    createOnElement="InterchangeStudentAssessment/StudentAssessment/PerformanceLevels/Description">
+    <jb:value property="description" data="PerformanceLevels/Description" />
   </jb:bean>
+
+  <jb:bean beanId="studentAssessmentPerformanceDescriptorCodeValue" class="java.util.HashMap"
+    createOnElement="InterchangeStudentAssessment/StudentAssessment/PerformanceLevels/CodeValue">
+    <jb:value property="codeValue" data="PerformanceLevels/CodeValue" />
+  </jb:bean>
+
 
   <!-- Alternative model for an unbounded choice mapping is as an array of maps of the choices which would preserve the logical
     association of each choice group, but require a virtual property to map <jb:bean beanId="performanceLevelDescriptorTypeChoiceArray"
