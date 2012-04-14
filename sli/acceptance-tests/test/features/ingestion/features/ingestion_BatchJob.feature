@@ -3,7 +3,7 @@ Feature: Batchjob Datamodel Data Ingestion Test
 Background: I have a landing zone route configured
 Given I am using local data store
     And I am using preconfigured Ingestion Landing Zone
-@wip
+
 Scenario: Post a minimal zip file as a payload of the ingestion job: Clean Database
 Given I post "BatchJob.zip" file as the payload of the ingestion job
     And the following collections are empty in batch job datastore:

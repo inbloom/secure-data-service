@@ -80,7 +80,8 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             File ctlFile = handler.handle(zipFile, errorReport);
 
             ResourceEntry resourceName = new ResourceEntry();
-            resourceName.setResourceName(zipFile.getName());
+            resourceName.setResourceName(zipFile.getCanonicalPath());
+            resourceName.setResourceId(zipFile.getName());
             newJob.getResourceEntries().add(resourceName);
 
             stage.stopStage();
@@ -135,7 +136,8 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             Error.writeErrorsToMongo(batchJobId, errorReport);
 
             ResourceEntry resourceName = new ResourceEntry();
-            resourceName.setResourceName(zipFile.getName());
+            resourceName.setResourceName(zipFile.getCanonicalPath());
+            resourceName.setResourceId(zipFile.getName());
             newJob.getResourceEntries().add(resourceName);
 
             stage.stopStage();

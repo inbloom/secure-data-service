@@ -110,6 +110,18 @@ public final class NewBatchJob {
         return batchProperties;
     }
 
+    public String getProperty(String key) {
+        return batchProperties.get(key);
+    }
+
+    public String getProperty(String key, String defaultValue) {
+        String value = batchProperties.get(key);
+        if (value == null) {
+            value = defaultValue;
+        }
+        return value;
+    }
+
     public void setBatchProperties(Map<String, String> batchProperties) {
         this.batchProperties = batchProperties;
     }
@@ -135,7 +147,7 @@ public final class NewBatchJob {
     public ResourceEntry getResourceEntry(String resourceId) {
         for (ResourceEntry entry : this.getResourceEntries()) {
             String entryResourceId = entry.getResourceId();
-            if (entryResourceId.equals(resourceId)) {
+            if (entryResourceId != null && entryResourceId.equals(resourceId)) {
                 return entry;
             }
         }

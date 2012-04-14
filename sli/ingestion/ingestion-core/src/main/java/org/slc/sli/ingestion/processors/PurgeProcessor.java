@@ -14,9 +14,12 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.Stage;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  *Performs purging of data in mongodb based on the tenant id.
@@ -46,10 +49,21 @@ public class PurgeProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
+        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
+        if (batchJobId == null) {
+            exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        }
+        BatchJobDAO batchJobDAO = new BatchJobMongoDA();
+        NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+        Stage stage = new Stage();
+        newJob.getStages().add(stage);
+        stage.setStageName(BatchJobStageType.PURGE_PROCESSING.getName());
+        stage.startStage();
+        batchJobDAO.saveBatchJob(newJob);
 
-        BatchJob job = BatchJobUtils.getBatchJobUsingStateManager(exchange);
-
-        String tenantId = job.getProperty(TENANT_ID);
+        String tenantId = newJob.getProperty(TENANT_ID);
 
         if (tenantId == null) {
 
@@ -78,6 +92,9 @@ public class PurgeProcessor implements Processor {
                 LOG.error("Exception:", exception);
             }
         }
+
+        stage.stopStage();
+        batchJobDAO.saveBatchJob(newJob);
     }
 
 }

@@ -1,6 +1,5 @@
 package org.slc.sli.ingestion.processors;
 
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -9,15 +8,10 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobLogger;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
-import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.FaultsReport;
-import org.slc.sli.ingestion.NewBatchJobLogger;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
@@ -49,87 +43,6 @@ public class JobReportingProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        processExistingBatchJob(exchange);
-
-        // TODO we are doing both in parallel for now, but will replace the existing once testing is done
-        // this writes to a newJobxxx.txt output file in the lz
-        // processUsingNewBatchJob(exchange);
-    }
-
-    public void processExistingBatchJob(Exchange exchange) throws Exception {
-
-        BatchJob job = exchange.getIn().getBody(BatchJob.class); // existing impl
-
-        Logger jobLogger = BatchJobLogger.createLoggerForJob(job.getId(), landingZone);  // existing impl
-
-        // add output as lines
-        jobLogger.info("jobId: " + job.getId());   // existing impl
-
-        for (IngestionFileEntry fileEntry : job.getFiles()) {
-            String id = "[file] " + fileEntry.getFileName();
-            jobLogger.info(id + " (" + fileEntry.getFileFormat()
-                    + "/" + fileEntry.getFileType() + ")");
-            Long numProcessed = exchange.getProperty(fileEntry.getFileName()
-                    + ".records.processed", Long.class);
-            if (numProcessed != null) {
-                jobLogger.info(id + " records considered: "
-                    + numProcessed);
-            }
-
-            Long numPassed = exchange.getProperty(fileEntry.getFileName()
-                    + ".records.passed", Long.class);
-            if (numProcessed != null) {
-                jobLogger.info(id + " records ingested successfully: "
-                    + numPassed);
-            }
-
-            Long numFailed = exchange.getProperty(fileEntry.getFileName()
-                    + ".records.failed", Long.class);
-            if (numProcessed != null) {
-                jobLogger.info(id + " records failed: "
-                    + numFailed);
-            }
-        }
-
-        // existing impl to write out properties
-        Enumeration<?> names = job.propertyNames();
-        while (names.hasMoreElements()) {
-            String key = (String) names.nextElement();
-            jobLogger.info("[configProperty] " + key + ": "
-                    + job.getProperty(key));
-        }
-
-        FaultsReport fr = job.getFaultsReport();
-
-        // TODO BatchJobUtils these errors need to be pulled from the db, write the DA interface to get the faults
-        for (Fault fault : fr.getFaults()) {
-            if (fault.isError()) {
-                jobLogger.error(fault.getMessage());
-            } else {
-                jobLogger.warn(fault.getMessage());
-            }
-        }
-
-        if (fr.hasErrors()) {
-            jobLogger.info("Not all records were processed completely due to errors.");
-        } else {
-            jobLogger.info("All records processed successfully.");
-        }
-
-        // This header is set in PersistenceProcessor
-        // TODO get this from the persistence processor
-        if (exchange.getProperty("records.processed") != null) {
-            jobLogger.info("Processed " + exchange.getProperty("records.processed") + " records.");
-        }
-
-        // clean up after ourselves
-        ((ch.qos.logback.classic.Logger) jobLogger).detachAndStopAllAppenders();
-
-    }
-
-
-    private void processUsingNewBatchJob(Exchange exchange) throws Exception {
-
         // get job from the batch job db
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         if (batchJobId == null) {
@@ -142,13 +55,12 @@ public class JobReportingProcessor implements Processor {
 
         Stage stage = new Stage();
         stage.setStageName(BatchJobStageType.JOB_REPORTING_PROCESSING.getName());
+        job.getStages().add(stage);
         stage.startStage();
 
         Logger jobLogger;
-        // TODO uncomment below remove NewBatchJobLogger class and call below on switch over
-        //      used to avoid acceptance tests failing
-//        jobLogger = BatchJobLogger.createLoggerForJob(job.getId(), landingZone);
-        jobLogger = NewBatchJobLogger.createLoggerForJob(job.getId(), landingZone);
+        jobLogger = BatchJobLogger.createLoggerForJob(job.getId(), landingZone);
+
         jobLogger.info("jobId: " + job.getId());
 
         // based on the PersistenceProcessor counts
@@ -199,19 +111,15 @@ public class JobReportingProcessor implements Processor {
             for (Error error : errors) {
                 if (error.getSeverity().equals(FaultType.TYPE_ERROR.getName())) {
                     jobLogger.error(
-                            error.getSourceIp() + " "
-                            + error.getHostname() + " "
-                            + error.getStageName() + " "
-                            + error.getResourceId() + " "
-                            + error.getRecordIdentifier() + " "
+                            ((error.getStageName() == null) ? "" : (error.getStageName())) + ","
+                            + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
+                            + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier())) + ","
                             + error.getErrorDetail());
                 } else if (error.getSeverity() == FaultType.TYPE_WARNING.getName()) {
                     jobLogger.warn(
-                            error.getSourceIp() + " "
-                            + error.getHostname() + " "
-                            + error.getStageName() + " "
-                            + error.getResourceId() + " "
-                            + error.getRecordIdentifier() + " "
+                            ((error.getStageName() == null) ? "" : (error.getStageName())) + ","
+                            + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
+                            + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier())) + ","
                             + error.getErrorDetail());
                 }
 
@@ -232,8 +140,7 @@ public class JobReportingProcessor implements Processor {
         ((ch.qos.logback.classic.Logger) jobLogger).detachAndStopAllAppenders();
 
         stage.stopStage();
-        job.getStages().add(stage);
         batchJobDAO.saveBatchJob(job);
-   }
+    }
 
 }

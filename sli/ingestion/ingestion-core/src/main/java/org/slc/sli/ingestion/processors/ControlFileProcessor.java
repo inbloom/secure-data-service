@@ -224,7 +224,11 @@ public class ControlFileProcessor implements Processor {
             // set headers
             // This error section is now handled by the writeErrorsToMongo above
 //            exchange.getIn().setHeader("hasErrors", job.getFaultsReport().hasErrors());
+            if (newJob.getProperty(PURGE) != null) {
+                exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
+            } else {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BULK_TRANSFORM_REQUEST.name());
+            }
 
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
