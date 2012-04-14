@@ -22,13 +22,13 @@
 	</EducationOrganizationReference>
 	<Services>
 		<CodeValue>Test service 1</CodeValue>
-		<ShortDescription>Short description for acceptance test staffProgramAssociation service 1</ShortDescription>
-		<Description>This is a longer description of the services provided by acceptance test staffProgramAssociation service 1. More detail could be provided here.</Description>
+		<ShortDescription>Short description for acceptance test studentProgramAssociation service 1</ShortDescription>
+		<Description>This is a longer description of the services provided by acceptance test studentProgramAssociation service 1. More detail could be provided here.</Description>
 	</Services>
 	<Services>
 		<CodeValue>Test service 2</CodeValue>
-		<ShortDescription>Short description for acceptance test staffProgramAssociation service 2</ShortDescription>
-		<Description>This is a longer description of the services provided by acceptance test staffProgramAssociation service 2. More detail could be provided here.</Description>
+		<ShortDescription>Short description for acceptance test studentProgramAssociation service 2</ShortDescription>
+		<Description>This is a longer description of the services provided by acceptance test studentProgramAssociation service 2. More detail could be provided here.</Description>
 	</Services>
   </StudentProgramAssociation>
 </InterchangeStudentProgram>

@@ -105,6 +105,7 @@ public class DisciplineActionGenerator {
             DisciplineIncidentReferenceType dirt = new DisciplineIncidentReferenceType();
             DisciplineIncidentIdentityType diit = new DisciplineIncidentIdentityType();
             diit.setIncidentIdentifier(disciplineIncidentId);
+            diit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(responsibilitySchoolId);            
             dirt.setDisciplineIncidentIdentity(diit);
             action.getDisciplineIncidentReference().add(dirt);            
         }
@@ -170,6 +171,7 @@ public class DisciplineActionGenerator {
         DisciplineIncidentReferenceType dirt = new DisciplineIncidentReferenceType();
         DisciplineIncidentIdentityType diit = new DisciplineIncidentIdentityType();
         diit.setIncidentIdentifier(disciplineIncidentId);
+        diit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(responsibilitySchoolId);
         dirt.setDisciplineIncidentIdentity(diit);
         action.getDisciplineIncidentReference().add(dirt);
 
@@ -212,9 +214,10 @@ public class DisciplineActionGenerator {
         
         //add Behaviors
         ObjectFactory factory = new ObjectFactory();
+        int count = 0;
         double prob = 1.0D / DisciplineDescriptor.values().length;
         for(DisciplineDescriptor behaviorDescriptor : DisciplineDescriptor.values()) {
-            if (rand.nextDouble() < prob) {
+            if (rand.nextDouble() < prob || count==(DisciplineDescriptor.values().length-1)) {
                 DisciplineDescriptorType disciplineDescriptorType = new DisciplineDescriptorType();
                 JAXBElement<String> disciplineDescriptorCode =  factory.createDisciplineDescriptorTypeCodeValue(behaviorDescriptor.codeValue);
                 JAXBElement<String> disciplineDescriptorShortDescription =  factory.createDisciplineDescriptorTypeShortDescription(behaviorDescriptor.shortDescription);
@@ -223,7 +226,9 @@ public class DisciplineActionGenerator {
                 disciplineDescriptorType.getCodeValueOrShortDescriptionOrDescription().add(disciplineDescriptorShortDescription);
                 disciplineDescriptorType.getCodeValueOrShortDescriptionOrDescription().add(disciplineDescriptorDescription);
                 action.getDisciplines().add(disciplineDescriptorType);
+                break;
             }
+            ++count;
         }
         
         return action;
