@@ -4,7 +4,6 @@
   <div class="ui-widget-no-border">
     <table id="${id}"></table>
   </div>
-  <div id="mydebug" />
   <script type="text/javascript">
   function printStudentList()
   {
@@ -23,7 +22,6 @@
       var viewIndex=viewSelect.options[viewSelect.selectedIndex].value;
       var sections = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections
       var options={};
-          document.getElementById("mydebug").innerHTML = sections[selectionIndex].id;
       jQuery.extend(options, panelConfig, {items:panelConfig.items[viewIndex].items});
       DashboardUtil.getData(
         gridId, 
