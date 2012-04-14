@@ -23,6 +23,9 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Writing                                      |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Math                                         |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Critical Reading                             |
+     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessment.identificationCode    | SAT-Math-Arithmetic          |
+     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessment.identificationCode    | SAT-Math-Algebra             |
+     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessment.identificationCode    | SAT-Math-Geometry            |
 
   And I should see "Processed 18 records." in the resulting batch job file
   And I should not see an error log file created
