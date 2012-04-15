@@ -120,7 +120,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     }
     
     private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef) {
-        return getObjectiveAssessment(objectiveAssessmentRef, Collections.<String> emptySet());
+        Set<String> parentObjs = Collections.emptySet();
+        return getObjectiveAssessment(objectiveAssessmentRef, parentObjs);
     }
     
     private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, Set<String> parentObjs) {
