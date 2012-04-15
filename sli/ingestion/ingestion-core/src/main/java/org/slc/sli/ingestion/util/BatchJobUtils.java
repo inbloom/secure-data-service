@@ -1,10 +1,17 @@
 package org.slc.sli.ingestion.util;
 
+import static org.slc.sli.ingestion.model.da.BatchJobMongoDA.logIngestionError;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import org.apache.camel.Exchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.BatchJobStageType;
 
 /**
  * Utilities for BatchJob
@@ -16,6 +23,8 @@ public class BatchJobUtils {
     
     private static final Logger LOG = LoggerFactory.getLogger(BatchJobUtils.class);
     
+    public static final String TIMESTAMPPATTERN = "yyyy-MM-dd:HH-mm-ss";
+
     /**
      * Given camel exchange, return batch job using state manager specified in system properties.
      * This should be refactored to be an interface with different implementations.
@@ -101,7 +110,7 @@ public class BatchJobUtils {
      * @param batchJobId
      * @param stageName
      */
-    public static void startStage(String batchJobId, String stageName) {
+    public static void beginStage(BatchJob job, String stageName) {
         if ("mongodb".equals(System.getProperty("state.manager"))) {
             
             LOG.info("started a stage in the db managed batch job");
@@ -112,10 +121,10 @@ public class BatchJobUtils {
     /**
      * Update the stage field in the db to have stopTimeStamp of now
      * 
-     * @param batchJobId
+     * @param batchJob
      * @param stageName
      */
-    public static void stopStage(String batchJobId, String stageName) {
+    public static void endStage(BatchJob job, String stageName) {
         if ("mongodb".equals(System.getProperty("state.manager"))) {
             
             LOG.info("stopped the stage in the db managed batch job");
@@ -160,6 +169,40 @@ public class BatchJobUtils {
         }
     }
     
+    public static String getHostAddress() {
+        InetAddress addr;
+        try {
+            addr = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            // e.printStackTrace();
+            LOG.error(e.toString());
+            return null;
+        }
+        return addr.getHostAddress();
+    }
+    
+    public static String getHostName() {
+        InetAddress addr;
+        try {
+            addr = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            // e.printStackTrace();
+            LOG.error(e.toString());
+            return null;
+        }
+        return addr.getHostName();
+    }
+    
+    public static String getTimeStamp() {
+        return getTimeStamp(TIMESTAMPPATTERN);
+    }
+    
+    public static String getTimeStamp(String pattern) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        return sdf.format(cal.getTime());
+    }
+    
     // TODO: enumerate severity for errors
     
     /**
@@ -172,13 +215,16 @@ public class BatchJobUtils {
      * @param severity
      * @param errorDetail
      */
-    public static void logError(String batchJobId, String stageName, String fileId, String severity, String errorDetail) {
+    public static void logError(String batchJobId, BatchJobStageType stage, String fileId, String severity, String errorDetail) {
         
         if ("mongodb".equals(System.getProperty("state.manager"))) {
             
             LOG.info("creating a error in the db");
             // TODO: create an error document in the db
-            
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd:HH-mm-ss");
+
+            logIngestionError(batchJobId, stage.getName(), fileId, null, null, null, sdf.format(cal.getTime()), severity, "generic", errorDetail);
         }
     }
     
@@ -186,8 +232,8 @@ public class BatchJobUtils {
         logError(batchJobId, null, null, severity, errorDetail);
     }
     
-    public static void logBatchStageError(String batchJobId, String stageName, String severity, String errorDetail) {
-        logError(batchJobId, stageName, null, severity, errorDetail);
+    public static void logBatchStageError(String batchJobId, BatchJobStageType stage, String severity, String errorDetail) {
+        logError(batchJobId, stage, null, severity, errorDetail);
     }
     
 }

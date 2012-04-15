@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.Validator;
 
@@ -29,6 +30,7 @@ public class AbstractIngestionHandlerTest {
         handler = Mockito.mock(AbstractIngestionHandler.class);
         Mockito.doCallRealMethod().when(handler).handle(Mockito.any());
         Mockito.doCallRealMethod().when(handler).handle(Mockito.any(), Mockito.any(ErrorReport.class));
+        Mockito.doCallRealMethod().when(handler).handle(Mockito.any(), Mockito.any(ErrorReport.class), Mockito.any(FileProcessStatus.class));
         Mockito.doCallRealMethod().when(handler).pre(Mockito.any(), Mockito.any(ErrorReport.class));
         Mockito.doCallRealMethod().when(handler).post(Mockito.any(), Mockito.any(ErrorReport.class));
         Mockito.doCallRealMethod().when(handler).setPreValidators(Mockito.anyList());
@@ -47,7 +49,7 @@ public class AbstractIngestionHandlerTest {
         handler.setPostValidators(postValidators);
 
         Object ife = Mockito.mock(Object.class);
-        Mockito.when(handler.doHandling(Mockito.any(Object.class), Mockito.any(ErrorReport.class))).thenReturn(ife);
+        Mockito.when(handler.doHandling(Mockito.any(Object.class), Mockito.any(ErrorReport.class), Mockito.any(FileProcessStatus.class))).thenReturn(ife);
 
         Object fileEntry = null;
         fileEntry = handler.handle(ife);

@@ -81,10 +81,10 @@ public class StudentSchoolAssociationIngestionTest {
                 FileType.XML_STUDENT_ENROLLMENT, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
 
-        edFiProcessor.processFileEntry(inputFileEntry);
+        edFiProcessor.processFileEntry(inputFileEntry, inputFileEntry.getErrorReport(), null);
 
         String tenantId = "SLI";
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);
+        persistenceProcessor.processIngestionStream("batchJobId", inputFileEntry.getNeutralRecordFile(), tenantId);
 
         verifyStudentSchoolAssociations(repository, numberOfStudentSchoolAssociations);
 
@@ -114,10 +114,10 @@ public class StudentSchoolAssociationIngestionTest {
                 FileType.CSV_STUDENT_SCHOOL_ASSOCIATION, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
 
-        edFiProcessor.processFileEntry(inputFileEntry);
+        edFiProcessor.processFileEntry(inputFileEntry, inputFileEntry.getErrorReport(), null);
 
         String tenantId = "SLI";
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);
+        persistenceProcessor.processIngestionStream("batchJobId", inputFileEntry.getNeutralRecordFile(), tenantId);
 
         verifyStudentSchoolAssociations(repository, numberOfStudentSchoolAssociations);
 
@@ -133,7 +133,7 @@ public class StudentSchoolAssociationIngestionTest {
         File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
         String tenantId = "SLI";
-        persistenceProcessor.processIngestionStream(neutralRecordsFile, tenantId);
+        persistenceProcessor.processIngestionStream("batchJobId", neutralRecordsFile, tenantId);
 
     }
 
@@ -146,7 +146,7 @@ public class StudentSchoolAssociationIngestionTest {
         File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
         String tenantId = "SLI";
-        persistenceProcessor.processIngestionStream(neutralRecordsFile, tenantId);
+        persistenceProcessor.processIngestionStream("batchJobId", neutralRecordsFile, tenantId);
 
     }
 

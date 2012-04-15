@@ -29,10 +29,10 @@ Scenario: Assessment and StudentAssessment Verification
        | body.academicSubject                                                     | Writing                               | string               |
        | body.gradeLevelAssessed                                                  | Eighth grade                          | string               |
        | body.lowestGradeLevelAssessed                                            | Fifth grade                           | string               |
-       | body.assessmentPerformanceLevel.0.performanceLevelDescriptor.description | 1                               | string               |
-       | body.assessmentPerformanceLevel.1.performanceLevelDescriptor.description | 2                               | string               |
-       | body.assessmentPerformanceLevel.2.performanceLevelDescriptor.description | 3                               | string               |
-       | body.assessmentPerformanceLevel.3.performanceLevelDescriptor.description | 4                               | string               |
+       | body.assessmentPerformanceLevel.0.performanceLevelDescriptor.0.description | 1                               | string               |
+       | body.assessmentPerformanceLevel.1.performanceLevelDescriptor.0.description | 2                               | string               |
+       | body.assessmentPerformanceLevel.2.performanceLevelDescriptor.0.description | 3                               | string               |
+       | body.assessmentPerformanceLevel.3.performanceLevelDescriptor.0.description | 4                               | string               |
        | body.assessmentPerformanceLevel.0.assessmentReportingMethod              | Scale score                               | string               |
        | body.assessmentPerformanceLevel.1.assessmentReportingMethod              | Scale score                               | string               |
        | body.assessmentPerformanceLevel.2.assessmentReportingMethod              | Scale score                               | string               |
@@ -86,6 +86,6 @@ Scenario: Assessment and StudentAssessment Verification
        | body.scoreResults.2.assessmentReportingMethod                            | Other                                 | string               |
        | body.scoreResults.2.result                                               | 1233L                                 | string               |
        | body.gradeLevelWhenAssessed                                              | Eighth grade                          | string               |
-       | body.performanceLevelDescriptors.0.description                           | Above Benchmark                       | string               |
-       | body.performanceLevelDescriptors.0.codeValue                             | 1                                     | string               |
+       | body.performanceLevelDescriptors.0.0.description                           | Above Benchmark                       | string               |
+       | body.performanceLevelDescriptors.0.1.codeValue                             | 1                                     | string               |
     

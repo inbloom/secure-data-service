@@ -255,7 +255,6 @@ public class IdNormalizer {
         
         if (foundRecords != null && foundRecords.iterator().hasNext()) {
             for (Entity record : foundRecords) {
-                Map<String, Object> body = record.getBody();
                 ids.add(record.getEntityId());
             }
         }

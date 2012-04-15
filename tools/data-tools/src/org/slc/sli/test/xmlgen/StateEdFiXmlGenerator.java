@@ -12,6 +12,7 @@ import org.slc.sli.test.edfi.entities.InterchangeStudent;
 import org.slc.sli.test.edfi.entities.InterchangeStudentAssessment;
 import org.slc.sli.test.edfi.entities.InterchangeStudentAttendance;
 import org.slc.sli.test.edfi.entities.InterchangeStudentCohort;
+import org.slc.sli.test.edfi.entities.InterchangeStudentDiscipline;
 import org.slc.sli.test.edfi.entities.InterchangeStudentEnrollment;
 import org.slc.sli.test.edfi.entities.InterchangeStudentProgram;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
@@ -23,6 +24,7 @@ import org.slc.sli.test.generators.interchange.InterchangeStaffAssociationGenera
 import org.slc.sli.test.generators.interchange.InterchangeStudentAssessmentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentAttendanceGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentCohortGenerator;
+import org.slc.sli.test.generators.interchange.InterchangeStudentDisciplineGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentEnrollmentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentProgramGenerator;
@@ -107,6 +109,8 @@ public class StateEdFiXmlGenerator {
         studentProgram();
 
         studentCohort();
+        
+        studentDiscipline();
 
         studentAttendance();
 
@@ -258,6 +262,24 @@ public class StateEdFiXmlGenerator {
         String xmlFilePath = rootOutputPath + "/InterchangeStudentCohort.xml";
 
         JaxbUtils.marshal(studentCohort, new PrintStream(xmlFilePath));
+
+        // TODO: uncomment when ingestion supports this
+        // DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentCohort",
+        // xmlFilePath);
+    }
+
+    /**
+     * Generate InterchangeStudentDiscipline data and use Jaxb to output the XML file.
+     *
+     * @throws Exception
+     */
+    private static void studentDiscipline() throws Exception {
+
+        InterchangeStudentDiscipline studentDiscipline = InterchangeStudentDisciplineGenerator.generate();
+
+        String xmlFilePath = rootOutputPath + "/InterchangeStudentDiscipline.xml";
+
+        JaxbUtils.marshal(studentDiscipline, new PrintStream(xmlFilePath));
 
         // TODO: uncomment when ingestion supports this
         // DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentCohort",

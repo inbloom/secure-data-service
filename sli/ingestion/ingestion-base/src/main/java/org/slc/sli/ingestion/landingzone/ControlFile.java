@@ -1,10 +1,5 @@
 package org.slc.sli.ingestion.landingzone;
 
-import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.FileType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +10,12 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileType;
 
 /**
  * Represents control file information.
@@ -98,6 +99,10 @@ public class ControlFile implements Serializable {
         this.file = file;
         this.fileEntries = fileEntries;
         this.configProperties = configProperties;
+    }
+
+    public Properties getConfigProperties() {
+        return configProperties;
     }
 
 }
