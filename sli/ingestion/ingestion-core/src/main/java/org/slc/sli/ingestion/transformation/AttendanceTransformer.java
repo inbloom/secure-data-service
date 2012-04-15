@@ -1,6 +1,5 @@
 package org.slc.sli.ingestion.transformation;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

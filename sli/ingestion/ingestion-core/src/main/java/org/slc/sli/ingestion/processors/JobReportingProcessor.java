@@ -78,7 +78,7 @@ public class JobReportingProcessor implements Processor {
                     continue;
                 }
 
-                String id = "[file] " + resourceEntry.getResourceName();
+                String id = "[file] " + resourceEntry.getExternallyUploadedResourceId();
                 jobLogger.info(id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType()
                         + ")");
 
@@ -115,7 +115,7 @@ public class JobReportingProcessor implements Processor {
                             + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
                             + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier())) + ","
                             + error.getErrorDetail());
-                } else if (error.getSeverity() == FaultType.TYPE_WARNING.getName()) {
+                } else if (error.getSeverity().equals(FaultType.TYPE_WARNING.getName())) {
                     jobLogger.warn(
                             ((error.getStageName() == null) ? "" : (error.getStageName())) + ","
                             + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
