@@ -9,7 +9,7 @@ import javax.xml.namespace.QName;
 /**
  * The meta-data for a class.
  */
-public final class ClassType extends AbstractModelElement implements Type {
+public final class ClassType extends AbstractModelElementWithLookup implements Type {
     /**
      * The name of the class.
      */
@@ -25,7 +25,7 @@ public final class ClassType extends AbstractModelElement implements Type {
     
     public ClassType(final Identifier id, final QName name, final boolean isAbstract, final List<Attribute> attributes,
             final List<TaggedValue> taggedValues, final LazyLookup lookup) {
-        super(id, taggedValues, lookup);
+        super(id, ReferenceType.CLASS_TYPE, taggedValues, lookup);
         if (name == null) {
             throw new NullPointerException("name");
         }
@@ -52,35 +52,30 @@ public final class ClassType extends AbstractModelElement implements Type {
     }
     
     @Override
-    public Reference getReference() {
-        return new Reference(getId(), ReferenceType.CLASS_TYPE);
-    }
-    
-    @Override
     public List<Generalization> getGeneralizationBase() {
-        return lookup.getGeneralizationBase(getReference());
+        return lookup.getGeneralizationBase(this);
     }
     
     @Override
     public List<Generalization> getGeneralizationDerived() {
-        return lookup.getGeneralizationDerived(getReference());
+        return lookup.getGeneralizationDerived(this);
     }
     
     @Override
     public List<AssociationEnd> getAssociationEnds() {
-        return lookup.getAssociationEnds(getReference());
+        return lookup.getAssociationEnds(this);
     }
     
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return getId().hashCode();
     }
     
     @Override
     public boolean equals(final Object obj) {
         if (obj instanceof ClassType) {
             final ClassType that = (ClassType) obj;
-            return this.name.equals(that.name);
+            return this.getId().equals(that.getId());
         } else {
             return false;
         }

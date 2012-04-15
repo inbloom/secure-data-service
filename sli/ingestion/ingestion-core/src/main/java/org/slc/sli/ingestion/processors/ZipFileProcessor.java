@@ -66,7 +66,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             // TODO BJI: create job in the db
             batchJobId = NewBatchJob.createId(zipFile.getName());
             NewBatchJob newJob = new NewBatchJob(batchJobId);
-            newJob.setStatus(BatchJobStatusType.STARTED.getName());
+            newJob.setStatus(BatchJobStatusType.RUNNING.getName());
 
             Stage stage = new Stage();
             stage.setStageName(BatchJobStageType.ZIP_FILE_PROCESSING.getName());
@@ -80,7 +80,8 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             File ctlFile = handler.handle(zipFile, errorReport);
 
             ResourceEntry resourceName = new ResourceEntry();
-            resourceName.setResourceName(zipFile.getName());
+            resourceName.setResourceName(zipFile.getCanonicalPath());
+            resourceName.setResourceId(zipFile.getName());
             newJob.getResourceEntries().add(resourceName);
 
             stage.stopStage();
@@ -119,7 +120,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             // TODO BJI: create job in the db
             batchJobId = NewBatchJob.createId(zipFile.getName());
             NewBatchJob newJob = new NewBatchJob(batchJobId);
-            newJob.setStatus(BatchJobStatusType.STARTED.getName());
+            newJob.setStatus(BatchJobStatusType.RUNNING.getName());
 
             Stage stage = new Stage();
             stage.setStageName(BatchJobStageType.ZIP_FILE_PROCESSING.getName());
@@ -135,7 +136,8 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             Error.writeErrorsToMongo(batchJobId, errorReport);
 
             ResourceEntry resourceName = new ResourceEntry();
-            resourceName.setResourceName(zipFile.getName());
+            resourceName.setResourceName(zipFile.getCanonicalPath());
+            resourceName.setResourceId(zipFile.getName());
             newJob.getResourceEntries().add(resourceName);
 
             stage.stopStage();

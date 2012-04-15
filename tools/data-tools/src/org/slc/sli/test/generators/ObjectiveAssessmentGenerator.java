@@ -5,13 +5,14 @@ import org.slc.sli.test.edfi.entities.AssessmentReportingMethodType;
 import org.slc.sli.test.edfi.entities.ObjectiveAssessment;
 import org.slc.sli.test.edfi.entities.ObjectiveAssessmentIdentityType;
 import org.slc.sli.test.edfi.entities.ObjectiveAssessmentReferenceType;
-import org.slc.sli.test.edfi.entities.relations.ObjectiveAssessmentMeta;
+import org.slc.sli.test.edfi.entities.meta.ObjectiveAssessmentMeta;
 
 public class ObjectiveAssessmentGenerator {
 
     public static ObjectiveAssessment generateLowFi(final ObjectiveAssessmentMeta objAssessMeta) {
 
         ObjectiveAssessment objectiveAssessment = new ObjectiveAssessment();
+        objectiveAssessment.setId(objAssessMeta.id);
         objectiveAssessment.setIdentificationCode(objAssessMeta.id);
         objectiveAssessment.setMaxRawScore(100);
 

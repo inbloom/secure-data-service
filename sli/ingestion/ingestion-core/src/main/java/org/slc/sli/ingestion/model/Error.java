@@ -139,7 +139,7 @@ public final class Error {
     public static void writeErrorsToMongo(String batchId, FaultsReport errorReport) {
         if (errorReport.hasErrors()) {
             List<Fault> faults = errorReport.getFaults();
-            for ( Fault fault : faults ) {
+            for (Fault fault : faults) {
                 String errorType = new String();
                 if (fault.isError()) {
                     errorType = "ERROR";

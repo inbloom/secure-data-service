@@ -7,7 +7,7 @@ import javax.xml.namespace.QName;
 /**
  * A field of a class.
  */
-public final class Attribute extends AbstractModelElement implements HasName, HasType {
+public final class Attribute extends AbstractModelElementWithLookup implements HasName, HasType, HasMultiplicity {
     /**
      * The name of the attribute. Never <code>null</code>.
      */
@@ -23,7 +23,7 @@ public final class Attribute extends AbstractModelElement implements HasName, Ha
     
     public Attribute(final Identifier id, final QName name, final Reference type, final Multiplicity multiplicity,
             final List<TaggedValue> taggedValues, final LazyLookup lookup) {
-        super(id, taggedValues, lookup);
+        super(id, ReferenceType.ATTRIBUTE, taggedValues, lookup);
         if (name == null) {
             throw new NullPointerException("name");
         }
@@ -50,7 +50,7 @@ public final class Attribute extends AbstractModelElement implements HasName, Ha
         try {
             return lookup.getType(type);
         } catch (final RuntimeException e) {
-            throw new RuntimeException(name.toString(), e);
+            throw new RuntimeException(name.toString() + ", type: " + type, e);
         }
     }
     

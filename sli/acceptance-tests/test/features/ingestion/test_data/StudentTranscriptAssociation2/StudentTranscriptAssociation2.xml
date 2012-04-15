@@ -202,7 +202,7 @@
       <GradeType>Final</GradeType>
     </CourseTranscript>
     
-    <StudentAcademicRecord id="SAR-91919003-1">
+    <StudentAcademicRecord id="SAR-91919003-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
@@ -213,7 +213,7 @@
       </StudentReference>
       <SessionReference>
         <SessionIdentity>
-          <SessionName>Fall 2010 Daybreak Central High</SessionName>
+          <SessionName>Spring 2011 Daybreak Central High</SessionName>
         </SessionIdentity>
       </SessionReference>
     </StudentAcademicRecord>
@@ -238,7 +238,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-91919003-1"/>
+      <StudentAcademicRecordReference ref="SAR-91919003-2"/>
       <GradeType>Final</GradeType>
     </CourseTranscript>
     

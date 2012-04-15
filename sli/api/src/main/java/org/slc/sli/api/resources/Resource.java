@@ -447,7 +447,7 @@ public class Resource {
             @QueryParam(FULL_ENTITIES_PARAM) @DefaultValue("false") final boolean fullEntities,
             @Context final UriInfo uriInfo) {
         NeutralQuery neutralQuery = new ApiQuery(uriInfo);
-        if (neutralQuery.getLimit() == 0) {
+        if (neutralQuery.getLimit() == 50) {
             neutralQuery.setLimit(max);
             if (sortBy != null) {
                 if (!sortBy.isEmpty()) {

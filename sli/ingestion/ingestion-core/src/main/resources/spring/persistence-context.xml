@@ -40,6 +40,7 @@
     <value>section</value>
     <value>session</value>
     <value>student</value>
+    <value>studentAcademicRecord</value>
     <value>studentAssessmentAssociation</value>
     <value>studentObjectiveAssessment</value>
     <value>studentParentAssociation</value>
@@ -54,6 +55,8 @@
     <value>teacherSectionAssociation</value>
     <value>graduationPlan</value>
     <value>program</value>
+    <value>studentProgramAssociation</value>
+    <value>staffProgramAssociation</value>
   </util:set>
 
 </beans>

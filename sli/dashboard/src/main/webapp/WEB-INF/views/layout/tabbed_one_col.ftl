@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
+<#include "layout_header.ftl">
 <#include "layout_includes.ftl">
 <#assign layoutConfig = viewConfigs>
 <script>
@@ -12,10 +13,6 @@
 <body>
 
 <div id="container">
-
-  <div id="header">
-      <#include "../header.ftl">
-  </div>
     
   <div id="banner">
     <h1>
@@ -79,3 +76,4 @@
 
 </body>
 </html>
+<#include "layout_footer.ftl">

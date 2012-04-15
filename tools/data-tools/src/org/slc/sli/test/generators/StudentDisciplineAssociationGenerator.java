@@ -1,8 +1,18 @@
 package org.slc.sli.test.generators;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
-import org.slc.sli.test.edfi.entities.*;
+import org.slc.sli.test.edfi.entities.DisciplineIncident;
+import org.slc.sli.test.edfi.entities.DisciplineIncidentReferenceType;
+import org.slc.sli.test.edfi.entities.ReferenceType;
+import org.slc.sli.test.edfi.entities.StudentDisciplineIncidentAssociation;
+import org.slc.sli.test.edfi.entities.StudentIdentityType;
+import org.slc.sli.test.edfi.entities.StudentParticipationCodeType;
+import org.slc.sli.test.edfi.entities.StudentReferenceType;
+import org.slc.sli.test.edfi.entities.meta.DisciplineIncidentMeta;
 
 /**
 * Generates StudentDisciplineIncidentAssociation data
@@ -11,6 +21,26 @@ import org.slc.sli.test.edfi.entities.*;
 *
 */
 public class StudentDisciplineAssociationGenerator {
+
+    /**
+     * Generates a list of StudentDisciplineIncidentAssociation from a DisciplineIncidentMeta.
+     *
+     * @param meta
+     * 
+     * @return <code>List<StudentDisciplineIncidentAssociation></code>
+     */
+    public static List<StudentDisciplineIncidentAssociation> generateLowFi(DisciplineIncidentMeta meta) {
+        String disciplineIncidentId = meta.id;
+        Collection<String> studentIds = meta.studentIds;
+        
+        List<StudentDisciplineIncidentAssociation> list = new ArrayList<StudentDisciplineIncidentAssociation>(studentIds.size());
+        
+        for (String studentId : studentIds) {
+            list.add(generateLowFi(disciplineIncidentId, studentId));
+        }
+
+        return list;
+    }
 
     /**
      * Generates a StudentDisciplineIncidentAssociation between a student and a disciplineIncident.

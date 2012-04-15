@@ -23,6 +23,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
+import org.slc.sli.api.resources.v1.entity.ProgramResource;
+import org.slc.sli.api.resources.v1.entity.StudentResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -49,6 +51,10 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class StudentProgramAssociationResourceTest {
+    @Autowired
+    StudentResource studentResource;
+    @Autowired
+    ProgramResource programResource;
     @Autowired
     StudentProgramAssociationResource studentProgramAssociationResource; //class under test 
     
@@ -202,6 +208,46 @@ public class StudentProgramAssociationResourceTest {
         assertNotNull("Should not be null", body2);
         assertEquals(ParameterConstants.STUDENT_PROGRAM_ASSOCIATION_ID + " should be 5678", body2.get(ParameterConstants.STUDENT_PROGRAM_ASSOCIATION_ID), 5678);
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
+    }
+
+    @Test
+    public void testGetStudentProgramAssociationStudents() {
+        Response createResponse = studentResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("StudentResource")), httpHeaders, uriInfo);
+        String studentId = ResourceTestUtil.parseIdFromLocation(createResponse);
+        createResponse = programResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("ProgramResource")), httpHeaders, uriInfo);
+        String programId = ResourceTestUtil.parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StudentProgramAssociationResource", "StudentResource", studentId, "ProgramResource", programId);
+        createResponse = studentProgramAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
+
+        Response response = studentProgramAssociationResource.getStudentProgramAssociationStudents(id, 0, 100, httpHeaders, uriInfo);
+        EntityBody body = ResourceTestUtil.assertions(response);
+        assertEquals("Entity type should match", "student", body.get("entityType"));
+        assertEquals("ID should match", studentId, body.get("id"));
+    }
+
+    @Test
+    public void testGetStudentProgramAssociationPrograms() {
+        Response createResponse = studentResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("StudentResource")), httpHeaders, uriInfo);
+        String studentId = ResourceTestUtil.parseIdFromLocation(createResponse);
+        createResponse = programResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("ProgramResource")), httpHeaders, uriInfo);
+        String programId = ResourceTestUtil.parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StudentProgramAssociationResource", "StudentResource", studentId, "ProgramResource", programId);
+        createResponse = studentProgramAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
+
+        Response response = studentProgramAssociationResource.getStudentProgramAssociationPrograms(id, 0, 100, httpHeaders, uriInfo);
+        EntityBody body = ResourceTestUtil.assertions(response);
+        assertEquals("Entity type should match", "program", body.get("entityType"));
+        assertEquals("ID should match", programId, body.get("id"));
     }
 
     private String getIDList(String resource) {

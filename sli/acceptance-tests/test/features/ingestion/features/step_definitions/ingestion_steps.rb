@@ -61,7 +61,7 @@ Given /^I am using preconfigured Ingestion Landing Zone$/ do
 
 end
 
-Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_name|
+def processPayloadFile(file_name)
   path_name = file_name[0..-5]
 
   # copy everything into a new directory (to avoid touching git tracked files)
@@ -74,7 +74,7 @@ Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_nam
   ctl_template = nil
   Dir.foreach(zip_dir) do |file|
     if /.*.ctl$/.match file
-      ctl_template = file
+    ctl_template = file
     end
   end
 
@@ -83,13 +83,13 @@ Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_nam
   File.open(zip_dir + ctl_template, "r") do |ctl_file|
     ctl_file.each_line do |line|
       if line.chomp.length == 0
-        next
+      next
       end
       entries = line.chomp.split ","
       if entries.length < 3
         puts "DEBUG:  less than 3 elements on the control file line.  Passing it through untouched: " + line
-        new_ctl_file.puts line.chomp
-        next
+      new_ctl_file.puts line.chomp
+      next
       end
       payload_file = entries[2]
       md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
@@ -105,9 +105,19 @@ Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_nam
   FileUtils.mv zip_dir + ctl_template + "-tmp", zip_dir + ctl_template
 
   runShellCommand("zip -j #{@local_file_store_path}#{file_name} #{zip_dir}/*")
-  @source_file_name = file_name
-
   FileUtils.rm_r zip_dir
+
+  return file_name
+end
+
+
+Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_name|
+ @source_file_name = processPayloadFile file_name
+end
+
+Given /^I post "([^"]*)" and "([^"]*)" files as the payload of two ingestion jobs$/ do |file_name1, file_name2|
+  @source_file_name1 = processPayloadFile file_name1
+  @source_file_name2 = processPayloadFile file_name2
 end
 
 Given /^I want to ingest locally provided data "([^"]*)" file as the payload of the ingestion job$/ do |file_path|
@@ -162,8 +172,21 @@ end
 
 def dirContainsBatchJobLog?(dir)
   Dir.foreach(dir) do |file|
-    if /^job-.*.log$/.match file
+    if /^job-#{@source_file_name}.*.log$/.match file
       return true
+    end
+  end
+  return false
+end
+
+def dirContainsBatchJobLogs?(dir, num)
+  count = 0
+  Dir.foreach(dir) do |file|
+    if /^job-.*.log$/.match file
+      count += 1
+      if count >= num 
+        return true
+      end
     end
   end
   return false
@@ -184,7 +207,7 @@ When /^a batch job log has been created$/ do
 
     iters.times do |i|
       @findJobLog = runShellCommand(File.dirname(__FILE__) + "/../../util/findJobLog.sh")
-      if /job-.*.log/.match @findJobLog
+      if /job-#{@source_file_name}.*.log/.match @findJobLog
         puts "Result of find job log: " + @findJobLog
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
@@ -214,9 +237,9 @@ When /^a batch job log has been created$/ do
 
 end
 
-When /^zip file is scp to ingestion landing zone$/ do
-  @source_path = @local_file_store_path + @source_file_name
-  @destination_path = @landing_zone_path + @source_file_name
+def scpFileToLandingZone(filename)
+  @source_path = @local_file_store_path + filename
+  @destination_path = @landing_zone_path + filename
 
   puts "Source = " + @source_path
   puts "Destination = " + @destination_path
@@ -240,6 +263,16 @@ When /^zip file is scp to ingestion landing zone$/ do
 end
 
 
+When /^zip file is scp to ingestion landing zone$/ do
+  scpFileToLandingZone @source_file_name
+end
+
+When /^zip files are scped to the ingestion landing zone$/ do
+  scpFileToLandingZone @source_file_name1
+  scpFileToLandingZone @source_file_name2
+end
+
+
 When /^local zip file is moved to ingestion landing zone$/ do
   @source_path = @local_file_store_path + @source_file_name
   @destination_path = @landing_zone_path + @source_file_name
@@ -250,7 +283,8 @@ When /^local zip file is moved to ingestion landing zone$/ do
   assert(@destination_path != nil, "Destination path was nil")
   assert(@source_path != nil, "Source path was nil")
 
-  runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/remoteCopy.sh " + @source_path + " " + @destination_path);
+  runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/remoteCopy.sh");
+  @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/remoteCopy.sh " + @source_path + " " + @destination_path);
 
   assert(true, "File Not Uploaded")
 end
@@ -293,6 +327,11 @@ Then /^I should see following map of entry counts in the corresponding batch job
   end
 
   assert(@result == "true", "Some records didn't load successfully.")
+end
+
+Then /^I should say that we started processing$/ do
+  puts "Ingestion Performance Dataset started Ingesting.  Please wait a few hours for it to complete."
+  assert(true, "Some records didn't load successfully.")
 end
 
 Then /^I check to find if record is in collection:$/ do |table|

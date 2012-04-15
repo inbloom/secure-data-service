@@ -64,7 +64,7 @@ public class ControlFilePreProcessor implements Processor {
                 exchange.getIn().setHeader("BatchJobId", batchJobId);
                 log.info("Created job [{}]", batchJobId);
                 newJob = new NewBatchJob(batchJobId);
-                newJob.setStatus(BatchJobStatusType.STARTED.getName());
+                newJob.setStatus(BatchJobStatusType.RUNNING.getName());
             } else {
                 newJob = batchJobDAO.findBatchJobById(batchJobId);
             }
@@ -126,7 +126,7 @@ public class ControlFilePreProcessor implements Processor {
                 exchange.getIn().setHeader("BatchJobId", batchJobId);
                 log.info("Created job [{}]", batchJobId);
                 newJob = new NewBatchJob(batchJobId);
-                newJob.setStatus(BatchJobStatusType.STARTED.getName());
+                newJob.setStatus(BatchJobStatusType.RUNNING.getName());
             } else {
                 newJob = batchJobDAO.findBatchJobById(batchJobId);
             }

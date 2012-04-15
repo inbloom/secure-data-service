@@ -12,7 +12,7 @@ import org.slc.sli.test.edfi.entities.ServiceDescriptorType;
 import org.slc.sli.test.edfi.entities.StudentIdentityType;
 import org.slc.sli.test.edfi.entities.StudentProgramAssociation;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
-import org.slc.sli.test.edfi.entities.relations.ProgramMeta;
+import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 
 /**
  * Generates StudentProgramAssociation from ProgramMeta

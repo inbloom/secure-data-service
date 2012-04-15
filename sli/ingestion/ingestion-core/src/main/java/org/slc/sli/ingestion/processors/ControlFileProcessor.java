@@ -42,6 +42,8 @@ public class ControlFileProcessor implements Processor {
 
     private Logger log = LoggerFactory.getLogger(ControlFileProcessor.class);
 
+    private static final String PURGE = "purge";
+
     @Autowired
     private BatchJobAssembler jobAssembler;
 
@@ -110,7 +112,8 @@ public class ControlFileProcessor implements Processor {
             long endTime = System.currentTimeMillis();
             log.info("Assembled batch job [{}] in {} ms", job.getId(), endTime - startTime);
 
-            // TODO set properties on the exchange based on job properties
+
+            //  TODO set properties on the exchange based on job properties
             // TODO set faults on the exchange if the control file sucked (?)
 
             // TODO Create the stage and metric
@@ -124,8 +127,11 @@ public class ControlFileProcessor implements Processor {
 
             // set headers
             exchange.getIn().setHeader("hasErrors", job.getFaultsReport().hasErrors());
+            if (job.getProperty(PURGE) != null) {
+                exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
+            } else {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BULK_TRANSFORM_REQUEST.name());
-
+            }
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
@@ -218,7 +224,11 @@ public class ControlFileProcessor implements Processor {
             // set headers
             // This error section is now handled by the writeErrorsToMongo above
 //            exchange.getIn().setHeader("hasErrors", job.getFaultsReport().hasErrors());
+            if (newJob.getProperty(PURGE) != null) {
+                exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
+            } else {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BULK_TRANSFORM_REQUEST.name());
+            }
 
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
