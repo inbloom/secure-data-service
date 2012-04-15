@@ -14,6 +14,7 @@ import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
@@ -84,7 +85,7 @@ public class ControlFileProcessor implements Processor {
 
             ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
 
-            BatchJob job = getJobAssembler()
+            Job job = getJobAssembler()
                     .assembleJob(cfd, (String) exchange.getIn().getHeader("CamelFileNameOnly"));
 
             ControlFile cf = cfd.getFileItem();

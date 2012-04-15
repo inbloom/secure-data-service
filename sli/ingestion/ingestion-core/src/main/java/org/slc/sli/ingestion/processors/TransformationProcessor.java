@@ -4,6 +4,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -55,7 +56,7 @@ public class TransformationProcessor implements Processor {
         stage.setStageName(BatchJobStageType.TRANSFORMATION_PROCESSING.getName());
         stage.startStage();
         
-        BatchJob job = exchange.getIn().getBody(BatchJob.class);
+        Job job = exchange.getIn().getBody(BatchJob.class);
         
         performDataTransformations(job);
         
@@ -71,7 +72,7 @@ public class TransformationProcessor implements Processor {
      * 
      * @param job
      */
-    void performDataTransformations(BatchJob job) {
+    void performDataTransformations(Job job) {
         LOG.info("performing data transformation BatchJob: {}", job);
         
         Transmogrifier transmogrifier = transformationFactory.createTransmogrifier(job);

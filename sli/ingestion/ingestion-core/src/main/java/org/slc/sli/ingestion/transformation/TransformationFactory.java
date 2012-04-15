@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ public class TransformationFactory implements ApplicationContextAware {
      * @param jobId
      * @return
      */
-    public Transmogrifier createTransmogrifier(BatchJob job) {
+    public Transmogrifier createTransmogrifier(Job job) {
         
         List<TransformationStrategy> transformationStrategies = deriveTransformsRequired(defineCollectionsInJob());
         
