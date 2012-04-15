@@ -39,7 +39,7 @@
 				<ProgramId>ACC-TEST-PROG-3</ProgramId>
 			</ProgramIdentity>
 		</ProgramReference>
-		<BeginDate>2011-06-01</BeginDate>
+		<BeginDate>2011-05-02</BeginDate>
 		<EndDate>2012-02-15</EndDate>		
 		<StudentRecordAccess>false</StudentRecordAccess>
   </StaffProgramAssociation>
@@ -60,7 +60,7 @@
 				<ProgramId>ACC-TEST-PROG-3</ProgramId>
 			</ProgramIdentity>
 		</ProgramReference>
-		<BeginDate>2011-01-01</BeginDate>
+		<BeginDate>2011-01-02</BeginDate>
 		<StudentRecordAccess>true</StudentRecordAccess>
   </StaffProgramAssociation>
 	<!-- cgray to ACC-TEST-PROG-1 and ACC-TEST-PROG-2 -->
@@ -80,7 +80,7 @@
 				<ProgramId>ACC-TEST-PROG-2</ProgramId>
 			</ProgramIdentity>
 		</ProgramReference>
-		<BeginDate>2011-06-01</BeginDate>
+		<BeginDate>2011-06-02</BeginDate>
 		<StudentRecordAccess>true</StudentRecordAccess>
   </StaffProgramAssociation>
 </InterchangeStudentProgram>

@@ -146,7 +146,7 @@ public class PersistenceProcessor implements Processor {
                             "Errors found for input file \"" + fe.getFileName() + "\". See \"error." + fe.getFileName()
                                     + "\" for details.", this);
                                         
-                    for (Fault fault:job.getFaultsReport().getFaults()) {
+                    for (Fault fault : job.getFaultsReport().getFaults()) {
                         String faultMessage = fault.getMessage();
                         BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, FaultType.TYPE_ERROR.getName(), "Error", faultMessage);    
                     }
@@ -250,7 +250,7 @@ public class PersistenceProcessor implements Processor {
 
                         if (errorReport.hasErrors()) {
                             numFailed++;
-                            for (Fault fault:recordLevelErrorsInFile.getFaults()) {
+                            for (Fault fault : recordLevelErrorsInFile.getFaults()) {
                                 String faultMessage = fault.getMessage();
                                 if (faultMessage != null) faultMessage = faultMessage.replaceAll("\r|\n", " ");
                                 String faultLevel  = fault.isError() ? FaultType.TYPE_ERROR.getName() : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
@@ -293,7 +293,7 @@ public class PersistenceProcessor implements Processor {
                                 if (recordLevelErrorsInFile.hasErrors()) {
                                     numFailed++;
                                 }
-                                for (Fault fault:recordLevelErrorsInFile.getFaults()) {
+                                for (Fault fault : recordLevelErrorsInFile.getFaults()) {
                                     String faultMessage = fault.getMessage();
                                     if (faultMessage != null) faultMessage = faultMessage.replaceAll("\r|\n", " ");
                                     String faultLevel  = fault.isError() ? FaultType.TYPE_ERROR.getName() : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
