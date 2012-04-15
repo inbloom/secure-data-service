@@ -298,7 +298,8 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
         NeutralSchema prior = partialSchemas.get(type);
         if (prior != null) {
             // we already have a schema of this type
-            return prior;
+            NeutralSchema nSchema = getSchemaFactory().copySchema(prior);
+            return nSchema;
         }
         if (type instanceof XmlSchemaComplexType) {
             NeutralSchema complexSchema = getSchemaFactory().createSchema(name);
