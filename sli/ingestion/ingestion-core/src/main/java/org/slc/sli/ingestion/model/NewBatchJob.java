@@ -36,16 +36,8 @@ public final class NewBatchJob {
 
     private List<ResourceEntry> resourceEntries;
 
-    /**
-     * generates a new unique ID
-     */
-    @PutResultInContext(returnName = "ingestionBatchJobId")
-    public static String createId(String filename) {
-        if (filename == null) {
-            return System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
-        } else {
-            return filename + "-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
-        }
+    // mongoTemplate requires this constructor.
+    public NewBatchJob() {
     }
 
     public NewBatchJob(String id) {
@@ -54,10 +46,6 @@ public final class NewBatchJob {
         this.stages = stages;
         List<ResourceEntry> resourceEntries = new LinkedList<ResourceEntry>();
         this.resourceEntries = resourceEntries;
-    }
-
-    // mongoTemplate requires this constructor.
-    public NewBatchJob() {
     }
 
     public NewBatchJob(String id, String sourceId, String status, int totalFiles, Map<String, String> batchProperties,
@@ -79,6 +67,18 @@ public final class NewBatchJob {
             resourceEntries = new LinkedList<ResourceEntry>();
         }
         this.resourceEntries = resourceEntries;
+    }
+
+    /**
+     * generates a new unique ID
+     */
+    @PutResultInContext(returnName = "ingestionBatchJobId")
+    public static String createId(String filename) {
+        if (filename == null) {
+            return System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+        } else {
+            return filename + "-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+        }
     }
 
     public String getSourceId() {
