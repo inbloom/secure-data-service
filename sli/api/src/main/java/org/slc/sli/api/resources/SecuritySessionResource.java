@@ -19,14 +19,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
-import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 
@@ -39,23 +40,23 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class SecuritySessionResource {
-
+    
     @Autowired
     private RoleRightAccess roleAccessor;
-
+    
     @Autowired
     private ClientRoleResolver roleResolver;
-
+    
     @Autowired
-    private OAuthTokenUtil oAuthTokenUtil;
-
+    private OauthSessionManager sessionManager;
+    
     @Value("${sli.security.noSession.landing.url}")
     private String realmPage;
-
+    
     /**
      * Method processing HTTP GET requests to the logout resource, and producing "application/json" MIME media
      * type.
-     *
+     * 
      * @return HashMap indicating success or failure for logout action (matches type "application/json" through jersey).
      */
     @GET
@@ -65,20 +66,17 @@ public class SecuritySessionResource {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Authentication oAuth = ((OAuth2Authentication) auth).getUserAuthentication();
         
-        if (oAuth instanceof AnonymousAuthenticationToken) {
-            final String noLoginMsg = "User must have a valid session in SLI before they can logout";
-            throw new InsufficientAuthenticationException(noLoginMsg);
-        }
-
         Map<String, Object> logoutMap = new HashMap<String, Object>();
-        if (oAuthTokenUtil.deleteTokensForPrincipal(oAuth)) {
-            logoutMap.put("logout", true);
-        } else {
-            logoutMap.put("logout", false);   
-        }        
+        logoutMap.put("logout", true);
+        logoutMap.put("msg", "You are logged out of SLI");
+        if (oAuth instanceof PreAuthenticatedAuthenticationToken) {
+            PreAuthenticatedAuthenticationToken userAuth = (PreAuthenticatedAuthenticationToken) oAuth;
+            logoutMap.put("logout", this.sessionManager.logout((String) userAuth.getCredentials()));
+        }
+        
         return logoutMap;
     }
-
+    
     /**
      * Method processing HTTP GET requests to debug resource, producing "application/json" MIME media
      * type.
@@ -105,7 +103,7 @@ public class SecuritySessionResource {
         principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
         return SecurityContextHolder.getContext();
     }
-
+    
     /**
      * Method processing HTTP GET requests to check resource, producing "application/json" MIME media
      * type.
@@ -147,13 +145,14 @@ public class SecuritySessionResource {
         
         return sessionDetails;
     }
-
+    
     /**
      * Indicates whether or not the current user is authenticated into SLI.
+     * 
      * @param securityContext User's Security Context (checked for authentication credentials).
      * @return true (indicating user is authenticated) or false (indicating user is NOT authenticated).
      */
     private boolean isAuthenticated(SecurityContext securityContext) {
-        return !(securityContext == null || securityContext.getAuthentication() == null || securityContext.getAuthentication().getCredentials() == null || securityContext.getAuthentication().getCredentials().equals(""));
+        return securityContext.getAuthentication().isAuthenticated();
     }
 }

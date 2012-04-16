@@ -40,11 +40,9 @@ public class InterchangeStudentAttendanceGenerator {
      */
     private static void addEntitiesToInterchange(List<AttendanceEvent> interchangeObjects) {
 
-
-    	generateStudentAttendanceEventAssoc(interchangeObjects, MetaRelations.STUDENT_MAP.values());
+        generateStudentAttendanceEventAssoc(interchangeObjects, MetaRelations.STUDENT_MAP.values());
 
     }
-
 
     private static void generateStudentAttendanceEventAssoc(List<AttendanceEvent> interchangeObjects,
             Collection<StudentMeta> studentMetas) {
@@ -53,17 +51,22 @@ public class InterchangeStudentAttendanceGenerator {
         int objGenCounter = 0;
         for (StudentMeta studentMeta : studentMetas) {
             for (String sectionId : studentMeta.sectionIds) {
-                AttendanceEvent attendanceEvent;
 
-                if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                	attendanceEvent = null;
-                } else {
-                	attendanceEvent = AttendanceEventGenerator.getAttendanceEvent(studentMeta.id, studentMeta.schoolIds.get(0), sectionId);
+                AttendanceEventGenerator.resetCalendar();
+                for (int count = 0; count < MetaRelations.ATTENDANCE_PER_STUDENT_SECTION; count++) {
+                    AttendanceEvent attendanceEvent;
+
+                    if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                        attendanceEvent = null;
+                    } else {
+                        attendanceEvent = AttendanceEventGenerator.generateLowFi(studentMeta.id,
+                                studentMeta.schoolIds.get(0), sectionId);
+                    }
+
+                    interchangeObjects.add(attendanceEvent);
+
+                    objGenCounter++;
                 }
-
-                interchangeObjects.add(attendanceEvent);
-
-                objGenCounter++;
             }
         }
 

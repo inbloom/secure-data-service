@@ -2,6 +2,7 @@ package org.slc.sli.ingestion.handler;
 
 import java.util.List;
 
+import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReportSupport;
@@ -19,7 +20,7 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
 
     List<? extends Validator<T>> postValidators;
 
-    abstract O doHandling(T item, ErrorReport errorReport);
+    abstract O doHandling(T item, ErrorReport errorReport, FileProcessStatus fileProcessStatus);
 
     void pre(T item, ErrorReport errorReport) {
         if (preValidators != null) {
@@ -52,6 +53,10 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
 
     @Override
     public O handle(T item, ErrorReport errorReport) {
+        return handle(item, errorReport, new FileProcessStatus());
+    }
+
+    public O handle(T item, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
 
         O o = null;
 
@@ -59,7 +64,7 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
 
         if (!errorReport.hasErrors()) {
 
-            o = doHandling(item, errorReport);
+            o = doHandling(item, errorReport, fileProcessStatus);
 
             post(item, errorReport);
         }

@@ -20,8 +20,6 @@ import javax.xml.stream.XMLStreamReader;
 
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
-import org.slc.sli.modeling.uml.Reference;
-import org.slc.sli.modeling.uml.ReferenceType;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
 
 public final class DocumentationReader {
@@ -126,9 +124,9 @@ public final class DocumentationReader {
         return new Diagram(title, source, description);
     }
     
-    private static final Documentation<Reference> readDocument(final XMLStreamReader reader) throws XMLStreamException {
+    private static final Documentation<Identifier> readDocument(final XMLStreamReader reader) throws XMLStreamException {
         assertStartDocument(reader);
-        Documentation<Reference> dm = null;
+        Documentation<Identifier> dm = null;
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
@@ -158,12 +156,12 @@ public final class DocumentationReader {
      *            The {@link InputStream}.
      * @return The parsed {@link Model}.
      */
-    public static final Documentation<Reference> readDocumentation(final InputStream stream) {
+    public static final Documentation<Identifier> readDocumentation(final InputStream stream) {
         final XMLInputFactory factory = XMLInputFactory.newInstance();
         try {
             final XMLStreamReader reader = factory.createXMLStreamReader(stream);
             try {
-                final Documentation<Reference> model = readDocument(reader);
+                final Documentation<Identifier> model = readDocument(reader);
                 return model;
             } finally {
                 reader.close();
@@ -173,7 +171,7 @@ public final class DocumentationReader {
         }
     }
     
-    public static final Documentation<Reference> readDocumentation(final String fileName) throws FileNotFoundException {
+    public static final Documentation<Identifier> readDocumentation(final String fileName) throws FileNotFoundException {
         final InputStream istream = new BufferedInputStream(new FileInputStream(fileName));
         try {
             return readDocumentation(istream);
@@ -182,12 +180,12 @@ public final class DocumentationReader {
         }
     }
     
-    private static final Domain<Reference> readDomain(final XMLStreamReader reader) throws XMLStreamException {
+    private static final Domain<Identifier> readDomain(final XMLStreamReader reader) throws XMLStreamException {
         assertStartElement(reader);
         assertName(DocumentationElements.DOMAIN, reader);
         String title = null;
         String description = "";
-        final List<Entity<Reference>> entities = new LinkedList<Entity<Reference>>();
+        final List<Entity<Identifier>> entities = new LinkedList<Entity<Identifier>>();
         final List<Diagram> diagrams = new LinkedList<Diagram>();
         boolean done = false;
         while (!done && reader.hasNext()) {
@@ -221,13 +219,13 @@ public final class DocumentationReader {
                 }
             }
         }
-        return new Domain<Reference>(title, description, entities, diagrams);
+        return new Domain<Identifier>(title, description, entities, diagrams);
     }
     
-    private static final Documentation<Reference> readDomains(final XMLStreamReader reader) throws XMLStreamException {
+    private static final Documentation<Identifier> readDomains(final XMLStreamReader reader) throws XMLStreamException {
         assertStartElement(reader);
         assertName(DocumentationElements.PIM_CFG, reader);
-        final List<Domain<Reference>> domains = new LinkedList<Domain<Reference>>();
+        final List<Domain<Identifier>> domains = new LinkedList<Domain<Identifier>>();
         boolean done = false;
         while (!done && reader.hasNext()) {
             reader.next();
@@ -254,7 +252,7 @@ public final class DocumentationReader {
                 }
             }
         }
-        return new Documentation<Reference>(domains);
+        return new Documentation<Identifier>(domains);
     }
     
     private static final String readElementText(final QName name, final XMLStreamReader reader)
@@ -288,11 +286,11 @@ public final class DocumentationReader {
         return collapseWhitespace(sb.toString());
     }
     
-    private static final Entity<Reference> readEntity(final XMLStreamReader reader) throws XMLStreamException {
+    private static final Entity<Identifier> readEntity(final XMLStreamReader reader) throws XMLStreamException {
         assertStartElement(reader);
         assertName(DocumentationElements.ENTITY, reader);
         String title = null;
-        Reference type = null;
+        Identifier type = null;
         final List<Diagram> diagrams = new LinkedList<Diagram>();
         boolean done = false;
         while (!done && reader.hasNext()) {
@@ -302,8 +300,7 @@ public final class DocumentationReader {
                     if (match(DocumentationElements.TITLE, reader)) {
                         title = assertNotNull(readTitle(reader));
                     } else if (match(DocumentationElements.CLASS, reader)) {
-                        final Reference classRef = readReference(DocumentationElements.CLASS, ReferenceType.CLASS_TYPE,
-                                reader);
+                        final Identifier classRef = readIdentifier(DocumentationElements.CLASS, reader);
                         type = assertNotNull(classRef);
                     } else {
                         throw new AssertionError(reader.getLocalName());
@@ -326,11 +323,11 @@ public final class DocumentationReader {
         }
         assertNotNull(title);
         validateNotNull(type, "Missing reference for entity with title : " + title);
-        return new Entity<Reference>(title, type, diagrams);
+        return new Entity<Identifier>(title, type, diagrams);
     }
     
-    private static final Reference readReference(final QName name, final ReferenceType kind,
-            final XMLStreamReader reader) throws XMLStreamException {
+    private static final Identifier readIdentifier(final QName name, final XMLStreamReader reader)
+            throws XMLStreamException {
         assertStartElement(reader);
         assertName(name, reader);
         final Identifier id = getIdRef(reader);
@@ -355,7 +352,7 @@ public final class DocumentationReader {
                 }
             }
         }
-        return new Reference(id, kind);
+        return id;
     }
     
     private static final String readSource(final XMLStreamReader reader) throws XMLStreamException {
