@@ -37,11 +37,20 @@ end
 
 When /^I try to update the (data for "[^"]*") in another "([^"]*)" from the API$/ do |dataPath, level|
   @path = dataPath
+  
+  objType = dataPath.split('/')[0]
+  field_to_update = case objType
+                    when "students" then "studentUniqueStateId"
+                    when "staff" then "staffUniqueStateId"
+                    when "schools" then "nameOfInstitution"
+                    when "sections" then "uniqueSectionCode"
+                    when "teachers" then "staffUniqueStateId"
+                    end
+  
   @originalObj = JSON.parse(restHttpGet(@path).body)
   assert(@originalObj != nil, "Could not get the existing JSON body")
   @updatedObj = @originalObj.clone
-  @updatedObj["nameOfInstitution"] = "Updated Name"
-  @updatedObj["schoolCategories"] = ["High School", "Middle School", "Elementary School"]
+  @updatedObj[field_to_update] = "UpdatedData"
   @res = restHttpPost(dataPath, @updatedObj)
 end
 
