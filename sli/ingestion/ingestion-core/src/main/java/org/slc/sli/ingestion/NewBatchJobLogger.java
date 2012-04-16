@@ -1,0 +1,47 @@
+package org.slc.sli.ingestion;
+
+import java.io.File;
+import java.io.IOException;
+
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.PatternLayout;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.FileAppender;
+import org.slf4j.LoggerFactory;
+
+import org.slc.sli.ingestion.landingzone.LandingZone;
+
+
+/**
+ *
+ * @author bsuzuki
+ * TODO remove this class after batch job switch over
+ * Just for testing - should use BatchJobLogger after switch over
+ */
+public class NewBatchJobLogger {
+
+    public static Logger createLoggerForJob(String jobId, LandingZone lz) throws IOException {
+
+        File logFile = new File(lz.getLZId() + "/newJob-" + jobId + ".txt");
+
+        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+
+        PatternLayout patternLayout = new PatternLayout();
+        patternLayout.setContext(lc);
+        patternLayout.setPattern("%date %-5level %msg%n");
+        patternLayout.start();
+
+        FileAppender<ILoggingEvent> appender = new FileAppender<ILoggingEvent>();
+        appender.setContext(lc);
+        appender.setFile(logFile.getAbsolutePath()); // tricky if we're not localFS...
+        appender.setLayout(patternLayout);
+        appender.start();
+
+        Logger logger = lc.getLogger(jobId);
+        logger.addAppender(appender);
+
+        return logger;
+    }
+
+}

@@ -245,18 +245,20 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 // if (ids.size() == 0) {
                 // return Response.ok(finalResults).build();
                 // }
-                
-                endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
-                for (EntityBody result : endpointEntity.getService().list(endpointNeutralQuery)) {
-                    if (associations.get(result.get("id")) != null)
-                        result.put(resource1, associations.get(result.get("id")));
-                    
-                    result.put(ResourceConstants.LINKS, ResourceUtil.getLinks(entityDefs,
-                            entityDefs.lookupByResourceName(resolutionResourceName), result, uriInfo));
-                    finalResults.add(result);
+
+                if (!ids.isEmpty()) {
+                    endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+                    for (EntityBody result : endpointEntity.getService().list(endpointNeutralQuery)) {
+                        if (associations.get(result.get("id")) != null)
+                            result.put(resource1, associations.get(result.get("id")));
+
+                        result.put(ResourceConstants.LINKS, ResourceUtil.getLinks(entityDefs,
+                                entityDefs.lookupByResourceName(resolutionResourceName), result, uriInfo));
+                        finalResults.add(result);
+                    }
+
+                    finalResults = appendOptionalFields(uriInfo, finalResults, typeName);
                 }
-                
-                finalResults = appendOptionalFields(uriInfo, finalResults, typeName);
                 
                 if (finalResults.isEmpty()) {
                     Status errorStatus = Status.NOT_FOUND;

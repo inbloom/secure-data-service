@@ -2,9 +2,11 @@ package org.slc.sli.dal.encrypt;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
@@ -35,8 +37,7 @@ public class EntityEncryption {
     Map<NeutralSchema, Map<String, Object>> piiMapCache = new ConcurrentHashMap<NeutralSchema, Map<String, Object>>();
     
     public Map<String, Object> encrypt(String entityType, Map<String, Object> body) {
-        NeutralSchema schema = schemaReg.getSchema(entityType);
-        Map<String, Object> piiMap = buildPiiMap(schema);
+        Map<String, Object> piiMap = buildPiiMap(entityType);
         if (piiMap == null) {
             return body;
         }
@@ -47,8 +48,7 @@ public class EntityEncryption {
     }
     
     public Map<String, Object> decrypt(String entityType, Map<String, Object> body) {
-        NeutralSchema schema = schemaReg.getSchema(entityType);
-        Map<String, Object> piiMap = buildPiiMap(schema);
+        Map<String, Object> piiMap = buildPiiMap(entityType);
         if (piiMap == null) {
             return body;
         }
@@ -200,13 +200,16 @@ public class EntityEncryption {
      * Returns null if no data for this schema is PII
      */
     @SuppressWarnings("unchecked")
-    private Map<String, Object> buildPiiMap(NeutralSchema schema) {
+    protected Map<String, Object> buildPiiMap(String entityType) {
+        NeutralSchema schema = schemaReg.getSchema(entityType);
+        
         if (schema == null) {
             return null;
         }
+        
         Map<String, Object> piiMap = piiMapCache.get(schema);
         if (piiMap == null) {
-            piiMap = (Map<String, Object>) recursiveBuildPiiMap(schema);
+            piiMap = (Map<String, Object>) recursiveBuildPiiMap(schema, new HashSet<NeutralSchema>());
             if (piiMap == null) {
                 piiMap = new HashMap<String, Object>();
             }
@@ -219,14 +222,18 @@ public class EntityEncryption {
         }
     }
     
-    private Object recursiveBuildPiiMap(NeutralSchema schema) {
+    private Object recursiveBuildPiiMap(NeutralSchema schema, Set<NeutralSchema> visited) {
         if (schema == null) {
             return null;
         }
+        visited.add(schema);
         if (schema instanceof ComplexSchema || schema instanceof ChoiceSchema) {
             Map<String, Object> fields = new HashMap<String, Object>();
             for (Map.Entry<String, NeutralSchema> field : schema.getFields().entrySet()) {
-                Object result = recursiveBuildPiiMap(field.getValue());
+                if (visited.contains(field.getValue())) {
+                    return null;
+                }
+                Object result = recursiveBuildPiiMap(field.getValue(), visited);
                 if (result != null) {
                     fields.put(field.getKey(), result);
                 }
@@ -240,7 +247,7 @@ public class EntityEncryption {
                 throw new RuntimeException("Unable to handle multiple list schemas.");
             }
             NeutralSchema listContent = possibleSchemas.get(0);
-            return recursiveBuildPiiMap(listContent);
+            return recursiveBuildPiiMap(listContent, visited);
         } else {
             if (schema.getAppInfo() == null) {
                 return null;

@@ -37,6 +37,7 @@ public class StudentAllAttendanceOptionalFieldAppender implements OptionalFieldA
 
         //setup the query
         NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setLimit(0);
         neutralQuery.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.CRITERIA_IN, studentIds));
 
         //get the attendances

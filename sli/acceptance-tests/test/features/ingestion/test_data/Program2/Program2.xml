@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
-  <Program>
-    <ProgramId>ACC-TEST-PROG-1</ProgramId>
+	<Program>
+		<ProgramId>ACC-TEST-PROG-1</ProgramId>
 		<ProgramType>Regular Education</ProgramType>
 		<ProgramSponsor>Local Education Agency</ProgramSponsor>
 		<Services>
@@ -16,8 +16,8 @@
 			<Description>This is a longer description of the services provided by program 1 service 2. More detail could be provided here.</Description>
 		</Services>
 		</Program>
-		<Program>
-			<ProgramId>ACC-TEST-PROG-2</ProgramId>
+	<Program>
+		<ProgramId>ACC-TEST-PROG-2</ProgramId>
 		<ProgramType>Regular Education</ProgramType>
 		<ProgramSponsor>Local Education Agency</ProgramSponsor>
 		<Services>
@@ -30,9 +30,9 @@
 			<ShortDescription>Short description for program 2 service 2</ShortDescription>
 			<Description>This is a longer description of the services provided by program 2 service 2. More detail could be provided here.</Description>
 		</Services>
-  </Program>
+	</Program>
 	<Program>
-			<ProgramId>ACC-TEST-PROG-3</ProgramId>
+		<ProgramId>ACC-TEST-PROG-3</ProgramId>
 		<ProgramType>Regular Education</ProgramType>
 		<ProgramSponsor>State Education Agency</ProgramSponsor>
 		<Services>
@@ -40,9 +40,9 @@
 			<ShortDescription>Short description for program 3 service 1</ShortDescription>
 			<Description>This is a longer description of the services provided by program 3 service 1. More detail could be provided here.</Description>
 		</Services>
-  </Program>
+	</Program>
 	<Program>
-	<ProgramId>ACC-TEST-PROG-4</ProgramId>
+		<ProgramId>ACC-TEST-PROG-4</ProgramId>
 		<ProgramType>Remedial Education</ProgramType>
 		<ProgramSponsor>Local Education Agency</ProgramSponsor>
 		<Services>
@@ -50,5 +50,5 @@
 			<ShortDescription>Short description for program 4 service 1</ShortDescription>
 			<Description>This is a longer description of the services provided by program 4 service 1. More detail could be provided here.</Description>
 		</Services>
-  </Program>
+	</Program>
 </InterchangeEducationOrganization>

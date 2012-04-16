@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.xml.bind.JAXBElement;
 
 import org.apache.log4j.Logger;
+import org.slc.sli.test.edfi.entities.BehaviorCategoryType;
 import org.slc.sli.test.edfi.entities.BehaviorDescriptorType;
 import org.slc.sli.test.edfi.entities.DisciplineIncident;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
@@ -14,6 +15,7 @@ import org.slc.sli.test.edfi.entities.SecondaryBehavior;
 import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.WeaponsType;
+import org.slc.sli.test.edfi.entities.meta.DisciplineIncidentMeta;
 
 /**
 * Generates DisciplineIncident data
@@ -28,34 +30,28 @@ public class DisciplineIncidentGenerator {
    private static String date = "2011-03-04";
    private static String time = "09:00:00";
 
-//   /**
-//    * Generates a list of StudentCohortAssociation from a CohortMeta.
-//    *
-//    * @param cohortMeta
-//    * 
-//    * @return <code>List<StudentCohortAssociation></code>
-//    */
-//   public static List<StudentCohortAssociation> generateLowFi(CohortMeta cohortMeta) {
-//       String cohortId = cohortMeta.id;
-//       String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.schoolId;
-//       Set<String> studentIds = cohortMeta.studentIds;
-//       
-//       List<StudentCohortAssociation> list = new ArrayList<StudentCohortAssociation>(studentIds.size());
-//       
-//       for (String studentId : studentIds) {
-//           list.add(generateLowFi(cohortId, studentId, schoolId));
-//       }
-//
-//       return list;
-//   }
+   /**
+    * Generates a DisciplineIncident from a DisciplineIncidentMeta.
+    *
+    * @param meta
+    * 
+    * @return <code>DisciplineIncident</code>
+    */
+   public static DisciplineIncident generateLowFi(DisciplineIncidentMeta meta) {
+       String disciplineIncidentId = meta.id;
+       String schoolId = meta.schoolId;
+       String staffId = meta.staffId;
+       
+       return generateLowFi(disciplineIncidentId, schoolId, staffId);
+   }
 
    /**
-    * Generates a DisciplineIncident between a cohort and a student 
-    * with a school as a reference.
+    * Generates a DisciplineIncident between a disciplineIncidentId and a schoolId 
+    * with a staffId as an optional reference.
     *
     * @param cohortId
-    * @param studentId
     * @param schoolId
+    * @param staffId
     * 
     * @return <code>DisciplineIncident</code>
     */
@@ -70,17 +66,14 @@ public class DisciplineIncidentGenerator {
        incident.setIncidentLocation(GeneratorUtils.generateIncidentLocationType());
        incident.setReporterDescription(GeneratorUtils.generateReporterDescriptionType());
        incident.setReporterName("Discipline Incident Reporter-"+disciplineIncidentId);
-       WeaponsType wt = new WeaponsType();
-       wt.getWeapon().add(GeneratorUtils.generateWeaponItemType());
-       incident.setWeapons(wt);
        incident.setReportedToLawEnforcement(new Boolean(rand.nextBoolean()));
-       incident.setCaseNumber("CaseNumber-"+rand.nextInt());
        
        //add Behaviors
        ObjectFactory factory = new ObjectFactory();
+       int count = 0;
        double prob = 1.0D / BehaviorDescriptor.values().length;
        for(BehaviorDescriptor behaviorDescriptor : BehaviorDescriptor.values()) {
-           if (rand.nextDouble() < prob) {
+           if (rand.nextDouble() < prob || count==(BehaviorDescriptor.values().length-1)) {
                BehaviorDescriptorType behaviorDescriptorType = new BehaviorDescriptorType();
                JAXBElement<String> behaviorDescriptorCode =  factory.createBehaviorDescriptorTypeCodeValue(behaviorDescriptor.codeValue);
                JAXBElement<String> behaviorDescriptorShortDescription =  factory.createBehaviorDescriptorTypeShortDescription(behaviorDescriptor.shortDescription);
@@ -89,7 +82,9 @@ public class DisciplineIncidentGenerator {
                behaviorDescriptorType.getCodeValueOrShortDescriptionOrDescription().add(behaviorDescriptorShortDescription);
                behaviorDescriptorType.getCodeValueOrShortDescriptionOrDescription().add(behaviorDescriptorDescription);
                incident.getBehaviors().add(behaviorDescriptorType);
+               break;
            }
+           ++count;
        }
        
        //add SecondaryBehavior
@@ -98,6 +93,10 @@ public class DisciplineIncidentGenerator {
        sb.setBehaviorCategory(GeneratorUtils.generateBehaviorCategoryType());
        incident.getSecondaryBehaviors().add(sb);
 
+       incident.setCaseNumber("CaseNumber-"+rand.nextInt(99999999));
+       WeaponsType wt = new WeaponsType();
+       wt.getWeapon().add(GeneratorUtils.generateWeaponItemType());
+       incident.setWeapons(wt);
        // construct and add the school references
        EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
        edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
@@ -106,11 +105,13 @@ public class DisciplineIncidentGenerator {
        incident.setSchoolReference(schoolRef);
 
        // construct and add the staff reference
-       StaffIdentityType sit = new StaffIdentityType();
-       sit.setStaffUniqueStateId(staffId);
-       StaffReferenceType srt = new StaffReferenceType();
-       srt.setStaffIdentity(sit);
-       incident.setStaffReference(srt);
+       if (staffId!=null && staffId.length()>0) {
+           StaffIdentityType sit = new StaffIdentityType();
+           sit.setStaffUniqueStateId(staffId);
+           StaffReferenceType srt = new StaffReferenceType();
+           srt.setStaffIdentity(sit);
+           incident.setStaffReference(srt);
+       }
        
        return incident;
    }

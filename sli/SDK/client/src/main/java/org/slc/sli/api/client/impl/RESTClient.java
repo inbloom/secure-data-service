@@ -32,7 +32,7 @@ import org.slc.sli.api.client.security.SliApi;
  */
 public class RESTClient {
     
-    private static final String SESSION_CHECK_PREFIX = "api/rest/system/session/check";
+    private static final String SESSION_CHECK_PREFIX = "api/rest/v1/system/session/check";
     
     private static Logger logger = Logger.getLogger("RESTClient");
     private String apiServerUri = null;
@@ -332,6 +332,15 @@ public class RESTClient {
         return apiServerUri;
     }
     
+    /**
+     * Set the sessionToken for all SLI API ReSTful service calls.
+     * 
+     * @param sessionToken
+     */
+    public void setSessionToken(String sessionToken) {
+        this.sessionToken = sessionToken;
+    }
+
     /**
      * Get a ClientRequest.Builder with common properties already set.
      * 

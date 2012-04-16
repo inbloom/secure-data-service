@@ -31,6 +31,7 @@ public class SliClientTest {
     
     @Test
     public void testFindDestination() {
+        sliClient.setDestination("http://a-destination");
         assertNotNull(sliClient.findDestination());
     }
     
