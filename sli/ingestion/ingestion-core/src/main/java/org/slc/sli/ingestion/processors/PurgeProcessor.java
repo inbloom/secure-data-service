@@ -50,7 +50,7 @@ public class PurgeProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        String batchJobId = getBatchJobIdFromExchange(exchange);
+        String batchJobId = getBatchJobId(exchange);
         if (batchJobId != null) {
 
             BatchJobDAO batchJobDAO = new BatchJobMongoDA();
@@ -72,6 +72,9 @@ public class PurgeProcessor implements Processor {
 
             stage.stopStage();
             batchJobDAO.saveBatchJob(newJob);
+
+        } else {
+            missingBatchJobIdError(exchange);
         }
     }
 
@@ -108,14 +111,14 @@ public class PurgeProcessor implements Processor {
         return stage;
     }
 
-    private String getBatchJobIdFromExchange(Exchange exchange) {
-        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
-        if (batchJobId == null) {
-            exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
-        }
-        return batchJobId;
+    private String getBatchJobId(Exchange exchange) {
+        return exchange.getIn().getHeader("BatchJobId", String.class);
+    }
+
+    private void missingBatchJobIdError(Exchange exchange) {
+        exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
 }
