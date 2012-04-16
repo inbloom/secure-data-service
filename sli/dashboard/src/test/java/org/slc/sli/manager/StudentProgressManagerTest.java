@@ -167,7 +167,7 @@ public class StudentProgressManagerTest {
         
         Map<String, List<GenericEntity>> data = buildHistoricalDataMap();
         
-        SortedSet<String> results = manager.applySessionAndTranscriptInformation(token, data);
+        SortedSet<String> results = manager.getSchoolYears(token, data);
         
         assertEquals("Size should be 3", 3, results.size());
         assertEquals("First element should match", YEAR_1998_1999 + " Fall Semester", results.first());

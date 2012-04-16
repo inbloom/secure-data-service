@@ -198,7 +198,7 @@ public class StudentListContentController extends DashboardController {
     }
 
     private SortedSet<String> getSchoolYears(Map<String, List<GenericEntity>> historicalData) {
-        return progressManager.applySessionAndTranscriptInformation(
+        return progressManager.getSchoolYears(
                 SecurityUtil.getToken(), historicalData);
     }
 

@@ -62,7 +62,7 @@ public class StudentProgressManager implements Manager {
             // skip if we have no associations or we have no previous transcripts
             if (studentSectionAssociations == null || studentTranscriptAssociations == null) continue;
 
-            filterBySubjectArea(studentSectionAssociations, subjectArea);
+            studentSectionAssociations = filterBySubjectArea(studentSectionAssociations, subjectArea);
 
             for (Map<String, Object> studentSectionAssoc : studentSectionAssociations) {
                 // Get the course transcript for a particular section
@@ -71,9 +71,10 @@ public class StudentProgressManager implements Manager {
                 if (courseTranscript == null) continue;
 
                 GenericEntity data = new GenericEntity();
-                data.put("finalLetterGradeEarned", courseTranscript.get("finalNumericGradeEarned").toString());
+                data.put("finalLetterGradeEarned", courseTranscript.get("finalLetterGradeEarned").toString());
                 data.put("courseTitle", getCourseTitle(studentSectionAssoc));
                 data.put("schoolYear", getSchoolYear(studentSectionAssoc));
+                data.put(Constants.ATTR_TERM, getTerm(studentSectionAssoc));
 
                 transcriptData.add(data);
             }
@@ -82,6 +83,20 @@ public class StudentProgressManager implements Manager {
         }
 
         return results;
+    }
+
+    @SuppressWarnings("unchecked")
+    private String getTerm(Map<String, Object> studentSectionAssoc) {
+        String term = "";
+        Map<String, Object> section = (Map<String, Object>) studentSectionAssoc.get("sections");
+        if (section != null) {
+            Map<String, Object> session = (Map<String, Object>) section.get("sessions");
+            if (session != null) {
+                term = session.get(Constants.ATTR_TERM).toString();
+            }
+        }
+
+        return term;
     }
 
     @SuppressWarnings("unchecked")
@@ -134,9 +149,29 @@ public class StudentProgressManager implements Manager {
         return null;
     }
 
-    private void filterBySubjectArea(List<Map<String, Object>> studentSectionAssociations, String subjectArea) {
-        if (subjectArea == null) return;
-        // some logic here to do true filtering
+    @SuppressWarnings("unchecked")
+    private List<Map<String, Object>> filterBySubjectArea(List<Map<String, Object>> studentSectionAssociations, String subjectArea) {
+        if (subjectArea == null) {
+            log.warn("Subject Area to match is null!");
+            return studentSectionAssociations;
+        }
+
+        List<Map<String, Object>> filteredAssociations = new ArrayList<Map<String, Object>>();
+
+        for (Map<String, Object> studentSectionAssociation : studentSectionAssociations) {
+            Map<String, Object> section = (Map<String, Object>) studentSectionAssociation.get("sections");
+            if (section != null) {
+                Map<String, Object> course = (Map<String, Object>) section.get("courses");
+                if (course != null) {
+                    Object ssaSubjectArea = course.get("subjectArea");
+                    if (ssaSubjectArea != null && ssaSubjectArea.toString().equals(subjectArea)) {
+                        filteredAssociations.add(studentSectionAssociation);
+                    }
+                }
+            }
+        }
+
+        return filteredAssociations;
     }
 
     /**
@@ -164,49 +199,18 @@ public class StudentProgressManager implements Manager {
      * @param historicalData The historical data
      * @return
      */
-    public SortedSet<String> applySessionAndTranscriptInformation(final String token, Map<String, 
+    public SortedSet<String> getSchoolYears(final String token, Map<String,
             List<GenericEntity>> historicalData) {
         SortedSet<String> results = new TreeSet<String>();
 
         for (List<GenericEntity> studentTranscripts : historicalData.values()) {
             for (GenericEntity transcript : studentTranscripts) {
-                String schoolYear = transcript.getString("schoolYear");
-                if (schoolYear != null) results.add(schoolYear);
+                String schoolYear = transcript.getString("schoolYear") + " " + transcript.get(Constants.ATTR_TERM);
+                results.add(schoolYear);
             }
         }
 
         return results;
-    }
-        
-    /**
-     * Returns a list of studentCourseAssociations for a given student and course Id
-     * @param token Security token
-     * @param studentId The student Id
-     * @param courseId The course Id
-     * @return
-     */
-    protected List<GenericEntity> getStudentCourseAssociations(final String token, final String studentId, String courseId) {
-        
-        //build the params
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(Constants.ATTR_COURSE_ID, courseId);
-        params.put(Constants.PARAM_INCLUDE_FIELDS, Constants.ATTR_FINAL_LETTER_GRADE);
-        
-        return entityManager.getStudentTranscriptAssociations(token, studentId, params);
-    }
-    
-    /**
-     * Get the sections for the given student and course
-     * @param token Security token
-     * @param studentId The student Id
-     * @param courseId The course Id
-     * @return
-     */
-    protected List<GenericEntity> getSectionsForCourse(final String token, final String studentId, final String courseId) {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(Constants.ATTR_COURSE_ID, courseId);
-        
-        return entityManager.getSections(token, studentId, params);
     }
     
     /**
@@ -286,25 +290,6 @@ public class StudentProgressManager implements Manager {
     
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
-    }
-    
-    
-    /**
-     * Compare two GenericEntities by the school year
-     * @author srupasinghe
-     *
-     */
-    class SchoolYearComparator implements Comparator<GenericEntity> {
-
-        public int compare(GenericEntity e1, GenericEntity e2) {
-            if (e1.getString(Constants.ATTR_SCHOOL_YEAR) == null 
-                    || e2.getString(Constants.ATTR_SCHOOL_YEAR) == null) {
-                return 0;
-            }
-            
-            return e2.getString(Constants.ATTR_SCHOOL_YEAR).compareTo(e1.getString(Constants.ATTR_SCHOOL_YEAR));
-        }
-        
     }
     
     /**
