@@ -80,7 +80,7 @@ public class StudentAttendanceOptionalFieldAppenderTest {
         Entity session1 = repo.create("session", createSession(beginDate1, "1999-2000"));
         Entity session2 = repo.create("session", createSession(beginDate2, "1999-2000"));
         Entity session3 = repo.create("session", createSession(beginDate3, "1999-2000"));
-        Entity session4 = repo.create("session", createSession(beginDate3, "1998-1999"));
+        Entity session4 = repo.create("session", createSession(beginDate4, "1998-1999"));
 
         String sectionId1 = repo.create("section", createSection(session1.getEntityId())).getEntityId();
         String sectionId2 = repo.create("section", createSection(session2.getEntityId())).getEntityId();

@@ -55,6 +55,8 @@
     <value>teacherSectionAssociation</value>
     <value>graduationPlan</value>
     <value>program</value>
+    <value>studentProgramAssociation</value>
+    <value>staffProgramAssociation</value>
   </util:set>
 
 </beans>

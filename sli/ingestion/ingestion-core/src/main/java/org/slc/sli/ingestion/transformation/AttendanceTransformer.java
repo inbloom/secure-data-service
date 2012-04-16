@@ -39,13 +39,16 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         loadData();
         transform();
         persist();
-        LOG.info("--------------------------------------------------------------\n\n\n\n\n");
     }
-
+    
+    /**
+     * Pre-requisite interchanges for attendance data to be successfully transformed: 
+     * section, session, studentSchoolAssociation, studentSectionAssociation
+     */
     public void loadData() {
         LOG.info("Loading data for attendance transformation.");
 
-        List<String> collectionsToLoad = Arrays.asList("attendance", "school", "student", "studentSchoolAssociation");
+        List<String> collectionsToLoad = Arrays.asList("section", "session", "studentSchoolAssociation", "studentSectionAssociation", "attendance");
 
         for (String collectionName : collectionsToLoad) {
             Map<Object, NeutralRecord> collection = getCollectionFromDb(collectionName);
@@ -54,83 +57,84 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         }
 
         LOG.info("Attendance data is loaded into local storage.  Total Count = " + collections.get("attendance").size());
-
-        // NOTE
-        // loadCollection needs to be augmented to return a boolean value indicating whether or not the
-        // requested collection was added to the 'collections' local entity
-        // -> if not, need to check actual mongo for entities
-
-        // need to get interchanges for this information --> definitely
-        // getCollectionFromDb("schoolSessionAssociation"); --> get list of sessionIds from schoolId
-        // getCollectionFromDb("session"); --> get list of sessions (as Map<String, Object>)
-        // iterate over sessions and add them into studentSchoolAssociation.body.dailyAttendance as Maps (with _year equal to schoolYear from session)
-
-        // TODO: will (eventually) need a filter here to determine what type of attendance data is being loaded
-        // -> can be daily attendance (added to studentSchoolAssociation)
-        // -> can be section attendance (added to studentSectionAssociation)
-
     }
+
 
     public void transform() {
-        LOG.debug("Transforming data: Injecting direct references to students and schools/sections into attendance");
+        LOG.debug("Transforming attendance data");
 
-//        HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
-//        String key;
-//
-//        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("attendance").entrySet()) {
-//            NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-
-
-        // get the key of parent
-//            Map<String, Object> attrs = neutralRecord.getAttributes();
-//            key = (String) attrs.get("parentAssessmentFamilyId");
-//            String familyHierarchyName = "";
-//            familyHierarchyName = getAssocationFamilyMap(key, new HashMap<String, Map<String, Object>>(),
-//                    familyHierarchyName);
-//
-//            attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
-//
-//            @SuppressWarnings("unchecked")
-//            List<String> objectiveAssessmentRefs = (List<String>) attrs.get("objectiveAssessmentRefs");
-//            List<Map<String, Object>> objectiveAssessments = new ArrayList<Map<String, Object>>();
-//            if (objectiveAssessmentRefs != null && !(objectiveAssessmentRefs.isEmpty())) {
-//
-//                for (String objectiveAssessmentRef : objectiveAssessmentRefs) {
-//
-//                    objectiveAssessments.add(getObjectiveAssessment(objectiveAssessmentRef));
-//                }
-//                attrs.put("objectiveAssessment", objectiveAssessments);
+        HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
+        
+        // iterate over attendance events instead?
+        // Map<Object, NeutralRecord> attendance = collections.get("attendance");
+        
+        // iterate over each studentSchoolAssociation --> this is where the dailyAttendance Map will be added
+        LOG.info("Iterating over {} student-school associations.", collections.get("studentSectionAssociation").size());
+        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("studentSchoolAssociation").entrySet()) {
+            NeutralRecord neutralRecord = neutralRecordEntry.getValue();
+            Map<String, Object> attributes = neutralRecord.getAttributes();
+            String studentId = (String) attributes.get("studentId");
+            
+            LOG.info("For student with id: {}", studentId);
+            
+            Map<Object, NeutralRecord> studentAttendance = new HashMap<Object, NeutralRecord>();
+            
+            for (Map.Entry<Object, NeutralRecord> attendanceEntry : collections.get("attendance").entrySet()) {
+                NeutralRecord record = attendanceEntry.getValue();
+                Map<String, Object> attendanceAttributes = record.getAttributes();
+                if (attendanceAttributes.get("studentId").equals(studentId)) {
+                    studentAttendance.put(attendanceEntry.getKey(), attendanceEntry.getValue());
+                }
+            }
+            LOG.info(" - Found {} attendance events.", studentAttendance.size());
+            
+            Map<Object, NeutralRecord> sessions = new HashMap<Object, NeutralRecord>();
+            
+            for (Map.Entry<Object, NeutralRecord> association : collections.get("studentSectionAssociation").entrySet()) {
+                NeutralRecord record = association.getValue();
+                Map<String, Object> associationAttributes = record.getAttributes();
+                if (associationAttributes.get("studentId").equals(studentId)) {
+                    String sectionId = (String) associationAttributes.get("sectionId");
+                    
+                    for (Map.Entry<Object, NeutralRecord> section : collections.get("section").entrySet()) {
+                        NeutralRecord sectionRecord = section.getValue();
+                        Map<String, Object> sectionAttributes = sectionRecord.getAttributes();
+                        if (sectionAttributes.get("uniqueSectionCode").equals(sectionId)) {
+                            String sessionId = (String) sectionAttributes.get("sessionId");
+                            
+                            for (Map.Entry<Object, NeutralRecord> session : collections.get("session").entrySet()) {
+                                NeutralRecord sessionRecord = session.getValue();
+                                Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
+                                if (sessionAttributes.get("sessionName").equals(sessionId)) {
+                                    sessions.put(session.getKey(), sessionRecord);
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            LOG.info(" - Found {} sessions associated with student.", sessions.size());
+            
+//            if (attributes.containsKey("dailyAttendance")) {
+//                Map<String, Object> daily = (Map<String, Object>) attributes.get("dailyAttendance");
+//                // work will eventually be done here
+//                attributes.put("dailyAttendance", daily);
+//            } else {
+//                Map<String, Object> daily = new HashMap<String, Object>;
+//                List<Pair<String, List<Object>>> schoolYearAttendance = new ArrayList<Pair<String, List<Object>>>();
+//                
+//                attributes.put("dailyAttendance", daily);
 //            }
-//
-//            String assessmentPeriodDescriptorRef = (String) attrs.get("periodDescriptorRef");
-//            if (assessmentPeriodDescriptorRef != null) {
-//
-//                attrs.put("assessmentPeriodDescriptor", getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
-//
-//            }
-//            neutralRecord.setAttributes(attrs);
-//            newCollection.put(neutralRecord.getRecordId(), neutralRecord);
-//        }
-//
-//        transformedCollections.put("studentSchoolAssociation", newCollection);
-
-        LOG.debug("Finished transforming data.");
-    }
-
-    private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef) {
-        Map<String, String> paths = new HashMap<String, String>();
-
-        paths.put("body.id", objectiveAssessmentRef);
-
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPaths(
-                "objectiveAssessment", paths);
-
-        Map<String, Object> objectiveAssessment = data.iterator().next().getAttributes();
-        objectiveAssessment.remove("id");
-
-        return objectiveAssessment;
-
-        // return null;
+            
+            neutralRecord.setAttributes(attributes);
+            newCollection.put(neutralRecord.getRecordId(), neutralRecord);
+        }
+        
+        transformedCollections.put("studentSchoolAssociation", newCollection);
+        
+        LOG.debug("Finished transforming attendance data.");
     }
 
     /**
@@ -138,7 +142,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     public void persist() {
         LOG.info("Persisting transformed attendance data into mongo.");
-
+        // uncomment this when ready to persist transformed associations into mongo
+        
 //        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
 //            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
 //                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
@@ -169,8 +174,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             tempNr = neutralRecordIterator.next();
             collection.put(tempNr.getRecordId(), tempNr);
         }
-
         return collection;
-    }
-
+    }    
 }

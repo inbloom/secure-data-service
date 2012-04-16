@@ -2,36 +2,45 @@ package org.slc.sli.modeling.uml;
 
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
 /**
  * An association between two types.
  */
-public final class Association extends AbstractModelElement implements HasName {
-    private final QName name;
+public final class Association extends NamespaceOwnedElement {
     private final AssociationEnd lhs;
     private final AssociationEnd rhs;
     
-    public Association(final Identifier id, final QName name, final AssociationEnd lhs, final AssociationEnd rhs,
+    public Association(final Identifier id, final String name, final AssociationEnd lhs, final AssociationEnd rhs,
             final List<TaggedValue> taggedValues) {
-        super(id, ReferenceType.ASSOCIATION, taggedValues);
-        if (name == null) {
-            throw new NullPointerException("name");
-        }
+        super(id, name, taggedValues);
         if (lhs == null) {
             throw new NullPointerException("lhs");
         }
         if (rhs == null) {
             throw new NullPointerException("rhs");
         }
-        this.name = name;
+        if (lhs.getId().equals(rhs.getId())) {
+            throw new IllegalArgumentException();
+        }
         this.lhs = lhs;
         this.rhs = rhs;
     }
     
+    public Association(final String name, final AssociationEnd lhs, final AssociationEnd rhs,
+            final List<TaggedValue> taggedValues) {
+        this(Identifier.random(), name, lhs, rhs, taggedValues);
+    }
+    
+    public Association(final String name, final AssociationEnd lhs, final AssociationEnd rhs) {
+        this(Identifier.random(), name, lhs, rhs, EMPTY_TAGGED_VALUES);
+    }
+    
+    public Association(final AssociationEnd lhs, final AssociationEnd rhs) {
+        this(Identifier.random(), "", lhs, rhs, EMPTY_TAGGED_VALUES);
+    }
+    
     @Override
-    public QName getName() {
-        return name;
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
     
     public AssociationEnd getLHS() {
@@ -46,8 +55,8 @@ public final class Association extends AbstractModelElement implements HasName {
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("{");
-        // sb.append("id: " + id).append(", ");
-        sb.append("name: \"" + name + "\"");
+        sb.append("id: " + getId()).append(", ");
+        sb.append("name: \"" + getName() + "\"");
         sb.append(", ");
         sb.append("lhs: " + lhs).append(", ");
         sb.append("rhs: " + rhs);

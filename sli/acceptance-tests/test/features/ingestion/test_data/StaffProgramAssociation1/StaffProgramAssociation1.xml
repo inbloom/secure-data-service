@@ -23,7 +23,7 @@
 				<ProgramId>ACC-TEST-PROG-2</ProgramId>
 			</ProgramIdentity>
 		</ProgramReference>
-		<BeginDate>2011-01-01</BeginDate>
+		<BeginDate>2011-01-05</BeginDate>
 		<EndDate>2012-02-15</EndDate>
 		<StudentRecordAccess>true</StudentRecordAccess>
   </StaffProgramAssociation>

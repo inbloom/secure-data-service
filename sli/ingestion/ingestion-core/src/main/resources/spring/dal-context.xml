@@ -2,11 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:context="http://www.springframework.org/schema/context"
   xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+  xmlns:util="http://www.springframework.org/schema/util"
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd"
+		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
   default-autowire="byName">
 
 
@@ -25,16 +27,24 @@
   	host="${sli.ingestion.staging.mongodb.host}"
     port="${sli.ingestion.staging.mongodb.port}" />
   <!-- username="${sli.ingestion.staging.mongodb.user}" password="${sli.ingestion.staging.mongodb.pass}" -->
+<util:map  id="pii" key-type="java.lang.String" value-type="java.lang.Object"></util:map>
+
+<bean id="stagingEntityEncryption" class="org.slc.sli.ingestion.dal.StagingEntityEncryption">
+    <property name="entityConfigFactory" ref="entityConfigurationsFactory"/>
+</bean>
+
+<bean id="neutralRecordWriteConverter" class="org.slc.sli.ingestion.dal.NeutralRecordWriteConverter">
+    <property name="stagingEncryptor" ref="stagingEntityEncryption"/>
+</bean>
+<bean id="neutralRecordReadConverter" class="org.slc.sli.ingestion.dal.NeutralRecordReadConverter">
+    <property name="stagingEncryptor" ref="stagingEntityEncryption"/>
+</bean>
 
   <mongo:mapping-converter id="neutralRecordMappingConverter" base-package="org.slc.sli.ingestion.dal"
     db-factory-ref="mongoDbStagingFactory">
     <mongo:custom-converters>
-      <mongo:converter>
-        <bean class="org.slc.sli.ingestion.dal.NeutralRecordReadConverter" />
-      </mongo:converter>
-      <mongo:converter>
-        <bean class="org.slc.sli.ingestion.dal.NeutralRecordWriteConverter" />
-      </mongo:converter>
+      <mongo:converter ref="neutralRecordReadConverter"/>
+      <mongo:converter ref="neutralRecordWriteConverter" />
     </mongo:custom-converters>
   </mongo:mapping-converter>
 
@@ -62,5 +72,23 @@
   </bean>
 
   <context:component-scan base-package="org.slc.sli.ingestion.dal" />
+
+  
+  <!-- MONGODB BATCHJOB CONFIG -->
+
+  <mongo:db-factory
+    id="mongoDbBatchJobFactory"
+    dbname="${sli.ingestion.batchjob.mongodb.database}"
+    host="${sli.ingestion.batchjob.mongodb.host}"
+    port="${sli.ingestion.batchjob.mongodb.port}" />
+  <!-- username="${sli.ingestion.staging.mongodb.user}" password="${sli.ingestion.staging.mongodb.pass}" -->
+
+  <bean id="batchJobMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+    <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbBatchJobFactory" />
+    <!-- <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="neutralRecordMappingConverter" /> -->
+  </bean>
+
+  <context:component-scan base-package="org.slc.sli.ingestion.model.da" />
+
 
 </beans>
