@@ -88,9 +88,9 @@ function populateFilter() {
     
     var select = "<select id='filterSelect' onChange='clearStudentList();filterStudents()'>";
     var index=0;
-    select += "<option value='-1'></option>"
+    select += "<option value='-1'>No Filter</option>"
     for(index=0;index<DashboardUtil.widgetConfig.lozenge.items.length; index++) {
-        select += "<option value='"+index+"'>"+DashboardUtil.widgetConfig.lozenge.items[index].name+"</option>";
+        select += "<option value='"+index+"'>"+DashboardUtil.widgetConfig.lozenge.items[index].description+"</option>";
     }
     select += "</select>";
     document.getElementById("filterDiv").innerHTML = select;

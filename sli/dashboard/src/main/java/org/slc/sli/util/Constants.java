@@ -139,6 +139,7 @@ public final class Constants {
     public static final String ATTR_GRADEBOOK_ENTRY_TYPE = "gradebookEntryType";
     public static final String ATTR_GRADEBOOK_ENTRIES = "gradebookEntries";
     public static final String ATTR_GRADE_LEVEL = "gradeLevel";
+    public static final String ATTR_GRADE_LEVELS = "gradeLevels";
     public static final String ATTR_STUDENT_ENROLLMENT = "studentEnrollment";
     public static final String ATTR_SCHOOL = "school";
     public static final String ATTR_HEADER_STRING = "headerString";
