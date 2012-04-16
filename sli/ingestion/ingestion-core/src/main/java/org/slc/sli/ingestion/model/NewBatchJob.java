@@ -56,12 +56,11 @@ public final class NewBatchJob {
         this.resourceEntries = resourceEntries;
     }
 
-    //mongoTemplate requires this constructor.
+    // mongoTemplate requires this constructor.
     public NewBatchJob() {
     }
 
-    public NewBatchJob(String id, String sourceId, String status,
-            int totalFiles, Map<String, String> batchProperties,
+    public NewBatchJob(String id, String sourceId, String status, int totalFiles, Map<String, String> batchProperties,
             List<Stage> stages, List<ResourceEntry> resourceEntries) {
         super();
         this.id = id;
@@ -145,12 +144,16 @@ public final class NewBatchJob {
      * @param resourceId
      */
     public ResourceEntry getResourceEntry(String resourceId) {
-        for (ResourceEntry entry : this.getResourceEntries()) {
-            String entryResourceId = entry.getResourceId();
-            if (entryResourceId != null && entryResourceId.equals(resourceId)) {
-                return entry;
+        if (resourceId != null) {
+            for (ResourceEntry entry : this.getResourceEntries()) {
+                if (resourceId.equals(entry.getResourceId())) {
+                    return entry;
+                }
             }
+        } else {
+            throw new IllegalArgumentException("Cannot get resource for null resourceId");
         }
+
         return null;
     }
 
@@ -162,13 +165,12 @@ public final class NewBatchJob {
      */
     public List<Metrics> getStageMetrics(BatchJobStageType stageType) {
         for (Stage stage : this.getStages()) {
-            if (stage.getStageName().equals(stageType.getName())) {
+            if (stageType.getName().equals(stage.getStageName())) {
                 return stage.getMetrics();
             }
         }
 
         return null;
     }
-
 
 }
