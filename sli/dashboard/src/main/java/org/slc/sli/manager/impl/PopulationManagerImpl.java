@@ -165,6 +165,7 @@ public class PopulationManagerImpl implements PopulationManager {
                         assmtResult.put(Constants.ATTR_PERF_LEVEL, perfLevel);
                         break; // only get the first one
                     }
+
                 }
             }
 

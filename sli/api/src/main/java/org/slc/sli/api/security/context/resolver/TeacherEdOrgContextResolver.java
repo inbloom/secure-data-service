@@ -1,18 +1,20 @@
 package org.slc.sli.api.security.context.resolver;
 
-import org.slc.sli.api.config.EntityNames;
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.slc.sli.api.config.EntityNames;
+import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * TeacherEdOrgContextResolver
@@ -40,15 +42,18 @@ public class TeacherEdOrgContextResolver implements EntityContextResolver {
                 edorgIds.add(school.getBody().get("parentEducationAgencyReference").toString());
             }
         }
-
+        
+        //Dig up the tree of ed orgs
         Set<String> finalEdorgIds = new HashSet<String>(edorgIds);
-        boolean added = true;
-        while (added) {
-            added = false;
-            edorgIds = helper.findEntitiesContainingReference(EntityNames.EDUCATION_ORGANIZATION, "parentEducationAgencyReference", edorgIds);
-
-            for (String crntEdorgId : edorgIds) {
-                added |= finalEdorgIds.add(crntEdorgId);
+        while (edorgIds.size() > 0) {
+            NeutralQuery query = new NeutralQuery();
+            query.addCriteria(new NeutralCriteria("_id", "in", edorgIds, false));
+            Iterable<Entity> ids = repository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+            edorgIds.clear();
+            for (Entity e : ids) {
+                if (e.getBody().get("parentEducationAgencyReference") != null)
+                    edorgIds.add(e.getBody().get("parentEducationAgencyReference").toString());
+                finalEdorgIds.add(e.getEntityId());
             }
         }
 

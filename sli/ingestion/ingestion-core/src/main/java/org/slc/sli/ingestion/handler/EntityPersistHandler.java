@@ -8,6 +8,7 @@ import org.springframework.dao.DuplicateKeyException;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
@@ -31,8 +32,12 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     private MessageSource messageSource;
 
-    @Override
     Entity doHandling(SimpleEntity entity, ErrorReport errorReport) {
+        return doHandling(entity, errorReport, null);
+    }
+
+    @Override
+    Entity doHandling(SimpleEntity entity, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
         try {
             return persist(entity);
         } catch (EntityValidationException ex) {

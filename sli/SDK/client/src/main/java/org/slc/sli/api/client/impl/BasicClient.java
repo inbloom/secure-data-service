@@ -17,7 +17,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import org.scribe.exceptions.OAuthException;
-
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
 import org.slc.sli.api.client.EntityType;
@@ -163,5 +162,14 @@ public final class BasicClient implements SLIClient {
         gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Entity.class, new GenericEntityFromJson())
                 .registerTypeAdapter(Entity.class, new GenericEntityToJson())
                 .registerTypeAdapter(Link.class, new BasicLinkJsonTypeAdapter()).create();
+    }
+    
+    /**
+     * Set the sessionToken for all SLI API ReSTful service calls.
+     * 
+     * @param sessionToken
+     */
+    public void setToken(String sessionToken) {
+        restClient.setSessionToken(sessionToken);
     }
 }

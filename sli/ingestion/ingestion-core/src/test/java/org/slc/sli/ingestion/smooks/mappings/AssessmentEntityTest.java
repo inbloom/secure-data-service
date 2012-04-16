@@ -152,11 +152,11 @@ public class AssessmentEntityTest {
                 "assessmentPerformanceLevel");
 
         Map assessmentPerformanceLevelMap = (Map) assessmentPerformanceLevelList.get(0);
-        Map performanceLevelMap = (Map) assessmentPerformanceLevelMap.get("performanceLevelDescriptor");
-        EntityTestUtils.assertObjectInMapEquals(performanceLevelMap, "id", "perf id");
-        EntityTestUtils.assertObjectInMapEquals(performanceLevelMap, "ref", "perf ref");
-        EntityTestUtils.assertObjectInMapEquals(performanceLevelMap, "codeValue", "the code value");
-        EntityTestUtils.assertObjectInMapEquals(performanceLevelMap, "description", "TAKSMetStandard");
+        List performanceLevel = (List) assessmentPerformanceLevelMap.get("performanceLevelDescriptor");
+        //EntityTestUtils.assertObjectInMapEquals(performanceLevelMap, "id", "perf id");
+        //EntityTestUtils.assertObjectInMapEquals(performanceLevelMap, "ref", "perf ref");
+        EntityTestUtils.assertObjectInMapEquals((Map) performanceLevel.get(0), "codeValue", "the code value");
+        EntityTestUtils.assertObjectInMapEquals((Map) performanceLevel.get(1), "description", "TAKSMetStandard");
 
         EntityTestUtils.assertObjectInMapEquals(assessmentPerformanceLevelMap, "assessmentReportingMethod",
                 "Scale score");
@@ -165,11 +165,11 @@ public class AssessmentEntityTest {
         if (assessmentPerformanceLevelList.size() > 1) {
             // TODO: remove this if block when we support csv lists
             Map assessmentPerformanceLevelMap2 = (Map) assessmentPerformanceLevelList.get(1);
-            Map performanceLevelMap2 = (Map) assessmentPerformanceLevelMap2.get("performanceLevelDescriptor");
-            EntityTestUtils.assertObjectInMapEquals(performanceLevelMap2, "id", null);
-            EntityTestUtils.assertObjectInMapEquals(performanceLevelMap2, "ref", null);
-            EntityTestUtils.assertObjectInMapEquals(performanceLevelMap2, "codeValue", "the code value2");
-            EntityTestUtils.assertObjectInMapEquals(performanceLevelMap2, "description", "TAKSCommendedPerformance");
+            List performanceLevel2 = (List) assessmentPerformanceLevelMap2.get("performanceLevelDescriptor");
+            //EntityTestUtils.assertObjectInMapEquals(performanceLevelMap2, "id", null);
+            //EntityTestUtils.assertObjectInMapEquals(performanceLevelMap2, "ref", null);
+            EntityTestUtils.assertObjectInMapEquals((Map) performanceLevel2.get(0), "codeValue", "the code value2");
+            EntityTestUtils.assertObjectInMapEquals((Map) performanceLevel2.get(1), "description", "TAKSCommendedPerformance");
 
             EntityTestUtils.assertObjectInMapEquals(assessmentPerformanceLevelMap2, "assessmentReportingMethod",
                     "Scale score2");

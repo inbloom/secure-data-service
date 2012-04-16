@@ -7,7 +7,7 @@ Given /^I have selected the realm using the realm selector$/ do
   sleep(1)
 
   #assume the user selected the mock sli realm
-  realmName= PropLoader.getProps['mockIDP_realm_SLI']
+  realmName= PropLoader.getProps['mockIDP_realm_SLI'] + " - " + PropLoader.getProps['mockIDP_realm_suffix']
   realm_select = @driver.find_element(:name=> "realmId")
   options = realm_select.find_elements(:tag_name=>"option")
   options.each do |e1|
@@ -21,17 +21,19 @@ Given /^I have selected the realm using the realm selector$/ do
 end
 
 Given /^I navigate to sample app web page$/ do
+  
   sampleAppUrl = PropLoader.getProps['sampleApp_server_address']
   url = sampleAppUrl+"oauth2-sample"
   @driver.get url
 end
 
 Then /^I will be redirected to realm selector web page$/ do
-
+  puts @driver.current_url
   assert(@driver.current_url.include?("/api/oauth/authorize"))
 end
 
 When /^I select the "([^"]*)" realm$/ do |realmName|
+  realmName = realmName + " - " + PropLoader.getProps['mockIDP_realm_suffix']
   realm_select = @driver.find_element(:name=> "realmId")
   options = realm_select.find_elements(:tag_name=>"option")
   options.each do |e1|
@@ -83,13 +85,15 @@ When /^I select "([^"]*)" from the user drop down$/ do |arg1|
 end
 
 Then /^I select "([^"]*)" from role selector$/ do |arg1|
-  role=@driver.find_element(:xpath, "//option[@value='"+arg1+"']")
+  wait = Selenium::WebDriver::Wait.new(:timeout => 5)
+  wait.until { role=@driver.find_element(:xpath, "//option[@value='"+arg1+"']") }
   role.click
 end
 
 Then /^I select "([^"]*)"  and "([^"]*)" from role selector$/ do |arg1, arg2|
-  role1=@driver.find_element(:xpath, "//option[@value='"+arg1+"']")
-  role2=@driver.find_element(:xpath, "//option[@value='"+arg2+"']")
+  wait = Selenium::WebDriver::Wait.new(:timeout => 5)
+  wait.until { role1=@driver.find_element(:xpath, "//option[@value='"+arg1+"']") }
+  wait.until { role2=@driver.find_element(:xpath, "//option[@value='"+arg2+"']") }
   role1.click
   role2.click
 end
