@@ -13,6 +13,11 @@ counter = function() {
 DashboardUtil = {
 		widgetConfig: {}
 };
+
+DashboardProxy = {
+		
+};
+
 if (typeof widgetConfigArray != 'undefined') {
 for (var i in widgetConfigArray) {
 	DashboardUtil.widgetConfig[widgetConfigArray[i].id] = widgetConfigArray[i];

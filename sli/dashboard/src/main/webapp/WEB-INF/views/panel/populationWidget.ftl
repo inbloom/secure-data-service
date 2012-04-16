@@ -5,7 +5,11 @@
     <span id="schoolDiv"></span>
     <span id="courseDiv"></span>
     <span id="sectionDiv"></span>
-    <div id="viewDiv"/>
+    <br>
+    <p><span id="viewDiv"></span>   <span id="filterDiv"></span></p>
+    
+    
+    
 </div>
 <script type="text/javascript" >
 function populateInstHierarchy(){
@@ -69,7 +73,7 @@ function populateSectionMenu(){
     var y = '';
     if( courseIndex > -1) {
         var temp = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections
-        y = "<select id='sectionSelect' onChange='clearStudentList();printStudentList();'>"
+        y = "<select id='sectionSelect' onChange='clearStudentList();printStudentList();populateFilter()'>"
         y += "<option value='-1'></option>"
         var i = 0
         for(;i < temp.length;i++){
@@ -90,6 +94,25 @@ function populateView() {
     select += "</selection>";
     document.getElementById("viewDiv").innerHTML = select;
 } 
+
+function populateFilter() {
+    
+    var select = "<select id='filterSelect' onChange='clearStudentList();filterStudents()'>";
+    var index=0;
+    select += "<option value='-1'></option>"
+    for(index=0;index<DashboardUtil.widgetConfig.lozenge.items.length; index++) {
+        select += "<option value='"+index+"'>"+DashboardUtil.widgetConfig.lozenge.items[index].name+"</option>";
+    }
+    select += "</select>";
+    document.getElementById("filterDiv").innerHTML = select;
+    
+}
+
+function filterStudents() {
+    var filterSelect = document.getElementById("filterSelect");
+    filterStudentList(DashboardUtil.widgetConfig.lozenge.items[filterSelect.selectedIndex-1]); 
+}
+
 </script>
 <script type="text/javascript">
 var instHierarchy=dataModel['userEdOrg']['root'];
