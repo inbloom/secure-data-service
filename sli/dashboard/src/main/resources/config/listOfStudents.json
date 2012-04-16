@@ -35,7 +35,7 @@
         {name: "Tardy Rate %", field: "attendances.tardyRate", width:100, sorter: 'int', formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style:'color-widget-yellow'}, 11:{style:'color-widget-red'}}}}]}
     ]},
     {name: "Early Literacy View", items: [
-      {name: "Student", field: "name.fullName", width:150},
+      {name: "Student", field: "name.fullName", width:150, formatter:'showlink', params: {baseLinkUrl:'student', idName:'id', target:"_blank", showAction=""}},
       {name: "", width: 60, field: "programParticipation", formatter: DashboardUtil.Grid.Formatters.Lozenge},
       {name: "DIBELS Next", items:[
         {name: "Perf. Lvl.", field: "assessments.DIBELS Next.perfLevel", width:100}]},
@@ -47,7 +47,7 @@
         {name: "Tardy Count", field: "attendances.tardyCount", sorter: 'int', width:100, formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}}]}
     ]},
     {name: "College Ready ELA View", items: [
-      {name: "Student", field: "name.fullName", width:150},
+      {name: "Student", field: "name.fullName", width:150, formatter:'showlink', params: {baseLinkUrl:'student', idName:'id', target:"_blank", showAction=""}},
       {name: "", width: 60, field: "programParticipation", formatter: DashboardUtil.Grid.Formatters.Lozenge},
       {name: "Reading Test Scores (Highest)", items:[
         {name: "SAT", field: "assessments.SAT Reading.x", width:100, sorter: 'int'},
