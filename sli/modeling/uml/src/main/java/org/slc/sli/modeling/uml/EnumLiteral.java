@@ -2,34 +2,30 @@ package org.slc.sli.modeling.uml;
 
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
 /**
  * A member of an enumeration type.
  */
-public final class EnumLiteral extends AbstractModelElement implements HasName {
+public final class EnumLiteral extends UmlNamedModelElement implements HasName {
     
-    private final QName name;
+    public EnumLiteral(final Identifier id, final String name, final List<TaggedValue> taggedValues) {
+        super(id, name, taggedValues);
+    }
     
-    public EnumLiteral(final Identifier id, final QName name, final List<TaggedValue> taggedValues) {
-        super(id, ReferenceType.ENUM_LITERAL, taggedValues);
-        if (name == null) {
-            throw new NullPointerException("name");
-        }
-        this.name = name;
+    public EnumLiteral(final String name, final List<TaggedValue> taggedValues) {
+        this(Identifier.random(), name, taggedValues);
     }
     
     @Override
-    public QName getName() {
-        return name;
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
     
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("{");
-        // sb.append("id: " + id).append(", ");
-        sb.append("name: \"" + name + "\"");
+        sb.append("id: " + getId()).append(", ");
+        sb.append("name: \"" + getName() + "\"");
         if (!getTaggedValues().isEmpty()) {
             sb.append(", ");
             sb.append("taggedValues: " + getTaggedValues());
