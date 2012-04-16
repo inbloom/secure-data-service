@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrgCalendar.xsd">
-
+<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd ">
+  
   <Session>
     <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
     <SchoolYear>2010-2011</SchoolYear>
@@ -172,7 +171,7 @@
 	<GradingPeriodReference ref="GRDP_20101004"/>
 	<GradingPeriodReference ref="GRDP_20101108"/>
   </Session>
-  
+
   <!-- sessions for Carmen Ortiz history. We've already got F2010, S2011, and F2011 for Daybreak Central High.
        These session represent her 9th grade in high school and 8th grade in middle school. -->
   <Session>
@@ -418,8 +417,8 @@
       </GradingPeriodIdentity>
     </GradingPeriodReference>
   </Session>
-  
-  
+
+
   	<GradingPeriod id="GRDP_20100823">
 		<GradingPeriod>First Six Weeks</GradingPeriod>
 		<BeginDate>2010-08-23</BeginDate>
@@ -755,7 +754,7 @@
 		<TotalInstructionalDays>0</TotalInstructionalDays>
     <CalendarDateReference ref="CLND_20110527Instructionalday"/>
 	</GradingPeriod>
-	
+
 	<!-- CalendarDates for the 2010-2011 school year -->
 	<CalendarDate id="CLND_20100823Instructionalday">
 		<Date>2010-08-23</Date>
@@ -1869,7 +1868,7 @@
 		<Date>2011-05-27</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 	</CalendarDate>
-  
+
     <!-- GradingPeriods for the 2011-2012 school year -->
   	<GradingPeriod id="GRDP_20110822">
 		<GradingPeriod>First Six Weeks</GradingPeriod>
@@ -2185,7 +2184,7 @@
 		<CalendarDateReference ref="CLND_20120524Instructionalday"/>
 		<CalendarDateReference ref="CLND_20120525Instructionalday"/>
 	</GradingPeriod>
-  
+
     <!-- CalendarDates for the 2011-2012 school year -->
 	<CalendarDate id="CLND_20110822Instructionalday">
 		<Date>2011-08-22</Date>
