@@ -43,6 +43,10 @@ public enum XmiElementName {
     /**
      * 
      */
+    COMMENT("Comment"),
+    /**
+     * 
+     */
     DATA_TYPE("DataType"),
     /**
      * 
@@ -68,6 +72,10 @@ public enum XmiElementName {
      * 
      */
     GENERALIZATION_DOT_PARENT("Generalization.parent"),
+    /**
+     * 
+     */
+    MODEL("Model"),
     /**
      * 
      */

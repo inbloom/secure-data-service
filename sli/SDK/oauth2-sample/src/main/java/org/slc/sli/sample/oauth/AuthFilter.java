@@ -15,10 +15,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slc.sli.api.client.impl.BasicClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.slc.sli.api.client.impl.BasicClient;
 
 /**
  * Basic authentication example using the SLI SDK.
@@ -41,7 +40,10 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-        if (req.getRequestURI().equals("/oauth2-sample/callback")) {
+        if (req.getParameter("byPassToken") != null && !req.getParameter("byPassToken").equals("")) {
+            byPassAuthenticate(request, response);
+            chain.doFilter(request, response);
+        } else if (req.getRequestURI().equals("/oauth2-sample/callback")) {
             handleCallback(request, response);
             ((HttpServletResponse) response).sendRedirect(afterCallbackRedirect);
             return;
@@ -58,6 +60,19 @@ public class AuthFilter implements Filter {
         LOG.debug("Got authoriation code: {}", code);
         String accessToken = client.connect(code);
         LOG.debug("Got access token: {}", accessToken);
+    }
+    
+    private void byPassAuthenticate(ServletRequest req, ServletResponse res) {
+        BasicClient client = null;
+        if (((HttpServletRequest) req).getSession().getAttribute("client") == null) {
+            client = new BasicClient(apiUrl, clientId, clientSecret, callbackUrl);
+        } else {
+            client = (BasicClient) ((HttpServletRequest) req).getSession().getAttribute("client");
+        }
+        String sessionToken = req.getParameter("byPassToken");
+        client.setToken(sessionToken);
+        ((HttpServletRequest) req).getSession().removeAttribute("client");
+        ((HttpServletRequest) req).getSession().setAttribute("client", client);
     }
     
     private void authenticate(ServletRequest req, ServletResponse res) {

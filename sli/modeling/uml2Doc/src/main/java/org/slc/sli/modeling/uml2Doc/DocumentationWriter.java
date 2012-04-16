@@ -16,13 +16,13 @@ import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.EnumLiteral;
 import org.slc.sli.modeling.uml.EnumType;
-import org.slc.sli.modeling.uml.HasTaggedValues;
+import org.slc.sli.modeling.uml.Taggable;
 import org.slc.sli.modeling.uml.Identifier;
-import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.Range;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
+import org.slc.sli.modeling.uml.index.Mapper;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
 import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
 
@@ -36,17 +36,17 @@ public final class DocumentationWriter {
         }
     }
     
-    private static final void writeAttribute(final Attribute attribute, final XMLStreamWriter xsw)
+    private static final void writeAttribute(final Attribute attribute, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(DocumentationElements.ATTRIBUTE.getLocalPart());
         try {
             xsw.writeStartElement(DocumentationElements.NAME.getLocalPart());
             try {
-                xsw.writeCharacters(attribute.getName().getLocalPart());
+                xsw.writeCharacters(attribute.getName());
             } finally {
                 xsw.writeEndElement();
             }
-            writeDescription(attribute, xsw);
+            writeDescription(attribute, model, xsw);
             final Range range = attribute.getMultiplicity().getRange();
             xsw.writeStartElement(DocumentationElements.LOWER.getLocalPart());
             try {
@@ -64,7 +64,7 @@ public final class DocumentationWriter {
             try {
                 xsw.writeStartElement(DocumentationElements.NAME.getLocalPart());
                 try {
-                    xsw.writeCharacters(attribute.getType().getName().getLocalPart());
+                    xsw.writeCharacters(model.getType(attribute.getType()).getName());
                 } finally {
                     xsw.writeEndElement();
                 }
@@ -96,72 +96,72 @@ public final class DocumentationWriter {
         }
     }
     
-    private static final void writeClassType(final ClassType classType, final XMLStreamWriter xsw)
+    private static final void writeClassType(final ClassType classType, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(DocumentationElements.CLASS.getLocalPart());
         try {
             xsw.writeStartElement(DocumentationElements.NAME.getLocalPart());
             try {
-                xsw.writeCharacters(classType.getName().getLocalPart());
+                xsw.writeCharacters(classType.getName());
             } finally {
                 xsw.writeEndElement();
             }
-            writeDescription(classType, xsw);
+            writeDescription(classType, model, xsw);
             for (final Attribute attribute : classType.getAttributes()) {
-                writeAttribute(attribute, xsw);
+                writeAttribute(attribute, model, xsw);
             }
         } finally {
             xsw.writeEndElement();
         }
     }
     
-    private static final void writeDataType(final DataType dataType, final XMLStreamWriter xsw)
+    private static final void writeDataType(final DataType dataType, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(DocumentationElements.DATA_TYPE.getLocalPart());
         try {
             xsw.writeStartElement(DocumentationElements.NAME.getLocalPart());
             try {
-                xsw.writeCharacters(dataType.getName().getLocalPart());
+                xsw.writeCharacters(dataType.getName());
             } finally {
                 xsw.writeEndElement();
             }
-            writeDescription(dataType, xsw);
-            writeFacets(dataType, xsw);
+            writeDescription(dataType, model, xsw);
+            writeFacets(dataType, model, xsw);
         } finally {
             xsw.writeEndElement();
         }
     }
     
-    private static final void writeEnumType(final EnumType enumType, final XMLStreamWriter xsw)
+    private static final void writeEnumType(final EnumType enumType, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(DocumentationElements.ENUM_TYPE.getLocalPart());
         try {
             xsw.writeStartElement(DocumentationElements.NAME.getLocalPart());
             try {
-                xsw.writeCharacters(enumType.getName().getLocalPart());
+                xsw.writeCharacters(enumType.getName());
             } finally {
                 xsw.writeEndElement();
             }
-            writeDescription(enumType, xsw);
+            writeDescription(enumType, model, xsw);
             for (final EnumLiteral literal : enumType.getLiterals()) {
                 xsw.writeStartElement(DocumentationElements.LITERAL.getLocalPart());
                 try {
-                    xsw.writeAttribute("value", literal.getName().getLocalPart());
+                    xsw.writeAttribute("value", literal.getName());
                 } finally {
                     xsw.writeEndElement();
                 }
             }
-            writeFacets(enumType, xsw);
+            writeFacets(enumType, model, xsw);
         } finally {
             xsw.writeEndElement();
         }
     }
     
-    private static final void writeDescription(final HasTaggedValues type, final XMLStreamWriter xsw)
+    private static final void writeDescription(final Taggable type, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         for (final TaggedValue taggedValue : type.getTaggedValues()) {
-            final String localName = taggedValue.getTagDefinition().getName().getLocalPart();
-            if ("documentation".equals(localName)) {
+            final String name = model.getTagDefinition(taggedValue.getTagDefinition()).getName();
+            if ("documentation".equals(name)) {
                 xsw.writeStartElement(DocumentationElements.DESCRIPTION.getLocalPart());
                 try {
                     xsw.writeCharacters(taggedValue.getValue());
@@ -172,10 +172,10 @@ public final class DocumentationWriter {
         }
     }
     
-    private static final void writeFacets(final HasTaggedValues type, final XMLStreamWriter xsw)
+    private static final void writeFacets(final Taggable type, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         for (final TaggedValue taggedValue : type.getTaggedValues()) {
-            final String localName = taggedValue.getTagDefinition().getName().getLocalPart();
+            final String localName = model.getTagDefinition(taggedValue.getTagDefinition()).getName();
             if (!"documentation".equals(localName)) {
                 xsw.writeStartElement(localName);
                 try {
@@ -213,7 +213,7 @@ public final class DocumentationWriter {
         }
     }
     
-    public static final void writeDocument(final Documentation<Type> documentation, final Model model,
+    public static final void writeDocument(final Documentation<Type> documentation, final Mapper model,
             final OutputStream outstream) {
         final XMLOutputFactory xof = XMLOutputFactory.newInstance();
         try {
@@ -231,7 +231,7 @@ public final class DocumentationWriter {
         }
     }
     
-    public static final void writeDocument(final Documentation<Type> documentation, final Model model,
+    public static final void writeDocument(final Documentation<Type> documentation, final Mapper model,
             final String fileName) {
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(fileName));
@@ -245,7 +245,7 @@ public final class DocumentationWriter {
         }
     }
     
-    private static final void writeDomain(final Domain<Type> domain, final XMLStreamWriter xsw)
+    private static final void writeDomain(final Domain<Type> domain, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(DocumentationElements.DOMAIN.getLocalPart());
         try {
@@ -265,14 +265,14 @@ public final class DocumentationWriter {
                 writeDiagram(diagram, xsw);
             }
             for (final Entity<Type> entity : domain.getEntities()) {
-                writeEntity(entity, xsw);
+                writeEntity(entity, model, xsw);
             }
         } finally {
             xsw.writeEndElement();
         }
     }
     
-    private static final void writeEntity(final Entity<Type> entity, final XMLStreamWriter xsw)
+    private static final void writeEntity(final Entity<Type> entity, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(DocumentationElements.ENTITY.getLocalPart());
         try {
@@ -292,31 +292,31 @@ public final class DocumentationWriter {
             }
             xsw.writeStartElement(DocumentationElements.NAME.getLocalPart());
             try {
-                xsw.writeCharacters(type.getName().getLocalPart());
+                xsw.writeCharacters(type.getName());
             } finally {
                 xsw.writeEndElement();
             }
-            writeDescription(type, xsw);
+            writeDescription(type, model, xsw);
         } finally {
             xsw.writeEndElement();
         }
     }
     
-    private static final void writeRoot(final Documentation<Type> documentation, final Model model,
+    private static final void writeRoot(final Documentation<Type> documentation, final Mapper model,
             final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(DocumentationElements.DOMAINS.getLocalPart());
         try {
             for (final Domain<Type> domain : documentation.getDomains()) {
-                writeDomain(domain, xsw);
+                writeDomain(domain, model, xsw);
             }
-            for (final ClassType classType : model.getClassTypeMap().values()) {
-                writeClassType(classType, xsw);
+            for (final ClassType classType : model.getClassTypes()) {
+                writeClassType(classType, model, xsw);
             }
-            for (final EnumType enumType : model.getEnumTypeMap().values()) {
-                writeEnumType(enumType, xsw);
+            for (final EnumType enumType : model.getEnumTypes()) {
+                writeEnumType(enumType, model, xsw);
             }
-            for (final DataType dataType : model.getDataTypeMap().values()) {
-                writeDataType(dataType, xsw);
+            for (final DataType dataType : model.getDataTypes()) {
+                writeDataType(dataType, model, xsw);
             }
         } finally {
             xsw.writeEndElement();

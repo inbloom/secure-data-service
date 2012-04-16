@@ -1,5 +1,8 @@
 package org.slc.sli.test.generators;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.AttendanceEvent;
@@ -8,120 +11,54 @@ import org.slc.sli.test.edfi.entities.AttendanceEventType;
 import org.slc.sli.test.edfi.entities.EducationalEnvironmentType;
 import org.slc.sli.test.edfi.entities.SectionIdentityType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
-import org.slc.sli.test.edfi.entities.StudentIdentityType;
-import org.slc.sli.test.edfi.entities.StudentReferenceType;
 
- public class AttendanceEventGenerator {
-          private String eventDate = null;
-          private static boolean includeOptionalData = true;
-          private static boolean includeAllData = true;
-          static Random random = new Random ();
+public class AttendanceEventGenerator {
 
-          public static AttendanceEvent getAttendanceEvent(String  studentID, String schoolID, String sectionCode ){
-              AttendanceEvent ae = new AttendanceEvent ();
-               if (includeAllData){
-                       String EventDate = "2012-04-04";
-                      ae.setEventDate(EventDate);
-                       ae.setAttendanceEventType(getAttendanceEventType());
-                       ae.setAttendanceEventCategory(getAttendanceEventCategoryType());
-                       ae.setAttendanceEventReason("The reason for the absence or tardy !");
-                       ae.setEducationalEnvironment(getEducationalEnvironmentType());
+    private static final boolean INCLUDE_OPTIONAL_DATA = false;
 
-                       StudentReferenceType studentReferenceType = new StudentReferenceType();
-                       StudentIdentityType identityType = new StudentIdentityType();
-                       identityType.setStudentUniqueStateId(studentID);
-                       studentReferenceType.setStudentIdentity(identityType);
-                       ae.setStudentReference(studentReferenceType);
+    private static final Random RANDOM = new Random();
+    private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 
-               }
-               else {
-                       System.out.println ("The required data is invalid !");
-               }
+    private static Calendar calendar = new GregorianCalendar(2011, 0, 1);
 
-               if (includeOptionalData) {
-                   SectionReferenceType sectionReferenceType = new SectionReferenceType();
-                   SectionIdentityType sectionIdentityType = new SectionIdentityType();
-                   sectionIdentityType.setUniqueSectionCode(sectionCode);
-                   sectionIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolID);
-            	   sectionReferenceType.setSectionIdentity(sectionIdentityType);
-            	   ae.setSectionReference(sectionReferenceType);
+    public static AttendanceEvent generateLowFi(String studentID, String schoolID, String sectionCode) {
+        AttendanceEvent ae = new AttendanceEvent();
 
-               }
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        ae.setEventDate(DATE_FORMATTER.format(calendar.getTime()));
+        ae.setAttendanceEventCategory(getAttendanceEventCategoryType());
+        ae.setStudentReference(StudentGenerator.getStudentReferenceType(studentID));
 
-               else {
-                       System.out.println("The optional data is invalid !");
-               }
+        if (INCLUDE_OPTIONAL_DATA) {
+            ae.setAttendanceEventType(getAttendanceEventType());
+            ae.setAttendanceEventReason("My dog ate my homework.");
+            ae.setEducationalEnvironment(getEducationalEnvironmentType());
 
-               return ae;
-       }
+            SectionReferenceType sectionReferenceType = new SectionReferenceType();
+            SectionIdentityType sectionIdentityType = new SectionIdentityType();
+            sectionIdentityType.setUniqueSectionCode(sectionCode);
+            sectionIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolID);
+            sectionReferenceType.setSectionIdentity(sectionIdentityType);
+            ae.setSectionReference(sectionReferenceType);
+        }
 
-          public static AttendanceEvent getAttendanceEvent(StudentReferenceType studentReferenceType, SectionReferenceType sectionReferenceType ){
-                AttendanceEvent ae = new AttendanceEvent ();
-                 if (includeAllData){
-                         String EventDate = "2012-04-04";
-                        ae.setEventDate(EventDate);
-                         ae.setAttendanceEventType(getAttendanceEventType());
-                         ae.setAttendanceEventCategory(getAttendanceEventCategoryType());
-                         ae.setAttendanceEventReason("The reason for the absence or tardy !");
-                         ae.setEducationalEnvironment(getEducationalEnvironmentType());
-                         ae.setStudentReference(studentReferenceType);
-                 }
-                 else {
-                         System.out.println ("The required data is invalid !");
-                 }
+        return ae;
+    }
 
-                 if (includeOptionalData) {
-                         ae.setSectionReference(sectionReferenceType);
-                 }
+    public static AttendanceEventType getAttendanceEventType() {
+        return AttendanceEventType.values()[RANDOM.nextInt(AttendanceEventType.values().length)];
+    }
 
-                 else {
-                         System.out.println("The optional data is invalid !");
-                 }
+    public static AttendanceEventCategoryType getAttendanceEventCategoryType() {
+        return AttendanceEventCategoryType.values()[RANDOM.nextInt(AttendanceEventCategoryType.values().length)];
+    }
 
-                 return ae;
-         }
+    public static EducationalEnvironmentType getEducationalEnvironmentType() {
+        return EducationalEnvironmentType.values()[RANDOM.nextInt(EducationalEnvironmentType.values().length)];
+    }
 
-         public static AttendanceEventType getAttendanceEventType () {
-        	 int roll = random.nextInt(2) + 1;
-                 switch (roll) {
-                         case 1: return AttendanceEventType.DAILY_ATTENDANCE;
-                         case 2: return AttendanceEventType.EXTRACURRICULAR_ATTENDANCE;
-                         case 3: return AttendanceEventType.PROGRAM_ATTENDANCE;
-                         default: return AttendanceEventType.SECTION_ATTENDANCE;
-                 }
-         }
+    public static void resetCalendar() {
+        calendar = new GregorianCalendar(2011, 0, 1);
+    }
 
-         public static AttendanceEventCategoryType getAttendanceEventCategoryType () {
-                 int roll = random.nextInt(3) + 1;
-                 switch (roll) {
-                         case 1: return AttendanceEventCategoryType.EARLY_DEPARTURE;
-                         case 2: return AttendanceEventCategoryType.EXCUSED_ABSENCE;
-                         case 3: return AttendanceEventCategoryType.IN_ATTENDANCE;
-                         case 4: return AttendanceEventCategoryType.TARDY;
-                         default: return AttendanceEventCategoryType.UNEXCUSED_ABSENCE;
-                 }
-         }
-
-         public static EducationalEnvironmentType getEducationalEnvironmentType () {
-                 int roll = random.nextInt(11) + 1;
-                         switch (roll) {
-                                 case 1: return EducationalEnvironmentType.CLASSROOM;
-                                 case 2: return EducationalEnvironmentType.HOMEBOUND;
-                                 case 3: return EducationalEnvironmentType.HOSPITAL_CLASS;
-                                 case 4: return EducationalEnvironmentType.IN_SCHOOL_SUSPENSION;
-                                 case 5: return EducationalEnvironmentType.LABORATORY;
-                                 case 6: return EducationalEnvironmentType.MAINSTREAM_SPECIAL_EDUCATION;
-                                 case 7: return EducationalEnvironmentType.OFF_SCHOOL_CENTER;
-                                 case 8: return EducationalEnvironmentType.PULL_OUT_CLASS;
-                                 case 9: return EducationalEnvironmentType.RESOURCE_ROOM;
-                                 case 10: return EducationalEnvironmentType.SELF_CONTAINED_SPECIAL_EDUCATION;
-                                 case 11: return EducationalEnvironmentType.SELF_STUDY;
-                                 default: return EducationalEnvironmentType.SHOP;
-                         }
-         }
-
-         public static void main(String args[]) throws Exception {
-                         System.out.print("this is attendance event generator !");
-                 }
- }
-
+}
