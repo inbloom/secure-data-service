@@ -13,7 +13,7 @@ Transform /^data for "([^"]*)"$/ do |path|
   id = "/students?schoolId=mongo-id-here" if path == "Students in South Daybreak Elementary"
   id = "/students?sectionId=mongo-id-here" if path == "Students in AP Calculus Sec 201"
   id = "/teachers?schoolId=mongo-id-here" if path == "Teachers in South Daybreak Elementary"
-  id = "/teachers?schoolId=mongo-id-here" if path == "Teachers in Dusk Elementary"
+  id = "/teachers?schoolId=mongo-id-here" if path == "Teachers in Dawn Elementary"
   id = "/schools?edOrgId=mongo-id-here" if path == "Schools in Daybreak District"
   id = "/schools?edOrgId=mongo-id-here" if path == "Schools in Parker District"
   id
