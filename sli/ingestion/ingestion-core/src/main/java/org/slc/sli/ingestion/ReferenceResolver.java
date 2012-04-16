@@ -111,21 +111,20 @@ public class ReferenceResolver extends DefaultHandler {
                 && (attributes.getValue("id") != null)) {
             // Reference top-level element.
             isValidEntity = false;
-        } else if (isValidEntity && qName.endsWith("Reference") && (attributes.getValue("ref") != null) && !currentXMLString.isEmpty()) {
+        } else if (isValidEntity && qName.endsWith("Reference") && (attributes.getValue("ref") != null)) {
             // Reference to reference - get reference body from map.
-            isValidEntity = false;
             String refId = attributes.getValue("ref");
             if (referenceObjects.containsKey(refId)) {
                 currentXMLString += referenceObjects.get(refId);
+                isValidEntity = false;
             } else {
-                // Unresolved reference! Log error and skip processing of current entity.
+                // Unresolved reference! Log error, but continue processing of current entity.
                 LOG.warn(inputFileName + ": Unresolved reference, id=\"" + refId + "\"");
-                currentXMLString = "";
             }
         }
 
         // Process non-reference XML element.
-        if (isValidEntity && (topElementName.equals(qName) || !currentXMLString.isEmpty())) {
+        if (isValidEntity) {
             currentXMLString += tempVal.toString();
             currentXMLString += "<" + qName;
             if (attributes != null) {
@@ -187,13 +186,13 @@ public class ReferenceResolver extends DefaultHandler {
         // Write element to output file.
         if (!isValidEntity && qName.endsWith("Reference")) {
             isValidEntity = true;
-        } else if ((isValidEntity && !currentXMLString.isEmpty()) || qName.startsWith("Interchange")) {
+        } else if (isValidEntity || qName.startsWith("Interchange")) {
             currentXMLString += tempVal.toString();
             tempVal.append("\n");
             currentXMLString += "</" + qName + ">";
         }
 
-        // Write element, if top-level, to output file.
+        // Write element to output file.
         if ((isValidEntity && qName.equals(topElementName)) || qName.startsWith("Interchange")) {
             topElementName = "";
             writeXML(currentXMLString);
