@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -19,10 +20,14 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
@@ -53,6 +58,8 @@ public class AssessmentCombinerTest {
     
     private String batchJobId = "10001";
     private Job job = mock(Job.class);
+    private IngestionFileEntry fe = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_ASSESSMENT_METADATA, "",
+            "");
     
     private static final String PERIOD_DESCRIPTOR_CODE_VALUE = "Spring2012";
     
@@ -103,12 +110,13 @@ public class AssessmentCombinerTest {
                 .thenReturn(buildTestObjAssmt(OBJ2_ID));
         
         when(job.getId()).thenReturn(batchJobId);
+        when(job.getFiles()).thenReturn(Arrays.asList(fe));
         
     }
     
     @SuppressWarnings("unchecked")
     @Test
-    public void testAssessments() {
+    public void testAssessments() throws IOException {
         
         Collection<NeutralRecord> transformedCollections = getTransformedAssessments();
         
@@ -123,16 +131,21 @@ public class AssessmentCombinerTest {
         }
     }
     
-    private Collection<NeutralRecord> getTransformedAssessments() {
+    private Collection<NeutralRecord> getTransformedAssessments() throws IOException {
         // Performing the transformation
         combiner.perform(job);
-        
-        return combiner.getTransformedAssessments();
+        NeutralRecordFileReader reader = new NeutralRecordFileReader(fe.getNeutralRecordFile());
+        List<NeutralRecord> records = new ArrayList<NeutralRecord>();
+        while (reader.hasNext()) {
+            records.add(reader.next());
+        }
+        fe.getNeutralRecordFile().delete();
+        return records;
     }
     
     @SuppressWarnings({ "deprecation", "unchecked" })
     @Test
-    public void testHierarchicalAssessments() {
+    public void testHierarchicalAssessments() throws IOException {
         String superOA = "SuperObjAssessment";
         String subOA = "SubObjAssessment";
         NeutralRecord superObjAssessmentRef = buildTestObjAssmt(superOA);

@@ -74,23 +74,22 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     public void transform() {
         LOG.debug("Transforming data: Injecting assessmentFamilies into assessment");
         
-        Map<Object, NeutralRecord> transformedAssessments = new HashMap<Object, NeutralRecord>();
-        String key;
-        
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("assessment").entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             
             // get the key of parent
             Map<String, Object> attrs = neutralRecord.getAttributes();
-            key = (String) attrs.get("parentAssessmentFamilyId");
+            String parentFamilyId = (String) attrs.get("parentAssessmentFamilyId");
+            attrs.remove("parentAssessmentFamilyId");
             String familyHierarchyName = "";
-            familyHierarchyName = getAssocationFamilyMap(key, new HashMap<String, Map<String, Object>>(),
+            familyHierarchyName = getAssocationFamilyMap(parentFamilyId, new HashMap<String, Map<String, Object>>(),
                     familyHierarchyName);
             
             attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
             
             @SuppressWarnings("unchecked")
             List<String> objectiveAssessmentRefs = (List<String>) attrs.get("objectiveAssessmentRefs");
+            attrs.remove("objectiveAssessmentRefs");
             List<Map<String, Object>> objectiveAssessments = new ArrayList<Map<String, Object>>();
             if (objectiveAssessmentRefs != null && !(objectiveAssessmentRefs.isEmpty())) {
                 
@@ -102,13 +101,14 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             }
             
             String assessmentPeriodDescriptorRef = (String) attrs.get("periodDescriptorRef");
+            attrs.remove("periodDescriptorRef");
             if (assessmentPeriodDescriptorRef != null) {
                 
                 attrs.put("assessmentPeriodDescriptor", getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
                 
             }
             neutralRecord.setAttributes(attrs);
-            transformedAssessments.put(neutralRecord.getRecordId(), neutralRecord);
+            transformedAssessments.add(neutralRecord);
         }
         
     }
@@ -216,39 +216,48 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     public void persist() {
         LOG.info("Persisting transformed data to storage.");
         try {
-            File tempFile = fileUtils.createTempFile();
-            NeutralRecordFileWriter writer = new NeutralRecordFileWriter(tempFile);
+            cleanMetaDataFiles();
+            IngestionFileEntry fileEntry = getMetaDataFiles().get(0);
+            NeutralRecordFileWriter writer = new NeutralRecordFileWriter(fileEntry.getNeutralRecordFile());
             
             // transformedCollections should have been populated in the transform() step.
             for (NeutralRecord neutralRecord : transformedAssessments) {
                 writer.writeRecord(neutralRecord);
             }
-            IngestionFileEntry fileEntry = getMetaDataFile();
-            File oldNRFile = fileEntry.getNeutralRecordFile();
-            fileEntry.setNeutralRecordFile(tempFile);
-            oldNRFile.delete();
+            writer.close();
             
         } catch (IOException e) {
             LOG.error("Exception occurred", e);
         }
     }
     
+    private void cleanMetaDataFiles() throws IOException {
+        for (IngestionFileEntry fe : getMetaDataFiles()) {
+            File neutralRecordFile = fe.getNeutralRecordFile();
+            if (neutralRecordFile != null) {
+                neutralRecordFile.delete();
+            }
+            fe.setNeutralRecordFile(fileUtils.createTempFile());
+        }
+    }
+    
     /**
-     * Will return the first assessment metadata file we are processing
-     * Since we are transforming assessments, one should exist
+     * Will return the assessment metadata files we are processing.
+     * Since we are transforming assessments, one should exist.
      * I know this is hacky, replace when we get a better way to bypass additional ingestion work
-     * that breaks this
+     * that breaks this.
      * 
      * @return
      */
-    private IngestionFileEntry getMetaDataFile() {
+    private List<IngestionFileEntry> getMetaDataFiles() {
         List<IngestionFileEntry> allFiles = getJob().getFiles();
+        List<IngestionFileEntry> metaDataFiles = new ArrayList<IngestionFileEntry>();
         for (IngestionFileEntry fe : allFiles) {
             if (fe.getFileType().equals(FileType.XML_ASSESSMENT_METADATA)) {
-                return fe;
+                metaDataFiles.add(fe);
             }
         }
-        return null;
+        return metaDataFiles;
     }
     
     /**
