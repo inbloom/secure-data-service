@@ -116,7 +116,7 @@ public class PopulationManagerImpl implements PopulationManager {
 
         GenericEntity g = new GenericEntity();
         g.put(Constants.ATTR_STUDENTS, studentSummaries);
-        g.put("gradeLevels", studentGrades);
+        g.put(Constants.ATTR_GRADE_LEVELS, studentGrades);
         
         return g;
     }
