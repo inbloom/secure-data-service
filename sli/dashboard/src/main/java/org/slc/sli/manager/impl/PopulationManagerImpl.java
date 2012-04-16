@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,11 +129,44 @@ public class PopulationManagerImpl implements PopulationManager {
         // data enhancements
         enhanceListOfStudents(studentSummaries);
         
+        // get student grades - TODO: get this data from the integrated API call
+        Set<String> studentGrades = getStudentGrades(token, studentSummaries);
         GenericEntity g = new GenericEntity();
         g.put(Constants.ATTR_STUDENTS, studentSummaries);
+        g.put("gradeLevels", studentGrades);
+        
         return g;
     }
 
+    /**
+     * Helper function to get a list of grades for a set of students.
+     * NOTE: refactor the bundled API call to provide student grade, so this method won't be necessary!
+     * 
+     * @param token
+     * @param studentSummaries
+     * @return
+     */
+    private Set<String> getStudentGrades(String token, List<GenericEntity> studentSummaries) {
+        
+        // get student uids
+        List<String> studentUids = new ArrayList<String>();
+        for (GenericEntity student : studentSummaries) {
+            studentUids.add(student.getString(Constants.ATTR_ID));
+        }
+        
+        // get student info
+        List<GenericEntity> students = entityManager.getStudents(token, studentUids);
+        
+        // put together set of grades
+        Set<String> studentGrades = new HashSet<String>();
+        
+        for (GenericEntity s : students) {
+            studentGrades.add(s.getString(Constants.ATTR_GRADE_LEVEL));
+        }
+        
+        return studentGrades;
+    }
+    
     /**
      * Make enhancements that make it easier for front-end javascript to use the data
      * 

@@ -9,7 +9,8 @@ counter = function() {
 	counterInt ++;
 	return counterInt;
 }
-
+DashboardProxy = {
+};
 DashboardUtil = {
 		widgetConfig: {}
 };
@@ -264,9 +265,21 @@ DashboardUtil.renderLozenges = function(student) {
 DashboardUtil.getData = function(componentId, queryString, callback) {
 	$.ajax({
 		  url: contextRootPath + '/service/data/' + componentId + '?' + queryString,
-		  success: callback});
+		  success: function(panelData){DashboardProxy[componentId] = panelData; callback(panelData);}});
 }
 
 DashboardUtil.getPageUrl = function(componentId, queryString) {
 	return contextRootPath + '/service/layout/' + componentId + ((queryString) ? ('?' + queryString) : '');
+}
+
+DashboardUtil.checkCondition = function(data, condition) {
+    var validValues = condition.value;
+    var values = data[condition.field];
+    for (var j=0; j < validValues.length; j++) {
+        for (var k=0; k < values.length; k++) {
+            if (validValues[j] == values[k])
+                return true;
+        }
+    } 
+    return false;
 }

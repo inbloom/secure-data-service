@@ -69,7 +69,7 @@ function populateSectionMenu(){
     var y = '';
     if( courseIndex > -1) {
         var temp = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections
-        y = "<select id='sectionSelect' onChange='clearStudentList();printStudentList();'>"
+        y = "<select id='sectionSelect' onChange='clearStudentList();getStudentListData();'>"
         y += "<option value='-1'></option>"
         var i = 0
         for(;i < temp.length;i++){
@@ -79,20 +79,9 @@ function populateSectionMenu(){
     }
     document.getElementById("sectionDiv").innerHTML = y;
 }
-function populateView() {
-    var gridId = 'listOfStudents';
-    var panelConfig = config[gridId];
-    var select = "<select id='viewSelect' onChange='clearStudentList();printStudentList()'>";
-    var index=0;
-    for(index=0;index<panelConfig.items.length;index++) {
-        select += "<option value='"+index+"'>"+panelConfig.items[index].name+"</option>";
-    }
-    select += "</selection>";
-    document.getElementById("viewDiv").innerHTML = select;
-} 
+
 </script>
 <script type="text/javascript">
 var instHierarchy=dataModel['userEdOrg']['root'];
-    populateView();
     populateInstHierarchy();
 </script>
