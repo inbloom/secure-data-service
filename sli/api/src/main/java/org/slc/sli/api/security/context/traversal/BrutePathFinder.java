@@ -100,7 +100,7 @@ public class BrutePathFinder implements SecurityPathFinder {
      */
     @Override
     public List<SecurityNode> getPreDefinedPath(String from, String to) {
-        if(prePath.containsKey(from+to)) {
+        if (prePath.containsKey(from + to)) {
             return prePath.get(from + to);
         }
         return new ArrayList<SecurityNode>();

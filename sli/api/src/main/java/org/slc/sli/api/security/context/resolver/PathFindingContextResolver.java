@@ -65,7 +65,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
         }
         List<String> ids = new ArrayList<String>(Arrays.asList(principal.getEntityId()));
         SecurityNode current = path.get(0);
-        for (int i = 1; i< path.size(); ++i) {
+        for (int i = 1; i < path.size(); ++i) {
             SecurityNode next = path.get(i);
             Map<String, String> connection = current.getConnectionForEntity(next.getName());
             Iterable<String> idSet = new ArrayList<String>();
