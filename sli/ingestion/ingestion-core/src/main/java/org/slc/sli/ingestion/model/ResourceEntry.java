@@ -97,7 +97,7 @@ public final class ResourceEntry {
     public void setErrorCount(int errorCount) {
         this.errorCount = errorCount;
     }
-    
+
     /**
      * @return the externallyUploadedResourceId
      */
