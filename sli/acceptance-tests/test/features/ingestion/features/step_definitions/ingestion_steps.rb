@@ -344,6 +344,12 @@ Then /^I check to find if record is in collection:$/ do |table|
 
     if row["searchType"] == "integer"
       @entity_count = @entity_collection.find({row["searchParameter"] => row["searchValue"].to_i}).count().to_s
+    elsif row["searchType"] == "boolean"
+        if row["searchValue"] == "false"
+            @entity_count = @entity_collection.find({row["searchParameter"] => false}).count().to_s
+        else
+            @entity_count = @entity_collection.find({row["searchParameter"] => true}).count().to_s
+        end
     else
       @entity_count = @entity_collection.find({row["searchParameter"] => row["searchValue"]}).count().to_s
     end
