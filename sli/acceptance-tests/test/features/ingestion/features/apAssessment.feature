@@ -27,12 +27,12 @@ Then I should see following map of entry counts in the corresponding collections
 #     | studentAssessmentAssociation| 25                  | body.assessmentReference.assessmentIdentity.assessmentIdentificationCode.id | AP English Literature and Composition |
      | studentAssessmentAssociation| 1                   | metaData.externalId | {administrationDate=2011-05-01, studentId=900000000, assessmentId=AP English Literature and Composition} |
 
-  And I should see "Processed 134 records." in the resulting batch job file
+  And I should see "Processed 130 records." in the resulting batch job file
   And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
   And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
   And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
-  And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records considered: 6" in the resulting batch job file
-  And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records ingested successfully: 6" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records considered: 2" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records ingested successfully: 2" in the resulting batch job file
   And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records failed: 0" in the resulting batch job file
   And I should see "InterchangeStudentAssessment-CgrayAP-English.xml records considered: 50" in the resulting batch job file
   And I should see "InterchangeStudentAssessment-CgrayAP-English.xml records ingested successfully: 50" in the resulting batch job file
