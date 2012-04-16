@@ -45,6 +45,12 @@ def check_properties(config)
     unique_sections.uniq!
     unique_sections.sort!
 
+    puts "UNIQUE -----"
+    unique_props.each do |x| 
+        puts x
+    end
+    puts "DONE UNIQUE -----"
+
     # iterate through the environements and see if they contain default values 
     props_by_env.each do |env, props| 
         puts "ENV: #{env} ------------------------"
