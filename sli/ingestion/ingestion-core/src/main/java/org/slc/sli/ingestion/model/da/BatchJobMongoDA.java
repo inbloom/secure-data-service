@@ -212,7 +212,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
      * @param jobId
      * @return
      */
-    public static BatchJobMongoDAStatus findBatchJobErrors(String jobId) {
+    public BatchJobMongoDAStatus findBatchJobErrors(String jobId) {
         Query query = new Query(Criteria.where("batchJobId").is(jobId));
         List<Error> errors = template.find(query, Error.class, "error");
         return new BatchJobMongoDAStatus(true, "Returned errors for " + jobId, errors);

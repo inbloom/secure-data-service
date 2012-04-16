@@ -64,9 +64,9 @@ public class PurgeProcessor implements Processor {
 
             String tenantId = newJob.getProperty(TENANT_ID);
             if (tenantId == null) {
-                // TODO: should log and report errors to job?
                 LOG.info("TenantId missing. No purge operation performed.");
-
+                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PURGE_PROCESSING,
+                        FaultType.TYPE_WARNING.getName(), null, "No tenant specified. No purge will be done.");
             } else {
                 purgeForTenant(exchange, tenantId);
             }
@@ -97,11 +97,10 @@ public class PurgeProcessor implements Processor {
             LOG.info("Purge process complete.");
 
         } catch (Exception exception) {
-            // TODO: should log and report errors to job?
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             LOG.error("Exception:", exception);
-            String batchJobId = getBatchJobIdFromExchange(exchange);
+            String batchJobId = getBatchJobId(exchange);
             if (batchJobId != null) {
                 BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PURGE_PROCESSING,
                         FaultType.TYPE_ERROR.getName(), null, exception.toString());

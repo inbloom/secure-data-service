@@ -59,14 +59,12 @@ public class JobReportingProcessor implements Processor {
         job.getStages().add(stage);
         stage.startStage();
 
-        Logger jobLogger;
-        jobLogger = BatchJobLogger.createLoggerForJob(job.getId(), landingZone);
+        Logger jobLogger = BatchJobLogger.createLoggerForJob(job.getId(), landingZone);
 
         jobLogger.info("jobId: " + job.getId());
 
         // based on the PersistenceProcessor counts
-        int totalProcessed = 0;
-        int totalErrors = 0;
+        long totalProcessed = 0;
 
         // new batch job impl writes out persistence stage resource metrics
         List<Metrics> metrics = job.getStageMetrics(BatchJobStageType.PERSISTENCE_PROCESSING);
@@ -83,17 +81,19 @@ public class JobReportingProcessor implements Processor {
                 jobLogger.info(id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType()
                         + ")");
 
-                Long numProcessed = metric.getRecordCount();
-                Long numFailed = metric.getErrorCount();
-                Long numPassed = metric.getRecordCount() - numFailed;
+                long numProcessed = metric.getRecordCount();
+                long numFailed = metric.getErrorCount();
+                long numPassed = metric.getRecordCount() - numFailed;
 
                 jobLogger.info(id + " records considered: " + numProcessed);
                 jobLogger.info(id + " records ingested successfully: " + numPassed);
                 jobLogger.info(id + " records failed: " + numFailed);
 
                 totalProcessed += numProcessed;
-                totalErrors += numFailed;
             }
+        } else {
+            BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.JOB_REPORTING_PROCESSING,
+                    FaultType.TYPE_WARNING.getName(), null, "There were no metrics for " + BatchJobStageType.PERSISTENCE_PROCESSING.getName() + ".");
         }
 
         // write properties
@@ -103,21 +103,21 @@ public class JobReportingProcessor implements Processor {
             }
         }
 
-        BatchJobMongoDAStatus status = BatchJobMongoDA.findBatchJobErrors(job.getId());
+        BatchJobMongoDAStatus status = batchJobDAO.findBatchJobErrors(job.getId());
         if (status != null && status.isSuccess()) {
 
             // TODO handle large numbers of errors
             @SuppressWarnings("unchecked")
             List<Error> errors = (List<Error>) status.getResult();
             for (Error error : errors) {
-                if (error.getSeverity().equals(FaultType.TYPE_ERROR.getName())) {
+                if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
                     success = false;
                     jobLogger.error(
                             ((error.getStageName() == null) ? "" : (error.getStageName())) + ","
                             + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
                             + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier())) + ","
                             + error.getErrorDetail());
-                } else if (error.getSeverity().equals(FaultType.TYPE_WARNING.getName())) {
+                } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
                     jobLogger.warn(
                             ((error.getStageName() == null) ? "" : (error.getStageName())) + ","
                             + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
