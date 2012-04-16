@@ -130,7 +130,7 @@ public class PersistenceProcessor implements Processor {
                 String originalResource = resource.getExternallyUploadedResourceId();
                 
                 LOG.info("PersistenceProcessor Found [" + resourceFormat + "] [" + resourceId + "] [" + resourceName + "] [" + resourceType + "].");
-                if (resourceFormat != null && resourceFormat.equals(FileFormat.NEUTRALRECORD.toString())) {
+                if (resourceFormat != null && resourceFormat.equalsIgnoreCase(FileFormat.NEUTRALRECORD.getCode())) {
                     LOG.info("PersistenceProcessor  Processing [" + resourceFormat + "] [" + resourceId + "] [" + resourceName + "] [" + resourceType + "].");
                     String filename = originalResource;
                     Metrics metric =  new Metrics();
