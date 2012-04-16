@@ -11,9 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junitx.util.PrivateAccessor;
-
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -126,20 +123,11 @@ public class AssessmentCombinerTest {
         }
     }
     
-    @SuppressWarnings("unchecked")
     private Collection<NeutralRecord> getTransformedAssessments() {
         // Performing the transformation
         combiner.perform(job);
         
-        Map<String, Map<Object, NeutralRecord>> transformedCollections = null;
-        try {
-            // Get the result of the transformed data
-            transformedCollections = (Map<String, Map<Object, NeutralRecord>>) PrivateAccessor.getField(combiner,
-                    "transformedCollections");
-        } catch (Exception e) {
-            Assert.fail();
-        }
-        return transformedCollections.get("assessment").values();
+        return combiner.getTransformedAssessments();
     }
     
     @SuppressWarnings({ "deprecation", "unchecked" })

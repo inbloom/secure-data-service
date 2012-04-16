@@ -1,5 +1,7 @@
 package org.slc.sli.ingestion.transformation;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,9 +13,14 @@ import java.util.Set;
 
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.NeutralRecordFileWriter;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -31,11 +38,14 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     
     private Map<String, Map<Object, NeutralRecord>> collections;
     
-    private Map<String, Map<Object, NeutralRecord>> transformedCollections;
+    private List<NeutralRecord> transformedAssessments = new ArrayList<NeutralRecord>();
     
-    public AssessmentCombiner() {
+    private final FileUtils fileUtils;
+    
+    @Autowired
+    public AssessmentCombiner(FileUtils fileUtils) {
         this.collections = new HashMap<String, Map<Object, NeutralRecord>>();
-        this.transformedCollections = new HashMap<String, Map<Object, NeutralRecord>>();
+        this.fileUtils = fileUtils;
     }
     
     /**
@@ -64,7 +74,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     public void transform() {
         LOG.debug("Transforming data: Injecting assessmentFamilies into assessment");
         
-        HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
+        Map<Object, NeutralRecord> transformedAssessments = new HashMap<Object, NeutralRecord>();
         String key;
         
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("assessment").entrySet()) {
@@ -98,10 +108,9 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 
             }
             neutralRecord.setAttributes(attrs);
-            newCollection.put(neutralRecord.getRecordId(), neutralRecord);
+            transformedAssessments.put(neutralRecord.getRecordId(), neutralRecord);
         }
         
-        transformedCollections.put("assessment", newCollection);
     }
     
     private Map<String, Object> getAssessmentPeriodDescriptor(String assessmentPeriodDescriptorRef) {
@@ -206,18 +215,40 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     
     public void persist() {
         LOG.info("Persisting transformed data to storage.");
-        
-        // transformedCollections should have been populated in the transform() step.
-        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
+        try {
+            File tempFile = fileUtils.createTempFile();
+            NeutralRecordFileWriter writer = new NeutralRecordFileWriter(tempFile);
             
-            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
-                
-                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-                neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
-                
-                getNeutralRecordMongoAccess().getRecordRepository().create(neutralRecord);
+            // transformedCollections should have been populated in the transform() step.
+            for (NeutralRecord neutralRecord : transformedAssessments) {
+                writer.writeRecord(neutralRecord);
+            }
+            IngestionFileEntry fileEntry = getMetaDataFile();
+            File oldNRFile = fileEntry.getNeutralRecordFile();
+            fileEntry.setNeutralRecordFile(tempFile);
+            oldNRFile.delete();
+            
+        } catch (IOException e) {
+            LOG.error("Exception occurred", e);
+        }
+    }
+    
+    /**
+     * Will return the first assessment metadata file we are processing
+     * Since we are transforming assessments, one should exist
+     * I know this is hacky, replace when we get a better way to bypass additional ingestion work
+     * that breaks this
+     * 
+     * @return
+     */
+    private IngestionFileEntry getMetaDataFile() {
+        List<IngestionFileEntry> allFiles = getJob().getFiles();
+        for (IngestionFileEntry fe : allFiles) {
+            if (fe.getFileType().equals(FileType.XML_ASSESSMENT_METADATA)) {
+                return fe;
             }
         }
+        return null;
     }
     
     /**
@@ -242,6 +273,10 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         }
         
         collections.put(collectionName, collection);
+    }
+    
+    protected List<NeutralRecord> getTransformedAssessments() {
+        return transformedAssessments;
     }
     
 }
