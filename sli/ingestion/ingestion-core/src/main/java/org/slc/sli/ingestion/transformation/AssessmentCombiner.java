@@ -109,6 +109,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             }
             neutralRecord.setAttributes(attrs);
             transformedAssessments.add(neutralRecord);
+            neutralRecord.setLocalId(attrs.get("assessmentTitle"));
         }
         
     }
