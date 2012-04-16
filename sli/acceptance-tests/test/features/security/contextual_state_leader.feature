@@ -28,7 +28,7 @@ Scenario Outline: IT Administrator trying to edit data for own state
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "IT Administrator"
 And my "state" is <State>
-When I try to access the data for <Data> in my "state" from the API
+When I try to update the data for <Data> in my "state" from the API
 Then I should receive a return code of 205
 And the data should be updated
 Examples:
@@ -40,7 +40,7 @@ Scenario Outline: IT Administrator trying to edit data for other state
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "IT Administrator"
 And my "state" is <State>
-When I try to access the data for <Data> in another "state" from the API
+When I try to update the data for <Data> in another "state" from the API
 Then I should receive a return code of 403
 And the data should not have changed
 Examples:
