@@ -40,7 +40,7 @@ public class SecurityNode {
         return null;
     }
 
-    public void addConnection (Map<String, String> connection) {
+    public void addConnection(Map<String, String> connection) {
         connections.add(connection);
     }
 
