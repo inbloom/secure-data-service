@@ -5,14 +5,12 @@ import java.io.FileNotFoundException;
 
 import junitx.framework.Assert;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -38,7 +36,6 @@ public class ReferenceResolutionHandlerTest {
      *
      */
     @Test
-    @Ignore
     public void testValidFile() throws FileNotFoundException {
         // Test the XML reference resolution handler on a valid test file.
         File inputFile = IngestionTest.getFile("ReferenceResolution/studentAssessment_Valid.xml");
@@ -46,9 +43,10 @@ public class ReferenceResolutionHandlerTest {
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_ASSESSMENT, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
-        IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, new FileProcessStatus());
+        IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, null);
         long outputFileLength = outputFileEntry.getFile().length();
-        Assert.assertEquals(inputFileLength, outputFileLength);
+        Assert.assertEquals(inputFile.getName(), "studentAssessment_Valid.xml");
+        Assert.assertNotEquals(inputFileLength, outputFileLength);
     }
 
     /**
@@ -56,15 +54,17 @@ public class ReferenceResolutionHandlerTest {
      *
      */
     @Test
-    @Ignore
     public void testInvalidFile() throws FileNotFoundException {
         // Test the XML reference resolution handler on an invalid test file.
         File inputFile = IngestionTest.getFile("ReferenceResolution/studentAssessment_inValid.xml");
+        long inputFileLength = inputFile.length();
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_ASSESSMENT, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
-        IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, new FileProcessStatus());
-        Assert.assertNotNull(outputFileEntry);
+        IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, null);
+        long outputFileLength = outputFileEntry.getFile().length();
+        Assert.assertEquals(inputFile.getName(), "studentAssessment_inValid.xml");
+        Assert.assertNotEquals(inputFileLength, outputFileLength);
     }
 
     /**
@@ -78,8 +78,8 @@ public class ReferenceResolutionHandlerTest {
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_ASSESSMENT, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
-        IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, new FileProcessStatus());
-        Assert.assertNotNull(outputFileEntry);
+        IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, null);
+        Assert.assertNull(outputFileEntry);
     }
 
 }

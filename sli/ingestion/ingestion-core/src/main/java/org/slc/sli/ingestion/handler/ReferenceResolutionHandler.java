@@ -119,9 +119,11 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
         if (outputFile != null) {
             // Return the expanded XML file.
             fileEntry.setFile(outputFile);
+            return fileEntry;
+        } else {
+            return null;
         }
 
-        return fileEntry;
     }
 
 
