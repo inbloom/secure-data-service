@@ -130,7 +130,7 @@ public class ControlFileProcessor implements Processor {
             if (job.getProperty(PURGE) != null) {
                 exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
             } else {
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.XML_FILE_PROCESSED.name());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
             }
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());

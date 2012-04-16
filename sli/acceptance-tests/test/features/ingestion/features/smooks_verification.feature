@@ -12,7 +12,7 @@ Scenario: Assessment and StudentAssessment Verification
         | assessment                  |
         | studentAssessmentAssociation|
     When zip file is scp to ingestion landing zone
-    And I am willing to wait upto 40 seconds for ingestion to complete
+    And I am willing to wait upto 30 seconds for ingestion to complete
     And a batch job log has been created
     Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
@@ -51,8 +51,8 @@ Scenario: Assessment and StudentAssessment Verification
        | body.revisionDate                                                        | 2011-03-12                                | string               |
        | body.maxRawScore                                                         | 450                                       | integer               |
        | body.assessmentFamilyHierarchyName                                       | ISAT.ISAT Writing for Grades 3-8.ISAT Writing for Grade 8 | string               |
-
-
+       
+       
     And I should see "Processed 6 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "student.xml records considered: 1" in the resulting batch job file
@@ -64,7 +64,7 @@ Scenario: Assessment and StudentAssessment Verification
     And I should see "stu_assess.xml records considered: 1" in the resulting batch job file
     And I should see "stu_assess.xml records ingested successfully: 1" in the resulting batch job file
     And I should see "stu_assess.xml records failed: 0" in the resulting batch job file
-
+    
     And I find a(n) "studentAssessmentAssociation" record where "metaData.externalId" is equal to "{administrationDate=2011-05-01, studentId=1, assessmentId=Grade 8 2011 ISAT Writing}"
     And verify the following data in that document:
        | searchParameter                                                          | searchValue                           | searchType           |
@@ -88,3 +88,4 @@ Scenario: Assessment and StudentAssessment Verification
        | body.gradeLevelWhenAssessed                                              | Eighth grade                          | string               |
        | body.performanceLevelDescriptors.0.0.description                           | Above Benchmark                       | string               |
        | body.performanceLevelDescriptors.0.1.codeValue                             | 1                                     | string               |
+    

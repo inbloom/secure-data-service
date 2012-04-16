@@ -92,12 +92,6 @@
   </bean>
 
     <bean id="xmlFileHandler" parent="smooksFileHandler">
-    <property name="preValidators" >
-            <util:list value-type="org.slc.sli.ingestion.validation.Validator">
-            <ref bean="xmlFileValidator"/>
-            <ref bean="xsdValidator"/>
-        </util:list>
-            </property>
   </bean>
 
   <bean id="referenceResolutionHandler" class="org.slc.sli.ingestion.handler.ReferenceResolutionHandler">
