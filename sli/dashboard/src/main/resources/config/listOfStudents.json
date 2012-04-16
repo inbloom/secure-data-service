@@ -6,21 +6,63 @@
     entity: "listOfStudents",
     alias: "listOfStudents",
     params: {
-      assessmentFilter: {"ISAT Reading": "HIGHEST_EVER", "ISAT Writing": "MOST_RECENT_RESULT"}
+      assessmentFilter: {"ISAT Reading": "MOST_RECENT_RESULT", 
+                         "ISAT Writing": "MOST_RECENT_RESULT", 
+                         "DIBELS Next": "MOST_RECENT_WINDOW",
+                         "TRC": "MOST_RECENT_WINDOW",
+                         "SAT Reading": "HIGHEST_EVER",
+                         "SAT Writing": "HIGHEST_EVER",
+                         "AP Language": "HIGHEST_EVER",
+                         "AP Literature": "HIGHEST_EVER" }
     }
   },
   root: 'students',
   items : [
-    {name: "Student", field: "name.fullName"},
-    {name: "ISAT Reading", items:[
-       {name: "Perf. Lvl.", field: "studentAssessmentAssociations.ISAT Reading.x"},
-       {name: "SS", field: "ISAT Reading.Scale score"},
-       {name: "%ile Rank", field: "ISAT Reading.Percentile"},
-       {name: "Lexile Score", field: "ISAT Reading.Other"}]},
-     {name: "ISAT Writing (most recent)", items:[   
-       {name: "Perf. Lvl.", field: "ISAT Reading.Mastery level"},
-       {name: "SS", field: "ISAT Reading.Scale score"}]},
-     {name: "Attendance", items:[   
-       {name: "Absence Count", field: "attendance.AbsenceCount"}]}
+    {name: "Middle School ELA View", items: [
+      {name: "Student", width: 200, field: "name.fullName", formatter:'showlink', params: {baseLinkUrl:'student', idName:'id', target:"_blank", showAction=""}},
+      {name: "", width: 60, field: "programParticipation", formatter: DashboardUtil.Grid.Formatters.Lozenge},
+      {name: "ISAT Reading", items:[
+        {name: "Perf. Lvl.", field: "assessments.ISAT Reading.perfLevel"},
+        {name: "SS", field: "assessments.ISAT Reading.Scale score"},
+        {name: "Lexile Score", field: "assessments.ISAT Reading.Other"}]},
+      {name: "ISAT Writing (most recent)", items:[   
+        {name: "Perf. Lvl.", field: "assessments.ISAT Writing.perfLevel"},
+        {name: "SS", field: "assessments.ISAT Writing.Scale score"}]},
+      {name: "Attendance (current school year)", items:[   
+        {name: "Absence Count", field: "attendances.absenceCount", width:100, formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#438746'}, 1:{color:  '#7FC124'}, 6:{color:'#DFC836'}, 11:{color:'#B40610'}}}},
+        {name: "Attendance Rate %", field: "attendances.attendanceRate", width:100, formatter: DashboardUtil.Grid.Formatters.CutPoint, params:{cutPoints:{89:{color:'#B40610'}, 94:{color:'#DFC836'}, 98:{color:'#7FC124'}, 100:{color:'#438746'}}}},
+        {name: "Tardy Count", field: "attendances.tardyCount", width:100, formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#438746'}, 1:{color:  '#7FC124'}, 6:{color:'#DFC836'}, 11:{color:'#B40610'}}}},
+        {name: "Tardy Rate %", field: "attendances.tardyRate", width:100, formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#438746'}, 1:{color:  '#7FC124'}, 6:{color:'#DFC836'}, 11:{color:'#B40610'}}}}]}
+    ]},
+    {name: "Early Literacy View", items: [
+      {name: "Student", field: "name.fullName", width:100},
+      {name: "", width: 60, field: "programParticipation", formatter: DashboardUtil.Grid.Formatters.Lozenge},
+      {name: "DIBELS Next", items:[
+        {name: "Perf. Lvl.", field: "assessments.DIBELS Next.perfLevel", width:100}]},
+      {name: "Reading", items:[          
+        {name: "RL", field: "assessments.TRC.readingLevel", width:100},
+        {name: "Prof. Level", field: "assessments.TRC.profLevel", width:100}]},
+      {name: "Attendance", items:[   
+        {name: "Absence Count", field: "attendances.absenceCount", width:100, formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#438746'}, 1:{color:  '#7FC124'}, 6:{color:'#DFC836'}, 11:{color:'#B40610'}}}},
+        {name: "Tardy Count", field: "attendances.tardyCount", width:100, formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#438746'}, 1:{color:  '#7FC124'}, 6:{color:'#DFC836'}, 11:{color:'#B40610'}}}}]}
+    ]},
+    {name: "College Ready ELA View", items: [
+      {name: "Student", field: "name.fullName", width:100},
+      {name: "", width: 60, field: "programParticipation", formatter: DashboardUtil.Grid.Formatters.Lozenge},
+      {name: "Reading Test Scores (Highest)", items:[
+        {name: "SAT", field: "assessments.SAT Reading.x", width:100},
+        {name: "%ile", field: "assessments.SAT Reading.percentile", width:100}]},   
+      {name: "Writing Test Scores (Highest)", items:[          
+        {name: "SAT", field: "assessments.SAT Writing.x", width:100},
+        {name: "%ile", field: "assessments.SAT Writing.percentile", width:100}]},
+      {name: "AP Eng. Exam Scores (Highest)", items:[          
+        {name: "Lang.", field: "assessments.AP Language.x", width:100},
+        {name: "Lit.", field: "assessments.AP Literature.x", width:100}]},                   
+      {name: "Attendance", items:[   
+        {name: "Absence Count", field: "attendances.absenceCount", width: 100, formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#438746'}, 1:{color:  '#7FC124'}, 6:{color:'#DFC836'}, 11:{color:'#B40610'}}}},
+        {name: "Attendance Rate %", field: "attendances.attendanceRate", width: 100, formatter: DashboardUtil.Grid.Formatters.CutPoint, params:{cutPoints:{89:{color:'#B40610'}, 94:{color:'#DFC836'}, 98:{color:'#7FC124'}, 100:{color:'#438746'}}}},
+        {name: "Tardy Count", field: "attendances.tardyCount", width: 100, formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#438746'}, 1:{color:  '#7FC124'}, 6:{color:'#DFC836'}, 11:{color:'#B40610'}}}},
+        {name: "Tardy Rate %", field: "attendances.tardyRate", width: 100, formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{color:'#438746'}, 1:{color:  '#7FC124'}, 6:{color:'#DFC836'}, 11:{color:'#B40610'}}}}]}
+    ]}
   ] 
 }

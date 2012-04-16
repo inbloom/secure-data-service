@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Provides the lower and upper bounds for a type.
  */
-public final class Range extends AbstractModelElement {
+public final class Range extends UmlModelElement {
     /**
      * The lower bound of the attribute. Typically 0 or 1. Never <code>null</code>.
      */
@@ -15,9 +15,8 @@ public final class Range extends AbstractModelElement {
      */
     private final Occurs upperBound;
     
-    public Range(final Identifier id, final Occurs lower, final Occurs upper, final List<TaggedValue> taggedValues,
-            final LazyLookup lookup) {
-        super(id, taggedValues, lookup);
+    public Range(final Identifier id, final Occurs lower, final Occurs upper, final List<TaggedValue> taggedValues) {
+        super(id, taggedValues);
         if (lower == null) {
             throw new NullPointerException("lower");
         }
@@ -26,6 +25,27 @@ public final class Range extends AbstractModelElement {
         }
         this.lowerBound = lower;
         this.upperBound = upper;
+    }
+    
+    public Range(final Occurs lower, final Occurs upper, final List<TaggedValue> taggedValues) {
+        this(Identifier.random(), lower, upper, taggedValues);
+    }
+    
+    public Range(final Occurs lower, final Occurs upper) {
+        this(Identifier.random(), lower, upper, EMPTY_TAGGED_VALUES);
+    }
+    
+    @Override
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
+    }
+    
+    public Occurs getLower() {
+        return lowerBound;
+    }
+    
+    public Occurs getUpper() {
+        return upperBound;
     }
     
     @Override
@@ -41,13 +61,5 @@ public final class Range extends AbstractModelElement {
         }
         sb.append("}");
         return sb.toString();
-    }
-    
-    public Occurs getLower() {
-        return lowerBound;
-    }
-    
-    public Occurs getUpper() {
-        return upperBound;
     }
 }

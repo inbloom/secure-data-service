@@ -3,6 +3,7 @@ package org.slc.sli.ingestion.transformation.normalization;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -15,6 +16,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class EntityConfig {
     private List<String> keyFields;
     private List<RefDef> references;
+    private Map<String, Object> piiFields;
 
     public List<String> getKeyFields() {
         return keyFields;
@@ -30,6 +32,14 @@ public class EntityConfig {
 
     public void setReferences(List<RefDef> references) {
         this.references = references;
+    }
+
+    public void setPiiFields(Map<String, Object> piiFields) {
+        this.piiFields = piiFields;
+    }
+
+    public Map<String, Object> getPiiFields() {
+        return piiFields;
     }
 
     public static EntityConfig parse(InputStream inputStream) throws IOException {

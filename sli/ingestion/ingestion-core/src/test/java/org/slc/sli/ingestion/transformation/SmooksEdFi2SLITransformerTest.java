@@ -97,16 +97,20 @@ public class SmooksEdFi2SLITransformerTest {
         assessmentPerformanceLevel1.put("maximumScore", "1600");
         assessmentPerformanceLevel1.put("minimumScore", "2400");
         assessmentPerformanceLevel1.put("assessmentReportingMethod", "C-scaled scores");
-        Map<String, Object> performanceLevelDescriptor1 = new HashMap<String, Object>();
-        performanceLevelDescriptor1.put("description", "description1");
+        ArrayList<Map<String, Object>> performanceLevelDescriptor1 = new ArrayList<Map<String, Object>>();
+        Map<String, Object> pldmap = new HashMap<String, Object>();
+        pldmap.put("description", "description1");
+        performanceLevelDescriptor1.add(pldmap);
         assessmentPerformanceLevel1.put("performanceLevelDescriptor", performanceLevelDescriptor1);
 
         Map<String, Object> assessmentPerformanceLevel2 = new HashMap<String, Object>();
         assessmentPerformanceLevel2.put("maximumScore", "1800");
         assessmentPerformanceLevel2.put("minimumScore", "2600");
         assessmentPerformanceLevel2.put("assessmentReportingMethod", "ACT score");
-        Map<String, Object> performanceLevelDescriptor2 = new HashMap<String, Object>();
-        performanceLevelDescriptor2.put("description", "description2");
+        ArrayList<Map<String, Object>> performanceLevelDescriptor2 = new ArrayList<Map<String, Object>>();
+        Map<String, Object> pldmap2 = new HashMap<String, Object>();
+        pldmap2.put("description", "description2");
+        performanceLevelDescriptor2.add(pldmap2);
         assessmentPerformanceLevel2.put("performanceLevelDescriptor", performanceLevelDescriptor2);
 
         assessmentPerformanceLevelList.add(assessmentPerformanceLevel1);
@@ -152,18 +156,18 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals(1600, assessmentPerfLevel1.get("maximumScore"));
         Assert.assertEquals(2400, assessmentPerfLevel1.get("minimumScore"));
         Assert.assertEquals("C-scaled scores", assessmentPerfLevel1.get("assessmentReportingMethod"));
-        Map<String, Object> perfLevelDescriptor1 = (Map<String, Object>) assessmentPerfLevel1.get("performanceLevelDescriptor");
+        List<Map<String, Object>> perfLevelDescriptor1 = (List<Map<String, Object>>) assessmentPerfLevel1.get("performanceLevelDescriptor");
         Assert.assertNotNull(perfLevelDescriptor1);
-        Assert.assertEquals("description1", perfLevelDescriptor1.get("description"));
+        Assert.assertEquals("description1", perfLevelDescriptor1.get(0).get("description"));
 
         Map<String, Object> assessmentPerfLevel2 = assessmentPerfLevelList.get(1);
         Assert.assertNotNull(assessmentPerfLevel2);
         Assert.assertEquals(1800, assessmentPerfLevel2.get("maximumScore"));
         Assert.assertEquals(2600, assessmentPerfLevel2.get("minimumScore"));
         Assert.assertEquals("ACT score", assessmentPerfLevel2.get("assessmentReportingMethod"));
-        Map<String, Object> perfLevelDescriptor2 = (Map<String, Object>) assessmentPerfLevel2.get("performanceLevelDescriptor");
-        Assert.assertNotNull(perfLevelDescriptor2);
-        Assert.assertEquals("description2", perfLevelDescriptor2.get("description"));
+        List<Map<String, Object>> perfLevelDescriptor2 = (List<Map<String, Object>>) assessmentPerfLevel2.get("performanceLevelDescriptor");
+        Assert.assertNotNull(perfLevelDescriptor2.get(0));
+        Assert.assertEquals("description2", perfLevelDescriptor2.get(0).get("description"));
 
         Assert.assertEquals("Achievement test", result.get(0).getBody().get("assessmentCategory"));
         Assert.assertEquals("English", result.get(0).getBody().get("academicSubject"));

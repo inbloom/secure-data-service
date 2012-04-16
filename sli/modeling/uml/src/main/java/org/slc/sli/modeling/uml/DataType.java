@@ -2,28 +2,29 @@ package org.slc.sli.modeling.uml;
 
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
 /**
  * A data type is a type that typically has no references to other types.
  */
-public final class DataType extends AbstractModelElement implements Type {
-    private final QName name;
+public final class DataType extends NamespaceOwnedElement implements Type {
     private final boolean isAbstract;
     
-    public DataType(final Identifier id, final QName name, final boolean isAbstract,
-            final List<TaggedValue> taggedValues, final LazyLookup lookup) {
-        super(id, taggedValues, lookup);
-        if (name == null) {
-            throw new NullPointerException("name");
-        }
-        this.name = name;
+    public DataType(final Identifier id, final String name) {
+        this(id, name, false, EMPTY_TAGGED_VALUES);
+    }
+    
+    public DataType(final Identifier id, final String name, final boolean isAbstract) {
+        this(id, name, isAbstract, EMPTY_TAGGED_VALUES);
+    }
+    
+    public DataType(final Identifier id, final String name, final boolean isAbstract,
+            final List<TaggedValue> taggedValues) {
+        super(id, name, taggedValues);
         this.isAbstract = isAbstract;
     }
     
     @Override
-    public QName getName() {
-        return name;
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
     
     @Override
@@ -32,31 +33,11 @@ public final class DataType extends AbstractModelElement implements Type {
     }
     
     @Override
-    public Reference getReference() {
-        return new Reference(getId(), ReferenceType.DATA_TYPE);
-    }
-    
-    @Override
-    public List<Generalization> getGeneralizationBase() {
-        return lookup.getGeneralizationBase(getReference());
-    }
-    
-    @Override
-    public List<Generalization> getGeneralizationDerived() {
-        return lookup.getGeneralizationDerived(getReference());
-    }
-    
-    @Override
-    public List<AssociationEnd> getAssociationEnds() {
-        return lookup.getAssociationEnds(getReference());
-    }
-    
-    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("{");
-        // sb.append("id: " + id).append(", ");
-        sb.append("name: \"" + name + "\"").append(", ");
+        sb.append("id: " + getId()).append(", ");
+        sb.append("name: \"" + getName() + "\"").append(", ");
         sb.append("isAbstract: " + isAbstract);
         if (!getTaggedValues().isEmpty()) {
             sb.append(", ");

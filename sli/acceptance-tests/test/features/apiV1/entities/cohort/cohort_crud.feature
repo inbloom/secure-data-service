@@ -17,6 +17,7 @@ Scenario: Create a valid entity
      And the response should contain the appropriate fields and values
 
 Scenario: Read all entities
+	Given parameter "limit" is "0"
     When I navigate to GET "/<ENTITY URI>"
     Then I should receive a return code of 200
      And I should receive a collection of "<ENTITY COUNT>" entities

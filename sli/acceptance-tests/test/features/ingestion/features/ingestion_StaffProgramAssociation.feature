@@ -20,15 +20,10 @@ Then I should see following map of entry counts in the corresponding collections
      | staffProgramAssociation     | 3     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | staffProgramAssociation     | 1                   | body.programId              | ACC-TEST-PROG-1         | string               |
-     | staffProgramAssociation     | 1                   | body.programId              | ACC-TEST-PROG-2         | string               |
-     | staffProgramAssociation     | 2                   | body.programId              | ACC-TEST-PROG-3         | string               |
-     | staffProgramAssociation     | 2                   | body.staffId                | linda.kim               | string               |
-     | staffProgramAssociation     | 2                   | body.staffId                | rbraverman              | string               |
-     | staffProgramAssociation     | 1                   | body.staffId                | cgray                   | string               |
      | staffProgramAssociation     | 1                   | body.studentRecordAccess    | true                    | string               |
      | staffProgramAssociation     | 2                   | body.studentRecordAccess    | false                   | string               |
-     | staffProgramAssociation     | 2                   | body.beginDate              | 2011-01-01              | string               |
+     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-01-01              | string               |
+     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-01-05              | string               |
      | staffProgramAssociation     | 1                   | body.beginDate              | 2011-06-01              | string               |
      | staffProgramAssociation     | 1                   | body.endDate                | 2012-02-15              | string               |
   And I should see "Processed 9 records." in the resulting batch job file
@@ -54,16 +49,12 @@ Then I should see following map of entry counts in the corresponding collections
      | staffProgramAssociation     | 4     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | staffProgramAssociation     | 2                   | body.programId              | ACC-TEST-PROG-1         | string               |
-     | staffProgramAssociation     | 2                   | body.programId              | ACC-TEST-PROG-2         | string               |
-     | staffProgramAssociation     | 2                   | body.programId              | ACC-TEST-PROG-3         | string               |
-     | staffProgramAssociation     | 2                   | body.staffId                | linda.kim               | string               |
-     | staffProgramAssociation     | 2                   | body.staffId                | rbraverman              | string               |
-     | staffProgramAssociation     | 2                   | body.staffId                | cgray                   | string               |
      | staffProgramAssociation     | 3                   | body.studentRecordAccess    | true                    | string               |
      | staffProgramAssociation     | 1                   | body.studentRecordAccess    | false                   | string               |
-     | staffProgramAssociation     | 2                   | body.beginDate              | 2011-01-01              | string               |
-     | staffProgramAssociation     | 2                   | body.beginDate              | 2011-06-01              | string               |
+     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-01-01              | string               |
+     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-01-02              | string               |
+     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-06-01              | string               |
+     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-06-02              | string               |
      | staffProgramAssociation     | 2                   | body.endDate                | 2012-02-15              | string               |
   And I should see "Processed 9 records." in the resulting batch job file
   And I should not see an error log file created

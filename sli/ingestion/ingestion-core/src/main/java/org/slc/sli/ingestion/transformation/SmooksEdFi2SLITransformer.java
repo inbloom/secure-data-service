@@ -1,9 +1,11 @@
 package org.slc.sli.ingestion.transformation;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.milyn.Smooks;
@@ -26,6 +28,7 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
 
     private Map<String, Smooks> smooksConfigs;
 
+    
     @SuppressWarnings("unchecked")
     @Override
     public List<SimpleEntity> transform(NeutralRecord item, ErrorReport errorReport) {
@@ -40,12 +43,31 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
 
             smooks.filterSource(source, result);
 
-            sliEntities = result.getBean(List.class);
+            sliEntities = getEntityListResult(result);
+            //sliEntities = result.getBean(List.class);
         } catch (IOException e) {
             sliEntities = Collections.emptyList();
         }
 
         return sliEntities;
+    }
+    
+   /**
+    * Traverse the results map to get the entity list
+    */
+    @SuppressWarnings("unchecked")
+    private List<SimpleEntity> getEntityListResult(JavaResult result) {
+        List<SimpleEntity> entityList = new ArrayList<SimpleEntity>();
+        for (Entry<String, Object> resEntry : result.getResultMap().entrySet()) {
+            if (resEntry.getValue() instanceof List) {
+                List<?> list = (List<?>) resEntry.getValue();
+                if (list.size() != 0 && list.get(0) instanceof SimpleEntity) {
+                    entityList = (List<SimpleEntity>) list;
+                    break;
+                }
+            }
+        }
+        return entityList;
     }
 
     public Map<String, Smooks> getSmooksConfigs() {
