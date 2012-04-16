@@ -1,17 +1,18 @@
 package org.slc.sli.api.security.context;
 
-import org.slc.sli.api.config.AssociationDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+
+import org.slc.sli.api.config.AssociationDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Resolves Context based permissions.
@@ -79,7 +80,7 @@ public class AssociativeContextHelper {
 
     }
 
-    private List<String> getAssocKeys(String entityType, AssociationDefinition ad) {
+    public List<String> getAssocKeys(String entityType, AssociationDefinition ad) {
 
         if (ad.getSourceEntity().getType().equals(entityType)) {
             return Arrays.asList(ad.getSourceKey(), ad.getTargetKey());
@@ -99,15 +100,45 @@ public class AssociativeContextHelper {
      * @return Ids of entities containing a referenceId at the referenceLocation
      */
     public List<String> findEntitiesContainingReference(String collectionName, String referenceLocation, List<String> referenceIds) {
+        Iterable<Entity> entities = getReferenceEntities(collectionName, referenceLocation, referenceIds);
+        
+        List<String> foundIds = new ArrayList<String>();
+        for (Entity e : entities) {
+            foundIds.add(e.getEntityId());
+        }
+        return foundIds;
+    }
+    
+    private Iterable<Entity> getReferenceEntities(String collectionName, String referenceLocation,
+            List<String> referenceIds) {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria(referenceLocation, "in", referenceIds));
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(9999);
         Iterable<Entity> entities = repository.findAll(collectionName, neutralQuery);
-
+        return entities;
+    }
+    
+    /**
+     * Searches an associative collection to return a list of referenced Ids.
+     * 
+     * @param collectionName
+     *            collection to Query
+     * @param referenceLocation
+     *            the ids to query against
+     * @param returnedReference
+     *            the field of ids you want to return
+     * @param referenceIds
+     *            the list of ids to query with
+     * @return ids contained in the returnedReference field
+     */
+    public List<String> findEntitiesContainingReference(String collectionName, String referenceLocation,
+            String returnedReference, List<String> referenceIds) {
+        Iterable<Entity> entities = getReferenceEntities(collectionName, referenceLocation, referenceIds);
         List<String> foundIds = new ArrayList<String>();
         for (Entity e : entities) {
-            foundIds.add(e.getEntityId());
+            Map<String, Object> body = e.getBody();
+            foundIds.add((String) body.get(returnedReference));
         }
         return foundIds;
     }
