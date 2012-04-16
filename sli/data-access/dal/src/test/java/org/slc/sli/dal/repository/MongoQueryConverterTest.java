@@ -1,9 +1,11 @@
 package org.slc.sli.dal.repository;
 
 import com.mongodb.DBObject;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.QueryParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -23,12 +25,9 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class MongoQueryConverterTest {
-    private MongoQueryConverter mongoQueryConverter;
 
-    @Before
-    public void setup() {
-        mongoQueryConverter = new MongoQueryConverter();
-    }
+    @Autowired
+    private MongoQueryConverter mongoQueryConverter; //class under test
     
     @Test
     public void testKeyPrefixing() {
@@ -81,6 +80,195 @@ public class MongoQueryConverterTest {
         assertNull("Should be null", mongoQueryConverter.addCriteria(null,
                 new HashMap<String, List<NeutralCriteria>>()));
 
+    }
+
+    @Test
+    public void testIncludeFieldConvert() {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setIncludeFields("populationServed,uniqueSectionCode");
+
+        Query query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        DBObject obj = query.getFieldsObject();
+        assertNotNull("Should not be null", obj);
+        assertEquals("Should match", 1, obj.get("body.populationServed"));
+        assertEquals("Should match", 1, obj.get("body.uniqueSectionCode"));
+    }
+
+    @Test
+    public void testExcludeFieldConvert() {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setExcludeFields("populationServed,uniqueSectionCode");
+
+        Query query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        DBObject obj = query.getFieldsObject();
+        assertNotNull("Should not be null", obj);
+        assertEquals("Should match", 0, obj.get("body.populationServed"));
+        assertEquals("Should match", 0, obj.get("body.uniqueSectionCode"));
+    }
+
+    @Test
+    public void testOffsetAndLimitConvert() {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setOffset(10);
+        neutralQuery.setLimit(100);
+
+        Query query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        assertEquals("Should match", 10, query.getSkip());
+        assertEquals("Should match", 100, query.getLimit());
+    }
+
+    @Test
+    public void testSortConvert() {
+        //test ascending
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setSortBy("populationServed");
+        neutralQuery.setSortOrder(NeutralQuery.SortOrder.ascending);
+        Query query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        DBObject obj = query.getSortObject();
+        assertEquals("Should match", 1, obj.get("body.populationServed"));
+
+        //test descending
+        neutralQuery = new NeutralQuery();
+        neutralQuery.setSortBy("populationServed");
+        neutralQuery.setSortOrder(NeutralQuery.SortOrder.descending);
+        query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        obj = query.getSortObject();
+        assertEquals("Should match", -1, obj.get("body.populationServed"));
+
+        //test null sort by
+        neutralQuery = new NeutralQuery();
+        neutralQuery.setSortBy(null);
+        query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        assertNull("Should be null", query.getSortObject());
+
+        //test null sort order
+        neutralQuery = new NeutralQuery();
+        neutralQuery.setSortBy("populationServed");
+        neutralQuery.setSortOrder(null);
+        query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        obj = query.getSortObject();
+        assertEquals("Should match", 1, obj.get("body.populationServed"));
+    }
+
+    @Test(expected = QueryParseException.class)
+    public void testPIISort() throws QueryParseException {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setSortBy("name.firstName");
+        neutralQuery.setSortOrder(NeutralQuery.SortOrder.ascending);
+
+        mongoQueryConverter.convert("student", neutralQuery);
+    }
+
+    @Test(expected = QueryParseException.class)
+    public void testPIISearchGreaterThan() throws QueryParseException {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("name.firstName", ">", "somevalue"));
+
+        mongoQueryConverter.convert("student", neutralQuery);
+    }
+
+    @Test(expected = QueryParseException.class)
+    public void testPIISearchLessThan() throws QueryParseException {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("name.firstName", "<", "somevalue"));
+
+        mongoQueryConverter.convert("student", neutralQuery);
+    }
+
+    @Test(expected = QueryParseException.class)
+    public void testPIISearchNotEqual() throws QueryParseException {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("name.firstName", "~", "somevalue"));
+
+        mongoQueryConverter.convert("student", neutralQuery);
+    }
+
+    @Test
+    public void testPIISearchEquals() {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("name.firstName", "=", "somevalue"));
+
+        Query query = mongoQueryConverter.convert("student", neutralQuery);
+        assertNotNull("Should not be null", query);
+        DBObject obj = query.getQueryObject();
+        assertNotNull("Should not be null", obj);
+        assertEquals("Should match", "ENCRYPTED_STRING:somevalue", obj.get("body.name.firstName"));
+        assertEquals("Should match", "somevalue", neutralQuery.getCriteria().get(0).getValue());
+    }
+
+    @Test
+    public void testFieldsConvert() {
+        //test equals
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("populationServed", "=", "Regular Students"));
+        Query query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        DBObject obj = query.getQueryObject();
+        assertNotNull("Should not be null", obj);
+        assertEquals("Should match", "Regular Students", obj.get("body.populationServed"));
+
+        //test greater than equals
+        neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("populationServed", ">=", "Regular Students"));
+        query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        obj = query.getQueryObject();
+        assertNotNull("Should not be null", obj);
+        DBObject obj1 = (DBObject) obj.get("body.populationServed");
+        assertEquals("Should match", "Regular Students", obj1.get("$gte"));
+
+        //test greater than equals
+        neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("populationServed", "<=", "Regular Students"));
+        query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        obj = query.getQueryObject();
+        assertNotNull("Should not be null", obj);
+        obj1 = (DBObject) obj.get("body.populationServed");
+        assertEquals("Should match", "Regular Students", obj1.get("$lte"));
+
+        //test in
+        List<String> list = new ArrayList<String>();
+        list.add("Regular Students");
+        neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("populationServed", NeutralCriteria.CRITERIA_IN, list));
+        query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        obj = query.getQueryObject();
+        assertNotNull("Should not be null", obj);
+        obj1 = (DBObject) obj.get("body.populationServed");
+        assertNotNull(obj1.get("$in"));
+    }
+
+    @Test(expected = QueryParseException.class)
+    public void testInNotList() throws QueryParseException {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("populationServed", NeutralCriteria.CRITERIA_IN, "Regular Students"));
+
+        mongoQueryConverter.convert("section", neutralQuery);
+    }
+
+    @Test
+    public void testOrConvert() {
+        NeutralQuery neutralQuery1 = new NeutralQuery();
+        neutralQuery1.addCriteria(new NeutralCriteria("populationServed", "=", "Regular Students"));
+
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("uniqueSectionCode", "=", "some value"));
+        neutralQuery.addOrQuery(neutralQuery1);
+
+        Query query = mongoQueryConverter.convert("section", neutralQuery);
+        assertNotNull("Should not be null", query);
+        DBObject obj = query.getQueryObject();
+        assertNotNull("Should not be null", obj);
+        assertNotNull("Should not be null", obj.get("$or"));
     }
 
 

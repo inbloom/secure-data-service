@@ -313,17 +313,19 @@ public class MongoQueryConverter {
                 }
 
                 neutralCriteria.setValue(value);
-                //mongoQuery.addCriteria(this.operatorImplementations.get(operator).generateCriteria(neutralCriteria, null));
-                neutralCriteria.setValue(originalValue);
-
-                if (!fields.containsKey(neutralCriteria.getKey())) {
+                NeutralCriteria criteriaToAdd = new NeutralCriteria(neutralCriteria.getKey(),
+                        neutralCriteria.getOperator(), neutralCriteria.getValue(), neutralCriteria.canBePrefixed());
+                if (!fields.containsKey(criteriaToAdd.getKey())) {
                     List<NeutralCriteria> list = new ArrayList<NeutralCriteria>();
-                    fields.put(neutralCriteria.getKey(), list);
+                    fields.put(criteriaToAdd.getKey(), list);
                 }
-
-                fields.get(neutralCriteria.getKey()).add(neutralCriteria);
+                //add the criteria to the map
+                fields.get(neutralCriteria.getKey()).add(criteriaToAdd);
+                //set the original value back
+                neutralCriteria.setValue(originalValue);
             }
 
+            //add the criteria to mongo query
             mongoQuery = addCriteria(mongoQuery, fields);
 
             Query[] mongoOrQueries = this.translateQueries(entityName, neutralQuery.getOrQueries());
