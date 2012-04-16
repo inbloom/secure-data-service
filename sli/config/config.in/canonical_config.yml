@@ -53,6 +53,23 @@ default:
         sli.ingestion.queue.workItem.keystore: 
         sli.ingestion.queue.workItem.keystorePassword: 
 
+    dashboard: &DASHBOARD-DEFAULT
+        api.client: apiClient
+        api.server.url: https://devjuggernauts.slidev.org/
+        security.server.url: https://devjuggernauts.slidev.org/
+        portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
+        portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
+        log.path: ${user.home}/logs
+        log.level: debug
+        oauth.client.id: K2e7Dwhq5J
+        oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+        oauth.redirect: http://local.slidev.org:8888/dashboard/callback
+
+        #specify "driver" and "custom" directory name for a user domain based configuration
+        panel.config.driver.dir: config
+        panel.config.custom.dir: custom
+        panel.data.use.cache: true
+
     misc: &MISC-DEFAULT
         sli.encryption.keyStorePass: changeit
         sli.encryption.dalKeyAlias: dalKey
@@ -134,6 +151,10 @@ acceptance-tests:
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
 
+    dashboard:
+        <<: *DASHBOARD-DEFAULT
+
+
     misc:
         <<: *MISC-DEFAULT
 
@@ -199,6 +220,23 @@ ci:
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
 
+    dashboard:
+        <<: *DASHBOARD-DEFAULT
+        api.client: apiClient
+        api.server.url: https://testapi1.slidev.org/
+        security.server.url: https://testapi1.slidev.org/
+        portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
+        portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
+        log.path: ${user.home}/logs/
+        log.level: warn
+        oauth.client.id: jlEb45f55i
+        oauth.client.secret: GjkljHiogHiodgiovbJat3U848J8934479p234r89y234r89
+        oauth.redirect: https://testdash1.slidev.org/dashboard/callback
+
+        #specify "driver" and "custom" directory name for a user domain based configuration
+        panel.config.driver.dir: config
+        panel.config.custom.dir: custom
+
     misc:
         <<: *MISC-DEFAULT
 
@@ -229,16 +267,6 @@ dev:
         #
         # Set of substitution filters used for ci builds
         #
-
-        # Hibernate Options
-
-
-        # MySQL Options
-
-
-
-        # Mongo DB Options
-
         sli.mongodb.database: sli
         sli.mongodb.host: devdal1.slidev.org
         sli.mongodb.port: 27017
@@ -271,6 +299,25 @@ dev:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: 
         sli.ingestion.queue.workItem.keystorePassword: 
+
+    dashboard:
+        <<: *DASHBOARD-DEFAULT
+        api.client: apiClient
+        api.server.url: https://devjuggernauts.slidev.org/
+        security.server.url: https://devjuggernauts.slidev.org/
+        portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
+        portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
+        log.path: ${user.home}/logs
+        log.level: debug
+        oauth.client.id: K2e7Dwhq5J
+        oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+        oauth.redirect: http://local.slidev.org:8888/dashboard/callback
+
+        #specify "driver" and "custom" directory name for a user domain based configuration
+        panel.config.driver.dir: config
+        panel.config.custom.dir: custom
+
+        panel.data.use.cache: true
 
     misc:
         <<: *MISC-DEFAULT
@@ -406,6 +453,9 @@ local:
         sli.ingestion.queue.workItem.keystore: 
         sli.ingestion.queue.workItem.keystorePassword: 
 
+    dashboard:
+        <<: *DASHBOARD-DEFAULT
+
     misc:
         <<: *MISC-DEFAULT
 
@@ -471,6 +521,23 @@ nxbuild2:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
+    dashboard:
+        <<: *DASHBOARD-DEFAULT
+        api.client: apiClient
+        api.server.url: https://nxbuild2.slidev.org/
+        security.server.url: https://nxbuild2.slidev.org/
+        portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
+        portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
+        log.path: ${user.home}/logs
+        log.level: warn
+        oauth.client.id: 6TW4tHwcWG
+        oauth.client.secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
+        oauth.redirect: https://nxbuild2.slidev.org/dashboard/callback
+
+        #specify "driver" and "custom" directory name for a user domain based configuration
+        panel.config.driver.dir: config
+        panel.config.custom.dir: custom        
+
     misc:
         <<: *MISC-DEFAULT
 
@@ -531,6 +598,25 @@ team:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
+
+    dashboard:
+        <<: *DASHBOARD-DEFAULT
+        sli.dev.subdomain: nxnestor
+        api.client: apiClient
+        api.server.url: https://${sli.dev.subdomain}.slidev.org/
+        security.server.url: https://${sli.dev.subdomain}.slidev.org/
+        portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
+        portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
+        log.path: ${user.home}/logs
+        log.level: warn
+        oauth.client.id: 6TW4tHwcWG
+        oauth.client.secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
+        oauth.redirect: https://${sli.dev.subdomain}.slidev.org/dashboard/callback
+
+
+        #specify "driver" and "custom" directory name for a user domain based configuration
+        panel.config.driver.dir: config
+        panel.config.custom.dir: custom        
 
     misc:
         <<: *MISC-DEFAULT
