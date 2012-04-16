@@ -6,6 +6,7 @@ import org.slc.sli.modeling.psm.PsmClassType;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Type;
+import org.slc.sli.modeling.uml.index.Mapper;
 
 public interface Uml2XsdPlugin {
     QName getElementName(final PsmClassType<Type> classType);
@@ -19,7 +20,7 @@ public interface Uml2XsdPlugin {
      *            Determines whether the name resulted from an association.
      * @return The name to be used in the schema.
      */
-    QName getElementName(final QName name, final boolean isAssociation);
+    QName getElementName(final String name, final boolean isAssociation);
     
     /**
      * Returns the name of an element type to be used in the schema based upon the logical model
@@ -31,7 +32,7 @@ public interface Uml2XsdPlugin {
      *            Determines whether the name resulted from an association.
      * @return The name to be used in the schema for the element type.
      */
-    QName getElementType(final QName name, final boolean isAssociation);
+    QName getElementType(final String name, final boolean isAssociation);
     
     /**
      * Returns the name of a type to be used in the schema based upon the logical model
@@ -41,7 +42,7 @@ public interface Uml2XsdPlugin {
      *            The logical model name.
      * @return The name to be used in the schema for a type.
      */
-    QName getTypeName(final QName name);
+    QName getTypeName(final String name);
     
     /**
      * Determines whether the specified property is enabled.
@@ -58,6 +59,6 @@ public interface Uml2XsdPlugin {
      * @param xsw
      *            The writer.
      */
-    void writeAssociationElement(final ClassType complexType, final AssociationEnd element,
+    void writeAssociationElement(final ClassType complexType, final AssociationEnd element, final Mapper lookup,
             final Uml2XsdPluginWriter xsw);
 }
