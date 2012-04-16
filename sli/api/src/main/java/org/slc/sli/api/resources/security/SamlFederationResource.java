@@ -7,16 +7,15 @@ import java.net.URI;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.Context;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jdom.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +25,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 
+import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.oauth.MongoAuthorizationCodeServices;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
@@ -60,7 +59,7 @@ public class SamlFederationResource {
     private SamlAttributeTransformer transformer;
     
     @Autowired
-    private MongoAuthorizationCodeServices authCodeServices;
+    private OauthSessionManager sessionManager;
     
     @Value("${sli.security.sp.issuerName}")
     private String metadataSpIssuerName;
@@ -85,11 +84,10 @@ public class SamlFederationResource {
     @POST
     @Path("sso/post")
     @SuppressWarnings("unchecked")
-    public Response consume(@FormParam("SAMLResponse") String postData, 
-            @Context HttpServletResponse response) throws Exception {
+    public Response consume(@FormParam("SAMLResponse") String postData) throws Exception {
         
         LOG.info("Received a SAML post for SSO...");
-
+        
         Document doc = saml.decodeSamlPost(postData);
         
         String inResponseTo = doc.getRootElement().getAttributeValue("InResponseTo");
@@ -126,22 +124,11 @@ public class SamlFederationResource {
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
         principal.setAdminRealm(attributes.getFirst("adminRealm"));
+        principal.setEdOrg(attributes.getFirst("edOrg"));
         
-        // create sessionIndex --> this should probably be more advanced in the future
-        String sessionIndex = samlMessageId;        
-        String edOrg = attributes.getFirst("edOrg");
-        principal.setEdOrg(edOrg);
+        Pair<String, URI> tuple = this.sessionManager.composeRedirect(inResponseTo, principal);
         
-        String redirect = authCodeServices.createAuthorizationCodeForMessageId(inResponseTo, principal, sessionIndex);
-        
-        // create cookie here corresponding to session passed into authorization code above
-        // TODO: make this into an http-only cookie by updating the javax.servlet.api-servlet version in the sli/pom.xml to 3.0+
-        Cookie cookie = new Cookie("_tla", sessionIndex);
-        cookie.setDomain(".slidev.org");
-        cookie.setPath("/");       
-        response.addCookie(cookie);
-        
-        return Response.temporaryRedirect(URI.create(redirect)).build();
+        return Response.temporaryRedirect(tuple.getRight()).cookie(new NewCookie("_tla", tuple.getLeft(), "/", ".slidev.org", "", 300, false)).build();
     }
     
     private Entity fetchOne(String collection, NeutralQuery neutralQuery) {

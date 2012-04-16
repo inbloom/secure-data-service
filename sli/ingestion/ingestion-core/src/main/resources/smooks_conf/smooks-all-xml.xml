@@ -1343,6 +1343,8 @@
 
     <jb:value property="nomenclature" data="ObjectiveAssessment/Nomenclature" />
 
+    <jb:wiring property="subObjectiveRefs" beanIdRef="SubObjectiveAssessmentsArray" />
+
   </jb:bean>
 
   <!-- AssessmentItemReferenceType -->
@@ -1353,6 +1355,10 @@
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentItemReference">
     <jb:value property="id" data="ObjectiveAssessment/AssessmentItemReference/@id" />
     <jb:value property="ref" data="ObjectiveAssessment/AssessmentItemReference/@ref" />
+  </jb:bean>
+
+  <jb:bean beanId="SubObjectiveAssessmentsArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
+    <jb:value data="ObjectiveAssessment/ObjectiveAssessmentReference/@ref"/>
   </jb:bean>
 
   <!-- LearningObjectiveReferenceType -->
@@ -2601,11 +2607,7 @@
     createOnElement="InterchangeStudentProgram/StudentProgramAssociation">
     <jb:wiring beanIdRef="StudentProgramAssociation_Services" />
   </jb:bean>
-
-  <jb:bean beanId="Program_ServiceDescriptorTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Program">
-    <jb:wiring beanIdRef="Program_ServiceDescriptorType" />
-  </jb:bean>
-
+  
   <jb:bean beanId="StudentProgramAssociation_Services" class="java.util.HashMap" createOnElement="InterchangeStudentProgram/StudentProgramAssociation/Services">
     <jb:value property="CodeValue" data="StudentProgramAssociation/Services/CodeValue" />
     <jb:value property="ShortDescription" data="StudentProgramAssociation/Services/ShortDescription" />

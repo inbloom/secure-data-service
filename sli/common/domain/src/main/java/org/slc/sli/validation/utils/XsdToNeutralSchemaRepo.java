@@ -85,6 +85,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     private Map<String, NeutralSchema> schemas = new HashMap<String, NeutralSchema>();
     private Map<String, NeutralSchema> elementSchemas = new HashMap<String, NeutralSchema>();
     private Set<NeutralSchema> mergedChoiceSchemas = new HashSet<NeutralSchema>();
+    private Map<XmlSchemaType, NeutralSchema> partialSchemas = new HashMap<XmlSchemaType, NeutralSchema>();
     
     private ResourceLoader resourceLoader;
     
@@ -108,20 +109,21 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
         return ns;
     }
     
-
     /**
      * Gets the schema for an underlying field on the given type
-     *
-     * @param type the type for the schema to look up
-     * @param field the potentially nested field whose schema is to be returned
+     * 
+     * @param type
+     *            the type for the schema to look up
+     * @param field
+     *            the potentially nested field whose schema is to be returned
      */
     @Override
     public NeutralSchema getSchema(String type, String field) {
         
-        //get schema for entity
+        // get schema for entity
         NeutralSchema schema = this.getSchema(type);
         
-        //loop through dotted notation for nested schemas
+        // loop through dotted notation for nested schemas
         for (String fieldName : field.split("\\.")) {
             schema = getNestedSchema(schema, fieldName);
             if (schema != null) {
@@ -134,51 +136,47 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
         return schema;
     }
     
-
     private NeutralSchema getNestedSchema(NeutralSchema schema, String field) {
         if (schema == null)
             return null;
         switch (schema.getSchemaType()) {
-        case STRING:
-        case INTEGER:
-        case DATE:
-        case TIME:
-        case DATETIME:
-        case ID:
-        case IDREF:
-        case INT:
-        case LONG:
-        case DOUBLE:
-        case BOOLEAN:
-        case TOKEN:
-            return null;
-        case LIST:
-            for (NeutralSchema possibleSchema : ((ListSchema) schema).getList()) {
-                LOG.info("possible schema type is {}", possibleSchema.getSchemaType());
-                if (getNestedSchema(possibleSchema, field) != null) {
-                    return getNestedSchema(possibleSchema, field);
+            case STRING:
+            case INTEGER:
+            case DATE:
+            case TIME:
+            case DATETIME:
+            case ID:
+            case IDREF:
+            case INT:
+            case LONG:
+            case DOUBLE:
+            case BOOLEAN:
+            case TOKEN:
+                return null;
+            case LIST:
+                for (NeutralSchema possibleSchema : ((ListSchema) schema).getList()) {
+                    LOG.info("possible schema type is {}", possibleSchema.getSchemaType());
+                    if (getNestedSchema(possibleSchema, field) != null) {
+                        return getNestedSchema(possibleSchema, field);
+                    }
                 }
+                return null;
+            case COMPLEX:
+                for (String key : schema.getFields().keySet()) {
+                    NeutralSchema possibleSchema = schema.getFields().get(key);
+                    if (key.startsWith("*")) {
+                        key = key.substring(1);
+                    }
+                    if (key.equals(field)) {
+                        return possibleSchema;
+                    }
+                }
+                return null;
+            default: {
+                throw new RuntimeException("Unknown Schema Type: " + schema.getSchemaType());
             }
-            return null;
-        case COMPLEX:
-            for (String key : schema.getFields().keySet()) {
-                NeutralSchema possibleSchema = schema.getFields().get(key);
-                if (key.startsWith("*")) {
-                    key = key.substring(1);
-                }
-                if (key.equals(field)) {
-                    return possibleSchema;
-                }
-            }
-            return null;
-        default: {
-            throw new RuntimeException("Unknown Schema Type: " + schema.getSchemaType());
-        }
         }
     }
-    
-    
-    
     
     public List<NeutralSchema> getSchemas() {
         ArrayList<NeutralSchema> allSchemas = new ArrayList<NeutralSchema>(schemas.values());
@@ -242,6 +240,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                 throw new RuntimeException("Unhandled XmlSchemaObject: " + schemaObject.getClass().getCanonicalName());
             }
             schemas.put(neutralSchema.getType(), neutralSchema);
+            partialSchemas.clear();
         }
     }
     
@@ -296,9 +295,16 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
     }
     
     private NeutralSchema parse(XmlSchemaType type, String name, XmlSchema schema) {
-        
+        NeutralSchema prior = partialSchemas.get(type);
+        if (prior != null) {
+            // we already have a schema of this type
+            NeutralSchema nSchema = getSchemaFactory().copySchema(prior);
+            return nSchema;
+        }
         if (type instanceof XmlSchemaComplexType) {
             NeutralSchema complexSchema = getSchemaFactory().createSchema(name);
+            partialSchemas.put(type, complexSchema); // avoid infinite recursion in self-referential
+                                                     // schemas
             return parseComplexType((XmlSchemaComplexType) type, complexSchema, schema);
             
         } else if (type instanceof XmlSchemaSimpleType) {
