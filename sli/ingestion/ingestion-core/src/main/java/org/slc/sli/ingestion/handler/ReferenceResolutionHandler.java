@@ -57,7 +57,7 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
                 return null;
             }
             log.info(inputFile.getName() + ": Resolved references");
-            return outputFile;
+            return inputFile;
         } catch (SAXException se) {
             // Delete the output file and report the error.
             outputFile.delete();
@@ -91,8 +91,8 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
      */
     private void logError(String errorMessage, ErrorReport errorReport, Logger log) {
         // Log errors.
-        log.error(errorMessage);
-        errorReport.error(errorMessage, ReferenceResolutionHandler.class);
+        log.warn(errorMessage);
+        errorReport.warning(errorMessage, ReferenceResolutionHandler.class);
     }
 
     /**
