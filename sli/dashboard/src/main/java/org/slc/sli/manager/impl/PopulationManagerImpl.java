@@ -135,7 +135,7 @@ public class PopulationManagerImpl implements PopulationManager {
      * 
      * @param studentSummaries
      */
-    private void enhanceListOfStudents(List<GenericEntity> studentSummaries) {
+    public void enhanceListOfStudents(List<GenericEntity> studentSummaries) {
         
         for (GenericEntity student : studentSummaries) {
             if (student == null)
@@ -169,11 +169,14 @@ public class PopulationManagerImpl implements PopulationManager {
                 }
                 
                 List<Map> perfLevelsDescs = (List<Map>) assmtResult.get("performanceLevelDescriptors");
-                for (Map perfLevelDesc : perfLevelsDescs) {
+                if (perfLevelsDescs != null) {
+                
+                    for (Map perfLevelDesc : perfLevelsDescs) {
                     
-                    String perfLevel = (String) perfLevelDesc.get("description");
-                    assmtResult.put("perfLevel", perfLevel);
-                    break; // only get the first one
+                        String perfLevel = (String) perfLevelDesc.get("description");
+                        assmtResult.put("perfLevel", perfLevel);
+                        break; // only get the first one
+                    }
                 }
             }
 
