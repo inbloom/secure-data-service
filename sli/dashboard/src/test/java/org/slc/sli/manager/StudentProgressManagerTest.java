@@ -2,8 +2,6 @@ package org.slc.sli.manager;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -19,7 +17,6 @@ import org.junit.Test;
 
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 /**
  * Tests for student progress manager
