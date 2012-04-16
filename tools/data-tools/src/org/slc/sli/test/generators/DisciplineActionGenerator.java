@@ -1,6 +1,7 @@
 package org.slc.sli.test.generators;
 
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Random;
 
 import javax.xml.bind.JAXBElement;
@@ -13,8 +14,11 @@ import org.slc.sli.test.edfi.entities.DisciplineIncidentReferenceType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.ObjectFactory;
+import org.slc.sli.test.edfi.entities.StaffIdentityType;
+import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.StudentIdentityType;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
+import org.slc.sli.test.edfi.entities.meta.DisciplineActionMeta;
 
 /**
 * Generates DisciplineIncident data
@@ -30,10 +34,101 @@ public class DisciplineActionGenerator {
 
     
     /**
+     * Generates a DisciplineAction from a DisciplineActionMeta.
+     *
+     * @param meta
+     * 
+     * @return <code>DisciplineAction</code>
+     */
+    public static DisciplineAction generateLowFi(DisciplineActionMeta meta) {
+        String disciplineActionId = meta.id;
+        String schoolId = meta.schoolId;
+        Collection<String> incidentIds = meta.incidentIds;
+        Collection<String> studentIds = meta.studentIds;
+        Collection<String> staffIds = meta.staffIds;
+        
+        return generateLowFi(disciplineActionId, incidentIds, studentIds, staffIds, schoolId);
+    }
+
+    /**
      * Generates a DisciplineAction for a disciplineActionId
-     * with a responsibilitySchoolId and a assignmentSchoolId as a references.
+     * with a list of disciplineIncidentIds, a list of studentIds, a list of staffIds
+     * and a responsibilitySchoolId.
      *
      * @param disciplineActionId
+     * @param disciplineIncidentIds
+     * @param studentIds
+     * @param staffIds
+     * @param responsibilitySchoolId
+     * 
+     * @return <code>DisciplineAction</code>
+     */
+    public static DisciplineAction generateLowFi(String disciplineActionId, 
+                                                 Collection<String> disciplineIncidentIds, 
+                                                 Collection<String> studentIds, 
+                                                 Collection<String> staffIds, 
+                                                 String responsibilitySchoolId) {
+        DisciplineAction action = generateLowFi(disciplineActionId, disciplineIncidentIds, studentIds, responsibilitySchoolId);
+        
+        // construct and add the staff reference
+        for (String staffId : staffIds) {
+            StaffIdentityType sit = new StaffIdentityType();
+            sit.setStaffUniqueStateId(staffId);
+            StaffReferenceType srt = new StaffReferenceType();
+            srt.setStaffIdentity(sit);
+            action.getStaffReference().add(srt);            
+        }
+        
+        return action;
+    }
+    
+    /**
+     * Generates a DisciplineAction for a disciplineActionId
+     * with a list of disciplineIncidentIds, a list of studentIds,
+     * and a responsibilitySchoolId as references.
+     *
+     * @param disciplineActionId
+     * @param disciplineIncidentIds
+     * @param studentIds
+     * @param responsibilitySchoolId
+     * 
+     * @return <code>DisciplineAction</code>
+     */
+    public static DisciplineAction generateLowFi(String disciplineActionId, 
+                                                 Collection<String> disciplineIncidentIds, 
+                                                 Collection<String> studentIds, 
+                                                 String responsibilitySchoolId) {
+        DisciplineAction action = basicLowFiFactory(disciplineActionId, responsibilitySchoolId);
+        
+        // construct and add the disciplineIncident reference
+        for (String disciplineIncidentId : disciplineIncidentIds) {
+            DisciplineIncidentReferenceType dirt = new DisciplineIncidentReferenceType();
+            DisciplineIncidentIdentityType diit = new DisciplineIncidentIdentityType();
+            diit.setIncidentIdentifier(disciplineIncidentId);
+            diit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(responsibilitySchoolId);            
+            dirt.setDisciplineIncidentIdentity(diit);
+            action.getDisciplineIncidentReference().add(dirt);            
+        }
+
+        // construct and add the student reference
+        for (String studentId : studentIds) {
+            StudentIdentityType sit = new StudentIdentityType();
+            sit.setStudentUniqueStateId(studentId);
+            StudentReferenceType srt = new StudentReferenceType();
+            srt.setStudentIdentity(sit);
+            action.getStudentReference().add(srt);
+        }
+        
+        return action;
+    }
+    
+    /**
+     * Generates a DisciplineAction for a disciplineActionId
+     * with a disciplineIncidentId, studentId, responsibilitySchoolId and assignmentSchoolId as references.
+     *
+     * @param disciplineActionId
+     * @param disciplineIncidentId
+     * @param studentId
      * @param responsibilitySchoolId
      * @param assignmentSchoolId
      * 
@@ -56,12 +151,13 @@ public class DisciplineActionGenerator {
     }
     
     /**
-     * Generates a DisciplineAction between a cohort and a student 
-     * with a school as a reference.
+     * Generates a DisciplineAction for a disciplineActionId
+     * with a disciplineIncidentId, studentId and responsibilitySchoolId as references.
      *
-     * @param cohortId
+     * @param disciplineActionId
+     * @param disciplineIncidentId
      * @param studentId
-     * @param schoolId
+     * @param responsibilitySchoolId
      * 
      * @return <code>DisciplineAction</code>
      */
@@ -75,6 +171,7 @@ public class DisciplineActionGenerator {
         DisciplineIncidentReferenceType dirt = new DisciplineIncidentReferenceType();
         DisciplineIncidentIdentityType diit = new DisciplineIncidentIdentityType();
         diit.setIncidentIdentifier(disciplineIncidentId);
+        diit.getStateOrganizationIdOrEducationOrgIdentificationCode().add(responsibilitySchoolId);
         dirt.setDisciplineIncidentIdentity(diit);
         action.getDisciplineIncidentReference().add(dirt);
 
@@ -117,9 +214,10 @@ public class DisciplineActionGenerator {
         
         //add Behaviors
         ObjectFactory factory = new ObjectFactory();
+        int count = 0;
         double prob = 1.0D / DisciplineDescriptor.values().length;
         for(DisciplineDescriptor behaviorDescriptor : DisciplineDescriptor.values()) {
-            if (rand.nextDouble() < prob) {
+            if (rand.nextDouble() < prob || count==(DisciplineDescriptor.values().length-1)) {
                 DisciplineDescriptorType disciplineDescriptorType = new DisciplineDescriptorType();
                 JAXBElement<String> disciplineDescriptorCode =  factory.createDisciplineDescriptorTypeCodeValue(behaviorDescriptor.codeValue);
                 JAXBElement<String> disciplineDescriptorShortDescription =  factory.createDisciplineDescriptorTypeShortDescription(behaviorDescriptor.shortDescription);
@@ -128,7 +226,9 @@ public class DisciplineActionGenerator {
                 disciplineDescriptorType.getCodeValueOrShortDescriptionOrDescription().add(disciplineDescriptorShortDescription);
                 disciplineDescriptorType.getCodeValueOrShortDescriptionOrDescription().add(disciplineDescriptorDescription);
                 action.getDisciplines().add(disciplineDescriptorType);
+                break;
             }
+            ++count;
         }
         
         return action;

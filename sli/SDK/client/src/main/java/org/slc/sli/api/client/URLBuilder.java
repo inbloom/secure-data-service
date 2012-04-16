@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,7 +14,6 @@ public final class URLBuilder {
     private static final String ENCODING = "UTF-8";
     
     private final StringBuffer url = new StringBuffer();
-    private boolean targets = false;
     
     /**
      * Start building a new URL with the provided base location.
@@ -65,11 +65,31 @@ public final class URLBuilder {
     }
     
     /**
+     * Append a collection of entity ids to the path
+     * 
+     * @param ids
+     *            a collection of Entity IDs
+     * @return Updated URLBuilder instance.
+     */
+    public URLBuilder ids(final List<String> ids) {
+        StringBuffer idCollection = new StringBuffer();
+        if (ids != null && ids.size() > 0) {
+            for (String id : ids) {
+                idCollection.append(id + ",");
+            }
+            idCollection.deleteCharAt(idCollection.lastIndexOf(","));
+        }
+        addPath(idCollection.toString());
+        return this;
+    }
+    
+    /**
      * Apply the given query to the URL.
      * 
      * @param query
      * @return Updated URLBuilder instance.
      */
+
     public URLBuilder query(final Query query) {
         
         Map<String, Object> params = query.getParameters();

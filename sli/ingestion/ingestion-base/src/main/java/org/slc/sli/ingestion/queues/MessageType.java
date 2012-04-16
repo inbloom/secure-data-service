@@ -6,7 +6,9 @@ package org.slc.sli.ingestion.queues;
  */
 public enum MessageType {
     BATCH_REQUEST,
-    BULK_TRANSFORM_REQUEST,
+    PURGE,
+    CONTROL_FILE_PROCESSED, //Flag is set after ControlFileProcessor completes its work
+    XML_FILE_PROCESSED, //Flag is set after XmlFileProcessor completes its work
     PERSIST_REQUEST,
     ERROR,
     DONE,

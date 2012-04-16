@@ -143,6 +143,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         try {
             for (String field : entityConfig.getKeyFields()) {
+                //TODO this does not support using anything from a list
                 Object fieldValue = PropertyUtils.getProperty(entity, field);
                 filter.put(field, (String) fieldValue);
             }

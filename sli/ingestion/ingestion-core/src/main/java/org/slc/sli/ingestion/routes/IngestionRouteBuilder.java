@@ -1,9 +1,6 @@
 package org.slc.sli.ingestion.routes;
 
 import java.io.File;
-import java.util.Enumeration;
-
-import ch.qos.logback.classic.Logger;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
@@ -14,20 +11,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
-import org.slc.sli.ingestion.BatchJobLogger;
-import org.slc.sli.ingestion.Fault;
-import org.slc.sli.ingestion.FaultsReport;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
+import org.slc.sli.ingestion.processors.JobReportingProcessor;
 import org.slc.sli.ingestion.processors.NeutralRecordsMergeProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
+import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
+import org.slc.sli.ingestion.processors.XmlFileProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Ingestion route builder.
@@ -47,14 +42,20 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     ZipFileProcessor zipFileProcessor;
 
+    @Autowired
+    PurgeProcessor purgeProcessor;
+
     @Autowired(required = true)
     PersistenceProcessor persistenceProcessor;
 
     @Autowired
     TransformationProcessor transformationProcessor;
-    
+
     @Autowired
     NeutralRecordsMergeProcessor nrMergeProcessor;
+
+    @Autowired
+    XmlFileProcessor xmlFileProcessor;
 
     @Autowired
     LocalFileSystemLandingZone lz;
@@ -67,7 +68,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Value("${sli.ingestion.queue.workItem.concurrentConsumers}")
     private int concurrentConsumers;
-    
+
     @Override
     public void configure() throws Exception {
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
@@ -117,7 +118,15 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing control file.")
                 .process(ctlFileProcessor)
                 .to("direct:assembledJobs")
-            .when(header("IngestionMessageType").isEqualTo(MessageType.BULK_TRANSFORM_REQUEST.name()))
+            .when(header("IngestionMessageType").isEqualTo(MessageType.PURGE.name()))
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Performing Purge Operation.")
+                .process(purgeProcessor)
+                .to("direct:stop")
+            .when(header("IngestionMessageType").isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing xml file.")
+                .process(xmlFileProcessor)
+                .to("direct:assembledJobs")
+            .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
                 .process(edFiProcessor)
                 .to(workItemQueueUri)
@@ -125,9 +134,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Data transformation.")
                 .process(transformationProcessor)
                 .to(workItemQueueUri)
-            .when(header("IngestionMessageType").isEqualTo(MessageType.MERGE_REQUEST.name()))
-                .process(nrMergeProcessor)
-                .to(workItemQueueUri)
+// Call to NeutralRecordMergeProcessor has been deprecated.
+//            .when(header("IngestionMessageType").isEqualTo(MessageType.MERGE_REQUEST.name()))
+//                .process(nrMergeProcessor)
+//                .to(workItemQueueUri)
             .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
                 .to("direct:persist")
             .when(header("IngestionMessageType").isEqualTo(MessageType.ERROR.name()))
@@ -165,81 +175,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from("direct:jobReporting")
                 .routeId("jobReporting")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Reporting on jobs for file.")
-                .process(new Processor() {
-
-                    @Override
-                    public void process(Exchange exchange) throws Exception {
-
-                        // TODO get job from the batch job db
-                        BatchJob job = BatchJobUtils.getBatchJobUsingStateManager(exchange);
-
-                        Logger jobLogger = BatchJobLogger.createLoggerForJob(job, lz);
-
-                        // add output as lines
-                        jobLogger.info("jobId: " + job.getId());
-
-                        for (IngestionFileEntry fileEntry : job.getFiles()) {
-                            String id = "[file] " + fileEntry.getFileName();
-                            jobLogger.info(id + " (" + fileEntry.getFileFormat()
-                                    + "/" + fileEntry.getFileType() + ")");
-                            Long numProcessed = exchange.getProperty(fileEntry.getFileName()
-                                    + ".records.processed", Long.class);
-                            if (numProcessed != null) {
-                                jobLogger.info(id + " records considered: "
-                                    + numProcessed);
-                            }
-
-                            Long numPassed = exchange.getProperty(fileEntry.getFileName()
-                                    + ".records.passed", Long.class);
-                            if (numProcessed != null) {
-                                jobLogger.info(id + " records ingested successfully: "
-                                    + numPassed);
-                            }
-
-                            Long numFailed = exchange.getProperty(fileEntry.getFileName()
-                                    + ".records.failed", Long.class);
-                            if (numProcessed != null) {
-                                jobLogger.info(id + " records failed: "
-                                    + numFailed);
-                            }
-                        }
-
-                        Enumeration<?> names = job.propertyNames();
-                        while (names.hasMoreElements()) {
-                            String key = (String) names.nextElement();
-                            jobLogger.info("[configProperty] " + key + ": "
-                                    + job.getProperty(key));
-                        }
-
-                        FaultsReport fr = job.getFaultsReport();
-
-                        for (Fault fault : fr.getFaults()) {
-                            if (fault.isError()) {
-                                jobLogger.error(fault.getMessage());
-                            } else {
-                                jobLogger.warn(fault.getMessage());
-                            }
-                        }
-
-                        if (fr.hasErrors()) {
-                            jobLogger.info("Not all records were processed completely due to errors.");
-                        } else {
-                            jobLogger.info("All records processed successfully.");
-                        }
-
-                        // This header is set in PersistenceProcessor
-                        if (exchange.getProperty("records.processed") != null) {
-                            jobLogger.info("Processed " + exchange.getProperty("records.processed") + " records.");
-                        }
-
-                        // clean up after ourselves
-                        jobLogger.detachAndStopAllAppenders();
-                        
-                        BatchJobUtils.saveBatchJobUsingStateManager(job);
-                        BatchJobUtils.completeBatchJob(job.getId());
-                    }
-
-                });
+                .process(new JobReportingProcessor(lz));
 
         // end of routing
         from("direct:stop")

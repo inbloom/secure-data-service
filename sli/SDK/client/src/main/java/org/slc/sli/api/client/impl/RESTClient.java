@@ -333,6 +333,15 @@ public class RESTClient {
     }
     
     /**
+     * Set the sessionToken for all SLI API ReSTful service calls.
+     * 
+     * @param sessionToken
+     */
+    public void setSessionToken(String sessionToken) {
+        this.sessionToken = sessionToken;
+    }
+
+    /**
      * Get a ClientRequest.Builder with common properties already set.
      * 
      * @param headers

@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Hashtable;
 import java.util.Map;
 
 import org.apache.avro.Schema;
@@ -37,6 +38,8 @@ public class NeutralRecordFileWriter {
 
     protected ObjectMapper jsonObjectMapper;
 
+    private Hashtable<String, Long> nrCount;
+
     /**
      * @param outputFile
      * @throws IOException
@@ -51,6 +54,8 @@ public class NeutralRecordFileWriter {
      */
     public NeutralRecordFileWriter(OutputStream outputStream) throws IOException {
         InputStream is = null;
+
+        nrCount = new Hashtable<String, Long>();
 
         try {
 
@@ -135,6 +140,14 @@ public class NeutralRecordFileWriter {
             avroRecord.put("atrributesCrc", null);
         }
 
+        synchronized (this.nrCount) {
+            if (this.nrCount.containsKey(record.getRecordType())) {
+                this.nrCount.put(record.getRecordType(), this.nrCount.get(record.getRecordType()) + 1L);
+            } else {
+                this.nrCount.put(record.getRecordType(), new Long(1L));
+            }
+        }
+
         this.avroDataFileWriter.append(avroRecord);
     }
 
@@ -154,6 +167,10 @@ public class NeutralRecordFileWriter {
 
     public void setAvroSchemaLocation(Resource avroSchemaLocation) {
         this.avroSchemaLocation = avroSchemaLocation;
+    }
+
+    public Hashtable<String, Long> getNRCount() {
+        return this.nrCount;
     }
 
 }

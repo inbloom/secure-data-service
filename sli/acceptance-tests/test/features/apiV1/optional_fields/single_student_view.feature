@@ -62,19 +62,19 @@ Feature: As an SLI application, I want to be able to view more student data in a
 
   # Transcript
     And inside "transcript"
-    And I should find "1" "studentSectionAssociations" in it
+    And I should find "2" "studentSectionAssociations" in it
     And I should find "sections" expanded in each of them
     When I look at the first one
     Then I should see "id" is "<STUDENT SECTION ASSOC ID>" in it
     And inside "sections"
     And I should see "courseId" is "<COURSE ID>" in it
     And I should see "schoolId" is "<SCHOOL ID>" in it
-    And I should see "uniqueSectionCode" is "8th Grade English - Sec 6" in it
+    And I should see "uniqueSectionCode" is "algebraIIS11" in it
     And inside "sessions"
-    And I should see "sessionName" is "Spring 2012" in it
+    And I should see "sessionName" is "Fall 2011" in it
     When I go back up one level
     Then inside "courses"
-    And I should see "courseDescription" is "Intro to Russian" in it
+    And I should see "courseDescription" is "Intro to French" in it
 
   Scenario: Applying optional fields - transcript - studentTranscriptAssociations
     Given optional field "transcript"
