@@ -106,15 +106,12 @@ end
 
 Then /^the field "([^"]*)" should be "([^"]*)"$/ do |field, value|
   assert(@result != nil, "Response contains no data")
-  key = field.split(".")
-  
-  if @result[key[0]].is_a?(Array)
-    receivedValue = @result[key[0]][0][key[1]]
-  else
-    receivedValue = @result[key[0]][key[1]]
+  val = @result.clone
+  field.split(".").each do |part|
+    is_num?(part) ? val = val[part.to_i] : val = val[part]
   end
    
-  assert(receivedValue == value, "the #{field} is #{receivedValue}, not expected #{value}")
+  assert(val == value, "the #{field} is #{val}, not expected #{value}")
 end
 
 Then /^there are "([\d]*)" "([^"]*)"$/ do |count, collection|
@@ -127,10 +124,22 @@ Then /^for the level at position "([\d]*)"$/ do |offset|
 end
 
 Then /^the key "([^"]*)" has value "([^"]*)"$/ do |key,value|
-  key_arr = key.split(".")
-  if key_arr.length == 1
-    assert(@col[@offset][key] == convert(value), "Expected #{value}, received #{@col[@offset][key]}")
+  val = @col[@offset].clone
+  key.split(".").each do |part|
+    is_num?(part) ? val = val[part.to_i] : val = val[part]
+  end
+  if is_num?(value)
+    assert(val == value.to_i, "Expected value: #{value}, but received #{val}")
   else
-    assert(@col[@offset][key_arr[0]][key_arr[1]] == convert(value), "Expected #{value}, received #{@col[@offset][key_arr[0]][key_arr[1]]}")
+    assert(val == value, "Expected value: #{value}, but received #{val}")
   end
 end
+
+def is_num?(str)
+  Integer(str)
+rescue ArgumentError
+  false
+else
+  true
+end
+

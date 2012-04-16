@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+  <json:reader rootName="json" />
+
+  <jb:bean beanId="studentProgramAssociations" class="java.util.ArrayList" createOnElement="#document">
+    <jb:wiring beanIdRef="studentProgramAssociation" />
+  </jb:bean>
+
+  <jb:bean beanId="studentProgramAssociation" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+    <jb:expression property="type">'studentProgramAssociation'</jb:expression>
+    <jb:wiring property="body" beanIdRef="studentProgramAssociationBody" />
+  </jb:bean>
+
+  <jb:bean beanId="studentProgramAssociationBody" class="java.util.HashMap" createOnElement="attributes">
+    <jb:value property="studentId" data="attributes studentId" />
+    <jb:value property="programId" data="attributes programId" />
+    <jb:wiring property="services" beanIdRef="StudentProgramAssociation_ServicesArray" />
+    <jb:value property="beginDate" data="attributes BeginDate" />
+    <jb:value property="endDate" data="attributes EndDate" />
+    <jb:value property="reasonExited" data="attributes ReasonExited" />
+    <jb:value property="educationOrganizationId" data="attributes educationOrganizationId" />
+  </jb:bean>
+
+  <jb:bean beanId="StudentProgramAssociation_ServicesArray" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:wiring beanIdRef="StudentProgramAssociation_Services" />
+  </jb:bean>
+
+  <jb:bean beanId="StudentProgramAssociation_Services" class="java.util.HashMap" createOnElement="services element">
+    <jb:value property="codeValue" data="Services element CodeValue" />
+    <jb:value property="shortDescription" data="Services element ShortDescription" />
+    <jb:value property="description" data="Services element Description" />
+  </jb:bean>
+
+</smooks-resource-list>

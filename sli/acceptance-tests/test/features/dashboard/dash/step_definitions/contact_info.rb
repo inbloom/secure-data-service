@@ -79,19 +79,17 @@ Given /^I look at the panel "([^"]*)"$/ do |panelName|
        sectionId = 2
      else
        sectionId = 0
-       temp = [th.text]
-       @sectionType[sectionId] = @sectionType[sectionId] + temp
      end
-    puts sectionId.to_s + " " + td.text
-    temp= [td.text]
-    @section[sectionId] = @section[sectionId] + temp
+    puts sectionId.to_s + " " + th.text + " " + td.text 
+    contentType = [th.text]
+    @sectionType[sectionId] = @sectionType[sectionId] + contentType
+    content = [td.text]
+    @section[sectionId] = @section[sectionId] + content
    end
   end
 end
 
 When /^there are "([^"]*)" phone numbers$/ do |phoneNumberCount|  
-
-
   assert(@section[0].length == phoneNumberCount.to_i, "Actual phone number count: " + @section[0].length.to_s)
 end
 
@@ -101,18 +99,15 @@ Given /^the list of phone number includes "([^"]*)"$/ do |phoneNumber|
 end
 
 Given /^the phone number "([^"]*)" is of type "([^"]*)"$/ do  |phoneNumber, phoneType|
-  foundPhone = false
-  i = 0
-  @section[0].each do |phone|
-    if (phone == phoneNumber)
-      foundPhone = true
-      pType = @sectionType[0][i]
-      assert(pType.index(':') > 0 && pType.length > 0)
-      assert(pType[0, pType.length-1] == phoneType, "Actual phone type: " + @sectionType[0][i]) 
-    end
-    i=i+1
-  end
-  assert(foundPhone == true, "Phone number was not found")
+  checkType(0, phoneNumber, phoneType)
+end
+
+Given /^the email "([^"]*)" is of type "([^"]*)"$/ do |emailAddress, emailType|
+  checkType(1, emailAddress, emailType)
+end
+
+Given /^the address "([^"]*)" is of type "([^"]*)"$/ do |address, addressType|
+  checkType(2, address, addressType)
 end
 
 Given /^there are "([^"]*)" email addresses$/ do |emailCount|
@@ -177,4 +172,19 @@ def areItemsInOrder(listOfItems, content)
   for i in (0..array.length-1)
     assert(array[i] == content[i], "Ordering is incorrect")
   end
+end
+
+def checkType(index, content, type)
+  found = false
+  i = 0
+  @section[index].each do |item|
+    if (item.include? content)
+      found = true
+      pType = @sectionType[index][i]
+      assert(pType.index(':') > 0 && pType.length > 0)
+      assert(pType[0, pType.length-1] == type, "Actual type: " + @sectionType[index][i]) 
+    end
+    i=i+1
+  end
+  assert(found, content + " is not found")
 end

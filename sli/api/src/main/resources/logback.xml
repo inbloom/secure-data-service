@@ -33,5 +33,6 @@
 
   <root level="debug">
     <appender-ref ref="STDOUT" />
+    <appender-ref ref="API_CALL_LOGGER" />
   </root>
 </configuration>

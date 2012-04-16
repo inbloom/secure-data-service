@@ -70,7 +70,7 @@ public class SchoolIngestionTest {
         File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
         String tenantId = "SLI";
-        persistenceProcessor.processIngestionStream(neutralRecordsFile, tenantId);
+        persistenceProcessor.processIngestionStream("batchJobId", neutralRecordsFile, tenantId);
 
         verifySchools(repository, numberOfSchools);
 
@@ -93,10 +93,10 @@ public class SchoolIngestionTest {
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
 
-        edFiProcessor.processFileEntry(inputFileEntry);
+        edFiProcessor.processFileEntry(inputFileEntry, inputFileEntry.getErrorReport(), null);
 
         String tenantId = "SLI";
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);
+        persistenceProcessor.processIngestionStream("batchJobId", inputFileEntry.getNeutralRecordFile(), tenantId);
 
         verifySchools(repository, 0);
 
@@ -120,10 +120,10 @@ public class SchoolIngestionTest {
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
 
-        edFiProcessor.processFileEntry(inputFileEntry);
+        edFiProcessor.processFileEntry(inputFileEntry, inputFileEntry.getErrorReport(), null);
 
         String tenantId = "SLI";
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);
+        persistenceProcessor.processIngestionStream("batchJobId", inputFileEntry.getNeutralRecordFile(), tenantId);
 
         verifySchools(repository, numberOfSchools);
 
@@ -143,10 +143,10 @@ public class SchoolIngestionTest {
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
 
-        edFiProcessor.processFileEntry(inputFileEntry);
+        edFiProcessor.processFileEntry(inputFileEntry, inputFileEntry.getErrorReport(), null);
 
         String tenantId = "SLI";
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);
+        persistenceProcessor.processIngestionStream("batchJobId", inputFileEntry.getNeutralRecordFile(), tenantId);
 
         assertEquals(2, IngestionTest.getTotalCountOfEntityInRepository(repository, schoolEntityType));
 
