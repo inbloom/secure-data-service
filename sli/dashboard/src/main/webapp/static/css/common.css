@@ -366,3 +366,7 @@ th.ui-th-column div {
     font-size: 12px;
     height: 20px;
 }
+
+/* Import of Teardrop styling */
+@import url("teardrop.css");
+
