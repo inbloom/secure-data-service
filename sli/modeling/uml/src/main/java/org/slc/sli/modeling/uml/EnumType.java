@@ -4,39 +4,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
 /**
  * The representation of an enumeration.
  */
-public final class EnumType extends AbstractModelElementWithLookup implements Type {
-    /**
-     * The name of the enumeration type.
-     */
-    private final QName name;
+public final class EnumType extends NamespaceOwnedElement implements Type {
     /**
      * The literals that are part of the enumeration.
      */
     private final List<EnumLiteral> literals;
     
-    public EnumType(final Identifier id, final QName name, final List<EnumLiteral> literals,
-            final List<TaggedValue> taggedValues, final LazyLookup lookup) {
-        super(id, ReferenceType.ENUM_TYPE, taggedValues, lookup);
-        if (name == null) {
-            throw new NullPointerException("name");
-        }
-        this.name = name;
+    public EnumType(final Identifier id, final String name, final List<EnumLiteral> literals,
+            final List<TaggedValue> taggedValues) {
+        super(id, name, taggedValues);
         this.literals = Collections.unmodifiableList(new ArrayList<EnumLiteral>(literals));
     }
     
     @Override
-    public QName getName() {
-        return name;
-    }
-    
-    @Override
-    public boolean isAbstract() {
-        return false;
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
     
     public List<EnumLiteral> getLiterals() {
@@ -44,26 +29,16 @@ public final class EnumType extends AbstractModelElementWithLookup implements Ty
     }
     
     @Override
-    public List<Generalization> getGeneralizationBase() {
-        return lookup.getGeneralizationBase(this);
-    }
-    
-    @Override
-    public List<Generalization> getGeneralizationDerived() {
-        return lookup.getGeneralizationDerived(this);
-    }
-    
-    @Override
-    public List<AssociationEnd> getAssociationEnds() {
-        return lookup.getAssociationEnds(this);
+    public boolean isAbstract() {
+        return false;
     }
     
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("{");
-        // sb.append("id: " + id).append(", ");
-        sb.append("name: \"" + name + "\"");
+        sb.append("id: " + getId()).append(", ");
+        sb.append("name: \"" + getName() + "\"");
         sb.append(", ");
         sb.append("literals: " + literals);
         if (!getTaggedValues().isEmpty()) {

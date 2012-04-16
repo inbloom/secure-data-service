@@ -1,34 +1,34 @@
 <?xml version="1.0"?>
 <InterchangeStudentProgram xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentProgram.xsd">
-  <StudentProgramAssociation>
-	<StudentReference>
-		<StudentIdentity>
-			<StudentUniqueStateId>100000000</StudentUniqueStateId>
-		</StudentIdentity>
-	</StudentReference>
-	<ProgramReference>
-		<ProgramIdentity>
-			<ProgramId>ACC-TEST-PROG-1</ProgramId>
-		</ProgramIdentity>
-	</ProgramReference>
-	<BeginDate>2011-01-01</BeginDate>
-	<EndDate>2011-12-31</EndDate>
-	<ReasonExited>Program completion</ReasonExited>
-	<EducationOrganizationReference>
-		<EducationalOrgIdentity>
-			<StateOrganizationId>IL</StateOrganizationId>
-		</EducationalOrgIdentity>
-	</EducationOrganizationReference>
-	<Services>
-		<CodeValue>Test service 1</CodeValue>
-		<ShortDescription>Short description for acceptance test studentProgramAssociation service 1</ShortDescription>
-		<Description>This is a longer description of the services provided by acceptance test studentProgramAssociation service 1. More detail could be provided here.</Description>
-	</Services>
-	<Services>
-		<CodeValue>Test service 2</CodeValue>
-		<ShortDescription>Short description for acceptance test studentProgramAssociation service 2</ShortDescription>
-		<Description>This is a longer description of the services provided by acceptance test studentProgramAssociation service 2. More detail could be provided here.</Description>
-	</Services>
-  </StudentProgramAssociation>
+	<StudentProgramAssociation>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>100000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<ProgramReference>
+			<ProgramIdentity>
+				<ProgramId>ACC-TEST-PROG-1</ProgramId>
+			</ProgramIdentity>
+		</ProgramReference>
+		<BeginDate>2011-01-01</BeginDate>
+		<EndDate>2011-12-31</EndDate>
+		<ReasonExited>Program completion</ReasonExited>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>IL</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<Services>
+			<CodeValue>Test service 1</CodeValue>
+			<ShortDescription>Short description for acceptance test studentProgramAssociation service 1</ShortDescription>
+			<Description>This is a longer description of the services provided by acceptance test studentProgramAssociation service 1. More detail could be provided here.</Description>
+		</Services>
+		<Services>
+			<CodeValue>Test service 2</CodeValue>
+			<ShortDescription>Short description for acceptance test studentProgramAssociation service 2</ShortDescription>
+			<Description>This is a longer description of the services provided by acceptance test studentProgramAssociation service 2. More detail could be provided here.</Description>
+		</Services>
+	</StudentProgramAssociation>
 </InterchangeStudentProgram>
