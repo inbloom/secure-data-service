@@ -40,6 +40,9 @@ import org.slc.sli.view.TimedLogic2;
  */
 public class PopulationManagerImpl implements PopulationManager {
     
+    private static final String ATTENDANCE_TARDY = "Tardy";
+    private static final String ATTENDANCE_ABSENCE = "Absence";
+
     private static Logger log = LoggerFactory.getLogger(PopulationManagerImpl.class);
     
     @Autowired
@@ -126,7 +129,7 @@ public class PopulationManagerImpl implements PopulationManager {
         enhanceListOfStudents(studentSummaries);
         
         GenericEntity g = new GenericEntity();
-        g.put("students", studentSummaries);
+        g.put(Constants.ATTR_STUDENTS, studentSummaries);
         return g;
     }
 
@@ -145,12 +148,12 @@ public class PopulationManagerImpl implements PopulationManager {
             student.remove(Constants.ATTR_LINKS);
          
             // add full name
-            Map name = (Map) student.get("name");
-            String fullName = (String) name.get("firstName") + " " + (String) name.get("lastSurname");
-            name.put("fullName", fullName);
+            Map name = (Map) student.get(Constants.ATTR_NAME);
+            String fullName = (String) name.get(Constants.ATTR_FIRST_NAME) + " " + (String) name.get(Constants.ATTR_LAST_SURNAME);
+            name.put(Constants.ATTR_FULL_NAME, fullName);
             
             // xform score format
-            Map studentAssmtAssocs = (Map) student.get("assessments");
+            Map studentAssmtAssocs = (Map) student.get(Constants.ATTR_ASSESSMENTS);
             if (studentAssmtAssocs == null)
                 continue;
             
@@ -160,21 +163,21 @@ public class PopulationManagerImpl implements PopulationManager {
                 if (assmtResult == null)
                     continue;
                 
-                List<Map> scoreResults = (List<Map>) assmtResult.get("scoreResults");
+                List<Map> scoreResults = (List<Map>) assmtResult.get(Constants.ATTR_SCORE_RESULTS);
                 for (Map scoreResult : scoreResults) {
                     
-                    String type = (String) scoreResult.get("assessmentReportingMethod");
-                    String result = (String) scoreResult.get("result");
+                    String type = (String) scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD);
+                    String result = (String) scoreResult.get(Constants.ATTR_RESULT);
                     assmtResult.put(type, result);
                 }
                 
-                List<Map> perfLevelsDescs = (List<Map>) assmtResult.get("performanceLevelDescriptors");
+                List<Map> perfLevelsDescs = (List<Map>) assmtResult.get(Constants.ATTR_PERFORMANCE_LEVEL_DESCRIPTOR);
                 if (perfLevelsDescs != null) {
                 
                     for (Map perfLevelDesc : perfLevelsDescs) {
                     
-                        String perfLevel = (String) perfLevelDesc.get("description");
-                        assmtResult.put("perfLevel", perfLevel);
+                        String perfLevel = (String) perfLevelDesc.get(Constants.ATTR_CODE_VALUE);
+                        assmtResult.put(Constants.ATTR_PERF_LEVEL, perfLevel);
                         break; // only get the first one
                     }
                 }
@@ -190,12 +193,12 @@ public class PopulationManagerImpl implements PopulationManager {
                 if (attendances != null) {
                     for (Map attendance : attendances) {
                     
-                        String event = (String) attendance.get("attendanceEventCategory");
+                        String event = (String) attendance.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
                     
-                        if (event.contains("Absence")) {
+                        if (event.contains(ATTENDANCE_ABSENCE)) {
                             absenceCount++;
                     
-                        } else if (event.contains("Tardy")) {
+                        } else if (event.contains(ATTENDANCE_TARDY)) {
                             tardyCount++;
                         }                        
                     }
@@ -204,10 +207,10 @@ public class PopulationManagerImpl implements PopulationManager {
                     int tardyRate = Math.round(((float) tardyCount / attendances.size()) * 100);
                 
                     attendanceBody.remove(Constants.ATTR_STUDENT_ATTENDANCES);
-                    attendanceBody.put("absenceCount", absenceCount);
-                    attendanceBody.put("tardyCount", tardyCount);
-                    attendanceBody.put("attendanceRate", attendanceRate);
-                    attendanceBody.put("tardyRate", tardyRate);
+                    attendanceBody.put(Constants.ATTR_ABSENCE_COUNT, absenceCount);
+                    attendanceBody.put(Constants.ATTR_TARDY_COUNT, tardyCount);
+                    attendanceBody.put(Constants.ATTR_ATTENDANCE_RATE, attendanceRate);
+                    attendanceBody.put(Constants.ATTR_TARDY_RATE, tardyRate);
                 }
             }            
             
@@ -225,7 +228,7 @@ public class PopulationManagerImpl implements PopulationManager {
             // Grab the student's assmt results. Grab assmt filters from config.
             List<Map> assmtResults = (List<Map>) (summary.remove(Constants.ATTR_STUDENT_ASSESSMENTS));
 
-            Map<String, String> assmtFilters = (Map<String, String>) (config.getParams().get("assessmentFilter"));
+            Map<String, String> assmtFilters = (Map<String, String>) (config.getParams().get(Constants.CONFIG_ASSESSMENT_FILTER));
             if (assmtFilters == null) {
                 return;
             }
@@ -245,7 +248,7 @@ public class PopulationManagerImpl implements PopulationManager {
                 newAssmtResults.put(assmtName, assmt);
             }
             
-            summary.put("assessments", newAssmtResults);
+            summary.put(Constants.ATTR_ASSESSMENTS, newAssmtResults);
         }
     }
     
@@ -262,7 +265,7 @@ public class PopulationManagerImpl implements PopulationManager {
         // filter by assmtName
         List<Map> studentAssessmentFiltered = new ArrayList<Map>();
         for (Map assmtResult : assmtResults) {
-            String family = (String) ((Map) (assmtResult.get("assessments"))).get("assessmentFamilyHierarchyName");
+            String family = (String) ((Map) (assmtResult.get(Constants.ATTR_ASSESSMENTS))).get(Constants.ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME);
             if (family.contains(assmtName)) {
                 studentAssessmentFiltered.add(assmtResult);
             }
@@ -410,7 +413,7 @@ public class PopulationManagerImpl implements PopulationManager {
                 totalCount = 0;
             } 
             String value = (String) entry.get("attendanceEventCategory");
-            if (value.contains("Tardy")) {
+            if (value.contains(ATTENDANCE_TARDY)) {
                 tardyCount++;
             } else if  (value.contains("Excused Absence")) {
                 eAbsenceCount++;
