@@ -197,7 +197,7 @@ desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionAPAssessmentTests, :ingestionStudentProgramAssociationTest, :ingestionBatchJobTest] do
+                         :ingestionAPAssessmentTests, :ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -294,6 +294,11 @@ end
 desc "Run Ingestion AP Assessment and StudentAssessment Tests"
 task :ingestionAPAssessmentTests do
   runTests("test/features/ingestion/features/apAssessment.feature")
+end
+
+desc "Run Ingestion Ed-Fi ID Reference Resolution Test"
+task :ingestionIDReferenceResolutionTest do
+  runTests("test/features/ingestion/features/ingestion_IDRef.feature")
 end
 
 # This task SHOULD NOT BE ADDED to the general ingestion test suite
