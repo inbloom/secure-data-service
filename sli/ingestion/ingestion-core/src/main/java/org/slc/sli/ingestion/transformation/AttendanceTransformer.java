@@ -185,13 +185,14 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         LOG.info("Persisting transformed attendance data into mongo.");
         // uncomment this when ready to persist transformed associations into mongo
         
-//        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
-//            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
-//                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-//                neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
-//                getNeutralRecordMongoAccess().getRecordRepository().create(neutralRecord);
-//            }
-//        }
+        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
+            String collectionName = collectionEntry.getKey();
+            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
+                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
+                neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
+                getNeutralRecordMongoAccess().getRecordRepository().update(collectionName, neutralRecord);
+            }
+        }
 
         LOG.info("Finished persisting transformed attendance data into mongo.");
     }
