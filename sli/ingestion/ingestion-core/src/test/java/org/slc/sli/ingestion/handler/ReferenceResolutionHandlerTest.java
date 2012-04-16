@@ -46,7 +46,7 @@ public class ReferenceResolutionHandlerTest {
         inputFileEntry.setFile(inputFile);
         IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, new FileProcessStatus());
         long outputFileLength = outputFileEntry.getFile().length();
-        Assert.assertNotEquals(inputFileLength, outputFileLength);
+        Assert.assertEquals(inputFileLength, outputFileLength);
     }
 
     /**
