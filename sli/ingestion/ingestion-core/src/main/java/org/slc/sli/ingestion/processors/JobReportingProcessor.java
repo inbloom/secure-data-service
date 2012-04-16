@@ -42,6 +42,7 @@ public class JobReportingProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
+        boolean success = true;
 
         // get job from the batch job db
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
@@ -110,6 +111,7 @@ public class JobReportingProcessor implements Processor {
             List<Error> errors = (List<Error>) status.getResult();
             for (Error error : errors) {
                 if (error.getSeverity().equals(FaultType.TYPE_ERROR.getName())) {
+                    success = false;
                     jobLogger.error(
                             ((error.getStageName() == null) ? "" : (error.getStageName())) + ","
                             + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
@@ -122,11 +124,11 @@ public class JobReportingProcessor implements Processor {
                             + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier())) + ","
                             + error.getErrorDetail());
                 }
-
             }
+
         }
 
-        if (totalErrors == 0) {
+        if (success) {
             jobLogger.info("All records processed successfully.");
             job.setStatus(BatchJobStatusType.COMPLETED_SUCCESSFULLY.getName());
         } else {

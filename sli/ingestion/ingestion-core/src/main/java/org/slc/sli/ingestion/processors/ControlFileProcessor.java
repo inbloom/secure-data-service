@@ -107,6 +107,7 @@ public class ControlFileProcessor implements Processor {
                 resourceEntry.setResourceName(newJob.getSourceId() + file.getFileName());
                 resourceEntry.setResourceId(file.getFileName());
                 newJob.getResourceEntries().add(resourceEntry);
+                resourceEntry.setExternallyUploadedResourceId(file.getFileName());
             }
 
             long endTime = System.currentTimeMillis();
