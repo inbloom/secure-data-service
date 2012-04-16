@@ -86,10 +86,11 @@ public final class BatchJob implements Serializable, ErrorReportSupport {
      */
     @PutResultInContext(returnName = "ingestionBatchJobId")
     protected static String createId(String filename) {
-        if (filename == null)
+        if (filename == null) {
             return System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
-        else
+        } else {
             return filename + "-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+        }
     }
 
     /**
@@ -126,6 +127,13 @@ public final class BatchJob implements Serializable, ErrorReportSupport {
      */
     public List<IngestionFileEntry> getFiles() {
         return files;
+    }
+
+    /**
+     * set the files
+     */
+    public void setFiles(List<IngestionFileEntry> files) {
+        this.files = files;
     }
 
     /**
