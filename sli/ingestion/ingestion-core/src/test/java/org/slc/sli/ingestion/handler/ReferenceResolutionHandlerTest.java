@@ -61,7 +61,7 @@ public class ReferenceResolutionHandlerTest {
                 FileType.XML_STUDENT_ASSESSMENT, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
         IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, new FileProcessStatus());
-        Assert.assertNull(outputFileEntry);
+        Assert.assertNotNull(outputFileEntry);
     }
 
     /**
@@ -76,7 +76,7 @@ public class ReferenceResolutionHandlerTest {
                 FileType.XML_STUDENT_ASSESSMENT, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
         IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, new FileProcessStatus());
-        Assert.assertNull(outputFileEntry);
+        Assert.assertNotNull(outputFileEntry);
     }
 
 }

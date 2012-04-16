@@ -47,7 +47,6 @@ public class XmlFileProcessorTest {
 
         xmlFileProcessor.process(preObject);
         Assert.assertEquals(job, preObject.getIn().getBody(BatchJob.class));
-        Assert.assertEquals(true, preObject.getIn().getHeader("hasErrors"));
         Assert.assertEquals(MessageType.XML_FILE_PROCESSED.name(), preObject.getIn().getHeader("IngestionMessageType"));
     }
 
