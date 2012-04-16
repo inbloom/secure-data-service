@@ -1,11 +1,15 @@
 package org.slc.sli.ingestion.transformation;
 
+import org.apache.commons.lang3.tuple.Pair;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -74,8 +78,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
             String studentId = (String) attributes.get("studentId");
+            String schoolId = (String) attributes.get("schoolId");
             
-            LOG.info("For student with id: {}", studentId);
+            LOG.info("For student with id: {} in school: {}", studentId, schoolId);
             
             Map<Object, NeutralRecord> studentAttendance = new HashMap<Object, NeutralRecord>();
             
@@ -86,7 +91,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                     studentAttendance.put(attendanceEntry.getKey(), attendanceEntry.getValue());
                 }
             }
-            LOG.info(" - Found {} attendance events.", studentAttendance.size());
+            LOG.info("  Found {} attendance events:", studentAttendance.size());
+            // LOG.info(" {} ", studentAttendance);
             
             Map<Object, NeutralRecord> sessions = new HashMap<Object, NeutralRecord>();
             
@@ -99,7 +105,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                     for (Map.Entry<Object, NeutralRecord> section : collections.get("section").entrySet()) {
                         NeutralRecord sectionRecord = section.getValue();
                         Map<String, Object> sectionAttributes = sectionRecord.getAttributes();
-                        if (sectionAttributes.get("uniqueSectionCode").equals(sectionId)) {
+                        String currentSchoolId = (String) sectionAttributes.get("schoolId");
+                        
+                        if (sectionAttributes.get("uniqueSectionCode").equals(sectionId) && currentSchoolId.equals(schoolId)) {
                             String sessionId = (String) sectionAttributes.get("sessionId");
                             
                             for (Map.Entry<Object, NeutralRecord> session : collections.get("session").entrySet()) {
@@ -115,7 +123,41 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                     }
                 }
             }
-            LOG.info(" - Found {} sessions associated with student.", sessions.size());
+            LOG.info("  Found {} sessions associated with student:", sessions.size());
+            
+            Map<String, Object> schoolYears = new HashMap<String, Object>();
+            for (Map.Entry<Object, NeutralRecord> session : sessions.entrySet()) {
+                NeutralRecord sessionRecord = session.getValue();
+                Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
+                String schoolYear = (String) sessionAttributes.get("schoolYear");
+                DateTime sessionBegin = parseDateTime((String) sessionAttributes.get("beginDate"));
+                DateTime sessionEnd = parseDateTime((String) sessionAttributes.get("endDate"));
+                
+                List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
+                for (Map.Entry<Object, NeutralRecord> record : studentAttendance.entrySet()) {
+                    NeutralRecord eventRecord = record.getValue();
+                    Map<String, Object> eventAttributes = eventRecord.getAttributes();
+                    
+                    String eventDate = (String) eventAttributes.get("eventDate");
+                    DateTime date = parseDateTime(eventDate);
+                    if (isLeftDateBeforeRightDate(sessionBegin, date) && isLeftDateBeforeRightDate(date, sessionEnd)) {
+                        // TODO: need to add educational environment to sli.xsd and transform it here
+                        Map<String, Object> event = new HashMap<String, Object>();
+                        String eventCategory = (String) eventAttributes.get("attendanceEventCategory");
+                        event.put("date", eventDate);
+                        event.put("event", eventCategory);
+                        if (eventAttributes.containsKey("attendanceEventReason")) {
+                            String eventReason = (String) eventAttributes.get("attendanceEventReason");
+                            event.put("reason", eventReason);
+                        }                        
+                        events.add(event);
+                    }
+                }
+                // remove each attendance event in 'events' from studentAttendance
+                LOG.info("  {} attendance events for session in school year: {}", events.size(), schoolYear);
+            }
+            
+            // if student attendance still has attendance events --> orphaned events
             
 //            if (attributes.containsKey("dailyAttendance")) {
 //                Map<String, Object> daily = (Map<String, Object>) attributes.get("dailyAttendance");
@@ -176,4 +218,41 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         }
         return collection;
     }    
+    
+    /**
+     * Parses a date presently stored in the format yyyy-MM-dd and returns the corresponding DateTime object.
+     * @param dateToBeParsed String to be parsed into a DateTime object.
+     * 
+     * @return DateTime object.
+     */
+    private DateTime parseDateTime(String dateToBeParsed) {
+        String[] pieces = dateToBeParsed.split("-");
+        int year = Integer.valueOf(pieces[0]);
+        int month = Integer.valueOf(pieces[1]);
+        int day = Integer.valueOf(pieces[2]);
+        DateTime date = new DateTime().withDate(year, month, day);
+        return date;
+    }
+    
+    /**
+     * Determines if the 1st date is before or equal to the 2nd date (comparing only year, month, day).
+     * @param date1 1st date object.
+     * @param date2 2nd date object.
+     * @return true if date1 is before or equal to date2, false if date1 is after date2.
+     */
+    private boolean isLeftDateBeforeRightDate(DateTime date1, DateTime date2) {
+        boolean less = false;
+        if (date1.getYear() < date2.getYear()) {
+            less = true;
+        } else if (date1.getYear() == date2.getYear()) {
+            if (date1.getMonthOfYear() < date2.getMonthOfYear()) {
+                less = true;
+            } else if (date1.getMonthOfYear() == date2.getMonthOfYear()) {
+                if (date1.getDayOfMonth() <= date2.getDayOfMonth()) {
+                    less = true;
+                }
+            }
+        }
+        return less;
+    }
 }
