@@ -1,46 +1,42 @@
 package org.slc.sli.api.security.context.traversal.graph;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
  * Node representation
  */
 public class SecurityNode {
-    public static final String CONNECTION_ENTITY = "entity";
-    public static final String CONNECTION_FIELD_NAME = "fieldName";
-    public static final String CONNECTION_ASSOCIATION = "associationEntity";
-    private Set<Map<String, String>> connections;
+    Set<SecurityNodeConnection> connections;
     private String name;
 
 
     public SecurityNode(String name) {
         this.name = name;
-        connections = new HashSet<Map<String, String>>();
+        this.connections = new HashSet<SecurityNodeConnection>();
     }
 
-    public Set<Map<String, String>> getConnections() {
-        return connections;
+    public Set<SecurityNodeConnection> getConnections() {
+        return this.connections;
     }
 
     public boolean isConnectedTo(String entityName) {
-        for (Map<String, String> connection : connections) {
-            if (connection.get(CONNECTION_ENTITY).equals(entityName))
+        for (SecurityNodeConnection connection : connections) {
+            if (connection.getConnectionTo().equals(entityName))
                 return true;
         }
         return false;
     }
 
-    public Map<String, String> getConnectionForEntity(String entityName) {
-        for (Map<String, String> connection : connections) {
-            if (connection.get(CONNECTION_ENTITY).equals(entityName))
+    public SecurityNodeConnection getConnectionForEntity(String entityName) {
+        for (SecurityNodeConnection connection : connections) {
+            if (connection.getConnectionTo().equals(entityName))
                 return connection;
         }
         return null;
     }
 
-    public void addConnection(Map<String, String> connection) {
+    public void addConnection(SecurityNodeConnection connection) {
         connections.add(connection);
     }
 
@@ -48,7 +44,7 @@ public class SecurityNode {
         return name;
     }
 
-    public void setConnections(Set<Map<String, String>> connections) {
+    public void setConnections(Set<SecurityNodeConnection> connections) {
         this.connections = connections;
     }
 
