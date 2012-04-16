@@ -18,6 +18,7 @@ public class BatchJobAssembler {
 
     @Autowired
     private ControlFileValidator validator;
+    private static final String PURGE = "purge";
 
     /**
      * Attempt to generate a new BatchJob based on data found in the
@@ -57,14 +58,6 @@ public class BatchJobAssembler {
     public BatchJob populateJob(ControlFileDescriptor fileDesc, BatchJob job) {
         ControlFile controlFile = fileDesc.getFileItem();
 
-        if (validator.isValid(fileDesc, job.getFaultsReport())) {
-            for (IngestionFileEntry entry : controlFile.getFileEntries()) {
-                if (entry.getFile() != null) {
-                    job.addFile(entry);
-                }
-            }
-        }
-
         // iterate over the configProperties and copy into the job
         // TODO validate config properties are legit
         Enumeration<Object> e = controlFile.configProperties.keys();
@@ -72,6 +65,17 @@ public class BatchJobAssembler {
             String key = (String) e.nextElement();
             job.setProperty(key, controlFile.configProperties.getProperty(key));
         }
+
+        if (job.getProperty(PURGE) == null) {
+            if (validator.isValid(fileDesc, job.getFaultsReport())) {
+                for (IngestionFileEntry entry : controlFile.getFileEntries()) {
+                    if (entry.getFile() != null) {
+                        job.addFile(entry);
+                    }
+                }
+            }
+        }
+
 
         return job;
     }

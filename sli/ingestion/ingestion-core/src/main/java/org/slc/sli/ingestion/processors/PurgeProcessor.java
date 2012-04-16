@@ -27,7 +27,7 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 @Component
 public class PurgeProcessor implements Processor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PurgeProcessor.class);
+    private Logger logger = LoggerFactory.getLogger(PurgeProcessor.class);
 
     private static final String METADATA_BLOCK = "metaData";
 
@@ -52,9 +52,9 @@ public class PurgeProcessor implements Processor {
         String tenantId = job.getProperty(TENANT_ID);
 
         if (tenantId == null) {
-
-            LOG.info("TenantId missing. No purge operation performed.");
-
+            exchange.getIn().setHeader("ErrorMessage", "TenantId missing");
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            logger.error("Error:", "TenantId missing. No purge operation performed.");
         } else {
             Query searchTenantId = new Query();
             searchTenantId.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
@@ -70,12 +70,12 @@ public class PurgeProcessor implements Processor {
                     }
                     mongoTemplate.remove(searchTenantId, collectionName);
                 }
-                LOG.info("Purge process complete.");
+                logger.info("Purge process complete.");
 
             } catch (Exception exception) {
                 exchange.getIn().setHeader("ErrorMessage", exception.toString());
                 exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-                LOG.error("Exception:", exception);
+                logger.error("Exception:", exception);
             }
         }
     }
