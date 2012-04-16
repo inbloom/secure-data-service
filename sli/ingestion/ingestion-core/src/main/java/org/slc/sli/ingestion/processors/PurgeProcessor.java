@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
@@ -90,6 +91,8 @@ public class PurgeProcessor implements Processor {
                 exchange.getIn().setHeader("ErrorMessage", exception.toString());
                 exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
                 LOG.error("Exception:", exception);
+                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PURGE_PROCESSING,
+                            FaultType.TYPE_ERROR.getName(), null, exception.toString());
             }
         }
 
