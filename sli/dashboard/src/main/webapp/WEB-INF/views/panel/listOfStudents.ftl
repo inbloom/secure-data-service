@@ -5,21 +5,33 @@
     <table id="${id}"></table>
   </div>
   <script type="text/javascript">
-  var gridId = 'listOfStudents';
-
-  var tableId = '${id}';
-  var panelConfig = config[gridId];
-  var options={};
-  jQuery.extend(options, panelConfig, {items:panelConfig.items[0].items});
-  DashboardUtil.getData(
-    gridId, 
-    'sectionId=e107127f-e91f-4424-bb5a-309515e5e656', 
-    function(panelData){
-      DashboardUtil.makeGrid(tableId, options, panelData, {
-      onSelectRow: function(rowid, status) { 
-        window.open(DashboardUtil.getPageUrl('student', 'id=' + rowid), "_blank")}})});
-
-   
-
+  function printStudentList()
+  {
+      var edorgSelect = document.getElementById("edOrgSelect");
+      var schoolSelect = document.getElementById("schoolSelect");
+      var courseSelect = document.getElementById("courseSelect");
+      var selectionSelect = document.getElementById("sectionSelect");
+      var edorgIndex = edorgSelect.options[edorgSelect.selectedIndex].value;
+      var schoolIndex = schoolSelect.options[schoolSelect.selectedIndex].value;
+      var courseIndex = courseSelect.options[courseSelect.selectedIndex].value;
+      var selectionIndex = selectionSelect.options[selectionSelect.selectedIndex].value;
+      var gridId = 'listOfStudents';
+      var tableId = '${id}';
+      var panelConfig = config[gridId];
+      var viewSelect=document.getElementById("viewSelect");
+      var viewIndex=viewSelect.options[viewSelect.selectedIndex].value;
+      var sections = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections
+      var options={};
+      jQuery.extend(options, panelConfig, {items:panelConfig.items[viewIndex].items});
+      DashboardUtil.getData(
+        gridId, 
+        'sectionId='+sections[selectionIndex].id, 
+        function(panelData){
+          DashboardUtil.makeGrid(tableId, options, panelData, {})});
+    }
+    function clearStudentList()
+    {
+        $('#${id}').jqGrid("GridUnload");
+    }
     </script>
 

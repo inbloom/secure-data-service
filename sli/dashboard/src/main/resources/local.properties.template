@@ -1,0 +1,15 @@
+# Rename this file to local.properties and use to run dashboard with local api. local.properties is in git.ignore and will not
+# be submitted - feel free to modify as needed
+
+api.client=apiClient
+api.server.url=http://local.slidev.org:8080/
+security.server.url=http://local.slidev.org:8080/
+log.path=${user.home}/logs
+log.level=debug
+oauth.client.id=K2e7Dwhq5J
+oauth.client.secret=evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+oauth.redirect=http://local.slidev.org:8888/dashboard/callback
+ 
+#specify "driver" and "custom" directory name for a user domain based configuration
+panel.config.driver.dir=config
+panel.config.custom.dir=custom

@@ -12,8 +12,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.googlecode.ehcache.annotations.Cacheable;
-
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -115,7 +113,6 @@ public class PopulationManagerImpl implements PopulationManager {
      * @see org.slc.sli.manager.PopulationManagerI#getListOfStudents(java.lang.String, java.lang.Object, org.slc.sli.entity.Config.Data)
      */
     @Override
-    @Cacheable(cacheName = "user.panel.data")
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
     
         // get student summary data
@@ -201,7 +198,7 @@ public class PopulationManagerImpl implements PopulationManager {
                     }
                 
                     int attendanceRate = Math.round(((float) (attendances.size() - absenceCount) / attendances.size()) * 100);
-                    int tardyRate = Math.round(((float) (tardyCount / attendances.size())) * 100);
+                    int tardyRate = Math.round(((float) tardyCount / attendances.size()) * 100);
                 
                     attendanceBody.remove(Constants.ATTR_STUDENT_ATTENDANCES);
                     attendanceBody.put("absenceCount", absenceCount);
@@ -217,7 +214,7 @@ public class PopulationManagerImpl implements PopulationManager {
     /**
      * Find the required assessment results according to the data configuration. Filter out the rest.
      */
-    private void applyAssessmentFilters(List<GenericEntity> studentSummaries, Config.Data config) {
+    public void applyAssessmentFilters(List<GenericEntity> studentSummaries, Config.Data config) {
         
         // Loop through student summaries
         for (GenericEntity summary : studentSummaries) {
@@ -274,29 +271,35 @@ public class PopulationManagerImpl implements PopulationManager {
         
         // call timed logic
         Map chosenAssessment = null;
+        // TODO: fix objective assessment code and use it
+        String objAssmtCode = "";
         
         if (TimedLogic2.TIMESLOT_MOSTRECENTRESULT.equals(timeSlot)) {
             chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
-        //} else if (TimedLogic2.TIMESLOT_HIGHESTEVER.equals(timeSlot) && !objAssmtCode.equals("")) {
-            //chosenAssessment = TimedLogic.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
+        } else if (TimedLogic2.TIMESLOT_HIGHESTEVER.equals(timeSlot) && !objAssmtCode.equals("")) {
+            chosenAssessment = TimedLogic2.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
         } else if (TimedLogic2.TIMESLOT_HIGHESTEVER.equals(timeSlot)) {
             chosenAssessment = TimedLogic2.getHighestEverAssessment(studentAssessmentFiltered);
-//        } else if (TimedLogic2.TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
-//            /*
-//            List<GenericEntity> assessmentMetaData = new ArrayList<GenericEntity>();
-//            Set<String> assessmentIds = new HashSet<String>();
-//            for (GenericEntity studentAssessment : studentAssessmentFiltered) {
-//                String assessmentId = studentAssessment.getString(Constants.ATTR_ASSESSMENT_ID);
-//                if (!assessmentIds.contains(assessmentId)) {
-//                    GenericEntity assessment = metaDataResolver.getAssmtById(assessmentId);
-//                    assessmentMetaData.add(assessment);
-//                    assessmentIds.add(assessmentId);
-//                }
-//            }
-//            
-//            chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
-//            */
-//            
+        } else if (TimedLogic2.TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
+            
+            List<Map> assessmentMetaData = new ArrayList<Map>();
+            
+            // TODO: get the assessment meta data
+            /*
+            Set<String> assessmentIds = new HashSet<String>();
+            for (Map studentAssessment : studentAssessmentFiltered) {
+                String assessmentId = (String) studentAssessment.get(Constants.ATTR_ASSESSMENT_ID);
+                if (!assessmentIds.contains(assessmentId)) {
+                    GenericEntity assessment = metaDataResolver.getAssmtById(assessmentId);
+                    assessmentMetaData.add(assessment);
+                    assessmentIds.add(assessmentId);
+                }
+            }
+            */
+            
+            chosenAssessment = TimedLogic2.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
+            
+            
         } else {
             // Decide whether to throw runtime exception here. Should timed logic default @@@
             chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);

@@ -21,7 +21,7 @@ public class NeutralQueryTest {
     public void testDefaultConstructor() {
         NeutralQuery neutralQuery = new NeutralQuery();
         assertEquals(neutralQuery.getCriteria().size(), 0);
-        assertEquals(neutralQuery.getLimit(), 0);
+        assertEquals(neutralQuery.getLimit(), 50);
         assertEquals(neutralQuery.getOffset(), 0);
         assertEquals(neutralQuery.getIncludeFields(), null);
         assertEquals(neutralQuery.getExcludeFields(), null);
@@ -177,7 +177,7 @@ public class NeutralQueryTest {
     public void testSingleCriteriaConstructor() {
         NeutralQuery neutralQuery = new NeutralQuery(new NeutralCriteria("x=1"));
         assertEquals(neutralQuery.getCriteria().size(), 1);
-        assertEquals(neutralQuery.getLimit(), 0);
+        assertEquals(neutralQuery.getLimit(), 50);
         assertEquals(neutralQuery.getOffset(), 0);
         assertEquals(neutralQuery.getIncludeFields(), null);
         assertEquals(neutralQuery.getExcludeFields(), null);

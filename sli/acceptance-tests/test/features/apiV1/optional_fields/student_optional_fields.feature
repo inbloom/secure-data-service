@@ -9,12 +9,13 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     Given optional field "attendances"
     And optional field "assessments"
     And optional field "gradebook"
+    And parameter "limit" is "0"
     When I navigate to GET "/v1/sections/<SECTION ID>/studentSectionAssociations/students"
     Then I should receive a return code of 200
 
     # Attendaces
     And I should find "1" "attendances"
-    And I should find "160" "attendances" in it
+    And I should find "74" "attendances" in it
     When I look at the first one
     Then I should see "eventDate" is "2012-01-26" in it
     And I should see "attendanceEventType" is "Daily Attendance" in it

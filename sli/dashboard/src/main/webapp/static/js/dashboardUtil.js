@@ -69,7 +69,7 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
         	colNames.push(item1.name); 
             var colModelItem = {name:item1.field,index:item1.field,width:item1.width};
             if (item1.formatter) {
-          	    colModelItem.formatter = eval(item1.formatter);
+          	    colModelItem.formatter = (eval('typeof ' + item1.formatter) == 'function') ? eval(item1.formatter) : item1.formatter;
             }
             if (item1.sorter) {
             	colModelItem.sorttype = (eval('typeof ' + item1.sorter) == 'function') ? eval(item1.sorter)(item1.params) : item1.sorter;
@@ -106,7 +106,8 @@ DashboardUtil.makeGrid = function (tableId, panelConfig, panelData, options)
 	    	data: panelData,
 	        datatype: 'local', 
 	        height: 'auto',
-	        viewrecords: true};
+	        viewrecords: true,
+	        rowNum: 10000};
 	if (options) {
 		gridOptions = jQuery.extend(gridOptions, options);
 	}
@@ -117,31 +118,32 @@ DashboardUtil.Grid = {};
 DashboardUtil.Grid.Formatters = {
 		/* formatoptions : {1:{color:'green'}, 2:{color:'grey'},...} */
 		CutPoint : function(value, options, rowObject) {
-			if (!value) {
+			if (!value && value != 0) {
 				return '';
 			}
 			var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);
+			var style;
 			for (var cutPoint in cutPoints) {
-				color = cutPoints[cutPoint].color;
+				style = cutPoints[cutPoint].style;
 				if (value - cutPoint <= 0) {
 					break;
 			    }
 		    }
-			return "<span style='color:" + cutPoints[cutPoint].color + "'>" + value + "</span>";
+			return "<span class='" + cutPoints[cutPoint].style + "'>" + value + "</span>";
 		},
 		CutPointReverse : function(value, options, rowObject) {
-			if (!value) {
+			if (!value && value != 0) {
 				return '';
 			}
 			var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);
-			var color = "#cccccc";
+			var style;
 			for (var cutPoint in cutPoints) {
-				if (value - cutPoint <= 0) {
+				if (value - cutPoint < 0) {
 					break;
 			    }
-				color = cutPoints[cutPoint].color;
+				style = cutPoints[cutPoint].style;
 		    }
-			return "<span style='color:" + color + "'>" + value + "</span>";
+			return "<span class='" + style + "'>" + value + "</span>";
 		},
 		PercentBar: function (value, options, rowObject) {
 		    if (value == null || value === "") {
@@ -171,7 +173,11 @@ DashboardUtil.Grid.Formatters = {
 		    }
 
 		    return "<span style='display: inline-block;height: 6px;-moz-border-radius: 3px;-webkit-border-radius: 3px;background:" + color + ";width:" + value * .9 + "%'></span>";
-		  }
+		},
+		  
+		Lozenge: function(value, options, rowObject) {	
+			return DashboardUtil.renderLozenges(rowObject);
+		}
 };
 
 DashboardUtil.Grid.Sorters = {
@@ -236,9 +242,10 @@ DashboardUtil.getStyleDeclaration = function (element)
     return compStyle;
 };
 
-DashboardUtil.getLozenges = function(renderTo, student) {
+DashboardUtil.renderLozenges = function(student) {
 	var config = DashboardUtil.getWidgetConfig("lozenge");
 	var item, condition, configItem;
+	var lozenges = '';
 	for (var i in config.items) {
 		configItem = config.items[i];
 		condition = configItem.condition;
@@ -246,61 +253,13 @@ DashboardUtil.getLozenges = function(renderTo, student) {
 		if (item) {
 			for (var y in condition.value) {
 				if (condition.value[y] == item) {
-					var id = renderTo + "-" + counter();
-					$("#" + renderTo).append('<span id="' + id + '" class="lozenge"/>');
-					$("#" + id).sliLozenge({label: configItem.name, color: configItem.color, style: configItem.style});
+					lozenges += '<span class="' + configItem.style + '">' + configItem.name + '</span>';
 				}
 			}
 		}
 	}
+	return lozenges;
 };
-
-(function( $ ) {
-	  $.widget( "ui.sliLozenge", {
-	    options: { 
-	    },
-	    // These options will be used as defaults if options is not provided
-	    baseOptions: { 
-	    	strokewidth: 1,
-	        white: "#FFFFFF",
-	        color: "#000000",
-	        label: "N/A",
-	        style: "solid",
-	        fontSize: "9px"
-	    },
-	 
-	    // Set up the widget
-	    _create: function() {
-	    	var options = {};
-	    	jQuery.extend(options, this.baseOptions, this.options);
-	    	// get width, height from the element
-	    	options.width = $(this.element[0]).width();
-	    	options.height = $(this.element[0]).height();
-	    	
-	    	// calculate and create rounded rectangle
-	        var paper = Raphael(this.element[0], options.width, options.height);
-
-	        // draw the rectangle
-	        var rect = paper.rect(1, 1, options.width-2, options.height-2, Math.floor(options.width / 4))
-	        rect.attr("fill", options.color);
-	        rect.attr("stroke", options.color);
-	        rect.attr("stroke-width", options.strokewidth);
-	        rect.attr("fill-opacity", options.style == "solid" ? 1 : 0);
-
-	        // draw the text
-	        var text = paper.text(Math.floor(options.width / 2), Math.floor(options.height / 2), options.label)
-	        text.attr("font-size", options.fontSize)
-	        text.attr("stroke-width", options.strokewidth)
-	        text.attr("stroke", options.style == "solid" ? options.white : options.color);
-	    },
-	 
-	    // Use the destroy method to clean up any modifications your widget has made to the DOM
-	    destroy: function() {
-	      $.Widget.prototype.destroy.call( this );
-	    }
-	  });
-	}( jQuery ) );
-
 
 DashboardUtil.getData = function(componentId, queryString, callback) {
 	$.ajax({

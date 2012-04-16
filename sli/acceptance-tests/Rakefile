@@ -38,7 +38,8 @@ $collectionSet = ["student",
                   "studentSectionGradebookEntry",
                   "parent",
                   "studentParentAssociation",
-                  "attendance"]
+                  "attendance",
+                  "program"]
 
 #######################################################################################################
 # Helper defs
@@ -193,7 +194,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionAcceptanceCanonicalDataTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
+task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest] do
   displayFailureReport()
@@ -209,9 +210,9 @@ task :ingestionDemoDataTest do
   runTests("test/features/ingestion/features/ingestion_demo.feature")
 end
 
-desc "Run Ingestion Acceptance Canonical Data Tests"
-task :ingestionAcceptanceCanonicalDataTest do
-  runTests("test/features/ingestion/features/ingestion_acceptance_canonical.feature")
+desc "Run Ingestion Acceptance SDS Tests"
+task :ingestionAcceptanceSdsTest do
+  runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
 end
 
 desc "Run Ingestion Session Test"
@@ -222,6 +223,16 @@ end
 desc "Run Ingestion Program Test"
 task :ingestionProgramTest do
   runTests("test/features/ingestion/features/ingestion_program.feature")
+end
+
+desc "Run Ingestion StudentProgramAssociation Test"
+task :ingestionStudentProgramAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_StudentProgramAssociation.feature")
+end
+
+desc "Run Ingestion StaffProgramAssociation Test"
+task :ingestionStaffProgramAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_StaffProgramAssociation.feature")
 end
 
 desc "Run Ingestion Negative Tests"
@@ -321,7 +332,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1TargetTests,
                      :v1EndUserStoryAssessmentTests,
                      :v1EndUserStoryCustomEntityTests,
-                     :v1StudentOptionalFieldsTests] do
+                     :v1StudentOptionalFieldsTests,
+                     :v1SingleStudentViewTests] do
   displayFailureReport()
 end
 
@@ -751,6 +763,12 @@ task :v1StudentOptionalFieldsTests => [:realmInit] do
   runTests("test/features/apiV1/optional_fields/student_optional_fields.feature")
 end
 
+desc "Run V1 Single Student View Tests"
+task :v1SingleStudentViewTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/optional_fields/single_student_view.feature")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################
@@ -931,6 +949,11 @@ task :dashboardSdsTests do
   runTests("test/features/dashboard/dash/dashboard_sds.feature")
 end
 
+desc "Run dashboard integrated Tests - Student Contact info"
+task :dashboardSdsContactInfoTests do
+  runTests("test/features/dashboard/dash/contact_info_sds.feature")
+end
+
 ############################################################
 # Dashboard tests end
 ############################################################
@@ -942,9 +965,10 @@ end
 desc "Run Integration Acceptance Tests"
 task :integrationTests => [:realmInitNoPeople] do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
-  Rake::Task["ingestionAcceptanceCanonicalDataTest"].execute
+  Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
   Rake::Task["dashboardSdsTests"].execute
+  Rake::Task["dashboardSdsContactInfoTests"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -991,7 +1015,7 @@ end
 
 desc "Export Storied Test Data"
 task :exportStoriedData do
-  Rake::Task["ingestionAcceptanceCanonicalDataTest"].execute
+  Rake::Task["ingestionAcceptanceSdsTest"].execute
   if $SUCCESS
     $collectionSet.each do |collection|
       sh "rm -f test/data/storied_data/sds_#{collection}.json"

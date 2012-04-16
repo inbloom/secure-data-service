@@ -10,4 +10,6 @@ public interface ModelVisitor {
     void dataType(DataType dataType);
     
     void enumType(EnumType enumType);
+    
+    void generalization(Generalization generalization);
 }

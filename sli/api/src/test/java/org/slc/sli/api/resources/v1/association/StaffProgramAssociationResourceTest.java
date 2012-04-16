@@ -29,6 +29,8 @@ import org.slc.sli.api.resources.util.ResourceConstants;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.entity.ProgramResource;
+import org.slc.sli.api.resources.v1.entity.StaffResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,10 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class StaffProgramAssociationResourceTest {
+    @Autowired
+    StaffResource staffResource;
+    @Autowired
+    ProgramResource programResource;
     @Autowired
     StaffProgramAssociationResource staffProgramAssociationResource; //class under test
 
@@ -201,6 +207,46 @@ public class StaffProgramAssociationResourceTest {
         assertNotNull("Should not be null", body2);
         assertEquals(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + " should be 5678", body2.get(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID), 5678);
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
+    }
+
+    @Test
+    public void testGetStaffProgramAssociationStaff() {
+        Response createResponse = staffResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("StaffResource")), httpHeaders, uriInfo);
+        String staffId = ResourceTestUtil.parseIdFromLocation(createResponse);
+        createResponse = programResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("ProgramResource")), httpHeaders, uriInfo);
+        String programId = ResourceTestUtil.parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StaffProgramAssociationResource", "StaffResource", staffId, "ProgramResource", programId);
+        createResponse = staffProgramAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
+
+        Response response = staffProgramAssociationResource.getStaffProgramAssociationStaff(id, 0, 100, httpHeaders, uriInfo);
+        EntityBody body = ResourceTestUtil.assertions(response);
+        assertEquals("Entity type should match", "staff", body.get("entityType"));
+        assertEquals("ID should match", staffId, body.get("id"));
+    }
+
+    @Test
+    public void testGetStaffProgramAssociationPrograms() {
+        Response createResponse = staffResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("StaffResource")), httpHeaders, uriInfo);
+        String staffId = ResourceTestUtil.parseIdFromLocation(createResponse);
+        createResponse = programResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity("ProgramResource")), httpHeaders, uriInfo);
+        String programId = ResourceTestUtil.parseIdFromLocation(createResponse);
+
+        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
+                "StaffProgramAssociationResource", "StaffResource", staffId, "ProgramResource", programId);
+        createResponse = staffProgramAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
+        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
+
+        Response response = staffProgramAssociationResource.getStaffProgramAssociationPrograms(id, 0, 100, httpHeaders, uriInfo);
+        EntityBody body = ResourceTestUtil.assertions(response);
+        assertEquals("Entity type should match", "program", body.get("entityType"));
+        assertEquals("ID should match", programId, body.get("id"));
     }
 
     private String getIDList(String resource) {
