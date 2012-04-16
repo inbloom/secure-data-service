@@ -13,6 +13,7 @@ import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
+import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.springframework.stereotype.Component;
 
 /**
@@ -75,10 +76,10 @@ public class BrutePathFinder implements SecurityPathFinder {
                 return explored;
             }
             boolean enqueued = false;
-            for (Map<String, String> connection : temp.getConnections()) {
-                if (!explored.contains(nodeMap.get(connection.get("entity")))) {
-                    debug("Enqueuing: {}", connection.get("entity"));
-                    exploring.push(nodeMap.get(connection.get("entity")));
+            for (SecurityNodeConnection connection : temp.getConnections()) {
+                if (!explored.contains(nodeMap.get(connection.getConnectionTo()))) {
+                    debug("Enqueuing: {}", connection.getConnectionTo());
+                    exploring.push(nodeMap.get(connection.getConnectionTo()));
                     enqueued = true;
                 }
             }
