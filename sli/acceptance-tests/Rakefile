@@ -38,7 +38,8 @@ $collectionSet = ["student",
                   "studentSectionGradebookEntry",
                   "parent",
                   "studentParentAssociation",
-                  "attendance"]
+                  "attendance",
+                  "program"]
 
 #######################################################################################################
 # Helper defs
@@ -131,7 +132,7 @@ end
 task :appInit do
   setFixture("application", "application_fixture.json")
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
-  setFixture("oauth_access_token", "oauth_authentication_tokens.json")
+  setFixture("userSession", "oauth_authentication_tokens.json")
 end
 
 # This task will be used for end-to-end integration tests but currently just run all
@@ -193,10 +194,10 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests,
-                         :ingestionAttendanceTests, :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests,
-                         :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionidNamespaceTest, :ingestionGradebookEntryTests,
-                         :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest, :ingestionIDReferenceResolutionTest] do
+task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
+                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest,
+                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
+                         :ingestionAPAssessmentTests, :ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -280,9 +281,19 @@ task :ingestionGradebookEntryTests do
   runTests("test/features/ingestion/features/ingestion_GradebookEntry.feature")
 end
 
+desc "Run Ingestion Batch Job Tests"
+task :ingestionBatchJobTest do
+  runTests("test/features/ingestion/features/ingestion_BatchJob.feature")
+end
+
 desc "Run Ingestion XSD Validation Test"
 task :ingestionXsdValidationTest do
   runTests("test/features/ingestion/features/xsd_validation.feature")
+end
+
+desc "Run Ingestion AP Assessment and StudentAssessment Tests"
+task :ingestionAPAssessmentTests do
+  runTests("test/features/ingestion/features/apAssessment.feature")
 end
 
 desc "Run Ingestion Ed-Fi ID Reference Resolution Test"
@@ -337,7 +348,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1TargetTests,
                      :v1EndUserStoryAssessmentTests,
                      :v1EndUserStoryCustomEntityTests,
-                     :v1StudentOptionalFieldsTests] do
+                     :v1StudentOptionalFieldsTests,
+                     :v1SingleStudentViewTests] do
   displayFailureReport()
 end
 
@@ -767,6 +779,12 @@ task :v1StudentOptionalFieldsTests => [:realmInit] do
   runTests("test/features/apiV1/optional_fields/student_optional_fields.feature")
 end
 
+desc "Run V1 Single Student View Tests"
+task :v1SingleStudentViewTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/optional_fields/single_student_view.feature")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################
@@ -827,7 +845,7 @@ task :idpAuthTests => [:realmInit] do
 end
 
 desc "Run Sandbox Mock IDP Authentication Selenium Tests"
-task :mockIDPAuthTests => [:realmInit] do
+task :mockIDPAuthTests => [:realmInit, :importSandboxData] do
   runTests("test/features/apiV1/end_user_stories/sandbox/mockIDP/MockIDP.feature")
   displayFailureReport()
   if $SUCCESS
@@ -945,6 +963,11 @@ end
 desc "Run dashboard integration tests"
 task :dashboardSdsTests do
   runTests("test/features/dashboard/dash/dashboard_sds.feature")
+end
+
+desc "Run dashboard integrated Tests - Student Contact info"
+task :dashboardSdsContactInfoTests do
+  runTests("test/features/dashboard/dash/contact_info_sds.feature")
 end
 
 ############################################################

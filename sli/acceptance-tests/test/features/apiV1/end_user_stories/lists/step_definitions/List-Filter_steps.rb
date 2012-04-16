@@ -214,7 +214,7 @@ end
 Then /^I should find a performanceLevelDescriptors is "([^"]*)"$/ do |performanceLevel|
   if @format == "application/json" or @format == "application/vnd.slc+json"
     dataH=JSON.parse(@res.body)
-    level = dataH["performanceLevelDescriptors"][0]['description']
+    level = dataH["performanceLevelDescriptors"][0][0]['description']
     assert(level==performanceLevel.to_s, "Expected performanceLevel is #{performanceLevel}, received #{level}")
   elsif @format == "application/xml"
     assert(false, "application/xml is not supported")

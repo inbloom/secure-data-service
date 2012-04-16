@@ -35,7 +35,7 @@ public class BatchJobLoggerTest {
         lz.setDirectory(new File(DUMMY_DIR));
         
         try {
-            Logger logger = BatchJobLogger.createLoggerForJob(job, lz);
+            Logger logger = BatchJobLogger.createLoggerForJob(job.getId(), lz);
             assertTrue("xxx", logger.getName().endsWith(job.getId()));
             
         } catch (IOException e) {

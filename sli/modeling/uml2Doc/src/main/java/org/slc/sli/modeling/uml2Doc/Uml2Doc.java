@@ -2,9 +2,10 @@ package org.slc.sli.modeling.uml2Doc;
 
 import java.io.FileNotFoundException;
 
-import org.slc.sli.modeling.uml.Model;
-import org.slc.sli.modeling.uml.Reference;
+import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Type;
+import org.slc.sli.modeling.uml.index.DefaultMapper;
+import org.slc.sli.modeling.uml.index.Mapper;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
 
 /**
@@ -14,13 +15,14 @@ public final class Uml2Doc {
     
     public static void main(final String[] args) {
         try {
-            final Model model = XmiReader.readModel("../data/SLI.xmi");
-            final Documentation<Reference> docSource = DocumentationReader.readDocumentation("../data/sli-pim-cfg.xml");
+            final Mapper model = new DefaultMapper(XmiReader.readModel("../data/SLI.xmi"));
+            final Documentation<Identifier> docSource = DocumentationReader
+                    .readDocumentation("../data/sli-pim-cfg.xml");
             final Documentation<Type> docExpanded = DocumentationExpander.expand(docSource, model);
             
             DocumentationWriter.writeDocument(docExpanded, model, "sli-pim-tmp.xml");
         } catch (final FileNotFoundException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
     

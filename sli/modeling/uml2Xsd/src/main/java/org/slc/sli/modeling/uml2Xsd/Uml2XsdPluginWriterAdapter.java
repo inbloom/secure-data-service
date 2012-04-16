@@ -5,8 +5,8 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.slc.sli.modeling.uml.Occurs;
+import org.slc.sli.modeling.xsd.WxsNamespace;
 import org.slc.sli.modeling.xsd.XsdAttributeName;
-import org.slc.sli.modeling.xsd.XsdNamespace;
 
 public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
     
@@ -62,7 +62,7 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
     @Override
     public void annotation() {
         try {
-            xsw.writeStartElement(prefix, "annotation", XsdNamespace.URI);
+            xsw.writeStartElement(prefix, "annotation", WxsNamespace.URI);
         } catch (final XMLStreamException e) {
             throw new RuntimeException(e);
         }
@@ -80,7 +80,7 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
     @Override
     public void choice() {
         try {
-            xsw.writeStartElement(prefix, "choice", XsdNamespace.URI);
+            xsw.writeStartElement(prefix, "choice", WxsNamespace.URI);
         } catch (final XMLStreamException e) {
             throw new RuntimeException(e);
         }
@@ -98,7 +98,7 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
     @Override
     public void documentation() {
         try {
-            xsw.writeStartElement(prefix, "documentation", XsdNamespace.URI);
+            xsw.writeStartElement(prefix, "documentation", WxsNamespace.URI);
         } catch (final XMLStreamException e) {
             throw new RuntimeException(e);
         }
@@ -107,7 +107,7 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
     @Override
     public void element() {
         try {
-            xsw.writeStartElement(prefix, "element", XsdNamespace.URI);
+            xsw.writeStartElement(prefix, "element", WxsNamespace.URI);
         } catch (final XMLStreamException e) {
             throw new RuntimeException(e);
         }
@@ -133,7 +133,11 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
     @Override
     public void type(final QName name) {
         try {
-            xsw.writeAttribute("type", name.getLocalPart());
+            if (name.getNamespaceURI().equals(WxsNamespace.URI)) {
+                xsw.writeAttribute("type", prefix.concat(":").concat(name.getLocalPart()));
+            } else {
+                xsw.writeAttribute("type", name.getLocalPart());
+            }
         } catch (final XMLStreamException e) {
             throw new RuntimeException(e);
         }

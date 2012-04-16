@@ -43,7 +43,7 @@ public class ReferenceResolutionHandlerTest {
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_ASSESSMENT, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
-        IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport);
+        IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, null);
         long outputFileLength = outputFileEntry.getFile().length();
         Assert.assertEquals(inputFile.getName(), "studentAssessment_Valid.xml");
         Assert.assertNotEquals(inputFileLength, outputFileLength);
@@ -61,7 +61,7 @@ public class ReferenceResolutionHandlerTest {
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_ASSESSMENT, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
-        IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport);
+        IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, null);
         long outputFileLength = outputFileEntry.getFile().length();
         Assert.assertEquals(inputFile.getName(), "studentAssessment_inValid.xml");
         Assert.assertNotEquals(inputFileLength, outputFileLength);
@@ -78,7 +78,7 @@ public class ReferenceResolutionHandlerTest {
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_ASSESSMENT, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
-        IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport);
+        IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, null);
         Assert.assertNull(outputFileEntry);
     }
 

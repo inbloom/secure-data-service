@@ -499,6 +499,15 @@
                             </xs:appinfo>
                         </xs:annotation>
                     </xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="objectiveAssessments" type="objectiveAssessment">
+						<xs:annotation>
+							<xs:documentation>
+								Subsets of the assessment that address
+								specific learning objectives.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -681,8 +690,8 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="complexObjectType">
-                <xs:sequence>
-                    <xs:element name="codeValue" type="codeValue" minOccurs="0">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="codeValue" type="codeValue">
                         <xs:annotation>
                             <xs:documentation>A code or abbreviation that is used to refer to
                                 a Performance Level,
@@ -699,15 +708,14 @@
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                    <xs:element name="performanceBaseConversion" type="performanceBaseType"
-                                minOccurs="0">
+                    <xs:element name="performanceBaseConversion" type="performanceBaseType">
                         <xs:annotation>
                             <xs:documentation>A conversion of the level to a standard set of
                                 performance levels.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:element>
-                </xs:sequence>
+                </xs:choice>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

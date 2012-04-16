@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.ReferenceConstructor;
 import org.slc.sli.ingestion.ReferenceResolver;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -57,7 +58,7 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
                 return null;
             }
             log.info(inputFile.getName() + ": Resolved references");
-            return outputFile;
+            return inputFile;
         } catch (SAXException se) {
             // Delete the output file and report the error.
             outputFile.delete();
@@ -91,8 +92,8 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
      */
     private void logError(String errorMessage, ErrorReport errorReport, Logger log) {
         // Log errors.
-        log.error(errorMessage);
-        errorReport.error(errorMessage, ReferenceResolutionHandler.class);
+        log.warn(errorMessage);
+        errorReport.warning(errorMessage, ReferenceResolutionHandler.class);
     }
 
     /**
@@ -108,7 +109,7 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
      *         Output XML file containing entities with resolved references.
      */
     @Override
-    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport) {
+    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
         // Create the expanded output file.
         Logger log = LoggerFactory.getLogger(ReferenceResolutionHandler.class);
         File inputFile = fileEntry.getFile();
@@ -124,5 +125,6 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
         }
 
     }
+
 
 }

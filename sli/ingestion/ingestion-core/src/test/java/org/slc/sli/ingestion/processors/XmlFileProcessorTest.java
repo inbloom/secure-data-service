@@ -15,7 +15,6 @@ import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.handler.ReferenceResolutionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -47,8 +46,6 @@ public class XmlFileProcessorTest {
 
         xmlFileProcessor.process(preObject);
         Assert.assertEquals(job, preObject.getIn().getBody(BatchJob.class));
-        Assert.assertEquals(true, preObject.getIn().getHeader("hasErrors"));
-        Assert.assertEquals(MessageType.XML_FILE_PROCESSED.name(), preObject.getIn().getHeader("IngestionMessageType"));
     }
 
 }

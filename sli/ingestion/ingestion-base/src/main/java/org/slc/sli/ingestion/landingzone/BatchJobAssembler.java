@@ -41,7 +41,7 @@ public class BatchJobAssembler {
      * @return BatchJob Assembled batch job
      */
     public BatchJob assembleJob(ControlFileDescriptor fileDesc, String filename) {
-        // TODO JobLogStatus.createBatchJob(filename)
+        // TODO DatabaseBatchJob job = DatabaseBatchJob.createBatchJob(filename);
         BatchJob job = BatchJob.createDefault(filename);
 
         return populateJob(fileDesc, job);
