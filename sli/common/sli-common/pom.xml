@@ -11,8 +11,9 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>common-util</artifactId>
-	<name>Common Utilities</name>
+	<artifactId>sli-common</artifactId>
+	<name>sli-common</name>
+        <description>Common code shared across multiple SLI sub-projects.</description>
 
 	<properties>
 		<aspectj.version>1.6.11</aspectj.version>
