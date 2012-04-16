@@ -107,6 +107,7 @@ public class EdFiProcessor implements Processor {
                 resource.setResourceFormat(FileFormat.NEUTRALRECORD.toString());
                 resource.setResourceType(fe.getFileType().getName());
                 resource.setRecordCount((int) fileProcessStatus.getTotalRecordCount());
+                resource.setExternallyUploadedResourceId(fe.getFileName());
 
                 newJob.getResourceEntries().add(resource);
                 batchJobDAO.saveBatchJob(newJob);
