@@ -27,7 +27,7 @@ import org.slc.sli.util.Constants;
 public class StudentProgressManager implements Manager {
     
     private static Logger log = LoggerFactory.getLogger(StudentProgressManager.class);
-    
+
     @Autowired
     private EntityManager entityManager;
     
@@ -49,7 +49,7 @@ public class StudentProgressManager implements Manager {
 
         List<GenericEntity> students = entityManager.getCourses(token, selectedSection, params);
 
-        if (students == null) return results;
+        if (students == null || students.isEmpty()) return results;
         for (GenericEntity student : students) {
             String studentId = student.getString(Constants.ATTR_ID);
             List<GenericEntity> transcriptData = new ArrayList<GenericEntity>();
@@ -69,15 +69,15 @@ public class StudentProgressManager implements Manager {
                 // skip this course if we can't find previous info
                 if (courseTranscript == null) continue;
 
-                Map<String, Object> section = getSection(studentSectionAssoc);
-                Map<String, Object> course = getCourse(section);
-                Map<String, Object> session = getSession(section);
+                Map<String, Object> section = getGenericEntity(studentSectionAssoc, Constants.ATTR_SECTIONS);
+                Map<String, Object> course = getGenericEntity(section, Constants.ATTR_COURSES);
+                Map<String, Object> session = getGenericEntity(section, Constants.ATTR_SESSIONS);
 
                 GenericEntity data = new GenericEntity();
                 data.put(Constants.ATTR_FINAL_LETTER_GRADE, courseTranscript.get(Constants.ATTR_FINAL_LETTER_GRADE).toString());
-                data.put(Constants.ATTR_COURSE_TITLE, getCourseTitle(course));
-                data.put(Constants.ATTR_SCHOOL_YEAR, getSchoolYear(session));
-                data.put(Constants.ATTR_TERM, getTerm(session));
+                data.put(Constants.ATTR_COURSE_TITLE, getValue(course, Constants.ATTR_COURSE_TITLE));
+                data.put(Constants.ATTR_SCHOOL_YEAR, getValue(session, Constants.ATTR_SCHOOL_YEAR));
+                data.put(Constants.ATTR_TERM, getValue(session, Constants.ATTR_TERM));
 
                 transcriptData.add(data);
             }
@@ -88,83 +88,41 @@ public class StudentProgressManager implements Manager {
         return results;
     }
 
-    /**
-     * Get the session for a given section
-     * @param section The section to pull from
-     * @return the session
-     */
     @SuppressWarnings("unchecked")
-    private Map<String, Object> getSession(Map<String, Object> section) {
-        if (section == null) return null;
-        return (Map<String, Object>) section.get(Constants.ATTR_SESSIONS);
+    private Map<String, Object> getGenericEntity(Map<String, Object> map, String field) {
+
+        if (map == null) return null;
+
+        return (Map<String, Object>) map.get(field);
+    }
+
+
+    private String getValue(Map<String, Object> map, String field) {
+        String ret = "";
+
+        if (map.containsKey(field))
+            ret = map.get(field).toString();
+
+        return ret;
     }
 
     /**
-     * Gets the course that a given section is tied to
-     * @param section The given section
-     * @return the course associated with the section
+     * Get the subject area for the selected  course
+     * @param token Security token
+     * @param selectedCourse The id for the selected course
+     * @return
      */
-    @SuppressWarnings("unchecked")
-    private Map<String, Object> getCourse(Map<String, Object> section) {
-        if (section == null) return null;
-        return (Map<String, Object>) section.get(Constants.ATTR_COURSES);
-    }
+    protected String getSubjectArea(final String token, String selectedCourse) {
+        String subjectArea = null;
+        Map<String, String> params = new HashMap<String, String>();
 
-    /**
-     * Get the section from a student section association
-     * @param studentSectionAssoc the student section association we are looking at
-     * @return the section properties for the given student section association
-     */
-    @SuppressWarnings("unchecked")
-    private Map<String, Object> getSection(Map<String, Object> studentSectionAssoc) {
-        if (studentSectionAssoc == null) return null;
-        return (Map<String, Object>) studentSectionAssoc.get(Constants.ATTR_SECTIONS);
-    }
+        GenericEntity entity = entityManager.getEntity(token, Constants.ATTR_COURSES, selectedCourse, params);
 
-    /**
-     * Return the current term based on a given session
-     * @param session The session to pull term from
-     * @return the term as a string
-     */
-    private String getTerm(Map<String, Object> session) {
-        String term = "";
-        try {
-            term = session.get(Constants.ATTR_TERM).toString();
-        } catch (NullPointerException npe) {
-            log.warn(npe.getMessage());
+        if (entity != null) {
+            subjectArea = entity.getString(Constants.ATTR_SUBJECTAREA);
         }
-        return term;
-    }
 
-    /**
-     * Get the school year for a given session
-     * @param session the session to pull school year from
-     * @return the school year as a string
-     */
-    private String getSchoolYear(Map<String, Object> session) {
-        String schoolYear = "";
-        try {
-            schoolYear = session.get(Constants.ATTR_SCHOOL_YEAR).toString();
-        } catch (NullPointerException npe) {
-            log.warn(npe.getMessage());
-        }
-        return schoolYear;
-    }
-
-    /**
-     * Get the course title for a given course
-     * @param course the course to pull the title from
-     * @return the course title as a string
-     */
-    private String getCourseTitle(Map<String, Object> course) {
-        String courseTitle = "";
-
-        try {
-            courseTitle = course.get(Constants.ATTR_COURSE_TITLE).toString();
-        } catch (NullPointerException npe) {
-            log.warn(npe.getMessage());
-        }
-        return courseTitle;
+        return subjectArea;
     }
 
 
@@ -178,8 +136,8 @@ public class StudentProgressManager implements Manager {
     private Map<String, Object> getCourseTranscriptForSection(Map<String, Object> studentSectionAssoc,
                                                               List<Map<String, Object>> studentTranscriptAssociations) {
         String courseId = "";
-        Map<String, Object> section = getSection(studentSectionAssoc);
-        Map<String, Object> course = getCourse(section);
+        Map<String, Object> section = getGenericEntity(studentSectionAssoc, Constants.ATTR_SECTIONS);
+        Map<String, Object> course = getGenericEntity(section, Constants.ATTR_COURSES);
         if (course != null) {
             courseId = course.get(Constants.ATTR_ID).toString();
         }
@@ -208,8 +166,8 @@ public class StudentProgressManager implements Manager {
         List<Map<String, Object>> filteredAssociations = new ArrayList<Map<String, Object>>();
 
         for (Map<String, Object> studentSectionAssociation : studentSectionAssociations) {
-            Map<String, Object> section = getSection(studentSectionAssociation);
-            Map<String, Object> course = getCourse(section);
+            Map<String, Object> section = getGenericEntity(studentSectionAssociation, Constants.ATTR_SECTIONS);
+            Map<String, Object> course = getGenericEntity(section, Constants.ATTR_COURSES);
             if (course != null) {
                 Object ssaSubjectArea = course.get(Constants.ATTR_SUBJECTAREA);
                 if (ssaSubjectArea != null && ssaSubjectArea.toString().equals(subjectArea)) {
@@ -219,25 +177,6 @@ public class StudentProgressManager implements Manager {
         }
 
         return filteredAssociations;
-    }
-
-    /**
-     * Get the subject area for the selected  course
-     * @param token Security token
-     * @param selectedCourse The id for the selected course
-     * @return
-     */
-    protected String getSubjectArea(final String token, String selectedCourse) {
-        String subjectArea = null;
-        Map<String, String> params = new HashMap<String, String>();
-        
-        GenericEntity entity = entityManager.getEntity(token, Constants.ATTR_COURSES, selectedCourse, params);
-        
-        if (entity != null) {
-            subjectArea = entity.getString(Constants.ATTR_SUBJECTAREA);
-        }
-        
-        return subjectArea;
     }
     
     /**
