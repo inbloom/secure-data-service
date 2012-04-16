@@ -4,7 +4,7 @@ Background: I have a landing zone route configured
 Given I am using local data store
     And I am using preconfigured Ingestion Landing Zone
  
- @wip
+ 
 Scenario: Post a minimal zip file as a payload of the ingestion job: Clean Database
 Given I post "BatchJob.zip" file as the payload of the ingestion job
     And the following collections are empty in batch job datastore:
@@ -60,7 +60,7 @@ Then I should see following map of entry counts in the corresponding batch job d
     And I should see "InterchangeEducationOrganization.xml records ingested successfully: 1" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
 
-@wip
+
 Scenario: Post a zip file containing a purge attribute as a payload of the ingestion job: Clean Database
 Given I post "BatchJobPurge.zip" file as the payload of the ingestion job
     And the following collections are empty in batch job datastore:
@@ -155,7 +155,7 @@ Then I should see following map of entry counts in the corresponding batch job d
     And I should see "InterchangeStudentGrade.xml records ingested successfully: 317" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file
 
-@wip
+
 Scenario: Post two zip files then see the batch jobs in the database: Clean Database
 Given I post "BatchJobLarge.zip" and "BatchJob.zip" files as the payload of two ingestion jobs
     And the following collections are empty in batch job datastore:
