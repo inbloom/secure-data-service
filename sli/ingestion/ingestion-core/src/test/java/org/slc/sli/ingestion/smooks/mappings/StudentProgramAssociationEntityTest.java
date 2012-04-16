@@ -56,14 +56,9 @@ public class StudentProgramAssociationEntityTest {
     private void checkValidNeutralRecord(NeutralRecord neutralRecord) {
         assertEquals("Expecting different record type", "studentProgramAssociation", neutralRecord.getRecordType());
 
-/*        assertEquals("Expected different local id", "", neutralRecord.getLocalId());
-        assertEquals("Expected # local parent ids", 0, neutralRecord.getLocalParentIds().size());
-
-        //TODO check parent ids
-*/
         Map<String, Object> attributes = neutralRecord.getAttributes();
 
-//        assertEquals("Expected different entity id", "", attributes.get("staffProgramAssociationId"));
+        assertEquals("Expected different number of attributes", 7, attributes.size());
 
         Map<String, Object> studentReference = (Map<String, Object>) attributes.get("StudentReference");
         assertNotNull("Expected non-null student reference", studentReference);
@@ -77,10 +72,10 @@ public class StudentProgramAssociationEntityTest {
         assertNotNull("Expected non-null program identity", programIdentity);
         assertEquals("Expected different program id", "ACC-TEST-PROG-1", programIdentity.get("ProgramId"));
 
-        Map<String, Object> educationOrganizationReference = 
+        Map<String, Object> educationOrganizationReference =
                 (Map<String, Object>) attributes.get("EducationOrganizationReference");
         assertNotNull("Expected non-null education organization reference", educationOrganizationReference);
-        Map<String, Object> educationalOrgIdentity = 
+        Map<String, Object> educationalOrgIdentity =
                 (Map<String, Object>) educationOrganizationReference.get("EducationalOrgIdentity");
         assertNotNull("Expected non-null educational org identity", educationalOrgIdentity);
         List<String> stateOrganizationIds = (List<String>) educationalOrgIdentity.get("StateOrganizationId");
@@ -99,21 +94,21 @@ public class StudentProgramAssociationEntityTest {
 
         Map<String, Object> service1 = services.get(0);
         assertNotNull("Expected non-null service", service1);
-        assertEquals("Expected different short description of service", 
-                "Short description for acceptance test studentProgramAssociation service 1", 
+        assertEquals("Expected different short description of service",
+                "Short description for acceptance test studentProgramAssociation service 1",
                 service1.get("ShortDescription"));
-        assertEquals("Expected different description of service", 
-                "This is a longer description of the services provided by acceptance test studentProgramAssociation service 1. More detail could be provided here.", 
+        assertEquals("Expected different description of service",
+                "This is a longer description of the services provided by acceptance test studentProgramAssociation service 1. More detail could be provided here.",
                 service1.get("Description"));
         assertEquals("Expected different service code value", "Test service 1", service1.get("CodeValue"));
 
         Map<String, Object> service2 = services.get(1);
         assertNotNull("Expected non-null service", service2);
-        assertEquals("Expected different short description of service", 
-                "Short description for acceptance test studentProgramAssociation service 2", 
+        assertEquals("Expected different short description of service",
+                "Short description for acceptance test studentProgramAssociation service 2",
                 service2.get("ShortDescription"));
-        assertEquals("Expected different description of service", 
-                "This is a longer description of the services provided by acceptance test studentProgramAssociation service 2. More detail could be provided here.", 
+        assertEquals("Expected different description of service",
+                "This is a longer description of the services provided by acceptance test studentProgramAssociation service 2. More detail could be provided here.",
                 service2.get("Description"));
         assertEquals("Expected different service code value", "Test service 2", service2.get("CodeValue"));
     }
