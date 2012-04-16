@@ -23,12 +23,12 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Writing                                      |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Math                                         |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Critical Reading                             |
-     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessment.identificationCode    | SAT-Math-Arithmetic          |
-     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessment.identificationCode    | SAT-Math-Algebra             |
-     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessment.identificationCode    | SAT-Math-Geometry            |
+     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Arithmetic         |
+     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Algebra            |
+     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Geometry           |
 
-  And I should see "Processed 18 records." in the resulting batch job file
+  And I should see "Processed 4 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "dibelsAssessmentMetadata.xml records considered: 13" in the resulting batch job file
-  And I should see "dibelsAssessmentMetadata.xml records ingested successfully: 13" in the resulting batch job file
+  And I should see "dibelsAssessmentMetadata.xml records considered: 4" in the resulting batch job file
+  And I should see "dibelsAssessmentMetadata.xml records ingested successfully: 4" in the resulting batch job file
   And I should see "dibelsAssessmentMetadata.xml records failed: 0" in the resulting batch job file
