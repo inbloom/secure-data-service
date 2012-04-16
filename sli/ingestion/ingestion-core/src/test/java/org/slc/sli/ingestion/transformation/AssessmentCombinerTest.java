@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,9 +26,11 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
+import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.util.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
@@ -50,6 +53,9 @@ public class AssessmentCombinerTest {
     @Autowired
     private AssessmentCombiner combiner;
     
+    @Autowired
+    private FileUtils fileUtils;
+    
     @Mock
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
     
@@ -65,7 +71,7 @@ public class AssessmentCombinerTest {
     
     @SuppressWarnings("deprecation")
     @Before
-    public void setup() {
+    public void setup() throws IOException {
         
         MockitoAnnotations.initMocks(this);
         
@@ -83,6 +89,13 @@ public class AssessmentCombinerTest {
         NeutralRecord assessmentF2 = buildTestAssessmentFamilyNeutralRecord("606L2", false);
         assessmentFamily2.add(assessmentF2);
         List<NeutralRecord> families = Arrays.asList(assessmentF1, assessmentF2);
+        File nrFile = fileUtils.createTempFile();
+        NeutralRecordFileWriter writer = new NeutralRecordFileWriter(nrFile);
+        writer.writeRecord(assessment);
+        writer.writeRecord(assessmentF1);
+        writer.writeRecord(assessmentF2);
+        writer.close();
+        fe.setNeutralRecordFile(nrFile);
         
         when(repository.findByQuery(Mockito.eq("assessment"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
                 .thenReturn(assessments);

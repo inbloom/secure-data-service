@@ -3,18 +3,21 @@ package org.slc.sli.ingestion.transformation;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.util.FileUtils;
@@ -38,7 +41,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     
     private Map<String, Map<Object, NeutralRecord>> collections;
     
-    private List<NeutralRecord> transformedAssessments = new ArrayList<NeutralRecord>();
+    private Map<Object, NeutralRecord> transformedAssessments = new HashMap<Object, NeutralRecord>();
     
     private final FileUtils fileUtils;
     
@@ -108,8 +111,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 
             }
             neutralRecord.setAttributes(attrs);
-            transformedAssessments.add(neutralRecord);
-            neutralRecord.setLocalId(attrs.get("assessmentTitle"));
+            transformedAssessments.put(neutralRecord.getLocalId(), neutralRecord);
         }
         
     }
@@ -217,23 +219,32 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     public void persist() {
         LOG.info("Persisting transformed data to storage.");
         try {
-            cleanMetaDataFiles();
-            IngestionFileEntry fileEntry = getMetaDataFiles().get(0);
-            NeutralRecordFileWriter writer = new NeutralRecordFileWriter(fileEntry.getNeutralRecordFile());
+            Map<IngestionFileEntry, List<Object>> fileEntries = getMetaDataFiles();
+            cleanMetaDataFiles(fileEntries.keySet());
             
             // transformedCollections should have been populated in the transform() step.
-            for (NeutralRecord neutralRecord : transformedAssessments) {
-                writer.writeRecord(neutralRecord);
+            for (Entry<IngestionFileEntry, List<Object>> entry : fileEntries.entrySet()) {
+                NeutralRecordFileWriter writer = new NeutralRecordFileWriter(entry.getKey().getNeutralRecordFile());
+                List<Object> neutralRecrodIds = entry.getValue();
+                try {
+                    for (Object id : neutralRecrodIds) {
+                        NeutralRecord record = transformedAssessments.get(id);
+                        if (record != null) {
+                            writer.writeRecord(record);
+                        }
+                    }
+                } finally {
+                    writer.close();
+                }
             }
-            writer.close();
             
         } catch (IOException e) {
             LOG.error("Exception occurred", e);
         }
     }
     
-    private void cleanMetaDataFiles() throws IOException {
-        for (IngestionFileEntry fe : getMetaDataFiles()) {
+    private void cleanMetaDataFiles(Collection<IngestionFileEntry> fileEntries) throws IOException {
+        for (IngestionFileEntry fe : fileEntries) {
             File neutralRecordFile = fe.getNeutralRecordFile();
             if (neutralRecordFile != null) {
                 neutralRecordFile.delete();
@@ -249,13 +260,22 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
      * that breaks this.
      * 
      * @return
+     * @throws IOException
      */
-    private List<IngestionFileEntry> getMetaDataFiles() {
+    private Map<IngestionFileEntry, List<Object>> getMetaDataFiles() throws IOException {
         List<IngestionFileEntry> allFiles = getJob().getFiles();
-        List<IngestionFileEntry> metaDataFiles = new ArrayList<IngestionFileEntry>();
+        Map<IngestionFileEntry, List<Object>> metaDataFiles = new HashMap<IngestionFileEntry, List<Object>>();
         for (IngestionFileEntry fe : allFiles) {
             if (fe.getFileType().equals(FileType.XML_ASSESSMENT_METADATA)) {
-                metaDataFiles.add(fe);
+                List<Object> idsInEntry = new ArrayList<Object>();
+                NeutralRecordFileReader reader = new NeutralRecordFileReader(fe.getNeutralRecordFile());
+                while (reader.hasNext()) {
+                    NeutralRecord rec = reader.next();
+                    if (rec.getRecordType().equals("assessment")) {
+                        idsInEntry.add(rec.getLocalId());
+                    }
+                }
+                metaDataFiles.put(fe, idsInEntry);
             }
         }
         return metaDataFiles;
@@ -285,8 +305,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         collections.put(collectionName, collection);
     }
     
-    protected List<NeutralRecord> getTransformedAssessments() {
-        return transformedAssessments;
+    protected Collection<NeutralRecord> getTransformedAssessments() {
+        return transformedAssessments.values();
     }
     
 }
