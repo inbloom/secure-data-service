@@ -36,16 +36,8 @@ public final class NewBatchJob {
 
     private List<ResourceEntry> resourceEntries;
 
-    /**
-     * generates a new unique ID
-     */
-    @PutResultInContext(returnName = "ingestionBatchJobId")
-    public static String createId(String filename) {
-        if (filename == null) {
-            return System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
-        } else {
-            return filename + "-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
-        }
+    // mongoTemplate requires this constructor.
+    public NewBatchJob() {
     }
 
     public NewBatchJob(String id) {
@@ -56,12 +48,7 @@ public final class NewBatchJob {
         this.resourceEntries = resourceEntries;
     }
 
-    //mongoTemplate requires this constructor.
-    public NewBatchJob() {
-    }
-
-    public NewBatchJob(String id, String sourceId, String status,
-            int totalFiles, Map<String, String> batchProperties,
+    public NewBatchJob(String id, String sourceId, String status, int totalFiles, Map<String, String> batchProperties,
             List<Stage> stages, List<ResourceEntry> resourceEntries) {
         super();
         this.id = id;
@@ -80,6 +67,18 @@ public final class NewBatchJob {
             resourceEntries = new LinkedList<ResourceEntry>();
         }
         this.resourceEntries = resourceEntries;
+    }
+
+    /**
+     * generates a new unique ID
+     */
+    @PutResultInContext(returnName = "ingestionBatchJobId")
+    public static String createId(String filename) {
+        if (filename == null) {
+            return System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+        } else {
+            return filename + "-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+        }
     }
 
     public String getSourceId() {
@@ -145,12 +144,16 @@ public final class NewBatchJob {
      * @param resourceId
      */
     public ResourceEntry getResourceEntry(String resourceId) {
-        for (ResourceEntry entry : this.getResourceEntries()) {
-            String entryResourceId = entry.getResourceId();
-            if (entryResourceId != null && entryResourceId.equals(resourceId)) {
-                return entry;
+        if (resourceId != null) {
+            for (ResourceEntry entry : this.getResourceEntries()) {
+                if (resourceId.equals(entry.getResourceId())) {
+                    return entry;
+                }
             }
+        } else {
+            throw new IllegalArgumentException("Cannot get resource for null resourceId");
         }
+
         return null;
     }
 
@@ -162,13 +165,12 @@ public final class NewBatchJob {
      */
     public List<Metrics> getStageMetrics(BatchJobStageType stageType) {
         for (Stage stage : this.getStages()) {
-            if (stage.getStageName().equals(stageType.getName())) {
+            if (stageType.getName().equals(stage.getStageName())) {
                 return stage.getMetrics();
             }
         }
 
         return null;
     }
-
 
 }

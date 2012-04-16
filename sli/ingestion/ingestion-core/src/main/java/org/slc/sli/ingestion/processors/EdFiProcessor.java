@@ -1,6 +1,9 @@
 package org.slc.sli.ingestion.processors;
 
+import java.io.File;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.camel.Exchange;
@@ -15,6 +18,7 @@ import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
@@ -38,6 +42,8 @@ import org.slc.sli.util.performance.Profiled;
  */
 @Component
 public class EdFiProcessor implements Processor {
+    private boolean switchToNewJob = true;
+    private boolean pluginOldPipeline = true;
 
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(EdFiProcessor.class);
@@ -59,6 +65,8 @@ public class EdFiProcessor implements Processor {
         }
 
         try {
+            BatchJob batchJob = exchange.getIn().getBody(BatchJob.class);
+
             // get the job from the db
             BatchJobDAO batchJobDAO = new BatchJobMongoDA();
             NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
@@ -70,10 +78,36 @@ public class EdFiProcessor implements Processor {
             stage.startStage();
             batchJobDAO.saveBatchJob(newJob);
 
+            List<IngestionFileEntry> felOrignal = batchJob.getFiles();
 
-            BatchJob batchJob = exchange.getIn().getBody(BatchJob.class);
+            // create file entry list from resources from DB
+            List<ResourceEntry> resourceList = newJob.getResourceEntries();
 
-            for (IngestionFileEntry fe : batchJob.getFiles()) {
+            List<IngestionFileEntry> fileEntryList = new ArrayList<IngestionFileEntry>();
+
+            for (ResourceEntry resource : resourceList) {
+                if (resource.getResourceFormat() != null && resource.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())) {
+                    IngestionFileEntry fe = new IngestionFileEntry(FileFormat.findByCode(resource.getResourceFormat()),
+                            FileType.findByNameAndFormat(resource.getResourceType(), FileFormat.findByCode(resource.getResourceFormat())),
+                            resource.getResourceId(), resource.getChecksum());
+                    fe.setFile(new File(resource.getResourceName()));
+
+                    //TODO: set to the current batchJobId
+                    if (pluginOldPipeline) {
+                        fe.setBatchJobId(batchJob.getId());
+                    } else {
+                        fe.setBatchJobId(batchJobId);
+                    }
+                    fileEntryList.add(fe);
+                }
+            }
+
+            // switch to new code
+            if (this.switchToNewJob) {
+                felOrignal = fileEntryList;
+            }
+
+            for (IngestionFileEntry fe : felOrignal) {
 
                 Metrics metrics = new Metrics(fe.getFileName(), localhost.getHostAddress(), localhost.getHostName());
                 metrics.startMetric();
@@ -104,7 +138,7 @@ public class EdFiProcessor implements Processor {
                 ResourceEntry resource = new ResourceEntry();
                 resource.setResourceId(fileProcessStatus.getOutputFileName());
                 resource.setResourceName(fileProcessStatus.getOutputFilePath());
-                resource.setResourceFormat(FileFormat.NEUTRALRECORD.toString());
+                resource.setResourceFormat(FileFormat.NEUTRALRECORD.getCode());
                 resource.setResourceType(fe.getFileType().getName());
                 resource.setRecordCount((int) fileProcessStatus.getTotalRecordCount());
                 resource.setExternallyUploadedResourceId(fe.getFileName());
@@ -115,6 +149,10 @@ public class EdFiProcessor implements Processor {
 
             stage.stopStage();
             batchJobDAO.saveBatchJob(newJob);
+
+            if (this.switchToNewJob) {
+                batchJob.setFiles(felOrignal);
+            }
 
             // set headers
             if (batchJob.getErrorReport().hasErrors()) {
