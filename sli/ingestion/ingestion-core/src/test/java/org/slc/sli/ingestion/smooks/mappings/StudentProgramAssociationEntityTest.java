@@ -56,6 +56,8 @@ public class StudentProgramAssociationEntityTest {
     private void checkValidNeutralRecord(NeutralRecord neutralRecord) {
         assertEquals("Expecting different record type", "studentProgramAssociation", neutralRecord.getRecordType());
 
+        assertEquals("Expected 0 local parent ids", 0, neutralRecord.getLocalParentIds().size());
+
         Map<String, Object> attributes = neutralRecord.getAttributes();
 
         assertEquals("Expected different number of attributes", 7, attributes.size());
