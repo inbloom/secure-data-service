@@ -34,7 +34,7 @@ public class StaffProgramAssociationEntityTest {
 
         String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
 
-        String targetSelector = "InterchangeStudentProgram/StaffProgramAssociation";
+        String targetSelector = "InterchangeStaffAssociation/StaffProgramAssociation";
 
         String edfiXml = null;
 
