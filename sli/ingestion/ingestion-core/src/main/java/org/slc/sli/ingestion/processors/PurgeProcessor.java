@@ -22,7 +22,7 @@ import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
 
 /**
- *Performs purging of data in mongodb based on the tenant id.
+ * Performs purging of data in mongodb based on the tenant id.
  *
  * @author npandey
  *
@@ -49,52 +49,73 @@ public class PurgeProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
+
+        String batchJobId = getBatchJobIdFromExchange(exchange);
+        if (batchJobId != null) {
+
+            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
+
+            NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+
+            Stage stage = startAndGetStage(newJob);
+
+            batchJobDAO.saveBatchJob(newJob);
+
+            String tenantId = newJob.getProperty(TENANT_ID);
+            if (tenantId == null) {
+                // TODO: should log and report errors to job?
+                LOG.info("TenantId missing. No purge operation performed.");
+
+            } else {
+                purgeForTenant(exchange, tenantId);
+            }
+
+            stage.stopStage();
+            batchJobDAO.saveBatchJob(newJob);
+        }
+    }
+
+    private void purgeForTenant(Exchange exchange, String tenantId) {
+        Query searchTenantId = new Query();
+        searchTenantId.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
+                tenantId));
+        try {
+            Set<String> collectionNames = mongoTemplate.getCollectionNames();
+            Iterator<String> iter = collectionNames.iterator();
+            String collectionName;
+            while (iter.hasNext()) {
+                collectionName = iter.next();
+                if (collectionName.equals("system.indexes") || collectionName.equals("system.js")) {
+                    continue;
+                }
+                mongoTemplate.remove(searchTenantId, collectionName);
+            }
+            LOG.info("Purge process complete.");
+
+        } catch (Exception exception) {
+            // TODO: should log and report errors to job?
+            exchange.getIn().setHeader("ErrorMessage", exception.toString());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            LOG.error("Exception:", exception);
+        }
+    }
+
+    private Stage startAndGetStage(NewBatchJob newJob) {
+        Stage stage = new Stage();
+        newJob.getStages().add(stage);
+        stage.setStageName(BatchJobStageType.PURGE_PROCESSING.getName());
+        stage.startStage();
+        return stage;
+    }
+
+    private String getBatchJobIdFromExchange(Exchange exchange) {
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         if (batchJobId == null) {
             exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
         }
-        BatchJobDAO batchJobDAO = new BatchJobMongoDA();
-        NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
-        Stage stage = new Stage();
-        newJob.getStages().add(stage);
-        stage.setStageName(BatchJobStageType.PURGE_PROCESSING.getName());
-        stage.startStage();
-        batchJobDAO.saveBatchJob(newJob);
-
-        String tenantId = newJob.getProperty(TENANT_ID);
-
-        if (tenantId == null) {
-
-            LOG.info("TenantId missing. No purge operation performed.");
-
-        } else {
-            Query searchTenantId = new Query();
-            searchTenantId.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
-                    tenantId));
-            try {
-                Set<String> collectionNames = mongoTemplate.getCollectionNames();
-                Iterator<String> iter = collectionNames.iterator();
-                String collectionName;
-                while (iter.hasNext()) {
-                    collectionName = iter.next();
-                    if (collectionName.equals("system.indexes") || collectionName.equals("system.js")) {
-                        continue;
-                    }
-                    mongoTemplate.remove(searchTenantId, collectionName);
-                }
-                LOG.info("Purge process complete.");
-
-            } catch (Exception exception) {
-                exchange.getIn().setHeader("ErrorMessage", exception.toString());
-                exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-                LOG.error("Exception:", exception);
-            }
-        }
-
-        stage.stopStage();
-        batchJobDAO.saveBatchJob(newJob);
+        return batchJobId;
     }
 
 }
