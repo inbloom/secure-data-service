@@ -1,1 +1,143 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">    <modelVersion>4.0.0</modelVersion>    <parent>        <groupId>org.slc.sli</groupId>        <artifactId>sli</artifactId>        <version>1.0-SNAPSHOT</version>    </parent>    <artifactId>acceptance.tests</artifactId>    <packaging>pom</packaging>    <name>acceptance.tests</name>    <dependencies>        <dependency>            <groupId>org.slc.sli</groupId>            <artifactId>api</artifactId>            <version>${project.version}</version>            <type>war</type>        </dependency>        <dependency>            <groupId>org.slc.sli</groupId>            <artifactId>dashboard</artifactId>            <version>${project.version}</version>            <type>war</type>        </dependency>        <dependency>            <groupId>org.slc.sli.ingestion</groupId>            <artifactId>ingestion-service</artifactId>            <version>${project.version}</version>            <type>war</type>        </dependency>    </dependencies>    <build>        <plugins>            <plugin>                <groupId>org.codehaus.cargo</groupId>                <artifactId>cargo-maven2-plugin</artifactId>                <version>1.2.1</version>                <executions>                    <execution>                        <id>start-container</id>                        <phase>pre-integration-test</phase>                        <goals>                            <goal>start</goal>                        </goals>                    </execution>                    <execution>                        <id>stop-container</id>                        <phase>post-integration-test</phase>                        <goals>                            <goal>stop</goal>                        </goals>                    </execution>                </executions>                <configuration>                    <container>                        <containerId>jetty6x</containerId>                        <type>embedded</type>                        <log>target/jetty6x.log</log>                        <output>target/jetty6x.log</output>                        <artifactInstaller>                          <groupId>org.eclipse.jetty</groupId>                          <artifactId>jetty-distribution</artifactId>                          <version>${maven.jetty.version}</version>                        </artifactInstaller>                    </container>                    <configuration>                        <properties>                            <cargo.logging>low</cargo.logging>                        </properties>                        <deployables>                            <deployable>                                <groupId>org.slc.sli</groupId>                                <artifactId>api</artifactId>                                <type>war</type>                                <properties>                                    <context>/api</context>                                </properties>                            </deployable>                            <deployable>                                <groupId>org.slc.sli</groupId>                                <artifactId>dashboard</artifactId>                                <type>war</type>                                <properties>                                    <context>/dashboard</context>                                </properties>                            </deployable>                            <deployable>                                <groupId>org.slc.sli.ingestion</groupId>                                <artifactId>ingestion-service</artifactId>                                <type>war</type>                                <properties>                                    <context>/ingestion</context>                                </properties>                            </deployable>                        </deployables>                    </configuration>                </configuration>            </plugin>            <plugin>                <groupId>org.codehaus.mojo</groupId>                <artifactId>exec-maven-plugin</artifactId>                <version>1.2.1</version>                <executions>                    <execution>                        <id>run tests</id>                        <phase>integration-test</phase>                        <goals>                            <goal>exec</goal>                        </goals>                    </execution>                </executions>                <configuration>                  <executable>bundle</executable>                      <arguments>                        <argument>exec</argument>                        <argument>rake</argument>                        <argument>ingestion_landing_zone=/Users/ingestion/lz/inbound</argument>                        <argument>ingestionTests</argument>                      </arguments>                </configuration>            </plugin>        </plugins>    </build></project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+      <groupId>org.slc.sli</groupId>
+      <artifactId>sli</artifactId>
+      <version>1.0-SNAPSHOT</version>
+   </parent>
+
+    <artifactId>acceptance.tests</artifactId>
+   <packaging>pom</packaging>
+    <name>acceptance.tests</name>
+
+   <dependencies>
+
+        <dependency>
+            <groupId>org.slc.sli</groupId>
+            <artifactId>api</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slc.sli</groupId>
+            <artifactId>dashboard</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slc.sli.ingestion</groupId>
+            <artifactId>ingestion-service</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+   </dependencies>
+
+   <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.2.1</version>
+
+                <executions>
+                    <execution>
+                        <id>start-container</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop-container</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <container>
+                        <containerId>jetty6x</containerId>
+                        <type>embedded</type>
+                        <log>target/jetty6x.log</log>
+                        <output>target/jetty6x.log</output>
+
+                        <artifactInstaller>
+                          <groupId>org.eclipse.jetty</groupId>
+                          <artifactId>jetty-distribution</artifactId>
+                          <version>${maven.jetty.version}</version>
+                        </artifactInstaller>
+                    </container>
+
+                    <configuration>
+                        <properties>
+                            <cargo.logging>low</cargo.logging>
+                        </properties>
+                        <deployables>
+                            <deployable>
+                                <groupId>org.slc.sli</groupId>
+                                <artifactId>api</artifactId>
+                                <type>war</type>
+                                <properties>
+                                    <context>/api</context>
+                                </properties>
+                            </deployable>
+
+                            <deployable>
+                                <groupId>org.slc.sli</groupId>
+                                <artifactId>dashboard</artifactId>
+                                <type>war</type>
+                                <properties>
+                                    <context>/dashboard</context>
+                                </properties>
+                            </deployable>
+
+                            <deployable>
+                                <groupId>org.slc.sli.ingestion</groupId>
+                                <artifactId>ingestion-service</artifactId>
+                                <type>war</type>
+                                <properties>
+                                    <context>/ingestion</context>
+                                </properties>
+                            </deployable>
+
+                        </deployables>
+                    </configuration>
+                </configuration>
+            </plugin>
+
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.2.1</version>
+
+            <executions>
+               <execution>
+                        <id>run tests</id>
+                        <phase>integration-test</phase>
+                  <goals>
+                     <goal>exec</goal>
+                  </goals>
+               </execution>
+            </executions>
+            <configuration>
+                  <executable>bundle</executable>
+               <arguments>
+                   <argument>exec</argument>
+                   <argument>rake</argument>
+                   <argument>ingestion_landing_zone=target/lz/inbound</argument>
+               </arguments>
+            </configuration>
+         </plugin>
+
+      </plugins>
+
+    </build>
+</project>
