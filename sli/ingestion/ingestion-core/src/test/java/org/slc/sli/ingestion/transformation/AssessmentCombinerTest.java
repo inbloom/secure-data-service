@@ -149,7 +149,7 @@ public class AssessmentCombinerTest {
         NeutralRecord superObjAssessmentRef = buildTestObjAssmt(superOA);
         superObjAssessmentRef.setAttributeField("subObjectiveRefs", Arrays.asList(subOA));
         NeutralRecord superObjAssessmentActual = buildTestObjAssmt(superOA);
-        superObjAssessmentActual.setAttributeField("subObjectives",
+        superObjAssessmentActual.setAttributeField("objectiveAssessments",
                 Arrays.asList(buildTestObjAssmt(subOA).getAttributes()));
         
         Mockito.when(

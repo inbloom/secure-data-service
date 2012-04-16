@@ -19,8 +19,6 @@ import javax.xml.stream.XMLStreamReader;
 
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
-import org.slc.sli.modeling.uml.Reference;
-import org.slc.sli.modeling.uml.ReferenceType;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
 
 public final class PsmConfigReader {
@@ -33,7 +31,7 @@ public final class PsmConfigReader {
         }
     }
     
-    public static final PsmConfig<Reference> readConfig(final String fileName) throws FileNotFoundException {
+    public static final PsmConfig<Identifier> readConfig(final String fileName) throws FileNotFoundException {
         final InputStream istream = new BufferedInputStream(new FileInputStream(fileName));
         try {
             return readConfig(istream);
@@ -49,12 +47,12 @@ public final class PsmConfigReader {
      *            The {@link InputStream}.
      * @return The parsed {@link Model}.
      */
-    public static final PsmConfig<Reference> readConfig(final InputStream stream) {
+    public static final PsmConfig<Identifier> readConfig(final InputStream stream) {
         final XMLInputFactory factory = XMLInputFactory.newInstance();
         try {
             final XMLStreamReader reader = factory.createXMLStreamReader(stream);
             try {
-                final PsmConfig<Reference> model = readDocument(reader);
+                final PsmConfig<Identifier> model = readDocument(reader);
                 return model;
             } finally {
                 reader.close();
@@ -68,9 +66,9 @@ public final class PsmConfigReader {
         return name.getLocalPart().equals(reader.getLocalName());
     }
     
-    private static final PsmConfig<Reference> readDocument(final XMLStreamReader reader) throws XMLStreamException {
+    private static final PsmConfig<Identifier> readDocument(final XMLStreamReader reader) throws XMLStreamException {
         assertStartDocument(reader);
-        PsmConfig<Reference> dm = null;
+        PsmConfig<Identifier> dm = null;
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
@@ -93,10 +91,10 @@ public final class PsmConfigReader {
         throw new AssertionError();
     }
     
-    private static final PsmConfig<Reference> readConfig(final XMLStreamReader reader) throws XMLStreamException {
+    private static final PsmConfig<Identifier> readConfig(final XMLStreamReader reader) throws XMLStreamException {
         assertStartElement(reader);
         assertName(PsmConfigElements.PSM_CFG, reader);
-        final List<PsmClassType<Reference>> domains = new LinkedList<PsmClassType<Reference>>();
+        final List<PsmClassType<Identifier>> domains = new LinkedList<PsmClassType<Identifier>>();
         boolean done = false;
         while (!done && reader.hasNext()) {
             reader.next();
@@ -125,11 +123,11 @@ public final class PsmConfigReader {
                 }
             }
         }
-        return new PsmConfig<Reference>(domains);
+        return new PsmConfig<Identifier>(domains);
     }
     
-    private static final Reference readReference(final QName name, final ReferenceType kind,
-            final XMLStreamReader reader) throws XMLStreamException {
+    private static final Identifier readReference(final QName name, final XMLStreamReader reader)
+            throws XMLStreamException {
         assertStartElement(reader);
         assertName(name, reader);
         final Identifier id = getIdRef(reader);
@@ -154,7 +152,7 @@ public final class PsmConfigReader {
                 }
             }
         }
-        return new Reference(id, kind);
+        return id;
     }
     
     private static final PsmCollection readCollection(final XMLStreamReader reader) throws XMLStreamException {
@@ -222,10 +220,10 @@ public final class PsmConfigReader {
         }
     }
     
-    private static final PsmClassType<Reference> readClassType(final XMLStreamReader reader) throws XMLStreamException {
+    private static final PsmClassType<Identifier> readClassType(final XMLStreamReader reader) throws XMLStreamException {
         assertStartElement(reader);
         assertName(PsmConfigElements.PSM_CLASS_TYPE, reader);
-        Reference type = null;
+        Identifier type = null;
         PsmResource resource = null;
         PsmCollection collection = null;
         boolean done = false;
@@ -234,8 +232,7 @@ public final class PsmConfigReader {
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(PsmConfigElements.PIM_CLASS_REF, reader)) {
-                        final Reference classRef = readReference(PsmConfigElements.PIM_CLASS_REF,
-                                ReferenceType.CLASS_TYPE, reader);
+                        final Identifier classRef = readReference(PsmConfigElements.PIM_CLASS_REF, reader);
                         type = assertNotNull(classRef);
                     } else if (match(PsmConfigElements.RESOURCE, reader)) {
                         resource = readResource(reader);
@@ -260,7 +257,7 @@ public final class PsmConfigReader {
                 }
             }
         }
-        return new PsmClassType<Reference>(type, resource, collection);
+        return new PsmClassType<Identifier>(type, resource, collection);
     }
     
     private static final <T> T assertNotNull(final T obj) {

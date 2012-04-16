@@ -132,7 +132,7 @@ end
 task :appInit do
   setFixture("application", "application_fixture.json")
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
-  setFixture("oauth_access_token", "oauth_authentication_tokens.json")
+  setFixture("userSession", "oauth_authentication_tokens.json")
 end
 
 # This task will be used for end-to-end integration tests but currently just run all
@@ -196,7 +196,8 @@ end
 desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest,
-                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest] do
+                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
+                         :ingestionAPAssessmentTests, :ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -280,9 +281,24 @@ task :ingestionGradebookEntryTests do
   runTests("test/features/ingestion/features/ingestion_GradebookEntry.feature")
 end
 
+desc "Run Ingestion Batch Job Tests"
+task :ingestionBatchJobTest do
+  runTests("test/features/ingestion/features/ingestion_BatchJob.feature")
+end
+
 desc "Run Ingestion XSD Validation Test"
 task :ingestionXsdValidationTest do
   runTests("test/features/ingestion/features/xsd_validation.feature")
+end
+
+desc "Run Ingestion AP Assessment and StudentAssessment Tests"
+task :ingestionAPAssessmentTests do
+  runTests("test/features/ingestion/features/apAssessment.feature")
+end
+
+desc "Run Ingestion Ed-Fi ID Reference Resolution Test"
+task :ingestionIDReferenceResolutionTest do
+  runTests("test/features/ingestion/features/ingestion_IDRef.feature")
 end
 
 # This task SHOULD NOT BE ADDED to the general ingestion test suite

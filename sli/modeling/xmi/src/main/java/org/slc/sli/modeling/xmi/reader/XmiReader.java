@@ -10,12 +10,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -26,21 +23,18 @@ import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.DataType;
-import org.slc.sli.modeling.uml.DefaultModelLookup;
 import org.slc.sli.modeling.uml.EnumLiteral;
 import org.slc.sli.modeling.uml.EnumType;
 import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
-import org.slc.sli.modeling.uml.LazyLookup;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.Multiplicity;
+import org.slc.sli.modeling.uml.NamespaceOwnedElement;
 import org.slc.sli.modeling.uml.Occurs;
-import org.slc.sli.modeling.uml.Package;
 import org.slc.sli.modeling.uml.Range;
-import org.slc.sli.modeling.uml.Reference;
-import org.slc.sli.modeling.uml.ReferenceType;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.TaggedValue;
+import org.slc.sli.modeling.uml.UmlPackage;
 import org.slc.sli.modeling.xmi.XmiAttributeName;
 import org.slc.sli.modeling.xmi.XmiElementName;
 
@@ -49,6 +43,7 @@ import org.slc.sli.modeling.xmi.XmiElementName;
  */
 public final class XmiReader {
     private static final List<TaggedValue> EMPTY_TAGGED_VALUE_LIST = Collections.emptyList();
+    private static final List<NamespaceOwnedElement> EMPTY_NAMESPACE_OWNED_ELEMENTS = Collections.emptyList();
     private static final String GLOBAL_NAMESPACE = "";
     /**
      * If an empty name is acceptable then use this symbolic constant.
@@ -139,22 +134,20 @@ public final class XmiReader {
         return name.getLocalName().equals(reader.getLocalName());
     }
     
-    private static final Association readAssociation(final XMLStreamReader reader, final LazyLookup lookup)
-            throws XMLStreamException {
+    private static final Association readAssociation(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.ASSOCIATION, reader);
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         final Identifier id = getId(reader);
-        final String localName = getName(reader, DEFAULT_EMPTY_NAME);
-        final QName name = new QName(localName);
+        final String name = getName(reader, DEFAULT_EMPTY_NAME);
         XmiAssociationConnection connection = null;
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader)) {
-                        taggedValues.addAll(readTaggedValueGroup(reader, lookup));
+                        taggedValues.addAll(readTaggedValueGroup(reader));
                     } else if (match(XmiElementName.ASSOCIATION_DOT_CONNECTION, reader)) {
-                        connection = assertNotNull(readAssociationConnection(reader, lookup));
+                        connection = assertNotNull(readAssociationConnection(reader));
                     } else {
                         skipElement(reader);
                     }
@@ -176,8 +169,7 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final XmiAssociationConnection readAssociationConnection(final XMLStreamReader reader,
-            final LazyLookup lookup) {
+    private static final XmiAssociationConnection readAssociationConnection(final XMLStreamReader reader) {
         try {
             assertName(XmiElementName.ASSOCIATION_DOT_CONNECTION, reader);
             final List<AssociationEnd> ends = new ArrayList<AssociationEnd>();
@@ -186,7 +178,7 @@ public final class XmiReader {
                 switch (reader.getEventType()) {
                     case XMLStreamConstants.START_ELEMENT: {
                         if (match(XmiElementName.ASSOCIATION_END, reader)) {
-                            ends.add(readAssociationEnd(reader, lookup));
+                            ends.add(readAssociationEnd(reader));
                         } else {
                             skipElement(reader);
                         }
@@ -211,15 +203,14 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final AssociationEnd readAssociationEnd(final XMLStreamReader reader, final LazyLookup lookup) {
+    private static final AssociationEnd readAssociationEnd(final XMLStreamReader reader) {
         try {
             assertName(XmiElementName.ASSOCIATION_END, reader);
             final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
             final Identifier id = getId(reader);
-            final String localName = getName(reader, DEFAULT_EMPTY_NAME);
-            final QName name = new QName(localName);
+            final String name = getName(reader, DEFAULT_EMPTY_NAME);
             final boolean isNavigable = getBoolean(XmiAttributeName.IS_NAVIGABLE, true, reader);
-            Reference participant = null;
+            Identifier participant = null;
             final Range range = new Range(Identifier.random(), Occurs.ONE, Occurs.ONE, EMPTY_TAGGED_VALUE_LIST);
             Multiplicity multiplicity = new Multiplicity(Identifier.random(), EMPTY_TAGGED_VALUE_LIST, range);
             while (reader.hasNext()) {
@@ -227,9 +218,9 @@ public final class XmiReader {
                 switch (reader.getEventType()) {
                     case XMLStreamConstants.START_ELEMENT: {
                         if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader)) {
-                            taggedValues.addAll(readTaggedValueGroup(reader, lookup));
+                            taggedValues.addAll(readTaggedValueGroup(reader));
                         } else if (match(XmiElementName.ASSOCIATION_END_DOT_MULTIPLICITY, reader)) {
-                            multiplicity = assertNotNull(readAssociationEndMultiplicity(reader, lookup));
+                            multiplicity = assertNotNull(readAssociationEndMultiplicity(reader));
                         } else if (match(XmiElementName.ASSOCIATION_END_DOT_PARTICIPANT, reader)) {
                             participant = readAssociationEndParticipant(reader);
                         } else {
@@ -239,8 +230,7 @@ public final class XmiReader {
                     }
                     case XMLStreamConstants.END_ELEMENT: {
                         assertName(XmiElementName.ASSOCIATION_END, reader);
-                        return new AssociationEnd(multiplicity, name, isNavigable, id, taggedValues, participant,
-                                lookup);
+                        return new AssociationEnd(multiplicity, name, isNavigable, id, taggedValues, participant);
                     }
                     case XMLStreamConstants.CHARACTERS: {
                         // Ignore.
@@ -257,8 +247,8 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final Multiplicity readAssociationEndMultiplicity(final XMLStreamReader reader,
-            final LazyLookup lookup) throws XMLStreamException {
+    private static final Multiplicity readAssociationEndMultiplicity(final XMLStreamReader reader)
+            throws XMLStreamException {
         assertName(XmiElementName.ASSOCIATION_END_DOT_MULTIPLICITY, reader);
         Multiplicity multiplicity = null;
         while (reader.hasNext()) {
@@ -266,7 +256,7 @@ public final class XmiReader {
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.MULTIPLICITY, reader)) {
-                        multiplicity = assertNotNull(readMultiplicity(reader, lookup));
+                        multiplicity = assertNotNull(readMultiplicity(reader));
                     } else {
                         skipElement(reader);
                     }
@@ -288,16 +278,16 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final Reference readAssociationEndParticipant(final XMLStreamReader reader)
+    private static final Identifier readAssociationEndParticipant(final XMLStreamReader reader)
             throws XMLStreamException {
         assertName(XmiElementName.ASSOCIATION_END_DOT_PARTICIPANT, reader);
-        Reference reference = null;
+        Identifier reference = null;
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.CLASS, reader)) {
-                        reference = readReference(reader);
+                        reference = readIdentifier(reader);
                     } else {
                         skipElement(reader);
                     }
@@ -319,13 +309,11 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final Attribute readAttribute(final XMLStreamReader reader, final LazyLookup lookup)
-            throws XMLStreamException {
+    private static final Attribute readAttribute(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.ATTRIBUTE, reader);
         final Identifier id = getId(reader);
-        final String localName = getName(reader, null);
-        final QName name = new QName(localName);
-        Reference type = null;
+        final String name = getName(reader, null);
+        Identifier type = null;
         Multiplicity multiplicity = null;
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         while (reader.hasNext()) {
@@ -333,16 +321,16 @@ public final class XmiReader {
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.STRUCTURAL_FEATURE_DOT_MULTIPLICITY, reader)) {
-                        multiplicity = assertNotNull(readStructuralFeatureDotMultiplicity(reader, lookup));
+                        multiplicity = assertNotNull(readStructuralFeatureDotMultiplicity(reader));
                     } else if (match(XmiElementName.STRUCTURAL_FEATURE_DOT_TYPE, reader)) {
                         try {
-                            type = assertNotNull(readReferenceWrapper(XmiElementName.STRUCTURAL_FEATURE_DOT_TYPE,
+                            type = assertNotNull(readIdentifierWrapper(XmiElementName.STRUCTURAL_FEATURE_DOT_TYPE,
                                     reader));
                         } catch (final RuntimeException e) {
                             throw new XmiBadAttributeException(name.toString(), e);
                         }
                     } else if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader)) {
-                        taggedValues.addAll(readTaggedValueGroup(reader, lookup));
+                        taggedValues.addAll(readTaggedValueGroup(reader));
                     } else {
                         throw new AssertionError(reader.getLocalName());
                     }
@@ -350,7 +338,7 @@ public final class XmiReader {
                 }
                 case XMLStreamConstants.END_ELEMENT: {
                     assertName(XmiElementName.ATTRIBUTE, reader);
-                    return new Attribute(id, name, type, multiplicity, taggedValues, lookup);
+                    return new Attribute(id, name, type, multiplicity, taggedValues);
                 }
                 case XMLStreamConstants.CHARACTERS: {
                     // Ignore.
@@ -364,7 +352,7 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final List<Attribute> readClassifierDotFeature(final XMLStreamReader reader, final LazyLookup lookup)
+    private static final List<Attribute> readClassifierDotFeature(final XMLStreamReader reader)
             throws XMLStreamException {
         assertName(XmiElementName.CLASSIFIER_DOT_FEATURE, reader);
         final List<Attribute> attributes = new LinkedList<Attribute>();
@@ -373,7 +361,7 @@ public final class XmiReader {
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.ATTRIBUTE, reader)) {
-                        attributes.add(assertNotNull(readAttribute(reader, lookup)));
+                        attributes.add(assertNotNull(readAttribute(reader)));
                     } else if (match(XmiElementName.OPERATION, reader)) {
                         skipElement(reader);
                     } else {
@@ -397,25 +385,23 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final ClassType readClassType(final XMLStreamReader reader, final LazyLookup lookup)
-            throws XMLStreamException {
+    private static final ClassType readClassType(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.CLASS, reader);
         boolean isAbstract = false;
         final List<Attribute> attributes = new LinkedList<Attribute>();
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         final Identifier id = getId(reader);
-        final String localName = getName(reader, null);
-        final QName name = new QName(localName);
+        final String name = getName(reader, null);
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader)) {
-                        taggedValues.addAll(readTaggedValueGroup(reader, lookup));
+                        taggedValues.addAll(readTaggedValueGroup(reader));
                         break;
                     } else if (match(XmiElementName.CLASSIFIER_DOT_FEATURE, reader)) {
                         try {
-                            attributes.addAll(readClassifierDotFeature(reader, lookup));
+                            attributes.addAll(readClassifierDotFeature(reader));
                         } catch (final RuntimeException e) {
                             throw new XmiBadModelElementException(name.toString(), e);
                         }
@@ -438,7 +424,7 @@ public final class XmiReader {
                 }
                 case XMLStreamConstants.END_ELEMENT: {
                     assertName(XmiElementName.CLASS, reader);
-                    return new ClassType(id, name, isAbstract, attributes, taggedValues, lookup);
+                    return new ClassType(id, name, isAbstract, attributes, taggedValues);
                 }
                 case XMLStreamConstants.CHARACTERS: {
                     // Ignore.
@@ -452,7 +438,7 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final Model readContent(final XMLStreamReader reader, final LazyLookup lookup) {
+    private static final Model readContent(final XMLStreamReader reader) {
         try {
             if ("XMI.content".equals(reader.getLocalName())) {
                 Model model = null;
@@ -461,7 +447,7 @@ public final class XmiReader {
                     switch (reader.getEventType()) {
                         case XMLStreamConstants.START_ELEMENT: {
                             if ("Model".equals(reader.getLocalName())) {
-                                model = readModel(reader, lookup);
+                                model = readModel(reader);
                                 if (model == null) {
                                     throw new IllegalStateException();
                                 }
@@ -498,23 +484,21 @@ public final class XmiReader {
         }
     }
     
-    private static final DataType readDataType(final String namespace, final XMLStreamReader reader,
-            final LazyLookup lookup) throws XMLStreamException {
+    private static final DataType readDataType(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.DATA_TYPE, reader);
         boolean isAbstract = false;
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         final Identifier id = getId(reader);
-        final String localName = getName(reader, null);
-        final QName name = new QName(namespace, localName);
+        final String name = getName(reader, null);
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader)) {
                         try {
-                            taggedValues.addAll(readTaggedValueGroup(reader, lookup));
+                            taggedValues.addAll(readTaggedValueGroup(reader));
                         } catch (final RuntimeException e) {
-                            throw new XmiBadModelElementException(localName, e);
+                            throw new XmiBadModelElementException(name, e);
                         }
                     } else if (match(XmiElementName.CLASSIFIER_DOT_FEATURE, reader)) {
                         skipElement(reader);
@@ -525,7 +509,7 @@ public final class XmiReader {
                 }
                 case XMLStreamConstants.END_ELEMENT: {
                     assertName(XmiElementName.DATA_TYPE, reader);
-                    return new DataType(id, name, isAbstract, taggedValues, lookup);
+                    return new DataType(id, name, isAbstract, taggedValues);
                 }
                 case XMLStreamConstants.CHARACTERS: {
                     // Ignore.
@@ -539,7 +523,7 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final Model readDocument(final XMLStreamReader reader, final LazyLookup lookup) {
+    private static final Model readDocument(final XMLStreamReader reader) {
         try {
             if (XMLStreamConstants.START_DOCUMENT == reader.getEventType()) {
                 Model model = null;
@@ -548,7 +532,7 @@ public final class XmiReader {
                     switch (reader.getEventType()) {
                         case XMLStreamConstants.START_ELEMENT: {
                             if ("XMI".equals(reader.getLocalName())) {
-                                model = readXMI(reader, lookup);
+                                model = readXMI(reader);
                                 if (model == null) {
                                     throw new IllegalStateException();
                                 }
@@ -577,22 +561,20 @@ public final class XmiReader {
         }
     }
     
-    private static final EnumType readEnumeration(final XMLStreamReader reader, final LazyLookup lookup)
-            throws XMLStreamException {
+    private static final EnumType readEnumeration(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.ENUMERATION, reader);
         final List<EnumLiteral> literals = new LinkedList<EnumLiteral>();
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         final Identifier id = Identifier.fromString(reader.getAttributeValue("", "xmi.id"));
-        final String localName = getName(reader, null);
-        final QName name = new QName(localName);
+        final String name = getName(reader, null);
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader)) {
-                        taggedValues.addAll(readTaggedValueGroup(reader, lookup));
+                        taggedValues.addAll(readTaggedValueGroup(reader));
                     } else if (match(XmiElementName.ENUMERATION_LITERAL_GROUP, reader)) {
-                        literals.addAll(readEnumerationLiteralGroup(reader, lookup));
+                        literals.addAll(readEnumerationLiteralGroup(reader));
                     } else {
                         skipElement(reader);
                     }
@@ -600,7 +582,7 @@ public final class XmiReader {
                 }
                 case XMLStreamConstants.END_ELEMENT: {
                     assertName(XmiElementName.ENUMERATION, reader);
-                    return new EnumType(id, name, literals, taggedValues, lookup);
+                    return new EnumType(id, name, literals, taggedValues);
                 }
                 case XMLStreamConstants.CHARACTERS: {
                     // Ignore.
@@ -614,19 +596,17 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final EnumLiteral readEnumerationLiteral(final XMLStreamReader reader, final LazyLookup lookup)
-            throws XMLStreamException {
+    private static final EnumLiteral readEnumerationLiteral(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.ENUMERATION_LITERAL, reader);
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         final Identifier id = getId(reader);
-        final String localName = getName(reader, null);
-        final QName name = new QName(localName);
+        final String name = getName(reader, null);
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader)) {
-                        taggedValues.addAll(readTaggedValueGroup(reader, lookup));
+                        taggedValues.addAll(readTaggedValueGroup(reader));
                         break;
                     } else {
                         throw new AssertionError(reader.getLocalName());
@@ -648,8 +628,8 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final List<EnumLiteral> readEnumerationLiteralGroup(final XMLStreamReader reader,
-            final LazyLookup lookup) throws XMLStreamException {
+    private static final List<EnumLiteral> readEnumerationLiteralGroup(final XMLStreamReader reader)
+            throws XMLStreamException {
         assertName(XmiElementName.ENUMERATION_LITERAL_GROUP, reader);
         final List<EnumLiteral> literals = new LinkedList<EnumLiteral>();
         while (reader.hasNext()) {
@@ -657,7 +637,7 @@ public final class XmiReader {
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.ENUMERATION_LITERAL, reader)) {
-                        literals.add(assertNotNull(readEnumerationLiteral(reader, lookup)));
+                        literals.add(assertNotNull(readEnumerationLiteral(reader)));
                     } else {
                         skipElement(reader);
                     }
@@ -691,10 +671,7 @@ public final class XmiReader {
         try {
             final XMLStreamReader reader = factory.createXMLStreamReader(stream);
             try {
-                final DefaultModelLookup lookup = new DefaultModelLookup();
-                final Model model = readDocument(reader, lookup);
-                lookup.setModel(model);
-                return model;
+                return readDocument(reader);
             } finally {
                 reader.close();
             }
@@ -712,58 +689,42 @@ public final class XmiReader {
         }
     }
     
-    private static final Model readModel(final XMLStreamReader reader, final LazyLookup lookup) {
-        try {
-            if ("Model".equals(reader.getLocalName())) {
-                Model model = null;
-                while (reader.hasNext()) {
-                    reader.next();
-                    switch (reader.getEventType()) {
-                        case XMLStreamConstants.START_ELEMENT: {
-                            if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader)) {
-                                @SuppressWarnings("unused")
-                                final List<TaggedValue> taggedValues = readTaggedValueGroup(reader, lookup);
-                                break;
-                            } else if ("Namespace.ownedElement".equals(reader.getLocalName())) {
-                                model = readNamespaceOwnedElement(GLOBAL_NAMESPACE, reader, lookup);
-                                if (model == null) {
-                                    throw new IllegalStateException();
-                                }
-                                break;
-                            } else {
-                                throw new RuntimeException("Expecting Foo element, got: " + reader.getLocalName());
-                            }
-                        }
-                        case XMLStreamConstants.END_ELEMENT: {
-                            if ("Model".equals(reader.getLocalName())) {
-                                if (model == null) {
-                                    throw new IllegalStateException();
-                                }
-                                return model;
-                            } else {
-                                throw new AssertionError(reader.getLocalName());
-                            }
-                        }
-                        case XMLStreamConstants.CHARACTERS: {
-                            // Ignore.
-                            break;
-                        }
-                        default: {
-                            throw new AssertionError(reader.getEventType());
-                        }
+    private static final Model readModel(final XMLStreamReader reader) throws XMLStreamException {
+        assertName(XmiElementName.MODEL, reader);
+        final Identifier id = getId(reader);
+        final String name = getName(reader, null);
+        List<TaggedValue> taggedValues = EMPTY_TAGGED_VALUE_LIST;
+        List<NamespaceOwnedElement> ownedElements = EMPTY_NAMESPACE_OWNED_ELEMENTS;
+        while (reader.hasNext()) {
+            reader.next();
+            switch (reader.getEventType()) {
+                case XMLStreamConstants.START_ELEMENT: {
+                    if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader)) {
+                        taggedValues = readTaggedValueGroup(reader);
+                    } else if (match(XmiElementName.NAMESPACE_DOT_OWNED_ELEMENT, reader)) {
+                        ownedElements = readNamespaceOwnedElement(reader);
+                    } else {
+                        throw new AssertionError(reader.getLocalName());
                     }
+                    break;
                 }
-            } else {
-                throw new AssertionError(reader.getLocalName());
+                case XMLStreamConstants.END_ELEMENT: {
+                    assertName(XmiElementName.MODEL, reader);
+                    return new Model(id, name, taggedValues, ownedElements);
+                }
+                case XMLStreamConstants.CHARACTERS: {
+                    // Ignore.
+                    break;
+                }
+                default: {
+                    throw new AssertionError(reader.getEventType());
+                }
             }
-        } catch (final XMLStreamException e) {
-            e.printStackTrace();
         }
         throw new AssertionError();
     }
     
-    private static final Multiplicity readMultiplicity(final XMLStreamReader reader, final LazyLookup lookup)
-            throws XMLStreamException {
+    private static final Multiplicity readMultiplicity(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.MULTIPLICITY, reader);
         final Identifier id = getId(reader);
         
@@ -773,7 +734,7 @@ public final class XmiReader {
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.MULTIPLICITY_DOT_RANGE, reader)) {
-                        range = readMultiplicityDotRange(reader, lookup);
+                        range = readMultiplicityDotRange(reader);
                     } else {
                         throw new AssertionError(reader.getLocalName());
                         // skipElement(reader);
@@ -796,8 +757,7 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final Range readMultiplicityDotRange(final XMLStreamReader reader, final LazyLookup lookup)
-            throws XMLStreamException {
+    private static final Range readMultiplicityDotRange(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.MULTIPLICITY_DOT_RANGE, reader);
         Range range = null;
         while (reader.hasNext()) {
@@ -805,7 +765,7 @@ public final class XmiReader {
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.MULTIPLICITY_RANGE, reader)) {
-                        range = assertNotNull(readMultiplicityRange(reader, lookup));
+                        range = assertNotNull(readMultiplicityRange(reader));
                     } else {
                         throw new AssertionError(reader.getLocalName());
                         // skipElement(reader);
@@ -828,8 +788,7 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final Range readMultiplicityRange(final XMLStreamReader reader, final LazyLookup lookup)
-            throws XMLStreamException {
+    private static final Range readMultiplicityRange(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.MULTIPLICITY_RANGE, reader);
         final Identifier id = getId(reader);
         final Occurs lowerBound = getOccurs(reader, XmiAttributeName.LOWER);
@@ -857,27 +816,25 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final Generalization readGeneralization(final XMLStreamReader reader, final LazyLookup lookup)
-            throws XMLStreamException {
+    private static final Generalization readGeneralization(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.GENERALIZATION, reader);
         final Identifier id = getId(reader);
-        final String localName = getName(reader, DEFAULT_EMPTY_NAME);
-        final QName name = new QName(localName);
+        final String name = getName(reader, DEFAULT_EMPTY_NAME);
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
-        Reference child = null;
-        Reference parent = null;
+        Identifier child = null;
+        Identifier parent = null;
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader)) {
-                        taggedValues.addAll(readTaggedValueGroup(reader, lookup));
+                        taggedValues.addAll(readTaggedValueGroup(reader));
                         break;
                     } else if (match(XmiElementName.GENERALIZATION_DOT_CHILD, reader)) {
-                        child = assertNotNull(readReferenceWrapper(XmiElementName.GENERALIZATION_DOT_CHILD, reader));
+                        child = assertNotNull(readIdentifierWrapper(XmiElementName.GENERALIZATION_DOT_CHILD, reader));
                         break;
                     } else if (match(XmiElementName.GENERALIZATION_DOT_PARENT, reader)) {
-                        parent = assertNotNull(readReferenceWrapper(XmiElementName.GENERALIZATION_DOT_PARENT, reader));
+                        parent = assertNotNull(readIdentifierWrapper(XmiElementName.GENERALIZATION_DOT_PARENT, reader));
                         break;
                     } else {
                         throw new AssertionError(reader.getLocalName());
@@ -887,7 +844,7 @@ public final class XmiReader {
                 }
                 case XMLStreamConstants.END_ELEMENT: {
                     assertName(XmiElementName.GENERALIZATION, reader);
-                    return new Generalization(name, id, taggedValues, child, parent, lookup);
+                    return new Generalization(name, id, taggedValues, child, parent);
                 }
                 case XMLStreamConstants.CHARACTERS: {
                     // Ignore.
@@ -901,94 +858,58 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final Model readNamespaceOwnedElement(final String namespace, final XMLStreamReader reader,
-            final LazyLookup lookup) {
-        try {
-            if ("Namespace.ownedElement".equals(reader.getLocalName())) {
-                final Map<Identifier, ClassType> classTypes = new HashMap<Identifier, ClassType>();
-                final Map<Identifier, DataType> dataTypes = new HashMap<Identifier, DataType>();
-                final Map<Identifier, EnumType> enumTypes = new HashMap<Identifier, EnumType>();
-                final Map<Identifier, Association> associations = new HashMap<Identifier, Association>();
-                final Map<Identifier, Generalization> generalizations = new HashMap<Identifier, Generalization>();
-                final Map<Identifier, TagDefinition> tagDefinitions = new HashMap<Identifier, TagDefinition>();
-                while (reader.hasNext()) {
-                    reader.next();
-                    switch (reader.getEventType()) {
-                        case XMLStreamConstants.START_ELEMENT: {
-                            if (match(XmiElementName.CLASS, reader)) {
-                                final ClassType classType = readClassType(reader, lookup);
-                                classTypes.put(classType.getId(), classType);
-                            } else if (match(XmiElementName.DATA_TYPE, reader)) {
-                                final DataType dataType = readDataType(namespace, reader, lookup);
-                                dataTypes.put(dataType.getId(), dataType);
-                            } else if (match(XmiElementName.ENUMERATION, reader)) {
-                                final EnumType enumType = readEnumeration(reader, lookup);
-                                enumTypes.put(enumType.getId(), enumType);
-                            } else if (match(XmiElementName.TAG_DEFINITION, reader)) {
-                                final TagDefinition tagDefinition = readTagDefinition(reader, lookup);
-                                tagDefinitions.put(tagDefinition.getId(), tagDefinition);
-                            } else if (match(XmiElementName.GENERALIZATION, reader)) {
-                                final Generalization generalization = readGeneralization(reader, lookup);
-                                generalizations.put(generalization.getId(), generalization);
-                            } else if ("Association".equals(reader.getLocalName())) {
-                                final Association association = readAssociation(reader, lookup);
-                                associations.put(association.getId(), association);
-                            } else if ("Comment".equals(reader.getLocalName())) {
-                                skipElement(reader);
-                            } else if (match(XmiElementName.PACKAGE, reader)) {
-                                final Package stuff = readPackage(reader, lookup);
-                                final Model ownedElements = stuff.getOwnedElements();
-                                for (final ClassType classType : ownedElements.getClassTypeMap().values()) {
-                                    classTypes.put(classType.getId(), classType);
-                                }
-                                for (final DataType dataType : ownedElements.getDataTypeMap().values()) {
-                                    dataTypes.put(dataType.getId(), dataType);
-                                }
-                                for (final EnumType enumType : ownedElements.getEnumTypeMap().values()) {
-                                    enumTypes.put(enumType.getId(), enumType);
-                                }
-                                for (final Association association : ownedElements.getAssociationMap().values()) {
-                                    associations.put(association.getId(), association);
-                                }
-                                for (final Generalization generalization : ownedElements.getGeneralizationMap()
-                                        .values()) {
-                                    generalizations.put(generalization.getId(), generalization);
-                                }
-                                for (final TagDefinition tagDefinition : ownedElements.getTagDefinitionMap().values()) {
-                                    tagDefinitions.put(tagDefinition.getId(), tagDefinition);
-                                }
-                            } else {
-                                skipElement(reader);
-                            }
-                            break;
-                        }
-                        case XMLStreamConstants.END_ELEMENT: {
-                            if ("Namespace.ownedElement".equals(reader.getLocalName())) {
-                                return new Model("FIXME", classTypes, dataTypes, enumTypes, associations,
-                                        generalizations, tagDefinitions);
-                            } else {
-                                throw new AssertionError(reader.getLocalName());
-                            }
-                        }
-                        case XMLStreamConstants.CHARACTERS: {
-                            // Ignore.
-                            break;
-                        }
-                        default: {
-                            throw new AssertionError(reader.getEventType());
-                        }
+    /**
+     * The UML:Namespace.ownedElement is simply a list of model elements that can belong in a
+     * name-space.
+     * 
+     * It has no identity of its own and is only present in the serialization format.
+     */
+    private static final List<NamespaceOwnedElement> readNamespaceOwnedElement(final XMLStreamReader reader)
+            throws XMLStreamException {
+        assertName(XmiElementName.NAMESPACE_DOT_OWNED_ELEMENT, reader);
+        final List<NamespaceOwnedElement> ownedElements = new LinkedList<NamespaceOwnedElement>();
+        while (reader.hasNext()) {
+            reader.next();
+            switch (reader.getEventType()) {
+                case XMLStreamConstants.START_ELEMENT: {
+                    if (match(XmiElementName.CLASS, reader)) {
+                        ownedElements.add(assertNotNull(readClassType(reader)));
+                    } else if (match(XmiElementName.DATA_TYPE, reader)) {
+                        ownedElements.add(assertNotNull(readDataType(reader)));
+                    } else if (match(XmiElementName.ENUMERATION, reader)) {
+                        ownedElements.add(assertNotNull(readEnumeration(reader)));
+                    } else if (match(XmiElementName.TAG_DEFINITION, reader)) {
+                        ownedElements.add(assertNotNull(readTagDefinition(reader)));
+                    } else if (match(XmiElementName.GENERALIZATION, reader)) {
+                        ownedElements.add(assertNotNull(readGeneralization(reader)));
+                    } else if (match(XmiElementName.ASSOCIATION, reader)) {
+                        ownedElements.add(assertNotNull(readAssociation(reader)));
+                    } else if (match(XmiElementName.COMMENT, reader)) {
+                        skipElement(reader);
+                    } else if (match(XmiElementName.PACKAGE, reader)) {
+                        ownedElements.add(assertNotNull(readPackage(reader)));
+                    } else {
+                        skipElement(reader);
                     }
+                    break;
                 }
-            } else {
-                throw new AssertionError(reader.getLocalName());
+                case XMLStreamConstants.END_ELEMENT: {
+                    assertName(XmiElementName.NAMESPACE_DOT_OWNED_ELEMENT, reader);
+                    return Collections.unmodifiableList(ownedElements);
+                }
+                case XMLStreamConstants.CHARACTERS: {
+                    // Ignore.
+                    break;
+                }
+                default: {
+                    throw new AssertionError(reader.getEventType());
+                }
             }
-        } catch (final XMLStreamException e) {
-            e.printStackTrace();
         }
         throw new AssertionError();
     }
     
-    private static final Reference readReference(final XMLStreamReader reader) throws XMLStreamException {
+    private static final Identifier readIdentifier(final XMLStreamReader reader) throws XMLStreamException {
         final XmiElementName name = assertNotNull(XmiElementName.getElementName(reader.getLocalName()));
         final Identifier id = getIdRef(reader);
         while (reader.hasNext()) {
@@ -1000,7 +921,7 @@ public final class XmiReader {
                 }
                 case XMLStreamConstants.END_ELEMENT: {
                     assertName(name, reader);
-                    return new Reference(id, referenceType(name));
+                    return id;
                 }
                 case XMLStreamConstants.CHARACTERS: {
                     // Ignore.
@@ -1014,8 +935,8 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final Multiplicity readStructuralFeatureDotMultiplicity(final XMLStreamReader reader,
-            final LazyLookup lookup) throws XMLStreamException {
+    private static final Multiplicity readStructuralFeatureDotMultiplicity(final XMLStreamReader reader)
+            throws XMLStreamException {
         assertName(XmiElementName.STRUCTURAL_FEATURE_DOT_MULTIPLICITY, reader);
         Multiplicity multiplicity = null;
         while (reader.hasNext()) {
@@ -1023,7 +944,7 @@ public final class XmiReader {
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.MULTIPLICITY, reader)) {
-                        multiplicity = assertNotNull(readMultiplicity(reader, lookup));
+                        multiplicity = assertNotNull(readMultiplicity(reader));
                     } else {
                         throw new AssertionError(reader.getLocalName());
                         // skipElement(reader);
@@ -1046,20 +967,20 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final Reference readReferenceWrapper(final XmiElementName name, final XMLStreamReader reader)
+    private static final Identifier readIdentifierWrapper(final XmiElementName name, final XMLStreamReader reader)
             throws XMLStreamException {
         assertName(name, reader);
-        Reference reference = null;
+        Identifier reference = null;
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.DATA_TYPE, reader)) {
-                        reference = assertNotNull(readReference(reader));
+                        reference = assertNotNull(readIdentifier(reader));
                     } else if (match(XmiElementName.CLASS, reader)) {
-                        reference = assertNotNull(readReference(reader));
+                        reference = assertNotNull(readIdentifier(reader));
                     } else if (match(XmiElementName.ENUMERATION, reader)) {
-                        reference = assertNotNull(readReference(reader));
+                        reference = assertNotNull(readIdentifier(reader));
                     } else {
                         throw new AssertionError(reader.getLocalName());
                         // skipElement(reader);
@@ -1082,20 +1003,18 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final TagDefinition readTagDefinition(final XMLStreamReader reader, final LazyLookup lookup)
-            throws XMLStreamException {
+    private static final TagDefinition readTagDefinition(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.TAG_DEFINITION, reader);
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         final Identifier id = getId(reader);
-        final String localName = assertNotNull(getName(reader, null));
-        final QName name = new QName(localName);
+        final String name = assertNotNull(getName(reader, null));
         Multiplicity multiplicity = null;
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.TAG_DEFINITION_DOT_MULTIPLICITY, reader)) {
-                        multiplicity = assertNotNull(readTagDefinitionMultiplicity(reader, lookup));
+                        multiplicity = assertNotNull(readTagDefinitionMultiplicity(reader));
                     } else {
                         skipElement(reader);
                     }
@@ -1117,22 +1036,20 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final Package readPackage(final XMLStreamReader reader, final LazyLookup lookup)
-            throws XMLStreamException {
+    private static final UmlPackage readPackage(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.PACKAGE, reader);
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         final Identifier id = getId(reader);
-        final String localName = assertNotNull(getName(reader, null));
-        final QName name = new QName(localName);
-        Model ownedElements = null;
+        final String name = assertNotNull(getName(reader, null));
+        List<NamespaceOwnedElement> ownedElements = EMPTY_NAMESPACE_OWNED_ELEMENTS;
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.NAMESPACE_DOT_OWNED_ELEMENT, reader)) {
-                        ownedElements = readNamespaceOwnedElement(name.getLocalPart(), reader, lookup);
+                        ownedElements = readNamespaceOwnedElement(reader);
                     } else if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader)) {
-                        taggedValues.addAll(readTaggedValueGroup(reader, lookup));
+                        taggedValues.addAll(readTaggedValueGroup(reader));
                     } else {
                         throw new AssertionError(reader.getLocalName());
                         // skipElement(reader);
@@ -1141,7 +1058,7 @@ public final class XmiReader {
                 }
                 case XMLStreamConstants.END_ELEMENT: {
                     assertName(XmiElementName.PACKAGE, reader);
-                    return new Package(name, id, taggedValues, ownedElements);
+                    return new UmlPackage(name, id, taggedValues, ownedElements);
                 }
                 case XMLStreamConstants.CHARACTERS: {
                     // Ignore.
@@ -1155,8 +1072,8 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final Multiplicity readTagDefinitionMultiplicity(final XMLStreamReader reader,
-            final LazyLookup lookup) throws XMLStreamException {
+    private static final Multiplicity readTagDefinitionMultiplicity(final XMLStreamReader reader)
+            throws XMLStreamException {
         assertName(XmiElementName.TAG_DEFINITION_DOT_MULTIPLICITY, reader);
         Multiplicity multiplicity = null;
         while (reader.hasNext()) {
@@ -1164,7 +1081,7 @@ public final class XmiReader {
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.MULTIPLICITY, reader)) {
-                        multiplicity = assertNotNull(readMultiplicity(reader, lookup));
+                        multiplicity = assertNotNull(readMultiplicity(reader));
                     } else {
                         throw new AssertionError(reader.getLocalName());
                         // skipElement(reader);
@@ -1187,12 +1104,11 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final TaggedValue readTaggedValue(final XMLStreamReader reader, final LazyLookup lookup)
-            throws XMLStreamException {
+    private static final TaggedValue readTaggedValue(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.TAGGED_VALUE, reader);
         final Identifier id = getId(reader);
         String dataValue = "";
-        Reference tagDefinition = null;
+        Identifier tagDefinition = null;
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
@@ -1208,7 +1124,7 @@ public final class XmiReader {
                 }
                 case XMLStreamConstants.END_ELEMENT: {
                     assertName(XmiElementName.TAGGED_VALUE, reader);
-                    return new TaggedValue(id, EMPTY_TAGGED_VALUE_LIST, dataValue, tagDefinition, lookup);
+                    return new TaggedValue(id, EMPTY_TAGGED_VALUE_LIST, dataValue, tagDefinition);
                 }
                 case XMLStreamConstants.CHARACTERS: {
                     // Ignore.
@@ -1247,7 +1163,7 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final List<TaggedValue> readTaggedValueGroup(final XMLStreamReader reader, final LazyLookup lookup) {
+    private static final List<TaggedValue> readTaggedValueGroup(final XMLStreamReader reader) {
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         try {
             if (match(XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE, reader)) {
@@ -1256,7 +1172,7 @@ public final class XmiReader {
                     switch (reader.getEventType()) {
                         case XMLStreamConstants.START_ELEMENT: {
                             if ("TaggedValue".equals(reader.getLocalName())) {
-                                taggedValues.add(assertNotNull(readTaggedValue(reader, lookup)));
+                                taggedValues.add(assertNotNull(readTaggedValue(reader)));
                                 break;
                             } else {
                                 throw new AssertionError(reader.getLocalName());
@@ -1287,15 +1203,15 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final Reference readTaggedValueType(final XMLStreamReader reader) throws XMLStreamException {
+    private static final Identifier readTaggedValueType(final XMLStreamReader reader) throws XMLStreamException {
         assertName(XmiElementName.TAGGED_VALUE_DOT_TYPE, reader);
-        Reference reference = null;
+        Identifier reference = null;
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiElementName.TAG_DEFINITION, reader)) {
-                        reference = assertNotNull(readReference(reader));
+                        reference = assertNotNull(readIdentifier(reader));
                     } else {
                         throw new AssertionError(reader.getLocalName());
                     }
@@ -1317,7 +1233,7 @@ public final class XmiReader {
         throw new AssertionError();
     }
     
-    private static final Model readXMI(final XMLStreamReader reader, final LazyLookup lookup) {
+    private static final Model readXMI(final XMLStreamReader reader) {
         try {
             if ("XMI".equals(reader.getLocalName())) {
                 Model model = null;
@@ -1329,7 +1245,7 @@ public final class XmiReader {
                                 skipElement(reader);
                                 break;
                             } else if ("XMI.content".equals(reader.getLocalName())) {
-                                model = readContent(reader, lookup);
+                                model = readContent(reader);
                                 if (model == null) {
                                     throw new IllegalStateException();
                                 }
@@ -1364,26 +1280,6 @@ public final class XmiReader {
             e.printStackTrace();
         }
         return null;
-    }
-    
-    private static final ReferenceType referenceType(final XmiElementName name) {
-        switch (name) {
-            case CLASS: {
-                return ReferenceType.CLASS_TYPE;
-            }
-            case DATA_TYPE: {
-                return ReferenceType.DATA_TYPE;
-            }
-            case ENUMERATION: {
-                return ReferenceType.ENUM_TYPE;
-            }
-            case TAG_DEFINITION: {
-                return ReferenceType.TAG_DEFINITION;
-            }
-            default: {
-                throw new AssertionError(name);
-            }
-        }
     }
     
     /**

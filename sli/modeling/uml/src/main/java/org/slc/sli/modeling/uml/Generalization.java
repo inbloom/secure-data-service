@@ -2,57 +2,63 @@ package org.slc.sli.modeling.uml;
 
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
 /**
  * A generalization expresses the child isA parent relationship between two model elements.
  */
-public final class Generalization extends AbstractModelElementWithLookup implements HasName {
+public final class Generalization extends NamespaceOwnedElement {
     
-    private final QName name;
-    private final Reference child;
-    private final Reference parent;
+    private final Identifier child;
+    private final Identifier parent;
     
-    public Generalization(final QName name, final Identifier id, final List<TaggedValue> taggedValues,
-            final Reference child, final Reference parent, final LazyLookup lookup) {
-        super(id, ReferenceType.GENERALIZATION, taggedValues, lookup);
-        if (name == null) {
-            throw new NullPointerException("name");
-        }
+    public Generalization(final Identifier child, final Identifier parent) {
+        this("", Identifier.random(), EMPTY_TAGGED_VALUES, child, parent);
+    }
+    
+    public Generalization(final String name, final Identifier child, final Identifier parent) {
+        this(name, Identifier.random(), EMPTY_TAGGED_VALUES, child, parent);
+    }
+    
+    public Generalization(final String name, final Identifier id, final List<TaggedValue> taggedValues,
+            final Identifier child, final Identifier parent) {
+        super(id, name, taggedValues);
         if (child == null) {
             throw new NullPointerException("child");
         }
         if (parent == null) {
             throw new NullPointerException("parent");
         }
-        this.name = name;
         this.child = child;
         this.parent = parent;
     }
     
+    public Generalization(final String name, final List<TaggedValue> taggedValues, final Identifier child,
+            final Identifier parent) {
+        this(name, Identifier.random(), taggedValues, child, parent);
+    }
+    
     @Override
-    public QName getName() {
-        return name;
+    public void accept(final Visitor visitor) {
+        visitor.visit(this);
     }
     
-    public Type getChild() {
-        return lookup.getType(child);
+    public Identifier getChild() {
+        return child;
     }
     
-    public Type getParent() {
-        return lookup.getType(parent);
+    public Identifier getParent() {
+        return parent;
     }
     
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("{");
-        // sb.append("id: " + id).append(", ");
-        sb.append("name: \"" + name + "\"");
+        sb.append("id: " + getId()).append(", ");
+        sb.append("name: \"" + getName() + "\"");
         sb.append(", ");
-        sb.append("parent: \"" + getParent().getName() + "\"");
+        sb.append("parent: \"" + parent + "\"");
         sb.append(", ");
-        sb.append("child: \"" + getChild().getName() + "\"");
+        sb.append("child: \"" + child + "\"");
         if (!getTaggedValues().isEmpty()) {
             sb.append(", ");
             sb.append("taggedValues: " + getTaggedValues());

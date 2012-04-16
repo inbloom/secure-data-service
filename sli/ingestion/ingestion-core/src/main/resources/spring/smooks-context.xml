@@ -148,6 +148,7 @@
               <constructor-arg value="${smooks.config.all.xml}" />
               <constructor-arg>
                 <list>
+                  <value>${smooks.targetselector.xml.student.program.association}</value>
                   <value>${smooks.targetselector.xml.staff.program.association}</value>
                 </list>
               </constructor-arg>

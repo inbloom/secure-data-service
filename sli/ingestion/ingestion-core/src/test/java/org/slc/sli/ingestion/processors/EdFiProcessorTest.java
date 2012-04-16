@@ -20,6 +20,7 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.util.MD5;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Tests for EdFiProcessor
@@ -46,25 +47,10 @@ public class EdFiProcessorTest {
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
 
-        edFiProcessor.processFileEntry(inputFileEntry);
+        ErrorReport errorReport = inputFileEntry.getErrorReport();
+        edFiProcessor.processFileEntry(inputFileEntry, errorReport, null);
 
         assertTrue("Empty csv file should give error.", inputFileEntry.getErrorReport().hasErrors());
-    }
-
-    @Test
-    public void shouldReportErrorEmptyXml() throws IOException, SAXException {
-
-        // Get Input File
-        File inputFile = IngestionTest.getFile("fileLevelTestData/invalidXML/emptyFile/student.xml");
-
-        // Create Ingestion File Entry
-        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT,
-                inputFile.getName(), MD5.calculate(inputFile));
-        inputFileEntry.setFile(inputFile);
-
-        edFiProcessor.processFileEntry(inputFileEntry);
-
-        assertTrue("Empty xml file should give error.", inputFileEntry.getErrorReport().hasErrors());
     }
 
 }

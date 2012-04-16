@@ -47,7 +47,7 @@ public class SupportResource {
     }
 
     private boolean isAuthenticated(SecurityContext securityContext) {
-        return !(securityContext == null || securityContext.getAuthentication() == null || securityContext.getAuthentication().getCredentials() == null || securityContext.getAuthentication().getCredentials().equals(""));
+        return securityContext.getAuthentication().isAuthenticated();
     }
     
 }
