@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +78,16 @@ public class StateEducationAgencyTest {
                 + "        <RatingOrganization>rating org</RatingOrganization>"
                 + "        <RatingProgram>rating program</RatingProgram>"
                 + "    </AccountabilityRatings>"
-                + "    <ProgramReference>program reference</ProgramReference>"
+                + "    <ProgramReference>"
+                + "      <ProgramIdentity>"
+                + "        <ProgramId>ACC-TEST-PROG-1</ProgramId>"
+                + "      </ProgramIdentity>"
+                + "    </ProgramReference>"
+                + "    <ProgramReference>"
+                + "      <ProgramIdentity>"
+                + "        <ProgramId>ACC-TEST-PROG-2</ProgramId>"
+                + "      </ProgramIdentity>"
+                + "    </ProgramReference>"
                 + "</StateEducationAgency>"
                 + "</InterchangeEducationOrganization>";
 
@@ -90,6 +100,7 @@ public class StateEducationAgencyTest {
         Assert.assertTrue(validator.validate(e));
     }
 
+    @Ignore
     @Test
     public void csvStateEducationAgencyTest() throws Exception {
 
@@ -151,7 +162,16 @@ public class StateEducationAgencyTest {
                 + "        <RatingOrganization>rating org</RatingOrganization>"
                 + "        <RatingProgram>rating program</RatingProgram>"
                 + "    </AccountabilityRatings>"
-                + "    <ProgramReference>program reference</ProgramReference>"
+                + "    <ProgramReference>"
+                + "      <ProgramIdentity>"
+                + "        <ProgramId>ACC-TEST-PROG-1</ProgramId>"
+                + "      </ProgramIdentity>"
+                + "    </ProgramReference>"
+                + "    <ProgramReference>"
+                + "      <ProgramIdentity>"
+                + "        <ProgramId>ACC-TEST-PROG-2</ProgramId>"
+                + "      </ProgramIdentity>"
+                + "    </ProgramReference>"
                 + "</StateEducationAgency>"
                 + "</InterchangeEducationOrganization>";
 
@@ -214,7 +234,8 @@ public class StateEducationAgencyTest {
         EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "ratingProgram", "rating program");
 
         List programReferenceList = (List) neutralRecord.getAttributes().get("programReference");
-        assertEquals("program reference", programReferenceList.get(0));
+        assertEquals("ACC-TEST-PROG-1", programReferenceList.get(0));
+        assertEquals("ACC-TEST-PROG-2", programReferenceList.get(1));
 
     }
 

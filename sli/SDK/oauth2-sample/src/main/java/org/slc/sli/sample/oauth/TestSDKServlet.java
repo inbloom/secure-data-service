@@ -28,11 +28,11 @@ public class TestSDKServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         BasicClient client = (BasicClient) req.getSession().getAttribute("client");
         String testType = (String) req.getParameter("test");
-        String testResult = "";
+        String testResult = "failed";
         if (testType.equals("read")) {
             testResult = testRead(client);
-        } else if (testType.equals("write")) {
-            testResult = testWrite(client);
+        } else if (testType.equals("create")) {
+            testResult = testCreate(client);
         } else if (testType.equals("update")) {
             testResult = testUpdate(client);
         } else if (testType.equals("delete")) {
@@ -51,8 +51,8 @@ public class TestSDKServlet extends HttpServlet {
     }
     
     @SuppressWarnings("unchecked")
-    private String testWrite(BasicClient client) {
-        String testResult = "";
+    private String testCreate(BasicClient client) {
+        String testResult = "failed";
         String id = "";
         Map<String, Object> studentBody = createStudentBody();
         Entity student = new GenericEntity(EntityType.STUDENTS, studentBody);
@@ -85,7 +85,7 @@ public class TestSDKServlet extends HttpServlet {
     
     @SuppressWarnings("unchecked")
     private String testUpdate(BasicClient client) {
-        String testResult = "";
+        String testResult = "failed";
         String id = "";
         Map<String, Object> studentBody = createStudentBody();
         Entity student = new GenericEntity(EntityType.STUDENTS, studentBody);
@@ -123,7 +123,7 @@ public class TestSDKServlet extends HttpServlet {
     }
     
     private String testDelete(BasicClient client) {
-        String testResult = "";
+        String testResult = "failed";
         String id = "";
         Map<String, Object> studentBody = createStudentBody();
         Entity student = new GenericEntity(EntityType.STUDENTS, studentBody);
@@ -155,8 +155,27 @@ public class TestSDKServlet extends HttpServlet {
         return testResult;
     }
     
+    @SuppressWarnings("unchecked")
     private String testQuery(BasicClient client) {
-        String testResult = "succeed";
+        EntityCollection collection = new EntityCollection();
+        String testResult = "";
+        try {
+            client.read(collection, EntityType.TEACHERS,
+                    BasicQuery.Builder.create().filterEqual("sex", "Male").sortBy("name.firstName").sortDescending()
+                            .build());
+            if (collection != null && collection.size() > 0) {
+                String firstName = ((Map<String, String>) (collection.get(0).getData().get("name"))).get("firstName");
+                if (firstName.equals("Stephen")) {
+                    testResult = "succeed";
+                } else {
+                    testResult = "failed";
+                    return testResult;
+                }
+            }
+        } catch (Exception e) {
+            testResult = "failed";
+        }
+
         return testResult;
         
     }

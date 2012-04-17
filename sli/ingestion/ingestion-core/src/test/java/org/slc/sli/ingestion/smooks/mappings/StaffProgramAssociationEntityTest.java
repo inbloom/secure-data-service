@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -30,9 +29,8 @@ public class StaffProgramAssociationEntityTest {
      * @throws IOException
      * @throws SAXException
      */
-    @Ignore
     @Test
-    public final void mapEdfiXmlProgramToNeutralRecordTest() throws IOException, SAXException {
+    public final void mapEdfiXmlToNeutralRecordTest() throws IOException, SAXException {
 
         String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
 
@@ -58,38 +56,39 @@ public class StaffProgramAssociationEntityTest {
     private void checkValidNeutralRecord(NeutralRecord neutralRecord) {
         assertEquals("Expecting different record type", "staffProgramAssociation", neutralRecord.getRecordType());
 
-        assertEquals("Expected different local id", "", neutralRecord.getLocalId());
-        assertEquals("Expected # local parent ids", 0, neutralRecord.getLocalParentIds().size());
-
-        //TODO check parent ids
+        assertEquals("Expected 0 local parent ids", 0, neutralRecord.getLocalParentIds().size());
 
         Map<String, Object> attributes = neutralRecord.getAttributes();
 
-        assertEquals("Expected different entity id", "", attributes.get("staffProgramAssociationId"));
+        assertEquals("Expected different number of attributes", 7, attributes.size());
 
         List<Map<String, Object>> staffReferences = (List<Map<String, Object>>) attributes.get("staffReference");
         assertNotNull("Expected non-null list of staff references", staffReferences);
         assertEquals("Expected 2 staff references", 2, staffReferences.size());
 
-        Map<String, Object> staff1 = staffReferences.get(0);
-        assertEquals("Expected different staff id", "linda.kim", staff1.get("staffId"));
+        Map<String, Object> staffOuterMap1 = staffReferences.get(0);
+        Map<String, Object> staffInnerMap1 = (Map<String, Object>) staffOuterMap1.get("staffIdentity");
+        assertEquals("Expected different staff unique state id", "linda.kim", staffInnerMap1.get("staffUniqueStateId"));
 
-        Map<String, Object> staff2 = staffReferences.get(1);
-        assertEquals("Expected different staff id", "rbraverman", staff2.get("staffId"));
+        Map<String, Object> staffOuterMap2 = staffReferences.get(1);
+        Map<String, Object> staffInnerMap2 = (Map<String, Object>) staffOuterMap2.get("staffIdentity");
+        assertEquals("Expected different staff unique state id", "rbraverman", staffInnerMap2.get("staffUniqueStateId"));
 
         List<Map<String, Object>> programReferences = (List<Map<String, Object>>) attributes.get("programReference");
         assertNotNull("Expected non-null list of program references", programReferences);
         assertEquals("Expected 2 program references", 2, programReferences.size());
 
-        Map<String, Object> program1 = programReferences.get(0);
-        assertEquals("Expected different program id", "ACC-TEST-PROG-1", program1.get("programId"));
+        Map<String, Object> programOuterMap1 = programReferences.get(0);
+        Map<String, Object> programInnerMap1 = (Map<String, Object>) programOuterMap1.get("programIdentity");
+        assertEquals("Expected different program id", "ACC-TEST-PROG-1", programInnerMap1.get("programId"));
 
-        Map<String, Object> program2 = programReferences.get(1);
-        assertEquals("Expected different program id", "ACC-TEST-PROG-2", program2.get("programId"));
+        Map<String, Object> programOuterMap2 = programReferences.get(1);
+        Map<String, Object> programInnerMap2 = (Map<String, Object>) programOuterMap2.get("programIdentity");
+        assertEquals("Expected different program id", "ACC-TEST-PROG-2", programInnerMap2.get("programId"));
 
         assertEquals("Expected different begin date", "2011-01-01", attributes.get("beginDate"));
         assertEquals("Expected different end date", "2012-02-15", attributes.get("endDate"));
-        assertEquals("Expected different student record access", "true", attributes.get("studentRecordAccess"));
+        assertEquals("Expected different student record access", true, attributes.get("studentRecordAccess"));
     }
 
 }

@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
@@ -47,7 +47,7 @@ public class PurgeProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        BatchJob job = BatchJobUtils.getBatchJobUsingStateManager(exchange);
+        Job job = BatchJobUtils.getBatchJobUsingStateManager(exchange);
 
         String tenantId = job.getProperty(TENANT_ID);
 

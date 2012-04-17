@@ -14,8 +14,8 @@ import org.slc.sli.api.client.Query;
 public class BasicQuery implements Query {
 
 
-    private static final String SORT_BY_KEY = "sort-by";
-    private static final String SORT_ORDER_KEY = "sort-order";
+    private static final String SORT_BY_KEY = "sortBy";
+    private static final String SORT_ORDER_KEY = "sortOrder";
     private static final String SORT_ASCENDING = "ascending";
     private static final String SORT_DESCENDING = "descending";
     private static final String START_INDEX_KEY = "offset";
@@ -29,6 +29,8 @@ public class BasicQuery implements Query {
     /** Represents a query with no query parameters that includes custom entities */
     public static final Query CUSTOM_ENTITY_QUERY = Builder.create().fullEntities().customEntities().build();
 
+
+    /** Represents a simple query that requests a response containing full entities. */
     public static final Query FULL_ENTITIES_QUERY = Builder.create().fullEntities().build();
 
     private Map<String, Object> params;
@@ -76,6 +78,7 @@ public class BasicQuery implements Query {
          *            Field to filter on.
          * @param value
          *            The value to look for.
+         *
          * @return Updated Builder instance.
          */
         public Builder filterEqual(final String fieldName, final String value) {
@@ -90,6 +93,7 @@ public class BasicQuery implements Query {
          *            Start of the result window.
          * @param maxResults
          *            Maximum number of results to return.
+         *
          * @return Updated Builder instance.
          */
         public Builder paginate(final int startIndex, final int maxResults) {
@@ -100,6 +104,8 @@ public class BasicQuery implements Query {
 
         /**
          * Include custom entities in the query response. Defaults to 'false'.
+         *
+         * @return Updated Builder instance.
          */
         public Builder customEntities() {
             params.put(INCLUDE_CUSTOM_ENTITIES, true);
@@ -119,6 +125,8 @@ public class BasicQuery implements Query {
 
         /**
          * @param sortField
+         *
+         * @return Updated Builder instance.
          */
         public Builder sortBy(String sortField) {
             params.put(SORT_BY_KEY, sortField);
@@ -127,6 +135,8 @@ public class BasicQuery implements Query {
 
         /**
          * @param startIndex
+         *
+         * @return Updated Builder instance.
          */
         public Builder startIndex(int startIndex) {
             params.put(START_INDEX_KEY, startIndex);
@@ -135,6 +145,8 @@ public class BasicQuery implements Query {
 
         /**
          * Return full entities, not just links.
+         *
+         * @return Updated Builder instance.
          */
         public Builder fullEntities() {
             params.put(FULL_ENTITIES_KEY, true);
@@ -143,6 +155,8 @@ public class BasicQuery implements Query {
 
         /**
          * @param maxResults
+         *
+         * @return Updated Builder instance.
          */
         public Builder maxResults(int maxResults) {
             params.put(MAX_RESULTS_KEY, maxResults);
@@ -155,4 +169,3 @@ public class BasicQuery implements Query {
         return params;
     }
 }
-
