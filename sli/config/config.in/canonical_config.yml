@@ -76,8 +76,8 @@ default:
         sli.wildcard.x509certificate.alias: wildcard
 
         # properties used by the mock IDP
-        sli.idp.issuer: http://localhost:8081/
-        sli.idp.response-location: http://localhost:8080/api/saml/sso        
+        sli.mock-idp.issuer-base: http://local.slidev.org:8082/mock-idp
+        sli.mock-idp.response-destination: http://local.slidev.org:8080/api/rest/saml/sso/post  
 
         # POTENTIALL UNUSED PROPERTIES - added by Stephan Altmueller
         sli.dev.subdomain: ci
@@ -608,6 +608,8 @@ team:
         <<: *MISC-DEFAULT
         sli.dev.subdomain: ci
         log.path: ${user.home}/logs
+        sli.mock-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/mock-idp
+        sli.mock-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
 
 test-acceptance-tests:
     test:
