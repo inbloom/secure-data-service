@@ -50,7 +50,8 @@ public class TestSDKServlet extends HttpServlet {
         } else {
             testResult = "unsupported test!";
         }
-        resp.getWriter().print(buildTestResponse(testResult));
+        req.setAttribute("testResult", testResult);
+        req.getRequestDispatcher("WEB-INF/sdktest.jsp").forward(req, resp);
     }
     
     // the read test has been done in list student, so always return succeed
@@ -223,7 +224,7 @@ public class TestSDKServlet extends HttpServlet {
     }
     
     private String buildTestResponse(String testResult) {
-        String testResponse = "<html><body><span id ='testResult'>" + testResult + "</span></body></html>";
+        String testResponse = testResult;
         return testResponse;
     }
 }
