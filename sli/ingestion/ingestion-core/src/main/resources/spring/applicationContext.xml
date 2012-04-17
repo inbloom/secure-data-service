@@ -65,6 +65,7 @@
   <import resource="smooks-context.xml" />
   <import resource="camel-context.xml" />
   <import resource="persistence-context.xml" />
+  <import resource="processor-context.xml" />
 <import resource="classpath:/spring/base-applicationContext.xml" />
 
   <!-- Include resources from DAL -->
@@ -132,7 +133,14 @@
     <property name="persistedCollections" ref="persistedEntities" />
   </bean>
 
+    <util:list id="excluded" value-type="java.lang.String">
+            <value>system.indexes</value>
+            <value>system.js</value>
+    </util:list>
 
+<bean id="purgeProcessor" class="org.slc.sli.ingestion.processors.PurgeProcessor">
+    <property name="excludeCollections" ref="excluded"/>
+</bean>
 
 </beans>
 
