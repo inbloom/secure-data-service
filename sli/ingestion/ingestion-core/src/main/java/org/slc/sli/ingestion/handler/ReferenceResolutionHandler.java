@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.ReferenceConstructor;
-import org.slc.sli.ingestion.ReferenceResolver;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.referenceresolution.ReferenceConstructor;
+import org.slc.sli.ingestion.referenceresolution.ReferenceResolver;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**

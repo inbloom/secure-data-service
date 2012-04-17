@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion;
+package org.slc.sli.ingestion.referenceresolution;
 
 import java.io.IOException;
 import java.util.HashMap;
