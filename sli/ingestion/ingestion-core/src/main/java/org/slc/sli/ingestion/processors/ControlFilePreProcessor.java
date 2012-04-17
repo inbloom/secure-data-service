@@ -42,11 +42,11 @@ public class ControlFilePreProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
 
 
-        processExistingBatchJob(exchange);
+//        processExistingBatchJob(exchange);
 
         // TODO we are doing both in parallel for now, but will replace the existing once testing is done
         // this writes to a newJobxxx.txt output file in the lz
-//        processUsingNewBatchJob(exchange);
+        processUsingNewBatchJob(exchange);
     }
 
     private void processExistingBatchJob(Exchange exchange) throws Exception {

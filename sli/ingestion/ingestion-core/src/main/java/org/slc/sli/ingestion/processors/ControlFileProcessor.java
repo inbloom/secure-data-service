@@ -51,11 +51,11 @@ public class ControlFileProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
 
 
-        processExistingBatchJob(exchange);
+//        processExistingBatchJob(exchange);
 
         // TODO we are doing both in parallel for now, but will replace the existing once testing is done
         // this writes to a newJobxxx.txt output file in the lz
-//        processUsingNewBatchJob(exchange);
+        processUsingNewBatchJob(exchange);
     }
 
     private void processExistingBatchJob(Exchange exchange) throws Exception {
@@ -223,7 +223,7 @@ public class ControlFileProcessor implements Processor {
 
             // set headers
             // This error section is now handled by the writeErrorsToMongo above
-//            exchange.getIn().setHeader("hasErrors", job.getFaultsReport().hasErrors());
+            exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
             if (newJob.getProperty(PURGE) != null) {
                 exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
             } else {

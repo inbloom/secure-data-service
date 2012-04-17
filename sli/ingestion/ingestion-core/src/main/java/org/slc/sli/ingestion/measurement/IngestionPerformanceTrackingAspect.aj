@@ -4,7 +4,7 @@ import org.apache.camel.Exchange;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.util.performance.PerformanceTrackingAspect;
 import org.springframework.stereotype.Component;
 
@@ -27,9 +27,9 @@ public class IngestionPerformanceTrackingAspect extends
 	@Before("extractBatchJobIdToContext() && args(exchange)")
 	public void handleExtractBatchJobIdToContextPointcut(Exchange exchange) {
 		log.info("================== Assigned Ingestion Batch Id (Setter) = {}", 
-				exchange.getIn().getBody(BatchJob.class).getId());
+				exchange.getIn().getBody(NewBatchJob.class).getId());
 		store.put("ingestionBatchJobId",
-				exchange.getIn().getBody(BatchJob.class).getId());
+				exchange.getIn().getBody(NewBatchJob.class).getId());
 	}
 
 	protected void sendPerformanceMessage(String callerName,

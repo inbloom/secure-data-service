@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
@@ -43,7 +42,7 @@ import org.slc.sli.util.performance.Profiled;
 @Component
 public class EdFiProcessor implements Processor {
     private boolean switchToNewJob = true;
-    private boolean pluginOldPipeline = true;
+    private boolean pluginOldPipeline = false;
 
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(EdFiProcessor.class);
@@ -65,7 +64,7 @@ public class EdFiProcessor implements Processor {
         }
 
         try {
-            BatchJob batchJob = exchange.getIn().getBody(BatchJob.class);
+            //BatchJob batchJob = exchange.getIn().getBody(BatchJob.class);
 
             // get the job from the db
             BatchJobDAO batchJobDAO = new BatchJobMongoDA();
@@ -78,7 +77,8 @@ public class EdFiProcessor implements Processor {
             stage.startStage();
             batchJobDAO.saveBatchJob(newJob);
 
-            List<IngestionFileEntry> felOrignal = batchJob.getFiles();
+            List<IngestionFileEntry> felOrignal = null;
+            //felOrignal = batchJob.getFiles();
 
             // create file entry list from resources from DB
             List<ResourceEntry> resourceList = newJob.getResourceEntries();
@@ -93,11 +93,11 @@ public class EdFiProcessor implements Processor {
                     fe.setFile(new File(resource.getResourceName()));
 
                     //TODO: set to the current batchJobId
-                    if (pluginOldPipeline) {
-                        fe.setBatchJobId(batchJob.getId());
-                    } else {
+//                    if (pluginOldPipeline) {
+//                        fe.setBatchJobId(batchJob.getId());
+//                    } else {
                         fe.setBatchJobId(batchJobId);
-                    }
+//                    }
                     fileEntryList.add(fe);
                 }
             }
@@ -107,6 +107,7 @@ public class EdFiProcessor implements Processor {
                 felOrignal = fileEntryList;
             }
 
+            boolean hasError = false;
             for (IngestionFileEntry fe : felOrignal) {
 
                 Metrics metrics = new Metrics(fe.getFileName(), localhost.getHostAddress(), localhost.getHostName());
@@ -118,7 +119,7 @@ public class EdFiProcessor implements Processor {
 
                 ErrorReport errorReport = fe.getErrorReport();
                 processFileEntry(fe, errorReport, fileProcessStatus);
-                batchJob.getFaultsReport().append(fe.getFaultsReport());
+                //batchJob.getFaultsReport().append(fe.getFaultsReport());
 
                 metrics.setRecordCount(fileProcessStatus.getTotalRecordCount());
 
@@ -126,6 +127,7 @@ public class EdFiProcessor implements Processor {
                 for (Fault fault : fe.getFaultsReport().getFaults()) {
                     if (fault.isError()) {
                         errorCount++;
+                        hasError = true;
                     }
                     String faultMessage = fault.getMessage();
                     String faultLevel  = fault.isError() ? FaultType.TYPE_ERROR.getName() : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
@@ -150,13 +152,13 @@ public class EdFiProcessor implements Processor {
             stage.stopStage();
             batchJobDAO.saveBatchJob(newJob);
 
-            if (this.switchToNewJob) {
-                batchJob.setFiles(felOrignal);
-            }
+//            if (this.switchToNewJob) {
+//                batchJob.setFiles(felOrignal);
+//            }
 
             // set headers
-            if (batchJob.getErrorReport().hasErrors()) {
-                exchange.getIn().setHeader("hasErrors", batchJob.getErrorReport().hasErrors());
+            if (hasError) {
+                exchange.getIn().setHeader("hasErrors", hasError);
             }
 
             // next route should be DATA_TRANSFORMATION

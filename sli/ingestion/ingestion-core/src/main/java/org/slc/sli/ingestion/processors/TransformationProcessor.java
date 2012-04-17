@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -51,14 +50,15 @@ public class TransformationProcessor implements Processor {
         }
         BatchJobDAO batchJobDAO = new BatchJobMongoDA();
         NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
-        
+
         Stage stage = new Stage();
         stage.setStageName(BatchJobStageType.TRANSFORMATION_PROCESSING.getName());
         stage.startStage();
 
-        BatchJob job = exchange.getIn().getBody(BatchJob.class);
+//        BatchJob job = exchange.getIn().getBody(BatchJob.class);
 
-        performDataTransformations(job.getId());
+//        performDataTransformations(job.getId());
+        performDataTransformations(batchJobId);
 
         exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
 
