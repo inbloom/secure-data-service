@@ -13,6 +13,7 @@ import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
+import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,11 +23,13 @@ import org.springframework.stereotype.Component;
 public class BrutePathFinder implements SecurityPathFinder {
     private Map<String, SecurityNode> nodeMap;
     private Map<String, List<SecurityNode>> prePath;
+    private List<String> excludePath;
 
     @PostConstruct
     public void init() {
         nodeMap = new HashMap<String, SecurityNode>();
         prePath = new HashMap<String, List<SecurityNode>>();
+        excludePath = new ArrayList<String>();
         nodeMap.put(EntityNames.TEACHER,
                 SecurityNodeBuilder.buildNode("teacher")
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)
@@ -46,6 +49,8 @@ public class BrutePathFinder implements SecurityPathFinder {
                 SecurityNodeBuilder.buildNode(EntityNames.STUDENT)
                         .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.STUDENT_SECTION_ASSOCIATIONS)
                         .construct());
+        
+        excludePath.add(EntityNames.TEACHER + EntityNames.SECTION);
 
         prePath.put(
                 EntityNames.TEACHER + EntityNames.TEACHER,
@@ -75,10 +80,10 @@ public class BrutePathFinder implements SecurityPathFinder {
                 return explored;
             }
             boolean enqueued = false;
-            for (Map<String, String> connection : temp.getConnections()) {
-                if (!explored.contains(nodeMap.get(connection.get("entity")))) {
-                    debug("Enqueuing: {}", connection.get("entity"));
-                    exploring.push(nodeMap.get(connection.get("entity")));
+            for (SecurityNodeConnection connection : temp.getConnections()) {
+                if (!explored.contains(nodeMap.get(connection.getConnectionTo()))) {
+                    debug("Enqueuing: {}", connection.getConnectionTo());
+                    exploring.push(nodeMap.get(connection.getConnectionTo()));
                     enqueued = true;
                 }
             }
@@ -119,6 +124,10 @@ public class BrutePathFinder implements SecurityPathFinder {
      */
     public Map<String, SecurityNode> getNodeMap() {
         return nodeMap;
+    }
+    
+    public boolean isPathExcluded(String from, String to) {
+        return excludePath.contains(from + to);
     }
 
 }

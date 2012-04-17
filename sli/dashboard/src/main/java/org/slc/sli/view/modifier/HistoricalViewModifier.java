@@ -7,6 +7,7 @@ import org.slc.sli.view.HistoricalDataResolver;
 
 import java.util.Iterator;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Class to manage historical data for view config that needs data added dynamically
@@ -33,6 +34,14 @@ public class HistoricalViewModifier implements ViewModifier {
     private ViewConfig addHistoricalData(ViewConfig view) {
         String subjectArea = historicalDataResolver.getSubjectArea();
         SortedSet<String> schoolYears = historicalDataResolver.getSchoolYears();
+
+        if (schoolYears.size() > 2) {
+            SortedSet<String> lastTwo = new TreeSet<String>();
+            lastTwo.add(schoolYears.last());
+            schoolYears.remove(schoolYears.last());
+            lastTwo.add(schoolYears.last());
+            schoolYears = lastTwo;
+        }
 
         //TODO: limit the number of columns we can add
         for (Iterator<String> it = schoolYears.iterator(); it.hasNext();) {
