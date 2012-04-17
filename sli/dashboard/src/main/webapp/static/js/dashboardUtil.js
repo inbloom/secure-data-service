@@ -189,9 +189,10 @@ DashboardUtil.Grid.Formatters = {
 			var name = options.colModel.formatoptions.name;
 			var valueField = options.colModel.formatoptions.valueField;
 			var score = rowObject.assessments[name][valueField];
+			var fieldName = options.colModel.formatoptions.fieldName;
 			var cutpoints = rowObject.assessments[name].assessments.assessmentPerformanceLevel;
 			var timestamp = Number(new Date());
-			var returnValue = "<div id='" + timestamp.toString() + "' style='width: 100px; padding:5px;' align='left'>";
+			var returnValue = "<div id='" + timestamp.toString() + fieldName + "' style='width: 100px; padding:5px;' align='left'>";
 			returnValue += "<script>";
 			returnValue += "var cutpoints = new Array(";
 			for( var i=0;i < cutpoints.length; i++) {
@@ -201,7 +202,7 @@ DashboardUtil.Grid.Formatters = {
 				}
 			}
 			returnValue += ");";
-			returnValue += "var fuelGuage = new FuelGaugeWidget ('" + timestamp.toString() + "', " + score + ", cutpoints);";
+			returnValue += "var fuelGuage = new FuelGaugeWidget ('" + timestamp.toString() + fieldName + "', " + score + ", cutpoints);";
 			returnValue += "fuelGuage.create();";
 			returnValue += "</script>";
 			returnValue += "</div>";
