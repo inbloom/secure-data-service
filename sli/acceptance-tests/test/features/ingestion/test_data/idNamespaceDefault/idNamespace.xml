@@ -18,4 +18,23 @@
         <GradingPeriodReference ref="GRDP_20101108"/>
     </Session>
 
+    <GradingPeriod id="GRDP_20101004">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20100823">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+    <GradingPeriod id="GRDP_20101108">
+        <GradingPeriod>Second Six Weeks</GradingPeriod>
+        <BeginDate>2010-10-04</BeginDate>
+        <EndDate>2010-11-07</EndDate>
+        <TotalInstructionalDays>25</TotalInstructionalDays>
+    </GradingPeriod>
+
 </InterchangeEducationOrgCalendar>

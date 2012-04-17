@@ -13,4 +13,5 @@ public interface BatchJobDAO {
 
     NewBatchJob findBatchJobById(String batchJobId);
 
+    BatchJobMongoDAStatus findBatchJobErrors(String batchJobId);
 }

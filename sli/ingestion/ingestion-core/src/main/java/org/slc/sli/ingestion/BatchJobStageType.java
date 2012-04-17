@@ -13,6 +13,7 @@ public enum BatchJobStageType {
     CONTROL_FILE_PREPROCESSING("ControlFilePreprocessing"),
     CONTROL_FILE_PROCESSING("ControlFileProcessing"),
     PURGE_PROCESSING("PurgeProcessing"),
+    XML_FILE_PROCESSING("XmlFileProcessing"),
     EDFI_PROCESSING("EdFiProcessing"),
     TRANSFORMATION_PROCESSING("TransformationProcessing"),
     NR_MERGE_PROCESSING("NeutralRecordMergeProcessing"),

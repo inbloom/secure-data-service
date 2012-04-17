@@ -17,7 +17,6 @@ import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
-import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
@@ -133,7 +132,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
 
             File ctlFile = handler.handle(zipFile, errorReport);
 
-            Error.writeErrorsToMongo(batchJobId, errorReport);
+            BatchJobMongoDA.writeErrorsToMongo(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSING, errorReport);
 
             ResourceEntry resourceName = new ResourceEntry();
             resourceName.setResourceName(zipFile.getCanonicalPath());
