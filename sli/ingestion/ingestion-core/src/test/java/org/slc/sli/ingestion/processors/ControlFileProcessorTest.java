@@ -15,10 +15,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.model.NewBatchJob;
 
 /**
  * Tests for ControlFileProcessor
@@ -55,10 +55,10 @@ public class ControlFileProcessorTest {
 
         processor.process(eObject);
 
-        BatchJob bj = eObject.getIn().getBody(BatchJob.class);
+        NewBatchJob bj = eObject.getIn().getBody(NewBatchJob.class);
 
         assertNotNull("BatchJob is not defined", bj);
-        
+
         boolean hasErrors = (Boolean) eObject.getIn().getHeader("hasErrors");
 
         assertNotNull("header [hasErrors] not set", hasErrors);

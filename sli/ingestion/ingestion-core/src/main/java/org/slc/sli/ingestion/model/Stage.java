@@ -3,8 +3,6 @@ package org.slc.sli.ingestion.model;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
-
 /**
  * Model for the different stages of ingestion processing.
  *
@@ -84,20 +82,28 @@ public class Stage {
     }
 
     public void update(String stageName, String status, String startTimestamp, String stopTimestamp) {
-         if (stageName != null) this.stageName = stageName;
-         if (status != null) this.status = status;
-         if (startTimestamp != null) this.startTimestamp = startTimestamp;
-         if (stopTimestamp != null) this.stopTimestamp = stopTimestamp;
+         if (stageName != null) {
+            this.stageName = stageName;
+        }
+         if (status != null) {
+            this.status = status;
+        }
+         if (startTimestamp != null) {
+            this.startTimestamp = startTimestamp;
+        }
+         if (stopTimestamp != null) {
+            this.stopTimestamp = stopTimestamp;
+        }
     }
 
     public void startStage() {
         this.setStatus("running");
-        this.setStartTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
+        this.setStartTimestamp(NewBatchJob.getCurrentTimeStamp());
     }
 
     public void stopStage() {
         this.setStatus("finished");
-        this.setStopTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
+        this.setStopTimestamp(NewBatchJob.getCurrentTimeStamp());
     }
 
 }

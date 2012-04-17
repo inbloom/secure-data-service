@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.lang.time.FastDateFormat;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -36,8 +37,13 @@ public final class NewBatchJob {
 
     private List<ResourceEntry> resourceEntries;
 
+    private static final String STR_TIMESTAMP_FORMAT = "yyyyMMdd hh:mm:ss.SSS";
+    private static final FastDateFormat FORMATTER = FastDateFormat.getInstance(STR_TIMESTAMP_FORMAT);
+
+
     // mongoTemplate requires this constructor.
     public NewBatchJob() {
+
     }
 
     public NewBatchJob(String id) {
@@ -171,6 +177,14 @@ public final class NewBatchJob {
         }
 
         return null;
+    }
+    /**
+     * Method to return commonly formatted time stamp for batch job stages and metrics
+     * @return timeStamp
+     */
+    public static String getCurrentTimeStamp() {
+        String timeStamp = FORMATTER.format(System.currentTimeMillis());
+        return timeStamp;
     }
 
 }
