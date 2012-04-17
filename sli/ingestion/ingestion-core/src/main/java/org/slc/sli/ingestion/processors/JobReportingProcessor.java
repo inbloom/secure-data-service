@@ -16,6 +16,7 @@ import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NewBatchJobLogger;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LandingZone;
@@ -58,7 +59,7 @@ public class JobReportingProcessor implements Processor {
 
     public void processExistingBatchJob(Exchange exchange) throws Exception {
 
-        BatchJob job = exchange.getIn().getBody(BatchJob.class); // existing impl
+        Job job = exchange.getIn().getBody(BatchJob.class); // existing impl
 
         Logger jobLogger = BatchJobLogger.createLoggerForJob(job.getId(), landingZone);  // existing impl
 
