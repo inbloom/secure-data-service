@@ -131,7 +131,7 @@ public class ControlFileProcessor implements Processor {
             if (job.getProperty(PURGE) != null) {
                 exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
             } else {
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.BULK_TRANSFORM_REQUEST.name());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.XML_FILE_PROCESSED.name());
             }
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
@@ -228,7 +228,7 @@ public class ControlFileProcessor implements Processor {
             if (newJob.getProperty(PURGE) != null) {
                 exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
             } else {
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.BULK_TRANSFORM_REQUEST.name());
+                exchange.getIn().setHeader("IngestionMessageType", MessageType.XML_FILE_PROCESSED.name());
             }
 
         } catch (Exception exception) {

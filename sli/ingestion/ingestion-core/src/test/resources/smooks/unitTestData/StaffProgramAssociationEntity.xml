@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <InterchangeStudentProgram xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentProgram.xsd">
-  <StaffProgramAssociation>
+	<StaffProgramAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>linda.kim</StaffUniqueStateId>
@@ -25,5 +25,5 @@
 		<BeginDate>2011-01-01</BeginDate>
 		<EndDate>2012-02-15</EndDate>
 		<StudentRecordAccess>true</StudentRecordAccess>
-  </StaffProgramAssociation>
+	</StaffProgramAssociation>
 </InterchangeStudentProgram>

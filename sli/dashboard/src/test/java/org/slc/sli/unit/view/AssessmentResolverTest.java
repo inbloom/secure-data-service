@@ -188,12 +188,12 @@ public class AssessmentResolverTest {
         String stringAssmt1 = "{ \"id\":\"1\", \"assessmentIdentificationCode\" : [ { \"identificationSystem\" : \"Test Contractor\", \"ID\" : "
                 + "\"Grade 8 2011 ISAT Reading\" } ], \"academicSubject\" : \"Reading\", \"contentStandard\" : \"State Standard\", "
                 + "\"assessmentFamilyHierarchyName\" : \"ISAT.ISAT Reading for Grades 3-8.ISAT Reading for Grade 8\", \"assessmentCategory\" : "
-                + "\"State summative assessment 3-8 general\", \"assessmentPerformanceLevel\" : [ { \"performanceLevelDescriptor\" : { "
-                + "\"description\" : \"1\" }, \"assessmentReportingMethod\" : \"Scale score\", \"minimumScore\" : 120, "
-                + "\"maximumScore\" : 180 }, { \"performanceLevelDescriptor\" : { \"description\" : \"2\" }, \"assessmentReportingMethod\" : "
-                + "\"Scale score\", \"minimumScore\" : 180, \"maximumScore\" : 231 }, { \"performanceLevelDescriptor\" : { \"description\" : "
-                + "\"3\" }, \"assessmentReportingMethod\" : \"Scale score\", \"minimumScore\" : 231, \"maximumScore\" : 278 }, { "
-                + "\"performanceLevelDescriptor\" : { \"description\" : \"4\" }, \"assessmentReportingMethod\" : \"Scale score\", "
+                + "\"State summative assessment 3-8 general\", \"assessmentPerformanceLevel\" : [ { \"performanceLevelDescriptor\" : [{ "
+                + "\"description\" : \"1\" }], \"assessmentReportingMethod\" : \"Scale score\", \"minimumScore\" : 120, "
+                + "\"maximumScore\" : 180 }, { \"performanceLevelDescriptor\" : [{ \"description\" : \"2\" }], \"assessmentReportingMethod\" : "
+                + "\"Scale score\", \"minimumScore\" : 180, \"maximumScore\" : 231 }, { \"performanceLevelDescriptor\" : [{ \"description\" : "
+                + "\"3\" }], \"assessmentReportingMethod\" : \"Scale score\", \"minimumScore\" : 231, \"maximumScore\" : 278 }, { "
+                + "\"performanceLevelDescriptor\" : [{ \"description\" : \"4\" }], \"assessmentReportingMethod\" : \"Scale score\", "
                 + "\"minimumScore\" : 278, \"maximumScore\" : 364 } ], \"revisionDate\" : \"2011-03-12\", \"gradeLevelAssessed\" : "
                 + "\"Eighth grade\", \"assessmentTitle\" : \"Grade 8 2011 ISAT Reading\", \"maxRawScore\" : 450, \"version\" : 1 }";
         String stringAssmt2 = "{\"id\":\"2\", \"assessmentTitle\":\"SAT\",\"assessmentFamilyHierarchyName\":\"SAT\",\"assessmentIdentificationCode\":"
@@ -238,7 +238,7 @@ public class AssessmentResolverTest {
         
         String stringStudentAssessment = "{ \"administrationDate\" : \"2011-02-01\", \"specialAccommodations\" : [], \"administrationLanguage\" : "
                 + "\"English\", \"studentId\" : \"1\", \"assessmentId\" : \"1\", \"serialNumber\" : \"0\", "
-                + "\"performanceLevelDescriptors\" : [ { \"description\" : \"4\" }], \"scoreResults\" : [ { \"result\" : \"250\", \"assessmentReportingMethod\" : \"Scale score\" } ], "
+                + "\"performanceLevelDescriptors\" : [ [{ \"description\" : \"4\" }]], \"scoreResults\" : [ { \"result\" : \"250\", \"assessmentReportingMethod\" : \"Scale score\" } ], "
                 + "\"administrationEnvironment\" : \"Testing Center\", \"retestIndicator\" : \"Primary Administration\", \"linguisticAccommodations\" : [] }";
         Gson gson = new Gson();
         GenericEntity studentAssmt = gson.fromJson(stringStudentAssessment, GenericEntity.class);

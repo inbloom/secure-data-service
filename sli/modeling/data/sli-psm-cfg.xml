@@ -1,928 +1,533 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psm-cfg>
   <class>
-    <class xmi.idref="286748e3-5614-4a1b-ab9d-41d41d0bc9b1"></class>
-    <resource>studentIdentificationCodes</resource>
-    <collection>studentIdentificationCode</collection>
-  </class>
-  <class>
-    <class xmi.idref="82a05a08-7185-4369-bdd0-2015fec575c6"></class>
-    <resource>assessmentPerformanceLevels</resource>
-    <collection>assessmentPerformanceLevel</collection>
-  </class>
-  <class>
-    <class xmi.idref="b2fa0e8f-8365-406d-893e-f97b44a2f784"></class>
-    <resource>recognitions</resource>
-    <collection>recognition</collection>
-  </class>
-  <class>
-    <class xmi.idref="a58edd2d-1b98-4f32-b1af-664979caeb8b"></class>
-    <resource>cohorts</resource>
-    <collection>cohort</collection>
-  </class>
-  <class>
-    <class xmi.idref="56748f14-8213-4db7-8319-5f0e330711dd"></class>
-    <resource>sessions</resource>
-    <collection>session</collection>
-  </class>
-  <class>
-    <class xmi.idref="e2e1e1e9-adc3-41a3-a52c-0caa73f956c5"></class>
-    <resource>studentObjectiveAssessments</resource>
-    <collection>studentObjectiveAssessment</collection>
-  </class>
-  <class>
-    <class xmi.idref="994e9322-ebee-4c7e-8543-f38dd5b1cc0d"></class>
-    <resource>accountCodeDescriptors</resource>
-    <collection>accountCodeDescriptor</collection>
-  </class>
-  <class>
-    <class xmi.idref="aa6b9d94-5a7b-4b6d-8582-8e93a2c709ee"></class>
-    <resource>calendarDateIdentityTypes</resource>
-    <collection>calendarDateIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="b6b437f6-e648-4097-ab8e-f97e994dc28a"></class>
-    <resource>grades</resource>
-    <collection>grade</collection>
-  </class>
-  <class>
-    <class xmi.idref="bc21b1b6-8b07-4c01-afd0-e3ed3950a0ed"></class>
-    <resource>teachers</resource>
-    <collection>teacher</collection>
-  </class>
-  <class>
-    <class xmi.idref="a0a85841-8f0b-4771-8f4d-3c61e93c07c9"></class>
-    <resource>restraintEvents</resource>
-    <collection>restraintEvent</collection>
-  </class>
-  <class>
-    <class xmi.idref="06cf81ae-ab0a-4b24-8b92-a3d3ab396c4d"></class>
-    <resource>educationalOrgIdentityTypes</resource>
-    <collection>educationalOrgIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="c40d19d0-8c31-43d4-856f-3c9f1634bb59"></class>
-    <resource>studentTitleIPartAProgramAssociations</resource>
-    <collection>studentTitleIPartAProgramAssociation</collection>
-  </class>
-  <class>
-    <class xmi.idref="0e865da2-99bd-440a-82d0-5c7415b2ba1a"></class>
-    <resource>cohortYears</resource>
-    <collection>cohortYear</collection>
-  </class>
-  <class>
-    <class xmi.idref="f23348c9-c73f-43f2-b651-86cbda37a2e2"></class>
-    <resource>telephones</resource>
-    <collection>telephone</collection>
-  </class>
-  <class>
-    <class xmi.idref="cad858d5-4388-45c7-8f6a-26b878ea9cc2"></class>
-    <resource>bellScheduleReferenceTypes</resource>
-    <collection>bellScheduleReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="1ec1dea1-fb2d-41c3-ac6d-6035a10a00a1"></class>
-    <resource>staffIdentificationCodes</resource>
-    <collection>staffIdentificationCode</collection>
-  </class>
-  <class>
-    <class xmi.idref="21f4067e-0095-4a28-adf2-73dafb241510"></class>
-    <resource>learningStandardIds</resource>
-    <collection>learningStandardId</collection>
-  </class>
-  <class>
-    <class xmi.idref="90074c1c-fb86-4b15-b856-abcee227314b"></class>
-    <resource>educationalPlansTypes</resource>
-    <collection>educationalPlansType</collection>
-  </class>
-  <class>
-    <class xmi.idref="81a924e0-8814-4d7d-bdb9-780664c6d190"></class>
-    <resource>parents</resource>
-    <collection>parent</collection>
-  </class>
-  <class>
-    <class xmi.idref="fb918490-84e4-4a62-84d1-c2cc27667271"></class>
-    <resource>assessmentIdentityTypes</resource>
-    <collection>assessmentIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="8064b4b1-b770-4293-9142-ade4b83b14c7"></class>
-    <resource>learningObjectiveReferenceTypes</resource>
-    <collection>learningObjectiveReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="d58b27f8-3ae0-4d0d-91c1-d2e476b87eb9"></class>
-    <resource>weaponsTypes</resource>
-    <collection>weaponsType</collection>
-  </class>
-  <class>
-    <class xmi.idref="7daf257a-0272-41a1-a869-d8685b5e73f4"></class>
-    <resource>classRankings</resource>
-    <collection>classRanking</collection>
-  </class>
-  <class>
-    <class xmi.idref="841f0c7b-e1d3-4c32-8535-d7562000f569"></class>
-    <resource>referenceTypes</resource>
-    <collection>referenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="6897fb33-1ca4-4765-a09f-00c974587d29"></class>
-    <resource>staffIdentityTypes</resource>
-    <collection>staffIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="d676b74e-73e7-42a8-8dd2-b76232cd19f4"></class>
-    <resource>competencyLevelDescriptors</resource>
-    <collection>competencyLevelDescriptor</collection>
-  </class>
-  <class>
-    <class xmi.idref="b4d9d28a-7098-4f74-9bfa-04b39dbf0661"></class>
-    <resource>birthDatas</resource>
-    <collection>birthData</collection>
-  </class>
-  <class>
-    <class xmi.idref="98c32312-e0d1-43f1-8cea-020906d6a4d4"></class>
-    <resource>studentCompetencyObjectives</resource>
-    <collection>studentCompetencyObjective</collection>
-  </class>
-  <class>
-    <class xmi.idref="39dadc6b-4042-48bd-87e7-88793946b862"></class>
-    <resource>localEducationAgencys</resource>
-    <collection>localEducationAgency</collection>
-  </class>
-  <class>
-    <class xmi.idref="b9a5eeb5-1ad0-4d5c-a5c3-a195dd9635c8"></class>
-    <resource>gradingPeriodIdentityTypes</resource>
-    <collection>gradingPeriodIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="97d0fb52-58e3-4ab7-b530-fc4f1321e718"></class>
-    <resource>gradePointAverages</resource>
-    <collection>gradePointAverage</collection>
-  </class>
-  <class>
-    <class xmi.idref="1c69bd46-066b-4016-b7e2-af0f2da83fbc"></class>
-    <resource>academicHonors</resource>
-    <collection>academicHonor</collection>
-  </class>
-  <class>
-    <class xmi.idref="cd4b711a-3b05-4261-b386-9212be9e442e"></class>
-    <resource>studentDisciplineIncidentAssociations</resource>
-    <collection>studentDisciplineIncidentAssociation</collection>
-  </class>
-  <class>
-    <class xmi.idref="584d9cba-9ef7-4f38-8a27-3e74ccddae7b"></class>
-    <resource>accountabilityRatings</resource>
-    <collection>accountabilityRating</collection>
-  </class>
-  <class>
-    <class xmi.idref="be30f8d1-f279-47a8-a268-d648ee18fed9"></class>
-    <resource>schoolCategoriesTypes</resource>
-    <collection>schoolCategoriesType</collection>
-  </class>
-  <class>
-    <class xmi.idref="b3ec243f-28d5-46cd-bea6-4d7d8c0ab8e0"></class>
-    <resource>learningStandardIdentityTypes</resource>
-    <collection>learningStandardIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="8e282a74-e49e-4f38-bfcc-f393d568bca5"></class>
-    <resource>competencyLevelDescriptorTypes</resource>
-    <collection>competencyLevelDescriptorType</collection>
-  </class>
-  <class>
-    <class xmi.idref="8718f742-5507-402b-944c-725c70b10736"></class>
-    <resource>programParticipations</resource>
-    <collection>programParticipation</collection>
-  </class>
-  <class>
-    <class xmi.idref="17a23bd6-2330-4513-ab6f-709748328325"></class>
-    <resource>performanceLevelDescriptorTypes</resource>
-    <collection>performanceLevelDescriptorType</collection>
-  </class>
-  <class>
-    <class xmi.idref="711831a9-d010-41a1-8034-91246b481d55"></class>
-    <resource>classPeriodReferenceTypes</resource>
-    <collection>classPeriodReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="-64--88-1-76-69298e72:1366a3178b0:-8000:0000000000003AB6"></class>
-    <resource>studentAssessments</resource>
-    <collection>studentAssessment</collection>
-  </class>
-  <class>
-    <class xmi.idref="28dae82d-7530-4818-aa68-d824d8115543"></class>
-    <resource>gradebookEntrys</resource>
-    <collection>gradebookEntry</collection>
-  </class>
-  <class>
-    <class xmi.idref="6f4672b3-81a9-4b80-abc1-59a1c245a71b"></class>
-    <resource>creditsByCourses</resource>
-    <collection>creditsByCourse</collection>
-  </class>
-  <class>
-    <class xmi.idref="00d5f1e0-960d-4695-9441-8d084fc45060"></class>
-    <resource>staffs</resource>
-    <collection>staff</collection>
-  </class>
-  <class>
-    <class xmi.idref="95d6d20c-1f21-4f9c-bc29-bfd008a1b207"></class>
-    <resource>courseCodes</resource>
-    <collection>courseCode</collection>
-  </class>
-  <class>
-    <class xmi.idref="7b6f6c9c-564b-4c01-bc0d-ec8d504931e7"></class>
-    <resource>addresss</resource>
-    <collection>address</collection>
-  </class>
-  <class>
-    <class xmi.idref="d35ca024-efec-49af-b4ee-1186afb78a33"></class>
-    <resource>leaveEvents</resource>
-    <collection>leaveEvent</collection>
-  </class>
-  <class>
-    <class xmi.idref="b70249bf-a21c-473b-b567-3c609984b8bc"></class>
-    <resource>locations</resource>
-    <collection>location</collection>
-  </class>
-  <class>
-    <class xmi.idref="5d7b12e9-0165-4171-a763-4b84d4f89807"></class>
-    <resource>assessmentFamilyIdentityTypes</resource>
-    <collection>assessmentFamilyIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="a7842b10-af81-4d4f-96e0-e3554e9f9f7a"></class>
-    <resource>students</resource>
-    <collection>student</collection>
-  </class>
-  <class>
-    <class xmi.idref="404a8db7-9307-421f-9a1e-bd791848463c"></class>
-    <resource>sessionReferenceTypes</resource>
-    <collection>sessionReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="c2e3ede8-8215-450e-ad6a-157003c6f048"></class>
-    <resource>creditss</resource>
-    <collection>credits</collection>
-  </class>
-  <class>
-    <class xmi.idref="8e8dbb35-3be0-481b-83eb-5d92f0b18877"></class>
-    <resource>studentProgramAssociations</resource>
-    <collection>studentProgramAssociation</collection>
-  </class>
-  <class>
-    <class xmi.idref="0a2084b0-eb68-4aca-afb3-951d186ebb2b"></class>
-    <resource>studentReferenceTypes</resource>
-    <collection>studentReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="7d3cbc49-dde9-4c27-8e30-4d4be694e4bd"></class>
-    <resource>courseLevelCharacteristicsTypes</resource>
-    <collection>courseLevelCharacteristicsType</collection>
-  </class>
-  <class>
-    <class xmi.idref="153e2c9d-6d87-49a7-bb4d-982775ef4ee4"></class>
-    <resource>teacherSectionAssociations</resource>
-    <collection>teacherSectionAssociation</collection>
-  </class>
-  <class>
-    <class xmi.idref="93a0df88-5587-4539-93d1-fbc9359c6d13"></class>
-    <resource>credentials</resource>
-    <collection>credential</collection>
-  </class>
-  <class>
-    <class xmi.idref="074ef550-2abb-4ac0-836c-ba207b15f593"></class>
-    <resource>classPeriodIdentityTypes</resource>
-    <collection>classPeriodIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="6093d9e4-9224-4590-a575-58ca4b9ea972"></class>
-    <resource>scoreResults</resource>
-    <collection>scoreResult</collection>
-  </class>
-  <class>
-    <class xmi.idref="a086ce60-f4f1-464c-bcc0-3951b1fdfe6b"></class>
-    <resource>assessmentPeriodDescriptors</resource>
-    <collection>assessmentPeriodDescriptor</collection>
-  </class>
-  <class>
-    <class xmi.idref="005d7c3d-6bd5-4521-bd0c-b9343a18dfd0"></class>
-    <resource>learningObjectives</resource>
-    <collection>learningObjective</collection>
-  </class>
-  <class>
-    <class xmi.idref="612dd663-e635-4de5-bef9-7b57541aee26"></class>
-    <resource>disciplineIncidentIdentityTypes</resource>
-    <collection>disciplineIncidentIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="99ed7fe1-0f83-4251-acdd-1a8efaff6df8"></class>
-    <resource>behaviorDescriptorTypes</resource>
-    <collection>behaviorDescriptorType</collection>
-  </class>
-  <class>
-    <class xmi.idref="5ef798f3-b6b1-4a96-a5a3-4d97f589eb4a"></class>
-    <resource>accounts</resource>
-    <collection>account</collection>
-  </class>
-  <class>
-    <class xmi.idref="ef94d862-040b-4c64-a27b-5e9c71a5c9a1"></class>
-    <resource>graduationPlans</resource>
-    <collection>graduationPlan</collection>
-  </class>
-  <class>
-    <class xmi.idref="d85014d8-e6cd-4abe-883a-f7ca8c1380c1"></class>
-    <resource>assessmentFamilys</resource>
-    <collection>assessmentFamily</collection>
-  </class>
-  <class>
-    <class xmi.idref="2dc1add9-ee20-4984-87ff-b7a2bae1fc59"></class>
-    <resource>accountIdentityTypes</resource>
-    <collection>accountIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="1a9180b7-c545-4d2c-8eae-f21858c842b9"></class>
-    <resource>serviceDescriptors</resource>
-    <collection>serviceDescriptor</collection>
-  </class>
-  <class>
-    <class xmi.idref="6f30772e-52d2-4395-9ddc-e0ffa07a26bf"></class>
-    <resource>bellSchedules</resource>
-    <collection>bellSchedule</collection>
-  </class>
-  <class>
-    <class xmi.idref="fa3cc0ac-44b5-420a-b89a-69971fc2b1e2"></class>
-    <resource>assessmentReferenceTypes</resource>
-    <collection>assessmentReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="a03b684d-9003-4d69-8770-a9e4815acb3e"></class>
-    <resource>credentialFieldDescriptorTypes</resource>
-    <collection>credentialFieldDescriptorType</collection>
-  </class>
-  <class>
-    <class xmi.idref="2e1c3814-6d1f-4837-beaa-172b3b5a0697"></class>
-    <resource>educationalOrgReferenceTypes</resource>
-    <collection>educationalOrgReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="68b66b39-1175-45ea-8057-53c81fe238ac"></class>
-    <resource>bellScheduleIdentityTypes</resource>
-    <collection>bellScheduleIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="e8c4cb9c-8e73-492c-9a56-469dc029a2ec"></class>
-    <resource>educationServiceCenters</resource>
-    <collection>educationServiceCenter</collection>
-  </class>
-  <class>
-    <class xmi.idref="f28c6de2-d068-4d54-bed4-e27b7bcc4993"></class>
-    <resource>attendanceEvents</resource>
-    <collection>attendanceEvent</collection>
-  </class>
-  <class>
-    <class xmi.idref="d6a2e45d-54d5-4933-ac32-f4a36d1edcac"></class>
-    <resource>educationOrganizations</resource>
-    <collection>educationOrganization</collection>
-  </class>
-  <class>
-    <class xmi.idref="c2cceed7-a611-4526-863f-f3d83a893bf0"></class>
-    <resource>learningStandardReferenceTypes</resource>
-    <collection>learningStandardReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="b09486aa-336e-49fb-8e9b-2d669cbed541"></class>
-    <resource>gradeLevelsTypes</resource>
-    <collection>gradeLevelsType</collection>
-  </class>
-  <class>
-    <class xmi.idref="610b053a-c058-47d8-bfc2-be6e649374d9"></class>
-    <resource>studentParentAssociations</resource>
-    <collection>studentParentAssociation</collection>
-  </class>
-  <class>
-    <class xmi.idref="b6dc3fbf-e519-4b52-96db-a6278fd20032"></class>
-    <resource>languagesTypes</resource>
-    <collection>languagesType</collection>
-  </class>
-  <class>
-    <class xmi.idref="5b1ccf49-ad0c-405b-a238-4bd70a924b38"></class>
-    <resource>section504DisabilitiesTypes</resource>
-    <collection>section504DisabilitiesType</collection>
-  </class>
-  <class>
-    <class xmi.idref="25f85b32-4020-4804-990b-4d295d5b98c4"></class>
-    <resource>payrolls</resource>
-    <collection>payroll</collection>
-  </class>
-  <class>
-    <class xmi.idref="24020eb7-2f06-4ec2-8952-7bad003f04db"></class>
-    <resource>courseOfferings</resource>
-    <collection>courseOffering</collection>
-  </class>
-  <class>
-    <class xmi.idref="20856c47-7347-4f58-9cbb-d1232c9b55f9"></class>
-    <resource>academicWeeks</resource>
-    <collection>academicWeek</collection>
-  </class>
-  <class>
-    <class xmi.idref="9f0df874-03c1-4654-a7e0-ffb36dfd2c37"></class>
-    <resource>objectiveAssessmentReferenceTypes</resource>
-    <collection>objectiveAssessmentReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="5f2c1116-8b0f-4e8e-b4f8-13cc685110c2"></class>
-    <resource>studentAssessmentItems</resource>
-    <collection>studentAssessmentItem</collection>
-  </class>
-  <class>
-    <class xmi.idref="fc020a07-dd4f-4c7d-96a6-4ad56d3d797d"></class>
-    <resource>programs</resource>
-    <collection>program</collection>
-  </class>
-  <class>
-    <class xmi.idref="8a1f485a-dd22-4a58-b3d1-8d42a82b474d"></class>
+    <class xmi.idref="b0971a77-79a2-401f-9b91-fbcd895ca07d"></class>
     <resource>complexObjectTypes</resource>
     <collection>complexObjectType</collection>
   </class>
   <class>
-    <class xmi.idref="30cf3c3c-400b-439a-8656-1dc33b29cf29"></class>
-    <resource>postSecondaryEvents</resource>
-    <collection>postSecondaryEvent</collection>
-  </class>
-  <class>
-    <class xmi.idref="a5cf952b-590e-4fe6-b0cd-8554458a16f0"></class>
-    <resource>courses</resource>
-    <collection>course</collection>
-  </class>
-  <class>
-    <class xmi.idref="ecbaefac-e943-4b61-8c1d-15b9b4530c17"></class>
-    <resource>staffProgramAssociations</resource>
-    <collection>staffProgramAssociation</collection>
-  </class>
-  <class>
-    <class xmi.idref="cc53a8ce-7600-4704-9a3d-a877934165fb"></class>
-    <resource>otherNames</resource>
-    <collection>otherName</collection>
-  </class>
-  <class>
-    <class xmi.idref="deb92b37-177a-40d2-a24e-d96d7cb98b5f"></class>
-    <resource>parentReferenceTypes</resource>
-    <collection>parentReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="f90ed1b1-3d30-44bb-9b3b-7b0301afe8a3"></class>
-    <resource>studentSchoolAssociations</resource>
-    <collection>studentSchoolAssociation</collection>
-  </class>
-  <class>
-    <class xmi.idref="6a2c60d7-58a4-43d8-af64-c6d1b4d83e56"></class>
-    <resource>actuals</resource>
-    <collection>actual</collection>
-  </class>
-  <class>
-    <class xmi.idref="5de0946a-97c1-4cd4-8263-1c51d8b40c89"></class>
-    <resource>programReferenceTypes</resource>
-    <collection>programReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="cf7677b6-e7e9-4754-8f96-81f32891b28a"></class>
-    <resource>programIdentityTypes</resource>
-    <collection>programIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="1b3a1d31-578d-4bfe-8d33-c0ec88838210"></class>
-    <resource>studentSectionAssociationIdentityTypes</resource>
-    <collection>studentSectionAssociationIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="2bd7e337-8079-4c5e-80a5-f006efb22c81"></class>
-    <resource>studentAcademicRecords</resource>
-    <collection>studentAcademicRecord</collection>
-  </class>
-  <class>
-    <class xmi.idref="1dcc65e7-9d5b-4976-9393-ad19055fda36"></class>
-    <resource>diplomas</resource>
-    <collection>diploma</collection>
-  </class>
-  <class>
-    <class xmi.idref="f85ea17f-820b-4b89-bcb6-cae27345a35f"></class>
-    <resource>reportCards</resource>
-    <collection>reportCard</collection>
-  </class>
-  <class>
-    <class xmi.idref="a70f2c71-da1b-49dc-95b4-3e522a53b200"></class>
-    <resource>contractedStaffs</resource>
-    <collection>contractedStaff</collection>
-  </class>
-  <class>
-    <class xmi.idref="b66f9974-aea7-41f9-9dbc-b3c5c2c1e4e0"></class>
-    <resource>schools</resource>
-    <collection>school</collection>
-  </class>
-  <class>
-    <class xmi.idref="aaa86b21-fe76-476c-9bce-8652397cc459"></class>
-    <resource>disciplineIncidents</resource>
-    <collection>disciplineIncident</collection>
-  </class>
-  <class>
-    <class xmi.idref="30eff0ee-2d0c-4314-b9aa-9c3cebce8cc1"></class>
-    <resource>assessmentFamilyReferenceTypes</resource>
-    <collection>assessmentFamilyReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="101d0f08-a517-405e-9acb-ec5826be582e"></class>
-    <resource>assessments</resource>
-    <collection>assessment</collection>
-  </class>
-  <class>
-    <class xmi.idref="6039b09c-d2c9-470c-b4ad-7195a5741354"></class>
-    <resource>specialAccommodationsTypes</resource>
-    <collection>specialAccommodationsType</collection>
-  </class>
-  <class>
-    <class xmi.idref="666ad355-777d-4396-97d6-045bcc56466a"></class>
-    <resource>locationIdentityTypes</resource>
-    <collection>locationIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="dd94e866-1f06-4048-a224-2b9de4115a02"></class>
-    <resource>locationReferenceTypes</resource>
-    <collection>locationReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="835aefe9-c4f3-481d-ac9f-f545c8453d88"></class>
-    <resource>assessmentItems</resource>
-    <collection>assessmentItem</collection>
-  </class>
-  <class>
-    <class xmi.idref="463ae43c-e6d1-4b7a-810f-6e1733acf328"></class>
-    <resource>staffReferenceTypes</resource>
-    <collection>staffReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="ec39ae43-0f78-4b00-b08d-fca6d76228fc"></class>
-    <resource>feederSchoolAssociations</resource>
-    <collection>feederSchoolAssociation</collection>
-  </class>
-  <class>
-    <class xmi.idref="95195b22-46aa-4e10-953d-38a13c949d2f"></class>
-    <resource>studentCompetencyObjectiveReferenceTypes</resource>
-    <collection>studentCompetencyObjectiveReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="99911f0d-a7b9-4702-adf8-a18cb8774c90"></class>
-    <resource>sectionIdentityTypes</resource>
-    <collection>sectionIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="d79ea541-b72f-420f-860b-84c4437723c3"></class>
-    <resource>calendarDateReferenceTypes</resource>
-    <collection>calendarDateReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="5a499a63-9cca-4eee-b69e-8e9b65deb9d4"></class>
-    <resource>gradingPeriodReferenceTypes</resource>
-    <collection>gradingPeriodReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="75543de4-696f-4745-ae24-52a613c95c3e"></class>
-    <resource>teacherSchoolAssociations</resource>
-    <collection>teacherSchoolAssociation</collection>
-  </class>
-  <class>
-    <class xmi.idref="3cf286fc-c7a0-42b9-8649-58ae4e8eba03"></class>
-    <resource>courseTranscripts</resource>
-    <collection>courseTranscript</collection>
-  </class>
-  <class>
-    <class xmi.idref="5cef582e-b61e-4ee3-99f7-4ca1cea7d0f7"></class>
-    <resource>classPeriods</resource>
-    <collection>classPeriod</collection>
-  </class>
-  <class>
-    <class xmi.idref="c18e39c2-5fdd-498e-8aa9-05cbb06a931e"></class>
-    <resource>studentSpecialEdProgramAssociations</resource>
-    <collection>studentSpecialEdProgramAssociation</collection>
-  </class>
-  <class>
-    <class xmi.idref="6ed915b2-7ea3-4be2-be15-8bba3a3d28f1"></class>
-    <resource>studentCohortAssociations</resource>
-    <collection>studentCohortAssociation</collection>
-  </class>
-  <class>
-    <class xmi.idref="4fe071c3-a639-4adf-b560-252112d54bb7"></class>
-    <resource>linguisticAccommodationsTypes</resource>
-    <collection>linguisticAccommodationsType</collection>
-  </class>
-  <class>
-    <class xmi.idref="8533dfd7-df2f-4019-83fe-2d25888605e0"></class>
-    <resource>studentCompetencyObjectiveIdentityTypes</resource>
-    <collection>studentCompetencyObjectiveIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="8f80d78d-2998-4130-b45b-c895c6fdecee"></class>
-    <resource>studentSectionAssociations</resource>
-    <collection>studentSectionAssociation</collection>
-  </class>
-  <class>
-    <class xmi.idref="7c33711b-9493-4bd9-bca0-2cfad5d96436"></class>
-    <resource>cohortIdentityTypes</resource>
-    <collection>cohortIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="7f82581f-0c57-4b84-b4ad-a4b973821fa1"></class>
-    <resource>disciplineDescriptors</resource>
-    <collection>disciplineDescriptor</collection>
-  </class>
-  <class>
-    <class xmi.idref="2fb4a090-9747-421e-b955-d24a0a7349a9"></class>
-    <resource>performanceLevelDescriptors</resource>
-    <collection>performanceLevelDescriptor</collection>
-  </class>
-  <class>
-    <class xmi.idref="b76463ff-6c47-4480-b7e4-6c887010ca8d"></class>
-    <resource>objectiveAssessmentIdentityTypes</resource>
-    <collection>objectiveAssessmentIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="82f10f70-14ad-4f20-b487-c01f79f85adc"></class>
-    <resource>electronicMails</resource>
-    <collection>electronicMail</collection>
-  </class>
-  <class>
-    <class xmi.idref="80d754fe-9534-4eeb-a7ba-74f683eddf71"></class>
-    <resource>courseOfferingIdentityTypes</resource>
-    <collection>courseOfferingIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="10f19cad-8336-4e2a-9c91-7512454a2b5e"></class>
-    <resource>openStaffPositions</resource>
-    <collection>openStaffPosition</collection>
-  </class>
-  <class>
-    <class xmi.idref="c4e62778-bd89-46a4-8c45-e346e9a6ddbc"></class>
-    <resource>sessionIdentityTypes</resource>
-    <collection>sessionIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="682a2965-6262-45ab-965c-61a0c5190054"></class>
-    <resource>cTEPrograms</resource>
-    <collection>cTEProgram</collection>
-  </class>
-  <class>
-    <class xmi.idref="a32a588c-3662-4e8f-b605-585d2152211d"></class>
-    <resource>creditsBySubjects</resource>
-    <collection>creditsBySubject</collection>
-  </class>
-  <class>
-    <class xmi.idref="cf9d4f95-fa0e-40ac-9834-c4b19d0849f8"></class>
-    <resource>behaviorDescriptors</resource>
-    <collection>behaviorDescriptor</collection>
-  </class>
-  <class>
-    <class xmi.idref="e645848d-fb3c-41dd-bba8-addec185a71d"></class>
-    <resource>courseReferenceTypes</resource>
-    <collection>courseReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="bc9b0038-41ff-4277-b412-54885b099e25"></class>
-    <resource>studentCharacteristics</resource>
-    <collection>studentCharacteristic</collection>
-  </class>
-  <class>
-    <class xmi.idref="e3c4a169-9578-4b73-b4e2-2128f8d3594e"></class>
-    <resource>accountReferenceTypes</resource>
-    <collection>accountReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="242787a6-7d3d-4d38-892b-65adbcbf0a38"></class>
-    <resource>budgets</resource>
-    <collection>budget</collection>
-  </class>
-  <class>
-    <class xmi.idref="604cf1bf-0aff-40f9-a932-18db66ce2bfa"></class>
-    <resource>studentIndicators</resource>
-    <collection>studentIndicator</collection>
-  </class>
-  <class>
-    <class xmi.idref="d0c56f5b-e2ac-4a82-ac07-c693c3395452"></class>
-    <resource>learningStandards</resource>
-    <collection>learningStandard</collection>
-  </class>
-  <class>
-    <class xmi.idref="e20ec80a-f92b-4ba7-8334-3af8b4c215fc"></class>
-    <resource>studentGradebookEntrys</resource>
-    <collection>studentGradebookEntry</collection>
-  </class>
-  <class>
-    <class xmi.idref="7a781c27-1823-42b5-bf4c-47642778b05c"></class>
-    <resource>sections</resource>
-    <collection>section</collection>
-  </class>
-  <class>
-    <class xmi.idref="1aa8bd32-08ac-438b-8e65-66d22cb06a9f"></class>
-    <resource>studentSectionAssociationReferenceTypes</resource>
-    <collection>studentSectionAssociationReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="f999cf91-08fe-4595-b4e8-e77c465fbcbf"></class>
-    <resource>names</resource>
-    <collection>name</collection>
-  </class>
-  <class>
-    <class xmi.idref="adf000e4-d408-44f8-8781-a5838814d9dd"></class>
-    <resource>credentialFieldDescriptors</resource>
-    <collection>credentialFieldDescriptor</collection>
-  </class>
-  <class>
-    <class xmi.idref="eb418cdd-2c1f-4484-8028-ee7f1303fe24"></class>
-    <resource>objectiveAssessments</resource>
-    <collection>objectiveAssessment</collection>
-  </class>
-  <class>
-    <class xmi.idref="bc106222-ce81-4f1f-80ce-60ef2db06e43"></class>
-    <resource>additionalCreditss</resource>
-    <collection>additionalCredits</collection>
-  </class>
-  <class>
-    <class xmi.idref="b0f8d50a-1f78-445b-b5bb-4baf96302cd7"></class>
-    <resource>studentCTEProgramAssociations</resource>
-    <collection>studentCTEProgramAssociation</collection>
-  </class>
-  <class>
-    <class xmi.idref="a02e7b68-bf4a-4c71-b96e-586ce0c43a96"></class>
-    <resource>gradingPeriods</resource>
-    <collection>gradingPeriod</collection>
-  </class>
-  <class>
-    <class xmi.idref="9164fe27-c120-463f-b172-7157bd36f49c"></class>
-    <resource>serviceDescriptorTypes</resource>
-    <collection>serviceDescriptorType</collection>
-  </class>
-  <class>
-    <class xmi.idref="7a71d471-cd21-4031-b5db-44f3414807d9"></class>
-    <resource>stateEducationAgencys</resource>
-    <collection>stateEducationAgency</collection>
-  </class>
-  <class>
-    <class xmi.idref="620b1292-6edf-47df-931d-592ebbf470b8"></class>
-    <resource>studentCompetencys</resource>
-    <collection>studentCompetency</collection>
-  </class>
-  <class>
-    <class xmi.idref="83ef7b99-1947-4fe4-987a-8453453630bd"></class>
-    <resource>employmentPeriods</resource>
-    <collection>employmentPeriod</collection>
-  </class>
-  <class>
-    <class xmi.idref="3510330a-5ad7-4f8d-b3ed-312daa048dca"></class>
-    <resource>institutionTelephones</resource>
-    <collection>institutionTelephone</collection>
-  </class>
-  <class>
-    <class xmi.idref="f0842c76-af0c-4ab4-9def-05020d673491"></class>
-    <resource>assessmentItemReferenceTypes</resource>
-    <collection>assessmentItemReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="d30a9f17-84d4-4b4e-b5aa-ee472cbb1809"></class>
-    <resource>calendarDates</resource>
-    <collection>calendarDate</collection>
-  </class>
-  <class>
-    <class xmi.idref="d271aa8d-318e-4080-b587-db55bdbe45d0"></class>
-    <resource>meetingDaysTypes</resource>
-    <collection>meetingDaysType</collection>
-  </class>
-  <class>
-    <class xmi.idref="ae237d7f-f4ec-40bc-8b85-b56b8e6aa558"></class>
-    <resource>secondaryBehaviors</resource>
-    <collection>secondaryBehavior</collection>
-  </class>
-  <class>
-    <class xmi.idref="4104f1cb-0609-47bf-af35-e68b0fd8d258"></class>
-    <resource>courseOfferingReferenceTypes</resource>
-    <collection>courseOfferingReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="d93eb3fc-e90c-4127-b391-83e7eab0d466"></class>
-    <resource>cohortReferenceTypes</resource>
-    <collection>cohortReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="907a9e62-42d7-4660-b609-c5db9c221420"></class>
-    <resource>educationOrganizationCategoriesTypes</resource>
-    <collection>educationOrganizationCategoriesType</collection>
-  </class>
-  <class>
-    <class xmi.idref="a64283dd-63f1-4fa1-85f9-da66ef95e2d2"></class>
-    <resource>restraintEventReasonsTypes</resource>
-    <collection>restraintEventReasonsType</collection>
-  </class>
-  <class>
-    <class xmi.idref="a39db2d5-34a1-4fcc-b2ea-5e70cb8444f5"></class>
-    <resource>staffEducationOrgAssignmentAssociations</resource>
-    <collection>staffEducationOrgAssignmentAssociation</collection>
-  </class>
-  <class>
-    <class xmi.idref="1a32e20e-8cd0-4e19-942d-c336c6f44238"></class>
-    <resource>assessmentItemIdentityTypes</resource>
-    <collection>assessmentItemIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="69d8c4a4-1198-45b7-9699-41e1fc2d4c1d"></class>
-    <resource>studentIdentityTypes</resource>
-    <collection>studentIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="6666ceda-ac5d-4f99-9225-e25272011f72"></class>
-    <resource>academicSubjectsTypes</resource>
-    <collection>academicSubjectsType</collection>
-  </class>
-  <class>
-    <class xmi.idref="6bb12310-3caf-419d-adec-a2e8923df813"></class>
-    <resource>disciplineDescriptorTypes</resource>
-    <collection>disciplineDescriptorType</collection>
-  </class>
-  <class>
-    <class xmi.idref="97e3b78c-db11-4efe-bc19-f70cb81aebde"></class>
-    <resource>disabilitys</resource>
-    <collection>disability</collection>
-  </class>
-  <class>
-    <class xmi.idref="5e224398-6b3b-40e4-b4df-f2f665e2feb5"></class>
-    <resource>parentIdentityTypes</resource>
-    <collection>parentIdentityType</collection>
-  </class>
-  <class>
-    <class xmi.idref="5a86ad2b-a99e-42ed-97a2-99e5a4a1e721"></class>
-    <resource>sectionReferenceTypes</resource>
-    <collection>sectionReferenceType</collection>
-  </class>
-  <class>
-    <class xmi.idref="7b255333-955f-4647-bad5-e1ae9ca7e6a1"></class>
+    <class xmi.idref="bf18aaf9-9447-4df7-95ea-65d90deeaa41"></class>
     <resource>assessmentIdentificationCodes</resource>
     <collection>assessmentIdentificationCode</collection>
   </class>
   <class>
-    <class xmi.idref="19d758ce-c032-40ab-92be-a5d8624fb69f"></class>
-    <resource>accountCodeDescriptorTypes</resource>
-    <collection>accountCodeDescriptorType</collection>
+    <class xmi.idref="882284a0-e8ad-4519-8383-2d77a77bd79e"></class>
+    <resource>assessmentItems</resource>
+    <collection>assessmentItem</collection>
   </class>
   <class>
-    <class xmi.idref="14b5374b-bde1-49c6-a0a7-6bb019f24e71"></class>
-    <resource>staffEducationOrgEmploymentAssociations</resource>
-    <collection>staffEducationOrgEmploymentAssociation</collection>
+    <class xmi.idref="e58a1485-44db-464a-be38-deaf7100bedd"></class>
+    <resource>assessmentPerformanceLevels</resource>
+    <collection>assessmentPerformanceLevel</collection>
   </class>
   <class>
-    <class xmi.idref="ba3887c0-6819-41ee-97e0-76af20eecfe5"></class>
-    <resource>assessmentPeriodDescriptorTypes</resource>
-    <collection>assessmentPeriodDescriptorType</collection>
+    <class xmi.idref="d4389392-6821-48a2-a1a4-917ba9257e6c"></class>
+    <resource>learningStyless</resource>
+    <collection>learningStyles</collection>
   </class>
   <class>
-    <class xmi.idref="1b2bc3ed-9002-41fe-836e-1fc3bb8c1972"></class>
-    <resource>raceTypes</resource>
-    <collection>raceType</collection>
+    <class xmi.idref="2439686f-9e37-47fc-a7ae-e77234350436"></class>
+    <resource>leaveEvents</resource>
+    <collection>leaveEvent</collection>
   </class>
   <class>
-    <class xmi.idref="e0fbdfe4-185d-42e9-819b-e5411143368f"></class>
-    <resource>learningObjectiveIdentityTypes</resource>
-    <collection>learningObjectiveIdentityType</collection>
+    <class xmi.idref="da158379-5ab2-4ad2-8807-691d13fa086a"></class>
+    <resource>locations</resource>
+    <collection>location</collection>
   </class>
   <class>
-    <class xmi.idref="7353dc26-659c-4def-9e3b-bb56e88fcdb7"></class>
+    <class xmi.idref="b4065d31-747a-461e-9494-37b325a54e18"></class>
     <resource>meetingTimes</resource>
     <collection>meetingTime</collection>
   </class>
   <class>
-    <class xmi.idref="78ad56fe-cbf3-4e55-b847-2f173b276326"></class>
+    <class xmi.idref="0c5a9dfc-abc7-4e28-9d94-ecb559d6e60e"></class>
+    <resource>miscellaneousEvents</resource>
+    <collection>miscellaneousEvent</collection>
+  </class>
+  <class>
+    <class xmi.idref="cce12f8b-f3e1-4175-8166-3d55b5648acc"></class>
+    <resource>names</resource>
+    <collection>name</collection>
+  </class>
+  <class>
+    <class xmi.idref="8e828b44-f522-4f9b-abcb-4b4e3a865b3e"></class>
+    <resource>objectiveAssessments</resource>
+    <collection>objectiveAssessment</collection>
+  </class>
+  <class>
+    <class xmi.idref="f949a650-6f3e-4ea4-ad83-b5642ef1ce17"></class>
+    <resource>openStaffPositions</resource>
+    <collection>openStaffPosition</collection>
+  </class>
+  <class>
+    <class xmi.idref="6e31213f-bba2-43f5-b206-b1eaee929d39"></class>
+    <resource>otherNames</resource>
+    <collection>otherName</collection>
+  </class>
+  <class>
+    <class xmi.idref="a74845d8-a6b9-494a-bfb4-34ea61a21e65"></class>
+    <resource>performanceLevelDescriptors</resource>
+    <collection>performanceLevelDescriptor</collection>
+  </class>
+  <class>
+    <class xmi.idref="cf73c299-09e0-4242-9c59-7f4080b52266"></class>
+    <resource>postSecondaryEvents</resource>
+    <collection>postSecondaryEvent</collection>
+  </class>
+  <class>
+    <class xmi.idref="95137964-475e-44f5-baf5-4b57de07f4fb"></class>
+    <resource>restraintEvents</resource>
+    <collection>restraintEvent</collection>
+  </class>
+  <class>
+    <class xmi.idref="22b64fc7-2bac-4259-a0d5-8bdbf8a09a2f"></class>
+    <resource>restraintEventReasonsTypes</resource>
+    <collection>restraintEventReasonsType</collection>
+  </class>
+  <class>
+    <class xmi.idref="314ce10f-ab44-4408-9064-4e55fed9797a"></class>
+    <resource>scoreResults</resource>
+    <collection>scoreResult</collection>
+  </class>
+  <class>
+    <class xmi.idref="5bb530ca-958f-4d21-a5d4-099ed0f3bbb4"></class>
+    <resource>secondaryBehaviors</resource>
+    <collection>secondaryBehavior</collection>
+  </class>
+  <class>
+    <class xmi.idref="ddde32aa-3517-471f-9355-d541ec94039d"></class>
+    <resource>staffIdentificationCodes</resource>
+    <collection>staffIdentificationCode</collection>
+  </class>
+  <class>
+    <class xmi.idref="5da272b7-6247-41ba-809c-83647a46cbb1"></class>
+    <resource>serviceDescriptors</resource>
+    <collection>serviceDescriptor</collection>
+  </class>
+  <class>
+    <class xmi.idref="045a23a3-1622-4733-8c6f-7d56a797b2bc"></class>
+    <resource>abstractStaffs</resource>
+    <collection>abstractStaff</collection>
+  </class>
+  <class>
+    <class xmi.idref="aa0cdc41-fe70-4c61-9e4b-972e728b77d8"></class>
+    <resource>studentAssessmentItems</resource>
+    <collection>studentAssessmentItem</collection>
+  </class>
+  <class>
+    <class xmi.idref="d6b83adf-d111-4376-aa85-8bf9d1f29cd5"></class>
+    <resource>studentCharacteristics</resource>
+    <collection>studentCharacteristic</collection>
+  </class>
+  <class>
+    <class xmi.idref="ff7863e4-7628-41b7-a6d7-1a152e5a5bd3"></class>
+    <resource>studentIdentificationCodes</resource>
+    <collection>studentIdentificationCode</collection>
+  </class>
+  <class>
+    <class xmi.idref="b6d85d52-9d64-4d1f-8ef4-d72e16ba7f1a"></class>
+    <resource>studentIndicators</resource>
+    <collection>studentIndicator</collection>
+  </class>
+  <class>
+    <class xmi.idref="3611ada0-ddee-4d71-817c-d040d0b7c758"></class>
+    <resource>studentObjectiveAssessments</resource>
+    <collection>studentObjectiveAssessment</collection>
+  </class>
+  <class>
+    <class xmi.idref="d7ea84cb-eca8-4231-9474-92b172d0aa6b"></class>
+    <resource>telephones</resource>
+    <collection>telephone</collection>
+  </class>
+  <class>
+    <class xmi.idref="83dcdeee-b9f7-497d-b50d-eb8d51753f8d"></class>
+    <resource>disabilitys</resource>
+    <collection>disability</collection>
+  </class>
+  <class>
+    <class xmi.idref="3ecc1a1d-3e6d-45b8-b22e-b0d472f1a621"></class>
     <resource>disciplineActions</resource>
     <collection>disciplineAction</collection>
   </class>
   <class>
-    <class xmi.idref="a898e732-5c17-4cd2-807f-5aa2a51919b5"></class>
+    <class xmi.idref="ca994696-2834-4d76-a008-05915e2e026f"></class>
+    <resource>educationOrganizations</resource>
+    <collection>educationOrganization</collection>
+  </class>
+  <class>
+    <class xmi.idref="e5826ad4-fa38-47b3-ae84-dcba2cbe23f7"></class>
     <resource>educationOrgIdentificationCodes</resource>
     <collection>educationOrgIdentificationCode</collection>
   </class>
   <class>
-    <class xmi.idref="c746596f-362c-4367-99fd-0145165dffd1"></class>
-    <resource>disciplineIncidentReferenceTypes</resource>
-    <collection>disciplineIncidentReferenceType</collection>
+    <class xmi.idref="fbefddae-2271-4d3e-a2bd-706091bef286"></class>
+    <resource>educationalOrgIdentityTypes</resource>
+    <collection>educationalOrgIdentityType</collection>
   </class>
   <class>
-    <class xmi.idref="3c869275-8646-4078-a9b4-a491c2b865da"></class>
+    <class xmi.idref="df4db6ce-fec7-4f4b-8942-9e176d5f5924"></class>
+    <resource>electronicMails</resource>
+    <collection>electronicMail</collection>
+  </class>
+  <class>
+    <class xmi.idref="1d4a4e59-7329-4e62-9c2e-315321b4597e"></class>
+    <resource>accountabilityRatings</resource>
+    <collection>accountabilityRating</collection>
+  </class>
+  <class>
+    <class xmi.idref="08b5f8ad-a407-415c-b8e6-2fc39b1c4fc1"></class>
+    <resource>additionalCreditss</resource>
+    <collection>additionalCredits</collection>
+  </class>
+  <class>
+    <class xmi.idref="7d9a3449-910d-4c92-8a2e-ca9886a1b3eb"></class>
+    <resource>addresss</resource>
+    <collection>address</collection>
+  </class>
+  <class>
+    <class xmi.idref="92cd43bf-d83e-4ccc-b3a7-b554d6bdd83c"></class>
+    <resource>academicSubjectsTypes</resource>
+    <collection>academicSubjectsType</collection>
+  </class>
+  <class>
+    <class xmi.idref="274ba5e2-f622-49b3-a6bb-99eeb454d80f"></class>
+    <resource>academicWeeks</resource>
+    <collection>academicWeek</collection>
+  </class>
+  <class>
+    <class xmi.idref="453ff48e-e81b-4210-83c0-47e780abf32a"></class>
+    <resource>credentials</resource>
+    <collection>credential</collection>
+  </class>
+  <class>
+    <class xmi.idref="5521dc04-5100-4c4c-95ed-378d42e721e8"></class>
+    <resource>credentialFieldDescriptors</resource>
+    <collection>credentialFieldDescriptor</collection>
+  </class>
+  <class>
+    <class xmi.idref="43e40780-e855-49cd-8c65-0cc06707d05a"></class>
+    <resource>creditss</resource>
+    <collection>credits</collection>
+  </class>
+  <class>
+    <class xmi.idref="ec35c65b-368f-44e9-b8da-7f5e7c203649"></class>
+    <resource>creditsByCourses</resource>
+    <collection>creditsByCourse</collection>
+  </class>
+  <class>
+    <class xmi.idref="b2afd7c7-ba6b-4ef4-997c-a19fed8fcc2b"></class>
+    <resource>creditsBySubjects</resource>
+    <collection>creditsBySubject</collection>
+  </class>
+  <class>
+    <class xmi.idref="51f0875f-14c8-4bc1-984e-61f3892f9aca"></class>
+    <resource>diplomas</resource>
+    <collection>diploma</collection>
+  </class>
+  <class>
+    <class xmi.idref="47053d55-a9fb-4a9d-9eca-a7d824ad697d"></class>
+    <resource>learningObjectiveIdentityTypes</resource>
+    <collection>learningObjectiveIdentityType</collection>
+  </class>
+  <class>
+    <class xmi.idref="944c942f-45c5-4d10-8549-5452983bf9df"></class>
+    <resource>learningStandardIdentityTypes</resource>
+    <collection>learningStandardIdentityType</collection>
+  </class>
+  <class>
+    <class xmi.idref="f11eded2-5c4d-463b-b5da-537eba1275aa"></class>
+    <resource>employmentPeriods</resource>
+    <collection>employmentPeriod</collection>
+  </class>
+  <class>
+    <class xmi.idref="c60b7f91-3cd8-42a2-9aa5-7c22025e548e"></class>
+    <resource>feederSchoolTypes</resource>
+    <collection>feederSchoolType</collection>
+  </class>
+  <class>
+    <class xmi.idref="187be485-28cb-4f25-81a6-980adc0e589a"></class>
+    <resource>gradingPeriods</resource>
+    <collection>gradingPeriod</collection>
+  </class>
+  <class>
+    <class xmi.idref="c0367838-49f2-40d5-b31e-2c718f823abd"></class>
+    <resource>graduationPlans</resource>
+    <collection>graduationPlan</collection>
+  </class>
+  <class>
+    <class xmi.idref="4f047e56-b73d-4f2e-91d6-1d51ee2b3f56"></class>
+    <resource>institutionTelephones</resource>
+    <collection>institutionTelephone</collection>
+  </class>
+  <class>
+    <class xmi.idref="7da4e0b7-0020-456a-8868-057f9bae644e"></class>
+    <resource>learningStandardIds</resource>
+    <collection>learningStandardId</collection>
+  </class>
+  <class>
+    <class xmi.idref="e2c56171-f864-4397-8329-df891908ce84"></class>
+    <resource>cohortYears</resource>
+    <collection>cohortYear</collection>
+  </class>
+  <class>
+    <class xmi.idref="934dc499-d413-469c-9503-69629712824a"></class>
+    <resource>courseCodes</resource>
+    <collection>courseCode</collection>
+  </class>
+  <class>
+    <class xmi.idref="b6349c72-585a-4d82-9e97-830aac052c48"></class>
+    <resource>academicHonors</resource>
+    <collection>academicHonor</collection>
+  </class>
+  <class>
+    <class xmi.idref="07be9d90-01e9-4233-9a1a-f578ae97490a"></class>
+    <resource>assessmentPeriodDescriptors</resource>
+    <collection>assessmentPeriodDescriptor</collection>
+  </class>
+  <class>
+    <class xmi.idref="dd29b202-7ba4-4309-8a53-61c2310181c3"></class>
+    <resource>behaviorDescriptors</resource>
+    <collection>behaviorDescriptor</collection>
+  </class>
+  <class>
+    <class xmi.idref="05c36d46-940c-4564-a085-6863102e320a"></class>
+    <resource>disciplineDescriptors</resource>
+    <collection>disciplineDescriptor</collection>
+  </class>
+  <class>
+    <class xmi.idref="4de21d59-0ff8-4f31-8fd1-380cff3b2995"></class>
+    <resource>birthDatas</resource>
+    <collection>birthData</collection>
+  </class>
+  <class>
+    <class xmi.idref="3c69c7cf-ad9d-440d-b00f-dc3e7afa5fa0"></class>
+    <resource>calendarDates</resource>
+    <collection>calendarDate</collection>
+  </class>
+  <class>
+    <class xmi.idref="c61195ca-ff06-4d9e-ab15-68551d5d359f"></class>
+    <resource>classRankings</resource>
+    <collection>classRanking</collection>
+  </class>
+  <class>
+    <class xmi.idref="4ece5da0-697d-4c0b-a9ad-d5abbfe27fdb"></class>
+    <resource>programParticipations</resource>
+    <collection>programParticipation</collection>
+  </class>
+  <class>
+    <class xmi.idref="7391e0be-2851-4fda-9ad1-2956a670ae24"></class>
+    <resource>recognitions</resource>
+    <collection>recognition</collection>
+  </class>
+  <class>
+    <class xmi.idref="c138067b-03c2-4c4f-bdf7-c2a430b3570f"></class>
+    <resource>weaponsTypes</resource>
+    <collection>weaponsType</collection>
+  </class>
+  <class>
+    <class xmi.idref="17af9a10-5842-4b5e-b07a-385c069e3ca5"></class>
+    <resource>dailyAttendanceTypes</resource>
+    <collection>dailyAttendanceType</collection>
+  </class>
+  <class>
+    <class xmi.idref="98d04eda-4bb1-448b-ac9d-273e8ba07f2c"></class>
+    <resource>schoolYearAttendanceTypes</resource>
+    <collection>schoolYearAttendanceType</collection>
+  </class>
+  <class>
+    <class xmi.idref="d4ab5e09-2f65-43d0-879c-0a829aa1964e"></class>
+    <resource>attendanceEvents</resource>
+    <collection>attendanceEvent</collection>
+  </class>
+  <class>
+    <class xmi.idref="af8a4e46-ed04-4d4d-b99f-732fd7efec6a"></class>
+    <resource>assessments</resource>
+    <collection>assessment</collection>
+  </class>
+  <class>
+    <class xmi.idref="a28ef676-71e3-4c27-9049-cf1d9a709203"></class>
+    <resource>attendances</resource>
+    <collection>attendance</collection>
+  </class>
+  <class>
+    <class xmi.idref="15bfd1ab-24b6-43bd-9881-142bba5f20b4"></class>
+    <resource>bellSchedules</resource>
+    <collection>bellSchedule</collection>
+  </class>
+  <class>
+    <class xmi.idref="976cd3ae-82eb-43cc-9faf-3d3cb0fbb832"></class>
+    <resource>cohorts</resource>
+    <collection>cohort</collection>
+  </class>
+  <class>
+    <class xmi.idref="48c6b423-077a-4544-9dfa-2aae59a3dab5"></class>
+    <resource>courses</resource>
+    <collection>course</collection>
+  </class>
+  <class>
+    <class xmi.idref="462bdf21-2c67-4b17-85bb-7378eeea44ad"></class>
+    <resource>disciplineIncidents</resource>
+    <collection>disciplineIncident</collection>
+  </class>
+  <class>
+    <class xmi.idref="7f85d47a-2a29-442c-9c33-fdee17330fc6"></class>
+    <resource>educationOrgAssociations</resource>
+    <collection>educationOrgAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="6da7cc0b-dc32-4534-9b6f-47a5dcf7b8b3"></class>
+    <resource>eventBellScheduleAssociations</resource>
+    <collection>eventBellScheduleAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="7967eea5-728c-4e2e-8a56-1572f950b39e"></class>
+    <resource>gradebookEntrys</resource>
+    <collection>gradebookEntry</collection>
+  </class>
+  <class>
+    <class xmi.idref="bc9869aa-0e1a-4917-ba5c-47c41f34539e"></class>
+    <resource>parents</resource>
+    <collection>parent</collection>
+  </class>
+  <class>
+    <class xmi.idref="aad05a83-c7e1-485c-b66a-3e3dce67c26d"></class>
+    <resource>programs</resource>
+    <collection>program</collection>
+  </class>
+  <class>
+    <class xmi.idref="0f5e6c4e-f4b6-4d9d-b226-a7faec7b9c7d"></class>
+    <resource>schools</resource>
+    <collection>school</collection>
+  </class>
+  <class>
+    <class xmi.idref="3129a61b-123c-4f39-baba-fb56013a6f0c"></class>
+    <resource>schoolSessionAssociations</resource>
+    <collection>schoolSessionAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="a2de7748-b282-43c0-8762-a7b1c8c20de3"></class>
+    <resource>sections</resource>
+    <collection>section</collection>
+  </class>
+  <class>
+    <class xmi.idref="af3d96c6-a1da-463d-bac2-8b9243d818a9"></class>
+    <resource>sectionAssessmentAssociations</resource>
+    <collection>sectionAssessmentAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="16350e14-97e5-41af-a164-08854f39d9b8"></class>
+    <resource>sectionBellScheduleAssociations</resource>
+    <collection>sectionBellScheduleAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="808cc581-5ae1-4953-b950-4a4693462f1e"></class>
+    <resource>sessions</resource>
+    <collection>session</collection>
+  </class>
+  <class>
+    <class xmi.idref="776f79cd-86c1-4157-8a69-365e6298bc60"></class>
+    <resource>sessionCourseAssociations</resource>
+    <collection>sessionCourseAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="6f6007ea-6aa7-48f5-accc-d21a3caafcc0"></class>
     <resource>staffCohortAssociations</resource>
     <collection>staffCohortAssociation</collection>
   </class>
   <class>
-    <class xmi.idref="648fb27c-f84e-480e-952c-d743ab19c189"></class>
-    <resource>courseIdentityTypes</resource>
-    <collection>courseIdentityType</collection>
+    <class xmi.idref="c53b4a87-475e-4071-a8cd-098e521eecd6"></class>
+    <resource>studentAcademicRecords</resource>
+    <collection>studentAcademicRecord</collection>
   </class>
   <class>
-    <class xmi.idref="d08b274f-b5f7-4a69-9680-795a65c55b41"></class>
-    <resource>learningStyless</resource>
-    <collection>learningStyles</collection>
+    <class xmi.idref="29839a94-6c9a-4ebd-9c39-161cfaa3bbe0"></class>
+    <resource>staffProgramAssociations</resource>
+    <collection>staffProgramAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="ec4dc30b-2bcd-4c64-b11b-42c996adee15"></class>
+    <resource>students</resource>
+    <collection>student</collection>
+  </class>
+  <class>
+    <class xmi.idref="90ea0365-db69-4ba5-a940-617cb50e9e62"></class>
+    <resource>studentAssessmentAssociations</resource>
+    <collection>studentAssessmentAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="2a46b42f-1c66-4183-9aa7-105380325aa8"></class>
+    <resource>studentCohortAssociations</resource>
+    <collection>studentCohortAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="868759f5-ee93-46c7-bcf3-44becc4c91c2"></class>
+    <resource>studentDisciplineIncidentAssociations</resource>
+    <collection>studentDisciplineIncidentAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="725e13da-c734-45b5-8073-706d0d24f114"></class>
+    <resource>studentSectionGradebookEntrys</resource>
+    <collection>studentSectionGradebookEntry</collection>
+  </class>
+  <class>
+    <class xmi.idref="f5b5e673-e9e3-4d74-81a8-e2bb48d77033"></class>
+    <resource>studentParentAssociations</resource>
+    <collection>studentParentAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="de2f30d8-ee1e-48b4-95ba-0db643343ad2"></class>
+    <resource>studentProgramAssociations</resource>
+    <collection>studentProgramAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="271e9468-8926-4acf-96d8-68be0881d631"></class>
+    <resource>studentSchoolAssociations</resource>
+    <collection>studentSchoolAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="f3fec4ab-b6bb-40ca-abb7-fde413c0b4a5"></class>
+    <resource>studentSectionAssociations</resource>
+    <collection>studentSectionAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="669f96dc-a1e6-4b0b-9b4b-e53f0d790b5c"></class>
+    <resource>studentTranscriptAssociations</resource>
+    <collection>studentTranscriptAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="5a40b9a3-4ce1-429e-bc2d-8dff07a10132"></class>
+    <resource>teachers</resource>
+    <collection>teacher</collection>
+  </class>
+  <class>
+    <class xmi.idref="21f85796-13f7-4f9f-b053-46afad4a49ff"></class>
+    <resource>staffs</resource>
+    <collection>staff</collection>
+  </class>
+  <class>
+    <class xmi.idref="ec2c6f73-e301-4169-9e32-660dffb49879"></class>
+    <resource>staffEducationOrganizationAssociations</resource>
+    <collection>staffEducationOrganizationAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="5b66f07f-ac65-46ff-8f12-078e090014a5"></class>
+    <resource>teacherSchoolAssociations</resource>
+    <collection>teacherSchoolAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="2149a266-9e94-448f-afce-d3fcb3b9fd3e"></class>
+    <resource>teacherSectionAssociations</resource>
+    <collection>teacherSectionAssociation</collection>
+  </class>
+  <class>
+    <class xmi.idref="723be186-8bb4-425e-9c02-9d1fe94357b4"></class>
+    <resource>learningStandards</resource>
+    <collection>learningStandard</collection>
+  </class>
+  <class>
+    <class xmi.idref="bc9ab8c6-7eb1-47d9-8fa9-c733effd2192"></class>
+    <resource>learningObjectives</resource>
+    <collection>learningObjective</collection>
   </class>
 </psm-cfg>

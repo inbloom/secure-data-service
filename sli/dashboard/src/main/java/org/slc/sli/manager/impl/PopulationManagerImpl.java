@@ -168,12 +168,14 @@ public class PopulationManagerImpl implements PopulationManager {
                     assmtResult.put(type, result);
                 }
                 
-                List<Map> perfLevelsDescs = (List<Map>) assmtResult.get("performanceLevelDescriptors");
-                for (Map perfLevelDesc : perfLevelsDescs) {
+                List<List<Map>> perfLevelsDescs = (List<List<Map>>) assmtResult.get("performanceLevelDescriptors");
+                for (List<Map> perfLevelDescList : perfLevelsDescs) {
+                    for (Map pl : perfLevelDescList) {
+                        String perfLevel = (String) pl.get("description");
+                        assmtResult.put("perfLevel", perfLevel);
+                        break; // only get the first one
+                    }
                     
-                    String perfLevel = (String) perfLevelDesc.get("description");
-                    assmtResult.put("perfLevel", perfLevel);
-                    break; // only get the first one
                 }
             }
 

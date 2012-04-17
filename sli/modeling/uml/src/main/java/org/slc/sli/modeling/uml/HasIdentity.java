@@ -8,6 +8,4 @@ package org.slc.sli.modeling.uml;
 public interface HasIdentity {
     
     Identifier getId();
-    
-    ReferenceType getKind();    
 }
