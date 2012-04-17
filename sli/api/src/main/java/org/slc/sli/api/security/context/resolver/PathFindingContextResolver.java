@@ -80,10 +80,15 @@ public class PathFindingContextResolver implements EntityContextResolver {
                 List<String> keys = helper.getAssocKeys(current.getName(), ad);
                 idSet = helper.findEntitiesContainingReference(ad.getStoredCollectionName(), keys.get(0),
                         connection.getFieldName(), new ArrayList<String>(ids));
+            } else if (!isAssociative(next, connection) && connection.getAssociationNode().length() != 0) {
+                idSet = helper.findEntitiesContainingReference(repoName, "_id", connection.getFieldName(),
+                        new ArrayList<String>(ids));
+                
             } else {
                 idSet = helper.findEntitiesContainingReference(repoName,
  connection.getFieldName(),
                         new ArrayList<String>(ids));
+
             }
 
             ids.addAll(idSet);
@@ -94,18 +99,11 @@ public class PathFindingContextResolver implements EntityContextResolver {
     }
 
     private boolean isAssociative(SecurityNode next, SecurityNodeConnection connection) {
-        return connection.getAssociationNode().length() != 0;
+        return connection.getAssociationNode().length() != 0 && connection.getAssociationNode().endsWith("ssociations");
     }
 
     private String getResourceName(SecurityNode next, SecurityNodeConnection connection) {
-        return isAssociative(next, connection) ? connection.getAssociationNode() : next.getName();
-    }
-
-    private void fixIds(List<String> ids, Iterable<String> idSet) {
-        ids.clear();
-        for (String id : idSet) {
-            ids.add(id);
-        }
+        return connection.getAssociationNode().length() != 0 ? connection.getAssociationNode() : next.getName();
     }
     
     /**
