@@ -1,4 +1,4 @@
-package org.slc.sli.util.performance;
+package org.slc.sli.common.util.performance;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,6 +15,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Profiled {
 
+  /**
+   * Profiling level
+   * @return level
+   */
   String level() default "INFO";
 
 }

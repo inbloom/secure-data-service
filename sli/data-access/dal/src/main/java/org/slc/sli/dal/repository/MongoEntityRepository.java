@@ -8,10 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
+import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.util.datetime.DateTimeUtil;
 import org.slc.sli.validation.EntityValidator;
 
 /**

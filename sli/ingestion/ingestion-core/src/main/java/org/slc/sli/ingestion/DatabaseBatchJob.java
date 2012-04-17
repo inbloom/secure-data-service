@@ -9,10 +9,10 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.common.util.performance.PutResultInContext;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReportSupport;
-import org.slc.sli.util.performance.PutResultInContext;
 
 /**
  * Database Batch Job class.
@@ -23,7 +23,7 @@ import org.slc.sli.util.performance.PutResultInContext;
 public final class DatabaseBatchJob implements Serializable, ErrorReportSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatabaseBatchJob.class);
-    
+
     // TODO need to change this?
     private static final long serialVersionUID = -340538024579162600L;
 
@@ -36,7 +36,7 @@ public final class DatabaseBatchJob implements Serializable, ErrorReportSupport 
      * stage type cache
      */
     private BatchJobStageType stage = null;
-    
+
     /**
      * holds references to the files involved in this Job
      */
@@ -84,10 +84,11 @@ public final class DatabaseBatchJob implements Serializable, ErrorReportSupport 
      */
     @PutResultInContext(returnName = "databaseIngestionBatchJobId")
     protected static String createId(String filename) {
-        if (filename == null)
+        if (filename == null) {
             return System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
-        else
+        } else {
             return filename + "-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+        }
     }
 
     /**
@@ -99,12 +100,12 @@ public final class DatabaseBatchJob implements Serializable, ErrorReportSupport 
      */
     public boolean addFile(IngestionFileEntry file) {
 
-        // TODO BatchJobUtils - refactor IngestionFileEntry to be per File 
+        // TODO BatchJobUtils - refactor IngestionFileEntry to be per File
         // Create the original file field
         // JobLog.createOrUpdateFile(id, file.getFormat(), file.getType(), file.getFileName(), file.getChecksum());
         return true;
     }
-  
+
     @Override
     public ErrorReport getErrorReport() {
         return getFaultsReport();
@@ -116,17 +117,17 @@ public final class DatabaseBatchJob implements Serializable, ErrorReportSupport 
 //        JobLogStatus status = JobLog.getFaults(id);
 //        if (status.getSuccess())
 //            return status.getResult();
-//        
+//
 //        log(status.getMessage());
         return null;
     }
 
     // TODO: enumerate severity for errors
-    
+
     /**
      * Write a batch job error using state manager system properties.
      * This should be refactored to be an interface with different implementations.
-     * 
+     *
      * @param batchJobId
      * @param stageName
      * @param fileId
@@ -146,10 +147,10 @@ public final class DatabaseBatchJob implements Serializable, ErrorReportSupport 
     public void logBatchError(String severity, String errorDetail) {
         logError(null, null, severity, errorDetail);
     }
-    
+
     /**
      * Should be called after beginStage(), but before endStage()
-     * 
+     *
      * @return the files
      */
     public List<IngestionFileEntry> getResources() {
@@ -158,17 +159,17 @@ public final class DatabaseBatchJob implements Serializable, ErrorReportSupport 
 //        JobLogStatus status = JobLog.getFiles(id);
 //        if (status.getSuccess())
 //            return status.getResult();
-//        
+//
 //        log(status.getMessage());
-        
+
         // set the jobId and stage for each resource
 //        for (IngestionFileEntry resource : resources) {
 //            resource.setBatchJobId(id);
 //            resource.getDatabaseErrorsReport().setBatchJobId(stage);
-//            if (stage != null) 
+//            if (stage != null)
 //                resource.getDatabaseErrorsReport().setBatchJobStage(stage);
 //        }
-        
+
         return null;
     }
 
@@ -239,7 +240,7 @@ public final class DatabaseBatchJob implements Serializable, ErrorReportSupport 
 
     /**
      * Set the status of a batch job  // TODO enumerate status values
-     * 
+     *
      * @param status
      */
     public void setStatus(BatchJobStageType status) {
@@ -248,15 +249,15 @@ public final class DatabaseBatchJob implements Serializable, ErrorReportSupport 
 //      if (!jobLogStatus.getSuccess())
 //        logBatchError("ERROR", jobLogStatus.getMessage());
     }
-    
+
     /**
      * Create a stage in the db with startTimeStamp of now
-     * 
+     *
      * @param stage
      */
     public void beginStage(BatchJobStageType batchJobStage) {
             LOG.info("started a stage in the db managed batch job");
-            
+
             // TODO: create a stage field with status "running" and startTime of now in the db
             long startTime = System.currentTimeMillis();
             // TODO update the job status
@@ -266,10 +267,10 @@ public final class DatabaseBatchJob implements Serializable, ErrorReportSupport 
 
             this.stage = batchJobStage;  // cache the stage
     }
-    
+
     /**
      * Update the stage field in the db to have stopTimeStamp of now
-     * 
+     *
      * @param stage     // TODO determine stage from existing job state
      */
     public void endStage(BatchJobStageType stage) {
@@ -279,13 +280,13 @@ public final class DatabaseBatchJob implements Serializable, ErrorReportSupport 
 //      status = JobLog.createOrUpdateStage(id, stage, "completed", null, stopTime);
 //      if (!status.getSuccess())
 //        logBatchError("ERROR", status.getMessage());
-        
+
         this.stage = null;
     }
-    
+
     /**
      * Create a metric with startTime of current system time
-     * 
+     *
      * @param stage
      * @param fileId
      */
@@ -297,11 +298,11 @@ public final class DatabaseBatchJob implements Serializable, ErrorReportSupport 
 //      if (!status.getSuccess())
 //        logBatchError("ERROR", status.getMessage());
    }
-    
+
     /**
      * Update the metric in the db with the current time as stopTime and the specified record and
      * error counts
-     * 
+     *
      * @param stage   // TODO determine stage from existing job state
      * @param fileId
      * @param recordCount
@@ -309,7 +310,7 @@ public final class DatabaseBatchJob implements Serializable, ErrorReportSupport 
      */
     public void stopMetric(BatchJobStageType stage, String resourceId, int recordCount, int errorCount) {
         LOG.info("stopping a metric");
-        
+
         long stopTime = System.currentTimeMillis();
         // status = JobLog.createOrUpdateMetric(id, stage, resourceId, null, stopTime, recordCount, errorCount);
         // if (!status.getSuccess())

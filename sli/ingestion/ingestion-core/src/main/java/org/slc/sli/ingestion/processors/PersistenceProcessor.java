@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -48,7 +49,6 @@ import org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingFaultReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
-import org.slc.sli.util.performance.Profiled;
 
 /**
  * Ingestion Persistence Processor.
@@ -145,10 +145,10 @@ public class PersistenceProcessor implements Processor {
                     job.getFaultsReport().error(
                             "Errors found for input file \"" + fe.getFileName() + "\". See \"error." + fe.getFileName()
                                     + "\" for details.", this);
-                                        
+
                     for (Fault fault : job.getFaultsReport().getFaults()) {
                         String faultMessage = fault.getMessage();
-                        BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, FaultType.TYPE_ERROR.getName(), "Error", faultMessage);    
+                        BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, FaultType.TYPE_ERROR.getName(), "Error", faultMessage);
                     }
                 }
 
@@ -233,7 +233,7 @@ public class PersistenceProcessor implements Processor {
                 recordNumber++;
 
                 NeutralRecord neutralRecord = nrFileReader.next();
-                
+
                 if (!transformedCollections.contains(neutralRecord.getRecordType())) {
                     if (persistedCollections.contains(neutralRecord.getRecordType())) {
                         //this doesn't exist in collection, persist
@@ -252,10 +252,12 @@ public class PersistenceProcessor implements Processor {
                             numFailed++;
                             for (Fault fault : recordLevelErrorsInFile.getFaults()) {
                                 String faultMessage = fault.getMessage();
-                                if (faultMessage != null) faultMessage = faultMessage.replaceAll("\r|\n", " ");
+                                if (faultMessage != null) {
+                                    faultMessage = faultMessage.replaceAll("\r|\n", " ");
+                                }
                                 String faultLevel  = fault.isError() ? FaultType.TYPE_ERROR.getName() : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
-                                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);    
-                            }                             
+                                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);
+                            }
                         }
                     }
                 } else {
@@ -263,9 +265,9 @@ public class PersistenceProcessor implements Processor {
                     LOG.debug("processing staged collection: {}", neutralRecord.getRecordType());
                     if (!processedStagedCollections.contains(neutralRecord.getRecordType())) {
                         //collection wasn't processed yet
-                        
-                        Iterable<NeutralRecord> neutralRecordData = null; 
-                        
+
+                        Iterable<NeutralRecord> neutralRecordData = null;
+
                         if (neutralRecord.getRecordType().equals("studentTranscriptAssociation")) {
                             NeutralQuery neutralQuery = new NeutralQuery();
                             String studentAcademicRecordId = (String) neutralRecord.getAttributes().remove("studentAcademicRecordId");
@@ -275,7 +277,7 @@ public class PersistenceProcessor implements Processor {
                             processedStagedCollections.add(neutralRecord.getRecordType());
                             neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed");
                         }
-                        
+
                         if (neutralRecordData != null) {
                             for (NeutralRecord nr : neutralRecordData) {
                                 nr.setSourceId(tenantId);
@@ -295,9 +297,11 @@ public class PersistenceProcessor implements Processor {
                                 }
                                 for (Fault fault : recordLevelErrorsInFile.getFaults()) {
                                     String faultMessage = fault.getMessage();
-                                    if (faultMessage != null) faultMessage = faultMessage.replaceAll("\r|\n", " ");
+                                    if (faultMessage != null) {
+                                        faultMessage = faultMessage.replaceAll("\r|\n", " ");
+                                    }
                                     String faultLevel  = fault.isError() ? FaultType.TYPE_ERROR.getName() : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
-                                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);    
+                                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);
                                 }
                             }
                         } else {

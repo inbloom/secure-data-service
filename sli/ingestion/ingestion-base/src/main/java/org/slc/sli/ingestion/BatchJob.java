@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
+import org.slc.sli.common.util.performance.PutResultInContext;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReportSupport;
-import org.slc.sli.util.performance.PutResultInContext;
 
 /**
  * Batch Job class.
@@ -86,10 +86,11 @@ public final class BatchJob implements Serializable, ErrorReportSupport {
      */
     @PutResultInContext(returnName = "ingestionBatchJobId")
     protected static String createId(String filename) {
-        if (filename == null)
+        if (filename == null) {
             return System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
-        else
+        } else {
             return filename + "-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+        }
     }
 
     /**

@@ -20,10 +20,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
+import org.slc.sli.common.util.threadutil.ThreadLocalStorage;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slc.sli.util.threadutil.ThreadLocalStorage;
 
 /**
  * mongodb implementation of the repository interface that provides basic
@@ -35,7 +35,7 @@ import org.slc.sli.util.threadutil.ThreadLocalStorage;
 
 public abstract class MongoRepository<T> implements Repository<T> {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
-    
+
     protected ThreadLocalStorage threadStore = new ThreadLocalStorage("" + UUID.randomUUID().toString());
 
     protected MongoTemplate template;
@@ -160,8 +160,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public boolean update(String collection, T record, Map<String, Object> body) {
         Assert.notNull(record, "The given record must not be null!");
         String id = getRecordId(record);
-        if (id.equals(""))
+        if (id.equals("")) {
             return false;
+        }
 
         T found = template.findOne(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), getRecordClass(),
                 collection);
@@ -182,8 +183,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public boolean delete(String collectionName, String id) {
-        if (id.equals(""))
+        if (id.equals("")) {
             return false;
+        }
         T deleted = template.findAndRemove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
                 getRecordClass(), getComposedCollectionName(collectionName));
         LOG.info("delete a entity in collection {} with id {}", new Object[] { getComposedCollectionName(collectionName), id });
@@ -210,7 +212,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     /**
      * returns collection name with a append of collectionGroupingIdentifier (if collectionGroupingFlag is set to true)
-     * 
+     *
      * @param collectionName
      * @return
      */
@@ -218,23 +220,23 @@ public abstract class MongoRepository<T> implements Repository<T> {
         if (isCollectionGrouping()) {
             return collectionName + "_" + getCollectionGroupingIdentifier();
         }
-        
+
         return collectionName;
     }
-    
-    
+
+
     public boolean isCollectionGrouping() {
         if (threadStore.get("collectionGroupingFlag") != null) {
             return (Boolean) threadStore.get("collectionGroupingFlag");
         }
-        
+
         return false;
     }
 
     public void setCollectionGrouping(boolean collectionGrouping) {
         threadStore.put("collectionGroupingFlag", collectionGrouping);
     }
-    
+
     public String getCollectionGroupingIdentifier() {
         return (String) threadStore.get("collectionGroupingIdentifier");
     }
@@ -242,7 +244,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public void setCollectionGroupingIdentifier(String collectionGroupingIdentifier) {
         threadStore.put("collectionGroupingIdentifier", collectionGroupingIdentifier);
     }
-    
+
     protected abstract String getRecordId(T record);
 
     protected abstract Class<T> getRecordClass();
@@ -265,8 +267,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     @Deprecated
     public Iterable<T> findByQuery(String collectionName, Query query, int skip, int max) {
-        if (query == null)
+        if (query == null) {
             query = new Query();
+        }
 
         query.skip(skip).limit(max);
 
