@@ -26,6 +26,8 @@ import org.slc.sli.ingestion.queues.MessageType;
  */
 public class ControlFilePreProcessor implements Processor {
 
+    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PREPROCESSING;
+
     private LandingZone landingZone;
 
     Logger log = LoggerFactory.getLogger(ZipFileProcessor.class);
@@ -45,7 +47,7 @@ public class ControlFilePreProcessor implements Processor {
 
     private void processUsingNewBatchJob(Exchange exchange) throws Exception {
 
-        Stage stage = Stage.createAndStartStage(BatchJobStageType.CONTROL_FILE_PREPROCESSING);
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
 
@@ -61,7 +63,6 @@ public class ControlFilePreProcessor implements Processor {
                 newBatchJob = createNewBatchJob(fileForControlFile, exchange);
             }
 
-            // parse the control file
             ControlFile controlFile = ControlFile.parse(fileForControlFile);
 
             newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
@@ -70,19 +71,26 @@ public class ControlFilePreProcessor implements Processor {
 
             batchJobDAO.saveBatchJob(newBatchJob);
 
-            // set headers for ingestion routing
-            exchange.getIn().setBody(new ControlFileDescriptor(controlFile, landingZone), ControlFileDescriptor.class);
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
+            setExchangeHeaders(exchange, controlFile);
 
         } catch (Exception exception) {
-            exchange.getIn().setHeader("ErrorMessage", exception.toString());
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            log.error("Exception:", exception);
-            if (batchJobId != null) {
-                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.CONTROL_FILE_PREPROCESSING,
-                        FaultType.TYPE_ERROR.getName(), null, exception.toString());
-            }
+            handleExceptions(exchange, batchJobId, exception);
         }
+    }
+
+    private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {
+        exchange.getIn().setHeader("ErrorMessage", exception.toString());
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        log.error("Exception:", exception);
+        if (batchJobId != null) {
+            BatchJobMongoDA.logBatchStageError(batchJobId, BATCH_JOB_STAGE,
+                    FaultType.TYPE_ERROR.getName(), null, exception.toString());
+        }
+    }
+
+    private void setExchangeHeaders(Exchange exchange, ControlFile controlFile) {
+        exchange.getIn().setBody(new ControlFileDescriptor(controlFile, landingZone), ControlFileDescriptor.class);
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
     }
 
     private NewBatchJob getNewBatchJobFromDb(String batchJobId, BatchJobDAO batchJobDAO) {
