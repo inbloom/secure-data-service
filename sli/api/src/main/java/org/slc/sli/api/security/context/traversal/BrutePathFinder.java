@@ -23,11 +23,13 @@ import org.springframework.stereotype.Component;
 public class BrutePathFinder implements SecurityPathFinder {
     private Map<String, SecurityNode> nodeMap;
     private Map<String, List<SecurityNode>> prePath;
+    private List<String> excludePath;
 
     @PostConstruct
     public void init() {
         nodeMap = new HashMap<String, SecurityNode>();
         prePath = new HashMap<String, List<SecurityNode>>();
+        excludePath = new ArrayList<String>();
         nodeMap.put(EntityNames.TEACHER,
                 SecurityNodeBuilder.buildNode("teacher")
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)
@@ -47,6 +49,8 @@ public class BrutePathFinder implements SecurityPathFinder {
                 SecurityNodeBuilder.buildNode(EntityNames.STUDENT)
                         .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.STUDENT_SECTION_ASSOCIATIONS)
                         .construct());
+        
+        excludePath.add(EntityNames.TEACHER + EntityNames.SECTION);
 
         prePath.put(
                 EntityNames.TEACHER + EntityNames.TEACHER,
@@ -120,6 +124,10 @@ public class BrutePathFinder implements SecurityPathFinder {
      */
     public Map<String, SecurityNode> getNodeMap() {
         return nodeMap;
+    }
+    
+    public boolean isPathExcluded(String from, String to) {
+        return excludePath.contains(from + to);
     }
 
 }

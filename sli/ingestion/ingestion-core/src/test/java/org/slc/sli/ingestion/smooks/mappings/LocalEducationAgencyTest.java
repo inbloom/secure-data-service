@@ -80,7 +80,16 @@ public class LocalEducationAgencyTest {
             + "        <RatingOrganization>rating org</RatingOrganization>"
             + "        <RatingProgram>rating program</RatingProgram>"
             + "    </AccountabilityRatings>"
-            + "    <ProgramReference>program reference</ProgramReference>"
+            + "    <ProgramReference>"
+            + "      <ProgramIdentity>"
+            + "        <ProgramId>ACC-TEST-PROG-1</ProgramId>"
+            + "      </ProgramIdentity>"
+            + "    </ProgramReference>"
+            + "    <ProgramReference>"
+            + "      <ProgramIdentity>"
+            + "        <ProgramId>ACC-TEST-PROG-2</ProgramId>"
+            + "      </ProgramIdentity>"
+            + "    </ProgramReference>"
             + "    <StateEducationAgencyReference id=\"ID041\" ref=\"ID003\">"
             + "      <EducationalOrgIdentity>"
             + "        <StateOrganizationId>SEA123</StateOrganizationId>"
@@ -199,7 +208,8 @@ public class LocalEducationAgencyTest {
         EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "ratingProgram", "rating program");
 
         List programReferenceList = (List) neutralRecord.getAttributes().get("programReference");
-        assertEquals("program reference", programReferenceList.get(0));
+        assertEquals("ACC-TEST-PROG-1", programReferenceList.get(0));
+        assertEquals("ACC-TEST-PROG-2", programReferenceList.get(1));
 
         assertEquals("SEA123", neutralRecord.getAttributes().get("parentEducationAgencyReference"));
     }

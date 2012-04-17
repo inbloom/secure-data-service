@@ -53,13 +53,13 @@ Scenario: Assessment and StudentAssessment Verification
        | body.assessmentFamilyHierarchyName                                       | ISAT.ISAT Writing for Grades 3-8.ISAT Writing for Grade 8 | string               |
        
        
-    And I should see "Processed 6 records." in the resulting batch job file
+    And I should see "Processed 3 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "student.xml records considered: 1" in the resulting batch job file
     And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
     And I should see "student.xml records failed: 0" in the resulting batch job file
-    And I should see "assess.xml records considered: 4" in the resulting batch job file
-    And I should see "assess.xml records ingested successfully: 4" in the resulting batch job file
+    And I should see "assess.xml records considered: 1" in the resulting batch job file
+    And I should see "assess.xml records ingested successfully: 1" in the resulting batch job file
     And I should see "assess.xml records failed: 0" in the resulting batch job file
     And I should see "stu_assess.xml records considered: 1" in the resulting batch job file
     And I should see "stu_assess.xml records ingested successfully: 1" in the resulting batch job file

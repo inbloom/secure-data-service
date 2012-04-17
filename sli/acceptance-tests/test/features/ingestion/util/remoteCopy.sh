@@ -4,7 +4,7 @@ remoteCopy()
 {
 PARAM1=$1
 PARAM2=$2
-ssh ingestion@devgalactus.slidev.org << EOF
+ssh ingestion@igingest.slidev.org << EOF
 cp $PARAM1 $PARAM2
 exit
 EOF

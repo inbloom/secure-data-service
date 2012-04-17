@@ -5,7 +5,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slc.sli.ingestion.BatchJob;
-import org.slc.sli.util.performance.PerformanceTrackingAspect;
+import org.slc.sli.common.util.performance.PerformanceTrackingAspect;
 import org.springframework.stereotype.Component;
 
 /**
