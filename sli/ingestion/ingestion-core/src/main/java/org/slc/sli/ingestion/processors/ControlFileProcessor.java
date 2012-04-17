@@ -131,6 +131,7 @@ public class ControlFileProcessor implements Processor {
         for (IngestionFileEntry file : cf.getFileEntries()) {
             ResourceEntry resourceEntry = new ResourceEntry();
             resourceEntry.setResourceId(file.getFileName());
+            resourceEntry.setResourceName(newJob.getSourceId() + file.getFileName());
             resourceEntry.setResourceFormat(file.getFileFormat().getCode());
             resourceEntry.setResourceType(file.getFileType().getName());
             resourceEntry.setChecksum(file.getChecksum());
