@@ -175,14 +175,13 @@
 	<modules>
 		<module>sli-configuration</module>
 		<module>common</module>
+		<module>domain</module>
 		<module>data-access</module>
 		<module>api</module>
-                <!-- module>admin-tools</module -->
 		<module>ingestion</module>
 		<module>dashboard</module>
-		<module>acceptance-tests</module>
 		<module>ingestion-sli-configuration</module>
-                <module>SDK</module>
+        <module>SDK</module>
 		<module>mock-idp</module>
         </modules>
 
@@ -204,7 +203,19 @@
 
 			<dependency>
 				<groupId>org.slc.sli.common</groupId>
-				<artifactId>common-util</artifactId>
+				<artifactId>sli-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slc.sli.domain</groupId>
+				<artifactId>domain</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slc.sli.common</groupId>
+				<artifactId>common-encrypt</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -965,6 +976,12 @@
 	</build>
 
 	<repositories>
+
+        <repository>
+          <id>repository.jboss.org-public</id>
+          <name>JBoss.org Maven repository</name>
+          <url>https://repository.jboss.org/nexus/content/groups/public</url>
+        </repository>
 
 		<!-- Spring Milestone repository -->
 		<repository>
