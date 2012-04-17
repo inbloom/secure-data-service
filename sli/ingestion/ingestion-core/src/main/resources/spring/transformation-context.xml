@@ -47,10 +47,6 @@
     <bean id="stagingRepository" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
     </bean>
 
-    <bean id="assessmentTransformationStrategy" class="org.slc.sli.ingestion.transformation.AssessmentCombiner" scope="prototype">
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-    </bean>
-
     <bean id="studentTranscriptAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.StudentTranscriptAssociationCombiner" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     </bean>

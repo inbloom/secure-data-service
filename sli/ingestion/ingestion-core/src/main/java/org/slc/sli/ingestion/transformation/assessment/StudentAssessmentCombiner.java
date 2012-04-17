@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion.transformation;
+package org.slc.sli.ingestion.transformation.assessment;
 
 import java.util.Map;
 
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Transformer for StudentAssessment entities

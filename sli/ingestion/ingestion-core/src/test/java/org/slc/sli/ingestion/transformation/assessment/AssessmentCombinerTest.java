@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion.transformation;
+package org.slc.sli.ingestion.transformation.assessment;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -30,6 +30,7 @@ import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.transformation.assessment.AssessmentCombiner;
 import org.slc.sli.ingestion.util.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;

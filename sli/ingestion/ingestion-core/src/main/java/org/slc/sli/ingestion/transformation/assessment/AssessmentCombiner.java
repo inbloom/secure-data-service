@@ -1,31 +1,28 @@
-package org.slc.sli.ingestion.transformation;
+package org.slc.sli.ingestion.transformation.assessment;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slc.sli.ingestion.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 /**
  * Transformer for Assessment Entities
@@ -33,9 +30,8 @@ import org.springframework.data.mongodb.core.query.Query;
  * @author ifaybyshev
  * 
  */
+@Component("assessmentTransformationStrategy")
 public class AssessmentCombiner extends AbstractTransformationStrategy {
-    
-    public static final String SUB_OBJECTIVE_REFS = "subObjectiveRefs";
     
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
     
@@ -77,6 +73,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     public void transform() {
         LOG.debug("Transforming data: Injecting assessmentFamilies into assessment");
         
+        ObjectiveAssessmentBuilder objAssmtBuilder = new ObjectiveAssessmentBuilder(getNeutralRecordMongoAccess());
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("assessment").entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             
@@ -98,7 +95,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 
                 for (String objectiveAssessmentRef : objectiveAssessmentRefs) {
                     
-                    objectiveAssessments.add(getObjectiveAssessment(objectiveAssessmentRef));
+                    objectiveAssessments.add(objAssmtBuilder.getObjectiveAssessment(objectiveAssessmentRef));
                 }
                 attrs.put("objectiveAssessment", objectiveAssessments);
             }
@@ -128,44 +125,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         }
         
         return null;
-        
-    }
-    
-    private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef) {
-        Set<String> parentObjs = Collections.emptySet();
-        return getObjectiveAssessment(objectiveAssessmentRef, parentObjs);
-    }
-    
-    private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, Set<String> parentObjs) {
-        
-        Map<String, Object> objectiveAssessment = getNeutralRecordMongoAccess()
-                .getRecordRepository()
-                .findOne("objectiveAssessment",
-                        new NeutralQuery(new NeutralCriteria("id", "=", objectiveAssessmentRef))).getAttributes();
-        
-        objectiveAssessment.remove("id");
-        
-        List<?> subObjectiveRefs = (List<?>) objectiveAssessment.get(SUB_OBJECTIVE_REFS);
-        if (subObjectiveRefs != null && !subObjectiveRefs.isEmpty()) {
-            Set<String> newParents = new HashSet<String>(parentObjs);
-            newParents.add(objectiveAssessmentRef);
-            List<Map<String, Object>> subObjectives = new ArrayList<Map<String, Object>>();
-            for (Object subObjectiveRef : subObjectiveRefs) {
-                if (!newParents.contains(subObjectiveRef)) {
-                    Map<String, Object> subAssessment = getObjectiveAssessment((String) subObjectiveRef, newParents);
-                    subObjectives.add(subAssessment);
-                } else {
-                    // sorry Mr. Hofstadter, no infinitely recursive assessments allowed due to
-                    // finite memory limitations
-                    LOG.warn("Ignoring sub objective assessment {} since it is already in the hierarchy",
-                            subObjectiveRef);
-                }
-            }
-            objectiveAssessment.put("objectiveAssessments", subObjectives);
-        }
-        objectiveAssessment.remove(SUB_OBJECTIVE_REFS);
-        
-        return objectiveAssessment;
         
     }
     
