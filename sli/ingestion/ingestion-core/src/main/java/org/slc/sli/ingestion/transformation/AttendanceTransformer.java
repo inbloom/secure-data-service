@@ -1,8 +1,8 @@
 package org.slc.sli.ingestion.transformation;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.DateTime;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +10,11 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.ArrayList;
+import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,10 +26,11 @@ import java.util.Map;
  */
 public class AttendanceTransformer extends AbstractTransformationStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(AttendanceTransformer.class);
+    public static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
 
     private Map<String, Map<Object, NeutralRecord>> collections;
     private Map<String, Map<Object, NeutralRecord>> transformedCollections;
-
+    
     public AttendanceTransformer() {
         collections = new HashMap<String, Map<Object, NeutralRecord>>();
         transformedCollections = new HashMap<String, Map<Object, NeutralRecord>>();
@@ -43,9 +46,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         transform();
         persist();
     }
-    
+
     /**
-     * Pre-requisite interchanges for attendance data to be successfully transformed: 
+     * Pre-requisite interchanges for attendance data to be successfully transformed:
      * section, session, studentSchoolAssociation, studentSectionAssociation
      */
     public void loadData() {
@@ -64,8 +67,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
 
     public void transform() {
-        LOG.debug("Transforming attendance data");
 
+        LOG.debug("Transforming attendance data");
         HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
         
         // iterate over each studentSchoolAssociation --> this is where the dailyAttendance Map will be added
@@ -110,8 +113,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      * Persists the transformed data into mongo.
      */
     public void persist() {
-        LOG.info("Persisting transformed attendance data into mongo.");
-        
+        LOG.info("Persisting transformed attendance data into mongo.");        
         for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
             for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
                 NeutralRecord neutralRecord = neutralRecordEntry.getValue();
@@ -119,7 +121,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 getNeutralRecordMongoAccess().getRecordRepository().create(neutralRecord);
             }
         }
-
         LOG.info("Finished persisting transformed attendance data into mongo.");
     }
 
@@ -144,11 +145,11 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         }
         return collection;
     }    
-    
+
     /**
      * Parses a date presently stored in the format yyyy-MM-dd and returns the corresponding DateTime object.
+     *
      * @param dateToBeParsed String to be parsed into a DateTime object.
-     * 
      * @return DateTime object.
      */
     private DateTime parseDateTime(String dateToBeParsed) {
@@ -159,9 +160,10 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         DateTime date = new DateTime().withDate(year, month, day);
         return date;
     }
-    
+
     /**
      * Determines if the 1st date is before or equal to the 2nd date (comparing only year, month, day).
+     *
      * @param date1 1st date object.
      * @param date2 2nd date object.
      * @return true if date1 is before or equal to date2, false if date1 is after date2.

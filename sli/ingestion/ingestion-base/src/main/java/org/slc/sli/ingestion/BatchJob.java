@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
+import org.slc.sli.common.util.performance.PutResultInContext;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReportSupport;
-import org.slc.sli.util.performance.PutResultInContext;
 
 /**
  * Batch Job class.
@@ -19,7 +19,7 @@ import org.slc.sli.util.performance.PutResultInContext;
  * @author okrook
  *
  */
-public final class BatchJob implements Serializable, ErrorReportSupport {
+public final class BatchJob implements Serializable, ErrorReportSupport, Job {
 
     private static final long serialVersionUID = -340538024579162600L;
 
@@ -61,7 +61,7 @@ public final class BatchJob implements Serializable, ErrorReportSupport {
      *
      * @return BatchJob with default settings
      */
-    public static BatchJob createDefault() {
+    public static Job createDefault() {
         return BatchJob.createDefault(null);
     }
 
@@ -72,7 +72,7 @@ public final class BatchJob implements Serializable, ErrorReportSupport {
      *            string representation of incoming file
      * @return BatchJob with default settings
      */
-    public static BatchJob createDefault(String filename) {
+    public static Job createDefault(String filename) {
         BatchJob job = new BatchJob(createId(filename));
 
         job.configProperties = new Properties();
@@ -86,28 +86,27 @@ public final class BatchJob implements Serializable, ErrorReportSupport {
      */
     @PutResultInContext(returnName = "ingestionBatchJobId")
     protected static String createId(String filename) {
-        if (filename == null)
+        if (filename == null) {
             return System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
-        else
+        } else {
             return filename + "-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+        }
     }
 
-    /**
-     * Adds a file.
-     *
-     * @param ingestionFileEntry
-     * @return
-     * @see java.util.List#add(java.lang.Object)
+    /* (non-Javadoc)
+     * @see org.slc.sli.ingestion.Job#addFile(org.slc.sli.ingestion.landingzone.IngestionFileEntry)
      */
+    @Override
     public boolean addFile(IngestionFileEntry ingestionFileEntry) {
 
         ingestionFileEntry.setBatchJobId(id);
         return files.add(ingestionFileEntry);
     }
 
-    /**
-     * @return the creationDate
+    /* (non-Javadoc)
+     * @see org.slc.sli.ingestion.Job#getCreationDate()
      */
+    @Override
     public Date getCreationDate() {
         return creationDate;
     }
@@ -117,57 +116,58 @@ public final class BatchJob implements Serializable, ErrorReportSupport {
         return getFaultsReport();
     }
 
+    /* (non-Javadoc)
+     * @see org.slc.sli.ingestion.Job#getFaultsReport()
+     */
+    @Override
     public FaultsReport getFaultsReport() {
         return faults;
     }
 
-    /**
-     * @return the files
+    /* (non-Javadoc)
+     * @see org.slc.sli.ingestion.Job#getFiles()
      */
+    @Override
     public List<IngestionFileEntry> getFiles() {
         return files;
     }
 
-    /**
-     * @return the jobId
+    /* (non-Javadoc)
+     * @see org.slc.sli.ingestion.Job#getId()
      */
+    @Override
     public String getId() {
         return id;
     }
 
-    /**
-     * @param key
-     * @return
-     * @see java.util.Properties#getProperty(java.lang.String)
+    /* (non-Javadoc)
+     * @see org.slc.sli.ingestion.Job#getProperty(java.lang.String)
      */
+    @Override
     public String getProperty(String key) {
         return configProperties.getProperty(key);
     }
 
-    /**
-     * @param key
-     * @param defaultValue
-     * @return
-     * @see java.util.Properties#getProperty(java.lang.String, java.lang.String)
+    /* (non-Javadoc)
+     * @see org.slc.sli.ingestion.Job#getProperty(java.lang.String, java.lang.String)
      */
+    @Override
     public String getProperty(String key, String defaultValue) {
         return configProperties.getProperty(key, defaultValue);
     }
 
-    /**
-     * @return
-     * @see java.util.Properties#propertyNames()
+    /* (non-Javadoc)
+     * @see org.slc.sli.ingestion.Job#propertyNames()
      */
+    @Override
     public Enumeration<?> propertyNames() {
         return configProperties.propertyNames();
     }
 
-    /**
-     * @param key
-     * @param value
-     * @return
-     * @see java.util.Properties#setProperty(java.lang.String, java.lang.String)
+    /* (non-Javadoc)
+     * @see org.slc.sli.ingestion.Job#setProperty(java.lang.String, java.lang.String)
      */
+    @Override
     public Object setProperty(String key, String value) {
         return configProperties.setProperty(key, value);
     }

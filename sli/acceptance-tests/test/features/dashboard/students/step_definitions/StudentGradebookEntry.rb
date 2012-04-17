@@ -1,9 +1,42 @@
 Transform /^<([^"]*)>$/ do |human_readable_id|
-  id = "fe4374c2-6bca-498c-949a-4a06e348edf2"   if human_readable_id == "FIRST UNIT TEST"
-  id = "6d590861-27e2-4253-a64f-dc97b4c185b0"   if human_readable_id == "SECOND UNIT TEST"
-  id = "0c6b108b-c290-46bd-a19d-a183b491f35a"   if human_readable_id == "THIRD UNIT TEST"
+  id = "6e42d32c-2be3-45de-97fe-894d4c065aa2"   if human_readable_id == "Matt Sollars FIRST UNIT TEST"
+  id = "c92277ec-a8f1-47e2-bc6e-719cc761deae"   if human_readable_id == "Matt Sollars SECOND UNIT TEST"
+  id = "00f627d7-1ccd-4c63-a1b3-64e104ec73de"   if human_readable_id == "Matt Sollars THIRD UNIT TEST"
+  id = "c319cf6a-4f86-453c-9074-f37ebd8e6227"   if human_readable_id == "Carmen Ortiz CURRENT GRADE"
   #return the translated value
   id
+end
+
+When /^I navigate to the Dashboard home page$/ do
+  url = getBaseUrl()
+  @driver.get url
+  # There's a redirect to the realm page, so this assert should fail
+  # assert(@driver.current_url == url, "Failed to navigate to "+url)
+end
+
+When /^I select "([^"]*)" and click go$/ do |arg1|
+  realm_select = @explicitWait.until{@driver.find_element(:name=> "realmId")}
+
+  options = realm_select.find_elements(:tag_name=>"option")
+  options.each do |e1|
+    if (e1.text == arg1)
+      e1.click()
+      break
+    end
+  end
+  clickButton("go", "id")
+
+end
+
+When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
+  @explicitWait.until{@driver.find_element(:id, "IDToken1")}.send_keys username
+  @driver.find_element(:id, "IDToken2").send_keys password
+  @driver.find_element(:name, "Login.Submit").click
+  # Catches the encryption pop up seen in local box set up
+  begin
+    @driver.switch_to.alert.accept
+  rescue
+  end
 end
 
 Then /^I should see the name "([^"]*)" in student field with link$/ do |studentName|
