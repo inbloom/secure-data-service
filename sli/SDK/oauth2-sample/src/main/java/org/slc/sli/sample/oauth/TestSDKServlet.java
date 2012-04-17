@@ -42,7 +42,7 @@ public class TestSDKServlet extends HttpServlet {
         } else {
             testResult = "unsupported test!";
         }
-        resp.getWriter().print(testResult);
+        resp.getWriter().print(buildTestResponse(testResult));
     }
     
     private String testRead(BasicClient client) {
@@ -206,5 +206,10 @@ public class TestSDKServlet extends HttpServlet {
         body.put("address", addresses);
         
         return body;
+    }
+    
+    private String buildTestResponse(String testResult) {
+        String testResponse = "<html><body><span id ='testResult'>" + testResult + "</span></body></html>";
+        return testResponse;
     }
 }
