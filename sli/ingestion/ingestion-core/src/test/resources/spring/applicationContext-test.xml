@@ -23,13 +23,40 @@
       </list>
     </property>
   </bean>
+  
+
+  <bean id="jms-hornetq" class="org.apache.camel.component.jms.JmsComponent">
+    <property name="connectionFactory">
+      <bean factory-method="createConnectionFactoryWithoutHA" class="org.hornetq.api.jms.HornetQJMSClient">
+        <constructor-arg>
+          <util:constant static-field="org.hornetq.api.jms.JMSFactoryType.CF" />
+        </constructor-arg>
+        <constructor-arg>
+          <bean class="org.hornetq.api.core.TransportConfiguration">
+            <constructor-arg index="0">
+              <value>org.hornetq.core.remoting.impl.netty.NettyConnectorFactory</value>
+            </constructor-arg>
+            <constructor-arg index="1">
+              <map>
+                <entry key="host" value="${sli.ingestion.queue.workItem.host}" />
+                <entry key="port" value="${sli.ingestion.queue.workItem.port}" />
+              </map>
+            </constructor-arg>
+          </bean>
+        </constructor-arg>
+      </bean>
+    </property>
+  </bean> 
+
+  
+  
 
   <import resource="smooks-context.xml" />
   <import resource="classpath:/spring/db.xml" />
   <import resource="dal-context.xml" />
   <import resource="persistence-context.xml" />
   <import resource="validation-context.xml" />
-    <import resource="handler-context.xml" />
+  <import resource="handler-context.xml" />
 
 
   <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"
