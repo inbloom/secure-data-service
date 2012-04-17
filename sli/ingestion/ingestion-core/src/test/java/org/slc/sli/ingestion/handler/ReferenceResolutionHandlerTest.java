@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 
 import junitx.framework.Assert;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -55,17 +54,16 @@ public class ReferenceResolutionHandlerTest {
      *
      */
     @Test
-    @Ignore
     public void testInvalidFile() throws FileNotFoundException {
         // Test the XML reference resolution handler on an invalid test file.
-        File inputFile = IngestionTest.getFile("ReferenceResolution/studentAssessment_inValid.xml");
+        File inputFile = IngestionTest.getFile("ReferenceResolution/studentAssessment_Invalid.xml");
         long inputFileLength = inputFile.length();
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_ASSESSMENT, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
         IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, null);
         long outputFileLength = outputFileEntry.getFile().length();
-        Assert.assertEquals(inputFile.getName(), "studentAssessment_inValid.xml");
+        Assert.assertEquals(inputFile.getName(), "studentAssessment_Invalid.xml");
         Assert.assertNotEquals(inputFileLength, outputFileLength);
     }
 
@@ -77,11 +75,14 @@ public class ReferenceResolutionHandlerTest {
     public void testMalformedFile() throws FileNotFoundException {
         // Test the XML reference resolution handler on a malformed test file.
         File inputFile = IngestionTest.getFile("ReferenceResolution/studentAssessment_Malformed.xml");
+        long inputFileLength = inputFile.length();
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_ASSESSMENT, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
         IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, null);
-        Assert.assertNull(outputFileEntry);
+        long outputFileLength = outputFileEntry.getFile().length();
+        Assert.assertEquals(inputFile.getName(), "studentAssessment_Malformed.xml");
+        Assert.assertEquals(inputFileLength, outputFileLength);
     }
 
 }
