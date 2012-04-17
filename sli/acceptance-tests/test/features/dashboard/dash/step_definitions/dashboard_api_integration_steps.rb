@@ -58,48 +58,34 @@ Then /^The students who have an ELL lozenge exist in the API$/ do
 end
 
 def getStudentsWithELLLozenge()
-  studentTable = @driver.find_element(:id, "studentList");
-  student_cells = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
-  
+  studentTable = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
+  all_trs = studentTable.find_elements(:xpath,".//tr[contains(@class,'ui-widget')]")
   students_with_lozenges = []
   i = 0
-  student_cells.each do |student_cell|
-    
-    all_lozengeSpans = student_cell.find_elements(:tag_name, "span")
-    
-    
-    all_lozengeSpans.each do |lozengeSpan|
-      if lozengeSpan.attribute("innerHTML").to_s.include?("ELL")
-        lid = lozengeSpan.attribute("id")
-        y = lid.split(".")
-        students_with_lozenges[i] = y[1]
-        i += 1
-      end
-    end
-    
-
+  all_trs.each do |tr|
+   fullName = tr.find_element(:xpath, "td[contains(@aria-describedby,'name.fullName')]")
+   programParticipation = tr.find_element(:xpath, "td[contains(@aria-describedby,'programParticipation') and title='ELL']")
+   if (programParticipation.length > 0)
+    students_with_lozenges[i] = fullName
+    i+=1
+   end
   end  
   return students_with_lozenges    
 end
 
 When /^the following students have "([^"]*)" lozenges: "([^"]*)"$/ do |lozengeName, studentList|
-  studentTable = @explicitWait.until{@driver.find_element(:id, "studentList")}
-  student_cells = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
+  studentTable = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
+
   i = 0
-  students = Hash.new
   studentList.split(";").each do |studentName|
-    students[studentName] = 0
-  end
-  student_cells.each do |student_cell|
-    if student_cell.attribute("innerHTML").to_s.include?(lozengeName)
-      name = student_cell.find_element(:id, "student_profile")
-      if students[name.text] != nil
-        students[name.text] = 1
-      end
-    end
-  end
-  
-  students.each do |student|
-      assert(student[1]==1, student[0].to_s + " doesn't have " + lozengeName )
+     studentCell = getStudentCell(studentName)
+     programParticipations = getStudentProgramParticipation(studentCell)
+     found = false
+     programParticipations.each do |pp|
+       if (pp == lozengeName)
+        found = true  
+       end
+     end
+     assert(found, studentName.to_s + " doesn't have " + lozengeName.to_s)
   end
 end

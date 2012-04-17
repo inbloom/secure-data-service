@@ -134,12 +134,12 @@ public class AssessmentResolver {
         }
         // if performance level is not included in score results as mastery level, then find the
         // performance level from performance level descriptor
-        if (dataPointName.equalsIgnoreCase(Constants.ATTR_PERF_LEVEL)
+        if (dataPointName.equalsIgnoreCase(Constants.ATTR_MASTERY_LEVEL)
                 && !findPerfLevelFromDescriptor(perfLevelDescriptors).equals("")) {
             return findPerfLevelFromDescriptor(perfLevelDescriptors);
             
             // if performance level not specified in performance level descriptor, then return blank
-        } else if (dataPointName.equalsIgnoreCase(Constants.ATTR_PERF_LEVEL) && !hasPerfLevelScoreResults(scoreResults)) {
+        } else if (dataPointName.equalsIgnoreCase(Constants.ATTR_MASTERY_LEVEL) && !hasPerfLevelScoreResults(scoreResults)) {
             return "";
         }
         return "";
@@ -273,7 +273,7 @@ public class AssessmentResolver {
         boolean found = false;
         for (Map scoreResult : scoreResults) {
             if (((String) scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD))
-                    .equalsIgnoreCase(Constants.ATTR_PERF_LEVEL)) {
+                    .equalsIgnoreCase(Constants.ATTR_MASTERY_LEVEL)) {
                 found = true;
             }
         }
