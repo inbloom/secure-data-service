@@ -1,7 +1,7 @@
 require_relative '../../../../../../utils/sli_utils.rb'
 require_relative '../../../../../../dashboard/dash/step_definitions/selenium_common_dash.rb'
 
-Given /^I am logged in using "([^"]*)" "([^"]*)" to realm Daybreak Central High$/ do |user, pass|
+Given /^I am logged in using "([^"]*)" and "([^"]*)" to realm Daybreak Central High$/ do |user, pass|
   @byPassToken = $SESSION_MAP[user+"_IL"]
   assert(@byPassToken!=nil,"cant login user #{user}")
 end
