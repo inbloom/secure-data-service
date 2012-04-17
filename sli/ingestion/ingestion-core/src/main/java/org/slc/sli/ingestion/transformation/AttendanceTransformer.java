@@ -8,10 +8,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,9 +23,11 @@ import java.util.Map;
  */
 public class AttendanceTransformer extends AbstractTransformationStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(AttendanceTransformer.class);
+    public static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
 
     private Map<String, Map<Object, NeutralRecord>> collections;
     private Map<String, Map<Object, NeutralRecord>> transformedCollections;
+    private SchoolYearCalculator schoolYearCalculator;
 
     public AttendanceTransformer() {
         collections = new HashMap<String, Map<Object, NeutralRecord>>();
@@ -43,9 +45,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         transform();
         persist();
     }
-    
+
     /**
-     * Pre-requisite interchanges for attendance data to be successfully transformed: 
+     * Pre-requisite interchanges for attendance data to be successfully transformed:
      * section, session, studentSchoolAssociation, studentSectionAssociation
      */
     public void loadData() {
@@ -60,122 +62,102 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         }
 
         LOG.info("Attendance data is loaded into local storage.  Total Count = " + collections.get("attendance").size());
+
+        schoolYearCalculator = new SchoolYearCalculator(collections);
     }
 
 
     public void transform() {
-        LOG.debug("Transforming attendance data");
 
+        LOG.debug("Transforming attendance data");
         HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
 
-        // iterate over attendance events instead?
-        // Map<Object, NeutralRecord> attendance = collections.get("attendance");
+        Map<String, Map<String, NeutralRecord>> studentToSchoolToAssociation = getStudentToSchoolToAssociation();
 
-        // iterate over each studentSchoolAssociation --> this is where the dailyAttendance Map will be added
-        LOG.info("Iterating over {} student-school associations.", collections.get("studentSectionAssociation").size());
-        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("studentSchoolAssociation").entrySet()) {
-            NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-            Map<String, Object> attributes = neutralRecord.getAttributes();
-            String studentId = (String) attributes.get("studentId");
-            String schoolId = (String) attributes.get("schoolId");
+        for (NeutralRecord attendance : collections.get("attendance").values()) {
+            String schoolId = (String) attendance.getAttributes().get("schoolId");
+            String studentId = (String) attendance.getAttributes().get("studentId");
 
-            LOG.info("For student with id: {} in school: {}", studentId, schoolId);
-
-            Map<Object, NeutralRecord> studentAttendance = new HashMap<Object, NeutralRecord>();
-
-            for (Map.Entry<Object, NeutralRecord> attendanceEntry : collections.get("attendance").entrySet()) {
-                NeutralRecord record = attendanceEntry.getValue();
-                Map<String, Object> attendanceAttributes = record.getAttributes();
-                if (attendanceAttributes.get("studentId").equals(studentId)) {
-                    studentAttendance.put(attendanceEntry.getKey(), attendanceEntry.getValue());
-                }
-            }
-            LOG.info("  Found {} attendance events:", studentAttendance.size());
-            // LOG.info(" {} ", studentAttendance);
-
-            Map<Object, NeutralRecord> sessions = new HashMap<Object, NeutralRecord>();
-
-            for (Map.Entry<Object, NeutralRecord> association : collections.get("studentSectionAssociation").entrySet()) {
-                NeutralRecord record = association.getValue();
-                Map<String, Object> associationAttributes = record.getAttributes();
-                if (associationAttributes.get("studentId").equals(studentId)) {
-                    String sectionId = (String) associationAttributes.get("sectionId");
-
-                    for (Map.Entry<Object, NeutralRecord> section : collections.get("section").entrySet()) {
-                        NeutralRecord sectionRecord = section.getValue();
-                        Map<String, Object> sectionAttributes = sectionRecord.getAttributes();
-                        String currentSchoolId = (String) sectionAttributes.get("schoolId");
-
-                        if (sectionAttributes.get("uniqueSectionCode").equals(sectionId) && currentSchoolId.equals(schoolId)) {
-                            String sessionId = (String) sectionAttributes.get("sessionId");
-
-                            for (Map.Entry<Object, NeutralRecord> session : collections.get("session").entrySet()) {
-                                NeutralRecord sessionRecord = session.getValue();
-                                Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
-                                if (sessionAttributes.get("sessionName").equals(sessionId)) {
-                                    sessions.put(session.getKey(), sessionRecord);
-                                    break;
-                                }
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-            LOG.info("  Found {} sessions associated with student:", sessions.size());
-
-            Map<String, Object> schoolYears = new HashMap<String, Object>();
-            for (Map.Entry<Object, NeutralRecord> session : sessions.entrySet()) {
-                NeutralRecord sessionRecord = session.getValue();
-                Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
-                String schoolYear = (String) sessionAttributes.get("schoolYear");
-                DateTime sessionBegin = parseDateTime((String) sessionAttributes.get("beginDate"));
-                DateTime sessionEnd = parseDateTime((String) sessionAttributes.get("endDate"));
-
-                List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
-                for (Map.Entry<Object, NeutralRecord> record : studentAttendance.entrySet()) {
-                    NeutralRecord eventRecord = record.getValue();
-                    Map<String, Object> eventAttributes = eventRecord.getAttributes();
-
-                    String eventDate = (String) eventAttributes.get("eventDate");
-                    DateTime date = parseDateTime(eventDate);
-                    if (isLeftDateBeforeRightDate(sessionBegin, date) && isLeftDateBeforeRightDate(date, sessionEnd)) {
-                        // TODO: need to add educational environment to sli.xsd and transform it here
-                        Map<String, Object> event = new HashMap<String, Object>();
-                        String eventCategory = (String) eventAttributes.get("attendanceEventCategory");
-                        event.put("date", eventDate);
-                        event.put("event", eventCategory);
-                        if (eventAttributes.containsKey("attendanceEventReason")) {
-                            String eventReason = (String) eventAttributes.get("attendanceEventReason");
-                            event.put("reason", eventReason);
-                        }
-                        events.add(event);
-                    }
-                }
-                // remove each attendance event in 'events' from studentAttendance
-                LOG.info("  {} attendance events for session in school year: {}", events.size(), schoolYear);
+            NeutralRecord association = studentToSchoolToAssociation.get(studentId).get(schoolId);
+            if (association == null) { //TODO
             }
 
-            // if student attendance still has attendance events --> orphaned events
+            Map<String, Object> attendanceEvent = createAttendanceEvent(attendance);
 
-//            if (attributes.containsKey("dailyAttendance")) {
-//                Map<String, Object> daily = (Map<String, Object>) attributes.get("dailyAttendance");
-//                // work will eventually be done here
-//                attributes.put("dailyAttendance", daily);
-//            } else {
-//                Map<String, Object> daily = new HashMap<String, Object>;
-//                List<Pair<String, List<Object>>> schoolYearAttendance = new ArrayList<Pair<String, List<Object>>>();
-//
-//                attributes.put("dailyAttendance", daily);
-//            }
-
-            neutralRecord.setAttributes(attributes);
-            newCollection.put(neutralRecord.getRecordId(), neutralRecord);
+            addAttendanceToAssociation(attendanceEvent, association);
+            newCollection.put(association.getRecordId(), association);
         }
 
         transformedCollections.put("studentSchoolAssociation", newCollection);
 
         LOG.debug("Finished transforming attendance data.");
+    }
+
+    private Map<String, Object> createAttendanceEvent(NeutralRecord attendance) {
+
+        Map<String, Object> event = new HashMap<String, Object>();
+
+        event.put("date", (String) attendance.getAttributes().get("eventDate"));
+        event.put("event", (String) attendance.getAttributes().get("attendanceEventCategory"));
+
+        if (attendance.getAttributes().containsKey("attendanceEventReason")) {
+            event.put("reason", (String) attendance.getAttributes().get("attendanceEventReason"));
+        }
+
+        return event;
+    }
+
+    private void addAttendanceToAssociation(Map<String, Object> attendance, NeutralRecord association) {
+
+        String calculatedSchoolYear = schoolYearCalculator.getSchoolYear(
+                parseDateTime((String) attendance.get("date")),
+                (String) association.getAttributes().get("schoolId"));
+
+        Map<String, List<Object>> dailyAttendance = (Map<String, List<Object>>) association.getAttributes().get("dailyAttendance");
+        if (dailyAttendance == null) {
+            dailyAttendance = new HashMap<String, List<Object>>();
+            association.getAttributes().put("dailyAttendance", dailyAttendance);
+        }
+
+        List<Object> schoolYearAttendance = dailyAttendance.get("schoolYearAttendance");
+        if (schoolYearAttendance == null) {
+            schoolYearAttendance = new LinkedList<Object>();
+            dailyAttendance.put("schoolYearAttendance", schoolYearAttendance);
+        }
+
+        for (Object o : schoolYearAttendance) {
+            Map<String, Object> schoolYear = (Map<String, Object>) o;
+            if (((String) schoolYear.get("schoolYear")).equals(calculatedSchoolYear)) {
+
+            }
+        }
+
+        List<Object> attendances = dailyAttendance.get(calculatedSchoolYear);
+        if (attendances == null) {
+            attendances = new LinkedList<Object>();
+            dailyAttendance.put(calculatedSchoolYear, attendances);
+        }
+
+        attendances.add(attendance);
+    }
+
+
+    private Map<String, Map<String, NeutralRecord>> getStudentToSchoolToAssociation() {
+        Map<String, Map<String, NeutralRecord>> studentToSchoolToAssociation =
+                new HashMap<String, Map<String, NeutralRecord>>();
+
+        for (NeutralRecord record : collections.get(STUDENT_SCHOOL_ASSOCIATION).values()) {
+            String studentId = (String) record.getAttributes().get("studentId");
+            String schoolId = (String) record.getAttributes().get("schoolId");
+
+            Map<String, NeutralRecord> records = studentToSchoolToAssociation.get(studentId);
+            if (records == null) {
+                records = new HashMap<String, NeutralRecord>();
+                studentToSchoolToAssociation.put(studentId, records);
+            }
+            records.put(schoolId, record);
+        }
+        return studentToSchoolToAssociation;
     }
 
     /**
@@ -184,7 +166,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     public void persist() {
         LOG.info("Persisting transformed attendance data into mongo.");
         // uncomment this when ready to persist transformed associations into mongo
-        
+
         for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
             String collectionName = collectionEntry.getKey();
             for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
@@ -221,8 +203,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
     /**
      * Parses a date presently stored in the format yyyy-MM-dd and returns the corresponding DateTime object.
-     * @param dateToBeParsed String to be parsed into a DateTime object.
      *
+     * @param dateToBeParsed String to be parsed into a DateTime object.
      * @return DateTime object.
      */
     private DateTime parseDateTime(String dateToBeParsed) {
@@ -236,6 +218,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
     /**
      * Determines if the 1st date is before or equal to the 2nd date (comparing only year, month, day).
+     *
      * @param date1 1st date object.
      * @param date2 2nd date object.
      * @return true if date1 is before or equal to date2, false if date1 is after date2.
@@ -256,6 +239,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         return less;
     }
 
+
     /**
      * Finds school year for a given date.
      */
@@ -266,20 +250,20 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
         SchoolYearCalculator(Map<String, Map<Object, NeutralRecord>> collections) {
             this.collections = collections;
-            schoolYearBegin = new HashMap<String,DateTime>(); //schoolId+year -> startDate
+            schoolYearBegin = new HashMap<String, DateTime>(); //schoolId+year -> startDate
             init();
         }
 
         private void init() {
-            HashMap<String, String> sessionToSchool = new HashMap<String,String>();
-            for( NeutralRecord record : collections.get("section").values() ) {
+            HashMap<String, String> sessionToSchool = new HashMap<String, String>();
+            for (NeutralRecord record : collections.get("section").values()) {
                 String sessionId = (String) record.getAttributes().get("sessionId");
                 String schoolId = (String) record.getAttributes().get("schoolId");
-                sessionToSchool.put(sessionId,schoolId);
+                sessionToSchool.put(sessionId, schoolId);
             }
 
             Map<Object, NeutralRecord> sessions = collections.get("session");
-            for( Map.Entry<String, String> entry: sessionToSchool.entrySet() ) {
+            for (Map.Entry<String, String> entry : sessionToSchool.entrySet()) {
                 String schoolId = entry.getValue();
                 NeutralRecord session = sessions.get(entry.getKey());
 
@@ -288,9 +272,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 Integer sessionBeginYear = sessionBeginDate.getYear();
 
                 String key = schoolId + sessionBeginYear;
-                DateTime currentBeginDate = schoolYearBegin.get( key );
-                if( currentBeginDate == null || isLeftDateBeforeRightDate(sessionBeginDate, currentBeginDate)) {
-                    schoolYearBegin.put( key, sessionBeginDate );
+                DateTime currentBeginDate = schoolYearBegin.get(key);
+                if (currentBeginDate == null || isLeftDateBeforeRightDate(sessionBeginDate, currentBeginDate)) {
+                    schoolYearBegin.put(key, sessionBeginDate);
                 }
             }
         }
@@ -302,14 +286,14 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
          */
         public String getSchoolYear(DateTime date, String schoolId) {
 
-            DateTime startDate = schoolYearBegin.get(schoolId+date.getYear());
-            if ( startDate == null ) {
+            DateTime startDate = schoolYearBegin.get(schoolId + date.getYear());
+            if (startDate == null) {
                 throw new InvalidParameterException("School year not found in collections: " + schoolId + date.year());
             }
-            if ( isLeftDateBeforeRightDate(startDate, date) ) {
-                return Integer.toString(date.getYear()) + "-" + Integer.toString(date.getYear()+1);
+            if (isLeftDateBeforeRightDate(startDate, date)) {
+                return Integer.toString(date.getYear()) + "-" + Integer.toString(date.getYear() + 1);
             } else {
-                return Integer.toString(date.getYear()-1) + "-" + Integer.toString(date.getYear());
+                return Integer.toString(date.getYear() - 1) + "-" + Integer.toString(date.getYear());
             }
 
         }
