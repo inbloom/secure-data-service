@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 
 import junitx.framework.Assert;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -38,17 +37,14 @@ public class ReferenceResolutionHandlerTest {
      *
      */
     @Test
-    @Ignore
     public void testValidFile() throws FileNotFoundException {
         // Test the XML reference resolution handler on a valid test file.
         File inputFile = IngestionTest.getFile("ReferenceResolution/studentAssessment_Valid.xml");
-        long inputFileLength = inputFile.length();
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_ASSESSMENT, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
         IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, new FileProcessStatus());
-        long outputFileLength = outputFileEntry.getFile().length();
-        Assert.assertEquals(inputFileLength, outputFileLength);
+        Assert.assertSame(inputFile, outputFileEntry.getFile());
     }
 
     /**
@@ -56,7 +52,6 @@ public class ReferenceResolutionHandlerTest {
      *
      */
     @Test
-    @Ignore
     public void testInvalidFile() throws FileNotFoundException {
         // Test the XML reference resolution handler on an invalid test file.
         File inputFile = IngestionTest.getFile("ReferenceResolution/studentAssessment_inValid.xml");

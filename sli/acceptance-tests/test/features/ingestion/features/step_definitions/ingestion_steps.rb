@@ -21,6 +21,7 @@ INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_da
 
 Before do
   @conn = Mongo::Connection.new(INGESTION_DB)
+  @conn.drop_database(INGESTION_BATCHJOB_DB_NAME)
 end
 
 ############################################################
