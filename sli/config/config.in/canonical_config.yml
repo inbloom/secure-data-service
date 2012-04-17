@@ -435,8 +435,8 @@ local:
     ingestion:
         <<: *INGESTION-DEFAULT
         # local/ingestion/ingestion_conf.properties
-        landingzone.inbounddir: /home/stephan/ingestion/lz
-        logging.path: /home/stephan/ingestion/logs
+        landingzone.inbounddir: /home/ingestion/lz
+        logging.path: /home/ingestion/logs
         # local/ingestion/queue.properties
         sli.ingestion.queue.workItem.host: 
         sli.ingestion.queue.workItem.port: 
