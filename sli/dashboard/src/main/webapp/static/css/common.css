@@ -172,20 +172,29 @@ th.ui-th-column div {
 	width:250px;
 }
 
+.lozenge-widget
+{
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+    font-size: 9px;
+    font-weight: bold;
+    line-height: 10px;
+    margin-right: 50px;
+    margin-top: 2px;
+    padding-bottom: 0;
+    width: 17px;
+}
+
 .lozenge-widget-ell
 {
-    font-size: 11px;
-    font-weight:bold;
-    text-decoration:underline;
-    color:#20C7C5;
+    color:#33CCFF;
+    border-color: #33CCFF;
 }
 
 .lozenge-widget-fre
 {
-    font-size: 11px;
-    font-weight:bold;
-    text-decoration:underline;
     color:#8083fc;
+    border-color: #8083fc;
 }
 
 .color-widget-darkgreen
