@@ -108,6 +108,7 @@ public class EdFiProcessor implements Processor {
             }
 
             boolean hasError = false;
+            int emptyCounter = 1;
             for (IngestionFileEntry fe : felOrignal) {
 
                 Metrics metrics = new Metrics(fe.getFileName(), localhost.getHostAddress(), localhost.getHostName());
@@ -138,7 +139,9 @@ public class EdFiProcessor implements Processor {
                 metrics.stopMetric();
 
                 ResourceEntry resource = new ResourceEntry();
-                resource.setResourceId(fileProcessStatus.getOutputFileName());
+                String rId = fileProcessStatus.getOutputFileName();
+                if(rId == null) rId = "Empty_" + (emptyCounter++);
+                resource.setResourceId(rId);
                 resource.setResourceName(fileProcessStatus.getOutputFilePath());
                 resource.setResourceFormat(FileFormat.NEUTRALRECORD.getCode());
                 resource.setResourceType(fe.getFileType().getName());
