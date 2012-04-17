@@ -144,31 +144,31 @@ public class SectionEntityTest {
     + "               <StateOrganizationId>StateOrganizationId3</StateOrganizationId>                  "
     + "           </ClassPeriodIdentity>                                                               "
     + "       </ClassPeriodReference>                                                                  "
-    + "       <ProgramReference id=\"ID013\" ref=\"ID011\">                                                                       "
+    + "       <ProgramReference id=\"ID013\" ref=\"ID011\">                                            "
     + "           <ProgramIdentity>                                                                    "
     + "               <ProgramType>Adult/Continuing Education</ProgramType>                            "
-    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                 "
     + "                   <ID>ID14</ID>                                                                "
     + "               </EducationOrgIdentificationCode>                                                "
-    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                 "
     + "                   <ID>ID15</ID>                                                                "
     + "               </EducationOrgIdentificationCode>                                                "
-    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                 "
     + "                   <ID>ID16</ID>                                                                "
     + "               </EducationOrgIdentificationCode>                                                "
-    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                 "
     + "                   <ID>ID17</ID>                                                                "
     + "               </EducationOrgIdentificationCode>                                                "
     + "           </ProgramIdentity>                                                                   "
     + "       </ProgramReference>                                                                      "
-    + "       <ProgramReference id=\"ID015\" ref=\"ID008\">                                                                       "
+    + "       <ProgramReference id=\"ID015\" ref=\"ID008\">                                            "
     + "           <ProgramIdentity>                                                                    "
     + "               <ProgramId>ProgramId0</ProgramId>                                                "
     + "               <StateOrganizationId>StateOrganizationId4</StateOrganizationId>                  "
-    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                 "
     + "                   <ID>ID18</ID>                                                                "
     + "               </EducationOrgIdentificationCode>                                                "
-    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                   "
+    + "               <EducationOrgIdentificationCode IdentificationSystem=\"School\">                 "
     + "                   <ID>ID19</ID>                                                                "
     + "               </EducationOrgIdentificationCode>                                                "
     + "           </ProgramIdentity>                                                                   "
@@ -183,10 +183,11 @@ public class SectionEntityTest {
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, validXmlTestData);
 
-        Assert.assertEquals(3, neutralRecord.getLocalParentIds().size());
+        Assert.assertEquals(4, neutralRecord.getLocalParentIds().size());
         Assert.assertNotNull(neutralRecord.getLocalParentIds().get("Course"));
         Assert.assertNotNull(neutralRecord.getLocalParentIds().get("School"));
         Assert.assertNotNull(neutralRecord.getLocalParentIds().get("Session"));
+        Assert.assertNotNull(neutralRecord.getLocalParentIds().get("program#programReference"));
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());

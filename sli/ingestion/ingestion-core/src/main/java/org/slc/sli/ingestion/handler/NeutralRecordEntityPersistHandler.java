@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.handler;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -127,6 +128,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
      * @param errorReport
      *            Error reporting
      */
+    @SuppressWarnings("unchecked")
     public void resolveInternalIds(NeutralRecordEntity entity, ErrorReport errorReport) {
         for (Map.Entry<String, Object> externalIdEntry : entity.getLocalParentIds().entrySet()) {
 
@@ -150,16 +152,31 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
             }
             String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
 
-            String internalId = "";
+            Object internalId = "";
 
-            // Allows a reference to be configured as a String or a Map of search criteria, used to
-            // make the transition to search criteria smoother
+            // Allows a reference to be configured as a String, a Map of search criteria, or a list of such Maps,
+            // used to make the transition to search criteria smoother
             if (Map.class.isInstance(externalIdEntry.getValue())) {
 
                 Map<?, ?> externalSearchCriteria = (Map<?, ?>) externalIdEntry.getValue();
                 internalId = IdNormalizer.resolveInternalId(entityRepository, collection, tenantId,
                         externalSearchCriteria, errorReport);
 
+            } else if (List.class.isInstance(externalIdEntry.getValue())) {
+                List<?> referenceList = (List<?>) externalIdEntry.getValue();
+                internalId = new ArrayList<String>();
+                for (Object reference : referenceList) {
+                    if (Map.class.isInstance(reference)) {
+                        Map<?, ?> externalSearchCriteria = (Map<?, ?>) reference;
+                        String id = IdNormalizer.resolveInternalId(entityRepository, collection, tenantId,
+                                externalSearchCriteria, errorReport);
+                        ((List<String>) internalId).add(id);
+                    } else {
+                        String externalId = reference.toString();
+                        internalId = IdNormalizer.resolveInternalId(entityRepository, collection, tenantId, externalId,
+                                errorReport);
+                    }
+                }
             } else {
 
                 String externalId = externalIdEntry.getValue().toString();
