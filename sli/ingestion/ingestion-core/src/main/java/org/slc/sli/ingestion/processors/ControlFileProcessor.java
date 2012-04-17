@@ -113,7 +113,7 @@ public class ControlFileProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         log.error("Exception:", exception);
         if (batchJobId != null) {
-            BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.CONTROL_FILE_PROCESSING,
+            BatchJobMongoDA.logBatchStageError(batchJobId, BATCH_JOB_STAGE,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
         }
     }
