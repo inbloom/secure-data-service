@@ -31,9 +31,10 @@ Then /^there is no lozenges for student "([^"]*)"$/ do |student_name|
   studentCell = getStudentCell(student_name)
   assert(!studentCell.nil?, "Student '" + student_name + "' was not found in student list table.")
 
-  # Then, make sure there is no lozenge label
+  # Then, make sure there is no lozenges array is empty
   lozenges = getStudentProgramParticipation(studentCell)
-  assert(lozenges.length == 0, "Student" + student_name + "has lozenges")
+  puts lozenges.length.to_s + "!" 
+  assert(lozenges.length == 0, "Student " + student_name + " has lozenges")
 end
 
 # This will give the tr of the student in los
@@ -72,8 +73,10 @@ def getStudentAttributes(studentTr, attribute)
   i = 0
   elements = studentTr.find_elements(:xpath, searchText)
   elements.each do |element|
-    values[i] = element.text
-    i += 1
+    if (element.text.length > 0)
+      values[i] = element.text
+      i += 1
+    end
   end
   return values
 end
