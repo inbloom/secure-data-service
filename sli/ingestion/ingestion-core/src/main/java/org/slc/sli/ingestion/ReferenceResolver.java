@@ -1,9 +1,13 @@
 package org.slc.sli.ingestion;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -32,6 +36,7 @@ public class ReferenceResolver extends DefaultHandler {
     private BufferedWriter outputFileWriter;
 
     private String inputFileName;
+    private String inputFilePathname;
     private String currentXMLString;
     private StringBuffer tempVal;
     private String topElementName;
@@ -43,7 +48,7 @@ public class ReferenceResolver extends DefaultHandler {
 
         tempVal = new StringBuffer();
         topElementName = "";
-        currentXMLString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        currentXMLString = "";
         isValidEntity = true;
     }
 
@@ -65,6 +70,7 @@ public class ReferenceResolver extends DefaultHandler {
         SAXParserFactory spf = SAXParserFactory.newInstance();
         File inputFile = new File(inputFilePath);
         inputFileName = inputFile.getName();
+        inputFilePathname = inputFile.getPath();
         try {
             FileWriter fstream = new FileWriter(outputFilePath);
             outputFileWriter = new BufferedWriter(fstream);
@@ -81,6 +87,33 @@ public class ReferenceResolver extends DefaultHandler {
             throw (ie);
         } finally {
             outputFileWriter.close();
+        }
+    }
+
+    /**
+     * SAX parser callback method for XML document start.
+     *
+     * @throws SAXException
+     *             Parser exception thrown by SAX
+     */
+    @Override
+
+    public void startDocument() throws SAXException {
+        // Write the input file header to the output file.
+        try {
+            FileInputStream inputFileStream = new FileInputStream(inputFilePathname);
+            DataInputStream inputFileDataStream = new DataInputStream(inputFileStream);
+            BufferedReader inputFileReader = new BufferedReader(new InputStreamReader(inputFileDataStream));
+            String header = inputFileReader.readLine() + "\n";
+            inputFileReader.close();
+            if (header.contains("<?xml version=")) {
+                currentXMLString = header;
+            } else {
+                currentXMLString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+            }
+        } catch (IOException e) {
+            SAXException se = new SAXException(e.getMessage());
+            throw (se);
         }
     }
 
