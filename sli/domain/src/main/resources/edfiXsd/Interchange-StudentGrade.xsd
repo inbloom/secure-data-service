@@ -22,7 +22,7 @@
 				<xs:element name="StudentGradebookEntry" type="StudentGradebookEntry"/>
 				<xs:element name="CompentencyLevelDescriptor" type="CompetencyLevelDescriptor"/>
 				<xs:element name="LearningObjective" type="LearningObjective"/>
-				<xs:element name="StudentCompentencyObjective" type="StudentCompetencyObjective"/>
+				<xs:element name="StudentCompetencyObjective" type="StudentCompetencyObjective"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

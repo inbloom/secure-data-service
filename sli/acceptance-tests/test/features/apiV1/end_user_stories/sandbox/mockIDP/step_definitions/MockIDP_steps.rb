@@ -70,10 +70,7 @@ Then /^the Mock IDP Page has a log out link$/ do
   logOut.should_not==nil
 end
 
-Then /^the heading of the Mock IDP Page is "([^"]*)" followed by the realm "([^"]*)"$/ do |heading, realm|
-  heading_text = @driver.find_elements(:xpath, "//span[@class='heading']")
-  heading_text.size.should == 1
-  heading_text[0].text.should include heading
+Then /^the heading of the Mock IDP Page contains the realm "([^"]*)"$/ do |realm|
   realm_text = @driver.find_elements(:xpath, "//span[@class='tenant']")
   realm_text.size.should == 1
   realm_text[0].text.should include realm
@@ -147,9 +144,10 @@ Then /^I am logged out$/ do
 end
 
 def select_by_id(elem, select)
-  Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, select)).
-      select_by(:text, elem)
-rescue Selenium::WebDriver::Error::NoSuchElementError
-  false
+  begin
+    Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, select)).select_by(:text, elem)
+  rescue Selenium::WebDriver::Error::NoSuchElementError
+    false
+  end
 end
 

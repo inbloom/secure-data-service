@@ -237,7 +237,7 @@ public class PersistenceProcessor implements Processor {
                 NeutralRecord neutralRecord = nrFileReader.next();
                 errorMessage = "ERROR: Fatal problem saving records to database: \n";
                 errorMessage += "       Entity       " + neutralRecord.getRecordType() + "\n";
-                errorMessage += "       Identifier   " + (String)neutralRecord.getLocalId() + "\n";
+                errorMessage += "       Identifier   " + (String) neutralRecord.getLocalId() + "\n";
 
                 if (!transformedCollections.contains(neutralRecord.getRecordType())) {
                     if (persistedCollections.contains(neutralRecord.getRecordType())) {
