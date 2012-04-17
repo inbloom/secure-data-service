@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
@@ -27,8 +26,9 @@ public class TeacherSectionResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        // return false;
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.SECTION.equals(toEntityType);
+        return false;
+        // return EntityNames.TEACHER.equals(fromEntityType) &&
+        // EntityNames.SECTION.equals(toEntityType);
     }
 
     @Override
