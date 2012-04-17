@@ -52,6 +52,7 @@ public class ReferenceResolutionHandlerTest {
      *
      */
     @Test
+    @Ignore
     public void testInvalidFile() throws FileNotFoundException {
         // Test the XML reference resolution handler on an invalid test file.
         File inputFile = IngestionTest.getFile("ReferenceResolution/studentAssessment_inValid.xml");
