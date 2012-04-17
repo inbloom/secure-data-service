@@ -2,7 +2,6 @@ package org.slc.sli.ingestion.model;
 
 import org.apache.commons.lang.time.FastDateFormat;
 
-
 /**
  * Model for metrics of an ingestion job with resolution into its stage and resource
  *
@@ -47,6 +46,12 @@ public class Metrics {
         this.stopTimestamp = stopTimestamp;
         this.recordCount = recordCount;
         this.errorCount = errorCount;
+    }
+
+    public static Metrics createAndStart(String resourceId, String sourceIp, String hostname) {
+        Metrics metrics = new Metrics(resourceId, sourceIp, hostname);
+        metrics.startMetric();
+        return metrics;
     }
 
     public String getResourceId() {
