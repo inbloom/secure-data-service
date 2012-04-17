@@ -48,7 +48,7 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
             referenceObjects = rc.execute(inputFile.getPath());
 
             // Resolve references to references using reference map; write to output file.
-            ReferenceResolver rr = new ReferenceResolver(referenceObjects);
+            ReferenceResolver rr = new ReferenceResolver(referenceObjects, errorReport);
             rr.execute(inputFile.getPath(), outputFile.getPath());
 
             // Move the expanded output file to the input file, and return it.
@@ -92,8 +92,8 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
      */
     private void logError(String errorMessage, ErrorReport errorReport, Logger log) {
         // Log errors.
-        log.warn(errorMessage);
-        errorReport.warning(errorMessage, ReferenceResolutionHandler.class);
+        log.error(errorMessage);
+        errorReport.error(errorMessage, ReferenceResolutionHandler.class);
     }
 
     /**

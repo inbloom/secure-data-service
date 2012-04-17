@@ -14,11 +14,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  *
@@ -29,11 +29,11 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class ReferenceResolver extends DefaultHandler {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ReferenceResolver.class);
-
     private Map<String, String> referenceObjects;
 
     private BufferedWriter outputFileWriter;
+
+    private ErrorReport errorReport;
 
     private String inputFileName;
     private String inputFilePathname;
@@ -43,8 +43,9 @@ public class ReferenceResolver extends DefaultHandler {
     private boolean isValidEntity;
     private boolean startCharacters;
 
-    public ReferenceResolver(Map<String, String> referenceMap) {
+    public ReferenceResolver(Map<String, String> referenceMap, ErrorReport errorReport) {
         referenceObjects = referenceMap;
+        this.errorReport = errorReport;
 
         tempVal = new StringBuffer();
         topElementName = "";
@@ -152,7 +153,7 @@ public class ReferenceResolver extends DefaultHandler {
                 isValidEntity = false;
             } else {
                 // Unresolved reference! Log error, but continue processing of current entity.
-                LOG.warn(inputFileName + ": Unresolved reference, id=\"" + refId + "\"");
+                errorReport.warning(inputFileName + ": Unresolved reference, id=\"" + refId + "\"", ReferenceResolver.class);
             }
         }
 
