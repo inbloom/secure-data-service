@@ -62,9 +62,9 @@ public class PurgeProcessor implements Processor {
         String tenantId = job.getProperty(TENANT_ID);
 
         if (tenantId == null) {
-            exchange.getIn().setHeader("ErrorMessage", "TenantId missing");
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            logger.error("Error:", "TenantId missing. No purge operation performed.");
+            job.getFaultsReport().error("TenantId is missing. No purge operation performed.", PurgeProcessor.class);
+            exchange.setProperty("purge.complete", "Purge process complete.");
+            logger.error("TenantId is missing. No purge operation performed.");
         } else {
             Query searchTenantId = new Query();
             searchTenantId.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
@@ -80,13 +80,13 @@ public class PurgeProcessor implements Processor {
                     }
                     mongoTemplate.remove(searchTenantId, collectionName);
                 }
-
-                logger.info("Purge process complete.");
+                exchange.setProperty("purge.complete", "Purge process completed successfully.");
+                logger.info("Purge process completed successfully.");
 
             } catch (Exception exception) {
-                exchange.getIn().setHeader("ErrorMessage", exception.toString());
-                exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-                logger.error("Exception:", exception);
+                job.getFaultsReport().error(exception.toString(), PurgeProcessor.class);
+                exchange.setProperty("purge.complete", "Purge process complete.");
+                logger.error("Exception: {}", exception);
             }
         }
     }

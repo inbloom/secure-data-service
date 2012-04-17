@@ -47,7 +47,7 @@ public class PurgeProcessorTest {
         PrivateAccessor.setField(purgeProcessor, "logger", log);
 
         purgeProcessor.process(ex);
-        Mockito.verify(log, Mockito.atLeastOnce()).error("Error:", "TenantId missing. No purge operation performed.");
+        Mockito.verify(log, Mockito.atLeastOnce()).error("TenantId is missing. No purge operation performed.");
     }
 
     @Test

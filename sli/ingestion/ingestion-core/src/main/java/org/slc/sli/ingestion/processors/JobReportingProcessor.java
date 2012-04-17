@@ -111,10 +111,14 @@ public class JobReportingProcessor implements Processor {
             }
         }
 
-        if (fr.hasErrors()) {
-            jobLogger.info("Not all records were processed completely due to errors.");
+        if (exchange.getProperty("purge.complete") != null) {
+            jobLogger.info(exchange.getProperty("purge.complete").toString());
         } else {
-            jobLogger.info("All records processed successfully.");
+            if (fr.hasErrors()) {
+                jobLogger.info("Not all records were processed completely due to errors.");
+            } else {
+                jobLogger.info("All records processed successfully.");
+            }
         }
 
         // This header is set in PersistenceProcessor
