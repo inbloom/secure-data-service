@@ -197,7 +197,7 @@ desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionAPAssessmentTests, :ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest] do
+                         :ingestionAPAssessmentTests, :ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -323,6 +323,11 @@ end
 desc "Run Ingestion Offline Tool Simple Test"
 task :ingestionOfflineSimpleTest do
   runTests("test/features/ingestion/features/offline_validation.feature")
+end
+
+desc "Run Tenant Purge Test"
+task :ingestionTenantPurgeTests do
+  runTests("test/features/ingestion/features/tenant_purge.feature")
 end
 
 ########
@@ -878,8 +883,18 @@ end
 # Dashboard tests start
 ############################################################
 desc "Run Dashboard Tests"
-task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoLiveTests] do
+task :dashboardTests => [:dashboardPopWidgetTests,
+                         :dashboardK3ViewTests,
+                         :dashboardHSViewTests,
+                         :dashboardUserBasedViewTests,
+                         :dashboardIntegratedTests,
+                         :dashboardLoginTests,
+                         :dashboardStudentProfileTests,
+                         :dashboardAssessmentTests,
+                         :dashboardAttendance,
+                         :dashboardStudentHistoricalDataTests,
+                         :dashboardStudentContactInfoLiveTests,
+                         :dashboardStudentGradebookEntryTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -971,6 +986,11 @@ end
 desc "Run dashboard integrated Tests - Student Contact info"
 task :dashboardSdsContactInfoTests do
   runTests("test/features/dashboard/dash/contact_info_sds.feature")
+end
+
+desc "Run dashboard student gradebook entry tests"
+task :dashboardStudentGradebookEntryTests do
+  runTests("test/features/dashboard/students/StudentGradebookEntry.feature")
 end
 
 ############################################################
