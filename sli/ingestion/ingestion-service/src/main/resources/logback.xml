@@ -26,7 +26,7 @@
     <File>${logging.path}/ingestion.log</File>
     <Append>true</Append>
     <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-        <layout class="org.slc.sli.util.logging.CommonPatternLayout" />
+        <layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
     </encoder>
 
   </appender>
@@ -51,12 +51,13 @@
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-		<layout class="org.slc.sli.util.logging.CommonPatternLayout" />
+		<layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
 	</encoder>
   </appender>
 
   <!-- jsa: temporarily debugging issues on deving1. -->
   <root level="info">
+<!--       <appender-ref ref="STDOUT"/>  -->
       <appender-ref ref="FILE"/>
   </root>
 
