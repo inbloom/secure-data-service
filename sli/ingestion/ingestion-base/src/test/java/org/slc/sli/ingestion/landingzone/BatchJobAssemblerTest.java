@@ -15,10 +15,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.util.MD5;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
@@ -57,7 +57,7 @@ public class BatchJobAssemblerTest {
 
         ControlFile ctlFile = new ControlFile(null, entries, props);
 
-        BatchJob job = jobAssembler.assembleJob(new ControlFileDescriptor(ctlFile, getLandingZone()));
+        Job job = jobAssembler.assembleJob(new ControlFileDescriptor(ctlFile, getLandingZone()));
 
         FaultsReport fr = job.getFaultsReport();
 
@@ -88,7 +88,7 @@ public class BatchJobAssemblerTest {
 
         ControlFile ctlFile = new ControlFile(null, entries, props);
 
-        BatchJob job = jobAssembler.assembleJob(new ControlFileDescriptor(ctlFile, getLandingZone()));
+        Job job = jobAssembler.assembleJob(new ControlFileDescriptor(ctlFile, getLandingZone()));
 
         FaultsReport fr = job.getFaultsReport();
 

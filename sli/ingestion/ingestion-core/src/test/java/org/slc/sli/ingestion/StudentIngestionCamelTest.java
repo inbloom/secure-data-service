@@ -65,7 +65,7 @@ public class StudentIngestionCamelTest {
                 xmlRecordsFile.getName(), MD5.calculate(xmlRecordsFile));
         xmlRecordsFileEntry.setFile(xmlRecordsFile);
 
-        BatchJob job = BatchJob.createDefault();
+        Job job = BatchJob.createDefault();
         job.addFile(xmlRecordsFileEntry);
 
         // Create camel context w/ routes
