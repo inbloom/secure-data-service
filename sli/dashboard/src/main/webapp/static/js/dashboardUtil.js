@@ -184,6 +184,40 @@ DashboardUtil.Grid.Formatters = {
 		Lozenge: function(value, options, rowObject) {	
 			return DashboardUtil.renderLozenges(rowObject);
 		},
+		
+		FuelGauge: function(value, options, rowObject) {
+			var name = options.colModel.formatoptions.name;
+			var valueField = options.colModel.formatoptions.valueField;
+			
+			if (name == undefined || valueField == undefined ||  rowObject.assessments[name] == undefined || rowObject.assessments[name][valueField] == undefined ) {
+				return "";
+			}
+			
+			var score = rowObject.assessments[name][valueField];
+			var fieldName = options.colModel.formatoptions.fieldName;
+			var cutpoints = rowObject.assessments[name].assessments.assessmentPerformanceLevel;
+			var divId = fieldName + counter();
+			var returnValue = "<div id='" + divId + "' style='width: 100px; padding:5px;' align='left'>";
+			returnValue += "<script>";
+			returnValue += "var cutpoints = new Array(";
+			//TODO: Cutpoints should be handled for All assessments.
+			for( var i=0;i < cutpoints.length; i++) {
+				if (cutpoints[i]["minimumScore"] != null && cutpoints[i]["minimumScore"] != undefined) {
+					returnValue += cutpoints[i]["minimumScore"] + ",";
+				}
+				if (i == cutpoints.length - 1) {
+					if (cutpoints[i]["maximumScore"] != null && cutpoints[i]["maximumScore"] != undefined) {
+						returnValue += cutpoints[i]["maximumScore"] ;
+					}
+				}
+			}
+			returnValue += ");";
+			returnValue += "var fuelGuage = new FuelGaugeWidget ('" + divId + "', " + score + ", cutpoints);";
+			returnValue += "fuelGuage.create();";
+			returnValue += "</script>";
+			returnValue += "</div>";
+			return  returnValue;
+		},
 
 		TearDrop: function(value, options, rowObject) {
 			var style = DashboardUtil.tearDrop.getStyle(value, null);
@@ -323,6 +357,9 @@ DashboardUtil.getPageUrl = function(componentId, queryString) {
 DashboardUtil.checkCondition = function(data, condition) {
     var validValues = condition.value;
     var values = data[condition.field];
+    if (values == undefined || validValues == undefined) {
+    	return false;
+    }
     for (var j=0; j < validValues.length; j++) {
         for (var k=0; k < values.length; k++) {
             if (validValues[j] == values[k])

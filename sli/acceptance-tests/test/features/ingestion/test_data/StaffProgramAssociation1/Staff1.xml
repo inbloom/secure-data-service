@@ -38,7 +38,6 @@
 		<YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
 		<YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
 		<LoginId>a</LoginId>
-		<TeacherUniqueStateId>a</TeacherUniqueStateId>
 		<HighlyQualifiedStaff>true</HighlyQualifiedStaff>
 	</Staff>
 	<!-- Linda Kim -->
@@ -79,7 +78,6 @@
 		<YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
 		<YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
 		<LoginId>a</LoginId>
-		<TeacherUniqueStateId>a</TeacherUniqueStateId>
 		<HighlyQualifiedStaff>false</HighlyQualifiedStaff>
 	</Staff>
 	<!-- Rebecca Braverman -->
@@ -118,7 +116,6 @@
 		<YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
 		<YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
 		<LoginId>a</LoginId>
-		<TeacherUniqueStateId>a</TeacherUniqueStateId>
 		<HighlyQualifiedStaff>false</HighlyQualifiedStaff>
 	</Staff>
 </InterchangeStaffAssociation>

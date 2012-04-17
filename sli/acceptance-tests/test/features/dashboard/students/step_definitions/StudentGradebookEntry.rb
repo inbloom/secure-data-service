@@ -39,6 +39,10 @@ When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
   end
 end
 
+Then /^I see a list of students$/ do
+  studentList = @explicitWait.until{@driver.find_element(:id, "studentList")}
+end
+
 Then /^I should see the name "([^"]*)" in student field with link$/ do |studentName|
   student = @driver.find_element(:id, studentName+".name_w_link")
   student.text.should include studentName
