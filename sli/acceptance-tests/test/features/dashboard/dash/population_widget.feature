@@ -54,7 +54,7 @@ When I navigate to the Dashboard home page
 When I select "Sunset School District 4526" and click go
 When I login as "cgray" "cgray1234"
 When I look in the ed org drop-down
-Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
+Then I see these values in the drop-down: "Sunset School District 4526;Daybreak School District 4529;Illinois State Board of Education"
 
 When I select ed org "Sunset School District 4526"
 When I look in the school drop-down

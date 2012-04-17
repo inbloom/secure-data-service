@@ -65,33 +65,39 @@ public class PathFindingContextResolverTest {
     }
     
     @Test
-    public void testFindTeacherToSections() throws Exception {
-        Entity mockEntity = Mockito.mock(Entity.class);
-        when(mockEntity.getEntityId()).thenReturn("1");
-        List<String> finalList = Arrays.asList(new String[] { "2", "3", "4" });
-        assertTrue(resolver.canResolve(EntityNames.TEACHER, EntityNames.SECTION));
-        when(
-                mockHelper.findEntitiesContainingReference(eq(EntityNames.TEACHER_SECTION_ASSOCIATION),
-                        eq("teacherId"),
- eq("sectionId"), any(List.class))).thenReturn(
-                Arrays.asList(new String[] { "5", "6", "7" }));
-        when(
-                mockHelper.findEntitiesContainingReference(eq(EntityNames.STUDENT_SECTION_ASSOCIATION),
-                        eq("sectionId"), eq("studentId"), any(List.class))).thenReturn(
-                Arrays.asList(new String[] { "8", "9", "10" }));
-        when(mockHelper.getAssocKeys(eq(EntityNames.STUDENT), any(AssociationDefinition.class))).thenReturn(
-                Arrays.asList(new String[] { "studentId", "sectionId" }));
-        when(
-                mockHelper.findEntitiesContainingReference(eq(EntityNames.STUDENT_SECTION_ASSOCIATION),
-                        eq("studentId"), eq("sectionId"), any(List.class))).thenReturn(finalList);
-
-        List<String> returned = resolver.findAccessible(mockEntity);
-        assertTrue(returned.size() == finalList.size());
-        for (String id : finalList) {
-            assertTrue(returned.contains(id));
-        }
-
+    public void testExcludePath() throws Exception {
+        assertFalse(resolver.canResolve(EntityNames.TEACHER, EntityNames.SECTION));
     }
+
+    // @Test
+    // public void testFindTeacherToSections() throws Exception {
+    // Entity mockEntity = Mockito.mock(Entity.class);
+    // when(mockEntity.getEntityId()).thenReturn("1");
+    // List<String> finalList = Arrays.asList(new String[] { "2", "3", "4" });
+    // assertTrue(!resolver.canResolve(EntityNames.TEACHER, EntityNames.SECTION));
+    // when(
+    // mockHelper.findEntitiesContainingReference(eq(EntityNames.TEACHER_SECTION_ASSOCIATION),
+    // eq("teacherId"),
+    // eq("sectionId"), any(List.class))).thenReturn(
+    // Arrays.asList(new String[] { "5", "6", "7" }));
+    // when(
+    // mockHelper.findEntitiesContainingReference(eq(EntityNames.STUDENT_SECTION_ASSOCIATION),
+    // eq("sectionId"), eq("studentId"), any(List.class))).thenReturn(
+    // Arrays.asList(new String[] { "8", "9", "10" }));
+    // when(mockHelper.getAssocKeys(eq(EntityNames.STUDENT),
+    // any(AssociationDefinition.class))).thenReturn(
+    // Arrays.asList(new String[] { "studentId", "sectionId" }));
+    // when(
+    // mockHelper.findEntitiesContainingReference(eq(EntityNames.STUDENT_SECTION_ASSOCIATION),
+    // eq("studentId"), eq("sectionId"), any(List.class))).thenReturn(finalList);
+    //
+    // List<String> returned = resolver.findAccessible(mockEntity);
+    // assertTrue(returned.size() == finalList.size());
+    // for (String id : finalList) {
+    // assertTrue(returned.contains(id));
+    // }
+    //
+    // }
     
     @Test
     public void testFindTeacherToStudent() throws Exception {

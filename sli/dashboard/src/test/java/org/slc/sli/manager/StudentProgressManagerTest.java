@@ -2,7 +2,6 @@ package org.slc.sli.manager;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -52,132 +51,92 @@ public class StudentProgressManagerTest {
     
     @Test
     public void testGetStudentHistoricalAssessments() throws Exception {
-        String token = "token";
-        String courseId = "56789";
-        String selectedCourseId = "5555";
-        String sessionId1 = "9999", sessionId2 = "9998";
-        
-        //create the course
-        GenericEntity courseEntity = new GenericEntity();
-        courseEntity.put("id", courseId);
-        courseEntity.put("courseTitle", "Math 1");
-        //create the accociation
-        GenericEntity assocEntity = new GenericEntity();
-        assocEntity.put("finalLettergrade", "A");
-        assocEntity.put("studentId", STUDENTID);
-        //
-        GenericEntity subjectAreaEntity = new GenericEntity();
-        courseEntity.put("subjectArea", "Math");
-        //create the sections
-        GenericEntity sectionEntity1 = new GenericEntity();
-        sectionEntity1.put("sessionId", sessionId1);
-        sectionEntity1.put("courseId", COURSEID1);
-        sectionEntity1.put("uniqueSectionCode", "Math 1 A");
-        GenericEntity sectionEntity2 = new GenericEntity();
-        sectionEntity2.put("sessionId", sessionId2);
-        sectionEntity2.put("courseId", COURSEID2);
-        sectionEntity1.put("uniqueSectionCode", "Math 1 B");
-        
-        //add the courses
-        List<GenericEntity> courses = new ArrayList<GenericEntity>();
-        courses.add(courseEntity);
-        //add the associations
-        List<GenericEntity> studentCourseAssocs = new ArrayList<GenericEntity>();
-        studentCourseAssocs.add(assocEntity);
-        //add the students
-        List<String> students = new ArrayList<String>();
-        students.add(STUDENTID);
-        //add the sections
-        List<GenericEntity> sections = new ArrayList<GenericEntity>();
-        sections.add(sectionEntity1);
-        sections.add(sectionEntity2);
-        
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("includeFields", "courseTitle");
-        
-        Map<String, String> params1 = new HashMap<String, String>();
-        params1.put("courseId", courseId);
-        params1.put("includeFields", "finalLetterGradeEarned");
-        
-        Map<String, String> params2 = new HashMap<String, String>();
-        params2.put("courseId", courseId);
-        
-        when(mockEntity.getCourses(token, STUDENTID, params)).thenReturn(courses);
-        when(mockEntity.getStudentTranscriptAssociations(token, STUDENTID, params1)).thenReturn(studentCourseAssocs);
-        when(mockEntity.getEntity(token, "courses", selectedCourseId, new HashMap<String, String>())).thenReturn(subjectAreaEntity);
-        when(mockEntity.getSections(token, STUDENTID, params2)).thenReturn(sections);
-        
-        Map<String, List<GenericEntity>> results = manager.getStudentHistoricalAssessments(token, students, selectedCourseId);
-        
-        assertEquals("Should have one result", 1, results.size());
-        assertTrue("Should have a key with the student Id", results.keySet().contains(STUDENTID));
-        assertEquals("Student Id should be 123456", COURSEID1, results.get(STUDENTID).get(0).get("courseId"));
-        assertEquals("Course title should match", "Math 1 B", results.get(STUDENTID).get(0).get("courseTitle"));
-        assertEquals("Course title should match", "9999", results.get(STUDENTID).get(0).get("sessionId"));
+        final String token = "token";
+        final List<String> studentIds = new ArrayList<String>();
+        final String subjectArea = "math";
+        final String course = "algebra";
+        final String section = "algebra I";
+        final Map<String, String> params = new HashMap<String, String>();
+        GenericEntity subjArea = new GenericEntity();
+        subjArea.put(Constants.ATTR_SUBJECTAREA, subjectArea);
+
+        when(mockEntity.getCourses(token, section, params)).thenReturn(buildHistoricalData());
+
+        when(mockEntity.getEntity(token, Constants.ATTR_COURSES, course,
+                new HashMap<String, String>())).thenReturn(subjArea);
+
+        Map<String, List<GenericEntity>> historicalData =
+                manager.getStudentHistoricalAssessments(token, studentIds, course, section);
+
+        assertEquals("D-", historicalData.get(STUDENTID).get(0).get(Constants.ATTR_FINAL_LETTER_GRADE).toString());
+        assertEquals("2001-2002", historicalData.get(STUDENTID).get(0).get(Constants.ATTR_SCHOOL_YEAR).toString());
+        assertEquals("Algebra I", historicalData.get(STUDENTID).get(0).get(Constants.ATTR_COURSE_TITLE).toString());
+        assertEquals("Fall Semester", historicalData.get(STUDENTID).get(0).get(Constants.ATTR_TERM).toString());
+
+        SortedSet<String> schoolYears = manager.getSchoolYears("", historicalData);
+
+        assertEquals("2001-2002 Fall Semester", schoolYears.first());
+
     }
-    
-    @Test
-    public void testApplySessionAndTranscriptInformation() {
-        String token = "token";
-        String sessionId1 = "9999", sessionId2 = "9998", sessionId3 = "9997";
-        
-        //create the sessions
-        GenericEntity sessionEntity1 = new GenericEntity();
-        sessionEntity1.put("schoolYear", YEAR_1998_1999);
-        sessionEntity1.put("term", "Fall Semester");
-        GenericEntity sessionEntity2 = new GenericEntity();
-        sessionEntity2.put("schoolYear", YEAR_2009_2010);
-        sessionEntity2.put("term", "Fall Semester");
-        GenericEntity sessionEntity3 = new GenericEntity();
-        sessionEntity3.put("schoolYear", YEAR_2006_2007);
-        sessionEntity3.put("term", "Spring Semester");
-        
-        //create the accociation
-        GenericEntity assocEntity = new GenericEntity();
-        assocEntity.put("finalLetterGradeEarned", "A");
-               
-        //add the associations
-        List<GenericEntity> studentCourseAssocs = new ArrayList<GenericEntity>();
-        studentCourseAssocs.add(assocEntity);
-        
-        //create the params maps
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("includeFields", "schoolYear,term");
-        
-        Map<String, String> params1 = new HashMap<String, String>();
-        params1.put("courseId", COURSEID1);
-        params1.put("includeFields", "finalLetterGradeEarned");
-        
-        Map<String, String> params2 = new HashMap<String, String>();
-        params2.put("courseId", COURSEID2);
-        params2.put("includeFields", "finalLetterGradeEarned");
-        
-        Map<String, String> params3 = new HashMap<String, String>();
-        params3.put("courseId", COURSEID3);
-        params3.put("includeFields", "finalLetterGradeEarned");
-        
-        //setup the mocks
-        when(mockEntity.getEntity(token, "sessions", sessionId1, params)).thenReturn(sessionEntity1);
-        when(mockEntity.getEntity(token, "sessions", sessionId2, params)).thenReturn(sessionEntity2);
-        when(mockEntity.getEntity(token, "sessions", sessionId3, params)).thenReturn(sessionEntity3);
-        
-        when(mockEntity.getStudentTranscriptAssociations(token, STUDENTID, params1)).thenReturn(studentCourseAssocs);
-        when(mockEntity.getStudentTranscriptAssociations(token, STUDENTID, params2)).thenReturn(studentCourseAssocs);
-        when(mockEntity.getStudentTranscriptAssociations(token, STUDENTID, params3)).thenReturn(studentCourseAssocs);
-        
-        Map<String, List<GenericEntity>> data = buildHistoricalDataMap();
-        
-        SortedSet<String> results = manager.applySessionAndTranscriptInformation(token, data);
-        
-        assertEquals("Size should be 3", 3, results.size());
-        assertEquals("First element should match", YEAR_1998_1999 + " Fall Semester", results.first());
-        assertEquals("Third element should match", YEAR_2009_2010 + " Fall Semester", results.last());
-        
-        assertEquals("School year should match", YEAR_2009_2010 + " Fall Semester", data.get(STUDENTID).get(0).getString("schoolYear"));
-        assertEquals("course title should match", "Math 1 B", data.get(STUDENTID).get(0).getString("courseTitle"));
-        assertEquals("grade should match", "A", data.get(STUDENTID).get(0).getString("finalLetterGradeEarned"));
+
+    private List<GenericEntity> buildHistoricalData() {
+        List<GenericEntity> historicalData = new ArrayList<GenericEntity>();
+
+        GenericEntity student1 = new GenericEntity();
+        student1.put("id", STUDENTID);
+        student1.put("transcript", buildTranscript());
+        historicalData.add(student1);
+
+        return historicalData;
     }
-    
+
+    private Map<String, Object> buildTranscript() {
+        Map<String, Object> transcript = new HashMap<String, Object>();
+        transcript.put(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC, buildStudentTranscripts());
+        transcript.put(Constants.ATTR_STUDENT_SECTION_ASSOC, buildStudentSectionAssocs());
+        return transcript;
+    }
+
+    private List<Map<String, Object>> buildStudentSectionAssocs() {
+        List<Map<String, Object>> studentSectionAssocs = new ArrayList<Map<String, Object>>();
+        Map<String, Object> studentSectionAssoc = new HashMap<String, Object>();
+        studentSectionAssoc.put(Constants.ATTR_SECTIONS, buildSection());
+        studentSectionAssocs.add(studentSectionAssoc);
+        return studentSectionAssocs;
+    }
+
+    private Map<String, Object> buildSection() {
+        Map<String, Object> section = new HashMap<String, Object>();
+        section.put(Constants.ATTR_SESSIONS, buildSession());
+        section.put(Constants.ATTR_COURSES, buildCourse());
+        return section;
+    }
+
+    private Map<String, Object> buildCourse() {
+        Map<String, Object> course = new HashMap<String, Object>();
+        course.put(Constants.ATTR_COURSE_TITLE, "Algebra I");
+        course.put(Constants.ATTR_ID, "1234Course");
+        course.put(Constants.ATTR_SUBJECTAREA, "math");
+        return course;
+    }
+
+    private Map<String, Object> buildSession() {
+        Map<String, Object> session = new HashMap<String, Object>();
+        session.put(Constants.ATTR_SCHOOL_YEAR, "2001-2002");
+        session.put(Constants.ATTR_TERM, "Fall Semester");
+        return session;
+    }
+
+    private List<Map<String, Object>> buildStudentTranscripts() {
+        List<Map<String, Object>> studentTranscripts = new ArrayList<Map<String, Object>>();
+        Map<String, Object> studentTranscript = new HashMap<String, Object>();
+        studentTranscript.put(Constants.ATTR_FINAL_LETTER_GRADE, "D-");
+        studentTranscript.put(Constants.ATTR_COURSE_ID, "1234Course");
+        studentTranscripts.add(studentTranscript);
+        return studentTranscripts;
+    }
+
+
     @Test
     public void testGetCurrentProgressForStudents() {
         String token = "token";
@@ -279,33 +238,4 @@ public class StudentProgressManagerTest {
         
         return data;
     }
-    
-    private Map<String, List<GenericEntity>> buildHistoricalDataMap() {
-        Map<String, List<GenericEntity>> data = new HashMap<String, List<GenericEntity>>();
-        
-        GenericEntity entity1 = new GenericEntity();
-        entity1.put("courseId", COURSEID1);
-        entity1.put("courseTitle", "Math 1 A");
-        entity1.put("sessionId", "9999");
-        
-        GenericEntity entity2 = new GenericEntity();
-        entity2.put("courseId", COURSEID2);
-        entity2.put("courseTitle", "Math 1 B");
-        entity2.put("sessionId", "9998");
-        
-        GenericEntity entity3 = new GenericEntity();
-        entity3.put("courseId", COURSEID3);
-        entity3.put("courseTitle", "Math 2 A");
-        entity3.put("sessionId", "9997");
-
-        List<GenericEntity> list = new ArrayList<GenericEntity>();
-        list.add(entity1);
-        list.add(entity2);
-        list.add(entity3);
-        
-        data.put(STUDENTID, list);
-        
-        return data;
-    }
-
 }
