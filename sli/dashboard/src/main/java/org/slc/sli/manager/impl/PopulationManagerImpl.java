@@ -157,6 +157,7 @@ public class PopulationManagerImpl implements PopulationManager {
      */
     public void enhanceListOfStudents(List<GenericEntity> studentSummaries) {
 
+        int count = 0;
         for (GenericEntity student : studentSummaries) {
             if (student == null) {
                 continue;
@@ -169,6 +170,21 @@ public class PopulationManagerImpl implements PopulationManager {
             Map name = (Map) student.get(Constants.ATTR_NAME);
             String fullName = (String) name.get(Constants.ATTR_FIRST_NAME) + " " + (String) name.get(Constants.ATTR_LAST_SURNAME);
             name.put(Constants.ATTR_FULL_NAME, fullName);
+
+            //TODO - Switch once real API data is implemented   
+            switch (count++ % 5) {
+                case 0 : student.put("grade", "A+");
+                break;
+                case 1 : student.put("grade", "B+");
+                    break;
+                case 2 : student.put("grade", "C+");
+                    break;
+                case 3 : student.put("grade", "D+");
+                    break;
+                case 4 : student.put("grade", "F+");
+                break;
+
+            }
 
             // xform score format
             Map studentAssmtAssocs = (Map) student.get(Constants.ATTR_ASSESSMENTS);

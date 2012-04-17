@@ -183,7 +183,14 @@ DashboardUtil.Grid.Formatters = {
 		  
 		Lozenge: function(value, options, rowObject) {	
 			return DashboardUtil.renderLozenges(rowObject);
+		},
+
+		TearDrop: function(value, options, rowObject) {
+			var style = DashboardUtil.tearDrop.getStyle(value, null);
+
+			return "<div class=\"" + style +  "\">" + value + "</div>";
 		}
+
 };
 
 DashboardUtil.Grid.Sorters = {
@@ -287,4 +294,94 @@ DashboardUtil.checkCondition = function(data, condition) {
         }
     } 
     return false;
+}
+
+DashboardUtil.tearDrop = {};
+DashboardUtil.tearDrop.initGradeTrendCodes = function() {
+
+    var GRADE_TREND_CODES = new Object();
+
+    GRADE_TREND_CODES['A+'] = 15;
+    GRADE_TREND_CODES['A'] = 14;
+    GRADE_TREND_CODES['A-'] = 13;
+    GRADE_TREND_CODES['B+'] = 12;
+    GRADE_TREND_CODES['B'] = 11;
+    GRADE_TREND_CODES['B-'] = 10;
+    GRADE_TREND_CODES['C+'] = 9;
+    GRADE_TREND_CODES['C'] = 8;
+    GRADE_TREND_CODES['C-'] = 7;
+    GRADE_TREND_CODES['D+'] = 6;
+    GRADE_TREND_CODES['D'] = 5;
+    GRADE_TREND_CODES['D-'] = 4;
+    GRADE_TREND_CODES['F+'] = 3;
+    GRADE_TREND_CODES['F'] = 2;
+    GRADE_TREND_CODES['F-'] = 1;
+    
+    GRADE_TREND_CODES['1'] = 5;
+    GRADE_TREND_CODES['2'] = 4;
+    GRADE_TREND_CODES['3'] = 3;
+    GRADE_TREND_CODES['4'] = 2;
+    GRADE_TREND_CODES['5'] = 1;
+
+    return GRADE_TREND_CODES;
+}
+
+DashboardUtil.tearDrop.getStyle = function(value, previousValue) {
+
+    GRADE_COLOR_CODES = DashboardUtil.tearDrop.initGradeColorCodes();
+    GRADE_TREND_CODES = DashboardUtil.tearDrop.initGradeTrendCodes();
+
+    var color  = "grey";
+    if (value != null) {
+       color = GRADE_COLOR_CODES[value];
+    }
+
+    var trend = "notrend";
+    if ((value != null) && (previousValue != null)) {
+       var currentTrendCode = GRADE_TREND_CODES[value];
+       var previousTrendCode = GRADE_TREND_CODES[previousValue];
+       if ((currentTrendCode != null) && (previousTrendCode != null)) {
+          var trendCode = currentTrendCode - previousTrendCode;
+          if (trendCode > 0) {
+             trend = "uptrend";
+          } else if (trendCode < 0) {
+             trend = "downtrend";
+          } else {
+             trend = "flattrend";
+          }
+       }
+    }
+
+    var styleName = "teardrop" + "-" + color + "-" + trend;
+
+    return styleName;
+}
+
+DashboardUtil.tearDrop.initGradeColorCodes = function() {
+
+        var GRADE_COLOR_CODES = new Object();
+
+        GRADE_COLOR_CODES['A+'] = "darkgreen";
+        GRADE_COLOR_CODES['A'] = "darkgreen";
+        GRADE_COLOR_CODES['A-'] = "darkgreen";
+        GRADE_COLOR_CODES['B+'] = "lightgreen";
+        GRADE_COLOR_CODES['B'] = "lightgreen";
+        GRADE_COLOR_CODES['B-'] = "lightgreen";
+        GRADE_COLOR_CODES['C+'] = "yellow";
+        GRADE_COLOR_CODES['C'] = "yellow";
+        GRADE_COLOR_CODES['C-'] = "yellow";
+        GRADE_COLOR_CODES['D+'] = "orange";
+        GRADE_COLOR_CODES['D'] = "orange";
+        GRADE_COLOR_CODES['D-'] = "orange";
+        GRADE_COLOR_CODES['F+'] = "red";
+        GRADE_COLOR_CODES['F'] = "red";
+        GRADE_COLOR_CODES['F-'] = "red";
+        
+        GRADE_COLOR_CODES['1'] = "darkgreen";
+        GRADE_COLOR_CODES['2'] = "lightgreen";
+        GRADE_COLOR_CODES['3'] = "yellow";
+        GRADE_COLOR_CODES['4'] = "orange";
+        GRADE_COLOR_CODES['5'] = "red";
+
+        return GRADE_COLOR_CODES;
 }
