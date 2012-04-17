@@ -147,8 +147,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         String errorMessage = "ERROR: Invalid key fields for an entity\n";
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
             errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
-        }
-        else {
+        } else {
             errorMessage += "       Entity      " + entity.getType() + "\n"
                           + "       Key Fields  " + entityConfig.getKeyFields() + "\n";
             if (entityConfig.getReferences() != null && entityConfig.getReferences().size() > 0) {
