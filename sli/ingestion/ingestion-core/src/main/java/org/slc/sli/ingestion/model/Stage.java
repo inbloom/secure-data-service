@@ -3,6 +3,8 @@ package org.slc.sli.ingestion.model;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slc.sli.ingestion.BatchJobStageType;
+
 /**
  * Model for the different stages of ingestion processing.
  *
@@ -11,7 +13,7 @@ import java.util.List;
  */
 public class Stage {
 
-    //mongoTemplate requires this constructor.
+    // mongoTemplate requires this constructor.
     public Stage() {
     }
 
@@ -25,17 +27,23 @@ public class Stage {
 
     private List<Metrics> metrics;
 
-    public Stage(String stageName, String status,
-            String startTimestamp, String stopTimestamp, List<Metrics> metrics) {
+    public Stage(String stageName, String status, String startTimestamp, String stopTimestamp, List<Metrics> metrics) {
         super();
         this.stageName = stageName;
         this.status = status;
         this.startTimestamp = startTimestamp;
         this.stopTimestamp = stopTimestamp;
         if (metrics == null) {
-            metrics = new  LinkedList<Metrics>();
+            metrics = new LinkedList<Metrics>();
         }
         this.metrics = metrics;
+    }
+
+    public static Stage createAndStartStage(BatchJobStageType batchJobStageType) {
+        Stage stage = new Stage();
+        stage.setStageName(batchJobStageType.getName());
+        stage.startStage();
+        return stage;
     }
 
     public String getStageName() {
@@ -72,7 +80,7 @@ public class Stage {
 
     public List<Metrics> getMetrics() {
         if (metrics == null) {
-            metrics = new  LinkedList<Metrics>();
+            metrics = new LinkedList<Metrics>();
         }
         return metrics;
     }
@@ -82,16 +90,16 @@ public class Stage {
     }
 
     public void update(String stageName, String status, String startTimestamp, String stopTimestamp) {
-         if (stageName != null) {
+        if (stageName != null) {
             this.stageName = stageName;
         }
-         if (status != null) {
+        if (status != null) {
             this.status = status;
         }
-         if (startTimestamp != null) {
+        if (startTimestamp != null) {
             this.startTimestamp = startTimestamp;
         }
-         if (stopTimestamp != null) {
+        if (stopTimestamp != null) {
             this.stopTimestamp = stopTimestamp;
         }
     }

@@ -40,7 +40,6 @@ public final class NewBatchJob {
     private static final String STR_TIMESTAMP_FORMAT = "yyyyMMdd hh:mm:ss.SSS";
     private static final FastDateFormat FORMATTER = FastDateFormat.getInstance(STR_TIMESTAMP_FORMAT);
 
-
     // mongoTemplate requires this constructor.
     public NewBatchJob() {
 
@@ -73,6 +72,11 @@ public final class NewBatchJob {
             resourceEntries = new LinkedList<ResourceEntry>();
         }
         this.resourceEntries = resourceEntries;
+    }
+
+    public static NewBatchJob createJobForFile(String fileName) {
+        String id = createId(fileName);
+        return new NewBatchJob(id);
     }
 
     /**
@@ -178,13 +182,25 @@ public final class NewBatchJob {
 
         return null;
     }
+
     /**
      * Method to return commonly formatted time stamp for batch job stages and metrics
+     *
      * @return timeStamp
      */
     public static String getCurrentTimeStamp() {
         String timeStamp = FORMATTER.format(System.currentTimeMillis());
         return timeStamp;
+    }
+
+    /**
+     * stops given stage and adds to this NewBatchJob instance
+     *
+     * @param stage
+     */
+    public void addCompletedStage(Stage stage) {
+        stage.stopStage();
+        this.stages.add(stage);
     }
 
 }
