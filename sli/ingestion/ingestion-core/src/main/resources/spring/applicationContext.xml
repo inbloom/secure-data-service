@@ -104,6 +104,7 @@
   </bean>
 
 <bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+
     <bean id="csvFileHandler" parent="smooksFileHandler">
         <property name="preValidators">
             <util:list value-type="org.slc.sli.ingestion.validation.Validator">

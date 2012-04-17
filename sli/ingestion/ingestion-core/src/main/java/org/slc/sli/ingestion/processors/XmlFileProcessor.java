@@ -29,20 +29,15 @@ public class XmlFileProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
         BatchJob batchJob = BatchJobUtils.getBatchJobUsingStateManager(exchange);
 
-        boolean hasErrors = false;
         try {
             for (IngestionFileEntry fe : batchJob.getFiles()) {
 
 
-                fe = referenceResolutionHandler.handle(fe, fe.getErrorReport());
+                referenceResolutionHandler.handle(fe, fe.getErrorReport());
                 batchJob.getFaultsReport().append(fe.getFaultsReport());
 
-                if (fe.getErrorReport().hasErrors()) {
-                    hasErrors = true;
-                }
-
             }
-            exchange.getIn().setHeader("hasErrors", hasErrors);
+            exchange.getIn().setHeader("hasErrors", batchJob.getFaultsReport().hasErrors());
             exchange.getIn().setBody(batchJob, BatchJob.class);
             exchange.getIn().setHeader("IngestionMessageType", MessageType.XML_FILE_PROCESSED.name());
 
