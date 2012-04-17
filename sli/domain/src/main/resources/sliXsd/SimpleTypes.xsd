@@ -6,6 +6,16 @@
 
 	<!-- This file contains the simple types for the SLI database schema representation. -->
 
+	<xs:simpleType name="ideaEligibilityType">
+		<xs:annotation>
+			<xs:documentation>Indicator of the eligibility of the student to receive special education services according to the Individuals with Disabilities Education Act (IDEA).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Not Applicable To This Student"/>
+			<xs:enumeration value="Individuals With Disabilities Education Act"/>
+		</xs:restriction>
+	</xs:simpleType>
+
 	<xs:simpleType name="identificationCode">
 		<xs:annotation>
 			<xs:documentation>A unique number or alphanumeric code assigned to a
