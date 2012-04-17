@@ -22,6 +22,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
+import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
 import org.springframework.security.oauth2.provider.ClientToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
@@ -48,6 +50,8 @@ import org.slc.sli.domain.enums.Right;
 public class OauthMongoSessionManager implements OauthSessionManager {
     
     private static final Pattern USER_AUTH = Pattern.compile("Bearer (.+)", Pattern.CASE_INSENSITIVE);
+    
+    private static final String APPLICATION_COLLECTION = "application";
     private static final String SESSION_COLLECTION = "userSession";
     
     @Value("${sli.session.length}")
@@ -74,9 +78,18 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     @Override
     @SuppressWarnings("unchecked")
     public void createAppSession(String sessionId, String clientId, String redirectUri, String state, String tenantId, String samlId) {
-        // TODO check for error conditions
-        // clientId exists (app)
-        // redirectUri matches (app)
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("client_id", "=", clientId));
+        Entity app = repo.findOne(APPLICATION_COLLECTION, nq);
+        
+        if (app == null) {
+            RuntimeException x = new InvalidClientException(String.format("No app with id %s registered", clientId));
+            error(x.getMessage(), x);
+            throw x;
+        } else if (redirectUri != null && !redirectUri.startsWith((String) app.getBody().get("redirect_uri"))) {
+            RuntimeException x = new RedirectMismatchException("Invalid redirect_uri specified " + redirectUri);
+            error(x.getMessage() + " expected " + app.getBody().get("redirect_uri"), x);
+            throw x;
+        }
         
         Entity sessionEntity = sessionId == null ? null : repo.findById(SESSION_COLLECTION, sessionId);
         
@@ -107,7 +120,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         Entity session = repo.findOne(SESSION_COLLECTION, nq);
         
         if (session == null) {
-            RuntimeException x = new IllegalStateException(String.format("No session with samlId", samlId));
+            RuntimeException x = new IllegalStateException(String.format("No session with samlId %s", samlId));
             error("Attempted to access invalid session", x);
             throw x;
         }
@@ -162,7 +175,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         nq.addCriteria(new NeutralCriteria("client_id", "=", clientCredentials.getLeft()));
         nq.addCriteria(new NeutralCriteria("client_secret", "=", clientCredentials.getRight()));
         
-        Entity app = repo.findOne("application", nq);
+        Entity app = repo.findOne(APPLICATION_COLLECTION, nq);
         
         if (app == null) {
             RuntimeException x = new BadCredentialsException("No application matching credentials found.");
@@ -221,6 +234,11 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                             PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(principal, accessToken, authorities);
                             userToken.setAuthenticated(true);
                             auth = new OAuth2Authentication(token, userToken);
+                            
+                            // Extend the session
+                            sessionEntity.getBody().put("expiration", System.currentTimeMillis() + this.sessionLength);
+                            repo.update(SESSION_COLLECTION, sessionEntity);
+                            
                             break;
                         }
                     }
