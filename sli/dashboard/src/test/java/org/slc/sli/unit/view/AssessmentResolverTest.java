@@ -53,7 +53,7 @@ public class AssessmentResolverTest {
     public void testGet() throws Exception {
         Field f = new Field();
         // get the ISAT Reading performance level
-        f.setValue("ISAT Reading." + Constants.ATTR_PERF_LEVEL);
+        f.setValue("ISAT Reading." + Constants.ATTR_MASTERY_LEVEL);
         f.setTimeSlot("MOST_RECENT_RESULT");
         String perfLevel = resolver.get(f, student);
         assertEquals("ISAT Reading Perf Level should be blank", "", perfLevel);
@@ -98,11 +98,11 @@ public class AssessmentResolverTest {
         assertEquals("Scale score should be 250", "250", scaleScore);
         
         // test get blank perf level when performance level descriptor is empty
-        String perfLevel = resolver.getScore(studentAssmt, Constants.ATTR_PERF_LEVEL, null);
+        String perfLevel = resolver.getScore(studentAssmt, Constants.ATTR_MASTERY_LEVEL, null);
         assertEquals("Perf Level should be blank", "", perfLevel);
         
         // test get perf level from performance level descriptor
-        perfLevel = resolver.getScore(studentAssmtWithPerfLevel, Constants.ATTR_PERF_LEVEL, null);
+        perfLevel = resolver.getScore(studentAssmtWithPerfLevel, Constants.ATTR_MASTERY_LEVEL, null);
         assertEquals("Perf Level should be 4 based on performance level descriptor", "4", perfLevel);
         
         // test get scale score from objective assessment for SAT-Writing

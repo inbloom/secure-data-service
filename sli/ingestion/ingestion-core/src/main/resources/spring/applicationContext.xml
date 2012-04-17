@@ -93,12 +93,6 @@
   </bean>
 
     <bean id="xmlFileHandler" parent="smooksFileHandler">
-    <property name="preValidators" >
-            <util:list value-type="org.slc.sli.ingestion.validation.Validator">
-            <ref bean="xmlFileValidator"/>
-            <ref bean="xsdValidator"/>
-        </util:list>
-            </property>
   </bean>
 
   <bean id="referenceResolutionHandler" class="org.slc.sli.ingestion.handler.ReferenceResolutionHandler">
@@ -111,6 +105,7 @@
   </bean>
 
 <bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+
     <bean id="csvFileHandler" parent="smooksFileHandler">
         <property name="preValidators">
             <util:list value-type="org.slc.sli.ingestion.validation.Validator">
@@ -137,15 +132,6 @@
     <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler"></property>
     <property name="persistedCollections" ref="persistedEntities" />
   </bean>
-
-    <util:list id="excluded" value-type="java.lang.String">
-            <value>system.indexes</value>
-            <value>system.js</value>
-    </util:list>
-
-<bean id="purgeProcessor" class="org.slc.sli.ingestion.processors.PurgeProcessor">
-    <property name="excludeCollections" ref="excluded"/>
-</bean>
 
 </beans>
 

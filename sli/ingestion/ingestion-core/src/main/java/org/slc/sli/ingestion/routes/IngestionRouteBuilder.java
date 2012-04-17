@@ -110,7 +110,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                     }).process(new ControlFilePreProcessor(tempLz))
                     .to(workItemQueueUri);
 
-       // routeId: workItemRoute -> main ingestion route: ctlFileProcessor -> edFiProcessor -> persistenceProcessor
+       // routeId: workItemRoute -> main ingestion route: ctlFileProcessor -> xmlFileProcessor -> edFiProcessor -> persistenceProcessor
         from(workItemQueueUri)
             .routeId("workItemRoute")
             .choice()
@@ -125,7 +125,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             .when(header("IngestionMessageType").isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing xml file.")
                 .process(xmlFileProcessor)
-                .to("direct:assembledJobs")
+                .to(workItemQueueUri)
             .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
                 .process(edFiProcessor)

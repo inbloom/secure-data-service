@@ -23,7 +23,7 @@ import org.slc.sli.util.SecurityUtil;
  * @author dwu
  */
 @Controller
-@RequestMapping(value = "/service/layout/")
+//@RequestMapping(value = "/service/layout/")
 public class LayoutController extends GenericLayoutController {
     private static final String TABBED_ONE_COL = "tabbed_one_col";
     
@@ -40,7 +40,7 @@ public class LayoutController extends GenericLayoutController {
      * @param panelIds
      * @return
      */
-    @RequestMapping(value = "/student", method = RequestMethod.GET)
+    @RequestMapping(value = "/service/layout/student", method = RequestMethod.GET)
     public ModelAndView handleStudentProfile(@RequestParam String id, HttpServletRequest request) {
         ModelMap model = getPopulatedModel("studentProfile", id, request);
         // TODO: get rid of StudentProgramUtil - instead enrich student entity with relevant
@@ -62,7 +62,7 @@ public class LayoutController extends GenericLayoutController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "{componentId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/service/layout/{componentId}", method = RequestMethod.GET)
     public ModelAndView handleListOfStudents(@PathVariable String componentId,
             @RequestParam(required = false) String id, HttpServletRequest request) {
         ModelMap model = getPopulatedModel(componentId, id, request);
@@ -71,4 +71,16 @@ public class LayoutController extends GenericLayoutController {
                 .replaceFirst("div_main", "div_footer"));
         return getModelView(TABBED_ONE_COL, model);
     }
+    
+    /**
+     * Handles the "/" url by redirecting to list of students
+     * 
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String handleHome(HttpServletRequest request) {
+        return "redirect:/service/layout/listOfStudentsPage";
+    }
+    
 }

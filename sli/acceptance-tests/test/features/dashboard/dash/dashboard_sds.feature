@@ -10,6 +10,8 @@ When I select "Illinois Sunset School District 4526" and click go
 @integration
 Scenario: View Matt Sollars
 When I login as "linda.kim" "linda.kim1234"
+And I see a header on the page that has the text "Logout"
+And I see a footer on the page that has the text "Copyright"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
@@ -18,15 +20,39 @@ Then I see a list of 28 students
 And the list includes: "Matt Sollars"
 And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
 And there is no lozenges for student "Lettie Hose"
-And the count for id "ATTENDANCE.AbsenceCount" for student "Matt Sollars" is "5"
-And the class for id "ATTENDANCE.AbsenceCount" for student "Matt Sollars" is "countLevel2"
-And the count for id "ATTENDANCE.AttendanceRate" for student "Matt Sollars" is "97"
-And the class for id "ATTENDANCE.AttendanceRate" for student "Matt Sollars" is "perfLevel4"
-And the count for id "ATTENDANCE.TardyCount" for student "Matt Sollars" is "0"
-And the class for id "ATTENDANCE.TardyCount" for student "Matt Sollars" is "countLevel1"
-And the count for id "ATTENDANCE.TardyRate" for student "Matt Sollars" is "0"
-And the class for id "ATTENDANCE.TardyRate" for student "Matt Sollars" is "perfLevel5"
+And the count for id "attendances.absenceCount" for student "Matt Sollars" is "5"
+And the class for id "attendances.absenceCount" for student "Matt Sollars" is "color-widget-green"
+And the count for id "attendances.attendanceRate" for student "Matt Sollars" is "97"
+And the class for id "attendances.attendanceRate" for student "Matt Sollars" is "color-widget-green"
+And the count for id "attendances.tardyCount" for student "Matt Sollars" is "0"
+And the class for id "attendances.tardyCount" for student "Matt Sollars" is "color-widget-darkgreen"
+And the count for id "attendances.tardyRate" for student "Matt Sollars" is "0"
+And the class for id "attendances.tardyRate" for student "Matt Sollars" is "color-widget-darkgreen"
+# AbsenceCount: 1 
+And the count for id "attendances.absenceCount" for student "Dominic Brisendine" is "1"
+And the class for id "attendances.absenceCount" for student "Dominic Brisendine" is "color-widget-green"
+# AbsenceCount: more than 6 absence count
+And the count for id "attendances.absenceCount" for student "Alton Maultsby" is "10"
+And the class for id "attendances.absenceCount" for student "Alton Maultsby" is "color-widget-yellow"
+# AbsenceCount: more than 11 absense count
+And the count for id "attendances.absenceCount" for student "Felipe Cianciolo" is "12"
+And the class for id "attendances.absenceCount" for student "Felipe Cianciolo" is "color-widget-red"
+# AbsenceCount: less than 89% attendance rate
+And the count for id "attendances.attendanceRate" for student "Lashawn Taite" is "82"
+And the class for id "attendances.attendanceRate" for student "Lashawn Taite" is "color-widget-red"
+# AbsenceRate: between 90-94%
+And the count for id "attendances.attendanceRate" for student "Rudy Bedoya" is "93"
+And the class for id "attendances.attendanceRate" for student "Rudy Bedoya" is "color-widget-yellow"
+# AbsenceRate: between 95-98%
+And the count for id "attendances.attendanceRate" for student "Merry Mccanse" is "95"
+And the class for id "attendances.attendanceRate" for student "Merry Mccanse" is "color-widget-green"
+# AbsenceRate: between 99 - 100%
+And the count for id "attendances.attendanceRate" for student "Dominic Brisendine" is "99"
+And the class for id "attendances.attendanceRate" for student "Dominic Brisendine" is "color-widget-darkgreen"
+# TODO:  all TardyCount and rates are 0
 And I click on student "Matt Sollars"
+And I see a header on the page that has the text "Logout"
+And I see a footer on the page that has the text "Copyright"
 And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
 And their id shown in proflie is "800000025"
@@ -57,6 +83,9 @@ And Student Enrollment History includes " ;East Daybreak Junior High;6;2009-09-0
 And Student Enrollment History includes " ; ;5;2008-09-05;Next year school; ;2009-05-11;End of school year"
 And Student Enrollment History includes " ; ;4;2007-09-12;Next year school; ;2008-05-10;End of school year"
 And Student Enrollment History includes " ; ;3;2006-09-11;Transfer from a private, religiously-affiliated school in a different state; ;2007-05-09;Student is in a different public school in the same local education agency"
+And I see a header on the page that has the text "Logout"
+And I see a footer on the page that has the text "Copyright"
+
 
 @integration 
 Scenario: View Mi-Ha Tran
@@ -68,6 +97,29 @@ And I select section "Mrs. Braverman's Homeroom #38"
 Then I see a list of 25 students
 And the list includes: "Mi-Ha Tran"
 And the following students have "ELL" lozenges: "Malcolm Haehn;Dara Nemecek;Lauretta Seip"
+And I see a header on the page that has the text "Logout"
+And I see a footer on the page that has the text "Copyright"
+# Early Literacy View
+And the count for id "attendances.absenceCount" for student "Mi-Ha Tran" is "2"
+And the class for id "attendances.absenceCount" for student "Mi-Ha Tran" is "color-widget-green"
+And the count for id "attendances.tardyCount" for student "Mi-Ha Tran" is "2"
+And the class for id "attendances.tardyCount" for student "Mi-Ha Tran" is "color-widget-green"
+# Absence Count: 0
+And the count for id "attendances.absenceCount" for student "Smouse Zhou" is "0"
+And the class for id "attendances.absenceCount" for student "Smouse Zhou" is "color-widget-darkgreen"
+# Absence Count: 6 - 10
+And the count for id "attendances.absenceCount" for student "Rudolph Sennett" is "6"
+And the class for id "attendances.absenceCount" for student "Rudolph Sennett" is "color-widget-yellow"
+# TODO Absence Count:  > 11
+# Tardy Count: 0
+And the count for id "attendances.tardyCount" for student "Maria Werner" is "0"
+And the class for id "attendances.tardyCount" for student "Maria Werner" is "color-widget-darkgreen"
+# Tardy Count: 6-10
+And the count for id "attendances.tardyCount" for student "Rudolph Sennett" is "8"
+And the class for id "attendances.tardyCount" for student "Rudolph Sennett" is "color-widget-yellow"
+# Tardy Count: > 11
+And the count for id "attendances.tardyCount" for student "Garry Kinsel" is "11"
+And the class for id "attendances.tardyCount" for student "Garry Kinsel" is "color-widget-red"
 And I click on student "Mi-Ha Tran"
 And I view its student profile
 And their name shown in profile is "Mi-Ha Tran"
@@ -110,6 +162,8 @@ And the order of the addressess is "34 Northshore Ave;82 N. Central Pkwy."
 And there are "2" student enrollment history entries
 And Student Enrollment History includes " ;South Daybreak Elementary;1;2011-09-05;Next year school; ; ; ;"
 And Student Enrollment History includes " ;South Daybreak Elementary;K;2010-09-03;Original entry into a United States school; ;2011-05-11;End of school year"
+And I see a header on the page that has the text "Logout"
+And I see a footer on the page that has the text "Copyright"
 
 @integration
 Scenario: View Carmen Ortiz
@@ -121,6 +175,20 @@ And I select section "Sec 145"
 Then I see a list of 25 students
 And the list includes: "Carmen Ortiz"
 And the following students have "ELL" lozenges: "Randolph Vanhooser;Kelvin Zahm;Johnathan Zenz"
+And I see a header on the page that has the text "Logout"
+And I see a footer on the page that has the text "Copyright"
+And the count for id "attendances.absenceCount" for student "Carmen Ortiz" is "5"
+And the class for id "attendances.absenceCount" for student "Carmen Ortiz" is "color-widget-green"
+And the count for id "attendances.attendanceRate" for student "Carmen Ortiz" is "97"
+And the class for id "attendances.attendanceRate" for student "Carmen Ortiz" is "color-widget-green"
+And the count for id "attendances.tardyCount" for student "Carmen Ortiz" is "0"
+And the class for id "attendances.tardyCount" for student "Carmen Ortiz" is "color-widget-darkgreen"
+And the count for id "attendances.tardyRate" for student "Carmen Ortiz" is "0"
+And the class for id "attendances.tardyRate" for student "Carmen Ortiz" is "color-widget-darkgreen"
+# Absence count: > 11
+And the count for id "attendances.absenceCount" for student "Geoffrey Pillard" is "18"
+And the class for id "attendances.absenceCount" for student "Geoffrey Pillard" is "color-widget-red"
+# Attendance Rate
 And I click on student "Carmen Ortiz"
 And I view its student profile
 And their name shown in profile is "Carmen Daniella Ortiz"
@@ -153,4 +221,5 @@ And Student Enrollment History includes " ; ;7;2007-09-14;Next year school; ;200
 And Student Enrollment History includes " ; ;6;2006-09-11;Next year school; ;2007-05-14;End of school year"
 And Student Enrollment History includes " ; ;5;2005-09-09;Transfer from a private, religiously-affiliated school in the same local education agency; ;2006-05-15;Exited"
 And Student Enrollment History includes " ; ;2;2002-09-12;Transfer from a school outside of the country; ;2003-04-12;Expelled or involuntarily withdrawn"
-
+And I see a header on the page that has the text "Logout"
+And I see a footer on the page that has the text "Copyright"
