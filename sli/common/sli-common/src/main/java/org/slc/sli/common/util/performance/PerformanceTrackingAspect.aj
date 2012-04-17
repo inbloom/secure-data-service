@@ -1,4 +1,4 @@
-package org.slc.sli.util.performance;
+package org.slc.sli.common.util.performance;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Aspect for common performance measurements
- * 
+ *
  * @author ifaybyshev
- * 
+ *
  */
 @Aspect
 abstract public class PerformanceTrackingAspect {
