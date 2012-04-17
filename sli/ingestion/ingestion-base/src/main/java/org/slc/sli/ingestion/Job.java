@@ -6,14 +6,17 @@ import java.util.List;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+/**
+ * Interface for batch jobs
+ * 
+ * @author nbrown
+ * 
+ */
 public interface Job {
     
     /**
      * Adds a file.
-     *
+     * 
      * @param ingestionFileEntry
      * @return
      * @see java.util.List#add(java.lang.Object)
