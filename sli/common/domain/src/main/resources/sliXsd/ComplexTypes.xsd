@@ -3293,9 +3293,9 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="attendanceEvent" minOccurs="0" maxOccurs="unbounded" type="attendanceEvent"/>
+            <xs:element name="schoolYear" type="schoolYearType" />
+            <xs:element name="attendanceEvent" type="attendanceEvent" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
-        <xs:attribute name="schoolYear" type="schoolYearType" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="attendanceEvent">
