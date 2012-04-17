@@ -1,10 +1,15 @@
 package org.slc.sli.ingestion.processors;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.ingestion.Job;
+import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +17,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.ingestion.Job;
-import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  *Performs purging of data in mongodb based on the tenant id.
@@ -36,12 +36,22 @@ public class PurgeProcessor implements Processor {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    private List<String> excludeCollections;
+
     public MongoTemplate getMongoTemplate() {
         return mongoTemplate;
     }
 
     public void setMongoTemplate(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
+    }
+
+    public List<String> getExcludeCollections() {
+        return excludeCollections;
+    }
+
+    public void setExcludeCollections(List<String> excludeCollections) {
+        this.excludeCollections = excludeCollections;
     }
 
     @Override
@@ -65,11 +75,12 @@ public class PurgeProcessor implements Processor {
                 String collectionName;
                 while (iter.hasNext()) {
                     collectionName = iter.next();
-                    if (collectionName.equals("system.indexes") || collectionName.equals("system.js")) {
+                    if(isSystemCollection(collectionName)) {
                         continue;
                     }
                     mongoTemplate.remove(searchTenantId, collectionName);
                 }
+
                 logger.info("Purge process complete.");
 
             } catch (Exception exception) {
@@ -78,6 +89,15 @@ public class PurgeProcessor implements Processor {
                 logger.error("Exception:", exception);
             }
         }
+    }
+
+    private boolean isSystemCollection(String collectionName) {
+        for (String excludedCollectionName : excludeCollections) {
+            if (collectionName.equals(excludedCollectionName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

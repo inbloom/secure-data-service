@@ -7,17 +7,17 @@ import junitx.util.PrivateAccessor;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.ingestion.BatchJob;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import org.slc.sli.ingestion.BatchJob;
 
 /**
  *
@@ -36,7 +36,7 @@ public class PurgeProcessorTest {
 
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
-        BatchJob job = BatchJob.createDefault();
+        BatchJob job = (BatchJob) BatchJob.createDefault();
 
 
         Mockito.when(ex.getIn()).thenReturn(message);
@@ -54,7 +54,7 @@ public class PurgeProcessorTest {
     public void testPurging() throws Exception {
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
-        BatchJob job = BatchJob.createDefault();
+        BatchJob job = (BatchJob) BatchJob.createDefault();
         job.setProperty("tenantId", "SLI");
 
         Mockito.when(ex.getIn()).thenReturn(message);
@@ -79,7 +79,7 @@ public class PurgeProcessorTest {
     public void testPurgingSystemCollections() throws Exception {
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
-        BatchJob job = BatchJob.createDefault();
+        BatchJob job = (BatchJob) BatchJob.createDefault();
         job.setProperty("tenantId", "SLI");
 
         Mockito.when(ex.getIn()).thenReturn(message);
