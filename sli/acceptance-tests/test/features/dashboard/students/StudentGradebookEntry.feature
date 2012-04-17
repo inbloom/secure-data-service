@@ -15,7 +15,7 @@ Scenario: Displaying gradebook entry data for all students - Linda Kim
     And I select <section> "8th Grade English - Sec 6"
     And I wait for "10" seconds
     And I select <viewSelector> "Middle School ELA View"
-#   And I wait for "15" seconds
+    Then I see a list of 25 students
 
     # Historical data
   Then I should see a table heading "2010-2011 Fall Semester"
@@ -39,7 +39,7 @@ Scenario: Displaying gradebook entry data for all students - Linda Kim
     And I select <section> "Sec 145"
     And I wait for "10" seconds
     And I select <viewSelector> "IL_9-12"
-#   And I wait for "15" seconds
+    Then I see a list of 26 students
 
     # Historical data
     Then I should see a table heading "2010-2011 Fall Semester"
