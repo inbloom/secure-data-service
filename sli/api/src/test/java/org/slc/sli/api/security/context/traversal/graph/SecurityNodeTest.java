@@ -1,14 +1,13 @@
 package org.slc.sli.api.security.context.traversal.graph;
 
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
+import java.util.Set;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Map;
-import java.util.Set;
-
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
 
 /**
  * Basic Node test.
@@ -29,7 +28,7 @@ public class SecurityNodeTest {
 
     @Test
     public void testGetConnections() throws Exception {
-        Set<Map<String, String>> connections = node.getConnections();
+        Set<SecurityNodeConnection> connections = node.getConnections();
         assertTrue(connections.size() == 1);
 
     }
@@ -44,7 +43,7 @@ public class SecurityNodeTest {
 
     @Test
     public void testGetConnectionForEntity() throws Exception {
-        Map<String, String> connection = null;
+        SecurityNodeConnection connection = null;
         connection = node.getConnectionForEntity("asdf");
         assertTrue(connection == null);
         connection = node.getConnectionForEntity(null);

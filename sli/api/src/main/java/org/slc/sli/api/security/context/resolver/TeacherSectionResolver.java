@@ -27,7 +27,8 @@ public class TeacherSectionResolver implements EntityContextResolver {
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return false;
-//        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.SECTION.equals(toEntityType);
+        // return EntityNames.TEACHER.equals(fromEntityType) &&
+        // EntityNames.SECTION.equals(toEntityType);
     }
 
     @Override

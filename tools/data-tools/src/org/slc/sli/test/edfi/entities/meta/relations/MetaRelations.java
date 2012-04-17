@@ -59,7 +59,7 @@ public final class MetaRelations {
     public static final Map<String, DisciplineIncidentMeta> DISCIPLINE_INCIDENT_MAP = new TreeMap<String, DisciplineIncidentMeta>();
     public static final Map<String, DisciplineActionMeta> DISCIPLINE_ACTION_MAP = new TreeMap<String, DisciplineActionMeta>();
 
-    public static final String SEA_PREFIX = "caprica";
+    public static final String SEA_PREFIX = "cap";
     public static final String FIRST_TEACHER_ID = "lroslin";
 
     /**

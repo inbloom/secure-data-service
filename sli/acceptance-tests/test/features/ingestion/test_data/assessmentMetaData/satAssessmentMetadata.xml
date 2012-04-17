@@ -36,6 +36,21 @@
 		<IdentificationCode>SAT-Math</IdentificationCode>
 		<MaxRawScore>800</MaxRawScore>
 		<PercentOfAssessment>33</PercentOfAssessment>
+		<ObjectiveAssessmentReference ref="SatMathArithmetic"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="SatMathAlgebra"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="SatMathGeometry"></ObjectiveAssessmentReference>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="SatMathArithmetic">
+		<IdentificationCode>SAT-Math-Arithmetic</IdentificationCode>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="SatMathAlgebra">
+		<IdentificationCode>SAT-Math-Algebra</IdentificationCode>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="SatMathGeometry">
+		<IdentificationCode>SAT-Math-Geometry</IdentificationCode>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="SatCritRead">

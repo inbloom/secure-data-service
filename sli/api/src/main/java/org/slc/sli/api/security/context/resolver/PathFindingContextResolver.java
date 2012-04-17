@@ -5,8 +5,8 @@ package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.api.config.AssociationDefinition;
@@ -14,6 +14,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.BrutePathFinder;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
+import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -47,8 +48,11 @@ public class PathFindingContextResolver implements EntityContextResolver {
     public boolean canResolve(String fromEntityType, String toEntityType) {
         this.fromEntity = fromEntityType;
         this.toEntity = toEntityType;
-        Set<String> entities = pathFinder.getNodeMap().keySet();
-        return (entities.contains(fromEntityType) && entities.contains(toEntityType));
+        if (pathFinder.isPathExcluded(fromEntityType, toEntityType)) {
+            return false;
+        }
+            Set<String> entities = pathFinder.getNodeMap().keySet();
+            return (entities.contains(fromEntityType) && entities.contains(toEntityType));
     }
     
     /*
@@ -63,38 +67,38 @@ public class PathFindingContextResolver implements EntityContextResolver {
         if (path.size() == 0) {
             path = pathFinder.find(fromEntity, toEntity);
         }
-        List<String> ids = new ArrayList<String>(Arrays.asList(principal.getEntityId()));
+        Set<String> ids = new HashSet<String>(Arrays.asList(principal.getEntityId()));
         SecurityNode current = path.get(0);
         for (int i = 1; i < path.size(); ++i) {
             SecurityNode next = path.get(i);
-            Map<String, String> connection = current.getConnectionForEntity(next.getName());
-            Iterable<String> idSet = new ArrayList<String>();
+            SecurityNodeConnection connection = current.getConnectionForEntity(next.getName());
+            List<String> idSet = new ArrayList<String>();
             String repoName = getResourceName(next, connection);
             debug("Getting Ids From {}", repoName);
             if (isAssociative(next, connection)) {
                 AssociationDefinition ad = (AssociationDefinition) store.lookupByResourceName(repoName);
                 List<String> keys = helper.getAssocKeys(current.getName(), ad);
                 idSet = helper.findEntitiesContainingReference(ad.getStoredCollectionName(), keys.get(0),
-                        connection.get(SecurityNode.CONNECTION_FIELD_NAME), ids);
+                        connection.getFieldName(), new ArrayList<String>(ids));
             } else {
                 idSet = helper.findEntitiesContainingReference(repoName,
-                        connection.get(SecurityNode.CONNECTION_FIELD_NAME), ids);
+ connection.getFieldName(),
+                        new ArrayList<String>(ids));
             }
 
-            fixIds(ids, idSet);
+            ids.addAll(idSet);
             current = path.get(i);
         }
         debug("We found {} ids", ids);
-        return ids;
+        return new ArrayList<String>(ids);
     }
 
-    private boolean isAssociative(SecurityNode next, Map<String, String> connection) {
-        return connection.get(SecurityNode.CONNECTION_ASSOCIATION).length() != 0;
+    private boolean isAssociative(SecurityNode next, SecurityNodeConnection connection) {
+        return connection.getAssociationNode().length() != 0;
     }
 
-    private String getResourceName(SecurityNode next, Map<String, String> connection) {
-        return isAssociative(next, connection) ? (String) connection
-                .get(SecurityNode.CONNECTION_ASSOCIATION) : next.getName();
+    private String getResourceName(SecurityNode next, SecurityNodeConnection connection) {
+        return isAssociative(next, connection) ? connection.getAssociationNode() : next.getName();
     }
 
     private void fixIds(List<String> ids, Iterable<String> idSet) {

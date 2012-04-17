@@ -12,18 +12,18 @@ import org.slc.sli.api.client.Link;
 /**
  * Generic implementation of the Entity interface. This is implements the Entity interface
  * in the most generic way possible.
- * 
+ *
  * @author asaarela
  */
 @XmlRootElement
 public class GenericEntity implements Entity {
-    
+
     private final Map<String, Object> data;
     private final EntityType type;
-    
+
     /**
      * Construct a new generic entity.
-     * 
+     *
      * @param type
      *            Entity type for this entity.
      * @param data
@@ -33,7 +33,7 @@ public class GenericEntity implements Entity {
         this.type = type;
         this.data = data;
     }
-    
+
     @Override
     public String getId() {
         if (data.containsKey(ENTITY_ID_KEY)) {
@@ -41,22 +41,21 @@ public class GenericEntity implements Entity {
         }
         return null;
     }
-    
+
     @Override
     public Map<String, Object> getData() {
         return data;
     }
-    
-    @SuppressWarnings("unchecked")
+
     @Override
     public List<Link> getLinks() {
-        
+
         if (data.containsKey(LINKS_KEY)) {
             return (List<Link>) data.get(LINKS_KEY);
         }
         return null;
     }
-    
+
     @Override
     public EntityType getEntityType() {
         return type;

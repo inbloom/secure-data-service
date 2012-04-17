@@ -9,8 +9,8 @@ import java.util.UUID;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import org.slc.sli.common.util.performance.PutResultInContext;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.util.performance.PutResultInContext;
 
 /**
  * Model for ingestion jobs.
