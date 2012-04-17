@@ -31,7 +31,7 @@
 
 		<div class="realm-name">
 			<h1>
-				<span class="heading">Sandbox IDP for</span> <span class="tenant">${tenant}</span>
+				<span class="heading">Simple IDP for</span> <span class="tenant">${tenant}</span>
 			</h1>
 		</div>
 
