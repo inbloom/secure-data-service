@@ -35,8 +35,7 @@ When /^I select <section> "([^"]*)"$/ do |elem|
 end
 
 Then /^I should have a dropdown selector named "([^"]*)"$/ do |elem|
-  wait = Selenium::WebDriver::Wait.new(:timeout => 50) 
-  @selector = wait.until{@driver.find_element(:id, elem)}
+  @selector = @explicitWait.until{@driver.find_element(:id, elem)}
 end
 
 Then /^I should have a selectable view named "([^"]*)"$/ do |view_name|
@@ -49,8 +48,7 @@ Then /^I should have a selectable view named "([^"]*)"$/ do |view_name|
 end
 
 Then /^I should only see one view named "([^"]*)"$/ do |view_name|
-  wait = Selenium::WebDriver::Wait.new(:timeout => 50) 
-  span = wait.until{@driver.find_element(:id, "viewSelectorSpan")}
+  span = @explicitWait.until{@driver.find_element(:id, "viewSelect")}
   span.text.should include view_name
 end
 
@@ -60,9 +58,7 @@ When /^I select view "([^"]*)"$/ do |view|
 end
 
 Then /^I should see a table heading "([^"]*)"$/ do |text|
-
-  wait = Selenium::WebDriver::Wait.new(:timeout => 50) # explicit wait for at most 5 sec
-  list =  wait.until{@driver.find_element(:id, "studentList")}
+  list =  @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
 
   list.should_not be_nil
 

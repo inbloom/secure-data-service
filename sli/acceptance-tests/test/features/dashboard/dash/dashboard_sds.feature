@@ -20,14 +20,36 @@ Then I see a list of 28 students
 And the list includes: "Matt Sollars"
 And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
 And there is no lozenges for student "Lettie Hose"
-And the count for id "ATTENDANCE.AbsenceCount" for student "Matt Sollars" is "5"
-And the class for id "ATTENDANCE.AbsenceCount" for student "Matt Sollars" is "countLevel2"
-And the count for id "ATTENDANCE.AttendanceRate" for student "Matt Sollars" is "97"
-And the class for id "ATTENDANCE.AttendanceRate" for student "Matt Sollars" is "perfLevel4"
-And the count for id "ATTENDANCE.TardyCount" for student "Matt Sollars" is "0"
-And the class for id "ATTENDANCE.TardyCount" for student "Matt Sollars" is "countLevel1"
-And the count for id "ATTENDANCE.TardyRate" for student "Matt Sollars" is "0"
-And the class for id "ATTENDANCE.TardyRate" for student "Matt Sollars" is "perfLevel5"
+And the count for id "attendances.absenceCount" for student "Matt Sollars" is "5"
+And the class for id "attendances.absenceCount" for student "Matt Sollars" is "color-widget-green"
+And the count for id "attendances.attendanceRate" for student "Matt Sollars" is "97"
+And the class for id "attendances.attendanceRate" for student "Matt Sollars" is "color-widget-green"
+And the count for id "attendances.tardyCount" for student "Matt Sollars" is "0"
+And the class for id "attendances.tardyCount" for student "Matt Sollars" is "color-widget-darkgreen"
+And the count for id "attendances.tardyRate" for student "Matt Sollars" is "0"
+And the class for id "attendances.tardyRate" for student "Matt Sollars" is "color-widget-darkgreen"
+# AbsenceCount: 1 
+And the count for id "attendances.absenceCount" for student "Dominic Brisendine" is "1"
+And the class for id "attendances.absenceCount" for student "Dominic Brisendine" is "color-widget-green"
+# AbsenceCount: more than 6 absence count
+And the count for id "attendances.absenceCount" for student "Alton Maultsby" is "10"
+And the class for id "attendances.absenceCount" for student "Alton Maultsby" is "color-widget-yellow"
+# AbsenceCount: more than 11 absense count
+And the count for id "attendances.absenceCount" for student "Felipe Cianciolo" is "12"
+And the class for id "attendances.absenceCount" for student "Felipe Cianciolo" is "color-widget-red"
+# AbsenceCount: less than 89% attendance rate
+And the count for id "attendances.attendanceRate" for student "Lashawn Taite" is "82"
+And the class for id "attendances.attendanceRate" for student "Lashawn Taite" is "color-widget-red"
+# AbsenceRate: between 90-94%
+And the count for id "attendances.attendanceRate" for student "Rudy Bedoya" is "93"
+And the class for id "attendances.attendanceRate" for student "Rudy Bedoya" is "color-widget-yellow"
+# AbsenceRate: between 95-98%
+And the count for id "attendances.attendanceRate" for student "Merry Mccanse" is "95"
+And the class for id "attendances.attendanceRate" for student "Merry Mccanse" is "color-widget-green"
+# AbsenceRate: between 99 - 100%
+And the count for id "attendances.attendanceRate" for student "Dominic Brisendine" is "99"
+And the class for id "attendances.attendanceRate" for student "Dominic Brisendine" is "color-widget-darkgreen"
+# TODO:  all TardyCount and rates are 0
 And I click on student "Matt Sollars"
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Copyright"
@@ -77,6 +99,27 @@ And the list includes: "Mi-Ha Tran"
 And the following students have "ELL" lozenges: "Malcolm Haehn;Dara Nemecek;Lauretta Seip"
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Copyright"
+# Early Literacy View
+And the count for id "attendances.absenceCount" for student "Mi-Ha Tran" is "2"
+And the class for id "attendances.absenceCount" for student "Mi-Ha Tran" is "color-widget-green"
+And the count for id "attendances.tardyCount" for student "Mi-Ha Tran" is "2"
+And the class for id "attendances.tardyCount" for student "Mi-Ha Tran" is "color-widget-green"
+# Absence Count: 0
+And the count for id "attendances.absenceCount" for student "Smouse Zhou" is "0"
+And the class for id "attendances.absenceCount" for student "Smouse Zhou" is "color-widget-darkgreen"
+# Absence Count: 6 - 10
+And the count for id "attendances.absenceCount" for student "Rudolph Sennett" is "6"
+And the class for id "attendances.absenceCount" for student "Rudolph Sennett" is "color-widget-yellow"
+# TODO Absence Count:  > 11
+# Tardy Count: 0
+And the count for id "attendances.tardyCount" for student "Maria Werner" is "0"
+And the class for id "attendances.tardyCount" for student "Maria Werner" is "color-widget-darkgreen"
+# Tardy Count: 6-10
+And the count for id "attendances.tardyCount" for student "Rudolph Sennett" is "8"
+And the class for id "attendances.tardyCount" for student "Rudolph Sennett" is "color-widget-yellow"
+# Tardy Count: > 11
+And the count for id "attendances.tardyCount" for student "Garry Kinsel" is "11"
+And the class for id "attendances.tardyCount" for student "Garry Kinsel" is "color-widget-red"
 And I click on student "Mi-Ha Tran"
 And I view its student profile
 And their name shown in profile is "Mi-Ha Tran"
@@ -134,6 +177,18 @@ And the list includes: "Carmen Ortiz"
 And the following students have "ELL" lozenges: "Randolph Vanhooser;Kelvin Zahm;Johnathan Zenz"
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Copyright"
+And the count for id "attendances.absenceCount" for student "Carmen Ortiz" is "5"
+And the class for id "attendances.absenceCount" for student "Carmen Ortiz" is "color-widget-green"
+And the count for id "attendances.attendanceRate" for student "Carmen Ortiz" is "97"
+And the class for id "attendances.attendanceRate" for student "Carmen Ortiz" is "color-widget-green"
+And the count for id "attendances.tardyCount" for student "Carmen Ortiz" is "0"
+And the class for id "attendances.tardyCount" for student "Carmen Ortiz" is "color-widget-darkgreen"
+And the count for id "attendances.tardyRate" for student "Carmen Ortiz" is "0"
+And the class for id "attendances.tardyRate" for student "Carmen Ortiz" is "color-widget-darkgreen"
+# Absence count: > 11
+And the count for id "attendances.absenceCount" for student "Geoffrey Pillard" is "18"
+And the class for id "attendances.absenceCount" for student "Geoffrey Pillard" is "color-widget-red"
+# Attendance Rate
 And I click on student "Carmen Ortiz"
 And I view its student profile
 And their name shown in profile is "Carmen Daniella Ortiz"

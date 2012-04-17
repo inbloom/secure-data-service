@@ -44,9 +44,9 @@ Then /^the lozenges include "([^"]*)"$/ do |lozenge|
   csiContent = @driver.find_element(:class, "csi")
   labelFound = false
   
-  all_lozengeSpans = csiContent.find_elements(:tag_name, "span")
-  all_lozengeSpans.each do |lozengeSpan|
-    if lozengeSpan.attribute("innerHTML").to_s.include?(lozenge)
+  all_lozenge = csiContent.find_elements(:xpath, ".//div[contains(@class,'lozenge-widget')]")
+  all_lozenge.each do |lozengeElement|
+    if lozengeElement.attribute("innerHTML").to_s.include?(lozenge)
       labelFound = true
     end
   end
@@ -65,8 +65,8 @@ end
 When /^the lozenges count is "([^"]*)"$/ do |lozengesCount|
   csiContent = @driver.find_element(:class, "csi")
   labelFound = false
-  
-  all_lozenges = csiContent.find_elements(:xpath, "//span[contains(@class,'lozenge')]")
+
+  all_lozenges = csiContent.find_elements(:xpath, ".//div[contains(@class,'lozenge-widget')]")
 
   assert(lozengesCount.to_i == all_lozenges.length, "Actual lozenges count is:" + all_lozenges.length.to_s)
 end
@@ -110,12 +110,7 @@ When /^I see a footer on the page that has the text "([^"]*)"$/ do |expectedText
 end
 
 def clickOnStudent(name)
-  studentTable = @explicitWait.until{@driver.find_element(:id, "studentList")}
-  all_tds = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
-  
-  # for new LOS - actually not needed here
-  # los = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
-  # all_tds = los.find_element(:xpath,"td[contains(@aria-describedby,'name.fullName')]")
+  los = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
   
   @driver.find_element(:link, name).click
 end
@@ -160,3 +155,4 @@ def verifyEnrollmentHistoryEntryExists(rowIndex, expectedEnrollment)
   end  
   return found  
 end
+

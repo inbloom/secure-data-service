@@ -11,7 +11,8 @@ When /^I select filter "([^"]*)"$/ do |filter|
 end
 
 Then /^I should see a student named "([^"]*)"$/ do |student|
-  list = @explicitWait.until{@driver.find_element(:id, "studentList")}
+  list = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
+  
   list.should_not be_nil
   list.text.should include student
 end
