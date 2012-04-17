@@ -47,18 +47,22 @@ public class HistoricalDataResolverTest {
         GenericEntity ge1 = new GenericEntity();
         ge1.put("courseTitle", "English 101");
         ge1.put("finalLetterGradeEarned", "A");
-        ge1.put("schoolYear", "Tenth Grade");
+        ge1.put("schoolYear", "2011");
+        ge1.put("term", "Fall Semester");
         
         GenericEntity ge2 = new GenericEntity();
         ge2.put("courseTitle", "English 102");
         ge2.put("finalLetterGradeEarned", "B");
-        ge2.put("schoolYear", "Ninth Grade");
-        
+        ge2.put("schoolYear", "2012");
+        ge2.put("term", "Fall Semester");
+
+
         GenericEntity ge3 = new GenericEntity();
         ge3.put("courseTitle", "English 103");
         ge3.put("finalLetterGradeEarned", "B");
-        ge3.put("schoolYear", "Ninth Grade");
-        
+        ge3.put("schoolYear", "2009");
+        ge3.put("term", "Fall Semester");
+
         genericEntities.add(ge1);
         genericEntities.add(ge2);
         genericEntities.add(ge3);
@@ -85,7 +89,7 @@ public class HistoricalDataResolverTest {
     @Test
     public void testGetCourse() {
         Field testField = new Field();
-        testField.setTimeSlot("Tenth Grade");
+        testField.setTimeSlot("2011 Fall Semester");
         
         Map<String, String> testStudent = new HashMap<String, String>();
         testStudent.put("id", "1234");
@@ -100,13 +104,12 @@ public class HistoricalDataResolverTest {
         Field testField2 = new Field();
         testField2.setTimeSlot("Ninth Grade");
         
-        //assertEquals("Course should return '...' when there is more than one record", "...", historicalDataResolver.getCourse(testField2, testStudent));
     }
     
     @Test
     public void testGetGrade() {
         Field testField = new Field();
-        testField.setTimeSlot("Tenth Grade");
+        testField.setTimeSlot("2011 Fall Semester");
         
         Map<String, String> testStudent = new HashMap<String, String>();
         testStudent.put("id", "1234");

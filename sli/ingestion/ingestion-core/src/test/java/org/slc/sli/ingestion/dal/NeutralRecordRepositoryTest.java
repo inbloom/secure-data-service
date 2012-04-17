@@ -33,6 +33,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -114,7 +115,7 @@ public class NeutralRecordRepositoryTest {
         searchResults = repository.findAll("student", neutralQuery3);
         assertNotNull(searchResults);
         assertEquals(searchResults.iterator().next().getAttributes().get("firstName"), "Jane");
-        
+
         NeutralQuery neutralQuery4 = new NeutralQuery();
         neutralQuery4.addCriteria(new NeutralCriteria("body.birthDate", "<", "2011-10-01", false));
         searchResults = repository.findAll("student", neutralQuery4);
@@ -356,19 +357,19 @@ public class NeutralRecordRepositoryTest {
         body2.setAttributeField("performanceLevels", new String[] { "2" });
         body3.setAttributeField("performanceLevels", new String[] { "3" });
         body4.setAttributeField("performanceLevels", new String[] { "4" });
-        
+
         //test grouping
         repository.registerBatchId("12345");
         String expectedJobId = repository.getBatchJobId();
         assertEquals("12345", expectedJobId);
-        
+
         //test grouping is off
         repository.setCollectionGrouping(false);
         repository.create(body1);
         repository.create(body2, "student1");
         repository.create(body3, "student2");
         repository.create("student", body4.getAttributes(), "student3");
-        
+
         Set<String> expectedResult = new HashSet<String>();
         expectedResult.add("student");
         expectedResult.add("student1");
@@ -381,10 +382,10 @@ public class NeutralRecordRepositoryTest {
         when(mockedMongoTemplate.getCollectionNames()).thenReturn(expectedResult);
         repository.deleteGroupedCollections();
         assertEquals(true, repository.getCollectionNames().contains("student"));
-        
+
         //test grouping is on
         repository.registerBatchId("12345");
-        
+
         repository.create(body1);
         repository.create(body2, "student1");
         repository.create(body3, "student2");
@@ -395,26 +396,50 @@ public class NeutralRecordRepositoryTest {
         expectedResult.add("student1_12345");
         expectedResult.add("student2_12345");
         expectedResult.add("student3_12345");
-        
+
         repository.registerBatchId("123456");
         when(mockedMongoTemplate.getCollectionNames()).thenReturn(expectedResult);
         assertEquals(false, repository.getCollectionNames().contains("student"));
-        
+
         repository.registerBatchId("12345");
         when(mockedMongoTemplate.getCollectionNames()).thenReturn(expectedResult);
         assertEquals(true, repository.getCollectionNames().contains("student"));
-        
+
         when(mockedMongoTemplate.getCollectionNames()).thenReturn(expectedResult);
         repository.deleteGroupedCollections();
         Mockito.verify(mockedMongoTemplate, Mockito.times(1)).dropCollection(eq("student_12345"));
         Mockito.verify(mockedMongoTemplate, Mockito.times(1)).dropCollection(eq("student1_12345"));
         Mockito.verify(mockedMongoTemplate, Mockito.times(1)).dropCollection(eq("student2_12345"));
         Mockito.verify(mockedMongoTemplate, Mockito.times(1)).dropCollection(eq("student3_12345"));
-        
+
         repository.registerBatchId("123456");
         repository.deleteGroupedCollections();
         Mockito.verify(mockedMongoTemplate, Mockito.times(0)).dropCollection(eq("student_1234567"));
-        
+
     }
-    
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testUpdateEncryption() {
+        EntityEncryption encrypt = mock(EntityEncryption.class);
+        Map<String, Object> encryptedMap = new HashMap<String, Object>();
+        Map<String, Object> unencryptedMap = new HashMap<String, Object>();
+        when(encrypt.encrypt(Mockito.anyString(), Mockito.any(Map.class))).thenReturn(encryptedMap);
+        repository.setEntityEncryption(encrypt);
+        NeutralRecord record = mock(NeutralRecord.class);
+        when(record.getRecordType()).thenReturn("student");
+        when(record.getAttributes()).thenReturn(unencryptedMap);
+        when(record.getRecordId()).thenReturn("id");
+
+        WriteResult result = mock(WriteResult.class);
+        when(result.getN()).thenReturn(1);
+        when(
+                mockedMongoTemplate.updateFirst(Mockito.any(Query.class), Mockito.any(Update.class),
+                        Mockito.anyString())).thenReturn(result);
+
+        repository.update("student", record);
+
+        Mockito.verify(encrypt).encrypt("student", unencryptedMap);
+    }
+
 }

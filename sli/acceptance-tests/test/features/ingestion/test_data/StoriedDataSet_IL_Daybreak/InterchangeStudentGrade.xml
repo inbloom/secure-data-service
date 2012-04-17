@@ -5550,6 +5550,2243 @@
       </CompetencyLevel>
     </StudentGradebookEntry>
 
+<!-- grading history for linda.kim's 8th graders. Refers to courses already completed. -->
+    <StudentAcademicRecord id="SAR-800000000-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000000</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>90</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000000-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000000-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000000</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>90</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000000-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000001-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000001</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B+</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>88</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000001-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000001-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000001</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>90</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000001-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000002-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000002</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>90</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000002-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000002-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000002</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>87</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000002-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000003-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000003</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>87</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000003-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000003-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000003</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>82</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000003-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000004-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000004</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>80</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000004-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000004-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000004</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>81</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000004-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000005-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000005</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>C</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>75</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000005-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000005-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000005</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>C+</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>78</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000005-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000006-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000006</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>D-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>62</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000006-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000006-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000006</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>D-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>59</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000006-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000007-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000007</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>F</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>41</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000007-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000007-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000007</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>D-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>54</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000007-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000008-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000008</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>F</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>47</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000008-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000008-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000008</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>D-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>60</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000008-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000009-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000009</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>F</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>38</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000009-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000009-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000009</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>D-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>60</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000009-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000010-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000010</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B+</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>88</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000010-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000010-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000010</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>92</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000010-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000011-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000011</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A+</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>98</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000011-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000011-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000011</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>90</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000011-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000012-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000012</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A+</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>99</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000012-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000012-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000012</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A+</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>97</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000012-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000013-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000013</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>D+</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>67</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000013-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000013-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000013</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>C</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>76</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000013-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000014-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000014</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>C</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>76</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000014-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000014-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000014</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>C+</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>78</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000014-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000015-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000015</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>81</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000015-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000015-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000015</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>83</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000015-2"/>
+      <StudentUniqueStateId>800000015</StudentUniqueStateId>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000016-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>6</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000016</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>86</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000016-1"/>
+    </CourseTranscript>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>C+</FinalLetterGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>Algebra I</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000016-1"/>
+    </CourseTranscript>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>C+</FinalLetterGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>State History I</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000016-1"/>
+    </CourseTranscript>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>Earth Sciences I</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000016-1"/>
+    </CourseTranscript>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A</FinalLetterGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>Vocal Performance I</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000016-1"/>
+    </CourseTranscript>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>Weight Training</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000016-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000016-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>6</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000016</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B+</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>88</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000016-2"/>
+    </CourseTranscript>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>Algebra II</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000016-2"/>
+    </CourseTranscript>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B-</FinalLetterGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>State History II</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000016-2"/>
+    </CourseTranscript>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>C+</FinalLetterGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>Earth Sciences II</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000016-2"/>
+    </CourseTranscript>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A</FinalLetterGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>Vocal Performance II</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000016-2"/>
+    </CourseTranscript>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>Nutrition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000016-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000017-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000017</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>91</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000017-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000017-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000017</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>93</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000017-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000018-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000018</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>95</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000018-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000018-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000018</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A+</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>98</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000018-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000019-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000019</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>A-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>91</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000019-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000019-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000019</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>83</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000019-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000020-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000020</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>81</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000020-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000020-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000020</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>C+</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>79</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000020-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000021-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000021</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>D</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>63</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000021-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000021-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000021</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>D</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>66</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000021-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000022-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000022</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>D</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>66</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000022-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000022-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000022</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>D+</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>69</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000022-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000023-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000023</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>C-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>72</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000023-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000023-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000023</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>D+</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>68</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000023-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000024-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000024</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>C</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>74</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000024-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000024-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000024</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>80</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000024-2"/>
+    </CourseTranscript>
+
+    <StudentAcademicRecord id="SAR-800000026-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000026</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>C</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>74</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000026-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000026-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000026</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>80</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000026-2"/>
+    </CourseTranscript>
+    
+    <StudentAcademicRecord id="SAR-800000027-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000027</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>C</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>74</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade English</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000027-1"/>
+    </CourseTranscript>
+    <StudentAcademicRecord id="SAR-800000027-2">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>5</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000027</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </StudentAcademicRecord>
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CreditsEarned>
+      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+      <FinalLetterGradeEarned>B-</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>80</FinalNumericGradeEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>7th Grade Composition</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR-800000027-2"/>
+    </CourseTranscript>
+
     <!-- grading history for cgray's 11th and 12th graders. Refers to courses already completed. -->
     <StudentAcademicRecord id="SAR-900000000-1">
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
