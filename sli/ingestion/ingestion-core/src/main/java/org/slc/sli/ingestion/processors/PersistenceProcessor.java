@@ -123,8 +123,9 @@ public class PersistenceProcessor implements Processor {
             for (ResourceEntry resource: newJob.getResourceEntries()) {
                 String resourceFormat = resource.getResourceFormat();
                 String originalResource = resource.getExternallyUploadedResourceId();
+                String nrFilename = resource.getResourceName();
             //for (IngestionFileEntry fe : job.getFiles()) {
-                if (resourceFormat != null && resourceFormat.equalsIgnoreCase(FileFormat.NEUTRALRECORD.getCode())) {
+                if (resourceFormat != null && resourceFormat.equalsIgnoreCase(FileFormat.NEUTRALRECORD.getCode()) && nrFilename != null) {
                 String filename = originalResource;
                 Metrics metric =  new Metrics();
                 metric.startMetric();
@@ -139,7 +140,7 @@ public class PersistenceProcessor implements Processor {
                 ErrorReport errorReportForFile = null;
                 try {
                     //errorReportForFile = processIngestionStream(batchJobId, fe, tenantId, getTransformedCollections(), new HashSet<String>());
-                    errorReportForFile = processIngestionStream(batchJobId, filename, resource.getResourceName(), tenantId, getTransformedCollections(), new HashSet<String>());
+                    errorReportForFile = processIngestionStream(batchJobId, filename, nrFilename, tenantId, getTransformedCollections(), new HashSet<String>());
 
                 } catch (IOException e) {
                     job.getFaultsReport().error("Internal error reading neutral representation of input file.", this);
@@ -166,7 +167,22 @@ public class PersistenceProcessor implements Processor {
                 metric.setErrorCount(failedCount);
                 metric.stopMetric();
                 batchJobDAO.saveBatchJob(newJob);
-                 }
+                 } else if (resourceFormat != null && resourceFormat.equalsIgnoreCase(FileFormat.NEUTRALRECORD.getCode()) && nrFilename == null) { //empty/null xml file
+                     String filename = originalResource;
+                     Metrics metric =  new Metrics();
+                     metric.startMetric();
+                     metric.setResourceId(filename);
+                     if (stage.getMetrics() == null) {
+                         List<Metrics> metricsList  = new ArrayList<Metrics>();
+                         stage.setMetrics(metricsList);
+                     }
+                     stage.getMetrics().add(metric);
+
+                     metric.setRecordCount(0);
+                     metric.setErrorCount(0);
+                     metric.stopMetric();
+                     batchJobDAO.saveBatchJob(newJob);
+                }
             }
 
             // Update Camel Exchange processor output result
@@ -202,13 +218,6 @@ public class PersistenceProcessor implements Processor {
      * @param tenantId
      * @throws IOException
      */
-//    public ErrorReport processIngestionStream(String batchJobId, IngestionFileEntry ingestionFileEntry, String tenantId,
-//            ArrayList<String> transformedCollections, Set<String> processedStagedCollections) throws IOException {
-//        return processIngestionStream(batchJobId, ingestionFileEntry.getNeutralRecordFile(), ingestionFileEntry.getFileName(),
-//                tenantId, transformedCollections, processedStagedCollections);
-//    }
-
-
     public ErrorReport processIngestionStream(String batchJobId, String filename, String nrName, String tenantId,
             ArrayList<String> transformedCollections, Set<String> processedStagedCollections) throws IOException {
         return processIngestionStream(batchJobId, new File(nrName), filename,
@@ -267,7 +276,7 @@ public class PersistenceProcessor implements Processor {
                                 String faultMessage = fault.getMessage();
                                 if (faultMessage != null) {
                                     faultMessage = faultMessage.replaceAll("\r|\n", " ");
-								}
+                                }
                                 String faultLevel  = fault.isError() ? FaultType.TYPE_ERROR.getName() : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
                                 BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);
                             }
@@ -311,8 +320,8 @@ public class PersistenceProcessor implements Processor {
                                 for (Fault fault : recordLevelErrorsInFile.getFaults()) {
                                     String faultMessage = fault.getMessage();
                                     if (faultMessage != null) {
-										faultMessage = faultMessage.replaceAll("\r|\n", " ");
-									}
+                                        faultMessage = faultMessage.replaceAll("\r|\n", " ");
+                                    }
                                     String faultLevel  = fault.isError() ? FaultType.TYPE_ERROR.getName() : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
                                     BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);
                                 }
