@@ -25,11 +25,11 @@
       {name: "Grade", field: "grade", width:50, formatter: DashboardUtil.Grid.Formatters.TearDrop},      
       {name: "", width: 60, field: "programParticipation", formatter: DashboardUtil.Grid.Formatters.Lozenge},
       {name: "ISAT Reading", items:[
-        {name: "Perf. Lvl.", field: "assessments.ISAT Reading.perfLevel", width:100, sorter: 'int'},
+        {name: "Perf. Lvl.", field: "assessments.ISAT Reading.perfLevel", width:150, sorter: 'int', formatter: DashboardUtil.Grid.Formatters.FuelGauge, params:{name:'ISAT Reading', valueField:'Scale score'}},
         {name: "SS", field: "assessments.ISAT Reading.Scale score", width:100, sorter: 'int'},
         {name: "Lexile Score", field: "assessments.ISAT Reading.Other", width:100}]},
       {name: "ISAT Writing (most recent)", items:[   
-        {name: "Perf. Lvl.", field: "assessments.ISAT Writing.perfLevel", width:100, sorter: 'int'},
+        {name: "Perf. Lvl.", field: "assessments.ISAT Writing.perfLevel", width:150, sorter: 'int', formatter: DashboardUtil.Grid.Formatters.FuelGauge, params:{name:'ISAT Writing', valueField:'Scale score'}},
         {name: "SS", field: "assessments.ISAT Writing.Scale score", width:100, sorter: 'int'}]},
       {name: "Attendance (current school year)", items:[   
         {name: "Absence Count", field: "attendances.absenceCount", width:100, sorter: 'int', formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style:'color-widget-red'}}}},

@@ -184,6 +184,29 @@ DashboardUtil.Grid.Formatters = {
 		Lozenge: function(value, options, rowObject) {	
 			return DashboardUtil.renderLozenges(rowObject);
 		},
+		
+		FuelGauge: function(value, options, rowObject) {
+			var name = options.colModel.formatoptions.name;
+			var valueField = options.colModel.formatoptions.valueField;
+			var score = rowObject.assessments[name][valueField];
+			var cutpoints = rowObject.assessments[name].assessments.assessmentPerformanceLevel;
+			var timestamp = Number(new Date());
+			var returnValue = "<div id='" + timestamp.toString() + "' style='width: 100px; padding:5px;' align='left'>";
+			returnValue += "<script>";
+			returnValue += "var cutpoints = new Array(";
+			for( var i=0;i < cutpoints.length; i++) {
+				returnValue += cutpoints[i]["minimumScore"] + ",";
+				if (i == cutpoints.length - 1) {
+					returnValue += cutpoints[i]["maximumScore"] ;
+				}
+			}
+			returnValue += ");";
+			returnValue += "var fuelGuage = new FuelGaugeWidget ('" + timestamp.toString() + "', " + score + ", cutpoints);";
+			returnValue += "fuelGuage.create();";
+			returnValue += "</script>";
+			returnValue += "</div>";
+			return  returnValue;
+		},
 
 		TearDrop: function(value, options, rowObject) {
 			var style = DashboardUtil.tearDrop.getStyle(value, null);
