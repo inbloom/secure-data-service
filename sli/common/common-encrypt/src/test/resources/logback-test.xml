@@ -9,14 +9,14 @@
   </appender>
 
   <logger name="org.springframework" level="warn" />
-  
+
   <logger name="org.slc.sli.api.config" level="warn" />
   <logger name="org.slc.sli.validation" level="warn" />
   <logger name="org.slc.sli.dal.repository" level="warn" />
   <logger name="org.slc.sli.dal.encrypt.EntityEncryption" level="warn" />
   <logger name="audit" level="info" />
 
-  <root level="debug">
+  <root level="OFF">
     <appender-ref ref="STDOUT" />
   </root>
 </configuration>

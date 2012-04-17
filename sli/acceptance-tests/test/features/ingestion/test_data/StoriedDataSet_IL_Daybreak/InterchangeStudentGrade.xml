@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
     <!-- GradebookEntry objects for linda.kim's class -->
     <GradebookEntry id="GBE-8th_Grade_English-1">
       <GradebookEntryType>Assignment</GradebookEntryType>
@@ -3628,6 +3628,9 @@
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3640,13 +3643,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3659,13 +3662,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3678,13 +3681,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3697,14 +3700,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3717,13 +3720,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3736,13 +3739,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3755,13 +3758,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3774,14 +3777,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3794,13 +3797,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3813,13 +3816,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3832,13 +3835,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3851,14 +3854,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3871,13 +3874,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>1</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3890,13 +3893,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>1</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3909,13 +3912,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3928,14 +3931,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3948,13 +3951,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3967,13 +3970,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -3986,13 +3989,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4005,14 +4008,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4025,13 +4028,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4044,13 +4047,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4063,13 +4066,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4082,14 +4085,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4102,13 +4105,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4121,13 +4124,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4140,13 +4143,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4159,14 +4162,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4179,13 +4182,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4198,13 +4201,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4217,13 +4220,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4236,14 +4239,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4256,13 +4259,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4275,13 +4278,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4294,13 +4297,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4313,14 +4316,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4333,13 +4336,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4352,13 +4355,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4371,13 +4374,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4390,14 +4393,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>1</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4410,13 +4413,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>1</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4429,13 +4432,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4448,13 +4451,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>1</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4467,14 +4470,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4487,13 +4490,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4506,13 +4509,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4525,13 +4528,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4544,14 +4547,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4564,13 +4567,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4583,13 +4586,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4602,13 +4605,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4621,14 +4624,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4641,13 +4644,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4660,13 +4663,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4679,13 +4682,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4698,14 +4701,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4718,13 +4721,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4737,13 +4740,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4756,13 +4759,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4775,14 +4778,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4795,13 +4798,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4814,13 +4817,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4833,13 +4836,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4852,14 +4855,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4872,13 +4875,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4891,13 +4894,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4910,13 +4913,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4929,14 +4932,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4949,13 +4952,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4968,13 +4971,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -4987,13 +4990,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5006,14 +5009,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5026,13 +5029,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5045,13 +5048,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>1</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5064,13 +5067,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5083,14 +5086,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5103,13 +5106,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5122,13 +5125,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5141,13 +5144,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5160,14 +5163,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5180,13 +5183,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5199,13 +5202,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5218,13 +5221,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5237,14 +5240,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5257,13 +5260,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5276,13 +5279,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5295,13 +5298,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5314,14 +5317,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5334,13 +5337,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5353,13 +5356,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>1</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5372,13 +5375,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5391,14 +5394,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5411,13 +5414,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5430,13 +5433,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5449,13 +5452,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>4</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5468,14 +5471,14 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-16</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-1</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5488,13 +5491,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-1"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-1</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-30</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-2</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5507,13 +5510,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-2"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-2</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-14</DateFulfilled>
       <NumericGradeEarned>2</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-3</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5526,13 +5529,13 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-3"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-3</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-28</DateFulfilled>
       <NumericGradeEarned>3</NumericGradeEarned>
+      <CompetencyLevel>
+        <CodeValue>CL-G1-4</CodeValue>
+      </CompetencyLevel>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
           <StudentIdentity>
@@ -5545,9 +5548,6 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
       <GradebookEntryReference ref="GBE-1st_Grade-4"/>
-      <CompetencyLevel>
-        <CodeValue>CL-G1-4</CodeValue>
-      </CompetencyLevel>
     </StudentGradebookEntry>
 
 <!-- grading history for linda.kim's 8th graders. Refers to courses already completed. -->
@@ -8986,7 +8986,6 @@
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
       <StudentAcademicRecordReference ref="SAR-900000015-2"/>
-      <StudentUniqueStateId>900000015</StudentUniqueStateId>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-900000016-1">
@@ -11607,7 +11606,16 @@
           <StudentUniqueStateId>800000025</StudentUniqueStateId>
         </StudentIdentity>
       </StudentReference>
-      <GradingPeriodReference ref="GRDP_20070527"/>
+      <!--  <GradingPeriodReference ref="GRDP_20070527"/> -->
+      <GradingPeriodReference>
+        <GradingPeriodIdentity>
+          <GradingPeriod>End of Year</GradingPeriod>
+          <SchoolYear>2010-2011</SchoolYear>
+          <EducationOrgIdentificationCode IdentificationSystem="School">
+            <ID>South Daybreak Elementary</ID>
+          </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+      </GradingPeriodReference>
     </ReportCard>
     
     <StudentCompetency id="SC-GR3-800000025-1">

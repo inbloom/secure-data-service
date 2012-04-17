@@ -11,7 +11,7 @@ Then I should be redirected to the Mock IDP page for the realm
 And the Mock IDP Page has a drop down with all the users defined in tenancy
 And the Mock IDP Page has a multi select which has all the roles defined in the tenancy
 And the Mock IDP Page has a button the user can use to log in
-And the heading of the Mock IDP Page is "Mock Identity Provider" followed by the realm "SLI"
+And the heading of the Mock IDP Page contains the realm "SLI"
 
 
 Scenario: Use Mock IDP to log in as IT Admin
