@@ -32,6 +32,12 @@
                 <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffProgramAssociation.xml" />
             </bean>
         </entry>
+        <!-- Attendance Transformation Strategy: adds attendance events onto studentSchoolAssociation -->
+        <entry key="studentSchoolAssociation">
+            <bean class="org.milyn.Smooks">
+                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/attendance.xml" />
+            </bean>
+        </entry>
     </util:map>
 
     <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">

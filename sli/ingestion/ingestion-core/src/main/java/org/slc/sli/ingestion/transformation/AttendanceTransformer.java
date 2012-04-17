@@ -39,7 +39,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     @Override
     public void performTransformation() {
-        LOG.info("\n\n\n\n\n--------------------------------------------------------------");
         loadData();
         transform();
         persist();
@@ -69,114 +68,42 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
         HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
         
-        // iterate over attendance events instead?
-        // Map<Object, NeutralRecord> attendance = collections.get("attendance");
-        
         // iterate over each studentSchoolAssociation --> this is where the dailyAttendance Map will be added
-        LOG.info("Iterating over {} student-school associations.", collections.get("studentSectionAssociation").size());
+        LOG.info("Iterating over {} student-school associations.", collections.get("studentSchoolAssociation").size());
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("studentSchoolAssociation").entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
             String studentId = (String) attributes.get("studentId");
             String schoolId = (String) attributes.get("schoolId");
             
+            Map<Object, NeutralRecord> studentAttendance = getAttendanceEvents(studentId);
+            Map<Object, NeutralRecord> sessions = getSessions(studentId, schoolId);
+            
             LOG.info("For student with id: {} in school: {}", studentId, schoolId);
-            
-            Map<Object, NeutralRecord> studentAttendance = new HashMap<Object, NeutralRecord>();
-            
-            for (Map.Entry<Object, NeutralRecord> attendanceEntry : collections.get("attendance").entrySet()) {
-                NeutralRecord record = attendanceEntry.getValue();
-                Map<String, Object> attendanceAttributes = record.getAttributes();
-                if (attendanceAttributes.get("studentId").equals(studentId)) {
-                    studentAttendance.put(attendanceEntry.getKey(), attendanceEntry.getValue());
-                }
-            }
-            LOG.info("  Found {} attendance events:", studentAttendance.size());
-            // LOG.info(" {} ", studentAttendance);
-            
-            Map<Object, NeutralRecord> sessions = new HashMap<Object, NeutralRecord>();
-            
-            for (Map.Entry<Object, NeutralRecord> association : collections.get("studentSectionAssociation").entrySet()) {
-                NeutralRecord record = association.getValue();
-                Map<String, Object> associationAttributes = record.getAttributes();
-                if (associationAttributes.get("studentId").equals(studentId)) {
-                    String sectionId = (String) associationAttributes.get("sectionId");
-                    
-                    for (Map.Entry<Object, NeutralRecord> section : collections.get("section").entrySet()) {
-                        NeutralRecord sectionRecord = section.getValue();
-                        Map<String, Object> sectionAttributes = sectionRecord.getAttributes();
-                        String currentSchoolId = (String) sectionAttributes.get("schoolId");
-                        
-                        if (sectionAttributes.get("uniqueSectionCode").equals(sectionId) && currentSchoolId.equals(schoolId)) {
-                            String sessionId = (String) sectionAttributes.get("sessionId");
-                            
-                            for (Map.Entry<Object, NeutralRecord> session : collections.get("session").entrySet()) {
-                                NeutralRecord sessionRecord = session.getValue();
-                                Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
-                                if (sessionAttributes.get("sessionName").equals(sessionId)) {
-                                    sessions.put(session.getKey(), sessionRecord);
-                                    break;
-                                }
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
+            LOG.info("  Found {} attendance events for student {}:", studentAttendance.size(), studentId);
             LOG.info("  Found {} sessions associated with student:", sessions.size());
             
-            Map<String, Object> schoolYears = new HashMap<String, Object>();
-            for (Map.Entry<Object, NeutralRecord> session : sessions.entrySet()) {
-                NeutralRecord sessionRecord = session.getValue();
-                Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
-                String schoolYear = (String) sessionAttributes.get("schoolYear");
-                DateTime sessionBegin = parseDateTime((String) sessionAttributes.get("beginDate"));
-                DateTime sessionEnd = parseDateTime((String) sessionAttributes.get("endDate"));
-                
-                List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
-                for (Map.Entry<Object, NeutralRecord> record : studentAttendance.entrySet()) {
-                    NeutralRecord eventRecord = record.getValue();
-                    Map<String, Object> eventAttributes = eventRecord.getAttributes();
-                    
-                    String eventDate = (String) eventAttributes.get("eventDate");
-                    DateTime date = parseDateTime(eventDate);
-                    if (isLeftDateBeforeRightDate(sessionBegin, date) && isLeftDateBeforeRightDate(date, sessionEnd)) {
-                        // TODO: need to add educational environment to sli.xsd and transform it here
-                        Map<String, Object> event = new HashMap<String, Object>();
-                        String eventCategory = (String) eventAttributes.get("attendanceEventCategory");
-                        event.put("date", eventDate);
-                        event.put("event", eventCategory);
-                        if (eventAttributes.containsKey("attendanceEventReason")) {
-                            String eventReason = (String) eventAttributes.get("attendanceEventReason");
-                            event.put("reason", eventReason);
-                        }                        
-                        events.add(event);
-                    }
+            Map<String, Object> schoolYears = mapAttendanceIntoSchoolYears(studentAttendance, sessions);
+            
+            if (schoolYears.entrySet().size() > 0) {
+                List<Map<String, Object>> daily = new ArrayList<Map<String, Object>>();
+                for (Map.Entry<String, Object> entry : schoolYears.entrySet()) {
+                    String schoolYear = (String) entry.getKey();
+                    List<Map<String, Object>> events = (List<Map<String, Object>>) entry.getValue();
+                    Map<String, Object> attendance = new HashMap<String, Object>();
+                    attendance.put("schoolYear", schoolYear);
+                    attendance.put("attendanceEvent", events);
+                    daily.add(attendance);
                 }
-                // remove each attendance event in 'events' from studentAttendance
-                LOG.info("  {} attendance events for session in school year: {}", events.size(), schoolYear);
+                attributes.put("dailyAttendance", daily);
+                neutralRecord.setAttributes(attributes);
+                newCollection.put(neutralRecord.getRecordId(), neutralRecord);
+            } else {
+                LOG.warn("  No daily attendance for student: {}", studentId);
             }
-            
-            // if student attendance still has attendance events --> orphaned events
-            
-//            if (attributes.containsKey("dailyAttendance")) {
-//                Map<String, Object> daily = (Map<String, Object>) attributes.get("dailyAttendance");
-//                // work will eventually be done here
-//                attributes.put("dailyAttendance", daily);
-//            } else {
-//                Map<String, Object> daily = new HashMap<String, Object>;
-//                List<Pair<String, List<Object>>> schoolYearAttendance = new ArrayList<Pair<String, List<Object>>>();
-//                
-//                attributes.put("dailyAttendance", daily);
-//            }
-            
-            neutralRecord.setAttributes(attributes);
-            newCollection.put(neutralRecord.getRecordId(), neutralRecord);
+            transformedCollections.put("studentSchoolAssociation", newCollection);
+            LOG.debug("Finished transforming attendance data.");
         }
-        
-        transformedCollections.put("studentSchoolAssociation", newCollection);
-        
-        LOG.debug("Finished transforming attendance data.");
     }
 
     /**
@@ -184,15 +111,14 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     public void persist() {
         LOG.info("Persisting transformed attendance data into mongo.");
-        // uncomment this when ready to persist transformed associations into mongo
         
-//        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
-//            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
-//                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-//                neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
-//                getNeutralRecordMongoAccess().getRecordRepository().create(neutralRecord);
-//            }
-//        }
+        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
+            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
+                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
+                neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
+                getNeutralRecordMongoAccess().getRecordRepository().create(neutralRecord);
+            }
+        }
 
         LOG.info("Finished persisting transformed attendance data into mongo.");
     }
@@ -254,5 +180,120 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             }
         }
         return less;
+    }
+    
+    /**
+     * Gets attendance events for the specified student.
+     * @param studentId StudentUniqueStateId for student.
+     * @return Map of Attendance Events for student.
+     */
+    private Map<Object, NeutralRecord> getAttendanceEvents(String studentId) {
+        // TODO: don't iterate over collections.get("attendance") --> create query that only gets attendance
+        // events for the current student from the staging collections
+        Map<Object, NeutralRecord> studentAttendance = new HashMap<Object, NeutralRecord>();
+        for (Map.Entry<Object, NeutralRecord> attendanceEntry : collections.get("attendance").entrySet()) {
+            NeutralRecord record = attendanceEntry.getValue();
+            Map<String, Object> attendanceAttributes = record.getAttributes();
+            if (attendanceAttributes.get("studentId").equals(studentId)) {
+                studentAttendance.put(attendanceEntry.getKey(), attendanceEntry.getValue());
+            }
+        }
+        return studentAttendance;
+    }
+    
+    /**
+     * Gets all sessions associated with the specified student-school pair.
+     * @param studentId StudentUniqueStateId for student.
+     * @param schoolId StateOrganizationId for school.
+     * @return Map of Sessions for student-school pair.
+     */
+    private Map<Object, NeutralRecord> getSessions(String studentId, String schoolId) {
+        Map<Object, NeutralRecord> sessions = new HashMap<Object, NeutralRecord>();
+        for (Map.Entry<Object, NeutralRecord> association : collections.get("studentSectionAssociation").entrySet()) {
+            NeutralRecord record = association.getValue();
+            Map<String, Object> associationAttributes = record.getAttributes();
+            if (associationAttributes.get("studentId").equals(studentId)) {
+                String sectionId = (String) associationAttributes.get("sectionId");
+                
+                for (Map.Entry<Object, NeutralRecord> section : collections.get("section").entrySet()) {
+                    NeutralRecord sectionRecord = section.getValue();
+                    Map<String, Object> sectionAttributes = sectionRecord.getAttributes();
+                    String currentSchoolId = (String) sectionAttributes.get("schoolId");
+                    
+                    if (sectionAttributes.get("uniqueSectionCode").equals(sectionId) && currentSchoolId.equals(schoolId)) {
+                        String sessionId = (String) sectionAttributes.get("sessionId");
+                        
+                        for (Map.Entry<Object, NeutralRecord> session : collections.get("session").entrySet()) {
+                            NeutralRecord sessionRecord = session.getValue();
+                            Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
+                            if (sessionAttributes.get("sessionName").equals(sessionId)) {
+                                sessions.put(session.getKey(), sessionRecord);
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return sessions;
+    }
+    
+    /**
+     * Maps the set of student attendance events into a transformed map of form {school year : list of attendance events} based
+     * on dates published in the sessions.
+     * @param studentAttendance Set of student attendance events.
+     * @param sessions Set of sessions that correspond to the school the student attends.
+     * @return Map containing transformed attendance information.
+     */
+    private Map<String, Object> mapAttendanceIntoSchoolYears(Map<Object, NeutralRecord> studentAttendance, Map<Object, NeutralRecord> sessions) {
+        Map<String, Object> schoolYears = new HashMap<String, Object>();
+        for (Map.Entry<Object, NeutralRecord> session : sessions.entrySet()) {
+            NeutralRecord sessionRecord = session.getValue();
+            Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
+            String schoolYear = (String) sessionAttributes.get("schoolYear");
+            DateTime sessionBegin = parseDateTime((String) sessionAttributes.get("beginDate"));
+            DateTime sessionEnd = parseDateTime((String) sessionAttributes.get("endDate"));
+            
+            List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
+            for (Iterator<Map.Entry<Object, NeutralRecord>> recordItr = studentAttendance.entrySet().iterator(); recordItr.hasNext(); ) {
+                Map.Entry<Object, NeutralRecord> record = recordItr.next();
+                NeutralRecord eventRecord = record.getValue();
+                Map<String, Object> eventAttributes = eventRecord.getAttributes();
+                
+                String eventDate = (String) eventAttributes.get("eventDate");
+                DateTime date = parseDateTime(eventDate);
+                if (isLeftDateBeforeRightDate(sessionBegin, date) && isLeftDateBeforeRightDate(date, sessionEnd)) {
+                    // TODO: need to add educational environment to sli.xsd and transform it here
+                    Map<String, Object> event = new HashMap<String, Object>();
+                    String eventCategory = (String) eventAttributes.get("attendanceEventCategory");
+                    event.put("date", eventDate);
+                    event.put("event", eventCategory);
+                    if (eventAttributes.containsKey("attendanceEventReason")) {
+                        String eventReason = (String) eventAttributes.get("attendanceEventReason");
+                        event.put("reason", eventReason);
+                    }                        
+                    events.add(event);
+                    recordItr.remove();
+                }
+            }
+            if (events.size() > 0) {
+                schoolYears.put(schoolYear, events);
+            }
+            LOG.info("  {} attendance events for session in school year: {}", events.size(), schoolYear);    
+        }
+        
+        // if student attendance still has attendance events --> orphaned events
+        Iterator<Map.Entry<Object, NeutralRecord>> recordItr = studentAttendance.entrySet().iterator();
+        if (recordItr.hasNext()) {
+            int orphanedEvents = 0;
+            List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
+            while (recordItr.hasNext()) {
+                Map.Entry<Object, NeutralRecord> record = recordItr.next();
+                orphanedEvents++;
+            }
+            LOG.warn("  {} attendance events still need to be mapped into a school year.", orphanedEvents);    
+        }
+        return schoolYears;
     }
 }
