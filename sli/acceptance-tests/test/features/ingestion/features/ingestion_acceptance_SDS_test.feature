@@ -60,7 +60,7 @@ Then I should see following map of entry counts in the corresponding collections
         | attendance                  | 13650 |
         | program                     | 2     |
         | staffProgramAssociation     | 0     |
-        | studentProgramAssociation   | 0     |
+        | studentProgramAssociation   | 10    |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
@@ -73,7 +73,7 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-1            | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-2            | string               |
-    And I should see "Processed 15238 records." in the resulting batch job file
+    And I should see "Processed 15248 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -117,6 +117,9 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentParent.xml records considered: 18" in the resulting batch job file
     And I should see "InterchangeStudentParent.xml records ingested successfully: 18" in the resulting batch job file
     And I should see "InterchangeStudentParent.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStudentProgram.xml records considered: 10" in the resulting batch job file
+    And I should see "InterchangeStudentProgram.xml records ingested successfully: 10" in the resulting batch job file
+    And I should see "InterchangeStudentProgram.xml records failed: 0" in the resulting batch job file
 
 @smoke @integration
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
@@ -148,7 +151,7 @@ Then I should see following map of entry counts in the corresponding collections
         | attendance                  | 13650 |
         | program                     | 2     |
         | staffProgramAssociation     | 0     |
-        | studentProgramAssociation   | 0     |
+        | studentProgramAssociation   | 10    |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 1000000000                 | string               |
@@ -208,7 +211,7 @@ Then I should see following map of entry counts in the corresponding collections
         | attendance                  | 13650 |
         | program                     | 2     |
         | staffProgramAssociation     | 0     |
-        | studentProgramAssociation   | 0     |
+        | studentProgramAssociation   | 10    |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 2                   | metaData.externalId      | 100000006                  | string               |

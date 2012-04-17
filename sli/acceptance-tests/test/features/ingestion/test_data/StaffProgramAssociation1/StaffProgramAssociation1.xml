@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <InterchangeStudentProgram xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentProgram.xsd">
-   <!-- linda.kim and rbraverman to ACC-TEST-PROG-1 and ACC-TEST-PROG-2 -->
-	 <StaffProgramAssociation>
+	<!-- linda.kim and rbraverman to ACC-TEST-PROG-1 and ACC-TEST-PROG-2 -->
+	<StaffProgramAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>linda.kim</StaffUniqueStateId>
@@ -26,7 +26,7 @@
 		<BeginDate>2011-01-05</BeginDate>
 		<EndDate>2012-02-15</EndDate>
 		<StudentRecordAccess>true</StudentRecordAccess>
-  </StaffProgramAssociation>
+	</StaffProgramAssociation>
 	<!-- linda.kim to ACC-TEST-PROG-3 -->
 	<StaffProgramAssociation>
 		<StaffReference>
@@ -41,7 +41,7 @@
 		</ProgramReference>
 		<BeginDate>2011-06-01</BeginDate>
 		<StudentRecordAccess>false</StudentRecordAccess>
-  </StaffProgramAssociation>
+	</StaffProgramAssociation>
 	<!-- rbraverman and cgray to ACC-TEST-PROG-3 -->
 	<StaffProgramAssociation>
 		<StaffReference>

@@ -30,7 +30,7 @@ public class StudentProgramAssociationEntityTest {
      * @throws SAXException
      */
     @Test
-    public final void mapEdfiXmlProgramToNeutralRecordTest() throws IOException, SAXException {
+    public final void mapEdfiXmlToNeutralRecordTest() throws IOException, SAXException {
 
         String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
 
