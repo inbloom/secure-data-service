@@ -36,7 +36,7 @@ public class StudentDisciplineAssociationGenerator {
         List<StudentDisciplineIncidentAssociation> list = new ArrayList<StudentDisciplineIncidentAssociation>(studentIds.size());
         
         for (String studentId : studentIds) {
-            list.add(generateLowFi(disciplineIncidentId, studentId));
+            list.add(generateLowFi(studentId, disciplineIncidentId));
         }
 
         return list;

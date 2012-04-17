@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -30,9 +29,8 @@ public class ProgramEntityTest {
      * @throws IOException
      * @throws SAXException
      */
-    @Ignore
     @Test
-    public final void mapEdfiXmlProgramToNeutralRecordTest() throws IOException, SAXException {
+    public final void mapEdfiXmlToNeutralRecordTest() throws IOException, SAXException {
 
         String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
 
@@ -62,6 +60,7 @@ public class ProgramEntityTest {
 
         Map<String, Object> attributes = neutralRecord.getAttributes();
 
+        assertEquals("Expected different number of attributes", 4, attributes.size());
         assertEquals("Expected different entity id", "ACC-TEST-PROG-1", attributes.get("programId"));
         assertEquals("Expected different program sponsor", "State Education Agency", attributes.get("programSponsor"));
         assertEquals("Expected different program type", "Regular Education", attributes.get("programType"));
