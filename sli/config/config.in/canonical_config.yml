@@ -767,6 +767,10 @@ test-team:
         # Test specific properties
 
         sli.test.prop: ci DAL Context Test Property
+
+        landingzone.inbounddir: /home/ingestion/lz/inbound
+        logging.path: /home/ingestion/logs
+
         # team/ingestion/test.properties
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
