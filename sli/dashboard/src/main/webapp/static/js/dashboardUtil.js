@@ -188,7 +188,13 @@ DashboardUtil.Grid.Formatters = {
 		FuelGauge: function(value, options, rowObject) {
 			var name = options.colModel.formatoptions.name;
 			var valueField = options.colModel.formatoptions.valueField;
+			
+			if (name == undefined || valueField == undefined ||  rowObject.assessments[name] == undefined || rowObject.assessments[name][valueField] == undefined ) {
+				return "";
+			}
+			
 			var score = rowObject.assessments[name][valueField];
+			
 			var cutpoints = rowObject.assessments[name].assessments.assessmentPerformanceLevel;
 			var timestamp = Number(new Date());
 			var returnValue = "<div id='" + timestamp.toString() + "' style='width: 100px; padding:5px;' align='left'>";
