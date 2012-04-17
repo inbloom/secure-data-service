@@ -41,6 +41,7 @@ end
 When /^I send test request "([^"]*)" to SDK CRUD test url$/ do |testType|
   url = PropLoader.getProps['sampleApp_server_address']
   url = url + @appPrefix+"?byPassToken="+URI.escape(@byPassToken)+"&test="+testType
+  puts url
   @driver.get url
   
   
@@ -48,6 +49,7 @@ end
 
 Then /^I should receive response "([^"]*)"$/ do |arg1|
    testResult = @driver.find_element(:id, "testResult")
+   puts testResult.text
    assert(testResult.text==arg1,"didnt receive response #{arg1}")
 end
 
