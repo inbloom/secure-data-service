@@ -21,6 +21,7 @@
       <property name="locations">
          <list>
             <value>file:///${sli.conf}</value>
+            <value>classpath:ingestion.properties</value>
          </list>
       </property>
    </bean>
