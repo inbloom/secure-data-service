@@ -19,6 +19,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.handler.Handler;
+import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
@@ -143,8 +144,19 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     public Query createEntityLookupQuery(SimpleEntity entity, EntityConfig entityConfig, ErrorReport errorReport) {
         Query query = new Query();
         
+        String errorMessage = "ERROR: Invalid key fields for an entity\n";
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
             errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
+        }
+        else {
+            errorMessage += "       Entity      " + entity.getType() + "\n"
+                          + "       Key Fields  " + entityConfig.getKeyFields() + "\n";
+            if (entityConfig.getReferences() != null && entityConfig.getReferences().size() > 0) {
+                errorMessage += "     The following collections are referenced by the key fields:" + "\n";
+                for (RefDef refDef : entityConfig.getReferences()) {
+                    errorMessage += "       collection = " + refDef.getRef().getCollectionName() + "\n";
+                }
+            }
         }
 
         String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
@@ -156,7 +168,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 query.addCriteria(Criteria.where(field).is(fieldValue));
             }
         } catch (Exception e) {
-            errorReport.error("Invalid key fields", this);
+            errorReport.error(errorMessage, this);
         }
 
         return query;
