@@ -59,7 +59,6 @@ default:
         security.server.url: https://devjuggernauts.slidev.org/
         portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
         portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
-        log.path: ${user.home}/logs
         log.level: debug
         oauth.client.id: K2e7Dwhq5J
         oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
@@ -75,17 +74,6 @@ default:
         sli.encryption.dalKeyAlias: dalKey
         sli.encryption.dalKeyPass: changeit
         sli.wildcard.x509certificate.alias: wildcard
-
-        api.client: apiClient
-        api.server.url: http://local.slidev.org:8080/
-        security.server.url: https://openam1.slidev.org/
-        oauth.client.id: K2e7Dwhq5J
-        oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
-        oauth.redirect: http://local.slidev.org:8888/dashboard/callback
-
-        #specify "driver" and "custom" directory name for a user domain based configuration
-        panel.config.driver.dir: config
-        panel.config.custom.dir: custom
 
         # properties used by the mock IDP
         sli.idp.issuer: http://localhost:8081/
@@ -227,7 +215,6 @@ ci:
         security.server.url: https://testapi1.slidev.org/
         portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
         portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
-        log.path: ${user.home}/logs/
         log.level: warn
         oauth.client.id: jlEb45f55i
         oauth.client.secret: GjkljHiogHiodgiovbJat3U848J8934479p234r89y234r89
@@ -239,6 +226,7 @@ ci:
 
     misc:
         <<: *MISC-DEFAULT
+        log.path: ${user.home}/logs/
 
 dev:
     api:
@@ -307,7 +295,6 @@ dev:
         security.server.url: https://devjuggernauts.slidev.org/
         portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
         portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
-        log.path: ${user.home}/logs
         log.level: debug
         oauth.client.id: K2e7Dwhq5J
         oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
@@ -321,6 +308,7 @@ dev:
 
     misc:
         <<: *MISC-DEFAULT
+        log.path: ${user.home}/logs
 
 devapp1:
     api:
@@ -528,7 +516,6 @@ nxbuild2:
         security.server.url: https://nxbuild2.slidev.org/
         portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
         portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
-        log.path: ${user.home}/logs
         log.level: warn
         oauth.client.id: 6TW4tHwcWG
         oauth.client.secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
@@ -536,10 +523,11 @@ nxbuild2:
 
         #specify "driver" and "custom" directory name for a user domain based configuration
         panel.config.driver.dir: config
-        panel.config.custom.dir: custom        
+        panel.config.custom.dir: custom
 
     misc:
         <<: *MISC-DEFAULT
+        log.path: ${user.home}/logs
 
 team:
     api:
@@ -601,13 +589,11 @@ team:
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
-        sli.dev.subdomain: nxnestor
         api.client: apiClient
         api.server.url: https://${sli.dev.subdomain}.slidev.org/
         security.server.url: https://${sli.dev.subdomain}.slidev.org/
         portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
         portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
-        log.path: ${user.home}/logs
         log.level: warn
         oauth.client.id: 6TW4tHwcWG
         oauth.client.secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
@@ -616,11 +602,12 @@ team:
 
         #specify "driver" and "custom" directory name for a user domain based configuration
         panel.config.driver.dir: config
-        panel.config.custom.dir: custom        
+        panel.config.custom.dir: custom
 
     misc:
         <<: *MISC-DEFAULT
         sli.dev.subdomain: ci
+        log.path: ${user.home}/logs
 
 test-acceptance-tests:
     test:

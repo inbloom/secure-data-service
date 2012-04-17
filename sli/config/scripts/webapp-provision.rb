@@ -8,21 +8,33 @@ def get_config(fname, env)
   		rescue ArgumentError => e
     		puts "Could not parse YAML in file #{fname}: #{e.message}"
 	end
-	parsed[env]
+	result = parsed[env]
 end
 
 def get_properties(env_config)
+	prop_ids = [] 
 	result = [] 
 	env_config.each do |k,v| 
 		v.each do |prop_k, prop_v| 
 	        result << "#{prop_k} = #{prop_v}"
+	        prop_ids << prop_k.strip 
 		end
 	end
-	result 
+
+	# do a sanity check to make sure that there are not duplicates 	
+	uniques = {} 
+	prop_ids.each do |k|
+		if uniques.key?(k)
+			raise KeyError, "Duplicate entry:#{k}"
+		end
+		uniques[k] = nil
+	end
+
+	result
 end
 
 def write_prop_file(config, output_fname, env)
-	lines = ["# Generated properties file do not edit directly"] + get_properties(config)
+	lines = ["# Generated properties file do not edit directly\n# Env used: #{env}"] + get_properties(config)
 	File.open(output_fname, "w") do |f|
 		f.puts(lines)
 	end
