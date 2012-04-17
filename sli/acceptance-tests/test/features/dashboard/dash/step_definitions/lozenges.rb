@@ -33,7 +33,6 @@ Then /^there is no lozenges for student "([^"]*)"$/ do |student_name|
 
   # Then, make sure there is no lozenges array is empty
   lozenges = getStudentProgramParticipation(studentCell)
-  puts lozenges.length.to_s + "!" 
   assert(lozenges.length == 0, "Student " + student_name + " has lozenges")
 end
 

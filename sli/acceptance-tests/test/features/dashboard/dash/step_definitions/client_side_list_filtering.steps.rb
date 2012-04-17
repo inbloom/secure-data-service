@@ -6,7 +6,7 @@ Then /^I should have multiple filters available$/ do
 end
 
 When /^I select filter "([^"]*)"$/ do |filter|
-  select_by_id(filter, "studentFilterSelector")
+  select_by_id(filter, "filterSelect")
   sleep(5)
 end
 

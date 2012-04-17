@@ -53,12 +53,12 @@ Then /^I should only see one view named "([^"]*)"$/ do |view_name|
 end
 
 When /^I select view "([^"]*)"$/ do |view|
-  select_by_id(view, "viewSelector")
+  select_by_id(view, "viewSelect")
   sleep(20)
 end
 
 Then /^I should see a table heading "([^"]*)"$/ do |text|
-  list =  @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
+  list =  @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-hbox")}
 
   list.should_not be_nil
 
