@@ -27,8 +27,12 @@ public class Stage {
 
     private List<Metrics> metrics;
 
+    public Stage(String stageName) {
+        this.stageName = stageName;
+        this.metrics = new LinkedList<Metrics>();
+    }
+
     public Stage(String stageName, String status, String startTimestamp, String stopTimestamp, List<Metrics> metrics) {
-        super();
         this.stageName = stageName;
         this.status = status;
         this.startTimestamp = startTimestamp;
@@ -40,8 +44,7 @@ public class Stage {
     }
 
     public static Stage createAndStartStage(BatchJobStageType batchJobStageType) {
-        Stage stage = new Stage();
-        stage.setStageName(batchJobStageType.getName());
+        Stage stage = new Stage(batchJobStageType.getName());
         stage.startStage();
         return stage;
     }
@@ -112,6 +115,11 @@ public class Stage {
     public void stopStage() {
         this.setStatus("finished");
         this.setStopTimestamp(NewBatchJob.getCurrentTimeStamp());
+    }
+
+    public void addCompletedMetrics(Metrics metrics) {
+        metrics.stopMetric();
+        this.metrics.add(metrics);
     }
 
 }
