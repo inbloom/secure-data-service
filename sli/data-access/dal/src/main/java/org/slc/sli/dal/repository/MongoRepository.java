@@ -35,7 +35,7 @@ import org.slc.sli.domain.Repository;
 
 public abstract class MongoRepository<T> implements Repository<T> {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
-
+    
     protected ThreadLocalStorage threadStore = new ThreadLocalStorage("" + UUID.randomUUID().toString());
 
     protected MongoTemplate template;
@@ -72,14 +72,16 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     public T create(T record, String collectionName) {
         template.save(record, getComposedCollectionName(collectionName));
-        LOG.info(" create a record in collection {} with id {}", new Object[] { getComposedCollectionName(collectionName), getRecordId(record) });
+        LOG.debug(" create a record in collection {} with id {}", new Object[] {
+                getComposedCollectionName(collectionName), getRecordId(record) });
         return record;
     }
 
     @Override
     public T findById(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
-        LOG.debug("find a record in collection {} with id {}", new Object[] { getComposedCollectionName(collectionName), id });
+        LOG.debug("find a record in collection {} with id {}", new Object[] {
+                getComposedCollectionName(collectionName), id });
         try {
             return template.findById(databaseId, getRecordClass(), getComposedCollectionName(collectionName));
         } catch (Exception e) {
@@ -127,7 +129,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return ids;
     }
 
-
     @Override
     public Iterable<T> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
         Query mongoQuery = this.queryConverter.convert(getComposedCollectionName(collectionName), neutralQuery);
@@ -146,7 +147,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
         if (collection == null) {
             return 0;
         }
-        return collection.count(this.queryConverter.convert(getComposedCollectionName(collectionName), neutralQuery).getQueryObject());
+        return collection.count(this.queryConverter.convert(getComposedCollectionName(collectionName), neutralQuery)
+                .getQueryObject());
     }
 
     @Override
@@ -171,7 +173,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
         WriteResult result = template.updateFirst(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
                 new Update().set("body", body), collection);
-        LOG.info("update a record in collection {} with id {}", new Object[] { collection, id });
+        LOG.debug("update a record in collection {} with id {}", new Object[] { collection, id });
         return result.getN() == 1;
     }
 
@@ -180,7 +182,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return template.executeCommand(command);
     }
 
-
     @Override
     public boolean delete(String collectionName, String id) {
         if (id.equals("")) {
@@ -188,7 +189,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
         T deleted = template.findAndRemove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
                 getRecordClass(), getComposedCollectionName(collectionName));
-        LOG.info("delete a entity in collection {} with id {}", new Object[] { getComposedCollectionName(collectionName), id });
+        LOG.debug("delete a entity in collection {} with id {}", new Object[] {
+                getComposedCollectionName(collectionName), id });
         return deleted != null;
     }
 
@@ -197,9 +199,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
         for (T t : this.findAll(collectionName)) {
             this.delete(collectionName, getRecordId(t));
         }
-        LOG.info("delete all objects in collection {}", getComposedCollectionName(collectionName));
+        LOG.debug("delete all objects in collection {}", getComposedCollectionName(collectionName));
     }
-
 
     protected void logResults(String collectioName, List<T> results) {
         if (results == null) {
@@ -211,8 +212,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     /**
-     * returns collection name with a append of collectionGroupingIdentifier (if collectionGroupingFlag is set to true)
-     *
+     * returns collection name with a append of collectionGroupingIdentifier (if
+     * collectionGroupingFlag is set to true)
+     * 
      * @param collectionName
      * @return
      */
@@ -220,23 +222,22 @@ public abstract class MongoRepository<T> implements Repository<T> {
         if (isCollectionGrouping()) {
             return collectionName + "_" + getCollectionGroupingIdentifier();
         }
-
+        
         return collectionName;
     }
-
-
+    
     public boolean isCollectionGrouping() {
         if (threadStore.get("collectionGroupingFlag") != null) {
             return (Boolean) threadStore.get("collectionGroupingFlag");
         }
-
+        
         return false;
     }
 
     public void setCollectionGrouping(boolean collectionGrouping) {
         threadStore.put("collectionGroupingFlag", collectionGrouping);
     }
-
+    
     public String getCollectionGroupingIdentifier() {
         return (String) threadStore.get("collectionGroupingIdentifier");
     }
@@ -244,7 +245,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public void setCollectionGroupingIdentifier(String collectionGroupingIdentifier) {
         threadStore.put("collectionGroupingIdentifier", collectionGroupingIdentifier);
     }
-
+    
     protected abstract String getRecordId(T record);
 
     protected abstract Class<T> getRecordClass();

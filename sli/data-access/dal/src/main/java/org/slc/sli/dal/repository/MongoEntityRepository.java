@@ -6,9 +6,11 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.util.Assert;
 
 import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
@@ -26,6 +28,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
 
     @Autowired
     private EntityValidator validator;
+
+    @Autowired(required = false)
+    @Qualifier("entityEncryption")
+    EntityEncryption encrypt;
 
 
     @Override
@@ -53,8 +59,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
     public boolean update(String collection, Entity entity) {
         validator.validate(entity);
         this.updateTimestamp(entity);
-
-        return super.update(collection, entity, entity.getBody());
+        Map<String, Object> body = entity.getBody();
+        if (encrypt != null) {
+            body = encrypt.encrypt(entity.getType(), entity.getBody());
+        }
+        return super.update(collection, entity, body);
     }
 
     /** Add the created and updated timestamp to the document metadata. */
