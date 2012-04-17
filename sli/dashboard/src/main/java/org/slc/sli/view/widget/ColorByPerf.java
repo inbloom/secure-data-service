@@ -46,7 +46,7 @@ public class ColorByPerf {
         // get data point id for the perf level
         String dataPointId = field.getValue();
         String assmtName = dataPointId.substring(0, dataPointId.indexOf('.'));
-        String perfDataPointId = assmtName + "." + Constants.ATTR_PERF_LEVEL;
+        String perfDataPointId = assmtName + "." + Constants.ATTR_MASTERY_LEVEL;
         
         // create temporary Field to get perfLevel - TODO: there should be a better way to do this
         Field perfField = new Field();
@@ -65,7 +65,7 @@ public class ColorByPerf {
             return 0;
         }
         try {
-            int level = (Integer.parseInt((String) (assmts.getScore(assmt, Constants.ATTR_PERF_LEVEL, null))));
+            int level = (Integer.parseInt((String) (assmts.getScore(assmt, Constants.ATTR_MASTERY_LEVEL, null))));
             return getColorIndex(level, numLevels);
         } catch (Exception e) {
             return 0;

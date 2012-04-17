@@ -85,7 +85,9 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     public final boolean checkCondition(Config config, GenericEntity entity) {
         if (config != null && config.getCondition() != null) {
             if (entity == null) {
-                throw new DashboardException("Entity is null for a conditional item.");
+                // TEMPORARY
+                return true;
+                //throw new DashboardException("Entity is null for a conditional item.");
             }
             Config.Condition condition = config.getCondition();
             String[] tokens = condition.getField().split("\\.");

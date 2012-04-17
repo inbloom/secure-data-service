@@ -15,9 +15,9 @@ Scenario: Check user has multiple views available
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
-  Then I should have a dropdown selector named "viewSelector"
-    And I should have a selectable view named "IL_3-8_ELA"
-    And I should have a selectable view named "IL_9-12"
+  Then I should have a dropdown selector named "viewSelect"
+    And I should have a selectable view named "Middle School ELA View"
+    And I should have a selectable view named "College Ready ELA View"
 
 
 Scenario: Views are filtered based on student grades
@@ -28,7 +28,7 @@ Scenario: Views are filtered based on student grades
     And I select <school> "Daybreak Central High"
     And I select <course> "Writing about Government"
     And I select <section> "Sec 923"
-  Then I should only see one view named "IL_3-8"
+  Then I should only see one view named "Middle School ELA View"
 
 Scenario: Check changing view changes table headings
   When I navigate to the Dashboard home page
@@ -38,10 +38,10 @@ Scenario: Check changing view changes table headings
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
-  When I select view "IL_3-8_ELA"
-  Then I should see a table heading "ISAT Writing (highest)"
+  When I select view "Middle School ELA View"
+  Then I should see a table heading "ISAT Reading"
     And I should see a table heading "ISAT Writing (most recent)"
-  When I select view "IL_9-12"
+  When I select view "College Ready ELA View"
   Then I should see a table heading "Reading Test Scores (Highest)"
     And I should see a table heading "Writing Test Scores (Highest)"
     And I should see a table heading "AP Eng. Exam Scores"
@@ -54,4 +54,4 @@ Scenario: Different users have different views defined
     And I select <school> "South Daybreak Elementary"
     And I select <course> "1st Grade Homeroom"
     And I select <section> "Mrs. Braverman's Homeroom #38"
-  Then I should only see one view named "IL_K-3"
+  Then I should only see one view named "Early Literacy View"
