@@ -64,4 +64,10 @@ public class SecurityNodeConnection {
         this.fieldName = fieldName;
         this.associationNode = associationNode;
     }
+    
+    public SecurityNodeConnection(String connectionTo, String fieldName) {
+        this.connectionTo = connectionTo;
+        this.fieldName = fieldName;
+        this.associationNode = "";
+    }
 }

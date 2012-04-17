@@ -8,17 +8,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.api.client.EntityCollection;
 import org.slc.sli.api.client.EntityType;
 import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Sample domain wrapper.
+ * domain wrapper for teacher and staff with authorized roles and access right information
+ * 
+ * @author dliu
+ * 
  */
 public class Teachers {
 

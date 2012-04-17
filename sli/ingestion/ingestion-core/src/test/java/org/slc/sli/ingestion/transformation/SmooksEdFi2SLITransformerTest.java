@@ -15,13 +15,17 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
@@ -247,6 +251,7 @@ public class SmooksEdFi2SLITransformerTest {
      * @author tke
      * Test the transformation and matching steps behave as expected
      */
+    @SuppressWarnings("deprecation")
     @Test
     public void testCreateAssessmentEntity() {
         EntityConfigFactory entityConfigurations = new EntityConfigFactory();
@@ -260,19 +265,19 @@ public class SmooksEdFi2SLITransformerTest {
         transformer.setEntityConfigurations(entityConfigurations);
         transformer.setIdNormalizer(new IdNormalizer());
 
-        Map<String, String> assessmentFilterFields = new HashMap<String, String>();
-        assessmentFilterFields.put("body.assessmentTitle", ASSESSMENT_TITLE);
-        assessmentFilterFields.put(METADATA_BLOCK + "." + TENANT_ID_FIELD, TENANT_ID);
-        assessmentFilterFields.put(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, STUDENT_ID);
-
+        //Query assessmentQuery = new Query();
+        //assessmentQuery.addCriteria(Criteria.where("body.assessmentTitle").is(ASSESSMENT_TITLE));
+        //assessmentQuery.addCriteria(Criteria.where(METADATA_BLOCK + "." + TENANT_ID_FIELD).is(TENANT_ID));
+        //assessmentQuery.addCriteria(Criteria.where(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD).is(STUDENT_ID));
+        
         List<Entity> le = new ArrayList<Entity>();
         le.add(createAssessmentEntity(true));
 
-        when(mockedEntityRepository.findAllByPaths(eq("assessment"), eq(assessmentFilterFields), any(NeutralQuery.class))).thenReturn(le);
+        when(mockedEntityRepository.findByQuery(eq("assessment"), Mockito.any(Query.class), eq(0), eq(0))).thenReturn(le);
 
         List<SimpleEntity> res = transformer.handle(assessmentRC);
 
-        verify(mockedEntityRepository).findAllByPaths("assessment", assessmentFilterFields, new NeutralQuery());
+        verify(mockedEntityRepository).findByQuery(eq("assessment"), Mockito.any(Query.class), eq(0), eq(0));
 
         Assert.assertNotNull(res);
         Assert.assertEquals(ASSESSMENT_TITLE, res.get(0).getBody().get("assessmentTitle"));
