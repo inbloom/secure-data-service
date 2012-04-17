@@ -3,11 +3,6 @@ Feature: Test Java SDK
 
 Background:  Given I am logged in using "demo" "demo1234" to realm "Daybreak Central High" 
 
-Scenario: IT Admin updates students 
-		When I read collection "STUDENTS"
-		Then add students are returned
-		And I should see student "Dominic, R Berdan" in the student list
-						
 Scenario: IT Admin Add a students		
 		When I put "STUDENTS"  with Name "Monique L Johnson" 
 		And Sex as "Female" and  
