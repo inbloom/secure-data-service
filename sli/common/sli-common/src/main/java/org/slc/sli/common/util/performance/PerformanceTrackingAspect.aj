@@ -5,7 +5,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.slc.sli.util.threadutil.ThreadLocalStorage;
+import org.slc.sli.common.util.threadutil.ThreadLocalStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +25,7 @@ abstract public class PerformanceTrackingAspect {
 	protected ThreadLocalStorage store = new ThreadLocalStorage(String.valueOf(System.currentTimeMillis()));
 
 	// storing a field/value into the store
-	@Pointcut("@annotation(org.slc.sli.util.performance.PutResultInContext)")
+	@Pointcut("@annotation(org.slc.sli.common.util.performance.PutResultInContext)")
 	public void putResultInContext() {
 	}
 
@@ -37,7 +37,7 @@ abstract public class PerformanceTrackingAspect {
 		store.put(returnName.returnName(), returnValue);
 	}
 
-	@Pointcut("@annotation(org.slc.sli.util.performance.Profiled)")
+	@Pointcut("@annotation(org.slc.sli.common.util.performance.Profiled)")
 	public void profiled() {
 	}
 

@@ -1,4 +1,4 @@
-package org.slc.sli.util.logging;
+package org.slc.sli.common.util.logging;
 
 import org.junit.Test;
 import org.slf4j.Logger;
