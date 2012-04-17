@@ -303,12 +303,21 @@
     <!-- jb:value property="jobId" data="" / -->
     <jb:expression property="recordType">'school'</jb:expression>
     <jb:value property="localId" data="InterchangeEducationOrganization/School/StateOrganizationId" />
-    <jb:wiring property="localParentIds" beanIdRef="schoolParentId" />
+    <jb:wiring property="localParentIds" beanIdRef="schoolLocalParentIds" />
     <jb:wiring property="attributes" beanIdRef="schoolAttributes" />
   </jb:bean>
 
-  <jb:bean beanId="schoolParentId" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School/LocalEducationAgencyReference">
+  <jb:bean beanId="schoolLocalParentIds" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
     <jb:value property="educationOrganization#parentEducationAgencyReference" data="School/LocalEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
+    <jb:wiring property="program#programReference" beanIdRef="school_programReferenceArray" />
+  </jb:bean>
+
+  <jb:bean beanId="school_programReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
+    <jb:wiring beanIdRef="school_programReference" />
+  </jb:bean>
+
+  <jb:bean beanId="school_programReference" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School/ProgramReference/ProgramIdentity">
+    <jb:value property="program#metaData.externalId" data="School/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
 
   <jb:bean beanId="schoolAttributes" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/School">
@@ -387,7 +396,7 @@
   </jb:bean>
 
   <jb:bean beanId="programReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
-    <jb:value data="School/ProgramReference" />
+    <jb:value data="School/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
 
   <jb:bean beanId="gradesOfferedTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
@@ -407,6 +416,19 @@
     </jb:expression>
     <jb:value property="localId" data="InterchangeEducationOrganization/StateEducationAgency/StateOrganizationId" />
     <jb:wiring property="attributes" beanIdRef="stateEducationOrganizationAttributes" />
+    <jb:wiring property="localParentIds" beanIdRef="stateEducationAgencyLocalParentIds" />
+  </jb:bean>
+
+  <jb:bean beanId="stateEducationAgencyLocalParentIds" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/StateEducationAgency">
+    <jb:wiring property="program#programReference" beanIdRef="stateEducationAgency_programReferenceArray" />
+  </jb:bean>
+
+  <jb:bean beanId="stateEducationAgency_programReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/StateEducationAgency">
+    <jb:wiring beanIdRef="stateEducationAgency_programReference" />
+  </jb:bean>
+
+  <jb:bean beanId="stateEducationAgency_programReference" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/StateEducationAgency/ProgramReference/ProgramIdentity">
+    <jb:value property="program#metaData.externalId" data="StateEducationAgency/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
 
   <jb:bean beanId="stateEducationOrganizationAttributes" class="java.util.HashMap"
@@ -479,7 +501,7 @@
   </jb:bean>
 
   <jb:bean beanId="stateEducationAgency_programReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/StateEducationAgency">
-    <jb:value data="StateEducationAgency/ProgramReference" />
+    <jb:value data="StateEducationAgency/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
   <!-- End StateEducationAgency Mapping -->
 
@@ -489,14 +511,22 @@
     <!-- jb:value property="jobId" data="" / -->
     <jb:expression property="recordType">'educationOrganization'</jb:expression>
     <jb:value property="localId" data="InterchangeEducationOrganization/LocalEducationAgency/StateOrganizationId" />
-    <jb:wiring property="localParentIds" beanIdRef="localEducationOrganizationParentId" />
+    <jb:wiring property="localParentIds" beanIdRef="localEducationOrganizationParentIds" />
     <jb:wiring property="attributes" beanIdRef="localEducationOrganizationAttributes" />
   </jb:bean>
 
-  <jb:bean beanId="localEducationOrganizationParentId" class="java.util.HashMap"
-    createOnElement="InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference">
+  <jb:bean beanId="localEducationOrganizationParentIds" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
     <jb:value property="educationOrganization#parentEducationAgencyReference"
       data="InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
+    <jb:wiring property="program#programReference" beanIdRef="localEducationOrganization_programReferenceArray" />
+  </jb:bean>
+
+  <jb:bean beanId="localEducationOrganization_programReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
+    <jb:wiring beanIdRef="localEducationAgency_programReference" />
+  </jb:bean>
+
+  <jb:bean beanId="localEducationAgency_programReference" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/LocalEducationAgency/ProgramReference/ProgramIdentity">
+    <jb:value property="program#metaData.externalId" data="LocalEducationAgency/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
 
   <jb:bean beanId="localEducationOrganizationAttributes" class="java.util.HashMap"
@@ -571,7 +601,7 @@
   </jb:bean>
 
   <jb:bean beanId="localEducationOrganization_programReferenceTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/LocalEducationAgency">
-    <jb:value data="ProgramReference" />
+    <jb:value data="LocalEducationAgency/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
   <!-- End LocalEducationAgency Mapping -->
 
@@ -1023,7 +1053,6 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeMasterSchedule/Section">
     <jb:expression property="recordType">'section'</jb:expression>
     <jb:value property="localId" data="InterchangeMasterSchedule/Section/UniqueSectionCode" />
-
     <jb:wiring property="attributes" beanIdRef="sectionAttributes" />
     <jb:wiring property="localParentIds" beanIdRef="sectionLocalParentIds" />
   </jb:bean>
@@ -1032,6 +1061,15 @@
     <jb:wiring property="Course" beanIdRef="Section_CourseReference" />
     <jb:wiring property="School" beanIdRef="Section_SchoolReference" />
     <jb:wiring property="Session" beanIdRef="Section_SessionReference" />
+    <jb:wiring property="program#programReference" beanIdRef="section_ProgramReferenceArray" />
+  </jb:bean>
+
+  <jb:bean beanId="section_ProgramReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeMasterSchedule/Section">
+    <jb:wiring beanIdRef="section_ProgramReference" />
+  </jb:bean>
+
+  <jb:bean beanId="section_ProgramReference" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section/ProgramReference/ProgramIdentity">
+    <jb:value property="program#metaData.externalId" data="Section/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
 
   <jb:bean beanId="Section_CourseReference" class="java.util.HashMap" createOnElement="InterchangeMasterSchedule/Section">
@@ -1476,7 +1514,6 @@
     <jb:value property="revisionDate" data="Assessment/RevisionDate" />
     <jb:value property="maxRawScore" data="Assessment/MaxRawScore" decoder="Integer" />
     <jb:value property="nomenclature" data="Assessment/Nomenclature" />
-    <jb:wiring property="assessmentPeriod" beanIdRef="assessmentPeriodType" />
     <jb:value property="parentAssessmentFamilyId" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyIdentificationCode/ID"/>
     <jb:value property="periodDescriptorRef" data="Assessment/AssessmentPeriod/CodeValue"/>
     <jb:wiring property="objectiveAssessmentRefs" beanIdRef="objectiveAssessmentRefs" />

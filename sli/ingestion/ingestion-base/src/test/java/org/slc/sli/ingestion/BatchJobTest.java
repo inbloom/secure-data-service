@@ -48,7 +48,7 @@ public class BatchJobTest {
     @Test
     public void testProperties() {
 
-        BatchJob job = BatchJob.createDefault();
+        Job job = BatchJob.createDefault();
 
         Enumeration<?> names = job.propertyNames();
         int c = 0;
@@ -69,7 +69,7 @@ public class BatchJobTest {
 
     @Test
     public void testFiles() {
-        BatchJob job = BatchJob.createDefault();
+        Job job = BatchJob.createDefault();
         assertEquals(0, job.getFiles().size());
         IngestionFileEntry entry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT,
                 "InterchangeStudent.xml", MD5.calculate("InterchangeStudent.xml", getLandingZone()));
@@ -95,7 +95,7 @@ public class BatchJobTest {
         // generate dates before and after the BatchJob is instantiated,
         // so we can verify its creationDate is accurate.
         Date now = new Date();
-        BatchJob job = BatchJob.createDefault();
+        Job job = BatchJob.createDefault();
 
         //batch job id's are now dynamic - they depend on incoming file size
         //assertEquals(id.length(), 36);
@@ -110,7 +110,7 @@ public class BatchJobTest {
         List<Fault> faults = job.getFaultsReport().getFaults();
         assertEquals(faults.size(), 0);
         
-        BatchJob job2 = BatchJob.createDefault("TEST");
+        Job job2 = BatchJob.createDefault("TEST");
         assertEquals(true, job2.getId().startsWith("TEST"));
         
     }

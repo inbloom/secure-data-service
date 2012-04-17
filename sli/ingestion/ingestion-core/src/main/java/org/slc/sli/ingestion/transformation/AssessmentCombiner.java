@@ -1,19 +1,29 @@
 package org.slc.sli.ingestion.transformation;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.NeutralRecordFileReader;
+import org.slc.sli.ingestion.NeutralRecordFileWriter;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -31,11 +41,14 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     
     private Map<String, Map<Object, NeutralRecord>> collections;
     
-    private Map<String, Map<Object, NeutralRecord>> transformedCollections;
+    private Map<Object, NeutralRecord> transformedAssessments = new HashMap<Object, NeutralRecord>();
     
-    public AssessmentCombiner() {
+    private final FileUtils fileUtils;
+    
+    @Autowired
+    public AssessmentCombiner(FileUtils fileUtils) {
         this.collections = new HashMap<String, Map<Object, NeutralRecord>>();
-        this.transformedCollections = new HashMap<String, Map<Object, NeutralRecord>>();
+        this.fileUtils = fileUtils;
     }
     
     /**
@@ -64,23 +77,22 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     public void transform() {
         LOG.debug("Transforming data: Injecting assessmentFamilies into assessment");
         
-        HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
-        String key;
-        
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("assessment").entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             
             // get the key of parent
             Map<String, Object> attrs = neutralRecord.getAttributes();
-            key = (String) attrs.get("parentAssessmentFamilyId");
+            String parentFamilyId = (String) attrs.get("parentAssessmentFamilyId");
+            attrs.remove("parentAssessmentFamilyId");
             String familyHierarchyName = "";
-            familyHierarchyName = getAssocationFamilyMap(key, new HashMap<String, Map<String, Object>>(),
+            familyHierarchyName = getAssocationFamilyMap(parentFamilyId, new HashMap<String, Map<String, Object>>(),
                     familyHierarchyName);
             
             attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
             
             @SuppressWarnings("unchecked")
             List<String> objectiveAssessmentRefs = (List<String>) attrs.get("objectiveAssessmentRefs");
+            attrs.remove("objectiveAssessmentRefs");
             List<Map<String, Object>> objectiveAssessments = new ArrayList<Map<String, Object>>();
             if (objectiveAssessmentRefs != null && !(objectiveAssessmentRefs.isEmpty())) {
                 
@@ -92,16 +104,16 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             }
             
             String assessmentPeriodDescriptorRef = (String) attrs.get("periodDescriptorRef");
+            attrs.remove("periodDescriptorRef");
             if (assessmentPeriodDescriptorRef != null) {
                 
                 attrs.put("assessmentPeriodDescriptor", getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
                 
             }
             neutralRecord.setAttributes(attrs);
-            newCollection.put(neutralRecord.getRecordId(), neutralRecord);
+            transformedAssessments.put(neutralRecord.getLocalId(), neutralRecord);
         }
         
-        transformedCollections.put("assessment", newCollection);
     }
     
     private Map<String, Object> getAssessmentPeriodDescriptor(String assessmentPeriodDescriptorRef) {
@@ -206,18 +218,67 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     
     public void persist() {
         LOG.info("Persisting transformed data to storage.");
-        
-        // transformedCollections should have been populated in the transform() step.
-        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
+        try {
+            Map<IngestionFileEntry, List<Object>> fileEntries = getMetaDataFiles();
+            cleanMetaDataFiles(fileEntries.keySet());
             
-            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
-                
-                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-                neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
-                
-                getNeutralRecordMongoAccess().getRecordRepository().create(neutralRecord);
+            // transformedCollections should have been populated in the transform() step.
+            for (Entry<IngestionFileEntry, List<Object>> entry : fileEntries.entrySet()) {
+                NeutralRecordFileWriter writer = new NeutralRecordFileWriter(entry.getKey().getNeutralRecordFile());
+                List<Object> neutralRecrodIds = entry.getValue();
+                try {
+                    for (Object id : neutralRecrodIds) {
+                        NeutralRecord record = transformedAssessments.get(id);
+                        if (record != null) {
+                            writer.writeRecord(record);
+                        }
+                    }
+                } finally {
+                    writer.close();
+                }
+            }
+            
+        } catch (IOException e) {
+            LOG.error("Exception occurred", e);
+        }
+    }
+    
+    private void cleanMetaDataFiles(Collection<IngestionFileEntry> fileEntries) throws IOException {
+        for (IngestionFileEntry fe : fileEntries) {
+            File neutralRecordFile = fe.getNeutralRecordFile();
+            if (neutralRecordFile != null) {
+                neutralRecordFile.delete();
+            }
+            fe.setNeutralRecordFile(fileUtils.createTempFile());
+        }
+    }
+    
+    /**
+     * Will return the assessment metadata files we are processing.
+     * Since we are transforming assessments, one should exist.
+     * I know this is hacky, replace when we get a better way to bypass additional ingestion work
+     * that breaks this.
+     * 
+     * @return
+     * @throws IOException
+     */
+    private Map<IngestionFileEntry, List<Object>> getMetaDataFiles() throws IOException {
+        List<IngestionFileEntry> allFiles = getJob().getFiles();
+        Map<IngestionFileEntry, List<Object>> metaDataFiles = new HashMap<IngestionFileEntry, List<Object>>();
+        for (IngestionFileEntry fe : allFiles) {
+            if (fe.getFileType().equals(FileType.XML_ASSESSMENT_METADATA)) {
+                List<Object> idsInEntry = new ArrayList<Object>();
+                NeutralRecordFileReader reader = new NeutralRecordFileReader(fe.getNeutralRecordFile());
+                while (reader.hasNext()) {
+                    NeutralRecord rec = reader.next();
+                    if (rec.getRecordType().equals("assessment")) {
+                        idsInEntry.add(rec.getLocalId());
+                    }
+                }
+                metaDataFiles.put(fe, idsInEntry);
             }
         }
+        return metaDataFiles;
     }
     
     /**
@@ -242,6 +303,10 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         }
         
         collections.put(collectionName, collection);
+    }
+    
+    protected Collection<NeutralRecord> getTransformedAssessments() {
+        return transformedAssessments.values();
     }
     
 }
