@@ -18,7 +18,7 @@ function FuelGaugeWidget (element, score, cutpoints) {
 
     // constants
     this.PADDING = 2; // paddings between levels, in pixel
-    this.BACKGROUNDCOLOUR = "#eeeeee"; // background colour of rectangles
+    this.BACKGROUNDCOLOUR = "#CCC"; // background colour of rectangles
 
     this.element = element;
     this.score = score;
