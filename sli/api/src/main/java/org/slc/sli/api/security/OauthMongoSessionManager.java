@@ -218,35 +218,38 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                     String accessToken = user.group(1);
                     
                     Entity sessionEntity = findEntityForAccessToken(accessToken);
-                    List<Map<String, Object>> sessions = (List<Map<String, Object>>) sessionEntity.getBody().get("appSession");
-                    for (Map<String, Object> session : sessions) {
-                        if (session.get("token").equals(accessToken)) {
-                            
-                            ClientToken token = new ClientToken((String) session.get("clientId"), null /* secret not needed */, null /* Scope is unused */);
-                            // Spring doesn't provide a setter for the approved field (used by isAuthorized), so we set it the hard way
-                            Field approved = ClientToken.class.getDeclaredField("approved");
-                            approved.setAccessible(true);
-                            approved.set(token, true);
-                            
-                            SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"), SLIPrincipal.class);
-                            principal.setEntity(locator.locate((String) sessionEntity.getBody().get("tenantId"), principal.getExternalId()).getEntity());
-                            Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getRealm(), principal.getRoles());
-                            PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(principal, accessToken, authorities);
-                            userToken.setAuthenticated(true);
-                            auth = new OAuth2Authentication(token, userToken);
-                            
-                            // Extend the session
-                            sessionEntity.getBody().put("expiration", System.currentTimeMillis() + this.sessionLength);
-                            repo.update(SESSION_COLLECTION, sessionEntity);
-                            
-                            break;
+                    if (sessionEntity != null) {
+                        List<Map<String, Object>> sessions = (List<Map<String, Object>>) sessionEntity.getBody().get("appSession");
+                        for (Map<String, Object> session : sessions) {
+                            if (session.get("token").equals(accessToken)) {
+                                
+                                ClientToken token = new ClientToken((String) session.get("clientId"), null /* secret not needed */, null /* Scope is unused */);
+                                // Spring doesn't provide a setter for the approved field (used by isAuthorized), so we set it the hard way
+                                Field approved = ClientToken.class.getDeclaredField("approved");
+                                approved.setAccessible(true);
+                                approved.set(token, true);
+                                
+                                SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"), SLIPrincipal.class);
+                                principal.setEntity(locator.locate((String) sessionEntity.getBody().get("tenantId"), principal.getExternalId()).getEntity());
+                                Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getRealm(), principal.getRoles());
+                                PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(principal, accessToken, authorities);
+                                userToken.setAuthenticated(true);
+                                auth = new OAuth2Authentication(token, userToken);
+                                
+                                // Extend the session
+                                long expire = (Long) sessionEntity.getBody().get("expiration");
+                                sessionEntity.getBody().put("expiration", expire + this.sessionLength);
+                                repo.update(SESSION_COLLECTION, sessionEntity);
+                                
+                                break;
+                            }
                         }
                     }
                 } else {
                     info("User is anonymous");
                 }
             } catch (Exception e) {
-                warn("Error processing authentication.  Anonymous context will be returned...\n {}", e);
+                error("Error processing authentication.  Anonymous context will be returned.", e);
             }
         }
         return auth;
