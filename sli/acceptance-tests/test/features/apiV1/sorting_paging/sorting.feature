@@ -109,3 +109,18 @@ Scenario: Request the last and middle page of results from a API request
 			And the header "TotalCount" equals 3
 			And the a previous link exists with offset equal to 0 and limit equal to 1
 			And the a next link exists with offset equal to 2 and limit equal to 1
+            
+Scenario Outline: Confirm ability to use different operators with numbers
+    Given format "application/json"
+      And parameter "sequenceOfCourse" <operator> "2"
+     When I navigate to GET "/v1/sections"
+     Then I should receive a return code of 200
+      And I should receive a collection with <entities returned> elements
+    Examples:
+        | operator  | entities returned |
+        | "<="      | 25                |
+        | ">"       | 10                |
+        | "<"       | 23                |
+        | ">="      | 12                |
+        | "!="      | 33                |
+        | "="       | 2                 |
