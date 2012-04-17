@@ -58,7 +58,7 @@ public class MongoQueryConverter {
      *
      */
     protected interface MongoCriteriaGenerator {
-        public Criteria generateCriteria(NeutralCriteria neutralCriteria);
+        public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria);
     }
 
     private Map<String, MongoCriteriaGenerator> operatorImplementations;
@@ -106,7 +106,7 @@ public class MongoQueryConverter {
         // =
         this.operatorImplementations.put("=", new MongoCriteriaGenerator() {
             @SuppressWarnings("unchecked")
-            public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
                 Object value = neutralCriteria.getValue();
                 if (neutralCriteria.getKey().equals(MONGO_ID)) {
                     return Criteria.where(MONGO_ID).in(convertIds(value));
@@ -125,7 +125,7 @@ public class MongoQueryConverter {
         // =
         this.operatorImplementations.put("in", new MongoCriteriaGenerator() {
             @SuppressWarnings("unchecked")
-            public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
                 if (neutralCriteria.getKey().equals(MONGO_ID)) {
                     return Criteria.where(MONGO_ID).in(convertIds(neutralCriteria.getValue()));
                 } else {
@@ -140,45 +140,82 @@ public class MongoQueryConverter {
 
         // >=
         this.operatorImplementations.put(">=", new MongoCriteriaGenerator() {
-            public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
+                if (criteria != null) {
+                    criteria.gte(neutralCriteria.getValue());
+
+                    return criteria;
+                } else {
                     return Criteria.where(prefixKey(neutralCriteria)).gte(neutralCriteria.getValue());
+                }
             }
         });
 
         // <=
         this.operatorImplementations.put("<=", new MongoCriteriaGenerator() {
-            public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
+                if (criteria != null) {
+                    criteria.lte(neutralCriteria.getValue());
+
+                    return criteria;
+                } else {
                     return Criteria.where(prefixKey(neutralCriteria)).lte(neutralCriteria.getValue());
+                }
             }
         });
 
         // !=
         this.operatorImplementations.put("!=", new MongoCriteriaGenerator() {
-            public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
+                if (criteria != null) {
+                    criteria.ne(neutralCriteria.getValue());
+
+                    return criteria;
+                } else {
                     return Criteria.where(prefixKey(neutralCriteria)).ne(neutralCriteria.getValue());
+                }
             }
         });
 
         // =~
         this.operatorImplementations.put("=~", new MongoCriteriaGenerator() {
-            public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
+                if (criteria != null) {
+                    criteria.regex((String) neutralCriteria.getValue());
+
+                    return criteria;
+                } else {
                     return Criteria.where(prefixKey(neutralCriteria)).regex((String) neutralCriteria.getValue());
+                }
             }
         });
 
         // <
         this.operatorImplementations.put("<", new MongoCriteriaGenerator() {
-            public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
+                if (criteria != null) {
+                    criteria.lt(neutralCriteria.getValue());
+
+                    return criteria;
+                } else {
                     return Criteria.where(prefixKey(neutralCriteria)).lt(neutralCriteria.getValue());
+                }
             }
         });
 
         // >
         this.operatorImplementations.put(">", new MongoCriteriaGenerator() {
-            public Criteria generateCriteria(NeutralCriteria neutralCriteria) {
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
+                if (criteria != null) {
+                    criteria.gt(neutralCriteria.getValue());
+
+                    return criteria;
+                } else {
                     return Criteria.where(prefixKey(neutralCriteria)).gt(neutralCriteria.getValue());
+                }
             }
         });
+
     }
 
     /**
@@ -253,6 +290,7 @@ public class MongoQueryConverter {
                 }
             }
 
+            Map<String, List<NeutralCriteria>> fields = new HashMap<String, List<NeutralCriteria>>();
             // other criteria
             for (NeutralCriteria neutralCriteria : neutralQuery.getCriteria()) {
                 String key = neutralCriteria.getKey();
@@ -275,9 +313,20 @@ public class MongoQueryConverter {
                 }
 
                 neutralCriteria.setValue(value);
-                mongoQuery.addCriteria(this.operatorImplementations.get(operator).generateCriteria(neutralCriteria));
+                NeutralCriteria criteriaToAdd = new NeutralCriteria(neutralCriteria.getKey(),
+                        neutralCriteria.getOperator(), neutralCriteria.getValue(), neutralCriteria.canBePrefixed());
+                if (!fields.containsKey(criteriaToAdd.getKey())) {
+                    List<NeutralCriteria> list = new ArrayList<NeutralCriteria>();
+                    fields.put(criteriaToAdd.getKey(), list);
+                }
+                //add the criteria to the map
+                fields.get(neutralCriteria.getKey()).add(criteriaToAdd);
+                //set the original value back
                 neutralCriteria.setValue(originalValue);
             }
+
+            //add the criteria to mongo query
+            mongoQuery = addCriteria(mongoQuery, fields);
 
             Query[] mongoOrQueries = this.translateQueries(entityName, neutralQuery.getOrQueries());
             if (mongoOrQueries.length > 0) {
@@ -287,6 +336,34 @@ public class MongoQueryConverter {
 
         return mongoQuery;
     }
+
+    /**
+     * Add the criteria to the mongo query
+     * @param query The mongo query to add criteria
+     * @param criteriaForFields The criteria for fields
+     * @return The updated mongo query
+     */
+    protected Query addCriteria(Query query, Map<String, List<NeutralCriteria>> criteriaForFields) {
+
+        if (query != null && criteriaForFields != null) {
+            for (Map.Entry<String, List<NeutralCriteria>> e : criteriaForFields.entrySet()) {
+                List<NeutralCriteria> list = e.getValue();
+
+                if (list != null) {
+                    Criteria fullCriteria = null;
+                    for (NeutralCriteria criteria : list) {
+                        fullCriteria = operatorImplementations.get(
+                                criteria.getOperator()).generateCriteria(criteria, fullCriteria);
+                    }
+
+                    query.addCriteria(fullCriteria);
+                }
+            }
+        }
+
+        return query;
+    }
+
 
     private Query[] translateQueries(String entityName, List<NeutralQuery> queries) {
         if (queries == null || queries.isEmpty()) {
