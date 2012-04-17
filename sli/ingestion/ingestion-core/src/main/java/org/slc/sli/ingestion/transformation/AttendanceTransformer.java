@@ -1,8 +1,6 @@
 package org.slc.sli.ingestion.transformation;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.DateTime;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +8,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.ArrayList;
-import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -240,6 +236,20 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         }
         return sessions;
     }
+
+    private Map<String, Object> createAttendanceEvent(NeutralRecord attendance) {
+
+        Map<String, Object> event = new HashMap<String, Object>();
+
+        event.put("date", (String) attendance.getAttributes().get("eventDate"));
+        event.put("event", (String) attendance.getAttributes().get("attendanceEventCategory"));
+
+        if (attendance.getAttributes().containsKey("attendanceEventReason")) {
+            event.put("reason", (String) attendance.getAttributes().get("attendanceEventReason"));
+        }
+
+        return event;
+    }
     
     /**
      * Maps the set of student attendance events into a transformed map of form {school year : list of attendance events} based
@@ -259,23 +269,11 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             
             List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
             for (Iterator<Map.Entry<Object, NeutralRecord>> recordItr = studentAttendance.entrySet().iterator(); recordItr.hasNext(); ) {
-                Map.Entry<Object, NeutralRecord> record = recordItr.next();
-                NeutralRecord eventRecord = record.getValue();
-                Map<String, Object> eventAttributes = eventRecord.getAttributes();
-                
-                String eventDate = (String) eventAttributes.get("eventDate");
-                DateTime date = parseDateTime(eventDate);
+                NeutralRecord eventRecord = recordItr.next().getValue();
+
+                DateTime date = parseDateTime((String) eventRecord.getAttributes().get("eventDate"));
                 if (isLeftDateBeforeRightDate(sessionBegin, date) && isLeftDateBeforeRightDate(date, sessionEnd)) {
-                    // TODO: need to add educational environment to sli.xsd and transform it here
-                    Map<String, Object> event = new HashMap<String, Object>();
-                    String eventCategory = (String) eventAttributes.get("attendanceEventCategory");
-                    event.put("date", eventDate);
-                    event.put("event", eventCategory);
-                    if (eventAttributes.containsKey("attendanceEventReason")) {
-                        String eventReason = (String) eventAttributes.get("attendanceEventReason");
-                        event.put("reason", eventReason);
-                    }                        
-                    events.add(event);
+                    events.add( createAttendanceEvent(eventRecord) );
                     recordItr.remove();
                 }
             }
