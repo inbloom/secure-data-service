@@ -97,7 +97,7 @@ public class ControlFilePreProcessor implements Processor {
         NewBatchJob newJob = NewBatchJob.createJobForFile(controlFile.getName());
 
         // TODO Make getting the path a little nicer (i.e., not stripping the zip temp path)
-        newJob.setSourceId(landingZone.getLZId() + "/");
+        newJob.setSourceId(landingZone.getLZId() + File.separator);
 
         exchange.getIn().setHeader("BatchJobId", newJob.getId());
         log.info("Created job [{}]", newJob.getId());
