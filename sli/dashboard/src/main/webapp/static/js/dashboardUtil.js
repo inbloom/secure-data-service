@@ -193,9 +193,11 @@ DashboardUtil.Grid.Formatters = {
 
 };
 
+
 DashboardUtil.Grid.Sorters = {
 		Enum: function(params) {
 			var enumHash = {};
+			params.sortEnum.sort(DashboardUtil.comparator);
 			for (var i in params.sortEnum) {
 				enumHash[params.sortEnum[i]] = i;
 			}
@@ -207,6 +209,40 @@ DashboardUtil.Grid.Sorters = {
 		}
 }
 
+DashboardUtil.comparator =function(a,b){
+	var aIsNull = a === null;
+	var bIsNull = b === null;
+	
+	if(aIsNull && bIsNull) {
+		return 0;
+	} else if (aIsNull) {
+		return 1;
+	} else if (bIsNull) {
+		return -1;
+	}
+	
+	var aIsNumber = a.match(/^\d+$/);
+	var bIsNumber = b.match(/^\d+$/);
+	
+	//Need to do numerical comparison. With lexicographical compare,
+	//the statement '15' < '2' evaluates to true.
+	if(aIsNumber && bIsNumber) {	
+		return parseInt(a) - parseInt(b);
+    }
+	
+	//A lexicographical comparison is sufficient for two strings
+	if(!aIsNumber && !bIsNumber) {
+		return a < b ? -1 : (a == b ? 0 : 1);
+	}
+	
+	//Since we know that one of the values is a number and one is not 
+	//and we want numbers to precede strings.
+	if(aIsNumber) {
+		return -1;
+	} else {
+		return 1;
+	}
+}
 compareInt = function compare(a,b){return a-b;}
 compareIntReverse = function compare(a,b){return b-a;}
 
