@@ -17,6 +17,10 @@ default:
         #Support Email
         sli.support.email: sli@slc.org
 
+        # Session lengths in milliseconds (5 minutes and 8 hours)
+        sli.session.length: 300000
+        sli.session.hardLogout: 28800000
+
     data-access: &DATA-ACCESS-DEFAULT
         # Mongo DB Options
         sli.mongodb.database: sli
