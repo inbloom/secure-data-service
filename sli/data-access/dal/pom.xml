@@ -23,11 +23,11 @@
 		  <dependency> 
 
       <groupId>org.slc.sli.common</groupId>
-      <artifactId>common-util</artifactId>
+      <artifactId>sli-common</artifactId>
     </dependency>
 
 		<dependency>
-			<groupId>org.slc.sli.common</groupId>
+			<groupId>org.slc.sli.domain</groupId>
 			<artifactId>domain</artifactId>
 		</dependency>
 

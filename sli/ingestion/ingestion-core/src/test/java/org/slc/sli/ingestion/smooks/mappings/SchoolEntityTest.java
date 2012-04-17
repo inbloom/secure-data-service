@@ -80,7 +80,6 @@ public class SchoolEntityTest {
             + "        <RatingOrganization>rating org</RatingOrganization>"
             + "        <RatingProgram>rating program</RatingProgram>"
             + "    </AccountabilityRatings>"
-            + "    <ProgramReference>program reference</ProgramReference>"
             + "    <GradesOffered>"
             + "        <GradeLevel>Third grade</GradeLevel>"
             + "        <GradeLevel>Fourth grade</GradeLevel>"
@@ -97,7 +96,19 @@ public class SchoolEntityTest {
             + "      <EducationalOrgIdentity>"
             + "        <StateOrganizationId>LEA123</StateOrganizationId>"
             + "      </EducationalOrgIdentity>"
-            + "    </LocalEducationAgencyReference>" + "</School>" + "</InterchangeEducationOrganization>";
+            + "    </LocalEducationAgencyReference>"
+            + "    <ProgramReference>"
+            + "      <ProgramIdentity>"
+            + "        <ProgramId>ACC-TEST-PROG-1</ProgramId>"
+            + "      </ProgramIdentity>"
+            + "    </ProgramReference>"
+            + "    <ProgramReference>"
+            + "      <ProgramIdentity>"
+            + "        <ProgramId>ACC-TEST-PROG-2</ProgramId>"
+            + "      </ProgramIdentity>"
+            + "    </ProgramReference>"
+            + "  </School>"
+            + "</InterchangeEducationOrganization>";
 
     @Before
     public void setup() {
@@ -210,7 +221,8 @@ public class SchoolEntityTest {
         EntityTestUtils.assertObjectInMapEquals(accountabilityRatingsMap, "ratingProgram", "rating program");
 
         List programReferenceList = (List) neutralRecord.getAttributes().get("programReference");
-        assertEquals("program reference", programReferenceList.get(0));
+        assertEquals("ACC-TEST-PROG-1", programReferenceList.get(0));
+        assertEquals("ACC-TEST-PROG-2", programReferenceList.get(1));
 
         List gradesOfferedList = (List) neutralRecord.getAttributes().get("gradesOffered");
         assertEquals("Third grade", gradesOfferedList.get(0));

@@ -20,10 +20,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
+import org.slc.sli.common.util.threadutil.ThreadLocalStorage;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slc.sli.util.threadutil.ThreadLocalStorage;
 
 /**
  * mongodb implementation of the repository interface that provides basic
@@ -72,14 +72,16 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     public T create(T record, String collectionName) {
         template.save(record, getComposedCollectionName(collectionName));
-        LOG.info(" create a record in collection {} with id {}", new Object[] { getComposedCollectionName(collectionName), getRecordId(record) });
+        LOG.debug(" create a record in collection {} with id {}", new Object[] {
+                getComposedCollectionName(collectionName), getRecordId(record) });
         return record;
     }
 
     @Override
     public T findById(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
-        LOG.debug("find a record in collection {} with id {}", new Object[] { getComposedCollectionName(collectionName), id });
+        LOG.debug("find a record in collection {} with id {}", new Object[] {
+                getComposedCollectionName(collectionName), id });
         try {
             return template.findById(databaseId, getRecordClass(), getComposedCollectionName(collectionName));
         } catch (Exception e) {
@@ -127,7 +129,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return ids;
     }
 
-
     @Override
     public Iterable<T> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
         Query mongoQuery = this.queryConverter.convert(getComposedCollectionName(collectionName), neutralQuery);
@@ -146,7 +147,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
         if (collection == null) {
             return 0;
         }
-        return collection.count(this.queryConverter.convert(getComposedCollectionName(collectionName), neutralQuery).getQueryObject());
+        return collection.count(this.queryConverter.convert(getComposedCollectionName(collectionName), neutralQuery)
+                .getQueryObject());
     }
 
     @Override
@@ -160,8 +162,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public boolean update(String collection, T record, Map<String, Object> body) {
         Assert.notNull(record, "The given record must not be null!");
         String id = getRecordId(record);
-        if (id.equals(""))
+        if (id.equals("")) {
             return false;
+        }
 
         T found = template.findOne(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), getRecordClass(),
                 collection);
@@ -170,7 +173,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
         WriteResult result = template.updateFirst(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
                 new Update().set("body", body), collection);
-        LOG.info("update a record in collection {} with id {}", new Object[] { collection, id });
+        LOG.debug("update a record in collection {} with id {}", new Object[] { collection, id });
         return result.getN() == 1;
     }
 
@@ -179,14 +182,15 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return template.executeCommand(command);
     }
 
-
     @Override
     public boolean delete(String collectionName, String id) {
-        if (id.equals(""))
+        if (id.equals("")) {
             return false;
+        }
         T deleted = template.findAndRemove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
                 getRecordClass(), getComposedCollectionName(collectionName));
-        LOG.info("delete a entity in collection {} with id {}", new Object[] { getComposedCollectionName(collectionName), id });
+        LOG.debug("delete a entity in collection {} with id {}", new Object[] {
+                getComposedCollectionName(collectionName), id });
         return deleted != null;
     }
 
@@ -195,9 +199,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
         for (T t : this.findAll(collectionName)) {
             this.delete(collectionName, getRecordId(t));
         }
-        LOG.info("delete all objects in collection {}", getComposedCollectionName(collectionName));
+        LOG.debug("delete all objects in collection {}", getComposedCollectionName(collectionName));
     }
-
 
     protected void logResults(String collectioName, List<T> results) {
         if (results == null) {
@@ -209,7 +212,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     /**
-     * returns collection name with a append of collectionGroupingIdentifier (if collectionGroupingFlag is set to true)
+     * returns collection name with a append of collectionGroupingIdentifier (if
+     * collectionGroupingFlag is set to true)
      * 
      * @param collectionName
      * @return
@@ -221,7 +225,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         
         return collectionName;
     }
-    
     
     public boolean isCollectionGrouping() {
         if (threadStore.get("collectionGroupingFlag") != null) {
@@ -265,8 +268,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     @Deprecated
     public Iterable<T> findByQuery(String collectionName, Query query, int skip, int max) {
-        if (query == null)
+        if (query == null) {
             query = new Query();
+        }
 
         query.skip(skip).limit(max);
 

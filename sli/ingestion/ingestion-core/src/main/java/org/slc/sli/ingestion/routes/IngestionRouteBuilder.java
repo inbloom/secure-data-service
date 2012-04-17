@@ -20,6 +20,7 @@ import org.slc.sli.ingestion.processors.NeutralRecordsMergeProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
+import org.slc.sli.ingestion.processors.XmlFileProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
 
@@ -52,6 +53,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     NeutralRecordsMergeProcessor nrMergeProcessor;
+
+    @Autowired
+    XmlFileProcessor xmlFileProcessor;
 
     @Autowired
     LocalFileSystemLandingZone lz;
@@ -106,7 +110,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                     }).process(new ControlFilePreProcessor(tempLz))
                     .to(workItemQueueUri);
 
-       // routeId: workItemRoute -> main ingestion route: ctlFileProcessor -> edFiProcessor -> persistenceProcessor
+       // routeId: workItemRoute -> main ingestion route: ctlFileProcessor -> xmlFileProcessor -> edFiProcessor -> persistenceProcessor
         from(workItemQueueUri)
             .routeId("workItemRoute")
             .choice()
@@ -118,7 +122,11 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Performing Purge Operation.")
                 .process(purgeProcessor)
                 .to("direct:stop")
-            .when(header("IngestionMessageType").isEqualTo(MessageType.BULK_TRANSFORM_REQUEST.name()))
+            .when(header("IngestionMessageType").isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing xml file.")
+                .process(xmlFileProcessor)
+                .to(workItemQueueUri)
+            .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
                 .process(edFiProcessor)
                 .to(workItemQueueUri)

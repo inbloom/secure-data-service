@@ -150,21 +150,6 @@ Scenario: Given a known school object, perform a PUT with a base school object t
       And "entityType" should be "school"
       And there should be no other contents in the response body other than links
 
-@wip
-Scenario: Given a school entity with no associations, when a GET is performed with an association id, an empty collection should be returned (not 404)
-# The API is changed to return 404. I will leave this here for now but mark as wip
-	Given format "application/json"
-	And I create a valid base level school object
-	When I navigate to POST "/v1/schools"
-	Then I should receive a return code of 201
-	And I should receive an ID for the newly created school
-	When I navigate to GET "/v1/schools/<'Previous School' ID>/teacherSchoolAssociations"
-	Then I should receive a return code of 200
-	And a collection of size 0
-	When I navigate to GET "/v1/schools/<'Previous School' ID>/teacherSchoolAssociations/teachers"
-	Then I should receive a return code of 200
-	And a collection of size 0
-
   Scenario: Given a school entity with no associations, when a GET is performed with an association id, I should receive a 404
     Given format "application/json"
     And I create a valid base level school object
@@ -174,4 +159,13 @@ Scenario: Given a school entity with no associations, when a GET is performed wi
     When I navigate to GET "/v1/schools/<'Previous School' ID>/teacherSchoolAssociations"
     Then I should receive a return code of 404
     When I navigate to GET "/v1/schools/<'Previous School' ID>/teacherSchoolAssociations/teachers"
+    Then I should receive a return code of 404
+
+  Scenario: Given an invalid id, when I try to GET a target endpoint through 4-part URL, I should receive a 404
+    Given format "application/json"
+    And I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
+    When I navigate to GET "/v1/sections/<'Valid Section' ID>/studentSectionAssociations/students"
+    Then I should receive a return code of 200
+    And a collection of size 1
+    When I navigate to GET "/v1/sections/<'Invalid Section' ID>/studentSectionAssociations/students"
     Then I should receive a return code of 404

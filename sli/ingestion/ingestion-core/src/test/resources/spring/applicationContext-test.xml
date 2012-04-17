@@ -32,6 +32,7 @@
   <import resource="persistence-context.xml" />
   <import resource="validation-context.xml" />
   <import resource="handler-context.xml" />
+  <import resource="processor-context.xml" />
 
 
   <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"
@@ -90,7 +91,10 @@
   </bean>
 
     <bean id="xmlFileHandler" parent="smooksFileHandler">
-    <property name="preValidators" >
+  </bean>
+
+  <bean id="referenceResolutionHandler" class="org.slc.sli.ingestion.handler.ReferenceResolutionHandler">
+      <property name="preValidators" >
         <util:list value-type="org.slc.sli.ingestion.validation.Validator">
             <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
             <ref bean="xsdValidator"/>

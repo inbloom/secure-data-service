@@ -10,10 +10,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
@@ -26,7 +28,6 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.util.performance.Profiled;
 
 /**
  * Control file processor.
@@ -84,7 +85,7 @@ public class ControlFileProcessor implements Processor {
 
             ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
 
-            BatchJob job = getJobAssembler()
+            Job job = getJobAssembler()
                     .assembleJob(cfd, (String) exchange.getIn().getHeader("CamelFileNameOnly"));
 
             ControlFile cf = cfd.getFileItem();
@@ -130,7 +131,7 @@ public class ControlFileProcessor implements Processor {
             if (job.getProperty(PURGE) != null) {
                 exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
             } else {
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.BULK_TRANSFORM_REQUEST.name());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
             }
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
@@ -224,7 +225,7 @@ public class ControlFileProcessor implements Processor {
             // set headers
             // This error section is now handled by the writeErrorsToMongo above
 //            exchange.getIn().setHeader("hasErrors", job.getFaultsReport().hasErrors());
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.BULK_TRANSFORM_REQUEST.name());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
 
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
