@@ -27,6 +27,7 @@ import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
@@ -103,7 +104,7 @@ public class PersistenceProcessor implements Processor {
         stage.setStageName(BatchJobStageType.PERSISTENCE_PROCESSING.getName());
         stage.startStage();
         batchJobDAO.saveBatchJob(newJob);
-        BatchJob job = exchange.getIn().getBody(BatchJob.class);
+        Job job = exchange.getIn().getBody(BatchJob.class);
 
         try {
             long startTime = System.currentTimeMillis();

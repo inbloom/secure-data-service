@@ -29,7 +29,7 @@ public class BatchJobLoggerTest {
     
     @Test
     public void testLogger() {
-        BatchJob job = BatchJob.createDefault();
+        Job job = BatchJob.createDefault();
         
         LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone();
         lz.setDirectory(new File(DUMMY_DIR));
