@@ -50,7 +50,7 @@ When /^I try to update the (data for "[^"]*") in another "([^"]*)" from the API$
   @originalObj = JSON.parse(restHttpGet(@path).body)
   assert(@originalObj != nil, "Could not get the existing JSON body")
   @updatedObj = @originalObj.clone
-  @updatedObj[field_to_update] = "UpdatedData"
+  @updatedObj[field_to_update] = "UpdatedData#{rand(10).to_s}"
   @res = restHttpPost(dataPath, @updatedObj)
 end
 
