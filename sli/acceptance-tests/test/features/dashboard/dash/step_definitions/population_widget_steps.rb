@@ -56,8 +56,8 @@ Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
 end
 
 Then /^I see a list of (\d+) students$/ do |numOfStudents|
-  studentList = @explicitWait.until{@driver.find_element(:id, "studentList")}
-
+  studentList = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
+  
   actualCount = countTableRows()
   puts "numOfStudents should be " + numOfStudents.to_s + ", actualCount = " + actualCount.to_s
   assert(actualCount == numOfStudents.to_i, "List contains '" + actualCount.to_s + "' students and not '" + numOfStudents.to_s + "'")
@@ -91,7 +91,7 @@ When /^I select section "([^"]*)"$/ do |optionToSelect|
 end
 
 When /^I select user view "([^"]*)"$/ do |optionToSelect|
-  @dropDownId = "viewSelector"
+  @dropDownId = "viewSelect"
   puts "@dropDownId = " + @dropDownId
   selectOption(@dropDownId, optionToSelect)
 end

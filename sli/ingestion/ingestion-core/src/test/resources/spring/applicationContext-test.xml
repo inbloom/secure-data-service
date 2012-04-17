@@ -38,6 +38,7 @@
   <import resource="persistence-context.xml" />
   <import resource="validation-context.xml" />
     <import resource="handler-context.xml" />
+  <import resource="processor-context.xml" />
 
 
   <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"

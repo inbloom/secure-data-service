@@ -14,13 +14,13 @@
  *  score: a number. 
  *  cutpoints: an array of numbers. Contains N+1 elements, where N is the total number of levels. The ith level's lowest score is (cutpoints[i]+1) and highest score is cutpoints[i+1]
  */
-function FuelGaugeWidget (id, score, cutpoints) { 
+function FuelGaugeWidget (element, score, cutpoints) { 
 
     // constants
-    this.PADDING = 1; // paddings between levels, in pixel
+    this.PADDING = 2; // paddings between levels, in pixel
     this.BACKGROUNDCOLOUR = "#eeeeee"; // background colour of rectangles
 
-    this.id = id;
+    this.element = element;
     this.score = score;
     this.cutpoints = cutpoints;
 
@@ -30,10 +30,9 @@ function FuelGaugeWidget (id, score, cutpoints) {
 FuelGaugeWidget.prototype.create = function()  
 {  
     // Check we have all the information to draw a fuel gauge. 
-    var element = document.getElementById(this.id);
-    var fontSize = DashboardUtil.getElementFontSize(element);
-    var color = DashboardUtil.getElementColor(element);
-    var width = DashboardUtil.getElementWidth(element);
+    var fontSize = 10;//DashboardUtil.getElementFontSize(element);
+    var color = 'black'//DashboardUtil.getElementColor(element);
+    var width = '100'//DashboardUtil.getElementWidth(element);
 
     // missing info. Return an error. 
     if (!fontSize || !width || !color || isNaN(fontSize) || isNaN(width)) {
@@ -41,37 +40,61 @@ FuelGaugeWidget.prototype.create = function()
 	return; 
     }
 
-    // calculate the widths of each level rectangle
+    // calculate the width of level
     var fullLevelRectWidth = width / (this.cutpoints.length - 1)
     fullLevelRectWidth -= this.PADDING;
+    
+    var scoreWidth = 0;
+    var backgroundWidth = 0;
     var rects = new Array();
+    var colorCode = 1;
     for (var i = 0; i < this.cutpoints.length - 1; i++) {
-	if (this.score > this.cutpoints[i+1]) {
-	    // higher than the ith level
-	    rects[i] = fullLevelRectWidth;
-	} else if (this.score > this.cutpoints[i]) {
-	    // in the ith level
-	    rects[i] = (this.score - this.cutpoints[i]) / 
-                       (this.cutpoints[i+1] - this.cutpoints[i]) *
-		       fullLevelRectWidth;
-	} else {
+    	backgroundWidth += fullLevelRectWidth;
+    	if ( i != (this.cutpoints.length - 1)) {
+    		backgroundWidth += this.PADDING;
+    	}
+		if (this.score > this.cutpoints[i+1]) {
+	    	// higher than the ith level
+	    	rects[i] = fullLevelRectWidth;
+	    	scoreWidth += fullLevelRectWidth + this.PADDING;
+	    	colorCode++;
+		} else if (this.score > this.cutpoints[i]) {
+	    	// in the ith level
+	    	rects[i] = (this.score - this.cutpoints[i]) / 
+                       (this.cutpoints[i+1] - this.cutpoints[i]) * fullLevelRectWidth;
+		    scoreWidth += rects[i];
+		} else {
 	    // lower than the ith level
-	}
+		}
     }
+    
+    switch (colorCode) {
+    	case 1: color = "#b40610"; break;
+    	case 2: color = "#e58829"; break;
+    	case 3: color = "#dfc836"; break;
+    	case 4: color = "#7fc124"; break;
+    	case 5: color = "#438746"; break;
+    }
+    
 
     // Now call raphael.
-    this.paper = Raphael(element, width, fontSize);
+    this.paper = Raphael(this.element, width, fontSize);
     // draw background first
-    for (var i = 0; i < this.cutpoints.length - 1; i++) {
-	this.paper.rect(i * (fullLevelRectWidth+this.PADDING),0, fullLevelRectWidth, fontSize, 0)
+    this.paper.rect(0, 0, backgroundWidth, fontSize, 5)
                   .attr("fill", this.BACKGROUNDCOLOUR)
                   .attr("stroke", "none");
-    }
-    // draw actual rectangle
-    for (var i = 0; i < rects.length; i++) {
-	this.paper.rect(i * (fullLevelRectWidth+this.PADDING),0, rects[i], fontSize, 1)
+                  
+    this.paper.rect(0, 0, scoreWidth, fontSize, 5)
                   .attr("fill", color)
                   .attr("stroke", "none");
+    
+    var gapPosition = 0;
+    var gapColor = "white";
+    for (var i = 0; i < this.cutpoints.length - 2; i++) {
+    	gapPosition += fullLevelRectWidth;
+		this.paper.rect(gapPosition, 0, this.PADDING, fontSize, 0)
+                  .attr("fill", gapColor)
+                  .attr("stroke", "none");
+        gapPosition += this.PADDING;
     }
-
 };  

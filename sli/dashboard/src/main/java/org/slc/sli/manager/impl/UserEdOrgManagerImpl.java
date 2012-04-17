@@ -169,7 +169,6 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         return retVal;
     }
     
-    @Override
     public GenericEntity getUserInstHierarchy(String token, Object key, Data config) {
         List<GenericEntity> entities = getUserInstHierarchy(token);
         GenericEntity entity = new GenericEntity();
