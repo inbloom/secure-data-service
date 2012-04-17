@@ -10,6 +10,7 @@ Transform /^<(.+)>$/ do |template|
   id = "eb3b8c35-f582-df23-e406-6947249a19f2" if template == "'Apple Alternative Elementary School' ID"
   id = "d431ba09-c8ac-4139-beac-be28220633e6" if template == "'Krypton Middle School' ID"
   id = "4f0c9368-8488-7b01-0000-000059f9ba56" if template == "'Gotham City School District ed-org' ID"
+  id = "/v1/sections"                         if template == "NUMBER QUERY URI"
   id
 end
 
@@ -21,6 +22,10 @@ end
 # transform /path/<Place Holder Id>/targets
 Transform /^(\/[\w-]+\/)(<.+>)\/targets$/ do |uri, template|
   Transform(uri + template) + "/targets"
+end
+
+Given /^query criteria is "([^"]*)"$/ do |arg1|
+  @query_criteria = arg1
 end
 
 Then /^I should receive a collection$/ do
