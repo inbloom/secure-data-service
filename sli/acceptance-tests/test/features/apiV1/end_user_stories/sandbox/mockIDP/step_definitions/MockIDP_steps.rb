@@ -86,12 +86,15 @@ end
 
 Then /^I select "([^"]*)" from role selector$/ do |arg1|
   wait = Selenium::WebDriver::Wait.new(:timeout => 5)
+  role = nil
   wait.until { role=@driver.find_element(:xpath, "//option[@value='"+arg1+"']") }
   role.click
 end
 
 Then /^I select "([^"]*)"  and "([^"]*)" from role selector$/ do |arg1, arg2|
   wait = Selenium::WebDriver::Wait.new(:timeout => 5)
+  role1 = nil
+  role2 = nil
   wait.until { role1=@driver.find_element(:xpath, "//option[@value='"+arg1+"']") }
   wait.until { role2=@driver.find_element(:xpath, "//option[@value='"+arg2+"']") }
   role1.click
