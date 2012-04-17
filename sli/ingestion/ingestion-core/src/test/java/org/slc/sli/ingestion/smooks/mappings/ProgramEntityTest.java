@@ -66,23 +66,43 @@ public class ProgramEntityTest {
         assertEquals("Expected different program type", "Regular Education", attributes.get("programType"));
 
         @SuppressWarnings("unchecked")
-        List<Map<String, Object>> services = (List<Map<String, Object>>) attributes.get("services");
+        List<List<Map<String, Object>>> services = (List<List<Map<String, Object>>>) attributes.get("services");
 
         assertNotNull("Expected non-null list of services", services);
 
         assertEquals("Expected two services", 2, services.size());
 
-        Map<String, Object> service1 = services.get(0);
+        List<Map<String, Object>> service1 = services.get(0);
         assertNotNull("Expected non-null service", service1);
-        assertEquals("Expected different short description of service", "Short description for acceptance test program service 1", service1.get("shortDescription"));
-        assertEquals("Expected different description of service", "This is a longer description of the services provided by acceptance test program service 1. More detail could be provided here.", service1.get("description"));
-        assertEquals("Expected different service code value", "Test service 1", service1.get("codeValue"));
+        assertEquals("Expected three choices", 3, service1.size());
 
-        Map<String, Object> service2 = services.get(1);
+        Map<String, Object> choice = service1.get(0);
+        assertNotNull("Expected non-null service choice", choice);
+        assertEquals("Expected different service code value", "Test service 1", choice.get("CodeValue"));
+ 
+        choice = service1.get(1);
+        assertNotNull("Expected non-null service choice", choice);
+        assertEquals("Expected different short description of service", "Short description for acceptance test program service 1", choice.get("ShortDescription"));
+
+        choice = service1.get(2);
+        assertNotNull("Expected non-null service choice", choice);
+        assertEquals("Expected different description of service", "This is a longer description of the services provided by acceptance test program service 1. More detail could be provided here.", choice.get("Description"));
+
+        List<Map<String, Object>> service2 = services.get(1);
         assertNotNull("Expected non-null service", service2);
-        assertEquals("Expected different short description of service", "Short description for acceptance test program service 2", service2.get("shortDescription"));
-        assertEquals("Expected different description of service", "This is a longer description of the services provided by acceptance test program service 2. More detail could be provided here.", service2.get("description"));
-        assertEquals("Expected different service code value", "Test service 2", service2.get("codeValue"));
+        assertEquals("Expected three choices", 3, service2.size());
+
+        choice = service2.get(0);
+        assertNotNull("Expected non-null service choice", choice);
+        assertEquals("Expected different service code value", "Test service 2", choice.get("CodeValue"));
+        
+        choice = service2.get(1);
+        assertNotNull("Expected non-null service choice", choice);
+        assertEquals("Expected different short description of service", "Short description for acceptance test program service 2", choice.get("ShortDescription"));
+        
+        choice = service2.get(2);
+        assertNotNull("Expected non-null service choice", choice);
+        assertEquals("Expected different description of service", "This is a longer description of the services provided by acceptance test program service 2. More detail could be provided here.", choice.get("Description"));
     }
 
 }
