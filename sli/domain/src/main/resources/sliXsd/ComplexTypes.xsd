@@ -764,58 +764,55 @@
 				destruction.
 			</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="complexObjectType">
-				<xs:sequence>
-					<xs:element name="restraintEventIdentifier" type="restraintEventIdentifier">
-						<xs:annotation>
-							<xs:documentation>A unique number or alphanumeric code assigned
-								to a restraint event by a school, school system, a state, or
-								other agency or entity.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="eventDate" type="xs:date">
-						<xs:annotation>
-							<xs:documentation>Month, day and year of the restraint event.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="educationalEnvironment" type="educationalEnvironmentType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The setting where the restraint was exercised.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="restraintEventReasons" type="restraintEventReasonsType">
-						<xs:annotation>
-							<xs:documentation>A categorization of the circumstances or reason
-								for the restraint.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="studentReference" type="reference">
-						<xs:annotation>
-							<xs:documentation>Reference to student that was restrained.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="programReference" type="reference" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>The special education program associated with
-								the restraint event.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="SchoolReference" type="reference">
-						<xs:annotation>
-							<xs:documentation>The school where the restraint event occurred.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
+		<xs:sequence>
+			<xs:element name="restraintEventIdentifier" type="restraintEventIdentifier">
+				<xs:annotation>
+					<xs:documentation>A unique number or alphanumeric code assigned
+						to a restraint event by a school, school system, a state, or
+						other agency or entity.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="eventDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Month, day and year of the restraint event.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="educationalEnvironment" type="educationalEnvironmentType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The setting where the restraint was exercised.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="restraintEventReasons" type="restraintEventReasonsType">
+				<xs:annotation>
+					<xs:documentation>A categorization of the circumstances or reason for the restraint.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="studentReference" type="reference">
+				<xs:annotation>
+					<xs:documentation>Reference to student that was restrained.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>student</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="programReference" type="reference" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The special education programs associated with the restraint event.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>program</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SchoolReference" type="reference">
+				<xs:annotation>
+					<xs:documentation>The school where the restraint event occurred.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>school</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="restraintEventReasonsType">
