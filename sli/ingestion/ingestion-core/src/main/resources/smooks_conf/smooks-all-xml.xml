@@ -1877,6 +1877,7 @@
     <jb:wiring property="scoreResults" beanIdRef="scoreResultsArray" />
     <jb:value property="gradeLevelWhenAssessed" data="InterchangeStudentAssessment/StudentAssessment/GradeLevelWhenAssessed" />
     <jb:wiring property="performanceLevelDescriptors" beanIdRef="performanceLevelsTypeArray" />
+    <jb:value property="xmlId" data="InterchangeStudentAssessment/StudentAssessment/@id" />
   </jb:bean>
 
   <jb:bean beanId="specialAccommodationsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentAssessment">
