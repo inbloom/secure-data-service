@@ -50,7 +50,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.STUDENT_SECTION_ASSOCIATIONS)
                         .construct());
         
-        excludePath.add(EntityNames.TEACHER + EntityNames.SECTION);
+        // excludePath.add(EntityNames.TEACHER + EntityNames.SECTION);
 
         prePath.put(
                 EntityNames.TEACHER + EntityNames.TEACHER,
