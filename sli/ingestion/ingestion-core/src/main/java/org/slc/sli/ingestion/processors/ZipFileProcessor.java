@@ -139,7 +139,9 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             resourceName.setResourceId(zipFile.getName());
             newJob.getResourceEntries().add(resourceName);
 
-            newJob.setSourceId(ctlFile.getParentFile().getCanonicalPath() + File.separator);
+            if (ctlFile != null) {
+                newJob.setSourceId(ctlFile.getParentFile().getCanonicalPath() + File.separator);
+            }
             stage.stopStage();
             newJob.getStages().add(stage);
             batchJobDAO.saveBatchJob(newJob);
