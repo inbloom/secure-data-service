@@ -1,4 +1,4 @@
 edfi-xml,AssessmentMetadata,dibelsAssessmentMetadata.xml,4239a174778725353897a687987d43d6
 edfi-xml,AssessmentMetadata,satAssessmentMetadata.xml,cfff41abbd5937edc0a26fb473e50d7f
 edfi-xml,Student,InterchangeStudent.xml,c3635316aed2f279c6336ff768bc1c00
-edfi-xml,StudentAssessment,InterchangeStudentAssessment.xml,fb97c397e46ce8c1691c07c23fca6f69
+edfi-xml,StudentAssessment,InterchangeStudentAssessment.xml,c895a3e666888e4f6840052b97d2e7b7
