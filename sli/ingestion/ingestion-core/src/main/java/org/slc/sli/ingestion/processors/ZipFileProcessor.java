@@ -16,6 +16,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -61,7 +62,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
 
             File zipFile = exchange.getIn().getBody(File.class);
 
-            BatchJob job = BatchJob.createDefault(zipFile.getName());
+            Job job = BatchJob.createDefault(zipFile.getName());
 
             // TODO BJI: create job in the db
             batchJobId = NewBatchJob.createId(zipFile.getName());

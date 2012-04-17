@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
 
 /**
@@ -27,8 +28,8 @@ public class BatchJobAssembler {
      * @param controlFile Control file descriptor
      * @return BatchJob Assembled batch job
      */
-    public BatchJob assembleJob(ControlFileDescriptor fileDesc) {
-        BatchJob job = BatchJob.createDefault();
+    public Job assembleJob(ControlFileDescriptor fileDesc) {
+        Job job = BatchJob.createDefault();
 
         return populateJob(fileDesc, job);
     }
@@ -41,9 +42,9 @@ public class BatchJobAssembler {
      * @param filename string representation of incoming file
      * @return BatchJob Assembled batch job
      */
-    public BatchJob assembleJob(ControlFileDescriptor fileDesc, String filename) {
+    public Job assembleJob(ControlFileDescriptor fileDesc, String filename) {
         // TODO DatabaseBatchJob job = DatabaseBatchJob.createBatchJob(filename);
-        BatchJob job = BatchJob.createDefault(filename);
+        Job job = BatchJob.createDefault(filename);
 
         return populateJob(fileDesc, job);
     }
@@ -55,7 +56,7 @@ public class BatchJobAssembler {
      * @param job Batch Job to populate
      * @return populated Batch Job
      */
-    public BatchJob populateJob(ControlFileDescriptor fileDesc, BatchJob job) {
+    public Job populateJob(ControlFileDescriptor fileDesc, Job job) {
         ControlFile controlFile = fileDesc.getFileItem();
 
         // iterate over the configProperties and copy into the job

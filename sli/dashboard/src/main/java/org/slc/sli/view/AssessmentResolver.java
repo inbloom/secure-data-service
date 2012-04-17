@@ -285,6 +285,7 @@ public class AssessmentResolver {
         if (descriptors == null)
             return "";
         for (List<Map> descriptorList : descriptors) {
+            if (descriptorList == null) return "";
             for (Map descriptor : descriptorList) {
                 String perfLevel = (String) (descriptor.get(Constants.ATTR_DESCRIPTION));
                 try {
