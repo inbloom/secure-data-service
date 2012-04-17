@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<InterchangeStudentProgram xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentProgram.xsd">
+<InterchangeStaffAssociation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StaffAssociation.xsd">
 	<!-- linda.kim and rbraverman to ACC-TEST-PROG-1 and ACC-TEST-PROG-2 -->
 	<StaffProgramAssociation>
 		<StaffReference>
@@ -62,4 +62,4 @@
 		<BeginDate>2011-01-01</BeginDate>
 		<StudentRecordAccess>false</StudentRecordAccess>
   </StaffProgramAssociation>
-</InterchangeStudentProgram>
+</InterchangeStaffAssociation>

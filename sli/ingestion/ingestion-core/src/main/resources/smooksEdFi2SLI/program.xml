@@ -34,10 +34,24 @@
         <jb:wiring beanIdRef="ServiceDescriptorType" />
     </jb:bean>
 
-    <jb:bean beanId="ServiceDescriptorType" class="java.util.HashMap" createOnElement="services element">
-        <jb:value property="codeValue" data="services element codeValue" />
-        <jb:value property="shortDescription" data="services element shortDescription" />
-        <jb:value property="description" data="services element description" />
+    <jb:bean beanId="ServiceDescriptorType" class="java.util.ArrayList" createOnElement="services element">
+  	    <jb:wiring beanIdRef="Program_Services_CodeValue" />
+  	    <jb:wiring beanIdRef="Program_Services_ShortDescription" />
+  	    <jb:wiring beanIdRef="Program_Services_Description" />  	
     </jb:bean>
+
+  <jb:bean beanId="Program_Services_CodeValue" class="java.util.HashMap" createOnElement="services element element codeValue">
+    <jb:value property="codeValue" data="services element element codeValue" />
+  </jb:bean>
+	
+  <jb:bean beanId="Program_Services_ShortDescription" 
+  	class="java.util.HashMap" 
+  	createOnElement="services element element shortDescription">
+    <jb:value property="shortDescription" data="services element element shortDescription" />
+  </jb:bean>
+   
+  <jb:bean beanId="Program_Services_Description" class="java.util.HashMap" createOnElement="services element element description">
+    <jb:value property="description" data="services element element description" />
+  </jb:bean>
 
 </smooks-resource-list>
