@@ -621,8 +621,6 @@ public final class MetaRelations {
     private static void addStaffStudentToDisciplines(Map<String, DisciplineIncidentMeta> disciplineIncidentsForSchool,
             Map<String, DisciplineActionMeta> disciplineActionsForSchool, Map<String, StudentMeta> studentsForSchool,
             Map<String, StaffMeta> staffForSea) {
-        Object[] disciplineIncidentMetas = disciplineIncidentsForSchool.values().toArray();
-        int disciplineIncidentIndx = 0;
         Object[] staffMetas = staffForSea.values().toArray();
         int staffIndx = 0;
         Object[] studentMetas = studentsForSchool.values().toArray();

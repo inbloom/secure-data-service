@@ -27,44 +27,28 @@ public class StaffProgramAssociationGenerator {
     private static Boolean HAS_STUDENT_RECORD_ACCESS = true;
     
     /**
-     * Generates a list of StaffProgramAssociation.
+     * Generates a StaffProgramAssociation.
      *
      * @param programMeta
      * 
      * @return <code>List<StaffProgramAssociation></code>
      */
-    public static List<StaffProgramAssociation> generateLowFi(ProgramMeta programMeta) {
+    public static StaffProgramAssociation generateLowFi(ProgramMeta programMeta) {
         Set<String> staffIds = programMeta.staffIds;
         String programId = programMeta.id;
         String schoolId = programMeta.schoolId;
-        
-        List<StaffProgramAssociation> list = new ArrayList<StaffProgramAssociation>(staffIds.size());
-        
-        for (String staffId : staffIds) {
-            list.add(generateLowFi(staffId, programId, schoolId));
-        }
-        return list;
-    }
-    /**
-     * Generates a StudentProgramAssociation.
-     *
-     * @param studentId
-     * @param programId
-     * @param schoolId
-     * 
-     * @return <code>StudentProgramAssociation</code>
-     */
-    public static StaffProgramAssociation generateLowFi(String staffId, String programId, String schoolId) {
 
         StaffProgramAssociation staffProgram = new StaffProgramAssociation();
         
-        // construct and add the staff reference
-        StaffIdentityType sit = new StaffIdentityType();
-        sit.setStaffUniqueStateId(staffId);
-        StaffReferenceType srt = new StaffReferenceType();
-        srt.setStaffIdentity(sit);
+        // construct and add the staff references
         List<StaffReferenceType> staffReferences = staffProgram.getStaffReference();
-        staffReferences.add(srt);
+        for (String staffId : staffIds) {
+            StaffIdentityType sit = new StaffIdentityType();
+            sit.setStaffUniqueStateId(staffId);
+            StaffReferenceType srt = new StaffReferenceType();
+            srt.setStaffIdentity(sit);
+            staffReferences.add(srt);
+        }
 
         // construct and add the program reference       
         ProgramIdentityType pi = new ProgramIdentityType();
