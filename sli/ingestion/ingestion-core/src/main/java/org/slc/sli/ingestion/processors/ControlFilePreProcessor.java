@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.landingzone.ControlFile;
+import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -70,6 +71,7 @@ public class ControlFilePreProcessor implements Processor {
             batchJobDAO.saveBatchJob(newBatchJob);
 
             // set headers for ingestion routing
+            exchange.getIn().setBody(new ControlFileDescriptor(controlFile, landingZone), ControlFileDescriptor.class);
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
 
         } catch (Exception exception) {
