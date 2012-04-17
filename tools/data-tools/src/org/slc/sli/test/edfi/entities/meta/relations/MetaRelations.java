@@ -24,16 +24,16 @@ public final class MetaRelations {
     // knobs to control number of entities to create
     public static final int TOTAL_SEAS = 1;
     public static final int LEAS_PER_SEA = 2;
-    public static final int STAFF_PER_SEA = 0;
+    public static final int STAFF_PER_SEA = 3;
     public static final int SCHOOLS_PER_LEA = 2;
     public static final int COURSES_PER_SCHOOL = 2;
     public static final int SESSIONS_PER_SCHOOL = 1;
     public static final int SECTIONS_PER_COURSE_SESSION = 1;
     public static final int TEACHERS_PER_SCHOOL = 10;
     public static final int STUDENTS_PER_SCHOOL = 10;
-    public static final int PROGRAMS_PER_SCHOOL = 0;
-    public static final int FREE_STANDING_COHORT_PER_SCHOOL = 0;
-    public static final int FREE_STANDING_COHORT_SIZE = 0;
+    public static final int PROGRAMS_PER_SCHOOL = 2;
+    public static final int FREE_STANDING_COHORT_PER_SCHOOL = 4;
+    public static final int FREE_STANDING_COHORT_SIZE = 4;
     public static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
     public static final int ASSESSMENTS_PER_STUDENT = 10;
     public static final int ATTENDANCE_PER_STUDENT_SECTION = 1;
@@ -59,7 +59,7 @@ public final class MetaRelations {
     public static final Map<String, DisciplineIncidentMeta> DISCIPLINE_INCIDENT_MAP = new TreeMap<String, DisciplineIncidentMeta>();
     public static final Map<String, DisciplineActionMeta> DISCIPLINE_ACTION_MAP = new TreeMap<String, DisciplineActionMeta>();
 
-    public static final String SEA_PREFIX = "caprica";
+    public static final String SEA_PREFIX = "cap";
     public static final String FIRST_TEACHER_ID = "lroslin";
 
     /**
@@ -616,23 +616,14 @@ public final class MetaRelations {
         int disciplineIncidentIndx = 0;
         Object[] staffMetas = staffForSea.values().toArray();
         int staffIndx = 0;
-
-        // assign one every INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT student to a discipline incident
-        int count = 0;
-        for (StudentMeta studentMeta : studentsForSchool.values()) {
-            if (count % INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT == 0) {
-                DisciplineIncidentMeta disciplineIncidentMeta = (DisciplineIncidentMeta) disciplineIncidentMetas[disciplineIncidentIndx];
-                disciplineIncidentMeta.studentIds.add(studentMeta.id);
-                disciplineIncidentIndx = (disciplineIncidentIndx + 1) % disciplineIncidentMetas.length;
-            }
-            count++;
-        }
-
-        // assign a staff to each discipline incident.
+        Object[] studentMetas = studentsForSchool.values().toArray();
+        int studentIndx = 0;
+        
+        // assign a student to each discipline incident.
         for (DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentsForSchool.values()) {
-            StaffMeta staffMeta = (StaffMeta) staffMetas[staffIndx];
-            disciplineIncidentMeta.staffId = staffMeta.id;
-            staffIndx = (staffIndx + 1) % staffMetas.length;
+            StudentMeta studentMeta = (StudentMeta) studentMetas[studentIndx];
+            disciplineIncidentMeta.studentIds.add(studentMeta.id);
+            studentIndx = (studentIndx + 1) % staffMetas.length;
         }
 
         // assign all students in all discipline incidents involved in a discipline action in that

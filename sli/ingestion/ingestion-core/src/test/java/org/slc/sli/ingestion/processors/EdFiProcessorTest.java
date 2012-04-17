@@ -53,21 +53,4 @@ public class EdFiProcessorTest {
         assertTrue("Empty csv file should give error.", inputFileEntry.getErrorReport().hasErrors());
     }
 
-    @Test
-    public void shouldReportErrorEmptyXml() throws IOException, SAXException {
-
-        // Get Input File
-        File inputFile = IngestionTest.getFile("fileLevelTestData/invalidXML/emptyFile/student.xml");
-
-        // Create Ingestion File Entry
-        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT,
-                inputFile.getName(), MD5.calculate(inputFile));
-        inputFileEntry.setFile(inputFile);
-
-        ErrorReport errorReport = inputFileEntry.getErrorReport();
-        edFiProcessor.processFileEntry(inputFileEntry, errorReport, null);
-
-        assertTrue("Empty xml file should give error.", inputFileEntry.getErrorReport().hasErrors());
-    }
-
 }

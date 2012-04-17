@@ -30,7 +30,7 @@ public class StudentProgramAssociationEntityTest {
      * @throws SAXException
      */
     @Test
-    public final void mapEdfiXmlProgramToNeutralRecordTest() throws IOException, SAXException {
+    public final void mapEdfiXmlToNeutralRecordTest() throws IOException, SAXException {
 
         String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
 
@@ -55,6 +55,8 @@ public class StudentProgramAssociationEntityTest {
     @SuppressWarnings("unchecked")
     private void checkValidNeutralRecord(NeutralRecord neutralRecord) {
         assertEquals("Expecting different record type", "studentProgramAssociation", neutralRecord.getRecordType());
+
+        assertEquals("Expected 0 local parent ids", 0, neutralRecord.getLocalParentIds().size());
 
         Map<String, Object> attributes = neutralRecord.getAttributes();
 

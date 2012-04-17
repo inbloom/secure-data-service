@@ -197,7 +197,7 @@ desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionAPAssessmentTests, :ingestionStudentProgramAssociationTest, :ingestionBatchJobTest] do
+                         :ingestionAPAssessmentTests, :ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -296,6 +296,11 @@ task :ingestionAPAssessmentTests do
   runTests("test/features/ingestion/features/apAssessment.feature")
 end
 
+desc "Run Ingestion Ed-Fi ID Reference Resolution Test"
+task :ingestionIDReferenceResolutionTest do
+  runTests("test/features/ingestion/features/ingestion_IDRef.feature")
+end
+
 # This task SHOULD NOT BE ADDED to the general ingestion test suite
 desc "Run Ingestion Performance Tests"
 task :ingestionPerformanceTest do
@@ -318,6 +323,11 @@ end
 desc "Run Ingestion Offline Tool Simple Test"
 task :ingestionOfflineSimpleTest do
   runTests("test/features/ingestion/features/offline_validation.feature")
+end
+
+desc "Run Tenant Purge Test"
+task :ingestionTenantPurgeTests do
+  runTests("test/features/ingestion/features/tenant_purge.feature")
 end
 
 ########
@@ -729,6 +739,9 @@ task :v1ValidationTests => [:realmInit] do
   setFixture("school", "school_fixture.json")
   setFixture("teacher", "teacher_fixture.json")
   setFixture("student", "student_fixture.json")
+  setFixture("section", "section_fixture.json")
+  setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
+  setFixture("teacherSectionAssociation", "teacherSectionAssociation_fixture.json")
   runTests("test/features/apiV1/validation")
 end
 
