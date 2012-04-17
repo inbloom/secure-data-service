@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
+import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.dal.repository.MongoRepository;
 import org.slc.sli.ingestion.NeutralRecord;
 
@@ -22,9 +23,15 @@ import org.slc.sli.ingestion.NeutralRecord;
 public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     protected static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
 
+    private EntityEncryption entityEncryption;
+
     @Override
     public boolean update(String collection, NeutralRecord neutralRecord) {
-        return update(neutralRecord.getRecordType(), neutralRecord, neutralRecord.getAttributes());
+        Map<String, Object> body = neutralRecord.getAttributes();
+        if (entityEncryption != null) {
+            body = entityEncryption.encrypt(neutralRecord.getRecordType(), body);
+        }
+        return update(neutralRecord.getRecordType(), neutralRecord, body);
     }
 
     @Override
@@ -49,34 +56,34 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         if (isCollectionGrouping()) {
             Set<String> collectionSet = template.getCollectionNames();
             Iterator<String> iter = collectionSet.iterator();
-            
+
             Set<String> currentCollections = new HashSet<String>();
             String currentCollection;
-            
+
             while (iter.hasNext()) {
                 currentCollection = iter.next();
-                
+
                 if (currentCollection.endsWith(getCollectionGroupingIdentifier())) {
                     currentCollections.add(currentCollection.replace("_" + getCollectionGroupingIdentifier(), ""));
                 }
             }
-            
+
             return currentCollections;
         }
-        
+
         return template.getCollectionNames();
     }
-    
+
     public void deleteGroupedCollections() {
         if (isCollectionGrouping()) {
             Set<String> collectionSet = template.getCollectionNames();
             Iterator<String> iter = collectionSet.iterator();
-            
+
             String currentCollection;
-            
+
             while (iter.hasNext()) {
                 currentCollection = iter.next();
-                
+
                 if (currentCollection.endsWith(getCollectionGroupingIdentifier())) {
                     template.dropCollection(currentCollection);
                 }
@@ -88,7 +95,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         setCollectionGrouping(true);
         setCollectionGroupingIdentifier(batchJobId);
     }
-    
+
     public String getBatchJobId() {
         return getCollectionGroupingIdentifier();
     }
@@ -96,5 +103,9 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     @Override
     protected Class<NeutralRecord> getRecordClass() {
         return NeutralRecord.class;
+    }
+
+    public void setEntityEncryption(EntityEncryption entityEncryption) {
+        this.entityEncryption = entityEncryption;
     }
 }
