@@ -85,8 +85,8 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     public final boolean checkCondition(Config config, GenericEntity entity) {
         if (config != null && config.getCondition() != null) {
             if (entity == null) {
-            	// TEMPORARY
-            	return true;
+                // TEMPORARY
+                return true;
                 //throw new DashboardException("Entity is null for a conditional item.");
             }
             Config.Condition condition = config.getCondition();

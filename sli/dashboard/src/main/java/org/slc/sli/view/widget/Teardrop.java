@@ -153,7 +153,7 @@ public class Teardrop extends HashMap<String, String> {
         }
         
         // Derive CSS style class name using convention
-        String styleName = CSS_STYLE_PREFIX + CSS_SEPARATOR +colorCoding + CSS_SEPARATOR + trend;
+        String styleName = CSS_STYLE_PREFIX + CSS_SEPARATOR + colorCoding + CSS_SEPARATOR + trend;
         this.setStyleName(styleName);
     }
     
