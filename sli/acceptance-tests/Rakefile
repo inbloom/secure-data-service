@@ -878,8 +878,18 @@ end
 # Dashboard tests start
 ############################################################
 desc "Run Dashboard Tests"
-task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoLiveTests] do
+task :dashboardTests => [:dashboardPopWidgetTests,
+                         :dashboardK3ViewTests,
+                         :dashboardHSViewTests,
+                         :dashboardUserBasedViewTests,
+                         :dashboardIntegratedTests,
+                         :dashboardLoginTests,
+                         :dashboardStudentProfileTests,
+                         :dashboardAssessmentTests,
+                         :dashboardAttendance,
+                         :dashboardStudentHistoricalDataTests,
+                         :dashboardStudentContactInfoLiveTests,
+                         :dashboardStudentGradebookEntryTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -971,6 +981,11 @@ end
 desc "Run dashboard integrated Tests - Student Contact info"
 task :dashboardSdsContactInfoTests do
   runTests("test/features/dashboard/dash/contact_info_sds.feature")
+end
+
+desc "Run dashboard student gradebook entry tests"
+task :dashboardStudentGradebookEntryTests do
+  runTests("test/features/dashboard/students/StudentGradebookEntry.feature")
 end
 
 ############################################################
