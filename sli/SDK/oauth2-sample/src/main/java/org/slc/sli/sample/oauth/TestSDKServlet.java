@@ -20,10 +20,18 @@ import org.slc.sli.api.client.impl.BasicQuery;
 import org.slc.sli.api.client.impl.GenericEntity;
 
 /**
- * Servlet that test against SDK.
+ * Servlet that do CRUD test against Java SDK.
+ * 
+ * @author dliu
+ * 
  */
 public class TestSDKServlet extends HttpServlet {
-    
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3258845941340138511L;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         BasicClient client = (BasicClient) req.getSession().getAttribute("client");
@@ -45,11 +53,13 @@ public class TestSDKServlet extends HttpServlet {
         resp.getWriter().print(buildTestResponse(testResult));
     }
     
+    // the read test has been done in list student, so always return succeed
     private String testRead(BasicClient client) {
         String testResult = "succeed";
         return testResult;
     }
     
+    // test the create for Java SDK
     @SuppressWarnings("unchecked")
     private String testCreate(BasicClient client) {
         String testResult = "failed";
@@ -83,6 +93,7 @@ public class TestSDKServlet extends HttpServlet {
         return testResult;
     }
     
+    // test the update for Java SDK
     @SuppressWarnings("unchecked")
     private String testUpdate(BasicClient client) {
         String testResult = "failed";
@@ -122,6 +133,7 @@ public class TestSDKServlet extends HttpServlet {
         return testResult;
     }
     
+    // test the delete of Java SDK
     private String testDelete(BasicClient client) {
         String testResult = "failed";
         String id = "";
@@ -155,6 +167,7 @@ public class TestSDKServlet extends HttpServlet {
         return testResult;
     }
     
+    // test query and sorting of Java SDK
     @SuppressWarnings("unchecked")
     private String testQuery(BasicClient client) {
         EntityCollection collection = new EntityCollection();
@@ -180,6 +193,7 @@ public class TestSDKServlet extends HttpServlet {
         
     }
     
+    // build the test student entity that can pass schema validation
     private Map<String, Object> createStudentBody() {
         Map<String, Object> body = new HashMap<String, Object>();
         Map<String, String> name = new HashMap<String, String>();
