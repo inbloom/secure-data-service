@@ -17,6 +17,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.IngestionTest;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 
@@ -55,7 +56,7 @@ public class ControlFileProcessorTest {
 
         processor.process(eObject);
 
-        BatchJob bj = eObject.getIn().getBody(BatchJob.class);
+        Job bj = eObject.getIn().getBody(BatchJob.class);
 
         assertNotNull("BatchJob is not defined", bj);
         

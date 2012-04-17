@@ -14,6 +14,7 @@ public final class URLBuilder {
     private static final String ENCODING = "UTF-8";
     
     private final StringBuffer url = new StringBuffer();
+    private boolean targets = false;
     
     /**
      * Start building a new URL with the provided base location.
@@ -89,7 +90,6 @@ public final class URLBuilder {
      * @param query
      * @return Updated URLBuilder instance.
      */
-
     public URLBuilder query(final Query query) {
         
         Map<String, Object> params = query.getParameters();
@@ -103,6 +103,13 @@ public final class URLBuilder {
     }
     
     /**
+     * Indicate we want the targets of an association, not the association itself.
+     */
+    public void targets() {
+        targets = true;
+    }
+    
+    /**
      * Builds the URL.
      * 
      * @return URL represented by the values set in this builder.
@@ -110,6 +117,10 @@ public final class URLBuilder {
      *             if the URL is not valid.
      */
     public URL build() throws MalformedURLException {
+        
+        if (targets) {
+            addPath(EntityType.TARGETS.getResource());
+        }
         return new URL(url.toString());
     }
     

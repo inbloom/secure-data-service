@@ -52,7 +52,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 22    |
         | assessment                  | 4     |
         | studentAssessmentAssociation| 116   |
-        | studentTranscriptAssociation| 132   |
+        | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
@@ -73,7 +73,7 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-1            | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-2            | string               |
-    And I should see "Processed 15129 records." in the resulting batch job file
+    And I should see "Processed 15238 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -93,14 +93,14 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentEnrollment.xml records considered: 491" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 491" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records considered: 522" in the resulting batch job file
-    And I should see "InterchangeStudentGrade.xml records ingested successfully: 522" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records considered: 640" in the resulting batch job file
+    And I should see "InterchangeStudentGrade.xml records ingested successfully: 640" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-DIBELS.xml records considered: 6" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-DIBELS.xml records ingested successfully: 6" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-DIBELS.xml records considered: 2" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-DIBELS.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-DIBELS.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-ISAT.xml records considered: 7" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-ISAT.xml records ingested successfully: 7" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ISAT.xml records considered: 2" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ISAT.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ISAT.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-Learning.xml records considered: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-Learning.xml records ingested successfully: 0" in the resulting batch job file
@@ -140,7 +140,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 22    |
         | assessment                  | 4     |
         | studentAssessmentAssociation| 116   |
-        | studentTranscriptAssociation| 132   |
+        | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
@@ -200,7 +200,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 26    |
         | assessment                  | 4     |
         | studentAssessmentAssociation| 116   |
-        | studentTranscriptAssociation| 132   |
+        | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
