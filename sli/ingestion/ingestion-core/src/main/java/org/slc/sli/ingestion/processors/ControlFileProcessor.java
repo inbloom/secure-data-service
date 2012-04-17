@@ -19,7 +19,6 @@ import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
-import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
@@ -205,7 +204,7 @@ public class ControlFileProcessor implements Processor {
                 }
             }
 
-            Error.writeErrorsToMongo(batchJobId, errorReport);
+            BatchJobMongoDA.writeErrorsToMongo(batchJobId, BatchJobStageType.CONTROL_FILE_PROCESSING, errorReport);
 
             long endTime = System.currentTimeMillis();
             log.info("Assembled batch job [{}] in {} ms", newJob.getId(), endTime - startTime);

@@ -15,6 +15,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.Fault;
+import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -212,6 +215,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
      * @param jobId
      * @return
      */
+    @Override
     public BatchJobMongoDAStatus findBatchJobErrors(String jobId) {
         Query query = new Query(Criteria.where("batchJobId").is(jobId));
         List<Error> errors = template.find(query, Error.class, "error");
@@ -262,4 +266,32 @@ public class BatchJobMongoDA implements BatchJobDAO {
         String timeStamp = FORMATTER.format(System.currentTimeMillis());
         return timeStamp;
     }
+
+    /**
+     * Helper function to log FaultsReport errors to mongo db
+     * TODO should return BatchJobMongoDAStatus
+     *
+     * @param batchId
+     * @param stage
+     * @param errorReport
+     */
+    public static void writeErrorsToMongo(String batchId, BatchJobStageType stage, FaultsReport errorReport) {
+        if (errorReport.hasErrors()) {
+            String severity;
+            List<Fault> faults = errorReport.getFaults();
+            for (Fault fault : faults) {
+                if (fault.isError()) {
+                    severity = FaultType.TYPE_ERROR.getName();
+                } else if (fault.isWarning()) {
+                    severity = FaultType.TYPE_WARNING.getName();
+                } else {
+                    // TODO consider adding this to FaultType
+                    severity = "UNKNOWN";
+                }
+                BatchJobMongoDA.logBatchStageError(batchId, stage,
+                        severity, null, fault.getMessage());
+            }
+        }
+    }
+
 }
