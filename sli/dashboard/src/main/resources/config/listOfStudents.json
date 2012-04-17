@@ -21,7 +21,7 @@
     {name: "Middle School ELA View", 
      condition: {field: "gradeLevels", value: ["Third grade", "Fourth grade", "Fifth grade", "Sixth grade", "Seventh grade", "Eighth grade"]},
      items: [
-      {name: "Student", width: 150, field: "name.fullName", formatter:'showlink', params: {baseLinkUrl:'student', idName:'id', target:"_blank", showAction=""}},
+      {name: "Student", width: 150, field: "name.fullName", formatter:'showlink', params: {baseLinkUrl:'student', idName:'id', target:"_self", showAction=""}},
       {name: "Grade", field: "grade", width:50, formatter: DashboardUtil.Grid.Formatters.TearDrop},      
       {name: "", width: 60, field: "programParticipation", formatter: DashboardUtil.Grid.Formatters.Lozenge},
       {name: "ISAT Reading", items:[
@@ -40,7 +40,7 @@
     {name: "Early Literacy View",
      condition: {field: "gradeLevels", value: ["Kindergarten", "First grade", "Second grade", "Third grade"]}, 
      items: [
-      {name: "Student", field: "name.fullName", width:150, formatter:'showlink', params: {baseLinkUrl:'student', idName:'id', target:"_blank", showAction=""}},
+      {name: "Student", field: "name.fullName", width:150, formatter:'showlink', params: {baseLinkUrl:'student', idName:'id', target:"_self", showAction=""}},
       {name: "Grade", field: "grade", width:50, formatter: DashboardUtil.Grid.Formatters.TearDrop},      
       {name: "", width: 60, field: "programParticipation", formatter: DashboardUtil.Grid.Formatters.Lozenge},
       {name: "DIBELS Next", items:[
@@ -55,7 +55,7 @@
     {name: "College Ready ELA View", 
      condition: {field: "gradeLevels", value: ["Ninth grade", "Tenth grade", "Eleventh grade", "Twelfth grade"]},
      items: [
-      {name: "Student", field: "name.fullName", width:150, formatter:'showlink', params: {baseLinkUrl:'student', idName:'id', target:"_blank", showAction=""}},
+      {name: "Student", field: "name.fullName", width:150, formatter:'showlink', params: {baseLinkUrl:'student', idName:'id', target:"_self", showAction=""}},
       {name: "Grade", field: "grade", width:50, formatter: DashboardUtil.Grid.Formatters.TearDrop},      
       {name: "", width: 60, field: "programParticipation", formatter: DashboardUtil.Grid.Formatters.Lozenge},
       {name: "Reading Test Scores (Highest)", items:[
