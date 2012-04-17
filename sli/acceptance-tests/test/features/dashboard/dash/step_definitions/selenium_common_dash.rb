@@ -95,8 +95,8 @@ end
 
 # TODO: add this paramteres (tableRef, by), also may want to add TR class
 def countTableRows()
-  @explicitWait.until{@driver.find_elements(:id,"studentList")}
-  tableRows = @driver.find_elements(:css, "tr.listRow")
+  @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
+  tableRows = @driver.find_elements(:xpath, ".//tr[contains(@class,'ui-widget-content')]")
   puts "# of TR = " +  @driver.find_elements(:css, "tr").length.to_s + ", table rows = " + tableRows.length.to_s
   return tableRows.length
 end
@@ -106,7 +106,10 @@ def listContains(desiredContent)
 
   desiredContentArray = desiredContent.split(";")
   # Find all student names based on their class attribute
-  studentNames = @driver.find_elements(:xpath, "//td[@class='name_w_link']")
+  
+  los = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
+  studentNames = los.find_elements(:xpath,".//td[contains(@aria-describedby,'name.fullName')]")
+  
   puts "num of studs = "+ studentNames.length.to_s
   
   nonFoundItems = desiredContentArray.length
@@ -135,7 +138,9 @@ def tableHeaderContains(desiredContent)
 
   desiredContentArray = desiredContent.split(";")
   # Find all student names based on their class attribute
-  headerNames = @driver.find_elements(:tag_name, "th")
+  los = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-hbox")}
+  headerNames = los.find_elements(:tag_name, "th")
+  
   puts "num of studs = "+ headerNames.length.to_s
   
   nonFoundItems = desiredContentArray.length
@@ -145,6 +150,7 @@ def tableHeaderContains(desiredContent)
   until headerNames.length > 0 || retries == 0
     puts "No headers found.  Sleeping for #{retry_sleep}.  #{retries} retries remaining."
     retries -= 1
+    # Let's remove this... TODO
     sleep retry_sleep
     headerNames = @driver.find_elements(:tag_name, "th")
   end

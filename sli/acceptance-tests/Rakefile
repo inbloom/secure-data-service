@@ -1007,6 +1007,7 @@ task :integrationTests => [:realmInitNoPeople] do
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
   Rake::Task["dashboardSdsTests"].execute
+  Rake::Task["dashboardSdsContactInfoTests"].execute    
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
