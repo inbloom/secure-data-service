@@ -109,6 +109,7 @@ public class PersistenceProcessor implements Processor {
 
             // TODO this should be determined based on the sourceId
             String tenantId = newJob.getProperty("tenantId");
+            if(tenantId == null) tenantId = "SLI";
 
             this.exchange = exchange;
 
