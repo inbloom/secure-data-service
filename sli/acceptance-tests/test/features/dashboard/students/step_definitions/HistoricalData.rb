@@ -38,8 +38,8 @@ When /^I select <section> "([^"]*)"$/ do |elem|
   select_by_id(elem, "sectionSelect")
 end
 
-When /^I select <viewSelector> "([^"]*)"$/ do |view|
-  select_by_id(view, "viewSelector")
+When /^I select <viewSelect> "([^"]*)"$/ do |view|
+  select_by_id(view, "viewSelect")
 end
 
 Then /^I should see a table heading "([^"]*)"$/ do |listHeaderName|
@@ -76,4 +76,9 @@ def select_by_id(elem, select)
   Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, select)).select_by(:text, elem)
 rescue Selenium::WebDriver::Error::NoSuchElementError
   false
+end
+
+When /^I go to the old dashboard page$/ do
+  url = getBaseUrl() + "/studentlist"
+  @driver.get url
 end
