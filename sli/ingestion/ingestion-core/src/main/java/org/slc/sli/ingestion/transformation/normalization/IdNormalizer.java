@@ -119,7 +119,7 @@ public class IdNormalizer {
                 
                 if (ids.size() != numRefInstances) {
                     LOG.error("Error in number of resolved internal ids");
-                    String errorMessage = "ERROR: ERROR: Failed to resolve expected number of references" + "\n"
+                    String errorMessage = "ERROR: Failed to resolve expected number of references" + "\n"
                                         + "       Entity   " + entity.getType() + "\n";
 
                     if (resolvedReferences != null && !resolvedReferences.equals("")) {
