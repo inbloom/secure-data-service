@@ -8,7 +8,6 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.Job;
-import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
