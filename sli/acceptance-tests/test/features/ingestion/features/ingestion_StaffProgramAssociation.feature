@@ -20,8 +20,8 @@ Then I should see following map of entry counts in the corresponding collections
      | staffProgramAssociation     | 3     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | staffProgramAssociation     | 1                   | body.studentRecordAccess    | true                    | string               |
-     | staffProgramAssociation     | 2                   | body.studentRecordAccess    | false                   | string               |
+     | staffProgramAssociation     | 1                   | body.studentRecordAccess    | true                    | boolean              |
+     | staffProgramAssociation     | 2                   | body.studentRecordAccess    | false                   | boolean              |
      | staffProgramAssociation     | 1                   | body.beginDate              | 2011-01-01              | string               |
      | staffProgramAssociation     | 1                   | body.beginDate              | 2011-01-05              | string               |
      | staffProgramAssociation     | 1                   | body.beginDate              | 2011-06-01              | string               |
@@ -49,14 +49,14 @@ Then I should see following map of entry counts in the corresponding collections
      | staffProgramAssociation     | 4     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | staffProgramAssociation     | 3                   | body.studentRecordAccess    | true                    | string               |
-     | staffProgramAssociation     | 1                   | body.studentRecordAccess    | false                   | string               |
+     | staffProgramAssociation     | 3                   | body.studentRecordAccess    | true                    | boolean              |
+     | staffProgramAssociation     | 1                   | body.studentRecordAccess    | false                   | boolean              |
      | staffProgramAssociation     | 1                   | body.beginDate              | 2011-01-01              | string               |
      | staffProgramAssociation     | 1                   | body.beginDate              | 2011-01-02              | string               |
-     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-06-01              | string               |
+     | staffProgramAssociation     | 1                   | body.beginDate              | 2011-05-02              | string               |
      | staffProgramAssociation     | 1                   | body.beginDate              | 2011-06-02              | string               |
      | staffProgramAssociation     | 2                   | body.endDate                | 2012-02-15              | string               |
-  And I should see "Processed 9 records." in the resulting batch job file
+  And I should see "Processed 10 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "Program2.xml records considered: 3" in the resulting batch job file
   And I should see "Program2.xml records ingested successfully: 3" in the resulting batch job file

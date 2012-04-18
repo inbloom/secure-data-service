@@ -1,5 +1,5 @@
-require_relative '../../../utils/sli_utils.rb'
-require_relative '../../dash/step_definitions/selenium_common_dash.rb'
+require_relative '../../../../../../utils/sli_utils.rb'
+require_relative '../../../../../../dashboard/dash/step_definitions/selenium_common_dash.rb'
 
 Given /^the sampleApp is deployed on sampleApp server$/ do
   @appPrefix = "oauth2-sample/students"
@@ -44,7 +44,12 @@ When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
     @driver.find_element(:name, "Login.Submit").click
 end
 
+
 When /^I go to List of Students$/ do
+  begin
+      @driver.switch_to.alert.accept
+    rescue
+    end
   url = PropLoader.getProps['sampleApp_server_address']
   url = url + @appPrefix
   puts url

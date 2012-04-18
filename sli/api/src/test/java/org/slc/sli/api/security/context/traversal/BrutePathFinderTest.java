@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,15 +57,6 @@ public class BrutePathFinderTest {
         assertTrue(path.get(0).getName().equals("teacher"));
         assertTrue(path.get(1).getName().equals("section"));
     }
-
-    @Test
-    public void testReverseFind() throws Exception {
-        path = pathFinder.find("student", "teacher");
-        assertTrue(path.size() == 3);
-        assertTrue(path.get(0).getName().equals("student"));
-        assertTrue(path.get(1).getName().equals("section"));
-        assertTrue(path.get(2).getName().equals("teacher"));
-    }
     
     
     @Test
@@ -73,5 +65,9 @@ public class BrutePathFinderTest {
         assertTrue(path.size() == 3);
         path = pathFinder.getPreDefinedPath("waffles", "pancakes");
         assertTrue(path.size() == 0);
+        path = null;
+        path = pathFinder.getPreDefinedPath("teacher", "course");
+        assertTrue(path.size() == 5);
+        assertTrue(path.get(4).getName().equals(EntityNames.COURSE));
     }
 }

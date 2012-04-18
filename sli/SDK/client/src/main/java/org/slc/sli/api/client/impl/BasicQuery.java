@@ -14,8 +14,8 @@ import org.slc.sli.api.client.Query;
 public class BasicQuery implements Query {
 
 
-    private static final String SORT_BY_KEY = "sort-by";
-    private static final String SORT_ORDER_KEY = "sort-order";
+    private static final String SORT_BY_KEY = "sortBy";
+    private static final String SORT_ORDER_KEY = "sortOrder";
     private static final String SORT_ASCENDING = "ascending";
     private static final String SORT_DESCENDING = "descending";
     private static final String START_INDEX_KEY = "offset";
@@ -29,21 +29,17 @@ public class BasicQuery implements Query {
     /** Represents a query with no query parameters that includes custom entities */
     public static final Query CUSTOM_ENTITY_QUERY = Builder.create().fullEntities().customEntities().build();
 
-    /** Represents a simple query that requests the targets of an association */
-    public static final Query TARGETS_QUERY = Builder.create().targets().build();
 
     /** Represents a simple query that requests a response containing full entities. */
     public static final Query FULL_ENTITIES_QUERY = Builder.create().fullEntities().build();
 
     private Map<String, Object> params;
-    private boolean useTargets = false;
 
     /**
      * Build a query, specifying optional values for sorting, field searching, and pagination.
      */
     public static class Builder {
         private final Map<String, Object> params = new HashMap<String, Object>();
-        private boolean useTargets = false;
 
         /**
          * Instantiate a new builder
@@ -54,15 +50,6 @@ public class BasicQuery implements Query {
             return new Builder();
         }
 
-        /**
-         * Indicate we want the targets of an association.
-         *
-         * @return Updated builder instance.
-         */
-        public Builder targets() {
-            useTargets = true;
-            return this;
-        }
 
         /**
          * Indicate the results should be returned in ascending order.
@@ -133,7 +120,6 @@ public class BasicQuery implements Query {
         public Query build() {
             BasicQuery rval = new BasicQuery();
             rval.params = params;
-            rval.useTargets = useTargets;
             return rval;
         }
 
@@ -181,10 +167,5 @@ public class BasicQuery implements Query {
     @Override
     public Map<String, Object> getParameters() {
         return params;
-    }
-
-    @Override
-    public boolean targets() {
-        return useTargets;
     }
 }
