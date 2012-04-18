@@ -126,6 +126,7 @@ public class SamlFederationResource {
         principal.setAdminRealm(attributes.getFirst("adminRealm"));
         principal.setEdOrg(attributes.getFirst("edOrg"));
         
+        // {sessionId,redirectURI}
         Pair<String, URI> tuple = this.sessionManager.composeRedirect(inResponseTo, principal);
         
         return Response.temporaryRedirect(tuple.getRight()).cookie(new NewCookie("_tla", tuple.getLeft(), "/", ".slidev.org", "", 300, false)).build();
