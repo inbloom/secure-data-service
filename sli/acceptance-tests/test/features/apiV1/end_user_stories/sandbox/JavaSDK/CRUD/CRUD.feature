@@ -4,7 +4,7 @@ Background:
 
 Given I have an open web browser
 Given the Java SDK test app  is deployed on test app server 
-Given I am logged in using "demo" "demo1234" to realm Daybreak Central High
+Given I am logged in using "demo" and "demo1234" to realm Daybreak Central High
 
 
 Scenario: IT Admin Add a students		
