@@ -51,7 +51,7 @@ public class BatchJobMongoDATest {
     @Test
     public void testFindBatchJobErrors() {
         List<Error> errors = new ArrayList<Error>();
-        Error error = new Error(BATCHJOBID, BatchJobStageType.EDFI_PROCESSING.getName(), "resourceid",
+        Error error = new Error(BATCHJOBID, BatchJobStageType.EDFI_PROCESSOR.getName(), "resourceid",
                 "sourceIp", "hostname", "recordId", "timestamp", FaultType.TYPE_ERROR.getName(),
                 "errorType", "errorDetail");
         errors.add(error);
@@ -68,7 +68,7 @@ public class BatchJobMongoDATest {
 
         Error errorReturned = ((List<Error>) resultStatus.getResult()).get(0);
         assertEquals(errorReturned.getBatchJobId(), BATCHJOBID);
-        assertEquals(errorReturned.getStageName(), BatchJobStageType.EDFI_PROCESSING.getName());
+        assertEquals(errorReturned.getStageName(), BatchJobStageType.EDFI_PROCESSOR.getName());
         assertEquals(errorReturned.getResourceId(), "resourceid");
         assertEquals(errorReturned.getSourceIp(), "sourceIp");
         assertEquals(errorReturned.getHostname(), "hostname");

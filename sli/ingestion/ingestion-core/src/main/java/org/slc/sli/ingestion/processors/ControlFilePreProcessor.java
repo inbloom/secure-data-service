@@ -26,7 +26,7 @@ import org.slc.sli.ingestion.queues.MessageType;
  */
 public class ControlFilePreProcessor implements Processor {
 
-    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PREPROCESSING;
+    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PREPROCESSOR;
 
     private LandingZone landingZone;
 

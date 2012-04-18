@@ -35,7 +35,7 @@ import org.slc.sli.util.performance.Profiled;
 @Component
 public class ControlFileProcessor implements Processor {
 
-    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PROCESSING;
+    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PROCESSOR;
 
     @Autowired
     private ControlFileValidator validator;

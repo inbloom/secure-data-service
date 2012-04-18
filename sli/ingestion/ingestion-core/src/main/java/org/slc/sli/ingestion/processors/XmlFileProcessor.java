@@ -67,7 +67,7 @@ public class XmlFileProcessor implements Processor {
 
                         fe = referenceResolutionHandler.handle(fe, fe.getErrorReport());
 
-                        BatchJobMongoDA.writeErrorsToMongo(batchJobId, BatchJobStageType.XML_FILE_PROCESSING,
+                        BatchJobMongoDA.writeErrorsToMongo(batchJobId, BatchJobStageType.XML_FILE_PROCESSOR,
                                 fe.getFaultsReport());
 
                         if (fe.getErrorReport().hasErrors()) {
@@ -82,7 +82,7 @@ public class XmlFileProcessor implements Processor {
                 exchange.getIn().setHeader("ErrorMessage", exception.toString());
                 exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
                 log.error("Exception:", exception);
-                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.XML_FILE_PROCESSING,
+                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.XML_FILE_PROCESSOR,
                         FaultType.TYPE_ERROR.getName(), null, exception.toString());
             }
 
@@ -106,7 +106,7 @@ public class XmlFileProcessor implements Processor {
     private Stage startAndGetStage(NewBatchJob newJob) {
         Stage stage = new Stage();
         newJob.getStages().add(stage);
-        stage.setStageName(BatchJobStageType.XML_FILE_PROCESSING.getName());
+        stage.setStageName(BatchJobStageType.XML_FILE_PROCESSOR.getName());
         stage.startStage();
         return stage;
     }

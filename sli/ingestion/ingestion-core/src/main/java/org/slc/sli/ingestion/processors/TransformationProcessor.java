@@ -52,7 +52,7 @@ public class TransformationProcessor implements Processor {
         NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
 
         Stage stage = new Stage();
-        stage.setStageName(BatchJobStageType.TRANSFORMATION_PROCESSING.getName());
+        stage.setStageName(BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
         stage.startStage();
 
 //        BatchJob job = exchange.getIn().getBody(BatchJob.class);
