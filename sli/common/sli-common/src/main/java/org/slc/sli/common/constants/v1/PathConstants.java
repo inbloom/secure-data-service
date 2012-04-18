@@ -1,13 +1,13 @@
-package org.slc.sli.api.resources.v1;
+package org.slc.sli.common.constants.v1;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.common.constants.ResourceNames;
 
 /**
  * Constants used in URI path requests.
- * 
+ *
  * @author kmyers
  *
  */
@@ -55,9 +55,9 @@ public class PathConstants {
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
     public static final String STAFF_PROGRAM_ASSOCIATIONS = "staffProgramAssociations";
     public static final String STUDENT_PROGRAM_ASSOCIATIONS = "studentProgramAssociations";
-    
+
     public static final String CUSTOM_ENTITIES = "custom";
-    
+
     /*
      * This map should go away when we switch basic definition store association names to camel
      * case.
@@ -108,6 +108,6 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, STUDENT_SECTION_GRADEBOOK_ENTRIES);
         TEMP_MAP.put(ResourceNames.TEACHERS, TEACHERS);
     }
-    
+
     public static final String V1 = "v1";
 }

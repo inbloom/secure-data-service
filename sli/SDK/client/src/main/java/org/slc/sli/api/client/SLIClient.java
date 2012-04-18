@@ -8,6 +8,9 @@ import javax.ws.rs.core.Response;
 
 import org.scribe.exceptions.OAuthException;
 
+import org.slc.sli.common.constants.EntityType;
+import org.slc.sli.common.util.Query;
+
 /**
  * Interface defining the methods available to SLI API client applications. It provides
  * basic CRUD operations available once the client connection is established.

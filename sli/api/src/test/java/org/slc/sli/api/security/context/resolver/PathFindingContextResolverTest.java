@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.slc.sli.api.security.context.resolver;
 
@@ -16,17 +16,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.api.config.AssociationDefinition;
-import org.slc.sli.api.config.EntityNames;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.config.AssociationDefinition;
+import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
 
 /**
  * @author rlatta
@@ -37,10 +38,10 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class PathFindingContextResolverTest {
-    
+
     @Autowired
     private PathFindingContextResolver resolver;
-    
+
     private AssociativeContextHelper mockHelper;
 
     /**
@@ -63,7 +64,7 @@ public class PathFindingContextResolverTest {
         assertTrue(resolver.canResolve(EntityNames.STUDENT, EntityNames.TEACHER));
         assertFalse(resolver.canResolve(EntityNames.AGGREGATION, EntityNames.TEACHER));
     }
-    
+
 
     @Test
     public void testFindTeacherToSections() throws Exception {
@@ -84,27 +85,27 @@ public class PathFindingContextResolverTest {
         when(
                 mockHelper.findEntitiesContainingReference(eq(EntityNames.STUDENT_SECTION_ASSOCIATION),
                         eq("studentId"), eq("sectionId"), any(List.class))).thenReturn(finalList);
-        
+
         List<String> returned = resolver.findAccessible(mockEntity);
         // assertTrue(returned.size() == finalList.size());
         for (String id : finalList) {
             assertTrue(returned.contains(id));
         }
-        
+
     }
-    
+
     @Test
     public void testFindTeacherToStudent() throws Exception {
         Entity mockEntity = Mockito.mock(Entity.class);
         when(mockEntity.getEntityId()).thenReturn("1");
         List<String> finalList = Arrays.asList(new String[] { "5", "6", "7" });
-        
+
         assertTrue(resolver.canResolve(EntityNames.TEACHER, EntityNames.STUDENT));
         when(
                 mockHelper.findEntitiesContainingReference(eq(EntityNames.TEACHER_SECTION_ASSOCIATION),
                         eq("teacherId"), eq("sectionId"), any(List.class))).thenReturn(
                 Arrays.asList(new String[] { "2", "3", "4" }));
-        
+
         when(
                 mockHelper.findEntitiesContainingReference(eq(EntityNames.STUDENT_SECTION_ASSOCIATION),
                         eq("sectionId"), eq("studentId"), any(List.class))).thenReturn(finalList);
@@ -113,9 +114,9 @@ public class PathFindingContextResolverTest {
         for (String id : finalList) {
             assertTrue(returned.contains(id));
         }
-        
+
     }
-    
+
     @Test
     public void testFindTeacherToTeacher() throws Exception {
         Entity mockEntity = Mockito.mock(Entity.class);
@@ -131,7 +132,7 @@ public class PathFindingContextResolverTest {
                 mockHelper.findEntitiesContainingReference(eq("teacherSchoolAssociation"),
                         eq("teacherId"), eq("schoolId"), any(List.class))).thenReturn(
                 Arrays.asList(new String[] { "2", "3", "4" }));
-        
+
         when(
                 mockHelper.findEntitiesContainingReference(eq("teacherSchoolAssociation"),
                         eq("schoolId"), eq("teacherId"), any(List.class))).thenReturn(finalList);

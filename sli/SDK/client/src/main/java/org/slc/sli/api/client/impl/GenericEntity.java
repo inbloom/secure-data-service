@@ -6,8 +6,8 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.slc.sli.api.client.Entity;
-import org.slc.sli.api.client.EntityType;
 import org.slc.sli.api.client.Link;
+import org.slc.sli.common.constants.EntityType;
 
 /**
  * Generic implementation of the Entity interface. This is implements the Entity interface

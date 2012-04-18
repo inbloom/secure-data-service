@@ -1,10 +1,10 @@
-package org.slc.sli.api.client;
+package org.slc.sli.common.constants;
 
 /**
- * 
+ *
  * Enumeration of available entity types in SLI. Entities are currently mapped to
  * specific resources in the API.
- * 
+ *
  * @author asaarela
  */
 public enum EntityType {
@@ -120,7 +120,7 @@ public enum EntityType {
 
     /**
      * Basic constructor
-     * 
+     *
      * @param type
      *            Entity type as reported by the API.
      * @param path
@@ -133,7 +133,7 @@ public enum EntityType {
 
     /**
      * Get the type associated with the entity.
-     * 
+     *
      * @return EntityType
      */
     public String getEntityType() {
@@ -142,7 +142,7 @@ public enum EntityType {
 
     /**
      * Get the ReSTful URL fragment used to interact with the entity type.
-     * 
+     *
      * @return String with the URL fragment.
      */
     public String getResource() {
@@ -156,7 +156,7 @@ public enum EntityType {
 
     /**
      * Find a matching enum given the API type.
-     * 
+     *
      * @param s
      *            String to match
      * @return matching EntityType or null if not found.

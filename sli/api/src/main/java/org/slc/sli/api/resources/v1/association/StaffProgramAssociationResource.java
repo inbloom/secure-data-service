@@ -21,17 +21,17 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 /**
  * This association indicates the staff associated with a program.
- * 
+ *
  * @author jtully
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STAFF_PROGRAM_ASSOCIATIONS)
 @Component
@@ -43,10 +43,10 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
     public StaffProgramAssociationResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.STAFF_PROGRAM_ASSOCIATIONS);
     }
-    
+
     /**
      * Returns all $$staffProgramAssociations$$ entities for which the logged in User has permission and context.
-     * 
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -57,17 +57,18 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return result of CRUD operation
      */
+    @Override
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
      * Create a new $$staffProgramAssociations$$ entity.
-     * 
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -79,16 +80,17 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
      *                 item is accessable.}
      */
+    @Override
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
-    public Response create(final EntityBody newEntityBody, 
+    public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
      * Get a single $$programs$$ entity.
-     * 
+     *
      * @param staffProgramAssociationId
      *            The Id of the $$staffProgramAssociations$$.
      * @param headers
@@ -97,6 +99,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return A single staffProgramAssociation entity
      */
+    @Override
     @GET
     @Path("{" + ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -107,7 +110,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Delete a $$staffProgramAssociations$$ entity.
-     * 
+     *
      * @param staffProgramAssociationId
      *            The Id of the $$staffProgramAssociations$$.
      * @param headers
@@ -117,16 +120,17 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @DELETE
     @Path("{" + ParameterConstants.PROGRAM_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.PROGRAM_ID) final String staffProgramAssociationId, 
+    public Response delete(@PathParam(ParameterConstants.PROGRAM_ID) final String staffProgramAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.delete(staffProgramAssociationId, headers, uriInfo);
     }
 
     /**
      * Update an existing $$staffProgramAssociations$$ entity.
-     * 
+     *
      * @param staffProgramAssociationId
      *            The id of the $$staffProgramAssociations$$.
      * @param newEntityBody
@@ -138,18 +142,19 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @PUT
     @Path("{" + ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID + "}")
     public Response update(@PathParam(ParameterConstants.STAFF_PROGRAM_ASSOCIATION_ID) final String staffProgramAssociationId,
-            final EntityBody newEntityBody, 
+            final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(staffProgramAssociationId, newEntityBody, headers, uriInfo);
     }
-    
+
     /**
      * Returns each $$staff$$ that are referenced from the
      * given $$staffProgramAssociations$$
-     * 
+     *
      * @param staffProgramAssociationId
      *            The Id of the $$staffProgramAssociations$$.
      * @param offset
@@ -162,7 +167,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return       
+     * @return
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -173,11 +178,11 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "_id", staffProgramAssociationId, "staffId", ResourceNames.STAFF, headers, uriInfo);
     }
-    
+
     /**
      * Returns each $$programs$$ that are referenced from
      * the given $$staffProgramAssociations$$
-     * 
+     *
      * @param staffProgramAssociationId
      *            The Id of the $$staffProgramAssociations$$.
      * @param offset
@@ -190,7 +195,7 @@ public class StaffProgramAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return       
+     * @return
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })

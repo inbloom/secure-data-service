@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
-import org.slc.sli.api.client.EntityType;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
+import org.slc.sli.common.constants.EntityType;
 
 /**
  * Sample domain wrapper.

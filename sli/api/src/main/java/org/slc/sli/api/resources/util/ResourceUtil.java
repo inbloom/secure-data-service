@@ -21,11 +21,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.PathConstants;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.common.constants.ResourceConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.PathConstants;
 import org.slc.sli.validation.schema.ReferenceSchema;
 
 /**

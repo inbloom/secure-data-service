@@ -9,12 +9,13 @@ import java.util.Stack;
 
 import javax.annotation.PostConstruct;
 
-import org.slc.sli.api.config.EntityNames;
-import org.slc.sli.api.config.ResourceNames;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
-import org.springframework.stereotype.Component;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ResourceNames;
 
 /**
  * Basic brute force path finding implementation.
@@ -72,15 +73,15 @@ public class BrutePathFinder implements SecurityPathFinder {
                 .construct());
         nodeMap.put(EntityNames.DISCIPLINE_INCIDENT, SecurityNodeBuilder.buildNode(EntityNames.DISCIPLINE_INCIDENT).construct());
         nodeMap.put(EntityNames.PARENT, SecurityNodeBuilder.buildNode(EntityNames.PARENT).construct());
-        
-        
+
+
         // excludePath.add(EntityNames.TEACHER + EntityNames.SECTION);
 
         prePath.put(
                 EntityNames.TEACHER + EntityNames.TEACHER,
                 Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SCHOOL),
                         nodeMap.get(EntityNames.TEACHER)));
-        
+
         prePath.put(
                 EntityNames.TEACHER + EntityNames.SECTION,
                 Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SECTION),
@@ -132,7 +133,7 @@ public class BrutePathFinder implements SecurityPathFinder {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.slc.sli.api.security.context.traversal.SecurityPathFinder#getPreDefinedPath(java.lang
      * .String, java.lang.String)
@@ -152,14 +153,14 @@ public class BrutePathFinder implements SecurityPathFinder {
     public void setNodeMap(Map<String, SecurityNode> nodeMap) {
         this.nodeMap = nodeMap;
     }
-    
+
     /**
      * @return the nodeMap
      */
     public Map<String, SecurityNode> getNodeMap() {
         return nodeMap;
     }
-    
+
     public boolean isPathExcluded(String from, String to) {
         return excludePath.contains(from + to);
     }

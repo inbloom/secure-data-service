@@ -28,7 +28,6 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -39,9 +38,10 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.ResourceConstants;
 
 /**
  * Unit tests for v1 association resources CRUD methods

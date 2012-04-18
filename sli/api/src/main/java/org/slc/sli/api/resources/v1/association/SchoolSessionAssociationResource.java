@@ -23,18 +23,18 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * Prototype new api end points and versioning
- * 
+ *
  * @author kmyers
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS)
 @Component
@@ -45,7 +45,7 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
      * Logging utility.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(SchoolSessionAssociationResource.class);
-    
+
     @Autowired
     public SchoolSessionAssociationResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.SCHOOL_SESSION_ASSOCIATIONS);
@@ -54,7 +54,7 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Returns all $$schoolSessionAssociations$$ entities for which the logged in User has permission and context.
-     * 
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -65,17 +65,18 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return result of CRUD operation
      */
+    @Override
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
      * Create a new $$schoolSessionAssociations$$ entity.
-     * 
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -87,16 +88,17 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
      *                 item is accessable.}
      */
+    @Override
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response create(final EntityBody newEntityBody, 
+    public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
      * Get a single $$schoolSessionAssociations$$ entity
-     * 
+     *
      * @param schoolSessionAssociationId
      *            The Id of the $$schoolSessionAssociations$$.
      * @param headers
@@ -105,6 +107,7 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return A single school entity
      */
+    @Override
     @GET
     @Path("{" + ParameterConstants.SCHOOL_SESSION_ASSOCIATION_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -115,7 +118,7 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Delete a $$schoolSessionAssociations$$ entity
-     * 
+     *
      * @param schoolSessionAssociationId
      *            The Id of the $$schoolSessionAssociations$$.
      * @param headers
@@ -125,16 +128,17 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @DELETE
     @Path("{" + ParameterConstants.SCHOOL_SESSION_ASSOCIATION_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.SCHOOL_SESSION_ASSOCIATION_ID) final String schoolSessionAssociationId, 
+    public Response delete(@PathParam(ParameterConstants.SCHOOL_SESSION_ASSOCIATION_ID) final String schoolSessionAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.delete(schoolSessionAssociationId, headers, uriInfo);
     }
 
     /**
      * Update an existing $$schoolSessionAssociations$$ entity.
-     * 
+     *
      * @param schoolSessionAssociationId
      *            The id of the $$schoolSessionAssociations$$.
      * @param newEntityBody
@@ -146,11 +150,12 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @PUT
     @Path("{" + ParameterConstants.SCHOOL_SESSION_ASSOCIATION_ID + "}")
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response update(@PathParam(ParameterConstants.SCHOOL_SESSION_ASSOCIATION_ID) final String schoolSessionAssociationId,
-            final EntityBody newEntityBody, 
+            final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(schoolSessionAssociationId, newEntityBody, headers, uriInfo);
     }
@@ -158,7 +163,7 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
     /**
      * Returns each $$teachers$$ that
      * references the given $$schoolSessionAssociations$$
-     * 
+     *
      * @param schoolSessionAssociationId
      *            The Id of the teacherSchoolAssociation.
      * @param offset
@@ -171,7 +176,7 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return       
+     * @return
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -182,11 +187,11 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
        return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "_id", schoolSessionAssociationId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
     }
-    
+
     /**
      * Returns each $$schools$$ that
      * references the given $$schoolSessionAssociations$$
-     * 
+     *
      * @param schoolSessionAssociationId
      *            The Id of the teacherSchoolAssociation.
      * @param offset
@@ -199,7 +204,7 @@ public class SchoolSessionAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return       
+     * @return
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })

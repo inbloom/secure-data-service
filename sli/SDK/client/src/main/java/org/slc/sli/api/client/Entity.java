@@ -3,6 +3,8 @@ package org.slc.sli.api.client;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.common.constants.EntityType;
+
 /**
  * Generic entity returned by the SLI API ReSTful service. Each entity has a unique
  * identifier, a data collection, and a collection of resource links. This interface provides

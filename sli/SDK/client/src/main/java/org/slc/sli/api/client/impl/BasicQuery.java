@@ -3,7 +3,7 @@ package org.slc.sli.api.client.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.api.client.Query;
+import org.slc.sli.common.util.Query;
 
 /**
  *
