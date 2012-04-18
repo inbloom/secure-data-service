@@ -41,10 +41,9 @@ import org.slc.sli.util.performance.Profiled;
  */
 @Component
 public class EdFiProcessor implements Processor {
-    private boolean switchToNewJob = true;
-    private boolean pluginOldPipeline = false;
 
-    // Logging
+    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.EDFI_PROCESSING;
+
     private static final Logger LOG = LoggerFactory.getLogger(EdFiProcessor.class);
 
     private Map<FileFormat, AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry>> fileHandlerMap;
@@ -58,131 +57,72 @@ public class EdFiProcessor implements Processor {
 
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         if (batchJobId == null) {
-            exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+
+            handleNoBatchJobIdInExchange(exchange);
+        } else {
+
+            processEdFi(exchange, localhost, batchJobId);
         }
 
-        try {
-            //BatchJob batchJob = exchange.getIn().getBody(BatchJob.class);
+    }
 
-            // get the job from the db
+    private void processEdFi(Exchange exchange, InetAddress localhost, String batchJobId) {
+        try {
+            Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+
             BatchJobDAO batchJobDAO = new BatchJobMongoDA();
             NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
 
-            Stage stage = new Stage();
-            stage.setStageName(BatchJobStageType.EDFI_PROCESSING.getName());
             newJob.getStages().add(stage);
-
-            stage.startStage();
             batchJobDAO.saveBatchJob(newJob);
 
-            List<IngestionFileEntry> felOrignal = null;
-            //felOrignal = batchJob.getFiles();
+            List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
 
-            // create file entry list from resources from DB
-            List<ResourceEntry> resourceList = newJob.getResourceEntries();
+            boolean anyErrorsProcessingFiles = false;
+            Integer emptyCounter = 1;
+            for (IngestionFileEntry fe : fileEntryList) {
 
-            List<IngestionFileEntry> fileEntryList = new ArrayList<IngestionFileEntry>();
-
-            for (ResourceEntry resource : resourceList) {
-                if (resource.getResourceFormat() != null && resource.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())) {
-                    IngestionFileEntry fe = new IngestionFileEntry(FileFormat.findByCode(resource.getResourceFormat()),
-                            FileType.findByNameAndFormat(resource.getResourceType(), FileFormat.findByCode(resource.getResourceFormat())),
-                            resource.getResourceId(), resource.getChecksum());
-                    fe.setFile(new File(resource.getResourceName()));
-
-                    //TODO: set to the current batchJobId
-//                    if (pluginOldPipeline) {
-//                        fe.setBatchJobId(batchJob.getId());
-//                    } else {
-                        fe.setBatchJobId(batchJobId);
-//                    }
-                    fileEntryList.add(fe);
-                }
-            }
-
-            // switch to new code
-            if (this.switchToNewJob) {
-                felOrignal = fileEntryList;
-            }
-
-            boolean hasError = false;
-            for (IngestionFileEntry fe : felOrignal) {
-
-                Metrics metrics = new Metrics(fe.getFileName(), localhost.getHostAddress(), localhost.getHostName());
-                metrics.startMetric();
+                Metrics metrics = Metrics.createAndStart(fe.getFileName(), localhost.getHostAddress(),
+                        localhost.getHostName());
                 stage.getMetrics().add(metrics);
                 batchJobDAO.saveBatchJob(newJob);
 
                 FileProcessStatus fileProcessStatus = new FileProcessStatus();
-
                 ErrorReport errorReport = fe.getErrorReport();
+
+                // actually do the processing
                 processFileEntry(fe, errorReport, fileProcessStatus);
-                //batchJob.getFaultsReport().append(fe.getFaultsReport());
 
                 metrics.setRecordCount(fileProcessStatus.getTotalRecordCount());
 
-                int errorCount = 0;
-                for (Fault fault : fe.getFaultsReport().getFaults()) {
-                    if (fault.isError()) {
-                        errorCount++;
-                        hasError = true;
-                    }
-                    String faultMessage = fault.getMessage();
-                    String faultLevel  = fault.isError() ? FaultType.TYPE_ERROR.getName() : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
-                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.EDFI_PROCESSING, faultLevel, faultLevel, faultMessage);
+                int errorCount = aggregateAndLogProcessingErrors(batchJobId, fe);
+                if (errorCount > 0) {
+                    anyErrorsProcessingFiles = true;
                 }
 
                 metrics.setErrorCount(errorCount);
+
+                ResourceEntry resource = createResourceForOutputFile(fe, fileProcessStatus, emptyCounter);
+                newJob.getResourceEntries().add(resource);
+
                 metrics.stopMetric();
 
-                ResourceEntry resource = new ResourceEntry();
-                resource.setResourceId(fileProcessStatus.getOutputFileName());
-                resource.setResourceName(fileProcessStatus.getOutputFilePath());
-                resource.setResourceFormat(FileFormat.NEUTRALRECORD.getCode());
-                resource.setResourceType(fe.getFileType().getName());
-                resource.setRecordCount((int) fileProcessStatus.getTotalRecordCount());
-                resource.setExternallyUploadedResourceId(fe.getFileName());
-
-                newJob.getResourceEntries().add(resource);
-                batchJobDAO.saveBatchJob(newJob);
             }
 
-            stage.stopStage();
             batchJobDAO.saveBatchJob(newJob);
 
-//            if (this.switchToNewJob) {
-//                batchJob.setFiles(felOrignal);
-//            }
-
-            // set headers
-            if (hasError) {
-                exchange.getIn().setHeader("hasErrors", hasError);
-            }
-
-            // next route should be DATA_TRANSFORMATION
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.DATA_TRANSFORMATION.name());
+            setExchangeHeaders(exchange, anyErrorsProcessingFiles);
 
         } catch (Exception exception) {
-            exchange.getIn().setHeader("ErrorMessage", exception.toString());
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            LOG.error("Exception:", exception);
-            if (batchJobId != null) {
-                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.EDFI_PROCESSING,
-                        FaultType.TYPE_ERROR.getName(), null, exception.toString());
-            }
+            handleProcessingExceptions(exchange, batchJobId, exception);
         }
-
     }
 
     public void processFileEntry(IngestionFileEntry fe, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
 
         if (fe.getFileType() != null) {
-
             FileFormat fileFormat = fe.getFileType().getFileFormat();
 
-            // get the handler for this file format
             AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> fileHandler = fileHandlerMap
                     .get(fileFormat);
 
@@ -195,6 +135,85 @@ public class EdFiProcessor implements Processor {
         } else {
             throw new IllegalArgumentException("FileType was not provided.");
         }
+    }
+
+    private int aggregateAndLogProcessingErrors(String batchJobId, IngestionFileEntry fe) {
+        int errorCount = 0;
+        for (Fault fault : fe.getFaultsReport().getFaults()) {
+            if (fault.isError()) {
+                errorCount++;
+            }
+            String faultMessage = fault.getMessage();
+            String faultLevel = fault.isError() ? FaultType.TYPE_ERROR.getName()
+                    : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
+
+            // TODO: this should use the BatchJobDAO interface
+            BatchJobMongoDA.logBatchStageError(batchJobId, BATCH_JOB_STAGE, faultLevel, faultLevel, faultMessage);
+        }
+        return errorCount;
+    }
+
+    private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
+        exchange.getIn().setHeader("ErrorMessage", exception.toString());
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        LOG.error("Exception:", exception);
+        if (batchJobId != null) {
+            BatchJobMongoDA.logBatchStageError(batchJobId, BATCH_JOB_STAGE, FaultType.TYPE_ERROR.getName(), null,
+                    exception.toString());
+        }
+    }
+
+    private void setExchangeHeaders(Exchange exchange, boolean hasError) {
+        if (hasError) {
+            exchange.getIn().setHeader("hasErrors", hasError);
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        } else {
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.DATA_TRANSFORMATION.name());
+        }
+    }
+
+    private ResourceEntry createResourceForOutputFile(IngestionFileEntry fe, FileProcessStatus fileProcessStatus,
+            Integer emptyCounter) {
+        ResourceEntry resource = new ResourceEntry();
+        String rId = fileProcessStatus.getOutputFileName();
+        if (rId == null) {
+            rId = "Empty_" + (emptyCounter++);
+        }
+        resource.setResourceId(rId);
+        resource.setResourceName(fileProcessStatus.getOutputFilePath());
+        resource.setResourceFormat(FileFormat.NEUTRALRECORD.getCode());
+        resource.setResourceType(fe.getFileType().getName());
+        resource.setRecordCount((int) fileProcessStatus.getTotalRecordCount());
+        resource.setExternallyUploadedResourceId(fe.getFileName());
+        return resource;
+    }
+
+    private List<IngestionFileEntry> extractFileEntryList(String batchJobId, NewBatchJob newJob) {
+        List<IngestionFileEntry> fileEntryList = new ArrayList<IngestionFileEntry>();
+
+        List<ResourceEntry> resourceList = newJob.getResourceEntries();
+        for (ResourceEntry resource : resourceList) {
+            if (FileFormat.EDFI_XML.getCode().equalsIgnoreCase(resource.getResourceFormat())) {
+
+                FileFormat fileFormat = FileFormat.findByCode(resource.getResourceFormat());
+                FileType fileType = FileType.findByNameAndFormat(resource.getResourceType(), fileFormat);
+                String fileName = resource.getResourceId();
+                String checksum = resource.getChecksum();
+
+                IngestionFileEntry fe = new IngestionFileEntry(fileFormat, fileType, fileName, checksum);
+                fe.setFile(new File(resource.getResourceName()));
+                fe.setBatchJobId(batchJobId);
+
+                fileEntryList.add(fe);
+            }
+        }
+        return fileEntryList;
+    }
+
+    private void handleNoBatchJobIdInExchange(Exchange exchange) {
+        exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
     public void setFileHandlerMap(
