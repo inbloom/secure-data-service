@@ -109,7 +109,9 @@ public class PersistenceProcessor implements Processor {
 
             // TODO this should be determined based on the sourceId
             String tenantId = newJob.getProperty("tenantId");
-            if(tenantId == null) tenantId = "SLI";
+            if(tenantId == null) {
+                tenantId = "SLI";
+            }
 
             this.exchange = exchange;
 
@@ -158,7 +160,7 @@ public class PersistenceProcessor implements Processor {
                         && resourceFormat.equalsIgnoreCase(FileFormat.NEUTRALRECORD.getCode()) && nrFilename == null) { // empty/null
                                                                                                                         // xml
                                                                                                                         // file
-                    String filename = resourceId;
+                    String filename = resource.getResourceId();
                     Metrics metric = new Metrics();
                     metric.startMetric();
                     metric.setResourceId(filename);

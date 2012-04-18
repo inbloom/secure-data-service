@@ -66,7 +66,8 @@ public class JobReportingProcessor implements Processor {
         // based on the PersistenceProcessor counts
         long totalProcessed = 0;
 
-        // new batch job impl writes out persistence stage resource metrics
+        // writes out persistence stage resource metrics
+        // TODO group counts by externallyUploadedResourceId
         List<Metrics> metrics = job.getStageMetrics(BatchJobStageType.PERSISTENCE_PROCESSING);
         if (metrics != null) {
             for (Metrics metric : metrics) {
