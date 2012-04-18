@@ -8,7 +8,6 @@ import java.util.TreeMap;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,13 +85,6 @@ public class SecuritySessionResource {
         }
 
         return logoutMap;
-    }
-
-    @GET
-    @Path("foo")
-    public List<String> resolve(@QueryParam("from") String from, @QueryParam("to") String to, @QueryParam("id") String id) {
-        Entity ent = repo.findById(from, id);
-        return contextResolverStore.findResolver(from, to).findAccessible(ent);
     }
 
     /**

@@ -26,7 +26,6 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.api.util.OAuthTokenUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
@@ -51,9 +50,6 @@ public class ApplicationAuthorizationValidatorTest {
 
     @Mock
     Repository<Entity> repo;
-
-    @Mock
-    OAuthTokenUtil util;
 
     @Mock
     ContextResolverStore store;
