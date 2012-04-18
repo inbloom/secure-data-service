@@ -113,8 +113,8 @@ public class ControlFileProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         log.error("Exception:", exception);
         if (batchJobId != null) {
-            BatchJobMongoDA.logBatchStageError(batchJobId, BATCH_JOB_STAGE,
-                    FaultType.TYPE_ERROR.getName(), null, exception.toString());
+            BatchJobMongoDA.logBatchStageError(batchJobId, BATCH_JOB_STAGE, FaultType.TYPE_ERROR.getName(), null,
+                    exception.toString());
         }
     }
 
@@ -122,8 +122,9 @@ public class ControlFileProcessor implements Processor {
         exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
         if (newJob.getProperty(PURGE) != null) {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         } else {
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.XML_FILE_PROCESSED.name());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
         }
     }
 
@@ -131,6 +132,7 @@ public class ControlFileProcessor implements Processor {
         for (IngestionFileEntry file : cf.getFileEntries()) {
             ResourceEntry resourceEntry = new ResourceEntry();
             resourceEntry.setResourceId(file.getFileName());
+            resourceEntry.setExternallyUploadedResourceId(file.getFileName());
             resourceEntry.setResourceName(newJob.getSourceId() + file.getFileName());
             resourceEntry.setResourceFormat(file.getFileFormat().getCode());
             resourceEntry.setResourceType(file.getFileType().getName());

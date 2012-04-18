@@ -16,7 +16,6 @@ import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
-import org.slc.sli.ingestion.processors.NeutralRecordsMergeProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
@@ -50,9 +49,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     TransformationProcessor transformationProcessor;
-
-    @Autowired
-    NeutralRecordsMergeProcessor nrMergeProcessor;
 
     @Autowired
     XmlFileProcessor xmlFileProcessor;
@@ -122,11 +118,13 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Performing Purge Operation.")
                 .process(purgeProcessor)
                 .to("direct:stop")
+                // XmlFileProcessor not ready for prime time?
+//            .when(header("IngestionMessageType").isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
+//                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing xml file.")
+//                .process(xmlFileProcessor)
+//                .to("direct:assembledJobs")
+//            .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
             .when(header("IngestionMessageType").isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing xml file.")
-                .process(xmlFileProcessor)
-                .to("direct:assembledJobs")
-            .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
                 .process(edFiProcessor)
                 .to(workItemQueueUri)
@@ -134,10 +132,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Data transformation.")
                 .process(transformationProcessor)
                 .to(workItemQueueUri)
-// Call to NeutralRecordMergeProcessor has been deprecated.
-//            .when(header("IngestionMessageType").isEqualTo(MessageType.MERGE_REQUEST.name()))
-//                .process(nrMergeProcessor)
-//                .to(workItemQueueUri)
             .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
                 .to("direct:persist")
             .when(header("IngestionMessageType").isEqualTo(MessageType.ERROR.name()))
