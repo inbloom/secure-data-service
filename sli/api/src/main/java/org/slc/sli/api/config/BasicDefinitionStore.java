@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ReferenceSchema;
 

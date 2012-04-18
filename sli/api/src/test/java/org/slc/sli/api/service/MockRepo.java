@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -30,18 +30,18 @@ import org.slc.sli.domain.Repository;
 
 /**
  * Mock implementation of the Repository<Entity> for unit testing.
- * 
+ *
  */
 @Component
 @Primary
 public class MockRepo implements Repository<Entity> {
     private static final Logger LOG = LoggerFactory.getLogger(MockRepo.class);
     private Map<String, Map<String, Entity>> repo = new HashMap<String, Map<String, Entity>>();
-    
+
     public MockRepo() {
         setup();
     }
-    
+
     private void setup() {
         repo.put("course", new LinkedHashMap<String, Entity>());
         repo.put("student", new LinkedHashMap<String, Entity>());
@@ -96,20 +96,20 @@ public class MockRepo implements Repository<Entity> {
         repo.put(EntityNames.STAFF_COHORT_ASSOCIATION, new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.STUDENT_COHORT_ASSOCIATION, new LinkedHashMap<String, Entity>());
     }
-    
+
     protected Map<String, Map<String, Entity>> getRepo() {
         return repo;
     }
-    
+
     protected void setRepo(Map<String, Map<String, Entity>> repo) {
         this.repo = repo;
     }
-    
+
     @Override
     public Entity findById(String entityType, String id) {
         return repo.get(entityType).get(id);
     }
-    
+
     @SuppressWarnings("unchecked")
     private Object getValue(Entity entity, String key, boolean prefixable) {
         if (!"_id".equals(key) && prefixable) {
@@ -136,20 +136,20 @@ public class MockRepo implements Repository<Entity> {
         }
         return container.get(path[path.length - 1]);
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public Iterable<Entity> findAll(String entityType, NeutralQuery neutralQuery) {
-        
+
         Map<String, Entity> results = repo.get(entityType);
         if (results == null) {
             results = new LinkedHashMap<String, Entity>();
         }
-        
+
         for (NeutralCriteria criteria : neutralQuery.getCriteria()) {
-            
+
             Map<String, Entity> results2 = new LinkedHashMap<String, Entity>();
-            
+
             //
             if (criteria.getOperator().equals("=")) {
                 for (Entry<String, Entity> idAndEntity : results.entrySet()) {
@@ -164,16 +164,16 @@ public class MockRepo implements Repository<Entity> {
                 results = results2;
             } else if (criteria.getOperator().equals("in")) {
                 for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                    
+
                     String entityValue = String.valueOf(this.getValue(idAndEntity.getValue(), criteria.getKey(),
                             criteria.canBePrefixed()));
-                    
+
                     List<String> validValues = (List<String>) criteria.getValue();
                     if (validValues.contains(entityValue)) {
                         results2.put(idAndEntity.getKey(), idAndEntity.getValue());
                     }
                 }
-                
+
                 results = results2;
             } else if (criteria.getOperator().equals("!=")) {
                 for (Entry<String, Entity> idAndEntity : results.entrySet()) {
@@ -238,7 +238,7 @@ public class MockRepo implements Repository<Entity> {
                         if (entityValue instanceof String && criteria.getValue() instanceof String) {
                             String entityValueString = (String) entityValue;
                             String criteriaValueString = (String) criteria.getValue();
-                            
+
                             if (!entityValueString.equals(entityValueString.replaceAll(criteriaValueString, ""))) {
                                 results2.put(idAndEntity.getKey(), idAndEntity.getValue());
                             }
@@ -250,12 +250,12 @@ public class MockRepo implements Repository<Entity> {
                 LOG.warn("Unsupported operator: {}", criteria.getOperator());
             }
         }
-        
+
         List<Entity> entitiesFound = new ArrayList<Entity>();
         for (Entity entity : results.values()) {
             entitiesFound.add(entity);
         }
-        
+
         if (neutralQuery.getSortBy() != null) {
             final NeutralQuery.SortOrder sortOrder = neutralQuery.getSortOrder();
             Entity[] entities = entitiesFound.toArray(new Entity[] {});
@@ -267,9 +267,9 @@ public class MockRepo implements Repository<Entity> {
                     for (String sortKey : keysToSortBy) {
                         Object value1 = MockRepo.getValue(sortKey, entity1.getBody());
                         Object value2 = MockRepo.getValue(sortKey, entity2.getBody());
-                        
+
                         int compare = MockRepo.compareValues(value1, value2);
-                        
+
                         if (compare != 0) {
                             if (sortOrder == NeutralQuery.SortOrder.descending) {
                                 return 0 - compare;
@@ -278,36 +278,36 @@ public class MockRepo implements Repository<Entity> {
                             }
                         }
                     }
-                    
+
                     return 0;
                 }
             });
-            
+
             List<Entity> newEntitiesFound = new ArrayList<Entity>();
             for (Entity entity : entities) {
                 newEntitiesFound.add(entity);
             }
             entitiesFound = newEntitiesFound;
         }
-        
+
         int offset = (neutralQuery.getOffset() > 0) ? neutralQuery.getOffset() : 0;
         for (int i = 0; i < offset; i++) {
             entitiesFound.remove(0);
         }
-        
+
         int limit = (neutralQuery.getLimit() > 0) ? neutralQuery.getLimit() : Integer.MAX_VALUE;
         while (entitiesFound.size() > limit) {
             entitiesFound.remove(entitiesFound.size() - 1);
         }
-        
+
         return entitiesFound;
     }
-    
+
     private static int compareValues(Object value1, Object value2) {
         if (value1 == null || value2 == null) {
             return 0;
         }
-        
+
         if (value1 instanceof Integer && value2 instanceof Integer) {
             return (Integer) value1 - (Integer) value2;
         } else if (value1 instanceof String && value2 instanceof String) {
@@ -317,14 +317,14 @@ public class MockRepo implements Repository<Entity> {
         } else if (value1 instanceof Integer && value2 instanceof String) {
             return (Integer) value1 - Integer.parseInt((String) value2);
         }
-        
+
         return 0;
     }
-    
+
     @SuppressWarnings("unchecked")
     private static Object getValue(String fullKey, Map<String, Object> map) {
         Object value = null;
-        
+
         for (String subKey : fullKey.split("\\.")) {
             if (subKey.equals("body")) {
                 continue;
@@ -334,33 +334,33 @@ public class MockRepo implements Repository<Entity> {
                 value = map.get(subKey);
             }
         }
-        
+
         return value;
     }
-    
+
     @Override
     public Entity findOne(String entityType, NeutralQuery neutralQuery) {
-        
+
         if (entityType.equals("realm")) {
             final Map<String, Object> body = new HashMap<String, Object>();
             body.put("tenantId", "SLI");
-            
+
             return new Entity() {
                 @Override
                 public String getEntityId() {
                     return null;
                 }
-                
+
                 @Override
                 public Map<String, Object> getMetaData() {
                     return new BasicBSONObject();
                 }
-                
+
                 @Override
                 public Map<String, Object> getBody() {
                     return body;
                 }
-                
+
                 @Override
                 public String getType() {
                     return "realm";
@@ -371,7 +371,7 @@ public class MockRepo implements Repository<Entity> {
             return iter.hasNext() ? iter.next() : null;
         }
     }
-    
+
     @Override
     public boolean update(String type, Entity entity) {
         if (repo.get(type) == null) {
@@ -380,12 +380,12 @@ public class MockRepo implements Repository<Entity> {
         repo.get(type).put(entity.getEntityId(), entity);
         return true;
     }
-    
+
     @Override
     public Entity create(String type, Map<String, Object> body) {
         return create(type, body, type);
     }
-    
+
     @Override
     public Entity create(final String type, Map<String, Object> body, String collectionName) {
         final HashMap<String, Object> clonedBody = new HashMap<String, Object>(body);
@@ -395,67 +395,67 @@ public class MockRepo implements Repository<Entity> {
             public String getEntityId() {
                 return id;
             }
-            
+
             @Override
             public Map<String, Object> getMetaData() {
                 return new BasicBSONObject();
             }
-            
+
             @Override
             public Map<String, Object> getBody() {
                 return clonedBody;
             }
-            
+
             @Override
             public String getType() {
                 return type;
             }
         };
-        
+
         update(collectionName, newEntity);
         return newEntity;
     }
-    
+
     @Override
     public boolean delete(String entityType, String id) {
         return repo.get(entityType).remove(id) != null;
     }
-    
+
     @Override
     public void deleteAll(String entityType) {
         Map<String, Entity> repository = repo.get(entityType);
         if (repository != null) {
             repository.clear();
         }
-        
+
     }
-    
+
     public void deleteAll() {
         repo.clear();
         setup();
     }
-    
+
     @Override
     public Iterable<Entity> findAll(String entityType) {
         List<Entity> all = new ArrayList<Entity>(repo.get(entityType).values());
         return all;
     }
-    
+
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
         return ((List<?>) findAll(collectionName, neutralQuery)).size();
     }
-    
+
     private String generateId() {
         return UUID.randomUUID().toString();
     }
-    
+
     @Override
     public Iterable<Entity> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
         // Not implemented
         return null;
     }
-    
+
     @Override
     public Entity create(final String type, Map<String, Object> body, Map<String, Object> metaData,
             String collectionName) {
@@ -467,27 +467,27 @@ public class MockRepo implements Repository<Entity> {
             public String getEntityId() {
                 return id;
             }
-            
+
             @Override
             public Map<String, Object> getMetaData() {
                 return clonedMetadata;
             }
-            
+
             @Override
             public Map<String, Object> getBody() {
                 return clonedBody;
             }
-            
+
             @Override
             public String getType() {
                 return type;
             }
         };
-        
+
         update(collectionName, newEntity);
         return newEntity;
     }
-    
+
     @Override
     public Iterable<String> findAllIds(String collectionName, NeutralQuery neutralQuery) {
         ArrayList<String> ids = new ArrayList<String>();
@@ -496,27 +496,27 @@ public class MockRepo implements Repository<Entity> {
         }
         return ids;
     }
-    
+
     @Override
     public CommandResult execute(DBObject command) {
         return null;
     }
-    
+
     @Override
     public DBCollection getCollection(String collectionName) {
         return null;
     }
-    
+
     @Override
     public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
     @Override
     public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
 }

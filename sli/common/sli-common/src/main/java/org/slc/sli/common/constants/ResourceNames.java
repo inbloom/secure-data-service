@@ -1,4 +1,4 @@
-package org.slc.sli.api.config;
+package org.slc.sli.common.constants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,8 +6,8 @@ import java.util.Map.Entry;
 
 /**
  * Defines for resource names exposed by API.
- * 
- * 
+ *
+ *
  * @author kmyers
  *
  */
@@ -35,7 +35,7 @@ public final class ResourceNames {
     public static final String LEARNINGOBJECTIVES = "learningObjectives";
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
     public static final String TEACHERS = "teachers";
-    
+
     public static final String SCHOOL_SESSION_ASSOCIATIONS = "school-session-associations";
     public static final String SECTION_ASSESSMENT_ASSOCIATIONS = "section-assessment-associations";
     public static final String SESSION_COURSE_ASSOCIATIONS = "session-course-associations";
@@ -61,9 +61,9 @@ public final class ResourceNames {
     public static final String STAFF_COHORT_ASSOCIATIONS_GETTER = "getStaffCohortAssociations";
     public static final String STUDENT_PROGRAM_ASSOCIATIONS = "studentProgramAssociations";
 
-    
+
     public static final Map<String, String> ENTITY_RESOURCE_NAME_MAPPING = new HashMap<String, String>();
-    
+
 
     /*
      * This map indicates how to display a link to a particular resource. This map assumes
@@ -85,8 +85,8 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "getStudentTranscriptAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "getStudentParentAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "getStudentDisciplineIncidentAssociation");
-        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "getStudentProgramAssociation");        
-        SINGULAR_LINK_NAMES.put(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "getStaffProgramAssociation");        
+        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "getStudentProgramAssociation");
+        SINGULAR_LINK_NAMES.put(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "getStaffProgramAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF_COHORT_ASSOCIATIONS, ResourceNames.STAFF_COHORT_ASSOCIATION_GETTER);
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, ResourceNames.STUDENT_COHORT_ASSOCIATION_GETTER);
 
@@ -109,7 +109,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.TEACHERS, "getTeacher");
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF, "getStaff");
     }
-    
+
     /*
      * This map indicates how to display a link to a particular resource. This map assumes
      * that the destination can be multiple entities.
@@ -119,7 +119,7 @@ public final class ResourceNames {
         for (Entry<String, String> e : SINGULAR_LINK_NAMES.entrySet()) {
             if (e.getKey().equals(ResourceNames.STAFF)) {
                 PLURAL_LINK_NAMES.put(e.getKey(), e.getValue());
-            } else if (e.getValue().endsWith("y")) { 
+            } else if (e.getValue().endsWith("y")) {
                 PLURAL_LINK_NAMES.put(e.getKey(), e.getValue().substring(0, e.getValue().length() - 1) + "ies");
             } else {
                 PLURAL_LINK_NAMES.put(e.getKey(), e.getValue() + "s");

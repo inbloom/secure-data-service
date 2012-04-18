@@ -48,7 +48,7 @@ public interface Entity {
      * Get the type for this entity.
      * @return EntityType for this entity
      */
-    EntityType getEntityType();
+    String getEntityType();
 
     /**
      * Get the ID for the entity. Each entity in the system has a unique identifier

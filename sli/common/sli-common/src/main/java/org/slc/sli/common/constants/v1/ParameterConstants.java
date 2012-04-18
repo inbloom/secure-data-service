@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.v1;
+package org.slc.sli.common.constants.v1;
 
 /**
  * Constants used in URI requests.
@@ -24,7 +24,7 @@ public class ParameterConstants {
      */
     public static final String DEFAULT_OFFSET = "0";
     public static final int DEFAULT_OFFSET_INT = Integer.parseInt(DEFAULT_OFFSET);
-    
+
     /**
      * Maximum number of results to display at one time.
      */
@@ -74,13 +74,13 @@ public class ParameterConstants {
      * Query parameter for optional fields to include
      */
     public static final String OPTIONAL_FIELDS = "optionalFields";
-    
+
     /**
      * Query parameter for inclusion of custom entity.
      */
-    public static final String INCLUDE_CUSTOM = "includeCustom"; 
-    public static final String DEFAULT_INCLUDE_CUSTOM = "false"; 
-    
+    public static final String INCLUDE_CUSTOM = "includeCustom";
+    public static final String DEFAULT_INCLUDE_CUSTOM = "false";
+
     /**
      * Optional Fields
      */

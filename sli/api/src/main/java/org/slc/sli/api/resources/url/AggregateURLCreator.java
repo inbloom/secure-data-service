@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.common.constants.ResourceConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 
@@ -29,7 +29,7 @@ public class AggregateURLCreator extends URLCreator {
      */
     @Override
     public List<EmbeddedLink> getUrls(final UriInfo uriInfo, String userId, String userType, NeutralQuery neutralQuery) {
-        
+
         List<EmbeddedLink> urls = new ArrayList<EmbeddedLink>();
 
         // iterate through the aggregations and build the embedded links list

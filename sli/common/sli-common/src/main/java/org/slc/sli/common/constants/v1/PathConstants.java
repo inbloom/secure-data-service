@@ -1,13 +1,13 @@
-package org.slc.sli.api.resources.v1;
+package org.slc.sli.common.constants.v1;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.common.constants.ResourceNames;
 
 /**
  * Constants used in URI path requests.
- * 
+ *
  * @author kmyers
  *
  */
@@ -55,9 +55,24 @@ public class PathConstants {
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
     public static final String STAFF_PROGRAM_ASSOCIATIONS = "staffProgramAssociations";
     public static final String STUDENT_PROGRAM_ASSOCIATIONS = "studentProgramAssociations";
-    
+
     public static final String CUSTOM_ENTITIES = "custom";
-    
+
+    /**
+     * Paths to various helper functions
+     */
+    public static final String SECURITY_SESSION_CHECK = "system/session/check";
+
+    /** resource for security session logout */
+    public static final String SECURITY_SESSION_LOGOUT = "system/session/logout";
+
+    /** resource for security session check */
+    public static final String SECURITY_SESSION_DEBUG = "system/session/debug";
+
+    /** Home resource */
+    public static final String HOME = "home";
+
+
     /*
      * This map should go away when we switch basic definition store association names to camel
      * case.
@@ -108,6 +123,10 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, STUDENT_SECTION_GRADEBOOK_ENTRIES);
         TEMP_MAP.put(ResourceNames.TEACHERS, TEACHERS);
     }
-    
+
     public static final String V1 = "v1";
+    /** Main entry point for the SLI API ReSTful web service. */
+    public static final String API_SERVER_PATH = "api/rest/v1";
+    /** URL to check the validity of a SLI session. */
+    public static final String SESSION_CHECK_PATH = "system/session/check";
 }

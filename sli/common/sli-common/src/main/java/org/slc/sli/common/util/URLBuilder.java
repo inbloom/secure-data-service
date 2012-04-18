@@ -1,4 +1,4 @@
-package org.slc.sli.api.client;
+package org.slc.sli.common.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -7,15 +7,16 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.common.constants.v1.PathConstants;
+
 /**
  * Builder for creating a URL suitable for use with the SLI API ReSTful web service.
  */
 public final class URLBuilder {
     private static final String ENCODING = "UTF-8";
-    
+
     private final StringBuffer url = new StringBuffer();
-    private boolean targets = false;
-    
+
     /**
      * Start building a new URL with the provided base location.
      * 
@@ -28,7 +29,7 @@ public final class URLBuilder {
         rval.addPath(baseUrl);
         return rval;
     }
-    
+
     /**
      * Append a path fragment to the current URL path.
      * 
@@ -41,7 +42,7 @@ public final class URLBuilder {
         url.append(path);
         return this;
     }
-    
+
     /**
      * Append a path element for accessing the provided entity type.
      * 
@@ -49,22 +50,31 @@ public final class URLBuilder {
      *            Entity type of interest.
      * @return Updated URLBuilder instance.
      */
-    public URLBuilder entityType(final EntityType type) {
-        addPath(type.getResource());
+    public URLBuilder entityType(final String type) {
+        String path = PathConstants.TEMP_MAP.get(type);
+        if (path == null && type.equals(PathConstants.SECURITY_SESSION_DEBUG)) {
+            path = type;
+        } else if (path == null && type.equals(PathConstants.HOME)) {
+            path = type;
+        } else if (path == null) {
+            path = type + "s";
+        }
+        addPath(path);
         return this;
     }
-    
+
     /**
      * Append an entity id to the path
      * 
-     * @Param id Entity ID
+     * @param id
+     *            Entity ID
      * @return Updated URLBuilder instance.
      */
     public URLBuilder id(final String id) {
         addPath(id);
         return this;
     }
-    
+
     /**
      * Append a collection of entity ids to the path
      * 
@@ -83,7 +93,7 @@ public final class URLBuilder {
         addPath(idCollection.toString());
         return this;
     }
-    
+
     /**
      * Apply the given query to the URL.
      * 
@@ -91,24 +101,17 @@ public final class URLBuilder {
      * @return Updated URLBuilder instance.
      */
     public URLBuilder query(final Query query) {
-        
+
         Map<String, Object> params = query.getParameters();
         if (params != null) {
             for (Map.Entry<String, Object> entry : params.entrySet()) {
                 addQueryParameter(entry.getKey(), entry.getValue());
             }
         }
-        
+
         return this;
     }
-    
-    /**
-     * Indicate we want the targets of an association, not the association itself.
-     */
-    public void targets() {
-        targets = true;
-    }
-    
+
     /**
      * Builds the URL.
      * 
@@ -117,13 +120,10 @@ public final class URLBuilder {
      *             if the URL is not valid.
      */
     public URL build() throws MalformedURLException {
-        
-        if (targets) {
-            addPath(EntityType.TARGETS.getResource());
-        }
+
         return new URL(url.toString());
     }
-    
+
     /**
      * Add a URL Query parameter to the URL.
      * 
@@ -150,7 +150,7 @@ public final class URLBuilder {
         }
         return this;
     }
-    
+
     private URLBuilder addPathSeparaterIfNeeded() {
         if (url.length() > 0 && url.charAt(url.length() - 1) != '/') {
             url.append("/");
