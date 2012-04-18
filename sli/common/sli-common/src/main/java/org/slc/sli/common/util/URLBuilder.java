@@ -7,7 +7,7 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.common.constants.EntityType;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * Builder for creating a URL suitable for use with the SLI API ReSTful web service.
@@ -16,7 +16,6 @@ public final class URLBuilder {
     private static final String ENCODING = "UTF-8";
 
     private final StringBuffer url = new StringBuffer();
-    private boolean targets = false;
 
     /**
      * Start building a new URL with the provided base location.
@@ -51,15 +50,15 @@ public final class URLBuilder {
      *            Entity type of interest.
      * @return Updated URLBuilder instance.
      */
-    public URLBuilder entityType(final EntityType type) {
-        addPath(type.getResource());
+    public URLBuilder entityType(final String type) {
+        addPath(PathConstants.TEMP_MAP.get(type));
         return this;
     }
 
     /**
      * Append an entity id to the path
      *
-     * @Param id Entity ID
+     * @param id Entity ID
      * @return Updated URLBuilder instance.
      */
     public URLBuilder id(final String id) {
@@ -105,13 +104,6 @@ public final class URLBuilder {
     }
 
     /**
-     * Indicate we want the targets of an association, not the association itself.
-     */
-    public void targets() {
-        targets = true;
-    }
-
-    /**
      * Builds the URL.
      *
      * @return URL represented by the values set in this builder.
@@ -120,9 +112,6 @@ public final class URLBuilder {
      */
     public URL build() throws MalformedURLException {
 
-        if (targets) {
-            addPath(EntityType.TARGETS.getResource());
-        }
         return new URL(url.toString());
     }
 

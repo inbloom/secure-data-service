@@ -25,7 +25,7 @@ import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 
 import org.slc.sli.api.client.security.SliApi;
-import org.slc.sli.common.constants.Constants;
+import org.slc.sli.common.constants.v1.PathConstants;
 /**
  * Generic REST client. Provides the ability to connect to a ReSTful web service and make
  * requests.
@@ -57,8 +57,8 @@ public class RESTClient {
      */
     public RESTClient(final URL apiServerURL, final String clientId, final String clientSecret, final URL callbackURL) {
         client = ClientFactory.newClient();
-        apiServerUri = apiServerURL.toString().endsWith("/") ? apiServerURL.toString() + Constants.API_SERVER_PATH
-                : apiServerURL.toString() + "/" + Constants.API_SERVER_PATH;
+        apiServerUri = apiServerURL.toString().endsWith("/") ? apiServerURL.toString() + PathConstants.API_SERVER_PATH
+                : apiServerURL.toString() + "/" + PathConstants.API_SERVER_PATH;
 
         sliApi = new SliApi();
         SliApi.setBaseUrl(apiServerURL);

@@ -25,7 +25,6 @@ import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.api.client.impl.transform.BasicLinkJsonTypeAdapter;
 import org.slc.sli.api.client.impl.transform.GenericEntityFromJson;
 import org.slc.sli.api.client.impl.transform.GenericEntityToJson;
-import org.slc.sli.common.constants.EntityType;
 import org.slc.sli.common.util.Query;
 import org.slc.sli.common.util.URLBuilder;
 
@@ -75,7 +74,7 @@ public final class BasicClient implements SLIClient {
     }
 
     @Override
-    public Response read(EntityCollection entities, final EntityType type, final Query query)
+    public Response read(EntityCollection entities, final String type, final Query query)
             throws MalformedURLException,
             URISyntaxException {
 
@@ -83,7 +82,7 @@ public final class BasicClient implements SLIClient {
     }
 
     @Override
-    public Response read(EntityCollection entities, final EntityType type, final String id, final Query query)
+    public Response read(EntityCollection entities, final String type, final String id, final Query query)
             throws MalformedURLException, URISyntaxException {
 
         entities.clear();

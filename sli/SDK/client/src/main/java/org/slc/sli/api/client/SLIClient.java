@@ -8,7 +8,6 @@ import javax.ws.rs.core.Response;
 
 import org.scribe.exceptions.OAuthException;
 
-import org.slc.sli.common.constants.EntityType;
 import org.slc.sli.common.util.Query;
 
 /**
@@ -84,7 +83,7 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response read(EntityCollection entities, final EntityType type, final String id,
+    public abstract Response read(EntityCollection entities, final String type, final String id,
             final Query query)
                     throws MalformedURLException, URISyntaxException;
 
@@ -101,7 +100,7 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response read(EntityCollection entities, final EntityType type, final Query query)
+    public abstract Response read(EntityCollection entities, final String type, final Query query)
             throws MalformedURLException,
             URISyntaxException;
 

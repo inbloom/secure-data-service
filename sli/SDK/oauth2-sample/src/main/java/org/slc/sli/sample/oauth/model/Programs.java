@@ -12,7 +12,7 @@ import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
-import org.slc.sli.common.constants.EntityType;
+import org.slc.sli.common.constants.ResourceNames;
 
 /**
  * Sample domain wrapper.
@@ -24,7 +24,7 @@ public class Programs {
     public static List<String> getIds(BasicClient client) throws IOException {
         EntityCollection collection = new EntityCollection();
         try {
-            client.read(collection, EntityType.PROGRAMS, BasicQuery.EMPTY_QUERY);
+            client.read(collection, ResourceNames.PROGRAMS, BasicQuery.EMPTY_QUERY);
         } catch (URISyntaxException e) {
             LOG.error("Exception occurred", e);
         }

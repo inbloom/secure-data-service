@@ -58,6 +58,21 @@ public class PathConstants {
 
     public static final String CUSTOM_ENTITIES = "custom";
 
+    /**
+     * Paths to various helper functions
+     */
+    public static final String SECURITY_SESSION_CHECK = "system/session/check";
+
+    /** resource for security session logout */
+    public static final String SECURITY_SESSION_LOGOUT = "system/session/logout";
+
+    /** resource for security session check */
+    public static final String SECURITY_SESSION_DEBUG = "system/session/debug";
+
+    /** Home resource */
+    public static final String HOME = "home";
+
+
     /*
      * This map should go away when we switch basic definition store association names to camel
      * case.
@@ -110,4 +125,8 @@ public class PathConstants {
     }
 
     public static final String V1 = "v1";
+    /** Main entry point for the SLI API ReSTful web service. */
+    public static final String API_SERVER_PATH = "api/rest/v1";
+    /** URL to check the validity of a SLI session. */
+    public static final String SESSION_CHECK_PATH = "system/session/check";
 }

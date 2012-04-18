@@ -17,7 +17,7 @@ import org.slc.sli.api.client.EntityCollection;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
 import org.slc.sli.api.client.impl.GenericEntity;
-import org.slc.sli.common.constants.EntityType;
+import org.slc.sli.common.constants.ResourceNames;
 
 /**
  * Servlet that do CRUD test against Java SDK.
@@ -66,7 +66,7 @@ public class TestSDKServlet extends HttpServlet {
         String testResult = "failed";
         String id = "";
         Map<String, Object> studentBody = createStudentBody();
-        Entity student = new GenericEntity(EntityType.STUDENTS, studentBody);
+        Entity student = new GenericEntity(ResourceNames.STUDENTS, studentBody);
         EntityCollection collection = new EntityCollection();
         try {
             Response response = client.create(student);
@@ -76,7 +76,7 @@ public class TestSDKServlet extends HttpServlet {
             }
             String location = response.getHeaders().getHeaderValues("Location").get(0);
             id = location.substring(location.lastIndexOf("/") + 1);
-            client.read(collection, EntityType.STUDENTS, id, BasicQuery.EMPTY_QUERY);
+            client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
 
                 String firstName = ((Map<String, String>) (collection.get(0).getData().get("name"))).get("firstName");
@@ -100,13 +100,13 @@ public class TestSDKServlet extends HttpServlet {
         String testResult = "failed";
         String id = "";
         Map<String, Object> studentBody = createStudentBody();
-        Entity student = new GenericEntity(EntityType.STUDENTS, studentBody);
+        Entity student = new GenericEntity(ResourceNames.STUDENTS, studentBody);
         EntityCollection collection = new EntityCollection();
         try {
             Response response = client.create(student);
             String location = response.getHeaders().getHeaderValues("Location").get(0);
             id = location.substring(location.lastIndexOf("/") + 1);
-            client.read(collection, EntityType.STUDENTS, id, BasicQuery.EMPTY_QUERY);
+            client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
                 student = collection.get(0);
                 ((List<Map<String, String>>) (student.getData().get("address"))).get(0).put("streetNumberName",
@@ -117,7 +117,7 @@ public class TestSDKServlet extends HttpServlet {
                     return testResult;
                 }
             }
-            client.read(collection, EntityType.STUDENTS, id, BasicQuery.EMPTY_QUERY);
+            client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
                 student = collection.get(0);
                 String address = ((List<Map<String, String>>) (student.getData().get("address"))).get(0).get(
@@ -139,13 +139,13 @@ public class TestSDKServlet extends HttpServlet {
         String testResult = "failed";
         String id = "";
         Map<String, Object> studentBody = createStudentBody();
-        Entity student = new GenericEntity(EntityType.STUDENTS, studentBody);
+        Entity student = new GenericEntity(ResourceNames.STUDENTS, studentBody);
         EntityCollection collection = new EntityCollection();
         try {
             Response response = client.create(student);
             String location = response.getHeaders().getHeaderValues("Location").get(0);
             id = location.substring(location.lastIndexOf("/") + 1);
-            client.read(collection, EntityType.STUDENTS, id, BasicQuery.EMPTY_QUERY);
+            client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
                 student = collection.get(0);
                 response = client.delete(student);
@@ -154,7 +154,7 @@ public class TestSDKServlet extends HttpServlet {
                     return testResult;
                 }
             }
-            response = client.read(collection, EntityType.STUDENTS, id, BasicQuery.EMPTY_QUERY);
+            response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (response.getStatus() == 404) {
                 testResult = "succeed";
             } else {
@@ -174,7 +174,7 @@ public class TestSDKServlet extends HttpServlet {
         EntityCollection collection = new EntityCollection();
         String testResult = "";
         try {
-            client.read(collection, EntityType.TEACHERS,
+            client.read(collection, ResourceNames.TEACHERS,
                     BasicQuery.Builder.create().filterEqual("sex", "Male").sortBy("name.firstName").sortDescending()
                             .build());
             if (collection != null && collection.size() > 0) {

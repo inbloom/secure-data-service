@@ -13,7 +13,7 @@ import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
-import org.slc.sli.common.constants.EntityType;
+import org.slc.sli.common.constants.ResourceNames;
 
 /**
  * Sample domain wrapper.
@@ -26,7 +26,7 @@ public class Students {
     public static List<String> getNames(BasicClient client) throws IOException {
         EntityCollection collection = new EntityCollection();
         try {
-            client.read(collection, EntityType.STUDENTS, BasicQuery.Builder.create().startIndex(0).maxResults(50)
+            client.read(collection, ResourceNames.STUDENTS, BasicQuery.Builder.create().startIndex(0).maxResults(50)
                     .build());
         } catch (URISyntaxException e) {
             LOG.error("Exception occurred", e);

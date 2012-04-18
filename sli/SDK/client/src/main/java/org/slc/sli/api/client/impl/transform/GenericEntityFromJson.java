@@ -21,7 +21,6 @@ import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.impl.BasicLink;
 import org.slc.sli.api.client.impl.GenericEntity;
-import org.slc.sli.common.constants.EntityType;
 
 /**
  *
@@ -37,11 +36,10 @@ public class GenericEntityFromJson implements JsonDeserializer<Entity> {
             final JsonDeserializationContext context) throws JsonParseException {
 
         JsonObject obj = element.getAsJsonObject();
-        EntityType entityType = null;
+        String entityType = null;
 
         if (obj.has(ENTITY_TYPE_KEY)) {
-            String t = obj.get(ENTITY_TYPE_KEY).getAsString();
-            entityType = EntityType.byType(t);
+            entityType = obj.get(ENTITY_TYPE_KEY).getAsString();
         }
 
         Map<String, Object> data = processObject(obj.getAsJsonObject());
@@ -49,7 +47,7 @@ public class GenericEntityFromJson implements JsonDeserializer<Entity> {
         if (entityType != null) {
             return new GenericEntity(entityType, data);
         } else {
-            return new GenericEntity(EntityType.GENERIC, data);
+            return new GenericEntity("Generic", data);
         }
     }
 
