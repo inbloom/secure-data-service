@@ -21,18 +21,18 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * Prototype new api end points and versioning
- * 
+ *
  * @author wscott
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS)
 @Component
@@ -47,7 +47,7 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Returns all $$studentAssessmentAssociations$$ entities for which the logged in User has permission and context.
-     * 
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -58,17 +58,18 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return result of CRUD operation
      */
+    @Override
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
      * Create a new $$studentAssessmentAssociations$$ entity.
-     * 
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -80,16 +81,17 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
      *                 item is accessable.}
      */
+    @Override
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON  })
-    public Response create(final EntityBody newEntityBody, 
+    public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
      * Get a single $$studentAssessmentAssociations$$ entity
-     * 
+     *
      * @param studentAssessmentAssociationId
      *            The Id of the $$studentAssessmentAssociations$$.
      * @param headers
@@ -98,6 +100,7 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return A single $$studentAssessmentAssociations$$ entity
      */
+    @Override
     @GET
     @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -108,7 +111,7 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Delete a $$studentAssessmentAssociations$$ entity
-     * 
+     *
      * @param studentAssessmentAssociationId
      *            The Id of the $$studentAssessmentAssociations$$.
      * @param headers
@@ -118,6 +121,7 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @DELETE
     @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID + "}")
     public Response delete(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID) final String studentAssessmentAssociationId,
@@ -127,7 +131,7 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Update an existing $$studentAssessmentAssociations$$ entity.
-     * 
+     *
      * @param studentAssessmentAssociationId
      *            The id of the $$studentAssessmentAssociations$$.
      * @param newEntityBody
@@ -139,11 +143,12 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @PUT
     @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID + "}")
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response update(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID) final String studentAssessmentAssociationId,
-            final EntityBody newEntityBody, 
+            final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(studentAssessmentAssociationId, newEntityBody, headers, uriInfo);
     }

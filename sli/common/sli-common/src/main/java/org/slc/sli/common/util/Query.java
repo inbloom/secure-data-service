@@ -1,4 +1,4 @@
-package org.slc.sli.api.client;
+package org.slc.sli.common.util;
 
 import java.util.Map;
 
@@ -9,13 +9,6 @@ import java.util.Map;
  * @author asaarela
  */
 public interface Query {
-
-    /**
-     * Return true if the query should return the targets of an association and not the
-     * association itself.
-     * @return true if we're requesting association targets, false otherwise.
-     */
-    public abstract boolean targets();
 
     /**
      * Get the query parameters associated with this query instance.

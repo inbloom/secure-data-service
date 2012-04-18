@@ -21,25 +21,25 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * Prototype new api end points and versioning
- * 
+ *
  * @author jstokes
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.TEACHERS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class TeacherResource extends DefaultCrudEndpoint {
-    
+
     @Autowired
     public TeacherResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.TEACHERS);
@@ -47,7 +47,7 @@ public class TeacherResource extends DefaultCrudEndpoint {
 
     /**
      * Returns all $$teachers$$ entities for which the logged in User has permission and context.
-     * 
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -58,17 +58,18 @@ public class TeacherResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return result of CRUD operation
      */
+    @Override
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
      * Create a new $$teachers$$ entity.
-     * 
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -80,16 +81,17 @@ public class TeacherResource extends DefaultCrudEndpoint {
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
      *                 item is accessible.}
      */
+    @Override
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response create(final EntityBody newEntityBody, 
+    public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
      * Get a single $$teachers$$ entity
-     * 
+     *
      * @param teacherId
      *            The Id of the $$teachers$$.
      * @param headers
@@ -98,6 +100,7 @@ public class TeacherResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return A single teacher entity
      */
+    @Override
     @GET
     @Path("{" + ParameterConstants.TEACHER_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -108,7 +111,7 @@ public class TeacherResource extends DefaultCrudEndpoint {
 
     /**
      * Delete a $$teachers$$ entity
-     * 
+     *
      * @param teacherId
      *            The Id of the $$teachers$$.
      * @param headers
@@ -118,16 +121,17 @@ public class TeacherResource extends DefaultCrudEndpoint {
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @DELETE
     @Path("{" + ParameterConstants.TEACHER_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.TEACHER_ID) final String teacherId, 
+    public Response delete(@PathParam(ParameterConstants.TEACHER_ID) final String teacherId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.delete(teacherId, headers, uriInfo);
     }
 
     /**
      * Update an existing $$teachers$$ entity.
-     * 
+     *
      * @param teacherId
      *            The id of the $$teachers$$.
      * @param newEntityBody
@@ -139,18 +143,19 @@ public class TeacherResource extends DefaultCrudEndpoint {
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @PUT
     @Path("{" + ParameterConstants.TEACHER_ID + "}")
     public Response update(@PathParam(ParameterConstants.TEACHER_ID) final String teacherId,
-            final EntityBody newEntityBody, 
+            final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(teacherId, newEntityBody, headers, uriInfo);
     }
-    
+
     /**
      * Returns each $$teacherSectionAssociations$$ that
      * references the given $$teachers$$
-     * 
+     *
      * @param teacherId
      *            The id of the $$teachers$$.
      * @param offset
@@ -171,11 +176,11 @@ public class TeacherResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "teacherId", teacherId, headers, uriInfo);
     }
-    
+
     /**
      * Returns each $$sections$$ associated to the given teacher through
      * a $$teacherSectionAssociations$$
-     * 
+     *
      * @param teacherId
      *            The id of the $$teachers$$.
      * @param headers
@@ -190,11 +195,11 @@ public class TeacherResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "teacherId", teacherId, "sectionId", ResourceNames.SECTIONS, headers, uriInfo);
     }
-    
+
     /**
      * Returns each $$teacherSchoolAssociations$$ that
      * references the given $$teachers$$
-     * 
+     *
      * @param teacherId
      *            The id of the $$teachers$$.
      * @param offset
@@ -215,11 +220,11 @@ public class TeacherResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "teacherId", teacherId, headers, uriInfo);
     }
-    
+
     /**
      * Returns each $$schools$$ associated to the given teacher through
      * a $$teacherSchoolAssociations$$
-     * 
+     *
      * @param teacherId
      *            The id of the $$teachers$$.
      * @param headers

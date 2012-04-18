@@ -5,17 +5,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_STAFF_ID;
-import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_EDORG_ID;
-import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_BODY_SCHOOL_ID;
-import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_DISTRICT;
-import static org.slc.sli.api.resources.util.ResourceConstants.RESOURCE_PATH_SCHOOL;
-
-import org.slc.sli.api.config.AssociationDefinition;
-import org.slc.sli.api.config.DefinitionFactory;
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EmbeddedLink;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,8 +31,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.api.config.AssociationDefinition;
+import org.slc.sli.api.config.DefinitionFactory;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.ResourceConstants;
 
 /**
  * Tests the AssociationURLCreator
@@ -137,14 +132,14 @@ public class AssociationURLCreatorTest {
             EmbeddedLink link = results.get(0);
             assertEquals("Type should be staff-edorg-association", link.getType(), ENTITY_TYPE_STAFF_EDORG_ASSOC);
             assertEquals("Should be type links", link.getRel(), "links");
-            assertTrue("Returned link should point to a district", link.getHref().indexOf(RESOURCE_PATH_DISTRICT) > 0);
+            assertTrue("Returned link should point to a district", link.getHref().indexOf(ResourceConstants.RESOURCE_PATH_DISTRICT) > 0);
             assertUUID(link.getHref(), ED_ORG_ID);
 
             // test the school
             link = results.get(1);
             assertEquals("Type should be edorg-school-association", link.getType(), ENTITY_TYPE_EDORG_SCHOOL_ASSOC);
             assertEquals("Should be type links", link.getRel(), "links");
-            assertTrue("Returned link should point to a school", link.getHref().indexOf(RESOURCE_PATH_SCHOOL) > 0);
+            assertTrue("Returned link should point to a school", link.getHref().indexOf(ResourceConstants.RESOURCE_PATH_SCHOOL) > 0);
             assertUUID(link.getHref(), SCHOOL_ID);
 
         } catch (Exception e) {
@@ -191,16 +186,16 @@ public class AssociationURLCreatorTest {
 
     private Map<String, Object> buildTestStaffEdOrgEntity() {
         Map<String, Object> body = new HashMap<String, Object>();
-        body.put(ENTITY_BODY_STAFF_ID, STAFF_ID);
-        body.put(ENTITY_BODY_EDORG_ID, ED_ORG_ID);
+        body.put(ResourceConstants.ENTITY_BODY_STAFF_ID, STAFF_ID);
+        body.put(ResourceConstants.ENTITY_BODY_EDORG_ID, ED_ORG_ID);
 
         return body;
     }
 
     private Map<String, Object> buildTestEdOrgSchoolEntity() {
         Map<String, Object> body = new HashMap<String, Object>();
-        body.put(ENTITY_BODY_SCHOOL_ID, SCHOOL_ID);
-        body.put(ENTITY_BODY_EDORG_ID, ED_ORG_ID);
+        body.put(ResourceConstants.ENTITY_BODY_SCHOOL_ID, SCHOOL_ID);
+        body.put(ResourceConstants.ENTITY_BODY_EDORG_ID, ED_ORG_ID);
 
         return body;
     }

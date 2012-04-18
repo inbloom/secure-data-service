@@ -3,7 +3,8 @@ package org.slc.sli.api.client.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.api.client.Query;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.util.Query;
 
 /**
  *
@@ -13,37 +14,23 @@ import org.slc.sli.api.client.Query;
  */
 public class BasicQuery implements Query {
 
-
-    private static final String SORT_BY_KEY = "sort-by";
-    private static final String SORT_ORDER_KEY = "sort-order";
-    private static final String SORT_ASCENDING = "ascending";
-    private static final String SORT_DESCENDING = "descending";
-    private static final String START_INDEX_KEY = "offset";
-    private static final String MAX_RESULTS_KEY = "limit";
-    private static final String FULL_ENTITIES_KEY = "full-entities";
-    private static final String INCLUDE_CUSTOM_ENTITIES = "includeCustom";
-
     /** Represents an empty query with no query parameters */
     public static final Query EMPTY_QUERY = Builder.create().build();
 
     /** Represents a query with no query parameters that includes custom entities */
     public static final Query CUSTOM_ENTITY_QUERY = Builder.create().fullEntities().customEntities().build();
 
-    /** Represents a simple query that requests the targets of an association */
-    public static final Query TARGETS_QUERY = Builder.create().targets().build();
 
     /** Represents a simple query that requests a response containing full entities. */
     public static final Query FULL_ENTITIES_QUERY = Builder.create().fullEntities().build();
 
     private Map<String, Object> params;
-    private boolean useTargets = false;
 
     /**
      * Build a query, specifying optional values for sorting, field searching, and pagination.
      */
     public static class Builder {
         private final Map<String, Object> params = new HashMap<String, Object>();
-        private boolean useTargets = false;
 
         /**
          * Instantiate a new builder
@@ -54,15 +41,6 @@ public class BasicQuery implements Query {
             return new Builder();
         }
 
-        /**
-         * Indicate we want the targets of an association.
-         *
-         * @return Updated builder instance.
-         */
-        public Builder targets() {
-            useTargets = true;
-            return this;
-        }
 
         /**
          * Indicate the results should be returned in ascending order.
@@ -70,7 +48,7 @@ public class BasicQuery implements Query {
          * @return Updated Builder instance.
          */
         public Builder sortAscending() {
-            params.put(SORT_ORDER_KEY, SORT_ASCENDING);
+            params.put(ParameterConstants.SORT_ORDER, ParameterConstants.SORT_ASCENDING);
             return this;
         }
 
@@ -80,7 +58,7 @@ public class BasicQuery implements Query {
          * @return Updated Builder instance.
          */
         public Builder sortDescending() {
-            params.put(SORT_ORDER_KEY, SORT_DESCENDING);
+            params.put(ParameterConstants.SORT_ORDER, ParameterConstants.SORT_DESCENDING);
             return this;
         }
 
@@ -110,8 +88,8 @@ public class BasicQuery implements Query {
          * @return Updated Builder instance.
          */
         public Builder paginate(final int startIndex, final int maxResults) {
-            params.put(START_INDEX_KEY, startIndex);
-            params.put(MAX_RESULTS_KEY, maxResults);
+            params.put(ParameterConstants.OFFSET, startIndex);
+            params.put(ParameterConstants.LIMIT, maxResults);
             return this;
         }
 
@@ -121,7 +99,7 @@ public class BasicQuery implements Query {
          * @return Updated Builder instance.
          */
         public Builder customEntities() {
-            params.put(INCLUDE_CUSTOM_ENTITIES, true);
+            params.put(ParameterConstants.INCLUDE_CUSTOM, true);
             return this;
         }
 
@@ -133,7 +111,6 @@ public class BasicQuery implements Query {
         public Query build() {
             BasicQuery rval = new BasicQuery();
             rval.params = params;
-            rval.useTargets = useTargets;
             return rval;
         }
 
@@ -143,7 +120,7 @@ public class BasicQuery implements Query {
          * @return Updated Builder instance.
          */
         public Builder sortBy(String sortField) {
-            params.put(SORT_BY_KEY, sortField);
+            params.put(ParameterConstants.SORT_BY, sortField);
             return this;
         }
 
@@ -153,7 +130,7 @@ public class BasicQuery implements Query {
          * @return Updated Builder instance.
          */
         public Builder startIndex(int startIndex) {
-            params.put(START_INDEX_KEY, startIndex);
+            params.put(ParameterConstants.OFFSET, startIndex);
             return this;
         }
 
@@ -163,7 +140,7 @@ public class BasicQuery implements Query {
          * @return Updated Builder instance.
          */
         public Builder fullEntities() {
-            params.put(FULL_ENTITIES_KEY, true);
+            params.put(ParameterConstants.INCLUDE_FIELDS, true);
             return this;
         }
 
@@ -173,7 +150,7 @@ public class BasicQuery implements Query {
          * @return Updated Builder instance.
          */
         public Builder maxResults(int maxResults) {
-            params.put(MAX_RESULTS_KEY, maxResults);
+            params.put(ParameterConstants.LIMIT, maxResults);
             return this;
         }
     }
@@ -181,10 +158,5 @@ public class BasicQuery implements Query {
     @Override
     public Map<String, Object> getParameters() {
         return params;
-    }
-
-    @Override
-    public boolean targets() {
-        return useTargets;
     }
 }

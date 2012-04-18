@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.slc.sli.api.client.Entity;
-import org.slc.sli.api.client.EntityType;
 import org.slc.sli.api.client.Link;
 
 /**
@@ -19,7 +18,7 @@ import org.slc.sli.api.client.Link;
 public class GenericEntity implements Entity {
 
     private final Map<String, Object> data;
-    private final EntityType type;
+    private final String type;
 
     /**
      * Construct a new generic entity.
@@ -29,7 +28,7 @@ public class GenericEntity implements Entity {
      * @param data
      *            Map representing the entity's data.
      */
-    public GenericEntity(final EntityType type, final Map<String, Object> data) {
+    public GenericEntity(final String type, final Map<String, Object> data) {
         this.type = type;
         this.data = data;
     }
@@ -57,7 +56,7 @@ public class GenericEntity implements Entity {
     }
 
     @Override
-    public EntityType getEntityType() {
+    public String getEntityType() {
         return type;
     }
 }

@@ -2,7 +2,7 @@ package org.slc.sli.api.resources;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.slc.sli.api.resources.util.ResourceConstants.ENTITY_TYPE_AGGREGATION;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,9 +11,9 @@ import javax.ws.rs.core.UriInfo;
 
 import com.sun.jersey.api.uri.UriBuilderImpl;
 
-import org.junit.runner.RunWith;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.slc.sli.api.resources.url.AggregateURLCreator;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.ResourceConstants;
 
 /**
  * Tests the AggregateResource Handler
@@ -51,7 +52,7 @@ public class AggregateResourceTest {
         Map<String, Object> agg = buildTestAggregationEntity();
 
         MockRepo repo = new MockRepo();
-        repo.create(ENTITY_TYPE_AGGREGATION, agg);
+        repo.create(ResourceConstants.ENTITY_TYPE_AGGREGATION, agg);
         creator.setRepo(repo);
 
         aggApi.setAggregateURLCreator(creator);
@@ -60,7 +61,7 @@ public class AggregateResourceTest {
     @Test
     public void testResourceMethods() throws Exception {
         buildMockUriInfo(null);
-        
+
         /* TODO: Uncomment once aggregates are re-installed
 
         // test district based aggregates
@@ -79,7 +80,7 @@ public class AggregateResourceTest {
         Response response3 = aggApi.getSchoolBasedAggregates(info);
         assertNotNull(response3);
         assertEquals(Status.OK.getStatusCode(), response3.getStatus());
-        
+
         */
     }
 

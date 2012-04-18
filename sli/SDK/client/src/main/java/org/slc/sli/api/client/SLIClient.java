@@ -8,6 +8,8 @@ import javax.ws.rs.core.Response;
 
 import org.scribe.exceptions.OAuthException;
 
+import org.slc.sli.common.util.Query;
+
 /**
  * Interface defining the methods available to SLI API client applications. It provides
  * basic CRUD operations available once the client connection is established.
@@ -81,7 +83,7 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response read(EntityCollection entities, final EntityType type, final String id,
+    public abstract Response read(EntityCollection entities, final String type, final String id,
             final Query query)
                     throws MalformedURLException, URISyntaxException;
 
@@ -98,7 +100,7 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response read(EntityCollection entities, final EntityType type, final Query query)
+    public abstract Response read(EntityCollection entities, final String type, final Query query)
             throws MalformedURLException,
             URISyntaxException;
 
