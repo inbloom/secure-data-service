@@ -14,28 +14,28 @@ import javax.ws.rs.core.Response;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.EntityCollection;
-import org.slc.sli.api.client.EntityType;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
 import org.slc.sli.api.client.impl.GenericEntity;
+import org.slc.sli.common.constants.EntityType;
 
 /**
  * Servlet that do CRUD test against Java SDK.
- * 
+ *
  * @author dliu
- * 
+ *
  */
 public class TestSDKServlet extends HttpServlet {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 3258845941340138511L;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         BasicClient client = (BasicClient) req.getSession().getAttribute("client");
-        String testType = (String) req.getParameter("test");
+        String testType = req.getParameter("test");
         String testResult = "failed";
         if (testType.equals("read")) {
             testResult = testRead(client);
@@ -53,13 +53,13 @@ public class TestSDKServlet extends HttpServlet {
         req.setAttribute("testResult", testResult);
         req.getRequestDispatcher("WEB-INF/sdktest.jsp").forward(req, resp);
     }
-    
+
     // the read test has been done in list student, so always return succeed
     private String testRead(BasicClient client) {
         String testResult = "succeed";
         return testResult;
     }
-    
+
     // test the create for Java SDK
     @SuppressWarnings("unchecked")
     private String testCreate(BasicClient client) {
@@ -93,7 +93,7 @@ public class TestSDKServlet extends HttpServlet {
         }
         return testResult;
     }
-    
+
     // test the update for Java SDK
     @SuppressWarnings("unchecked")
     private String testUpdate(BasicClient client) {
@@ -133,7 +133,7 @@ public class TestSDKServlet extends HttpServlet {
         }
         return testResult;
     }
-    
+
     // test the delete of Java SDK
     private String testDelete(BasicClient client) {
         String testResult = "failed";
@@ -161,13 +161,13 @@ public class TestSDKServlet extends HttpServlet {
                 testResult = "failed";
                 return testResult;
             }
-            
+
         } catch (Exception e) {
             testResult = "failed";
         }
         return testResult;
     }
-    
+
     // test query and sorting of Java SDK
     @SuppressWarnings("unchecked")
     private String testQuery(BasicClient client) {
@@ -191,9 +191,9 @@ public class TestSDKServlet extends HttpServlet {
         }
 
         return testResult;
-        
+
     }
-    
+
     // build the test student entity that can pass schema validation
     private Map<String, Object> createStudentBody() {
         Map<String, Object> body = new HashMap<String, Object>();
@@ -219,10 +219,10 @@ public class TestSDKServlet extends HttpServlet {
         address.put("nameOfCounty", "Wake");
         addresses.add(address);
         body.put("address", addresses);
-        
+
         return body;
     }
-    
+
     private String buildTestResponse(String testResult) {
         String testResponse = testResult;
         return testResponse;
