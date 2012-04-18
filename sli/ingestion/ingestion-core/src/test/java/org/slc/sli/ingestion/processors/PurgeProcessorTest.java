@@ -7,7 +7,6 @@ import junitx.util.PrivateAccessor;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;

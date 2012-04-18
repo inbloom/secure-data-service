@@ -181,25 +181,9 @@ public class PopulationManagerImpl implements PopulationManager {
                         + (String) name.get(Constants.ATTR_LAST_SURNAME);
                 name.put(Constants.ATTR_FULL_NAME, fullName);
                 
-                // TODO - Switch once real API data is implemented
-                switch (count++ % 5) {
-                    case 0:
-                        student.put("grade", "A+");
-                        break;
-                    case 1:
-                        student.put("grade", "B+");
-                        break;
-                    case 2:
-                        student.put("grade", "C+");
-                        break;
-                    case 3:
-                        student.put("grade", "D+");
-                        break;
-                    case 4:
-                        student.put("grade", "F+");
-                        break;
                 
-                }
+                // TODO - Switch once real API data is implemented
+                addGrade(student, count++);
                 
                 // xform score format
                 Map studentAssmtAssocs = (Map) student.get(Constants.ATTR_ASSESSMENTS);
@@ -273,6 +257,59 @@ public class PopulationManagerImpl implements PopulationManager {
                 
             }
         }
+    }
+    
+    private void addGrade(GenericEntity student, int count) {
+    	Map<String, Object> grade = new LinkedHashMap<String, Object>();
+    	
+    	switch (count % 15) {
+            case 0:
+            	grade.put("grade", "A+");
+                break;
+            case 1:
+            	grade.put("grade", "B+");
+                break;
+            case 2:
+        	    grade.put("grade", "C+");
+                break;
+            case 3:
+        	    grade.put("grade", "D+");
+                break;
+            case 4:
+             	grade.put("grade", "F+");
+                break;
+            case 5:
+        	    grade.put("grade", "A");
+                break;
+            case 6:
+        	    grade.put("grade", "B");
+                break;
+            case 7:
+        	    grade.put("grade", "C");
+                break;
+            case 8:
+        	    grade.put("grade", "D");
+                break;
+            case 9:
+        	    grade.put("grade", "F");
+                break;
+            case 10:
+        	    grade.put("grade", "A-");
+                break;
+            case 11:
+        	    grade.put("grade", "B-");
+                break;
+            case 12:
+        	    grade.put("grade", "C-");
+                break;
+            case 13:
+        	    grade.put("grade", "D-");
+                break;
+            case 14:
+        	    grade.put("grade", "F-");
+                break;    
+        }
+    	student.put("score", grade);
     }
     
     /**

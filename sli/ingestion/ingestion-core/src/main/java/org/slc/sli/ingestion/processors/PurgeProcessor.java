@@ -75,7 +75,7 @@ public class PurgeProcessor implements Processor {
                 String collectionName;
                 while (iter.hasNext()) {
                     collectionName = iter.next();
-                    if(isSystemCollection(collectionName)) {
+                    if (isSystemCollection(collectionName)) {
                         continue;
                     }
                     mongoTemplate.remove(searchTenantId, collectionName);
