@@ -112,20 +112,20 @@ public class PopulationManagerImpl implements PopulationManager {
         // get student summary data
         List<GenericEntity> studentSummaries = getStudentSummaries(token, null, null, null, (String) sectionId);
         
-        // apply assmt filters
+        // apply assmt filters and flatten assmt data structure for easy fetching
         applyAssessmentFilters(studentSummaries, config);
         
         // data enhancements
         enhanceListOfStudents(studentSummaries);
         
-        // get student grades - TODO: get this data from the integrated API call
+        // get student grades (kindergarten, first grade, etc..) - TODO: get this data from the integrated API call
         Set<String> studentGrades = getStudentGrades(token, studentSummaries);
         
-        GenericEntity g = new GenericEntity();
-        g.put(Constants.ATTR_STUDENTS, studentSummaries);
-        g.put(Constants.ATTR_GRADE_LEVELS, studentGrades);
+        GenericEntity result = new GenericEntity();
+        result.put(Constants.ATTR_STUDENTS, studentSummaries);
+        result.put(Constants.ATTR_GRADE_LEVELS, studentGrades);
         
-        return g;
+        return result;
     }
     
     /**
@@ -137,10 +137,11 @@ public class PopulationManagerImpl implements PopulationManager {
      * @param studentSummaries
      * @return
      */
-    private Set<String> getStudentGrades(String token, List<GenericEntity> studentSummaries) {
+    public Set<String> getStudentGrades(String token, List<GenericEntity> studentSummaries) {
         
         Set<String> studentGrades = new HashSet<String>();
         if (studentSummaries != null) {
+            
             // get student uids
             List<String> studentUids = new ArrayList<String>();
             for (GenericEntity student : studentSummaries) {
@@ -150,8 +151,7 @@ public class PopulationManagerImpl implements PopulationManager {
             // get student info
             List<GenericEntity> students = entityManager.getStudents(token, studentUids);
             
-            // put together set of grades
-            
+            // put together set of grades            
             for (GenericEntity s : students) {
                 studentGrades.add(s.getString(Constants.ATTR_GRADE_LEVEL));
             }
@@ -205,7 +205,7 @@ public class PopulationManagerImpl implements PopulationManager {
                         String result = (String) scoreResult.get(Constants.ATTR_RESULT);
                         assmtResult.put(type, result);
                     }
-                    
+                                        
                     List<List<Map>> perfLevelsDescs = (List<List<Map>>) assmtResult
                             .get(Constants.ATTR_PERFORMANCE_LEVEL_DESCRIPTOR);
                     if (perfLevelsDescs != null) {
@@ -230,22 +230,22 @@ public class PopulationManagerImpl implements PopulationManager {
                             .get(Constants.ATTR_STUDENT_ATTENDANCES);
                     int absenceCount = 0;
                     int tardyCount = 0;
-                    if (attendances != null) {
+                    if (attendances != null && attendances.size() > 0) {
                         for (Map attendance : attendances) {
                             
-                            String event = (String) attendance.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
+                            String eventCategory = (String) attendance.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
                             
-                            if (event.contains(ATTENDANCE_ABSENCE)) {
+                            if (eventCategory.contains(ATTENDANCE_ABSENCE)) {
                                 absenceCount++;
                                 
-                            } else if (event.contains(ATTENDANCE_TARDY)) {
+                            } else if (eventCategory.contains(ATTENDANCE_TARDY)) {
                                 tardyCount++;
                             }
                         }
                         
-                        int attendanceRate = Math.round(((float) (attendances.size() - absenceCount) / attendances
+                        int attendanceRate = Math.round((((float) (attendances.size() - absenceCount)) / attendances
                                 .size()) * 100);
-                        int tardyRate = Math.round(((float) tardyCount / attendances.size()) * 100);
+                        int tardyRate = Math.round((((float) tardyCount) / attendances.size()) * 100);
                         
                         attendanceBody.remove(Constants.ATTR_STUDENT_ATTENDANCES);
                         attendanceBody.put(Constants.ATTR_ABSENCE_COUNT, absenceCount);
@@ -260,56 +260,56 @@ public class PopulationManagerImpl implements PopulationManager {
     }
     
     private void addGrade(GenericEntity student, int count) {
-    	Map<String, Object> grade = new LinkedHashMap<String, Object>();
-    	
-    	switch (count % 15) {
+        Map<String, Object> grade = new LinkedHashMap<String, Object>();
+        
+        switch (count % 15) {
             case 0:
-            	grade.put("grade", "A+");
+                grade.put("grade", "A+");
                 break;
             case 1:
-            	grade.put("grade", "B+");
+                grade.put("grade", "B+");
                 break;
             case 2:
-        	    grade.put("grade", "C+");
+                grade.put("grade", "C+");
                 break;
             case 3:
-        	    grade.put("grade", "D+");
+                grade.put("grade", "D+");
                 break;
             case 4:
-             	grade.put("grade", "F+");
+                 grade.put("grade", "F+");
                 break;
             case 5:
-        	    grade.put("grade", "A");
+                grade.put("grade", "A");
                 break;
             case 6:
-        	    grade.put("grade", "B");
+                grade.put("grade", "B");
                 break;
             case 7:
-        	    grade.put("grade", "C");
+                grade.put("grade", "C");
                 break;
             case 8:
-        	    grade.put("grade", "D");
+                grade.put("grade", "D");
                 break;
             case 9:
-        	    grade.put("grade", "F");
+                grade.put("grade", "F");
                 break;
             case 10:
-        	    grade.put("grade", "A-");
+                grade.put("grade", "A-");
                 break;
             case 11:
-        	    grade.put("grade", "B-");
+                grade.put("grade", "B-");
                 break;
             case 12:
-        	    grade.put("grade", "C-");
+                grade.put("grade", "C-");
                 break;
             case 13:
-        	    grade.put("grade", "D-");
+                grade.put("grade", "D-");
                 break;
             case 14:
-        	    grade.put("grade", "F-");
+                grade.put("grade", "F-");
                 break;    
         }
-    	student.put("score", grade);
+        student.put("score", grade);
     }
     
     /**

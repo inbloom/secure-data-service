@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -243,8 +244,40 @@ public class PopulationManagerTest {
         Map enhancedAssmt = (Map) enhancedAssmts.get("ISAT Reading");
         Assert.assertEquals("50", enhancedAssmt.get("Scale score"));
 
+        // check for attendance tallies
+        Map attendances = (Map) student.get(Constants.ATTR_STUDENT_ATTENDANCES);
+        Assert.assertEquals(1, attendances.get(Constants.ATTR_ABSENCE_COUNT));
+        Assert.assertEquals(1, attendances.get(Constants.ATTR_TARDY_COUNT));
     }
 
+    @Test
+    public void testGetStudentGrades() throws Exception {
+        
+        List<GenericEntity> students = createSomeStudentSummaries();
+        List<String> studentUIDs = new ArrayList<String>();
+        studentUIDs.add("dummyId");
+        
+        // mock student api calls
+        EntityManager mockedEntityManager = PowerMockito.spy(new EntityManager());
+        
+        GenericEntity student = new GenericEntity();
+        student.put("id", "dummyId");
+        student.put(Constants.ATTR_GRADE_LEVEL, "Eighth grade");
+        List<GenericEntity> students2 = new ArrayList<GenericEntity>();
+        students2.add(student);
+
+        PowerMockito.doReturn(students2).when(mockedEntityManager, "getStudents", null, studentUIDs);
+        
+        // make the call
+        PopulationManagerImpl pm = new PopulationManagerImpl();
+        pm.setEntityManager(mockedEntityManager);
+        Set<String> grades = pm.getStudentGrades(null, students);
+        
+        // check grades
+        Assert.assertEquals(1, grades.size());
+        Assert.assertEquals("Eighth grade", (grades.toArray())[0]);
+    }
+    
     private List<GenericEntity> createSomeStudentSummaries() {
 
         List<GenericEntity> studentSummaries = new ArrayList<GenericEntity>();
@@ -253,8 +286,10 @@ public class PopulationManagerTest {
         name.put("firstName", "John");
         name.put("lastSurname", "Doe");
         student.put("name", name);
+        student.put("id", "dummyId");
         studentSummaries.add(student);
 
+        // create assmt data
         List<Map> assmtResults = new ArrayList<Map>();
         Map assmtResult1 = new HashMap();
         Map assmts1 = new HashMap();
@@ -285,6 +320,21 @@ public class PopulationManagerTest {
 
         student.put(Constants.ATTR_STUDENT_ASSESSMENTS, assmtResults);
 
+        // create attendance data
+        Map<String, Object> attendanceBody = new HashMap<String, Object>();
+        List<Map<String, Object>> attendances = new ArrayList<Map<String, Object>>();
+        attendanceBody.put(Constants.ATTR_STUDENT_ATTENDANCES, attendances);
+        student.put(Constants.ATTR_STUDENT_ATTENDANCES, attendanceBody);
+        
+        Map<String, Object> attendance1 = new HashMap<String, Object>();
+        attendance1.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, "Unexcused Absence");
+        attendances.add(attendance1);
+        
+        Map<String, Object> attendance2 = new HashMap<String, Object>();
+        attendance2.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, "Tardy");
+        attendances.add(attendance2);
+        
+        
         return studentSummaries;
     }
 
