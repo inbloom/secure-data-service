@@ -40,7 +40,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)
                         .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS)
                         .addConnection(EntityNames.COHORT, "cohortId", ResourceNames.STAFF_COHORT_ASSOCIATIONS)
-                        .addConnection(EntityNames.PROGRAM, "staffId", "")
+                        .addConnection(EntityNames.PROGRAM, "staffId", "") //TODO: ResourceNames.STAFF_PROGRAM_ASSOCIATIONS
                         .construct());
         nodeMap.put(
                 EntityNames.SCHOOL,
@@ -52,7 +52,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.TEACHER, "teacherId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS)
                         .addConnection(EntityNames.STUDENT, "studentId", ResourceNames.STUDENT_SECTION_ASSOCIATIONS)
                         .addConnection(EntityNames.COURSE, "courseId", EntityNames.SECTION)
-                        .addConnection(EntityNames.SESSION, "sessionId", EntityNames.SECTION)
+                        .addConnection(EntityNames.SESSION, "sessionId", EntityNames.SECTION) //TODO: section->program
                         .construct());
         nodeMap.put(EntityNames.STUDENT,
                 SecurityNodeBuilder.buildNode(EntityNames.STUDENT)
@@ -62,13 +62,13 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.DISCIPLINE_ACTION, "studentId", "")
                         .addConnection(EntityNames.DISCIPLINE_INCIDENT, "incidentId",
                                 ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
-                        .addConnection(EntityNames.PARENT, "parentId", ResourceNames.STUDENT_PARENT_ASSOCIATIONS)
+                        .addConnection(EntityNames.PARENT, "parentId", ResourceNames.STUDENT_PARENT_ASSOCIATIONS) //TODO: cohort + program associations
                         .construct());
 
         // Leaf Nodes are unconnected
         nodeMap.put(EntityNames.ATTENDANCE, SecurityNodeBuilder.buildNode(EntityNames.ATTENDANCE).construct());
-        nodeMap.put(EntityNames.PROGRAM, SecurityNodeBuilder.buildNode(EntityNames.PROGRAM).construct());
-        nodeMap.put(EntityNames.COURSE, SecurityNodeBuilder.buildNode(EntityNames.COURSE).construct());
+        nodeMap.put(EntityNames.PROGRAM, SecurityNodeBuilder.buildNode(EntityNames.PROGRAM).construct()); //TODO: staff + student associations
+        nodeMap.put(EntityNames.COURSE, SecurityNodeBuilder.buildNode(EntityNames.COURSE).construct()); //TODO: staff + student associations
         nodeMap.put(EntityNames.SESSION, SecurityNodeBuilder.buildNode(EntityNames.SESSION).construct());
 
         nodeMap.put(EntityNames.COHORT, SecurityNodeBuilder.buildNode(EntityNames.COHORT).construct());
@@ -92,6 +92,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                 SecurityNodeBuilder.buildNode(EntityNames.EDUCATION_ORGANIZATION)
                         .addConnection(EntityNames.STAFF, "staffReference", ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
                         .addConnection(EntityNames.SCHOOL, "parentEducationAgencyReference", "")
+                        .addConnection(EntityNames.PROGRAM, "programReference", "")
                         .construct());
 
         prePath.put(
