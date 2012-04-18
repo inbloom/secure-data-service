@@ -19,7 +19,7 @@ public final class URLBuilder {
 
     /**
      * Start building a new URL with the provided base location.
-     *
+     * 
      * @param baseUrl
      *            - base URL of the ReSTful API.
      * @return URLBuilder instance
@@ -32,7 +32,7 @@ public final class URLBuilder {
 
     /**
      * Append a path fragment to the current URL path.
-     *
+     * 
      * @param path
      *            URL fragment to add.
      * @return Updated URLBuilder instance.
@@ -45,20 +45,29 @@ public final class URLBuilder {
 
     /**
      * Append a path element for accessing the provided entity type.
-     *
+     * 
      * @param type
      *            Entity type of interest.
      * @return Updated URLBuilder instance.
      */
     public URLBuilder entityType(final String type) {
-        addPath(PathConstants.TEMP_MAP.get(type));
+        String path = PathConstants.TEMP_MAP.get(type);
+        if (path == null && type.equals(PathConstants.SECURITY_SESSION_DEBUG)) {
+            path = type;
+        } else if (path == null && type.equals(PathConstants.HOME)) {
+            path = type;
+        } else if (path == null) {
+            path = type + "s";
+        }
+        addPath(path);
         return this;
     }
 
     /**
      * Append an entity id to the path
-     *
-     * @param id Entity ID
+     * 
+     * @param id
+     *            Entity ID
      * @return Updated URLBuilder instance.
      */
     public URLBuilder id(final String id) {
@@ -68,7 +77,7 @@ public final class URLBuilder {
 
     /**
      * Append a collection of entity ids to the path
-     *
+     * 
      * @param ids
      *            a collection of Entity IDs
      * @return Updated URLBuilder instance.
@@ -87,7 +96,7 @@ public final class URLBuilder {
 
     /**
      * Apply the given query to the URL.
-     *
+     * 
      * @param query
      * @return Updated URLBuilder instance.
      */
@@ -105,7 +114,7 @@ public final class URLBuilder {
 
     /**
      * Builds the URL.
-     *
+     * 
      * @return URL represented by the values set in this builder.
      * @throws MalformedURLException
      *             if the URL is not valid.
@@ -117,7 +126,7 @@ public final class URLBuilder {
 
     /**
      * Add a URL Query parameter to the URL.
-     *
+     * 
      * @param key
      *            query parameter name
      * @param value
