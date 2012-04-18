@@ -7,17 +7,17 @@ import junitx.util.PrivateAccessor;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.ingestion.BatchJob;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.ingestion.BatchJob;
 
 /**
  *
@@ -47,7 +47,7 @@ public class PurgeProcessorTest {
         PrivateAccessor.setField(purgeProcessor, "logger", log);
 
         purgeProcessor.process(ex);
-        Mockito.verify(log, Mockito.atLeastOnce()).error("Error:", "TenantId missing. No purge operation performed.");
+        Mockito.verify(log, Mockito.atLeastOnce()).error("TenantId is missing. No purge operation performed.");
     }
 
     @Test

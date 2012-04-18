@@ -4,7 +4,6 @@ Background: Realm selector is set up to reflect two sandbox tenancies and databa
 Given I have an open web browser
 
 
-@wip
 Scenario: Mock IDP Page components
 Given I have selected the realm using the realm selector
 Then I should be redirected to the Mock IDP page for the realm

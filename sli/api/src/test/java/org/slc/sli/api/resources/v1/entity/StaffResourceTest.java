@@ -1,21 +1,27 @@
 package org.slc.sli.api.resources.v1.entity;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
+
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.util.ResourceConstants;
-import org.slc.sli.api.resources.util.ResourceTestUtil;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.association.StaffCohortAssociation;
-import org.slc.sli.api.resources.v1.association.StaffEducationOrganizationAssociation;
-import org.slc.sli.api.resources.v1.association.StaffProgramAssociationResource;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -23,21 +29,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.association.StaffCohortAssociation;
+import org.slc.sli.api.resources.v1.association.StaffEducationOrganizationAssociation;
+import org.slc.sli.api.resources.v1.association.StaffProgramAssociationResource;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.ResourceConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
 
 /**
  * Unit tests for the resource representing a Staff
@@ -51,7 +54,7 @@ import static org.mockito.Mockito.when;
 public class StaffResourceTest {
 
     @Autowired
-    StaffResource staffResource; //class under test 
+    StaffResource staffResource; //class under test
 
     @Autowired
     EducationOrganizationResource edOrgResource;
@@ -64,16 +67,16 @@ public class StaffResourceTest {
 
     @Autowired
     StaffCohortAssociation staffCohortAssn;
-    
+
     @Autowired
     ProgramResource programResource;
-    
+
     @Autowired
     StaffProgramAssociationResource staffProgramAssociationResource;
 
     @Autowired
     private SecurityContextInjector injector;
-    
+
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
 
@@ -88,22 +91,22 @@ public class StaffResourceTest {
     private final String uniqueStateId = "9876";
     private final String staffClassification = "orange";
     private final String cohortType = "Unua Type";
-    
+
     @Before
     public void setup() throws Exception {
         uriInfo = ResourceTestUtil.buildMockUriInfo(null);
-        
+
         // inject administrator security context for unit testing
         injector.setAdminContextWithElevatedRights();
-        
+
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
-        
+
         httpHeaders = mock(HttpHeaders.class);
         when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
     }
-    
+
     private Map<String, Object> createTestEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STAFF_ID, firstStaffId);
@@ -114,7 +117,7 @@ public class StaffResourceTest {
         entity.put(StaffResource.EDUCATION_LEVEL, "PhD");
         return entity;
     }
-    
+
     private Map<String, Object> createTestUpdateEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STAFF_ID, firstStaffId);
@@ -125,7 +128,7 @@ public class StaffResourceTest {
         entity.put(StaffResource.EDUCATION_LEVEL, "PhD");
         return entity;
     }
-    
+
     private Map<String, Object> createTestSecondaryEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STAFF_ID, secondStaffId);
@@ -143,7 +146,7 @@ public class StaffResourceTest {
         entity.put("organizationCategories", "State Education Agency");
         entity.put("nameOfInstitution", "Primero Test Institution");
        return entity;
-    }  
+    }
 
     private Map<String, Object> createTestEdOrgAssociationEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
@@ -151,7 +154,7 @@ public class StaffResourceTest {
         entity.put(StaffEducationOrganizationAssociation.STAFF_CLASSIFICATION, staffClassification);
         entity.put(StaffEducationOrganizationAssociation.BEGIN_DATE, "2012-01-01");
         return entity;
-    }  
+    }
 
     private Map<String, Object> createTestCohortEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
@@ -160,32 +163,32 @@ public class StaffResourceTest {
         entity.put(CohortResource.EDUCATION_ORGANIZATION_ID, edOrgId);
         return entity;
     }
-    
+
     private Map<String, Object> createTestCohortAssociationEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID, cohortAssociationId);
         entity.put(StaffCohortAssociation.BEGIN_DATE, cohortAssnBeginDate);
         return entity;
-    }  
+    }
 
     @Test
     public void testCreate() {
         Response response = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
-            
+
         String id = ResourceTestUtil.parseIdFromLocation(response);
         assertNotNull("ID should not be null", id);
     }
-    
+
     @Test
     public void testRead() {
         //create one entity
         Response createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
         Response response = staffResource.read(id, httpHeaders, uriInfo);
-        
+
         Object responseEntityObj = response.getEntity();
-        
+
         if (responseEntityObj instanceof EntityBody) {
             assertNotNull(responseEntityObj);
         } else if (responseEntityObj instanceof List<?>) {
@@ -194,19 +197,19 @@ public class StaffResourceTest {
             assertTrue("Should have one entity", results.size() == 1);
         } else {
             fail("Response entity not recognized: " + response);
-        } 
+        }
     }
-    
+
     @Test
     public void testDelete() {
         //create one entity
         Response createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
-        
+
         //delete it
         Response response = staffResource.delete(id, httpHeaders, uriInfo);
         assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-        
+
         try {
             @SuppressWarnings("unused")
             Response getResponse = staffResource.read(id, httpHeaders, uriInfo);
@@ -217,48 +220,48 @@ public class StaffResourceTest {
             fail("threw wrong exception: " + e);
         }
     }
-    
+
     @Test
     public void testUpdate() {
         //create one entity
         Response createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
-        
+
         //update it
         Response response = staffResource.update(id, new EntityBody(createTestUpdateEntity()), httpHeaders, uriInfo);
         assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-          
+
         //try to get it
         Response getResponse = staffResource.read(id, httpHeaders, uriInfo);
-        assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());            
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
         EntityBody body = (EntityBody) getResponse.getEntity();
-        assertNotNull("Should return an entity", body);            
+        assertNotNull("Should return an entity", body);
         assertEquals(ParameterConstants.STAFF_ID + " should be " + firstStaffId, firstStaffId, body.get(ParameterConstants.STAFF_ID));
         assertEquals(StaffResource.NAME + " should be " + secondName, secondName, body.get(StaffResource.NAME));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
-    
+
     @Test
     public void testReadAll() {
         //create two entities
         staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         staffResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
-        
+
         //read everything
         Response response = staffResource.readAll(0, 100, httpHeaders, uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
-        
+
         @SuppressWarnings("unchecked")
         List<EntityBody> results = (List<EntityBody>) response.getEntity();
         assertNotNull("Should return entities", results);
         assertTrue("Should have at least two entities", results.size() >= 2);
     }
-    
+
     @Test
     public void testReadCommaSeparatedResources() {
         Response response = staffResource.read(getIDList(ResourceNames.STAFF), httpHeaders, uriInfo);
         assertEquals("Status code should be 200", Status.OK.getStatusCode(), response.getStatus());
-        
+
         @SuppressWarnings("unchecked")
         List<EntityBody> results = (List<EntityBody>) response.getEntity();
         assertEquals("Should get 2 entities", 2, results.size());
@@ -267,20 +270,20 @@ public class StaffResourceTest {
         assertNotNull("Should not be null", body1);
         assertEquals(ParameterConstants.STAFF_ID + " should be " + firstStaffId, firstStaffId, body1.get(ParameterConstants.STAFF_ID));
         assertNotNull("Should include links", body1.get(ResourceConstants.LINKS));
-        
+
         EntityBody body2 = results.get(1);
         assertNotNull("Should not be null", body2);
         assertEquals(ParameterConstants.STAFF_ID + " should be " + secondStaffId, secondStaffId, body2.get(ParameterConstants.STAFF_ID));
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
     }
-    
+
     @Test
     public void testGetEdOrgAssociations() {
         //create one entity
         Response createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         String staffId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
-        createResponse = edOrgResource.create(new EntityBody(createTestEdOrgEntity()), httpHeaders, uriInfo); 
+        createResponse = edOrgResource.create(new EntityBody(createTestEdOrgEntity()), httpHeaders, uriInfo);
         String targetId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = createTestEdOrgAssociationEntity();
@@ -291,8 +294,8 @@ public class StaffResourceTest {
         //String associationId = parseIdFromLocation(createResponse);
 
         Response response = staffResource.getStaffEducationOrganizationAssociations(staffId, httpHeaders, uriInfo);
-        
-        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
+
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
         Object responseEntityObj = response.getEntity();
 
@@ -310,7 +313,7 @@ public class StaffResourceTest {
             return;
         }
 
-        assertNotNull("Should return an entity", body);            
+        assertNotNull("Should return an entity", body);
         assertEquals(StaffEducationOrganizationAssociation.STAFF_CLASSIFICATION + " should be " + staffClassification, staffClassification, body.get(StaffEducationOrganizationAssociation.STAFF_CLASSIFICATION));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
@@ -362,7 +365,7 @@ public class StaffResourceTest {
         Response createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         String staffId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
-        createResponse = cohortResource.create(new EntityBody(createTestCohortEntity()), httpHeaders, uriInfo); 
+        createResponse = cohortResource.create(new EntityBody(createTestCohortEntity()), httpHeaders, uriInfo);
         String targetId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = createTestCohortAssociationEntity();
@@ -373,8 +376,8 @@ public class StaffResourceTest {
         //String associationId = parseIdFromLocation(createResponse);
 
         Response response = staffResource.getStaffCohortAssociations(staffId, httpHeaders, uriInfo);
-        
-        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
+
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
         Object responseEntityObj = response.getEntity();
 
@@ -392,7 +395,7 @@ public class StaffResourceTest {
             return;
         }
 
-        assertNotNull("Should return an entity", body);            
+        assertNotNull("Should return an entity", body);
         assertEquals(StaffCohortAssociation.BEGIN_DATE + " should be " + cohortAssnBeginDate, cohortAssnBeginDate, body.get(StaffCohortAssociation.BEGIN_DATE));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
@@ -403,7 +406,7 @@ public class StaffResourceTest {
         Response createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         String staffId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
-        createResponse = cohortResource.create(new EntityBody(createTestCohortEntity()), httpHeaders, uriInfo); 
+        createResponse = cohortResource.create(new EntityBody(createTestCohortEntity()), httpHeaders, uriInfo);
         String cohortId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = createTestCohortAssociationEntity();
@@ -411,10 +414,10 @@ public class StaffResourceTest {
         map.put(ParameterConstants.COHORT_ID, cohortId);
 
         createResponse = staffCohortAssn.create(new EntityBody(map), httpHeaders, uriInfo);
-        
+
         Response response = staffResource.getStaffCohortAssociationCohorts(staffId, httpHeaders, uriInfo);
-        
-        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
+
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
         Object responseEntityObj = response.getEntity();
 
@@ -436,26 +439,26 @@ public class StaffResourceTest {
         assertEquals(CohortResource.COHORT_TYPE + " should be " + cohortType, cohortType, body.get(CohortResource.COHORT_TYPE));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
-    
+
     private Map<String, Object> createTestProgramEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("programId", "1001");
        return entity;
-    }  
+    }
 
     private Map<String, Object> createTestStaffProgramAssociationEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("beginDate", "2012-01-01");
         return entity;
     }
-    
+
     @Test
     public void testGetStaffProgramAssociations() {
         //create one entity
         Response createResponse = programResource.create(new EntityBody(createTestProgramEntity()), httpHeaders, uriInfo);
         String programId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
-        createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo); 
+        createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         String staffId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = createTestStaffProgramAssociationEntity();
@@ -465,8 +468,8 @@ public class StaffResourceTest {
         createResponse = staffProgramAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
 
         Response response = staffResource.getStaffProgramAssociations(staffId, httpHeaders, uriInfo);
-        
-        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());            
+
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
         Object responseEntityObj = response.getEntity();
 
@@ -484,7 +487,7 @@ public class StaffResourceTest {
             return;
         }
 
-        assertNotNull("Should return an entity", body);            
+        assertNotNull("Should return an entity", body);
         assertEquals("beginDate should be 2012-01-01", "2012-01-01", body.get("beginDate"));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
@@ -495,7 +498,7 @@ public class StaffResourceTest {
         Response createResponse = programResource.create(new EntityBody(createTestProgramEntity()), httpHeaders, uriInfo);
         String programId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
-        createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo); 
+        createResponse = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         String staffId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = createTestStaffProgramAssociationEntity();
@@ -503,9 +506,9 @@ public class StaffResourceTest {
         map.put("staffId", staffId);
 
         createResponse = staffProgramAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
-        
+
         Response response = staffResource.getStaffProgramAssociationPrograms(staffId, httpHeaders, uriInfo);
-        
+
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
         Object responseEntityObj = response.getEntity();
@@ -528,12 +531,12 @@ public class StaffResourceTest {
         assertEquals("studentUniqueStateId should be 1001", "1001", body.get("programId"));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
-    
+
     private String getIDList(String resource) {
         //create more resources
         Response createResponse1 = staffResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         Response createResponse2 = staffResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
-        
+
         return ResourceTestUtil.parseIdFromLocation(createResponse1) + "," + ResourceTestUtil.parseIdFromLocation(createResponse2);
     }
 }

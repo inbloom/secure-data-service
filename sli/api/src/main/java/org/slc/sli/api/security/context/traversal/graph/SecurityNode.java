@@ -10,7 +10,6 @@ public class SecurityNode {
     Set<SecurityNodeConnection> connections;
     private String name;
 
-
     public SecurityNode(String name) {
         this.name = name;
         this.connections = new HashSet<SecurityNodeConnection>();
@@ -22,16 +21,18 @@ public class SecurityNode {
 
     public boolean isConnectedTo(String entityName) {
         for (SecurityNodeConnection connection : connections) {
-            if (connection.getConnectionTo().equals(entityName))
+            if (connection.getConnectionTo().equals(entityName)) {
                 return true;
+            }
         }
         return false;
     }
 
     public SecurityNodeConnection getConnectionForEntity(String entityName) {
         for (SecurityNodeConnection connection : connections) {
-            if (connection.getConnectionTo().equals(entityName))
+            if (connection.getConnectionTo().equals(entityName)) {
                 return connection;
+            }
         }
         return null;
     }
@@ -51,7 +52,7 @@ public class SecurityNode {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     @Override
     public String toString() {
         return this.name;

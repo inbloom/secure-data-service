@@ -39,12 +39,8 @@ When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
   end
 end
 
-Then /^I see a list of (\d+) students$/ do |numOfStudents|
+Then /^I see a list of students$/ do
   studentList = @explicitWait.until{@driver.find_element(:id, "studentList")}
-
-  actualCount = countTableRows()
-  puts "numOfStudents should be " + numOfStudents.to_s + ", actualCount = " + actualCount.to_s
-  assert(actualCount == numOfStudents.to_i, "List contains '" + actualCount.to_s + "' students and not '" + numOfStudents.to_s + "'")
 end
 
 Then /^I should see the name "([^"]*)" in student field with link$/ do |studentName|

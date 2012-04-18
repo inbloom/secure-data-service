@@ -10,23 +10,26 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.api.config.AssociationDefinition;
-import org.slc.sli.api.config.EntityNames;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.config.AssociationDefinition;
+import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
 
 /**
  * @author rlatta
@@ -69,8 +72,14 @@ public class PathFindingContextResolverTest {
     public void testFindTeacherToSections() throws Exception {
         Entity mockEntity = Mockito.mock(Entity.class);
         when(mockEntity.getEntityId()).thenReturn("1");
+
+        //override for demo user
+        Map mockBody = new HashMap();
+        mockBody.put("staffUniqueStateId", "mock");
+        when(mockEntity.getBody()).thenReturn(mockBody);
+
         List<String> finalList = Arrays.asList(new String[] { "2", "3", "4" });
-        assertTrue(resolver.canResolve(EntityNames.TEACHER, EntityNames.SECTION));
+        assertTrue("Can resolve teacher to section", resolver.canResolve(EntityNames.TEACHER, EntityNames.SECTION));
         when(
                 mockHelper.findEntitiesContainingReference(eq(EntityNames.TEACHER_SECTION_ASSOCIATION),
                         eq("teacherId"), eq("sectionId"), any(List.class))).thenReturn(
@@ -88,7 +97,7 @@ public class PathFindingContextResolverTest {
         List<String> returned = resolver.findAccessible(mockEntity);
         // assertTrue(returned.size() == finalList.size());
         for (String id : finalList) {
-            assertTrue(returned.contains(id));
+            assertTrue("List contains " + id, returned.contains(id));
         }
         
     }
@@ -96,6 +105,12 @@ public class PathFindingContextResolverTest {
     @Test
     public void testFindTeacherToStudent() throws Exception {
         Entity mockEntity = Mockito.mock(Entity.class);
+
+        //override for demo user
+        Map mockBody = new HashMap();
+        mockBody.put("staffUniqueStateId", "mock");
+        when(mockEntity.getBody()).thenReturn(mockBody);
+
         when(mockEntity.getEntityId()).thenReturn("1");
         List<String> finalList = Arrays.asList(new String[] { "5", "6", "7" });
         
@@ -119,6 +134,12 @@ public class PathFindingContextResolverTest {
     @Test
     public void testFindTeacherToTeacher() throws Exception {
         Entity mockEntity = Mockito.mock(Entity.class);
+
+        //override for demo user
+        Map mockBody = new HashMap();
+        mockBody.put("staffUniqueStateId", "mock");
+        when(mockEntity.getBody()).thenReturn(mockBody);
+
         when(mockEntity.getEntityId()).thenReturn("1");
         List<String> finalList = Arrays.asList(new String[] { "1" });
         List<String> tsKeys1 = Arrays.asList(new String[] { "schoolId", "teacherId" });

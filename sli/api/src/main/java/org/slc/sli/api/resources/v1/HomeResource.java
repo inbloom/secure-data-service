@@ -12,15 +12,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.representation.Home;
-import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.util.ResourceConstants;
-import org.slc.sli.domain.Entity;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,11 +20,21 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EmbeddedLink;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.Home;
+import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.common.constants.ResourceConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
+import org.slc.sli.domain.Entity;
+
 /**
  * HomeResource
  *
  * Provides initial information for a user.
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + "home")
 @Component
@@ -74,7 +75,7 @@ public class HomeResource {
 
             // prepare a list of links with the self link
             List<EmbeddedLink> links = ResourceUtil.getLinks(this.entityDefs, defn, body, uriInfo);
-            
+
             // create a final map of links to relevant links
             HashMap<String, Object> linksMap = new HashMap<String, Object>();
             linksMap.put(ResourceConstants.LINKS, links);
@@ -90,7 +91,7 @@ public class HomeResource {
 
     /**
      * Analyzes security context to get ID and EntityDefinition for user.
-     * 
+     *
      * @return Pair containing ID and EntityDefinition from security context
      */
     private Pair<String, EntityDefinition> getEntityInfoForUser() {

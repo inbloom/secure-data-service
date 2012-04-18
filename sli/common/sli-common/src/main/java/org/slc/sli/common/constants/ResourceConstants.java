@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.util;
+package org.slc.sli.common.constants;
 
 import java.util.HashMap;
 import java.util.Map;
