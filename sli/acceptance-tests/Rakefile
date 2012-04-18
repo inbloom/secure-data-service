@@ -1048,7 +1048,7 @@ task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest] do
 end
 
 desc "Run JavaSDK sampleApp acceptance tests"
-task :JavaSDKSampleAppTest => [:realmInitNoPeople,:importUnifiedData] do
+task :JavaSDKSampleAppTest => [:importUnifiedData, :realmInitNoPeople] do
     runTests("test/features/apiV1/end_user_stories/sandbox/JavaSDK/sampleApp/sampleApp.feature")
 end
 
