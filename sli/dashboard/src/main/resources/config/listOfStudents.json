@@ -21,7 +21,7 @@
     {name: "Middle School ELA View", 
      condition: {field: "gradeLevels", value: ["Third grade", "Fourth grade", "Fifth grade", "Sixth grade", "Seventh grade", "Eighth grade"]},
      items: [
-      {name: "Student", width: 150, field: "name.fullName", formatter:'showlink', params: {baseLinkUrl:'student', idName:'id', target:"_self", showAction=""}},
+      {name: "Student", width: 150, field: "name.fullName", formatter:DashboardUtil.Grid.Formatters.restLink, params: {link:'service/layout/studentProfile/', target:"_self"}},
       {name: "", width: 60, field: "programParticipation", formatter: DashboardUtil.Grid.Formatters.Lozenge},
       {name: "ISAT Reading", items:[
         {name: "Perf. Lvl.", field: "assessments.ISAT Reading.perfLevel", width:150, sorter: 'int', formatter: DashboardUtil.Grid.Formatters.FuelGauge, params:{name:'ISAT Reading', valueField:'Scale score', fieldName: "ISATReading"}},
@@ -39,7 +39,7 @@
     {name: "Early Literacy View",
      condition: {field: "gradeLevels", value: ["Kindergarten", "First grade", "Second grade", "Third grade"]}, 
      items: [
-      {name: "Student", field: "name.fullName", width:150, formatter:'showlink', params: {baseLinkUrl:'student', idName:'id', target:"_self", showAction=""}},
+      {name: "Student", field: "name.fullName", width:150, formatter:DashboardUtil.Grid.Formatters.restLink, params: {link:'service/layout/studentProfile/', target:"_self"}},
       {name: "", width: 60, field: "programParticipation", formatter: DashboardUtil.Grid.Formatters.Lozenge},
       {name: "DIBELS Next", items:[
         {name: "Perf. Lvl.", field: "assessments.DIBELS Next.perfLevel", width:100}]},
@@ -53,7 +53,7 @@
     {name: "College Ready ELA View", 
      condition: {field: "gradeLevels", value: ["Ninth grade", "Tenth grade", "Eleventh grade", "Twelfth grade"]},
      items: [
-      {name: "Student", field: "name.fullName", width:150, formatter:'showlink', params: {baseLinkUrl:'student', idName:'id', target:"_self", showAction=""}},
+      {name: "Student", field: "name.fullName", width:150, formatter:DashboardUtil.Grid.Formatters.restLink, params: {link:'service/layout/studentProfile/', target:"_self"}},
       {name: "", width: 60, field: "programParticipation", formatter: DashboardUtil.Grid.Formatters.Lozenge},
       {name: "Reading Test Scores (Highest)", items:[
         {name: "SAT", field: "assessments.SAT Reading.x", width:100, sorter: 'int'},
@@ -63,7 +63,7 @@
         {name: "%ile", field: "assessments.SAT Writing.percentile", width:100, sorter: 'int'}]},
       {name: "AP Eng. Exam Scores (Highest)", items:[          
         {name: "Lang.", field: "assessments.AP Language.x", width:100},
-        {name: "Lit.", field: "assessments.AP Literature.x", width:100}]}, 
+        {name: "Lit.", field: "assessments.AP Literature.x", width:100}]},                 
       {name: "Attendance", items:[   
         {name: "Absence Count", field: "attendances.absenceCount", width: 100, sorter: 'int', formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}},
         {name: "Attendance Rate %", field: "attendances.attendanceRate", width: 100, sorter: 'int', formatter: DashboardUtil.Grid.Formatters.CutPoint, params:{cutPoints:{89:{style: 'color-widget-red'}, 94:{style:'color-widget-yellow'}, 98:{style:'color-widget-green'}, 100:{style: 'color-widget-darkgreen'}}}},

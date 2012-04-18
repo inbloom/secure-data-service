@@ -223,6 +223,17 @@ DashboardUtil.Grid.Formatters = {
 			var style = DashboardUtil.tearDrop.getStyle(value, null);
 
 			return "<div class=\"" + style +  "\">" + value + "</div>";
+		},
+		
+		restLink : function(value, options, rowObject)
+		{
+		  var link = options.colModel.formatoptions.link;
+		  if(typeof link == 'string')
+		  {
+		    return '<a href="'+link + rowObject.id+'">'+value+'</a>';
+		  }else{
+		    return cellvalue;
+		  }
 		}
 
 };
