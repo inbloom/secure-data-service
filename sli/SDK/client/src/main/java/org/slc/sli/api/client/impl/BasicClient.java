@@ -70,8 +70,8 @@ public final class BasicClient implements SLIClient {
 
     @Override
     public Response create(final Entity e) throws MalformedURLException, URISyntaxException {
-        URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
-        return restClient.postRequest(url, gson.toJson(e));
+        URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).build();
+        return restClient.postRequest(url, gson.toJson(e.getData()));
     }
 
     @Override
@@ -100,7 +100,7 @@ public final class BasicClient implements SLIClient {
     @Override
     public Response update(final Entity e) throws MalformedURLException, URISyntaxException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
-        return restClient.putRequest(url, gson.toJson(e));
+        return restClient.putRequest(url, gson.toJson(e.getData()));
     }
 
     @Override

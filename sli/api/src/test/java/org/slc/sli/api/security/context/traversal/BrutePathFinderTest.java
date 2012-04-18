@@ -36,7 +36,7 @@ public class BrutePathFinderTest {
     public void setUp() throws Exception {
         path = null;
     }
-
+    
     @After
     public void tearDown() throws Exception {
         path = null;
@@ -52,11 +52,30 @@ public class BrutePathFinderTest {
     }
 
     @Test
+    public void testGetSimplePath3() throws Exception {
+        path = pathFinder.find("teacher", "school");
+        assertTrue(path.size() == 2);
+        assertTrue(path.get(0).getName().equals("teacher"));
+        assertTrue(path.get(1).getName().equals("school"));
+    }
+
+
+    @Test
     public void testGet2PartPath() throws Exception {
         path = pathFinder.find("teacher", "section");
         assertTrue(path.size() == 2);
         assertTrue(path.get(0).getName().equals("teacher"));
         assertTrue(path.get(1).getName().equals("section"));
+    }
+    
+    
+    @Test
+    public void testReverseFind() throws Exception {
+        path = pathFinder.find("student", "teacher");
+        assertTrue(path.size() == 3);
+        assertTrue(path.get(0).getName().equals("student"));
+        assertTrue(path.get(1).getName().equals("section"));
+        assertTrue(path.get(2).getName().equals("teacher"));
     }
 
 
