@@ -18,9 +18,12 @@ public final class SecurityNodeBuilder {
     }
 
 
-
     public SecurityNodeBuilder addConnection(String toEntity, String withField, String associationNode) {
-        SecurityNodeConnection connection = new SecurityNodeConnection(toEntity, withField, associationNode);
+        return addConnection(toEntity, withField, associationNode, null);
+    }
+
+    public SecurityNodeBuilder addConnection(String toEntity, String withField, String associationNode, NodeFilter filter) {
+        SecurityNodeConnection connection = new SecurityNodeConnection(toEntity, withField, associationNode, filter);
         node.addConnection(connection);
         return this;
     }
@@ -30,6 +33,7 @@ public final class SecurityNodeBuilder {
         node.addConnection(connection);
         return this;
     }
+
 
     public SecurityNode construct() {
         return node;
