@@ -90,18 +90,21 @@ public class JobReportingProcessor implements Processor {
 
             // write out 0 count metrics for the input files
             BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.JOB_REPORTING_PROCESSING,
-                    FaultType.TYPE_WARNING.getName(), null, "There were no metrics for " + BatchJobStageType.PERSISTENCE_PROCESSING.getName() + ".");
+                    FaultType.TYPE_WARNING.getName(), null, "There were no metrics for "
+                            + BatchJobStageType.PERSISTENCE_PROCESSING.getName() + ".");
 
             for (ResourceEntry resourceEntry : job.getResourceEntries()) {
-                if (resourceEntry.getResourceFormat() != null &&
-                        resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())) {
+                if (resourceEntry.getResourceFormat() != null
+                        && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())) {
                     logResourceMetric(jobLogger, resourceEntry, 0, 0);
                 }
             }
         }
 
+        jobLogger.info("Processed " + totalProcessed + " records.");
+
         // write properties
-        if (job.getBatchProperties() != null)  {
+        if (job.getBatchProperties() != null) {
             for (Entry<String, String> entry : job.getBatchProperties().entrySet()) {
                 jobLogger.info("[configProperty] " + entry.getKey() + ": " + entry.getValue());
             }
@@ -116,14 +119,12 @@ public class JobReportingProcessor implements Processor {
             for (Error error : errors) {
                 if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
                     success = false;
-                    jobLogger.error(
-                            ((error.getStageName() == null) ? "" : (error.getStageName())) + ","
+                    jobLogger.error(((error.getStageName() == null) ? "" : (error.getStageName())) + ","
                             + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
                             + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier())) + ","
                             + error.getErrorDetail());
                 } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
-                    jobLogger.warn(
-                            ((error.getStageName() == null) ? "" : (error.getStageName())) + ","
+                    jobLogger.warn(((error.getStageName() == null) ? "" : (error.getStageName())) + ","
                             + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
                             + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier())) + ","
                             + error.getErrorDetail());
@@ -140,8 +141,6 @@ public class JobReportingProcessor implements Processor {
             job.setStatus(BatchJobStatusType.COMPLETED_WITH_ERRORS.getName());
         }
 
-        jobLogger.info("Processed " + totalProcessed + " records.");
-
         // clean up after ourselves
         ((ch.qos.logback.classic.Logger) jobLogger).detachAndStopAllAppenders();
 
@@ -151,8 +150,7 @@ public class JobReportingProcessor implements Processor {
 
     private void logResourceMetric(Logger jobLogger, ResourceEntry resourceEntry, long numProcessed, long numFailed) {
         String id = "[file] " + resourceEntry.getExternallyUploadedResourceId();
-        jobLogger.info(id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType()
-                + ")");
+        jobLogger.info(id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType() + ")");
 
         long numPassed = numProcessed - numFailed;
 
