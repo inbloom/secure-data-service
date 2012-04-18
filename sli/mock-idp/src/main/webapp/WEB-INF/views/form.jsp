@@ -5,7 +5,7 @@
 <title>Mock IDP</title>
 <style type="text/css">
 .tenant {
-	color: #438746
+	/* color: #438746 */
 }
 
 .realm-name {
@@ -31,7 +31,7 @@
 
 		<div class="realm-name">
 			<h1>
-				<span class="heading">Simple IDP for</span> <span class="tenant">${tenant}</span>
+				<span class="heading">Sandbox</span> <span class="tenant">${tenant}</span> <span class="heading">Realm</span>
 			</h1>
 		</div>
 
