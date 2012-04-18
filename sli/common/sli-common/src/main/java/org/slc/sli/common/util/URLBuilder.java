@@ -54,6 +54,8 @@ public final class URLBuilder {
         String path = PathConstants.TEMP_MAP.get(type);
         if (path == null && type.equals(PathConstants.SECURITY_SESSION_DEBUG)) {
             path = type;
+        } else if (path == null && type.equals(PathConstants.HOME)) {
+            path = type;
         } else if (path == null) {
             path = type + "s";
         }
