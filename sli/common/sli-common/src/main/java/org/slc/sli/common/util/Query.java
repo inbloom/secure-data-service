@@ -1,4 +1,4 @@
-package org.slc.sli.api.client;
+package org.slc.sli.common.util;
 
 import java.util.Map;
 

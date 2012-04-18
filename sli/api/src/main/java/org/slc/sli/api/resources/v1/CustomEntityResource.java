@@ -13,24 +13,25 @@ import javax.ws.rs.core.UriInfo;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * Subresource for custom entities
- * 
+ *
  */
 public class CustomEntityResource {
-    
+
     String entityId;
     EntityDefinition entityDef;
-    
+
     public CustomEntityResource(String entityId, EntityDefinition entityDef) {
         this.entityId = entityId;
         this.entityDef = entityDef;
     }
-    
+
     /**
      * Read the contents of the custom resource for the given entity
-     * 
+     *
      * @return the response to the GET request
      */
     @GET
@@ -45,10 +46,10 @@ public class CustomEntityResource {
         }
         return Response.status(Status.OK).entity(entityBody).build();
     }
-    
+
     /**
      * Set the contents of the custom resource for the given entity
-     * 
+     *
      * @param customEntity
      *            the new entity to set
      * @return the response to the PUT request
@@ -62,11 +63,11 @@ public class CustomEntityResource {
         entityDef.getService().createOrUpdateCustom(entityId, customEntity);
         return Response.status(Status.NO_CONTENT).build();
     }
-    
+
     /**
      * Set the contents of the custom resource for the given entity. This is effectively an alias
      * for PUT
-     * 
+     *
      * @param customEntity
      *            the new entity to set
      * @return the response to the POST request
@@ -83,10 +84,10 @@ public class CustomEntityResource {
                 .toString();
         return Response.status(Status.CREATED).header("Location", uri).build();
     }
-    
+
     /**
      * Remove the custom resource for the given entity.
-     * 
+     *
      * @return the response tot he DELETE request
      */
     @DELETE

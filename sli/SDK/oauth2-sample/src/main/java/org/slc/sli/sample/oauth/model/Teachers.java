@@ -8,19 +8,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.api.client.EntityCollection;
-import org.slc.sli.api.client.EntityType;
-import org.slc.sli.api.client.Link;
-import org.slc.sli.api.client.impl.BasicClient;
-import org.slc.sli.api.client.impl.BasicQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.api.client.EntityCollection;
+import org.slc.sli.api.client.Link;
+import org.slc.sli.api.client.impl.BasicClient;
+import org.slc.sli.api.client.impl.BasicQuery;
+import org.slc.sli.common.constants.v1.PathConstants;
+
 /**
  * domain wrapper for teacher and staff with authorized roles and access right information
- * 
+ *
  * @author dliu
- * 
+ *
  */
 public class Teachers {
 
@@ -30,7 +31,7 @@ public class Teachers {
     public static Map<String, String> getTenantIdMap(BasicClient client) throws IOException {
         EntityCollection collection = new EntityCollection();
         try {
-            client.read(collection, EntityType.HOME, BasicQuery.EMPTY_QUERY);
+            client.read(collection, PathConstants.HOME, BasicQuery.EMPTY_QUERY);
         } catch (URISyntaxException e) {
             LOG.error("Exception occurred", e);
         }
@@ -69,7 +70,7 @@ public class Teachers {
         List<String> roles = new ArrayList<String>();
         EntityCollection collection = new EntityCollection();
         try {
-            client.read(collection, EntityType.SECURITY_SESSION_DEBUG, BasicQuery.EMPTY_QUERY);
+            client.read(collection, PathConstants.SECURITY_SESSION_DEBUG, BasicQuery.EMPTY_QUERY);
         } catch (URISyntaxException e) {
             LOG.error("Exception occurred", e);
         }
@@ -87,7 +88,7 @@ public class Teachers {
         List<String> accessRights = new ArrayList<String>();
         EntityCollection collection = new EntityCollection();
         try {
-            client.read(collection, EntityType.SECURITY_SESSION_DEBUG, BasicQuery.EMPTY_QUERY);
+            client.read(collection, PathConstants.SECURITY_SESSION_DEBUG, BasicQuery.EMPTY_QUERY);
         } catch (URISyntaxException e) {
             LOG.error("Exception occurred", e);
         }

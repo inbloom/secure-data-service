@@ -1048,7 +1048,7 @@ task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest] do
 end
 
 desc "Run JavaSDK sampleApp acceptance tests"
-task :JavaSDKSampleAppTest => [:realmInitNoPeople,:importUnifiedData] do
+task :JavaSDKSampleAppTest => [:importUnifiedData, :realmInitNoPeople] do
     runTests("test/features/apiV1/end_user_stories/sandbox/JavaSDK/sampleApp/sampleApp.feature")
 end
 
@@ -1163,7 +1163,7 @@ task :importUnifiedData do
     "educationOrganization" => "unified_data/uds_educationOrganization.json",
     "gradebookEntry" => "unified_data/uds_gradebookEntry.json",
     "parent" => "unified_data/uds_parent.json",
-    #"realm" => "unified_data/uds_realm.json",
+     "realm" => "unified_data/uds_realm.json",
     "school" => "unified_data/uds_school.json",
     "section" => "unified_data/uds_section.json",
     "session" => "unified_data/uds_session.json",

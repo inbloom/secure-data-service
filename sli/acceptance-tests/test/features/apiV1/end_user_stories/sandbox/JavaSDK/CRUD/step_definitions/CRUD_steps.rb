@@ -1,7 +1,7 @@
 require_relative '../../../../../../utils/sli_utils.rb'
 require_relative '../../../../../../dashboard/dash/step_definitions/selenium_common_dash.rb'
 
-Given /^I am logged in using "([^"]*)" "([^"]*)" to realm Daybreak Central High$/ do |user, pass|
+Given /^I am logged in using "([^"]*)" and "([^"]*)" to realm Daybreak Central High$/ do |user, pass|
   @byPassToken = $SESSION_MAP[user+"_IL"]
   assert(@byPassToken!=nil,"cant login user #{user}")
 end
@@ -41,6 +41,7 @@ end
 When /^I send test request "([^"]*)" to SDK CRUD test url$/ do |testType|
   url = PropLoader.getProps['sampleApp_server_address']
   url = url + @appPrefix+"?byPassToken="+URI.escape(@byPassToken)+"&test="+testType
+  puts url
   @driver.get url
   
   
@@ -48,6 +49,7 @@ end
 
 Then /^I should receive response "([^"]*)"$/ do |arg1|
    testResult = @driver.find_element(:id, "testResult")
+   puts testResult.text
    assert(testResult.text==arg1,"didnt receive response #{arg1}")
 end
 

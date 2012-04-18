@@ -1,21 +1,21 @@
 package org.slc.sli.api.security.context.resolver;
 
-import org.slc.sli.api.config.EntityNames;
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 
 
@@ -48,7 +48,7 @@ public class TeacherCourseResolver implements EntityContextResolver {
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
-        
+
         Set<String> sectionIds = new HashSet<String>();
         sectionIds.addAll(teacherSectionIds);
         sectionIds.addAll(studentSectionIds);
@@ -57,10 +57,10 @@ public class TeacherCourseResolver implements EntityContextResolver {
         for (String sectionId : sectionIds) {
             ids.add(sectionId);
         }
-        
+
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
-        
+
         Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, neutralQuery);
         Set<String> sessionIds = new HashSet<String>();
 

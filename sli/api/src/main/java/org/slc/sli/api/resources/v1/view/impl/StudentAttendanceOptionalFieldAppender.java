@@ -3,25 +3,25 @@ package org.slc.sli.api.resources.v1.view.impl;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Set;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Date;
+import java.util.Set;
 import java.util.StringTokenizer;
 
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
-import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderHelper;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
+import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderHelper;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Provides data about students and attendance to construct the custom
@@ -67,7 +67,9 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
             //get the student section associations
             List<EntityBody> studentSectionAssociations = (List<EntityBody>) student.get("studentSectionAssociation");
 
-            if (studentSectionAssociations == null) continue;
+            if (studentSectionAssociations == null) {
+                continue;
+            }
 
             Set<EntityBody> attendancesForStudent = new HashSet<EntityBody>();
             for (EntityBody studentSectionAssociation : studentSectionAssociations) {
@@ -78,7 +80,7 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
 
                 if (section != null) {
                     //get the attendances for this selectedSession
-                    List<EntityBody> attendancesForSession = attendancePerSession.get((String) section.get(ParameterConstants.SESSION_ID));
+                    List<EntityBody> attendancesForSession = attendancePerSession.get(section.get(ParameterConstants.SESSION_ID));
 
                     if (attendancesForSession != null && !attendancesForSession.isEmpty()) {
                         List<EntityBody> attendancesForStudentForSession = optionalFieldAppenderHelper.getEntitySubList(attendancesForSession,
@@ -202,8 +204,12 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
     protected List<String> getSchoolYears(String currentSchoolYear, int years) {
         List<String> schoolYears = new ArrayList<String>();
 
-        if (currentSchoolYear == null) return schoolYears;
-        if (currentSchoolYear.isEmpty()) return  schoolYears;
+        if (currentSchoolYear == null) {
+            return schoolYears;
+        }
+        if (currentSchoolYear.isEmpty()) {
+            return  schoolYears;
+        }
 
         schoolYears.add(currentSchoolYear);
 
