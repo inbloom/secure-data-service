@@ -59,14 +59,30 @@ default:
 
     dashboard: &DASHBOARD-DEFAULT
         api.client: apiClient
-        api.server.url: https://devjuggernauts.slidev.org/
-        security.server.url: https://devjuggernauts.slidev.org/
-        portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
-        portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
-        log.level: debug
-        oauth.client.id: K2e7Dwhq5J
-        oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
-        oauth.redirect: http://local.slidev.org:8888/dashboard/callback
+
+        # api.server.url: https://devjuggernauts.slidev.org/
+        api.server.url: https://demo.slidev.org/
+
+        #security.server.url: https://devjuggernauts.slidev.org/
+        security.server.url: https://demo.slidev.org/
+
+        #portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
+        #portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
+
+        portal.footer.url: https://portal.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
+        portal.header.url: https://portal.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
+
+        #log.level: debug
+        log.level: warn
+
+        #oauth.client.id: K2e7Dwhq5J
+        oauth.client.id: SD7efbdSe4
+
+        #oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+        oauth.client.secret: ewhcNKmPQGf7Eu3onWwX5gbUEQWsFrUbOMCrloaJOHoq5Gmr
+
+        #oauth.redirect: http://local.slidev.org:8888/dashboard/callback
+        oauth.redirect: https://demo.slidev.org/dashboard/callback
 
         #specify "driver" and "custom" directory name for a user domain based configuration
         panel.config.driver.dir: config
@@ -89,7 +105,7 @@ default:
         sli.log4j.logger.org.apache.camel: WARN
         sli.log4j.logger.org.apache.activemq: WARN
         sli.log4j.logger.org.springframework: WARN
-        log.path: /home/stephan/logs
+        log.path: ${user.home}/logs
 
 acceptance-tests: 
     api: 
@@ -615,6 +631,83 @@ team:
         sli.mock-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/mock-idp
         sli.mock-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
 
+
+
+bloomington:
+    ingestion:
+        <<: *INGESTION-DEFAULT
+        # bloomington/ingestion/ingestion_conf.properties
+        landingzone.inbounddir: /home/IL/bloomington
+        logging.path: /home/IL/bloomington/logs
+        # bloomington/ingestion/queue.properties
+        sli.ingestion.queue.workItem.host: 
+        sli.ingestion.queue.workItem.port: 
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.queue.workItem.keystore: 
+        sli.ingestion.queue.workItem.keystorePassword: 
+        # bloomington/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+normal:
+    ingestion:
+        <<: *INGESTION-DEFAULT
+        # normal/ingestion/ingestion_conf.properties
+        landingzone.inbounddir: /home/IL/normal
+        logging.path: /home/IL/normal/logs
+        # normal/ingestion/queue.properties
+        sli.ingestion.queue.workItem.host: 
+        sli.ingestion.queue.workItem.port: 
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.queue.workItem.keystore: 
+        sli.ingestion.queue.workItem.keystorePassword: 
+        # normal/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+perf:
+    data-access:
+        <<: *DATA-ACCESS-DEFAULT
+        # perf/data-access/db.properties
+        #
+        # Set of substitution filters used for ci builds
+        #
+        sli.mongodb.database: sli_ing
+        sli.mongodb.host: igmongo.slidev.org
+        sli.mongodb.port: 27017
+        #sli.mongodb.user =
+        #sli.mongodb.pass =
+
+        # Ingestion Staging DB
+        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.host: igmongo.slidev.org
+        sli.ingestion.staging.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.user: 
+        sli.ingestion.staging.mongodb.pass: 
+
+        # Ingestion BatchJob DB
+        sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
+        sli.ingestion.batchjob.mongodb.host: igmongo.slidev.org
+        sli.ingestion.batchjob.mongodb.port: 27017
+        sli.ingestion.batchjob.mongodb.user: 
+        sli.ingestion.batchjob.mongodb.pass: 
+    ingestion:
+        <<: *INGESTION-DEFAULT
+        # perf/ingestion/ingestion_conf.properties
+        landingzone.inbounddir: /home/ingestion/lz/inbound
+        logging.path: /home/ingestion/logs
+        # perf/ingestion/queue.properties
+        sli.ingestion.queue.workItem.host: 
+        sli.ingestion.queue.workItem.port: 
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.queue.workItem.keystore: 
+        sli.ingestion.queue.workItem.keystorePassword: 
+        # perf/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
+
 test-acceptance-tests:
     test:
         # acceptance-tests/data-access/test.properties
@@ -780,3 +873,23 @@ test-team:
         # team/ingestion/test.properties
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
+
+test-bloomington:
+    ingestion:
+        # bloomington/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
+test-normal:
+    ingestion:
+        <<: *INGESTION-DEFAULT
+        # normal/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
+test-perf:
+    ingestion:
+        # perf/ingestion/test.properties
+        sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.concurrentConsumers: 4
+
