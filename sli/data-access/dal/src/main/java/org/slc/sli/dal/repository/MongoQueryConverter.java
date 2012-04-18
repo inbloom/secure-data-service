@@ -110,14 +110,10 @@ public class MongoQueryConverter {
                 Object value = neutralCriteria.getValue();
                 if (neutralCriteria.getKey().equals(MONGO_ID)) {
                     return Criteria.where(MONGO_ID).in(convertIds(value));
-                } else if (value instanceof String) {
-                    return Criteria.where(prefixKey(neutralCriteria)).is(neutralCriteria.getValue());
+                } else if (value instanceof List) {
+                    return Criteria.where(prefixKey(neutralCriteria)).in((List<Object>) neutralCriteria.getValue());
                 } else {
-                    try {
-                        return Criteria.where(prefixKey(neutralCriteria)).in((List<Object>) neutralCriteria.getValue());
-                    } catch (ClassCastException cce) {
-                        throw new QueryParseException("Invalid list of equals values " + neutralCriteria.getValue(), neutralCriteria.toString());
-                    }
+                    return Criteria.where(prefixKey(neutralCriteria)).is(neutralCriteria.getValue());
                 }
             }
         });
