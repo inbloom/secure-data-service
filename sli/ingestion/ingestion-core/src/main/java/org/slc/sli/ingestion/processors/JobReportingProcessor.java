@@ -12,6 +12,7 @@ import org.slc.sli.ingestion.BatchJobLogger;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
@@ -70,7 +71,9 @@ public class JobReportingProcessor implements Processor {
         // TODO group counts by externallyUploadedResourceId
         List<Metrics> metrics = job.getStageMetrics(BatchJobStageType.PERSISTENCE_PROCESSING);
         if (metrics != null) {
+
             for (Metrics metric : metrics) {
+
                 ResourceEntry resourceEntry = job.getResourceEntry(metric.getResourceId());
                 if (resourceEntry == null) {
                     jobLogger.error("The resource referenced by metric by resourceId " + metric.getResourceId()
@@ -78,23 +81,23 @@ public class JobReportingProcessor implements Processor {
                     continue;
                 }
 
-                String id = "[file] " + resourceEntry.getExternallyUploadedResourceId();
-                jobLogger.info(id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType()
-                        + ")");
+                logResourceMetric(jobLogger, resourceEntry, metric.getRecordCount(), metric.getErrorCount());
 
-                long numProcessed = metric.getRecordCount();
-                long numFailed = metric.getErrorCount();
-                long numPassed = metric.getRecordCount() - numFailed;
-
-                jobLogger.info(id + " records considered: " + numProcessed);
-                jobLogger.info(id + " records ingested successfully: " + numPassed);
-                jobLogger.info(id + " records failed: " + numFailed);
-
-                totalProcessed += numProcessed;
+                totalProcessed += metric.getRecordCount();
             }
+
         } else {
+
+            // write out 0 count metrics for the input files
             BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.JOB_REPORTING_PROCESSING,
                     FaultType.TYPE_WARNING.getName(), null, "There were no metrics for " + BatchJobStageType.PERSISTENCE_PROCESSING.getName() + ".");
+
+            for (ResourceEntry resourceEntry : job.getResourceEntries()) {
+                if (resourceEntry.getResourceFormat() != null &&
+                        resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())) {
+                    logResourceMetric(jobLogger, resourceEntry, 0, 0);
+                }
+            }
         }
 
         // write properties
@@ -144,6 +147,18 @@ public class JobReportingProcessor implements Processor {
 
         stage.stopStage();
         batchJobDAO.saveBatchJob(job);
+    }
+
+    private void logResourceMetric(Logger jobLogger, ResourceEntry resourceEntry, long numProcessed, long numFailed) {
+        String id = "[file] " + resourceEntry.getExternallyUploadedResourceId();
+        jobLogger.info(id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType()
+                + ")");
+
+        long numPassed = numProcessed - numFailed;
+
+        jobLogger.info(id + " records considered: " + numProcessed);
+        jobLogger.info(id + " records ingested successfully: " + numPassed);
+        jobLogger.info(id + " records failed: " + numFailed);
     }
 
 }
