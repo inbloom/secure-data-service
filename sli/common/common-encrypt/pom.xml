@@ -24,11 +24,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.slc.sli</groupId>
-      <artifactId>sli-configuration</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
