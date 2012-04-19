@@ -9,13 +9,14 @@ Scenario: Displaying gradebook entry data for all students - Linda Kim
     When I navigate to the Dashboard home page
     And I select "Sunset School District 4526" and click go
     And I login as "linda.kim" "linda.kim1234"
+    And I go to the old dashboard page
     When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "East Daybreak Junior High"
     And I select <course> "8th Grade English"
     And I select <section> "8th Grade English - Sec 6"
     And I wait for "10" seconds
-    And I select <viewSelector> "Middle School ELA View"
-    Then I see a list of 25 students
+    And I select <viewSelect> "Middle School ELA View"
+    Then I see a list of students
 
     # Historical data
   Then I should see a table heading "2010-2011 Fall Semester"
@@ -33,13 +34,14 @@ Scenario: Displaying gradebook entry data for all students - Linda Kim
     When I navigate to the Dashboard home page
     And I select "Sunset School District 4526" and click go
     And I login as "cgray" "cgray1234"
+    And I go to the old dashboard page
     When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "American Literature"
     And I select <section> "Sec 145"
     And I wait for "10" seconds
-    And I select <viewSelector> "IL_9-12"
-    Then I see a list of 26 students
+    And I select <viewSelect> "IL_9-12"
+    Then I see a list of students
 
     # Historical data
     Then I should see a table heading "2010-2011 Fall Semester"
