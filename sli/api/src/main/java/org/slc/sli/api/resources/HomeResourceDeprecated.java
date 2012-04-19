@@ -11,14 +11,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.api.representation.Home;
-import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.util.ResourceConstants;
-import org.slc.sli.domain.Entity;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +19,17 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EmbeddedLink;
+import org.slc.sli.api.representation.Home;
+import org.slc.sli.api.resources.util.ResourceUtil;
+import org.slc.sli.common.constants.ResourceConstants;
+import org.slc.sli.domain.Entity;
+
 /**
  * Jersey resource for home entity and associations.
- * 
+ *
  */
 @Path("home")
 @Component
@@ -54,7 +54,7 @@ public class HomeResourceDeprecated {
      * In addition, there may be links for associations such as
      * /staff-educationOrganization-associations/{GUID}, and a link
      * for aggregation such as /aggregation.
-     * 
+     *
      * @response.representation.200.mediaType application/json by default. application/xml if
      *                                        specified.
      * @param uriInfo
@@ -95,7 +95,7 @@ public class HomeResourceDeprecated {
 
     /**
      * Analyzes security context to get ID and EntityDefinition for user.
-     * 
+     *
      * @return Pair containing ID and EntityDefinition from security context
      */
     private Pair<String, EntityDefinition> getEntityInfoForUser() {

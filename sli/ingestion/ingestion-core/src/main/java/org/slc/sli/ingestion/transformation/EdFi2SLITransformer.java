@@ -1,32 +1,27 @@
 package org.slc.sli.ingestion.transformation;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.handler.Handler;
-import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
+import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * EdFi to SLI data transformation
@@ -83,7 +78,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 }
             }
         } else {
-            LOG.error("EdFi2SLI Transform has resulted in either a null or empty list of transformed SimpleEntities.");            
+            LOG.error("EdFi2SLI Transform has resulted in either a null or empty list of transformed SimpleEntities.");
         }
 
         return transformed;
@@ -111,7 +106,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     public void matchEntity(SimpleEntity entity, ErrorReport errorReport) {
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
 
-        
+
         Query query = createEntityLookupQuery(entity, entityConfig, errorReport);
 
         if (errorReport.hasErrors()) {
@@ -121,8 +116,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         @SuppressWarnings("deprecation")
         Iterable<Entity> match = entityRepository.findByQuery(entity.getType(), query, 0, 0);
         //change this to use a query which is filled by createEntityLookupFilter
-        
-        
+
+
         if (match != null && match.iterator().hasNext()) {
             // Entity exists in data store.
             Entity matched = match.iterator().next();
@@ -143,7 +138,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      */
     public Query createEntityLookupQuery(SimpleEntity entity, EntityConfig entityConfig, ErrorReport errorReport) {
         Query query = new Query();
-        
+
         String errorMessage = "ERROR: Invalid key fields for an entity\n";
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
             errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);

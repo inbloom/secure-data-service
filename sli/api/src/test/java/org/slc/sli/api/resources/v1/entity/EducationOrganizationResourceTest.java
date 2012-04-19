@@ -1,19 +1,27 @@
 package org.slc.sli.api.resources.v1.entity;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
+
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.util.ResourceConstants;
-import org.slc.sli.api.resources.util.ResourceTestUtil;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.association.StaffEducationOrganizationAssociation;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -21,21 +29,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.association.StaffEducationOrganizationAssociation;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.ResourceConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
 
 /**
  * Unit tests for the resource representing an education organization
@@ -47,7 +50,7 @@ import static org.mockito.Mockito.when;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class EducationOrganizationResourceTest {
-    
+
     @Autowired
     EducationOrganizationResource edOrgResource; //class under test
 
@@ -56,28 +59,28 @@ public class EducationOrganizationResourceTest {
 
     @Autowired
     StaffEducationOrganizationAssociation staffEducationOrganizationAssociationResource;
-    
+
     @Autowired
     private SecurityContextInjector injector;
-    
+
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
-    
+
     @Before
     public void setup() throws Exception {
         uriInfo = ResourceTestUtil.buildMockUriInfo(null);
-        
+
         // inject administrator security context for unit testing
         injector.setAdminContextWithElevatedRights();
-        
+
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
-        
+
         httpHeaders = mock(HttpHeaders.class);
         when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
     }
-    
+
     private Map<String, Object> createTestEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("organizationCategories", "State Education Agency");
@@ -85,7 +88,7 @@ public class EducationOrganizationResourceTest {
         entity.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, 1234);
         return entity;
     }
-    
+
     private Map<String, Object> createTestUpdateEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("organizationCategories", "Local Education Agency");
@@ -93,7 +96,7 @@ public class EducationOrganizationResourceTest {
         entity.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, 1234);
         return entity;
     }
-    
+
     private Map<String, Object> createTestSecondaryEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("organizationCategories", "State Education Agency");
@@ -119,25 +122,25 @@ public class EducationOrganizationResourceTest {
         entity.put(StaffEducationOrganizationAssociation.EDUCATION_ORGANIZATION_REFERENCE, edOrgId);
         return entity;
     }
-    
+
     @Test
     public void testCreate() {
         Response response = edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
-            
+
         String id = ResourceTestUtil.parseIdFromLocation(response);
         assertNotNull("ID should not be null", id);
     }
-    
+
     @Test
     public void testRead() {
         //create one entity
         Response createResponse = edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
         Response response = edOrgResource.read(id, httpHeaders, uriInfo);
-        
+
         Object responseEntityObj = response.getEntity();
-        
+
         if (responseEntityObj instanceof EntityBody) {
             assertNotNull(responseEntityObj);
         } else if (responseEntityObj instanceof List<?>) {
@@ -146,19 +149,19 @@ public class EducationOrganizationResourceTest {
             assertTrue("Should have one entity", results.size() == 1);
         } else {
             fail("Response entity not recognized: " + response);
-        } 
+        }
     }
-    
+
     @Test
     public void testDelete() {
         //create one entity
         Response createResponse = edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
-        
+
         //delete it
         Response response = edOrgResource.delete(id, httpHeaders, uriInfo);
         assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-        
+
         try {
             @SuppressWarnings("unused")
             Response getResponse = edOrgResource.read(id, httpHeaders, uriInfo);
@@ -169,37 +172,37 @@ public class EducationOrganizationResourceTest {
             fail("threw wrong exception: " + e);
         }
     }
-    
+
     @Test
     public void testUpdate() {
         //create one entity
         Response createResponse = edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
-        
+
         //update it
         Response response = edOrgResource.update(id, new EntityBody(createTestUpdateEntity()), httpHeaders, uriInfo);
         assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-          
+
         //try to get it
         Response getResponse = edOrgResource.read(id, httpHeaders, uriInfo);
-        assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());            
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
         EntityBody body = (EntityBody) getResponse.getEntity();
-        assertNotNull("Should return an entity", body);            
+        assertNotNull("Should return an entity", body);
         assertEquals(ParameterConstants.EDUCATION_ORGANIZATION_ID + " should be 1234", body.get(ParameterConstants.EDUCATION_ORGANIZATION_ID), 1234);
         assertEquals("organizationCategories should be 8", body.get("organizationCategories"), "Local Education Agency");
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
-    
+
     @Test
     public void testReadAll() {
         //create two entities
         edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         edOrgResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
-        
+
         //read everything
         Response response = edOrgResource.readAll(0, 100, httpHeaders, uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
-        
+
         @SuppressWarnings("unchecked")
         List<EntityBody> results = (List<EntityBody>) response.getEntity();
         assertNotNull("Should return entities", results);
@@ -280,12 +283,12 @@ public class EducationOrganizationResourceTest {
         assertEquals("Education level should equal", "PhD", body.get(StaffResource.EDUCATION_LEVEL));
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
-    
+
     @Test
     public void testReadCommaSeparatedResources() {
         Response response = edOrgResource.read(getIDList(ResourceNames.EDUCATION_ORGANIZATIONS), httpHeaders, uriInfo);
         assertEquals("Status code should be 200", Status.OK.getStatusCode(), response.getStatus());
-        
+
         @SuppressWarnings("unchecked")
         List<EntityBody> results = (List<EntityBody>) response.getEntity();
         assertEquals("Should get 2 entities", results.size(), 2);
@@ -294,7 +297,7 @@ public class EducationOrganizationResourceTest {
         assertNotNull("Should not be null", body1);
         assertEquals(ParameterConstants.EDUCATION_ORGANIZATION_ID + " should be 1234", body1.get(ParameterConstants.EDUCATION_ORGANIZATION_ID), 1234);
         assertNotNull("Should include links", body1.get(ResourceConstants.LINKS));
-        
+
         EntityBody body2 = results.get(1);
         assertNotNull("Should not be null", body2);
         assertEquals(ParameterConstants.EDUCATION_ORGANIZATION_ID + " should be 5678", body2.get(ParameterConstants.EDUCATION_ORGANIZATION_ID), 5678);
@@ -305,7 +308,7 @@ public class EducationOrganizationResourceTest {
         //create more resources
         Response createResponse1 = edOrgResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         Response createResponse2 = edOrgResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
-        
+
         return ResourceTestUtil.parseIdFromLocation(createResponse1) + "," + ResourceTestUtil.parseIdFromLocation(createResponse2);
     }
 }

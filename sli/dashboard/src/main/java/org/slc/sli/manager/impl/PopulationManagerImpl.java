@@ -39,19 +39,19 @@ import org.slc.sli.view.TimedLogic2;
  * 
  */
 public class PopulationManagerImpl implements PopulationManager {
-    
+
     private static final String ATTENDANCE_TARDY = "Tardy";
     private static final String ATTENDANCE_ABSENCE = "Absence";
-    
+
     private static Logger log = LoggerFactory.getLogger(PopulationManagerImpl.class);
-    
+
     @Autowired
     private EntityManager entityManager;
-    
+
     public PopulationManagerImpl() {
-        
+
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -68,7 +68,7 @@ public class PopulationManagerImpl implements PopulationManager {
         for (GenericEntity studentSummary : studentSummaries) {
             List<Map<String, Object>> studentAssessments = (List<Map<String, Object>>) studentSummary
                     .get(Constants.ATTR_STUDENT_ASSESSMENTS);
-            
+
             for (Map<String, Object> studentAssessment : studentAssessments) {
                 try {
                     GenericEntity assessment = new GenericEntity((Map) studentAssessment.get("assessments"));
@@ -80,7 +80,7 @@ public class PopulationManagerImpl implements PopulationManager {
         }
         return new ArrayList<GenericEntity>(assessments);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -90,16 +90,16 @@ public class PopulationManagerImpl implements PopulationManager {
     @Override
     public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig,
             String sessionId, String sectionId) {
-        
+
         long startTime = System.nanoTime();
         // Initialize student summaries
-        
+
         List<GenericEntity> studentSummaries = entityManager.getStudents(token, sectionId, studentIds);
         log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for student section view: {}", (System.nanoTime() - startTime) * 1.0e-9);
-        
+
         return studentSummaries;
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -108,13 +108,13 @@ public class PopulationManagerImpl implements PopulationManager {
      */
     @Override
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
-        
+
         // get student summary data
         List<GenericEntity> studentSummaries = getStudentSummaries(token, null, null, null, (String) sectionId);
         
         // apply assmt filters and flatten assmt data structure for easy fetching
         applyAssessmentFilters(studentSummaries, config);
-        
+
         // data enhancements
         enhanceListOfStudents(studentSummaries);
         
@@ -127,7 +127,7 @@ public class PopulationManagerImpl implements PopulationManager {
         
         return result;
     }
-    
+
     /**
      * Helper function to get a list of grades for a set of students.
      * NOTE: refactor the bundled API call to provide student grade, so this method won't be
@@ -138,7 +138,7 @@ public class PopulationManagerImpl implements PopulationManager {
      * @return
      */
     public Set<String> getStudentGrades(String token, List<GenericEntity> studentSummaries) {
-        
+
         Set<String> studentGrades = new HashSet<String>();
         if (studentSummaries != null) {
             
@@ -147,18 +147,18 @@ public class PopulationManagerImpl implements PopulationManager {
             for (GenericEntity student : studentSummaries) {
                 studentUids.add(student.getString(Constants.ATTR_ID));
             }
-            
+
             // get student info
             List<GenericEntity> students = entityManager.getStudents(token, studentUids);
             
-            // put together set of grades            
+            // put together set of grades
             for (GenericEntity s : students) {
                 studentGrades.add(s.getString(Constants.ATTR_GRADE_LEVEL));
             }
         }
         return studentGrades;
     }
-    
+
     /**
      * Make enhancements that make it easier for front-end javascript to use the data
      * 
@@ -171,7 +171,7 @@ public class PopulationManagerImpl implements PopulationManager {
                 if (student == null) {
                     continue;
                 }
-                
+
                 // clean out some unneeded gunk
                 scrubStudentData(student);
                 
@@ -318,7 +318,7 @@ public class PopulationManagerImpl implements PopulationManager {
                 grade.put("grade", "D+");
                 break;
             case 4:
-                 grade.put("grade", "F+");
+                grade.put("grade", "F+");
                 break;
             case 5:
                 grade.put("grade", "A");
@@ -353,28 +353,28 @@ public class PopulationManagerImpl implements PopulationManager {
         }
         student.put("score", grade);
     }
-    
+
     /**
      * Find the required assessment results according to the data configuration. Filter out the
      * rest.
      */
     public void applyAssessmentFilters(List<GenericEntity> studentSummaries, Config.Data config) {
-        
+
         // Loop through student summaries
         if (studentSummaries != null) {
             for (GenericEntity summary : studentSummaries) {
-                
+
                 // Grab the student's assmt results. Grab assmt filters from config.
                 List<Map> assmtResults = (List<Map>) (summary.remove(Constants.ATTR_STUDENT_ASSESSMENTS));
-                
+
                 Map<String, String> assmtFilters = (Map<String, String>) (config.getParams()
                         .get(Constants.CONFIG_ASSESSMENT_FILTER));
                 if (assmtFilters == null) {
                     return;
                 }
-                
+
                 Map<String, Object> newAssmtResults = new LinkedHashMap<String, Object>();
-                
+
                 // Loop through assmt filters
                 for (String assmtFamily : assmtFilters.keySet()) {
                     
@@ -388,12 +388,12 @@ public class PopulationManagerImpl implements PopulationManager {
                         newAssmtResults.put(assmtFamily, assmt);
                     }
                 }
-                
+
                 summary.put(Constants.ATTR_ASSESSMENTS, newAssmtResults);
             }
         }
     }
-    
+
     /**
      * Filter a list of assessment results, based on the assessment family and timed logic
      * 
@@ -413,16 +413,16 @@ public class PopulationManagerImpl implements PopulationManager {
                 studentAssessmentFiltered.add(assmtResult);
             }
         }
-        
+
         if (studentAssessmentFiltered.size() == 0) {
             return null;
         }
-        
+
         Map chosenAssessment = null;
         
         // TODO: fix objective assessment code and use it
         String objAssmtCode = "";
-        
+
         // call timeslot logic to pick out the assessment we want
         switch(timeSlot) {
         
@@ -465,14 +465,14 @@ public class PopulationManagerImpl implements PopulationManager {
                 chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
                 break;
         }
-        
+
         return chosenAssessment;
     }
-    
+
     private List<GenericEntity> getStudentAttendance(String token, String studentId, String startDate, String endDate) {
         return entityManager.getAttendance(token, studentId, startDate, endDate);
     }
-    
+
     /**
      * Get a list of assessment results for one student, filtered by assessment name
      * 
@@ -482,13 +482,13 @@ public class PopulationManagerImpl implements PopulationManager {
      * @return
      */
     private List<GenericEntity> getStudentAssessments(String username, String studentId, ViewConfig config) {
-        
+
         // get all assessments for student
         List<GenericEntity> assmts = entityManager.getStudentAssessments(username, studentId);
-        
+
         return assmts;
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -499,7 +499,7 @@ public class PopulationManagerImpl implements PopulationManager {
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -509,7 +509,7 @@ public class PopulationManagerImpl implements PopulationManager {
     public GenericEntity getStudent(String token, String studentId) {
         return entityManager.getStudent(token, studentId);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -521,7 +521,7 @@ public class PopulationManagerImpl implements PopulationManager {
         String key = (String) studentId;
         return entityManager.getStudentForCSIPanel(token, key);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -536,17 +536,17 @@ public class PopulationManagerImpl implements PopulationManager {
         int daysBack = (period == null) ? 360 : Integer.parseInt(period);
         MutableDateTime daysBackTime = new DateTime().toMutableDateTime();
         daysBackTime.addDays(-1 * daysBack);
-        
+
         DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
         DateTimeFormatter dtfMonth = DateTimeFormat.forPattern("yyyy-MM");
         List<GenericEntity> attendanceList = this.getStudentAttendance(token, studentId, null, null);
         Collections.sort(attendanceList, new Comparator<GenericEntity>() {
-            
+
             @Override
             public int compare(GenericEntity att1, GenericEntity att2) {
                 return ((String) att2.get("eventDate")).compareTo((String) att1.get("eventDate"));
             }
-            
+
         });
         GenericEntity attendance = new GenericEntity();
         GenericEntity currentEntry;
@@ -587,7 +587,7 @@ public class PopulationManagerImpl implements PopulationManager {
         }
         return attendance;
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -612,7 +612,7 @@ public class PopulationManagerImpl implements PopulationManager {
                     endDate = session.getString("endDate");
                 }
             }
-            
+
             dates.add(beginDate);
             dates.add(endDate);
         } else {

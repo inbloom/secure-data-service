@@ -22,6 +22,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
+import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
 import org.springframework.security.oauth2.provider.ClientToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
@@ -48,6 +50,8 @@ import org.slc.sli.domain.enums.Right;
 public class OauthMongoSessionManager implements OauthSessionManager {
     
     private static final Pattern USER_AUTH = Pattern.compile("Bearer (.+)", Pattern.CASE_INSENSITIVE);
+    
+    private static final String APPLICATION_COLLECTION = "application";
     private static final String SESSION_COLLECTION = "userSession";
     
     @Value("${sli.session.length}")
@@ -74,9 +78,18 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     @Override
     @SuppressWarnings("unchecked")
     public void createAppSession(String sessionId, String clientId, String redirectUri, String state, String tenantId, String samlId) {
-        // TODO check for error conditions
-        // clientId exists (app)
-        // redirectUri matches (app)
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("client_id", "=", clientId));
+        Entity app = repo.findOne(APPLICATION_COLLECTION, nq);
+        
+        if (app == null) {
+            RuntimeException x = new InvalidClientException(String.format("No app with id %s registered", clientId));
+            error(x.getMessage(), x);
+            throw x;
+        } else if (redirectUri != null && !redirectUri.startsWith((String) app.getBody().get("redirect_uri"))) {
+            RuntimeException x = new RedirectMismatchException("Invalid redirect_uri specified " + redirectUri);
+            error(x.getMessage() + " expected " + app.getBody().get("redirect_uri"), x);
+            throw x;
+        }
         
         Entity sessionEntity = sessionId == null ? null : repo.findById(SESSION_COLLECTION, sessionId);
         
@@ -107,7 +120,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         Entity session = repo.findOne(SESSION_COLLECTION, nq);
         
         if (session == null) {
-            RuntimeException x = new IllegalStateException(String.format("No session with samlId", samlId));
+            RuntimeException x = new IllegalStateException(String.format("No session with samlId %s", samlId));
             error("Attempted to access invalid session", x);
             throw x;
         }
@@ -162,7 +175,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         nq.addCriteria(new NeutralCriteria("client_id", "=", clientCredentials.getLeft()));
         nq.addCriteria(new NeutralCriteria("client_secret", "=", clientCredentials.getRight()));
         
-        Entity app = repo.findOne("application", nq);
+        Entity app = repo.findOne(APPLICATION_COLLECTION, nq);
         
         if (app == null) {
             RuntimeException x = new BadCredentialsException("No application matching credentials found.");
@@ -205,30 +218,38 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                     String accessToken = user.group(1);
                     
                     Entity sessionEntity = findEntityForAccessToken(accessToken);
-                    List<Map<String, Object>> sessions = (List<Map<String, Object>>) sessionEntity.getBody().get("appSession");
-                    for (Map<String, Object> session : sessions) {
-                        if (session.get("token").equals(accessToken)) {
-                            
-                            ClientToken token = new ClientToken((String) session.get("clientId"), null /* secret not needed */, null /* Scope is unused */);
-                            // Spring doesn't provide a setter for the approved field (used by isAuthorized), so we set it the hard way
-                            Field approved = ClientToken.class.getDeclaredField("approved");
-                            approved.setAccessible(true);
-                            approved.set(token, true);
-                            
-                            SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"), SLIPrincipal.class);
-                            principal.setEntity(locator.locate((String) sessionEntity.getBody().get("tenantId"), principal.getExternalId()).getEntity());
-                            Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getRealm(), principal.getRoles());
-                            PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(principal, accessToken, authorities);
-                            userToken.setAuthenticated(true);
-                            auth = new OAuth2Authentication(token, userToken);
-                            break;
+                    if (sessionEntity != null) {
+                        List<Map<String, Object>> sessions = (List<Map<String, Object>>) sessionEntity.getBody().get("appSession");
+                        for (Map<String, Object> session : sessions) {
+                            if (session.get("token").equals(accessToken)) {
+                                
+                                ClientToken token = new ClientToken((String) session.get("clientId"), null /* secret not needed */, null /* Scope is unused */);
+                                // Spring doesn't provide a setter for the approved field (used by isAuthorized), so we set it the hard way
+                                Field approved = ClientToken.class.getDeclaredField("approved");
+                                approved.setAccessible(true);
+                                approved.set(token, true);
+                                
+                                SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"), SLIPrincipal.class);
+                                principal.setEntity(locator.locate((String) sessionEntity.getBody().get("tenantId"), principal.getExternalId()).getEntity());
+                                Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getRealm(), principal.getRoles());
+                                PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(principal, accessToken, authorities);
+                                userToken.setAuthenticated(true);
+                                auth = new OAuth2Authentication(token, userToken);
+                                
+                                // Extend the session
+                                long expire = (Long) sessionEntity.getBody().get("expiration");
+                                sessionEntity.getBody().put("expiration", expire + this.sessionLength);
+                                repo.update(SESSION_COLLECTION, sessionEntity);
+                                
+                                break;
+                            }
                         }
                     }
                 } else {
                     info("User is anonymous");
                 }
             } catch (Exception e) {
-                warn("Error processing authentication.  Anonymous context will be returned...\n {}", e);
+                error("Error processing authentication.  Anonymous context will be returned.", e);
             }
         }
         return auth;

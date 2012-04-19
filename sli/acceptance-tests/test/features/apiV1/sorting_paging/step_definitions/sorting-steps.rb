@@ -23,6 +23,10 @@ Transform /^(\/[\w-]+\/)(<.+>)\/targets$/ do |uri, template|
   Transform(uri + template) + "/targets"
 end
 
+Given /^query criteria is "([^"]*)"$/ do |arg1|
+  @query_criteria = arg1
+end
+
 Then /^I should receive a collection$/ do
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Array), "Expected array of links")

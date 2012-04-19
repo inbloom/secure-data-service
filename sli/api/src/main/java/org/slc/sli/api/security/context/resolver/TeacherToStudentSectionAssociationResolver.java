@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.EntityNames;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -17,15 +17,15 @@ import org.slc.sli.domain.Entity;
  */
 @Component
 public class TeacherToStudentSectionAssociationResolver implements EntityContextResolver {
-    
+
     @Autowired
     private AssociativeContextHelper helper;
-    
+
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_SECTION_ASSOCIATION.equals(toEntityType);
     }
-    
+
     @Override
     public List<String> findAccessible(Entity principal) {
         List<String> studentIds = helper.findAccessible(principal, Arrays.asList(

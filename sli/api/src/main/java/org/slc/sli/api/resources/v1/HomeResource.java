@@ -12,36 +12,33 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.Home;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.common.constants.ResourceConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 import org.slc.sli.domain.Entity;
-
-import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.stereotype.Component;
 
 /**
  * HomeResource
  *
  * Provides initial information for a user.
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + "home")
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class HomeResource {
-
-    private static final Logger LOG = LoggerFactory.getLogger(HomeResource.class);
 
     final EntityDefinitionStore entityDefs;
 
@@ -74,7 +71,7 @@ public class HomeResource {
 
             // prepare a list of links with the self link
             List<EmbeddedLink> links = ResourceUtil.getLinks(this.entityDefs, defn, body, uriInfo);
-            
+
             // create a final map of links to relevant links
             HashMap<String, Object> linksMap = new HashMap<String, Object>();
             linksMap.put(ResourceConstants.LINKS, links);
@@ -82,7 +79,7 @@ public class HomeResource {
             // return as browser response
             home = new Home(defn.getStoredCollectionName(), linksMap);
         } else {
-            throw new InsufficientAuthenticationException("No entity mapping found for user");
+            throw new AccessDeniedException("No entity mapping found for user");
         }
 
         return Response.ok(home).build();
@@ -90,7 +87,7 @@ public class HomeResource {
 
     /**
      * Analyzes security context to get ID and EntityDefinition for user.
-     * 
+     *
      * @return Pair containing ID and EntityDefinition from security context
      */
     private Pair<String, EntityDefinition> getEntityInfoForUser() {
