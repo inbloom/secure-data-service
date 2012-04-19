@@ -1,10 +1,10 @@
 ---
 default: 
     api: &API-DEFAULT
+
+        # XXX 
         api.perf.log.path: 
 
-        # Set of substitution filters used for local builds
-        #
         # Security
         sli.security.noSession.landing.url: http://local.slidev.org:8080/api/oauth/authorize?response_type=code
 
@@ -19,6 +19,8 @@ default:
 
         # Session lengths in milliseconds (5 minutes and 8 hours)
         sli.session.length: 300000
+
+        # Session hard logout 
         sli.session.hardLogout: 28800000
 
     data-access: &DATA-ACCESS-DEFAULT
@@ -47,9 +49,14 @@ default:
         sli.test.prop: ci DAL Context Test Property
 
     ingestion: &INGESTION-DEFAULT
+        
+        # ingestion landing zone     
         landingzone.inbounddir: C:/lz/
+
+        # logging path 
         logging.path: C:/lz/logs
 
+        # ingestion queue definitions 
         sli.ingestion.queue.workItem.host: 
         sli.ingestion.queue.workItem.port: 
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
@@ -58,53 +65,72 @@ default:
         sli.ingestion.queue.workItem.keystorePassword: 
 
     dashboard: &DASHBOARD-DEFAULT
+
+        # Dashboard API client 
         api.client: apiClient
 
-        # api.server.url: https://devjuggernauts.slidev.org/
+        # URL of the API server to be used by dashboard 
         api.server.url: https://demo.slidev.org/
 
-        #security.server.url: https://devjuggernauts.slidev.org/
+        # URL 
         security.server.url: https://demo.slidev.org/
 
-        #portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
-        #portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
-
+        # URL 
         portal.footer.url: https://portal.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
+
+        # URL 
         portal.header.url: https://portal.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
 
-        #log.level: debug
+        # XXX
         log.level: warn
 
-        #oauth.client.id: K2e7Dwhq5J
+        # XXX
         oauth.client.id: SD7efbdSe4
 
-        #oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+        # XXX 
         oauth.client.secret: ewhcNKmPQGf7Eu3onWwX5gbUEQWsFrUbOMCrloaJOHoq5Gmr
 
-        #oauth.redirect: http://local.slidev.org:8888/dashboard/callback
+        # XXX 
         oauth.redirect: https://demo.slidev.org/dashboard/callback
 
-        #specify "driver" and "custom" directory name for a user domain based configuration
+        # XXX 
         panel.config.driver.dir: config
+
+        # XXX 
         panel.config.custom.dir: custom
+
+        # XXX 
         panel.data.use.cache: true
 
     misc: &MISC-DEFAULT
+        # XXX 
         sli.encryption.keyStorePass: changeit
+
+        # XXX 
         sli.encryption.dalKeyAlias: dalKey
+
+        # XXX 
         sli.encryption.dalKeyPass: changeit
+
+        # XXX 
         sli.wildcard.x509certificate.alias: wildcard
 
         # properties used by the mock IDP
         sli.mock-idp.issuer-base: http://local.slidev.org:8082/mock-idp
+
+        # XXX 
         sli.mock-idp.response-destination: http://local.slidev.org:8080/api/rest/saml/sso/post  
 
         # POTENTIALL UNUSED PROPERTIES - added by Stephan Altmueller
         sli.dev.subdomain: ci
+
+        # XXX 
         sli.log4j.rootLogger: INFO, out
         sli.log4j.logger.org.apache.camel: WARN
         sli.log4j.logger.org.apache.activemq: WARN
         sli.log4j.logger.org.springframework: WARN
+
+        # XXX 
         log.path: ${user.home}/logs
 
 acceptance-tests: 
