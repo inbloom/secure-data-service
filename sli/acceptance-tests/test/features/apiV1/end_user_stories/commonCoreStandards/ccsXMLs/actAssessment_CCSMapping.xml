@@ -127,9 +127,10 @@
 	
 	<AssessmentItem id="AssessmentItem-2">
 		<IdentificationCode>AssessmentItem-2</IdentificationCode>
-		<ItemCategory>Rubric</ItemCategory>
+		<!-- The following two commented out elements are required to be valid ed-fi -->
+		<!-- <ItemCategory></ItemCategory> -->
 		<MaxRawScore>5</MaxRawScore>
-		<CorrectResponse>TODO</CorrectResponse>
+		<!-- <CorrectResponse></CorrectResponse> -->
 		<LearningStandardReference>
 			<LearningStandardIdentity>
 				<LearningStandardId>
