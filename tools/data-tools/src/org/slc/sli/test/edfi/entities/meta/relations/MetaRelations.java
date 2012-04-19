@@ -29,6 +29,7 @@ public final class MetaRelations {
     public static final int COURSES_PER_SCHOOL = 2;
     public static final int SESSIONS_PER_SCHOOL = 1;
     public static final int SECTIONS_PER_COURSE_SESSION = 1;
+    public static final int SECTION_PER_STUDNET = 1;
     public static final int TEACHERS_PER_SCHOOL = 10;
     public static final int STUDENTS_PER_SCHOOL = 10;
     public static final int PROGRAMS_PER_SCHOOL = 2;
@@ -485,11 +486,13 @@ public final class MetaRelations {
         for (StudentMeta studentMeta : studentsForSchool.values()) {
 
             // loop through the sections we have in this school and assign students to them
-            if (sectionCounter >= sectionMetas.length) {
-                sectionCounter = 0;
+            for (int i = 0; i < SECTION_PER_STUDNET; i++) {
+                if (sectionCounter >= sectionMetas.length) {
+                    sectionCounter = 0;
+                }
+                studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
+                sectionCounter++;
             }
-            studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
-            sectionCounter++;
         }
     }
 
@@ -625,7 +628,7 @@ public final class MetaRelations {
         int staffIndx = 0;
         Object[] studentMetas = studentsForSchool.values().toArray();
         int studentIndx = 0;
-        
+
         // assign a student to each discipline incident.
         for (DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentsForSchool.values()) {
             StudentMeta studentMeta = (StudentMeta) studentMetas[studentIndx];
