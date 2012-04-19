@@ -8,3 +8,16 @@ Scenario: Zombie Bug 1: Gaining access as the previously authenticated user when
 	Then I should receive a return code of 401
 	When I access the API resource "/v1/students" with no authorization headers present
 	Then I should receive a return code of 401
+	
+Scenario: Zombie Bug 2: Infinate redirect loop when accessing Databrowser while having no entity in datastore
+	
+	Given I have an open web browser
+	And I navigated to the Data Browser Home URL
+	And I was redirected to the Realm page
+	And I choose realm "New York Realm" in the drop-down list
+	And I click on the realm page Go button
+	And I was redirected to the SLI IDP Login page
+	When I enter "eengland" in the username text field
+	And I enter "eengland1234" in the password text field
+	And I click the IDP page Go button
+	Then I should see a message that I am forbidden

@@ -36,14 +36,14 @@ import org.slc.sli.domain.Repository;
 public abstract class MongoRepository<T> implements Repository<T> {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
     
-    protected ThreadLocalStorage threadStore = new ThreadLocalStorage("" + UUID.randomUUID().toString());
+    private ThreadLocalStorage threadStore = new ThreadLocalStorage("" + UUID.randomUUID().toString());
 
-    protected MongoTemplate template;
+    private MongoTemplate template;
 
-    protected IdConverter idConverter;
+    private IdConverter idConverter;
 
     @Autowired
-    protected MongoQueryConverter queryConverter;
+    private MongoQueryConverter queryConverter;
 
     public void setTemplate(MongoTemplate template) {
         this.template = template;
