@@ -118,16 +118,16 @@ public class Config {
      */
     public static class Data {
         protected String entity;
-        protected String alias;
+        protected String cacheKey;
         protected Map<String, Object> params;
         protected boolean lazy;
         
         public Data() {
         }
         
-        public Data(String entity, String alias, Map<String, Object> params) {
+        public Data(String entity, String cacheKey, Map<String, Object> params) {
             this.entity = entity;
-            this.alias = alias;
+            this.cacheKey = cacheKey;
             this.params = params;
         }
         
@@ -135,8 +135,8 @@ public class Config {
             return entity;
         }
         
-        public String getAlias() {
-            return alias;
+        public String getCacheKey() {
+            return cacheKey;
         }
         
         public Map<String, Object> getParams() {
@@ -151,7 +151,7 @@ public class Config {
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result + ((alias == null) ? 0 : alias.hashCode());
+            result = prime * result + ((cacheKey == null) ? 0 : cacheKey.hashCode());
             result = prime * result + ((entity == null) ? 0 : entity.hashCode());
             result = prime * result + (lazy ? 1231 : 1237);
             result = prime * result + ((params == null) ? 0 : params.hashCode());
@@ -167,10 +167,10 @@ public class Config {
             if (getClass() != obj.getClass())
                 return false;
             Data other = (Data) obj;
-            if (alias == null) {
-                if (other.alias != null)
+            if (cacheKey == null) {
+                if (other.cacheKey != null)
                     return false;
-            } else if (!alias.equals(other.alias))
+            } else if (!cacheKey.equals(other.cacheKey))
                 return false;
             if (entity == null) {
                 if (other.entity != null)
@@ -279,7 +279,7 @@ public class Config {
      */
     public Config overWrite(Config customConfig) {
         Config config = new Config(this.id, customConfig.name, this.type, this.condition, new Data(this.data.entity,
-                this.data.alias, customConfig.data.params == null ? null
+                this.data.cacheKey, customConfig.data.params == null ? null
                         : Collections.unmodifiableMap(new HashMap<String, Object>(customConfig.data.params))),
                 customConfig.items, this.root);
         return config;

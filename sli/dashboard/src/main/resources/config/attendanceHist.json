@@ -4,7 +4,7 @@
   name : "Attendance History",
   data :{
     entity: "studentAttendance",
-    alias: "studentAttendance",
+    cacheKey: "studentAttendance",
     params: {
     }
   },

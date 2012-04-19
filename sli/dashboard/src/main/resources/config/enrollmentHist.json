@@ -4,7 +4,7 @@
   name : "Enrollment History",
   data :{
     entity: "student",
-    alias: "student"
+    cacheKey: "student"
   },
   root:"studentEnrollment",
   items : [

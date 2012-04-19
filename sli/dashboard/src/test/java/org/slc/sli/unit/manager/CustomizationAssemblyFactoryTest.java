@@ -42,22 +42,22 @@ public class CustomizationAssemblyFactoryTest {
 
     private static final String DEFAULT_LAYOUT_JSON = 
             "{id : 'studentProfile', type: 'LAYOUT', " 
-          + " data :{entity: 'mock', alias: 'mock' }, " 
+          + " data :{entity: 'mock', cacheKey: 'mock' }, " 
           + " items: [{id : 'panel', name: 'Student Info', type: 'PANEL'},"
           + "         {id: 'tab2', condition: {field: 'gender', value: ['male']}, name: 'Attendance and Discipline', type : 'TAB', " 
           + "          items: [{id : 'panel', type: 'PANEL'}]}]}";
     private static final String DEFAULT_LAYOUT_TOO_DEEP_JSON = 
             "{id : 'deep', type: 'LAYOUT', " 
-          + " data :{entity: 'mock', alias: 'mock' }, " 
+          + " data :{entity: 'mock', cacheKey: 'mock' }, " 
           + " items: [{id : 'deep', name: 'Student Info', type: 'PANEL'}]}";
     private static final String DEFAULT_PANEL_JSON = 
-            "{id : 'panel', type: 'PANEL', condition: {field: 'gender', value: ['male']}, data :{entity: 'test',alias: 'mock' }}";
+            "{id : 'panel', type: 'PANEL', condition: {field: 'gender', value: ['male']}, data :{entity: 'test',cacheKey: 'mock' }}";
     
     private static final String DEFAULT_PANEL1_JSON = 
-            "{id : 'panel1', type: 'PANEL', condition: {field: 'gradeNumeric', value: [1,2,5]}, data :{entity: 'test',alias: 'mock' }}";
+            "{id : 'panel1', type: 'PANEL', condition: {field: 'gradeNumeric', value: [1,2,5]}, data :{entity: 'test',cacheKey: 'mock' }}";
     
     private static final String DEFAULT_PANEL_EXCEPTION_JSON = 
-            "{id : 'panelException', type: 'PANEL', condition: {field: 'gradeNumeric', value: [1,2,5]}, data :{entity: 'testException',alias: 'mock' }}";
+            "{id : 'panelException', type: 'PANEL', condition: {field: 'gradeNumeric', value: [1,2,5]}, data :{entity: 'testException',cacheKey: 'mock' }}";
     
     private static GenericEntity simpleMaleStudentEntity;
     private static GenericEntity simpleFemaleStudentEntity;

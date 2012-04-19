@@ -4,7 +4,7 @@
   data :{
     lazy: true,
     entity: "listOfStudents",
-    alias: "listOfStudents",
+    cacheKey: "listOfStudents",
     params: {
       assessmentFilter: {"ISAT Reading": "MOST_RECENT_RESULT", 
                          "ISAT Writing": "MOST_RECENT_RESULT", 

@@ -1,7 +1,7 @@
 <#macro includePanelModel panelId>
   <#assign panelConfig = viewConfigs[panelId]>
   <#if !panelConfig.data.lazy>
-    <#assign panelData = data[panelConfig.data.alias]>
+    <#assign panelData = data[panelConfig.data.cacheKey]>
   </#if>
 </#macro>
 
@@ -21,7 +21,7 @@
 
     var tableId = '${id}';
     var panelConfig = config["${gridId}"];
-    var data = dataModel[panelConfig.data.alias];
+    var data = dataModel[panelConfig.data.cacheKey];
 
       <#-- make grid -->
       DashboardUtil.makeGrid(tableId, panelConfig, data);

@@ -19,7 +19,7 @@
     </small>
     </#list>
     </#if>
-    <script>$("#csi_colMain").append(DashboardUtil.renderLozenges(dataModel.${panelConfig.data.alias}));</script>
+    <script>$("#csi_colMain").append(DashboardUtil.renderLozenges(dataModel.${panelConfig.data.cacheKey}));</script>
     <div class="studentInfo">
         <div class="col1">
             <div class="field"><span>Grade</span><span><#if panelData.gradeLevel?? && panelData.gradeLevel != "Not Available">${panelData.gradeLevelCode}<#else>!</#if></span></div>
