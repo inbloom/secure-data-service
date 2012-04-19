@@ -43,7 +43,6 @@ Then /^I check the student list for grade "([^"]*)" is mapped to "([^"]*)"$/ do 
   i = 0
   all_trs.each do |tr|
     foundGrade = getStudentGrade(tr)
-    name = getStudentName(tr)
     if (grade == foundGrade)
       i += 1
       tearDrop = tr.find_element(:xpath, searchText)
