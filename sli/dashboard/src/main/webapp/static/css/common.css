@@ -370,17 +370,10 @@ th.ui-th-column div {
 {
     height: 100px;
 }
-    
-.csi .colImage
-{
-    height:100px;
-    width:100px;
-    float:left;
-}
 
 .csi .colMain
 {
-    margin-left: 100px;
+    margin-left: 20px;
     width: 900px;
 }
 

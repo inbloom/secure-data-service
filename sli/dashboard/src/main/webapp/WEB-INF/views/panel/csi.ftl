@@ -3,11 +3,6 @@
 
 <div class="csi">
 
-<div class="colImage">
-    <img src="/dashboard/static/images/sample_student.png" WIDTH="85" HEIGHT="100" />
-</div>
-
-
 <div id="csi_colMain" class="colMain">
     <h1>${panelData.name.firstName}<#if panelData.name.middleName?? &&  panelData.name.middleName != ""> ${panelData.name.middleName}</#if> ${panelData.name.lastSurname}
     <#if panelData.name.generationCodeSuffix?? && panelData.name.generationCodeSuffix != ""> ${panelData.name.generationCodeSuffix}</#if></h1>
