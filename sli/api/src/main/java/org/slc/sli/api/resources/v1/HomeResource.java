@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
@@ -83,7 +83,7 @@ public class HomeResource {
             // return as browser response
             home = new Home(defn.getStoredCollectionName(), linksMap);
         } else {
-            throw new InsufficientAuthenticationException("No entity mapping found for user");
+            throw new AccessDeniedException("No entity mapping found for user");
         }
 
         return Response.ok(home).build();
