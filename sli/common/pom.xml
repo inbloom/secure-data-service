@@ -20,13 +20,6 @@
 
   <dependencyManagement>
     <dependencies>
-
-<!--	  <dependency>
-        <groupId>org.slc.sli</groupId>
-        <artifactId>sli-configuration</artifactId>
-        <version>${project.version}</version>
-      </dependency> --> 
-
       <dependency>
         <groupId>org.slc.sli.common</groupId>
         <artifactId>sli-common</artifactId>

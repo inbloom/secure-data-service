@@ -16,12 +16,9 @@
          <property name="locations">
              <list>
                  <value>file:///${sli.conf}</value>
-          <!--        <value>classpath*:/config/${sli.env}/data-access/db.properties</value>
-                 <value>classpath*:/config/${sli.env}/api/security/security.properties</value> --> 
 
                  <!--  override specific properties for testing -->
                  <value>file:///${sli.test.conf}</value>
-                 <!--  <value>classpath*:/config/${sli.env}/data-access/test.properties</value> --> 
              </list>
          </property>
      </bean>
