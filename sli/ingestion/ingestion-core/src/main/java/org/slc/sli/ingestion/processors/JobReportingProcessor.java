@@ -43,7 +43,6 @@ public class JobReportingProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        boolean success = true;
 
         // get job from the batch job db
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
@@ -110,28 +109,9 @@ public class JobReportingProcessor implements Processor {
             }
         }
 
-        BatchJobMongoDAStatus status = batchJobDAO.findBatchJobErrors(job.getId());
-        if (status != null && status.isSuccess()) {
 
-            // TODO handle large numbers of errors
-            @SuppressWarnings("unchecked")
-            List<Error> errors = (List<Error>) status.getResult();
-            for (Error error : errors) {
-                if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
-                    success = false;
-                    jobLogger.error(((error.getStageName() == null) ? "" : (error.getStageName())) + ","
-                            + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
-                            + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier())) + ","
-                            + error.getErrorDetail());
-                } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
-                    jobLogger.warn(((error.getStageName() == null) ? "" : (error.getStageName())) + ","
-                            + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
-                            + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier())) + ","
-                            + error.getErrorDetail());
-                }
-            }
+        boolean success = logBatchJobErrorsAndWarnings(job.getId(), batchJobDAO, jobLogger);
 
-        }
 
         if (success) {
             jobLogger.info("All records processed successfully.");
@@ -146,6 +126,34 @@ public class JobReportingProcessor implements Processor {
 
         stage.stopStage();
         batchJobDAO.saveBatchJob(job);
+    }
+
+    private boolean logBatchJobErrorsAndWarnings(String id, BatchJobDAO batchJobDAO, Logger jobLogger) {
+        boolean hasErrors = false;
+
+        BatchJobMongoDAStatus status = batchJobDAO.findBatchJobErrors(id);
+        if (status != null && status.isSuccess()) {
+
+            // TODO handle large numbers of errors
+            @SuppressWarnings("unchecked")
+            List<Error> errors = (List<Error>) status.getResult();
+            for (Error error : errors) {
+                if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
+                    hasErrors = false;
+                    jobLogger.error(((error.getStageName() == null) ? "" : (error.getStageName())) + ","
+                            + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
+                            + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier())) + ","
+                            + error.getErrorDetail());
+                } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
+                    jobLogger.warn(((error.getStageName() == null) ? "" : (error.getStageName())) + ","
+                            + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
+                            + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier())) + ","
+                            + error.getErrorDetail());
+                }
+            }
+
+        }
+        return hasErrors;
     }
 
     private void logResourceMetric(Logger jobLogger, ResourceEntry resourceEntry, long numProcessed, long numFailed) {
