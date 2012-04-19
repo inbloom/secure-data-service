@@ -9,24 +9,48 @@ counter = function() {
 	counterInt ++;
 	return counterInt;
 }
-DashboardProxy = {
-};
-DashboardUtil = {
-		widgetConfig: {}
-};
 
-DashboardProxy = {
+DashboardUtil = {
 		
 };
 
-if (typeof widgetConfigArray != 'undefined') {
-for (var i in widgetConfigArray) {
-	DashboardUtil.widgetConfig[widgetConfigArray[i].id] = widgetConfigArray[i];
-}
-}
-DashboardUtil.getWidgetConfig = function(widgetName) {
-	return DashboardUtil.widgetConfig[widgetName];
-}
+DashboardProxy = {
+		data : {},
+		config: {},
+		widgetConfig: {},
+		loadData : function(data) {
+			jQuery.extend(this.data, data);
+		},
+		loadConfig : function(config) {
+			jQuery.extend(this.config, config);
+		},
+		loadWidgetConfig : function(widgetConfigArray) {
+			for (var i in widgetConfigArray) {
+				this.widgetConfig[widgetConfigArray[i].id] = widgetConfigArray[i];
+			}
+		},
+		load : function(componentId, id, callback) {
+			var prx = this;
+			$.ajax({
+				  url: contextRootPath + '/service/component/' + componentId + '/' + id,
+				  scope: this,
+				  success: function(panel){
+					  prx.data[componentId] = panel.data; 
+					  prx.config[componentId] = panel.viewConfig; 
+					  callback(panel);
+			      }});
+		},
+		getData: function(componentId) {
+			return this.data[componentId];
+		},
+		getConfig: function(componentId) {
+			return this.config[componentId];
+		},
+		getWidgetConfig: function(widget) {
+			return this.widgetConfig[widget];
+		}
+};
+
 
 DashboardUtil.getElementFontSize = function (element)
 {
@@ -338,7 +362,7 @@ DashboardUtil.getStyleDeclaration = function (element)
 };
 
 DashboardUtil.renderLozenges = function(student) {
-	var config = DashboardUtil.getWidgetConfig("lozenge");
+	var config = DashboardProxy.getWidgetConfig("lozenge");
 	var item, condition, configItem;
 	var lozenges = '';
 	for (var i in config.items) {
@@ -355,12 +379,6 @@ DashboardUtil.renderLozenges = function(student) {
 	}
 	return lozenges;
 };
-
-DashboardUtil.getData = function(componentId, queryString, callback) {
-	$.ajax({
-		  url: contextRootPath + '/service/data/' + componentId + '?' + queryString,
-		  success: function(panelData){DashboardProxy[componentId] = panelData; callback(panelData);}});
-}
 
 DashboardUtil.getPageUrl = function(componentId, queryString) {
 	return contextRootPath + '/service/layout/' + componentId + ((queryString) ? ('?' + queryString) : '');
