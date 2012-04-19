@@ -836,6 +836,7 @@ desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
+  runTests("test/features/databrowser/databrowser_denial.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
   displayFailureReport()
   if $SUCCESS
