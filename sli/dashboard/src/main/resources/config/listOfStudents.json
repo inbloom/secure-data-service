@@ -30,8 +30,6 @@
       {name: "ISAT Writing (most recent)", items:[   
         {name: "Perf. Lvl.", field: "assessments.ISAT Writing.perfLevel", width:150, sorter: 'int', formatter: DashboardUtil.Grid.Formatters.FuelGauge, params:{name:'ISAT Writing', valueField:'Scale score', fieldName: "ISATWriting"}},
         {name: "SS", field: "assessments.ISAT Writing.Scale score", width:100, sorter: 'int'}]},
-      {name: "Grade", items:[   
-        {name: "Final", field: "score.grade", width:50, formatter: DashboardUtil.Grid.Formatters.TearDrop, sorter: 'char', align: 'center'}]},
       {name: "Attendance (current school year)", items:[   
         {name: "Absence Count", field: "attendances.absenceCount", width:100, sorter: 'int', formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style:'color-widget-red'}}}},
         {name: "Attendance Rate %", field: "attendances.attendanceRate", width:100, sorter: 'int', formatter: DashboardUtil.Grid.Formatters.CutPoint, params:{cutPoints:{89:{style:'color-widget-red'}, 94:{style: 'color-widget-yellow'}, 98:{style:'color-widget-green'}, 100:{style:'color-widget-darkgreen'}}}},
@@ -48,9 +46,6 @@
       {name: "Reading", items:[          
         {name: "RL", field: "assessments.TRC.readingLevel", width:100},
         {name: "Prof. Level", field: "assessments.TRC.profLevel", width:100}]},
-      {name: "Grade", items:[   
-        {name: "Final", field: "score.grade", width:50, formatter: DashboardUtil.Grid.Formatters.TearDrop}
-    ]},
       {name: "Attendance", items:[   
         {name: "Absence Count", field: "attendances.absenceCount", sorter: 'int', width:100, formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}},
         {name: "Tardy Count", field: "attendances.tardyCount", sorter: 'int', width:100, formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}}]}
@@ -69,9 +64,6 @@
       {name: "AP Eng. Exam Scores (Highest)", items:[          
         {name: "Lang.", field: "assessments.AP Language.x", width:100},
         {name: "Lit.", field: "assessments.AP Literature.x", width:100}]}, 
-      {name: "Grade", items:[   
-        {name: "Final", field: "score.grade", width:50, formatter: DashboardUtil.Grid.Formatters.TearDrop}
-    ]},                 
       {name: "Attendance", items:[   
         {name: "Absence Count", field: "attendances.absenceCount", width: 100, sorter: 'int', formatter: DashboardUtil.Grid.Formatters.CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}},
         {name: "Attendance Rate %", field: "attendances.attendanceRate", width: 100, sorter: 'int', formatter: DashboardUtil.Grid.Formatters.CutPoint, params:{cutPoints:{89:{style: 'color-widget-red'}, 94:{style:'color-widget-yellow'}, 98:{style:'color-widget-green'}, 100:{style: 'color-widget-darkgreen'}}}},
