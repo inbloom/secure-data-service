@@ -100,7 +100,7 @@ public class PersistenceProcessor implements Processor {
         NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
         Stage stage = new Stage();
         newJob.getStages().add(stage);
-        stage.setStageName(BatchJobStageType.PERSISTENCE_PROCESSING.getName());
+        stage.setStageName(BatchJobStageType.PERSISTENCE_PROCESSOR.getName());
         stage.startStage();
         batchJobDAO.saveBatchJob(newJob);
 
@@ -144,7 +144,7 @@ public class PersistenceProcessor implements Processor {
                                 new HashSet<String>());
 
                     } catch (IOException e) {
-                        BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING,
+                        BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSOR,
                                 FaultType.TYPE_ERROR.getName(), "Exception", e.getMessage());
                     }
 
@@ -188,7 +188,7 @@ public class PersistenceProcessor implements Processor {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             LOG.error("Exception:", exception);
-            BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING,
+            BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSOR,
                     FaultType.TYPE_ERROR.getName(), "Exception", exception.getMessage());
 
         } finally {
@@ -366,7 +366,7 @@ public class PersistenceProcessor implements Processor {
             String faultLevel = fault.isError() ? FaultType.TYPE_ERROR.getName() : fault
                     .isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
             BatchJobMongoDA.logBatchStageError(batchJobId,
-                    BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);
+                    BatchJobStageType.PERSISTENCE_PROCESSOR, faultLevel, "Error", faultMessage);
         }
 
         return recordLevelErrorsInFile;

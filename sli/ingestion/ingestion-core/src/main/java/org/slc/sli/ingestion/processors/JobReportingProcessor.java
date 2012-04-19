@@ -55,7 +55,7 @@ public class JobReportingProcessor implements Processor {
         NewBatchJob job = batchJobDAO.findBatchJobById(batchJobId);
 
         Stage stage = new Stage();
-        stage.setStageName(BatchJobStageType.JOB_REPORTING_PROCESSING.getName());
+        stage.setStageName(BatchJobStageType.JOB_REPORTING_PROCESSOR.getName());
         job.getStages().add(stage);
         stage.startStage();
 
@@ -68,7 +68,7 @@ public class JobReportingProcessor implements Processor {
 
         // writes out persistence stage resource metrics
         // TODO group counts by externallyUploadedResourceId
-        List<Metrics> metrics = job.getStageMetrics(BatchJobStageType.PERSISTENCE_PROCESSING);
+        List<Metrics> metrics = job.getStageMetrics(BatchJobStageType.PERSISTENCE_PROCESSOR);
         if (metrics != null) {
 
             for (Metrics metric : metrics) {
@@ -88,9 +88,9 @@ public class JobReportingProcessor implements Processor {
         } else {
 
             // write out 0 count metrics for the input files
-            BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.JOB_REPORTING_PROCESSING,
+            BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.JOB_REPORTING_PROCESSOR,
                     FaultType.TYPE_WARNING.getName(), null, "There were no metrics for "
-                            + BatchJobStageType.PERSISTENCE_PROCESSING.getName() + ".");
+                            + BatchJobStageType.PERSISTENCE_PROCESSOR.getName() + ".");
 
             for (ResourceEntry resourceEntry : job.getResourceEntries()) {
                 if (resourceEntry.getResourceFormat() != null

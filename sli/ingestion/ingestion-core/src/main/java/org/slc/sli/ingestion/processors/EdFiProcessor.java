@@ -42,7 +42,7 @@ import org.slc.sli.util.performance.Profiled;
 @Component
 public class EdFiProcessor implements Processor {
 
-    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.EDFI_PROCESSING;
+    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.EDFI_PROCESSOR;
 
     private static final Logger LOG = LoggerFactory.getLogger(EdFiProcessor.class);
 

@@ -68,7 +68,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             newJob.setStatus(BatchJobStatusType.RUNNING.getName());
 
             Stage stage = new Stage();
-            stage.setStageName(BatchJobStageType.ZIP_FILE_PROCESSING.getName());
+            stage.setStageName(BatchJobStageType.ZIP_FILE_PROCESSOR.getName());
             stage.startStage();
 
             exchange.getIn().setHeader("BatchJobId", batchJobId);
@@ -100,7 +100,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             log.error("Exception:", exception);
             if (batchJobId != null) {
-                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSING, FaultType.TYPE_ERROR.getName(), null, exception.toString());
+                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSOR, FaultType.TYPE_ERROR.getName(), null, exception.toString());
             }
         }
     }
@@ -122,7 +122,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             newJob.setStatus(BatchJobStatusType.RUNNING.getName());
 
             Stage stage = new Stage();
-            stage.setStageName(BatchJobStageType.ZIP_FILE_PROCESSING.getName());
+            stage.setStageName(BatchJobStageType.ZIP_FILE_PROCESSOR.getName());
             stage.startStage();
 
             exchange.getIn().setHeader("BatchJobId", batchJobId);
@@ -132,7 +132,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
 
             File ctlFile = handler.handle(zipFile, errorReport);
 
-            BatchJobMongoDA.writeErrorsToMongo(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSING, errorReport);
+            BatchJobMongoDA.writeErrorsToMongo(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSOR, errorReport);
 
             ResourceEntry resourceName = new ResourceEntry();
             resourceName.setResourceName(zipFile.getCanonicalPath());
@@ -159,7 +159,7 @@ public class ZipFileProcessor implements Processor, MessageSourceAware {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             log.error("Exception:", exception);
             if (batchJobId != null) {
-                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSING,
+                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSOR,
                         FaultType.TYPE_ERROR.getName(), null, exception.toString());
             }
         }
