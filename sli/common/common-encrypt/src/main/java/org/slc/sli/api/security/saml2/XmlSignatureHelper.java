@@ -69,8 +69,8 @@ public class XmlSignatureHelper {
 
     @Value("${sli.encryption.keyStore}")
     private String keyStore;
-
-    @Value("${sli.encryption.properties}")
+    
+    @Value("${sli.conf}")
     private String propertiesFile;
 
     /**

@@ -22,16 +22,4 @@
 		<module>uml2Xsd</module>
 		<module>xsd2xmi</module>
 	</modules>
-
-	<dependencyManagement>
-		<dependencies>
-
-			<dependency>
-				<groupId>org.slc.sli</groupId>
-				<artifactId>sli-configuration</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 </project>
