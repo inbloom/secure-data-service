@@ -16,26 +16,26 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 
 /**
  * Neutral Query Converter Test
- * 
+ *
  * @author kmyers
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class UriInfoToNeutralQueryConverterTest {
-    
+
     private static final UriInfoToNeutralQueryConverter QUERY_CONVERTER = new UriInfoToNeutralQueryConverter();
-    
+
 
     private UriInfo uriInfo;
     private static final String URI_STRING = "http://localhost:8080/api/v1/sections";
-    
-    
+
+
     @Before
     public void setup() {
         uriInfo = mock(UriInfo.class);
@@ -52,7 +52,7 @@ public class UriInfoToNeutralQueryConverterTest {
         this.testFullParse("ascending", NeutralQuery.SortOrder.ascending);
         this.testFullParse("descending", NeutralQuery.SortOrder.descending);
     }
-    
+
     private void testFullParse(String sortOrderString, NeutralQuery.SortOrder sortOrder) {
         try {
             int offset = 5;
@@ -60,7 +60,7 @@ public class UriInfoToNeutralQueryConverterTest {
             String includeFields = "field1,field2";
             String excludeFields = "field3,field4";
             String sortBy = "field5";
-            
+
             String queryString = "";
             queryString += (ParameterConstants.OFFSET + "=" + offset);
             queryString += ("&");
@@ -75,13 +75,13 @@ public class UriInfoToNeutralQueryConverterTest {
             queryString += (ParameterConstants.SORT_ORDER + "=" + sortOrderString);
             queryString += ("&");
             queryString += ("testKey" + "=" + "testValue");
-            
+
             URI requestUri = new URI(URI_STRING + "?" + queryString);
-            
+
             when(uriInfo.getRequestUri()).thenReturn(requestUri);
 
             NeutralQuery neutralQuery = QUERY_CONVERTER.convert(uriInfo);
-            
+
             // test that the value was stored in the proper variable
             assertEquals(neutralQuery.getLimit(), limit);
             assertEquals(neutralQuery.getOffset(), offset);
@@ -94,7 +94,7 @@ public class UriInfoToNeutralQueryConverterTest {
             assertTrue(false);
         }
     }
-    
+
     @Test(expected = QueryParseException.class)
     public void testInvalidOffset() {
         try {
@@ -105,7 +105,7 @@ public class UriInfoToNeutralQueryConverterTest {
         } catch (URISyntaxException urise) {
             assertTrue(false);
         }
-        
+
         QUERY_CONVERTER.convert(uriInfo);
     }
 
@@ -118,10 +118,10 @@ public class UriInfoToNeutralQueryConverterTest {
         } catch (URISyntaxException urise) {
             assertTrue(false);
         }
-        
+
         QUERY_CONVERTER.convert(uriInfo);
     }
-    
+
 
     @Test(expected = QueryParseException.class)
     public void testQueryStringMissingKey() {
@@ -132,7 +132,7 @@ public class UriInfoToNeutralQueryConverterTest {
         } catch (URISyntaxException urise) {
             assertTrue(false);
         }
-        
+
         QUERY_CONVERTER.convert(uriInfo);
     }
 
@@ -145,7 +145,7 @@ public class UriInfoToNeutralQueryConverterTest {
         } catch (URISyntaxException urise) {
             assertTrue(false);
         }
-        
+
         QUERY_CONVERTER.convert(uriInfo);
     }
 
@@ -158,7 +158,7 @@ public class UriInfoToNeutralQueryConverterTest {
         } catch (URISyntaxException urise) {
             assertTrue(false);
         }
-        
+
         QUERY_CONVERTER.convert(uriInfo);
     }
 }

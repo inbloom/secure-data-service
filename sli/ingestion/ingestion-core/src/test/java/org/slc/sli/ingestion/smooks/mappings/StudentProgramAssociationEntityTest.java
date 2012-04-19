@@ -88,31 +88,51 @@ public class StudentProgramAssociationEntityTest {
         assertEquals("Expected different end date", "2011-12-31", attributes.get("EndDate"));
         assertEquals("Expected different reason exited", "Program completion", attributes.get("ReasonExited"));
 
-        List<Map<String, Object>> services = (List<Map<String, Object>>) attributes.get("Services");
+        List<List<Map<String, Object>>> services = (List<List<Map<String, Object>>>) attributes.get("Services");
 
         assertNotNull("Expected non-null list of services", services);
 
         assertEquals("Expected two services", 2, services.size());
 
-        Map<String, Object> service1 = services.get(0);
+        List<Map<String, Object>> service1 = services.get(0);
         assertNotNull("Expected non-null service", service1);
-        assertEquals("Expected different short description of service",
-                "Short description for acceptance test studentProgramAssociation service 1",
-                service1.get("ShortDescription"));
-        assertEquals("Expected different description of service",
-                "This is a longer description of the services provided by acceptance test studentProgramAssociation service 1. More detail could be provided here.",
-                service1.get("Description"));
-        assertEquals("Expected different service code value", "Test service 1", service1.get("CodeValue"));
+        assertEquals("Expected three choices", 3, service1.size());
+        
+        Map<String, Object> choice = service1.get(0);
+        assertNotNull("Expected non-null service choice", choice);
+        assertEquals("Expected different service code value", "Test service 1", choice.get("CodeValue"));
 
-        Map<String, Object> service2 = services.get(1);
+        choice = service1.get(1);
+        assertNotNull("Expected non-null service choice", choice);
+        assertEquals("Expected different short description of service", 
+                "Short description for acceptance test studentProgramAssociation service 1", 
+                choice.get("ShortDescription"));
+
+        choice = service1.get(2);
+        assertNotNull("Expected non-null service choice", choice);
+        assertEquals("Expected different description of service", 
+                "This is a longer description of the services provided by acceptance test studentProgramAssociation service 1. More detail could be provided here.", 
+                choice.get("Description"));
+
+        List<Map<String, Object>> service2 = services.get(1);
         assertNotNull("Expected non-null service", service2);
-        assertEquals("Expected different short description of service",
-                "Short description for acceptance test studentProgramAssociation service 2",
-                service2.get("ShortDescription"));
-        assertEquals("Expected different description of service",
-                "This is a longer description of the services provided by acceptance test studentProgramAssociation service 2. More detail could be provided here.",
-                service2.get("Description"));
-        assertEquals("Expected different service code value", "Test service 2", service2.get("CodeValue"));
+        assertEquals("Expected three choices", 3, service1.size());
+
+        choice = service2.get(0);
+        assertNotNull("Expected non-null service choice", choice);
+        assertEquals("Expected different service code value", "Test service 2", choice.get("CodeValue"));
+
+        choice = service2.get(1);
+        assertNotNull("Expected non-null service choice", choice);
+        assertEquals("Expected different short description of service", 
+                "Short description for acceptance test studentProgramAssociation service 2", 
+                choice.get("ShortDescription"));
+
+        choice = service2.get(2);
+        assertNotNull("Expected non-null service choice", choice);
+        assertEquals("Expected different description of service", 
+                "This is a longer description of the services provided by acceptance test studentProgramAssociation service 2. More detail could be provided here.", 
+                choice.get("Description"));
     }
 
 }

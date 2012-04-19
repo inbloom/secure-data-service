@@ -14,26 +14,18 @@
   <context:annotation-config />
 
   <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
+ 
+    <bean id="commonProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+      <property name="ignoreResourceNotFound" value="true" />
+      <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+      <property name="locations">
+         <list>
+            <value>file:///${sli.conf}</value>
+            <value>classpath:ingestion.properties</value>
+         </list>
+      </property>
+   </bean>
 
-  <bean id="ingestionPropertiesPlaceholder"
-    class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
-
-    <!-- this avoids errors with *other* property placeholders -->
-    <property name="ignoreUnresolvablePlaceholders" value="true" />
-
-    <!-- this allows using an optional local properties file (ingestion-dev.properties) -->
-    <property name="ignoreResourceNotFound" value="true" />
-
-    <property name="locations">
-      <list>
-        <value>classpath:/config/${sli.env}/ingestion/ingestion_conf.properties</value>
-        <value>classpath:ingestion.properties</value>
-        <value>classpath:/config/${sli.env}/ingestion/queue.properties </value>
-        <!-- create this file with custom settings for your dev environment -->
-        <value>classpath:ingestion-dev.properties</value>
-      </list>
-    </property>
-  </bean>
 
   <bean id="jms-hornetq" class="org.apache.camel.component.jms.JmsComponent">
     <property name="connectionFactory">
@@ -132,15 +124,6 @@
     <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler"></property>
     <property name="persistedCollections" ref="persistedEntities" />
   </bean>
-
-    <util:list id="excluded" value-type="java.lang.String">
-            <value>system.indexes</value>
-            <value>system.js</value>
-    </util:list>
-
-<bean id="purgeProcessor" class="org.slc.sli.ingestion.processors.PurgeProcessor">
-    <property name="excludeCollections" ref="excluded"/>
-</bean>
 
 </beans>
 

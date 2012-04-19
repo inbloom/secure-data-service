@@ -22,18 +22,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 /**
- * 
+ *
  * @author pwolf
  *
  */
@@ -47,27 +47,27 @@ public class ApplicationAuthorizationValidatorTest {
     @Autowired
     @InjectMocks
     ApplicationAuthorizationValidator validator;
-    
+
     @Mock
     Repository<Entity> repo;
-    
+
     @Mock
     ContextResolverStore store;
-    
+
     @Mock
     EntityContextResolver resolver;
-    
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        
+
         //set up the resolver store to resolve a couple of edorgs
         List<String> edOrgIds = new ArrayList<String>();
         edOrgIds.add("district1");
         edOrgIds.add("school1");
         Mockito.when(resolver.findAccessible(Mockito.any(Entity.class))).thenReturn(edOrgIds);
         Mockito.when(store.findResolver(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION)).thenReturn(resolver);
-        
+
         //Set up the LEA
         HashMap body = new HashMap();
         List<String> categories = new ArrayList<String>();
@@ -76,7 +76,7 @@ public class ApplicationAuthorizationValidatorTest {
         district1.getBody().put("stateOrganizationId", "NC-D1");
         district1.getBody().put("organizationCategories", categories);
         Mockito.when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "district1")).thenReturn(district1);
-        
+
         //Set up a school
         body = new HashMap();
         categories = new ArrayList<String>();
@@ -85,23 +85,23 @@ public class ApplicationAuthorizationValidatorTest {
         school1.getBody().put("organizationCategories", categories);
         school1.getBody().put("stateOrganizationId", "NC-D1-SC1");
         Mockito.when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "school1")).thenReturn(school1);
-        
+
     }
-    
+
     @Test
     public void testAppAuthorizationNoAppAuth() {
         SLIPrincipal principal = new SLIPrincipal();
         principal.setEntity(new MongoEntity("teacher", "teacherUniqueId", new HashMap<String, Object>(), new HashMap<String, Object>()));
         assertNull(validator.getAuthorizedApps(principal));
     }
-    
+
     @Test
     public void testAppIsAuthorized() {
-                
+
         //Create an auth token to use
         SLIPrincipal principal = new SLIPrincipal();
         principal.setEntity(new MongoEntity("teacher", "teacherUniqueId", new HashMap<String, Object>(), new HashMap<String, Object>()));
-        
+
         //Register an app list with district1 containing the requested app
         Entity appAuthEnt = new MongoEntity("applicationAuthorization", new HashMap<String, Object>());
         appAuthEnt.getBody().put("authId", "NC-D1");
@@ -110,8 +110,8 @@ public class ApplicationAuthorizationValidatorTest {
         allowedApps.add("appId");
         appAuthEnt.getBody().put("appIds", allowedApps);
         Mockito.when(repo.findOne(Mockito.eq("applicationAuthorization"), Mockito.any(NeutralQuery.class))).thenReturn(appAuthEnt);
-        
+
         assertTrue("Authorized app list should contain appId", validator.getAuthorizedApps(principal).contains("appId"));
     }
-    
+
 }
