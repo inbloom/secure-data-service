@@ -40,23 +40,20 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      */
     @Cacheable(cacheName = "user.district")
     public EdOrgKey getUserEdOrg(String token) {
+        
         // get list of school
-        // Delete this comment after Replace getToken() to token when token
-        // passes actual token
-        // instead of username
         List<GenericEntity> schools = getApiClient().getSchools(getToken(), null);
-        if (!schools.isEmpty()) {
+        if (schools != null && !schools.isEmpty()) {
+            
             // read first school
             GenericEntity school = schools.get(0);
-            // read parenet organization
-            // Delete this comment after Replace getToken() to token when token
-            // passes actual token
-            // instead of username
+        
+            // read parent organization
             GenericEntity parentEdOrg = getParentEducationalOrganization(getToken(), school);
             @SuppressWarnings("unchecked")
             LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) parentEdOrg
                     .get(Constants.METADATA);
-            if (!metaData.isEmpty()) {
+            if (metaData != null && !metaData.isEmpty()) {
                 if (metaData.containsKey(Constants.EXTERNAL_ID)) {
                     return new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString());
                 }
@@ -83,31 +80,28 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         }
         
         // This maps ids from educational organisations to schools reachable
-        // from it via the "child"
-        // relationship
+        // from it via the "child" relationship
         Map<String, HashSet<GenericEntity>> schoolReachableFromEdOrg = new HashMap<String, HashSet<GenericEntity>>();
+        
         // This just maps ed org ids to ed org objects.
         Map<String, GenericEntity> edOrgIdMap = new HashMap<String, GenericEntity>();
         
         // traverse the ancestor chain from each school and find ed orgs that
-        // the school is
-        // reachable from
+        // the school is reachable from
         for (int i = 0; i < schools.size(); i++) {
             GenericEntity edOrg = getParentEducationalOrganization(token, schools.get(i));
             while (edOrg != null) {
                 String edOrgId = edOrg.getString(Constants.ATTR_ID);
+            
                 // insert ed-org id to - edOrg mapping
                 edOrgIdMap.put(edOrgId, edOrg);
+                
                 // insert ed-org - school mapping into the reverse map
                 if (!schoolReachableFromEdOrg.keySet().contains(edOrgId)) {
                     schoolReachableFromEdOrg.put(edOrgId, new HashSet<GenericEntity>());
                 }
                 schoolReachableFromEdOrg.get(edOrgId).add(schools.get(i));
-                edOrg = getParentEducationalOrganization(token, edOrg); // next
-                                                                        // in
-                                                                        // the
-                                                                        // ancestor
-                                                                        // chain
+                edOrg = getParentEducationalOrganization(token, edOrg); // next in the ancestor chain
             }
         }
         
