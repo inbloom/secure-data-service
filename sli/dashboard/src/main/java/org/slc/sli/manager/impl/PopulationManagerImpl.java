@@ -173,90 +173,132 @@ public class PopulationManagerImpl implements PopulationManager {
                 }
                 
                 // clean out some unneeded gunk
-                student.remove(Constants.ATTR_LINKS);
+                scrubStudentData(student);
                 
                 // add full name
-                Map name = (Map) student.get(Constants.ATTR_NAME);
-                String fullName = (String) name.get(Constants.ATTR_FIRST_NAME) + " "
-                        + (String) name.get(Constants.ATTR_LAST_SURNAME);
-                name.put(Constants.ATTR_FULL_NAME, fullName);
-                
+                addFullName(student);
                 
                 // TODO - Switch once real API data is implemented
                 addGrade(student, count++);
                 
-                // xform score format
-                Map studentAssmtAssocs = (Map) student.get(Constants.ATTR_ASSESSMENTS);
-                if (studentAssmtAssocs == null) {
-                    continue;
-                }
-                
-                Collection<Map> assmtResults = studentAssmtAssocs.values();
-                for (Map assmtResult : assmtResults) {
-                    
-                    if (assmtResult == null) {
-                        continue;
-                    }
-                    
-                    List<Map> scoreResults = (List<Map>) assmtResult.get(Constants.ATTR_SCORE_RESULTS);
-                    for (Map scoreResult : scoreResults) {
-                        
-                        String type = (String) scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD);
-                        String result = (String) scoreResult.get(Constants.ATTR_RESULT);
-                        assmtResult.put(type, result);
-                    }
-                                        
-                    List<List<Map>> perfLevelsDescs = (List<List<Map>>) assmtResult
-                            .get(Constants.ATTR_PERFORMANCE_LEVEL_DESCRIPTOR);
-                    if (perfLevelsDescs != null) {
-                        for (List<Map> perfLevelsDesc : perfLevelsDescs) {
-                            if (perfLevelsDesc != null) {
-                                for (Map perfLevelDescMap : perfLevelsDesc) {
-                                    String perfLevel = (String) perfLevelDescMap.get(Constants.ATTR_CODE_VALUE);
-                                    assmtResult.put(Constants.ATTR_PERF_LEVEL, perfLevel);
-                                    break; // only get the first one
-                                }
-                            }
-                        }
-                    }
-                }
+                // transform assessment score format
+                transformAssessmentFormat(student);
                 
                 // tally up attendance data
-                Map<String, Object> attendanceBody = (Map<String, Object>) student
-                        .get(Constants.ATTR_STUDENT_ATTENDANCES);
-                if (attendanceBody != null) {
-                    
-                    List<Map<String, Object>> attendances = (List<Map<String, Object>>) attendanceBody
-                            .get(Constants.ATTR_STUDENT_ATTENDANCES);
-                    int absenceCount = 0;
-                    int tardyCount = 0;
-                    if (attendances != null && attendances.size() > 0) {
-                        for (Map attendance : attendances) {
-                            
-                            String eventCategory = (String) attendance.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
-                            
-                            if (eventCategory.contains(ATTENDANCE_ABSENCE)) {
-                                absenceCount++;
-                                
-                            } else if (eventCategory.contains(ATTENDANCE_TARDY)) {
-                                tardyCount++;
-                            }
-                        }
-                        
-                        int attendanceRate = Math.round((((float) (attendances.size() - absenceCount)) / attendances
-                                .size()) * 100);
-                        int tardyRate = Math.round((((float) tardyCount) / attendances.size()) * 100);
-                        
-                        attendanceBody.remove(Constants.ATTR_STUDENT_ATTENDANCES);
-                        attendanceBody.put(Constants.ATTR_ABSENCE_COUNT, absenceCount);
-                        attendanceBody.put(Constants.ATTR_TARDY_COUNT, tardyCount);
-                        attendanceBody.put(Constants.ATTR_ATTENDANCE_RATE, attendanceRate);
-                        attendanceBody.put(Constants.ATTR_TARDY_RATE, tardyRate);
-                    }
-                }
+                tallyAttendanceData(student);
                 
             }
         }
+    }
+    
+    /**
+     * Create an attribute for the full student name (first name + last name)
+     * @param student
+     */
+    public void addFullName(GenericEntity student) {
+    
+        Map name = (Map) student.get(Constants.ATTR_NAME);
+        if (name != null) {
+            String fullName = (String) name.get(Constants.ATTR_FIRST_NAME) + " "
+                            + (String) name.get(Constants.ATTR_LAST_SURNAME);
+            name.put(Constants.ATTR_FULL_NAME, fullName);
+        }
+    }
+    
+    /**
+     * Tally up individual attendance events. Front-end needs to show aggregated results.
+     * @param student
+     */
+    public void tallyAttendanceData(GenericEntity student) {
+        
+        Map<String, Object> attendanceBody = (Map<String, Object>) student
+                .get(Constants.ATTR_STUDENT_ATTENDANCES);
+        if (attendanceBody != null) {
+            
+            List<Map<String, Object>> attendances = (List<Map<String, Object>>) attendanceBody
+                    .get(Constants.ATTR_STUDENT_ATTENDANCES);
+            int absenceCount = 0;
+            int tardyCount = 0;
+            if (attendances != null && attendances.size() > 0) {
+                for (Map attendance : attendances) {
+                    
+                    String eventCategory = (String) attendance.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
+                    
+                    if (eventCategory.contains(ATTENDANCE_ABSENCE)) {
+                        absenceCount++;
+                        
+                    } else if (eventCategory.contains(ATTENDANCE_TARDY)) {
+                        tardyCount++;
+                    }
+                }
+                
+                int attendanceRate = Math.round((((float) (attendances.size() - absenceCount)) / attendances
+                        .size()) * 100);
+                int tardyRate = Math.round((((float) tardyCount) / attendances.size()) * 100);
+                
+                attendanceBody.remove(Constants.ATTR_STUDENT_ATTENDANCES);
+                attendanceBody.put(Constants.ATTR_ABSENCE_COUNT, absenceCount);
+                attendanceBody.put(Constants.ATTR_TARDY_COUNT, tardyCount);
+                attendanceBody.put(Constants.ATTR_ATTENDANCE_RATE, attendanceRate);
+                attendanceBody.put(Constants.ATTR_TARDY_RATE, tardyRate);
+            }
+        }    
+    }
+    
+    /**
+     * Modify the data structure for assessments, for front-end convenience
+     * @param student
+     */
+    public void transformAssessmentFormat(GenericEntity student) {
+        
+        Map studentAssmtAssocs = (Map) student.get(Constants.ATTR_ASSESSMENTS);
+        if (studentAssmtAssocs == null) {
+            return;
+        }
+        
+        Collection<Map> assmtResults = studentAssmtAssocs.values();
+        for (Map assmtResult : assmtResults) {
+            
+            if (assmtResult == null) {
+                continue;
+            }
+            
+            // for each score result, create a new attribute that makes the score easily accessible without looping through this list
+            List<Map> scoreResults = (List<Map>) assmtResult.get(Constants.ATTR_SCORE_RESULTS);
+            if (scoreResults != null) {
+            
+                for (Map scoreResult : scoreResults) {
+                
+                    String type = (String) scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD);
+                    String result = (String) scoreResult.get(Constants.ATTR_RESULT);
+                    assmtResult.put(type, result);
+                }
+            }
+            
+            // create a new attribute "perfLevel"
+            List<List<Map>> perfLevelsDescs = (List<List<Map>>) assmtResult
+                    .get(Constants.ATTR_PERFORMANCE_LEVEL_DESCRIPTOR);
+            
+            if (perfLevelsDescs != null) {
+                for (List<Map> perfLevelsDesc : perfLevelsDescs) {
+                    if (perfLevelsDesc != null && perfLevelsDescs.size() > 0) {
+                        
+                        String perfLevel = (String) perfLevelsDesc.get(0).get(Constants.ATTR_CODE_VALUE);
+                        assmtResult.put(Constants.ATTR_PERF_LEVEL, perfLevel);
+                        
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Clean out some student data, so we don't pass too much unnecessary stuff to the front-end
+     * @param student
+     */
+    public void scrubStudentData(GenericEntity student) {
+        
+        student.remove(Constants.ATTR_LINKS);
     }
     
     private void addGrade(GenericEntity student, int count) {
@@ -334,16 +376,17 @@ public class PopulationManagerImpl implements PopulationManager {
                 Map<String, Object> newAssmtResults = new LinkedHashMap<String, Object>();
                 
                 // Loop through assmt filters
-                for (String assmtName : assmtFilters.keySet()) {
+                for (String assmtFamily : assmtFilters.keySet()) {
                     
-                    String timedLogic = assmtFilters.get(assmtName);
+                    String timeSlotStr = assmtFilters.get(assmtFamily);
+                    if (timeSlotStr != null) {
+                        
+                        TimedLogic2.TimeSlot timeSlot = TimedLogic2.TimeSlot.valueOf(timeSlotStr);
                     
-                    // Apply filter. Add result to student summary.
-                    Map assmt = applyAssessmentFilter(assmtResults, assmtName, timedLogic);
-                    
-                    // Map<String, Map> assmt2 = new LinkedHashMap<String, Map>();
-                    // assmt2.put(timedLogic, assmt);
-                    newAssmtResults.put(assmtName, assmt);
+                        // Apply filter. Add result to student summary.
+                        Map assmt = applyAssessmentFilter(assmtResults, assmtFamily, timeSlot);
+                        newAssmtResults.put(assmtFamily, assmt);
+                    }
                 }
                 
                 summary.put(Constants.ATTR_ASSESSMENTS, newAssmtResults);
@@ -352,21 +395,21 @@ public class PopulationManagerImpl implements PopulationManager {
     }
     
     /**
-     * Filter a list of assessment results, based on the assessment name and timed logic
+     * Filter a list of assessment results, based on the assessment family and timed logic
      * 
      * @param assmtResults
-     * @param assmtName
+     * @param assmtFamily
      * @param timedLogic
      * @return
      */
-    private Map applyAssessmentFilter(List<Map> assmtResults, String assmtName, String timeSlot) {
+    private Map applyAssessmentFilter(List<Map> assmtResults, String assmtFamily, TimedLogic2.TimeSlot timeSlot) {
         
-        // filter by assmtName
+        // filter by assmt family name
         List<Map> studentAssessmentFiltered = new ArrayList<Map>();
         for (Map assmtResult : assmtResults) {
             String family = (String) ((Map) (assmtResult.get(Constants.ATTR_ASSESSMENTS)))
                     .get(Constants.ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME);
-            if (family.contains(assmtName)) {
+            if (family.contains(assmtFamily)) {
                 studentAssessmentFiltered.add(assmtResult);
             }
         }
@@ -375,39 +418,52 @@ public class PopulationManagerImpl implements PopulationManager {
             return null;
         }
         
-        // call timed logic
         Map chosenAssessment = null;
+        
         // TODO: fix objective assessment code and use it
         String objAssmtCode = "";
         
-        if (TimedLogic2.TIMESLOT_MOSTRECENTRESULT.equals(timeSlot)) {
-            chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
-        } else if (TimedLogic2.TIMESLOT_HIGHESTEVER.equals(timeSlot) && !objAssmtCode.equals("")) {
-            chosenAssessment = TimedLogic2.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
-        } else if (TimedLogic2.TIMESLOT_HIGHESTEVER.equals(timeSlot)) {
-            chosenAssessment = TimedLogic2.getHighestEverAssessment(studentAssessmentFiltered);
-        } else if (TimedLogic2.TIMESLOT_MOSTRECENTWINDOW.equals(timeSlot)) {
+        // call timeslot logic to pick out the assessment we want
+        switch(timeSlot) {
+        
+            case MOST_RECENT_RESULT:
+                chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
+                break;
+                
+            case HIGHEST_EVER:
+                if (!objAssmtCode.equals("")) {
+                    chosenAssessment = TimedLogic2.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
+                } else {
+                    chosenAssessment = TimedLogic2.getHighestEverAssessment(studentAssessmentFiltered);
+                }
+                break;
+                
+
+            case MOST_RECENT_WINDOW:
+                
+                List<Map> assessmentMetaData = new ArrayList<Map>();
             
-            List<Map> assessmentMetaData = new ArrayList<Map>();
+                // TODO: get the assessment meta data
+                /*
+                 * Set<String> assessmentIds = new HashSet<String>();
+                 * for (Map studentAssessment : studentAssessmentFiltered) {
+                 * String assessmentId = (String) studentAssessment.get(Constants.ATTR_ASSESSMENT_ID);
+                 * if (!assessmentIds.contains(assessmentId)) {
+                 * GenericEntity assessment = metaDataResolver.getAssmtById(assessmentId);
+                 * assessmentMetaData.add(assessment);
+                 * assessmentIds.add(assessmentId);
+                 * }
+                 * }
+                 */
             
-            // TODO: get the assessment meta data
-            /*
-             * Set<String> assessmentIds = new HashSet<String>();
-             * for (Map studentAssessment : studentAssessmentFiltered) {
-             * String assessmentId = (String) studentAssessment.get(Constants.ATTR_ASSESSMENT_ID);
-             * if (!assessmentIds.contains(assessmentId)) {
-             * GenericEntity assessment = metaDataResolver.getAssmtById(assessmentId);
-             * assessmentMetaData.add(assessment);
-             * assessmentIds.add(assessmentId);
-             * }
-             * }
-             */
-            
-            chosenAssessment = TimedLogic2.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
-            
-        } else {
-            // Decide whether to throw runtime exception here. Should timed logic default @@@
-            chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
+                chosenAssessment = TimedLogic2.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
+                break;
+                
+            default: 
+
+                // Decide whether to throw runtime exception here. Should timed logic default @@@
+                chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
+                break;
         }
         
         return chosenAssessment;
