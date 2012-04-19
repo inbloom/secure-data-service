@@ -17,12 +17,11 @@ def iter_props(config)
     prop_by_env = {}
     prop_by_env.default = []
     config.each do |env, sections| 
-        if env != DEFAULT_ENV
-            sections.each do |sec, props|
-                props.each do |k,v|
-                    prop_by_env[env] = prop_by_env[env] + [k] 
-                    yield env, sec, k
-                end
+        puts "EEE:" + env
+        sections.each do |sec, props|
+            props.each do |k,v|
+                prop_by_env[env] = prop_by_env[env] + [k] 
+                yield env, sec, k
             end
         end
     end
@@ -45,30 +44,34 @@ def check_properties(config)
     unique_sections.uniq!
     unique_sections.sort!
 
-    puts "UNIQUE -----"
+    puts "UNIQUE PROPERTIES ----- >"
     unique_props.each do |x| 
         puts x
     end
-    puts "DONE UNIQUE -----"
+    puts "-------------------------"
 
     # iterate through the environements and see if they contain default values 
+    puts "Checking all profiles whether they contain properties."
     props_by_env.each do |env, props| 
-        puts "ENV: #{env} ------------------------"
-        err = [] 
-        sorted_props = props.sort
-        if sorted_props.uniq.length != sorted_props.length
-            us_props = sorted_props.uniq
-            dupes = us_props.select {|p| sorted_props.count(p) > 1}
-            err << "Properties in environment '#{env}' are not unique. Duplicates:\n    " + dupes.join("\n    ")
-        end
-        intersect = unique_props - sorted_props 
-        if !intersect.empty? 
-            err << "Missing properties:\n    " + intersect.join("\n    ")
-        end
-        if !err.empty? 
-            puts err.join("\n")
-        else 
-            puts "Success."
+        if !env.start_with?("test-")
+            result_str = "ENV '#{env}' "
+            err = [] 
+            sorted_props = props.sort
+            if sorted_props.uniq.length != sorted_props.length
+                us_props = sorted_props.uniq
+                dupes = us_props.select {|p| sorted_props.count(p) > 1}
+                err << "Properties in environment '#{env}' are not unique. Duplicates:\n    " + dupes.join("\n    ")
+            end
+            intersect = unique_props - sorted_props 
+            if !intersect.empty? 
+                err << "Missing properties:\n    " + intersect.join("\n    ")
+            end
+            if !err.empty? 
+                result_str << err.join("\n")
+            else 
+                result_str << "Success."
+            end
+            puts result_str
         end
     end
 end

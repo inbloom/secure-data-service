@@ -1,5 +1,12 @@
 #!/usr/bin/env ruby 
 
+# This is a utility script written while moving the properties out of 
+# the packaged war and jar files. 
+# It collects all property files in a directory try and generates
+# a YAML file that reflects that hierachy. 
+#
+
+
 require 'find'
 require 'yaml'
 require 'ostruct'
