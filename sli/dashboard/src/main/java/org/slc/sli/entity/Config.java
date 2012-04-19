@@ -125,10 +125,11 @@ public class Config {
         public Data() {
         }
         
-        public Data(String entity, String cacheKey, Map<String, Object> params) {
+        public Data(String entity, String cacheKey, boolean lazy, Map<String, Object> params) {
             this.entity = entity;
             this.cacheKey = cacheKey;
             this.params = params;
+            this.lazy = lazy;
         }
         
         public String getEntityRef() {
@@ -279,7 +280,7 @@ public class Config {
      */
     public Config overWrite(Config customConfig) {
         Config config = new Config(this.id, customConfig.name, this.type, this.condition, new Data(this.data.entity,
-                this.data.cacheKey, customConfig.data.params == null ? null
+                this.data.cacheKey, this.data.lazy, customConfig.data.params == null ? null
                         : Collections.unmodifiableMap(new HashMap<String, Object>(customConfig.data.params))),
                 customConfig.items, this.root);
         return config;
