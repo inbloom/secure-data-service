@@ -104,15 +104,10 @@
     }
 function populateInstHierarchy(){
     var y = "<select id='edOrgSelect' onChange='clearStudentList();populateSchoolMenu()'>";
-    if(instHierarchy.length == 0){
-	    y += "<option value='-1'></option>";
-    }
-    else
-    {
-	    var i = 0;
-	    for(i = 0;i<instHierarchy.length;i++){
-	        y += "<option value='" +i +"'>"+ instHierarchy[i].name + "</option>";
-	    }
+    y += "<option value='-1'></option>";
+    var i = 0;
+    for(i = 0;i<instHierarchy.length;i++){
+	y += "<option value='" +i +"'>"+ instHierarchy[i].name + "</option>";
     }
     y += "</select>";
     document.getElementById("edorgDiv").innerHTML = y;
