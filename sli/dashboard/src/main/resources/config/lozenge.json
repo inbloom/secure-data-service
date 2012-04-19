@@ -3,6 +3,12 @@
   type : "WIDGET",
   items : [
     {name: "ELL", description: "English Language Learner", condition :{field: "limitedEnglishProficiency", value: ["Limited"]}, style: "lozenge-widget-ell"},
-    {name: "FRE", description: "Free Lunch", condition :{field: "schoolFoodServicesEligibility", value: ["FREE"]}, style: "lozenge-widget-fre"}
+    {name: "ELL", description: "English Language Learner (former)", condition :{field: "limitedEnglishProficiency_former", value: ["Limited"]}, style: "lozenge-widget-ell"},
+    {name: "504", description: "Section 504", condition :{field: "504", value: [""]}, style: "lozenge-widget-504"},
+    {name: "504", description: "Section 504 (former)", condition :{field: "504_former", value: [""]}, style: "lozenge-widget-504"},
+    {name: "IEP", description: "IEP", condition :{field: "IEP", value: [""]}, style: "lozenge-widget-IEP"},
+    {name: "IEP", description: "IEP (former)", condition :{field: "IEP_former", value: [""]}, style: "lozenge-widget-IEP"},
+    {name: "LEA", description: "Custom Program", condition :{field: "LEA", value: [""]}, style: "lozenge-widget-LEA"},
+    {name: "RPT", description: "Repeating Grade", condition :{field: "RPT", value: [""]}, style: "lozenge-widget-RPT"}
   ] 
 }

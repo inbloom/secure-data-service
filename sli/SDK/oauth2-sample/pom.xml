@@ -17,6 +17,10 @@
   <url>http://maven.apache.org</url>
   
   <dependencies>
+     <dependency>
+        <groupId>org.slc.sli.common</groupId>
+        <artifactId>sli-common</artifactId>
+    </dependency>     
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

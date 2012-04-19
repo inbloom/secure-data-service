@@ -25,7 +25,13 @@ public class StagingEntityEncryption extends EntityEncryption {
 
     @Override
     protected Map<String, Object> buildPiiMap(String entityType) {
-        EntityConfig ec = entityConfigFactory.getEntityConfiguration(entityType);
+        String realEntityType = entityType;
+        //change the transformed entity type to get the 
+        //right configureation file
+        if (entityType.contains("_transformed")) {
+            realEntityType = realEntityType.substring(0, realEntityType.indexOf("_"));
+        }
+        EntityConfig ec = entityConfigFactory.getEntityConfiguration(realEntityType);
         return ec != null ? ec.getPiiFields() : null;
     }
 }

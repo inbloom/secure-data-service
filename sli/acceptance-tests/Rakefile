@@ -197,7 +197,7 @@ desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionAPAssessmentTests, :ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest] do
+                         :ingestionAPAssessmentTests, :ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -323,6 +323,11 @@ end
 desc "Run Ingestion Offline Tool Simple Test"
 task :ingestionOfflineSimpleTest do
   runTests("test/features/ingestion/features/offline_validation.feature")
+end
+
+desc "Run Tenant Purge Test"
+task :ingestionTenantPurgeTests do
+  runTests("test/features/ingestion/features/tenant_purge.feature")
 end
 
 ########
@@ -878,8 +883,18 @@ end
 # Dashboard tests start
 ############################################################
 desc "Run Dashboard Tests"
-task :dashboardTests => [:dashboardPopWidgetTests, :dashboardK3ViewTests, :dashboardHSViewTests,
-  :dashboardUserBasedViewTests, :dashboardIntegratedTests, :dashboardLoginTests, :dashboardStudentProfileTests, :dashboardAssessmentTests, :dashboardAttendance, :dashboardStudentHistoricalDataTests, :dashboardStudentContactInfoLiveTests] do
+task :dashboardTests => [:dashboardPopWidgetTests,
+                         :dashboardK3ViewTests,
+                         :dashboardHSViewTests,
+                         :dashboardUserBasedViewTests,
+                         :dashboardIntegratedTests,
+                         :dashboardLoginTests,
+                         :dashboardStudentProfileTests,
+                         :dashboardAssessmentTests,
+                         :dashboardAttendance,
+                         :dashboardStudentHistoricalDataTests,
+                         :dashboardStudentContactInfoLiveTests,
+                         :dashboardStudentGradebookEntryTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -973,6 +988,11 @@ task :dashboardSdsContactInfoTests do
   runTests("test/features/dashboard/dash/contact_info_sds.feature")
 end
 
+desc "Run dashboard student gradebook entry tests"
+task :dashboardStudentGradebookEntryTests do
+  runTests("test/features/dashboard/students/StudentGradebookEntry.feature")
+end
+
 ############################################################
 # Dashboard tests end
 ############################################################
@@ -987,6 +1007,7 @@ task :integrationTests => [:realmInitNoPeople] do
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
   Rake::Task["dashboardSdsTests"].execute
+  Rake::Task["dashboardSdsContactInfoTests"].execute    
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1016,15 +1037,24 @@ end
 # SDK Tests
 ############################################################
 
-desc "Run JavaSDK sampleApp acceptance tests"
-task :JavaSDKSampleAppTest => [:realmInitNoPeople] do
-    runTests("test/features/dashboard/JavaSDK/sampleApp.feature")
+desc "Run JavaSDK acceptance tests"
+task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest] do
     displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
   else
     raise "Tests have failed"
   end
+end
+
+desc "Run JavaSDK sampleApp acceptance tests"
+task :JavaSDKSampleAppTest => [:importUnifiedData, :realmInitNoPeople] do
+    runTests("test/features/apiV1/end_user_stories/sandbox/JavaSDK/sampleApp/sampleApp.feature")
+end
+
+desc "Run JavaSDK CRUD acceptance tests"
+task :JavaSDKCRUDTest => [:realmInitNoPeople,:importStoriedData] do
+    runTests("test/features/apiV1/end_user_stories/sandbox/JavaSDK/CRUD/CRUD.feature")
 end
 
 ############################################################
@@ -1133,7 +1163,7 @@ task :importUnifiedData do
     "educationOrganization" => "unified_data/uds_educationOrganization.json",
     "gradebookEntry" => "unified_data/uds_gradebookEntry.json",
     "parent" => "unified_data/uds_parent.json",
-    "realm" => "unified_data/uds_realm.json",
+     "realm" => "unified_data/uds_realm.json",
     "school" => "unified_data/uds_school.json",
     "section" => "unified_data/uds_section.json",
     "session" => "unified_data/uds_session.json",

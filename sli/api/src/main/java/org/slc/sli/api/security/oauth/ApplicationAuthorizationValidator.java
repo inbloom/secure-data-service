@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -18,9 +18,9 @@ import org.slc.sli.domain.Repository;
 /**
  * Determines which applications a given user is authorized to use based on
  * that user's ed-org.
- * 
+ *
  * @author pwolf
- * 
+ *
  */
 @Component
 public class ApplicationAuthorizationValidator {
@@ -35,13 +35,13 @@ public class ApplicationAuthorizationValidator {
 
     /**
      * Get the list of authorized apps for the user based on the user's LEA.
-     * 
+     *
      * No additional filtering is done on the results. E.g. if a user is a non-admin,
      * the admin apps will still show up in the list, or if an app is disabled it will
      * still show up.
-     * 
+     *
      * @param principal
-     * 
+     *
      * @return either the list of app IDs or null if no ed-org information can be determined
      */
     @SuppressWarnings("unchecked")
@@ -66,7 +66,7 @@ public class ApplicationAuthorizationValidator {
 
     /**
      * Looks up the user's LEA entity.
-     * 
+     *
      * @param principal
      * @return Either the LEA entity if one is found, or null if not found
      */

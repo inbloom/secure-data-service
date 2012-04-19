@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EmbeddedLink;
-import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.common.constants.ResourceConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -64,18 +64,18 @@ public class AssociationURLCreator extends URLCreator {
         for (EntityDefinition definition : entitiesThatReferenceDefinition) {
             if (definition instanceof AssociationDefinition) {
                 AssociationDefinition assoc = (AssociationDefinition) definition;
-            
+
                 if (assoc.getSourceEntity().getType().equals(entityDef.getType())) {
                     // build the param map
                     NeutralQuery neutralQuery = new NeutralQuery();
                     neutralQuery.addCriteria(new NeutralCriteria(assoc.getSourceKey(), "=", entityId));
-    
+
                     LOG.debug("entityDef type : {}", entityDef.getType());
-    
+
                     // get the actual associations
                     Iterable<Entity> entityList = repo.findAll(assoc.getStoredCollectionName(), neutralQuery);
                     LOG.debug("assoc type : {}", assoc.getType());
-    
+
                     for (Entity e : entityList) {
                         // add the link to the list
                         urls.add(new EmbeddedLink(ResourceConstants.LINKS, e.getType(), uriInfo.getBaseUriBuilder()
@@ -83,7 +83,7 @@ public class AssociationURLCreator extends URLCreator {
                                 .path(ResourceConstants.RESOURCE_PATH_MAPPINGS.get(assoc.getTargetEntity().getType()))
                                 .path((String) e.getBody().get(assoc.getTargetKey()))
                                 .build().toString()));
-    
+
                         // try and get the associations under the entity
                         getAssociationUrls(assoc.getTargetEntity(),
                                 (String) e.getBody().get(assoc.getTargetKey()), urls,

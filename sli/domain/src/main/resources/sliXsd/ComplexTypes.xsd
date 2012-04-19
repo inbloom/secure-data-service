@@ -1001,6 +1001,41 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="serviceDescriptorType">
+    	<xs:annotation>
+			<xs:documentation>
+				Provides references for service descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR ShortDescription OR Description.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+		    <xs:extension base="complexObjectType">
+		    	<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="codeValue" type="codeValue">
+						<xs:annotation>
+							<xs:documentation>
+								A code or abbreviation that is used to refer to the service.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="shortDescription" type="shortDescription">
+						<xs:annotation>
+							<xs:documentation>
+								A shortened description for the service.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="description" type="description">
+						<xs:annotation>
+							<xs:documentation>
+								The description of the service.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
     <xs:complexType name="abstractStaff">
         <xs:annotation>
             <xs:documentation>This entity represents an individual who performs

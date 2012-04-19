@@ -3,16 +3,15 @@ package org.slc.sli.ingestion.transformation;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
@@ -20,6 +19,7 @@ import org.slc.sli.ingestion.handler.Handler;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
+import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -78,7 +78,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 }
             }
         } else {
-            LOG.error("EdFi2SLI Transform has resulted in either a null or empty list of transformed SimpleEntities.");            
+            LOG.error("EdFi2SLI Transform has resulted in either a null or empty list of transformed SimpleEntities.");
         }
 
         return transformed;
@@ -106,13 +106,18 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     public void matchEntity(SimpleEntity entity, ErrorReport errorReport) {
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
 
-        Map<String, String> matchFilter = createEntityLookupFilter(entity, entityConfig, errorReport);
+
+        Query query = createEntityLookupQuery(entity, entityConfig, errorReport);
 
         if (errorReport.hasErrors()) {
             return;
         }
 
-        Iterable<Entity> match = entityRepository.findAllByPaths(entity.getType(), matchFilter, new NeutralQuery());
+        @SuppressWarnings("deprecation")
+        Iterable<Entity> match = entityRepository.findByQuery(entity.getType(), query, 0, 0);
+        //change this to use a query which is filled by createEntityLookupFilter
+
+
         if (match != null && match.iterator().hasNext()) {
             // Entity exists in data store.
             Entity matched = match.iterator().next();
@@ -122,7 +127,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     }
 
     /**
-     * Create entity lookup filter by fields
+     * Create entity lookup query from EntityConfig fields
      *
      * @param entity : the entity to be looked up.
      * @param keyFields : the list of the fields with which to generate the filter
@@ -131,27 +136,36 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      *
      * @author tke
      */
-    public Map<String, String> createEntityLookupFilter(SimpleEntity entity, EntityConfig entityConfig, ErrorReport errorReport) {
-        Map<String, String> filter = new HashMap<String, String>();
+    public Query createEntityLookupQuery(SimpleEntity entity, EntityConfig entityConfig, ErrorReport errorReport) {
+        Query query = new Query();
 
+        String errorMessage = "ERROR: Invalid key fields for an entity\n";
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
             errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
+        } else {
+            errorMessage += "       Entity      " + entity.getType() + "\n"
+                          + "       Key Fields  " + entityConfig.getKeyFields() + "\n";
+            if (entityConfig.getReferences() != null && entityConfig.getReferences().size() > 0) {
+                errorMessage += "     The following collections are referenced by the key fields:" + "\n";
+                for (RefDef refDef : entityConfig.getReferences()) {
+                    errorMessage += "       collection = " + refDef.getRef().getCollectionName() + "\n";
+                }
+            }
         }
 
         String tenantId = entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()).toString();
-        filter.put(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey(), tenantId);
+        query.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
 
         try {
             for (String field : entityConfig.getKeyFields()) {
-                //TODO this does not support using anything from a list
                 Object fieldValue = PropertyUtils.getProperty(entity, field);
-                filter.put(field, (String) fieldValue);
+                query.addCriteria(Criteria.where(field).is(fieldValue));
             }
         } catch (Exception e) {
-            errorReport.error("Invalid key fields", this);
+            errorReport.error(errorMessage, this);
         }
 
-        return filter;
+        return query;
     }
 
     protected abstract List<SimpleEntity> transform(NeutralRecord item, ErrorReport errorReport);

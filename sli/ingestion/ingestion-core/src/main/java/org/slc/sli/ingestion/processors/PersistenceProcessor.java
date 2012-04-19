@@ -226,6 +226,7 @@ public class PersistenceProcessor implements Processor {
         LoggingFaultReport recordLevelErrorsInFile = new LoggingFaultReport(errorLogger);
 
         NeutralRecordFileReader nrFileReader = null;
+        String errorMessage = "ERROR: Fatal problem saving records to database.\n";
         try {
             nrFileReader = new NeutralRecordFileReader(neutralRecordsFile);
 
@@ -234,6 +235,9 @@ public class PersistenceProcessor implements Processor {
                 recordNumber++;
 
                 NeutralRecord neutralRecord = nrFileReader.next();
+                errorMessage = "ERROR: Fatal problem saving records to database: \n";
+                errorMessage += "       Entity       " + neutralRecord.getRecordType() + "\n";
+                errorMessage += "       Identifier   " + (String) neutralRecord.getLocalId() + "\n";
 
                 if (!transformedCollections.contains(neutralRecord.getRecordType())) {
                     if (persistedCollections.contains(neutralRecord.getRecordType())) {
@@ -313,7 +317,7 @@ public class PersistenceProcessor implements Processor {
 
             }
         } catch (Exception e) {
-            recordLevelErrorsInFile.fatal("Fatal problem saving records to database.", PersistenceProcessor.class);
+            recordLevelErrorsInFile.fatal(errorMessage, PersistenceProcessor.class);
             LOG.error("Exception when attempting to ingest NeutralRecords in: " + neutralRecordsFile + ".\n", e);
         } finally {
             if (nrFileReader != null) {

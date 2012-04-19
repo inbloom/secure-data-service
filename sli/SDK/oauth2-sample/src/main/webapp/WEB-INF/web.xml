@@ -27,6 +27,17 @@
 		<servlet-name>Students</servlet-name>
 		<url-pattern>/students</url-pattern>
 	</servlet-mapping>
+      <servlet>
+		<display-name>TestSDK Servlets</display-name>
+		<servlet-name>TestSDK</servlet-name>
+		<servlet-class>org.slc.sli.sample.oauth.TestSDKServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>TestSDK</servlet-name>
+		<url-pattern>/testsdk</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<display-name>Cohort Servlets</display-name>

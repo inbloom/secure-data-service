@@ -944,7 +944,7 @@
                     </xs:annotation>
                 </xs:element>
                 <xs:element maxOccurs="unbounded" minOccurs="0" name="services"
-                            type="serviceDescriptor">
+                            type="serviceDescriptorType">
                     <xs:annotation>
                         <xs:documentation>Defines the services provided by this program to
                             students.
@@ -2473,7 +2473,7 @@
                     </xs:annotation>
                 </xs:element>
                 <xs:element maxOccurs="unbounded" minOccurs="0" name="services"
-                            type="serviceDescriptor">
+                            type="serviceDescriptorType">
                     <xs:annotation>
                         <xs:documentation>
                             Indicates the services being provided to the
