@@ -202,7 +202,7 @@ public class PopulationManagerTest {
         Map<String, String> assmtFilter = new HashMap<String, String>();
         assmtFilter.put("ISAT Reading", "MOST_RECENT_RESULT");
         params.put(Constants.CONFIG_ASSESSMENT_FILTER, assmtFilter);
-        Config.Data config = new Config.Data("entity", "cacheKey", params);
+        Config.Data config = new Config.Data("entity", "cacheKey", false, params);
 
         // make the call
         PopulationManagerImpl pm = new PopulationManagerImpl();
@@ -227,7 +227,7 @@ public class PopulationManagerTest {
         Map<String, String> assmtFilter = new HashMap<String, String>();
         assmtFilter.put("ISAT Reading", "MOST_RECENT_RESULT");
         params.put(Constants.CONFIG_ASSESSMENT_FILTER, assmtFilter);
-        Config.Data config = new Config.Data("entity", "cacheKey", params);
+        Config.Data config = new Config.Data("entity", "cacheKey", false, params);
 
         // make the call
         PopulationManagerImpl pm = new PopulationManagerImpl();

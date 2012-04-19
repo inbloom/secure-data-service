@@ -366,7 +366,7 @@ public class CustomizationAssemblyFactoryTest {
         // test non-existent one
         Config.Data fakeDataConfig = null;
         try {
-            fakeDataConfig = new Config.Data("fake", "fake", null);
+            fakeDataConfig = new Config.Data("fake", "fake", false, null);
             Assert.assertNotNull(fakeDataConfig);
             customizationAssemblyFactory.getDataComponentForTest("panel", "1", fakeDataConfig);
             Assert.fail("Must not be able to find fake entity reference and throw an exception");
