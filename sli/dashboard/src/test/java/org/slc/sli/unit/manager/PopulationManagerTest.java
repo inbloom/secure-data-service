@@ -6,7 +6,9 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -252,14 +254,14 @@ public class PopulationManagerTest {
 
     @Test
     public void testGetStudentGrades() throws Exception {
-        
+
         List<GenericEntity> students = createSomeStudentSummaries();
-        List<String> studentUIDs = new ArrayList<String>();
+        Collection<String> studentUIDs = new HashSet<String>();
         studentUIDs.add("dummyId");
-        
+
         // mock student api calls
         EntityManager mockedEntityManager = PowerMockito.spy(new EntityManager());
-        
+
         GenericEntity student = new GenericEntity();
         student.put("id", "dummyId");
         student.put(Constants.ATTR_GRADE_LEVEL, "Eighth grade");
@@ -267,17 +269,17 @@ public class PopulationManagerTest {
         students2.add(student);
 
         PowerMockito.doReturn(students2).when(mockedEntityManager, "getStudents", null, studentUIDs);
-        
+
         // make the call
         PopulationManagerImpl pm = new PopulationManagerImpl();
         pm.setEntityManager(mockedEntityManager);
         Set<String> grades = pm.getStudentGrades(null, students);
-        
+
         // check grades
         Assert.assertEquals(1, grades.size());
         Assert.assertEquals("Eighth grade", (grades.toArray())[0]);
     }
-    
+
     private List<GenericEntity> createSomeStudentSummaries() {
 
         List<GenericEntity> studentSummaries = new ArrayList<GenericEntity>();
@@ -325,16 +327,16 @@ public class PopulationManagerTest {
         List<Map<String, Object>> attendances = new ArrayList<Map<String, Object>>();
         attendanceBody.put(Constants.ATTR_STUDENT_ATTENDANCES, attendances);
         student.put(Constants.ATTR_STUDENT_ATTENDANCES, attendanceBody);
-        
+
         Map<String, Object> attendance1 = new HashMap<String, Object>();
         attendance1.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, "Unexcused Absence");
         attendances.add(attendance1);
-        
+
         Map<String, Object> attendance2 = new HashMap<String, Object>();
         attendance2.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, "Tardy");
         attendances.add(attendance2);
-        
-        
+
+
         return studentSummaries;
     }
 

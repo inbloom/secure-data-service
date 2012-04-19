@@ -82,7 +82,8 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
      * @param entity - entity for the component
      * @return true if condition passes and false otherwise
      */
-    public final boolean checkCondition(Config config, GenericEntity entity) {
+    @SuppressWarnings("unchecked")
+    public final boolean checkCondition(Config parentConfig, Config config, GenericEntity entity) {
         if (config != null && config.getCondition() != null) {
             //todo: figure out what to do when no entity
             if (entity == null) {
@@ -91,38 +92,50 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             Config.Condition condition = config.getCondition();
             String[] tokens = condition.getField().split("\\.");
             tokens = (tokens.length == 0) ? new String[]{condition.getField()} : tokens;
-            Object childEntity = entity;
-            for (String token : tokens) {
-                if (childEntity == null || !(childEntity instanceof GenericEntity)) {
-                    return false;
-                }
-                childEntity = ((GenericEntity) childEntity).get(token);
-            }
+
             Object[] values = condition.getValue();
-            // if null and value is null, it's allowed, otherwise it's not
-            if (childEntity == null) {
-                return values.length == 0;
-            }
-            if (childEntity instanceof Number) {
-                double childNumber = ((Number) childEntity).doubleValue();
-                for (Object n : values) {
-                    if (childNumber == ((Number) n).doubleValue()) {
-                        return true;
-                    }
+            // for simplicity always treat as an array
+            List<GenericEntity> listOfEntitites = (parentConfig != null && parentConfig.getRoot() == null) ? Arrays.asList(entity) : entity.getList(parentConfig.getRoot());
+            Object childEntity;
+            // condition is equivalent to exists in the list
+            for (GenericEntity oneEntity : listOfEntitites) {
+                childEntity = getValue(oneEntity, tokens);
+                // if null and value is null, it's allowed, otherwise it's not
+                if (childEntity == null) {
+                    return values.length == 0;
                 }
-            } else if (childEntity instanceof String) {
-                String childString = (String) childEntity;
-                for (Object n : values) {
-                    if (childString.equalsIgnoreCase((String) n)) {
-                        return true;
+                if (childEntity instanceof Number) {
+                    double childNumber = ((Number) childEntity).doubleValue();
+                    for (Object n : values) {
+                        if (childNumber == ((Number) n).doubleValue()) {
+                            return true;
+                        }
                     }
+                } else if (childEntity instanceof String) {
+                    String childString = (String) childEntity;
+                    for (Object n : values) {
+                        if (childString.equalsIgnoreCase((String) n)) {
+                            return true;
+                        }
+                    }
+                } else {
+                    throw new DashboardException("Unsupported data type for condition. Only allow string and numbers");
                 }
-            } else {
-                throw new DashboardException("Unsupported data type for condition. Only allow string and numbers");
             }
             return false;
         }
         return true;
+    }
+
+    private Object getValue(GenericEntity entity, String[] pathTokens) {
+        Object childEntity = entity;
+        for (String token : pathTokens) {
+            if (childEntity == null || !(childEntity instanceof GenericEntity)) {
+                return false;
+            }
+            childEntity = ((GenericEntity) childEntity).get(token);
+        }
+        return childEntity;
     }
 
     /**
@@ -134,8 +147,8 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
      * @param depth - depth of the recursion
      */
     private Config populateModelRecursively(
-        ModelAndViewConfig model, String componentId, Object entityKey, Config.Item parentToComponentConfigRef,
-        GenericEntity parentEntity, int depth
+        ModelAndViewConfig model, String componentId, Object entityKey, Config.Item parentToComponentConfigRef, Config panelConfig,
+        GenericEntity parentEntity, int depth, boolean lazyOverride
     ) {
         if (depth > 5) {
             throw new DashboardException("The items hierarchy is too deep - only allow 5 elements");
@@ -149,11 +162,11 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
                         "Unable to find config for " + componentId + " and entity id " + entityKey + ", config " + componentId);
             }
             Config.Data dataConfig = config.getData();
-            if (dataConfig != null && !dataConfig.isLazy() && !model.hasDataForAlias(dataConfig.getCacheKey())) {
+            if (dataConfig != null && (!dataConfig.isLazy() || lazyOverride) && !model.hasDataForAlias(dataConfig.getCacheKey())) {
                 entity = getDataComponent(componentId, entityKey, dataConfig);
                 model.addData(dataConfig.getCacheKey(), entity);
             }
-            if (!checkCondition(config, entity)) {
+            if (!checkCondition(config, config, entity)) {
                 return null;
             }
         }
@@ -162,9 +175,9 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             depth++;
             Config newConfig;
             for (Config.Item item : config.getItems()) {
-                if (checkCondition(item, entity)) {
+                if (checkCondition(config, item, entity)) {
                     items.add(item);
-                    newConfig = populateModelRecursively(model, item.getId(), entityKey, item, entity, depth);
+                    newConfig = populateModelRecursively(model, item.getId(), entityKey, item, config, entity, depth, lazyOverride);
                     if (config.getType().isLayoutItem()) {
                         model.addLayoutItem(newConfig);
                     }
@@ -180,7 +193,15 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     public ModelAndViewConfig getModelAndViewConfig(String componentId, Object entityKey) {
 
         ModelAndViewConfig modelAndViewConfig = new ModelAndViewConfig();
-        populateModelRecursively(modelAndViewConfig, componentId, entityKey, null, null, 0);
+        populateModelRecursively(modelAndViewConfig, componentId, entityKey, null, null, null, 0, false);
+        return modelAndViewConfig;
+    }
+
+    @Override
+    public ModelAndViewConfig getModelAndViewConfig(String componentId, Object entityKey, boolean lazyOverride) {
+
+        ModelAndViewConfig modelAndViewConfig = new ModelAndViewConfig();
+        populateModelRecursively(modelAndViewConfig, componentId, entityKey, null, null, null, 0, lazyOverride);
         return modelAndViewConfig;
     }
 

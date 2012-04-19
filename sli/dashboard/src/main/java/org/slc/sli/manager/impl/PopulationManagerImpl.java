@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,9 +35,9 @@ import org.slc.sli.view.TimedLogic2;
  * student summary comprised of student profile, enrollment, program, and assessment information in
  * order to
  * deliver the Population Summary interaction.
- * 
+ *
  * @author Robert Bloh rbloh@wgen.net
- * 
+ *
  */
 public class PopulationManagerImpl implements PopulationManager {
 
@@ -54,7 +55,7 @@ public class PopulationManagerImpl implements PopulationManager {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.slc.sli.manager.PopulationManagerI#getAssessments(java.lang.String, java.util.List)
      */
     @Override
@@ -83,7 +84,7 @@ public class PopulationManagerImpl implements PopulationManager {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.slc.sli.manager.PopulationManagerI#getStudentSummaries(java.lang.String,
      * java.util.List, org.slc.sli.config.ViewConfig, java.lang.String, java.lang.String)
      */
@@ -102,7 +103,7 @@ public class PopulationManagerImpl implements PopulationManager {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.slc.sli.manager.PopulationManagerI#getListOfStudents(java.lang.String,
      * java.lang.Object, org.slc.sli.entity.Config.Data)
      */
@@ -111,20 +112,20 @@ public class PopulationManagerImpl implements PopulationManager {
 
         // get student summary data
         List<GenericEntity> studentSummaries = getStudentSummaries(token, null, null, null, (String) sectionId);
-        
+
         // apply assmt filters and flatten assmt data structure for easy fetching
         applyAssessmentFilters(studentSummaries, config);
 
         // data enhancements
         enhanceListOfStudents(studentSummaries);
-        
+
         // get student grades (kindergarten, first grade, etc..) - TODO: get this data from the integrated API call
         Set<String> studentGrades = getStudentGrades(token, studentSummaries);
-        
+
         GenericEntity result = new GenericEntity();
         result.put(Constants.ATTR_STUDENTS, studentSummaries);
         result.put(Constants.ATTR_GRADE_LEVELS, studentGrades);
-        
+
         return result;
     }
 
@@ -132,7 +133,7 @@ public class PopulationManagerImpl implements PopulationManager {
      * Helper function to get a list of grades for a set of students.
      * NOTE: refactor the bundled API call to provide student grade, so this method won't be
      * necessary!
-     * 
+     *
      * @param token
      * @param studentSummaries
      * @return
@@ -141,18 +142,15 @@ public class PopulationManagerImpl implements PopulationManager {
 
         Set<String> studentGrades = new HashSet<String>();
         if (studentSummaries != null) {
-            
+            Map<String, GenericEntity> mapByUid = new HashMap<String, GenericEntity>();
             // get student uids
-            List<String> studentUids = new ArrayList<String>();
             for (GenericEntity student : studentSummaries) {
-                studentUids.add(student.getString(Constants.ATTR_ID));
+                mapByUid.put(student.getString(Constants.ATTR_ID), student);
             }
-
-            // get student info
-            List<GenericEntity> students = entityManager.getStudents(token, studentUids);
-            
+            List<GenericEntity> students = entityManager.getStudents(token, mapByUid.keySet());
             // put together set of grades
             for (GenericEntity s : students) {
+                mapByUid.get(s.getString(Constants.ATTR_ID)).put(Constants.ATTR_GRADE_LEVEL, s.getString(Constants.ATTR_GRADE_LEVEL));
                 studentGrades.add(s.getString(Constants.ATTR_GRADE_LEVEL));
             }
         }
@@ -161,7 +159,7 @@ public class PopulationManagerImpl implements PopulationManager {
 
     /**
      * Make enhancements that make it easier for front-end javascript to use the data
-     * 
+     *
      * @param studentSummaries
      */
     public void enhanceListOfStudents(List<GenericEntity> studentSummaries) {
@@ -174,29 +172,29 @@ public class PopulationManagerImpl implements PopulationManager {
 
                 // clean out some unneeded gunk
                 scrubStudentData(student);
-                
+
                 // add full name
                 addFullName(student);
-                
+
                 // TODO - Switch once real API data is implemented
                 addGrade(student, count++);
-                
+
                 // transform assessment score format
                 transformAssessmentFormat(student);
-                
+
                 // tally up attendance data
                 tallyAttendanceData(student);
-                
+
             }
         }
     }
-    
+
     /**
      * Create an attribute for the full student name (first name + last name)
      * @param student
      */
     public void addFullName(GenericEntity student) {
-    
+
         Map name = (Map) student.get(Constants.ATTR_NAME);
         if (name != null) {
             String fullName = (String) name.get(Constants.ATTR_FIRST_NAME) + " "
@@ -204,106 +202,106 @@ public class PopulationManagerImpl implements PopulationManager {
             name.put(Constants.ATTR_FULL_NAME, fullName);
         }
     }
-    
+
     /**
      * Tally up individual attendance events. Front-end needs to show aggregated results.
      * @param student
      */
     public void tallyAttendanceData(GenericEntity student) {
-        
+
         Map<String, Object> attendanceBody = (Map<String, Object>) student
                 .get(Constants.ATTR_STUDENT_ATTENDANCES);
         if (attendanceBody != null) {
-            
+
             List<Map<String, Object>> attendances = (List<Map<String, Object>>) attendanceBody
                     .get(Constants.ATTR_STUDENT_ATTENDANCES);
             int absenceCount = 0;
             int tardyCount = 0;
             if (attendances != null && attendances.size() > 0) {
                 for (Map attendance : attendances) {
-                    
+
                     String eventCategory = (String) attendance.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
-                    
+
                     if (eventCategory.contains(ATTENDANCE_ABSENCE)) {
                         absenceCount++;
-                        
+
                     } else if (eventCategory.contains(ATTENDANCE_TARDY)) {
                         tardyCount++;
                     }
                 }
-                
+
                 int attendanceRate = Math.round((((float) (attendances.size() - absenceCount)) / attendances
                         .size()) * 100);
                 int tardyRate = Math.round((((float) tardyCount) / attendances.size()) * 100);
-                
+
                 attendanceBody.remove(Constants.ATTR_STUDENT_ATTENDANCES);
                 attendanceBody.put(Constants.ATTR_ABSENCE_COUNT, absenceCount);
                 attendanceBody.put(Constants.ATTR_TARDY_COUNT, tardyCount);
                 attendanceBody.put(Constants.ATTR_ATTENDANCE_RATE, attendanceRate);
                 attendanceBody.put(Constants.ATTR_TARDY_RATE, tardyRate);
             }
-        }    
+        }
     }
-    
+
     /**
      * Modify the data structure for assessments, for front-end convenience
      * @param student
      */
     public void transformAssessmentFormat(GenericEntity student) {
-        
+
         Map studentAssmtAssocs = (Map) student.get(Constants.ATTR_ASSESSMENTS);
         if (studentAssmtAssocs == null) {
             return;
         }
-        
+
         Collection<Map> assmtResults = studentAssmtAssocs.values();
         for (Map assmtResult : assmtResults) {
-            
+
             if (assmtResult == null) {
                 continue;
             }
-            
+
             // for each score result, create a new attribute that makes the score easily accessible without looping through this list
             List<Map> scoreResults = (List<Map>) assmtResult.get(Constants.ATTR_SCORE_RESULTS);
             if (scoreResults != null) {
-            
+
                 for (Map scoreResult : scoreResults) {
-                
+
                     String type = (String) scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD);
                     String result = (String) scoreResult.get(Constants.ATTR_RESULT);
                     assmtResult.put(type, result);
                 }
             }
-            
+
             // create a new attribute "perfLevel"
             List<List<Map>> perfLevelsDescs = (List<List<Map>>) assmtResult
                     .get(Constants.ATTR_PERFORMANCE_LEVEL_DESCRIPTOR);
-            
+
             if (perfLevelsDescs != null) {
                 for (List<Map> perfLevelsDesc : perfLevelsDescs) {
                     if (perfLevelsDesc != null && perfLevelsDescs.size() > 0) {
-                        
+
                         String perfLevel = (String) perfLevelsDesc.get(0).get(Constants.ATTR_CODE_VALUE);
                         assmtResult.put(Constants.ATTR_PERF_LEVEL, perfLevel);
-                        
+
                     }
                 }
             }
         }
     }
-    
+
     /**
      * Clean out some student data, so we don't pass too much unnecessary stuff to the front-end
      * @param student
      */
     public void scrubStudentData(GenericEntity student) {
-        
+
         student.remove(Constants.ATTR_LINKS);
     }
-    
+
     private void addGrade(GenericEntity student, int count) {
         Map<String, Object> grade = new LinkedHashMap<String, Object>();
-        
+
         switch (count % 15) {
             case 0:
                 grade.put("grade", "A+");
@@ -349,7 +347,7 @@ public class PopulationManagerImpl implements PopulationManager {
                 break;
             case 14:
                 grade.put("grade", "F-");
-                break;    
+                break;
         }
         student.put("score", grade);
     }
@@ -377,12 +375,12 @@ public class PopulationManagerImpl implements PopulationManager {
 
                 // Loop through assmt filters
                 for (String assmtFamily : assmtFilters.keySet()) {
-                    
+
                     String timeSlotStr = assmtFilters.get(assmtFamily);
                     if (timeSlotStr != null) {
-                        
+
                         TimedLogic2.TimeSlot timeSlot = TimedLogic2.TimeSlot.valueOf(timeSlotStr);
-                    
+
                         // Apply filter. Add result to student summary.
                         Map assmt = applyAssessmentFilter(assmtResults, assmtFamily, timeSlot);
                         newAssmtResults.put(assmtFamily, assmt);
@@ -396,14 +394,14 @@ public class PopulationManagerImpl implements PopulationManager {
 
     /**
      * Filter a list of assessment results, based on the assessment family and timed logic
-     * 
+     *
      * @param assmtResults
      * @param assmtFamily
      * @param timedLogic
      * @return
      */
     private Map applyAssessmentFilter(List<Map> assmtResults, String assmtFamily, TimedLogic2.TimeSlot timeSlot) {
-        
+
         // filter by assmt family name
         List<Map> studentAssessmentFiltered = new ArrayList<Map>();
         for (Map assmtResult : assmtResults) {
@@ -419,17 +417,17 @@ public class PopulationManagerImpl implements PopulationManager {
         }
 
         Map chosenAssessment = null;
-        
+
         // TODO: fix objective assessment code and use it
         String objAssmtCode = "";
 
         // call timeslot logic to pick out the assessment we want
         switch(timeSlot) {
-        
+
             case MOST_RECENT_RESULT:
                 chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
                 break;
-                
+
             case HIGHEST_EVER:
                 if (!objAssmtCode.equals("")) {
                     chosenAssessment = TimedLogic2.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
@@ -437,12 +435,12 @@ public class PopulationManagerImpl implements PopulationManager {
                     chosenAssessment = TimedLogic2.getHighestEverAssessment(studentAssessmentFiltered);
                 }
                 break;
-                
+
 
             case MOST_RECENT_WINDOW:
-                
+
                 List<Map> assessmentMetaData = new ArrayList<Map>();
-            
+
                 // TODO: get the assessment meta data
                 /*
                  * Set<String> assessmentIds = new HashSet<String>();
@@ -455,11 +453,11 @@ public class PopulationManagerImpl implements PopulationManager {
                  * }
                  * }
                  */
-            
+
                 chosenAssessment = TimedLogic2.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
                 break;
-                
-            default: 
+
+            default:
 
                 // Decide whether to throw runtime exception here. Should timed logic default @@@
                 chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
@@ -475,7 +473,7 @@ public class PopulationManagerImpl implements PopulationManager {
 
     /**
      * Get a list of assessment results for one student, filtered by assessment name
-     * 
+     *
      * @param username
      * @param studentId
      * @param config
@@ -491,7 +489,7 @@ public class PopulationManagerImpl implements PopulationManager {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.slc.sli.manager.PopulationManagerI#setEntityManager(org.slc.sli.manager.EntityManager)
      */
@@ -502,7 +500,7 @@ public class PopulationManagerImpl implements PopulationManager {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.slc.sli.manager.PopulationManagerI#getStudent(java.lang.String, java.lang.String)
      */
     @Override
@@ -512,7 +510,7 @@ public class PopulationManagerImpl implements PopulationManager {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.slc.sli.manager.PopulationManagerI#getStudent(java.lang.String, java.lang.Object,
      * org.slc.sli.entity.Config.Data)
      */
@@ -524,7 +522,7 @@ public class PopulationManagerImpl implements PopulationManager {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.slc.sli.manager.PopulationManagerI#getAttendance(java.lang.String, java.lang.Object,
      * org.slc.sli.entity.Config.Data)
      */
@@ -590,7 +588,7 @@ public class PopulationManagerImpl implements PopulationManager {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.slc.sli.manager.PopulationManagerI#getSessionDates(java.lang.String,
      * java.lang.String)
      */
