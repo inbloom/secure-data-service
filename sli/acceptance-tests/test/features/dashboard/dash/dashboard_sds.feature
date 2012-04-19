@@ -110,7 +110,7 @@ And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Copyright"
 
 
-@integration @wip
+@integration
 Scenario: View Mi-Ha Tran
 When I login as "rbraverman" "rbraverman1234"
 When I select ed org "Daybreak School District 4529"
@@ -188,7 +188,7 @@ And Student Enrollment History includes " ;South Daybreak Elementary;K;2010-09-0
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Copyright"
 
-@integration @wip
+@integration
 Scenario: View Carmen Ortiz
 When I login as "cgray" "cgray1234"
 When I select ed org "Daybreak School District 4529"
