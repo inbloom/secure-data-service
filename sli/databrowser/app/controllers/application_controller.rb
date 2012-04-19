@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
 
     # If 403 happened during login, we don't have a valid :back, so render 403 page.
     # Otherwise redirect back with the flash set
-    if request.headers['referer'].nil? 
+    if request.headers['referer'].nil? or !request.headers['referer'].include?(request.host)  
         return render :status => :forbidden, :layout=> false, :file => "#{Rails.root}/public/403.html"
     end
     redirect_to :back
