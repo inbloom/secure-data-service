@@ -2,6 +2,7 @@ package org.slc.sli.ingestion.transformation.assessment;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,8 +46,9 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         NeutralRecordMongoAccess db = getNeutralRecordMongoAccess();
         Repository<NeutralRecord> repo = db.getRecordRepository();
         DBCollection studentAssessments = repo.getCollection(SA_EDFI_COLLECTION_NAME);
+        Map<String, Map<String, Object>> oas = getOAs(repo.getCollection(SOA_EDFI_COLLECTION_NAME));
         for (IngestionFileEntry fe : getFEs()) {
-            BasicDBObject query = new BasicDBObject(BATCH_JOB_ID_KEY, getBatchJobId());
+            BasicDBObject query = getJobQuery();
             query.append("sourceFile", fe.getFileName());
             DBCursor cursor = studentAssessments.find(query);
             try {
@@ -64,7 +66,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                         LOG.debug("related SOAs are {}", studentObjectAssessmentsRefs);
                         List<Map<String, Object>> soas = new ArrayList<Map<String, Object>>();
                         for (NeutralRecord ref : studentObjectAssessmentsRefs) {
-                            soas.add(resolveSoa(ref));
+                            soas.add(resolveSoa(ref, oas));
                         }
                         body.put("studentObjectiveAssessments", soas);
                         NeutralRecord transformed = new NeutralRecord();
@@ -82,9 +84,31 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         }
     }
     
-    private Map<String, Object> resolveSoa(NeutralRecord ref) {
-        // TODO this needs to be implemented to get the actual SOA
-        return ref.getAttributes();
+    private BasicDBObject getJobQuery() {
+        return new BasicDBObject(BATCH_JOB_ID_KEY, getBatchJobId());
+    }
+    
+    private Map<String, Map<String, Object>> getOAs(DBCollection soas) {
+        @SuppressWarnings("unchecked")
+        List<String> oaRefs = soas.distinct("body." + OBJECTIVE_ASSESSMENT_REFERENCE, getJobQuery());
+        ObjectiveAssessmentBuilder builder = new ObjectiveAssessmentBuilder(getNeutralRecordMongoAccess());
+        Map<String, Map<String, Object>> oas = new HashMap<String, Map<String, Object>>(oaRefs.size());
+        for (String ref : oaRefs) {
+            oas.put(ref, builder.getObjectiveAssessment(ref, ObjectiveAssessmentBuilder.BY_IDENTIFICATION_CDOE));
+        }
+        return oas;
+    }
+    
+    private Map<String, Object> resolveSoa(NeutralRecord ref, Map<String, Map<String, Object>> oas) {
+        Map<String, Object> soaObject = ref.getAttributes();
+        soaObject.remove(STUDENT_ASSESSMENT_REFERENCE);
+        String objAssmtRef = (String) soaObject.get(OBJECTIVE_ASSESSMENT_REFERENCE);
+        soaObject.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
+        Map<String, Object> objAssmt = oas.get(objAssmtRef);
+        if (objAssmt != null) {
+            soaObject.put("objectiveAssessment", objAssmt);
+        }
+        return soaObject;
     }
     
     private List<IngestionFileEntry> getFEs() {

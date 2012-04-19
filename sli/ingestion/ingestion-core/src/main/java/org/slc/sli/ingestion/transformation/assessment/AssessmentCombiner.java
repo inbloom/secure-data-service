@@ -95,7 +95,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 
                 for (String objectiveAssessmentRef : objectiveAssessmentRefs) {
                     
-                    objectiveAssessments.add(objAssmtBuilder.getObjectiveAssessment(objectiveAssessmentRef));
+                    objectiveAssessments.add(objAssmtBuilder.getObjectiveAssessment(objectiveAssessmentRef,
+                            ObjectiveAssessmentBuilder.BY_ID));
                 }
                 attrs.put("objectiveAssessment", objectiveAssessments);
             }
