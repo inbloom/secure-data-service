@@ -4,14 +4,13 @@ Background: Realm selector is set up to reflect two sandbox tenancies and databa
 Given I have an open web browser
 
 
-@wip
 Scenario: Mock IDP Page components
 Given I have selected the realm using the realm selector
 Then I should be redirected to the Mock IDP page for the realm
 And the Mock IDP Page has a drop down with all the users defined in tenancy
 And the Mock IDP Page has a multi select which has all the roles defined in the tenancy
 And the Mock IDP Page has a button the user can use to log in
-And the heading of the Mock IDP Page is "Mock Identity Provider" followed by the realm "SLI"
+And the heading of the Mock IDP Page contains the realm "SLI"
 
 
 Scenario: Use Mock IDP to log in as IT Admin

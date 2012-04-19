@@ -169,10 +169,14 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         return retVal;
     }
     
-    @Override
+    /**
+     * Override from UserEdOrgManager.
+     * Signature is pre-defined by the architect.
+     */
     public GenericEntity getUserInstHierarchy(String token, Object key, Data config) {
         List<GenericEntity> entities = getUserInstHierarchy(token);
         GenericEntity entity = new GenericEntity();
+        //Dashboard expects return one GenericEntity.
         entity.put("root", entities);
         return entity;
     }

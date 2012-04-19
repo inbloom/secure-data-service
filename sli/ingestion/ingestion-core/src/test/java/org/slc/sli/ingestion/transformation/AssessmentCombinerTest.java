@@ -1,7 +1,11 @@
 package org.slc.sli.ingestion.transformation;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -9,9 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junitx.util.PrivateAccessor;
-
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,9 +21,16 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.NeutralRecordFileReader;
+import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.util.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
@@ -45,6 +53,9 @@ public class AssessmentCombinerTest {
     @Autowired
     private AssessmentCombiner combiner;
     
+    @Autowired
+    private FileUtils fileUtils;
+    
     @Mock
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
     
@@ -52,17 +63,20 @@ public class AssessmentCombinerTest {
     private NeutralRecordRepository repository = Mockito.mock(NeutralRecordRepository.class);
     
     private String batchJobId = "10001";
+    private Job job = mock(Job.class);
+    private IngestionFileEntry fe = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_ASSESSMENT_METADATA, "",
+            "");
     
     private static final String PERIOD_DESCRIPTOR_CODE_VALUE = "Spring2012";
     
     @SuppressWarnings("deprecation")
     @Before
-    public void setup() {
+    public void setup() throws IOException {
         
         MockitoAnnotations.initMocks(this);
         
         combiner.setNeutralRecordMongoAccess(neutralRecordMongoAccess);
-        Mockito.when(neutralRecordMongoAccess.getRecordRepository()).thenReturn(repository);
+        when(neutralRecordMongoAccess.getRecordRepository()).thenReturn(repository);
         
         NeutralRecord assessment = buildTestAssessmentNeutralRecord();
         List<NeutralRecord> assessments = new ArrayList<NeutralRecord>();
@@ -75,42 +89,47 @@ public class AssessmentCombinerTest {
         NeutralRecord assessmentF2 = buildTestAssessmentFamilyNeutralRecord("606L2", false);
         assessmentFamily2.add(assessmentF2);
         List<NeutralRecord> families = Arrays.asList(assessmentF1, assessmentF2);
+        File nrFile = fileUtils.createTempFile();
+        NeutralRecordFileWriter writer = new NeutralRecordFileWriter(nrFile);
+        writer.writeRecord(assessment);
+        writer.writeRecord(assessmentF1);
+        writer.writeRecord(assessmentF2);
+        writer.close();
+        fe.setNeutralRecordFile(nrFile);
         
-        Mockito.when(
-                repository.findByQuery(Mockito.eq("assessment"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
+        when(repository.findByQuery(Mockito.eq("assessment"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
                 .thenReturn(assessments);
-        Mockito.when(
+        when(
                 repository.findByQuery(Mockito.eq("assessmentFamily"), Mockito.any(Query.class), Mockito.eq(0),
                         Mockito.eq(0))).thenReturn(families);
         
         Map<String, String> path1 = new HashMap<String, String>();
         path1.put("body.AssessmentFamilyIdentificationCode.ID", "606L1");
-        Mockito.when(repository.findByPaths(Mockito.eq("assessmentFamily"), Mockito.eq(path1))).thenReturn(
-                assessmentFamily1);
+        when(repository.findByPaths(Mockito.eq("assessmentFamily"), Mockito.eq(path1))).thenReturn(assessmentFamily1);
         
         Map<String, String> path2 = new HashMap<String, String>();
         path2.put("body.AssessmentFamilyIdentificationCode.ID", "606L2");
-        Mockito.when(repository.findByPaths(Mockito.eq("assessmentFamily"), Mockito.eq(path2))).thenReturn(
-                assessmentFamily2);
+        when(repository.findByPaths(Mockito.eq("assessmentFamily"), Mockito.eq(path2))).thenReturn(assessmentFamily2);
         
         Map<String, String> pdPath = new HashMap<String, String>();
         pdPath.put("body.codeValue", PERIOD_DESCRIPTOR_CODE_VALUE);
-        Mockito.when(repository.findByPaths("assessmentPeriodDescriptor", pdPath)).thenReturn(
+        when(repository.findByPaths("assessmentPeriodDescriptor", pdPath)).thenReturn(
                 Arrays.asList(buildTestPeriodDescriptor()));
         
-        Mockito.when(
-                repository.findOne("objectiveAssessment", new NeutralQuery(new NeutralCriteria("id", "=", OBJ1_ID))))
+        when(repository.findOne("objectiveAssessment", new NeutralQuery(new NeutralCriteria("id", "=", OBJ1_ID))))
                 .thenReturn(buildTestObjAssmt(OBJ1_ID));
         
-        Mockito.when(
-                repository.findOne("objectiveAssessment", new NeutralQuery(new NeutralCriteria("id", "=", OBJ2_ID))))
+        when(repository.findOne("objectiveAssessment", new NeutralQuery(new NeutralCriteria("id", "=", OBJ2_ID))))
                 .thenReturn(buildTestObjAssmt(OBJ2_ID));
+        
+        when(job.getId()).thenReturn(batchJobId);
+        when(job.getFiles()).thenReturn(Arrays.asList(fe));
         
     }
     
     @SuppressWarnings("unchecked")
     @Test
-    public void testAssessments() {
+    public void testAssessments() throws IOException {
         
         Collection<NeutralRecord> transformedCollections = getTransformedAssessments();
         
@@ -125,25 +144,21 @@ public class AssessmentCombinerTest {
         }
     }
     
-    @SuppressWarnings("unchecked")
-    private Collection<NeutralRecord> getTransformedAssessments() {
+    private Collection<NeutralRecord> getTransformedAssessments() throws IOException {
         // Performing the transformation
-        combiner.perform(batchJobId);
-        
-        Map<String, Map<Object, NeutralRecord>> transformedCollections = null;
-        try {
-            // Get the result of the transformed data
-            transformedCollections = (Map<String, Map<Object, NeutralRecord>>) PrivateAccessor.getField(combiner,
-                    "transformedCollections");
-        } catch (Exception e) {
-            Assert.fail();
+        combiner.perform(job);
+        NeutralRecordFileReader reader = new NeutralRecordFileReader(fe.getNeutralRecordFile());
+        List<NeutralRecord> records = new ArrayList<NeutralRecord>();
+        while (reader.hasNext()) {
+            records.add(reader.next());
         }
-        return transformedCollections.get("assessment").values();
+        fe.getNeutralRecordFile().delete();
+        return records;
     }
     
     @SuppressWarnings({ "deprecation", "unchecked" })
     @Test
-    public void testHierarchicalAssessments() {
+    public void testHierarchicalAssessments() throws IOException {
         String superOA = "SuperObjAssessment";
         String subOA = "SubObjAssessment";
         NeutralRecord superObjAssessmentRef = buildTestObjAssmt(superOA);
@@ -152,17 +167,15 @@ public class AssessmentCombinerTest {
         superObjAssessmentActual.setAttributeField("objectiveAssessments",
                 Arrays.asList(buildTestObjAssmt(subOA).getAttributes()));
         
-        Mockito.when(
-                repository.findOne("objectiveAssessment", new NeutralQuery(new NeutralCriteria("id", "=", superOA))))
+        when(repository.findOne("objectiveAssessment", new NeutralQuery(new NeutralCriteria("id", "=", superOA))))
                 .thenReturn(superObjAssessmentRef);
         
-        Mockito.when(repository.findOne("objectiveAssessment", new NeutralQuery(new NeutralCriteria("id", "=", subOA))))
+        when(repository.findOne("objectiveAssessment", new NeutralQuery(new NeutralCriteria("id", "=", subOA))))
                 .thenReturn(buildTestObjAssmt(subOA));
         
         NeutralRecord assessment = buildTestAssessmentNeutralRecord();
         assessment.setAttributeField("objectiveAssessmentRefs", Arrays.asList(superOA));
-        Mockito.when(
-                repository.findByQuery(Mockito.eq("assessment"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
+        when(repository.findByQuery(Mockito.eq("assessment"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
                 .thenReturn(Arrays.asList(assessment));
         for (NeutralRecord neutralRecord : getTransformedAssessments()) {
             assertEquals(Arrays.asList(superObjAssessmentActual.getAttributes()),

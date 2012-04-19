@@ -1,8 +1,6 @@
 package org.slc.sli.api.security.context.traversal.graph;
 
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Simple container for graph objects.
@@ -20,15 +18,22 @@ public final class SecurityNodeBuilder {
     }
 
 
-
     public SecurityNodeBuilder addConnection(String toEntity, String withField, String associationNode) {
-        Map<String, String> connection = new HashMap<String, String>();
-        connection.put(SecurityNode.CONNECTION_ENTITY, toEntity);
-        connection.put(SecurityNode.CONNECTION_FIELD_NAME, withField);
-        connection.put(SecurityNode.CONNECTION_ASSOCIATION, associationNode);
+        return addConnection(toEntity, withField, associationNode, null);
+    }
+
+    public SecurityNodeBuilder addConnection(String toEntity, String withField, String associationNode, NodeFilter filter) {
+        SecurityNodeConnection connection = new SecurityNodeConnection(toEntity, withField, associationNode, filter);
         node.addConnection(connection);
         return this;
     }
+    
+    public SecurityNodeBuilder addConnection(String toEntity, String withField) {
+        SecurityNodeConnection connection = new SecurityNodeConnection(toEntity, withField);
+        node.addConnection(connection);
+        return this;
+    }
+
 
     public SecurityNode construct() {
         return node;

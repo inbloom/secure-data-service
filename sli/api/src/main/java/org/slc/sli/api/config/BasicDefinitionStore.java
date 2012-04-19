@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ReferenceSchema;
 
@@ -247,11 +249,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         // Adding the application collection
         addDefinition(factory.makeEntity("application").storeAs("application").build());
         addDefinition(factory.makeEntity("applicationAuthorization").storeAs("applicationAuthorization").build());
-
-        // Adding OAuth 2.0 Services
-        addDefinition(factory.makeEntity("oauthAuthorizationCode").build());
-        addDefinition(factory.makeEntity("oauth_access_token").build());
-        addDefinition(factory.makeEntity("oauth_refresh_token").build());
 
         this.registerDirectReferences();
     }

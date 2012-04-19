@@ -124,7 +124,7 @@ public class AssessmentResolver {
         }
 
         // find the right field value by match dataPointName
-        List<Map> perfLevelDescriptors = studentAssmt.getList(Constants.ATTR_PERFORMANCE_LEVEL_DESCRIPTOR);
+        List<List<Map>> perfLevelDescriptors = studentAssmt.getList(Constants.ATTR_PERFORMANCE_LEVEL_DESCRIPTOR);
         
         for (Map scoreResult : scoreResults) {
             if (scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD).equals(dataPointName)) {
@@ -134,12 +134,12 @@ public class AssessmentResolver {
         }
         // if performance level is not included in score results as mastery level, then find the
         // performance level from performance level descriptor
-        if (dataPointName.equalsIgnoreCase(Constants.ATTR_PERF_LEVEL)
+        if (dataPointName.equalsIgnoreCase(Constants.ATTR_MASTERY_LEVEL)
                 && !findPerfLevelFromDescriptor(perfLevelDescriptors).equals("")) {
             return findPerfLevelFromDescriptor(perfLevelDescriptors);
             
             // if performance level not specified in performance level descriptor, then return blank
-        } else if (dataPointName.equalsIgnoreCase(Constants.ATTR_PERF_LEVEL) && !hasPerfLevelScoreResults(scoreResults)) {
+        } else if (dataPointName.equalsIgnoreCase(Constants.ATTR_MASTERY_LEVEL) && !hasPerfLevelScoreResults(scoreResults)) {
             return "";
         }
         return "";
@@ -273,7 +273,7 @@ public class AssessmentResolver {
         boolean found = false;
         for (Map scoreResult : scoreResults) {
             if (((String) scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD))
-                    .equalsIgnoreCase(Constants.ATTR_PERF_LEVEL)) {
+                    .equalsIgnoreCase(Constants.ATTR_MASTERY_LEVEL)) {
                 found = true;
             }
         }
@@ -281,17 +281,20 @@ public class AssessmentResolver {
     }
     
     @SuppressWarnings("rawtypes")
-    private String findPerfLevelFromDescriptor(List<Map> descriptors) {
+    private String findPerfLevelFromDescriptor(List<List<Map>> descriptors) {
         if (descriptors == null)
             return "";
-        for (Map descriptor : descriptors) {
-            String perfLevel = (String) (descriptor.get(Constants.ATTR_DESCRIPTION));
-            try {
-                Integer.parseInt(perfLevel);
-            } catch (Exception e) {
-                return "";
+        for (List<Map> descriptorList : descriptors) {
+            if (descriptorList == null) return "";
+            for (Map descriptor : descriptorList) {
+                String perfLevel = (String) (descriptor.get(Constants.ATTR_DESCRIPTION));
+                try {
+                    Integer.parseInt(perfLevel);
+                } catch (Exception e) {
+                    return "";
+                }
+                return perfLevel;
             }
-            return perfLevel;
         }
         return "";
     }
