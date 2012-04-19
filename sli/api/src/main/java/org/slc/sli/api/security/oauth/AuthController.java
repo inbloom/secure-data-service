@@ -57,9 +57,6 @@ public class AuthController {
     private EntityDefinitionStore store;
     
     @Autowired
-    private MongoAuthorizationCodeServices authCodeService;
-    
-    @Autowired
     private SamlHelper saml;
     
     @Autowired
@@ -76,19 +73,6 @@ public class AuthController {
     }
     
     /**
-<<<<<<< HEAD
-=======
-     * Returns the Entity Service that will make calls to the oauth_access_token collection.
-     * 
-     * @return Entity Service.
-     */
-    public EntityService getOauthAccessTokenEntityService() {
-        EntityDefinition defn = store.lookupByResourceName("oauth_access_token");
-        return defn.getService();
-    }
-    
-    /**
->>>>>>> master
      * Calls api to list available realms and injects into model
      * 
      * @param model
@@ -164,10 +148,7 @@ public class AuthController {
         parameters.put("code", authorizationCode);
         parameters.put("redirect_uri", redirectUri);
         
-        Pair<String, String> tuple = Pair.of(clientId, clientSecret); // extractClientCredentials(authz);
-        
         String token = this.sessionManager.verify(authorizationCode, Pair.of(clientId, clientSecret));
-        // OAuth2AccessToken token = granter.grant("authorization_code", parameters, tuple.getLeft(), tuple.getRight(), new HashSet<String>());
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Cache-Control", "no-store");
@@ -217,16 +198,17 @@ public class AuthController {
             throw new IllegalArgumentException("realm " + realmIndex + " doesn't have an endpoint");
         }
         
-        // {messageId,encodedSAML}
         LOG.debug("creating saml authnrequest with ForceAuthn equal to {}", forceAuthn);
+
+        // {messageId,encodedSAML}
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint, forceAuthn);
         
         this.sessionManager.createAppSession(sessionId, clientId, redirectUri, state, tenantId, tuple.getLeft());
         
         LOG.debug("redirecting to: {}", endpoint);
         
-        String redirectUrl = endpoint.contains("?") ? endpoint + "&SAMLRequest=" + tuple.getRight() : endpoint
-                + "?SAMLRequest=" + tuple.getRight();
+        String redirectUrl = endpoint.contains("?") ? endpoint + "&SAMLRequest=" + tuple.getRight() : endpoint + "?SAMLRequest=" + tuple.getRight();
+
         return "redirect:" + redirectUrl;
     }
     
