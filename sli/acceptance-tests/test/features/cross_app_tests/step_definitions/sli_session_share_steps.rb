@@ -67,3 +67,20 @@ end
 When /^I navigate to the dashboard home page$/ do
   @driver.get PropLoader.getProps['databrowser_server_url']
 end
+
+Given /^I have navigated to the sample app page$/ do
+  @driver.get PropLoader.getProps['sampleApp_server_address']+"oauth2-sample"
+end
+
+Then /^I am redirected to the sample app home page$/ do
+    assertWithWait("Failed to navigate to Sample App home page") {@driver.title.index("List of Students") != nil}
+end
+
+When /^I navigate to the sample app page$/ do
+  @driver.get PropLoader.getProps['sampleApp_server_address']+"oauth2-sample"
+  begin
+    @driver.switch_to.alert.accept
+  rescue
+  end
+end
+
