@@ -3,6 +3,7 @@ Feature: Dashboard User Login Authentication
 As a SEA/LEA user, I want to use the SLI IDP Login to authenticate 
 on SLI, so I could use the Dashboard application.
 
+@integration
 Scenario: Valid user login
 
 Given I have an open web browser
@@ -20,6 +21,7 @@ When I access "/simon"
 Then I am informed that "Page Not Accessible"
 And I am informed that "The page you are requesting is not available"
 
+@integration
 Scenario: Invalid user login
 
 Given I have an open web browser
@@ -31,8 +33,9 @@ And was redirected to the SLI-IDP login page
 When I login as "InvalidJohnDoe" "demo1234"
 Then I am informed that "Authentication failed"
 
-@wip
+@wip @integration
 Scenario: user in IDP but not in mongo
+#TODO there is a bug in the code right now, enable after bug fix
 Given I have an open web browser
 Given the server is in "live" mode
 When I access "/static/html/test.html" 
