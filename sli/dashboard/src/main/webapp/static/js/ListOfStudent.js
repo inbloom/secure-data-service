@@ -28,9 +28,13 @@
     var select = "<select id='viewSelect' onChange='clearStudentList();printStudentList()'>";
     filterViews();
     var index=0;
-    select += "<option value='-1'></option>";
-    for(index=0;index<panelConfig.items.length;index++) {
-        select += "<option value='"+index+"'>"+panelConfig.items[index].name+"</option>";
+    if(panelConfig.items.length == 0) {
+	    select += "<option value='-1'></option>";
+    }
+    else {
+	    for(index=0;index<panelConfig.items.length;index++) {
+	        select += "<option value='"+index+"'>"+panelConfig.items[index].name+"</option>";
+	    }
     }
     select += "</selection>";
     document.getElementById("viewDiv").innerHTML = select;
