@@ -37,7 +37,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
 @Path(PathConstants.V1 + "/" + PathConstants.EDUCATION_ORGANIZATIONS)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class EducationOrganizationResource extends DefaultCrudEndpoint {
 
     @Autowired
@@ -60,7 +60,7 @@ public class EducationOrganizationResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @Override
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
@@ -105,7 +105,7 @@ public class EducationOrganizationResource extends DefaultCrudEndpoint {
     @Override
     @GET
     @Path("{" + ParameterConstants.EDUCATION_ORGANIZATION_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.EDUCATION_ORGANIZATION_ID) final String educationOrganizationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(educationOrganizationId, headers, uriInfo);
@@ -174,7 +174,7 @@ public class EducationOrganizationResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.EDUCATION_ORGANIZATION_ID + "}" + "/"
             + PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
     public Response getStaffEducationOrganizationAssociations(
@@ -197,7 +197,7 @@ public class EducationOrganizationResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.EDUCATION_ORGANIZATION_ID + "}" + "/"
             + PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS + "/" + PathConstants.STAFF)
     public Response getStaffEducationOrganizationAssociationStaff(

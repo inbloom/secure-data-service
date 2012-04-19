@@ -39,7 +39,7 @@ import org.slc.sli.domain.Entity;
 @Path(PathConstants.V1 + "/" + "home")
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class HomeResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(HomeResource.class);
