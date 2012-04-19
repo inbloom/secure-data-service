@@ -38,6 +38,6 @@ do
             echo "    >****         "
             echo "    >Error Report $report"
             echo "    >****         "
-	    exit 0
+	    #exit 0
 	fi
 done
