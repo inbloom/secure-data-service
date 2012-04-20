@@ -108,8 +108,8 @@ public class PersistenceProcessor implements Processor {
                         if (resource.getResourceName() != null) {
                             try {
 
-                                processNeutralRecordsFile(new File(resource.getResourceId()),
-                                        resource.getResourceName(), getTenantId(newJob), batchJobId, metrics);
+                                processNeutralRecordsFile(new File(resource.getResourceName()), getTenantId(newJob),
+                                        batchJobId, metrics);
                             } catch (IOException e) {
                                 BatchJobMongoDA.logBatchStageError(batchJobId, BATCH_JOB_STAGE,
                                         FaultType.TYPE_ERROR.getName(), "Exception", e.getMessage());
@@ -131,8 +131,8 @@ public class PersistenceProcessor implements Processor {
         }
     }
 
-    private void processNeutralRecordsFile(File neutralRecordsFile, String originalInputFileName, String tenantId,
-            String batchJobId, Metrics metrics) throws IOException {
+    private void processNeutralRecordsFile(File neutralRecordsFile, String tenantId, String batchJobId, Metrics metrics)
+            throws IOException {
 
         long recordNumber = 0;
         long numFailed = 0;
@@ -185,6 +185,7 @@ public class PersistenceProcessor implements Processor {
             Iterable<NeutralRecord> stagedNeutralRecords = getStagedNeutralRecords(neutralRecord);
 
             if (stagedNeutralRecords.iterator().hasNext()) {
+
                 for (NeutralRecord stagedNeutralRecord : stagedNeutralRecords) {
                     stagedNeutralRecord.setSourceId(tenantId);
 
@@ -203,6 +204,7 @@ public class PersistenceProcessor implements Processor {
                     }
                 }
             } else {
+                // TODO: this isn't really a failure per record. revisit.
                 numFailed++;
             }
 
@@ -307,7 +309,7 @@ public class PersistenceProcessor implements Processor {
 
     // TODO: currently only called by unit tests.... GET RID OF IT!!!
     public void processIngestionStream(String batchJobId, File neutralRecordsFile, String tenantId) throws IOException {
-        processNeutralRecordsFile(neutralRecordsFile, neutralRecordsFile.getName(), tenantId, batchJobId, null);
+        processNeutralRecordsFile(neutralRecordsFile, tenantId, batchJobId, null);
     }
 
     public void setEntityPersistHandler(EntityPersistHandler entityPersistHandler) {
