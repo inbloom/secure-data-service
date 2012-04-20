@@ -59,6 +59,10 @@ public class CustomizationAssemblyFactoryTest {
     private static final String DEFAULT_PANEL_EXCEPTION_JSON =
             "{id : 'panelException', type: 'PANEL', condition: {field: 'gradeNumeric', value: [1,2,5]}, data :{entity: 'testException',alias: 'mock' }}";
 
+    private static final String PANEL_WITH_DYNAMIC_HEADERS =
+            "{id : 'dynamicHeaders', type: 'PANEL', items: [{name: '${name.first}'}, {name: '${id}'}]}";
+
+
     private static GenericEntity simpleMaleStudentEntity;
     private static GenericEntity simpleFemaleStudentEntity;
 
@@ -95,6 +99,11 @@ public class CustomizationAssemblyFactoryTest {
 
         public GenericEntity getDataComponentForTest(String componentId, Object entityKey, Config.Data config) {
             return super.getDataComponent(componentId, entityKey, config);
+        }
+
+        @Override
+        protected Config.Item[] getUpdatedDynamicHeaderTemplate(Config config, GenericEntity entity) {
+            return super.getUpdatedDynamicHeaderTemplate(config, entity);
         }
     };
 
@@ -239,6 +248,7 @@ public class CustomizationAssemblyFactoryTest {
         configMap.put("panel1", gson.fromJson(DEFAULT_PANEL1_JSON, Config.class));
         configMap.put("deep", gson.fromJson(DEFAULT_LAYOUT_TOO_DEEP_JSON, Config.class));
         configMap.put("panelException", gson.fromJson(DEFAULT_PANEL_EXCEPTION_JSON, Config.class));
+        configMap.put("dynamicHeaders", gson.fromJson(PANEL_WITH_DYNAMIC_HEADERS, Config.class));
 
         simpleMaleStudentEntity = new GenericEntity();
         simpleMaleStudentEntity.put("id", "1");
@@ -377,5 +387,20 @@ public class CustomizationAssemblyFactoryTest {
         } catch (DashboardException de) {
             Assert.assertEquals("No entity mapping references found for " + fakeDataConfig.getEntityRef() + ". Fix!!!", de.getMessage());
         }
+    }
+
+    @Test
+    public void testDynamicHeaders() {
+        Config panel = configMap.get("dynamicHeaders");
+        GenericEntity meta = new GenericEntity();
+        meta.put("id", "Funky ID");
+        GenericEntity name = new GenericEntity();
+        name.put("first", "AAA");
+        meta.put("name", name);
+        GenericEntity entity = new GenericEntity();
+        entity.put("meta", meta);
+        Config.Item[] items = customizationAssemblyFactory.getUpdatedDynamicHeaderTemplate(panel, entity);
+        Assert.assertEquals("AAA", items[0].getName());
+        Assert.assertEquals("Funky ID", items[1].getName());
     }
 }
