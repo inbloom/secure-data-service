@@ -40,7 +40,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
 @Path(PathConstants.V1 + "/" + PathConstants.SESSIONS)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class SessionResource extends DefaultCrudEndpoint {
 
     @Autowired
@@ -62,7 +62,7 @@ public class SessionResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @Override
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
@@ -106,7 +106,7 @@ public class SessionResource extends DefaultCrudEndpoint {
     @Override
     @GET
     @Path("{" + ParameterConstants.SESSION_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(sessionId, headers, uriInfo);
@@ -175,7 +175,7 @@ public class SessionResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS)
     public Response getSchoolSessionAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String sessionId,
             @Context HttpHeaders headers,
@@ -197,7 +197,7 @@ public class SessionResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS + "/" + PathConstants.SCHOOLS)
     public Response getSchoolSessionAssociationSchools(@PathParam(ParameterConstants.SCHOOL_ID) final String sessionId,
             @Context HttpHeaders headers,
@@ -224,7 +224,7 @@ public class SessionResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.SESSION_ID + "}" + "/" + PathConstants.SESSION_COURSE_ASSOCIATIONS)
     public Response getSessionCourseAssociations(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
             @Context HttpHeaders headers,
@@ -246,7 +246,7 @@ public class SessionResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.SESSION_ID + "}" + "/" + PathConstants.SESSION_COURSE_ASSOCIATIONS + "/" + PathConstants.COURSES)
     public Response getSessionCourseAssociationCourses(@PathParam(ParameterConstants.SESSION_ID) final String sessionId,
             @Context HttpHeaders headers,

@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion.transformation;
+package org.slc.sli.ingestion.transformation.assessment;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;

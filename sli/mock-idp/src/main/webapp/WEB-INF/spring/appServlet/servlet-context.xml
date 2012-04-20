@@ -12,7 +12,7 @@
     <beans:property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
     <beans:property name="locations">
       <beans:list>
-        <beans:value>file:///${sli.conf}</beans:value>
+        <beans:value>file:${sli.conf}</beans:value>
       </beans:list>
     </beans:property>
   </beans:bean>

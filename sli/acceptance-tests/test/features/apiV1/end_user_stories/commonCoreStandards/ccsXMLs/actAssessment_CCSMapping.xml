@@ -71,71 +71,90 @@
 	<ObjectiveAssessment id="ACTMathemacticsAlgebra">
 		<IdentificationCode>ACT-Math-Algebra</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
-		<LearningStandard>
-			<LearningStandardId>G-C.2</LearningStandardId>
-		</LearningStandard>
 	</ObjectiveAssessment>
 	
 	<ObjectiveAssessment id="ACTMathematicsPlaneGeometry">
 		<IdentificationCode>ACT-Math-Plane-Geometry</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
-		<LearningObjective>
-			<Objective>Circles</Objective>
-		</LearningObjective>
-		<LearningStandard>
-			<LearningStandardId>G-C.1</LearningStandardId>
-		</LearningStandard>
-		<LearningStandard>
-			<LearningStandardId>G-C.3</LearningStandardId>
-		</LearningStandard>
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<Objective>Circles</Objective>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
 	</ObjectiveAssessment>
 	
 	<AssessmentItem id="AssessmentItem-1">
 		<IdentificationCode>AssessmentItem-1</IdentificationCode>
+		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
-		<LearningStandard>
-			<LearningStandardId>G-C.5</LearningStandardId>
-		</LearningStandard>
-		<LearningStandard>
-			<LearningStandardId>G-C.6</LearningStandardId>
-		</LearningStandard>
+		<CorrectResponse>False</CorrectResponse>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>G-C.5</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>G-C.6</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
 	</AssessmentItem>
 	
 	<AssessmentItem id="AssessmentItem-2">
 		<IdentificationCode>AssessmentItem-2</IdentificationCode>
+		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
-		<LearningStandard>
-			<LearningStandardId>G.SRT.2</LearningStandardId>
-		</LearningStandard>
-		<LearningStandard>
-			<LearningStandardId>G.SRT.2</LearningStandardId>
-		</LearningStandard>
+		<CorrectResponse>True</CorrectResponse>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>G.SRT.2</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>G.SRT.3</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
 	</AssessmentItem>
 
 	<ObjectiveAssessment id="ACTReading">
 		<IdentificationCode>ACT-Reading</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<Objective>Reading: Informational Text</Objective>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
 		<ObjectiveAssessmentReference ref="ACTReadingSocialStudies"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ACTReadingArts"></ObjectiveAssessmentReference>
-		<LearningObjectiveReference>
-			<Objective>Reading: Informational Text</Objective>
-		</LearningObjectiveReference>
 	</ObjectiveAssessment>
 	
 	<ObjectiveAssessment id="ACTReadingSocialStudies">
 		<IdentificationCode>ACT-Reading-SocialStudies</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
 		<LearningObjectiveReference>
-			<Objective>Reading: Informational Text</Objective>
+			<LearningObjectiveIdentity>
+				<Objective>Reading: Informational Text</Objective>
+			</LearningObjectiveIdentity>
 		</LearningObjectiveReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ACTReadingArts">
 		<IdentificationCode>ACT-Reading-Arts</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
-		<LearningObjectiveReference>
-			<Objective>RI.11-12.1</Objective>
-		</LearningObjectiveReference>
+		<LearningStandardReference>
+			<LearningObjectiveIdentity>
+				<Objective>Reading: Informational Text</Objective>
+			</LearningObjectiveIdentity>
+		</LearningStandardReference>
 	</ObjectiveAssessment>
 	
 	<ObjectiveAssessment id="ACTScience">

@@ -25,6 +25,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.common.constants.ResourceConstants;
 
 /**
@@ -77,9 +78,17 @@ public class ResourceTestUtil {
     public static EntityBody assertions(Response response) {
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
-        Object responseEntityObj = response.getEntity();
+        Object responseEntityObj = null;
 
         EntityBody body = null;
+        if (response.getEntity() instanceof EntityResponse) {
+           EntityResponse resp = (EntityResponse) response.getEntity();
+           responseEntityObj = resp.getEntity();
+        } else {
+            fail("Should always return EntityResponse: " + response);
+            return body;
+        }
+
         if (responseEntityObj instanceof EntityBody) {
             assertNotNull(responseEntityObj);
             body = (EntityBody) responseEntityObj;

@@ -3,8 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd">
 
-	<!-- Next 50 elements for 8th Grade Eng Sec 6 for ISAT Reading/Writing for 
-		most recent -->
+	<!-- I know what you are thinking.  Why is a kindergarten student taking the SAT, and acing it?  
+	     Keep in mind, this is River Tam we are talking about  -->
 	<StudentAssessment id="saa_id_1">
 		<AdministrationDate>2011-05-01</AdministrationDate>
 		<SerialNumber>0</SerialNumber>
@@ -27,10 +27,10 @@
 		</StudentReference>
 		<AssessmentReference>
 			<AssessmentIdentity>
-				<AssessmentFamilyIdentificationCode
+				<AssessmentIdentificationCode
 					IdentificationSystem="Test Contractor">
 					<ID>SAT</ID>
-				</AssessmentFamilyIdentificationCode>
+				</AssessmentIdentificationCode>
 			</AssessmentIdentity>
 		</AssessmentReference>
 	</StudentAssessment>
@@ -54,16 +54,17 @@
 		</StudentReference>
 		<AssessmentReference>
 			<AssessmentIdentity>
-				<AssessmentFamilyIdentificationCode
+				<AssessmentIdentificationCode
 					IdentificationSystem="Test Contractor">
-					<ID>Dibels Next Kindergarten</ID>
-				</AssessmentFamilyIdentificationCode>
+					<ID>K-BOY</ID>
+				</AssessmentIdentificationCode>
 			</AssessmentIdentity>
 		</AssessmentReference>
 	</StudentAssessment>
 
 	<StudentObjectiveAssessment id="soa1">
-		<ScoreResults AssessmentReportingMethod="Scale score">800
+		<ScoreResults AssessmentReportingMethod="Scale score">
+			<Result>800</Result>
 		</ScoreResults>
 		<StudentTestAssessmentReference ref="saa_id_1">
 		</StudentTestAssessmentReference>
@@ -75,7 +76,8 @@
 	</StudentObjectiveAssessment>
 
 	<StudentObjectiveAssessment id="soa2">
-		<ScoreResults AssessmentReportingMethod="Scale score">800
+		<ScoreResults AssessmentReportingMethod="Scale score">
+			<Result>800</Result>
 		</ScoreResults>
 		<StudentTestAssessmentReference ref="saa_id_2">
 		</StudentTestAssessmentReference>
@@ -87,7 +89,8 @@
 	</StudentObjectiveAssessment>
 
 	<StudentObjectiveAssessment id="soa3">
-		<ScoreResults AssessmentReportingMethod="Scale score">800
+		<ScoreResults AssessmentReportingMethod="Scale score">
+			<Result>800</Result>
 		</ScoreResults>
 		<StudentTestAssessmentReference ref="saa_id_1">
 		</StudentTestAssessmentReference>
@@ -99,7 +102,8 @@
 	</StudentObjectiveAssessment>
 
 	<StudentObjectiveAssessment id="soa4">
-		<ScoreResults AssessmentReportingMethod="Scale score">800
+		<ScoreResults AssessmentReportingMethod="Scale score">
+			<Result>800</Result>
 		</ScoreResults>
 		<StudentTestAssessmentReference ref="saa_id_2">
 		</StudentTestAssessmentReference>
@@ -111,7 +115,8 @@
 	</StudentObjectiveAssessment>
 
 	<StudentObjectiveAssessment id="soa5">
-		<ScoreResults AssessmentReportingMethod="Scale score">800
+		<ScoreResults AssessmentReportingMethod="Scale score">
+			<Result>800</Result>
 		</ScoreResults>
 		<StudentTestAssessmentReference ref="saa_id_1">
 		</StudentTestAssessmentReference>
@@ -123,7 +128,8 @@
 	</StudentObjectiveAssessment>
 
 	<StudentObjectiveAssessment id="soa6">
-		<ScoreResults AssessmentReportingMethod="Scale score">800
+		<ScoreResults AssessmentReportingMethod="Scale score">
+			<Result>800</Result>
 		</ScoreResults>
 		<StudentTestAssessmentReference ref="saa_id_2">
 		</StudentTestAssessmentReference>

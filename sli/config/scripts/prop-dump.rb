@@ -78,10 +78,14 @@ end
 
 
 if __FILE__==$0
-	if ARGV.length < 1
-		puts "Usage: " + $0 + " yaml_config "
-		exit(1)
-	end
+    unless ARGV.length == 1
+        puts "Usage: " + $0 + " YAML_CONFIG_FILE "
+        puts
+        puts "Dump configuration file and shows information about all unique properties and whether they are defined in each profile."
+        puts
+        puts "  YAML_CONFIG_FILE ... YAML configuration file that contains different profiles."
+        exit(1)
+    end
 
 	config_fname = ARGV[0]
 	config = read_config(config_fname)
