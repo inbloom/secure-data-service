@@ -385,6 +385,9 @@ DashboardUtil.getPageUrl = function(componentId, queryString) {
 }
 
 DashboardUtil.checkCondition = function(data, condition) {
+    if(condition == undefined) {
+        return false;
+    }
     var validValues = condition.value;
     var values = data[condition.field];
     if (values == undefined || validValues == undefined) {
