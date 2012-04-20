@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,14 +88,19 @@ public class JobReportingProcessor implements Processor {
     private void writeBatchJobReportFile(NewBatchJob job, boolean hasErrors) {
 
         PrintWriter jobReportWriter = null;
+        FileLock lock = null;
+        FileChannel channel = null;
         try {
-            jobReportWriter = new PrintWriter(new FileWriter(landingZone.getLogFile(job.getId())));
+            File file = landingZone.getLogFile(job.getId());
+            channel = new RandomAccessFile(file, "rw").getChannel();
+            lock = channel.lock();
+            jobReportWriter = new PrintWriter(new FileWriter(file));
 
             writeInfoLine(jobReportWriter, "jobId: " + job.getId());
 
-            long recordsProcessed = logBatchJobPersistenceMetrics(job, jobReportWriter);
+            long recordsProcessed = writeBatchJobPersistenceMetrics(job, jobReportWriter);
 
-            logBatchJobProperties(job, jobReportWriter);
+            writeBatchJobProperties(job, jobReportWriter);
 
             if (!hasErrors) {
                 writeInfoLine(jobReportWriter, "All records processed successfully.");
@@ -107,13 +115,11 @@ public class JobReportingProcessor implements Processor {
         } catch (IOException e) {
             LOG.error("Error: Unable to write report file for: {}", job.getId());
         } finally {
-            if (jobReportWriter != null) {
-                jobReportWriter.close();
-            }
+            cleanupWriterAndLocks(jobReportWriter, lock, channel);
         }
     }
 
-    private static void logBatchJobProperties(NewBatchJob job, PrintWriter jobReportWriter) {
+    private static void writeBatchJobProperties(NewBatchJob job, PrintWriter jobReportWriter) {
         if (job.getBatchProperties() != null) {
             for (Entry<String, String> entry : job.getBatchProperties().entrySet()) {
                 writeInfoLine(jobReportWriter, "[configProperty] " + entry.getKey() + ": " + entry.getValue());
@@ -190,7 +196,7 @@ public class JobReportingProcessor implements Processor {
         return null;
     }
 
-    private static long logBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
+    private static long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
         long totalProcessed = 0;
 
         // TODO group counts by externallyUploadedResourceId
@@ -282,6 +288,26 @@ public class JobReportingProcessor implements Processor {
 
     private static void writeLine(PrintWriter jobReportWriter, String type, String text) {
         jobReportWriter.write(type + "  " + text + "\n");
+    }
+
+    private static void cleanupWriterAndLocks(PrintWriter jobReportWriter, FileLock lock, FileChannel channel) {
+        if (jobReportWriter != null) {
+            jobReportWriter.close();
+        }
+        if (lock != null) {
+            try {
+                lock.release();
+            } catch (IOException e) {
+                LOG.error("unable to release FileLock.", e);
+            }
+        }
+        if (channel != null) {
+            try {
+                channel.close();
+            } catch (IOException e) {
+                LOG.error("unable to close FileChannel.", e);
+            }
+        }
     }
 
     public BatchJobDAO getBatchJobDAO() {

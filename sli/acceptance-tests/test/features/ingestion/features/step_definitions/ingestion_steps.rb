@@ -174,6 +174,9 @@ end
 def dirContainsBatchJobLog?(dir)
   Dir.foreach(dir) do |file|
     if /^job-#{@source_file_name}.*.log$/.match file
+      openedFile = File.open(diif (file_contents.rindex(message) == nil)r + file, 'r+')
+      openedFile.flock(File::LOCK_EX)
+      puts " acquiring exclusive lock on  " + openedFile.path
       return true
     end
   end
@@ -185,7 +188,7 @@ def dirContainsBatchJobLogs?(dir, num)
   Dir.foreach(dir) do |file|
     if /^job-.*.log$/.match file
       count += 1
-      if count >= num 
+      if count >= num
         return true
       end
     end
@@ -389,7 +392,7 @@ Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do
   @entity_collection = @db.collection(collection)
   @entity =  @entity_collection.find({field => value})
   assert(@entity.count == 1, "Found more than one document with this query (or zero :) )")
-  
+
 end
 
 When /^verify that "([^"]*)" is (equal|unequal) to "([^"]*)"$/ do |arg1, equal_or_unequal, arg2|
@@ -418,7 +421,7 @@ Then /^verify the following data in that document:$/ do |table|
       curSearchString.split('.').each do |part|
         is_num?(part) ? val = val[part.to_i] : val = val[part]
       end
-      if row["searchType"] == "integer" 
+      if row["searchType"] == "integer"
         assert(val == row['searchValue'].to_i, "Expected value: #{row['searchValue']}, but received #{val}")
       else
         assert(val == row['searchValue'], "Expected value: #{row['searchValue']}, but received #{val}")
@@ -437,7 +440,7 @@ end
 
 
 def checkForContentInFileGivenPrefix(message, prefix)
-  
+
   if (INGESTION_MODE == 'remote')
 
     runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
