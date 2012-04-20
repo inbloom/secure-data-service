@@ -19,9 +19,6 @@
 		<powermock.version>1.4.10</powermock.version>
         <sli.home>${project.parent.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
-
-        <sli.home>${project.parent.basedir}</sli.home>
-        <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
         <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>     
 	</properties>
 
@@ -117,11 +114,6 @@
                 <server.mode>live</server.mode>
                 <war.file.name>dashboard</war.file.name>
             </properties>
-            <build>
-                <filters>
-                    <!-- <filter>src/main/filters/server.properties</filter> -->
-                </filters>
-            </build>
         </profile>
 	</profiles>
 
