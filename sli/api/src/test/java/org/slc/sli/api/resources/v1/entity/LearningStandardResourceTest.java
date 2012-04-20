@@ -30,6 +30,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
@@ -110,18 +111,19 @@ public class LearningStandardResourceTest {
         return entity;
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testReadAll() {
         // create two entities
         learningStandardResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         learningStandardResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
-        
+
         // read everything
         Response response = learningStandardResource.readAll(0, 100, httpHeaders, uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
-        
-        @SuppressWarnings("unchecked")
-        List<EntityBody> results = (List<EntityBody>) response.getEntity();
+
+        EntityResponse entityResponse = (EntityResponse) response.getEntity();
+        List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
         assertNotNull("Should return entities", results);
         assertTrue("Should have at least two entities", results.size() >= 2);
     }
@@ -134,8 +136,15 @@ public class LearningStandardResourceTest {
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
         Response response = learningStandardResource.read(id, httpHeaders, uriInfo);
         
-        Object responseEntityObj = response.getEntity();
+        Object responseEntityObj = null;
         
+        if (response.getEntity() instanceof EntityResponse) {
+            EntityResponse resp = (EntityResponse) response.getEntity();
+            responseEntityObj = resp.getEntity();
+        } else {
+            fail("Should always return EntityResponse: " + response);
+        }
+
         if (responseEntityObj instanceof EntityBody) {
             assertNotNull(responseEntityObj);
         } else if (responseEntityObj instanceof List<?>) {
@@ -184,16 +193,17 @@ public class LearningStandardResourceTest {
         Response createResponse = learningStandardResource.create(new EntityBody(createTestEntity()), httpHeaders,
                 uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
-        
+
         // update it
         Response response = learningStandardResource.update(id, new EntityBody(createTestUpdateEntity()), httpHeaders,
                 uriInfo);
         assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-        
+
         // try to get it
         Response getResponse = learningStandardResource.read(id, httpHeaders, uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
-        EntityBody body = (EntityBody) getResponse.getEntity();
+        EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
+        EntityBody body = (EntityBody) entityResponse.getEntity();
         assertNotNull("Should return an entity", body);
         assertEquals(ParameterConstants.LEARNING_STANDARD_ID + " should be 1234",
                 body.get(ParameterConstants.LEARNING_STANDARD_ID), 1234);
