@@ -76,10 +76,10 @@ default:
         security.server.url: http://local.slidev.org:8080/
 
         # Only used in dashboard
-        portal.footer.url: https://portal.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
+        portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
 
         # Only used in dashboard 
-        portal.header.url: https://portal.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
+        portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
 
         # Only used in dashboard 
         log.level: warn
@@ -477,8 +477,8 @@ local:
     ingestion:
         <<: *INGESTION-DEFAULT
         # local/ingestion/ingestion_conf.properties
-        landingzone.inbounddir: /home/ingestion/lz
-        logging.path: /home/ingestion/logs
+        landingzone.inbounddir: target/ingestion/lz/inbound
+        logging.path: target/ingestion/logs
         # local/ingestion/queue.properties
         sli.ingestion.queue.workItem.host: 
         sli.ingestion.queue.workItem.port: 
