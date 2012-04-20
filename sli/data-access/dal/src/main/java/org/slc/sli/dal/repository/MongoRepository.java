@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
 import org.slc.sli.common.util.threadutil.ThreadLocalStorage;
@@ -35,7 +34,7 @@ import org.slc.sli.domain.Repository;
 
 public abstract class MongoRepository<T> implements Repository<T> {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
-    
+
     protected ThreadLocalStorage threadStore = new ThreadLocalStorage("" + UUID.randomUUID().toString());
 
     protected MongoTemplate template;
@@ -87,6 +86,19 @@ public abstract class MongoRepository<T> implements Repository<T> {
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
             return null;
+        }
+    }
+
+    @Override
+    public boolean exists(String collectionName, String id) {
+        Object databaseId = idConverter.toDatabaseId(id);
+        LOG.debug("find a record in collection {} with id {}", new Object[] {
+                getComposedCollectionName(collectionName), id });
+        try {
+            return template.getCollection(getComposedCollectionName(collectionName)).getCount(new BasicDBObject("_id", databaseId)) != 0L;
+        } catch (Exception e) {
+            LOG.error("Exception occurred", e);
+            return false;
         }
     }
 
@@ -166,15 +178,16 @@ public abstract class MongoRepository<T> implements Repository<T> {
             return false;
         }
 
-        T found = template.findOne(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))), getRecordClass(),
-                collection);
-        if (found != null) {
+        if (exists(collection, id)) {
             template.save(record, collection);
+
+            return true;
         }
-        WriteResult result = template.updateFirst(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
-                new Update().set("body", body), collection);
-        LOG.debug("update a record in collection {} with id {}", new Object[] { collection, id });
-        return result.getN() == 1;
+//        WriteResult result = template.updateFirst(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
+//                new Update().set("body", body), collection);
+//        LOG.debug("update a record in collection {} with id {}", new Object[] { collection, id });
+//        return result.getN() == 1;
+        return false;
     }
 
     @Override
@@ -214,7 +227,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     /**
      * returns collection name with a append of collectionGroupingIdentifier (if
      * collectionGroupingFlag is set to true)
-     * 
+     *
      * @param collectionName
      * @return
      */
@@ -222,22 +235,22 @@ public abstract class MongoRepository<T> implements Repository<T> {
         if (isCollectionGrouping()) {
             return collectionName + "_" + getCollectionGroupingIdentifier();
         }
-        
+
         return collectionName;
     }
-    
+
     public boolean isCollectionGrouping() {
         if (threadStore.get("collectionGroupingFlag") != null) {
             return (Boolean) threadStore.get("collectionGroupingFlag");
         }
-        
+
         return false;
     }
 
     public void setCollectionGrouping(boolean collectionGrouping) {
         threadStore.put("collectionGroupingFlag", collectionGrouping);
     }
-    
+
     public String getCollectionGroupingIdentifier() {
         return (String) threadStore.get("collectionGroupingIdentifier");
     }
@@ -245,7 +258,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public void setCollectionGroupingIdentifier(String collectionGroupingIdentifier) {
         threadStore.put("collectionGroupingIdentifier", collectionGroupingIdentifier);
     }
-    
+
     protected abstract String getRecordId(T record);
 
     protected abstract Class<T> getRecordClass();
