@@ -19,7 +19,7 @@
   <bean id="placeholderConfig"
     class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     <property name="location"
-      value="file:///${sli.conf}" />
+      value="file:${sli.conf}" />
   </bean>
 
 
