@@ -2,6 +2,8 @@ package org.slc.sli.ingestion.model;
 
 import org.apache.commons.lang.time.FastDateFormat;
 
+import org.slc.sli.ingestion.util.BatchJobUtils;
+
 /**
  * Model for metrics of an ingestion job with resolution into its stage and resource
  *
@@ -48,8 +50,10 @@ public class Metrics {
         this.errorCount = errorCount;
     }
 
-    public static Metrics createAndStart(String resourceId, String sourceIp, String hostname) {
-        Metrics metrics = new Metrics(resourceId, sourceIp, hostname);
+    public static Metrics createAndStart(String resourceId) {
+        Metrics metrics = new Metrics(resourceId, BatchJobUtils.getHostAddress(), BatchJobUtils.getHostName());
+        metrics.setRecordCount(0);
+        metrics.setErrorCount(0);
         metrics.startMetric();
         return metrics;
     }

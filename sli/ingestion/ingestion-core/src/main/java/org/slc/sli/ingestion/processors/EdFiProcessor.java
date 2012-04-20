@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,20 +52,18 @@ public class EdFiProcessor implements Processor {
     @Profiled
     public void process(Exchange exchange) throws Exception {
 
-        InetAddress localhost = InetAddress.getLocalHost();
-
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         if (batchJobId == null) {
 
             handleNoBatchJobIdInExchange(exchange);
         } else {
 
-            processEdFi(exchange, localhost, batchJobId);
+            processEdFi(exchange, batchJobId);
         }
 
     }
 
-    private void processEdFi(Exchange exchange, InetAddress localhost, String batchJobId) {
+    private void processEdFi(Exchange exchange, String batchJobId) {
         try {
             Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
@@ -79,11 +76,9 @@ public class EdFiProcessor implements Processor {
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
 
             boolean anyErrorsProcessingFiles = false;
-            Integer emptyCounter = 1;
             for (IngestionFileEntry fe : fileEntryList) {
 
-                Metrics metrics = Metrics.createAndStart(fe.getFileName(), localhost.getHostAddress(),
-                        localhost.getHostName());
+                Metrics metrics = Metrics.createAndStart(fe.getFileName());
                 stage.getMetrics().add(metrics);
                 batchJobDAO.saveBatchJob(newJob);
 
@@ -102,7 +97,7 @@ public class EdFiProcessor implements Processor {
 
                 metrics.setErrorCount(errorCount);
 
-                ResourceEntry resource = createResourceForOutputFile(fe, fileProcessStatus, emptyCounter);
+                ResourceEntry resource = createResourceForOutputFile(fe, fileProcessStatus);
                 newJob.getResourceEntries().add(resource);
 
                 metrics.stopMetric();
@@ -172,12 +167,11 @@ public class EdFiProcessor implements Processor {
         }
     }
 
-    private ResourceEntry createResourceForOutputFile(IngestionFileEntry fe, FileProcessStatus fileProcessStatus,
-            Integer emptyCounter) {
+    private ResourceEntry createResourceForOutputFile(IngestionFileEntry fe, FileProcessStatus fileProcessStatus) {
         ResourceEntry resource = new ResourceEntry();
         String rId = fileProcessStatus.getOutputFileName();
         if (rId == null) {
-            rId = "Empty_" + (emptyCounter++);
+            rId = "Empty_" + (fe.getFileName());
         }
         resource.setResourceId(rId);
         resource.setResourceName(fileProcessStatus.getOutputFilePath());
