@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.apache.commons.lang.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,9 +46,6 @@ public class JobReportingProcessor implements Processor {
 
     private BatchJobDAO batchJobDAO;
 
-    private static final String STR_TIMESTAMP_FORMAT = "yyyy-MM-dd hh:mm:ss.SSS";
-    private static final FastDateFormat FORMATTER = FastDateFormat.getInstance(STR_TIMESTAMP_FORMAT);
-
     public JobReportingProcessor(LandingZone lz) {
         this.landingZone = lz;
         this.batchJobDAO = new BatchJobMongoDA();
@@ -65,17 +61,22 @@ public class JobReportingProcessor implements Processor {
 
             NewBatchJob job = batchJobDAO.findBatchJobById(batchJobId);
 
-            Stage stage = startAndAddStageToJob(job);
+            try {
 
-            boolean hasErrors = writeBatchJobErrorReports(job);
+                Stage stage = startAndAddStageToJob(job);
 
-            writeBatchJobReportFile(job, hasErrors);
+                boolean hasErrors = writeBatchJobErrorReports(job);
 
-            stage.stopStage();
-            batchJobDAO.saveBatchJob(job);
+                writeBatchJobReportFile(job, hasErrors);
 
-            deleteNeutralRecordFiles(job);
+                stage.stopStage();
+                batchJobDAO.saveBatchJob(job);
 
+            } catch (Exception e) {
+                LOG.error("Exception encountered in JobReportingProcessor. ", e);
+            } finally {
+                deleteNeutralRecordFiles(job);
+            }
         } else {
             missingBatchJobIdError(exchange);
         }
@@ -292,11 +293,6 @@ public class JobReportingProcessor implements Processor {
 
     public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
         this.batchJobDAO = batchJobDAO;
-    }
-
-    public static String getCurrentTimeStamp() {
-        String timeStamp = FORMATTER.format(System.currentTimeMillis());
-        return timeStamp;
     }
 
 }
