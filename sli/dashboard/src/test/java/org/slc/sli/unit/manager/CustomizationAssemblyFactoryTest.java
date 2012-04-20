@@ -60,7 +60,7 @@ public class CustomizationAssemblyFactoryTest {
             "{id : 'panelException', type: 'PANEL', condition: {field: 'gradeNumeric', value: [1,2,5]}, data :{entity: 'testException',alias: 'mock' }}";
 
     private static final String PANEL_WITH_DYNAMIC_HEADERS =
-            "{id : 'dynamicHeaders', type: 'PANEL', items: [{name: '${name.first}'}, {name: '${id}'}]}";
+            "{id : 'dynamicHeaders', type: 'PANEL', items: [{name: '${meta.name.first}'}, {name: '${meta.id}'}]}";
 
 
     private static GenericEntity simpleMaleStudentEntity;

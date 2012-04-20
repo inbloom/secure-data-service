@@ -57,17 +57,6 @@ public class Config implements Cloneable {
         protected String align;
         protected Map<String, Object> params;
 
-        public Item cloneWithName(String name) {
-            Item item;
-            try {
-                item = (Item) this.clone();
-            } catch (CloneNotSupportedException e) {
-                throw new DashboardException("Unable to clone items", e);
-            }
-            item.name = name;
-            return item;
-        }
-
         public String getDescription() {
             return description;
         }
@@ -114,6 +103,29 @@ public class Config implements Cloneable {
 
         public void setAlign(String align) {
             this.align = align;
+        }
+
+        @Override
+        public Config cloneWithItems(Config.Item[] items) {
+            Item item;
+            try {
+                item = (Item) this.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new DashboardException("Unable to clone items", e);
+            }
+            item.items = items;
+            return item;
+        }
+
+        public Item cloneWithName(String name) {
+            Item item;
+            try {
+                item = (Item) this.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new DashboardException("Unable to clone items", e);
+            }
+            item.name = name;
+            return item;
         }
 
         @Override

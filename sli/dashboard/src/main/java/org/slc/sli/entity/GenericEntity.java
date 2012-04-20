@@ -31,14 +31,6 @@ public class GenericEntity extends LinkedHashMap<String, Object> {
         return getString(Constants.ATTR_ID);
     }
 
-    public GenericEntity getInternalMetadata() {
-        return (GenericEntity) get(Constants.ATTR_INTERNAL_METADATA);
-    }
-
-    public boolean hasInternalMetadata() {
-        return containsKey(Constants.ATTR_INTERNAL_METADATA);
-    }
-
     public String getString(String key) {
         return (String) (get(key));
     }

@@ -21,6 +21,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import org.slc.sli.entity.Config;
+import org.slc.sli.entity.Config.Item;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.ConfigManager;
@@ -140,7 +141,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         Object childEntity = entity;
         for (String token : pathTokens) {
             if (childEntity == null || !(childEntity instanceof GenericEntity)) {
-                return false;
+                return null;
             }
             childEntity = ((GenericEntity) childEntity).get(token);
         }
@@ -183,10 +184,14 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             List<Config.Item> items = new ArrayList<Config.Item>();
             depth++;
             Config newConfig;
+            // get items, go through all of them and update config as need according to conditions and template substitutions
             for (Config.Item item : getUpdatedDynamicHeaderTemplate(config, entity)) {
                 if (checkCondition(config, item, entity)) {
-                    items.add(item);
                     newConfig = populateModelRecursively(model, item.getId(), entityKey, item, config, entity, depth, lazyOverride);
+                    if (newConfig != null) {
+                        item = (Item) item.cloneWithItems(newConfig.getItems());
+                    }
+                    items.add(item);
                     if (config.getType().isLayoutItem()) {
                         model.addLayoutItem(newConfig);
                     }
@@ -194,7 +199,9 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             }
             config = config.cloneWithItems(items.toArray(new Config.Item[0]));
         }
-        model.addComponentViewConfigMap(componentId, config);
+        if (componentId != null) {
+            model.addComponentViewConfigMap(componentId, config);
+        }
         return config;
     }
 
@@ -204,9 +211,8 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
      * @param entity
      */
     protected Config.Item[] getUpdatedDynamicHeaderTemplate(Config config, GenericEntity entity) {
-        if (entity != null && entity.hasInternalMetadata()) {
+        if (entity != null) {
             Pattern p = Pattern.compile(SUBSTITUTE_TOKEN_PATTERN);
-            GenericEntity meta = entity.getInternalMetadata();
             Matcher matcher;
             String name, value;
             Collection<Config.Item> newItems = new ArrayList<Config.Item>();
@@ -215,7 +221,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
                 if (name != null) {
                     matcher = p.matcher(name);
                     while (matcher.find()) {
-                        value = (String) getValue(meta, matcher.group(1));
+                        value = (String) getValue(entity, matcher.group(1));
                         if (value != null) {
                             name = name.replace(matcher.group(), value);
                         }
