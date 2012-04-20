@@ -27,7 +27,7 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Algebra            |
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Geometry           |
 
-  And I should see "Processed 4 records." in the resulting batch job file
+  And I should see "Processed 7 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "dibelsAssessmentMetadata.xml records considered: 3" in the resulting batch job file
   And I should see "dibelsAssessmentMetadata.xml records ingested successfully: 3" in the resulting batch job file
@@ -35,4 +35,10 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "satAssessmentMetadata.xml records considered: 1" in the resulting batch job file
   And I should see "satAssessmentMetadata.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "satAssessmentMetadata.xml records failed: 0" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records considered: 1" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records ingested successfully: 1" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
+  And I should see "InterchangeStudentAssessment.xml records considered: 2" in the resulting batch job file
+  And I should see "InterchangeStudentAssessment.xml records ingested successfully: 2" in the resulting batch job file
+  And I should see "InterchangeStudentAssessment.xml records failed: 0" in the resulting batch job file
   

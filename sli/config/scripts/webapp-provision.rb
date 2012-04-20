@@ -41,8 +41,14 @@ def write_prop_file(config, output_fname, env)
 end
 
 if __FILE__ == $0
-	if ARGV.length < 3
-		puts "Usage: " + $0 + " yaml_config_file environment outputfile"
+	unless ARGV.length == 3
+		puts "Usage: " + $0 + " YAML_CONFIG_FILE PROFILE OUTPUT_FILE\n"
+		puts
+		puts "Generates a property file from a given YAML file that contain configuration information.\n"
+		puts
+		puts "  YAML_CONFIG_FILE ... YAML configuration file that contains different profiles."
+		puts "  PROFILE          ... Specifies the profile to use to determine the properties. Must be defined in the YAML file."
+		puts "  OUTPUT_FILE      ... Path to the file where the properties should be stored."
 		exit(1)
 	end
 
