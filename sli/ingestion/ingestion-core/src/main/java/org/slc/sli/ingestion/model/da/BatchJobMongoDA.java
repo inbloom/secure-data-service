@@ -224,21 +224,20 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     /**
      *
-     * @param IngestionJobId
      * @param stageName
      * @param resourceId
      * @param sourceIp
      * @param hostname
      * @param recordIdentifier
-     * @param timestamp
      * @param severity
      * @param errorType
      * @param errorDetail
+     * @param IngestionJobId
      * @return
      */
     public static BatchJobMongoDAStatus logIngestionError(String ingestionJobId, String stageName, String resourceId,
-            String sourceIp, String hostname, String recordIdentifier, String timestamp, String severity,
-            String errorType, String errorDetail) {
+            String sourceIp, String hostname, String recordIdentifier, String severity, String errorType,
+            String errorDetail) {
 
         if (sourceIp == null) {
             sourceIp = thisIP;
@@ -255,11 +254,11 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     public static void logBatchError(String batchJobId, String severity, String errorType, String errorDetail) {
-        logIngestionError(batchJobId, null, null, null, null, null, null, severity, errorType, errorDetail);
+        logIngestionError(batchJobId, null, null, null, null, null, severity, errorType, errorDetail);
     }
 
     public static void logBatchStageError(String batchJobId, BatchJobStageType stage, String severity, String errorType, String errorDetail) {
-        logIngestionError(batchJobId, stage.getName(), null, null, null, null, null, severity, errorType, errorDetail);
+        logIngestionError(batchJobId, stage.getName(), null, null, null, null, severity, errorType, errorDetail);
     }
 
     public static String getCurrentTimeStamp() {

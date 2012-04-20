@@ -219,8 +219,8 @@ public class BatchJobUtils {
             Calendar cal = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd:HH-mm-ss");
 
-            logIngestionError(batchJobId, stage.getName(), fileId, null, null, null, sdf.format(cal.getTime()),
-                    severity, "generic", errorDetail);
+            logIngestionError(batchJobId, stage.getName(), fileId, null, null, null, severity,
+                    "generic", errorDetail);
         }
     }
 

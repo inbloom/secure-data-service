@@ -39,7 +39,7 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
         String recordIdentifier = null;
         BatchJobMongoDA.logIngestionError(batchJobId, (stage == null) ? null : stage.getName(), resourceId,
                 BatchJobUtils.getHostName(), BatchJobUtils.getHostAddress(), recordIdentifier,
-                BatchJobUtils.getTimeStamp(), FaultType.TYPE_ERROR.getName(), FaultType.TYPE_ERROR.getName(), message);
+                FaultType.TYPE_ERROR.getName(), FaultType.TYPE_ERROR.getName(), message);
         hasErrors = true;
     }
 
@@ -49,8 +49,7 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
         String recordIdentifier = null;
         BatchJobMongoDA.logIngestionError(batchJobId, (stage == null) ? "" : stage.getName(), resourceId,
                 BatchJobUtils.getHostName(), BatchJobUtils.getHostAddress(), recordIdentifier,
-                BatchJobUtils.getTimeStamp(), FaultType.TYPE_WARNING.getName(), FaultType.TYPE_WARNING.getName(),
-                message);
+                FaultType.TYPE_WARNING.getName(), FaultType.TYPE_WARNING.getName(), message);
     }
 
     @Override
