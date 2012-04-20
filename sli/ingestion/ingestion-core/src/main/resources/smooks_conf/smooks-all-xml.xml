@@ -2940,4 +2940,234 @@
     <jb:value data="StaffProgramAssociation/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
 
+  <!-- Start Cohort mapping -->
+
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentCohort/Cohort">
+    <jb:expression property="recordType">'cohort'</jb:expression>
+    <jb:value property="localId" data="InterchangeStudentCohort/Cohort/CohortIdentifier" />
+    <jb:wiring property="attributes" beanIdRef="cohortAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="cohortAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentCohort/Cohort">
+    <!-- CohortIdentifier - simple type -->
+    <jb:value property="cohortIdentifier" data="Cohort/CohortIdentifier" />
+    <!-- CohortDescription - simple type -->
+    <jb:value property="cohortDescription" data="Cohort/CohortDescription" />
+    <!-- CohortType - simple type -->
+    <jb:value property="cohortType" data="Cohort/CohortType" />
+    <!-- CohortScope - simple type -->
+    <jb:value property="cohortScope" data="Cohort/CohortScope" />
+    <!-- AcademicSubject - simple type -->
+    <jb:value property="academicSubject" data="Cohort/AcademicSubject" />
+    <!-- EducationOrgReference reference type -->
+    <jb:wiring property="educationOrgId" beanIdRef="Cohort_EducationOrgReference" /> 
+    <!-- ProgramReference - array of reference type -->
+    <jb:wiring property="programId" beanIdRef="cohort_programReferenceTypeArray" />
+  </jb:bean>
+
+  <jb:bean beanId="cohort_programReferenceTypeArray" class="java.util.ArrayList" 
+    createOnElement="InterchangeStudentCohort/Cohort">
+    <jb:wiring beanIdRef="Cohort_ProgramReference" />
+  </jb:bean>
+
+  <!-- Cohort supporting objects: EducationOrgReference -->
+  <jb:bean beanId="Cohort_EducationOrgReference"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/Cohort/EducationOrgReference">
+    <jb:wiring property="EducationalOrgIdentity" beanIdRef="Cohort_EducationOrgReference_EducationalOrgIdentity" />
+  </jb:bean>
+  <jb:bean beanId="Cohort_EducationOrgReference_EducationalOrgIdentity"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/Cohort/EducationOrgReference/EducationalOrgIdentity">
+    <jb:wiring property="StateOrganizationId" beanIdRef="Cohort_EducationOrgReference_EducationalOrgIdentity_StateOrganizationIdArray" />
+    <jb:wiring property="EducationOrgIdentificationCode" beanIdRef="Cohort_EducationOrgReference_EducationalOrgIdentity_EducationOrgIdentificationCodeArray" />
+  </jb:bean>
+  <jb:bean beanId="Cohort_EducationOrgReference_EducationalOrgIdentity_StateOrganizationIdArray"
+    class="java.util.ArrayList"
+    createOnElement="InterchangeStudentCohort/Cohort/EducationOrgReference/EducationalOrgIdentity">
+    <jb:value data="Cohort/EducationOrgReference/EducationalOrgIdentity/StateOrganizationId" />
+  </jb:bean>
+  <jb:bean beanId="Cohort_EducationOrgReference_EducationalOrgIdentity_EducationOrgIdentificationCodeArray"
+    class="java.util.ArrayList"
+    createOnElement="InterchangeStudentCohort/Cohort/EducationOrgReference/EducationalOrgIdentity">
+    <jb:wiring beanIdRef="Cohort_EducationOrgReference_EducationalOrgIdentity_EducationOrgIdentificationCode" />
+  </jb:bean>
+  <jb:bean beanId="Cohort_EducationOrgReference_EducationalOrgIdentity_EducationOrgIdentificationCode"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/Cohort/EducationOrgReference/EducationalOrgIdentity/EducationOrgIdentificationCode">
+    <jb:value property="IdentificationSystem" data="Cohort/EducationOrgReference/EducationalOrgIdentity/EducationOrgIdentificationCode/@IdentificationSystem" />
+    <jb:value property="ID" data="Cohort/EducationOrgReference/EducationalOrgIdentity/EducationOrgIdentificationCode/ID" />
+  </jb:bean>
+
+  <!-- Cohort supporting objects: ProgramReference -->
+  <jb:bean beanId="Cohort_ProgramReference"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/Cohort/ProgramReference">
+    <jb:wiring property="ProgramIdentity" beanIdRef="Cohort_ProgramReference_ProgramIdentity" />
+  </jb:bean>
+  <jb:bean beanId="Cohort_ProgramReference_ProgramIdentity"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/Cohort/ProgramReference/ProgramIdentity">
+    <jb:value property="ProgramId"
+        data="Cohort/ProgramReference/ProgramIdentity/ProgramId" />
+    <jb:value property="ProgramType"
+      data="Cohort/ProgramReference/ProgramIdentity/ProgramType" />
+    <jb:wiring property="StateOrganizationId"
+      beanIdRef="InterchangeStudentCohort_Cohort_ProgramReference_ProgramIdentity_StateOrganizationIdArray" />
+    <jb:wiring property="EducationOrgIdentificationCode"
+      beanIdRef="InterchangeStudentCohort_Cohort_ProgramReference_ProgramIdentity_EducationOrgIdentificationCodeArray" />
+  </jb:bean>
+  <jb:bean beanId="InterchangeStudentCohort_Cohort_ProgramReference_ProgramIdentity_StateOrganizationIdArray"
+    class="java.util.ArrayList"
+    createOnElement="InterchangeStudentCohort/Cohort/ProgramReference/ProgramIdentity">
+    <jb:value data="Cohort/ProgramReference/ProgramIdentity/StateOrganizationId" />
+  </jb:bean>
+  <jb:bean beanId="InterchangeStudentCohort_Cohort_ProgramReference_ProgramIdentity_EducationOrgIdentificationCodeArray"
+    class="java.util.ArrayList"
+    createOnElement="InterchangeStudentCohort/Cohort/ProgramReference/ProgramIdentity">
+    <jb:value data="Cohort/ProgramReference/ProgramIdentity/EducationOrgIdentificationCode" />
+  </jb:bean>
+  <jb:bean beanId="Cohort_ProgramReference_ProgramIdentity_EducationOrgIdentificationCode"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/Cohort/ProgramReference/ProgramIdentity/EducationOrgIdentificationCode">
+    <jb:value property="EducationOrgIdentificationSystemType"
+      data="Cohort/ProgramReference/ProgramIdentity/EducationOrgIdentificationCode/@EducationOrgIdentificationSystemType" />
+    <jb:value property="ID"
+      data="Cohort/ProgramReference/ProgramIdentity/EducationOrgIdentificationCode/ID" />
+  </jb:bean>
+
+  <!-- End Cohort Mapping -->
+
+  <!-- Start StudentCohortAssociation mapping -->
+
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
+    createOnElement="InterchangeStudentCohort/StudentCohortAssociation">
+    <jb:expression property="recordType">'studentCohortAssociation'</jb:expression>
+    <jb:expression property="association">true</jb:expression>
+    <jb:wiring property="attributes" beanIdRef="studentCohortAssociationAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="studentCohortAssociationAttributes" class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/StudentCohortAssociation">
+    <jb:wiring property="studentId" beanIdRef="StudentCohortAssociation_StudentReference" />
+    <jb:wiring property="cohortId" beanIdRef="StudentCohortAssociation_CohortReference" />
+    <jb:value property="BeginDate" data="StudentCohortAssociation/BeginDate" />
+    <jb:value property="EndDate" data="StudentCohortAssociation/EndDate" />
+  </jb:bean>
+
+  <!-- StudentCohortAssociation support object: StudentCohortAssociation_StudentReference  -->
+  <jb:bean beanId="StudentCohortAssociation_StudentReference"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/StudentCohortAssociation/StudentReference">
+    <jb:wiring property="StudentIdentity" beanIdRef="StudentCohortAssociation_StudentReference_StudentIdentity" />
+  </jb:bean>
+  <jb:bean beanId="StudentCohortAssociation_StudentReference_StudentIdentity"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/StudentCohortAssociation/StudentReference/StudentIdentity">
+    <jb:value property="StudentUniqueStateId" data="StudentCohortAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    <jb:wiring property="StudentIdentificationCode" beanIdRef="StudentCohortAssociation_StudentReference_StudentIdentity_StudentIdentificationCodeArray" />
+    <jb:wiring property="Name" beanIdRef="StudentCohortAssociation_StudentReference_StudentIdentity_Name" />
+    <jb:wiring property="OtherName" beanIdRef="StudentCohortAssociation_StudentReference_StudentIdentity_OtherNameArray" />
+    <jb:value property="BirthDate" data="StudentCohortAssociation/StudentReference/StudentIdentity/BirthDate" />
+    <jb:value property="Sex" data="StudentCohortAssociation/StudentReference/StudentIdentity/Sex" />
+    <jb:value property="HispanicLatinoEthnicity" data="StudentCohortAssociation/StudentReference/StudentIdentity/HispanicLatinoEthnicity" decoder="Boolean" />
+    <jb:wiring property="Race" beanIdRef="StudentCohortAssociation_StudentReference_StudentIdentity_Race" />
+  </jb:bean>
+  <jb:bean beanId="StudentCohortAssociation_StudentReference_StudentIdentity_StudentIdentificationCodeArray"
+    class="java.util.ArrayList"
+    createOnElement="InterchangeStudentCohort/StudentCohortAssociation/StudentReference/StudentIdentity">
+    <jb:wiring beanIdRef="StudentCohortAssociation_StudentReference_StudentIdentity_StudentIdentificationCode" />
+  </jb:bean>
+  <jb:bean beanId="StudentCohortAssociation_StudentReference_StudentIdentity_StudentIdentificationCode"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/StudentCohortAssociation/StudentReference/StudentIdentity/StudentIdentificationCode">
+    <jb:value property="IdentificatonSystem" data="StudentCohortAssociation/StudentReference/StudentIdentity/StudentIdentificationCode/@IdentificationSystem" />
+    <jb:value property="AssigningOrganizationCode" data="StudentCohortAssociation/StudentReference/StudentIdentity/StudentIdentificationCode/@AssigningOrganizationCode" />
+    <jb:value property="IdentificationCode" data="StudentCohortAssociation/StudentReference/StudentIdentity/StudentIdentificationCode/IdentificationCode" />
+  </jb:bean>
+  <jb:bean beanId="StudentCohortAssociation_StudentReference_StudentIdentity_Name"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/StudentCohortAssociation/StudentReference/StudentIdentity/Name">
+    <jb:value property="Verification" data="StudentCohortAssociation/StudentReference/StudentIdentity/Name/@Verification" />
+    <jb:value property="PersonalTitlePrefix" data="StudentCohortAssociation/StudentReference/StudentIdentity/Name/PersonalTitlePrefix" />
+    <jb:value property="FirstName" data="StudentCohortAssociation/StudentReference/StudentIdentity/Name/FirstName" />
+    <jb:value property="MiddleName" data="StudentCohortAssociation/StudentReference/StudentIdentity/Name/MiddleName" />
+    <jb:value property="LastSurname" data="StudentCohortAssociation/StudentReference/StudentIdentity/Name/LastSurname" />
+    <jb:value property="GenerationCodeSuffix" data="StudentCohortAssociation/StudentReference/StudentIdentity/Name/GenerationCodeSuffix" />
+    <jb:value property="MaidenName" data="StudentCohortAssociation/StudentReference/StudentIdentity/Name/MaidenName" />
+  </jb:bean>
+  <jb:bean beanId="StudentCohortAssociation_StudentReference_StudentIdentity_OtherNameArray"
+    class="java.util.ArrayList"
+    createOnElement="InterchangeStudentCohort/StudentCohortAssociation/StudentReference/StudentIdentity">
+    <jb:wiring beanIdRef="StudentCohortAssociation_StudentReference_StudentIdentity_OtherName" />
+  </jb:bean>
+  <jb:bean beanId="StudentCohortAssociation_StudentReference_StudentIdentity_OtherName"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/StudentCohortAssociation/StudentReference/StudentIdentity/OtherName">
+    <jb:value property="OtherNameType" data="StudentCohortAssociation/StudentReference/StudentIdentity/OtherName/@OtherNameType" />
+    <jb:value property="PersonalTitlePrefix" data="StudentCohortAssociation/StudentReference/StudentIdentity/OtherName/PersonalTitlePrefix" />
+    <jb:value property="FirstName" data="StudentCohortAssociation/StudentReference/StudentIdentity/OtherName/FirstName" />
+    <jb:value property="MiddleName" data="StudentCohortAssociation/StudentReference/StudentIdentity/OtherName/MiddleName" />
+    <jb:value property="LastSurname" data="StudentCohortAssociation/StudentReference/StudentIdentity/OtherName/LastSurname" />
+    <jb:value property="GenerationCodeSuffix" data="StudentCohortAssociation/StudentReference/StudentIdentity/OtherName/GenerationCodeSuffix" />
+  </jb:bean>
+  <jb:bean beanId="StudentCohortAssociation_StudentReference_StudentIdentity_Race"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/StudentCohortAssociation/StudentReference/StudentIdentity/Race">
+    <jb:wiring property="RacialCategory" beanIdRef="StudentCohortAssociation_StudentReference_StudentIdentity_Race_RacialCategoryArray" />
+  </jb:bean>
+  <jb:bean beanId="StudentCohortAssociation_StudentReference_StudentIdentity_Race_RacialCategoryArray"
+    class="java.util.ArrayList"
+    createOnElement="InterchangeStudentCohort/StudentCohortAssociation/StudentReference/StudentIdentity/Race">
+    <jb:value data="StudentCohortAssociation/StudentReference/StudentIdentity/Race/RacialCategory" />
+  </jb:bean>
+
+  <!-- StudentCohortAssociation support object: StudentCohortAssociation_CohortReference   -->
+  <jb:bean beanId="StudentCohortAssociation_CohortReference"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/StudentCohortAssociation/CohortReference">
+    <jb:wiring property="CohortIdentity" beanIdRef="StudentCohortAssociation_CohortReference_CohortIdentity" />
+  </jb:bean>
+  <jb:bean beanId="StudentCohortAssociation_CohortReference_CohortIdentity"
+    class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/StudentCohortAssociation/CohortReference/CohortIdentity">
+    <jb:value property="CohortIdentifier"
+        data="StudentCohortAssociation/CohortReference/CohortIdentity/CohortIdentifier" />
+    <jb:wiring property="StateOrganizationId"
+      beanIdRef="InterchangeStudentCohort_StudentCohortAssociation_CohortReference_CohortIdentity_StateOrganizationIdArray" />
+    <jb:wiring property="EducationOrgIdentificationCode"
+      beanIdRef="InterchangeStudentCohort_StudentCohortAssociation_CohortReference_CohortIdentity_EducationOrgIdentificationCodeArray" />
+  </jb:bean>
+  <jb:bean beanId="InterchangeStudentCohort_StudentCohortAssociation_CohortReference_CohortIdentity_StateOrganizationIdArray"
+    class="java.util.ArrayList"
+    createOnElement="InterchangeStudentCohort/StudentCohortAssociation/CohortReference/CohortIdentity">
+    <jb:value data="StudentCohortAssociation/CohortReference/CohortIdentity/StateOrganizationId" />
+  </jb:bean>
+  <jb:bean beanId="InterchangeStudentCohort_StudentCohortAssociation_CohortReference_CohortIdentity_EducationOrgIdentificationCodeArray"
+    class="java.util.ArrayList"
+    createOnElement="InterchangeStudentCohort/StudentCohortAssociation/CohortReference/CohortIdentity">
+    <jb:value data="StudentCohortAssociation/CohortReference/CohortIdentity/EducationOrgIdentificationCode" />
+  </jb:bean>
+
+  <!-- Start StaffCohortAssociation mapping 
+
+  @@@ to be completed @@@
+
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
+    createOnElement="InterchangeStaffCohort/StaffCohortAssociation">
+    <jb:expression property="recordType">'staffCohortAssociation'</jb:expression>
+    <jb:expression property="association">true</jb:expression>
+    <jb:wiring property="attributes" beanIdRef="staffCohortAssociationAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="staffCohortAssociationAttributes" class="java.util.HashMap"
+    createOnElement="InterchangeStaffCohort/StaffCohortAssociation">
+    <jb:wiring property="StaffReference" beanIdRef="StaffCohortAssociation_StaffReference_Array" />
+    <jb:wiring property="CohortReference" beanIdRef="StaffCohortAssociation_CohortReference_Array" />
+    <jb:value property="BeginDate" data="StaffCohortAssociation/BeginDate" />
+    <jb:value property="EndDate" data="StaffCohortAssociation/EndDate" />
+    <jb:value property="StudentRecordAccess" data="StaffCohortAssociation/StudentRecordAccess" decoder="boolean" />
+  </jb:bean>
+  -->
+
 </smooks-resource-list>
