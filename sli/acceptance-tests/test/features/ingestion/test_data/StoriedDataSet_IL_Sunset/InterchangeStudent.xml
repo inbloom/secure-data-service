@@ -8,6 +8,10 @@
 			<FirstName>Roberta</FirstName>
 			<LastSurname>Jones</LastSurname>
 		</Name>
+		<OtherName OtherNameType="Nickname">
+		    <FirstName>Robbie</FirstName>
+		    <LastSurname>Jones</LastSurname>
+		</OtherName>
 		<Sex>Female</Sex>
 		<BirthData>
 			<BirthDate>2001-01-23</BirthDate>
