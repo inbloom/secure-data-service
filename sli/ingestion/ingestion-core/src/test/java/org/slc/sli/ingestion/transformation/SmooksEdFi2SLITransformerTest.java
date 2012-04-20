@@ -1,6 +1,5 @@
 package org.slc.sli.ingestion.transformation;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -18,15 +17,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
@@ -269,7 +265,7 @@ public class SmooksEdFi2SLITransformerTest {
         //assessmentQuery.addCriteria(Criteria.where("body.assessmentTitle").is(ASSESSMENT_TITLE));
         //assessmentQuery.addCriteria(Criteria.where(METADATA_BLOCK + "." + TENANT_ID_FIELD).is(TENANT_ID));
         //assessmentQuery.addCriteria(Criteria.where(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD).is(STUDENT_ID));
-        
+
         List<Entity> le = new ArrayList<Entity>();
         le.add(createAssessmentEntity(true));
 
@@ -295,8 +291,9 @@ public class SmooksEdFi2SLITransformerTest {
         // Create neutral record for entity.
         NeutralRecord assessment = new NeutralRecord();
 
-        if (setId)
+        if (setId) {
             assessment.setLocalId(STUDENT_ID);
+        }
 
         //This will become tenantId field after transformed into neutral record entity
         assessment.setSourceId(TENANT_ID);
@@ -363,8 +360,9 @@ public class SmooksEdFi2SLITransformerTest {
     public SimpleEntity createAssessmentEntity(boolean setId) {
         SimpleEntity entity = new SimpleEntity();
 
-        if (setId)
+        if (setId) {
             entity.setEntityId(STUDENT_ID);
+        }
         entity.setType("assessment");
         Map<String, Object> field = new HashMap<String, Object>();
         field.put("studentUniqueStateId", STUDENT_ID);

@@ -22,33 +22,40 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Resource for obtaining assessment information
+ * Represents a tool, instrument, process, or exhibit that is used 
+ * to assess student performance.
  * 
+ * This could be a systematic sampling of behavior or a measurement 
+ * of a student's competence, knowledge, skills, or behavior. 
+ * An assessment can be used to measure differences in individuals 
+ * or groups and to track changes in performance from one occasion 
+ * to the next.
+ *
  * @author jstokes
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.ASSESSMENTS)
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class AssessmentResource extends DefaultCrudEndpoint {
-    
+
     @Autowired
     public AssessmentResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.ASSESSMENTS);
     }
-    
+
     /**
      * Returns all $$assessments$$ entities for which the logged in user has permission to see.
-     * 
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -59,6 +66,7 @@ public class AssessmentResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return result of CRUD operation
      */
+    @Override
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAll(
@@ -67,10 +75,10 @@ public class AssessmentResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
     }
-    
+
     /**
      * Create a new $$assessments$$ entity.
-     * 
+     *
      * @param newEntityBody
      *            assessment data
      * @param headers
@@ -82,15 +90,16 @@ public class AssessmentResource extends DefaultCrudEndpoint {
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
      *                 item is accessible.}
      */
+    @Override
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
-    
+
     /**
      * Get a single $$assessments$$ entity
-     * 
+     *
      * @param assessmentId
      *            The comma separated list of ids of $$assessments$$
      * @param headers
@@ -99,6 +108,7 @@ public class AssessmentResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return A single assessment entity
      */
+    @Override
     @GET
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -106,10 +116,10 @@ public class AssessmentResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(assessmentId, headers, uriInfo);
     }
-    
+
     /**
      * Delete an $$assessments$$
-     * 
+     *
      * @param assessmentId
      *            The id of the $$assessments$$
      * @param headers
@@ -119,16 +129,17 @@ public class AssessmentResource extends DefaultCrudEndpoint {
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @DELETE
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
     public Response delete(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.delete(assessmentId, headers, uriInfo);
     }
-    
+
     /**
      * Update an existing $$assessments$$
-     * 
+     *
      * @param assessmentId
      *            The id of the $$assessments$$
      * @param newEntityBody
@@ -140,16 +151,17 @@ public class AssessmentResource extends DefaultCrudEndpoint {
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @PUT
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
     public Response update(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
             final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(assessmentId, newEntityBody, headers, uriInfo);
     }
-    
+
     /**
      * Returns all the $$studentAssessmentAssociations$$ for the given $$assessments$$
-     * 
+     *
      * @param assessmentId
      *            Comma separated list of ids of the $$assessments$$ entities
      * @param headers
@@ -167,11 +179,11 @@ public class AssessmentResource extends DefaultCrudEndpoint {
         return super
                 .read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, headers, uriInfo);
     }
-    
+
     /**
      * Returns each $$students$$ entities associated to the given assessment through
      * a $$studentAssessmentAssociations$$
-     * 
+     *
      * @param assessmentId
      *            Comma separated list of ids of the $$assessments$$
      * @param headers
@@ -190,11 +202,11 @@ public class AssessmentResource extends DefaultCrudEndpoint {
         return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, "studentId",
                 ResourceNames.STUDENTS, headers, uriInfo);
     }
-    
+
     /**
      * Returns each $$sectionAssessmentAssociations$$ entities that
      * references the given $$assessments$$
-     * 
+     *
      * @param assessmentId
      *            Comma separated list of ids of the $$assessments$$
      * @param offset
@@ -218,11 +230,11 @@ public class AssessmentResource extends DefaultCrudEndpoint {
         return super
                 .read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, headers, uriInfo);
     }
-    
+
     /**
      * Returns each $$sections$$ entity associated to the given $$assessments$$ through
      * a $$sectionAssessmentAssociations$$
-     * 
+     *
      * @param assessmentId
      *            Comma separated list of ids of the $$assessments$$
      * @param headers
@@ -241,10 +253,10 @@ public class AssessmentResource extends DefaultCrudEndpoint {
         return super.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, "sectionId",
                 ResourceNames.SECTIONS, headers, uriInfo);
     }
-    
+
     /**
      * Get a map of the objective assessment ids to $$learningStandards$$ entities for the given $$assessments$$.
-     * 
+     *
      * @param id
      *            the id of the assessment
      * @return the learning standards
@@ -254,10 +266,10 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     public Response getLearningStandards(@PathParam(ParameterConstants.ASSESSMENT_ID) final String id) {
         return Response.status(Status.NOT_FOUND).build();
     }
-    
+
     /**
      * Get a map of the objective assessment ids and assessmentItem ids to $$learningObjectives$$ entities for the given $$assessments$$.
-     * 
+     *
      * @param id
      *            the id of the assessment
      * @return the learning objectives
@@ -267,7 +279,7 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     public Response getLearningObjectives(@PathParam(ParameterConstants.ASSESSMENT_ID) final String id) {
         return Response.status(Status.NOT_FOUND).build();
     }
-    
-    
-    
+
+
+
 }

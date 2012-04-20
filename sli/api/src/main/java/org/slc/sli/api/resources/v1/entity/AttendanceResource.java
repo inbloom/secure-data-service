@@ -21,15 +21,21 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Attendance resource for v1
+ * Represents both daily and class period (section) attendance.
+ *
+ * This API supports two ways of maintaining attendance data.
+ * The first is to record one attendance event for each student 
+ * per section or per day by reporting both attendance and absences,
+ * The second is "Exception only" reporting, providing attendance events 
+ * only for absences and tardies.
  *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.ATTENDANCES)
@@ -56,6 +62,7 @@ public class AttendanceResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return result of CRUD operation
      */
+    @Override
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
@@ -78,6 +85,7 @@ public class AttendanceResource extends DefaultCrudEndpoint {
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
      *                 item is accessible.}
      */
+    @Override
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response create(final EntityBody newEntityBody,
@@ -96,6 +104,7 @@ public class AttendanceResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return A single attendance entity
      */
+    @Override
     @GET
     @Path("{" + ParameterConstants.ATTENDANCE_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -116,6 +125,7 @@ public class AttendanceResource extends DefaultCrudEndpoint {
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @DELETE
     @Path("{" + ParameterConstants.ATTENDANCE_ID + "}")
     public Response delete(@PathParam(ParameterConstants.ATTENDANCE_ID) final String attendanceId,
@@ -137,6 +147,7 @@ public class AttendanceResource extends DefaultCrudEndpoint {
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @PUT
     @Path("{" + ParameterConstants.ATTENDANCE_ID + "}")
     public Response update(@PathParam(ParameterConstants.ATTENDANCE_ID) final String attendanceId,

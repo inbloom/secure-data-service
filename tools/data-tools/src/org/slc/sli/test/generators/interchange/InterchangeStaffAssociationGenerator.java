@@ -7,12 +7,15 @@ import org.slc.sli.test.edfi.entities.InterchangeStaffAssociation;
 import org.slc.sli.test.edfi.entities.Staff;
 import org.slc.sli.test.edfi.entities.StaffEducationOrgAssignmentAssociation;
 import org.slc.sli.test.edfi.entities.StaffEducationOrgEmploymentAssociation;
+import org.slc.sli.test.edfi.entities.StaffProgramAssociation;
 import org.slc.sli.test.edfi.entities.Teacher;
 import org.slc.sli.test.edfi.entities.TeacherSchoolAssociation;
 import org.slc.sli.test.edfi.entities.TeacherSectionAssociation;
 import org.slc.sli.test.edfi.entities.meta.StaffMeta;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
+import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+import org.slc.sli.test.generators.StaffProgramAssociationGenerator;
 import org.slc.sli.test.generators.StaffEdOrgAssignmentAssociationGenerator;
 import org.slc.sli.test.generators.StaffEdOrgEmploymentAssociationGenerator;
 import org.slc.sli.test.generators.StaffGenerator;
@@ -66,6 +69,7 @@ public class InterchangeStaffAssociationGenerator {
 
         generateStaffEdOrgAssignmentAssoc(interchangeObjects, MetaRelations.STAFF_MAP.values());
 
+        generateStaffProgramAssoc(interchangeObjects, MetaRelations.PROGRAM_MAP.values());
     }
 
     /**
@@ -211,5 +215,28 @@ public class InterchangeStaffAssociationGenerator {
 
         System.out.println("generated " + staffMetas.size() + " StaffEducationOrgAssignmentAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
+    }
+    
+    /**
+     * Generate StaffProgramAssociation objects
+     * 
+     * @param interchangeObjects
+     * @param staffMetas
+     */
+    private static void generateStaffProgramAssoc(List<Object> interchangeObjects,
+            Collection<ProgramMeta> programMetas) {
+
+        for (ProgramMeta programMeta : programMetas) {
+            StaffProgramAssociation staffProgramAssociation;
+            
+            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                staffProgramAssociation = null;
+            } else {
+                staffProgramAssociation = StaffProgramAssociationGenerator.generateLowFi(programMeta);
+            }
+
+            interchangeObjects.add(staffProgramAssociation);
+        }
+        
     }
 }
