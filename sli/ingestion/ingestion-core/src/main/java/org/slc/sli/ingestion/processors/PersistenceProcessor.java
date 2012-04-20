@@ -182,7 +182,8 @@ public class PersistenceProcessor implements Processor {
         if (!encounteredStgCollections.contains(neutralRecord.getRecordType())) {
             LOG.debug("processing transformable neutral record: {}", neutralRecord.getRecordType());
 
-            Iterable<NeutralRecord> stagedNeutralRecords = getStagedNeutralRecords(neutralRecord);
+            Iterable<NeutralRecord> stagedNeutralRecords = getStagedNeutralRecords(neutralRecord,
+                    encounteredStgCollections);
 
             if (stagedNeutralRecords.iterator().hasNext()) {
 
@@ -207,8 +208,6 @@ public class PersistenceProcessor implements Processor {
                 // TODO: this isn't really a failure per record. revisit.
                 numFailed++;
             }
-
-            encounteredStgCollections.add(neutralRecord.getRecordType());
         }
         return numFailed;
     }
@@ -234,7 +233,8 @@ public class PersistenceProcessor implements Processor {
         return numFailed;
     }
 
-    private Iterable<NeutralRecord> getStagedNeutralRecords(NeutralRecord neutralRecord) {
+    private Iterable<NeutralRecord> getStagedNeutralRecords(NeutralRecord neutralRecord,
+            Set<String> encounteredStgCollections) {
 
         Iterable<NeutralRecord> stagedNeutralRecords = Collections.emptyList();
 
@@ -249,6 +249,7 @@ public class PersistenceProcessor implements Processor {
 
             stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAll(
                     neutralRecord.getRecordType() + "_transformed");
+            encounteredStgCollections.add(neutralRecord.getRecordType());
         }
         return stagedNeutralRecords;
     }
