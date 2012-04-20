@@ -145,18 +145,20 @@ public class JobReportingProcessor implements Processor {
 
                     String externalResourceId = getExternalResourceId(error.getResourceId(), job);
 
-                    PrintWriter externalResourceErrorWriter = getExternalResourceErrorWriter(job.getId(),
-                            externalResourceId, externalFileResourceToErrorMap);
+                    if (externalResourceId != null) {
+                        PrintWriter externalResourceErrorWriter = getExternalResourceErrorWriter(job.getId(),
+                                externalResourceId, externalFileResourceToErrorMap);
 
-                    if (externalResourceErrorWriter == null) {
-                        if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
-                            hasErrors = true;
-                            writeErrorLine(externalResourceErrorWriter, error.getErrorDetail());
-                        } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
-                            writeWarningLine(externalResourceErrorWriter, error.getErrorDetail());
+                        if (externalResourceErrorWriter == null) {
+                            if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
+                                hasErrors = true;
+                                writeErrorLine(externalResourceErrorWriter, error.getErrorDetail());
+                            } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
+                                writeWarningLine(externalResourceErrorWriter, error.getErrorDetail());
+                            }
+                        } else {
+                            LOG.error("Error: Unable to write to error file for: {} {}", job.getId(), externalResourceId);
                         }
-                    } else {
-                        LOG.error("Error: Unable to write error file for: {}", job.getId());
                     }
                 }
             }
