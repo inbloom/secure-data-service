@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.camel.Exchange;
@@ -82,20 +84,8 @@ public class JobReportingProcessor implements Processor {
     private boolean writeBatchJobErrorReports(NewBatchJob job) {
         boolean hasErrors = false;
 
-        PrintWriter errorFileWriter = null;
-        try {
+        hasErrors = logBatchJobErrorsAndWarnings(job, batchJobDAO);
 
-            errorFileWriter = new PrintWriter(new FileWriter(landingZone.createFile("errors.out")));
-
-            hasErrors = logBatchJobErrorsAndWarnings(job.getId(), batchJobDAO, errorFileWriter);
-
-        } catch (IOException e) {
-            LOG.error("Error: Unable to write error file for: {}", job.getId());
-        } finally {
-            if (errorFileWriter != null) {
-                errorFileWriter.close();
-            }
-        }
         return hasErrors;
     }
 
@@ -138,36 +128,66 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private static boolean logBatchJobErrorsAndWarnings(String batchJobId, BatchJobDAO batchJobDAO,
-            PrintWriter printWriter) {
+    private static boolean logBatchJobErrorsAndWarnings(NewBatchJob job, BatchJobDAO batchJobDAO) {
         boolean hasErrors = false;
 
-        BatchJobMongoDAStatus status = batchJobDAO.findBatchJobErrors(batchJobId);
-        if (status != null && status.isSuccess()) {
+        Map<String, PrintWriter> externalFileResourceToErrorMap = new HashMap<String, PrintWriter>();
 
-            // TODO handle large numbers of errors
-            @SuppressWarnings("unchecked")
-            List<Error> errors = (List<Error>) status.getResult();
-            for (Error error : errors) {
-                if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
-                    hasErrors = true;
-                    writeErrorLine(
-                            printWriter,
-                            ((error.getStageName() == null) ? "" : (error.getStageName())) + ","
-                                    + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
-                                    + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier()))
-                                    + "," + error.getErrorDetail());
-                } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
-                    writeWarningLine(
-                            printWriter,
-                            ((error.getStageName() == null) ? "" : (error.getStageName())) + ","
-                                    + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
-                                    + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier()))
-                                    + "," + error.getErrorDetail());
+        try {
+            BatchJobMongoDAStatus status = batchJobDAO.findBatchJobErrors(job.getId());
+            if (status != null && status.isSuccess()) {
+
+                // TODO handle large numbers of errors
+                @SuppressWarnings("unchecked")
+                List<Error> errors = (List<Error>) status.getResult();
+                for (Error error : errors) {
+
+                    String externalResourceId = getExternalResourceId(error.getResourceId(), job);
+
+                    PrintWriter externalResourceErrorWriter = getExternalResourceErrorWriter(job.getId(),
+                            externalResourceId, externalFileResourceToErrorMap);
+
+                    if (externalResourceErrorWriter == null) {
+                        if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
+                            hasErrors = true;
+                            writeErrorLine(externalResourceErrorWriter, error.getErrorDetail());
+                        } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
+                            writeWarningLine(externalResourceErrorWriter, error.getErrorDetail());
+                        }
+                    } else {
+                        LOG.error("Error: Unable to write error file for: {}", job.getId());
+                    }
                 }
+            }
+        } catch (IOException e) {
+            LOG.error("Error: Unable to write error file for: {}", job.getId());
+        } finally {
+            for (PrintWriter writer : externalFileResourceToErrorMap.values()) {
+                writer.close();
             }
         }
         return hasErrors;
+    }
+
+    private static PrintWriter getExternalResourceErrorWriter(String batchJobId, String externalResourceId,
+            Map<String, PrintWriter> externalFileResourceToErrorMap) throws IOException {
+
+        PrintWriter writer = externalFileResourceToErrorMap.get(externalResourceId);
+
+        if (writer == null) {
+            String errorFileName = "error." + externalResourceId + "." + System.currentTimeMillis() + ".log";
+            return new PrintWriter(new FileWriter(new File(errorFileName)));
+        }
+
+        return writer;
+  }
+
+    private static String getExternalResourceId(String resourceId, NewBatchJob job) {
+        ResourceEntry resourceEntry = job.getResourceEntry(resourceId);
+        if (resourceEntry != null) {
+            return resourceEntry.getExternallyUploadedResourceId();
+        }
+        return null;
     }
 
     private static long logBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
@@ -263,7 +283,7 @@ public class JobReportingProcessor implements Processor {
     }
 
     private static void writeLine(PrintWriter jobReportWriter, String type, String text) {
-        jobReportWriter.println(getCurrentTimeStamp() + " " + type + "  " + text);
+        jobReportWriter.write(type + "  " + text + "\n");
     }
 
     public BatchJobDAO getBatchJobDAO() {
