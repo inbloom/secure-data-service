@@ -82,14 +82,6 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private boolean writeBatchJobErrorReports(NewBatchJob job) {
-        boolean hasErrors = false;
-
-        hasErrors = logBatchJobErrorsAndWarnings(job, batchJobDAO);
-
-        return hasErrors;
-    }
-
     private void writeBatchJobReportFile(NewBatchJob job, boolean hasErrors) {
 
         PrintWriter jobReportWriter = null;
@@ -129,7 +121,7 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private static boolean logBatchJobErrorsAndWarnings(NewBatchJob job, BatchJobDAO batchJobDAO) {
+    private boolean writeBatchJobErrorReports(NewBatchJob job) {
         boolean hasErrors = false;
 
         Map<String, PrintWriter> externalFileResourceToErrorMap = new HashMap<String, PrintWriter>();
@@ -149,7 +141,7 @@ public class JobReportingProcessor implements Processor {
                         PrintWriter externalResourceErrorWriter = getExternalResourceErrorWriter(job.getId(),
                                 externalResourceId, externalFileResourceToErrorMap);
 
-                        if (externalResourceErrorWriter == null) {
+                        if (externalResourceErrorWriter != null) {
                             if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
                                 hasErrors = true;
                                 writeErrorLine(externalResourceErrorWriter, error.getErrorDetail());
@@ -179,7 +171,9 @@ public class JobReportingProcessor implements Processor {
 
         if (writer == null) {
             String errorFileName = "error." + externalResourceId + "." + System.currentTimeMillis() + ".log";
-            return new PrintWriter(new FileWriter(new File(errorFileName)));
+            writer = new PrintWriter(new FileWriter(new File(errorFileName)));
+            externalFileResourceToErrorMap.put(externalResourceId, writer);
+            return writer;
         }
 
         return writer;
