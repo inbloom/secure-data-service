@@ -65,13 +65,16 @@ And the teacher is "Mr Mark Anthony"
 And the class is "A.P. Calculus Sec 201"
 And there are "6" Tabs
 
-@wip 
+@integration 
 Scenario: Student with no grade level
-When I login as "cgray" "cgray1234"
-When I select ed org "Daybreak School District 4529"
-When I select school "East Daybreak Junior High"
-When I select course "8th Grade English"
-When I select section "8th Grade English - Sec 6"
+When I login as "manthony" "manthony1234"
+When I select ed org "Sunset School District 4526"
+When I select school "Sunset Central High School"
+When I select course "A.P. Calculus"
+When I select section "A.P. Calculus Sec 201"
+And I click on student "Betty Davis"
+And I view its student profile
+And their grade is "!"
 
 
 	
