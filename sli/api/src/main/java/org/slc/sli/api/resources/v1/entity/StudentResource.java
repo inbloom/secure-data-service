@@ -180,7 +180,11 @@ public class StudentResource extends DefaultCrudEndpoint {
 
         //Retrieve studentSchoolAssociations for student with id = studentId
         Response studentSchoolAssociationsResponse = getStudentSchoolAssociations(studentId, headers, uriInfo);
-        EntityResponse studentSchoolAssociationEntityResponse = (EntityResponse) studentSchoolAssociationsResponse.getEntity();
+
+        EntityResponse studentSchoolAssociationEntityResponse = null;
+        if (EntityResponse.class.isInstance(studentSchoolAssociationsResponse.getEntity())) {
+            studentSchoolAssociationEntityResponse = (EntityResponse) studentSchoolAssociationsResponse.getEntity();
+        }
 
         if ((studentSchoolAssociationEntityResponse == null) || !(studentSchoolAssociationEntityResponse.getEntity() instanceof List)) {
             student.put(GRADE_LEVEL, mostRecentGradeLevel);

@@ -101,6 +101,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
             if (connection.getFilter() != null) {
                 idSet = connection.getFilter().filterIds(idSet);
             }
+           // ids.clear();
             ids.addAll(idSet);
             current = path.get(i);
         }
