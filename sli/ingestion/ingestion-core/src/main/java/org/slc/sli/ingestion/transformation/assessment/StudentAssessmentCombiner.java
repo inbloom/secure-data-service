@@ -36,9 +36,9 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     
     public static final String SA_EDFI_COLLECTION_NAME = "studentAssessmentAssociation";
     public static final String SOA_EDFI_COLLECTION_NAME = "studentObjectiveAssessment";
-    private static final String STUDENT_ASSESSMENT_REFERENCE = "sTAReference";
-    private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "oAReference";
-    private static final String XML_ID_FIELD = "xmlId";
+    public static final String STUDENT_ASSESSMENT_REFERENCE = "sTAReference";
+    public static final String OBJECTIVE_ASSESSMENT_REFERENCE = "oAReference";
+    public static final String XML_ID_FIELD = "xmlId";
     
     @SuppressWarnings("unchecked")
     @Override
