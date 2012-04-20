@@ -48,9 +48,9 @@ class AppsController < ApplicationController
   # POST /apps
   # POST /apps.json
   def create
-    if operator?
-      redirect_to apps_path, notice: "Only developers can create new applications" and return
-    end
+    # if operator?
+    #       redirect_to apps_path, notice: "Only developers can create new applications" and return
+    #     end
     #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
     params[:app][:behavior] = params[:app_behavior]
     @app = App.new(params[:app])
