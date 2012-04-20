@@ -46,8 +46,8 @@
         </entry>
         <entry key="staffCohortAssociation">
             <bean class="org.milyn.Smooks">
-                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffCohortAssociation.xml" />
-                <!--constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffProgramAssociation.xml" /-->
+                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffProgramAssociation.xml" />
+                <!--constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffCohortAssociation.xml" /-->
             </bean>
         </entry>
     </util:map>
