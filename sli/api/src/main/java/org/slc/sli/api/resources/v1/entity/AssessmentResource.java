@@ -33,12 +33,6 @@ import org.slc.sli.common.constants.v1.PathConstants;
  * Represents a tool, instrument, process, or exhibit that is used 
  * to assess student performance.
  * 
- * This could be a systematic sampling of behavior or a measurement 
- * of a student's competence, knowledge, skills, or behavior. 
- * An assessment can be used to measure differences in individuals 
- * or groups and to track changes in performance from one occasion 
- * to the next.
- *
  * @author jstokes
  *
  */
