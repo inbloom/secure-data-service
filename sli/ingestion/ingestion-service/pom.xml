@@ -22,6 +22,10 @@
     </dependency>
 
   </dependencies>
+  
+  <properties>
+  	<sli.home>${project.parent.basedir}/..</sli.home>
+  </properties>
 
 
   <build>
@@ -37,16 +41,16 @@
           <scanIntervalSeconds>5</scanIntervalSeconds>
           <systemProperties>
             <systemProperty>
+                <name>sli.conf</name>
+                <value>${sli.conf}</value>
+            </systemProperty>
+            <systemProperty>
               <name>sli.env</name>
               <value>local</value>
             </systemProperty>
             <systemProperty>
               <name>sli.encryption.keyStore</name>
               <value>${project.parent.basedir}/../data-access/dal/keyStore/localKeyStore.jks</value>
-            </systemProperty>
-            <systemProperty>
-              <name>sli.encryption.properties</name>
-              <value>${project.parent.basedir}/../data-access/dal/keyStore/localEncryption.properties</value>
             </systemProperty>
 
           </systemProperties>
@@ -81,10 +85,10 @@
         </property>
       </activation>
       <dependencies>
-        <dependency>
+<!--        <dependency>
           <groupId>org.slc.sli</groupId>
           <artifactId>sli-configuration</artifactId>
-        </dependency>
+        </dependency> -->
       </dependencies>
     </profile>
   </profiles>
