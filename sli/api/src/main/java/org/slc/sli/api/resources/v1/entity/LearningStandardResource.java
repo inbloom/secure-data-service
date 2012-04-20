@@ -14,7 +14,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +24,14 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * Resource handler for LearningStandard entries.
- *
- * This class is stub for documentation purposes.
- *
+ * 
+ * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.LEARNING_STANDARDS)
 @Component
@@ -42,7 +41,7 @@ public class LearningStandardResource extends DefaultCrudEndpoint {
 
     @Autowired
     public LearningStandardResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs, "");
+        super(entityDefs, ResourceNames.LEARNINGSTANDARDS);
     }
 
     /**
@@ -66,7 +65,7 @@ public class LearningStandardResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
@@ -87,7 +86,7 @@ public class LearningStandardResource extends DefaultCrudEndpoint {
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -107,7 +106,7 @@ public class LearningStandardResource extends DefaultCrudEndpoint {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.LEARNING_STANDARD_ID) final String courseId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.read(courseId, headers, uriInfo);
     }
 
     /**
@@ -127,7 +126,7 @@ public class LearningStandardResource extends DefaultCrudEndpoint {
     @Path("{" + ParameterConstants.LEARNING_STANDARD_ID + "}")
     public Response delete(@PathParam(ParameterConstants.LEARNING_STANDARD_ID) final String courseId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.delete(courseId, headers, uriInfo);
     }
 
     /**
@@ -149,6 +148,6 @@ public class LearningStandardResource extends DefaultCrudEndpoint {
     @Path("{" + ParameterConstants.LEARNING_STANDARD_ID + "}")
     public Response update(@PathParam(ParameterConstants.LEARNING_STANDARD_ID) final String courseId,
             final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.update(courseId, newEntityBody, headers, uriInfo);
     }
 }
