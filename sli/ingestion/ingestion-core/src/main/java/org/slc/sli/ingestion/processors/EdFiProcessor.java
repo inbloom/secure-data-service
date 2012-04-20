@@ -143,7 +143,8 @@ public class EdFiProcessor implements Processor {
                     : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
 
             // TODO: this should use the BatchJobDAO interface
-            BatchJobMongoDA.logBatchStageError(batchJobId, BATCH_JOB_STAGE, faultLevel, faultLevel, faultMessage);
+            BatchJobMongoDA.logIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), fe.getFileName(), null, null,
+                    null, faultLevel, faultLevel, faultMessage);
         }
         return errorCount;
     }
