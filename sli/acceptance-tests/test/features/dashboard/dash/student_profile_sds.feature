@@ -48,7 +48,8 @@ And in "Grades and Credits" tab, there are "0" Panels
 And in "Advanced Academics" tab, there are "0" Panels
 And in "ELL" tab, there are "0" Panels
 
-Scenario: Student with 1 sectionassociation
+@integration
+Scenario: Student with a nickname and 1 studentSectionAssociation without homeroom
 When I login as "manthony" "manthony1234"
 When I select ed org "Sunset School District 4526"
 When I select school "Sunset Central High School"
@@ -57,6 +58,7 @@ When I select section "A.P. Calculus Sec 201"
 And I click on student "Roberta Jones"
 And I view its student profile
 And their name shown in profile is "Roberta Jones"
+And their nickname shown in profile is "( Robbie Jones )"
 And their id shown in proflie is "1000000000"
 And their grade is "11"
 And the teacher is "Mr Mark Anthony"
@@ -71,9 +73,5 @@ When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 
-@wip
-Scenario: View a student with other name
-Given I am authenticated to SLI as "lkim" password "lkim"
-When I click on the Dashboard page
 
 	
