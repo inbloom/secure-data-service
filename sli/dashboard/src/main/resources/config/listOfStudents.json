@@ -10,8 +10,8 @@
   items : [
     {name: "The View", 
      items: [
-      {name: "Student", width: 150, field: "name.fullName", formatter:DashboardUtil.Grid.Formatters.restLink, params: {link:'service/layout/studentProfile/', target:"_self"}},
-      {name: "", width: 60, field: "programParticipation", formatter: DashboardUtil.Grid.Formatters.Lozenge}
+      {name: "Student", width: 150, field: "name.fullName", formatter:restLink, params: {link:'service/layout/studentProfile/', target:"_self"}},
+      {name: "", width: 60, field: "programParticipation", formatter: Lozenge}
      ]
    }
   ] 

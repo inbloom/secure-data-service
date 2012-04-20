@@ -99,10 +99,10 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
         	colNames.push(item1.name); 
             var colModelItem = {name:item1.field,index:item1.field,width:item1.width};
             if (item1.formatter) {
-          	    colModelItem.formatter = (eval('typeof ' + item1.formatter) == 'function') ? eval(item1.formatter) : item1.formatter;
+          	    colModelItem.formatter = (DashboardUtil.Grid.Formatters[item1.formatter]) ? DashboardUtil.Grid.Formatters[item1.formatter] : item1.formatter;
             }
             if (item1.sorter) {
-            	colModelItem.sorttype = (eval('typeof ' + item1.sorter) == 'function') ? eval(item1.sorter)(item1.params) : item1.sorter;
+            	colModelItem.sorttype = (DashboardUtil.Grid.Sorters[item1.sorter]) ? DashboardUtil.Grid.Sorters[item1.sorter](item1.params) : item1.sorter;
             }
             if (item1.params) {
         	  colModelItem.formatoptions = item1.params;

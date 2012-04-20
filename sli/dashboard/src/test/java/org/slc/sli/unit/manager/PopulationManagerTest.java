@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -269,15 +268,13 @@ public class PopulationManagerTest {
         students2.add(student);
 
         PowerMockito.doReturn(students2).when(mockedEntityManager, "getStudents", null, studentUIDs);
-
         // make the call
         PopulationManagerImpl pm = new PopulationManagerImpl();
         pm.setEntityManager(mockedEntityManager);
-        Set<String> grades = pm.getStudentGrades(null, students);
+        pm.updateWithStudentGrades(null, students);
 
         // check grades
-        Assert.assertEquals(1, grades.size());
-        Assert.assertEquals("Eighth grade", (grades.toArray())[0]);
+        Assert.assertEquals("Eighth grade", students.get(0).get(Constants.ATTR_GRADE_LEVEL));
     }
 
     private List<GenericEntity> createSomeStudentSummaries() {
