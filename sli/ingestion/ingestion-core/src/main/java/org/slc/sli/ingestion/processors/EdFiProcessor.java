@@ -64,14 +64,14 @@ public class EdFiProcessor implements Processor {
     }
 
     private void processEdFi(Exchange exchange, String batchJobId) {
-        try {
-            Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        BatchJobDAO batchJobDAO = new BatchJobMongoDA();
 
-            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
-            NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+        NewBatchJob newJob = null;
+        try {
+            newJob = batchJobDAO.findBatchJobById(batchJobId);
 
             newJob.getStages().add(stage);
-            batchJobDAO.saveBatchJob(newJob);
 
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
 
@@ -80,7 +80,6 @@ public class EdFiProcessor implements Processor {
 
                 Metrics metrics = Metrics.createAndStart(fe.getFileName());
                 stage.getMetrics().add(metrics);
-                batchJobDAO.saveBatchJob(newJob);
 
                 FileProcessStatus fileProcessStatus = new FileProcessStatus();
                 ErrorReport errorReport = fe.getErrorReport();
@@ -93,23 +92,24 @@ public class EdFiProcessor implements Processor {
                 int errorCount = aggregateAndLogProcessingErrors(batchJobId, fe);
                 if (errorCount > 0) {
                     anyErrorsProcessingFiles = true;
+                    metrics.setErrorCount(errorCount);
                 }
-
-                metrics.setErrorCount(errorCount);
 
                 ResourceEntry resource = createResourceForOutputFile(fe, fileProcessStatus);
                 newJob.getResourceEntries().add(resource);
 
                 metrics.stopMetric();
-
             }
-
-            batchJobDAO.saveBatchJob(newJob);
 
             setExchangeHeaders(exchange, anyErrorsProcessingFiles);
 
         } catch (Exception exception) {
             handleProcessingExceptions(exchange, batchJobId, exception);
+        } finally {
+            if (newJob != null) {
+                stage.stopStage();
+                batchJobDAO.saveBatchJob(newJob);
+            }
         }
     }
 
