@@ -1,14 +1,18 @@
 package org.slc.sli.ingestion.processors;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.apache.commons.lang.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.ingestion.BatchJobLogger;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -37,98 +41,104 @@ public class JobReportingProcessor implements Processor {
 
     private LandingZone landingZone;
 
+    private BatchJobDAO batchJobDAO;
+
+    private boolean reportToLog = false;
+
+    private static final String STR_TIMESTAMP_FORMAT = "yyyy-MM-dd hh:mm:ss.SSS";
+    private static final FastDateFormat FORMATTER = FastDateFormat.getInstance(STR_TIMESTAMP_FORMAT);
+
     public JobReportingProcessor(LandingZone lz) {
         this.landingZone = lz;
+        this.batchJobDAO = new BatchJobMongoDA();
     }
 
     @Override
     public void process(Exchange exchange) throws Exception {
 
         // get job from the batch job db
-        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
-        if (batchJobId == null) {
-            exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
-        }
-        BatchJobDAO batchJobDAO = new BatchJobMongoDA();
-        NewBatchJob job = batchJobDAO.findBatchJobById(batchJobId);
+        String batchJobId = getBatchJobId(exchange);
 
-        Stage stage = new Stage();
-        stage.setStageName(BatchJobStageType.JOB_REPORTING_PROCESSOR.getName());
-        job.getStages().add(stage);
-        stage.startStage();
+        if (batchJobId != null) {
 
-        Logger jobLogger = BatchJobLogger.createLoggerForJob(job.getId(), landingZone);
+            NewBatchJob job = batchJobDAO.findBatchJobById(batchJobId);
 
-        jobLogger.info("jobId: " + job.getId());
+            Stage stage = startAndGetStage(job);
 
-        // based on the PersistenceProcessor counts
-        long totalProcessed = 0;
+            File logFile = landingZone.getLogFile(batchJobId);
 
-        // writes out persistence stage resource metrics
-        // TODO group counts by externallyUploadedResourceId
-        List<Metrics> metrics = job.getStageMetrics(BatchJobStageType.PERSISTENCE_PROCESSOR);
-        if (metrics != null) {
-
-            for (Metrics metric : metrics) {
-
-                ResourceEntry resourceEntry = job.getResourceEntry(metric.getResourceId());
-                if (resourceEntry == null) {
-                    jobLogger.error("The resource referenced by metric by resourceId " + metric.getResourceId()
-                            + " is not defined for this job");
-                    continue;
-                }
-
-                logResourceMetric(jobLogger, resourceEntry, metric.getRecordCount(), metric.getErrorCount());
-
-                totalProcessed += metric.getRecordCount();
+            PrintWriter jobReportWriter = null;
+            try {
+                jobReportWriter = new PrintWriter(new FileWriter(landingZone.getLogFile(batchJobId)));
+            } catch (IOException e) {
+                LOG.error("Error:", "Unable to open job report file " + logFile.getCanonicalFile());
+                reportToLog = true;
             }
+
+            writeInfoLine(jobReportWriter, "jobId: " + job.getId());
+
+            long totalProcessed =
+                    logBatchJobPersistenceMetrics(job, jobReportWriter);
+
+            logBatchJobProperties(job, jobReportWriter);
+
+            boolean success =
+                    logBatchJobErrorsAndWarnings(job.getId(), batchJobDAO, jobReportWriter);
+
+            if (success) {
+                writeInfoLine(jobReportWriter, "All records processed successfully.");
+                job.setStatus(BatchJobStatusType.COMPLETED_SUCCESSFULLY.getName());
+            } else {
+                writeInfoLine(jobReportWriter, "Not all records were processed completely due to errors.");
+                job.setStatus(BatchJobStatusType.COMPLETED_WITH_ERRORS.getName());
+            }
+
+            writeInfoLine(jobReportWriter, "Processed " + totalProcessed + " records.");
+
+            // clean up after ourselves
+            if (jobReportWriter != null) {
+                jobReportWriter.close();
+            }
+
+            stage.stopStage();
+
+            batchJobDAO.saveBatchJob(job);
 
         } else {
-
-            // write out 0 count metrics for the input files
-            BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.JOB_REPORTING_PROCESSOR,
-                    FaultType.TYPE_WARNING.getName(), null, "There were no metrics for "
-                            + BatchJobStageType.PERSISTENCE_PROCESSOR.getName() + ".");
-
-            for (ResourceEntry resourceEntry : job.getResourceEntries()) {
-                if (resourceEntry.getResourceFormat() != null
-                        && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())) {
-                    logResourceMetric(jobLogger, resourceEntry, 0, 0);
-                }
-            }
+            missingBatchJobIdError(exchange);
         }
 
-        jobLogger.info("Processed " + totalProcessed + " records.");
+   }
 
-        // write properties
-        if (job.getBatchProperties() != null) {
-            for (Entry<String, String> entry : job.getBatchProperties().entrySet()) {
-                jobLogger.info("[configProperty] " + entry.getKey() + ": " + entry.getValue());
-            }
-        }
-
-
-        boolean success = logBatchJobErrorsAndWarnings(job.getId(), batchJobDAO, jobLogger);
-
-
-        if (success) {
-            jobLogger.info("All records processed successfully.");
-            job.setStatus(BatchJobStatusType.COMPLETED_SUCCESSFULLY.getName());
-        } else {
-            jobLogger.info("Not all records were processed completely due to errors.");
-            job.setStatus(BatchJobStatusType.COMPLETED_WITH_ERRORS.getName());
-        }
-
-        // clean up after ourselves
-        ((ch.qos.logback.classic.Logger) jobLogger).detachAndStopAllAppenders();
-
-        stage.stopStage();
-        batchJobDAO.saveBatchJob(job);
+    private void writeInfoLine(PrintWriter jobReportWriter, String string) {
+        writeLine(jobReportWriter, "INFO", string);
     }
 
-    private boolean logBatchJobErrorsAndWarnings(String id, BatchJobDAO batchJobDAO, Logger jobLogger) {
+    private void writeErrorLine(PrintWriter jobReportWriter, String string) {
+        writeLine(jobReportWriter, "ERROR", string);
+    }
+
+    private void writeWarningLine(PrintWriter jobReportWriter, String string) {
+        writeLine(jobReportWriter, "WARN", string);
+    }
+
+    private void writeLine(PrintWriter jobReportWriter, String type, String text) {
+        if (reportToLog) {
+            LOG.info(text);
+        } else {
+            jobReportWriter.println(getCurrentTimeStamp() + " " + type + "  " + text);
+        }
+    }
+
+    private void logBatchJobProperties(NewBatchJob job, PrintWriter jobReportWriter) {
+        if (job.getBatchProperties() != null) {
+            for (Entry<String, String> entry : job.getBatchProperties().entrySet()) {
+                writeInfoLine(jobReportWriter, "[configProperty] " + entry.getKey() + ": " + entry.getValue());
+            }
+        }
+    }
+
+    private boolean logBatchJobErrorsAndWarnings(String id, BatchJobDAO batchJobDAO, PrintWriter jobReportWriter) {
         boolean hasErrors = false;
 
         BatchJobMongoDAStatus status = batchJobDAO.findBatchJobErrors(id);
@@ -140,12 +150,14 @@ public class JobReportingProcessor implements Processor {
             for (Error error : errors) {
                 if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
                     hasErrors = false;
-                    jobLogger.error(((error.getStageName() == null) ? "" : (error.getStageName())) + ","
+                    writeErrorLine(jobReportWriter,
+                            ((error.getStageName() == null) ? "" : (error.getStageName())) + ","
                             + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
                             + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier())) + ","
                             + error.getErrorDetail());
                 } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
-                    jobLogger.warn(((error.getStageName() == null) ? "" : (error.getStageName())) + ","
+                    writeWarningLine(jobReportWriter,
+                            ((error.getStageName() == null) ? "" : (error.getStageName())) + ","
                             + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
                             + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier())) + ","
                             + error.getErrorDetail());
@@ -156,15 +168,85 @@ public class JobReportingProcessor implements Processor {
         return hasErrors;
     }
 
-    private void logResourceMetric(Logger jobLogger, ResourceEntry resourceEntry, long numProcessed, long numFailed) {
+    private long logBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
+        long totalProcessed = 0;
+
+        // TODO group counts by externallyUploadedResourceId
+        List<Metrics> metrics = job.getStageMetrics(BatchJobStageType.PERSISTENCE_PROCESSOR);
+        if (metrics != null) {
+
+            for (Metrics metric : metrics) {
+
+                ResourceEntry resourceEntry = job.getResourceEntry(metric.getResourceId());
+                if (resourceEntry == null) {
+                    LOG.error("The resource referenced by metric by resourceId " + metric.getResourceId()
+                            + " is not defined for this job");
+                    continue;
+                }
+
+                logResourceMetric(jobReportWriter, resourceEntry, metric.getRecordCount(), metric.getErrorCount());
+
+                totalProcessed += metric.getRecordCount();
+            }
+
+        } else {
+
+            // write out 0 count metrics for the input files
+            BatchJobMongoDA.logBatchStageError(job.getId(), BatchJobStageType.JOB_REPORTING_PROCESSOR,
+                    FaultType.TYPE_WARNING.getName(), null, "There were no metrics for "
+                            + BatchJobStageType.PERSISTENCE_PROCESSOR.getName() + ".");
+
+            for (ResourceEntry resourceEntry : job.getResourceEntries()) {
+                if (resourceEntry.getResourceFormat() != null
+                        && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())) {
+                    logResourceMetric(jobReportWriter, resourceEntry, 0, 0);
+                }
+            }
+        }
+
+        return totalProcessed;
+    }
+
+    private void logResourceMetric(PrintWriter jobReportWriter, ResourceEntry resourceEntry, long numProcessed, long numFailed) {
         String id = "[file] " + resourceEntry.getExternallyUploadedResourceId();
-        jobLogger.info(id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType() + ")");
+        writeInfoLine(jobReportWriter, id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType() + ")");
 
         long numPassed = numProcessed - numFailed;
 
-        jobLogger.info(id + " records considered: " + numProcessed);
-        jobLogger.info(id + " records ingested successfully: " + numPassed);
-        jobLogger.info(id + " records failed: " + numFailed);
+        writeInfoLine(jobReportWriter, id + " records considered: " + numProcessed);
+        writeInfoLine(jobReportWriter, id + " records ingested successfully: " + numPassed);
+        writeInfoLine(jobReportWriter, id + " records failed: " + numFailed);
+    }
+
+    private Stage startAndGetStage(NewBatchJob newJob) {
+        Stage stage = new Stage();
+        newJob.getStages().add(stage);
+        stage.setStageName(BatchJobStageType.JOB_REPORTING_PROCESSOR.getName());
+        stage.startStage();
+        return stage;
+    }
+
+    private String getBatchJobId(Exchange exchange) {
+        return exchange.getIn().getHeader("BatchJobId", String.class);
+    }
+
+    private void missingBatchJobIdError(Exchange exchange) {
+        exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+    }
+
+    public BatchJobDAO getBatchJobDAO() {
+        return batchJobDAO;
+    }
+
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+        this.batchJobDAO = batchJobDAO;
+    }
+
+    public static String getCurrentTimeStamp() {
+        String timeStamp = FORMATTER.format(System.currentTimeMillis());
+        return timeStamp;
     }
 
 }
