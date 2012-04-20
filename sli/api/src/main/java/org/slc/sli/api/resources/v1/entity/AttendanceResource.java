@@ -29,7 +29,13 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Attendance resource for v1
+ * Represents both daily and class period (section) attendance.
+ *
+ * This API supports two ways of maintaining attendance data.
+ * The first is to record one attendance event for each student 
+ * per section or per day by reporting both attendance and absences,
+ * The second is "Exception only" reporting, providing attendance events 
+ * only for absences and tardies.
  *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.ATTENDANCES)
