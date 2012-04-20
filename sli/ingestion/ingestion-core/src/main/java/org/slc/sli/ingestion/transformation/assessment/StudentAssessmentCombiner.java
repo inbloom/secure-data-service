@@ -29,7 +29,7 @@ import com.mongodb.DBObject;
  * Transformer for StudentAssessment entities
  */
 @Scope("prototype")
-@Component(StudentAssessmentCombiner.SOA_EDFI_COLLECTION_NAME + "TransformationStrategy")
+@Component(StudentAssessmentCombiner.SA_EDFI_COLLECTION_NAME + "TransformationStrategy")
 public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     
     private static final Logger LOG = LoggerFactory.getLogger(StudentAssessmentCombiner.class);
@@ -57,7 +57,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     while (cursor.hasNext()) {
                         DBObject studentAssessment = cursor.next();
                         LOG.debug("Transforming student assessment {}", studentAssessment);
-                        @SuppressWarnings("unchecked")
                         Map<String, Object> body = ((DBObject) studentAssessment.get("body")).toMap();
                         String id = (String) body.get(XML_ID_FIELD);
                         body.remove(XML_ID_FIELD);
@@ -69,10 +68,14 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                             soas.add(resolveSoa(ref, oas));
                         }
                         body.put("studentObjectiveAssessments", soas);
+                        Map<String, Object> localParentIds = (Map<String, Object>) body.get("parents");
+                        body.remove("parents");
+                        Map<String, Object> localId = ((DBObject) studentAssessment.get("localId")).toMap();
                         NeutralRecord transformed = new NeutralRecord();
                         transformed.setRecordType(SA_EDFI_COLLECTION_NAME);
-                        transformed.setAttributes((Map<String, Object>) body);
-                        transformed.setLocalParentIds((Map<String, Object>) studentAssessment.get("localParentIds"));
+                        transformed.setLocalParentIds(localParentIds);
+                        transformed.setLocalId(localId);
+                        transformed.setAttributes(body);
                         writer.writeRecord(transformed);
                     }
                 } finally {
