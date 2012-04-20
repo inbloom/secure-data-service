@@ -149,7 +149,8 @@ public class JobReportingProcessor implements Processor {
                                 writeWarningLine(externalResourceErrorWriter, error.getErrorDetail());
                             }
                         } else {
-                            LOG.error("Error: Unable to write to error file for: {} {}", job.getId(), externalResourceId);
+                            LOG.error("Error: Unable to write to error file for: {} {}", job.getId(),
+                                    externalResourceId);
                         }
                     }
                 }
@@ -164,20 +165,20 @@ public class JobReportingProcessor implements Processor {
         return hasErrors;
     }
 
-    private static PrintWriter getExternalResourceErrorWriter(String batchJobId, String externalResourceId,
+    private PrintWriter getExternalResourceErrorWriter(String batchJobId, String externalResourceId,
             Map<String, PrintWriter> externalFileResourceToErrorMap) throws IOException {
 
         PrintWriter writer = externalFileResourceToErrorMap.get(externalResourceId);
 
         if (writer == null) {
             String errorFileName = "error." + externalResourceId + "." + System.currentTimeMillis() + ".log";
-            writer = new PrintWriter(new FileWriter(new File(errorFileName)));
+            writer = new PrintWriter(new FileWriter(landingZone.createFile(errorFileName)));
             externalFileResourceToErrorMap.put(externalResourceId, writer);
             return writer;
         }
 
         return writer;
-  }
+    }
 
     private static String getExternalResourceId(String resourceId, NewBatchJob job) {
         if (resourceId != null) {
@@ -244,8 +245,6 @@ public class JobReportingProcessor implements Processor {
     private static Stage startAndAddStageToJob(NewBatchJob newJob) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
         newJob.getStages().add(stage);
-        stage.setStageName(BATCH_JOB_STAGE.getName());
-        stage.startStage();
         return stage;
     }
 
