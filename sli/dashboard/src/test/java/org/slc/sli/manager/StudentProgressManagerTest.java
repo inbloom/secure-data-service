@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.manager.impl.StudentProgressManagerImpl;
 import org.slc.sli.util.Constants;
 
 /**
@@ -24,7 +25,7 @@ import org.slc.sli.util.Constants;
  *
  */
 public class StudentProgressManagerTest {
-    private StudentProgressManager manager;
+    private StudentProgressManagerImpl manager;
     private EntityManager mockEntity;
     
     private static final String STUDENTID = "123456";
@@ -37,7 +38,7 @@ public class StudentProgressManagerTest {
 
     @Before
     public void setUp() throws Exception {
-        manager = new StudentProgressManager();
+        manager = new StudentProgressManagerImpl();
         mockEntity = mock(EntityManager.class);
         manager.setEntityManager(mockEntity);
 
@@ -205,14 +206,7 @@ public class StudentProgressManagerTest {
         assertEquals("First element should match", "2011-06-30", tests.last().getString("dateFulfilled"));
     }
 
-    @Test
-    public void testParseNumericGrade() {
-        assertEquals("Should match", 0.00, manager.parseNumericGrade(null), 0.1);
-        assertEquals("Should match", 77.7, manager.parseNumericGrade(new Double(77.7)), 0.1);
-        assertEquals("Should match", 0.0, manager.parseNumericGrade(new Double(0)), 0.1);
-        assertEquals("Should match", 0.0, manager.parseNumericGrade(new Integer(0)), 0.1);
-    }
-    
+
     private Map<String, Map<String, GenericEntity>> buildUnitTestDataMap() {
         Map<String, Map<String, GenericEntity>> data = new HashMap<String, Map<String, GenericEntity>>();
         

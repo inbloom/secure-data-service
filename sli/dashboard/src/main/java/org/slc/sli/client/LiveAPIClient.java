@@ -8,17 +8,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+
 import com.google.gson.Gson;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.util.GenericEntityEnhancer;
+import org.slc.sli.util.Constants;
+import org.slc.sli.util.SecurityUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.util.GenericEntityEnhancer;
-import org.slc.sli.util.Constants;
-import org.slc.sli.util.SecurityUtil;
 
 /**
  *
@@ -221,6 +224,14 @@ public class LiveAPIClient implements APIClient {
     public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId) {
         return createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + sectionId + STUDENT_SECTION_ASSOC
                 + STUDENTS + "?optionalFields=gradebook", token, false);
+    }
+
+    @Override
+    public GenericEntity getStudentWithOptionalFields(String token, String studentId, List<String> optionalFields) {
+        String optFields = StringUtils.join(optionalFields, ',');
+
+        String url = getApiUrl() + STUDENTS_URL + studentId + "?optionalFields=" + optFields;
+        return createEntityFromAPI(url, token, false);
     }
 
     /**
