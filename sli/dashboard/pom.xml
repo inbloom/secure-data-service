@@ -17,6 +17,9 @@
 		<freemarker.version>2.3.18</freemarker.version>
 		<gson.version>2.0</gson.version>
 		<powermock.version>1.4.10</powermock.version>
+        <sli.home>${project.parent.basedir}</sli.home>
+        <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
+        <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>     
 	</properties>
 
 	<profiles>
@@ -84,6 +87,18 @@
 				<server.mode>live</server.mode>
 			</properties>
 		</profile>
+		<profile>
+			<id>local</id>
+			<activation>
+              <activeByDefault>true</activeByDefault>
+            </activation>
+			<properties>
+			    <env>dev</env>
+				<!-- set mode to 'live' to authenticate against idp, 'test' to use local
+					file based authentication -->
+				<server.mode>live</server.mode>
+			</properties>
+		</profile>
         <profile>
             <id>team</id>
             <activation>
@@ -99,11 +114,6 @@
                 <server.mode>live</server.mode>
                 <war.file.name>dashboard</war.file.name>
             </properties>
-            <build>
-                <filters>
-                    <!-- <filter>src/main/filters/server.properties</filter> -->
-                </filters>
-            </build>
         </profile>
 	</profiles>
 
@@ -276,6 +286,12 @@
 				<configuration>
 					<webXml>target/web.xml</webXml>
 					<scanIntervalSeconds>5</scanIntervalSeconds>
+                    <systemProperties>
+                      <systemProperty>
+                        <name>sli.env</name>
+                          <value>${sli.env}</value>
+                      </systemProperty>
+                    </systemProperties>
 			         <connectors>
 			            <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
 			              <port>8888</port>
