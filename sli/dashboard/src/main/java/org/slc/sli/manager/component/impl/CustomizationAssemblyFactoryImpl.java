@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -37,6 +39,7 @@ import org.slc.sli.util.SecurityUtil;
 public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFactory, ApplicationContextAware {
     public static final Class<?>[] ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE =
             new Class[]{String.class, Object.class, Config.Data.class};
+    public static final String SUBSTITUTE_TOKEN_PATTERN = "\\$\\{([^}]+)\\}";
     private static final String DATA_CACHE_REGION = "user.panel.data";
     private Logger logger = LoggerFactory.getLogger(getClass());
     private ApplicationContext applicationContext;
@@ -90,16 +93,13 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
                 return true;
             }
             Config.Condition condition = config.getCondition();
-            String[] tokens = condition.getField().split("\\.");
-            tokens = (tokens.length == 0) ? new String[]{condition.getField()} : tokens;
-
             Object[] values = condition.getValue();
             // for simplicity always treat as an array
             List<GenericEntity> listOfEntitites = (parentConfig != null && parentConfig.getRoot() == null) ? Arrays.asList(entity) : entity.getList(parentConfig.getRoot());
             Object childEntity;
             // condition is equivalent to exists in the list
             for (GenericEntity oneEntity : listOfEntitites) {
-                childEntity = getValue(oneEntity, tokens);
+                childEntity = getValue(oneEntity, condition.getField());
                 // if null and value is null, it's allowed, otherwise it's not
                 if (childEntity == null) {
                     return values.length == 0;
@@ -127,7 +127,16 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         return true;
     }
 
-    private Object getValue(GenericEntity entity, String[] pathTokens) {
+    /**
+     * Get value from the entity model map where sub-entities are identified by a dot
+     * "data.history.id"
+     * @param entity
+     * @param dataField
+     * @return
+     */
+    private Object getValue(GenericEntity entity, String dataField) {
+        String[] pathTokens = dataField.split("\\.");
+        pathTokens = (pathTokens.length == 0) ? new String[]{dataField} : pathTokens;
         Object childEntity = entity;
         for (String token : pathTokens) {
             if (childEntity == null || !(childEntity instanceof GenericEntity)) {
@@ -174,7 +183,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             List<Config.Item> items = new ArrayList<Config.Item>();
             depth++;
             Config newConfig;
-            for (Config.Item item : config.getItems()) {
+            for (Config.Item item : getUpdatedDynamicHeaderTemplate(config, entity)) {
                 if (checkCondition(config, item, entity)) {
                     items.add(item);
                     newConfig = populateModelRecursively(model, item.getId(), entityKey, item, config, entity, depth, lazyOverride);
@@ -187,6 +196,37 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         }
         model.addComponentViewConfigMap(componentId, config);
         return config;
+    }
+
+    /**
+     * Replace tokens in headers with values from entity's internal metadata
+     * @param config
+     * @param entity
+     */
+    protected Config.Item[] getUpdatedDynamicHeaderTemplate(Config config, GenericEntity entity) {
+        if (entity != null && entity.hasInternalMetadata()) {
+            Pattern p = Pattern.compile(SUBSTITUTE_TOKEN_PATTERN);
+            GenericEntity meta = entity.getInternalMetadata();
+            Matcher matcher;
+            String name, value;
+            Collection<Config.Item> newItems = new ArrayList<Config.Item>();
+            for (Config.Item item : config.getItems()) {
+                name = item.getName();
+                if (name != null) {
+                    matcher = p.matcher(name);
+                    while (matcher.find()) {
+                        value = (String) getValue(meta, matcher.group(1));
+                        if (value != null) {
+                            name = name.replace(matcher.group(), value);
+                        }
+                    }
+                    item = item.cloneWithName(name);
+                }
+                newItems.add(item);
+            }
+            return newItems.toArray(new Config.Item[0]);
+        }
+        return config.getItems();
     }
 
     @Override

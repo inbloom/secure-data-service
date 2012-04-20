@@ -5,42 +5,44 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slc.sli.util.DashboardException;
+
 /**
  * Main config object for dashboard components
- * 
+ *
  * @author agrebneva
- * 
+ *
  */
-public class Config {
+public class Config implements Cloneable {
     /**
      * Type of components
-     * 
+     *
      * @author agrebneva
-     * 
+     *
      */
     public enum Type {
         LAYOUT(true), PANEL(true), GRID(true), TAB(false), WIDGET(true), FIELD(false);
-        
+
         private boolean hasOwnConfig;
-        
+
         private Type(boolean hasOwnConfig) {
             this.hasOwnConfig = hasOwnConfig;
         }
-        
+
         public boolean hasOwnConfig() {
             return hasOwnConfig;
         }
-        
+
         public boolean isLayoutItem() {
             return this == LAYOUT;
         }
     }
-    
+
     /**
      * Subcomponent of the config
-     * 
+     *
      * @author agrebneva
-     * 
+     *
      */
     public static class Item extends Config {
         protected String description;
@@ -54,47 +56,58 @@ public class Config {
         protected String sorter;
         protected String align;
         protected Map<String, Object> params;
-        
+
+        public Item cloneWithName(String name) {
+            Item item;
+            try {
+                item = (Item) this.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new DashboardException("Unable to clone items", e);
+            }
+            item.name = name;
+            return item;
+        }
+
         public String getDescription() {
             return description;
         }
-        
+
         public String getField() {
             return field;
         }
-        
+
         public String getValue() {
             return value;
         }
-        
+
         public String getWidth() {
             return width;
         }
-        
+
         public String getColor() {
             return color;
         }
-        
+
         public String getStyle() {
             return style;
         }
-        
+
         public String getFormatter() {
             return formatter;
         }
-        
+
         public String getSorter() {
             return sorter;
         }
-        
+
         public Map<String, Object> getParams() {
             return params;
         }
-        
+
         public String getDatatype() {
             return datatype;
         }
-        
+
         public String getAlign() {
             return align;
         }
@@ -109,41 +122,41 @@ public class Config {
                     + ", formatter=" + formatter + ", params=" + params + "]";
         }
     }
-    
+
     /**
      * Data component of the config
-     * 
+     *
      * @author agrebneva
-     * 
+     *
      */
     public static class Data {
         protected String entity;
         protected String cacheKey;
         protected Map<String, Object> params;
         protected boolean lazy;
-        
+
         public Data() {
         }
-        
+
         public Data(String entity, String cacheKey, boolean lazy, Map<String, Object> params) {
             this.entity = entity;
             this.cacheKey = cacheKey;
             this.params = params;
             this.lazy = lazy;
         }
-        
+
         public String getEntityRef() {
             return entity;
         }
-        
+
         public String getCacheKey() {
             return cacheKey;
         }
-        
+
         public Map<String, Object> getParams() {
             return params;
         }
-        
+
         public boolean isLazy() {
             return lazy;
         }
@@ -161,58 +174,68 @@ public class Config {
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj)
+            if (this == obj) {
                 return true;
-            if (obj == null)
+            }
+            if (obj == null) {
                 return false;
-            if (getClass() != obj.getClass())
+            }
+            if (getClass() != obj.getClass()) {
                 return false;
+            }
             Data other = (Data) obj;
             if (cacheKey == null) {
-                if (other.cacheKey != null)
+                if (other.cacheKey != null) {
                     return false;
-            } else if (!cacheKey.equals(other.cacheKey))
+                }
+            } else if (!cacheKey.equals(other.cacheKey)) {
                 return false;
+            }
             if (entity == null) {
-                if (other.entity != null)
+                if (other.entity != null) {
                     return false;
-            } else if (!entity.equals(other.entity))
+                }
+            } else if (!entity.equals(other.entity)) {
                 return false;
-            if (lazy != other.lazy)
+            }
+            if (lazy != other.lazy) {
                 return false;
+            }
             if (params == null) {
-                if (other.params != null)
+                if (other.params != null) {
                     return false;
-            } else if (!params.equals(other.params))
+                }
+            } else if (!params.equals(other.params)) {
                 return false;
+            }
             return true;
         }
     }
-    
+
     /**
      * Data-related condition on the item
-     * 
+     *
      * @author agrebneva
-     * 
+     *
      */
     public static class Condition {
         protected String field;
         protected Object[] value;
-        
+
         public String getField() {
             return field;
         }
-        
+
         public Object[] getValue() {
             return value;
         }
-        
+
         @Override
         public String toString() {
             return "Condition [field=" + field + ", value=" + Arrays.toString(value) + "]";
         }
     }
-    
+
     protected String id;
     protected String name;
     protected Type type = Type.FIELD;
@@ -220,7 +243,7 @@ public class Config {
     protected Data data;
     protected Item[] items;
     protected String root;
-    
+
     public Config(String id, String name, Type type, Condition condition, Data data, Item[] items, String root) {
         super();
         this.id = id;
@@ -231,48 +254,48 @@ public class Config {
         this.items = items;
         this.root = root;
     }
-    
+
     public Config() {
     }
-    
+
     public String getId() {
         return id;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public String getRoot() {
         return root;
     }
-    
+
     public Type getType() {
         return type;
     }
-    
+
     public Condition getCondition() {
         return condition;
     }
-    
+
     public Data getData() {
         return data;
     }
-    
+
     public Item[] getItems() {
         return items;
     }
-    
+
     public Config cloneWithItems(Item[] items) {
         return new Config(id, name, type, condition, data, items, root);
     }
-    
+
     /**
      * use this method if Config object is required to have a duplicate copy. Config object should
      * be immutable in order to avoid confusions.
      * It creates a cloned (deep copy) Config object except Config.Data.entity and Config.Data.param
      * (these values are overwritten by Config object an input param)
-     * 
+     *
      * @param customConfig
      *            Config.Data.entity and Config.Data.param are used to overwrite to a cloned Config
      *            object
