@@ -180,9 +180,11 @@ public class JobReportingProcessor implements Processor {
   }
 
     private static String getExternalResourceId(String resourceId, NewBatchJob job) {
-        ResourceEntry resourceEntry = job.getResourceEntry(resourceId);
-        if (resourceEntry != null) {
-            return resourceEntry.getExternallyUploadedResourceId();
+        if (resourceId != null) {
+            ResourceEntry resourceEntry = job.getResourceEntry(resourceId);
+            if (resourceEntry != null) {
+                return resourceEntry.getExternallyUploadedResourceId();
+            }
         }
         return null;
     }
