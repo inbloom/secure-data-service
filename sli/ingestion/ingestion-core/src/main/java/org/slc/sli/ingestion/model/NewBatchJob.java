@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.model;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,20 +43,20 @@ public final class NewBatchJob {
 
     // mongoTemplate requires this constructor.
     public NewBatchJob() {
-
+        this.batchProperties = new HashMap<String, String>();
+        this.stages = new LinkedList<Stage>();
+        this.resourceEntries = new LinkedList<ResourceEntry>();
     }
 
     public NewBatchJob(String id) {
         this.id = id;
-        List<Stage> stages = new LinkedList<Stage>();
-        this.stages = stages;
-        List<ResourceEntry> resourceEntries = new LinkedList<ResourceEntry>();
-        this.resourceEntries = resourceEntries;
+        this.batchProperties = new HashMap<String, String>();
+        this.stages = new LinkedList<Stage>();
+        this.resourceEntries = new LinkedList<ResourceEntry>();
     }
 
     public NewBatchJob(String id, String sourceId, String status, int totalFiles, Map<String, String> batchProperties,
             List<Stage> stages, List<ResourceEntry> resourceEntries) {
-        super();
         this.id = id;
         this.sourceId = sourceId;
         this.status = status;
@@ -180,7 +181,7 @@ public final class NewBatchJob {
             }
         }
 
-        return null;
+        return Collections.emptyList();
     }
 
     /**
