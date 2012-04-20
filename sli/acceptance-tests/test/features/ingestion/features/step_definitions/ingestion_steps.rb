@@ -493,6 +493,11 @@ Then /^I should see "([^"]*)" in the resulting error log file$/ do |message|
     checkForContentInFileGivenPrefix(message, prefix)
 end
 
+Then /^I should see "([^"]*)" in the resulting warning log file$/ do |message|
+    prefix = "warn."
+    checkForContentInFileGivenPrefix(message, prefix)
+end
+
 Then /^I should not see an error log file created$/ do
   if (INGESTION_MODE == 'remote')
     #remote check of file
