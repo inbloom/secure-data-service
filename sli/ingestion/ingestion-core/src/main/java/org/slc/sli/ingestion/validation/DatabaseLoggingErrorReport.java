@@ -35,9 +35,6 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
 
     @Override
     public void error(String message, Object sender) {
-        if (message != null) {
-            message = message.replaceAll("\r|\n", " ");
-        }
 
         String recordIdentifier = null;
         BatchJobMongoDA.logIngestionError(batchJobId, (stage == null) ? null : stage.getName(), resourceId,
@@ -48,9 +45,6 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
 
     @Override
     public void warning(String message, Object sender) {
-        if (message != null) {
-            message = message.replaceAll("\r|\n", " ");
-        }
 
         String recordIdentifier = null;
         BatchJobMongoDA.logIngestionError(batchJobId, (stage == null) ? "" : stage.getName(), resourceId,
