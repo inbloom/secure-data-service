@@ -32,6 +32,24 @@
                 <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffProgramAssociation.xml" />
             </bean>
         </entry>
+		<entry key="cohort">
+            <bean class="org.milyn.Smooks">
+                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/program.xml" />
+                <!--constructor-arg type="java.lang.String" value="smooksEdFi2SLI/cohort.xml" /-->
+            </bean>
+        </entry>
+		<entry key="studentCohortAssociation">
+            <bean class="org.milyn.Smooks">
+                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentProgramAssociation.xml" />
+                <!--constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentCohortAssociation.xml" /-->
+            </bean>
+        </entry>
+        <entry key="staffCohortAssociation">
+            <bean class="org.milyn.Smooks">
+                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffCohortAssociation.xml" />
+                <!--constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffProgramAssociation.xml" /-->
+            </bean>
+        </entry>
     </util:map>
 
     <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
@@ -80,6 +98,22 @@
 		<property name="passThroughCollectionName" value="studentProgramAssociation" />
     </bean>
 		
+	<bean id="cohortTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
+        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+        <property name="passThroughCollectionName" value="cohort" />
+    </bean>
+    
+    <bean id="staffCohortAssociationTransformationStrategy" 
+            class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
+        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+        <property name="passThroughCollectionName" value="staffCohortAssociation" />
+    </bean>
+
+	<bean id="studentCohortAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
+        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+		<property name="passThroughCollectionName" value="studentCohortAssociation" />
+    </bean>
+    
 </beans>
 
 
