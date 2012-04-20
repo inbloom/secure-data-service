@@ -9,7 +9,7 @@
     <#if panelData.otherName??>
     <#list panelData.otherName as oName>
     <small>
-    <#if oName.otherNameType == "nickname">
+    <#if oName.otherNameType == "Nickname">
     (<#if oName.personalTitlePrefix?? &&  oName.personalTitlePrefix != "">${oName.personalTitlePrefix} </#if>
     ${oName.firstName} 
     <#if oName.middleName?? &&  oName.middleName != "">${oName.middleName} </#if>
