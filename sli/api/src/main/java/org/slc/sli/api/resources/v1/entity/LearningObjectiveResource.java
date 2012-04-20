@@ -38,7 +38,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
 @Path(PathConstants.V1 + "/" + PathConstants.LEARNING_OBJECTIVES)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class LearningObjectiveResource extends DefaultCrudEndpoint {
 
     @Autowired
@@ -61,7 +61,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @Override
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
@@ -105,7 +105,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
     @Override
     @GET
     @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(learningObjectiveId, headers, uriInfo);
@@ -130,7 +130,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
      */
     @GET
     @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.LEARNING_STANDARDS)
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response getLearningStandards(
             @PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
@@ -152,7 +152,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
      */
     @GET
     @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.PARENT_LEARNING_OBJECTIVES)
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response getParentLearningObjective(
             @PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
@@ -172,7 +172,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
      */
     @GET
     @Path("{" + ParameterConstants.LEARNINGOBJECTIVE_ID + "}" + "/" + PathConstants.CHILD_LEARNING_OBJECTIVES)
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response getChildrenLearningObjective(
             @PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
