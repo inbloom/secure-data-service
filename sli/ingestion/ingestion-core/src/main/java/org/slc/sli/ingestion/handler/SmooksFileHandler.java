@@ -65,18 +65,16 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
         NeutralRecordFileWriter nrFileWriter = new NeutralRecordFileWriter(neutralRecordOutFile);
 
+        // set the IngestionFileEntry NeutralRecord file we just wrote
+        ingestionFileEntry.setNeutralRecordFile(neutralRecordOutFile);
+
         // create instance of Smooks (with visitors already added)
         Smooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, nrFileWriter, errorReport);
 
         InputStream inputStream = new BufferedInputStream(new FileInputStream(ingestionFileEntry.getFile()));
         try {
-
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             smooks.filterSource(new StreamSource(inputStream));
-
-            // set the IngestionFileEntry NeutralRecord file we just wrote
-            ingestionFileEntry.setNeutralRecordFile(neutralRecordOutFile);
-
         } catch (SmooksException se) {
             LOG.error("smooks exception encountered:\n" + Arrays.toString(se.getStackTrace()));
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
