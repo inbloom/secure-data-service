@@ -1,7 +1,7 @@
 Feature: User Session Tests
 Checking that sessions work as they should
 
-Scenario: Granting access to valid user with valid, previously obtained access token
+Scenario: Session is extended correctly upon successful api calls
 
 	Given the user has previously authenticated as "cgray" with password "cgray1234" in "IL"
 	And received a "valid" access token 
