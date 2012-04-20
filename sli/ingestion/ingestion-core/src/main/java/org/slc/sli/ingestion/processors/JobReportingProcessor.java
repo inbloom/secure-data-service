@@ -36,14 +36,14 @@ import org.slc.sli.ingestion.queues.MessageType;
  */
 public class JobReportingProcessor implements Processor {
 
+    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.JOB_REPORTING_PROCESSOR;
+
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(JobReportingProcessor.class);
 
     private LandingZone landingZone;
 
     private BatchJobDAO batchJobDAO;
-
-    private boolean reportToLog = false;
 
     private static final String STR_TIMESTAMP_FORMAT = "yyyy-MM-dd hh:mm:ss.SSS";
     private static final FastDateFormat FORMATTER = FastDateFormat.getInstance(STR_TIMESTAMP_FORMAT);
@@ -54,7 +54,7 @@ public class JobReportingProcessor implements Processor {
     }
 
     @Override
-    public void process(Exchange exchange) throws Exception {
+    public void process(Exchange exchange) {
 
         // get job from the batch job db
         String batchJobId = getBatchJobId(exchange);
@@ -63,29 +63,55 @@ public class JobReportingProcessor implements Processor {
 
             NewBatchJob job = batchJobDAO.findBatchJobById(batchJobId);
 
-            Stage stage = startAndGetStage(job);
+            Stage stage = startAndAddStageToJob(job);
 
-            File logFile = landingZone.getLogFile(batchJobId);
+            boolean hasErrors = writeBatchJobErrorReports(job);
 
-            PrintWriter jobReportWriter = null;
-            try {
-                jobReportWriter = new PrintWriter(new FileWriter(landingZone.getLogFile(batchJobId)));
-            } catch (IOException e) {
-                LOG.error("Error:", "Unable to open job report file " + logFile.getCanonicalFile());
-                reportToLog = true;
+            writeBatchJobReportFile(job, hasErrors);
+
+            stage.stopStage();
+            batchJobDAO.saveBatchJob(job);
+
+            deleteNeutralRecordFiles(job);
+
+        } else {
+            missingBatchJobIdError(exchange);
+        }
+    }
+
+    private boolean writeBatchJobErrorReports(NewBatchJob job) {
+        boolean hasErrors = false;
+
+        PrintWriter errorFileWriter = null;
+        try {
+
+            errorFileWriter = new PrintWriter(new FileWriter(landingZone.createFile("errors.out")));
+
+            hasErrors = logBatchJobErrorsAndWarnings(job.getId(), batchJobDAO, errorFileWriter);
+
+        } catch (IOException e) {
+            LOG.error("Error: Unable to write error file for: {}", job.getId());
+        } finally {
+            if (errorFileWriter != null) {
+                errorFileWriter.close();
             }
+        }
+        return hasErrors;
+    }
+
+    private void writeBatchJobReportFile(NewBatchJob job, boolean hasErrors) {
+
+        PrintWriter jobReportWriter = null;
+        try {
+            jobReportWriter = new PrintWriter(new FileWriter(landingZone.getLogFile(job.getId())));
 
             writeInfoLine(jobReportWriter, "jobId: " + job.getId());
 
-            long totalProcessed =
-                    logBatchJobPersistenceMetrics(job, jobReportWriter);
+            long recordsProcessed = logBatchJobPersistenceMetrics(job, jobReportWriter);
 
             logBatchJobProperties(job, jobReportWriter);
 
-            boolean success =
-                    logBatchJobErrorsAndWarnings(job.getId(), batchJobDAO, jobReportWriter);
-
-            if (success) {
+            if (!hasErrors) {
                 writeInfoLine(jobReportWriter, "All records processed successfully.");
                 job.setStatus(BatchJobStatusType.COMPLETED_SUCCESSFULLY.getName());
             } else {
@@ -93,44 +119,18 @@ public class JobReportingProcessor implements Processor {
                 job.setStatus(BatchJobStatusType.COMPLETED_WITH_ERRORS.getName());
             }
 
-            writeInfoLine(jobReportWriter, "Processed " + totalProcessed + " records.");
+            writeInfoLine(jobReportWriter, "Processed " + recordsProcessed + " records.");
 
-            // clean up after ourselves
+        } catch (IOException e) {
+            LOG.error("Error: Unable to write report file for: {}", job.getId());
+        } finally {
             if (jobReportWriter != null) {
                 jobReportWriter.close();
             }
-
-            stage.stopStage();
-
-            batchJobDAO.saveBatchJob(job);
-
-        } else {
-            missingBatchJobIdError(exchange);
-        }
-
-   }
-
-    private void writeInfoLine(PrintWriter jobReportWriter, String string) {
-        writeLine(jobReportWriter, "INFO", string);
-    }
-
-    private void writeErrorLine(PrintWriter jobReportWriter, String string) {
-        writeLine(jobReportWriter, "ERROR", string);
-    }
-
-    private void writeWarningLine(PrintWriter jobReportWriter, String string) {
-        writeLine(jobReportWriter, "WARN", string);
-    }
-
-    private void writeLine(PrintWriter jobReportWriter, String type, String text) {
-        if (reportToLog) {
-            LOG.info(text);
-        } else {
-            jobReportWriter.println(getCurrentTimeStamp() + " " + type + "  " + text);
         }
     }
 
-    private void logBatchJobProperties(NewBatchJob job, PrintWriter jobReportWriter) {
+    private static void logBatchJobProperties(NewBatchJob job, PrintWriter jobReportWriter) {
         if (job.getBatchProperties() != null) {
             for (Entry<String, String> entry : job.getBatchProperties().entrySet()) {
                 writeInfoLine(jobReportWriter, "[configProperty] " + entry.getKey() + ": " + entry.getValue());
@@ -138,10 +138,11 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private boolean logBatchJobErrorsAndWarnings(String id, BatchJobDAO batchJobDAO, PrintWriter jobReportWriter) {
+    private static boolean logBatchJobErrorsAndWarnings(String batchJobId, BatchJobDAO batchJobDAO,
+            PrintWriter printWriter) {
         boolean hasErrors = false;
 
-        BatchJobMongoDAStatus status = batchJobDAO.findBatchJobErrors(id);
+        BatchJobMongoDAStatus status = batchJobDAO.findBatchJobErrors(batchJobId);
         if (status != null && status.isSuccess()) {
 
             // TODO handle large numbers of errors
@@ -149,67 +150,70 @@ public class JobReportingProcessor implements Processor {
             List<Error> errors = (List<Error>) status.getResult();
             for (Error error : errors) {
                 if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
-                    hasErrors = false;
-                    writeErrorLine(jobReportWriter,
+                    hasErrors = true;
+                    writeErrorLine(
+                            printWriter,
                             ((error.getStageName() == null) ? "" : (error.getStageName())) + ","
-                            + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
-                            + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier())) + ","
-                            + error.getErrorDetail());
+                                    + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
+                                    + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier()))
+                                    + "," + error.getErrorDetail());
                 } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
-                    writeWarningLine(jobReportWriter,
+                    writeWarningLine(
+                            printWriter,
                             ((error.getStageName() == null) ? "" : (error.getStageName())) + ","
-                            + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
-                            + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier())) + ","
-                            + error.getErrorDetail());
+                                    + ((error.getResourceId() == null) ? "" : (error.getResourceId())) + ","
+                                    + ((error.getRecordIdentifier() == null) ? "" : (error.getRecordIdentifier()))
+                                    + "," + error.getErrorDetail());
                 }
             }
-
         }
         return hasErrors;
     }
 
-    private long logBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
+    private static long logBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
         long totalProcessed = 0;
 
         // TODO group counts by externallyUploadedResourceId
         List<Metrics> metrics = job.getStageMetrics(BatchJobStageType.PERSISTENCE_PROCESSOR);
-        if (metrics != null) {
+        for (Metrics metric : metrics) {
 
-            for (Metrics metric : metrics) {
-
-                ResourceEntry resourceEntry = job.getResourceEntry(metric.getResourceId());
-                if (resourceEntry == null) {
-                    LOG.error("The resource referenced by metric by resourceId " + metric.getResourceId()
-                            + " is not defined for this job");
-                    continue;
-                }
-
-                logResourceMetric(jobReportWriter, resourceEntry, metric.getRecordCount(), metric.getErrorCount());
-
-                totalProcessed += metric.getRecordCount();
+            ResourceEntry resourceEntry = job.getResourceEntry(metric.getResourceId());
+            if (resourceEntry == null) {
+                LOG.error("The resource referenced by metric by resourceId " + metric.getResourceId()
+                        + " is not defined for this job");
+                continue;
             }
 
-        } else {
+            logResourceMetric(resourceEntry, metric.getRecordCount(), metric.getErrorCount(), jobReportWriter);
 
-            // write out 0 count metrics for the input files
-            BatchJobMongoDA.logBatchStageError(job.getId(), BatchJobStageType.JOB_REPORTING_PROCESSOR,
-                    FaultType.TYPE_WARNING.getName(), null, "There were no metrics for "
-                            + BatchJobStageType.PERSISTENCE_PROCESSOR.getName() + ".");
+            totalProcessed += metric.getRecordCount();
+        }
 
-            for (ResourceEntry resourceEntry : job.getResourceEntries()) {
-                if (resourceEntry.getResourceFormat() != null
-                        && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())) {
-                    logResourceMetric(jobReportWriter, resourceEntry, 0, 0);
-                }
-            }
+        if (metrics.size() == 0) {
+            doesntHavePersistenceMetrics(job, jobReportWriter);
         }
 
         return totalProcessed;
     }
 
-    private void logResourceMetric(PrintWriter jobReportWriter, ResourceEntry resourceEntry, long numProcessed, long numFailed) {
+    private static void doesntHavePersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
+        // write out 0 count metrics for the input files
+        BatchJobMongoDA.logBatchStageError(job.getId(), BATCH_JOB_STAGE, FaultType.TYPE_WARNING.getName(), null,
+                "There were no metrics for " + BATCH_JOB_STAGE.getName() + ".");
+
+        for (ResourceEntry resourceEntry : job.getResourceEntries()) {
+            if (resourceEntry.getResourceFormat() != null
+                    && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())) {
+                logResourceMetric(resourceEntry, 0, 0, jobReportWriter);
+            }
+        }
+    }
+
+    private static void logResourceMetric(ResourceEntry resourceEntry, long numProcessed, long numFailed,
+            PrintWriter jobReportWriter) {
         String id = "[file] " + resourceEntry.getExternallyUploadedResourceId();
-        writeInfoLine(jobReportWriter, id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType() + ")");
+        writeInfoLine(jobReportWriter,
+                id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType() + ")");
 
         long numPassed = numProcessed - numFailed;
 
@@ -218,12 +222,22 @@ public class JobReportingProcessor implements Processor {
         writeInfoLine(jobReportWriter, id + " records failed: " + numFailed);
     }
 
-    private Stage startAndGetStage(NewBatchJob newJob) {
-        Stage stage = new Stage();
+    private static Stage startAndAddStageToJob(NewBatchJob newJob) {
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
         newJob.getStages().add(stage);
-        stage.setStageName(BatchJobStageType.JOB_REPORTING_PROCESSOR.getName());
+        stage.setStageName(BATCH_JOB_STAGE.getName());
         stage.startStage();
         return stage;
+    }
+
+    private void deleteNeutralRecordFiles(NewBatchJob job) {
+        for (ResourceEntry resourceEntry : job.getResourceEntries()) {
+            if (resourceEntry.getResourceName() != null
+                    && FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
+                File nrFile = new File(resourceEntry.getResourceName());
+                nrFile.delete();
+            }
+        }
     }
 
     private String getBatchJobId(Exchange exchange) {
@@ -234,6 +248,22 @@ public class JobReportingProcessor implements Processor {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+    }
+
+    private static void writeInfoLine(PrintWriter jobReportWriter, String string) {
+        writeLine(jobReportWriter, "INFO", string);
+    }
+
+    private static void writeErrorLine(PrintWriter jobReportWriter, String string) {
+        writeLine(jobReportWriter, "ERROR", string);
+    }
+
+    private static void writeWarningLine(PrintWriter jobReportWriter, String string) {
+        writeLine(jobReportWriter, "WARN", string);
+    }
+
+    private static void writeLine(PrintWriter jobReportWriter, String type, String text) {
+        jobReportWriter.println(getCurrentTimeStamp() + " " + type + "  " + text);
     }
 
     public BatchJobDAO getBatchJobDAO() {
