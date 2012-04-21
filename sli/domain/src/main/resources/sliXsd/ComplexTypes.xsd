@@ -8,9 +8,6 @@
 
 	<!-- This file contains the complex types for the SLI database schema representation. -->
 
-	<xs:complexType name="complexObjectType" abstract="true">
-	</xs:complexType>
-
 	<xs:complexType name="assessmentIdentificationCode">
 		<xs:annotation>
 			<xs:documentation>A unique number or alphanumeric code assigned to an
