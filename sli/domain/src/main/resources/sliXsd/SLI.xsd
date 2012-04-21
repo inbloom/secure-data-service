@@ -738,7 +738,8 @@
 				<xs:element name="parentAgencyId" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>Reference to the parent Education Organization
-							in a hierarchy.</xs:documentation>
+							in a hierarchy.
+						</xs:documentation>
 						<xs:appinfo>
 							<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 						</xs:appinfo>
@@ -747,7 +748,8 @@
 				<xs:element name="childAgencyId" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>Reference to the child Education Organization in
-							a hierarchy.</xs:documentation>
+							a hierarchy.
+						</xs:documentation>
 						<xs:appinfo>
 							<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 						</xs:appinfo>
@@ -3282,71 +3284,67 @@
 					objectives for courses in specific grades.
 				</xs:documentation>
 			</xs:annotation>
-			<xs:complexContent>
-				<xs:extension base="complexObjectType">
-					<xs:sequence>
-						<xs:element name="learningObjectiveId" type="learningStandardId"
-							minOccurs="0">
-							<xs:annotation>
-								<xs:documentation>The Identifier for the specific learning
-									objective in the context of a standard (e.g., 111.15.3.1.A)
-								</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element name="objective" type="objective">
-							<xs:annotation>
-								<xs:documentation>The designated title of the learning
-									objective.
-								</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element name="description" type="description"
-							minOccurs="0">
-							<xs:annotation>
-								<xs:documentation>The description of the learning objective.
-								</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element name="academicSubject" type="academicSubjectType">
-							<xs:annotation>
-								<xs:documentation>The description of the content or subject area
-									(e.g., arts, mathematics, reading, stenography, or a foreign
-									language) of an assessment.
-								</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element name="objectiveGradeLevel" type="gradeLevelType">
-							<xs:annotation>
-								<xs:documentation>The grade level for which the learning
-									objective is targeted,
-								</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element name="learningStandards" type="reference"
-							minOccurs="0" maxOccurs="unbounded">
-							<xs:annotation>
-								<xs:documentation>Learning standard(s) included in this
-									objective.
-								</xs:documentation>
-								<xs:appinfo>
-									<sli:ReferenceType>learningStandard</sli:ReferenceType>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:element>
-						<xs:element name="parentLearningObjective" type="reference"
-							minOccurs="0" maxOccurs="1">
-							<xs:annotation>
-								<xs:documentation>Parent learning objective this is a
-									sub-objective for.
-								</xs:documentation>
-								<xs:appinfo>
-									<sli:ReferenceType>learningObjective</sli:ReferenceType>
-								</xs:appinfo>
-							</xs:annotation>
-						</xs:element>
-					</xs:sequence>
-				</xs:extension>
-			</xs:complexContent>
+			<xs:sequence>
+				<xs:element name="learningObjectiveId" type="learningStandardId"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The Identifier for the specific learning
+							objective in the context of a standard (e.g., 111.15.3.1.A)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="objective" type="objective">
+					<xs:annotation>
+						<xs:documentation>The designated title of the learning
+							objective.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="description" type="description"
+					minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The description of the learning objective.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="academicSubject" type="academicSubjectType">
+					<xs:annotation>
+						<xs:documentation>The description of the content or subject area
+							(e.g., arts, mathematics, reading, stenography, or a foreign
+							language) of an assessment.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="objectiveGradeLevel" type="gradeLevelType">
+					<xs:annotation>
+						<xs:documentation>The grade level for which the learning
+							objective is targeted,
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="learningStandards" type="reference"
+					minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Learning standard(s) included in this
+							objective.
+						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>learningStandard</sli:ReferenceType>
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="parentLearningObjective" type="reference"
+					minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>Parent learning objective this is a
+							sub-objective for.
+						</xs:documentation>
+						<xs:appinfo>
+							<sli:ReferenceType>learningObjective</sli:ReferenceType>
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
 
