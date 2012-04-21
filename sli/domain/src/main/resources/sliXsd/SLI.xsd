@@ -2535,81 +2535,7 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:element name="studentProgramAssociation">
-		<xs:annotation>
-			<xs:documentation>
-				This association represents the program(s) that a
-				student participates in or is served by.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="studentId" type="reference">
-					<xs:annotation>
-						<xs:documentation>The student associated with the program.
-						</xs:documentation>
-						<xs:appinfo>
-							<sli:ReferenceType>student</sli:ReferenceType>
-						</xs:appinfo>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="programId" type="reference">
-					<xs:annotation>
-						<xs:documentation>The program associated with the student.
-						</xs:documentation>
-						<xs:appinfo>
-							<sli:ReferenceType>program</sli:ReferenceType>
-						</xs:appinfo>
-					</xs:annotation>
-				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="services"
-					type="serviceDescriptorType">
-					<xs:annotation>
-						<xs:documentation>
-							Indicates the services being provided to the
-							student by the program.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="beginDate" type="xs:date">
-					<xs:annotation>
-						<xs:documentation>The month, day, and year on which the student
-							first received services.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element minOccurs="0" name="endDate" type="xs:date">
-					<xs:annotation>
-						<xs:documentation>
-							The month, day, and year on which the student
-							exited the program or stopped receiving
-							services.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element minOccurs="0" name="reasonExited" type="reasonExitedType">
-					<xs:annotation>
-						<xs:documentation>
-							The reason the child left the program within a
-							school or district.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="educationOrganizationId" type="reference">
-					<xs:annotation>
-						<xs:documentation>
-							The education organization where the student is
-							participating in or receiving the program
-							services.
-						</xs:documentation>
-						<xs:appinfo>
-							<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						</xs:appinfo>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+	<xs:element name="studentProgramAssociation" type="studentProgramAssociation" />
 
 	<xs:element name="studentSchoolAssociation">
 		<xs:annotation>
@@ -3318,7 +3244,8 @@
 				<xs:element name="objectiveGradeLevel" type="gradeLevelType">
 					<xs:annotation>
 						<xs:documentation>The grade level for which the learning
-							objective is targeted,
+							objective
+							is targeted,
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
