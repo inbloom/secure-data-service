@@ -2867,6 +2867,87 @@
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:complexType name="grade">
+		<xs:annotation>
+			<xs:documentation>This educational entity represents an overall score
+				or assessment tied to a course over a period of time (i.e., the
+				grading period). Student grades are usually a compilation of marks
+				and other scores.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="letterGradeEarned" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A final or interim (grading period) indicator
+						of
+						student performance in a class as submitted by the
+						instructor.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="gradeEarned">
+						<xs:maxLength value="20" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="numericGradeEarned" type="xs:integer"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A final or interim (grading period) indicator
+						of
+						student performance in a class as submitted by the
+						instructor.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="diagnosticStatement" type="text"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A statement provided by the teacher that
+						provides
+						information in addition to the grade or assessment
+						score.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="gradeType" type="gradeType">
+				<xs:annotation>
+					<xs:documentation>The type of grade reported (e.g., Exam, Final,
+						Grading Period).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="performanceBaseConversion" type="performanceBaseType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A conversion of the level to a standard set of
+						performance levels.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="studentSectionAssociationId" type="reference">
+				<xs:annotation>
+					<xs:documentation>Association to the student-section association
+						with which the grade is awarded.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>studentSectionAssociation</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="gradingPeriodId" type="reference"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifies the grading period for the grade.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>gradingPeriod</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="gradingPeriod">
 		<xs:annotation>
 			<xs:documentation>
