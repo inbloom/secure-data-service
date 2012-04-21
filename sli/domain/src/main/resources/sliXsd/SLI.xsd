@@ -2302,6 +2302,8 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="studentCTEProgramAssociation" type="studentCTEProgramAssociation" />
+
 	<xs:element name="studentDisciplineIncidentAssociation">
 		<xs:annotation>
 			<xs:documentation>This association indicates those students who were
@@ -2536,6 +2538,8 @@
 	</xs:element>
 
 	<xs:element name="studentProgramAssociation" type="studentProgramAssociation" />
+
+	<xs:element name="studentSpecialEdProgramAssociation" type="studentSpecialEdProgramAssociation" />
 
 	<xs:element name="studentSchoolAssociation">
 		<xs:annotation>
