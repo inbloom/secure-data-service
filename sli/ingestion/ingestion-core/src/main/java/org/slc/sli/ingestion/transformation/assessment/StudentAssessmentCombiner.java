@@ -3,6 +3,7 @@ package org.slc.sli.ingestion.transformation.assessment;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -45,12 +46,11 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     protected void performTransformation() {
         NeutralRecordMongoAccess db = getNeutralRecordMongoAccess();
         Repository<NeutralRecord> repo = db.getRecordRepository();
-        DBCollection studentAssessments = repo.getCollection(SA_EDFI_COLLECTION_NAME);
         Map<String, Map<String, Object>> oas = getOAs(repo.getCollection(SOA_EDFI_COLLECTION_NAME));
         for (IngestionFileEntry fe : getFEs()) {
             BasicDBObject query = getJobQuery();
             query.append("sourceFile", fe.getFileName());
-            DBCursor cursor = studentAssessments.find(query);
+            Iterator<DBObject> cursor = getMatching(SA_EDFI_COLLECTION_NAME, query);
             try {
                 NeutralRecordFileWriter writer = new NeutralRecordFileWriter(fe.getNeutralRecordFile());
                 try {
@@ -85,6 +85,13 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 LOG.error("Exception occurred while writing transformed student assessments", e);
             }
         }
+    }
+    
+    protected Iterator<DBObject> getMatching(String collectionName, DBObject query) {
+        DBCollection studentAssessments = getNeutralRecordMongoAccess().getRecordRepository().getCollection(
+                collectionName);
+        DBCursor cursor = studentAssessments.find(query);
+        return cursor;
     }
     
     private BasicDBObject getJobQuery() {

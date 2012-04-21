@@ -3,7 +3,9 @@ package org.slc.sli.ingestion.transformation.assessment;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -11,6 +13,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +23,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Job;
@@ -36,14 +41,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentAssessmentCombinerTest {
-    @Autowired
-    private StudentAssessmentCombiner saCombiner;
+    
+    private StudentAssessmentCombiner saCombiner = spy(new StudentAssessmentCombiner());
     
     @Autowired
     private FileUtils fileUtils;
@@ -87,11 +91,18 @@ public class StudentAssessmentCombinerTest {
                 oaCollection.distinct(eq("body." + StudentAssessmentCombiner.OBJECTIVE_ASSESSMENT_REFERENCE),
                         any(BasicDBObject.class))).thenReturn(
                 Arrays.asList(AssessmentCombinerTest.OBJ1_ID, AssessmentCombinerTest.OBJ2_ID));
-        DBCollection saCollection = mock(DBCollection.class);
-        when(repository.getCollection("studentAssessment")).thenReturn(saCollection);
-        DBCursor sasCursor = mock(DBCursor.class);
-        when(saCollection.find(any(DBObject.class))).thenReturn(sasCursor);
-        when(sasCursor.next()).thenReturn(buildSAObject("sa1"), buildSAObject("sa2"));
+        Iterator<DBObject> sasCursor = Arrays.asList(buildSAObject("sa1"), buildSAObject("sa2")).iterator();
+        doReturn(sasCursor).when(saCombiner).getMatching(eq("studentAssessmentAssociation"), any(DBObject.class));
+        when(
+                repository.findAll("studentObjectiveAssessment", new NeutralQuery(new NeutralCriteria(
+                        StudentAssessmentCombiner.STUDENT_ASSESSMENT_REFERENCE, "=", "sa1")))).thenReturn(
+                Arrays.asList(buildSOANeutralRecord(AssessmentCombinerTest.OBJ1_ID, "sa1"),
+                        buildSOANeutralRecord(AssessmentCombinerTest.OBJ2_ID, "sa1")));
+        when(
+                repository.findAll("studentObjectiveAssessment", new NeutralQuery(new NeutralCriteria(
+                        StudentAssessmentCombiner.STUDENT_ASSESSMENT_REFERENCE, "=", "sa2")))).thenReturn(
+                Arrays.asList(buildSOANeutralRecord(AssessmentCombinerTest.OBJ1_ID, "sa2"),
+                        buildSOANeutralRecord(AssessmentCombinerTest.OBJ2_ID, "sa2")));
         when(job.getId()).thenReturn(batchJobId);
         when(job.getFiles()).thenReturn(Arrays.asList(fe));
     }
@@ -99,6 +110,9 @@ public class StudentAssessmentCombinerTest {
     @Test
     public void testStudentObjectiveAssessment() throws IOException {
         Collection<NeutralRecord> sas = AssessmentCombinerTest.getTransformedEntities(saCombiner, job, fe);
+        for (NeutralRecord record : sas) {
+            assertEquals(2, ((Collection<?>) record.getAttributes().get("studentObjectiveAssessments")).size());
+        }
         assertEquals(2, sas.size());
     }
     
@@ -131,23 +145,26 @@ public class StudentAssessmentCombinerTest {
     
     @SuppressWarnings("unchecked")
     private DBObject buildSAObject(String id) {
-        DBObject sa1 = new BasicDBObject();
-        sa1.put("administrationDate", "2011-05-01");
+        DBObject body = new BasicDBObject();
+        body.put("administrationDate", "2011-05-01");
         Map<String, Object> scoreResult11 = new HashMap<String, Object>();
         scoreResult11.put("assessmentReportingMethod", "Raw Score");
         scoreResult11.put("result", 2400);
         Map<String, Object> scoreResult12 = new HashMap<String, Object>();
         scoreResult12.put("assessmentReportingMethod", "Percentile");
         scoreResult12.put("result", 99);
-        sa1.put("ScoreResults", Arrays.asList(scoreResult11, scoreResult12));
-        sa1.put("xmlId", id);
-        return sa1;
+        body.put("ScoreResults", Arrays.asList(scoreResult11, scoreResult12));
+        body.put("xmlId", id);
+        DBObject sa = new BasicDBObject();
+        sa.put("body", body);
+        sa.put("localId", new BasicDBObject("studentId", "sudent1"));
+        return sa;
     }
     
     public List<NeutralRecord> buildSOANeutralRecords() {
         return Arrays.asList(buildSOANeutralRecord(AssessmentCombinerTest.OBJ1_ID, "sa1"),
                 buildSOANeutralRecord(AssessmentCombinerTest.OBJ1_ID, "sa2"),
-                buildSOANeutralRecord(AssessmentCombinerTest.OBJ1_ID, "sa1"),
+                buildSOANeutralRecord(AssessmentCombinerTest.OBJ2_ID, "sa1"),
                 buildSOANeutralRecord(AssessmentCombinerTest.OBJ2_ID, "sa2"));
     }
     
