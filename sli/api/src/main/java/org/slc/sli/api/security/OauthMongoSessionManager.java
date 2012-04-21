@@ -31,7 +31,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
 import org.slc.sli.api.security.oauth.OAuthAccessException;
-import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.util.SecurityUtil;
@@ -198,9 +197,10 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         //If the list of authorized apps is null, we weren't able to figure out the user's LEA.
         //TODO: deny access if no context information is available--to fix in oauth hardening
         if (authorizedAppIds != null && !authorizedAppIds.contains(app.getEntityId())) {
-            throw new OAuthAccessException(OAuthError.UNAUTHORIZED_CLIENT,
+            /*throw new OAuthAccessException(OAuthError.UNAUTHORIZED_CLIENT,
                     "User " + principal.getExternalId() + " is not authorized to use " + app.getBody().get("name"),
-                    (String) session.getBody().get("state"));
+                    (String) session.getBody().get("state"));*/
+            warn("User " + principal.getExternalId() + " is not authorized to use " + app.getBody().get("name"));
         }
 
         List<Map<String, Object>> appSessions = (List<Map<String, Object>>) session.getBody().get("appSession");
