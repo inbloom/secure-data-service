@@ -34,7 +34,9 @@ public final class Xsd2UmlPluginForEdFi implements Xsd2UmlPlugin {
 
     @Override
     public boolean isAssociationEnd(final ClassType classType, final Attribute attribute, final Xsd2UmlPluginHost host) {
-        throw new UnsupportedOperationException();
+        // We aren't yet attempting to turn attributes into associations, but we may need to soon in
+        // order to be able to compare with the Shared Learning Infrastructure.
+        return false;
     }
 
     @Override
