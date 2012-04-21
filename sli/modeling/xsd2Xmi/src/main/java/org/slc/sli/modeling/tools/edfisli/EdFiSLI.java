@@ -167,7 +167,8 @@ public final class EdFiSLI {
 
     private static final Map<String, String> ignorable() {
         final Map<String, String> ignorable = new HashMap<String, String>();
-        ignorable.put("ClassPeriod", "This is just a wrapper around ClassPeriodNameType");
+        ignorable.put("ClassPeriod", "This is just a wrapper around ClassPeriodNameType.");
+        ignorable.put("ComplexObjectType", "This is only used to handle ID/IDREF in Ed-Fi interchanges.");
         ignorable
                 .put("GradePointAverage",
                         "Not used by Ed-Fi. Should be used in StudentAcademicRecord or dropped. S/B simpleType? Are the facets OK?");
@@ -219,28 +220,30 @@ public final class EdFiSLI {
     }
 
     private static final Set<String> outsideScope() {
-        final Set<String> finance = new HashSet<String>();
-        finance.add("Account");
-        finance.add("AccountCodeDescriptor");
-        finance.add("AccountCodeDescriptorType");
-        finance.add("Actual");
-        finance.add("Budget");
-        finance.add("ContractedStaff");
-        finance.add("Payroll");
-        finance.add("StaffEducationOrgEmploymentAssociation");
-        return Collections.unmodifiableSet(finance);
+        final Set<String> outsideScope = new HashSet<String>();
+        outsideScope.add("Account");
+        outsideScope.add("AccountCodeDescriptor");
+        outsideScope.add("AccountCodeDescriptorType");
+        outsideScope.add("Actual");
+        outsideScope.add("Budget");
+        outsideScope.add("ContractedStaff");
+        outsideScope.add("EducationServiceCenter");
+        outsideScope.add("Payroll");
+        outsideScope.add("StaffEducationOrgEmploymentAssociation");
+        outsideScope.add("StudentTitleIPartAProgramAssociation");
+        return Collections.unmodifiableSet(outsideScope);
     }
 
     private static final Set<String> planned() {
         final Set<String> planned = new HashSet<String>();
         planned.add("CompetencyLevelDescriptor");       // Parallax
         planned.add("CompetencyLevelDescriptorType");   // Parallax
-        planned.add("CTEProgram");                      //
+        // planned.add("CTEProgram"); //
         planned.add("ReportCard");                      // Wolverine
         planned.add("StudentCompetency");               // Wolverine
         planned.add("StudentCompetencyObjective");      // Wolverine
-        planned.add("StudentCTEProgramAssociation");
-        planned.add("StudentSpecialEdProgramAssociation");
+        // planned.add("StudentCTEProgramAssociation");
+        // planned.add("StudentSpecialEdProgramAssociation");
         return Collections.unmodifiableSet(planned);
     }
 
