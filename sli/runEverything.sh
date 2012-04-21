@@ -20,4 +20,4 @@ echo Starting Admin Tools
 cd $DIR/admin-tools; bundle exec rails server  > $LOGDIR/adminConsole.log 2>&1 &
 
 echo Starting mock IDP
-cd $DIR/mock-Idp; mvn jetty:run -Djetty.port=5150  > $LOGDIR/mockIdpConsole.log 2>&1 &
+cd $DIR/mock-Idp; mvn jetty:run   > $LOGDIR/mockIdpConsole.log 2>&1 &
