@@ -117,7 +117,7 @@ public final class EdFiSLI {
         System.out.println("-----------------------");
         print(investigate());
         System.out.println("");
-        System.out.println("Renamed(" + classRenames.size() + ")");
+        System.out.println("Renamed (" + classRenames.size() + ")");
         System.out.println("-------");
         print(classRenames);
         final Set<String> edfiOutstanding = subtract(

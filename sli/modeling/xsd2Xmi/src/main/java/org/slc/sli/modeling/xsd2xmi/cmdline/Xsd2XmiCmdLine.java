@@ -16,7 +16,7 @@ import org.slc.sli.modeling.xsd2xmi.core.Xsd2UmlPlugin;
 /**
  * A quick-n-dirty utility for converting W3C XML Schemas to XMI (with limitations).
  */
-public final class Xsd2Xmi {
+public final class Xsd2XmiCmdLine {
 
     public static void main(final String[] args) {
         try {
@@ -28,7 +28,7 @@ public final class Xsd2Xmi {
         }
     }
 
-    private Xsd2Xmi() {
+    private Xsd2XmiCmdLine() {
         // Prevent instantiation, even through reflection.
         throw new RuntimeException();
     }
