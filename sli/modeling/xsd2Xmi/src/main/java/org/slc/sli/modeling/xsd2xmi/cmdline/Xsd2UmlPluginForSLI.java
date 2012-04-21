@@ -39,13 +39,6 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
     private static final String TAG_DEFINITION_NAME_RESOURCE = "resource";
     private static final String TAG_DEFINITION_NAME_WRITE = camelCase(SLI_WRITE_ENFORCEMENT.getLocalPart());
 
-    // This approach is a bit hit-and-miss. It's hard to be sure you really have a reference.
-    // It is safer just to fix the W3C XML Schema.
-    private static final String NAME_ENDING_REFERENCE = "Reference";
-    @SuppressWarnings("unused")
-    // The example that broke this is InstitutionId.
-    private static final String NAME_ENDING_ID = "Id";
-
     private static final String camelCase(final String text) {
         return text.substring(0, 1).toLowerCase().concat(text.substring(1));
     }
@@ -95,17 +88,7 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
                 return nameFromTypeName(new QName(taggedValue.getValue()));
             }
         }
-        // Look at the attribute name.
-        final String name = attribute.getName();
-        if (name.endsWith(NAME_ENDING_REFERENCE)) {
-            return titleCase(name.substring(0, name.length() - NAME_ENDING_REFERENCE.length()));
-        }
-        // else if (name.endsWith(NAME_ENDING_ID)) {
-        // return titleCase(name.substring(0, name.length() - NAME_ENDING_ID.length()));
-        // }
-        else {
-            return null;
-        }
+        return null;
     }
 
     @Override
@@ -122,17 +105,7 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
                 return true;
             }
         }
-        // Look at the attribute name.
-        final String name = attribute.getName();
-        if (name.endsWith(NAME_ENDING_REFERENCE)) {
-            return true;
-        }
-        // else if (name.endsWith(NAME_ENDING_ID)) {
-        // return true;
-        // }
-        else {
-            return false;
-        }
+        return false;
     }
 
     @Override
