@@ -43,6 +43,12 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
+/**
+ * Test for combining student assessments
+ * 
+ * @author nbrown
+ * 
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentAssessmentCombinerTest {
