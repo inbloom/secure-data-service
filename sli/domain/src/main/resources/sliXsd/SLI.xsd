@@ -11,78 +11,7 @@
 	<xs:element name="assessment" type="assessment" />
 	<xs:element name="attendance" type="attendance" />
 	<xs:element name="bellSchedule" type="bellSchedule" />
-
-	<xs:element name="cohort">
-		<xs:annotation>
-			<xs:documentation>
-				This entity represents any type of list of
-				designated students for tracking, analysis, or intervention.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="cohortIdentifier" type="cohortIdentifier">
-					<xs:annotation>
-						<xs:documentation>The name or ID for the cohort.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element minOccurs="0" name="cohortDescription" type="cohortDescription">
-					<xs:annotation>
-						<xs:documentation>The description of he cohort and its purpose.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="cohortType" type="cohortType">
-					<xs:annotation>
-						<xs:documentation>
-							The type of cohort (e.g., academic intervention,
-							classroom breakout)
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element minOccurs="0" name="cohortScope" type="cohortScopeType">
-					<xs:annotation>
-						<xs:documentation>
-							The scope of cohort (e.g., school, district,
-							classroom, etc.)
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element minOccurs="0" name="academicSubject" type="academicSubjectType">
-					<xs:annotation>
-						<xs:documentation>
-							The academic subject associated with an academic
-							intervention.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="educationOrgId" type="reference">
-					<xs:annotation>
-						<xs:documentation>
-							The education organization associated with and
-							owner of the cohort.
-						</xs:documentation>
-						<xs:appinfo>
-							<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						</xs:appinfo>
-					</xs:annotation>
-				</xs:element>
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="programId"
-					type="reference">
-					<xs:annotation>
-						<xs:documentation>
-							The (optional) program associated with this
-							cohort (e.g., special education)
-						</xs:documentation>
-						<xs:appinfo>
-							<sli:ReferenceType>program</sli:ReferenceType>
-						</xs:appinfo>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+	<xs:element name="cohort" type="cohort" />
 
 	<xs:element name="course">
 		<xs:annotation>
