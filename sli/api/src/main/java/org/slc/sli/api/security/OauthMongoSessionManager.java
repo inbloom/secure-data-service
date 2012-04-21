@@ -30,7 +30,6 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
-import org.slc.sli.api.security.oauth.OAuthAccessException;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.util.SecurityUtil;
@@ -161,7 +160,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public String verify(String code, Pair<String, String> clientCredentials) throws OAuthAccessException {
+    public String verify(String code, Pair<String, String> clientCredentials) {
         NeutralQuery nq = new NeutralQuery();
         nq.addCriteria(new NeutralCriteria("appSession.clientId", "=", clientCredentials.getLeft()));
         nq.addCriteria(new NeutralCriteria("appSession.verified", "=", "false"));
