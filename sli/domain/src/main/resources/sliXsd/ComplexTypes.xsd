@@ -806,23 +806,27 @@
 			</xs:element>
 			<xs:element name="studentReference" type="reference">
 				<xs:annotation>
-					<xs:documentation>Reference to student that was restrained.
-					</xs:documentation>
+					<xs:documentation>Reference to student that was restrained.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>student</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="programReference" type="reference"
 				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>The special education program associated with
-						the
-						restraint event.
-					</xs:documentation>
+					<xs:documentation>The special education program associated with the restraint event.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>program</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="SchoolReference" type="reference">
 				<xs:annotation>
-					<xs:documentation>The school where the restraint event occurred.
-					</xs:documentation>
+					<xs:documentation>The school where the restraint event occurred.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>school</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
