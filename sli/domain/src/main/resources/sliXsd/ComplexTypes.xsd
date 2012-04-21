@@ -905,6 +905,82 @@
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:complexType name="parent">
+		<xs:annotation>
+			<xs:documentation>
+				This entity represents a parent or guardian of a
+				student, such as mother, father, or caretaker.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="parentUniqueStateId" type="uniqueStateIdentifier">
+				<xs:annotation>
+					<xs:documentation>
+						A unique number or alphanumeric code assigned to
+						a person.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="name">
+				<xs:annotation>
+					<xs:documentation>Full legal name of the person.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="otherName"
+				type="otherName">
+				<xs:annotation>
+					<xs:documentation>
+						Other names (e.g., alias, nickname, previous
+						legal name) associated with a person.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element minOccurs="0" name="sex" type="sexType">
+				<xs:annotation>
+					<xs:documentation>A person's gender.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="address"
+				type="address">
+				<xs:annotation>
+					<xs:documentation>Parent's address, if different from student
+						address.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="telephone"
+				type="telephone">
+				<xs:annotation>
+					<xs:documentation>
+						The 10-digit telephone number, including the
+						area
+						code, for the person.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0"
+				name="electronicMail" type="electronicMail">
+				<xs:annotation>
+					<xs:documentation>
+						The numbers, letters, and symbols used to
+						identify an electronic mail (e-mail) user within
+						the network to
+						which the individual or organization belongs.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element minOccurs="0" name="loginId" type="identificationCode">
+				<xs:annotation>
+					<xs:documentation>
+						The login ID for the user; used for security
+						access control interface.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="performanceLevelDescriptor">
 		<xs:annotation>
 			<xs:documentation>This descriptor defines various levels or
@@ -1079,6 +1155,294 @@
 					<xs:documentation>The categorization of the circumstances or reason
 						for the restraint.
 					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="section">
+		<xs:annotation>
+			<xs:documentation>Section
+
+				This educational entity represents a setting
+				in
+				which organized instruction of course content is provided to one
+				or
+				more students for a given period of time. A course may be offered
+				to
+				more than one class/section. Instruction, provided by one or more
+				teachers or other staff members, may be delivered in person or via a
+				different medium.
+
+				Associations: TeacherSectionAssociation,
+				StudentSectionAssociation,
+				SectionAssessmentAssociation,
+				SectionBellScheduleAssociation
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="uniqueSectionCode" type="uniqueSectionCode">
+				<xs:annotation>
+					<xs:documentation>A unique identifier for the section that is
+						defined by the classroom, the subjects taught, and the
+						instructors that are assigned.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sequenceOfCourse">
+				<xs:annotation>
+					<xs:documentation>When a section is part of a sequence of parts
+						for
+						a course, the number if the sequence. If the course has only
+						one
+						part, the value of this section attribute should be 1.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="1" />
+						<xs:maxInclusive value="8" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element minOccurs="0" name="educationalEnvironment"
+				type="educationalEnvironmentType">
+				<xs:annotation>
+					<xs:documentation>The setting in which a child receives education
+						and related services; for example:
+						Center-based instruction
+						Home-based instruction
+						Hospital class
+						Mainstream
+						Residential care
+						and
+						treatment facility
+						....
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element minOccurs="0" name="mediumOfInstruction" type="mediumOfInstructionType">
+				<xs:annotation>
+					<xs:documentation>The media through which teachers provide
+						instruction to students and students and teachers communicate
+						about instructional matters; for example:
+						Technology-based
+						instruction in classroom
+						Correspondence instruction
+						Face-to-face
+						instruction
+						Virtual/On-line Distance learning
+						Center-based
+						instruction
+						...
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element minOccurs="0" name="populationServed" type="populationServedType">
+				<xs:annotation>
+					<xs:documentation>The population for which the course was
+						designed; for example:
+						Bilingual students
+						Remedial education
+						students
+						Gifted and talented students
+						Career and Technical
+						Education students
+						Special education students
+						....
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element minOccurs="0" name="availableCredit" type="credits">
+				<xs:annotation>
+					<xs:documentation>The amount of credit available to a student who
+						successfully meets the objectives of the course. Available
+						credits
+						are measured in Carnegie units, A course meeting every day
+						for one
+						period of the school day over the span of a school
+						year
+						offers one Carnegie unit. See publication: U.S. Department
+						of
+						Education, NCES, 2007-341, Secondary School Course
+						Classification
+						System: School Codes for the Exchange of Data
+						(SCED).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<xs:element name="schoolId" type="reference">
+				<xs:annotation>
+					<xs:documentation>The school where the section is taught.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>school</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
+			<!-- obtain location information via SectionBellScheduleAssocation -->
+
+			<xs:element maxOccurs="1" minOccurs="1" name="sessionId"
+				type="reference">
+				<xs:annotation>
+					<xs:documentation>The session associated with the section. This
+						reference is required.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>session</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
+			<xs:element maxOccurs="unbounded" minOccurs="0"
+				name="programReference" type="reference">
+				<xs:annotation>
+					<xs:documentation>Optional reference to program (e.g., CTE, etc.)
+						the section is associated with.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>program</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
+			<xs:element maxOccurs="1" minOccurs="1" name="courseId"
+				type="reference">
+				<xs:annotation>
+					<xs:documentation>The course associated with the section. This
+						reference is required.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>course</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="school">
+		<xs:annotation>
+			<xs:documentation>This entity represents an educational organization
+				that includes staff
+				and students who participate in classes and
+				educational activity
+				groups.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="educationOrganization">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" name="gradesOffered"
+						type="gradeLevelType">
+						<xs:annotation>
+							<xs:documentation>The grade levels served at the school.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="schoolCategories" type="schoolCategoryItemType">
+						<xs:annotation>
+							<xs:documentation>The one or more categories of school. For
+								example:
+								High School, Middle School, and/or Elementary School.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="0" name="schoolType" type="schoolType">
+						<xs:annotation>
+							<xs:documentation>The type of education institution as
+								classified
+								by its
+								primary focus.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="0" name="charterStatus" type="charterStatusType">
+						<xs:annotation>
+							<xs:documentation>A school or agency providing free public
+								elementary or
+								secondary education to eligible students under a
+								specific charter
+								granted by the state legislature or other
+								appropriate authority
+								and
+								designated by such authority to be a
+								charter school.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="0" name="titleIPartASchoolDesignation"
+						type="titleIPartASchoolDesignationType">
+						<xs:annotation>
+							<xs:documentation>Denotes the Title I Part A designation for the
+								school.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="0"
+						name="magnetSpecialProgramEmphasisSchool" type="magnetSpecialProgramEmphasisSchoolType">
+						<xs:annotation>
+							<xs:documentation>A school that has been designed: 1) to attract
+								students of different racial/ethnic backgrounds for the purpose
+								of
+								reducing, preventing, or eliminating racial isolation; and/or
+								2) to
+								provide an academic or social focus on a particular theme
+								(e.g.,
+								science/math, performing arts, gifted/talented, or
+								foreign
+								language).
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="0" name="administrativeFundingControl"
+						type="administrativeFundingControlType">
+						<xs:annotation>
+							<xs:documentation>The type of education institution as
+								classified
+								by its
+								funding source, for example public or private.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="schoolSessionAssociation">
+		<xs:annotation>
+			<xs:documentation>This entity represents the association of a school
+				with all its sessions.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="gradingPeriod" type="gradingPeriod">
+				<xs:annotation>
+					<xs:documentation>Grading period dates and durations for the
+						session.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="schoolId" type="reference">
+				<xs:annotation>
+					<xs:documentation>Reference to the school associated with the
+						session.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>school</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sessionId" type="reference">
+				<xs:annotation>
+					<xs:documentation>Reference to the session offered at the school.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>session</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -3250,6 +3614,59 @@
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:complexType name="gradebookEntry">
+		<xs:annotation>
+			<xs:documentation>GradebookEntry
+				This entity represents a teacher’s
+				assignment, homework, or classroom
+				assessment to be recorded in a
+				gradebook.
+				Associations: studentSectionGradebookEntry, section.
+				This
+				is similar to a studentSectionGradebookEntry, but this entity
+				represents the
+				assessment/evaluation, not the grade a student
+				received.
+				Limitations: None
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="gradebookEntryType" type="gradebookEntryType">
+				<xs:annotation>
+					<xs:documentation>The type of the gradebook entry; for example,
+						homework, assignment, quiz, unit test, oral presentation, etc.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateAssigned" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>The date the assignment, homework, or assessment
+						was assigned or executed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" type="description"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A description of the assignment, homework, or
+						classroom
+						assessment.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sectionId" type="reference">
+				<xs:annotation>
+					<xs:documentation>Section where gradebook entry was recorded.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>section</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="gradingPeriod">
 		<xs:annotation>
 			<xs:documentation>
@@ -4299,6 +4716,62 @@
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Date class ranking was determined.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="program">
+		<xs:annotation>
+			<xs:documentation>
+				This entity represents any program designed to work
+				in conjunction with or to supplement the main
+				academic program.
+				Programs may provide instruction, training, services or benefits
+				through federal,
+				state, or local agencies. Programs may also include
+				organized extracurricular activities for students.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="0" name="programId" type="programId">
+				<xs:annotation>
+					<xs:documentation>
+						A unique number or alphanumeric code assigned to
+						a program by a school, school system, a
+						state, or other agency or
+						entity.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="programType" type="programType">
+				<xs:annotation>
+					<xs:documentation>
+						The formal name of the program of instruction,
+						training, services or benefits available
+						through federal, state,
+						or
+						local agencies.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element minOccurs="0" name="programSponsor" type="programSponsorType">
+				<xs:annotation>
+					<xs:documentation>
+						Ultimate and intermediate providers of funds for
+						a particular educational or service
+						program or activity or for an
+						individual's participation in the program or activity; e.g.,
+						Federal, State, ESC, District, School, Private Org, etc.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="services"
+				type="serviceDescriptorType">
+				<xs:annotation>
+					<xs:documentation>Defines the services provided by this program to
+						students.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
