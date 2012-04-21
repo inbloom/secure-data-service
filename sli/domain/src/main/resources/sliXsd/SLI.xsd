@@ -10,65 +10,7 @@
 
 	<xs:element name="assessment" type="assessment" />
 	<xs:element name="attendance" type="attendance" />
-
-	<xs:element name="bellSchedule">
-		<xs:annotation>
-			<xs:documentation>BellSchedule
-
-				This entity represents the schedule of
-				class period
-				meeting times.
-
-				Associations:
-				EventBellScheduleAssociation, SectionBellScheduleAssociation
-			</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="bellScheduleName" type="xs:string">
-					<xs:annotation>
-						<xs:documentation>
-							Name or title of the bell schedule.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="gradeLevels">
-					<xs:annotation>
-						<xs:documentation>
-							The grade levels the particular bell schedule
-							applies to.
-						</xs:documentation>
-					</xs:annotation>
-					<xs:simpleType>
-						<xs:list itemType="gradeLevelType">
-						</xs:list>
-					</xs:simpleType>
-				</xs:element>
-				<xs:element name="weeksInCycle">
-					<xs:annotation>
-						<xs:documentation>
-							The number of weeks in which the meeting time
-							schedules repeat.
-						</xs:documentation>
-					</xs:annotation>
-					<xs:simpleType>
-						<xs:restriction base="xs:int">
-							<xs:minInclusive value="1" />
-							<xs:maxInclusive value="52" />
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:element>
-				<xs:element maxOccurs="unbounded" name="sessionsOffered"
-					type="xs:string">
-					<xs:annotation>
-						<xs:documentation>
-							The sessions associated with this bell schedule.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+	<xs:element name="bellSchedule" type="bellSchedule" />
 
 	<xs:element name="cohort">
 		<xs:annotation>
