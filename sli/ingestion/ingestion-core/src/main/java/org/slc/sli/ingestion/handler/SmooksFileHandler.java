@@ -38,7 +38,8 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     private String lzDirectory;
 
     @Override
-    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
+            FileProcessStatus fileProcessStatus) {
         try {
 
             generateNeutralRecord(fileEntry, errorReport, fileProcessStatus);
@@ -55,8 +56,8 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         return fileEntry;
     }
 
-    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) throws IOException,
-            SAXException {
+    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport,
+            FileProcessStatus fileProcessStatus) throws IOException, SAXException {
 
         File neutralRecordOutFile = createTempFile();
 
@@ -76,7 +77,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             smooks.filterSource(new StreamSource(inputStream));
         } catch (SmooksException se) {
-            LOG.error("smooks exception encountered:\n" + Arrays.toString(se.getStackTrace()));
+            LOG.error("smooks exception encountered: " + se.getMessage() + "\n" + Arrays.toString(se.getStackTrace()));
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
             IOUtils.closeQuietly(inputStream);
@@ -112,7 +113,8 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     }
 
     /**
-     * @param lzDirectory the lzDirectory to set
+     * @param lzDirectory
+     *            the lzDirectory to set
      */
     public void setLzDirectory(String lzDirectory) {
         this.lzDirectory = lzDirectory;
