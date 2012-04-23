@@ -110,7 +110,6 @@ public class ParameterConstants {
     public static final String STUDENT_COMPETENCY_ID = "studentCompetencyId";
     public static final String STUDENT_COMPETENCY_OBJECTIVE_ID = "studentCompetencyObjectiveId";
     public static final String TEACHER_ID = "teacherId";
-    public static final String STUDENT_ACADEMIC_RECORD_ID = "studentAcademicRecordId";
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRY_ID = "studentSectionGradebookEntryId";
     public static final String COHORT_ID = "cohortId";
     public static final String EDUCATION_ORGANIZATION_ID = "educationOrganizationId";

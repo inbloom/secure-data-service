@@ -28,7 +28,6 @@ public final class EntityNames {
     public static final String STAFF = "staff";
     public static final String STUDENT = "student";
     public static final String LEARNINGOBJECTIVE = "learningObjective";
-    public static final String STUDENT_ACADEMIC_RECORD = "studentAcademicRecord";
     public static final String STUDENT_COMPETENCY = "studentCompetency";
     public static final String STUDENT_COMPETENCY_OBJECTIVE = "studentCompetencyObjective";
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRY = "studentSectionGradebookEntry";
