@@ -271,11 +271,14 @@
 				<filtering>true</filtering>
 				<targetPath>${project.build.directory}</targetPath>
 			</resource>
-			<resource>
-				<directory>src/test/resources</directory>
-				<filtering>true</filtering>
-			</resource>
 		</resources>
+                <testResources>
+                    <testResource>
+                        <directory>src/test/resources</directory>
+                        <filtering>true</filtering>
+                    </testResource>
+                </testResources>
+
 		<defaultGoal>install</defaultGoal>
 
 

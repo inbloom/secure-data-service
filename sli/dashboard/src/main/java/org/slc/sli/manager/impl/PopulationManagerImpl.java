@@ -116,7 +116,7 @@ public class PopulationManagerImpl implements PopulationManager {
         applyAssessmentFilters(studentSummaries, config);
 
         // data enhancements
-        enhanceListOfStudents(studentSummaries);
+        enhanceListOfStudents(studentSummaries, (String) sectionId);
 
         // get student grades (kindergarten, first grade, etc..) - TODO: get this data from the integrated API call
         updateWithStudentGrades(token, studentSummaries);
@@ -156,7 +156,7 @@ public class PopulationManagerImpl implements PopulationManager {
      *
      * @param studentSummaries
      */
-    public void enhanceListOfStudents(List<GenericEntity> studentSummaries) {
+    public void enhanceListOfStudents(List<GenericEntity> studentSummaries, String sectionId) {
         if (studentSummaries != null) {
             int count = 0;
             for (GenericEntity student : studentSummaries) {
@@ -171,7 +171,8 @@ public class PopulationManagerImpl implements PopulationManager {
                 addFullName(student);
 
                 // TODO - Switch once real API data is implemented
-                addGrade(student, count++);
+                addFinalGrade(student, sectionId);
+//                addGrade(student, count++);
 
                 // transform assessment score format
                 transformAssessmentFormat(student);
@@ -297,57 +298,102 @@ public class PopulationManagerImpl implements PopulationManager {
         student.remove(Constants.ATTR_LINKS);
     }
 
-    private void addGrade(GenericEntity student, int count) {
-        Map<String, Object> grade = new LinkedHashMap<String, Object>();
+//    private void addGrade(GenericEntity student, int count) {
+//        Map<String, Object> grade = new LinkedHashMap<String, Object>();
+//
+//        switch (count % 15) {
+//            case 0:
+//                grade.put("grade", "A+");
+//                break;
+//            case 1:
+//                grade.put("grade", "B+");
+//                break;
+//            case 2:
+//                grade.put("grade", "C+");
+//                break;
+//            case 3:
+//                grade.put("grade", "D+");
+//                break;
+//            case 4:
+//                grade.put("grade", "F+");
+//                break;
+//            case 5:
+//                grade.put("grade", "A");
+//                break;
+//            case 6:
+//                grade.put("grade", "B");
+//                break;
+//            case 7:
+//                grade.put("grade", "C");
+//                break;
+//            case 8:
+//                grade.put("grade", "D");
+//                break;
+//            case 9:
+//                grade.put("grade", "F");
+//                break;
+//            case 10:
+//                grade.put("grade", "A-");
+//                break;
+//            case 11:
+//                grade.put("grade", "B-");
+//                break;
+//            case 12:
+//                grade.put("grade", "C-");
+//                break;
+//            case 13:
+//                grade.put("grade", "D-");
+//                break;
+//            case 14:
+//                grade.put("grade", "F-");
+//                break;
+//        }
+//        student.put("score", grade);
+//    }
+    
+    private void addFinalGrade(GenericEntity student, String sectionId){
+    	try {
+    		
+        	Map<String, Object> transcripts = (Map<String, Object>) student.get(Constants.ATTR_TRANSCRIPT);    
+        	String courseId = null;
+        	
+        	//First we have to get the courseId for the section because of the data structure passed to us by API.
+        	List<Map<String, Object>> stuSectAssocs = (List<Map<String, Object>>) transcripts.get(Constants.ATTR_STUDENT_SECTION_ASSOC);
+        	for(Map<String,Object> assoc : stuSectAssocs){
+        		if( sectionId.equalsIgnoreCase((String)assoc.get(Constants.ATTR_SECTION_ID))) {
+        			Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
+            		courseId = (String) sections.get(Constants.ATTR_COURSE_ID);
+            		break;
+        		}
+        	}
+        	
+        	//If we have a courseId we can pull the grade from the transcripts, otherwise we place ?
+        	//to indicate that an error occured on the application server.  If the grade appears as
+        	//UND in a view, it will indicate a rendering/client side problem. ? indicates an Application server
+        	// or data error.
+        	if(courseId == null) {
+                Map <String, Object> grade = new LinkedHashMap<String,Object>();
+                student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
+        	} else {
+            	List<Map<String, Object>> stuTransAssocs = (List<Map<String, Object>>) transcripts.get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC);       	
+            	for(Map<String,Object> assoc : stuTransAssocs){
+                    if(courseId.equalsIgnoreCase((String)assoc.get(Constants.ATTR_COURSE_ID))) {
+                        Map <String, Object> grade = new LinkedHashMap<String,Object>();
+                        student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, assoc.get(Constants.ATTR_FINAL_LETTER_GRADE)));
+                        break;
+                    }
+                }   
+        	}
+    	} catch (ClassCastException ex) {
+    		ex.printStackTrace();
+    		Map <String, Object> grade = new LinkedHashMap<String,Object>();
+            student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
+    	} catch (NullPointerException ex) {
+    		ex.printStackTrace();
+    		Map <String, Object> grade = new LinkedHashMap<String,Object>();
+            student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
+    	}
 
-        switch (count % 15) {
-            case 0:
-                grade.put("grade", "A+");
-                break;
-            case 1:
-                grade.put("grade", "B+");
-                break;
-            case 2:
-                grade.put("grade", "C+");
-                break;
-            case 3:
-                grade.put("grade", "D+");
-                break;
-            case 4:
-                grade.put("grade", "F+");
-                break;
-            case 5:
-                grade.put("grade", "A");
-                break;
-            case 6:
-                grade.put("grade", "B");
-                break;
-            case 7:
-                grade.put("grade", "C");
-                break;
-            case 8:
-                grade.put("grade", "D");
-                break;
-            case 9:
-                grade.put("grade", "F");
-                break;
-            case 10:
-                grade.put("grade", "A-");
-                break;
-            case 11:
-                grade.put("grade", "B-");
-                break;
-            case 12:
-                grade.put("grade", "C-");
-                break;
-            case 13:
-                grade.put("grade", "D-");
-                break;
-            case 14:
-                grade.put("grade", "F-");
-                break;
-        }
-        student.put("score", grade);
     }
 
     /**

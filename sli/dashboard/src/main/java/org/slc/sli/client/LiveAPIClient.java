@@ -209,7 +209,7 @@ public class LiveAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
         return createEntitiesFromAPI(getApiUrl() + "/v1" + SECTIONS_URL + sectionId
-                + "/studentSectionAssociations" + "/students" + "?optionalFields=assessments,attendances.1", token, false);
+                + "/studentSectionAssociations" + "/students" + "?optionalFields=assessments,attendances.1," + Constants.ATTR_TRANSCRIPT, token, false);
     }
 
     @Override
