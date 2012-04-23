@@ -30,6 +30,7 @@ import org.slc.sli.manager.Manager.EntityMappingManager;
 import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.DashboardException;
+import org.slc.sli.util.ExecutionTimeLogger.LogExecutionTime;
 import org.slc.sli.util.SecurityUtil;
 
 /**
@@ -237,13 +238,11 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
 
     @Override
     public ModelAndViewConfig getModelAndViewConfig(String componentId, Object entityKey) {
-
-        ModelAndViewConfig modelAndViewConfig = new ModelAndViewConfig();
-        populateModelRecursively(modelAndViewConfig, componentId, entityKey, null, null, null, 0, false);
-        return modelAndViewConfig;
+        return getModelAndViewConfig(componentId, entityKey, false);
     }
 
     @Override
+    @LogExecutionTime
     public ModelAndViewConfig getModelAndViewConfig(String componentId, Object entityKey, boolean lazyOverride) {
 
         ModelAndViewConfig modelAndViewConfig = new ModelAndViewConfig();
@@ -348,6 +347,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         }
     }
 
+    @LogExecutionTime
     protected GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
         CacheKey cacheKey = new CacheKey(getTokenId(), componentId, entityKey, config);
         GenericEntity value = getCached(cacheKey);

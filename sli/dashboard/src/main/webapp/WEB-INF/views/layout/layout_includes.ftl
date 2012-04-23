@@ -5,13 +5,22 @@
   </#if>
 </#macro>
 
+<#macro includePanelContent panel>
+  <#if panel.type == "PANEL">
+    <#include "../panel/" + panel.id + ".ftl">
+  </#if> 
+  <#if panel.type == "GRID">
+    <@includeGrid gridId=panel.id/>
+  </#if>   
+</#macro>
+
 <#function getDivId panelId>
   <#return panelId + "-" + random.nextInt(99999)?string("#####")>
 </#function>
 
 <#macro includeGrid gridId>
   
-  <#assign id = getDivId(panelConfig.id)>
+  <#assign id = getDivId(gridId)>
   </br>
 <div class="ui-widget-no-border">
     <table id="${id}"></table>
