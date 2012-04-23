@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * A model element that can be found in a name-space.
  */
-public abstract class NamespaceOwnedElement extends UmlNamedModelElement {
+public abstract class NamespaceOwnedElement extends NamedModelElement {
     
     public NamespaceOwnedElement(final Identifier id, final String name, final List<TaggedValue> taggedValues) {
         super(id, name, taggedValues);

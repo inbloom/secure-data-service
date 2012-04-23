@@ -16,11 +16,10 @@ import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.EnumLiteral;
 import org.slc.sli.modeling.uml.EnumType;
-import org.slc.sli.modeling.uml.Taggable;
-import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.Range;
+import org.slc.sli.modeling.uml.Taggable;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.Mapper;
@@ -28,7 +27,7 @@ import org.slc.sli.modeling.xmi.XmiAttributeName;
 import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
 
 public final class PsmConfigWriter {
-    
+
     private static final void closeQuiet(final Closeable closeable) {
         try {
             closeable.close();
@@ -36,7 +35,7 @@ public final class PsmConfigWriter {
             e.printStackTrace();
         }
     }
-    
+
     private static final void writeAttribute(final Attribute attribute, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(PsmConfigElements.ATTRIBUTE.getLocalPart());
@@ -76,7 +75,7 @@ public final class PsmConfigWriter {
             xsw.writeEndElement();
         }
     }
-    
+
     private static final String toString(final Occurs value) {
         if (value == null) {
             throw new NullPointerException("value");
@@ -96,11 +95,11 @@ public final class PsmConfigWriter {
             }
         }
     }
-    
+
     @SuppressWarnings("unused")
     private static final void writePimClassType(final ClassType classType, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
-        xsw.writeStartElement(PsmConfigElements.PIM_CLASS_REF.getLocalPart());
+        xsw.writeStartElement(PsmConfigElements.CLASS_TYPE.getLocalPart());
         try {
             xsw.writeStartElement(PsmConfigElements.NAME.getLocalPart());
             try {
@@ -116,7 +115,7 @@ public final class PsmConfigWriter {
             xsw.writeEndElement();
         }
     }
-    
+
     @SuppressWarnings("unused")
     private static final void writePimDataType(final DataType dataType, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
@@ -134,7 +133,7 @@ public final class PsmConfigWriter {
             xsw.writeEndElement();
         }
     }
-    
+
     @SuppressWarnings("unused")
     private static final void writePimEnumType(final EnumType enumType, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
@@ -160,7 +159,7 @@ public final class PsmConfigWriter {
             xsw.writeEndElement();
         }
     }
-    
+
     private static final void writeDescription(final Taggable type, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         for (final TaggedValue taggedValue : type.getTaggedValues()) {
@@ -175,27 +174,27 @@ public final class PsmConfigWriter {
             }
         }
     }
-    
+
     private static final void writeCollection(final PsmCollection collection, final XMLStreamWriter xsw)
             throws XMLStreamException {
-        xsw.writeStartElement(PsmConfigElements.COLLECTION.getLocalPart());
+        xsw.writeStartElement(PsmConfigElements.COLLECTION_NAME.getLocalPart());
         try {
             xsw.writeCharacters(collection.getName());
         } finally {
             xsw.writeEndElement();
         }
     }
-    
+
     private static final void writeResource(final PsmResource resource, final XMLStreamWriter xsw)
             throws XMLStreamException {
-        xsw.writeStartElement(PsmConfigElements.RESOURCE.getLocalPart());
+        xsw.writeStartElement(PsmConfigElements.RESOURCE_NAME.getLocalPart());
         try {
             xsw.writeCharacters(resource.getName());
         } finally {
             xsw.writeEndElement();
         }
     }
-    
+
     private static final void writeFacets(final Taggable type, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         for (final TaggedValue taggedValue : type.getTaggedValues()) {
@@ -210,7 +209,7 @@ public final class PsmConfigWriter {
             }
         }
     }
-    
+
     public static final void writeConfig(final PsmConfig<Type> documentation, final Model model,
             final OutputStream outstream) {
         final XMLOutputFactory xof = XMLOutputFactory.newInstance();
@@ -228,7 +227,7 @@ public final class PsmConfigWriter {
             throw new RuntimeException(e);
         }
     }
-    
+
     public static final void writeConfig(final PsmConfig<Type> documentation, final Model model, final String fileName) {
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(fileName));
@@ -241,32 +240,33 @@ public final class PsmConfigWriter {
             e.printStackTrace();
         }
     }
-    
-    private static final void writeClassType(final PsmClassType<Type> classType, final XMLStreamWriter xsw)
+
+    private static final void writeDocument(final PsmDocument<Type> document, final XMLStreamWriter xsw)
             throws XMLStreamException {
-        xsw.writeStartElement(PsmConfigElements.PSM_CLASS_TYPE.getLocalPart());
+        xsw.writeStartElement(PsmConfigElements.DOCUMENT.getLocalPart());
         try {
-            final Type type = classType.getType();
-            xsw.writeStartElement(PsmConfigElements.PIM_CLASS_REF.getLocalPart());
+            final Type type = document.getType();
+            // The type name is a reasonable default for the document name.
+            xsw.writeAttribute(XmiAttributeName.NAME.getLocalName(), type.getName());
+            xsw.writeStartElement(PsmConfigElements.CLASS_TYPE.getLocalPart());
             try {
-                final Identifier id = type.getId();
-                xsw.writeAttribute(XmiAttributeName.IDREF.getLocalName(), id.toString());
+                xsw.writeAttribute(XmiAttributeName.NAME.getLocalName(), type.getName());
             } finally {
                 xsw.writeEndElement();
             }
-            writeResource(classType.getResource(), xsw);
-            writeCollection(classType.getCollection(), xsw);
+            writeResource(document.getResource(), xsw);
+            writeCollection(document.getCollection(), xsw);
         } finally {
             xsw.writeEndElement();
         }
     }
-    
+
     private static final void writeRoot(final PsmConfig<Type> documentation, final Model model,
             final XMLStreamWriter xsw) throws XMLStreamException {
-        xsw.writeStartElement(PsmConfigElements.PSM_CFG.getLocalPart());
+        xsw.writeStartElement(PsmConfigElements.DOCUMENTS.getLocalPart());
         try {
-            for (final PsmClassType<Type> domain : documentation.getClassTypes()) {
-                writeClassType(domain, xsw);
+            for (final PsmDocument<Type> document : documentation.getDocuments()) {
+                writeDocument(document, xsw);
             }
         } finally {
             xsw.writeEndElement();

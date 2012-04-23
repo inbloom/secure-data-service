@@ -7,7 +7,7 @@ import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
-import org.slc.sli.modeling.uml.UmlModelElement;
+import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.index.DefaultMapper;
 import org.slc.sli.modeling.uml.index.Mapper;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
@@ -16,12 +16,12 @@ public final class WhereUsedCmdLine {
 
     public static void main(final String[] args) {
         try {
-            final Model model = XmiReader.readModel("Ed-Fi-Core.xmi");
+            final Model model = XmiReader.readModel("SLI.xmi");
             final Mapper index = new DefaultMapper(model);
 
-            final String name = "Grade";
-            final Set<UmlModelElement> matches = index.lookupByName(name);
-            for (final UmlModelElement match : matches) {
+            final String name = "percent";
+            final Set<ModelElement> matches = index.lookupByName(name);
+            for (final ModelElement match : matches) {
                 System.out.println("name : " + name + " => " + match);
                 showUsage(index, match.getId(), "  ");
             }
@@ -31,8 +31,8 @@ public final class WhereUsedCmdLine {
     }
 
     private static final void showUsage(final Mapper index, final Identifier id, final String indent) {
-        final Set<UmlModelElement> usages = index.whereUsed(id);
-        for (final UmlModelElement usage : usages) {
+        final Set<ModelElement> usages = index.whereUsed(id);
+        for (final ModelElement usage : usages) {
             if (usage instanceof ClassType) {
                 final ClassType classType = (ClassType) usage;
                 System.out.println(indent + "classType : " + classType.getName());
