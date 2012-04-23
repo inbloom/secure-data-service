@@ -3,11 +3,6 @@ package org.slc.sli.sample.tranform;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +63,10 @@ public class CSV2XMLTransformer {
     // output Ed-Fi xml file
     private static String interchangeStudentParentFile = "data/InterchangeStudentParent.xml";
 
+    /**
+     * open csv files and create CSV reader for each file
+     * @throws IOException
+     */
     private void loadData() throws IOException {
         // load student data
         studentReader = new CSVReader(studentFile);
@@ -83,6 +82,11 @@ public class CSV2XMLTransformer {
         studentParentAssociationReader = new CSVReader(studentParentAssociationFile);
     }
 
+    /**
+     * Convert csv files into one xml and print it into PrintStream: ps
+     * @param ps
+     * @throws JAXBException
+     */
     private void printInterchangeStudentParent(PrintStream ps) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(InterchangeStudentParent.class);
         Marshaller marshaller = context.createMarshaller();
@@ -109,6 +113,10 @@ public class CSV2XMLTransformer {
         marshaller.marshal(interchangeStudentParent, ps);
     }
 
+    /**
+     * generate student jaxb object from csv records
+     * @return one jaxb student object
+     */
     private Student getStudent() {
         Map<String, String> studentRecord = studentReader.getCurrentRecord();
 
@@ -189,6 +197,10 @@ public class CSV2XMLTransformer {
         return student;
     }
 
+    /**
+     * generate jaxb parent object from csv record
+     * @return jaxb parent object
+     */
     private Parent getParent() {
         Map<String, String> parentRecord = parentReader.getCurrentRecord();
 
@@ -213,6 +225,10 @@ public class CSV2XMLTransformer {
         return parent;
     }
 
+    /**
+     * generate StudentParentAssociation jaxb object from csv record
+     * @return a studentParentAssociation jaxb object
+     */
     private StudentParentAssociation getStudentParentAssociation() {
         Map<String, String> studentParentAssociationRecord = studentParentAssociationReader.getCurrentRecord();
 
@@ -251,6 +267,11 @@ public class CSV2XMLTransformer {
         return studentParentAssociation;
     }
 
+    /**
+     * generate address jaxb object from csv record
+     * @param addressRecord
+     * @return an Address jaxb object
+     */
     private Address getAddress(Map<String, String> addressRecord) {
         Address address = new Address();
 
@@ -273,28 +294,33 @@ public class CSV2XMLTransformer {
         return address;
     }
 
-    private Name getName(Map<String, String> record) {
+    /**
+     * generate name jaxb object from csv record
+     * @param nameRecord
+     * @return a name jaxb object
+     */
+    private Name getName(Map<String, String> nameRecord) {
         Name name = new Name();
 
-        String verification = record.get("Verification");
+        String verification = nameRecord.get("Verification");
         if (!verification.isEmpty()) {
             name.setVerification(PersonalInformationVerificationType.fromValue(verification));
         }
 
-        String prefix = record.get("PersonalTitlePrefix");
+        String prefix = nameRecord.get("PersonalTitlePrefix");
         if (!prefix.isEmpty()) {
         name.setPersonalTitlePrefix(PersonalTitlePrefixType.fromValue(prefix));
         }
 
-        name.setFirstName(record.get("FirstName"));
+        name.setFirstName(nameRecord.get("FirstName"));
 
-        String middleName = record.get("MiddleName");
+        String middleName = nameRecord.get("MiddleName");
         if (!middleName.isEmpty()) {
             name.setMiddleName(middleName);
         }
-        name.setLastSurname(record.get("LastSurname"));
+        name.setLastSurname(nameRecord.get("LastSurname"));
 
-        String generation = record.get("GenerationCodeSuffix");
+        String generation = nameRecord.get("GenerationCodeSuffix");
         if (!generation.isEmpty()) {
             name.setGenerationCodeSuffix(GenerationCodeSuffixType.fromValue(generation));
         }
@@ -303,6 +329,7 @@ public class CSV2XMLTransformer {
     }
 
     /**
+     * main method
      * @param args
      * @throws Exception
      */
