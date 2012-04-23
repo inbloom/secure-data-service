@@ -105,6 +105,7 @@ public class PathConstants {
 
         TEMP_MAP.put(ResourceNames.ASSESSMENTS, ASSESSMENTS);
         TEMP_MAP.put(ResourceNames.LEARNINGOBJECTIVES, LEARNING_OBJECTIVES);
+        TEMP_MAP.put(ResourceNames.LEARNINGSTANDARDS, LEARNING_STANDARDS);
         TEMP_MAP.put(ResourceNames.ATTENDANCES, ATTENDANCES);
         TEMP_MAP.put(ResourceNames.BELL_SCHEDULES, BELL_SCHEDULES);
         TEMP_MAP.put(ResourceNames.COHORTS, COHORTS);
