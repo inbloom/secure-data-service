@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.model;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -227,13 +228,32 @@ public final class NewBatchJob implements Job {
     @Override
     public List<IngestionFileEntry> getFiles() {
         List<IngestionFileEntry> ingestionFileEntries = new ArrayList<IngestionFileEntry>();
+
+        // create IngestionFileEntry items from eligible ResourceEntry items
         for (ResourceEntry resourceEntry : resourceEntries) {
             FileFormat fileFormat = FileFormat.findByCode(resourceEntry.getResourceFormat());
-            FileType fileType = FileType.findByNameAndFormat(resourceEntry.getResourceType(), fileFormat);
+            if (fileFormat != null && resourceEntry.getResourceType() != null) {
 
-            IngestionFileEntry ingestionFileEntry = new IngestionFileEntry(fileFormat, fileType,
-                    resourceEntry.getResourceName(), resourceEntry.getChecksum());
-            ingestionFileEntries.add(ingestionFileEntry);
+                FileType fileType = FileType.findByNameAndFormat(resourceEntry.getResourceType(), fileFormat);
+                if (fileType != null) {
+                    IngestionFileEntry ingestionFileEntry = new IngestionFileEntry(fileFormat, fileType,
+                            resourceEntry.getResourceId(), resourceEntry.getChecksum());
+                    ingestionFileEntries.add(ingestionFileEntry);
+                }
+            }
+        }
+
+        // assign neutral record files to IngestionFileEntry
+        for (ResourceEntry resourceEntry : resourceEntries) {
+            if (FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())
+                    && resourceEntry.getResourceName() != null) {
+                for (IngestionFileEntry ife : ingestionFileEntries) {
+                    if (ife.getFileName().equals(resourceEntry.getExternallyUploadedResourceId())) {
+                        ife.setNeutralRecordFile(new File(resourceEntry.getResourceName()));
+                        break;
+                    }
+                }
+            }
         }
         return ingestionFileEntries;
     }
