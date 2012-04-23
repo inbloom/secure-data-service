@@ -205,4 +205,14 @@ Scenario: Post a zip file and then post it against and make sure the updated dat
   And I find a(n) "student" record where "metaData.externalId" is equal to "100000000"
   And verify that "metaData.created" is unequal to "metaData.updated"
 
+#Background: zip file contains a .txt and .rtf files, which should fail ingestion
+Scenario: Post a minimal zip file as a payload of the ingestion job: No Valid Files Test
+Given I post "NoValidFilesInCtlFile.zip" file as the payload of the ingestion job
+
+When zip file is scp to ingestion landing zone
+  And a batch job log has been created
+
+    And I should see "ERROR No valid files specified in control file." in the resulting batch job file
+    And I should see "INFO  Not all records were processed completely due to errors." in the resulting batch job file
+
 
