@@ -1,0 +1,47 @@
+{
+    "keyFields" : ["body.staffId","body.cohortId"],
+    "references" :
+    [{
+        "fieldPath" : "body.staffId",
+        "ref" :
+        {
+            "collectionName" : "staff",
+            "isRefList" : true,
+            "refObjectPath" : "body.staffId",
+            "choiceOfFields" :
+            [
+                [
+                    { 
+                        "path" : "body.staffUniqueStateId",
+                        "values" : 
+                        [{
+                            "valueSource" : "body.staffId.staffIdentity.staffUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
+        }
+    },
+    { 
+        "fieldPath" : "body.cohortId",
+        "ref" :
+        {
+            "collectionName" : "cohort",
+            "isRefList" : true,
+            "refObjectPath" : "body.cohortId",
+            "choiceOfFields" :
+            [
+                [
+                    { 
+                        "path" : "body.cohortIdentifier",
+                        "values" : 
+                        [
+                            {"valueSource" : "body.cohortId.cohortIdentity.cohortIdentifier"}
+                        ]
+                    }
+                ]
+            ]
+        }
+    }]
+}
+
