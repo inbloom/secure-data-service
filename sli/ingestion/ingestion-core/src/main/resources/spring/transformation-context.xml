@@ -95,16 +95,6 @@
 		<property name="passThroughCollectionName" value="studentProgramAssociation" />
     </bean>
 
-    <bean id="cohortTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-        <property name="passThroughCollectionName" value="cohort" />
-    </bean>
-
-    <bean id="studentCohortAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-	<property name="passThroughCollectionName" value="studentCohortAssociation" />
-    </bean>
-		
 	<bean id="cohortTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
         <property name="passThroughCollectionName" value="cohort" />
