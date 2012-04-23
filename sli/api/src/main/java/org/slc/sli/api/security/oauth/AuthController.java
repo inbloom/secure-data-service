@@ -153,12 +153,7 @@ public class AuthController {
         parameters.put("code", authorizationCode);
         parameters.put("redirect_uri", redirectUri);
 
-        String token;
-        try {
-            token = this.sessionManager.verify(authorizationCode, Pair.of(clientId, clientSecret));
-        } catch (OAuthAccessException e) {
-            return handleAccessException(e);
-        }
+        String token = this.sessionManager.verify(authorizationCode, Pair.of(clientId, clientSecret));
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Cache-Control", "no-store");
