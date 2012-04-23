@@ -81,6 +81,7 @@ class AppsController < ApplicationController
 
     if params[:update_districts]
       params[:app] = {:authorized_ed_orgs => params[:authorized_ed_orgs]}
+      params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
     else
       params[:app][:is_admin] = boolean_fix params[:app][:is_admin]
       params[:app][:enabled] = boolean_fix params[:app][:enabled]
@@ -92,8 +93,13 @@ class AppsController < ApplicationController
 
     respond_to do |format|
       if @app.update_attributes(params[:app])
-        format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
-        format.json { head :ok }
+        if params[:update_districts]
+          format.html { redirect_to edit_district_authorization_path, notice: "Updated the app's districts succesfully"}
+          format.json { head :ok }
+        else
+          format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
+          format.json { head :ok }
+        end
       else
         format.html { render action: "edit" }
         format.json { render json: @app.errors, status: :unprocessable_entity }
