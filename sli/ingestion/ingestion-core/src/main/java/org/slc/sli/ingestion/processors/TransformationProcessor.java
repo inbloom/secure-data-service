@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -16,7 +18,6 @@ import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.TransformationFactory;
 import org.slc.sli.ingestion.transformation.Transmogrifier;
-import org.slc.sli.util.performance.Profiled;
 
 /**
  * Camel processor for transformation of data.
@@ -55,10 +56,7 @@ public class TransformationProcessor implements Processor {
         stage.setStageName(BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
         stage.startStage();
 
-//        BatchJob job = exchange.getIn().getBody(BatchJob.class);
-
-//        performDataTransformations(job.getId());
-        performDataTransformations(batchJobId);
+        performDataTransformations(newJob);
 
         exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
 
@@ -72,10 +70,10 @@ public class TransformationProcessor implements Processor {
      *
      * @param job
      */
-    void performDataTransformations(String jobId) {
-        LOG.info("performing data transformation BatchJob: {}", jobId);
+    void performDataTransformations(Job job) {
+        LOG.info("performing data transformation BatchJob: {}", job);
 
-        Transmogrifier transmogrifier = transformationFactory.createTransmogrifier(jobId);
+        Transmogrifier transmogrifier = transformationFactory.createTransmogrifier(job);
 
         transmogrifier.executeTransformations();
 

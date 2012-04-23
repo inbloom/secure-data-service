@@ -23,9 +23,22 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Writing                                      |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Math                                         |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Critical Reading                             |
+     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Arithmetic         |
+     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Algebra            |
+     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Geometry           |
 
-  And I should see "Processed 18 records." in the resulting batch job file
+  And I should see "Processed 7 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "dibelsAssessmentMetadata.xml records considered: 13" in the resulting batch job file
-  And I should see "dibelsAssessmentMetadata.xml records ingested successfully: 13" in the resulting batch job file
+  And I should see "dibelsAssessmentMetadata.xml records considered: 3" in the resulting batch job file
+  And I should see "dibelsAssessmentMetadata.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "dibelsAssessmentMetadata.xml records failed: 0" in the resulting batch job file
+  And I should see "satAssessmentMetadata.xml records considered: 1" in the resulting batch job file
+  And I should see "satAssessmentMetadata.xml records ingested successfully: 1" in the resulting batch job file
+  And I should see "satAssessmentMetadata.xml records failed: 0" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records considered: 1" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records ingested successfully: 1" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
+  And I should see "InterchangeStudentAssessment.xml records considered: 2" in the resulting batch job file
+  And I should see "InterchangeStudentAssessment.xml records ingested successfully: 2" in the resulting batch job file
+  And I should see "InterchangeStudentAssessment.xml records failed: 0" in the resulting batch job file
+  

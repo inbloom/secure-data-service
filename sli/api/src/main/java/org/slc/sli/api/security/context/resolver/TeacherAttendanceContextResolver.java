@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.EntityNames;
-import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * TeacherAttendanceContextResolver
@@ -66,7 +66,7 @@ public class TeacherAttendanceContextResolver implements EntityContextResolver {
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(9999);
         neutralQuery.addCriteria(new NeutralCriteria(sourceKey, "in", ids));
-        
+
         Iterable<Entity> entities = this.repository.findAll(definition.getStoredCollectionName(), neutralQuery);
 
         for (Entity e : entities) {

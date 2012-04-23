@@ -1,28 +1,12 @@
 package org.slc.sli.api.resources.v1.entity;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.util.ResourceConstants;
-import org.slc.sli.api.resources.util.ResourceTestUtil;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import javax.persistence.EntityNotFoundException;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -34,18 +18,38 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import javax.persistence.EntityNotFoundException;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
+
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slc.sli.api.representation.EntityResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.ResourceConstants;
 
 /**
  * Unit tests for v1 entity resources CRUD methods
- * 
+ *
  * @author chung
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -112,7 +116,8 @@ public class EntityResourcesCrudTest {
             assertNotNull("Response is null", response);
             Object responseEntityObj = response.getEntity();
             assertNotNull("Should return an entity", responseEntityObj);
-            EntityBody body = (EntityBody) responseEntityObj;
+            EntityResponse entityResponse = (EntityResponse) responseEntityObj;
+            EntityBody body = (EntityBody) entityResponse.getEntity();
             assertEquals("field1 should be 1", body.get("field1"), "1");
             assertEquals("field2 should be 2", body.get("field2"), 2);
         }
@@ -158,7 +163,8 @@ public class EntityResourcesCrudTest {
             assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
             @SuppressWarnings("unchecked")
-            List<EntityBody> results = (List<EntityBody>) response.getEntity();
+            EntityResponse entityResponse = (EntityResponse) response.getEntity();
+            List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
             assertNotNull("Should return entities", results);
             assertTrue("Should have at least two entities", results.size() >= 2);
         }
@@ -190,7 +196,8 @@ public class EntityResourcesCrudTest {
         Response response = getResponse(classToTest, "update", paramTypes, args);
 
         String resId = ResourceTestUtil.getResourceIdName(resourceName);
-        EntityBody body = (EntityBody) getReadResponse(classToTest, id).getEntity();
+        EntityResponse entityResponse = (EntityResponse) getReadResponse(classToTest, id).getEntity();
+        EntityBody body = (EntityBody) entityResponse.getEntity();
         assertNotNull("Should return an entity", body);
         assertEquals("field1 should be 8", body.get("field1"), 8);
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
@@ -198,13 +205,13 @@ public class EntityResourcesCrudTest {
 
         return response;
     }
-    
+
     private Response getDeleteResponse(String classToTest) {
         String resourceName = classToTest.replace(packageName + ".", "");
         String id = ResourceTestUtil.parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
 
         @SuppressWarnings("rawtypes")
-        Class[] paramTypes = { String.class, HttpHeaders.class, UriInfo.class };        
+        Class[] paramTypes = { String.class, HttpHeaders.class, UriInfo.class };
         Object[] args = { id, httpHeaders, uriInfo };
         Response response = getResponse(classToTest, "delete", paramTypes, args);
 
@@ -219,10 +226,10 @@ public class EntityResourcesCrudTest {
 
         return response;
     }
-    
+
     private Response getReadAllResponse(String classToTest) {
         @SuppressWarnings("rawtypes")
-        Class[] paramTypes = { Integer.TYPE, Integer.TYPE, HttpHeaders.class, UriInfo.class };            
+        Class[] paramTypes = { Integer.TYPE, Integer.TYPE, HttpHeaders.class, UriInfo.class };
         Object[] args = { 0, 100, httpHeaders, uriInfo };
 
         return getResponse(classToTest, "readAll", paramTypes, args);
@@ -230,7 +237,7 @@ public class EntityResourcesCrudTest {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private Response getResponse(String classToTest, String methodName, Class[] paramTypes, Object[] args) {
-        Response response = null;        
+        Response response = null;
         try {
             Class cls = Class.forName(classToTest);
             Constructor ct = cls.getConstructor(EntityDefinitionStore.class);

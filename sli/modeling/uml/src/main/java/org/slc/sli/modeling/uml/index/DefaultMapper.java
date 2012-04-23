@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slc.sli.modeling.uml.Association;
 import org.slc.sli.modeling.uml.AssociationEnd;
@@ -23,12 +24,12 @@ import org.slc.sli.modeling.uml.Visitor;
 
 /**
  * A default implementation of {@link Mapper} that uses {@link Model}.
- * 
+ *
  * Usage: When parsing into a {@link Model} is complete, the model should be set on this class. The
  * object contained in the model will then be available as a graph.
  */
 public final class DefaultMapper implements Mapper {
-    
+
     private static final <T> T assertNotNull(final T obj, final Identifier memo) {
         if (obj != null) {
             return obj;
@@ -36,22 +37,26 @@ public final class DefaultMapper implements Mapper {
             throw new RuntimeException(memo.toString());
         }
     }
-    
+
     private final List<Association> associations;
     private final Map<Identifier, ClassType> classTypeIndex;
     private final Map<Identifier, DataType> dataTypeIndex;
     private final Map<Identifier, UmlModelElement> elementMap;
+    private final Map<String, Set<UmlModelElement>> nameMap;
+    private final Map<Identifier, Set<UmlModelElement>> whereUsed;
     private final Map<Identifier, EnumType> enumTypeIndex;
     private final List<Generalization> generalizations;
-    
+
     private final Map<Identifier, TagDefinition> tagDefinitionIndex;
-    
+
     public DefaultMapper(final Model model) {
         final IndexingVisitor visitor = new IndexingVisitor();
         model.accept(visitor);
         elementMap = Collections
                 .unmodifiableMap(new HashMap<Identifier, UmlModelElement>(visitor.getModelElementMap()));
-        
+        whereUsed = Collections.unmodifiableMap(new HashMap<Identifier, Set<UmlModelElement>>(visitor.getWhereUsed()));
+        nameMap = Collections.unmodifiableMap(new HashMap<String, Set<UmlModelElement>>(visitor.getNameMap()));
+
         final Map<Identifier, ClassType> classTypeIndex = new HashMap<Identifier, ClassType>();
         final Map<Identifier, DataType> dataTypeIndex = new HashMap<Identifier, DataType>();
         final Map<Identifier, EnumType> enumTypeIndex = new HashMap<Identifier, EnumType>();
@@ -59,7 +64,7 @@ public final class DefaultMapper implements Mapper {
         final List<Association> associations = new LinkedList<Association>();
         final List<Generalization> generalizations = new LinkedList<Generalization>();
         final List<UmlPackage> pkgs = new LinkedList<UmlPackage>();
-        
+
         for (final NamespaceOwnedElement ownedElement : model.getOwnedElements()) {
             if (ownedElement instanceof ClassType) {
                 final ClassType classType = (ClassType) ownedElement;
@@ -93,7 +98,7 @@ public final class DefaultMapper implements Mapper {
         this.associations = Collections.unmodifiableList(associations);
         this.generalizations = Collections.unmodifiableList(generalizations);
     }
-    
+
     @Override
     public List<AssociationEnd> getAssociationEnds(final Identifier type) {
         // It might be a good idea to cache this when the model is known.
@@ -116,22 +121,22 @@ public final class DefaultMapper implements Mapper {
         }
         return Collections.unmodifiableList(ends);
     }
-    
+
     @Override
     public Iterable<ClassType> getClassTypes() {
         return classTypeIndex.values();
     }
-    
+
     @Override
     public Iterable<DataType> getDataTypes() {
         return dataTypeIndex.values();
     }
-    
+
     @Override
     public Iterable<EnumType> getEnumTypes() {
         return enumTypeIndex.values();
     }
-    
+
     @Override
     public List<Generalization> getGeneralizationBase(final Identifier derived) {
         // It might be a good idea to cache this when the model is known.
@@ -144,7 +149,7 @@ public final class DefaultMapper implements Mapper {
         }
         return Collections.unmodifiableList(base);
     }
-    
+
     @Override
     public List<Generalization> getGeneralizationDerived(final Identifier base) {
         // It might be a good idea to cache this when the model is known.
@@ -157,12 +162,12 @@ public final class DefaultMapper implements Mapper {
         }
         return Collections.unmodifiableList(derived);
     }
-    
+
     @Override
     public TagDefinition getTagDefinition(final Identifier reference) {
         return assertNotNull(tagDefinitionIndex.get(reference), reference);
     }
-    
+
     @Override
     public Type getType(final Identifier reference) {
         if (elementMap.containsKey(reference)) {
@@ -176,7 +181,25 @@ public final class DefaultMapper implements Mapper {
             throw new IllegalArgumentException(reference.toString());
         }
     }
-    
+
+    @Override
+    public Set<UmlModelElement> whereUsed(final Identifier id) {
+        if (whereUsed.containsKey(id)) {
+            return Collections.unmodifiableSet(whereUsed.get(id));
+        } else {
+            return Collections.emptySet();
+        }
+    }
+
+    @Override
+    public Set<UmlModelElement> lookupByName(final String name) {
+        if (nameMap.containsKey(name)) {
+            return Collections.unmodifiableSet(nameMap.get(name));
+        } else {
+            return Collections.emptySet();
+        }
+    }
+
     @Override
     public void lookup(final Identifier id, final Visitor visitor) {
         elementMap.get(id).accept(visitor);

@@ -39,6 +39,7 @@ public final class Constants {
     public static final String FIELD_TYPE_HISTORICAL_COURSE = "historicalCourse";
     public static final String FIELD_TYPE_UNIT_GRADE = "unitTestGrade";
     public static final String FIELD_TYPE_CURRENT_TERM_GRADE = "currentTermGrade";
+    public static final String CONFIG_ASSESSMENT_FILTER = "assessmentFilter";
     
     // model map keys
     public static final String MM_KEY_LOZENGE_CONFIG = "lozengeConfigs";
@@ -82,6 +83,7 @@ public final class Constants {
     public static final String ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME = "assessmentFamilyHierarchyName";
     public static final String ATTR_ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
     public static final String ATTR_PERFORMANCE_LEVEL_DESCRIPTOR = "performanceLevelDescriptors";
+    public static final String ATTR_CODE_VALUE = "codeValue";
     public static final String ATTR_ASSESSMENT_PERIOD_BEGIN_DATE = "beginDate";
     public static final String ATTR_ASSESSMENT_PERIOD_END_DATE = "endDate";
     public static final String ATTR_STUDENT_OBJECTIVE_ASSESSMENTS = "studentObjectiveAssessments";
@@ -97,11 +99,13 @@ public final class Constants {
     public static final String ATTR_FIRST_NAME = "firstName";
     public static final String ATTR_LAST_SURNAME = "lastSurname";
     public static final String ATTR_MIDDLE_NAME = "middleName";
+    public static final String ATTR_FULL_NAME = "fullName";
     public static final String ATTR_PROGRAMS = "programs";
     public static final String ATTR_YEAR = "year";
     public static final String ATTR_SCALE_SCORE = "Scale score";
     public static final String ATTR_RAW_SCORE = "Raw score";
-    public static final String ATTR_PERF_LEVEL = "Mastery level";
+    public static final String ATTR_MASTERY_LEVEL = "Mastery level";
+    public static final String ATTR_PERF_LEVEL = "perfLevel";
     public static final String ATTR_PERCENTILE = "Percentile";
     public static final String ATTR_LEXILE_SCORE = "Other";
     public static final String ATTR_ED_ORG_ID = "educationOrganizationId";
@@ -135,6 +139,7 @@ public final class Constants {
     public static final String ATTR_GRADEBOOK_ENTRY_TYPE = "gradebookEntryType";
     public static final String ATTR_GRADEBOOK_ENTRIES = "gradebookEntries";
     public static final String ATTR_GRADE_LEVEL = "gradeLevel";
+    public static final String ATTR_GRADE_LEVELS = "gradeLevels";
     public static final String ATTR_STUDENT_ENROLLMENT = "studentEnrollment";
     public static final String ATTR_SCHOOL = "school";
     public static final String ATTR_HEADER_STRING = "headerString";
@@ -142,6 +147,16 @@ public final class Constants {
     public static final String ATTR_OPTIONAL_FIELDS = "optionalFields";
     public static final String ATTR_GRADEBOOK_VIEW = "gradebookView";
     public static final String ATTR_STUDENT_SECTION_GRADEBOOK = "studentSectionGradebookEntries";
+    public static final String ATTR_ATTENDANCE_EVENT_CATEGORY = "attendanceEventCategory";
+    public static final String ATTR_ABSENCE_COUNT = "absenceCount";
+    public static final String ATTR_TARDY_COUNT = "tardyCount";
+    public static final String ATTR_ATTENDANCE_RATE = "attendanceRate";
+    public static final String ATTR_TARDY_RATE = "tardyRate";
+    public static final String ATTR_STUDENTS = "students";
+    public static final String ATTR_TRANSCRIPT = "transcript";
+    public static final String ATTR_STUDENT_TRANSCRIPT_ASSOC = "studentTranscriptAssociations";
+    public static final String ATTR_STUDENT_SECTION_ASSOC = "studentSectionAssociations";
+
 
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";

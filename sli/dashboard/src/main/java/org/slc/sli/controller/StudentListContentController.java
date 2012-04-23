@@ -12,7 +12,7 @@ import org.slc.sli.view.GradebookEntryResolver;
 import org.slc.sli.view.HistoricalDataResolver;
 import org.slc.sli.view.LozengeConfigResolver;
 import org.slc.sli.view.StudentResolver;
-//import org.slc.sli.view.modifier.HistoricalViewModifier;
+import org.slc.sli.view.modifier.HistoricalViewModifier;
 import org.slc.sli.view.modifier.ViewModifier;
 import org.slc.sli.view.modifier.GradebookViewModifer;
 import org.slc.sli.view.AssessmentResolver;
@@ -100,30 +100,11 @@ public class StudentListContentController extends DashboardController {
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, viewManager.getViewConfigs());
             
             ViewConfig viewConfig = viewManager.getViewConfigs().get(viewIndex);
+
             viewManager.setActiveViewConfig(viewConfig);
 
-            /*Commenting this part out due to performance issues
-            * TODO: uncomment
-            * */
-            if (viewConfig.getName().equals(Constants.MIDDLE_SCHOOL_VIEW)) {
-
-//                HistoricalDataResolver historicalDataResolver = getHistoricalDataResolver(selectedCourseId, uids);
-//                model.addAttribute(Constants.MM_KEY_HISTORICAL, historicalDataResolver);
-//
-//                ViewModifier historicalViewModifier = new HistoricalViewModifier(historicalDataResolver);
-//                viewManager.apply(historicalViewModifier);
-
-                long startTime = System.nanoTime();
-
-                GradebookEntryResolver gradebookEntryResolver = getGradebookEntryResolver(selectedSectionId, uids);
-                model.addAttribute(Constants.MM_KEY_GRADEBOOK_ENTRY_DATA, gradebookEntryResolver);
-
-                ViewModifier gradebookViewModifier = new GradebookViewModifer(gradebookEntryResolver);
-                viewManager.apply(gradebookViewModifier);
-
-                LOG.info("@@@@@@@@@@@@@@@@@@ Benchmark for gradebookEntry: {}", (System.nanoTime() - startTime) * 1.0e-9);
-
-            }
+            addHistoricalData(selectedCourseId, model, uids, selectedSectionId);
+            addGradebookEntries(selectedSectionId, model, uids);
             
             model.addAttribute(Constants.MM_KEY_VIEW_CONFIG, viewConfig);
             
@@ -166,6 +147,32 @@ public class StudentListContentController extends DashboardController {
         return new ModelAndView("studentListContent");
     }
 
+    private void addGradebookEntries(String selectedSectionId, ModelMap model, List<String> uids) {
+        long startTime;
+
+        startTime = System.nanoTime();
+
+        GradebookEntryResolver gradebookEntryResolver = getGradebookEntryResolver(selectedSectionId, uids);
+        model.addAttribute(Constants.MM_KEY_GRADEBOOK_ENTRY_DATA, gradebookEntryResolver);
+
+        ViewModifier gradebookViewModifier = new GradebookViewModifer(gradebookEntryResolver);
+        viewManager.apply(gradebookViewModifier);
+
+        LOG.info("@@@@@@@@@@@@@@@@@@ Benchmark for gradebookEntry: {}", (System.nanoTime() - startTime) * 1.0e-9);
+    }
+
+    private void addHistoricalData(String selectedCourseId, ModelMap model, List<String> uids, String selectedSection) {
+        long startTime = System.nanoTime();
+
+        HistoricalDataResolver historicalDataResolver = getHistoricalDataResolver(selectedCourseId, uids, selectedSection);
+        model.addAttribute(Constants.MM_KEY_HISTORICAL, historicalDataResolver);
+
+        ViewModifier historicalViewModifier = new HistoricalViewModifier(historicalDataResolver);
+        viewManager.apply(historicalViewModifier);
+
+        LOG.info("@@@@@@@@@@@@@@@@@@ Benchmark for historical data: {}", (System.nanoTime() - startTime) * 1.0e-9);
+    }
+
     private GradebookEntryResolver getGradebookEntryResolver(String selectedSectionId, List<String> uids) {
         Map<String, Map<String, GenericEntity>> gradebookData = getGradebookData(selectedSectionId, uids);
         SortedSet<GenericEntity> gradebookIds = getGradebookIds(gradebookData);
@@ -182,20 +189,23 @@ public class StudentListContentController extends DashboardController {
         return progressManager.getCurrentProgressForStudents(SecurityUtil.getToken(), uids, selectedSectionId);
     }
 
-    private HistoricalDataResolver getHistoricalDataResolver(String selectedCourseId, List<String> uids) {
-        Map<String, List<GenericEntity>> historicalData = getHistoricalData(selectedCourseId, uids);
+    private HistoricalDataResolver getHistoricalDataResolver(String selectedCourseId, List<String> uids,
+                                                             String selectedSection) {
+        Map<String, List<GenericEntity>> historicalData = getHistoricalData(selectedCourseId, uids, selectedSection);
         SortedSet<String> schoolYears = getSchoolYears(historicalData);
+        LOG.warn("school years = {}", schoolYears);
         return new HistoricalDataResolver(historicalData, schoolYears, null);
     }
 
     private SortedSet<String> getSchoolYears(Map<String, List<GenericEntity>> historicalData) {
-        return progressManager.applySessionAndTranscriptInformation(
+        return progressManager.getSchoolYears(
                 SecurityUtil.getToken(), historicalData);
     }
 
-    private Map<String, List<GenericEntity>> getHistoricalData(String selectedCourseId, List<String> uids) {
+    private Map<String, List<GenericEntity>> getHistoricalData(String selectedCourseId, List<String> uids,
+                                                               String selectedSection) {
         return progressManager.getStudentHistoricalAssessments(
-                            SecurityUtil.getToken(), uids, selectedCourseId);
+                            SecurityUtil.getToken(), uids, selectedCourseId, selectedSection);
     }
 
     /*

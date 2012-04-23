@@ -69,7 +69,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     public void configure() throws Exception {
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
 
-        String inboundDir = lz.getDirectory().getPath();
+        String inboundDir = lz.getDirectory().getAbsolutePath();
 
         // routeId: ctlFilePoller
         from(
@@ -106,7 +106,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                     }).process(new ControlFilePreProcessor(tempLz))
                     .to(workItemQueueUri);
 
-       // routeId: workItemRoute -> main ingestion route: ctlFileProcessor -> edFiProcessor -> persistenceProcessor
+       // routeId: workItemRoute -> main ingestion route: ctlFileProcessor -> xmlFileProcessor -> edFiProcessor -> persistenceProcessor
         from(workItemQueueUri)
             .routeId("workItemRoute")
             .choice()
@@ -118,13 +118,11 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Performing Purge Operation.")
                 .process(purgeProcessor)
                 .to("direct:stop")
-                // XmlFileProcessor not ready for prime time?
-//            .when(header("IngestionMessageType").isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
-//                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing xml file.")
-//                .process(xmlFileProcessor)
-//                .to("direct:assembledJobs")
-//            .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
             .when(header("IngestionMessageType").isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing xml file.")
+                .process(xmlFileProcessor)
+                .to(workItemQueueUri)
+            .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
                 .process(edFiProcessor)
                 .to(workItemQueueUri)

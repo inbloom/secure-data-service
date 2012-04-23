@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,10 +38,10 @@ import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDAStatus;
 
 /**
-*
-* @author bsuzuki
-*
-*/
+ *
+ * @author bsuzuki
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class JobReportingProcessorTest {
@@ -56,24 +57,26 @@ public class JobReportingProcessorTest {
     private static final String RECORDID = "recordIdentifier";
     private static final String ERRORDETAIL = "errorDetail";
 
+    private static PrintStream printOut = new PrintStream(System.out);
+
     File tmpDir = new File(TEMP_DIR);
 
     @Before
     public void setUp() throws Exception {
         if (tmpDir.mkdirs()) {
-            System.out.println("Created temp directory " + tmpDir.getAbsolutePath());
+            printOut.println("Created temp directory " + tmpDir.getAbsolutePath());
         }
     }
 
     @After
     public void tearDown() throws Exception {
         if (tmpDir.exists()) {
-            String files[] = tmpDir.list();
+            String[] files = tmpDir.list();
 
             for (String temp : files) {
-               //construct the file structure
-               File fileToDelete = new File(tmpDir, temp);
-               fileToDelete.delete();
+                // construct the file structure
+                File fileToDelete = new File(tmpDir, temp);
+                fileToDelete.delete();
             }
         }
         tmpDir.delete();
@@ -84,9 +87,10 @@ public class JobReportingProcessorTest {
 
         // create fake mocked method return objects
         List<ResourceEntry> mockedResourceEntries = createFakeResourceEntries();
-        List<Stage> mockedStages  = createFakeStages();
+        List<Stage> mockedStages = createFakeStages();
         Map<String, String> mockedProperties = createFakeBatchProperties();
-        NewBatchJob mockedJob = new NewBatchJob(BATCHJOBID, "192.168.59.11", "finished", 1, mockedProperties, mockedStages, mockedResourceEntries);
+        NewBatchJob mockedJob = new NewBatchJob(BATCHJOBID, "192.168.59.11", "finished", 1, mockedProperties,
+                mockedStages, mockedResourceEntries);
         mockedJob.setSourceId(TEMP_DIR);
 
         BatchJobMongoDAStatus mockedFindErrorsStatus = createFakeStatus();
@@ -105,7 +109,7 @@ public class JobReportingProcessorTest {
         LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone();
         tmpLz.setDirectory(new File(TEMP_DIR));
 
-        System.out.println("Writing to " + tmpLz.getDirectory().getAbsolutePath());
+        printOut.println("Writing to " + tmpLz.getDirectory().getAbsolutePath());
 
         JobReportingProcessor jobReportingProcessor = new JobReportingProcessor(tmpLz);
         jobReportingProcessor.setBatchJobDAO(mockedBatchJobDAO);
@@ -117,19 +121,23 @@ public class JobReportingProcessorTest {
         BufferedReader br = new BufferedReader(fr);
         String s;
 
-//        while ((s = br.readLine()) != null) {
-//            System.out.println(s);
-//        }
+        // while ((s = br.readLine()) != null) {
+        // System.out.println(s);
+        // }
 
         assertTrue(br.readLine().contains("jobId: " + BATCHJOBID));
-        assertTrue(br.readLine().contains("[file] " + RESOURCEID + " (" + FileFormat.EDFI_XML.getCode() + "/" + FileType.XML_STUDENT.getName() + ")"));
+        assertTrue(br.readLine().contains(
+                "[file] " + RESOURCEID + " (" + FileFormat.EDFI_XML.getCode() + "/" + FileType.XML_STUDENT.getName()
+                        + ")"));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records considered: " + RECORDS_CONSIDERED));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records ingested successfully: " + RECORDS_PASSED));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records failed: " + RECORDS_FAILED));
         assertTrue(br.readLine().contains("[configProperty] purge: false"));
-        assertTrue(br.readLine().contains("ERROR  " + BatchJobStageType.PERSISTENCE_PROCESSOR.getName() + "," + RESOURCEID + "," + RECORDID + "," + ERRORDETAIL));
+        assertTrue(br.readLine().contains(
+                "ERROR  " + BatchJobStageType.PERSISTENCE_PROCESSOR.getName() + "," + RESOURCEID + "," + RECORDID + ","
+                        + ERRORDETAIL));
         assertTrue(br.readLine().contains("Not all records were processed completely due to errors."));
-        assertTrue(br.readLine().contains("Processed "+ RECORDS_CONSIDERED + " records."));
+        assertTrue(br.readLine().contains("Processed " + RECORDS_CONSIDERED + " records."));
 
         fr.close();
     }
@@ -146,26 +154,28 @@ public class JobReportingProcessorTest {
         re.setResourceId(RESOURCEID);
         re.setExternallyUploadedResourceId(RESOURCEID);
         re.setResourceName(TEMP_DIR + RESOURCEID);
-        re.update(FileFormat.EDFI_XML.getCode(), FileType.XML_STUDENT.getName(), "123456789", RECORDS_CONSIDERED, RECORDS_FAILED);
+        re.update(FileFormat.EDFI_XML.getCode(), FileType.XML_STUDENT.getName(), "123456789", RECORDS_CONSIDERED,
+                RECORDS_FAILED);
         resourceEntries.add(re);
         return resourceEntries;
     }
 
     private BatchJobMongoDAStatus createFakeStatus() {
         List<Error> errors = new LinkedList<Error>();
-        Error error = new Error(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(),
-                RESOURCEID, "10.81.1.27", "testhost", RECORDID, "20120412 10:04:46.111",
-                FaultType.TYPE_ERROR.getName(), "errorType", ERRORDETAIL);
+        Error error = new Error(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), RESOURCEID,
+                "10.81.1.27", "testhost", RECORDID, "20120412 10:04:46.111", FaultType.TYPE_ERROR.getName(),
+                "errorType", ERRORDETAIL);
         errors.add(error);
         return new BatchJobMongoDAStatus(true, "Got fake errors for testing", errors);
     }
 
     private List<Stage> createFakeStages() {
-        Metrics m = new Metrics(RESOURCEID, "192.168.59.11", "transform1.slidev.org",
-                "20120412 10:04:13.463", "20120412 10:04:45.778", 50, 5);
+        Metrics m = new Metrics(RESOURCEID, "192.168.59.11", "transform1.slidev.org", "20120412 10:04:13.463",
+                "20120412 10:04:45.778", 50, 5);
         List<Metrics> ms = new LinkedList<Metrics>();
         ms.add(m);
-        Stage s = new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "fininshed", "20120412 10:04:13.463", "20120412 10:04:45.778", ms);
+        Stage s = new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "fininshed", "20120412 10:04:13.463",
+                "20120412 10:04:45.778", ms);
 
         List<Stage> listStages = new LinkedList<Stage>();
         listStages.add(s);

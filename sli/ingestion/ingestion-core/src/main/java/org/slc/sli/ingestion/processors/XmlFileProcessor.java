@@ -24,6 +24,7 @@ import org.slc.sli.ingestion.queues.MessageType;
 
 /**
  * Processes a XML file
+ *
  * @author ablum
  *
  */
@@ -90,8 +91,9 @@ public class XmlFileProcessor implements Processor {
 
             batchJobDAO.saveBatchJob(newJob);
 
-       } else {
+        } else {
             missingBatchJobIdError(exchange);
+
         }
     }
 
@@ -120,6 +122,5 @@ public class XmlFileProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         log.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
-
 
 }

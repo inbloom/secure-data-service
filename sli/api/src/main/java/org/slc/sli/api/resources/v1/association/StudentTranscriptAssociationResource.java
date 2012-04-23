@@ -21,25 +21,25 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * Association between a student and a course containing a grade.
- * 
+ *
  * @author kmyers
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_TRANSCRIPT_ASSOCIATIONS)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class StudentTranscriptAssociationResource extends DefaultCrudEndpoint {
-    
+
     @Autowired
     public StudentTranscriptAssociationResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS);
@@ -47,7 +47,7 @@ public class StudentTranscriptAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Returns all $$studentTranscriptAssociations$$ entities for which the logged in User has permission and context.
-     * 
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -58,17 +58,18 @@ public class StudentTranscriptAssociationResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return result of CRUD operation
      */
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Override
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
      * Create a new $$studentTranscriptAssociations$$ entity.
-     * 
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -80,16 +81,17 @@ public class StudentTranscriptAssociationResource extends DefaultCrudEndpoint {
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
      *                 item is accessable.}
      */
+    @Override
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response create(final EntityBody newEntityBody, 
+    public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
      * Get a single $$studentTranscriptAssociations$$ entity
-     * 
+     *
      * @param studentTranscriptAssociationId
      *            The id of the $$studentTranscriptAssociations$$.
      * @param headers
@@ -98,9 +100,10 @@ public class StudentTranscriptAssociationResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return A single $$studentTranscriptAssociations$$ entity
      */
+    @Override
     @GET
     @Path("{" + ParameterConstants.STUDENT_TRANSCRIPT_ASSOCIATION_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.STUDENT_TRANSCRIPT_ASSOCIATION_ID) final String studentTranscriptAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(studentTranscriptAssociationId, headers, uriInfo);
@@ -108,7 +111,7 @@ public class StudentTranscriptAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Delete a $$studentTranscriptAssociations$$ entity
-     * 
+     *
      * @param studentTranscriptAssociationId
      *            The id of the $$studentTranscriptAssociations$$.
      * @param headers
@@ -118,16 +121,17 @@ public class StudentTranscriptAssociationResource extends DefaultCrudEndpoint {
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @DELETE
     @Path("{" + ParameterConstants.STUDENT_TRANSCRIPT_ASSOCIATION_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.STUDENT_TRANSCRIPT_ASSOCIATION_ID) final String studentTranscriptAssociationId, 
+    public Response delete(@PathParam(ParameterConstants.STUDENT_TRANSCRIPT_ASSOCIATION_ID) final String studentTranscriptAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.delete(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, studentTranscriptAssociationId, headers, uriInfo);
     }
 
     /**
      * Update an existing $$studentTranscriptAssociations$$ entity.
-     * 
+     *
      * @param studentTranscriptAssociationId
      *            The id of the $$studentTranscriptAssociations$$.
      * @param newEntityBody
@@ -139,11 +143,12 @@ public class StudentTranscriptAssociationResource extends DefaultCrudEndpoint {
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @PUT
     @Path("{" + ParameterConstants.STUDENT_TRANSCRIPT_ASSOCIATION_ID + "}")
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response update(@PathParam(ParameterConstants.STUDENT_TRANSCRIPT_ASSOCIATION_ID) final String studentTranscriptAssociationId,
-            final EntityBody newEntityBody, 
+            final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, studentTranscriptAssociationId, newEntityBody, headers, uriInfo);
     }
@@ -151,7 +156,7 @@ public class StudentTranscriptAssociationResource extends DefaultCrudEndpoint {
     /**
      * Returns each $$students$$ that
      * references the given $$studentTranscriptAssociations$$
-     * 
+     *
      * @param studentTranscriptAssociationId
      *            The id of the $$studentTranscriptAssociations$$.
      * @param offset
@@ -164,10 +169,10 @@ public class StudentTranscriptAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return       
+     * @return
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_TRANSCRIPT_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
     public Response getStudents(@PathParam(ParameterConstants.STUDENT_TRANSCRIPT_ASSOCIATION_ID) final String studentTranscriptAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
@@ -175,11 +180,11 @@ public class StudentTranscriptAssociationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "_id", studentTranscriptAssociationId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
     }
-    
+
     /**
      * Returns each $$courses$$ that
      * references the given $$studentTranscriptAssociations$$
-     * 
+     *
      * @param studentTranscriptAssociationId
      *            The id of the $$studentTranscriptAssociations$$.
      * @param offset
@@ -192,10 +197,10 @@ public class StudentTranscriptAssociationResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return       
+     * @return
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_TRANSCRIPT_ASSOCIATION_ID + "}" + "/" + PathConstants.COURSES)
     public Response getCourses(@PathParam(ParameterConstants.STUDENT_TRANSCRIPT_ASSOCIATION_ID) final String studentTranscriptAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
@@ -203,5 +208,5 @@ public class StudentTranscriptAssociationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "_id", studentTranscriptAssociationId, "courseId", ResourceNames.COURSES, headers, uriInfo);
     }
-    
+
 }

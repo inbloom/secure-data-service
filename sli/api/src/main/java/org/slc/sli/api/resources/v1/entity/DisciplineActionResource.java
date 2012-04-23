@@ -21,27 +21,27 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * This event entity represents actions taken by an
- * education organization after a disruptive event that 
+ * education organization after a disruptive event that
  * is recorded as a discipline incident.
- * 
+ *
  * @author slee
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.DISCIPLINE_ACTIONS)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class DisciplineActionResource extends DefaultCrudEndpoint {
-    
+
     @Autowired
     public DisciplineActionResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.DISCIPLINE_ACTIONS);
@@ -49,7 +49,7 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
 
     /**
      * Returns all $$disciplineActions$$ entities for which the logged in User has permission and context.
-     * 
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -60,17 +60,18 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return result of CRUD operation
      */
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Override
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
      * Create a new $$disciplineActions$$ entity.
-     * 
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -82,16 +83,17 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
      *                 item is accessible.}
      */
+    @Override
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
-    public Response create(final EntityBody newEntityBody, 
+    public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
      * Get a single $$disciplineActions$$ entity.
-     * 
+     *
      * @param disciplineActionId
      *            The Id of the $$disciplineActions$$.
      * @param headers
@@ -100,9 +102,10 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return A single disciplineIncident entity
      */
+    @Override
     @GET
     @Path("{" + ParameterConstants.DISCIPLINE_ACTION_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.DISCIPLINE_ACTION_ID) final String disciplineActionId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(disciplineActionId, headers, uriInfo);
@@ -110,7 +113,7 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
 
     /**
      * Delete a $$disciplineActions$$ entity.
-     * 
+     *
      * @param disciplineActionId
      *            The Id of the $$disciplineActions$$.
      * @param headers
@@ -120,16 +123,17 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @DELETE
     @Path("{" + ParameterConstants.DISCIPLINE_ACTION_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.DISCIPLINE_ACTION_ID) final String disciplineActionId, 
+    public Response delete(@PathParam(ParameterConstants.DISCIPLINE_ACTION_ID) final String disciplineActionId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.delete(disciplineActionId, headers, uriInfo);
     }
 
     /**
      * Update an existing $$disciplineActions$$ entity.
-     * 
+     *
      * @param disciplineActionId
      *            The id of the $$disciplineActions$$.
      * @param newEntityBody
@@ -141,10 +145,11 @@ public class DisciplineActionResource extends DefaultCrudEndpoint {
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @PUT
     @Path("{" + ParameterConstants.DISCIPLINE_ACTION_ID + "}")
     public Response update(@PathParam(ParameterConstants.DISCIPLINE_ACTION_ID) final String disciplineActionId,
-            final EntityBody newEntityBody, 
+            final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(disciplineActionId, newEntityBody, headers, uriInfo);
     }

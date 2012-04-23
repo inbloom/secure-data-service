@@ -67,6 +67,7 @@
                 <value>${smooks.targetselector.xml.teacher.school}</value>
                 <value>${smooks.targetselector.xml.staff}</value>
                 <value>${smooks.targetselector.xml.staff.ed.org.assignment}</value>
+                <value>${smooks.targetselector.xml.staff.program.association}</value>
               </list>
             </constructor-arg>
           </bean>
@@ -149,7 +150,6 @@
               <constructor-arg>
                 <list>
                   <value>${smooks.targetselector.xml.student.program.association}</value>
-                  <value>${smooks.targetselector.xml.staff.program.association}</value>
                 </list>
               </constructor-arg>
             </bean>

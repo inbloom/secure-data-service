@@ -16,7 +16,7 @@
 
   <tx:annotation-driven />
   <bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="location" value="classpath:config/${sli.env}/data-access/db.properties" />
+    <property name="location" value="file:${sli.conf}" />
   </bean>
 
   <!-- MONGODB CONFIG -->
@@ -65,6 +65,7 @@
   <bean id="neutralRecordRepository" class="org.slc.sli.ingestion.dal.NeutralRecordRepository">
     <property name="template" ref="neutralRecordMongoTemplate" />
     <property name="idConverter" ref="mongoIdConverter" />
+    <property name="entityEncryption" ref="stagingEntityEncryption" />
   </bean>
 
   <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">

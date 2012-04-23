@@ -15,19 +15,19 @@
 	<dependencies>
 
 		<!-- SLI Dependencies -->
-		<dependency>
+<!--		<dependency>
 			<groupId>org.slc.sli</groupId>
 			<artifactId>sli-configuration</artifactId>
-		</dependency>
+		</dependency> --> 
 
-		  <dependency>
+		  <dependency> 
 
       <groupId>org.slc.sli.common</groupId>
-      <artifactId>common-util</artifactId>
+      <artifactId>sli-common</artifactId>
     </dependency>
 
 		<dependency>
-			<groupId>org.slc.sli.common</groupId>
+			<groupId>org.slc.sli.domain</groupId>
 			<artifactId>domain</artifactId>
 		</dependency>
 
@@ -73,4 +73,9 @@
 		</dependency>
 	</dependencies>
 
+	<properties>
+		<sli.home>${project.parent.basedir}/..</sli.home>
+        <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
+        <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
+	</properties>
 </project>

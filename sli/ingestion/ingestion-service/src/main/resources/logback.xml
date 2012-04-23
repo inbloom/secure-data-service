@@ -19,14 +19,13 @@
 <configuration scan="true" debug="false">
   <!-- TODO in production mode disable the scan -->
 
-  <property resource="config/${sli.env}/ingestion/ingestion_conf.properties" />
-  <property resource="ingestion-dev.properties" />
+  <property file="${sli.conf}" />
 
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
     <File>${logging.path}/ingestion.log</File>
     <Append>true</Append>
     <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-        <layout class="org.slc.sli.util.logging.CommonPatternLayout" />
+        <layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
     </encoder>
 
   </appender>
@@ -51,12 +50,13 @@
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-		<layout class="org.slc.sli.util.logging.CommonPatternLayout" />
+		<layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
 	</encoder>
   </appender>
 
   <!-- jsa: temporarily debugging issues on deving1. -->
   <root level="info">
+<!--       <appender-ref ref="STDOUT"/>  -->
       <appender-ref ref="FILE"/>
   </root>
 

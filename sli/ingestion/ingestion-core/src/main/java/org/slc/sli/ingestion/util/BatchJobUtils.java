@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.Job;
 
 /**
  * Utilities for BatchJob
@@ -42,9 +43,9 @@ public class BatchJobUtils {
      * @param exchange
      * @return
      */
-    public static BatchJob getBatchJobUsingStateManager(Exchange exchange) {
+    public static Job getBatchJobUsingStateManager(Exchange exchange) {
 
-        BatchJob batchJob = null;
+        Job batchJob = null;
 
         if ("mongodb".equals(System.getProperty("state.manager"))) {
 
@@ -72,7 +73,8 @@ public class BatchJobUtils {
      *
      * @param job
      */
-    public static void saveBatchJobUsingStateManager(BatchJob job) {
+
+    public static void saveBatchJobUsingStateManager(Job job) {
 
         if ("mongodb".equals(System.getProperty("state.manager"))) {
 
@@ -120,7 +122,7 @@ public class BatchJobUtils {
      * @param batchJobId
      * @param stageName
      */
-    public static void beginStage(BatchJob job, String stageName) {
+    public static void beginStage(Job job, String stageName) {
         if ("mongodb".equals(System.getProperty("state.manager"))) {
 
             LOG.info("started a stage in the db managed batch job");
@@ -134,7 +136,7 @@ public class BatchJobUtils {
      * @param batchJob
      * @param stageName
      */
-    public static void endStage(BatchJob job, String stageName) {
+    public static void endStage(Job job, String stageName) {
         if ("mongodb".equals(System.getProperty("state.manager"))) {
 
             LOG.info("stopped the stage in the db managed batch job");
@@ -216,11 +218,8 @@ public class BatchJobUtils {
 
             LOG.info("creating a error in the db");
             // TODO: create an error document in the db
-            Calendar cal = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd:HH-mm-ss");
 
-            logIngestionError(batchJobId, stage.getName(), fileId, null, null, null, severity,
-                    "generic", errorDetail);
+            logIngestionError(batchJobId, stage.getName(), fileId, null, null, null, severity, "generic", errorDetail);
         }
     }
 

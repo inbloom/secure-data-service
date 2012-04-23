@@ -10,6 +10,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.Job;
 
 /**
  *
@@ -55,7 +56,7 @@ public class IngestionRouteBuilderTest extends CamelSpringTestSupport {
         mockStopEndpoint.expectedMessageCount(1);
 
         // send job to aseembled jobs with hasErrors header
-        BatchJob job = BatchJob.createDefault();
+        Job job = BatchJob.createDefault();
         template.sendBodyAndHeader("seda:assembledJobs", job, "hasErrors", true);
 
         // we are sending to SEDA which is a different thread so there is a race condition when we
@@ -103,7 +104,7 @@ public class IngestionRouteBuilderTest extends CamelSpringTestSupport {
         mockStopEndpoint.expectedMessageCount(0);
 
         // send job to aseembled jobs with hasErrors header
-        BatchJob job = BatchJob.createDefault();
+        Job job = BatchJob.createDefault();
         template.sendBodyAndHeader("seda:assembledJobs", job, "hasErrors", false);
 
         // we are sending to SEDA which is a different thread so there is a race condition when we

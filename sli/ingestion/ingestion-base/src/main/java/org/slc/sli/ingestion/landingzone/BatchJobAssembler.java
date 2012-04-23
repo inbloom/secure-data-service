@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
 
 /**
@@ -18,16 +19,18 @@ public class BatchJobAssembler {
 
     @Autowired
     private ControlFileValidator validator;
+    private static final String PURGE = "purge";
 
     /**
      * Attempt to generate a new BatchJob based on data found in the
      * controlFile.
      *
-     * @param controlFile Control file descriptor
+     * @param controlFile
+     *            Control file descriptor
      * @return BatchJob Assembled batch job
      */
-    public BatchJob assembleJob(ControlFileDescriptor fileDesc) {
-        BatchJob job = BatchJob.createDefault();
+    public Job assembleJob(ControlFileDescriptor fileDesc) {
+        Job job = BatchJob.createDefault();
 
         return populateJob(fileDesc, job);
     }
@@ -36,13 +39,15 @@ public class BatchJobAssembler {
      * Attempt to generate a new BatchJob based on data found in the
      * controlFile.
      *
-     * @param controlFile Control file descriptor
-     * @param filename string representation of incoming file
+     * @param controlFile
+     *            Control file descriptor
+     * @param filename
+     *            string representation of incoming file
      * @return BatchJob Assembled batch job
      */
-    public BatchJob assembleJob(ControlFileDescriptor fileDesc, String filename) {
+    public Job assembleJob(ControlFileDescriptor fileDesc, String filename) {
         // TODO DatabaseBatchJob job = DatabaseBatchJob.createBatchJob(filename);
-        BatchJob job = BatchJob.createDefault(filename);
+        Job job = BatchJob.createDefault(filename);
 
         return populateJob(fileDesc, job);
     }
@@ -50,20 +55,15 @@ public class BatchJobAssembler {
     /**
      * Attempt to populate a BatchJob based on data found in the
      * controlFile.
-     * @param fileDesc Control file descriptor
-     * @param job Batch Job to populate
+     *
+     * @param fileDesc
+     *            Control file descriptor
+     * @param job
+     *            Batch Job to populate
      * @return populated Batch Job
      */
-    public BatchJob populateJob(ControlFileDescriptor fileDesc, BatchJob job) {
+    public Job populateJob(ControlFileDescriptor fileDesc, Job job) {
         ControlFile controlFile = fileDesc.getFileItem();
-
-        if (validator.isValid(fileDesc, job.getFaultsReport())) {
-            for (IngestionFileEntry entry : controlFile.getFileEntries()) {
-                if (entry.getFile() != null) {
-                    job.addFile(entry);
-                }
-            }
-        }
 
         // iterate over the configProperties and copy into the job
         // TODO validate config properties are legit
@@ -71,6 +71,16 @@ public class BatchJobAssembler {
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();
             job.setProperty(key, controlFile.configProperties.getProperty(key));
+        }
+
+        if (job.getProperty(PURGE) == null) {
+            if (validator.isValid(fileDesc, ((BatchJob) job).getFaultsReport())) {
+                for (IngestionFileEntry entry : controlFile.getFileEntries()) {
+                    if (entry.getFile() != null) {
+                        ((BatchJob) job).addFile(entry);
+                    }
+                }
+            }
         }
 
         return job;

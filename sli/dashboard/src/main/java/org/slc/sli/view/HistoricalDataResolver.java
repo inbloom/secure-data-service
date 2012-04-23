@@ -109,7 +109,7 @@ public class HistoricalDataResolver {
         if (historicalList == null) return "(none)";
         
         for (GenericEntity data : historicalList) {
-            String dataSession = data.getString("schoolYear");
+            String dataSession = data.getString("schoolYear") + " " + data.getString("term");
             if (dataSession != null && dataSession.equals(schoolYear)) {
                 String item = data.get(key).toString();
                 items.add(item);

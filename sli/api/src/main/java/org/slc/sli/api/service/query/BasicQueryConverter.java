@@ -9,12 +9,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.QueryParseException;
-
-
 import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.dal.encrypt.EntityEncryption;
+import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ListSchema;
@@ -22,43 +20,44 @@ import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Default implementation of the QueryConverter interface
- * 
+ *
  * Use NeutralQuery or ApiQuery instead.
- * 
+ *
  * @author dong liu <dliu@wgen.net>
- * 
+ *
  */
 @Deprecated
 @Component
 public class BasicQueryConverter implements QueryConverter {
-    
+
     private static String[] reservedQueryKeys = { "start-index", "max-results", "query", "sessionId",
             Resource.FULL_ENTITIES_PARAM, Resource.SORT_BY_PARAM, Resource.SORT_ORDER_PARAM, ParameterConstants.OFFSET,
             ParameterConstants.LIMIT, ParameterConstants.SORT_BY, ParameterConstants.SORT_ORDER,
             ParameterConstants.INCLUDE_FIELDS, ParameterConstants.EXCLUDE_FIELDS };
     private static final Logger LOG = LoggerFactory.getLogger(BasicQueryConverter.class);
     private static final String ENCRYPTION_ERROR = "Unable to perform search operation on PII field ";
-    
+
     @Autowired
     SchemaRepository schemaRepo;
-    
+
     @Autowired(required = false)
     EntityEncryption encryptor;
-    
+
     @Override
     public Query stringToQuery(String entityType, String queryString) {
         return stringToQuery(entityType, queryString, null, null);
     }
-    
+
     @Override
     public Query stringToQuery(String entityType, String queryString, String sortBy, SortOrder sortOrder) {
         Query mongoQuery = new Query();
-        if (queryString == null)
+        if (queryString == null) {
             queryString = "";
+        }
         String[] queryStrings = queryString.split("&");
         try {
             for (String query : queryStrings) {
-                
+
                 if (!isReservedQueryKey(query) && !query.equals("")) {
                     Criteria criteria = null;
                     if (query.contains(">=")) {
@@ -81,7 +80,7 @@ public class BasicQueryConverter implements QueryConverter {
                             criteria = Criteria.where("body." + keyAndValue[0]).lte(
                                     convertToType(type.getType(), keyAndValue[1]));
                         }
-                        
+
                     } else if (query.contains("!=")) {
                         String[] keyAndValue = getKeyAndValue(query, "!=");
                         if (keyAndValue != null) {
@@ -111,7 +110,7 @@ public class BasicQueryConverter implements QueryConverter {
                             }
                             criteria = Criteria.where("body." + keyAndValue[0]).is(searchValue);
                         }
-                        
+
                     } else if (query.contains("<")) {
                         String[] keyAndValue = getKeyAndValue(query, "<");
                         if (keyAndValue != null) {
@@ -122,7 +121,7 @@ public class BasicQueryConverter implements QueryConverter {
                             criteria = Criteria.where("body." + keyAndValue[0]).lt(
                                     convertToType(type.getType(), keyAndValue[1]));
                         }
-                        
+
                     } else if (query.contains(">")) {
                         String[] keyAndValue = getKeyAndValue(query, ">");
                         if (keyAndValue != null) {
@@ -133,26 +132,28 @@ public class BasicQueryConverter implements QueryConverter {
                             criteria = Criteria.where("body." + keyAndValue[0]).gt(
                                     convertToType(type.getType(), keyAndValue[1]));
                         }
-                    } else
+                    } else {
                         throw new RuntimeException("Unknown query operation: " + query);
-                    if (criteria != null)
+                    }
+                    if (criteria != null) {
                         mongoQuery.addCriteria(criteria);
+                    }
                 }
             }
-            
+
         } catch (RuntimeException e) {
             LOG.error("error parsing query String {} {}", e.getMessage(), queryString);
             throw new QueryParseException(e.getMessage(), queryString);
         }
-        
+
         if (sortBy != null && !sortBy.trim().isEmpty()) {
             ParamType type = findParamType(entityType, sortBy);
             if (!"NULL".equals(type.getType())) {
-                
+
                 if (type.isPii()) {
                     throw new SortingException("Unable to perform sort operation on PII field " + sortBy);
                 }
-                
+
                 if (sortOrder == null) {
                     sortOrder = SortOrder.ascending;
                 }
@@ -162,34 +163,34 @@ public class BasicQueryConverter implements QueryConverter {
                         + " does not exist on entity " + entityType);
             }
         }
-        
+
         return mongoQuery;
     }
-    
+
     /**
      * Simple holder class to allow methods to return multiple values.
-     * 
+     *
      * This class is protected access level to support some of the existing unit tests. It is not
      * intended to be used outside this class.
      */
     protected static class ParamType {
         final String type;
         final boolean pii;
-        
+
         public ParamType(String type, boolean pii) {
             this.type = type;
             this.pii = pii;
         }
-        
+
         public String getType() {
             return type;
         }
-        
+
         public boolean isPii() {
             return pii;
         }
     }
-    
+
     public ParamType findParamType(String entityType, String queryField) {
         String[] nestedFields = queryField.split("\\.");
         NeutralSchema schema = schemaRepo.getSchema(entityType);
@@ -197,8 +198,9 @@ public class BasicQueryConverter implements QueryConverter {
             schema = getNestedSchema(schema, field);
             if (schema != null) {
                 LOG.info("nested schema type is {}", schema.getSchemaType());
-            } else
+            } else {
                 LOG.info("nested schema type is {}", "NULL");
+            }
         }
         if (schema == null) {
             return new ParamType("NULL", false);
@@ -212,19 +214,21 @@ public class BasicQueryConverter implements QueryConverter {
         }
         return new ParamType(schema.getSchemaType().toString(), isSchemaPii(schema));
     }
-    
+
     private static boolean isSchemaPii(NeutralSchema schema) {
-        if (schema == null)
+        if (schema == null) {
             return false;
+        }
         if (schema.getAppInfo() == null) {
             return false;
         }
         return schema.getAppInfo().isPersonallyIdentifiableInfo();
     }
-    
+
     private NeutralSchema getNestedSchema(NeutralSchema schema, String field) {
-        if (schema == null)
+        if (schema == null) {
             return null;
+        }
         switch (schema.getSchemaType()) {
         case STRING:
         case INTEGER:
@@ -263,24 +267,26 @@ public class BasicQueryConverter implements QueryConverter {
         }
         }
     }
-    
+
     private boolean isReservedQueryKey(String queryString) {
         boolean found = false;
         for (String key : reservedQueryKeys) {
-            if (queryString.indexOf(key) >= 0)
+            if (queryString.indexOf(key) >= 0) {
                 found = true;
+            }
         }
         return found;
     }
-    
+
     private String[] getKeyAndValue(String queryString, String operator) {
         String[] keyAndValue = queryString.split(operator);
-        if (keyAndValue.length != 2)
+        if (keyAndValue.length != 2) {
             throw new RuntimeException();
-        else
+        } else {
             return keyAndValue;
+        }
     }
-    
+
     private Object convertToType(String type, String value) {
         try {
             if (type.equals("REFERENCE")) {
@@ -288,10 +294,11 @@ public class BasicQueryConverter implements QueryConverter {
             } else if (type.equals("INT") || type.equals("INTEGER")) {
                 return Integer.parseInt(value);
             } else if (type.equals("BOOLEAN")) {
-                if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
+                if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
                     return Boolean.parseBoolean(value);
-                else
+                } else {
                     throw new RuntimeException("Invalid boolean value");
+                }
             } else if (type.equals("STRING") || type.equals("NULL")) {
                 return value;
             } else if (type.equals("TOKEN")) {
@@ -314,6 +321,6 @@ public class BasicQueryConverter implements QueryConverter {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        
+
     }
 }
