@@ -101,7 +101,8 @@ public class NeutralRecordFileWriter {
 
         // populate the localId
         if (record.getLocalId() != null) {
-            avroRecord.put("localId", new Utf8(record.getLocalId().toString()));
+            String localId = record.getLocalId().toString();  // Stop those pesky GC overhead errors!
+            avroRecord.put("localId", new Utf8(localId));
         } else {
             avroRecord.put("localId", null);
         }
