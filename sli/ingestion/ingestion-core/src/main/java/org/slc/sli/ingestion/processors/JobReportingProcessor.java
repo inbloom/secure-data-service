@@ -1,10 +1,10 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.util.HashMap;
@@ -92,9 +92,10 @@ public class JobReportingProcessor implements Processor {
         FileChannel channel = null;
         try {
             File file = landingZone.getLogFile(job.getId());
-            channel = new RandomAccessFile(file, "rw").getChannel();
+            FileOutputStream outputStream = new FileOutputStream(file);
+            channel = outputStream.getChannel();
             lock = channel.lock();
-            jobReportWriter = new PrintWriter(new FileWriter(file));
+            jobReportWriter = new PrintWriter(outputStream, true);
 
             writeInfoLine(jobReportWriter, "jobId: " + job.getId());
 
@@ -303,14 +304,15 @@ public class JobReportingProcessor implements Processor {
     }
 
     private static void writeLine(PrintWriter jobReportWriter, String type, String text) {
-        jobReportWriter.write(type + "  " + text + "\n");
+        jobReportWriter.write(type + "  " + text);
+        jobReportWriter.println();
     }
 
     private static void cleanupWriterAndLocks(PrintWriter jobReportWriter, FileLock lock, FileChannel channel) {
         if (jobReportWriter != null) {
             jobReportWriter.close();
         }
-        if (lock != null) {
+        if (lock != null && lock.isValid()) {
             try {
                 lock.release();
             } catch (IOException e) {
