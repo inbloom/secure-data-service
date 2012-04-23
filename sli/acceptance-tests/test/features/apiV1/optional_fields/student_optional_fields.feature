@@ -19,7 +19,7 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     And I should see the year "2011" in none of the attendance entries
     And I should see the year "2012" in some of the attendance entries
     When I look at the first one
-    Then I should see "eventDate" is "2012-01-26" in it
+    Then I should see "eventDate" is "2012-03-14" in it
     And I should see "attendanceEventType" is "Daily Attendance" in it
     And I should see "entityType" is "attendance" in it
     And I should see "studentId" is "<STUDENT_ID>" in it
