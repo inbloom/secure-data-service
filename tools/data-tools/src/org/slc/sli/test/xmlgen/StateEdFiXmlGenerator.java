@@ -245,9 +245,7 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentProgram, new PrintStream(xmlFilePath));
 
-        // TODO: uncomment when ingestion supports this
-        // DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentProgram",
-        // xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentProgram", xmlFilePath);
     }
 
     /**

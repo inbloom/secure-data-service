@@ -71,13 +71,6 @@
 	<ObjectiveAssessment id="ACTMathemacticsAlgebra">
 		<IdentificationCode>ACT-Math-Algebra</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-C.2</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
 	</ObjectiveAssessment>
 	
 	<ObjectiveAssessment id="ACTMathematicsPlaneGeometry">
@@ -88,27 +81,13 @@
 				<Objective>Circles</Objective>
 			</LearningObjectiveIdentity>
 		</LearningObjectiveReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-C.1</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
-		<LearningStandardReference>
-			<LearningStandardIdentity>
-				<LearningStandardId>
-					<IdentificationCode>G-C.3</IdentificationCode>
-				</LearningStandardId>
-			</LearningStandardIdentity>
-		</LearningStandardReference>
 	</ObjectiveAssessment>
 	
 	<AssessmentItem id="AssessmentItem-1">
 		<IdentificationCode>AssessmentItem-1</IdentificationCode>
-		<ItemCategory>Rubric</ItemCategory>
+		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
-		<CorrectResponse>TODO</CorrectResponse>
+		<CorrectResponse>False</CorrectResponse>
 		<LearningStandardReference>
 			<LearningStandardIdentity>
 				<LearningStandardId>
@@ -127,10 +106,9 @@
 	
 	<AssessmentItem id="AssessmentItem-2">
 		<IdentificationCode>AssessmentItem-2</IdentificationCode>
-		<!-- The following two commented out elements are required to be valid ed-fi -->
-		<!-- <ItemCategory></ItemCategory> -->
+		<ItemCategory>True-False</ItemCategory>
 		<MaxRawScore>5</MaxRawScore>
-		<!-- <CorrectResponse></CorrectResponse> -->
+		<CorrectResponse>True</CorrectResponse>
 		<LearningStandardReference>
 			<LearningStandardIdentity>
 				<LearningStandardId>
@@ -141,7 +119,7 @@
 		<LearningStandardReference>
 			<LearningStandardIdentity>
 				<LearningStandardId>
-					<IdentificationCode>G.SRT.2</IdentificationCode>
+					<IdentificationCode>G.SRT.3</IdentificationCode>
 				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
@@ -172,11 +150,11 @@
 	<ObjectiveAssessment id="ACTReadingArts">
 		<IdentificationCode>ACT-Reading-Arts</IdentificationCode>
 		<MaxRawScore>18</MaxRawScore>
-		<LearningObjectiveReference>
+		<LearningStandardReference>
 			<LearningObjectiveIdentity>
-				<Objective>RI.11-12.1</Objective>
+				<Objective>Reading: Informational Text</Objective>
 			</LearningObjectiveIdentity>
-		</LearningObjectiveReference>
+		</LearningStandardReference>
 	</ObjectiveAssessment>
 	
 	<ObjectiveAssessment id="ACTScience">
