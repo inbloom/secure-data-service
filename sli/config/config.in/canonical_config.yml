@@ -15,7 +15,7 @@ default:
         sli.trust.certificates: ../common/common-util/trust/trustedCertificates
 
         # Support Email (only used in api)
-        sli.support.email: sli@slc.org
+        sli.support.email: sli@example.com
 
         # Session lengths in milliseconds (5 minutes - only in api)
         sli.session.length: 300000
@@ -70,28 +70,28 @@ default:
         api.client: apiClient
 
         # URL of the API server to be used by dashboard 
-        api.server.url: https://demo.slidev.org/
+        api.server.url: http://local.slidev.org:8080/
 
         # URL used to make authenticating requests to the backend API
-        security.server.url: https://demo.slidev.org/
+        security.server.url: http://local.slidev.org:8080/
 
         # Only used in dashboard
-        portal.footer.url: https://portal.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
+        portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
 
         # Only used in dashboard 
-        portal.header.url: https://portal.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
+        portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
 
         # Only used in dashboard 
         log.level: warn
 
         # oauth security parameter (only used in dashboard)
-        oauth.client.id: SD7efbdSe4
+        oauth.client.id: K2e7Dwhq5J
 
         # oauth security parameter (only used in dashboard)
-        oauth.client.secret: ewhcNKmPQGf7Eu3onWwX5gbUEQWsFrUbOMCrloaJOHoq5Gmr
+        oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
 
         # oauth security parameter (only used in dashboard)
-        oauth.redirect: https://demo.slidev.org/dashboard/callback
+        oauth.redirect: http://local.slidev.org:8888/dashboard/callback
 
         # Config directory (only used in dashboard)
         panel.config.driver.dir: config
@@ -101,7 +101,7 @@ default:
 
         # (only used in dashboard)
         panel.data.use.cache: true
-
+        
     misc: &MISC-DEFAULT
         # keystore password (used in common and data-access)
         sli.encryption.keyStorePass: changeit
@@ -147,7 +147,7 @@ acceptance-tests:
         sli.security.sp.issuerName: https://nxbuild.slidev.org
 
         #Support Email
-        sli.support.email: sli@slc.org
+        sli.support.email: sli@example.com
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # acceptance-tests/data-access/db.properties
@@ -209,7 +209,7 @@ ci:
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
         #Support Email
-        sli.support.email: sli@slc.org
+        sli.support.email: sli@example.com
 
         api.perf.log.path: 
     data-access:
@@ -292,7 +292,7 @@ dev:
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
         #Support Email
-        sli.support.email: sli@slc.org
+        sli.support.email: sli@example.com
 
         api.perf.log.path: /home/api/logs/        
     data-access:
@@ -459,7 +459,7 @@ devapp1:
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
         #Support Email
-        sli.support.email: sli@slc.org
+        sli.support.email: sli@example.com
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # devapp1/data-access/db.properties
@@ -519,7 +519,7 @@ local:
         sli.trust.certificates: ../common/common-util/trust/trustedCertificates
 
         #Support Email
-        sli.support.email: sli@slc.org
+        sli.support.email: sli@example.com
 
         api.perf.log.path: 
     data-access:
@@ -562,8 +562,8 @@ local:
     ingestion:
         <<: *INGESTION-DEFAULT
         # local/ingestion/ingestion_conf.properties
-        landingzone.inbounddir: /home/ingestion/lz
-        logging.path: /home/ingestion/logs
+        landingzone.inbounddir: target/ingestion/lz/inbound
+        logging.path: target/ingestion/logs
         # local/ingestion/queue.properties
         sli.ingestion.queue.workItem.host: 
         sli.ingestion.queue.workItem.port: 
@@ -602,7 +602,7 @@ nxbuild2:
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
         #Support Email
-        sli.support.email: sli@slc.org
+        sli.support.email: sli@example.com
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # nxbuild2/data-access/db.properties
@@ -674,7 +674,7 @@ team:
         sli.security.sp.issuerName: https://${sli.dev.subdomain}.slidev.org
 
         #Support Email
-        sli.support.email: sli@slc.org
+        sli.support.email: sli@example.com
 
         api.perf.log.path: /home/api/logs/
     data-access:

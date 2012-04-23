@@ -50,7 +50,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSchoolAssociation    | 4     |
         | teacherSectionAssociation   | 4     |
         | session                     | 22    |
-        | assessment                  | 4     |
+        | assessment                  | 5     |
         | studentAssessmentAssociation| 116   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
@@ -73,7 +73,7 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-1            | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-2            | string               |
-    And I should see "Processed 15251 records." in the resulting batch job file
+    And I should see "Processed 15252 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -102,6 +102,9 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeAssessmentMetadata-ISAT.xml records considered: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ISAT.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ISAT.xml records failed: 0" in the resulting batch job file
+     And I should see "InterchangeAssessmentMetadata-ACT.xml records considered: 1" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 1" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-Learning.xml records considered: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-Learning.xml records ingested successfully: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-Learning.xml records failed: 0" in the resulting batch job file
@@ -141,7 +144,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSchoolAssociation    | 5     |
         | teacherSectionAssociation   | 5     |
         | session                     | 22    |
-        | assessment                  | 4     |
+        | assessment                  | 5     |
         | studentAssessmentAssociation| 116   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
@@ -201,7 +204,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSchoolAssociation    | 21    |
         | teacherSectionAssociation   | 21    |
         | session                     | 26    |
-        | assessment                  | 4     |
+        | assessment                  | 5     |
         | studentAssessmentAssociation| 116   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |

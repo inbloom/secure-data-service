@@ -29,13 +29,13 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Attendance resource for v1
+ * Represents both daily and class period (section) attendance.
  *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.ATTENDANCES)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class AttendanceResource extends DefaultCrudEndpoint {
 
     @Autowired
@@ -57,7 +57,7 @@ public class AttendanceResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @Override
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
                             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
@@ -101,7 +101,7 @@ public class AttendanceResource extends DefaultCrudEndpoint {
     @Override
     @GET
     @Path("{" + ParameterConstants.ATTENDANCE_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.ATTENDANCE_ID) final String attendanceId,
                          @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(attendanceId, headers, uriInfo);

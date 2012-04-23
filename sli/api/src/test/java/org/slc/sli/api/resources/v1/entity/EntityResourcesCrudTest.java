@@ -29,6 +29,7 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.representation.EntityResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -115,7 +116,8 @@ public class EntityResourcesCrudTest {
             assertNotNull("Response is null", response);
             Object responseEntityObj = response.getEntity();
             assertNotNull("Should return an entity", responseEntityObj);
-            EntityBody body = (EntityBody) responseEntityObj;
+            EntityResponse entityResponse = (EntityResponse) responseEntityObj;
+            EntityBody body = (EntityBody) entityResponse.getEntity();
             assertEquals("field1 should be 1", body.get("field1"), "1");
             assertEquals("field2 should be 2", body.get("field2"), 2);
         }
@@ -161,7 +163,8 @@ public class EntityResourcesCrudTest {
             assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
             @SuppressWarnings("unchecked")
-            List<EntityBody> results = (List<EntityBody>) response.getEntity();
+            EntityResponse entityResponse = (EntityResponse) response.getEntity();
+            List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
             assertNotNull("Should return entities", results);
             assertTrue("Should have at least two entities", results.size() >= 2);
         }
@@ -193,7 +196,8 @@ public class EntityResourcesCrudTest {
         Response response = getResponse(classToTest, "update", paramTypes, args);
 
         String resId = ResourceTestUtil.getResourceIdName(resourceName);
-        EntityBody body = (EntityBody) getReadResponse(classToTest, id).getEntity();
+        EntityResponse entityResponse = (EntityResponse) getReadResponse(classToTest, id).getEntity();
+        EntityBody body = (EntityBody) entityResponse.getEntity();
         assertNotNull("Should return an entity", body);
         assertEquals("field1 should be 8", body.get("field1"), 8);
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));

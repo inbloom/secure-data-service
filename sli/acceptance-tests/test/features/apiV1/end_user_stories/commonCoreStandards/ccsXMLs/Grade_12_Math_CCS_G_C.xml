@@ -4,13 +4,6 @@
 
 	<LearningObjective>
 		<Objective>Geometry</Objective>
-		<Description>Congruence
-					 Similarity, Right Triangles, and Trigonometry
-					 Circles
-					 Expressing Geometric Properties with Equations
-					 Geometric Measurement and Dimension
-					 Modeling with Geometry
-		</Description>
 		<AcademicSubject>Mathematics</AcademicSubject>
 		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningObjectiveReference ref="Circles"></LearningObjectiveReference>
@@ -20,70 +13,67 @@
 		<Objective>Circles</Objective>
 		<AcademicSubject>Mathematics</AcademicSubject>
 		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningStandardReference ref="Theorems-about-circles"></LearningStandardReference>
-		<LearningStandardReference ref="Sectors-of-circles"></LearningStandardReference>
-	</LearningObjective>
-
-	<LearningObjective id="Theorems-about-circles">
-		<Objective>Circles</Objective>
-		<Description>Solve real-life and mathematical problems using numerical and algebraic expressions and equations.</Description>
-		<AcademicSubject>Mathematics</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+		<LearningObjectiveId>
+			<IdentificationCode>G-C</IdentificationCode>
+		</LearningObjectiveId>
 		<LearningStandardReference ref="G-C.1"></LearningStandardReference>
 		<LearningStandardReference ref="G-C.2"></LearningStandardReference>
 		<LearningStandardReference ref="G-C.3"></LearningStandardReference>
 		<LearningStandardReference ref="G-C.4"></LearningStandardReference>
-	</LearningObjective>
-	
-	<LearningObjective id="Sectors-of-circles">
-		<Objective>Circles</Objective>
-		<Description>Solve real-life and mathematical problems using numerical and algebraic expressions and equations.</Description>
-		<AcademicSubject>Mathematics</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningStandardReference ref="G-C.5"></LearningStandardReference>
 	</LearningObjective>
 	
 	<LearningStandard id="G-C-1">
-		<LearningStandardId>G-C.1</LearningStandardId>
+		<LearningStandardId>
+			<IdentificationCode>G-C.1</IdentificationCode>
+		</LearningStandardId>
 		<Description>Prove that all circles are similar.</Description>
-		<ContentStandard>State Standard</ContentStandard>
+		<ContentStandard>National Standard</ContentStandard>
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
 	<LearningStandard id="G-C.2">
-		<LearningStandardId>G-C.2</LearningStandardId>
+		<LearningStandardId>
+			<IdentificationCode>G-C.2</IdentificationCode>
+		</LearningStandardId>
 		<Description>Identify and describe relationships among inscribed angles, radii, and chords. Include the relationship between central, inscribed, 
 					  and circumscribed angles; inscribed angles on a diameter are right angles; the radius of a circle is perpendicular to the tangent where 
 					  the radius intersects the circle.</Description>
-		<ContentStandard>State Standard</ContentStandard>
+		<ContentStandard>National Standard</ContentStandard>
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
 	<LearningStandard id="G-C.3">
-		<LearningStandardId>G-C.3</LearningStandardId>
+		<LearningStandardId>
+			<IdentificationCode>G-C.3</IdentificationCode>
+		</LearningStandardId>
 		<Description>Construct the inscribed and circumscribed circles of a triangle, and prove properties of angles for a quadrilateral 
 					 inscribed in a circle.</Description>
-		<ContentStandard>State Standard</ContentStandard>
+		<ContentStandard>National Standard</ContentStandard>
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
 	<LearningStandard id="G-C.4">
-		<LearningStandardId>G-C.4</LearningStandardId>
+		<LearningStandardId>
+			<IdentificationCode>G-C.4</IdentificationCode>
+		</LearningStandardId>
 		<Description>(+) Construct a tangent line from a point outside a given circle to the circle.</Description>
-		<ContentStandard>State Standard</ContentStandard>
+		<ContentStandard>National Standard</ContentStandard>
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
 	<LearningStandard id="G-C.5">
-		<LearningStandardId>G-C.5</LearningStandardId>
+		<LearningStandardId>
+			<IdentificationCode>G-C.5</IdentificationCode>
+		</LearningStandardId>
 		<Description>Derive using similarity the fact that the length of the arc intercepted by an angle is proportional to the radius, 
 					 and define the radian measure of the angle as the constant of proportionality; derive the formula for the area of a sector.
 		</Description>
-		<ContentStandard>State Standard</ContentStandard>
+		<ContentStandard>National Standard</ContentStandard>
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
