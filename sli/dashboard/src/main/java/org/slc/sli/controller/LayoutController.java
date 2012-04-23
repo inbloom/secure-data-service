@@ -2,7 +2,10 @@ package org.slc.sli.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slc.sli.util.Constants;
+import org.slc.sli.util.SecurityUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +33,20 @@ public class LayoutController extends GenericLayoutController {
     public ModelAndView handleWithId(@PathVariable String componentId, @PathVariable String id, HttpServletRequest request) {
         return handle(componentId, id, request);
     }
+    
+    
+    /**
+     * Controller for student search 
+    */ 
+    @RequestMapping(value = "/service/layout/studentSearchPage", method = RequestMethod.GET)
+    public ModelAndView searchForStudent(String firstName, String lastName, HttpServletRequest request) {
+       ModelMap model = getPopulatedModel("studentSearchPage", new String[]{firstName, lastName}, request);
+        model.addAttribute(Constants.ATTR_HEADER_STRING, portalWSManager.getHeader(SecurityUtil.getToken()));
+        model.addAttribute(Constants.ATTR_FOOTER_STRING, portalWSManager.getFooter(SecurityUtil.getToken())
+                .replaceFirst("div_main", "div_footer"));
+        return getModelView(TABBED_ONE_COL, model);        
+    }    
+    
 
     /**
      * Generic layout handler

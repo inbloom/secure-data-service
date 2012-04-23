@@ -843,4 +843,9 @@ public class LiveAPIClient implements APIClient {
         return restClient.getJsonRequest(portalFooterUrl + "e88cb6d1-771d-46ac-a207-2e58d7f12196");
     }
 
+    @Override
+    public List<GenericEntity> getStudentsWithSearch(String token, String firstName, String lastName) {
+        // TODO Auto-generated method stub
+        return createEntitiesFromAPI(getApiUrl() + "/v1" + STUDENTS_URL, token, false);
+    }
 }

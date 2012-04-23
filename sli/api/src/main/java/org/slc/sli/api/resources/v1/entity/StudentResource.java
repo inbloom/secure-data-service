@@ -1,6 +1,7 @@
 package org.slc.sli.api.resources.v1.entity;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -101,6 +102,26 @@ public class StudentResource extends DefaultCrudEndpoint {
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
+    
+    @Path(PathConstants.STUDENT_WITH_GRADE)
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @GET
+    public Response readAllWithGrade(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        Response response = super.readAll(offset, limit, headers, uriInfo); 
+        try {
+        ArrayList<Map> studentList = (ArrayList<Map>) response.getEntity();
+        for (Map<String, String> student : studentList) {
+            addGradeLevelToStudent(student, student.get("id"), headers, uriInfo);
+        }
+        } catch (ClassCastException ce) {
+            ce.printStackTrace();
+        }
+        return response;
+    }
+    
+    
     /**
      * Create a new $$students$$ entity.
      *
@@ -165,9 +186,6 @@ public class StudentResource extends DefaultCrudEndpoint {
     public Response readWithGrade(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
-        // Most recent grade level, not available till found
-        String mostRecentGradeLevel = "Not Available";
-
         //Retrieve student entity for student with id = studentId
         Response studentResponse = read(studentId, headers, uriInfo);
 
@@ -175,13 +193,24 @@ public class StudentResource extends DefaultCrudEndpoint {
             return studentResponse;
         }
         Map<String, String> student = (Map<String, String>) studentResponse.getEntity();
+        addGradeLevelToStudent(student, studentId, headers, uriInfo);
+        return studentResponse;
+       
+    }
 
+    
+    
+    private void addGradeLevelToStudent(Map<String, String> student, String studentId, HttpHeaders headers, UriInfo uriInfo) {
+        // Most recent grade level, not available till found
+        String mostRecentGradeLevel = "Not Available";
+        String mostRecentSchool = "";
+        
         //Retrieve studentSchoolAssociations for student with id = studentId
         Response studentSchoolAssociationsResponse = getStudentSchoolAssociations(studentId, headers, uriInfo);
 
         if ((studentSchoolAssociationsResponse == null) || !(studentSchoolAssociationsResponse.getEntity() instanceof List)) {
             student.put(GRADE_LEVEL, mostRecentGradeLevel);
-            return studentResponse;
+            return;
         }
 
         List<Map<?, ?>> studentSchoolAssociationList = (List<Map<?, ?>>) studentSchoolAssociationsResponse.getEntity();
@@ -213,10 +242,12 @@ public class StudentResource extends DefaultCrudEndpoint {
                     if (mostRecentEntry == null) {
                         mostRecentEntry = ssaDate;
                         mostRecentGradeLevel = (String) studentSchoolAssociation.get(ENTRY_GRADE_LEVEL);
+                        mostRecentSchool = (String) studentSchoolAssociation.get("schoolId");
                     } else {
                         if (ssaDate.compareTo(mostRecentEntry) > 0) {
                             mostRecentEntry = ssaDate;
                             mostRecentGradeLevel = (String) studentSchoolAssociation.get(ENTRY_GRADE_LEVEL);
+                            mostRecentSchool = (String) studentSchoolAssociation.get("schoolId");
                         }
                     }
                 }
@@ -228,9 +259,9 @@ public class StudentResource extends DefaultCrudEndpoint {
         }
 
         student.put(GRADE_LEVEL, mostRecentGradeLevel);
-        return studentResponse;
+        student.put("schoolId", mostRecentSchool);
     }
-
+    
 
     /**
      * Delete a $$students$$ entity

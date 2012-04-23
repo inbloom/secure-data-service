@@ -32,7 +32,7 @@ public abstract class GenericLayoutController {
 
     private CustomizationAssemblyFactory customizationAssemblyFactory;
 
-    private PortalWSManager portalWSManager;
+    protected PortalWSManager portalWSManager;
 
 
     /**

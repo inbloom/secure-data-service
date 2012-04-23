@@ -36,7 +36,9 @@ public interface APIClient {
     public List<GenericEntity> getStudentEnrollment(final String token, GenericEntity student);
 
     public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId);
-
+    
+    public List<GenericEntity> getStudentsWithSearch(final String token, String firstName, String lastName);
+    
     public String getHeader(String token);
 
     public String getFooter(String token);

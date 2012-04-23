@@ -394,4 +394,11 @@ public class MockAPIClient implements APIClient {
         return null;
     }
 
+    @Override
+    public List<GenericEntity> getStudentsWithSearch(String token,
+            String firstName, String lastName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

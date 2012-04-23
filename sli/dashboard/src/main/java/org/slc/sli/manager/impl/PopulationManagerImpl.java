@@ -622,4 +622,31 @@ public class PopulationManagerImpl implements PopulationManager {
         }
         return dates;
     }
+
+    @Override
+    public GenericEntity getStudentsBySearch(String token, Object nameQuery, Config.Data config) {
+        //Map<String, String> nameQueryMap = (Map<String, String>) nameQuery;
+        String[] nameList = (String[]) nameQuery;
+        String firstName = nameList[0];
+        String lastName = nameList[1];
+        List<GenericEntity> students = entityManager.getStudentsFromSearch(token, firstName, lastName);
+        HashMap<String, GenericEntity> retrievedSchools = new HashMap<String, GenericEntity>();
+        GenericEntity school;
+        for (GenericEntity student: students) {
+            if (student.get("currentSchoolId") != null) {
+                if (retrievedSchools.containsKey((String) student.get("currentSchoolId"))) {
+                    school = retrievedSchools.get(student.get("currentSchoolId"));
+                    student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST)); 
+                } else {
+                    school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, student.getString("currentSchoolId"), new HashMap());
+                    retrievedSchools.put(school.getString(Constants.ATTR_ID), school);
+                    student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
+                }
+            }
+        }
+        
+        GenericEntity studentSearch = new GenericEntity();
+        studentSearch.put(Constants.ATTR_STUDENTS, students);
+        return studentSearch;
+    }
 }
