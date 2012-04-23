@@ -174,9 +174,10 @@ end
 def dirContainsBatchJobLog?(dir)
   Dir.foreach(dir) do |file|
     if /^job-#{@source_file_name}.*.log$/.match file
-      openedFile = File.open(dir + file, 'r+')
-      openedFile.flock(File::LOCK_EX)
-      puts " acquiring exclusive lock on  " + openedFile.path
+      File.open(dir + file, 'r+') {|openedFile|
+        openedFile.flock(File::LOCK_EX)
+        puts " acquired exclusive lock on  " + openedFile.path
+        }
       return true
     end
   end
