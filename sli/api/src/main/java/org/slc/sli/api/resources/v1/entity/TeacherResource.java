@@ -83,7 +83,7 @@ public class TeacherResource extends DefaultCrudEndpoint {
      */
     @Override
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
@@ -146,6 +146,7 @@ public class TeacherResource extends DefaultCrudEndpoint {
     @Override
     @PUT
     @Path("{" + ParameterConstants.TEACHER_ID + "}")
+    @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response update(@PathParam(ParameterConstants.TEACHER_ID) final String teacherId,
             final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
