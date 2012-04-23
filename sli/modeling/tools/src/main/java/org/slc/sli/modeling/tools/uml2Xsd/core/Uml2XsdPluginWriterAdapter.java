@@ -9,27 +9,7 @@ import org.slc.sli.modeling.xsd.WxsNamespace;
 import org.slc.sli.modeling.xsd.XsdAttributeName;
 
 public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
-    
-    public void minOccurs(final Occurs value) {
-        if (!value.equals(Occurs.ONE)) {
-            try {
-                xsw.writeAttribute(XsdAttributeName.MIN_OCCURS.getLocalName(), toString(value));
-            } catch (final XMLStreamException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-    
-    public void maxOccurs(final Occurs value) {
-        if (!value.equals(Occurs.ONE)) {
-            try {
-                xsw.writeAttribute(XsdAttributeName.MAX_OCCURS.getLocalName(), toString(value));
-            } catch (final XMLStreamException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-    
+
     private static final String toString(final Occurs value) {
         if (value == null) {
             throw new NullPointerException("value");
@@ -49,16 +29,16 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
             }
         }
     }
-    
+
     private final String prefix;
-    
+
     private final XMLStreamWriter xsw;
-    
+
     public Uml2XsdPluginWriterAdapter(final XMLStreamWriter xsw, final String prefix) {
         this.xsw = xsw;
         this.prefix = prefix;
     }
-    
+
     @Override
     public void annotation() {
         try {
@@ -67,7 +47,24 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
             throw new RuntimeException(e);
         }
     }
-    
+
+    @Override
+    public void appinfo() {
+        try {
+            xsw.writeStartElement(prefix, "appinfo", WxsNamespace.URI);
+        } catch (final XMLStreamException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void begin(final String prefix, final String localName, final String namespace) {
+        try {
+            xsw.writeStartElement(prefix, localName, namespace);
+        } catch (final XMLStreamException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void characters(final String text) {
         try {
@@ -76,7 +73,7 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
             throw new RuntimeException(e);
         }
     }
-    
+
     @Override
     public void choice() {
         try {
@@ -85,7 +82,7 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
             throw new RuntimeException(e);
         }
     }
-    
+
     @Override
     public void comment(final String data) {
         try {
@@ -94,7 +91,7 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
             throw new RuntimeException(e);
         }
     }
-    
+
     @Override
     public void documentation() {
         try {
@@ -103,7 +100,7 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
             throw new RuntimeException(e);
         }
     }
-    
+
     @Override
     public void element() {
         try {
@@ -112,7 +109,8 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
             throw new RuntimeException(e);
         }
     }
-    
+
+    @Override
     public void end() {
         try {
             xsw.writeEndElement();
@@ -120,7 +118,29 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
             throw new RuntimeException(e);
         }
     }
-    
+
+    @Override
+    public void maxOccurs(final Occurs value) {
+        if (!value.equals(Occurs.ONE)) {
+            try {
+                xsw.writeAttribute(XsdAttributeName.MAX_OCCURS.getLocalName(), toString(value));
+            } catch (final XMLStreamException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @Override
+    public void minOccurs(final Occurs value) {
+        if (!value.equals(Occurs.ONE)) {
+            try {
+                xsw.writeAttribute(XsdAttributeName.MIN_OCCURS.getLocalName(), toString(value));
+            } catch (final XMLStreamException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     @Override
     public void name(final QName name) {
         try {
@@ -129,7 +149,7 @@ public class Uml2XsdPluginWriterAdapter implements Uml2XsdPluginWriter {
             throw new RuntimeException(e);
         }
     }
-    
+
     @Override
     public void type(final QName name) {
         try {
