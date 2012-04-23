@@ -31,10 +31,10 @@
         <jb:value property="cohortScope" data="attributes cohortScope" />
         <jb:value property="academicSubject" data="attributes academicSubject" />
         <jb:value property="educationOrgId" data="attributes educationOrgId" />
-        <jb:wiring property="programId" beanIdRef="programReferenceTypeArray" />
+        <jb:wiring property="programId" beanIdRef="cohort_programReferenceTypeArray" />
     </jb:bean>
 
-    <jb:bean beanId="staffCohortAssociation_programIdArray" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:bean beanId="cohort_programReferenceTypeArray" class="java.util.ArrayList" createOnElement="attributes">
       <jb:value data="attributes programId element" />
     </jb:bean>
 
