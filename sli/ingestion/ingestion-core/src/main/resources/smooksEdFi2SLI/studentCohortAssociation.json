@@ -38,7 +38,7 @@
 	            ]
 	        ]
         }
-    }
+    }],
 
     "piiFields" : {
         "StudentReference" : {

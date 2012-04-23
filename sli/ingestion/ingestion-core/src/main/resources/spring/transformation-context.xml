@@ -106,9 +106,9 @@
         <property name="passThroughCollectionName" value="staffCohortAssociation" />
     </bean>
 
-	<bean id="studentCohortAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
+    <bean id="studentCohortAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-		<property name="passThroughCollectionName" value="studentCohortAssociation" />
+	<property name="passThroughCollectionName" value="studentCohortAssociation" />
     </bean>
     
 </beans>
