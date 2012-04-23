@@ -359,7 +359,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1EndUserStoryAssessmentTests,
                      :v1EndUserStoryCustomEntityTests,
                      :v1StudentOptionalFieldsTests,
-                     :v1SingleStudentViewTests] do
+                     :v1SingleStudentViewTests,
+                     :v1XMLTests] do
   displayFailureReport()
 end
 
