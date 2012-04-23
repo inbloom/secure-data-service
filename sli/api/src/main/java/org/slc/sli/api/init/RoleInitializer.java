@@ -102,6 +102,9 @@ public class RoleInitializer {
         if (!hasAppDeveloper) {
             createdRoles.add(buildAppDeveloper());
         }
+        if (!hasSLCOperator) {
+            createdRoles.add(buildSLCOperator());
+        }
         
         for (Role body : createdRoles) {
             repository.create(ROLES, body.getRoleAsEntityBody());
