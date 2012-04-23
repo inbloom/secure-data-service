@@ -6828,7 +6828,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="gradeReference" type="reference" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="grades" type="grade" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Grades for the classes attended by the student for this grading period.</xs:documentation>
 					<xs:appinfo>
@@ -6836,7 +6836,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentCompetencyReference" type="reference" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="studentCompetencyId" type="reference" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>The student competency evaluations associated for this grading period.</xs:documentation>
 					<xs:appinfo>
@@ -6886,7 +6886,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element name="studentReference" type="reference">
+			<xs:element name="studentId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Identifies the student that is associated with the Report Card</xs:documentation>
 					<xs:appinfo>
@@ -6894,11 +6894,11 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="gradingPeriodReference" type="reference">
+			<xs:element name="gradingPeriodId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Identifies the grading period for this report card.</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>gradingPeriod</sli:ReferenceType>
+                        <sli:ReferenceType>gradingPeriod</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6955,7 +6955,7 @@
 			and one and only one should be chosen, so minOccurs="0" is not correct.
 			I will leave it like this here - this should be changed when the resources are implemented. -->
 			<!--<xs:choice>-->
-			<xs:element name="learningObjectiveReference" type="reference" minOccurs="0">
+			<xs:element name="learningObjectiveId" type="reference" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The learning objective evaluated or assessed for the student.</xs:documentation>
 					<xs:appinfo>
@@ -6963,7 +6963,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentCompetencyObjectiveReference" type="reference" minOccurs="0">
+			<xs:element name="studentCompetencyObjectiveId" type="reference" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The student competency objective evaluated for the student.</xs:documentation>
 					<xs:appinfo>
@@ -6982,7 +6982,7 @@
 					<xs:documentation>A statement provided by the teacher that provides information in addition to the grade or assessment score.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentSectionAssociationReference" type="reference" minOccurs="0">
+			<xs:element name="studentSectionAssociationId" type="reference" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Association to the student-section association with which the competency is evaluated.</xs:documentation>
 					<xs:appinfo>
@@ -7018,7 +7018,7 @@
 					<xs:documentation>The grade level for which the competency objective is targeted,</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="educationOrganizationReference" type="reference">
+			<xs:element name="educationOrganizationId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The Education Organization that defines the curriculum and courses offered - often the LEA or school.</xs:documentation>
 					<xs:appinfo>
