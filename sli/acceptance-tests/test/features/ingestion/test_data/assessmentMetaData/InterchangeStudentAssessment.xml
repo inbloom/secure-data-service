@@ -36,6 +36,36 @@
 	</StudentAssessment>
 
 	<StudentAssessment id="saa_id_2">
+		<AdministrationDate>2011-05-02</AdministrationDate>
+		<SerialNumber>0</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ScoreResults AssessmentReportingMethod="Scale score">
+			<Result>2400</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Percentile">
+			<Result>99.99</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>1233L</Result>
+		</ScoreResults>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>42</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>SAT</ID>
+				</AssessmentIdentificationCode>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+
+	<StudentAssessment id="saa_id_3">
 		<AdministrationDate>2011-05-01</AdministrationDate>
 		<SerialNumber>0</SerialNumber>
 		<AdministrationLanguage>English</AdministrationLanguage>
@@ -140,4 +170,82 @@
 		</ObjectiveAssessmentReference>
 	</StudentObjectiveAssessment>
 
+	<StudentObjectiveAssessment id="soa7">
+		<ScoreResults AssessmentReportingMethod="Percentile">
+			<Result>99.99</Result>
+		</ScoreResults>
+		<StudentTestAssessmentReference ref="saa_id_1">
+		</StudentTestAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Math-Arithmetic</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+
+	<StudentObjectiveAssessment id="soa8">
+		<ScoreResults AssessmentReportingMethod="Percentile">
+			<Result>99.99</Result>
+		</ScoreResults>
+		<StudentTestAssessmentReference ref="saa_id_1">
+		</StudentTestAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Math-Algebra</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+
+	<StudentObjectiveAssessment id="soa9">
+		<ScoreResults AssessmentReportingMethod="Percentile">
+			<Result>99.99</Result>
+		</ScoreResults>
+		<StudentTestAssessmentReference ref="saa_id_1">
+		</StudentTestAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Math-Geometry</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+
+	<StudentObjectiveAssessment id="soa10">
+		<ScoreResults AssessmentReportingMethod="Percentile">
+			<Result>99.99</Result>
+		</ScoreResults>
+		<StudentTestAssessmentReference ref="saa_id_2">
+		</StudentTestAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Math-Arithmetic</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+
+	<StudentObjectiveAssessment id="soa11">
+		<ScoreResults AssessmentReportingMethod="Percentile">
+			<Result>99.99</Result>
+		</ScoreResults>
+		<StudentTestAssessmentReference ref="saa_id_2">
+		</StudentTestAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Math-Algebra</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+
+	<StudentObjectiveAssessment id="soa12">
+		<ScoreResults AssessmentReportingMethod="Percentile">
+			<Result>99.99</Result>
+		</ScoreResults>
+		<StudentTestAssessmentReference ref="saa_id_2">
+		</StudentTestAssessmentReference>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Math-Geometry</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
 </InterchangeStudentAssessment>
+

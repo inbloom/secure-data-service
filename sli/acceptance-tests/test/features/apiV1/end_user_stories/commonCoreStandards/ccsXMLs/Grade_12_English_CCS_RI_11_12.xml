@@ -4,53 +4,20 @@
 
 	<LearningObjective>
 		<Objective>Reading: Informational Text</Objective>
-		<Description>
-		</Description>
 		<AcademicSubject>ELA</AcademicSubject>
 		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningObjectiveReference ref="Key-Ideas-and-Details"></LearningObjectiveReference>
-		<LearningObjectiveReference ref="Craft-and-Structure"></LearningObjectiveReference>
-		<LearningObjectiveReference ref="Integration-of-Knowledge-and-Ideas"></LearningObjectiveReference>
-		<LearningObjectiveReference ref="Range-of-Reading-and-Level"></LearningObjectiveReference>
-	</LearningObjective>
-	
-	<LearningObjective id="Key-Ideas-and-Details">
-		<Objective>Reading: Informational Text</Objective>
-		<Description>Key Ideas and Details</Description>
-		<AcademicSubject>ELA</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+		<LearningObjectiveId>
+			<IdentificationCode>RI-11-12</IdentificationCode>
+		</LearningObjectiveId>
 		<LearningStandardReference ref="RI-11-12-1"></LearningStandardReference>
 		<LearningStandardReference ref="RI-11-12-2"></LearningStandardReference>
 		<LearningStandardReference ref="RI-11-12-3"></LearningStandardReference>
-	</LearningObjective>
-
-	<LearningObjective id="Craft-and-Structure">
-		<Objective>Reading: Informational Text</Objective>
-		<Description>Craft and Structure</Description>
-		<AcademicSubject>ELA</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningStandardReference ref="RI-11-12-4"></LearningStandardReference>
 		<LearningStandardReference ref="RI-11-12-5"></LearningStandardReference>
 		<LearningStandardReference ref="RI-11-12-6"></LearningStandardReference>
-	</LearningObjective>
-	
-	
-	<LearningObjective id="Integration-of-Knowledge-and-Ideas">
-		<Objective>Reading: Informational Text</Objective>
-		<Description>Craft and Structure</Description>
-		<AcademicSubject>ELA</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningStandardReference ref="RI-11-12-7"></LearningStandardReference>
 		<LearningStandardReference ref="RI-11-12-8"></LearningStandardReference>
 		<LearningStandardReference ref="RI-11-12-9"></LearningStandardReference>
-	</LearningObjective>
-	
-	
-	<LearningObjective id="Range-of-Reading-and-Level">
-		<Objective>Reading: Informational Text</Objective>
-		<Description>Range of Reading and Level of Text Complexity</Description>
-		<AcademicSubject>ELA</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningStandardReference ref="RI-11-12-10"></LearningStandardReference>
 	</LearningObjective>
 	
