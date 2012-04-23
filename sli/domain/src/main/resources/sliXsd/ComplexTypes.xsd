@@ -6822,4 +6822,211 @@
 			use="required" />
 	</xs:complexType>
 
+	<xs:complexType name="reportCard">
+		<xs:annotation>
+			<xs:documentation>This educational entity represents the collection of student grades for courses taken during a grading period.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="gradeReference" type="reference" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Grades for the classes attended by the student for this grading period.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>grade</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="studentCompetencyReference" type="reference" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The student competency evaluations associated for this grading period.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>studentCompetency</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GPAGivenGradingPeriod" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>A measure of average performance in all courses taken by an individual for the current grading period.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GPACumulative" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>A measure of cumulative average performance in all courses taken by an individual from the beginning of the school year through the current grading period.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="numberOfDaysAbsent" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The number of days an individual is absent when school is in session during a given reporting period.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="numberOfDaysInAttendance" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The number of days an individual is present when school is in session during a given reporting period.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="numberOfDaysTardy" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The number of days an individual is tardy during a given reporting period.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="studentReference" type="reference">
+				<xs:annotation>
+					<xs:documentation>Identifies the student that is associated with the Report Card</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>student</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="gradingPeriodReference" type="reference">
+				<xs:annotation>
+					<xs:documentation>Identifies the grading period for this report card.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>gradingPeriod</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="competencyLevelDescriptor">
+		<xs:annotation>
+			<xs:documentation>This descriptor defines various levels for assessed competencies.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="codeValue" type="codeValue">
+				<xs:annotation>
+					<xs:documentation>A code or abbreviation that is used to refer to a competency level.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" type="description" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The description of the competency Level</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="performanceBaseConversion" type="performanceBaseType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A conversion of the level to a standard set of competency levels.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="competencyLevelDescriptorType">
+		<xs:annotation>
+			<xs:documentation>Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="codeValue" type="codeValue">
+				<xs:annotation>
+					<xs:documentation>A code or abbreviation that is used to refer to the competentcy level.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" type="description">
+				<xs:annotation>
+					<xs:documentation>The description of the competency level.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="studentCompetency">
+		<xs:annotation>
+			<xs:documentation>This entity represents the competency assessed or evaluated for the student against a specific Learning Objective.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!-- learningObjective and studentCompetencyObjective were wrapped in <xs:choice>,
+			and one and only one should be chosen, so minOccurs="0" is not correct.
+			I will leave it like this here - this should be changed when the resources are implemented. -->
+			<!--<xs:choice>-->
+			<xs:element name="learningObjectiveReference" type="reference" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The learning objective evaluated or assessed for the student.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>learningObjective</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="studentCompetencyObjectiveReference" type="reference" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The student competency objective evaluated for the student.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>studentCompetencyObjective</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<!--</xs:choice>-->
+			<xs:element name="competencyLevel" type="competencyLevelDescriptorType">
+				<xs:annotation>
+					<xs:documentation>The competency level assessed for the student for the referenced learning objective.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="diagnosticStatement" type="text" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A statement provided by the teacher that provides information in addition to the grade or assessment score.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="studentSectionAssociationReference" type="reference" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Association to the student-section association with which the competency is evaluated.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>studentSectionAssociation</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="studentCompetencyObjective">
+		<xs:annotation>
+			<xs:documentation>This entity holds additional competencies for student achievement that are not associated with specific learning objectives (e.g., paying attention in class).</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="studentCompetencyObjectiveId" type="identificationCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Identifier for the student competency.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="objective" type="objective">
+				<xs:annotation>
+					<xs:documentation>The designated title of the student competency objective.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" type="description" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The description of the student competency objective.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="objectiveGradeLevel" type="gradeLevelType">
+				<xs:annotation>
+					<xs:documentation>The grade level for which the competency objective is targeted,</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="educationOrganizationReference" type="reference">
+				<xs:annotation>
+					<xs:documentation>The Education Organization that defines the curriculum and courses offered - often the LEA or school.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
 </xs:schema>
