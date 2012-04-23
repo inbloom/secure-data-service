@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -232,6 +233,10 @@ public class PersistenceProcessor implements Processor {
         long recordNumber = 0;
         long numFailed = 0;
 
+        StopWatch sw = new StopWatch();
+        sw.start();
+
+
         ch.qos.logback.classic.Logger errorLogger = createErrorLoggerForFile(originalInputFileName);
         LoggingFaultReport recordLevelErrorsInFile = new LoggingFaultReport(errorLogger);
 
@@ -355,6 +360,9 @@ public class PersistenceProcessor implements Processor {
                 // number of records not processed successfully
                 exchange.setProperty(originalInputFileName + ".records.failed", numFailed);
             }
+
+            sw.stop();
+            LOG.info("Performance - {} - {} : {}", new Object[] {batchJobId, originalInputFileName, sw.getTotalTimeMillis()});
         }
         neutralRecordsFile.delete();
 
