@@ -21,34 +21,34 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * Prototype new api end points and versioning
- * 
+ *
  * @author kmyers
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.EDUCATION_ORGANIZATIONS)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class EducationOrganizationResource extends DefaultCrudEndpoint {
-    
+
     @Autowired
     public EducationOrganizationResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.EDUCATION_ORGANIZATIONS);
     }
-    
+
     /**
      * Returns all $$educationalOrganizations$$ entities for which the logged in User has permission
      * and context.
-     * 
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -59,7 +59,8 @@ public class EducationOrganizationResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return result of CRUD operation
      */
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Override
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
@@ -67,10 +68,10 @@ public class EducationOrganizationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
     }
-    
+
     /**
      * Create a new $$educationalOrganizations$$ entity.
-     * 
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -82,16 +83,17 @@ public class EducationOrganizationResource extends DefaultCrudEndpoint {
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
      *                 item is accessible.}
      */
+    @Override
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response create(final EntityBody newEntityBody, 
+    public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
-    
+
     /**
      * Get a single $$educationalOrganizations$$ entity
-     * 
+     *
      * @param educationOrganizationId
      *            The Id of the $$educationalOrganizations$$.
      * @param headers
@@ -100,17 +102,18 @@ public class EducationOrganizationResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return A single $$educationalOrganizations$$ entity
      */
+    @Override
     @GET
     @Path("{" + ParameterConstants.EDUCATION_ORGANIZATION_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.EDUCATION_ORGANIZATION_ID) final String educationOrganizationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(educationOrganizationId, headers, uriInfo);
     }
-    
+
     /**
      * Delete a $$educationalOrganizations$$ entity
-     * 
+     *
      * @param educationOrganizationId
      *            The Id of the $$educationalOrganizations$$.
      * @param headers
@@ -120,6 +123,7 @@ public class EducationOrganizationResource extends DefaultCrudEndpoint {
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @DELETE
     @Path("{" + ParameterConstants.EDUCATION_ORGANIZATION_ID + "}")
     public Response delete(
@@ -127,10 +131,10 @@ public class EducationOrganizationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.delete(educationOrganizationId, headers, uriInfo);
     }
-    
+
     /**
      * Update an existing $$educationalOrganizations$$ entity.
-     * 
+     *
      * @param educationOrganizationId
      *            The id of the $$educationalOrganizations$$.
      * @param newEntityBody
@@ -142,18 +146,19 @@ public class EducationOrganizationResource extends DefaultCrudEndpoint {
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @PUT
     @Path("{" + ParameterConstants.EDUCATION_ORGANIZATION_ID + "}")
     public Response update(@PathParam(ParameterConstants.EDUCATION_ORGANIZATION_ID) final String educationOrganizationId,
-            final EntityBody newEntityBody, 
+            final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(educationOrganizationId, newEntityBody, headers, uriInfo);
     }
-    
+
     /**
      * Returns each $$staffEducationOrganizationAssociations$$ that
      * references the given $$educationalOrganizations$$
-     * 
+     *
      * @param educationOrganizationId
      *            The Id of the School.
      * @param offset
@@ -169,7 +174,7 @@ public class EducationOrganizationResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.EDUCATION_ORGANIZATION_ID + "}" + "/"
             + PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
     public Response getStaffEducationOrganizationAssociations(
@@ -178,11 +183,11 @@ public class EducationOrganizationResource extends DefaultCrudEndpoint {
         return super.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "educationOrganizationReference",
                 educationOrganizationId, headers, uriInfo);
     }
-    
+
     /**
      * Returns each $$staff$$ associated to the given education organization through
      * a $$staffEducationOrganizationAssociations$$
-     * 
+     *
      * @param educationOrganizationId
      *            The Id of the School.
      * @param headers
@@ -192,7 +197,7 @@ public class EducationOrganizationResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.EDUCATION_ORGANIZATION_ID + "}" + "/"
             + PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS + "/" + PathConstants.STAFF)
     public Response getStaffEducationOrganizationAssociationStaff(

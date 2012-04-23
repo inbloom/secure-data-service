@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
  * FULL_ACCESS -> allows operations on all entities everywhere without regard for associations
  */
 public enum Right implements GrantedAuthority {
-    ANONYMOUS_ACCESS, READ_GENERAL, WRITE_GENERAL, READ_RESTRICTED, WRITE_RESTRICTED, AGGREGATE_READ, AGGREGATE_WRITE, ADMIN_ACCESS, FULL_ACCESS;
+    ANONYMOUS_ACCESS, READ_GENERAL, WRITE_GENERAL, READ_RESTRICTED, WRITE_RESTRICTED, AGGREGATE_READ, AGGREGATE_WRITE, ADMIN_ACCESS, FULL_ACCESS, APP_REGISTER, APP_EDORG_SELECT;
 
     @Override
     public String getAuthority() {

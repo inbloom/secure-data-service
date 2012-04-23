@@ -1,5 +1,6 @@
 package org.slc.sli.api.security.oauth;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -7,9 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -18,9 +20,9 @@ import org.slc.sli.domain.Repository;
 /**
  * Determines which applications a given user is authorized to use based on
  * that user's ed-org.
- * 
+ *
  * @author pwolf
- * 
+ *
  */
 @Component
 public class ApplicationAuthorizationValidator {
@@ -35,20 +37,25 @@ public class ApplicationAuthorizationValidator {
 
     /**
      * Get the list of authorized apps for the user based on the user's LEA.
-     * 
+     *
      * No additional filtering is done on the results. E.g. if a user is a non-admin,
      * the admin apps will still show up in the list, or if an app is disabled it will
      * still show up.
-     * 
+     *
      * @param principal
-     * 
-     * @return either the list of app IDs or null if no ed-org information can be determined
+     *
+     * @return list of app IDs, or null if it couldn't be determined
      */
     @SuppressWarnings("unchecked")
     public List<String> getAuthorizedApps(SLIPrincipal principal) {
-        Entity district = findUsersDistrict(principal);
-        List<String> apps = null;
-        if (district != null) {
+        List<Entity> districts = findUsersDistricts(principal);
+
+        //essentially allow by default for users with no entity data, ie. administrators
+        if (districts == null) {
+            return null;
+        }
+        List<String> apps = new ArrayList<String>();
+        for (Entity district : districts) {
 
             NeutralQuery query = new NeutralQuery();
             query.addCriteria(new NeutralCriteria("authId", "=", district.getEntityId()));
@@ -56,7 +63,7 @@ public class ApplicationAuthorizationValidator {
             Entity authorizedApps = repo.findOne("applicationAuthorization", query);
 
             if (authorizedApps != null) {
-                apps = (List<String>) authorizedApps.getBody().get("appIds");
+                apps.addAll((List<String>) authorizedApps.getBody().get("appIds"));
             }
 
         }
@@ -66,31 +73,51 @@ public class ApplicationAuthorizationValidator {
 
     /**
      * Looks up the user's LEA entity.
-     * 
+     *
+     * Currently it returns a list of all LEAs the user might be associated with.
+     * In the case there's a hierarchy of LEAs, all are returned in no particular order.
+     *
      * @param principal
-     * @return Either the LEA entity if one is found, or null if not found
+     * @return a list of accessible LEAs, or null if no entity data was found
      */
-    private Entity findUsersDistrict(SLIPrincipal principal) {
-
+    private List<Entity> findUsersDistricts(SLIPrincipal principal) {
+        List<Entity> toReturn = new ArrayList<Entity>();
         if (principal.getEntity() != null) {
+            List<String> edOrgs = null;
             try {
-                List<String> edOrgs = contextResolverStore.findResolver(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
-                for (String id : edOrgs) {
-                    Entity entity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
-                    List<String> category = (List<String>) entity.getBody().get("organizationCategories");
-                    if (category.contains("Local Education Agency")) {
-                        return entity;
-                    }
-                }
+                edOrgs = contextResolverStore.findResolver(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
             } catch (IllegalArgumentException ex) {
                 // this is what the resolver throws if it doesn't find any edorg data
                 LOGGER.warn("Could not find an associated ed-org for {}.", principal.getExternalId());
             }
+            if (edOrgs == null || edOrgs.size() == 0) {   //maybe user is a staff?
+                edOrgs = contextResolverStore.findResolver(EntityNames.STAFF, EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
+            }
+
+            //Need to clean this up when we remove the demo user 'hack'
+            if (edOrgs == AllowAllEntityContextResolver.SUPER_LIST) {
+                return null;
+            }
+            for (String id : edOrgs) {
+                Entity entity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
+                if (entity == null) {
+                    warn("Could not find ed-org with ID {}", id);
+                } else {
+                    List<String> category = (List<String>) entity.getBody().get("organizationCategories");
+                    if (category.contains("Local Education Agency")) {
+                        toReturn.add(entity);
+                    }
+                }
+            }
+
         } else {
             LOGGER.warn("Skipping LEA lookup for {} because no entity data was found.", principal.getExternalId());
+            return null;
         }
-        LOGGER.warn("Could not find an associated LEA for {}.", principal.getExternalId());
-        return null;
+        if (toReturn.size() == 0) {
+            LOGGER.warn("Could not find an associated LEA for {}.", principal.getExternalId());
+        }
+        return toReturn;
     }
 
 }

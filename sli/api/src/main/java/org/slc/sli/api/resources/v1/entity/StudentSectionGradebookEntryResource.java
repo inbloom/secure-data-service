@@ -21,12 +21,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * StudentSectionGradebookEntryResource
@@ -36,9 +36,9 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_SECTION_GRADEBOOK_ENTRIES)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
-    
+
     @Autowired
     public StudentSectionGradebookEntryResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES);
@@ -46,7 +46,7 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
 
     /**
      * readAll
-     * 
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -58,17 +58,18 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
      * @return all $$studentSectionGradebookEntries$$ the user has context to view
      *
      */
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Override
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
      * create
-     * 
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -77,16 +78,17 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
      *              URI information including path and query parameters
      * @return A 201 response on successfully created entity with the ID of the entity
      */
+    @Override
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response create(final EntityBody newEntityBody, 
+    public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
      * read
-     * 
+     *
      * @param studentSectionGradebookEntryId
      *            The id (or list of ids) of the $$studentSectionGradebookEntries$$.
      * @param headers
@@ -96,9 +98,10 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
      * @return A list of entities matching the list of ids queried for
      *
      */
+    @Override
     @GET
     @Path("{" + ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID) final String studentSectionGradebookEntryId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(studentSectionGradebookEntryId, headers, uriInfo);
@@ -106,7 +109,7 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
 
     /**
      * delete
-     * 
+     *
      * @param studentSectionGradebookEntryId
      *            The Id of the $$studentSectionGradebookEntries$$.
      * @param headers
@@ -115,16 +118,17 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return Returns a NOT_CONTENT status code
      */
+    @Override
     @DELETE
     @Path("{" + ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID) final String studentSectionGradebookEntryId, 
+    public Response delete(@PathParam(ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID) final String studentSectionGradebookEntryId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.delete(studentSectionGradebookEntryId, headers, uriInfo);
     }
 
     /**
      * update
-     * 
+     *
      * @param studentSectionGradebookEntryId
      *            The id of the $$studentSectionGradebookEntries$$.
      * @param newEntityBody
@@ -135,10 +139,11 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return Response with a NOT_CONTENT status code
      */
+    @Override
     @PUT
     @Path("{" + ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID + "}")
     public Response update(@PathParam(ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID) final String studentSectionGradebookEntryId,
-            final EntityBody newEntityBody, 
+            final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(studentSectionGradebookEntryId, newEntityBody, headers, uriInfo);
     }

@@ -5,16 +5,18 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 import javax.annotation.PostConstruct;
 
-import org.slc.sli.api.config.EntityNames;
-import org.slc.sli.api.config.ResourceNames;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
-import org.springframework.stereotype.Component;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ResourceNames;
 
 /**
  * Basic brute force path finding implementation.
@@ -25,6 +27,9 @@ public class BrutePathFinder implements SecurityPathFinder {
     private Map<String, List<SecurityNode>> prePath;
     private List<String> excludePath;
 
+    @Autowired
+    private EdOrgToChildEdOrgNodeFilter edorgFilter;
+
     @PostConstruct
     public void init() {
         nodeMap = new HashMap<String, SecurityNode>();
@@ -34,6 +39,8 @@ public class BrutePathFinder implements SecurityPathFinder {
                 SecurityNodeBuilder.buildNode("teacher")
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)
                         .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS)
+                        .addConnection(EntityNames.COHORT, "cohortId", ResourceNames.STAFF_COHORT_ASSOCIATIONS)
+                        .addConnection(EntityNames.PROGRAM, "staffId", "") //TODO: ResourceNames.STAFF_PROGRAM_ASSOCIATIONS
                         .construct());
         nodeMap.put(
                 EntityNames.SCHOOL,
@@ -44,13 +51,49 @@ public class BrutePathFinder implements SecurityPathFinder {
                 SecurityNodeBuilder.buildNode(EntityNames.SECTION)
                         .addConnection(EntityNames.TEACHER, "teacherId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS)
                         .addConnection(EntityNames.STUDENT, "studentId", ResourceNames.STUDENT_SECTION_ASSOCIATIONS)
+                        .addConnection(EntityNames.COURSE, "courseId", EntityNames.SECTION)
+                        .addConnection(EntityNames.SESSION, "sessionId", EntityNames.SECTION) //TODO: section->program
                         .construct());
         nodeMap.put(EntityNames.STUDENT,
                 SecurityNodeBuilder.buildNode(EntityNames.STUDENT)
                         .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.STUDENT_SECTION_ASSOCIATIONS)
+                        .addConnection(EntityNames.ASSESSMENT, "assessmentId", ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS)
+                        .addConnection(EntityNames.ATTENDANCE, "studentId", "")
+                        .addConnection(EntityNames.DISCIPLINE_ACTION, "studentId", "")
+                        .addConnection(EntityNames.DISCIPLINE_INCIDENT, "incidentId",
+                                ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
+                        .addConnection(EntityNames.PARENT, "parentId", ResourceNames.STUDENT_PARENT_ASSOCIATIONS) //TODO: cohort + program associations
                         .construct());
+
+        // Leaf Nodes are unconnected
+        nodeMap.put(EntityNames.ATTENDANCE, SecurityNodeBuilder.buildNode(EntityNames.ATTENDANCE).construct());
+        nodeMap.put(EntityNames.PROGRAM, SecurityNodeBuilder.buildNode(EntityNames.PROGRAM).construct()); //TODO: staff + student associations
+        nodeMap.put(EntityNames.COURSE, SecurityNodeBuilder.buildNode(EntityNames.COURSE).construct()); //TODO: staff + student associations
+        nodeMap.put(EntityNames.SESSION, SecurityNodeBuilder.buildNode(EntityNames.SESSION).construct());
+
+        nodeMap.put(EntityNames.COHORT, SecurityNodeBuilder.buildNode(EntityNames.COHORT).construct());
+        nodeMap.put(EntityNames.ASSESSMENT, SecurityNodeBuilder.buildNode(EntityNames.ASSESSMENT).construct());
+        nodeMap.put(EntityNames.DISCIPLINE_ACTION, SecurityNodeBuilder.buildNode(EntityNames.DISCIPLINE_ACTION)
+                .construct());
+        nodeMap.put(EntityNames.DISCIPLINE_INCIDENT, SecurityNodeBuilder.buildNode(EntityNames.DISCIPLINE_INCIDENT).construct());
+        nodeMap.put(EntityNames.PARENT, SecurityNodeBuilder.buildNode(EntityNames.PARENT).construct());
+        
         
         // excludePath.add(EntityNames.TEACHER + EntityNames.SECTION);
+        excludePath.add(EntityNames.TEACHER + EntityNames.EDUCATION_ORGANIZATION);
+
+        nodeMap.put(EntityNames.STAFF,
+                SecurityNodeBuilder.buildNode(EntityNames.STAFF)
+                        .addConnection(EntityNames.EDUCATION_ORGANIZATION, "educationOrganizationReference",
+                                ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, edorgFilter)
+                        .construct());
+
+        nodeMap.put(EntityNames.EDUCATION_ORGANIZATION,
+                SecurityNodeBuilder.buildNode(EntityNames.EDUCATION_ORGANIZATION)
+                        .addConnection(EntityNames.STAFF, "staffReference", ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
+                        .addConnection(EntityNames.SCHOOL, "parentEducationAgencyReference", "")
+                        .addConnection(EntityNames.PROGRAM, "programReference", "")
+                        .construct());
 
         prePath.put(
                 EntityNames.TEACHER + EntityNames.TEACHER,
@@ -61,38 +104,45 @@ public class BrutePathFinder implements SecurityPathFinder {
                 EntityNames.TEACHER + EntityNames.SECTION,
                 Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SECTION),
                         nodeMap.get(EntityNames.STUDENT), nodeMap.get(EntityNames.SECTION)));
+        prePath.put(
+                EntityNames.TEACHER + EntityNames.COURSE,
+                Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SECTION),
+                        nodeMap.get(EntityNames.STUDENT), nodeMap.get(EntityNames.SECTION),
+                        nodeMap.get(EntityNames.COURSE)));
+        prePath.put(
+                EntityNames.TEACHER + EntityNames.SESSION,
+                Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SECTION),
+                        nodeMap.get(EntityNames.STUDENT), nodeMap.get(EntityNames.SECTION),
+                        nodeMap.get(EntityNames.SESSION)));
 
     }
 
     @Override
     public List<SecurityNode> find(String from, String to) {
-        Stack<SecurityNode> exploring = new Stack<SecurityNode>();
-        List<SecurityNode> explored = new ArrayList<SecurityNode>();
-        SecurityNode temp = nodeMap.get(from);
-        exploring.push(temp);
-        debug("Starting with node: {}", temp.getName());
-        while (!exploring.empty()) {
-            temp = exploring.pop();
-            debug("Marking {} as explored", temp.getName());
-            explored.add(temp);
-            if (checkForFinalNode(to, temp)) {
-                debug("Returning a path of size {}", explored.size());
-                return explored;
+        return find(from, to, new ArrayList<SecurityNode>());
             }
-            boolean enqueued = false;
-            for (SecurityNodeConnection connection : temp.getConnections()) {
-                if (!explored.contains(nodeMap.get(connection.getConnectionTo()))) {
-                    debug("Enqueuing: {}", connection.getConnectionTo());
-                    exploring.push(nodeMap.get(connection.getConnectionTo()));
-                    enqueued = true;
+
+    public List<SecurityNode> find(String from, String to, List<SecurityNode> path) {
+        SecurityNode current = nodeMap.get(from);
+        path.add(current);
+
+        if (from.equals(to)) {
+            return path;
                 }
+
+        for (SecurityNodeConnection connection : current.getConnections()) {
+            SecurityNode next = nodeMap.get(connection.getConnectionTo());
+            if (path.contains(next)) {  //cycle
+                continue;
             }
-            if (!enqueued) {
-                explored.remove(temp);
+            List<SecurityNode> newPath = find(next.getName(), to, path);
+            if (newPath != null) {
+                return newPath;
             }
         }
         debug("NO PATH FOUND FROM {} to {}", new String[] {from, to});
-        return new ArrayList<SecurityNode>();
+        path.remove(current);
+        return null;
     }
 
 

@@ -28,14 +28,15 @@ public class SliSmooksFactory {
     private String beanId;
     private NeutralRecordMongoAccess nrMongoStagingWriter;
 
-    public Smooks createInstance(IngestionFileEntry ingestionFileEntry, NeutralRecordFileWriter fileWriter, ErrorReport errorReport)
-            throws IOException, SAXException {
+    public Smooks createInstance(IngestionFileEntry ingestionFileEntry, NeutralRecordFileWriter fileWriter,
+            ErrorReport errorReport) throws IOException, SAXException {
 
         FileType fileType = ingestionFileEntry.getFileType();
         SliSmooksConfig sliSmooksConfig = sliSmooksConfigMap.get(fileType);
         if (sliSmooksConfig != null) {
 
-            return createSmooksFromConfig(sliSmooksConfig, fileWriter, errorReport, ingestionFileEntry.getBatchJobId());
+            return createSmooksFromConfig(sliSmooksConfig, fileWriter, errorReport, ingestionFileEntry.getBatchJobId(),
+                    ingestionFileEntry);
 
         } else {
             errorReport.fatal("File type not supported : " + fileType, SliSmooksFactory.class);
@@ -44,7 +45,7 @@ public class SliSmooksFactory {
     }
 
     private Smooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, NeutralRecordFileWriter fileWriter,
-            ErrorReport errorReport, String batchJobId) throws IOException, SAXException {
+            ErrorReport errorReport, String batchJobId, IngestionFileEntry fe) throws IOException, SAXException {
 
         Smooks smooks = new Smooks(sliSmooksConfig.getConfigFileName());
 
@@ -53,11 +54,11 @@ public class SliSmooksFactory {
         if (targetSelectorList != null) {
 
             // just one visitor instance that can be added with multiple target selectors
-            Visitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, batchJobId, fileWriter, errorReport);
+            Visitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, batchJobId, fileWriter, errorReport,
+                    fe);
 
             nrMongoStagingWriter.registerBatchId(batchJobId);
             nrMongoStagingWriter.getRecordRepository().generateMongoIndexes();
-
 
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             for (String targetSelector : targetSelectorList) {
