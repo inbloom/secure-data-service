@@ -10,7 +10,9 @@ end
 When /^I navigate to POST "([^"]*)"$/ do |arg1|
   @format = "application/json"
   dataObj = DataProvider.getValidAppData()
+  dataObj.delete "registered"
   data = prepareData("application/json", dataObj)
+
 
   restHttpPost(arg1, data)
 
