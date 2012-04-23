@@ -8,6 +8,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,6 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.representation.EntityResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -31,6 +31,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
@@ -42,9 +43,9 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 
 /**
  * Unit tests for the resource representing an learningObjective
- *
+ * 
  * @author dliu
- *
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -54,6 +55,9 @@ public class LearningObjectiveResourceTest {
 
     @Autowired
     LearningObjectiveResource learningObjResource; // class under test
+    
+    @Autowired
+    LearningStandardResource learningStdResource;
 
     @Autowired
     private SecurityContextInjector injector;
@@ -83,6 +87,15 @@ public class LearningObjectiveResourceTest {
         entity.put(ParameterConstants.LEARNINGOBJECTIVE_ID, 1234);
         return entity;
     }
+    
+    private Map<String, Object> createTestEntityWithLearningStdRef(List<String> idLists) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("academicSubject", "Reading");
+        entity.put("objectiveGradeLevel", "Eighth grade");
+        entity.put(ParameterConstants.LEARNINGOBJECTIVE_ID, 1234);
+        entity.put(ParameterConstants.LEARNING_STANDARDS, idLists);
+        return entity;
+    }
 
     private Map<String, Object> createTestUpdateEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
@@ -97,6 +110,18 @@ public class LearningObjectiveResourceTest {
         entity.put("academicSubject", "Math");
         entity.put("objectiveGradeLevel", "Ninth grade");
         entity.put(ParameterConstants.LEARNINGOBJECTIVE_ID, 5678);
+        return entity;
+    }
+    
+    private Map<String, Object> createLearningStandardEntity() {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        Map<String, String> learningStandardId = new HashMap<String, String>();
+        learningStandardId.put("identificationCode", "G.SRT.1");
+        entity.put("learningStandardId", learningStandardId);
+        entity.put("description", "a learning standard description");
+        entity.put("contentStandard", "School Standard");
+        entity.put("gradeLevel", "Eighth grade");
+        entity.put(ParameterConstants.LEARNING_STANDARD_ID, 5678);
         return entity;
     }
 
@@ -220,10 +245,42 @@ public class LearningObjectiveResourceTest {
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
-    public void testGetLearningStardards() {
-        Response res = learningObjResource.getLearningStandards("0", 0, 0, null, null);
-        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
+    public void testGetLearningStandards() {
+        // create first learning standard entity
+        Response response = learningStdResource.create(new EntityBody(createLearningStandardEntity()), httpHeaders,
+                uriInfo);
+        assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
+        
+        String learningStandardId1 = ResourceTestUtil.parseIdFromLocation(response);
+        
+        // create second learning standard entity
+        response = learningStdResource.create(new EntityBody(createLearningStandardEntity()), httpHeaders,
+                uriInfo);
+        assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
+        
+        String learningStandardId2 = ResourceTestUtil.parseIdFromLocation(response);
+        List<String> idLists = Arrays.asList(learningStandardId1, learningStandardId2);
+        
+        // create learning objective entity with reference to 2 learning standards entities
+        Response learningObjResponse = learningObjResource.create(new EntityBody(
+                createTestEntityWithLearningStdRef(idLists)), httpHeaders, uriInfo);
+
+        assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), learningObjResponse.getStatus());
+        
+        String learningObjectiveId = ResourceTestUtil.parseIdFromLocation(learningObjResponse);
+        assertNotNull("ID should not be null", learningObjectiveId);
+        
+        // test getLearningStandards that get all referenced learning standards
+        Response res = learningObjResource.getLearningStandards(learningObjectiveId, 0, 50, httpHeaders, uriInfo);
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), res.getStatus());
+        
+        EntityResponse entityResponse = (EntityResponse) res.getEntity();
+        List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
+        assertNotNull("Should return entities", results);
+        assertTrue("Should have at least two entities", results.size() >= 2);
+        
     }
 
     @Test
@@ -243,7 +300,8 @@ public class LearningObjectiveResourceTest {
         Response createResponse1 = learningObjResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         Response createResponse2 = learningObjResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders,
                 uriInfo);
-
-        return ResourceTestUtil.parseIdFromLocation(createResponse1) + "," + ResourceTestUtil.parseIdFromLocation(createResponse2);
+        
+        return ResourceTestUtil.parseIdFromLocation(createResponse1) + ","
+                + ResourceTestUtil.parseIdFromLocation(createResponse2);
     }
 }

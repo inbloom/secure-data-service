@@ -111,7 +111,9 @@ public class ParameterConstants {
     public static final String EDUCATION_ORGANIZATION_ID = "educationOrganizationId";
     public static final String ATTENDANCE_ID = "attendanceId";
     public static final String LEARNING_STANDARD_ID = "learningStandardId";
+    public static final String LEARNING_STANDARDS = "learningStandards";
     public static final String LEARNINGOBJECTIVE_ID = "learningObjectiveId";
+    public static final String PARENT_LEARNING_OBJECTIVE = "parentLearningObjective";
     public static final String SCHOOL_SESSION_ASSOCIATION_ID = "schoolSessionAssociationId";
     public static final String TEACHER_SCHOOL_ASSOCIATION_ID = "teacherSchoolAssociationId";
     public static final String TEACHER_SCHOOL_ASSOC_ID = "teacherSchoolAssociationId";
