@@ -4,7 +4,7 @@
     <Parent>
         <ParentUniqueStateId>9870036500</ParentUniqueStateId>
         <Name>
-            <PersonalTitlePrefix>Mr.</PersonalTitlePrefix>
+            <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
             <FirstName>Richard</FirstName>
             <LastSurname>Lê</LastSurname>
         </Name>
@@ -24,7 +24,7 @@
     <Parent>
         <ParentUniqueStateId>6473283635</ParentUniqueStateId>
         <Name>
-            <PersonalTitlePrefix>Dr.</PersonalTitlePrefix>
+            <PersonalTitlePrefix>Dr</PersonalTitlePrefix>
             <FirstName>Ti</FirstName>
             <LastSurname>Troung</LastSurname>
         </Name>
@@ -55,7 +55,7 @@
     <Parent>
         <ParentUniqueStateId>5713667332</ParentUniqueStateId>
         <Name>
-            <PersonalTitlePrefix>Fr.</PersonalTitlePrefix>
+            <PersonalTitlePrefix>Reverend</PersonalTitlePrefix>
             <FirstName>Peter</FirstName>
             <LastSurname>Terrance</LastSurname>
         </Name>
@@ -67,7 +67,7 @@
     <Parent>
         <ParentUniqueStateId>9878863645</ParentUniqueStateId>
         <Name>
-            <PersonalTitlePrefix>Dr.</PersonalTitlePrefix>
+            <PersonalTitlePrefix>Dr</PersonalTitlePrefix>
             <FirstName>Aaron</FirstName>
             <LastSurname>Smith</LastSurname>
         </Name>
