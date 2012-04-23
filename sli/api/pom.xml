@@ -11,6 +11,12 @@
     <name>API</name>
     <description>API</description>
 
+    <properties>
+        <sli.home>${project.parent.basedir}</sli.home>
+        <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
+        <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
+    </properties>
+
     <dependencies>
          <dependency>
             <groupId>org.reflections</groupId>
@@ -172,6 +178,10 @@
                     <scanIntervalSeconds>5</scanIntervalSeconds>
                     <systemProperties>
                         <systemProperty>
+             <name>sli.conf</name>
+             <value>${sli.conf}</value>
+           </systemProperty>
+           <systemProperty>
                             <name>sli.env</name>
                             <value>${sli.env}</value>
                         </systemProperty>

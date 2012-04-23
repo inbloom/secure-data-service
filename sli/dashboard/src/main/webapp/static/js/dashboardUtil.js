@@ -9,10 +9,16 @@ counter = function() {
 	counterInt ++;
 	return counterInt;
 }
-
+DashboardProxy = {
+};
 DashboardUtil = {
 		widgetConfig: {}
 };
+
+DashboardProxy = {
+		
+};
+
 if (typeof widgetConfigArray != 'undefined') {
 for (var i in widgetConfigArray) {
 	DashboardUtil.widgetConfig[widgetConfigArray[i].id] = widgetConfigArray[i];
@@ -122,27 +128,28 @@ DashboardUtil.Grid.Formatters = {
 				return '';
 			}
 			var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);
+			var style;
 			for (var cutPoint in cutPoints) {
-				color = cutPoints[cutPoint].color;
+				style = cutPoints[cutPoint].style;
 				if (value - cutPoint <= 0) {
 					break;
 			    }
 		    }
-			return "<span style='color:" + cutPoints[cutPoint].color + "'>" + value + "</span>";
+			return "<span class='" + cutPoints[cutPoint].style + "'>" + value + "</span>";
 		},
 		CutPointReverse : function(value, options, rowObject) {
 			if (!value && value != 0) {
 				return '';
 			}
 			var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);
-			var color = "#cccccc";
+			var style;
 			for (var cutPoint in cutPoints) {
 				if (value - cutPoint < 0) {
 					break;
 			    }
-				color = cutPoints[cutPoint].color;
+				style = cutPoints[cutPoint].style;
 		    }
-			return "<span style='color:" + color + "'>" + value + "</span>";
+			return "<span class='" + style + "'>" + value + "</span>";
 		},
 		PercentBar: function (value, options, rowObject) {
 		    if (value == null || value === "") {
@@ -176,12 +183,55 @@ DashboardUtil.Grid.Formatters = {
 		  
 		Lozenge: function(value, options, rowObject) {	
 			return DashboardUtil.renderLozenges(rowObject);
+		},
+		
+		FuelGauge: function(value, options, rowObject) {
+			var name = options.colModel.formatoptions.name;
+			var valueField = options.colModel.formatoptions.valueField;
+			
+			if (name == undefined || valueField == undefined ||  rowObject.assessments[name] == undefined || rowObject.assessments[name][valueField] == undefined ) {
+				return "";
+			}
+			
+			var score = rowObject.assessments[name][valueField];
+			var fieldName = options.colModel.formatoptions.fieldName;
+			var cutpoints = rowObject.assessments[name].assessments.assessmentPerformanceLevel;
+			var divId = fieldName + counter();
+			var returnValue = "<div id='" + divId + "' style='width: 100px; padding:5px;' align='left'>";
+			returnValue += "<script>";
+			returnValue += "var cutpoints = new Array(";
+			//TODO: Cutpoints should be handled for All assessments.
+			for( var i=0;i < cutpoints.length; i++) {
+				if (cutpoints[i]["minimumScore"] != null && cutpoints[i]["minimumScore"] != undefined) {
+					returnValue += cutpoints[i]["minimumScore"] + ",";
+				}
+				if (i == cutpoints.length - 1) {
+					if (cutpoints[i]["maximumScore"] != null && cutpoints[i]["maximumScore"] != undefined) {
+						returnValue += cutpoints[i]["maximumScore"] ;
+					}
+				}
+			}
+			returnValue += ");";
+			returnValue += "var fuelGuage = new FuelGaugeWidget ('" + divId + "', " + score + ", cutpoints);";
+			returnValue += "fuelGuage.create();";
+			returnValue += "</script>";
+			returnValue += "</div>";
+			return  returnValue;
+		},
+
+		TearDrop: function(value, options, rowObject) {
+			var style = DashboardUtil.tearDrop.getStyle(value, null);
+
+			return "<div class=\"" + style +  "\">" + value + "</div>";
 		}
+
 };
+
 
 DashboardUtil.Grid.Sorters = {
 		Enum: function(params) {
 			var enumHash = {};
+			params.sortEnum.sort(DashboardUtil.comparator);
 			for (var i in params.sortEnum) {
 				enumHash[params.sortEnum[i]] = i;
 			}
@@ -193,6 +243,40 @@ DashboardUtil.Grid.Sorters = {
 		}
 }
 
+DashboardUtil.comparator =function(a,b){
+	var aIsNull = a === null;
+	var bIsNull = b === null;
+	
+	if(aIsNull && bIsNull) {
+		return 0;
+	} else if (aIsNull) {
+		return 1;
+	} else if (bIsNull) {
+		return -1;
+	}
+	
+	var aIsNumber = a.match(/^\d+$/);
+	var bIsNumber = b.match(/^\d+$/);
+	
+	//Need to do numerical comparison. With lexicographical compare,
+	//the statement '15' < '2' evaluates to true.
+	if(aIsNumber && bIsNumber) {	
+		return parseInt(a) - parseInt(b);
+    }
+	
+	//A lexicographical comparison is sufficient for two strings
+	if(!aIsNumber && !bIsNumber) {
+		return a < b ? -1 : (a == b ? 0 : 1);
+	}
+	
+	//Since we know that one of the values is a number and one is not 
+	//and we want numbers to precede strings.
+	if(aIsNumber) {
+		return -1;
+	} else {
+		return 1;
+	}
+}
 compareInt = function compare(a,b){return a-b;}
 compareIntReverse = function compare(a,b){return b-a;}
 
@@ -252,7 +336,7 @@ DashboardUtil.renderLozenges = function(student) {
 		if (item) {
 			for (var y in condition.value) {
 				if (condition.value[y] == item) {
-					lozenges += '<span class="' + configItem.style + '">' + configItem.name + '</span>';
+					lozenges += '<div class="lozenge-widget ' + configItem.style + '">' + configItem.name + '</span>';
 				}
 			}
 		}
@@ -263,9 +347,115 @@ DashboardUtil.renderLozenges = function(student) {
 DashboardUtil.getData = function(componentId, queryString, callback) {
 	$.ajax({
 		  url: contextRootPath + '/service/data/' + componentId + '?' + queryString,
-		  success: callback});
+		  success: function(panelData){DashboardProxy[componentId] = panelData; callback(panelData);}});
 }
 
 DashboardUtil.getPageUrl = function(componentId, queryString) {
 	return contextRootPath + '/service/layout/' + componentId + ((queryString) ? ('?' + queryString) : '');
+}
+
+DashboardUtil.checkCondition = function(data, condition) {
+    var validValues = condition.value;
+    var values = data[condition.field];
+    if (values == undefined || validValues == undefined) {
+    	return false;
+    }
+    for (var j=0; j < validValues.length; j++) {
+        for (var k=0; k < values.length; k++) {
+            if (validValues[j] == values[k])
+                return true;
+        }
+    } 
+    return false;
+}
+
+
+DashboardUtil.tearDrop = {};
+DashboardUtil.tearDrop.initGradeTrendCodes = function() {
+
+    var GRADE_TREND_CODES = new Object();
+
+    GRADE_TREND_CODES['A+'] = 15;
+    GRADE_TREND_CODES['A'] = 14;
+    GRADE_TREND_CODES['A-'] = 13;
+    GRADE_TREND_CODES['B+'] = 12;
+    GRADE_TREND_CODES['B'] = 11;
+    GRADE_TREND_CODES['B-'] = 10;
+    GRADE_TREND_CODES['C+'] = 9;
+    GRADE_TREND_CODES['C'] = 8;
+    GRADE_TREND_CODES['C-'] = 7;
+    GRADE_TREND_CODES['D+'] = 6;
+    GRADE_TREND_CODES['D'] = 5;
+    GRADE_TREND_CODES['D-'] = 4;
+    GRADE_TREND_CODES['F+'] = 3;
+    GRADE_TREND_CODES['F'] = 2;
+    GRADE_TREND_CODES['F-'] = 1;
+    
+    GRADE_TREND_CODES['1'] = 5;
+    GRADE_TREND_CODES['2'] = 4;
+    GRADE_TREND_CODES['3'] = 3;
+    GRADE_TREND_CODES['4'] = 2;
+    GRADE_TREND_CODES['5'] = 1;
+
+    return GRADE_TREND_CODES;
+}
+
+DashboardUtil.tearDrop.getStyle = function(value, previousValue) {
+
+    GRADE_COLOR_CODES = DashboardUtil.tearDrop.initGradeColorCodes();
+    GRADE_TREND_CODES = DashboardUtil.tearDrop.initGradeTrendCodes();
+
+    var color  = "grey";
+    if (value != null) {
+       color = GRADE_COLOR_CODES[value];
+    }
+
+    var trend = "notrend";
+    if ((value != null) && (previousValue != null)) {
+       var currentTrendCode = GRADE_TREND_CODES[value];
+       var previousTrendCode = GRADE_TREND_CODES[previousValue];
+       if ((currentTrendCode != null) && (previousTrendCode != null)) {
+          var trendCode = currentTrendCode - previousTrendCode;
+          if (trendCode > 0) {
+             trend = "uptrend";
+          } else if (trendCode < 0) {
+             trend = "downtrend";
+          } else {
+             trend = "flattrend";
+          }
+       }
+    }
+
+    var styleName = "teardrop" + "-" + color + "-" + trend;
+
+    return styleName;
+}
+
+DashboardUtil.tearDrop.initGradeColorCodes = function() {
+
+        var GRADE_COLOR_CODES = new Object();
+
+        GRADE_COLOR_CODES['A+'] = "darkgreen";
+        GRADE_COLOR_CODES['A'] = "darkgreen";
+        GRADE_COLOR_CODES['A-'] = "darkgreen";
+        GRADE_COLOR_CODES['B+'] = "lightgreen";
+        GRADE_COLOR_CODES['B'] = "lightgreen";
+        GRADE_COLOR_CODES['B-'] = "lightgreen";
+        GRADE_COLOR_CODES['C+'] = "yellow";
+        GRADE_COLOR_CODES['C'] = "yellow";
+        GRADE_COLOR_CODES['C-'] = "yellow";
+        GRADE_COLOR_CODES['D+'] = "orange";
+        GRADE_COLOR_CODES['D'] = "orange";
+        GRADE_COLOR_CODES['D-'] = "orange";
+        GRADE_COLOR_CODES['F+'] = "red";
+        GRADE_COLOR_CODES['F'] = "red";
+        GRADE_COLOR_CODES['F-'] = "red";
+        
+        GRADE_COLOR_CODES['1'] = "darkgreen";
+        GRADE_COLOR_CODES['2'] = "lightgreen";
+        GRADE_COLOR_CODES['3'] = "yellow";
+        GRADE_COLOR_CODES['4'] = "orange";
+        GRADE_COLOR_CODES['5'] = "red";
+
+        return GRADE_COLOR_CODES;
 }

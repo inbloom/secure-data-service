@@ -1,19 +1,19 @@
 package org.slc.sli.api.resources.v1.view;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Helper class for all the strategy implementations for the custom
@@ -23,7 +23,7 @@ import java.util.Set;
  */
 @Component
 public class OptionalFieldAppenderHelper {
-    
+
     @Autowired
     protected EntityDefinitionStore entityDefs;
 
@@ -65,7 +65,9 @@ public class OptionalFieldAppenderHelper {
      */
     public EntityBody getEntityFromList(List<EntityBody> list, String field, String value) {
 
-        if (list == null || field == null || value == null) return null;
+        if (list == null || field == null || value == null) {
+            return null;
+        }
 
         for (EntityBody e : list) {
             if (value.equals(e.get(field))) {
@@ -86,7 +88,9 @@ public class OptionalFieldAppenderHelper {
     public List<EntityBody> getEntitySubList(List<EntityBody> list, String field, String value) {
         List<EntityBody> results = new ArrayList<EntityBody>();
 
-        if (list == null || field == null || value == null) return results;
+        if (list == null || field == null || value == null) {
+            return results;
+        }
 
         for (EntityBody e : list) {
             if (value.equals(e.get(field))) {
@@ -106,11 +110,14 @@ public class OptionalFieldAppenderHelper {
     public List<String> getIdList(List<EntityBody> list, String field) {
         List<String> ids = new ArrayList<String>();
 
-        if (list == null || field == null) return ids;
+        if (list == null || field == null) {
+            return ids;
+        }
 
         for (EntityBody e : list) {
-            if (e.get(field) != null)
+            if (e.get(field) != null) {
                 ids.add((String) e.get(field));
+            }
         }
 
         return ids;
@@ -126,7 +133,9 @@ public class OptionalFieldAppenderHelper {
         for (EntityBody e : entities) {
             List<EntityBody> associations = (List<EntityBody>) e.get("studentSectionAssociation");
 
-            if (associations == null) continue;
+            if (associations == null) {
+                continue;
+            }
 
             for (EntityBody association : associations) {
                 sectionIds.add((String) association.get(ParameterConstants.SECTION_ID));

@@ -23,24 +23,26 @@ public final class MetaRelations {
 
     // knobs to control number of entities to create
     public static final int TOTAL_SEAS = 1;
-    public static final int LEAS_PER_SEA = 10;
-    public static final int STAFF_PER_SEA = 0;
-    public static final int SCHOOLS_PER_LEA = 50;
-    public static final int COURSES_PER_SCHOOL = 10;
+    public static final int LEAS_PER_SEA = 2;
+    public static final int STAFF_PER_SEA = 3;
+    public static final int SCHOOLS_PER_LEA = 2;
+    public static final int COURSES_PER_SCHOOL = 2;
     public static final int SESSIONS_PER_SCHOOL = 1;
     public static final int SECTIONS_PER_COURSE_SESSION = 1;
+    public static final int SECTION_PER_STUDNET = 1;
     public static final int TEACHERS_PER_SCHOOL = 10;
-    public static final int STUDENTS_PER_SCHOOL = 100;
-    public static final int PROGRAMS_PER_SCHOOL = 0;
-    public static final int FREE_STANDING_COHORT_PER_SCHOOL = 0;
-    public static final int FREE_STANDING_COHORT_SIZE = 0;
+    public static final int STUDENTS_PER_SCHOOL = 10;
+    public static final int PROGRAMS_PER_SCHOOL = 2;
+    public static final int STAFF_PER_PROGRAM = 2;
+    public static final int FREE_STANDING_COHORT_PER_SCHOOL = 4;
+    public static final int FREE_STANDING_COHORT_SIZE = 4;
+    public static final int STAFF_PER_FREE_STANDING_COHORT = 2;
     public static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
-    public static final int ASSESSMENTS_PER_STUDENT = 50;
+    public static final int ASSESSMENTS_PER_STUDENT = 10;
     public static final int ATTENDANCE_PER_STUDENT_SECTION = 1;
-    public static final int DISCPLINE_ACTIONS_PER_SCHOOL = 0;
-    public static final int DISCPLINE_INCIDENTS_PER_SCHOOL = 0;
-    public static final int INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = 10;
-    public static final int NUM_STAFF_PER_DISCIPLINE_ACTION = 0;
+    public static final int DISCPLINE_ACTIONS_PER_SCHOOL = 2;
+    public static final int DISCPLINE_INCIDENTS_PER_SCHOOL = 5;
+    public static final int NUM_STAFF_PER_DISCIPLINE_ACTION = 2;
 
     // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
     // TODO: do we need maps? maybe just use Collections?
@@ -484,11 +486,13 @@ public final class MetaRelations {
         for (StudentMeta studentMeta : studentsForSchool.values()) {
 
             // loop through the sections we have in this school and assign students to them
-            if (sectionCounter >= sectionMetas.length) {
-                sectionCounter = 0;
+            for (int i = 0; i < SECTION_PER_STUDNET; i++) {
+                if (sectionCounter >= sectionMetas.length) {
+                    sectionCounter = 0;
+                }
+                studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
+                sectionCounter++;
             }
-            studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
-            sectionCounter++;
         }
     }
 
@@ -535,16 +539,18 @@ public final class MetaRelations {
         Object[] staffMetas = staffForSea.values().toArray();
         int staffCounter = 0;
 
-        // each program needs to be referenced by a StaffMeta
+        // each program needs to be referenced by STAFF_PER_PROGRAM StaffMetas
         for (ProgramMeta programMeta : programsForSchool.values()) {
 
-            // loop through the sections we have in this school and assign students to them
-            if (staffCounter >= staffMetas.length) {
-                staffCounter = 0;
+            for (int staffToAssign = 0; staffToAssign < STAFF_PER_PROGRAM; staffToAssign++) {
+                // loop through the sections we have in this school and assign students to them
+                if (staffCounter >= staffMetas.length) {
+                    staffCounter = 0;
+                }
+                String staffId = ((StaffMeta) staffMetas[staffCounter]).id;
+                programMeta.staffIds.add(staffId);
+                staffCounter++;
             }
-            String staffId = ((StaffMeta) staffMetas[staffCounter]).id;
-            programMeta.staffIds.add(staffId);
-            staffCounter++;
         }
 
         // for each cohort in the program, add all the staff in it to the cohort too.
@@ -573,12 +579,18 @@ public final class MetaRelations {
         int staffIdsIndx = 0;
 
         for (CohortMeta cohortMeta : freeStandingCohortsForSchool.values()) {
+
+            // add students
             for (int idNum = 0; idNum < FREE_STANDING_COHORT_SIZE; idNum++) {
                 cohortMeta.studentIds.add((String) studentIds[studentIdsIndx]);
                 studentIdsIndx = (studentIdsIndx + 1) % studentIds.length;
             }
-            cohortMeta.staffIds.add((String) staffIds[staffIdsIndx]);
-            staffIdsIndx = (staffIdsIndx + 1) % staffIds.length;
+
+            // add staff
+            for (int staffToAssign = 0; staffToAssign < STAFF_PER_FREE_STANDING_COHORT; staffToAssign++) {
+                cohortMeta.staffIds.add((String) staffIds[staffIdsIndx]);
+                staffIdsIndx = (staffIdsIndx + 1) % staffIds.length;
+            }
         }
     }
 
@@ -612,48 +624,31 @@ public final class MetaRelations {
     private static void addStaffStudentToDisciplines(Map<String, DisciplineIncidentMeta> disciplineIncidentsForSchool,
             Map<String, DisciplineActionMeta> disciplineActionsForSchool, Map<String, StudentMeta> studentsForSchool,
             Map<String, StaffMeta> staffForSea) {
-        Object[] disciplineIncidentMetas = disciplineIncidentsForSchool.values().toArray();
-        int disciplineIncidentIndx = 0;
         Object[] staffMetas = staffForSea.values().toArray();
+        int staffIndx = 0;
+        Object[] studentMetas = studentsForSchool.values().toArray();
+        int studentIndx = 0;
 
-        if (staffMetas.length > 0) {
-            int staffIndx = 0;
+        // assign a student to each discipline incident.
+        for (DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentsForSchool.values()) {
+            StudentMeta studentMeta = (StudentMeta) studentMetas[studentIndx];
+            disciplineIncidentMeta.studentIds.add(studentMeta.id);
+            studentIndx = (studentIndx + 1) % staffMetas.length;
+        }
 
-            // assign one every INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT student to a discipline
-            // incident
-            int count = 0;
-            for (StudentMeta studentMeta : studentsForSchool.values()) {
-                if (count % INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT == 0) {
-                    DisciplineIncidentMeta disciplineIncidentMeta = (DisciplineIncidentMeta) disciplineIncidentMetas[disciplineIncidentIndx];
-                    disciplineIncidentMeta.studentIds.add(studentMeta.id);
-                    disciplineIncidentIndx = (disciplineIncidentIndx + 1) % disciplineIncidentMetas.length;
-                }
-                count++;
+        // assign all students in all discipline incidents involved in a discipline action in that
+        // action.
+        for (DisciplineActionMeta disciplineActionMeta : disciplineActionsForSchool.values()) {
+            for (String disciplineIncidentId : disciplineActionMeta.incidentIds) {
+                DisciplineIncidentMeta disciplineIncidentMeta = disciplineIncidentsForSchool.get(disciplineIncidentId);
+                // should be non-null.
+                disciplineActionMeta.studentIds.addAll(disciplineIncidentMeta.studentIds);
             }
-
-            // assign a staff to each discipline incident.
-            for (DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentsForSchool.values()) {
+            // assign NUM_STAFF_PER_DISCIPLINE_ACTION staff to the action.
+            for (int i = 0; i < NUM_STAFF_PER_DISCIPLINE_ACTION; i++) {
                 StaffMeta staffMeta = (StaffMeta) staffMetas[staffIndx];
-                disciplineIncidentMeta.staffId = staffMeta.id;
+                disciplineActionMeta.staffIds.add(staffMeta.id);
                 staffIndx = (staffIndx + 1) % staffMetas.length;
-            }
-
-            // assign all students in all discipline incidents involved in a discipline action in
-            // that
-            // action.
-            for (DisciplineActionMeta disciplineActionMeta : disciplineActionsForSchool.values()) {
-                for (String disciplineIncidentId : disciplineActionMeta.incidentIds) {
-                    DisciplineIncidentMeta disciplineIncidentMeta = disciplineIncidentsForSchool
-                            .get(disciplineIncidentId);
-                    // should be non-null.
-                    disciplineActionMeta.studentIds.addAll(disciplineIncidentMeta.studentIds);
-                }
-                // assign NUM_STAFF_PER_DISCIPLINE_ACTION staff to the action.
-                for (int i = 0; i < NUM_STAFF_PER_DISCIPLINE_ACTION; i++) {
-                    StaffMeta staffMeta = (StaffMeta) staffMetas[staffIndx];
-                    disciplineActionMeta.staffIds.add(staffMeta.id);
-                    staffIndx = (staffIndx + 1) % staffMetas.length;
-                }
             }
         }
 

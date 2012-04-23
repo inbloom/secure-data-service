@@ -9,7 +9,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.AssessmentCombiner;
+import org.slc.sli.ingestion.transformation.assessment.ObjectiveAssessmentBuilder;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -133,7 +133,7 @@ public class ObjectiveAssessmentEntityTest {
         Assert.assertEquals("description", performanceLevel.get("description"));
         Assert.assertEquals("codevalue", performanceLevel.get("codeValue"));
         
-        List<?> subObjectiveAssessments = (List<?>) entity.get(AssessmentCombiner.SUB_OBJECTIVE_REFS);
+        List<?> subObjectiveAssessments = (List<?>) entity.get(ObjectiveAssessmentBuilder.SUB_OBJECTIVE_REFS);
         String subObjectiveAssessment = (String) subObjectiveAssessments.get(0);
         Assert.assertEquals("sub", subObjectiveAssessment);
         

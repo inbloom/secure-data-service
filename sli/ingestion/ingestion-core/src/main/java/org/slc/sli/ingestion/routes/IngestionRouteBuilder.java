@@ -73,7 +73,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     public void configure() throws Exception {
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
 
-        String inboundDir = lz.getDirectory().getPath();
+        String inboundDir = lz.getDirectory().getAbsolutePath();
 
         // routeId: ctlFilePoller
         from(

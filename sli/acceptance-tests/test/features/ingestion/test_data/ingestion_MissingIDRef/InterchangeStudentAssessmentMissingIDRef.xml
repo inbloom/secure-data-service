@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeStudentAssessment xsi:schemaLocation="http://ed-fi.org/0100 C:/Projects/TSDS/trunk/src/Etl/EdFi.Etl.EdFi/Ed-Fi/Interchange-StudentAssessment.xsd" xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-<StudentReference id="STU-1001">
+<StudentReference id="STU-101">
 	<StudentIdentity>
 		<StudentUniqueStateId>800000000</StudentUniqueStateId>
 		<Name>
@@ -13,7 +13,7 @@
 	</StudentIdentity>
 </StudentReference>
 
-<StudentReference id="STU-02">
+<StudentReference id="STU-1102">
 	<StudentIdentity>
 		<StudentUniqueStateId>800000001</StudentUniqueStateId>
 		<Name>
@@ -25,7 +25,7 @@
 	</StudentIdentity>
 </StudentReference>
 
-<StudentReference id="STU-03">
+<StudentReference id="STU-103">
 	<StudentIdentity>
 		<StudentUniqueStateId>800000003</StudentUniqueStateId>
 		<Name>
@@ -37,7 +37,7 @@
 	</StudentIdentity>
 </StudentReference>
 
-<AssessmentReference id="ISAT-0">
+<AssessmentReference id="ISAT-101">
 	<AssessmentIdentity>
              <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
                   <ID>Grade 8 2011 ISAT Reading</ID>
@@ -45,7 +45,7 @@
 	</AssessmentIdentity>
 </AssessmentReference>
 
-<AssessmentReference id="ISAT-111">
+<AssessmentReference id="ISAT-102">
 	<AssessmentIdentity>
              <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
                   <ID>Grade 8 2011 ISAT Writing</ID>
@@ -53,7 +53,7 @@
 	</AssessmentIdentity>
 </AssessmentReference>
 
-<AssessmentReference id="ISAT-2">
+<AssessmentReference id="ISAT-103">
 	<AssessmentIdentity>
                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
                    <ID>Grade 8 2011 ISAT Writing</ID>
@@ -70,8 +70,8 @@
 	<ScoreResults AssessmentReportingMethod="Raw score">
 		<Result>0</Result>
 	</ScoreResults>
-	<StudentReference ref="STU-01"/>
-	<AssessmentReference ref="ISAT-0"/>
+	<StudentReference ref="STU-101"/>
+	<AssessmentReference ref="ISAT-101"/>
 </StudentAssessment>
 
 <StudentAssessment>
@@ -83,8 +83,8 @@
 	<ScoreResults AssessmentReportingMethod="Raw score">
 		<Result>0</Result>
 	</ScoreResults>
-	<StudentReference ref="STU-02"/>
-	<AssessmentReference ref="ISAT-1"/>
+	<StudentReference ref="STU-502"/>
+	<AssessmentReference ref="ISAT-51"/>
 </StudentAssessment>
 <StudentAssessment>
 	<AdministrationDate>2010-12-01</AdministrationDate>
@@ -95,8 +95,8 @@
 	<ScoreResults AssessmentReportingMethod="Raw score">
 		<Result>0</Result>
 	</ScoreResults>
-	<StudentReference ref="STU-03"/>
-	<AssessmentReference ref="ISAT-2"/>
+	<StudentReference ref="STU-103"/>
+	<AssessmentReference ref="ISAT-103"/>
 </StudentAssessment>
 
 </InterchangeStudentAssessment>

@@ -13,6 +13,8 @@ import org.slc.sli.test.edfi.entities.StudentIdentityType;
 import org.slc.sli.test.edfi.entities.StudentProgramAssociation;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+import org.slc.sli.test.edfi.entities.meta.SchoolMeta;
 
 /**
  * Generates StudentProgramAssociation from ProgramMeta
@@ -68,7 +70,12 @@ public class StudentProgramAssociationGenerator {
 
         // construct and add the school references
         EducationalOrgIdentityType edOrgIdentity = new EducationalOrgIdentityType();
-        edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        // TODO: Remove this workaround when SLI data model supports inheritance: 
+        //       StudentProgramAssociation should be associatable with either schools or ed orgs, 
+        //       but since SLI has no inheritance in the data model, it is forced to be associated 
+        //       with ed org only. 
+        // edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(schoolId);
+        edOrgIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(((SchoolMeta)MetaRelations.SCHOOL_MAP.get(schoolId)).leaId);
         EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentity);
         studentProgram.setEducationOrganizationReference(schoolRef);

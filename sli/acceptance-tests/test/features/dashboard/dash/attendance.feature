@@ -16,10 +16,10 @@ Scenario: Teacher sees Absence Count in K-3 list of students view
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
 	      And I select <section> "Sec 145"
-		  And I select view "IL_K-3"
+		  And I select view "Early Literacy View"
 		Then the table includes header "Attendance"
 			And I should see a table heading "Absence Count"
-			And the count for id "ATTENDANCE.AbsenceCount" for student "Charde Lowery" is "25" 
+			And the count for id "attendances.absenceCount" for student "Charde Lowery" is "25" 
 @wip
 Scenario: Teacher sees Absence Count in 3-8 list of students view
 		When I navigate to the Dashboard home page
@@ -29,10 +29,10 @@ Scenario: Teacher sees Absence Count in 3-8 list of students view
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
 	      And I select <section> "Sec 145"
-	  	  And I select view "IL_3-8 ELA"
+	  	  And I select view "Middle School ELA View"
 		Then the table includes header "Attendance"
 			And I should see a table heading "Absence Count"
-			And the count for id "ATTENDANCE.AbsenceCount" for student "Charde Lowery" is "25"
+			And the count for id "attendances.absenceCount" for student "Charde Lowery" is "25"
  
  @wip
 Scenario: Teacher sees Absence Count in 9-12 list of students view
@@ -43,10 +43,10 @@ Scenario: Teacher sees Absence Count in 9-12 list of students view
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
 	      And I select <section> "Sec 145"
-		  And I select view "IL_9-12"
+		  And I select view "College Ready ELA View"
 		Then the table includes header "Attendance"
 			And I should see a table heading "Absence Count"
-			And the count for id "ATTENDANCE.AbsenceCount" for student "Charde Lowery" is "13"
+			And the count for id "attendances.absenceCount" for student "Charde Lowery" is "13"
 
 @wip
 Scenario: Teacher sees Attendance Rate in 9-12 list of students view - red
@@ -60,8 +60,8 @@ Scenario: Teacher sees Attendance Rate in 9-12 list of students view - red
 		  And I select view "IL_9-12"
 		Then the table includes header "Attendance"
 			And I should see a table heading "Attendance Rate %"
-			And the count for id "ATTENDANCE.AttendanceRate" for student "Johnny Patel" is "87"
-      			And the class for id "ATTENDANCE.AttendanceRate" for student "Johnny Patel" is "perfLevel1"
+			And the count for id "attendances.attendanceRate" for student "Johnny Patel" is "87"
+      			And the class for id "attendances.attendanceRate" for student "Johnny Patel" is "perfLevel1"
 
 @wip
 Scenario: Teacher sees Attendance Rate in 9-12 list of students view - yellow 
@@ -72,11 +72,11 @@ Scenario: Teacher sees Attendance Rate in 9-12 list of students view - yellow
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
 	      And I select <section> "Sec 145"
-		  And I select view "IL_9-12"
+		  And I select view "College Ready ELA View"
 		Then the table includes header "Attendance"
 			And I should see a table heading "Attendance Rate %"
-			And the count for id "ATTENDANCE.AttendanceRate" for student "Nomlanga Mccormick" is "94"
-      			And the class for id "ATTENDANCE.AttendanceRate" for student "Nomlanga Mccormick" is "perfLevel3"
+			And the count for id "attendances.attendanceRate" for student "Nomlanga Mccormick" is "94"
+      			And the class for id "attendances.attendanceRate" for student "Nomlanga Mccormick" is "perfLevel3"
 
 @wip
 Scenario: Teacher sees Attendance Rate in 9-12 list of students view - light green
@@ -87,11 +87,11 @@ Scenario: Teacher sees Attendance Rate in 9-12 list of students view - light gre
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
 	      And I select <section> "Sec 145"
-		  And I select view "IL_9-12"
+		  And I select view "College Ready ELA View"
 		Then the table includes header "Attendance"
 			And I should see a table heading "Attendance Rate %"
-			And the count for id "ATTENDANCE.AttendanceRate" for student "Alec Swanson" is "95"
-      			And the class for id "ATTENDANCE.AttendanceRate" for student "Alec Swanson" is "perfLevel4"
+			And the count for id "attendances.attendanceRate" for student "Alec Swanson" is "95"
+      			And the class for id "attendances.attendanceRate" for student "Alec Swanson" is "perfLevel4"
 
 @wip
 Scenario: Teacher sees Attendance Rate in 9-12 list of students view - green
@@ -102,11 +102,11 @@ Scenario: Teacher sees Attendance Rate in 9-12 list of students view - green
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
 	      And I select <section> "Sec 145"
-		  And I select view "IL_9-12"
+		  And I select view "College Ready ELA View"
 		Then the table includes header "Attendance"
 			And I should see a table heading "Attendance Rate %"
-			And the count for id "ATTENDANCE.AttendanceRate" for student "Marvin Miller" is "99"
-      			And the class for id "ATTENDANCE.AttendanceRate" for student "Marvin Miller" is "perfLevel5"
+			And the count for id "attendances.attendanceRate" for student "Marvin Miller" is "99"
+      			And the class for id "attendances.attendanceRate" for student "Marvin Miller" is "perfLevel5"
 
 @wip
 Scenario: Teacher sees Tardy Rate in 9-12 list of students view - red
@@ -117,11 +117,11 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - red
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
 	      And I select <section> "Sec 145"
-		  And I select view "IL_9-12"
+		  And I select view "College Ready ELA View"
 		Then the table includes header "Attendance"
 			And I should see a table heading "Tardy Rate %"
-			And the count for id "ATTENDANCE.TardyRate" for student "Arsenio Durham" is "13"
-      			And the class for id "ATTENDANCE.TardyRate" for student "Arsenio Durham" is "perfLevel1"
+			And the count for id "attendances.tardyRate" for student "Arsenio Durham" is "13"
+      			And the class for id "attendances.tardyRate" for student "Arsenio Durham" is "perfLevel1"
 @wip
 Scenario: Teacher sees Tardy Rate in 9-12 list of students view - yellow
 		When I navigate to the Dashboard home page
@@ -131,11 +131,11 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - yellow
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
 	      And I select <section> "Sec 145"
-		  And I select view "IL_9-12"
+		  And I select view "College Ready ELA View"
 		Then the table includes header "Attendance"
 			And I should see a table heading "Tardy Rate %"
-			And the count for id "ATTENDANCE.TardyRate" for student "Delilah Sims" is "6"
-      			And the class for id "ATTENDANCE.TardyRate" for student "Delilah Sims" is "perfLevel3"
+			And the count for id "attendances.tardyRate" for student "Delilah Sims" is "6"
+      			And the class for id "attendances.tardyRate" for student "Delilah Sims" is "perfLevel3"
 
 @wip
 Scenario: Teacher sees Tardy Rate in 9-12 list of students view - light green 
@@ -146,11 +146,11 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - light green
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
 	      And I select <section> "Sec 145"
-		  And I select view "IL_9-12"
+		  And I select view "College Ready ELA View"
 		Then the table includes header "Attendance"
 			And I should see a table heading "Tardy Rate %"
-			And the count for id "ATTENDANCE.TardyRate" for student "Jolene Ashley" is "4"
-      			And the class for id "ATTENDANCE.TardyRate" for student "Jolene Ashley" is "perfLevel4"
+			And the count for id "attendances.tardyRate" for student "Jolene Ashley" is "4"
+      			And the class for id "attendances.tardyRate" for student "Jolene Ashley" is "perfLevel4"
 
 @wip
 Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green 
@@ -161,11 +161,11 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green
 	      And I select <school> "Daybreak Central High"
 	      And I select <course> "American Literature"
 	      And I select <section> "Sec 145"
-		  And I select view "IL_9-12"
+		  And I select view "College Ready ELA View"
 		Then the table includes header "Attendance"
 			And I should see a table heading "Tardy Rate %"
-			And the count for id "ATTENDANCE.TardyRate" for student "Charde Lowery" is "0"
-      			And the class for id "ATTENDANCE.TardyRate" for student "Charde Lowery" is "perfLevel5"
+			And the count for id "attendances.tardyRate" for student "Charde Lowery" is "0"
+      			And the class for id "attendances.tardyRate" for student "Charde Lowery" is "perfLevel5"
 
 @wip
  Scenario: Teacher sees Tardy Count in 9-12 list of students view - third color
@@ -176,11 +176,11 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green
         And I select <school> "Daybreak Central High"
         And I select <course> "American Literature"
         And I select <section> "Sec 145"
-      And I select view "IL_9-12"
+      And I select view "College Ready ELA View"
     Then the table includes header "Attendance"
       And I should see a table heading "Tardy Count"
-      And the count for id "ATTENDANCE.TardyCount" for student "Arsenio Durham" is "28"
-      And the class for id "ATTENDANCE.TardyCount" for student "Arsenio Durham" is "countLevel4"
+      And the count for id "attendances.tardyCount" for student "Arsenio Durham" is "28"
+      And the class for id "attendances.tardyCount" for student "Arsenio Durham" is "countLevel4"
 
 @wip
  Scenario: Teacher sees Tardy Count in 9-12 list of students view - second color
@@ -191,11 +191,11 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green
         And I select <school> "Daybreak Central High"
         And I select <course> "American Literature"
         And I select <section> "Sec 145"
-      And I select view "IL_9-12"
+      And I select view "College Ready ELA View"
     Then the table includes header "Attendance"
       And I should see a table heading "Tardy Count"
-      And the count for id "ATTENDANCE.TardyCount" for student "Patricia Harper" is "4"
-      And the class for id "ATTENDANCE.TardyCount" for student "Patricia Harper" is "countLevel2"
+      And the count for id "attendances.tardyCount" for student "Patricia Harper" is "4"
+      And the class for id "attendances.tardyCount" for student "Patricia Harper" is "countLevel2"
       
 @wip
  Scenario: Teacher sees Tardy Count in 9-12 list of students view - first color
@@ -206,11 +206,11 @@ Scenario: Teacher sees Tardy Rate in 9-12 list of students view - green
         And I select <school> "Daybreak Central High"
         And I select <course> "American Literature"
         And I select <section> "Sec 145"
-      And I select view "IL_9-12"
+      And I select view "College Ready ELA View"
     Then the table includes header "Attendance"
       And I should see a table heading "Tardy Count"
-      And the count for id "ATTENDANCE.TardyCount" for student "Charde Lowery" is "0"
-      And the class for id "ATTENDANCE.TardyCount" for student "Charde Lowery" is "countLevel1"
+      And the count for id "attendances.tardyCount" for student "Charde Lowery" is "0"
+      And the class for id "attendances.tardyCount" for student "Charde Lowery" is "countLevel1"
 
 Scenario: Monster test until LOS is faster
     When I navigate to the Dashboard home page
@@ -220,33 +220,33 @@ Scenario: Monster test until LOS is faster
         And I select <school> "Daybreak Central High"
         And I select <course> "American Literature"
         And I select <section> "Sec 145"
-      And I select view "IL_9-12"
+      And I select view "College Ready ELA View"
     Then the table includes header "Attendance"
       And I should see a table heading "Tardy Count"
-      And the count for id "ATTENDANCE.TardyCount" for student "Charde Lowery" is "0"
-      And the class for id "ATTENDANCE.TardyCount" for student "Charde Lowery" is "countLevel1"
-      And the count for id "ATTENDANCE.TardyCount" for student "Patricia Harper" is "3"
-      And the class for id "ATTENDANCE.TardyCount" for student "Patricia Harper" is "countLevel2"
-      And the count for id "ATTENDANCE.TardyCount" for student "Arsenio Durham" is "22"
-      And the class for id "ATTENDANCE.TardyCount" for student "Arsenio Durham" is "countLevel4"
+      And the count for id "attendances.tardyCount" for student "Charde Lowery" is "0"
+      And the class for id "attendances.tardyCount" for student "Charde Lowery" is "color-widget-darkgreen"
+      And the count for id "attendances.tardyCount" for student "Patricia Harper" is "3"
+      And the class for id "attendances.tardyCount" for student "Patricia Harper" is "color-widget-green"
+      And the count for id "attendances.tardyCount" for student "Arsenio Durham" is "22"
+      And the class for id "attendances.tardyCount" for student "Arsenio Durham" is "color-widget-red"
       And I should see a table heading "Tardy Rate %"
-      And the count for id "ATTENDANCE.TardyRate" for student "Charde Lowery" is "0"
-      And the class for id "ATTENDANCE.TardyRate" for student "Charde Lowery" is "perfLevel5"
-      And the count for id "ATTENDANCE.TardyRate" for student "Jolene Ashley" is "4"
-      And the class for id "ATTENDANCE.TardyRate" for student "Jolene Ashley" is "perfLevel4"
-      And the count for id "ATTENDANCE.TardyRate" for student "Delilah Sims" is "6"
-      And the class for id "ATTENDANCE.TardyRate" for student "Delilah Sims" is "perfLevel3"
-      And the count for id "ATTENDANCE.TardyRate" for student "Arsenio Durham" is "14"
-      And the class for id "ATTENDANCE.TardyRate" for student "Arsenio Durham" is "perfLevel1"
+      And the count for id "attendances.tardyRate" for student "Charde Lowery" is "0"
+      And the class for id "attendances.tardyRate" for student "Charde Lowery" is "color-widget-darkgreen"
+      And the count for id "attendances.tardyRate" for student "Jolene Ashley" is "4"
+      And the class for id "attendances.tardyRate" for student "Jolene Ashley" is "color-widget-green"
+      And the count for id "attendances.tardyRate" for student "Delilah Sims" is "6"
+      And the class for id "attendances.tardyRate" for student "Delilah Sims" is "color-widget-yellow"
+      And the count for id "attendances.tardyRate" for student "Arsenio Durham" is "14"
+      And the class for id "attendances.tardyRate" for student "Arsenio Durham" is "color-widget-red"
       And I should see a table heading "Attendance Rate %"
-      And the count for id "ATTENDANCE.AttendanceRate" for student "Marvin Miller" is "99"
-      And the class for id "ATTENDANCE.AttendanceRate" for student "Marvin Miller" is "perfLevel5"
-      And the count for id "ATTENDANCE.AttendanceRate" for student "Alec Swanson" is "96"
-      And the class for id "ATTENDANCE.AttendanceRate" for student "Alec Swanson" is "perfLevel4"
-      And the count for id "ATTENDANCE.AttendanceRate" for student "Nomlanga Mccormick" is "96"
-      And the class for id "ATTENDANCE.AttendanceRate" for student "Nomlanga Mccormick" is "perfLevel4"
-      And the count for id "ATTENDANCE.AttendanceRate" for student "Johnny Patel" is "88"
-      And the class for id "ATTENDANCE.AttendanceRate" for student "Johnny Patel" is "perfLevel1"
+      And the count for id "attendances.attendanceRate" for student "Marvin Miller" is "99"
+      And the class for id "attendances.attendanceRate" for student "Marvin Miller" is "color-widget-darkgreen"
+      And the count for id "attendances.attendanceRate" for student "Alec Swanson" is "96"
+      And the class for id "attendances.attendanceRate" for student "Alec Swanson" is "color-widget-green"
+      And the count for id "attendances.attendanceRate" for student "Nomlanga Mccormick" is "96"
+      And the class for id "attendances.attendanceRate" for student "Nomlanga Mccormick" is "color-widget-green"
+      And the count for id "attendances.attendanceRate" for student "Johnny Patel" is "88"
+      And the class for id "attendances.attendanceRate" for student "Johnny Patel" is "color-widget-red"
       And I should see a table heading "Absence Count"
-      And the count for id "ATTENDANCE.AbsenceCount" for student "Charde Lowery" is "10"
+      And the count for id "attendances.absenceCount" for student "Charde Lowery" is "10"
 

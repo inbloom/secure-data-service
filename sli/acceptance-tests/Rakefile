@@ -197,7 +197,7 @@ desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionAPAssessmentTests, :ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests] do
+                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -294,6 +294,11 @@ end
 desc "Run Ingestion AP Assessment and StudentAssessment Tests"
 task :ingestionAPAssessmentTests do
   runTests("test/features/ingestion/features/apAssessment.feature")
+end
+
+desc "Run Ingestion ACT Assessment Tests"
+task :ingestionACTAssessmentTests do
+  runTests("test/features/ingestion/features/ACTAssessment.feature")
 end
 
 desc "Run Ingestion Ed-Fi ID Reference Resolution Test"
@@ -831,6 +836,7 @@ desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
+  runTests("test/features/databrowser/databrowser_denial.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
   displayFailureReport()
   if $SUCCESS
@@ -1007,6 +1013,7 @@ task :integrationTests => [:realmInitNoPeople] do
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
   Rake::Task["dashboardSdsTests"].execute
+  Rake::Task["dashboardSdsContactInfoTests"].execute    
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1036,15 +1043,24 @@ end
 # SDK Tests
 ############################################################
 
-desc "Run JavaSDK sampleApp acceptance tests"
-task :JavaSDKSampleAppTest => [:realmInitNoPeople] do
-    runTests("test/features/dashboard/JavaSDK/sampleApp.feature")
+desc "Run JavaSDK acceptance tests"
+task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest] do
     displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
   else
     raise "Tests have failed"
   end
+end
+
+desc "Run JavaSDK sampleApp acceptance tests"
+task :JavaSDKSampleAppTest => [:importUnifiedData, :realmInitNoPeople] do
+    runTests("test/features/apiV1/end_user_stories/sandbox/JavaSDK/sampleApp/sampleApp.feature")
+end
+
+desc "Run JavaSDK CRUD acceptance tests"
+task :JavaSDKCRUDTest => [:realmInitNoPeople,:importStoriedData] do
+    runTests("test/features/apiV1/end_user_stories/sandbox/JavaSDK/CRUD/CRUD.feature")
 end
 
 ############################################################
@@ -1153,7 +1169,7 @@ task :importUnifiedData do
     "educationOrganization" => "unified_data/uds_educationOrganization.json",
     "gradebookEntry" => "unified_data/uds_gradebookEntry.json",
     "parent" => "unified_data/uds_parent.json",
-    "realm" => "unified_data/uds_realm.json",
+     "realm" => "unified_data/uds_realm.json",
     "school" => "unified_data/uds_school.json",
     "section" => "unified_data/uds_section.json",
     "session" => "unified_data/uds_session.json",
