@@ -9,9 +9,9 @@ import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.EnumType;
 import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
+import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.UmlModelElement;
 import org.slc.sli.modeling.uml.Visitor;
 
 /**
@@ -74,7 +74,7 @@ public interface Mapper {
 
     void lookup(Identifier id, Visitor visitor);
 
-    Set<UmlModelElement> whereUsed(Identifier id);
+    Set<ModelElement> whereUsed(Identifier id);
 
-    Set<UmlModelElement> lookupByName(String name);
+    Set<ModelElement> lookupByName(String name);
 }
