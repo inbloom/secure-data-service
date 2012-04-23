@@ -31,7 +31,7 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element name="scope" minOccurs="0" type="xs:string">
+                <xs:element name="registered" minOccurs="1" type="xs:boolean">
                 </xs:element>
                 <xs:element name="redirect_uri" minOccurs="1">
                     <xs:simpleType>

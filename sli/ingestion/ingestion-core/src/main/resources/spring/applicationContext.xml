@@ -20,7 +20,7 @@
       <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
       <property name="locations">
          <list>
-            <value>file:///${sli.conf}</value>
+            <value>file:${sli.conf}</value>
             <value>classpath:ingestion.properties</value>
          </list>
       </property>

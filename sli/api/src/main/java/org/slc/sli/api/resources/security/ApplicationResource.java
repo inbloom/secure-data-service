@@ -15,12 +15,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
@@ -30,6 +24,11 @@ import org.slc.sli.api.service.EntityService;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  *
@@ -43,6 +42,8 @@ import org.slc.sli.domain.NeutralQuery;
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class ApplicationResource extends DefaultCrudEndpoint {
 
+
+    private static final String REGISTERED = "registered";
 
     @Autowired
     private EntityDefinitionStore store;
@@ -80,13 +81,14 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
         if (newApp.containsKey(CLIENT_SECRET)
                 || newApp.containsKey(CLIENT_ID)
-                || newApp.containsKey("id")) {
+ || newApp.containsKey("id")) {
             EntityBody body = new EntityBody();
             body.put("message", "Auto-generated attribute (id|client_secret|client_id) specified in POST.  "
             + "Remove attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
         newApp.put(CLIENT_ID, clientId);
+        newApp.put(REGISTERED, true);
 
         String clientSecret = TokenGenerator.generateToken(CLIENT_SECRET_LENGTH);
         newApp.put(CLIENT_SECRET, clientSecret);

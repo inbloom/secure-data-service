@@ -277,7 +277,7 @@ public class PopulationManagerImpl implements PopulationManager {
 
             if (perfLevelsDescs != null) {
                 for (List<Map> perfLevelsDesc : perfLevelsDescs) {
-                    if (perfLevelsDesc != null && perfLevelsDescs.size() > 0) {
+                    if (perfLevelsDesc != null && perfLevelsDesc.size() > 0) {
 
                         String perfLevel = (String) perfLevelsDesc.get(0).get(Constants.ATTR_CODE_VALUE);
                         assmtResult.put(Constants.ATTR_PERF_LEVEL, perfLevel);
