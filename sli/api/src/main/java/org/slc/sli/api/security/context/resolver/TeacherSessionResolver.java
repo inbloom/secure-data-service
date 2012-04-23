@@ -9,13 +9,13 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.EntityNames;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Resolves which teachers a given teacher is allowed to see
@@ -46,11 +46,11 @@ public class TeacherSessionResolver implements EntityContextResolver {
                 ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS,
                 ResourceNames.STUDENT_SECTION_ASSOCIATIONS));
-        
+
         Set<String> sectionIds = new HashSet<String>();
         sectionIds.addAll(teacherSectionIds);
         sectionIds.addAll(studentSectionIds);
-        
+
         List<String> ids = new ArrayList<String>();
         for (String id : sectionIds) {
             ids.add(id);
@@ -60,9 +60,9 @@ public class TeacherSessionResolver implements EntityContextResolver {
 
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
-        
+
         Iterable<Entity> entities = repository.findAll(EntityNames.SECTION, neutralQuery);
-        
+
         for (Entity e : entities) {
             String sessionId = (String) e.getBody().get("sessionId");
             if (sessionId != null) {

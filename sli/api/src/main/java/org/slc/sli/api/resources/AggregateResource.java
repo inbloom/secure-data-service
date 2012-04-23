@@ -21,11 +21,11 @@ import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.url.URLCreator;
 import org.slc.sli.api.resources.util.ResourceUtil;
-import org.slc.sli.api.resources.util.ResourceConstants;
+import org.slc.sli.api.service.query.ApiQuery;
+import org.slc.sli.common.constants.ResourceConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.api.service.query.ApiQuery;
 
 
 /**
@@ -75,13 +75,13 @@ public class AggregateResource {
             if (userEntity.getType().equals("staff")) {
                 List<String> associatedEdOrgs = new ArrayList<String>();
                 for (EntityBody e : this.entityDefs.lookupByEntityType("educationOrganization").getService().list(neutralQuery)) {
-                    associatedEdOrgs.add((String) e.get("id")); 
+                    associatedEdOrgs.add((String) e.get("id"));
                 }
                 neutralQuery.addCriteria(new NeutralCriteria("groupBy.districtId" , "in", associatedEdOrgs));
             }
-            
+
         }
-        
+
         // return as browser response
         return getLinksResponse(associationURLCreator, uriInfo, neutralQuery);
     }
@@ -101,7 +101,7 @@ public class AggregateResource {
     public Response getDistrictBasedAggregates(@Context final UriInfo uriInfo) {
 
         NeutralQuery neutralQuery = new ApiQuery(uriInfo);
-        
+
         return getLinksResponse(aggregateURLCreator, uriInfo, neutralQuery);
     }
 
@@ -134,14 +134,14 @@ public class AggregateResource {
     private Response getLinksResponse(URLCreator creator, final UriInfo uriInfo, NeutralQuery neutralQuery) {
         // get the aggregate URLs
         Entity userEntity = ResourceUtil.getSLIPrincipalFromSecurityContext().getEntity();
-        List<EmbeddedLink> links = null; 
-        
+        List<EmbeddedLink> links = null;
+
         if (userEntity != null) {
-            links = creator.getUrls(uriInfo, (String) userEntity.getEntityId(), userEntity.getType(), neutralQuery);
+            links = creator.getUrls(uriInfo, userEntity.getEntityId(), userEntity.getType(), neutralQuery);
         } else {
             links = creator.getUrls(uriInfo, "", "", neutralQuery);
         }
-        
+
 
         // create a final map of links to relevant links
         Map<String, Object> linksMap = new HashMap<String, Object>();

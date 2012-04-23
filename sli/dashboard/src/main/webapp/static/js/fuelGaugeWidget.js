@@ -87,6 +87,16 @@ FuelGaugeWidget.prototype.create = function()
     this.paper.rect(0, 0, scoreWidth, fontSize, 5)
                   .attr("fill", color)
                   .attr("stroke", "none");
+    var rightCorner = 0;
+    if ((5 - backgroundWidth + scoreWidth) > 0) {
+    	rightCorner = 5 - backgroundWidth + scoreWidth;
+    } 
+    
+    if ((5 - scoreWidth) < 0) {
+    	this.paper.rect(scoreWidth-5, 0, 5, fontSize, rightCorner)
+    			  .attr("fill", color)
+    			  .attr("stroke", "none");
+    }
     
     var gapPosition = 0;
     var gapColor = "white";

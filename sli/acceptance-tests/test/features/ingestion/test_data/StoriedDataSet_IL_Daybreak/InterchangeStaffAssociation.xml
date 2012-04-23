@@ -953,16 +953,16 @@
 		<EndDate>1967-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 	
-	<!-- linda.kim and rbraverman to ACC-TEST-PROG-1 and ACC-TEST-PROG-2 -->
+	<!-- jjackson and jstevenson to ACC-TEST-PROG-1 and ACC-TEST-PROG-2 -->
 	<StaffProgramAssociation>
 		<StaffReference>
 			<StaffIdentity>
-				<StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+				<StaffUniqueStateId>jjackson</StaffUniqueStateId>
 			</StaffIdentity>
 		</StaffReference>
 		<StaffReference>
 			<StaffIdentity>
-				<StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+				<StaffUniqueStateId>jstevenson</StaffUniqueStateId>
 			</StaffIdentity>
 		</StaffReference>
 		<ProgramReference>
@@ -979,36 +979,36 @@
 		<EndDate>2012-02-15</EndDate>
 		<StudentRecordAccess>true</StudentRecordAccess>
 	</StaffProgramAssociation>
-	<!-- linda.kim to ACC-TEST-PROG-3 -->
+	<!-- jjackson to ACC-TEST-PROG-1 -->
 	<StaffProgramAssociation>
 		<StaffReference>
 			<StaffIdentity>
-				<StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+				<StaffUniqueStateId>jjackson</StaffUniqueStateId>
 			</StaffIdentity>
 		</StaffReference>
 		<ProgramReference>
 			<ProgramIdentity>
-				<ProgramId>ACC-TEST-PROG-3</ProgramId>
+				<ProgramId>ACC-TEST-PROG-1</ProgramId>
 			</ProgramIdentity>
 		</ProgramReference>
 		<BeginDate>2011-06-01</BeginDate>
 		<StudentRecordAccess>false</StudentRecordAccess>
 	</StaffProgramAssociation>
-	<!-- rbraverman and cgray to ACC-TEST-PROG-3 -->
+	<!-- sbantu and mjohnson to ACC-TEST-PROG-2 -->
 	<StaffProgramAssociation>
 		<StaffReference>
 			<StaffIdentity>
-				<StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+				<StaffUniqueStateId>sbantu</StaffUniqueStateId>
 			</StaffIdentity>
 		</StaffReference>
 		<StaffReference>
 			<StaffIdentity>
-				<StaffUniqueStateId>cgray</StaffUniqueStateId>
+				<StaffUniqueStateId>mjohnson</StaffUniqueStateId>
 			</StaffIdentity>
 		</StaffReference>
 		<ProgramReference>
 			<ProgramIdentity>
-				<ProgramId>ACC-TEST-PROG-3</ProgramId>
+				<ProgramId>ACC-TEST-PROG-2</ProgramId>
 			</ProgramIdentity>
 		</ProgramReference>
 		<BeginDate>2011-01-01</BeginDate>

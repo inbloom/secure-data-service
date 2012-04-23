@@ -23,24 +23,24 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * This association indicates those students who were
  * victims, perpetrators, witnesses, and/or reporters for a discipline
  * incident.
- * 
+ *
  * @author slee
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEndpoint {
     /**
      * Logging utility.
@@ -60,13 +60,14 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
      *            starting position in results to return to user
      * @param limit
      *            maximum number of results to return to user (starting from offset)
-     * @param headers 
+     * @param headers
      *            HTTP Request Headers
-     * @param uriInfo 
+     * @param uriInfo
      *            URI information including path and query parameters
      * @return result of CRUD operation
      */
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Override
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
                             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
@@ -77,7 +78,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     /**
      * Create a new $$studentDisciplineIncidentAssociations$$ entity.
      *
-     * @param newEntityBody 
+     * @param newEntityBody
      *            entity data
      * @param headers
      *            HTTP Request Headers
@@ -88,6 +89,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
      * {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
      * item is accessable.}
      */
+    @Override
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody,
@@ -98,7 +100,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     /**
      * Get a single $$studentDisciplineIncidentAssociations$$ entity.
      *
-     * @param studentDisciplineIncidentAssociationId 
+     * @param studentDisciplineIncidentAssociationId
      *            The Id of the $$studentDisciplineIncidentAssociations$$.
      * @param headers
      *            HTTP Request Headers
@@ -106,9 +108,10 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
      *            URI information including path and query parameters
      * @return A single $$studentDisciplineIncidentAssociations$$ entity
      */
+    @Override
     @GET
     @Path("{" + ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID) final String studentDisciplineIncidentAssociationId,
                          @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(studentDisciplineIncidentAssociationId, headers, uriInfo);
@@ -117,7 +120,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     /**
      * Delete a $$studentDisciplineIncidentAssociations$$ entity.
      *
-     * @param studentDisciplineIncidentAssociationId 
+     * @param studentDisciplineIncidentAssociationId
      *            The Id of the $$studentDisciplineIncidentAssociations$$.
      * @param headers
      *            HTTP Request Headers
@@ -126,6 +129,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @DELETE
     @Path("{" + ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID + "}")
     public Response delete(@PathParam(ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID) final String studentDisciplineIncidentAssociationId,
@@ -136,7 +140,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     /**
      * Update an existing $$studentDisciplineIncidentAssociations$$ entity.
      *
-     * @param studentDisciplineIncidentAssociationId 
+     * @param studentDisciplineIncidentAssociationId
      *            The id of the $$studentDisciplineIncidentAssociations$$.
      * @param newEntityBody
      *            entity data
@@ -147,6 +151,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @PUT
     @Path("{" + ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID + "}")
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -160,7 +165,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
      * Returns each $$students$$ that is referenced by
      * the given $$studentDisciplineIncidentAssociations$$.
      *
-     * @param studentDisciplineIncidentAssociationId 
+     * @param studentDisciplineIncidentAssociationId
      *            The Id of the studentDisciplineIncidentAssociationId.
      * @param offset
      *            Index of the first result to return
@@ -173,7 +178,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
      * @return
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
     public Response getStudents(@PathParam(ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID) final String studentDisciplineIncidentAssociationId,
                                 @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
@@ -186,7 +191,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
      * Returns each $$disciplineIncidents$$ that is referenced by
      * the given $$studentDisciplineIncidentAssociations$$.
      *
-     * @param studentDisciplineIncidentAssociationId 
+     * @param studentDisciplineIncidentAssociationId
      *            The Id of the studentDisciplineIncidentAssociationId.
      * @param offset
      *            Index of the first result to return
@@ -199,7 +204,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
      * @return
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID + "}" + "/" + PathConstants.DISCIPLINE_INCIDENTS)
     public Response getDisciplineIncidents(@PathParam(ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID) final String studentDisciplineIncidentAssociationId,
                                            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,

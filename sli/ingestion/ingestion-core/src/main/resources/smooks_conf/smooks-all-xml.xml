@@ -1804,7 +1804,7 @@
   <jb:bean beanId="sOAAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
     <jb:wiring property="scoreResults" beanIdRef="ScoreResultsTypeArray" />
     <jb:wiring property="performanceLevelDescriptors" beanIdRef="plDescriptorsArray" />
-    <jb:wiring property="oAReference" beanIdRef="OAReferenceType" />
+    <jb:value property="oAReference" data="StudentObjectiveAssessment/ObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
     <jb:value property="sTAReference" data="StudentTestAssessmentReference/@ref" />
   </jb:bean>
 
@@ -1824,14 +1824,6 @@
   <jb:bean beanId="plDescriptor" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
     <jb:value property="codeValue" data="StudentObjectiveAssessment/PerformanceLevels/CodeValue" />
     <jb:value property="Description" data="StudentObjectiveAssessment/PerformanceLevels/Description" />
-  </jb:bean>
-
-  <!-- ObjectiveAssessmentReferenceType -->
-  <jb:bean beanId="OAReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
-    <jb:value property="oaIdCode"
-      data="StudentObjectiveAssessment/ObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
-    <jb:value property="id" data="StudentObjectiveAssessment/ObjectiveAssessmentReference/@id" />
-    <jb:value property="ref" data="StudentObjectiveAssessment/ObjectiveAssessmentReference/@ref" />
   </jb:bean>
 
   <!-- end of studentObjectiveAssessment -->
@@ -1877,6 +1869,8 @@
     <jb:wiring property="scoreResults" beanIdRef="scoreResultsArray" />
     <jb:value property="gradeLevelWhenAssessed" data="InterchangeStudentAssessment/StudentAssessment/GradeLevelWhenAssessed" />
     <jb:wiring property="performanceLevelDescriptors" beanIdRef="performanceLevelsTypeArray" />
+    <jb:value property="xmlId" data="InterchangeStudentAssessment/StudentAssessment/@id" />
+    <jb:wiring property="parents" beanIdRef="studentAssessmentAssociationParentIds" />
   </jb:bean>
 
   <jb:bean beanId="specialAccommodationsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentAssessment">
@@ -2644,10 +2638,30 @@
     createOnElement="InterchangeStudentProgram/StudentProgramAssociation">
     <jb:wiring beanIdRef="StudentProgramAssociation_Services" />
   </jb:bean>
-  
-  <jb:bean beanId="StudentProgramAssociation_Services" class="java.util.HashMap" createOnElement="InterchangeStudentProgram/StudentProgramAssociation/Services">
+
+  <jb:bean beanId="StudentProgramAssociation_Services" 
+  	class="java.util.ArrayList" 
+  	createOnElement="InterchangeStudentProgram/StudentProgramAssociation/Services">
+  	<jb:wiring beanIdRef="StudentProgramAssociation_Services_CodeValue" />
+  	<jb:wiring beanIdRef="StudentProgramAssociation_Services_ShortDescription" />
+  	<jb:wiring beanIdRef="StudentProgramAssociation_Services_Description" />  	
+  </jb:bean>
+	
+  <jb:bean beanId="StudentProgramAssociation_Services_CodeValue" 
+  	class="java.util.HashMap" 
+  	createOnElement="InterchangeStudentProgram/StudentProgramAssociation/Services/CodeValue">
     <jb:value property="CodeValue" data="StudentProgramAssociation/Services/CodeValue" />
+  </jb:bean>
+	
+  <jb:bean beanId="StudentProgramAssociation_Services_ShortDescription" 
+  	class="java.util.HashMap" 
+  	createOnElement="InterchangeStudentProgram/StudentProgramAssociation/Services/ShortDescription">
     <jb:value property="ShortDescription" data="StudentProgramAssociation/Services/ShortDescription" />
+  </jb:bean>
+   
+  <jb:bean beanId="StudentProgramAssociation_Services_Description" 
+  	class="java.util.HashMap" 
+  	createOnElement="InterchangeStudentProgram/StudentProgramAssociation/Services/Description">
     <jb:value property="Description" data="StudentProgramAssociation/Services/Description" />
   </jb:bean>
 
@@ -2827,22 +2841,42 @@
     <jb:wiring beanIdRef="Program_ServiceDescriptorType" />
   </jb:bean>
 
-  <jb:bean beanId="Program_ServiceDescriptorType" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Program/Services">
-    <jb:value property="codeValue" data="InterchangeEducationOrganization/Program/Services/CodeValue" />
-    <jb:value property="shortDescription" data="InterchangeEducationOrganization/Program/Services/ShortDescription" />
-    <jb:value property="description" data="InterchangeEducationOrganization/Program/Services/Description" />
+  <jb:bean beanId="Program_ServiceDescriptorType" 
+  	class="java.util.ArrayList" 
+  	createOnElement="InterchangeEducationOrganization/Program/Services">
+  	<jb:wiring beanIdRef="Program_Services_CodeValue" />
+  	<jb:wiring beanIdRef="Program_Services_ShortDescription" />
+  	<jb:wiring beanIdRef="Program_Services_Description" />  	
+  </jb:bean>
+	
+  <jb:bean beanId="Program_Services_CodeValue" 
+  	class="java.util.HashMap" 
+  	createOnElement="InterchangeEducationOrganization/Program/Services/CodeValue">
+    <jb:value property="CodeValue" data="Program/Services/CodeValue" />
+  </jb:bean>
+	
+  <jb:bean beanId="Program_Services_ShortDescription" 
+  	class="java.util.HashMap" 
+  	createOnElement="InterchangeEducationOrganization/Program/Services/ShortDescription">
+    <jb:value property="ShortDescription" data="Program/Services/ShortDescription" />
+  </jb:bean>
+   
+  <jb:bean beanId="Program_Services_Description" 
+  	class="java.util.HashMap" 
+  	createOnElement="InterchangeEducationOrganization/Program/Services/Description">
+    <jb:value property="Description" data="Program/Services/Description" />
   </jb:bean>
 
     <!-- StaffProgramAssociation mapping (Ed-Fi to Ed-Fi)-->
     <!-- TODO implement other reference mappings -->
 
-  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentProgram/StaffProgramAssociation">
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStaffAssociation/StaffProgramAssociation">
     <jb:expression property="recordType">'staffProgramAssociation'</jb:expression>
-    <jb:wiring property="attributes" beanIdRef="staffProgramAssocoiationAttributes" />
+    <jb:wiring property="attributes" beanIdRef="staffProgramAssociationAttributes" />
   </jb:bean>
 
-  <jb:bean beanId="staffProgramAssocoiationAttributes" class="java.util.HashMap"
-    createOnElement="InterchangeStudentProgram/StaffProgramAssociation">
+  <jb:bean beanId="staffProgramAssociationAttributes" class="java.util.HashMap"
+    createOnElement="InterchangeStaffAssociation/StaffProgramAssociation">
 
     <jb:wiring property="staffReference" beanIdRef="staffProgramAssociation_staffReferenceArray" />
 
@@ -2861,42 +2895,42 @@
   </jb:bean>
 
   <jb:bean beanId="staffProgramAssociation_staffReferenceArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentProgram/StaffProgramAssociation">
+    createOnElement="InterchangeStaffAssociation/StaffProgramAssociation">
     <jb:wiring beanIdRef="staffProgramAssociation_staffReference" />
   </jb:bean>
 
   <jb:bean beanId="staffProgramAssociation_staffReference" class="java.util.HashMap"
-    createOnElement="InterchangeStudentProgram/StaffProgramAssociation/StaffReference">
+    createOnElement="InterchangeStaffAssociation/StaffProgramAssociation/StaffReference">
     <jb:wiring property="staffIdentity" beanIdRef="staffProgramAssociation_staffReference_staffIdentity" />
   </jb:bean>
 
   <jb:bean beanId="staffProgramAssociation_staffReference_staffIdentity" class="java.util.HashMap"
-    createOnElement="InterchangeStudentProgram/StaffProgramAssociation/StaffReference/StaffIdentity">
+    createOnElement="InterchangeStaffAssociation/StaffProgramAssociation/StaffReference/StaffIdentity">
     <jb:value property="staffUniqueStateId" data="StaffProgramAssociation/StaffReference/StaffIdentity/StaffUniqueStateId" />
   </jb:bean>
 
   <jb:bean beanId="staffProgramAssociation_staffIdArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentProgram/StaffProgramAssociation">
+    createOnElement="InterchangeStaffAssociation/StaffProgramAssociation">
     <jb:value data="StaffProgramAssociation/StaffReference/StaffIdentity/StaffUniqueStateId" />
   </jb:bean>
 
   <jb:bean beanId="staffProgramAssociation_programReferenceArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentProgram/StaffProgramAssociation">
+    createOnElement="InterchangeStaffAssociation/StaffProgramAssociation">
     <jb:wiring beanIdRef="staffProgramAssociation_programReference" />
   </jb:bean>
 
   <jb:bean beanId="staffProgramAssociation_programReference" class="java.util.HashMap"
-    createOnElement="InterchangeStudentProgram/StaffProgramAssociation/ProgramReference">
+    createOnElement="InterchangeStaffAssociation/StaffProgramAssociation/ProgramReference">
     <jb:wiring property="programIdentity" beanIdRef="staffProgramAssociation_programReference_programIdentity" />
   </jb:bean>
 
   <jb:bean beanId="staffProgramAssociation_programReference_programIdentity" class="java.util.HashMap"
-    createOnElement="InterchangeStudentProgram/StaffProgramAssociation/ProgramReference/ProgramIdentity">
+    createOnElement="InterchangeStaffAssociation/StaffProgramAssociation/ProgramReference/ProgramIdentity">
     <jb:value property="programId" data="StaffProgramAssociation/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
 
   <jb:bean beanId="staffProgramAssociation_programIdArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentProgram/StaffProgramAssociation">
+    createOnElement="InterchangeStaffAssociation/StaffProgramAssociation">
     <jb:value data="StaffProgramAssociation/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
 

@@ -23,34 +23,34 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * This association indicates the staff associated
  * with a cohort of students.
- * 
+ *
  * @author kmyers
  * @author srichards
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STAFF_COHORT_ASSOCIATIONS)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class StaffCohortAssociation extends DefaultCrudEndpoint {
- 
+
     public static final String BEGIN_DATE = "beginDate";
 
     /**
      * Logging utility.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(StaffCohortAssociation.class);
-    
+
     @Autowired
     public StaffCohortAssociation(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.STAFF_COHORT_ASSOCIATIONS);
@@ -59,7 +59,7 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
 
     /**
      * Returns all $$staffCohortAssociations$$ entities for which the logged in User has permission and context.
-     * 
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -70,17 +70,18 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return result of CRUD operation
      */
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Override
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
      * Create a new $$staffCohortAssociations$$ entity.
-     * 
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -92,16 +93,17 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
      *                 item is accessible.}
      */
+    @Override
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response create(final EntityBody newEntityBody, 
+    public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
      * Get a single $$staffCohortAssociations$$ entity.
-     * 
+     *
      * @param staffCohortAssociationId
      *            The Id of the $$staffCohortAssociations$$.
      * @param headers
@@ -110,9 +112,10 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return A single $$schools$$ entity
      */
+    @Override
     @GET
     @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID) final String staffCohortAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(staffCohortAssociationId, headers, uriInfo);
@@ -120,7 +123,7 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
 
     /**
      * Delete a $$staffCohortAssociations$$ entity.
-     * 
+     *
      * @param staffCohortAssociationId
      *            The Id of the $$staffCohortAssociations$$.
      * @param headers
@@ -130,16 +133,17 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @DELETE
     @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID) final String staffCohortAssociationId, 
+    public Response delete(@PathParam(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID) final String staffCohortAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.delete(staffCohortAssociationId, headers, uriInfo);
     }
 
     /**
      * Update an existing $$staffCohortAssociations$$ entity.
-     * 
+     *
      * @param staffCohortAssociationId
      *            The id of the $$staffCohortAssociations$$.
      * @param newEntityBody
@@ -151,11 +155,12 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @PUT
     @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}")
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response update(@PathParam(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID) final String staffCohortAssociationId,
-            final EntityBody newEntityBody, 
+            final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(staffCohortAssociationId, newEntityBody, headers, uriInfo);
     }
@@ -163,7 +168,7 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
     /**
      * Returns each $$staff$$ that
      * is referenced by the given $$staffCohortAssociations$$.
-     * 
+     *
      * @param staffCohortAssociationId
      *            The Id of the $$staffCohortAssociation$$.
      * @param offset
@@ -176,23 +181,23 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return       
+     * @return
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.STAFF)
     public Response getStaffCohortAssocationStaff(@PathParam(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID) final String staffCohortAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-       return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, "_id", staffCohortAssociationId, 
+       return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, "_id", staffCohortAssociationId,
                ParameterConstants.STAFF_ID, ResourceNames.STAFF, headers, uriInfo);
     }
-    
+
     /**
      * Returns each $$cohorts$$ that
      * is referenced by the given $$staffCohortAssociations$$.
-     * 
+     *
      * @param staffCohortAssociationId
      *            The Id of the $$staffCohortAssociations$$.
      * @param offset
@@ -205,16 +210,16 @@ public class StaffCohortAssociation extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return       
+     * @return
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STAFF_COHORT_ASSOCIATION_ID + "}" + "/" + PathConstants.COHORTS)
     public Response getStaffCohortAssocationCohorts(@PathParam(ParameterConstants.STAFF_COHORT_ASSOCIATION_ID) final String staffCohortAssociationId,
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, "_id", staffCohortAssociationId, 
+        return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, "_id", staffCohortAssociationId,
                 ParameterConstants.COHORT_ID, ResourceNames.COHORTS, headers, uriInfo);
     }
 }

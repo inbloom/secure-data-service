@@ -48,10 +48,9 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "programId" => "ACC-TEST-PROG-3",
     "programType" => "Remedial Education",
     "programSponsor" => "Local Education Agency",
-    "services" => [{
-        "codeValue" => "codeValue3",
-        "shortDescription" => "Short description for acceptance test program 3",
-        "description" => "This is a longer description of the services provided by acceptance test program 3. More detail could be provided here.",
-        "serviceCategory" => "Test service 3"}]
+    "services" => [[
+        {"codeValue" => "codeValue3"},
+        {"shortDescription" => "Short description for acceptance test program 3"},
+        {"description" => "This is a longer description of the services provided by acceptance test program 3. More detail could be provided here."}]]
   }
 end

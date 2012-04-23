@@ -13,9 +13,9 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slc.sli.api.representation.EntityResponse;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.representation.Entities;
 import org.slc.sli.api.representation.Home;
 import org.slc.sli.api.resources.Resource;
 
@@ -52,9 +52,9 @@ public class JacksonJSONMsgBodyWriter implements MessageBodyWriter {
             if (type.getName().equals("org.slc.sli.api.representation.Home")) {
                 Home home = (Home) t;
                 jsonBody = home.getLinksMap();
-            } else if (type.getName().equals("org.slc.sli.api.representation.Entities")) {
-                Entities entities = (Entities) t;
-                jsonBody = entities.getEntityBody();
+            } else if (type.getName().equals("org.slc.sli.api.representation.EntityResponse")) {
+                EntityResponse entityReponse = (EntityResponse) t;
+                jsonBody = entityReponse.getEntity();
             }
 
         }

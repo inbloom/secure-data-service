@@ -5,11 +5,11 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.slc.sli.api.config.ResourceNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
 
 /**
  * Factory for returning the needed strategy to create the custom views
@@ -22,10 +22,10 @@ public class OptionalFieldAppenderFactory {
     private Map<String, OptionalFieldAppender> generators = null;
     public static final String APPENDER_PREFIX = "appender";
     public static final String PARAM_PREFIX = "params";
-    
+
     @Autowired
     private OptionalFieldAppender studentAssessmentOptionalFieldAppender;
-    
+
     @Autowired
     private OptionalFieldAppender studentAttendanceOptionalFieldAppender;
 
@@ -40,7 +40,7 @@ public class OptionalFieldAppenderFactory {
 
     public OptionalFieldAppenderFactory() {
     }
-    
+
     @PostConstruct
     protected void init() {
         generators = new HashMap<String, OptionalFieldAppender>();
@@ -56,10 +56,10 @@ public class OptionalFieldAppenderFactory {
         generators.put(ResourceNames.STUDENTS + "_" + ParameterConstants.OPTIONAL_FIELD_GRADEBOOK, studentGradebookOptionalFieldAppender);
         generators.put(ResourceNames.STUDENTS + "_" + ParameterConstants.OPTIONAL_FIELD_TRANSCRIPT, studentTranscriptOptionalFieldAppender);
     }
-    
+
     /**
      * Returns the correct strategy to get the data for the option provided
-     * @param type The type of strategy needed 
+     * @param type The type of strategy needed
      * @return
      */
     public OptionalFieldAppender getOptionalFieldAppender(String type) {

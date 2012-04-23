@@ -6,11 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.slc.sli.api.config.ResourceNames;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.domain.Entity;
 
 /**
  * Resolves which teachers a given teacher is allowed to see
