@@ -20,6 +20,7 @@ Examples:
   | sessionCourseAssociations   | sessionCourseAssociation   | 9ff65bb1-ef8b-4588-83af-d58f39c1bf68    |
 
 Scenario Outline: Getting response from GET - Read all
+  Given parameter "limit" is "0"
   When I navigate to GET "/v1/<ENTITY URI>"
   Then I should receive a return code of 200
   And I should receive an XML document
@@ -29,7 +30,7 @@ Scenario Outline: Getting response from GET - Read all
 Examples:
   | ENTITY URI                  | ENTITY TYPE                | ENTITY COUNT    |
   | assessments                 | assessment                 | 16              |
-  | schools                     | school                     | 24              |
-  | students                    | student                    | 50              |
-  | studentSectionAssociations  | studentSectionAssociation  | 41              |
+  | schools                     | school                     | 32              |
+  | students                    | student                    | 223             |
+  | studentSectionAssociations  | studentSectionAssociation  | 309             |
   | sessionCourseAssociations   | sessionCourseAssociation   | 4               |

@@ -30,7 +30,7 @@ import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.Range;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.TaggedValue;
-import org.slc.sli.modeling.uml.UmlModelElement;
+import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.UmlPackage;
 import org.slc.sli.modeling.uml.Visitor;
 import org.slc.sli.modeling.uml.index.Mapper;
@@ -313,7 +313,7 @@ public final class XmiWriter {
         }
     }
     
-    private static final void writeModelElementTaggedValues(final UmlModelElement element, final Mapper mapper,
+    private static final void writeModelElementTaggedValues(final ModelElement element, final Mapper mapper,
             final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(PREFIX_UML, XmiElementName.MODEL_ELEMENT_DOT_TAGGED_VALUE.getLocalName(), NAMESPACE_UML);
         try {
