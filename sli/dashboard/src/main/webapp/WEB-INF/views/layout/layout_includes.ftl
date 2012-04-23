@@ -11,7 +11,7 @@
 
 <#macro includeGrid gridId>
   
-  <#assign id = getDivId(panelConfig.id)>
+  <#assign id = getDivId(gridId)>
   </br>
 <div class="ui-widget-no-border">
     <table id="${id}"></table>
