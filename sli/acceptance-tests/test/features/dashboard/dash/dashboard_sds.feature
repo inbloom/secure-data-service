@@ -213,27 +213,14 @@ And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Copyright"
 And the count for id "attendances.absenceCount" for student "Carmen Ortiz" is "5"
 And the class for id "attendances.absenceCount" for student "Carmen Ortiz" is "color-widget-green"
-And the count for id "attendances.attendanceRate" for student "Carmen Ortiz" is "97"
-And the class for id "attendances.attendanceRate" for student "Carmen Ortiz" is "color-widget-green"
 And the count for id "attendances.tardyCount" for student "Carmen Ortiz" is "0"
 And the class for id "attendances.tardyCount" for student "Carmen Ortiz" is "color-widget-darkgreen"
-And the count for id "attendances.tardyRate" for student "Carmen Ortiz" is "0"
-And the class for id "attendances.tardyRate" for student "Carmen Ortiz" is "color-widget-darkgreen"
 # Absence count: > 11
 And the count for id "attendances.absenceCount" for student "Geoffrey Pillard" is "18"
 And the class for id "attendances.absenceCount" for student "Geoffrey Pillard" is "color-widget-red"
 # Absense count 1-5
 And the count for id "attendances.absenceCount" for student "Maya Cun" is "3"
 And the class for id "attendances.absenceCount" for student "Maya Cun" is "color-widget-green"
-# attendance rate 98-99
-And the count for id "attendances.attendanceRate" for student "Samatha Twining" is "99"
-And the class for id "attendances.attendanceRate" for student "Samatha Twining" is "color-widget-darkgreen"
-# Attendance rate 90-97
-And the count for id "attendances.attendanceRate" for student "Garry Mcconnaughy" is "92"
-And the class for id "attendances.attendanceRate" for student "Garry Mcconnaughy" is "color-widget-yellow"
-# Attendance rate < 90
-And the count for id "attendances.attendanceRate" for student "Oma Bevington" is "87"
-And the class for id "attendances.attendanceRate" for student "Oma Bevington" is "color-widget-red"
 And I click on student "Carmen Ortiz"
 And I view its student profile
 And their name shown in profile is "Carmen Daniella Ortiz"
