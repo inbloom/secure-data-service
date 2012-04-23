@@ -7,7 +7,7 @@
         {
             "collectionName" : "staff",
             "isRefList" : true,
-            "refObjectPath" : "body.staffId",
+            "refObjectPath" : "body.staffReference",
             "choiceOfFields" :
             [
                 [
@@ -15,7 +15,7 @@
                         "path" : "body.staffUniqueStateId",
                         "values" : 
                         [{
-                            "valueSource" : "body.staffId.staffIdentity.staffUniqueStateId"
+                            "valueSource" : "body.staffReference.staffIdentity.staffUniqueStateId"
                         }]
                     }
                 ]
@@ -28,7 +28,7 @@
         {
             "collectionName" : "cohort",
             "isRefList" : true,
-            "refObjectPath" : "body.cohortId",
+            "refObjectPath" : "body.cohortReference",
             "choiceOfFields" :
             [
                 [
@@ -36,7 +36,7 @@
                         "path" : "body.cohortIdentifier",
                         "values" : 
                         [
-                            {"valueSource" : "body.cohortId.cohortIdentity.cohortIdentifier"}
+                            {"valueSource" : "body.cohortReference.cohortIdentity.cohortIdentifier"}
                         ]
                     }
                 ]
