@@ -4,4 +4,13 @@ module AppsHelper
     direction = params[:direction] == "ascending" ? "descending" : "ascending"
     link_to title, {:sort => value, :direction => direction}, {:class => direction}
   end
+
+  # For client_id and client_secret, return 'Pending' if app isn't yet registered
+  def client_field_value(app, field)
+    if app.registered?
+      app.attributes[field]
+    else
+      "Pending"
+    end
+  end
 end
