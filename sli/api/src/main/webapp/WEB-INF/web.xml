@@ -28,7 +28,7 @@
       </init-param>
       <init-param>
          <param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
-         <param-value>com.sun.jersey.server.linking.LinkFilter org.slc.sli.api.jersey.CleanupFilter</param-value>
+         <param-value>org.slc.sli.api.jersey.CleanupFilter</param-value>
       </init-param>
 
       <load-on-startup>1</load-on-startup>
