@@ -29,7 +29,6 @@ public class SchemaValidater {
             "Interchange-HSGeneratedStudentTranscript.xsd",
             "Interchange-MasterSchedule.xsd",
             "Interchange-StaffAssociation.xsd",
-            "Interchange-Student.xsd",
             "Interchange-StudentAssessment.xsd",
             "Interchange-StudentAttendance.xsd",
             "Interchange-StudentCohort.xsd",
