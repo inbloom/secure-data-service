@@ -30,15 +30,16 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
- * Resource for obtaining assessment information
- *
+ * Represents a tool, instrument, process, or exhibit that is used 
+ * to assess student performance.
+ * 
  * @author jstokes
  *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.ASSESSMENTS)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class AssessmentResource extends DefaultCrudEndpoint {
 
     @Autowired
@@ -60,7 +61,7 @@ public class AssessmentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @Override
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
@@ -104,7 +105,7 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     @Override
     @GET
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(assessmentId, headers, uriInfo);
@@ -164,7 +165,7 @@ public class AssessmentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS)
     public Response getStudentAssessmentAssociations(
             @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
@@ -186,7 +187,7 @@ public class AssessmentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS + "/"
             + PathConstants.STUDENTS)
     public Response getStudentAssessmentAssociationsStudents(
@@ -215,7 +216,7 @@ public class AssessmentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS)
     public Response getSectionAssessmentAssociations(
             @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
@@ -237,7 +238,7 @@ public class AssessmentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS + "/"
             + PathConstants.SECTIONS)
     public Response getSectionAssessmentAssociationsSections(

@@ -19,8 +19,7 @@
 <configuration scan="true" debug="false">
   <!-- TODO in production mode disable the scan -->
 
-  <property resource="config/${sli.env}/ingestion/ingestion_conf.properties" />
-  <property resource="ingestion-dev.properties" />
+  <property file="${sli.conf}" />
 
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
     <File>${logging.path}/ingestion.log</File>
@@ -61,7 +60,7 @@
       <appender-ref ref="FILE"/>
   </root>
 
-   <logger name="org.slc.sli.ingestion.util.ExecutionMonitor" level="DEBUG" >
+   <logger name="org.slc.sli.ingestion.util.ExecutionMonitor" level="INFO" >
       <appender-ref ref="STDOUT"/>
       <appender-ref ref="FILE"/>
    </logger>

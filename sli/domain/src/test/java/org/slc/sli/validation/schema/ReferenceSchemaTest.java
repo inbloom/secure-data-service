@@ -200,5 +200,11 @@ public class ReferenceSchemaTest {
             return null;
         }
 
+        @Override
+        public boolean exists(String collectionName, String id) {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
     }
 }

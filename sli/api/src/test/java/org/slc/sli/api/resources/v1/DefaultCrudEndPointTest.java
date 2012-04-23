@@ -30,6 +30,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.api.representation.EntityResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -131,7 +132,8 @@ public class DefaultCrudEndPointTest {
             Response response = crudEndPoint.read(resource, idList, httpHeaders, uriInfo);
             assertEquals("Status code should be 200", Status.OK.getStatusCode(), response.getStatus());
 
-            List<EntityBody> results = (List<EntityBody>) response.getEntity();
+            EntityResponse entityResponse = (EntityResponse) response.getEntity();
+            List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
             assertEquals("Should get 2 entities", results.size(), 2);
 
             EntityBody body1 = results.get(0);
@@ -151,7 +153,8 @@ public class DefaultCrudEndPointTest {
         for (String resource : resourceList) {
             String idList = getIDList(resource);
             Response response = crudEndPoint.read(resource, idList, httpHeaders, uriInfo);
-            List<?> results = (List<?>) response.getEntity();
+            EntityResponse entityResponse = (EntityResponse) response.getEntity();
+            List<?> results = (List<?>) entityResponse.getEntity();
             for (Object result : results) {
                 EntityBody entity = (EntityBody) result;
                 List<?> links = (List<?>) entity.get(ResourceConstants.LINKS);
@@ -181,7 +184,8 @@ public class DefaultCrudEndPointTest {
             crudEndPoint.create(resource, new EntityBody(createTestEntity()), httpHeaders, uriInfo);
             Response response = crudEndPoint.read(resource, "field1", "1", httpHeaders, uriInfo);
 
-            List<EntityBody> results = (List<EntityBody>) response.getEntity();
+            EntityResponse entityResponse = (EntityResponse) response.getEntity();
+            List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
             assertTrue("Should have at least one entity", results.size() > 0);
         }
     }
@@ -226,7 +230,8 @@ public class DefaultCrudEndPointTest {
             // try to get it
             Response getResponse = crudEndPoint.read(resource, id, httpHeaders, uriInfo);
             assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
-            EntityBody body = (EntityBody) getResponse.getEntity();
+            EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
+            EntityBody body = (EntityBody) entityResponse.getEntity();
             assertNotNull("Should return an entity", body);
             assertEquals("studentUniqueStateId should be 1234", body.get("studentUniqueStateId"), 1234);
             assertEquals("studentUniqueStateId should be 8", body.get("field1"), 8);
@@ -245,7 +250,8 @@ public class DefaultCrudEndPointTest {
             Response response = crudEndPoint.readAll(resource, httpHeaders, uriInfo);
             assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
-            List<EntityBody> results = (List<EntityBody>) response.getEntity();
+            EntityResponse entityResponse = (EntityResponse) response.getEntity();
+            List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
             assertNotNull("Should return an entity", results);
             assertTrue("Should have at least one entity", results.size() > 0);
         }

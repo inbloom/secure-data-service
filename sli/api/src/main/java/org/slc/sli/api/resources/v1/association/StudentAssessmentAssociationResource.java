@@ -37,7 +37,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
 
     @Autowired
@@ -59,7 +59,7 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @Override
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
@@ -103,7 +103,7 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
     @Override
     @GET
     @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID) final String studentAssessmentAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(studentAssessmentAssociationId, headers, uriInfo);
@@ -172,7 +172,7 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
      * @return
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
     public Response getStudentsForAssociation(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID) final String studentAssessmentAssociationId,
                                               @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
@@ -200,7 +200,7 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
      * @return
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID + "}" + "/" + PathConstants.ASSESSMENTS)
     public Response getAssessmentsForAssociation(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID) final String studentAssessmentAssociationId,
                                                  @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,

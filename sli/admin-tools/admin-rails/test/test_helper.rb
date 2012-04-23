@@ -43,7 +43,7 @@ class ActiveSupport::TestCase
       #apps
       mock.get "/api/rest/apps", {"Accept" => "application/json"}, [@app_fixtures['admin'], @app_fixtures['waffles']].to_json
       mock.get "/api/rest/apps/1", {"Accept" => "application/json"}, @app_fixtures['admin'].to_json
-      mock.post "/api/rest/apps", {"Content-Type" => "application/json"}, @app_fixtures['new'], 201
+      mock.post "/api/rest/apps", {"Content-Type" => "application/json"}, @app_fixtures['new'].to_json, 201
 
       #app auth
       mock.get "/api/rest/applicationAuthorization", {"Accept" => "application/json"}, [@appauth_fixtures['district1']].to_json
