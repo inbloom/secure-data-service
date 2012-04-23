@@ -58,26 +58,36 @@ public class StaffCohortAssociationEntityTest {
         assertEquals("Expected 0 local parent ids", 0, neutralRecord.getLocalParentIds().size());
 
         Map<String, Object> attributes = neutralRecord.getAttributes();
-        assertEquals("Expected different number of attributes", 5, attributes.size());
+        assertEquals("Expected different number of attributes", 7, attributes.size());
         
         assertEquals("Expected different beginDate", "2011-01-01", attributes.get("beginDate"));
         assertEquals("Expected different endDate", "2011-01-01", attributes.get("endDate"));
-        assertEquals("Expected different studentRecordAccess", Boolean.TRUE, attributes.get("studentRecordAccess"));        
+        assertEquals("Expected different studentRecordAccess", Boolean.TRUE, attributes.get("studentRecordAccess"));
+        
+        List<Map<String, Object>> staffReferences = (List<Map<String, Object>>) attributes.get("staffReference");
+        assertNotNull("Expected non-null list of staffReferences", staffReferences);
+        assertEquals("Expected 2 staff references", 2, staffReferences.size());
 
-        Map<String, Object> staffId = ((List<Map<String, Object>>) attributes.get("staffId")).get(0);
-        assertNotNull("Expected non-null staffId", staffId);
-        Map<String, Object> staffIdentity = (Map<String, Object>) staffId.get("staffIdentity");
-        assertNotNull("Expected non-null staffIdentity", staffIdentity);
-        assertEquals("Expected different staffUniqueStateId", "100000000", staffIdentity.get("staffUniqueStateId"));
+        Map<String, Object> staffOuterMap1 = staffReferences.get(0);
+        Map<String, Object> staffInnerMap1 = (Map<String, Object>) staffOuterMap1.get("staffIdentity");
+        assertEquals("Expected different staffUniqueStateId", "linda.kim", staffInnerMap1.get("staffUniqueStateId"));
 
-        Map<String, Object> cohortId = ((List<Map<String, Object>>) attributes.get("cohortId")).get(0);
-        assertNotNull("Expected non-null cohortId", cohortId);
-        Map<String, Object> cohortIdentity = (Map<String, Object>) cohortId.get("cohortIdentity");
-        assertNotNull("Expected non-null cohortIdentity", cohortIdentity);
-        assertEquals("Expected different cohortIdentifier", "ACC-TEST-COH-1", cohortIdentity.get("cohortIdentifier"));
-        List<Object> stateOrganizationId = (List<Object>) cohortIdentity.get("stateOrganizationId");
-        assertEquals("Exepcted different number of stateOrganizationId", 1, stateOrganizationId.size());
-        assertEquals("Expected different stateOrganizationId", "IL", stateOrganizationId.get(0));
+        Map<String, Object> staffOuterMap2 = staffReferences.get(1);
+        Map<String, Object> staffInnerMap2 = (Map<String, Object>) staffOuterMap2.get("staffIdentity");
+        assertEquals("Expected different staffUniqueStateId", "cgray", staffInnerMap2.get("staffUniqueStateId"));
+
+        List<Map<String, Object>> cohortReferences = (List<Map<String, Object>>) attributes.get("cohortReference");
+        assertNotNull("Expected non-null list of cohortReferences", cohortReferences);
+        assertEquals("Expected 2 cohort references", 2, cohortReferences.size());
+
+        Map<String, Object> cohortOuterMap1 = cohortReferences.get(0);
+        Map<String, Object> cohortInnerMap1 = (Map<String, Object>) cohortOuterMap1.get("cohortIdentity");
+        assertEquals("Expected different cohortIdentifier", "ACC-TEST-COH-1", cohortInnerMap1.get("cohortIdentifier"));
+
+        Map<String, Object> cohortOuterMap2 = cohortReferences.get(1);
+        Map<String, Object> cohortInnerMap2 = (Map<String, Object>) cohortOuterMap2.get("cohortIdentity");
+        assertEquals("Expected different cohortIdentifier", "ACC-TEST-COH-2", cohortInnerMap2.get("cohortIdentifier"));
+        
     }
 
 }
