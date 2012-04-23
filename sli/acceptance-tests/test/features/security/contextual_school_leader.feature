@@ -12,7 +12,7 @@ Examples:
 	|Username|Password|Realm|Role|School|Data|
 	|"jdoe"|"jdoe1234"|"IL"|"Leader"|"Sunset"|"/schools"|
 
-Scenario Outline: Staff access data from another "school"
+Scenario Outline: Staff access data from another school
 
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals <Role>
