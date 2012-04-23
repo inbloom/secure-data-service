@@ -3,7 +3,7 @@ default:
     api: &API-DEFAULT
 
         # used to specify the location of performance log (only used in api)
-        api.perf.log.path: 
+        api.perf.log.path: target/apilogs/logs
 
         # Security  (only used in api)
         sli.security.noSession.landing.url: http://local.slidev.org:8080/api/oauth/authorize?response_type=code
@@ -436,7 +436,7 @@ local:
         #Support Email
         sli.support.email: sli@example.com
 
-        api.perf.log.path: 
+        api.perf.log.path: target/apilogs/logs
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # local/data-access/db.properties

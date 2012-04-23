@@ -1,6 +1,6 @@
 <configuration>
-  <property resource="file:${sli.conf}" />
-  <property resource="api-dev.properties" />
+  <property file="${sli.conf}" />
+  <!-- <property resource="api-dev.properties" /> -->
     
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <!-- encoders are assigned the type
@@ -12,7 +12,7 @@
   </appender>
   
   <appender name="API_CALL_LOGGER" class="ch.qos.logback.core.FileAppender">
-    <File>${api.perf.log.path}/apicall.log</File>
+    <file>${api.perf.log.path}/apicall.log</file>
     <Append>true</Append>
     <encoder>
       <Pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} [%thread] - %msg%n</Pattern>
