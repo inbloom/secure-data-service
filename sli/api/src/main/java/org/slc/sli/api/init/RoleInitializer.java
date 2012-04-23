@@ -30,6 +30,7 @@ public class RoleInitializer {
     public static final String  SLI_ADMINISTRATOR = "SLI Administrator";
     public static final String  LEA_ADMINISTRATOR = "LEA Administrator";
     public static final String APP_DEVELOPER = "Application Developer";
+    public static final String SLC_OPERATOR = "SLC Operator";
     
     private static final Logger LOG               = LoggerFactory.getLogger(RoleInitializer.class);
     public static final String  ROLES             = "roles";
@@ -58,6 +59,7 @@ public class RoleInitializer {
         boolean hasSLIAdmin = false;
         boolean hasLEAAdmin = false;
         boolean hasAppDeveloper = false;
+        boolean hasSLCOperator = false;
         
         for (Entity entity : subset) {
             Map<String, Object> body = entity.getBody();
@@ -75,6 +77,8 @@ public class RoleInitializer {
                 hasLEAAdmin = true;
             } else if (body.get("name").equals(APP_DEVELOPER)) {
                 hasAppDeveloper = true;
+            } else if (body.get("name").equals(SLC_OPERATOR)) {
+                hasSLCOperator = true;
             }
         }
         if (!hasAggregate) {
@@ -111,10 +115,16 @@ public class RoleInitializer {
         return RoleBuilder.makeRole(AGGREGATE_VIEWER).addRights(new Right[] { Right.AGGREGATE_READ }).build();
     }
     
+    private Role buildSLCOperator() {
+        LOG.info("Building Application Developer role.");
+        return RoleBuilder.makeRole(SLC_OPERATOR)
+                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.APP_REGISTER, Right.APP_EDORG_SELECT }).build();
+    }
+
     private Role buildAppDeveloper() {
         LOG.info("Building Application Developer role.");
         return RoleBuilder.makeRole(APP_DEVELOPER)
-                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.APP_REGISTER, Right.APP_EDORG_SELECT }).build();
+                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.APP_CREATION, Right.APP_EDORG_SELECT }).build();
     }
 
     private Role buildEducator() {
