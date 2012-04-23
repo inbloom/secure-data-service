@@ -96,6 +96,15 @@ public class LearningObjectiveResourceTest {
         entity.put(ParameterConstants.LEARNING_STANDARDS, idLists);
         return entity;
     }
+    
+    private Map<String, Object> createTestEntityWithParentRef(String parentId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("academicSubject", "Writing");
+        entity.put("objectiveGradeLevel", "Eighth grade");
+        entity.put(ParameterConstants.LEARNINGOBJECTIVE_ID, 1234);
+        entity.put(ParameterConstants.PARENT_LEARNING_OBJECTIVE, parentId);
+        return entity;
+    }
 
     private Map<String, Object> createTestUpdateEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
@@ -256,8 +265,7 @@ public class LearningObjectiveResourceTest {
         String learningStandardId1 = ResourceTestUtil.parseIdFromLocation(response);
         
         // create second learning standard entity
-        response = learningStdResource.create(new EntityBody(createLearningStandardEntity()), httpHeaders,
-                uriInfo);
+        response = learningStdResource.create(new EntityBody(createLearningStandardEntity()), httpHeaders, uriInfo);
         assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
         
         String learningStandardId2 = ResourceTestUtil.parseIdFromLocation(response);
@@ -283,16 +291,69 @@ public class LearningObjectiveResourceTest {
         
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testGetParentLearningObjectives() {
-        Response res = learningObjResource.getParentLearningObjective("0", null, null);
-        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
+        // create parent learning objective entity
+        Response learningObjResponse = learningObjResource.create(new EntityBody(createTestEntity()), httpHeaders,
+                uriInfo);
+        
+        assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), learningObjResponse.getStatus());
+        
+        String parentId = ResourceTestUtil.parseIdFromLocation(learningObjResponse);
+        assertNotNull("ID should not be null", parentId);
+        
+        // create child learning objective entity
+        Response response = learningObjResource.create(new EntityBody(createTestEntityWithParentRef(parentId)),
+                httpHeaders, uriInfo);
+        
+        assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
+        
+        String childId = ResourceTestUtil.parseIdFromLocation(response);
+        assertNotNull("ID should not be null", childId);
+        
+        Response res = learningObjResource.getParentLearningObjective(childId, httpHeaders, uriInfo);
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), res.getStatus());
+        EntityResponse entityResponse = (EntityResponse) res.getEntity();
+        List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
+        assertNotNull("Should return entities", results);
+        assertEquals("objectiveGradeLevel in Parent learningObjective  entity should be Eighth grade", "Eighth grade",
+                results.get(0).get("objectiveGradeLevel"));
+
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testGetChildLearningObjectives() {
-        Response res = learningObjResource.getChildrenLearningObjective("0", null, null);
-        assertEquals(Status.NOT_FOUND.getStatusCode(), res.getStatus());
+        // create parent learning objective entity
+        Response learningObjResponse = learningObjResource.create(new EntityBody(createTestEntity()), httpHeaders,
+                uriInfo);
+        
+        assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), learningObjResponse.getStatus());
+        
+        String parentId = ResourceTestUtil.parseIdFromLocation(learningObjResponse);
+        assertNotNull("ID should not be null", parentId);
+        
+        // create first child learning objective entity
+        Response response = learningObjResource.create(new EntityBody(createTestEntityWithParentRef(parentId)),
+                httpHeaders, uriInfo);
+        assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
+
+        // create second child learning objective entity
+        response = learningObjResource.create(new EntityBody(createTestEntityWithParentRef(parentId)), httpHeaders,
+                uriInfo);
+        assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
+        
+        // test getChildLearningObjectives
+        Response res = learningObjResource.getChildrenLearningObjective(parentId, httpHeaders, uriInfo);
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), res.getStatus());
+        EntityResponse entityResponse = (EntityResponse) res.getEntity();
+        List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
+        assertNotNull("Should return entities", results);
+        assertTrue("Should have at least two entities", results.size() >= 2);
+        assertEquals("academicSubject in child learningObjective should be Writing", "Writing",
+                results.get(0).get("academicSubject"));
+
     }
 
     private String getIDList(String resource) {
