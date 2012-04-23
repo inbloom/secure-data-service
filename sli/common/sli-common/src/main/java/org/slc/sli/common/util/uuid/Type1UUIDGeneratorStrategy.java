@@ -11,7 +11,7 @@ import com.fasterxml.uuid.impl.TimeBasedGenerator;
 import org.springframework.stereotype.Component;
 
 /**
- * Generates Type 1 UUIDs.
+ * Generates Type 1 (time-based) UUIDs.
  *
  * @author smelody
  *
@@ -31,9 +31,7 @@ public class Type1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
     @Override
     public UUID randomUUID() {
 
-        // TODO, this is a type 4 uuid
         return generator.generate();
-        // return UUID.randomUUID();
     }
 
 }
