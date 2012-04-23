@@ -4,168 +4,156 @@
 
 	<LearningObjective>
 		<Objective>Geometry</Objective>
-		<Description>Congruence
-					 Similarity, Right Triangles, and Trigonometry
-					 Circles
-					 Expressing Geometric Properties with Equations
-					 Geometric Measurement and Dimension
-					 Modeling with Geometry
-		</Description>
 		<AcademicSubject>Mathematics</AcademicSubject>
 		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningObjectiveReference ref="Similarity-Right-Triangle-Trig"></LearningObjectiveReference>
 	</LearningObjective>
 	
 	<LearningObjective id="Similarity-Right-Triangle-Trig">
-		<Objective>Similarity, Right Triangle, and Trignometry</Objective>
-		<Description>Understand similarity in terms of similarity transformations
-					 Prove theorems involving similarity
-					 Define trigonometric ratios and solve problems involving right triangles
-					 Apply Trignometry to general triangles
-		</Description>
+		<Objective>Similarity, Right Triangle, and Trigonometry</Objective>
 		<AcademicSubject>Mathematics</AcademicSubject>
 		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningObjectiveReference ref="Similarity-transformations"></LearningObjectiveReference>
-		<LearningObjectiveReference ref="Prove-theorems-involving-similarity"></LearningObjectiveReference>
-		<LearningObjectiveReference ref="Problems-involving-right-triangles"></LearningObjectiveReference>
-		<LearningObjectiveReference ref="Apply-trignometry-to-general-triangles"></LearningObjectiveReference>
-	</LearningObjective>
-	
-	<LearningObjective id="Similarity-transformations">
-		<Objective>Geometry</Objective>
-		<Description>Understand similarity in terms of similarity transformations.</Description>
-		<AcademicSubject>Mathematics</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+		<LearningObjectiveId>
+			<IdentificationCode>G-SRT</IdentificationCode>
+		</LearningObjectiveId>
 		<LearningStandardReference ref="G-SRT-1"></LearningStandardReference>
 		<LearningStandardReference ref="G-SRT-2"></LearningStandardReference>
 		<LearningStandardReference ref="G-SRT-3"></LearningStandardReference>
-	</LearningObjective>
-
-	<LearningObjective id="Prove-theorems-involving-similarity">
-		<Objective>Geometry</Objective>
-		<Description>Understand and apply the Pythagorean Theorem.</Description>
-		<AcademicSubject>Mathematics</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningStandardReference ref="G-SRT-4"></LearningStandardReference>
 		<LearningStandardReference ref="G-SRT-5"></LearningStandardReference>
-	</LearningObjective>
-	
-	<LearningObjective id="Problems-involving-right-triangles">
-		<Objective>Geometry</Objective>
-		<Description>Define trigonometric ratios and solve problems involving right triangles.</Description>
-		<AcademicSubject>Mathematics</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningStandardReference ref="G-SRT-6"></LearningStandardReference>
 		<LearningStandardReference ref="G-SRT-7"></LearningStandardReference>
 		<LearningStandardReference ref="G-SRT-8"></LearningStandardReference>
-	</LearningObjective>
-	
-	<LearningObjective id="Apply-trignometry-to-general-triangles">
-		<Objective>Geometry</Objective>
-		<Description>Apply trigonometry to general triangles.</Description>
-		<AcademicSubject>Mathematics</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningStandardReference ref="G-SRT-9"></LearningStandardReference>
 		<LearningStandardReference ref="G-SRT-10"></LearningStandardReference>
 		<LearningStandardReference ref="G-SRT-11"></LearningStandardReference>
 	</LearningObjective>
-	
+		
 	<LearningStandard id="G-SRT-1">
-		<LearningStandardId>G.SRT.1</LearningStandardId>
-		<Description>A dilation takes a line not passing through the center of the dilation to a parallel line, 
+		<LearningStandardId>
+			<IdentificationCode>G-SRT.1</IdentificationCode>
+		</LearningStandardId>
+		<Description>Verify experimentally the properties of dilations given by a center and a scale factor:
+					 A dilation takes a line not passing through the center of the dilation to a parallel line, 
 					 and leaves a line passing through the center unchanged.
 					 The dilation of a line segment is longer or shorter in the ratio given by the scale factor.
 		</Description>
-		<ContentStandard>State Standard</ContentStandard>
+		<ContentStandard>National Standard</ContentStandard>
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
 	<LearningStandard id="G-SRT-2">
-		<LearningStandardId>G.SRT.2</LearningStandardId>
+		<LearningStandardId>
+			<IdentificationCode>G-SRT.2</IdentificationCode>
+		</LearningStandardId>
 		<Description>Given two figures, use the definition of similarity in terms of similarity transformations to decide if they are similar; 
 					 explain using similarity transformations the meaning of similarity for triangles as the equality of all corresponding pairs of 
 					 angles and the proportionality of all corresponding pairs of sides.</Description>
-		<ContentStandard>State Standard</ContentStandard>
+		<ContentStandard>National Standard</ContentStandard>
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
 	<LearningStandard id="G-SRT-3">
-		<LearningStandardId>G.SRT.3</LearningStandardId>
+		<LearningStandardId>
+			<IdentificationCode>G-SRT.3</IdentificationCode>
+		</LearningStandardId>
 		<Description>Use the properties of similarity transformations to establish the AA criterion for two triangles to be similar.
 		</Description>
-		<ContentStandard>State Standard</ContentStandard>
+		<ContentStandard>National Standard</ContentStandard>
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
 	
 	<LearningStandard id="G-SRT-4">
-		<LearningStandardId>G.SRT.4</LearningStandardId>
+		<LearningStandardId>
+			<IdentificationCode>G-SRT.4</IdentificationCode>
+		</LearningStandardId>
 		<Description>Prove theorems about triangles. Theorems include: a line parallel to one side of a triangle divides the other two proportionally, 
 					 and conversely; the Pythagorean Theorem proved using triangle similarity.
 		</Description>
-		<ContentStandard>State Standard</ContentStandard>
+		<ContentStandard>National Standard</ContentStandard>
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
 	<LearningStandard id="G-SRT-5">
-		<LearningStandardId>G.SRT.5</LearningStandardId>
+		<LearningStandardId>
+			<IdentificationCode>G-SRT.5</IdentificationCode>
+		</LearningStandardId>
 		<Description>Use congruence and similarity criteria for triangles to solve problems and to prove relationships in geometric figures.
 		</Description>
-		<ContentStandard>State Standard</ContentStandard>
+		<ContentStandard>National Standard</ContentStandard>
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
 	<LearningStandard id="G-SRT-6">
-		<LearningStandardId>G.SRT.6</LearningStandardId>
+		<LearningStandardId>
+			<IdentificationCode>G-SRT.6</IdentificationCode>
+		</LearningStandardId>
 		<Description>Understand that by similarity, side ratios in right triangles are properties of the angles in the triangle, 
 					 leading to definitions of trigonometric ratios for acute angles.</Description>
+		<ContentStandard>National Standard</ContentStandard>
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
 	<LearningStandard id="G-SRT-7">
-		<LearningStandardId>G.SRT.7</LearningStandardId>
+		<LearningStandardId>
+			<IdentificationCode>G-SRT.7</IdentificationCode>
+		</LearningStandardId>
 		<Description>Explain and use the relationship between the sine and cosine of complementary angles.
 		</Description>
+		<ContentStandard>National Standard</ContentStandard>
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
 	<LearningStandard id="G-SRT-8">
-		<LearningStandardId>G.SRT.8</LearningStandardId>
+		<LearningStandardId>
+			<IdentificationCode>G-SRT.8</IdentificationCode>
+		</LearningStandardId>
 		<Description>Use trigonometric ratios and the Pythagorean Theorem to solve right triangles in applied problems.
 		</Description>
+		<ContentStandard>National Standard</ContentStandard>
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
 	<LearningStandard id="G-SRT-9">
-		<LearningStandardId>G.SRT.9</LearningStandardId>
+		<LearningStandardId>
+			<IdentificationCode>G-SRT.9></IdentificationCode>
+		</LearningStandardId>
 		<Description>(+) Derive the formula A = 1/2 ab sin(C) for the area of a triangle by drawing an auxiliary line from a vertex perpendicular to the 
 					opposite side.
 		</Description>
+		<ContentStandard>National Standard</ContentStandard>
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
 	<LearningStandard id="G-SRT-10">
-		<LearningStandardId>G.SRT.10</LearningStandardId>
+		<LearningStandardId>
+			<IdentificationCode>G-SRT.10</IdentificationCode>
+		</LearningStandardId>
 		<Description>(+) Prove the Laws of Sines and Cosines and use them to solve problems.
 		</Description>
+		<ContentStandard>National Standard</ContentStandard>
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>
 	
 	<LearningStandard id="G-SRT-11">
-		<LearningStandardId>G.SRT.11</LearningStandardId>
+		<LearningStandardId>
+			<IdentificationCode>G-SRT.11</IdentificationCode>
+		</LearningStandardId>
 		<Description>(+) Understand and apply the Law of Sines and the Law of Cosines to find unknown measurements in right and non-right triangles 
 					 (e.g., surveying problems, resultant forces).
 		</Description>
+		<ContentStandard>National Standard</ContentStandard>
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>Mathematics</SubjectArea>
 	</LearningStandard>

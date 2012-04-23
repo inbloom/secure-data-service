@@ -24,11 +24,11 @@
       </init-param>
       <init-param>
          <param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
-         <param-value>org.slc.sli.api.jersey.AuthenticationFilter</param-value>
+         <param-value>org.slc.sli.api.jersey.PreProcessFilter</param-value>
       </init-param>
       <init-param>
          <param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
-         <param-value>com.sun.jersey.server.linking.LinkFilter org.slc.sli.api.jersey.CleanupFilter</param-value>
+         <param-value>org.slc.sli.api.jersey.PostProcessFilter</param-value>
       </init-param>
 
       <load-on-startup>1</load-on-startup>

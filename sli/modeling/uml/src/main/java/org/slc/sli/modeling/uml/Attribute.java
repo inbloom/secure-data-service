@@ -3,44 +3,20 @@ package org.slc.sli.modeling.uml;
 import java.util.List;
 
 /**
- * A field of a class.
+ * A feature of a class which is embedded.
  */
-public final class Attribute extends UmlNamedModelElement implements HasName, HasType, HasMultiplicity {
-    /**
-     * The lower bound of the attribute. Typically 0 or 1. Never <code>null</code>.
-     */
-    private final Multiplicity multiplicity;
-    /**
-     * The type of the attribute. Never <code>null</code>.
-     */
-    private final Identifier type;
-    
+public final class Attribute extends Feature {
+
     public Attribute(final Identifier id, final String name, final Identifier type, final Multiplicity multiplicity,
             final List<TaggedValue> taggedValues) {
-        super(id, name, taggedValues);
-        if (type == null) {
-            throw new NullPointerException("type");
-        }
-        if (multiplicity == null) {
-            throw new NullPointerException("multiplicity");
-        }
-        this.type = type;
-        this.multiplicity = multiplicity;
+        super(id, name, type, multiplicity, taggedValues);
     }
-    
+
     @Override
     public void accept(final Visitor visitor) {
         visitor.visit(this);
     }
-    
-    public Multiplicity getMultiplicity() {
-        return multiplicity;
-    }
-    
-    public Identifier getType() {
-        return type;
-    }
-    
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
@@ -48,9 +24,9 @@ public final class Attribute extends UmlNamedModelElement implements HasName, Ha
         sb.append("id: " + getId()).append(", ");
         sb.append("name: " + getName());
         sb.append(", ");
-        sb.append("type: " + type);
+        sb.append("type: " + getType());
         sb.append(", ");
-        sb.append("multiplicity: " + multiplicity);
+        sb.append("multiplicity: " + getMultiplicity());
         if (!getTaggedValues().isEmpty()) {
             sb.append(", ");
             sb.append("taggedValues: " + getTaggedValues());

@@ -16,7 +16,7 @@ public final class ClassType extends NamespaceOwnedElement implements Type {
      * Determines whether the class can be instantiated.
      */
     private final boolean isAbstract;
-    
+
     public ClassType(final Identifier id, final String name, final boolean isAbstract,
             final List<Attribute> attributes, final List<TaggedValue> taggedValues) {
         super(id, name, taggedValues);
@@ -29,36 +29,23 @@ public final class ClassType extends NamespaceOwnedElement implements Type {
         this.isAbstract = isAbstract;
         this.attributes = Collections.unmodifiableList(new ArrayList<Attribute>(attributes));
     }
-    
+
     @Override
     public void accept(final Visitor visitor) {
         visitor.visit(this);
     }
-    
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj instanceof ClassType) {
-            final ClassType that = (ClassType) obj;
-            return this.getId().equals(that.getId());
-        } else {
-            return false;
-        }
-    }
-    
+
     public List<Attribute> getAttributes() {
-        // We've already made defensive copy in initializer, and have made immutable.
+        // We've already made defensive copy in initializer, and have made
+        // immutable.
         return attributes;
     }
-    
+
     @Override
-    public int hashCode() {
-        return getId().hashCode();
-    }
-    
     public boolean isAbstract() {
         return isAbstract;
     }
-    
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
