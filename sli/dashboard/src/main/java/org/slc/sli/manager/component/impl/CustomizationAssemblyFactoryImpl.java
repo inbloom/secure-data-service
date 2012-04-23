@@ -97,7 +97,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             Config.Condition condition = config.getCondition();
             Object[] values = condition.getValue();
             // for simplicity always treat as an array
-            List<GenericEntity> listOfEntitites = (parentConfig != null && parentConfig.getRoot() == null) ? Arrays.asList(entity) : entity.getList(parentConfig.getRoot());
+            List<GenericEntity> listOfEntitites = (parentConfig != null && parentConfig.getRoot() != null) ? entity.getList(parentConfig.getRoot()) : Arrays.asList(entity);
             Object childEntity;
             // condition is equivalent to exists in the list
             for (GenericEntity oneEntity : listOfEntitites) {
@@ -306,7 +306,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
                 if (!Arrays.equals(ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE, m.getParameterTypes())) {
                     throw new DashboardException("Wrong signature for the method for "
                             + entityMapping.value() + ". Expected is "
-                            + ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE.toString() + "!!!");
+                            + Arrays.asList(ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE) + "!!!");
                 }
                 entityReferenceToManagerMethodMap.put(entityMapping.value(), new InvokableSet(instance, m));
             }
