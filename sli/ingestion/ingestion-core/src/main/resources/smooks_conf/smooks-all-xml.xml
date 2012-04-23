@@ -1804,7 +1804,7 @@
   <jb:bean beanId="sOAAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
     <jb:wiring property="scoreResults" beanIdRef="ScoreResultsTypeArray" />
     <jb:wiring property="performanceLevelDescriptors" beanIdRef="plDescriptorsArray" />
-    <jb:wiring property="oAReference" beanIdRef="OAReferenceType" />
+    <jb:value property="oAReference" data="StudentObjectiveAssessment/ObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
     <jb:value property="sTAReference" data="StudentTestAssessmentReference/@ref" />
   </jb:bean>
 
@@ -1824,14 +1824,6 @@
   <jb:bean beanId="plDescriptor" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
     <jb:value property="codeValue" data="StudentObjectiveAssessment/PerformanceLevels/CodeValue" />
     <jb:value property="Description" data="StudentObjectiveAssessment/PerformanceLevels/Description" />
-  </jb:bean>
-
-  <!-- ObjectiveAssessmentReferenceType -->
-  <jb:bean beanId="OAReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
-    <jb:value property="oaIdCode"
-      data="StudentObjectiveAssessment/ObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
-    <jb:value property="id" data="StudentObjectiveAssessment/ObjectiveAssessmentReference/@id" />
-    <jb:value property="ref" data="StudentObjectiveAssessment/ObjectiveAssessmentReference/@ref" />
   </jb:bean>
 
   <!-- end of studentObjectiveAssessment -->
@@ -1877,6 +1869,8 @@
     <jb:wiring property="scoreResults" beanIdRef="scoreResultsArray" />
     <jb:value property="gradeLevelWhenAssessed" data="InterchangeStudentAssessment/StudentAssessment/GradeLevelWhenAssessed" />
     <jb:wiring property="performanceLevelDescriptors" beanIdRef="performanceLevelsTypeArray" />
+    <jb:value property="xmlId" data="InterchangeStudentAssessment/StudentAssessment/@id" />
+    <jb:wiring property="parents" beanIdRef="studentAssessmentAssociationParentIds" />
   </jb:bean>
 
   <jb:bean beanId="specialAccommodationsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentAssessment">

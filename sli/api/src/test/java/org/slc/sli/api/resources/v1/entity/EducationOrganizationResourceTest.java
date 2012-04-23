@@ -22,6 +22,7 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.representation.EntityResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -139,7 +140,14 @@ public class EducationOrganizationResourceTest {
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
         Response response = edOrgResource.read(id, httpHeaders, uriInfo);
 
-        Object responseEntityObj = response.getEntity();
+        Object responseEntityObj = null;
+
+        if (response.getEntity() instanceof EntityResponse) {
+            EntityResponse resp = (EntityResponse) response.getEntity();
+            responseEntityObj = resp.getEntity();
+        } else {
+            fail("Should always return EntityResponse: " + response);
+        }
 
         if (responseEntityObj instanceof EntityBody) {
             assertNotNull(responseEntityObj);
@@ -186,7 +194,8 @@ public class EducationOrganizationResourceTest {
         //try to get it
         Response getResponse = edOrgResource.read(id, httpHeaders, uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
-        EntityBody body = (EntityBody) getResponse.getEntity();
+        EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
+        EntityBody body = (EntityBody) entityResponse.getEntity();
         assertNotNull("Should return an entity", body);
         assertEquals(ParameterConstants.EDUCATION_ORGANIZATION_ID + " should be 1234", body.get(ParameterConstants.EDUCATION_ORGANIZATION_ID), 1234);
         assertEquals("organizationCategories should be 8", body.get("organizationCategories"), "Local Education Agency");
@@ -204,7 +213,8 @@ public class EducationOrganizationResourceTest {
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
         @SuppressWarnings("unchecked")
-        List<EntityBody> results = (List<EntityBody>) response.getEntity();
+        EntityResponse entityResponse = (EntityResponse) response.getEntity();
+        List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
         assertNotNull("Should return entities", results);
         assertTrue("Should have at least two entities", results.size() >= 2);
     }
@@ -225,7 +235,14 @@ public class EducationOrganizationResourceTest {
         Response response = edOrgResource.getStaffEducationOrganizationAssociations(edOrgId, httpHeaders, uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
-        Object responseEntityObj = response.getEntity();
+        Object responseEntityObj = null;
+
+        if (response.getEntity() instanceof EntityResponse) {
+            EntityResponse resp = (EntityResponse) response.getEntity();
+            responseEntityObj = resp.getEntity();
+        } else {
+            fail("Should always return EntityResponse: " + response);
+        }
 
         EntityBody body = null;
         if (responseEntityObj instanceof EntityBody) {
@@ -263,7 +280,14 @@ public class EducationOrganizationResourceTest {
         Response response = edOrgResource.getStaffEducationOrganizationAssociationStaff(edOrgId, httpHeaders, uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
-        Object responseEntityObj = response.getEntity();
+        Object responseEntityObj = null;
+
+        if (response.getEntity() instanceof EntityResponse) {
+            EntityResponse resp = (EntityResponse) response.getEntity();
+            responseEntityObj = resp.getEntity();
+        } else {
+            fail("Should always return EntityResponse: " + response);
+        }
 
         EntityBody body = null;
         if (responseEntityObj instanceof EntityBody) {
@@ -290,7 +314,8 @@ public class EducationOrganizationResourceTest {
         assertEquals("Status code should be 200", Status.OK.getStatusCode(), response.getStatus());
 
         @SuppressWarnings("unchecked")
-        List<EntityBody> results = (List<EntityBody>) response.getEntity();
+        EntityResponse entityResponse = (EntityResponse) response.getEntity();
+        List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
         assertEquals("Should get 2 entities", results.size(), 2);
 
         EntityBody body1 = results.get(0);

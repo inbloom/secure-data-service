@@ -78,7 +78,9 @@
 
 		<!-- GSON -->
 		<gson.version>2.1</gson.version>
-
+        <sli.home>${project.basedir}</sli.home>
+        <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
+        <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf> 
 	</properties>
 
 	<!-- Environment profiles. A profile encapsulates a set of properties and
@@ -173,14 +175,13 @@
 	</profiles>
 
 	<modules>
-		<module>sli-configuration</module>
+		<!-- <module>sli-configuration</module> --> 
 		<module>common</module>
 		<module>domain</module>
 		<module>data-access</module>
 		<module>api</module>
 		<module>ingestion</module>
 		<module>dashboard</module>
-		<module>ingestion-sli-configuration</module>
         <module>SDK</module>
 		<module>mock-idp</module>
         </modules>
@@ -189,12 +190,6 @@
 		<dependencies>
 
 			<!-- WGEN dependencies -->
-			<dependency>
-				<groupId>org.slc.sli</groupId>
-				<artifactId>sli-configuration</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
 			<dependency>
 				<groupId>org.slc.sli.common</groupId>
 				<artifactId>common</artifactId>
@@ -928,6 +923,8 @@
 				<configuration>
 					<systemPropertyVariables>
 						<emma.rt.control>false</emma.rt.control>
+                        <sli.conf>${sli.conf}</sli.conf>
+                        <sli.test.conf>${sli.test.conf}</sli.test.conf>
 						<sli.env>${sli.env}</sli.env>
 						<sli.encryption.keyStore>${sli.encryption.keyStore}</sli.encryption.keyStore>
 						<sli.encryption.properties>${sli.encryption.properties}</sli.encryption.properties>
@@ -971,6 +968,38 @@
 				<!--executions> <execution> <id>site</id> <phase>compile</phase> <goals>
 					<goal>stage</goal> </goals> </execution> </executions -->
 			</plugin>
+				<!-- Generate the configuration files during compile phase -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.2.1</version>
+                    <inherited>false</inherited>
+                    <executions>
+                        <execution>
+                            <id>generate-config-files</id>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                            <phase>compile</phase>
+                            <configuration>
+                                <executable>ruby </executable>
+                                <commandlineArgs>${project.basedir}/config/scripts/webapp-provision.rb ${project.basedir}/config/config.in/canonical_config.yml ${sli.env} ${sli.conf}</commandlineArgs>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>generate-test-config-files</id>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                            <phase>compile</phase>
+                            <configuration>
+                                <executable>ruby </executable>
+                                <commandlineArgs>${project.basedir}/config/scripts/webapp-provision.rb ${project.basedir}/config/config.in/canonical_config.yml test-${sli.env} ${sli.test.conf}</commandlineArgs>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
 		</plugins>
 
 	</build>

@@ -13,7 +13,8 @@
     <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
-        <Description>1</Description>
+        <CodeValue>W</CodeValue>
+        <Description>Academic Warning</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>6</MinimumScore>
@@ -21,7 +22,8 @@
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
-        <Description>2</Description>
+        <CodeValue>B</CodeValue>
+        <Description>Below Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>15</MinimumScore>
@@ -29,7 +31,8 @@
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
-        <Description>3</Description>
+        <CodeValue>S</CodeValue>
+        <Description>Meets Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>21</MinimumScore>
@@ -37,7 +40,8 @@
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
-        <Description>4</Description>
+        <CodeValue>E</CodeValue>
+        <Description>Exceeds Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
       <MinimumScore>28</MinimumScore>
@@ -67,7 +71,7 @@
     <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
-        <CodeValue>AW</CodeValue>
+        <CodeValue>W</CodeValue>
         <Description>Academic Warning</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
@@ -76,7 +80,7 @@
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
-        <CodeValue>BS</CodeValue>
+        <CodeValue>B</CodeValue>
         <Description>Below Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
@@ -85,7 +89,7 @@
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
-        <CodeValue>MS</CodeValue>
+        <CodeValue>S</CodeValue>
         <Description>Meets Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
@@ -94,7 +98,7 @@
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
-        <CodeValue>ES</CodeValue>
+        <CodeValue>E</CodeValue>
         <Description>Exceeds Standards</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
