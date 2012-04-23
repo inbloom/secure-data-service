@@ -119,10 +119,11 @@ public class ControlFileProcessor implements Processor {
     }
 
     private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, FaultsReport errorReport) {
-        exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
-        if (newJob.getProperty(PURGE) != null) {
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
+        if (errorReport.hasErrors()) {
+            exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        } else if (newJob.getProperty(PURGE) != null) {
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
         } else {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
         }
