@@ -6,16 +6,15 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleBuilder;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * A simple initializing bean to initialize our Mongo instance with default roles.
@@ -30,15 +29,10 @@ public class RoleInitializer {
     public static final String  LEADER            = "Leader";
     public static final String  SLI_ADMINISTRATOR = "SLI Administrator";
     public static final String  LEA_ADMINISTRATOR = "LEA Administrator";
+    public static final String APP_DEVELOPER = "Application Developer";
     
     private static final Logger LOG               = LoggerFactory.getLogger(RoleInitializer.class);
     public static final String  ROLES             = "roles";
-    private static final String AGGREGATE_READ    = "AGGREGATE_READ";
-    private static final String AGGREGATE_WRITE   = "AGGREGATE_WRITE";
-    private static final String READ_GENERAL      = "READ_GENERAL";
-    private static final String READ_RESTRICTED   = "READ_RESTRICTED";
-    private static final String WRITE_GENERAL     = "WRITE_GENERAL";
-    private static final String WRITE_RESTRICTED  = "WRITE_RESTRICTED";
     
     @Autowired
     private Repository<Entity>    repository;
@@ -63,6 +57,7 @@ public class RoleInitializer {
         boolean hasAggregate = false;
         boolean hasSLIAdmin = false;
         boolean hasLEAAdmin = false;
+        boolean hasAppDeveloper = false;
         
         for (Entity entity : subset) {
             Map<String, Object> body = entity.getBody();
@@ -78,6 +73,8 @@ public class RoleInitializer {
                 hasSLIAdmin = true;
             } else if (body.get("name").equals(LEA_ADMINISTRATOR)) {
                 hasLEAAdmin = true;
+            } else if (body.get("name").equals(APP_DEVELOPER)) {
+                hasAppDeveloper = true;
             }
         }
         if (!hasAggregate) {
@@ -98,6 +95,9 @@ public class RoleInitializer {
         if (!hasLEAAdmin) {
             createdRoles.add(buildLEAAdmin());
         }
+        if (!hasAppDeveloper) {
+            createdRoles.add(buildAppDeveloper());
+        }
         
         for (Role body : createdRoles) {
             repository.create(ROLES, body.getRoleAsEntityBody());
@@ -111,6 +111,12 @@ public class RoleInitializer {
         return RoleBuilder.makeRole(AGGREGATE_VIEWER).addRights(new Right[] { Right.AGGREGATE_READ }).build();
     }
     
+    private Role buildAppDeveloper() {
+        LOG.info("Building Application Developer role.");
+        return RoleBuilder.makeRole(APP_DEVELOPER)
+                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.APP_REGISTER, Right.APP_EDORG_SELECT }).build();
+    }
+
     private Role buildEducator() {
         LOG.info("Building Educator default role.");
         return RoleBuilder.makeRole(EDUCATOR).addRights(new Right[] { Right.AGGREGATE_READ, Right.READ_GENERAL }).build();
