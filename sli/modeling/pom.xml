@@ -18,8 +18,6 @@
 		<module>xml</module>
 		<module>xsd</module>
 		<module>uml</module>
-		<module>xmi2Dpl</module>
-		<module>uml2Xsd</module>
-		<module>xsd2xmi</module>
+		<module>tools</module>
 	</modules>
 </project>

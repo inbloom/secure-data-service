@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'mongo'
-require 'Time'
+require 'time'
 
 require_relative '../../utils/sli_utils.rb'
 
