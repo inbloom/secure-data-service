@@ -7,7 +7,8 @@ import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-/**
+/** Store the Mongo Index configurations.
+ *  Will be loaded from the json files.
  *
  * @author tke
  *

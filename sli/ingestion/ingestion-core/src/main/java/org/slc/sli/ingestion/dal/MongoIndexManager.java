@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Order;
 
-/** Singleton manager to manager mongo indexes.
+/** Mongo indexes manager, which loads the indexes from the json configuration file.
  *
  * @author tke
  *
@@ -53,13 +53,13 @@ public final class MongoIndexManager {
 
             for (MongoIndexConfig mongoIndexConfig : mongoIndexConfigs) {
                 List<IndexDefinition> indexList;
-                if (!collectionIndexes.containsKey(mongoIndexConfig.getCollection())) {
+                String collectionName = mongoIndexConfig.getCollection() + "_" + batchJobId;
+                if (!collectionIndexes.containsKey(collectionName)) {
                     indexList = new ArrayList<IndexDefinition>();
                 } else {
-                    indexList = collectionIndexes.get(mongoIndexConfig.getCollection());
+                    indexList = collectionIndexes.get(collectionName);
                 }
-                    String collectionName = mongoIndexConfig.getCollection() + "_" + batchJobId;
-                    indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields(), collectionName));
+                    indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields()));
                     collectionIndexes.put(collectionName, indexList);
             }
 
@@ -72,34 +72,23 @@ public final class MongoIndexManager {
 
     /**Create index definition from buffered reader
      *
-     * @param indexConfig
+     * @param fields : the fields read from the config files
+     * @param collectionName : name of the collection the indexes to be created for
      * @return
      * @throws IOException
      */
-    public IndexDefinition createIndexDefinition(List<Map<String, String>> fields, String collectionName) throws IOException {
+    public IndexDefinition createIndexDefinition(List<Map<String, String>> fields) throws IOException {
         Index index = new Index();
 
         for (Map<String, String> field : fields) {
-            index.on(collectionName, field.get("position").equals("1") ? Order.ASCENDING : Order.DESCENDING);
+            index.on(field.get("name"), field.get("position").equals("1") ? Order.ASCENDING : Order.DESCENDING);
         }
         return index;
     }
 
-    /**
-     * Set indexes for the specified collection
-     *
-     * @param template
-     * @param collection
-     */
-    public void setIndex(MongoTemplate template, String collection) {
-        for (IndexDefinition index : collectionIndexes.get(collection)) {
-            template.ensureIndex(index, collection);
-        }
-    }
-
     /**Set indexes for all the collections
      *
-     * @param template
+     * @param template : mongo template to set the index
      */
     public void setIndex(MongoTemplate template) {
         Set<String> collections = collectionIndexes.keySet();
