@@ -98,6 +98,12 @@
                 <xs:element name="developer_info" type="developer_info"
                     minOccurs="1" />
                 <xs:element name="endpoints" type="endpoint" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="appIds" minOccurs="1">
+                    <xs:simpleType>
+                        <xs:list itemType="xs:string"/>
+                    </xs:simpleType>
+                </xs:element>
+                
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -123,6 +129,8 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
+    
+    
 
 </xs:schema>
 
