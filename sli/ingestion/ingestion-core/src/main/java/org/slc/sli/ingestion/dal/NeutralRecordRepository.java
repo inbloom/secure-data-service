@@ -54,7 +54,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
     public Set<String> getCollectionNames() {
         if (isCollectionGrouping()) {
-            Set<String> collectionSet = template.getCollectionNames();
+            Set<String> collectionSet = getTemplate().getCollectionNames();
             Iterator<String> iter = collectionSet.iterator();
 
             Set<String> currentCollections = new HashSet<String>();
@@ -71,12 +71,12 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
             return currentCollections;
         }
 
-        return template.getCollectionNames();
+        return getTemplate().getCollectionNames();
     }
 
     public void deleteGroupedCollections() {
         if (isCollectionGrouping()) {
-            Set<String> collectionSet = template.getCollectionNames();
+            Set<String> collectionSet = getTemplate().getCollectionNames();
             Iterator<String> iter = collectionSet.iterator();
 
             String currentCollection;
@@ -85,7 +85,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
                 currentCollection = iter.next();
 
                 if (currentCollection.endsWith(getCollectionGroupingIdentifier())) {
-                    template.dropCollection(currentCollection);
+                    getTemplate().dropCollection(currentCollection);
                 }
             }
         }

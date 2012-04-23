@@ -17,17 +17,11 @@
 
     <property name="locations">
       <list>
-        <value>classpath:/config/${sli.env}/ingestion/ingestion_conf.properties</value>
+        <value>file:${sli.conf}</value>
         <value>classpath:ingestion.properties</value>
-        <!-- create this file with custom settings for your dev environment -->
-        <value>classpath:ingestion-dev.properties</value>
-
-        <value>classpath:/config/${sli.env}/ingestion/test.properties </value>
-
-        <value>classpath:/data-access/dal/config/${sli.env}/project.properties</value>
-
-        <!-- override specific properties for testing -->
-        <value>classpath:/data-access/dal/config/${sli.env}/test.properties</value>
+        
+        <!--  Override with test properties -->
+	    <value>file:${sli.test.conf}</value>
       </list>
     </property>
   </bean>
@@ -37,7 +31,7 @@
   <import resource="dal-context.xml" />
   <import resource="persistence-context.xml" />
   <import resource="validation-context.xml" />
-    <import resource="handler-context.xml" />
+  <import resource="handler-context.xml" />
   <import resource="processor-context.xml" />
 
 

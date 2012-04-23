@@ -260,14 +260,6 @@ public class PersistenceProcessor implements Processor {
 
                         if (errorReport.hasErrors()) {
                             numFailed++;
-                            for (Fault fault : recordLevelErrorsInFile.getFaults()) {
-                                String faultMessage = fault.getMessage();
-                                if (faultMessage != null) {
-                                    faultMessage = faultMessage.replaceAll("\r|\n", " ");
-                                }
-                                String faultLevel  = fault.isError() ? FaultType.TYPE_ERROR.getName() : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
-                                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);
-                            }
                         }
                     }
                 } else {
@@ -304,14 +296,6 @@ public class PersistenceProcessor implements Processor {
 
                                 if (recordLevelErrorsInFile.hasErrors()) {
                                     numFailed++;
-                                }
-                                for (Fault fault : recordLevelErrorsInFile.getFaults()) {
-                                    String faultMessage = fault.getMessage();
-                                    if (faultMessage != null) {
-                                        faultMessage = faultMessage.replaceAll("\r|\n", " ");
-                                    }
-                                    String faultLevel  = fault.isError() ? FaultType.TYPE_ERROR.getName() : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
-                                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);
                                 }
                             }
                         } else {
@@ -367,6 +351,15 @@ public class PersistenceProcessor implements Processor {
             LOG.info("Performance - {} - {} : {}", new Object[] {batchJobId, originalInputFileName, sw.getTotalTimeMillis()});
         }
         neutralRecordsFile.delete();
+
+        for (Fault fault : recordLevelErrorsInFile.getFaults()) {
+            String faultMessage = fault.getMessage();
+            if (faultMessage != null) {
+                faultMessage = faultMessage.replaceAll("\r|\n", " ");
+            }
+            String faultLevel  = fault.isError() ? FaultType.TYPE_ERROR.getName() : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
+            BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);
+        }
 
         return recordLevelErrorsInFile;
     }
