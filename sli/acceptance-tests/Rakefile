@@ -359,7 +359,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1EndUserStoryAssessmentTests,
                      :v1EndUserStoryCustomEntityTests,
                      :v1StudentOptionalFieldsTests,
-                     :v1SingleStudentViewTests] do
+                     :v1SingleStudentViewTests,
+                     :v1XMLTests] do
   displayFailureReport()
 end
 
@@ -806,6 +807,16 @@ desc "Run V1 Single Student View Tests"
 task :v1SingleStudentViewTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/optional_fields/single_student_view.feature")
+end
+
+desc "Run V1 XML Tests"
+task :v1XMLTests => [:realmInit] do
+  setFixture("school", "school_fixture.json")
+  setFixture("student", "student_fixture.json")
+  setFixture("assessment", "assessment_fixture.json")
+  setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
+  setFixture("sessionCourseAssociation", "sessionCourseAssociation_fixture.json")
+  runTests("test/features/apiV1/xml/xml.feature")
 end
 
 ############################################################
