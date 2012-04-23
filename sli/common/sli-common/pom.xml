@@ -21,7 +21,6 @@
 		<joda.version>2.0</joda.version>
 		<aspectj.maven.version>1.4</aspectj.maven.version>
 		<aspectjweaver.version>1.6.12</aspectjweaver.version>
-		<jug.version>3.1.3</jug.version>
 	</properties>
 
 	<dependencies>
@@ -70,12 +69,6 @@
 			<version>${jexl.version}</version>
 		</dependency>
 
-
-    <dependency>
-            <groupId>com.fasterxml.uuid</groupId>
-            <artifactId>java-uuid-generator</artifactId>
-            <version>${jug.version}</version>
-        </dependency>
 	</dependencies>
 
 	<build>
