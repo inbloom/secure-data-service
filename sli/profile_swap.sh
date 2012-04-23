@@ -8,8 +8,8 @@ fi
 
 #Take care of build profiles for Spring
 echo "Altering dashboard/api/ingetion projects..."
-grep -lR "sli.dev.subdomain:" config/* | xargs --verbose -L 1 sed -i "" -e "s/sli\.dev\.subdomain:.*/sli.dev.subdomain: $hostname/g"
-grep -lR "\${sli.dev.subdomain}" SDK/oauth2-sample/* | xargs --verbose -L 1 sed -i "" -e "s/\${sli\.dev\.subdomain}/$hostname/g"
+grep -lR "sli.dev.subdomain:" config/* | xargs --verbose -L 1 sed -i "s/sli\.dev\.subdomain:.*/sli.dev.subdomain: $hostname/g"
+grep -lR "\${sli.dev.subdomain}" SDK/oauth2-sample/* | xargs --verbose -L 1 sed -i "s/\${sli\.dev\.subdomain}/$hostname/g"
 sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" mock-idp/src/main/resources/config/team-mock-idp.properties
 
 #Take care of fixture data for applications
@@ -20,8 +20,8 @@ sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" acceptance-t
 
 #Take care of rails projects
 echo "Altering rails applications to match..."
-grep -lR "https://ci.slidev.org" admin-tools/admin-rails/config/config.yml | xargs -L 1 sed -i "" -e "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g"
-grep -lR "https://ci.slidev.org" databrowser/config/config.yml | xargs -L 1 sed -i "" -e "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g"
+grep -lR "https://ci.slidev.org" admin-tools/admin-rails/config/config.yml | xargs -L 1 sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g"
+grep -lR "https://ci.slidev.org" databrowser/config/config.yml | xargs -L 1 sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g"
 sed -i "s/ci.slidev.org/$hostname.slidev.org/g" admin-tools/admin-rails/config/deploy/team.rb
 sed -i "s/ci.slidev.org/$hostname.slidev.org/g" databrowser/config/deploy/team.rb
 
