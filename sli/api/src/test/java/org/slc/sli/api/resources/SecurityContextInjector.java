@@ -65,6 +65,25 @@ public class SecurityContextInjector {
         LOG.debug("elevating rights to {}", rights.toString());
         SecurityContextHolder.getContext().setAuthentication(token);
     }
+    
+    public void setOperatorContext() {
+        String user = "Operator";
+        String fullName = "SLC Operator";
+        List<String> roles = Arrays.asList(RoleInitializer.SLC_OPERATOR);
+        
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("admin-staff");
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        setSecurityContext(principal);
+        
+        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.APP_REGISTER, Right.APP_EDORG_SELECT };
+        PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
+                .getAuthentication().getCredentials(), Arrays.asList(rights));
+        
+        LOG.debug("elevating rights to {}", rights.toString());
+        SecurityContextHolder.getContext().setAuthentication(token);
+    }
 
     public void setAdminContextWithElevatedRights() {
         setAdminContext();

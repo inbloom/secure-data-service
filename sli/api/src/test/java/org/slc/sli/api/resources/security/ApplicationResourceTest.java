@@ -218,8 +218,44 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
 
     }
-
-
+    
+    @Test
+    public void testUpdateRegistrationAsDeveloper() {
+        EntityBody app = getNewApp();
+        
+        Response created = resource.createApplication(app, headers, uriInfo);
+        app.put("registered", false);
+        String uuid = parseIdFromLocation(created);
+        assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        
+    }
+    
+    @Test
+    public void testUpdateRegistrationAsOperator() {
+        EntityBody app = getNewApp();
+        Response created = resource.createApplication(app, headers, uriInfo);
+        // Switch to operator
+        SecurityContextHolder.clearContext();
+        injector.setOperatorContext();
+        app.put("registered", false);
+        String uuid = parseIdFromLocation(created);
+        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        
+    }
+    
+    @Test
+    public void testUpdateAppAsOperator() {
+        EntityBody app = getNewApp();
+        Response created = resource.createApplication(app, headers, uriInfo);
+        // Switch to operator
+        SecurityContextHolder.clearContext();
+        injector.setOperatorContext();
+        app.put("registered", false);
+        app.put("name", "Super mega awesome app!");
+        String uuid = parseIdFromLocation(created);
+        assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        
+    }
 
     public UriInfo buildMockUriInfo(final String queryString) throws Exception {
         UriInfo mock = mock(UriInfo.class);
