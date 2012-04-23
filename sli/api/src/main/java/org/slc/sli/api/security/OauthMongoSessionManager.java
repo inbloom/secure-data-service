@@ -20,7 +20,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
@@ -30,6 +29,8 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
+import org.slc.sli.api.security.oauth.OAuthAccessException;
+import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.util.SecurityUtil;
@@ -156,11 +157,12 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     /**
      * Verifies and makes active an app session. Provides the token for the app.
+     * @throws OAuthAccessException
      * @throws OAuthException
      */
     @Override
     @SuppressWarnings("unchecked")
-    public String verify(String code, Pair<String, String> clientCredentials) {
+    public String verify(String code, Pair<String, String> clientCredentials) throws OAuthAccessException {
         NeutralQuery nq = new NeutralQuery();
         nq.addCriteria(new NeutralCriteria("appSession.clientId", "=", clientCredentials.getLeft()));
         nq.addCriteria(new NeutralCriteria("appSession.verified", "=", "false"));
@@ -183,7 +185,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         Entity app = repo.findOne(APPLICATION_COLLECTION, nq);
 
         if (app == null) {
-            RuntimeException x = new BadCredentialsException("No application matching credentials found.");
+            OAuthAccessException x = new OAuthAccessException(OAuthError.UNAUTHORIZED_CLIENT, "No application matching credentials found.");
             error("App credentials mismatch", x);
             throw x;
         }
@@ -196,10 +198,9 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         //If the list of authorized apps is null, we weren't able to figure out the user's LEA.
         //TODO: deny access if no context information is available--to fix in oauth hardening
         if (authorizedAppIds != null && !authorizedAppIds.contains(app.getEntityId())) {
-            /*throw new OAuthAccessException(OAuthError.UNAUTHORIZED_CLIENT,
+            throw new OAuthAccessException(OAuthError.UNAUTHORIZED_CLIENT,
                     "User " + principal.getExternalId() + " is not authorized to use " + app.getBody().get("name"),
-                    (String) session.getBody().get("state"));*/
-            warn("User " + principal.getExternalId() + " is not authorized to use " + app.getBody().get("name"));
+                    (String) session.getBody().get("state"));
         }
 
         List<Map<String, Object>> appSessions = (List<Map<String, Object>>) session.getBody().get("appSession");

@@ -22,7 +22,7 @@ import org.slc.sli.modeling.uml.Range;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.Taggable;
 import org.slc.sli.modeling.uml.TaggedValue;
-import org.slc.sli.modeling.uml.UmlModelElement;
+import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.UmlPackage;
 import org.slc.sli.modeling.uml.Visitor;
 
@@ -48,27 +48,27 @@ public class IndexingVisitor implements Visitor {
     /**
      * A name maps to one or more model elements.
      */
-    final Map<String, Set<UmlModelElement>> nameMap = new HashMap<String, Set<UmlModelElement>>();
+    final Map<String, Set<ModelElement>> nameMap = new HashMap<String, Set<ModelElement>>();
     /**
      * An identifier uniquely identifies a model element.
      */
-    final Map<Identifier, UmlModelElement> elementMap = new HashMap<Identifier, UmlModelElement>();
+    final Map<Identifier, ModelElement> elementMap = new HashMap<Identifier, ModelElement>();
 
     /**
      * An identifier is referenced by zero or more elements.
      */
-    final Map<Identifier, Set<UmlModelElement>> whereUsed = new HashMap<Identifier, Set<UmlModelElement>>();
+    final Map<Identifier, Set<ModelElement>> whereUsed = new HashMap<Identifier, Set<ModelElement>>();
 
-    public final Map<Identifier, UmlModelElement> getModelElementMap() {
-        return Collections.unmodifiableMap(new HashMap<Identifier, UmlModelElement>(elementMap));
+    public final Map<Identifier, ModelElement> getModelElementMap() {
+        return Collections.unmodifiableMap(new HashMap<Identifier, ModelElement>(elementMap));
     }
 
-    public final Map<String, Set<UmlModelElement>> getNameMap() {
-        return Collections.unmodifiableMap(new HashMap<String, Set<UmlModelElement>>(nameMap));
+    public final Map<String, Set<ModelElement>> getNameMap() {
+        return Collections.unmodifiableMap(new HashMap<String, Set<ModelElement>>(nameMap));
     }
 
-    public final Map<Identifier, Set<UmlModelElement>> getWhereUsed() {
-        return Collections.unmodifiableMap(new HashMap<Identifier, Set<UmlModelElement>>(whereUsed));
+    public final Map<Identifier, Set<ModelElement>> getWhereUsed() {
+        return Collections.unmodifiableMap(new HashMap<Identifier, Set<ModelElement>>(whereUsed));
     }
 
     @Override

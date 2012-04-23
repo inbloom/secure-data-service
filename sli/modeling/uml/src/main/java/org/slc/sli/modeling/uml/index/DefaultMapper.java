@@ -18,7 +18,7 @@ import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.NamespaceOwnedElement;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.UmlModelElement;
+import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.UmlPackage;
 import org.slc.sli.modeling.uml.Visitor;
 
@@ -41,9 +41,9 @@ public final class DefaultMapper implements Mapper {
     private final List<Association> associations;
     private final Map<Identifier, ClassType> classTypeIndex;
     private final Map<Identifier, DataType> dataTypeIndex;
-    private final Map<Identifier, UmlModelElement> elementMap;
-    private final Map<String, Set<UmlModelElement>> nameMap;
-    private final Map<Identifier, Set<UmlModelElement>> whereUsed;
+    private final Map<Identifier, ModelElement> elementMap;
+    private final Map<String, Set<ModelElement>> nameMap;
+    private final Map<Identifier, Set<ModelElement>> whereUsed;
     private final Map<Identifier, EnumType> enumTypeIndex;
     private final List<Generalization> generalizations;
 
@@ -53,9 +53,9 @@ public final class DefaultMapper implements Mapper {
         final IndexingVisitor visitor = new IndexingVisitor();
         model.accept(visitor);
         elementMap = Collections
-                .unmodifiableMap(new HashMap<Identifier, UmlModelElement>(visitor.getModelElementMap()));
-        whereUsed = Collections.unmodifiableMap(new HashMap<Identifier, Set<UmlModelElement>>(visitor.getWhereUsed()));
-        nameMap = Collections.unmodifiableMap(new HashMap<String, Set<UmlModelElement>>(visitor.getNameMap()));
+                .unmodifiableMap(new HashMap<Identifier, ModelElement>(visitor.getModelElementMap()));
+        whereUsed = Collections.unmodifiableMap(new HashMap<Identifier, Set<ModelElement>>(visitor.getWhereUsed()));
+        nameMap = Collections.unmodifiableMap(new HashMap<String, Set<ModelElement>>(visitor.getNameMap()));
 
         final Map<Identifier, ClassType> classTypeIndex = new HashMap<Identifier, ClassType>();
         final Map<Identifier, DataType> dataTypeIndex = new HashMap<Identifier, DataType>();
@@ -171,7 +171,7 @@ public final class DefaultMapper implements Mapper {
     @Override
     public Type getType(final Identifier reference) {
         if (elementMap.containsKey(reference)) {
-            final UmlModelElement element = elementMap.get(reference);
+            final ModelElement element = elementMap.get(reference);
             if (element instanceof Type) {
                 return (Type) element;
             } else {
@@ -183,7 +183,7 @@ public final class DefaultMapper implements Mapper {
     }
 
     @Override
-    public Set<UmlModelElement> whereUsed(final Identifier id) {
+    public Set<ModelElement> whereUsed(final Identifier id) {
         if (whereUsed.containsKey(id)) {
             return Collections.unmodifiableSet(whereUsed.get(id));
         } else {
@@ -192,7 +192,7 @@ public final class DefaultMapper implements Mapper {
     }
 
     @Override
-    public Set<UmlModelElement> lookupByName(final String name) {
+    public Set<ModelElement> lookupByName(final String name) {
         if (nameMap.containsKey(name)) {
             return Collections.unmodifiableSet(nameMap.get(name));
         } else {
