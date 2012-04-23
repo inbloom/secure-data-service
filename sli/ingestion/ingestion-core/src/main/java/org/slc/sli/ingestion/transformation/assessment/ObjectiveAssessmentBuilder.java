@@ -38,7 +38,7 @@ public class ObjectiveAssessmentBuilder {
     }
     
     private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, Set<String> parentObjs, String by) {
-        
+        LOG.debug("Looking up objective assessment {}", objectiveAssessmentRef);
         NeutralRecord objectiveAssessmentRecord = mongoAccess.getRecordRepository().findOne("objectiveAssessment",
                 new NeutralQuery(new NeutralCriteria(by, "=", objectiveAssessmentRef)));
         if (objectiveAssessmentRecord == null) {
@@ -55,9 +55,12 @@ public class ObjectiveAssessmentBuilder {
             List<Map<String, Object>> subObjectives = new ArrayList<Map<String, Object>>();
             for (Object subObjectiveRef : subObjectiveRefs) {
                 if (!newParents.contains(subObjectiveRef)) {
-                    Map<String, Object> subAssessment = getObjectiveAssessment((String) subObjectiveRef, newParents, by);
+                    Map<String, Object> subAssessment = getObjectiveAssessment((String) subObjectiveRef, newParents,
+                            ObjectiveAssessmentBuilder.BY_ID);
                     if (subAssessment != null) {
                         subObjectives.add(subAssessment);
+                    } else {
+                        LOG.warn("Could not find objective assessment ref {}", subObjectiveRef);
                     }
                 } else {
                     // sorry Mr. Hofstadter, no infinitely recursive assessments allowed due to
