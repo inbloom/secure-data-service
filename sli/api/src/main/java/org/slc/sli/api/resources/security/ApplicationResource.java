@@ -42,9 +42,6 @@ import org.springframework.stereotype.Component;
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class ApplicationResource extends DefaultCrudEndpoint {
 
-
-    private static final String REGISTERED = "registered";
-
     @Autowired
     private EntityDefinitionStore store;
 
@@ -52,6 +49,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     private static final int CLIENT_ID_LENGTH = 10;
     private static final int CLIENT_SECRET_LENGTH = 48;
+    private static final String REGISTERED = "registered";
     public static final String CLIENT_ID = "client_id";
     public static final String CLIENT_SECRET = "client_secret";
     public static final String RESOURCE_NAME = "application";
