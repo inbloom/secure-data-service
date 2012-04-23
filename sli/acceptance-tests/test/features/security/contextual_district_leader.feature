@@ -15,7 +15,7 @@ Examples:
 	|"mhahn"     |"mhahn1234"     |"NY" |"IT Admin"|"NY-Dusk"    |"Malcom Haehn"|
 	|"jstevenson"|"jstevenson1234"|"IL" |"IT Admin"|"IL-Daybreak"|"Linda Kim"|
 
-Scenario Outline: Staff access data from another "district"
+Scenario Outline: Staff access data from another district
 
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals <Role>
