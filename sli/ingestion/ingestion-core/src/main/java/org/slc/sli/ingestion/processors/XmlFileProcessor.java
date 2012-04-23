@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
@@ -66,10 +67,9 @@ public class XmlFileProcessor implements Processor {
 
                         fe.setFile(new File(resource.getResourceName()));
 
-                        fe = referenceResolutionHandler.handle(fe, fe.getErrorReport());
+                        referenceResolutionHandler.handle(fe, fe.getErrorReport());
 
-                        BatchJobMongoDA.writeErrorsToMongo(batchJobId, BatchJobStageType.XML_FILE_PROCESSOR,
-                                fe.getFaultsReport());
+                        aggregateAndPersistErrors(batchJobId, fe);
 
                         if (fe.getErrorReport().hasErrors()) {
                             hasErrors = true;
@@ -95,6 +95,19 @@ public class XmlFileProcessor implements Processor {
             missingBatchJobIdError(exchange);
 
         }
+    }
+
+    private void aggregateAndPersistErrors(String batchJobId, IngestionFileEntry fe) {
+        for (Fault fault : fe.getFaultsReport().getFaults()) {
+            String faultMessage = fault.getMessage();
+            String faultLevel = fault.isError() ? FaultType.TYPE_ERROR.getName()
+                    : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
+
+            // TODO: this should use the BatchJobDAO interface
+            BatchJobMongoDA.logIngestionError(batchJobId, BatchJobStageType.XML_FILE_PROCESSOR.getName(),
+                    fe.getFileName(), null, null, null, faultLevel, faultLevel, faultMessage);
+        }
+        BatchJobMongoDA.writeErrorsToMongo(batchJobId, BatchJobStageType.XML_FILE_PROCESSOR, fe.getFaultsReport());
     }
 
     public ReferenceResolutionHandler getReferenceResolutionHandler() {
