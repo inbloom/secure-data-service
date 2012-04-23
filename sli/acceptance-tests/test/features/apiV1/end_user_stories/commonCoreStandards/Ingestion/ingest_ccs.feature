@@ -16,9 +16,9 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName              | count |
      | learningObjective           | 5     |
    And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter                                | searchValue                                      |
-     | learningObjective           | 1                   | body.learningObjective.description             | Craft and Structure                                              |
-     | learningObjective           | 5                   | body.learningObjective.grade                   | Twelfth                               |
+     | collectionName              | expectedRecordCount | searchParameter                                | searchValue           |
+     | learningObjective           | 1                   | body.learningObjective.description             | Reading: Informational Text  |
+     | learningObjective           | 1                   | body.learningObjective.grade                   | Twelfth                               |
  
   And I should see "Processed 5 records." in the resulting batch job file
   And I should not see an error log file created
@@ -58,19 +58,19 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
-     | learningObjective           | 6     |
+     | learningObjective           | 2     |
      | learningStandard            | 11    |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                | searchValue |
      | learningObjective           | 1                   | body.learningObjective.objective               | Geometry |
      | learningStandard            | 1                   | body.learningStandard.description              | Explain and use the relationship between the sine and cosine of complementary angles. |
-     | learningObjective           | 6                   | body.learningObjective.grade                   | Twelfth                               |
+     | learningObjective           | 2                   | body.learningObjective.grade                   | Twelfth                               |
      | learningStandard            | 11                  | body.learningStandard.grade                    | Twelfth                                      |
 
-  And I should see "Processed 17 records." in the resulting batch job file
+  And I should see "Processed 13 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "grade12MathSRT.xml records considered: 17" in the resulting batch job file
-  And I should see "grade12MathSRT.xml records ingested successfully: 16" in the resulting batch job file
+  And I should see "grade12MathSRT.xml records considered: 13" in the resulting batch job file
+  And I should see "grade12MathSRT.xml records ingested successfully: 12" in the resulting batch job file
   And I should see "grade12MathSRT.xml records failed: 0" in the resulting batch job file
   
   
@@ -84,19 +84,19 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
-     | learningObjective           | 4     |
+     | learningObjective           | 2     |
      | learningStandard            | 5     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                | searchValue |
      | learningObjective           | 2                   | body.learningObjective.objective               | Circles |
      | learningStandard            | 1                   | body.learningStandard.description              | Prove that all circles are similar. |
-     | learningObjective           | 4                   | body.learningObjective.grade                   | Twelfth  |
+     | learningObjective           | 2                   | body.learningObjective.grade                   | Twelfth  |
      | learningStandard            | 5                   | body.learningStandard.grade                    | Twelfth  |
 
-  And I should see "Processed 9 records." in the resulting batch job file
+  And I should see "Processed 7 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "grade12MathGC.xml records considered: 9" in the resulting batch job file
-  And I should see "grade12MathGC.xml records ingested successfully: 8" in the resulting batch job file
+  And I should see "grade12MathGC.xml records considered: 7" in the resulting batch job file
+  And I should see "grade12MathGC.xml records ingested successfully: 6" in the resulting batch job file
   And I should see "grade12MathGC.xml records failed: 0" in the resulting batch job file
   
   
