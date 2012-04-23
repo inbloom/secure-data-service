@@ -37,6 +37,7 @@
     
     <bean id="userEdOrgManager"    class="org.slc.sli.manager.impl.UserEdOrgManagerImpl">
       <property name="apiClient" ref="apiClientRef"/>
+      <property name="cacheManager" ref="cacheManager"/>
     </bean>  
     
     <bean id="populationManager" class="org.slc.sli.manager.impl.PopulationManagerImpl">
