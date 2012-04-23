@@ -2954,9 +2954,12 @@
     <!-- AcademicSubject - simple type -->
     <jb:value property="academicSubject" data="Cohort/AcademicSubject" />
     <!-- EducationOrgReference reference type -->
-    <jb:wiring property="educationOrgId" beanIdRef="Cohort_EducationOrgReference" /> 
+    <jb:wiring property="educationOrgReference" beanIdRef="Cohort_EducationOrgReference" /> 
     <!-- ProgramReference - array of reference type -->
-    <jb:wiring property="programId" beanIdRef="cohort_programReferenceTypeArray" />
+    <jb:wiring property="programReferences" beanIdRef="cohort_programReferenceTypeArray" />
+
+    <!-- ProgramId: placeholder for reference resolution -->
+    <jb:wiring property="programId" beanIdRef="cohort_programIdArray" /> 
   </jb:bean>
 
   <jb:bean beanId="cohort_programReferenceTypeArray" class="java.util.ArrayList" 
@@ -3028,6 +3031,11 @@
       data="Cohort/ProgramReference/ProgramIdentity/EducationOrgIdentificationCode/@EducationOrgIdentificationSystemType" />
     <jb:value property="ID"
       data="Cohort/ProgramReference/ProgramIdentity/EducationOrgIdentificationCode/ID" />
+  </jb:bean>
+  <!-- placeholder for reference resolution. -->
+  <jb:bean beanId="cohort_programIdArray" class="java.util.ArrayList"
+    createOnElement="InterchangeStudentCohort/Cohort">
+    <jb:value data="Cohort/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
 
   <!-- End Cohort Mapping -->

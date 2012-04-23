@@ -59,7 +59,7 @@ public class CohortEntityTest {
 
         Map<String, Object> attributes = neutralRecord.getAttributes();
 
-        assertEquals("Expected different number of attributes", 7, attributes.size());
+        assertEquals("Expected different number of attributes", 8, attributes.size());
         assertEquals("Expected different entity id", "ACC-TEST-COH-1", attributes.get("cohortIdentifier"));
         assertEquals("Expected different description", "Statewide academic intervention cohort for English", attributes.get("cohortDescription"));
         assertEquals("Expected different scope", "Statewide", attributes.get("cohortScope"));
@@ -68,7 +68,7 @@ public class CohortEntityTest {
         assertEquals("Expected different entity id", "ACC-TEST-COH-1", attributes.get("cohortIdentifier"));
 
         @SuppressWarnings("unchecked")
-        List<Map<String, Map<String, Object>>> programRefs = (List<Map<String, Map<String, Object>>>) attributes.get("programId");
+        List<Map<String, Map<String, Object>>> programRefs = (List<Map<String, Map<String, Object>>>) attributes.get("programReferences");
 
         assertNotNull("Expected non-null list of program references", programRefs);
         assertEquals("Expected two program references", 2, programRefs.size());
@@ -94,7 +94,7 @@ public class CohortEntityTest {
 
         // Check edOrg references
         @SuppressWarnings("unchecked")
-        Map<String, Map<String, List<Object>>> edOrgReference = (Map<String, Map<String, List<Object>>>) attributes.get("educationOrgId");
+        Map<String, Map<String, List<Object>>> edOrgReference = (Map<String, Map<String, List<Object>>>) attributes.get("educationOrgReference");
         assertNotNull("Exepected non-null education organization reference", edOrgReference);
         Map<String, List<Object>> edOrgIdentity = edOrgReference.get("EducationalOrgIdentity");
         assertNotNull("Exepected non-null education organization identigy", edOrgIdentity);
