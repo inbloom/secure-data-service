@@ -60,7 +60,12 @@ import org.slc.sli.modeling.uml.Visitor;
 import org.slc.sli.modeling.xml.XmlTools;
 import org.slc.sli.modeling.xsd.WxsNamespace;
 
-public final class Xsd2UmlConvert {
+/**
+ * Converts schemas to UML model without attempting to infer associations.
+ *
+ * Intentionally package protected.
+ */
+final class Xsd2UmlConvert {
 
     private static final List<TaggedValue> EMPTY_TAGGED_VALUES = Collections.emptyList();
 
@@ -317,7 +322,7 @@ public final class Xsd2UmlConvert {
      * may require some heuristics to extract. This functionality will be
      * deferred to a post-processor.
      */
-    public static final Model transform(final String name, final XmlSchema schema, final Xsd2UmlPlugin plugin) {
+    public static final Model extract(final String name, final XmlSchema schema, final Xsd2UmlPlugin plugin) {
         return extractModel(name, 0, schema, plugin);
     }
 

@@ -37,7 +37,7 @@ public class EntityWriteConverter implements Converter<Entity, DBObject> {
         if (encrypt != null) {
             me.encrypt(encrypt);
         }
-        return me.toDBObject( uuidGeneratorStrategy );
+        return me.toDBObject(uuidGeneratorStrategy);
     }
 
 }
