@@ -103,6 +103,8 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.PARENTS, "getParent");
         SINGULAR_LINK_NAMES.put(ResourceNames.PROGRAMS, "getProgram");
         SINGULAR_LINK_NAMES.put(ResourceNames.SECTIONS, "getSection");
+        SINGULAR_LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES, "getLearningObjective");
+        SINGULAR_LINK_NAMES.put(ResourceNames.LEARNINGSTANDARDS, "getLearningStandard");
         SINGULAR_LINK_NAMES.put(ResourceNames.SESSIONS, "getSession");
         SINGULAR_LINK_NAMES.put(ResourceNames.SCHOOLS, "getSchool");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENTS, "getStudent");
