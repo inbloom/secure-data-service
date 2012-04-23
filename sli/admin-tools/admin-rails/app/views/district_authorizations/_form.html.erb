@@ -1,0 +1,17 @@
+<%= form_for(@district_authorization) do |f| %>
+  <% if @district_authorization.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@district_authorization.errors.count, "error") %> prohibited this district_authorization from being saved:</h2>
+
+      <ul>
+      <% @district_authorization.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

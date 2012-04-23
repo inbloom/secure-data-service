@@ -1,0 +1,12 @@
+<h1>Listing district_authorizations</h1>
+
+<table>
+
+<% @apps.each do |app| %>
+  <tr>
+    <td><%= link_to app.name, edit_district_authorization_path(app) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

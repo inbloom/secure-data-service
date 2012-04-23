@@ -78,12 +78,17 @@ class AppsController < ApplicationController
   def update
     @app = App.find(params[:id])
     logger.debug {"App found (Update): #{@app.attributes}"}
-    params[:app][:is_admin] = boolean_fix params[:app][:is_admin]
-    params[:app][:enabled] = boolean_fix params[:app][:enabled]
-    params[:app][:developer_info][:license_acceptance] = boolean_fix params[:app][:developer_info][:license_acceptance]
-  
-    #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
-    params[:app][:behavior] = params[:app_behavior]
+
+    if params[:update_districts]
+      params[:app] = {:authorized_ed_orgs => params[:authorized_ed_orgs]}
+    else
+      params[:app][:is_admin] = boolean_fix params[:app][:is_admin]
+      params[:app][:enabled] = boolean_fix params[:app][:enabled]
+      params[:app][:developer_info][:license_acceptance] = boolean_fix params[:app][:developer_info][:license_acceptance]
+
+      #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
+      params[:app][:behavior] = params[:app_behavior]
+    end
 
     respond_to do |format|
       if @app.update_attributes(params[:app])
