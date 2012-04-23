@@ -21,12 +21,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * CourseResource
@@ -39,9 +39,9 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Path(PathConstants.V1 + "/" + PathConstants.COURSES)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class CourseResource extends DefaultCrudEndpoint {
-    
+
     @Autowired
     public CourseResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.COURSES);
@@ -49,7 +49,7 @@ public class CourseResource extends DefaultCrudEndpoint {
 
     /**
      * readAll
-     * 
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -60,17 +60,18 @@ public class CourseResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return all $$courses$$ entities for which the logged in User has permission and context.
      */
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Override
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
      * create
-     * 
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -79,16 +80,17 @@ public class CourseResource extends DefaultCrudEndpoint {
      *              URI information including path and query parameters
      * @return A 201 response on successfully created entity with the ID of the entity
      */
+    @Override
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response create(final EntityBody newEntityBody, 
+    public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
      * read
-     * 
+     *
      * @param courseId
      *            The id (or list of ids) of the $$courses$$.
      * @param headers
@@ -98,9 +100,10 @@ public class CourseResource extends DefaultCrudEndpoint {
      * @return A list of entities matching the list of ids queried for
      *
      */
+    @Override
     @GET
     @Path("{" + ParameterConstants.COURSE_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(courseId, headers, uriInfo);
@@ -108,7 +111,7 @@ public class CourseResource extends DefaultCrudEndpoint {
 
     /**
      * delete
-     * 
+     *
      * @param courseId
      *            The Id of the $$courses$$.
      * @param headers
@@ -117,16 +120,17 @@ public class CourseResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return Returns a NOT_CONTENT status code
      */
+    @Override
     @DELETE
     @Path("{" + ParameterConstants.COURSE_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.COURSE_ID) final String courseId, 
+    public Response delete(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.delete(courseId, headers, uriInfo);
     }
 
     /**
      * update
-     * 
+     *
      * @param courseId
      *            The id of the $$courses$$.
      * @param newEntityBody
@@ -137,17 +141,18 @@ public class CourseResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return Response with a NOT_CONTENT status code
      */
+    @Override
     @PUT
     @Path("{" + ParameterConstants.COURSE_ID + "}")
     public Response update(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
-            final EntityBody newEntityBody, 
+            final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(courseId, newEntityBody, headers, uriInfo);
     }
-    
+
     /**
      * getSessionCourseAssociations
-     * 
+     *
      * @param courseId
      *            The id of the $$courses$$.
      * @param headers
@@ -158,18 +163,18 @@ public class CourseResource extends DefaultCrudEndpoint {
      *
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.SESSION_COURSE_ASSOCIATIONS)
     public Response getSessionCourseAssociations(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
-            @Context HttpHeaders headers, 
+            @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "courseId", courseId, headers, uriInfo);
     }
-    
+
 
     /**
      * getSessionCourseAssociationCourses
-     * 
+     *
      * @param courseId
      *            The id of the $$courses$$.
      * @param headers
@@ -179,10 +184,10 @@ public class CourseResource extends DefaultCrudEndpoint {
      * @return Returns each $$sessions$$ associated to the given course through a $$sessionCourseAssociations$$
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.SESSION_COURSE_ASSOCIATIONS + "/" + PathConstants.SESSIONS)
     public Response getSessionCourseAssociationCourses(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
-            @Context HttpHeaders headers, 
+            @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "courseId", courseId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
     }
@@ -200,7 +205,7 @@ public class CourseResource extends DefaultCrudEndpoint {
      * @return Returns each $$studentTranscriptAssociations$$ that reference the given $$courses$$
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.STUDENT_TRANSCRIPT_ASSOCIATIONS)
     public Response getStudentTranscriptAssociations(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
                                                      @Context HttpHeaders headers,
@@ -220,7 +225,7 @@ public class CourseResource extends DefaultCrudEndpoint {
      * @return Returns each $$students$$ associated to the given course through a $$studentTranscriptAssociations$$
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.STUDENT_TRANSCRIPT_ASSOCIATIONS + "/" + PathConstants.STUDENTS)
     public Response getStudentTranscriptAssociationStudents(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
                                                             @Context HttpHeaders headers,
@@ -241,7 +246,7 @@ public class CourseResource extends DefaultCrudEndpoint {
      * @return Returns each $$studentParentAssociations$$ that reference the given $$courses$$
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS)
     public Response getStudentParentAssociations(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
                                                      @Context HttpHeaders headers,
@@ -261,7 +266,7 @@ public class CourseResource extends DefaultCrudEndpoint {
      * @return Returns each $$students$$ associated to the given course through a $$studentParentAssociations$$
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.COURSE_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS + "/" + PathConstants.STUDENTS)
     public Response getStudentParentAssociationStudents(@PathParam(ParameterConstants.COURSE_ID) final String courseId,
                                                             @Context HttpHeaders headers,

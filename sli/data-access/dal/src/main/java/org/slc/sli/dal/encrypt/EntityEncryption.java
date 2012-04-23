@@ -21,47 +21,47 @@ import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Provides encryption/decryption of entities based upon what is marked as PII in the data model.
- * 
+ *
  * @author Ryan Farris <rfarris@wgen.net>
- * 
+ *
  */
 public class EntityEncryption {
     private static final Logger LOG = LoggerFactory.getLogger(EntityEncryption.class);
-    
+
     @Autowired
     Cipher aes;
-    
+
     @Autowired
     SchemaRepository schemaReg;
-    
+
     Map<NeutralSchema, Map<String, Object>> piiMapCache = new ConcurrentHashMap<NeutralSchema, Map<String, Object>>();
-    
+
     public Map<String, Object> encrypt(String entityType, Map<String, Object> body) {
         Map<String, Object> piiMap = buildPiiMap(entityType);
         if (piiMap == null) {
             return body;
         }
-        
+
         Map<String, Object> clonedEntity = cloneEntity(body);
         encryptInPlace(piiMap, clonedEntity, Operation.ENCRYPT);
         return clonedEntity;
     }
-    
+
     public Map<String, Object> decrypt(String entityType, Map<String, Object> body) {
         Map<String, Object> piiMap = buildPiiMap(entityType);
         if (piiMap == null) {
             return body;
         }
-        
+
         Map<String, Object> clonedEntity = cloneEntity(body);
         encryptInPlace(piiMap, clonedEntity, Operation.DECRYPT);
         return clonedEntity;
     }
-    
+
     public String encryptSingleValue(Object value) {
         return aes.encrypt(value);
     }
-    
+
     public Object decryptSingleValue(Object value) {
         if (!(value instanceof String)) {
             LOG.warn("Value was expected to be encrypted but wasn't: {}", value);
@@ -74,11 +74,11 @@ public class EntityEncryption {
         }
         return decrypted;
     }
-    
+
     private static enum Operation {
         ENCRYPT, DECRYPT;
     }
-    
+
     @SuppressWarnings({ "unchecked" })
     private void encryptInPlace(Map<String, Object> piiMap, Map<String, Object> body, Operation op) {
         if (piiMap == null) {
@@ -102,7 +102,7 @@ public class EntityEncryption {
                     if (item instanceof Map) {
                         encryptInPlace((Map<String, Object>) piiField.getValue(), (Map<String, Object>) item, op);
                     } else if (item instanceof List) {
-                        LOG.error("Unexpected situation, List inside a List: " + piiField.getKey());
+                        LOG.error("Unexpected situation, List inside a List: {}", piiField.getKey());
                         continue;
                     } else {
                         Object newValue;
@@ -112,13 +112,11 @@ public class EntityEncryption {
                             if (item instanceof String) {
                                 newValue = aes.decrypt((String) item);
                                 if (newValue == null) {
-                                    LOG.warn("Data was expected to be encrypted but wasn't: " + piiField.getKey()
-                                            + " = " + item);
+                                    LOG.warn("Data was expected to be encrypted but wasn't: {} = {}", piiField.getKey(), item);
                                     newValue = item;
                                 }
                             } else {
-                                LOG.warn("Data was expected to be encrypted but wasn't: " + piiField.getKey() + " = "
-                                        + item);
+                                LOG.warn("Data was expected to be encrypted but wasn't: {} = {}", piiField.getKey(), item);
                                 newValue = item;
                             }
                         }
@@ -134,22 +132,20 @@ public class EntityEncryption {
                     if (fieldValue instanceof String) {
                         newValue = aes.decrypt((String) fieldValue);
                         if (newValue == null) {
-                            LOG.warn("Data was expected to be encrypted but wasn't: " + piiField.getKey() + " = "
-                                    + fieldValue);
+                            LOG.warn("Data was expected to be encrypted but wasn't: {} = {}", piiField.getKey(), fieldValue);
                             newValue = fieldValue;
                         }
                     } else {
-                        LOG.warn("Data was expected to be encrypted but wasn't: " + piiField.getKey() + " = "
-                                + fieldValue);
+                        LOG.warn("Data was expected to be encrypted but wasn't: {} = {}", piiField.getKey(), fieldValue);
                         newValue = fieldValue;
                     }
                 }
                 body.put(piiField.getKey(), newValue);
             }
-            
+
         }
     }
-    
+
     private Map<String, Object> cloneEntity(Map<String, Object> body) {
         Map<String, Object> clone = new HashMap<String, Object>();
         for (Map.Entry<String, Object> entry : body.entrySet()) {
@@ -157,7 +153,7 @@ public class EntityEncryption {
         }
         return clone;
     }
-    
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private void cloneEntity(Object parent, String key, Object value) {
         if (value instanceof Map) {
@@ -194,7 +190,7 @@ public class EntityEncryption {
             }
         }
     }
-    
+
     /**
      * Build a tree structure where all leaves are fields that should be PII.
      * Returns null if no data for this schema is PII
@@ -202,11 +198,11 @@ public class EntityEncryption {
     @SuppressWarnings("unchecked")
     protected Map<String, Object> buildPiiMap(String entityType) {
         NeutralSchema schema = schemaReg.getSchema(entityType);
-        
+
         if (schema == null) {
             return null;
         }
-        
+
         Map<String, Object> piiMap = piiMapCache.get(schema);
         if (piiMap == null) {
             piiMap = (Map<String, Object>) recursiveBuildPiiMap(schema, new HashSet<NeutralSchema>());
@@ -221,7 +217,7 @@ public class EntityEncryption {
             return piiMap;
         }
     }
-    
+
     private Object recursiveBuildPiiMap(NeutralSchema schema, Set<NeutralSchema> visited) {
         if (schema == null) {
             return null;

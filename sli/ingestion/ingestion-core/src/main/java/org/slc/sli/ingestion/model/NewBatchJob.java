@@ -1,18 +1,25 @@
 package org.slc.sli.ingestion.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.lang.time.FastDateFormat;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import org.slc.sli.common.util.performance.PutResultInContext;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.util.performance.PutResultInContext;
+import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.Job;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 
 /**
  * Model for ingestion jobs.
@@ -21,7 +28,7 @@ import org.slc.sli.util.performance.PutResultInContext;
  *
  */
 @Document
-public final class NewBatchJob {
+public final class NewBatchJob implements Job {
 
     @Id
     private String id;
@@ -92,6 +99,35 @@ public final class NewBatchJob {
         }
     }
 
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public String getProperty(String key) {
+        return batchProperties.get(key);
+    }
+
+    @Override
+    public String getProperty(String key, String defaultValue) {
+        String value = batchProperties.get(key);
+        if (value == null) {
+            value = defaultValue;
+        }
+        return value;
+    }
+
+    @Override
+    public Set<String> propertyNames() {
+        return batchProperties.keySet();
+    }
+
+    @Override
+    public void setProperty(String name, String value) {
+        batchProperties.put(name, value);
+    }
+
     public String getSourceId() {
         return sourceId;
     }
@@ -120,18 +156,6 @@ public final class NewBatchJob {
         return batchProperties;
     }
 
-    public String getProperty(String key) {
-        return batchProperties.get(key);
-    }
-
-    public String getProperty(String key, String defaultValue) {
-        String value = batchProperties.get(key);
-        if (value == null) {
-            value = defaultValue;
-        }
-        return value;
-    }
-
     public void setBatchProperties(Map<String, String> batchProperties) {
         this.batchProperties = batchProperties;
     }
@@ -142,10 +166,6 @@ public final class NewBatchJob {
 
     public List<ResourceEntry> getResourceEntries() {
         return resourceEntries;
-    }
-
-    public String getId() {
-        return id;
     }
 
     /**
@@ -204,4 +224,37 @@ public final class NewBatchJob {
         this.stages.add(stage);
     }
 
+    @Override
+    public List<IngestionFileEntry> getFiles() {
+        List<IngestionFileEntry> ingestionFileEntries = new ArrayList<IngestionFileEntry>();
+        for (ResourceEntry resourceEntry : resourceEntries) {
+            FileFormat fileFormat = FileFormat.findByCode(resourceEntry.getResourceFormat());
+            FileType fileType = FileType.findByNameAndFormat(resourceEntry.getResourceType(), fileFormat);
+
+            IngestionFileEntry ingestionFileEntry = new IngestionFileEntry(fileFormat, fileType,
+                    resourceEntry.getResourceName(), resourceEntry.getChecksum());
+            ingestionFileEntries.add(ingestionFileEntry);
+        }
+        return ingestionFileEntries;
+    }
+
+    @Override
+    public boolean addFile(IngestionFileEntry ingestionFileEntry) {
+
+        ResourceEntry resourceEntry = new ResourceEntry();
+        resourceEntry.setResourceId(ingestionFileEntry.getFileName());
+        resourceEntry.setResourceName(ingestionFileEntry.getFileName());
+        resourceEntry.setChecksum(ingestionFileEntry.getChecksum());
+        resourceEntry.setResourceFormat(ingestionFileEntry.getFileFormat().getCode());
+        resourceEntry.setResourceType(ingestionFileEntry.getFileType().getName());
+        resourceEntry.setExternallyUploadedResourceId(ingestionFileEntry.getFileName());
+
+        return resourceEntries.add(resourceEntry);
+    }
+
+    @Override
+    public FaultsReport getFaultsReport() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

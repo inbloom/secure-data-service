@@ -1,14 +1,15 @@
 package org.slc.sli.api.security.context.resolver;
 
-import org.slc.sli.api.config.EntityNames;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
-import org.slc.sli.domain.Entity;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
+import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
 
 /**
  * Resolves which TeacherSection a given teacher is allowed to see.

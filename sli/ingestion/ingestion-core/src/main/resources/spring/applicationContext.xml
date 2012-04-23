@@ -14,26 +14,18 @@
   <context:annotation-config />
 
   <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
+ 
+    <bean id="commonProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+      <property name="ignoreResourceNotFound" value="true" />
+      <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+      <property name="locations">
+         <list>
+            <value>file:${sli.conf}</value>
+            <value>classpath:ingestion.properties</value>
+         </list>
+      </property>
+   </bean>
 
-  <bean id="ingestionPropertiesPlaceholder"
-    class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
-
-    <!-- this avoids errors with *other* property placeholders -->
-    <property name="ignoreUnresolvablePlaceholders" value="true" />
-
-    <!-- this allows using an optional local properties file (ingestion-dev.properties) -->
-    <property name="ignoreResourceNotFound" value="true" />
-
-    <property name="locations">
-      <list>
-        <value>classpath:/config/${sli.env}/ingestion/ingestion_conf.properties</value>
-        <value>classpath:ingestion.properties</value>
-        <value>classpath:/config/${sli.env}/ingestion/queue.properties </value>
-        <!-- create this file with custom settings for your dev environment -->
-        <value>classpath:ingestion-dev.properties</value>
-      </list>
-    </property>
-  </bean>
 
   <bean id="jms-hornetq" class="org.apache.camel.component.jms.JmsComponent">
     <property name="connectionFactory">
@@ -65,6 +57,7 @@
   <import resource="smooks-context.xml" />
   <import resource="camel-context.xml" />
   <import resource="persistence-context.xml" />
+  <import resource="processor-context.xml" />
 <import resource="classpath:/spring/base-applicationContext.xml" />
 
   <!-- Include resources from DAL -->
@@ -92,12 +85,6 @@
   </bean>
 
     <bean id="xmlFileHandler" parent="smooksFileHandler">
-    <property name="preValidators" >
-            <util:list value-type="org.slc.sli.ingestion.validation.Validator">
-            <ref bean="xmlFileValidator"/>
-            <ref bean="xsdValidator"/>
-        </util:list>
-            </property>
   </bean>
 
   <bean id="referenceResolutionHandler" class="org.slc.sli.ingestion.handler.ReferenceResolutionHandler">
@@ -110,6 +97,7 @@
   </bean>
 
 <bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+
     <bean id="csvFileHandler" parent="smooksFileHandler">
         <property name="preValidators">
             <util:list value-type="org.slc.sli.ingestion.validation.Validator">
@@ -136,8 +124,6 @@
     <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler"></property>
     <property name="persistedCollections" ref="persistedEntities" />
   </bean>
-
-
 
 </beans>
 

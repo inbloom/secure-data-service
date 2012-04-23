@@ -6,8 +6,10 @@ import java.util.UUID;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.ingestion.NeutralRecord;
 
@@ -19,6 +21,9 @@ import org.slc.sli.ingestion.NeutralRecord;
 public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBObject> {
 
     private EntityEncryption encryptor;
+
+    @Autowired
+    private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
     public EntityEncryption getStagingEncryptor() {
         return encryptor;
@@ -41,7 +46,7 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
 
         UUID uid = null;
         if (neutralRecord.getRecordId() == null) {
-            uid = UUID.randomUUID();
+            uid = uuidGeneratorStrategy.randomUUID();
             neutralRecord.setRecordId(uid.toString());
         } else {
             uid = UUID.fromString(neutralRecord.getRecordId());
@@ -52,7 +57,8 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
         dbObj.put("_id", uid);
         dbObj.put("body", encryptedBody);
         dbObj.put("batchJobId", neutralRecord.getBatchJobId());
+        dbObj.put("localId", neutralRecord.getLocalId());
+        dbObj.put("sourceFile", neutralRecord.getSourceFile());
         return dbObj;
     }
-
 }

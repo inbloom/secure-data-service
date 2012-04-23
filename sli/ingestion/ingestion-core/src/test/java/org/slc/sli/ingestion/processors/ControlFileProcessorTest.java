@@ -25,7 +25,8 @@ import org.slc.sli.ingestion.model.NewBatchJob;
  * Tests for ControlFileProcessor
  *
  */
-@Ignore // made obsolete by NewBatchJob integration
+@Ignore
+// made obsolete by NewBatchJob integration
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })

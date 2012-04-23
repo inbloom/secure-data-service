@@ -19,7 +19,7 @@ public class AttendanceEventGenerator {
     private static final Random RANDOM = new Random();
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 
-    private static Calendar calendar = new GregorianCalendar(2011, 0, 1);
+    private static Calendar calendar = new GregorianCalendar(2012, 0, 1);
 
     public static AttendanceEvent generateLowFi(String studentID, String schoolID, String sectionCode) {
         AttendanceEvent ae = new AttendanceEvent();
@@ -58,7 +58,7 @@ public class AttendanceEventGenerator {
     }
 
     public static void resetCalendar() {
-        calendar = new GregorianCalendar(2011, 0, 1);
+        calendar = new GregorianCalendar(2012, 0, 1);
     }
 
 }

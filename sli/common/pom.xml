@@ -9,35 +9,20 @@
   <groupId>org.slc.sli.common</groupId>
   <artifactId>common</artifactId>
   <packaging>pom</packaging>
-  <name>Common</name>
+  <name>Common Projects</name>
   <description>Common Stuff</description>
 
   <modules>
-    <module>domain</module>
     <module>common-test-data</module>
-    <module>common-util</module>
     <module>common-encrypt</module>
+    <module>sli-common</module>
   </modules>
 
   <dependencyManagement>
     <dependencies>
-
-	  <dependency>
-        <groupId>org.slc.sli</groupId>
-        <artifactId>sli-configuration</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
       <dependency>
         <groupId>org.slc.sli.common</groupId>
-        <artifactId>common-util</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-
-      <dependency>
-        <groupId>org.slc.sli.common</groupId>
-        <artifactId>domain</artifactId>
+        <artifactId>sli-common</artifactId>
         <version>${project.version}</version>
       </dependency>
 

@@ -10,9 +10,9 @@ import org.slc.sli.domain.Entity;
 
 /**
  * Contract for handling
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 public interface OauthSessionManager {
     public void createAppSession(String sessionId, String clientId, String redirectUri, String state, String tenantId, String samlId);

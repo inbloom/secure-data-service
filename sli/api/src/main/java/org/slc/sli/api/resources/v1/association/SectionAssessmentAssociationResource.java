@@ -21,23 +21,23 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * Prototype new api end points and versioning
- * 
+ *
  * @author wscott
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class SectionAssessmentAssociationResource extends DefaultCrudEndpoint {
 
     @Autowired
@@ -47,7 +47,7 @@ public class SectionAssessmentAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Returns all $$sectionAssessmentAssociations$$ entities for which the logged in User has permission and context.
-     * 
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -58,17 +58,18 @@ public class SectionAssessmentAssociationResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return result of CRUD operation
      */
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Override
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
      * Create a new $$sectionAssessmentAssociations$$ entity.
-     * 
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -80,16 +81,17 @@ public class SectionAssessmentAssociationResource extends DefaultCrudEndpoint {
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
      *                 item is accessable.}
      */
+    @Override
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response create(final EntityBody newEntityBody, 
+    public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
      * Get a single $$sectionAssessmentAssociations$$ entity
-     * 
+     *
      * @param sectionAssessmentAssociationId
      *            The Id of the $$sectionAssessmentAssociations$$.
      * @param headers
@@ -98,9 +100,10 @@ public class SectionAssessmentAssociationResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return A single $$sectionAssessmentAssociations$$ entity
      */
+    @Override
     @GET
     @Path("{" + ParameterConstants.SECTION_ASSESSMENT_ASSOCIATION_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.SECTION_ASSESSMENT_ASSOCIATION_ID) final String sectionAssessmentAssociationId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(sectionAssessmentAssociationId, headers, uriInfo);
@@ -108,7 +111,7 @@ public class SectionAssessmentAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Delete a $$sectionAssessmentAssociations$$ entity
-     * 
+     *
      * @param sectionAssessmentAssociationId
      *            The Id of the $$sectionAssessmentAssociations$$.
      * @param headers
@@ -118,6 +121,7 @@ public class SectionAssessmentAssociationResource extends DefaultCrudEndpoint {
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @DELETE
     @Path("{" + ParameterConstants.SECTION_ASSESSMENT_ASSOCIATION_ID + "}")
     public Response delete(@PathParam(ParameterConstants.SECTION_ASSESSMENT_ASSOCIATION_ID) final String sectionAssessmentAssociationId,
@@ -127,7 +131,7 @@ public class SectionAssessmentAssociationResource extends DefaultCrudEndpoint {
 
     /**
      * Update an existing $$sectionAssessmentAssociations$$ entity.
-     * 
+     *
      * @param sectionAssessmentAssociationId
      *            The id of the $$sectionAssessmentAssociations$$.
      * @param newEntityBody
@@ -139,11 +143,12 @@ public class SectionAssessmentAssociationResource extends DefaultCrudEndpoint {
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @PUT
     @Path("{" + ParameterConstants.SECTION_ASSESSMENT_ASSOCIATION_ID + "}")
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response update(@PathParam(ParameterConstants.SECTION_ASSESSMENT_ASSOCIATION_ID) final String sectionAssessmentAssociationId,
-            final EntityBody newEntityBody, 
+            final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(sectionAssessmentAssociationId, newEntityBody, headers, uriInfo);
     }
@@ -167,7 +172,7 @@ public class SectionAssessmentAssociationResource extends DefaultCrudEndpoint {
      * @return
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.SECTION_ASSESSMENT_ASSOCIATION_ID + "}" + "/" + PathConstants.SECTIONS)
     public Response getSectionsForAssociation(@PathParam(ParameterConstants.SECTION_ASSESSMENT_ASSOCIATION_ID) final String sectionAssessmentAssociationId,
                                               @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
@@ -195,7 +200,7 @@ public class SectionAssessmentAssociationResource extends DefaultCrudEndpoint {
      * @return
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.SECTION_ASSESSMENT_ASSOCIATION_ID + "}" + "/" + PathConstants.ASSESSMENTS)
     public Response getAssessmentsForAssociation(@PathParam(ParameterConstants.SECTION_ASSESSMENT_ASSOCIATION_ID) final String sectionAssessmentAssociationId,
                                                  @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,

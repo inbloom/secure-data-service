@@ -21,28 +21,28 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.ParameterConstants;
-import org.slc.sli.api.resources.v1.PathConstants;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
+import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * This entity represents any program designed to work
  * in conjunction with or to supplement the main
  * academic program.
- * 
+ *
  * @author jstokes
  * @author jtully
- * 
+ *
  */
 @Path(PathConstants.V1 + "/" + PathConstants.PROGRAMS)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class ProgramResource extends DefaultCrudEndpoint {
-    
+
     @Autowired
     public ProgramResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.PROGRAMS);
@@ -50,7 +50,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
 
     /**
      * Returns all $$programs$$ entities for which the logged in User has permission and context.
-     * 
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -61,17 +61,18 @@ public class ProgramResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return result of CRUD operation
      */
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Override
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
+            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
      * Create a new $$programs$$ entity.
-     * 
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -83,16 +84,17 @@ public class ProgramResource extends DefaultCrudEndpoint {
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
      *                 item is accessible.}
      */
+    @Override
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
-    public Response create(final EntityBody newEntityBody, 
+    public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
      * Get a single $$programs$$ entity.
-     * 
+     *
      * @param programId
      *            The Id of the $$programs$$.
      * @param headers
@@ -101,9 +103,10 @@ public class ProgramResource extends DefaultCrudEndpoint {
      *            URI information including path and query parameters
      * @return A single program entity
      */
+    @Override
     @GET
     @Path("{" + ParameterConstants.PROGRAM_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.PROGRAM_ID) final String programId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(programId, headers, uriInfo);
@@ -111,7 +114,7 @@ public class ProgramResource extends DefaultCrudEndpoint {
 
     /**
      * Delete a $$programs$$ entity.
-     * 
+     *
      * @param programId
      *            The Id of the $$programs$$.
      * @param headers
@@ -121,16 +124,17 @@ public class ProgramResource extends DefaultCrudEndpoint {
      * @return Returns a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @DELETE
     @Path("{" + ParameterConstants.PROGRAM_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.PROGRAM_ID) final String programId, 
+    public Response delete(@PathParam(ParameterConstants.PROGRAM_ID) final String programId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.delete(programId, headers, uriInfo);
     }
 
     /**
      * Update an existing $$programs$$ entity.
-     * 
+     *
      * @param programId
      *            The id of the $$programs$$.
      * @param newEntityBody
@@ -142,18 +146,19 @@ public class ProgramResource extends DefaultCrudEndpoint {
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    @Override
     @PUT
     @Path("{" + ParameterConstants.PROGRAM_ID + "}")
     public Response update(@PathParam(ParameterConstants.PROGRAM_ID) final String programId,
-            final EntityBody newEntityBody, 
+            final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(programId, newEntityBody, headers, uriInfo);
     }
-    
+
     /**
      * Returns the $$studentProgramAssociations$$ that
      * reference the given $$programs$$
-     * 
+     *
      * @param programId
      *            The Id of the Program.
      * @param offset
@@ -169,19 +174,19 @@ public class ProgramResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.PROGRAM_ID + "}" + "/" + PathConstants.STUDENT_PROGRAM_ASSOCIATIONS)
     public Response getStudentProgramAssociations(@PathParam(ParameterConstants.PROGRAM_ID) final String programId,
-            @Context HttpHeaders headers, 
+            @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "programId", programId, headers, uriInfo);
     }
-    
+
 
     /**
-     * Returns the $$students$$ that are referenced from the $$studentProgramAssociations$$ 
+     * Returns the $$students$$ that are referenced from the $$studentProgramAssociations$$
      * that references the given $$programs$$.
-     * 
+     *
      * @param programId
      *            The Id of the program.
      * @param headers
@@ -191,19 +196,19 @@ public class ProgramResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.PROGRAM_ID + "}" + "/" + PathConstants.STUDENT_PROGRAM_ASSOCIATIONS + "/" + PathConstants.STUDENTS)
     public Response getStudentProgramAssociationStudent(@PathParam(ParameterConstants.PROGRAM_ID) final String programId,
-            @Context HttpHeaders headers, 
+            @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "programId", programId, 
+        return super.read(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "programId", programId,
                 "studentId", ResourceNames.STUDENTS, headers, uriInfo);
     }
-    
+
     /**
      * Returns the $$staffProgramAssociations$$ that
      * reference the given $$programs$$
-     * 
+     *
      * @param programId
      *            The Id of the program.
      * @param offset
@@ -219,19 +224,19 @@ public class ProgramResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.PROGRAM_ID + "}" + "/" + PathConstants.STAFF_PROGRAM_ASSOCIATIONS)
     public Response getStaffProgramAssociations(@PathParam(ParameterConstants.PROGRAM_ID) final String programId,
-            @Context HttpHeaders headers, 
+            @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "programId", programId, headers, uriInfo);
     }
-    
+
 
     /**
-     * Returns the $$staff$$ that are referenced from the $$staffProgramAssociations$$ 
+     * Returns the $$staff$$ that are referenced from the $$staffProgramAssociations$$
      * that references the given $$programs$$.
-     * 
+     *
      * @param programId
      *            The Id of the program.
      * @param headers
@@ -241,14 +246,14 @@ public class ProgramResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.PROGRAM_ID + "}" + "/" + PathConstants.STAFF_PROGRAM_ASSOCIATIONS + "/" + PathConstants.STAFF)
     public Response getStaffProgramAssociationStaff(@PathParam(ParameterConstants.PROGRAM_ID) final String programId,
-            @Context HttpHeaders headers, 
+            @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "programId", programId, 
+        return super.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "programId", programId,
                 "staffId", ResourceNames.STAFF, headers, uriInfo);
     }
-    
-    
+
+
 }

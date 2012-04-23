@@ -582,19 +582,17 @@ public class LiveAPIClient implements APIClient {
      * 
      * @param token
      *            Securiy token
-     * @param studentId
+     * @param sectionId
      *            The student Id
      * @param params
      *            Query params
      * @return
      */
     @Override
-    public List<GenericEntity> getCourses(final String token, final String studentId, Map<String, String> params) {
+    public List<GenericEntity> getCourses(final String token, final String sectionId, Map<String, String> params) {
         // get the entities
-        List<GenericEntity> entities = createEntitiesFromAPI(
-                buildStudentURI(studentId, "/studentTranscriptAssociations/courses", params), token, false);
-        
-        return entities;
+        return createEntitiesFromAPI(getApiUrl() + "/v1" + SECTIONS_URL + sectionId + "/studentSectionAssociations"
+                + "/students" + "?optionalFields=transcript", token, false);
     }
     
     /**

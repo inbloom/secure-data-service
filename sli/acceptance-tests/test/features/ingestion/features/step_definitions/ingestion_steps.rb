@@ -37,7 +37,7 @@ Given /^I am using destination-local data store$/ do
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
-  if INGESTION_LANDING_ZONE.rindex('/') == -1
+  if INGESTION_LANDING_ZONE.rindex('/') == (INGESTION_LANDING_ZONE.length - 1)
     @landing_zone_path = INGESTION_LANDING_ZONE
   else
     @landing_zone_path = INGESTION_LANDING_ZONE+'/'
@@ -349,6 +349,12 @@ Then /^I check to find if record is in collection:$/ do |table|
 
     if row["searchType"] == "integer"
       @entity_count = @entity_collection.find({row["searchParameter"] => row["searchValue"].to_i}).count().to_s
+    elsif row["searchType"] == "boolean"
+        if row["searchValue"] == "false"
+            @entity_count = @entity_collection.find({row["searchParameter"] => false}).count().to_s
+        else
+            @entity_count = @entity_collection.find({row["searchParameter"] => true}).count().to_s
+        end
     else
       @entity_count = @entity_collection.find({row["searchParameter"] => row["searchValue"]}).count().to_s
     end

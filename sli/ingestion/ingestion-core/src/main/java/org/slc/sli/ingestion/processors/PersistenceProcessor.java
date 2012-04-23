@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -42,7 +43,6 @@ import org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
-import org.slc.sli.util.performance.Profiled;
 
 /**
  * Ingestion Persistence Processor.
@@ -140,6 +140,7 @@ public class PersistenceProcessor implements Processor {
         ErrorReport errorReportForNrFile = createDbErrorReport(batchJobId, neutralRecordsFile.getName());
 
         NeutralRecordFileReader nrFileReader = null;
+        String fatalErrorMessage = "ERROR: Fatal problem saving records to database.\n";
         try {
             Set<String> encounteredStgCollections = new HashSet<String>();
 
@@ -149,6 +150,10 @@ public class PersistenceProcessor implements Processor {
                 recordNumber++;
 
                 NeutralRecord neutralRecord = nrFileReader.next();
+
+                fatalErrorMessage = "ERROR: Fatal problem saving records to database: \n" + "\tEntity\t"
+                        + neutralRecord.getRecordType() + "\n" + "\tIdentifier\t" + (String) neutralRecord.getLocalId()
+                        + "\n";
 
                 // TODO: don't need to construct this collection every time. construct once.
                 if (getTransformedCollections().contains(neutralRecord.getRecordType())) {
@@ -162,7 +167,7 @@ public class PersistenceProcessor implements Processor {
                 }
             }
         } catch (Exception e) {
-            errorReportForNrFile.fatal("Fatal problem saving records to database.", PersistenceProcessor.class);
+            errorReportForNrFile.fatal(fatalErrorMessage, PersistenceProcessor.class);
             LOG.error("Exception when attempting to ingest NeutralRecords in: " + neutralRecordsFile + ".\n", e);
         } finally {
             if (nrFileReader != null) {

@@ -4,7 +4,7 @@ class AppsControllerTest < ActionController::TestCase
   setup do
     @Apps = App.all
   end
-  
+
   test "should get index" do
     get :index
     assert_response :success
@@ -15,7 +15,15 @@ class AppsControllerTest < ActionController::TestCase
     get :new
     assert_response :success
   end
-  
+
+  test "cannot create as operator" do
+    puts @app_fixtures["new"]
+    post :create, {:app => @app_fixtures["new"], :app_behavior => "Full Window App"}, {:roles => ["Operator","IT Administrator"]}
+    !assigns @app
+    assert !flash.nil?
+    assert_redirected_to apps_path
+  end
+
   # test "should create app" do
   #   assert_difference("#{@Apps.count}") do
   #     post :create, app: @app_fixtures["new"]

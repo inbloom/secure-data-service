@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.processors;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.camel.Exchange;
@@ -40,12 +41,22 @@ public class PurgeProcessor implements Processor {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    private List<String> excludeCollections;
+
     public MongoTemplate getMongoTemplate() {
         return mongoTemplate;
     }
 
     public void setMongoTemplate(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
+    }
+
+    public List<String> getExcludeCollections() {
+        return excludeCollections;
+    }
+
+    public void setExcludeCollections(List<String> excludeCollections) {
+        this.excludeCollections = excludeCollections;
     }
 
     @Override
@@ -80,6 +91,7 @@ public class PurgeProcessor implements Processor {
     }
 
     private void purgeForTenant(Exchange exchange, String tenantId) {
+
         Query searchTenantId = new Query();
         searchTenantId.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
                 tenantId));
@@ -89,23 +101,35 @@ public class PurgeProcessor implements Processor {
             String collectionName;
             while (iter.hasNext()) {
                 collectionName = iter.next();
-                if (collectionName.equals("system.indexes") || collectionName.equals("system.js")) {
+                if (isSystemCollection(collectionName)) {
                     continue;
                 }
                 mongoTemplate.remove(searchTenantId, collectionName);
             }
+            exchange.setProperty("purge.complete", "Purge process completed successfully.");
             LOG.info("Purge process complete.");
 
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+            exchange.setProperty("purge.complete", "Purge process complete.");
             LOG.error("Exception:", exception);
+
             String batchJobId = getBatchJobId(exchange);
             if (batchJobId != null) {
                 BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PURGE_PROCESSOR,
                         FaultType.TYPE_ERROR.getName(), null, exception.toString());
             }
         }
+    }
+
+    private boolean isSystemCollection(String collectionName) {
+        for (String excludedCollectionName : excludeCollections) {
+            if (collectionName.equals(excludedCollectionName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private Stage startAndGetStage(NewBatchJob newJob) {
