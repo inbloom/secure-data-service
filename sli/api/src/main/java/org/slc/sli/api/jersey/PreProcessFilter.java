@@ -11,21 +11,32 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.security.OauthSessionManager;
 
 /**
- * Authentication filter
+ * Pre-request processing filter.  
+ * Adds security information for the user
+ * Records start time of the request
  * 
  * @author dkornishev
  * 
  */
 @Component
-public class AuthenticationFilter implements ContainerRequestFilter {
+public class PreProcessFilter implements ContainerRequestFilter {
         
     @Autowired
     private OauthSessionManager manager;
     
     @Override
     public ContainerRequest filter(ContainerRequest request) {
+        recordStartTime(request);
+        populateSecurityContext(request);
+        return request;
+    }
+
+    private void populateSecurityContext(ContainerRequest request) {
         OAuth2Authentication auth = manager.getAuthentication(request.getHeaderValue("Authorization"));
         SecurityContextHolder.getContext().setAuthentication(auth);
-        return request;
+    }
+
+    private void recordStartTime(ContainerRequest request) {
+        request.getProperties().put("startTime", System.currentTimeMillis());
     }
 }
