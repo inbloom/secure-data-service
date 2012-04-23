@@ -3153,11 +3153,11 @@
 
   <jb:bean beanId="staffCohortAssociationAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation">
-    <jb:wiring property="StaffReference" beanIdRef="StaffCohortAssoc_StaffReferenceArray" />
-    <jb:wiring property="CohortReference" beanIdRef="StaffCohortAssoc_CohortReferenceArray" />
-    <jb:value property="BeginDate" data="StaffCohortAssociation/BeginDate" />
-    <jb:value property="EndDate" data="StaffCohortAssociation/EndDate" />
-    <jb:value property="StudentRecordAccess" data="StaffCohortAssociation/StudentRecordAccess" decoder="Boolean" />
+    <jb:wiring property="staffReference" beanIdRef="StaffCohortAssoc_StaffReferenceArray" />
+    <jb:wiring property="cohortReference" beanIdRef="StaffCohortAssoc_CohortReferenceArray" />
+    <jb:value property="beginDate" data="StaffCohortAssociation/BeginDate" />
+    <jb:value property="endDate" data="StaffCohortAssociation/EndDate" />
+    <jb:value property="studentRecordAccess" data="StaffCohortAssociation/StudentRecordAccess" decoder="Boolean" />
   </jb:bean>
 
   <!-- StaffCohortAssociation support object: StaffCohortAssoc_StaffReferenceArray  -->
@@ -3168,12 +3168,12 @@
 
   <jb:bean beanId="StaffCohortAssoc_StaffReference" class="java.util.HashMap"
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation/StaffReference">
-    <jb:wiring property="StaffIdentity" beanIdRef="StaffCohortAssoc_StaffReference_StaffIdentity" />
+    <jb:wiring property="staffIdentity" beanIdRef="StaffCohortAssoc_StaffReference_StaffIdentity" />
   </jb:bean>
 
   <jb:bean beanId="StaffCohortAssoc_StaffReference_StaffIdentity" class="java.util.HashMap"
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation/StaffReference/StaffIdentity">
-    <jb:value property="StaffUniqueStateId" data="StaffCohortAssociation/StaffReference/StaffIdentity/StaffUniqueStateId" />
+    <jb:value property="staffUniqueStateId" data="StaffCohortAssociation/StaffReference/StaffIdentity/StaffUniqueStateId" />
   </jb:bean>
   
   <!-- More ???-->
@@ -3189,16 +3189,16 @@
 
   <jb:bean beanId="StaffCohortAssoc_CohortReference" class="java.util.HashMap"
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation/CohortReference">
-    <jb:wiring property="CohortIdentity" beanIdRef="StaffCohortAssoc_CohortReference_CohortIdentity" />
+    <jb:wiring property="cohortIdentity" beanIdRef="StaffCohortAssoc_CohortReference_CohortIdentity" />
   </jb:bean>
   
   <jb:bean beanId="StaffCohortAssoc_CohortReference_CohortIdentity" class="java.util.HashMap"
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation/CohortReference/CohortIdentity">
-    <jb:value property="CohortIdentifier"
+    <jb:value property="cohortIdentifier"
         data="StaffCohortAssociation/CohortReference/CohortIdentity/CohortIdentifier" />
-    <jb:wiring property="StateOrganizationId"
+    <jb:wiring property="stateOrganizationId"
       beanIdRef="StaffCohortAssoc_CohortReference_CohortIdentity_StateOrganizationIdArray" />
-    <jb:wiring property="EducationOrgIdentificationCode"
+    <jb:wiring property="educationOrgIdentificationCode"
       beanIdRef="StaffCohortAssoc_CohortReference_CohortIdentity_EducationOrgIdentificationCodeArray" />
   </jb:bean>  
   
