@@ -210,7 +210,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             if (neutralRecordFile != null) {
                 neutralRecordFile.delete();
             }
-            fe.setNeutralRecordFile(fileUtils.createTempFile());
+            fe.setNeutralRecordFile(new File(neutralRecordFile.getPath()));
         }
     }
 
