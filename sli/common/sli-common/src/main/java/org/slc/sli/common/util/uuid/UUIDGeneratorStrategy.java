@@ -9,6 +9,6 @@ import java.util.UUID;
  */
 public interface UUIDGeneratorStrategy {
 
-
+    /** Generate a random UUID, according to this strategy's preferred method of of generating UUIDs. */
     public UUID randomUUID();
 }
