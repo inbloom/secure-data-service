@@ -59,12 +59,12 @@ Then /^the fuel gauge for "([^"]*)" in "([^"]*)" is "([^"]*)"$/ do |studentName,
   title = td.attribute("title")
   puts "widget info:" + title
   cutpoints = []
-  #fuelGaugeWidget.js
-  colorCode = ["#b40610", "#e58829","#dfc836", "#7fc124","#438746"]
+  #dashboardUtil.js
+  colorCode = ["#eeeeee","#b40610", "#e58829","#dfc836", "#7fc124","#438746"]
   scoreValue = nil
   #Expected text in the form:
   #var cutpoints = new Array(6,15,21,28,33)
-  if ( title =~ /cutpoints(.*)new Array\((\d+),(\d+),(\d+),(\d+),(\d+)/ )
+  if ( title =~ /cutPoints(.*)new Array\((\d+), (\d+), (\d+), (\d+), (\d+)/ )
     cutpoints[0] = $2
     cutpoints[1] = $3
     cutpoints[2] = $4
@@ -91,6 +91,7 @@ Then /^the fuel gauge for "([^"]*)" in "([^"]*)" is "([^"]*)"$/ do |studentName,
   filledPercentage = rects[1].attribute("width")
   color = rects[1].attribute("fill")
   index = 0
+  
   cutpoints.each do |cutPoint|
     if (cutPoint.to_i < score.to_i)
          index += 1
@@ -101,7 +102,7 @@ Then /^the fuel gauge for "([^"]*)" in "([^"]*)" is "([^"]*)"$/ do |studentName,
   # we need to look at the previous index count to get the color
   colorIndex = 0
   if (index > 0 )
-    colorIndex = index -1
+    colorIndex = index 
   end
   assert(color == colorCode[colorIndex], "Actual Color: " + color + " Expected Color: " + colorCode[colorIndex] + " at index " + index.to_s)
   
