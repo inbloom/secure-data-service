@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.converter.Converter;
 
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
@@ -21,6 +22,9 @@ public class EntityWriteConverter implements Converter<Entity, DBObject> {
     @Qualifier("entityEncryption")
     EntityEncryption encrypt;
 
+    @Autowired
+    UUIDGeneratorStrategy uuidGeneratorStrategy;
+
     @Override
     public DBObject convert(Entity e) {
         MongoEntity me;
@@ -33,7 +37,7 @@ public class EntityWriteConverter implements Converter<Entity, DBObject> {
         if (encrypt != null) {
             me.encrypt(encrypt);
         }
-        return me.toDBObject();
+        return me.toDBObject( uuidGeneratorStrategy );
     }
 
 }

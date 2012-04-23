@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>xsd</artifactId>
-	<name>XSD (W3C XMl Schema)</name>
+	<name>XSD (W3C XML Schema)</name>
 
 	<dependencies>
 
