@@ -38,6 +38,7 @@ import static org.junit.Assert.*;
 public class StudentAllAttendanceOptionalFieldAppenderTest {
     private static final String COLLECTION = "tempCollection";
     private static final String STUDENT_ID = "1234";
+    private static final String SCHOOL_ID = "5678";
     
     @Autowired
     private StudentAllAttendanceOptionalFieldAppender studentAllAttendanceOptionalFieldAppender;
