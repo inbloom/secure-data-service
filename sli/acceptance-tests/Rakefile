@@ -820,6 +820,11 @@ task :v1SingleStudentViewTests => [:realmInit] do
   runTests("test/features/apiV1/optional_fields/single_student_view.feature")
 end
 
+desc "Run V1 Simple CRUD Test"
+task :v1SimpleCrudTests do
+  runTests("test/features/apiV1/entities/crud")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################
