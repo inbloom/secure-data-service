@@ -32,7 +32,7 @@ import org.slc.sli.ingestion.queues.MessageType;
 @Component
 public class PurgeProcessor implements Processor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PurgeProcessor.class);
+    private static Logger logger = LoggerFactory.getLogger(PurgeProcessor.class);
 
     private static final String METADATA_BLOCK = "metaData";
 
@@ -40,6 +40,9 @@ public class PurgeProcessor implements Processor {
 
     @Autowired
     private MongoTemplate mongoTemplate;
+
+    @Autowired
+    private BatchJobDAO batchJobDAO;
 
     private List<String> excludeCollections;
 
@@ -65,8 +68,6 @@ public class PurgeProcessor implements Processor {
         String batchJobId = getBatchJobId(exchange);
         if (batchJobId != null) {
 
-            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
-
             NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
 
             Stage stage = startAndGetStage(newJob);
@@ -75,7 +76,7 @@ public class PurgeProcessor implements Processor {
 
             String tenantId = newJob.getProperty(TENANT_ID);
             if (tenantId == null) {
-                LOG.info("TenantId missing. No purge operation performed.");
+                logger.error("TenantId missing. No purge operation performed.");
                 BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PURGE_PROCESSOR,
                         FaultType.TYPE_WARNING.getName(), null, "No tenant specified. No purge will be done.");
             } else {
@@ -107,13 +108,13 @@ public class PurgeProcessor implements Processor {
                 mongoTemplate.remove(searchTenantId, collectionName);
             }
             exchange.setProperty("purge.complete", "Purge process completed successfully.");
-            LOG.info("Purge process complete.");
+            logger.info("Purge process complete.");
 
         } catch (Exception exception) {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             exchange.setProperty("purge.complete", "Purge process complete.");
-            LOG.error("Exception:", exception);
+            logger.error("Exception:", exception);
 
             String batchJobId = getBatchJobId(exchange);
             if (batchJobId != null) {
@@ -147,7 +148,7 @@ public class PurgeProcessor implements Processor {
     private void missingBatchJobIdError(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        logger.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
 }
