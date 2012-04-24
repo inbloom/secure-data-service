@@ -20,6 +20,8 @@ public final class ResourceNames {
     public static final String ATTENDANCES = "attendances";
     public static final String BELL_SCHEDULES = "bellSchedules";
     public static final String COHORTS = "cohorts";
+    public static final String COMPETENCY_LEVEL_DESCRIPTORS = "competencyLevelDescriptor";
+    public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPES = "competencyLevelDescriptorTypes";
     public static final String COURSES = "courses";
     public static final String DISCIPLINE_INCIDENTS = "disciplineIncidents";
     public static final String DISCIPLINE_ACTIONS = "disciplineActions";
@@ -27,14 +29,16 @@ public final class ResourceNames {
     public static final String GRADEBOOK_ENTRIES = "gradebookEntries";
     public static final String PARENTS = "parents";
     public static final String PROGRAMS = "programs";
+    public static final String REPORT_CARDS = "reportCards";
     public static final String SCHOOLS = "schools";
     public static final String SECTIONS = "sections";
     public static final String SESSIONS = "sessions";
     public static final String STAFF = "staff";
     public static final String STUDENTS = "students";
+    public static final String STUDENT_COMPETENCIES = "studentCompetencies";
+    public static final String STUDENT_COMPETENCY_OBJECTIVES = "studentCompetencyObjectives";
     public static final String LEARNINGOBJECTIVES = "learningObjectives";
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
-    public static final String STUDENT_ACADEMIC_RECORDS = "studentAcademicRecords";
     public static final String TEACHERS = "teachers";
 
     public static final String SCHOOL_SESSION_ASSOCIATIONS = "school-session-associations";
