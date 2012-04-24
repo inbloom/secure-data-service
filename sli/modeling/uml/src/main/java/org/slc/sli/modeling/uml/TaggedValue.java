@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * A tagged value is a tag value that is placed on a model element and conforms to a tag definition.
  */
-public final class TaggedValue extends UmlModelElement {
+public final class TaggedValue extends ModelElement {
     /**
      * The tag definition of the tagged value. Never <code>null</code>.
      */

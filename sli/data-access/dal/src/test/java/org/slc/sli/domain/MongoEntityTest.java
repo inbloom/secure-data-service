@@ -22,7 +22,7 @@ public class MongoEntityTest {
 
     private UUIDGeneratorStrategy mockGeneratorStrategy;
 
-    private final static UUID FIXED_UUID = new UUID(42l, 5150l);
+    private static final UUID FIXED_UUID = new UUID(42L, 5150L);
 
     @Before
     public void init() {
@@ -34,7 +34,6 @@ public class MongoEntityTest {
 
     @Test
     public void testUUID() {
-
 
         Map<String, Object> body = new HashMap<String, Object>();
 
