@@ -4,8 +4,6 @@ import java.net.InetAddress;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.lang.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,8 +40,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
         return template;
     }
 
-    @Resource
-    public void setBatchJobMongoTemplate(MongoTemplate mongoTemplate) {
+    public static void setBatchJobMongoTemplate(MongoTemplate mongoTemplate) {
         template = mongoTemplate;
     }
 
