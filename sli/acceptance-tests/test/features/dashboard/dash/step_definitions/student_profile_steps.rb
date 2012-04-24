@@ -94,7 +94,6 @@ Then /^Student Enrollment History includes "([^"]*)"$/ do |expectedEnrollment|
   for i in (1..rows.length-1)
     found = verifyEnrollmentHistoryEntryExists(i, expectedEnrollment)
     if (found)
-      puts "Enrollment History entry found" 
       break
     end
   end

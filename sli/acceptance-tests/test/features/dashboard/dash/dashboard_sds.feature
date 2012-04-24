@@ -1,5 +1,5 @@
 
-Feature:  Dashboard Tests For SDS Data
+Feature:  Dashboard Tests For 3 Sample Students
 
 Background:
 Given I have an open web browser
@@ -7,7 +7,7 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
 
-@integration
+@integration 
 Scenario: View Matt Sollars
 When I login as "linda.kim" "linda.kim1234"
 And I see a header on the page that has the text "Logout"
@@ -17,6 +17,9 @@ When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
 Then I see a list of 28 students
+And I click on "Absence Count" header to sort an integer column in "ascending" order
+And I click on "Student" header to sort a string column in "descending" order
+Then I should only see one view named "Middle School ELA View"
 And the list includes: "Matt Sollars"
 And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
 And there is no lozenges for student "Lettie Hose"
@@ -25,7 +28,7 @@ And the fuel gauge for "Matt Sollars" in "ISAT Writing.perfLevel" is "1"
 And the fuel gauge for "Oralia Merryweather" in "ISAT Reading.perfLevel" is "205"
 And the fuel gauge for "Oralia Merryweather" in "ISAT Writing.perfLevel" is "32"
 And the fuel gauge for "Gerardo Saltazor" in "ISAT Reading.perfLevel" is "150"
-#And the fuel gauge for "Gerardo Saltazor" in "ISAT Writing.perfLevel" is "15"
+And the fuel gauge for "Gerardo Saltazor" in "ISAT Writing.perfLevel" is "15"
 And the fuel gauge for "Karrie Rudesill" in "ISAT Reading.perfLevel" is "181"
 And the fuel gauge for "Karrie Rudesill" in "ISAT Writing.perfLevel" is "11"
 And the count for id "attendances.absenceCount" for student "Matt Sollars" is "5"
@@ -58,21 +61,6 @@ And the class for id "attendances.attendanceRate" for student "Merry Mccanse" is
 And the count for id "attendances.attendanceRate" for student "Dominic Brisendine" is "99"
 And the class for id "attendances.attendanceRate" for student "Dominic Brisendine" is "color-widget-darkgreen"
 # TODO:  all TardyCount and rates are 0
-#And I check the student list for grade "A+" is mapped to "teardrop-darkgreen"
-#And I check the student list for grade "A" is mapped to "teardrop-darkgreen"
-#And I check the student list for grade "A-" is mapped to "teardrop-darkgreen"
-#And I check the student list for grade "B" is mapped to "teardrop-lightgreen"
-#And I check the student list for grade "B+" is mapped to "teardrop-lightgreen"
-#And I check the student list for grade "B-" is mapped to "teardrop-lightgreen"
-#And I check the student list for grade "C" is mapped to "teardrop-yellow"
-#And I check the student list for grade "C+" is mapped to "teardrop-yellow"
-#And I check the student list for grade "C-" is mapped to "teardrop-yellow"
-#And I check the student list for grade "D-" is mapped to "teardrop-orange"
-#And I check the student list for grade "D" is mapped to "teardrop-orange"
-#And I check the student list for grade "D+" is mapped to "teardrop-orange"
-#And I check the student list for grade "F-" is mapped to "teardrop-red"
-#And I check the student list for grade "F+" is mapped to "teardrop-red"
-#And I check the student list for grade "F" is mapped to "teardrop-red"
 And I click on student "Matt Sollars"
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Copyright"
@@ -116,7 +104,7 @@ And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Copyright"
 
 
-@integration
+@integration 
 Scenario: View Mi-Ha Tran
 When I login as "rbraverman" "rbraverman1234"
 When I select ed org "Daybreak School District 4529"
@@ -124,6 +112,7 @@ When I select school "South Daybreak Elementary"
 And I select course "1st Grade Homeroom"
 And I select section "Mrs. Braverman's Homeroom #38"
 Then I see a list of 25 students
+Then I should only see one view named "Early Literacy View"
 And the list includes: "Mi-Ha Tran"
 And the following students have "ELL" lozenges: "Malcolm Haehn;Dara Nemecek;Lauretta Seip"
 And I see a header on the page that has the text "Logout"
@@ -211,16 +200,47 @@ And the list includes: "Carmen Ortiz"
 And the following students have "ELL" lozenges: "Randolph Vanhooser;Kelvin Zahm;Johnathan Zenz"
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Copyright"
+Then I should only see one view named "College Ready ELA View"
 And the count for id "attendances.absenceCount" for student "Carmen Ortiz" is "5"
 And the class for id "attendances.absenceCount" for student "Carmen Ortiz" is "color-widget-green"
+And the count for id "attendances.attendanceRate" for student "Carmen Ortiz" is "97"
+And the class for id "attendances.attendanceRate" for student "Carmen Ortiz" is "color-widget-green"
 And the count for id "attendances.tardyCount" for student "Carmen Ortiz" is "0"
 And the class for id "attendances.tardyCount" for student "Carmen Ortiz" is "color-widget-darkgreen"
+And the count for id "attendances.tardyRate" for student "Carmen Ortiz" is "0"
+And the class for id "attendances.tardyRate" for student "Carmen Ortiz" is "color-widget-darkgreen"
 # Absence count: > 11
 And the count for id "attendances.absenceCount" for student "Geoffrey Pillard" is "18"
 And the class for id "attendances.absenceCount" for student "Geoffrey Pillard" is "color-widget-red"
 # Absense count 1-5
 And the count for id "attendances.absenceCount" for student "Maya Cun" is "3"
 And the class for id "attendances.absenceCount" for student "Maya Cun" is "color-widget-green"
+# attendance rate 98-99
+And the count for id "attendances.attendanceRate" for student "Samatha Twining" is "99"
+And the class for id "attendances.attendanceRate" for student "Samatha Twining" is "color-widget-darkgreen"
+# Attendance rate 90-97
+And the count for id "attendances.attendanceRate" for student "Garry Mcconnaughy" is "92"
+And the class for id "attendances.attendanceRate" for student "Garry Mcconnaughy" is "color-widget-yellow"
+# Attendance rate < 90
+And the count for id "attendances.attendanceRate" for student "Oma Bevington" is "87"
+And the class for id "attendances.attendanceRate" for student "Oma Bevington" is "color-widget-red"
+#And the grades teardrop color widgets are mapped correctly:
+ # |grade|teardrop           |
+ # |A+   |teardrop-darkgreen |
+ # |A-   |teardrop-darkgreen |
+ # |A    |teardrop-darkgreen |
+ #|B+   |teardrop-lightgreen|
+ # |B-   |teardrop-lightgreen|
+ # |B    |teardrop-lightgreen|
+ # |C+   |teardrop-yellow    |
+ # |C-   |teardrop-yellow    |
+ # |C    |teardrop-yellow    |
+ # |D+   |teardrop-orange    |
+ # |D-   |teardrop-orange    |
+ # |D    |teardrop-orange    |
+#  |F+   |teardrop-red       |
+ # |F-   |teardrop-red       |
+  #|F    |teardrop-red       |
 And I click on student "Carmen Ortiz"
 And I view its student profile
 And their name shown in profile is "Carmen Daniella Ortiz"
