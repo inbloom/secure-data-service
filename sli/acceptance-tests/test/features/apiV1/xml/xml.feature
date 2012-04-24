@@ -17,7 +17,7 @@ Examples:
   | schools                     | school                     | eb3b8c35-f582-df23-e406-6947249a19f2    |
   | students                    | student                    | 714c1304-8a04-4e23-b043-4ad80eb60992    |
   | studentSectionAssociations  | studentSectionAssociation  | 4efb4b14-bc49-f388-0000-0000c9355702    |
-  | sessionCourseAssociations   | sessionCourseAssociation   | 9ff65bb1-ef8b-4588-83af-d58f39c1bf68    |
+  | courseOfferings   			| sessionCourseAssociation   | 9ff65bb1-ef8b-4588-83af-d58f39c1bf68    |
 
 Scenario Outline: Getting response from GET - Read all
   When I navigate to GET "/v1/<ENTITY URI>"
@@ -32,4 +32,4 @@ Examples:
   | schools                     | school                     | 24              |
   | students                    | student                    | 50              |
   | studentSectionAssociations  | studentSectionAssociation  | 41              |
-  | sessionCourseAssociations   | sessionCourseAssociation   | 4               |
+  | courseOfferings			    | sessionCourseAssociation   | 4               |

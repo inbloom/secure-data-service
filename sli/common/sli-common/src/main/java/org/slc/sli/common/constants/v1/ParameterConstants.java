@@ -106,7 +106,7 @@ public class ParameterConstants {
     public static final String STAFF_ID = "staffId";
     public static final String STUDENT_ID = "studentId";
     public static final String TEACHER_ID = "teacherId";
-    public static final String STUDENT_SECTION_GRADEBOOK_ENTRY_ID = "studentSectionGradebookEntryId";
+    public static final String STUDENT_GRADEBOOK_ENTRY_ID = "studentGradebookEntryId";
     public static final String COHORT_ID = "cohortId";
     public static final String EDUCATION_ORGANIZATION_ID = "educationOrganizationId";
     public static final String ATTENDANCE_ID = "attendanceId";
@@ -119,10 +119,10 @@ public class ParameterConstants {
     public static final String STAFF_EDUCATION_ORGANIZATION_ID = "staffEducationOrganizationId";
     public static final String STUDENT_SECTION_ASSOCIATION_ID = "studentSectionAssociationId";
     public static final String STUDENT_SCHOOL_ASSOCIATION_ID = "studentSchoolAssociationId";
-    public static final String SESSION_COURSE_ASSOCIATION_ID = "sessionCourseAssociationId";
-    public static final String STUDENT_ASSESSMENT_ASSOCIATION_ID = "studentAssessmentAssociationId";
+    public static final String COURSE_OFFERING_ID = "courseOfferingId";
+    public static final String STUDENT_ASSESSMENT_ID = "studentAssessmentId";
     public static final String SECTION_ASSESSMENT_ASSOCIATION_ID = "sectionAssessmentAssociationId";
-    public static final String STUDENT_TRANSCRIPT_ASSOCIATION_ID = "studentTranscriptAssociationId";
+    public static final String COURSE_TRANSCRIPT_ID = "courseTranscriptId";
     public static final String STUDENT_PARENT_ASSOCIATION_ID = "studentParentAssociationId";
     public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID = "studentDisciplineIncidentAssociationId";
     public static final String STAFF_PROGRAM_ASSOCIATION_ID = "staffProgramAssociatonId";
