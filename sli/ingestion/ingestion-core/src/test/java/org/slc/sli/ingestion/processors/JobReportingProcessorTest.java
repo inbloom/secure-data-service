@@ -61,15 +61,13 @@ public class JobReportingProcessorTest {
 
     private static PrintStream printOut = new PrintStream(System.out);
 
-    LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone();
-
     @InjectMocks
-    JobReportingProcessor jobReportingProcessor = new JobReportingProcessor(tmpLz);
+    JobReportingProcessor jobReportingProcessor = new JobReportingProcessor();
 
     @Mock
     private BatchJobDAO mockedBatchJobDAO;
 
-    File tmpDir = new File(TEMP_DIR);
+    private static File tmpDir = new File(TEMP_DIR);
 
     @Before
     public void setUp() throws Exception {
@@ -78,8 +76,6 @@ public class JobReportingProcessorTest {
         if (tmpDir.mkdirs()) {
             printOut.println("Created temp directory " + tmpDir.getAbsolutePath());
         }
-
-        tmpLz.setDirectory(new File(TEMP_DIR));
     }
 
     @After
@@ -117,10 +113,9 @@ public class JobReportingProcessorTest {
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
         exchange.getIn().setHeader("BatchJobId", BATCHJOBID);
 
-        // create the fake landing zone
         LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone();
-        tmpLz.setDirectory(new File(TEMP_DIR));
-
+        tmpLz.setDirectory(tmpDir);
+        jobReportingProcessor.setLandingZone(tmpLz);
         printOut.println("Writing to " + tmpLz.getDirectory().getAbsolutePath());
 
         jobReportingProcessor.process(exchange);

@@ -7,12 +7,14 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
+import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -25,6 +27,7 @@ import org.slc.sli.ingestion.queues.MessageType;
  * @author okrook
  *
  */
+@Component
 public class ControlFilePreProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PREPROCESSOR;
@@ -35,10 +38,6 @@ public class ControlFilePreProcessor implements Processor {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
-
-    public ControlFilePreProcessor(LandingZone lz) {
-        this.landingZone = lz;
-    }
 
     /**
      * @see org.apache.camel.Processor#process(org.apache.camel.Exchange)
@@ -61,6 +60,8 @@ public class ControlFilePreProcessor implements Processor {
 
             File fileForControlFile = exchange.getIn().getBody(File.class);
 
+            LandingZone resolvedLandingZone = resolveLandingZone(batchJobId, fileForControlFile);
+
             NewBatchJob newBatchJob = getNewBatchJobFromDb(batchJobId, batchJobDAO);
             if (newBatchJob == null) {
                 newBatchJob = createNewBatchJob(fileForControlFile, exchange);
@@ -68,17 +69,29 @@ public class ControlFilePreProcessor implements Processor {
 
             ControlFile controlFile = ControlFile.parse(fileForControlFile);
 
+            ControlFileDescriptor controlFileDescriptor = new ControlFileDescriptor(controlFile, resolvedLandingZone);
+
             newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
 
             newBatchJob.addCompletedStage(stage);
 
             batchJobDAO.saveBatchJob(newBatchJob);
 
-            setExchangeHeaders(exchange, controlFile);
+            setExchangeHeaders(exchange, controlFileDescriptor);
 
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
         }
+    }
+
+    private LandingZone resolveLandingZone(String batchJobId, File fileForControlFile) {
+        // if this has a batch id it came from zipfileprocessor so change lz to parent of ctl file
+        LandingZone resolvedLandingZone = landingZone;
+        if (batchJobId != null) {
+            resolvedLandingZone = new LocalFileSystemLandingZone();
+            ((LocalFileSystemLandingZone) resolvedLandingZone).setDirectory(fileForControlFile.getParentFile());
+        }
+        return resolvedLandingZone;
     }
 
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {
@@ -92,8 +105,8 @@ public class ControlFilePreProcessor implements Processor {
         }
     }
 
-    private void setExchangeHeaders(Exchange exchange, ControlFile controlFile) {
-        exchange.getIn().setBody(new ControlFileDescriptor(controlFile, landingZone), ControlFileDescriptor.class);
+    private void setExchangeHeaders(Exchange exchange, ControlFileDescriptor controlFileDescriptor) {
+        exchange.getIn().setBody(controlFileDescriptor, ControlFileDescriptor.class);
         exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
     }
 

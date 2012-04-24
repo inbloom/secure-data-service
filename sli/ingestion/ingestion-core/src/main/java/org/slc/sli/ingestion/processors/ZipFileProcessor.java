@@ -84,8 +84,6 @@ public class ZipFileProcessor implements Processor {
             batchJobDAO.saveBatchJob(newJob);
 
             if (errorReport.hasErrors()) {
-                // TODO Switch NewBatchJob.class back to BatchJob.class
-                exchange.getIn().setBody(newJob, NewBatchJob.class);
                 exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
                 exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
             } else if (ctlFile != null) {

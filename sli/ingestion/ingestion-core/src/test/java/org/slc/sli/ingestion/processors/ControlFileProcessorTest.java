@@ -49,8 +49,6 @@ public class ControlFileProcessorTest {
 
         preObject.getIn().setBody(IngestionTest.getFile("smooks/InterchangeStudentCsv.ctl"));
 
-        new ControlFilePreProcessor(lz).process(preObject);
-
         Exchange eObject = new DefaultExchange(new DefaultCamelContext());
 
         eObject.getIn().setHeaders(preObject.getIn().getHeaders());

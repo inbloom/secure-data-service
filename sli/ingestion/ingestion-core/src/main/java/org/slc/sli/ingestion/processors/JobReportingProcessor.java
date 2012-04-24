@@ -17,6 +17,7 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
@@ -37,6 +38,7 @@ import org.slc.sli.ingestion.queues.MessageType;
  * @author bsuzuki
  *
  */
+@Component
 public class JobReportingProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.JOB_REPORTING_PROCESSOR;
@@ -44,14 +46,11 @@ public class JobReportingProcessor implements Processor {
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(JobReportingProcessor.class);
 
+    @Autowired
     private LandingZone landingZone;
 
     @Autowired
     private BatchJobDAO batchJobDAO;
-
-    public JobReportingProcessor(LandingZone lz) {
-        this.landingZone = lz;
-    }
 
     @Override
     public void process(Exchange exchange) {
@@ -325,6 +324,10 @@ public class JobReportingProcessor implements Processor {
                 LOG.error("unable to close FileChannel.", e);
             }
         }
+    }
+
+    public void setLandingZone(LandingZone lz) {
+        this.landingZone = lz;
     }
 
 }
