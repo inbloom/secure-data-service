@@ -195,7 +195,7 @@ public class StudentResource extends DefaultCrudEndpoint {
             return studentResponse;
         }
 
-        Map<String, String> student = (Map<String, String>) studentResponse.getEntity();
+        Map<String, String> student = (Map<String, String>) studentEntityResponse.getEntity();
         addGradeLevelToStudent(student, studentId, headers, uriInfo);
         return studentResponse;
        
