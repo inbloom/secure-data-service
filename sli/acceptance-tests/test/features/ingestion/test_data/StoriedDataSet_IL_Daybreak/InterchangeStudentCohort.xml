@@ -184,7 +184,7 @@
 	<EndDate>2012-02-15</EndDate>
   </StudentCohortAssociation>
   
-  
+  <!-- Temporarily removed until staff cohort association is ingestable 
   <StaffCohortAssociation>
     <StaffReference>
 	  <StaffIdentity>
@@ -231,4 +231,6 @@
     <BeginDate>2011-07-01</BeginDate>
 	<StudentRecordAccess>true</StudentRecordAccess>
   </StaffCohortAssociation>
+  -->
+
 </InterchangeStudentCohort>

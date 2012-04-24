@@ -31,11 +31,11 @@ Scenario: Traverse from parent education organization through child education or
         And I should receive a link named "getSession" with URI "/v1/sessions/<'SPRING 2011 (SESSION)' ID>"
     When I navigate to GET "/v1/sessions/<'SPRING 2011 (SESSION)' ID>"
     Then I should receive a return code of 200
-        And I should receive a link named "getSessionCourseAssociations" with URI "/v1/sessions/<'SPRING 2011 (SESSION)' ID>/sessionCourseAssociations"
-    When I navigate to GET "/v1/sessions/<'SPRING 2011 (SESSION)' ID>/sessionCourseAssociations"
+        And I should receive a link named "getCourseOfferings" with URI "/v1/sessions/<'SPRING 2011 (SESSION)' ID>/courseOfferings"
+    When I navigate to GET "/v1/sessions/<'SPRING 2011 (SESSION)' ID>/courseOfferings"
     Then I should receive a return code of 200
-        And in an entity, I should receive a link named "self" with URI "/v1/sessionCourseAssociations/<'MATH 1 DURING SPRING 2011 (SESSION-COURSE)' ID>"
-    When I navigate to GET "/v1/sessionCourseAssociations/<'MATH 1 DURING SPRING 2011 (SESSION-COURSE)' ID>"
+        And in an entity, I should receive a link named "self" with URI "/v1/courseOfferings/<'MATH 1 DURING SPRING 2011 (SESSION-COURSE)' ID>"
+    When I navigate to GET "/v1/courseOfferings/<'MATH 1 DURING SPRING 2011 (SESSION-COURSE)' ID>"
     Then I should receive a return code of 200
         And I should receive a link named "getCourse" with URI "/v1/courses/<'MATH 1 (COURSE)' ID>"
     When I navigate to GET "/v1/courses/<'MATH 1 (COURSE)' ID>"
@@ -83,11 +83,11 @@ Scenario: Traverse from parent education organization through child education or
         And I should receive a link named "getSession" with URI "/v1/sessions/<'SPRING 2011 (SESSION)' ID>"
     When I navigate to GET "/v1/sessions/<'SPRING 2011 (SESSION)' ID>"
     Then I should receive a return code of 200
-        And I should receive a link named "getSessionCourseAssociations" with URI "/v1/sessions/<'SPRING 2011 (SESSION)' ID>/sessionCourseAssociations"
-    When I navigate to GET "/v1/sessions/<'SPRING 2011 (SESSION)' ID>/sessionCourseAssociations"
+        And I should receive a link named "getCourseOfferings" with URI "/v1/sessions/<'SPRING 2011 (SESSION)' ID>/courseOfferings"
+    When I navigate to GET "/v1/sessions/<'SPRING 2011 (SESSION)' ID>/courseOfferings"
     Then I should receive a return code of 200
-        And in an entity, I should receive a link named "self" with URI "/v1/sessionCourseAssociations/<'MATH 1 DURING SPRING 2011 (SESSION-COURSE)' ID>"
-    When I navigate to GET "/v1/sessionCourseAssociations/<'MATH 1 DURING SPRING 2011 (SESSION-COURSE)' ID>"
+        And in an entity, I should receive a link named "self" with URI "/v1/courseOfferings/<'MATH 1 DURING SPRING 2011 (SESSION-COURSE)' ID>"
+    When I navigate to GET "/v1/courseOfferings/<'MATH 1 DURING SPRING 2011 (SESSION-COURSE)' ID>"
     Then I should receive a return code of 200
         And I should receive a link named "getCourse" with URI "/v1/courses/<'MATH 1 (COURSE)' ID>"
     When I navigate to GET "/v1/courses/<'MATH 1 (COURSE)' ID>"
