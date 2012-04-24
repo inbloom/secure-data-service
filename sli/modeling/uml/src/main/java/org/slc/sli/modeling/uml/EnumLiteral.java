@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * A member of an enumeration type.
  */
-public final class EnumLiteral extends UmlNamedModelElement implements HasName {
+public final class EnumLiteral extends NamedModelElement implements HasName {
     
     public EnumLiteral(final Identifier id, final String name, final List<TaggedValue> taggedValues) {
         super(id, name, taggedValues);
