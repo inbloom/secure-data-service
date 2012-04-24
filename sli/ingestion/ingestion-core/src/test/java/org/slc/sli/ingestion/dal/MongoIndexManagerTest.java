@@ -16,9 +16,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
-import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -44,11 +42,12 @@ public class MongoIndexManagerTest {
     @Test
     public void testCreateIndex() {
         Map<String, List<IndexDefinition>> res = manager.createIndexes(batchJobId);
-        Index index = new Index();
-        index.on("metaData.tenantId", Order.ASCENDING);
+        Assert.assertEquals(1, res.size());
+        Assert.assertEquals(2, res.get("student_testBatchJob").size());
+        Assert.assertTrue(res.get("student_testBatchJob").get(0).getIndexKeys().containsField("body.sex"));
         Assert.assertTrue(res.get("student_testBatchJob").get(0).getIndexKeys().containsField("body.name"));
+        Assert.assertTrue(res.get("student_testBatchJob").get(0).getIndexKeys().containsField("body.birthDate"));
         Assert.assertTrue(res.get("student_testBatchJob").get(1).getIndexKeys().containsField("metaData.tenantId"));
-
     }
 
     @Test
