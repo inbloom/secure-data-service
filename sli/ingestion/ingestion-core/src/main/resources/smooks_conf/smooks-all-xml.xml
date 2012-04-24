@@ -2940,13 +2940,13 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
     createOnElement="InterchangeStudentDiscipline/DisciplineIncident">
     <jb:expression property="recordType">'disciplineIncident'</jb:expression>
-    <jb:expression property="association">true</jb:expression>
+    <jb:value property="localId" data="InterchangeStudentDiscipline/DisciplineIncident/IncidentIdentifier" />
     <jb:wiring property="attributes" beanIdRef="disciplineIncidentAttributes" />
   </jb:bean>
 
   <jb:bean beanId="disciplineIncidentAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentDiscipline/DisciplineIncident">
-    <jb:value property="id" data="DisciplineIncident/@id" />
+    <!-- <jb:value property="id" data="DisciplineIncident/@id" /> -->
     <jb:value property="IncidentIdentifier" data="DisciplineIncident/IncidentIdentifier" />
     <jb:value property="IncidentDate" data="DisciplineIncident/IncidentDate" />
     <jb:value property="IncidentTime" data="DisciplineIncident/IncidentTime" />

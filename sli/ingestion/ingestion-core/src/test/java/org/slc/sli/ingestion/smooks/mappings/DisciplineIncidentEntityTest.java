@@ -57,9 +57,9 @@ public class DisciplineIncidentEntityTest {
 
         Map<String, Object> attributes = neutralRecord.getAttributes();
 
-        assertEquals("Expected different number of attributes", 14, attributes.size());
+        assertEquals("Expected different number of attributes", 13, attributes.size());
 
-        assertEquals("Expected different id", "whack-a-mole", attributes.get("id"));
+        //assertEquals("Expected different id", "whack-a-mole", attributes.get("id"));
         assertEquals("Expected different IncidentIdentifier", "Whack-a-mole", attributes.get("IncidentIdentifier"));
         assertEquals("Expected different IncidentDate", "2011-02-01", attributes.get("IncidentDate"));
         assertEquals("Expected different IncidentTime", "15:23:02", attributes.get("IncidentTime"));
@@ -134,6 +134,8 @@ public class DisciplineIncidentEntityTest {
 
         assertEquals("Expected different weapon", "Club", weaponsList.get(0));
         assertEquals("Expected different weapon", "Non-Illegal Knife", weaponsList.get(1));
+
+        assertEquals("Expected different CaseNumber", "Case Number 1", attributes.get("CaseNumber"));
 
         //school
         @SuppressWarnings("unchecked")

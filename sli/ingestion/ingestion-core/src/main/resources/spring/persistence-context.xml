@@ -57,6 +57,7 @@
     <value>program</value>
     <value>studentProgramAssociation</value>
     <value>staffProgramAssociation</value>
+    <value>disciplineIncident</value>
   </util:set>
 
 </beans>
