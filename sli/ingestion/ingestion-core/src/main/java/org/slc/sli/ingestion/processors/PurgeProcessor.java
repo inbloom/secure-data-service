@@ -38,10 +38,16 @@ public class PurgeProcessor implements Processor {
 
     private static final String TENANT_ID = "tenantId";
 
+    private BatchJobDAO batchJobDAO;
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
     private List<String> excludeCollections;
+
+    public PurgeProcessor() {
+        this.batchJobDAO = new BatchJobMongoDA();
+    }
 
     public MongoTemplate getMongoTemplate() {
         return mongoTemplate;
@@ -64,8 +70,6 @@ public class PurgeProcessor implements Processor {
 
         String batchJobId = getBatchJobId(exchange);
         if (batchJobId != null) {
-
-            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
 
             NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
 
@@ -148,6 +152,14 @@ public class PurgeProcessor implements Processor {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+    }
+
+    public BatchJobDAO getBatchJobDAO() {
+        return batchJobDAO;
+    }
+
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+        this.batchJobDAO = batchJobDAO;
     }
 
 }
