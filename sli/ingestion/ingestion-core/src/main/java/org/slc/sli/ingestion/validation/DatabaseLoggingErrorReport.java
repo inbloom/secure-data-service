@@ -2,9 +2,12 @@ package org.slc.sli.ingestion.validation;
 
 import java.io.Serializable;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
+import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
@@ -22,6 +25,9 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
 
     private boolean hasErrors;
 
+    @Autowired
+    BatchJobDAO batchJobDAO;
+
     public DatabaseLoggingErrorReport(String batchJobId, BatchJobStageType stageType, String resourceId) {
         this.batchJobId = batchJobId;
         this.stage = stageType;
@@ -37,9 +43,11 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
     public void error(String message, Object sender) {
 
         String recordIdentifier = null;
-        BatchJobMongoDA.logIngestionError(batchJobId, (stage == null) ? null : stage.getName(), resourceId,
+        Error error = Error.createIngestionError(batchJobId, (stage == null) ? null : stage.getName(), resourceId,
                 BatchJobUtils.getHostName(), BatchJobUtils.getHostAddress(), recordIdentifier,
                 FaultType.TYPE_ERROR.getName(), FaultType.TYPE_ERROR.getName(), message);
+        batchJobDAO.saveError(error);
+
         hasErrors = true;
     }
 
@@ -47,9 +55,10 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
     public void warning(String message, Object sender) {
 
         String recordIdentifier = null;
-        BatchJobMongoDA.logIngestionError(batchJobId, (stage == null) ? "" : stage.getName(), resourceId,
+        Error error = Error.createIngestionError(batchJobId, (stage == null) ? "" : stage.getName(), resourceId,
                 BatchJobUtils.getHostName(), BatchJobUtils.getHostAddress(), recordIdentifier,
                 FaultType.TYPE_WARNING.getName(), FaultType.TYPE_WARNING.getName(), message);
+        batchJobDAO.saveError(error);
     }
 
     @Override

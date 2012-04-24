@@ -17,10 +17,10 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
 
 /**
@@ -76,9 +76,12 @@ public class PurgeProcessor implements Processor {
 
             String tenantId = newJob.getProperty(TENANT_ID);
             if (tenantId == null) {
-                logger.info("TenantId missing. No purge operation performed.");
-                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PURGE_PROCESSOR,
-                        FaultType.TYPE_WARNING.getName(), null, "No tenant specified. No purge will be done.");
+                String noTenantMessage = "TenantId missing. No purge operation performed.";
+                logger.info(noTenantMessage);
+
+                Error error = Error.createIngestionError(batchJobId, BatchJobStageType.PURGE_PROCESSOR.getName(), null,
+                        null, null, null, FaultType.TYPE_WARNING.getName(), null, noTenantMessage);
+                batchJobDAO.saveError(error);
             } else {
                 purgeForTenant(exchange, tenantId);
             }
@@ -118,8 +121,9 @@ public class PurgeProcessor implements Processor {
 
             String batchJobId = getBatchJobId(exchange);
             if (batchJobId != null) {
-                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PURGE_PROCESSOR,
-                        FaultType.TYPE_ERROR.getName(), null, exception.toString());
+                Error error = Error.createIngestionError(batchJobId, BatchJobStageType.PURGE_PROCESSOR.getName(), null,
+                        null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
+                batchJobDAO.saveError(error);
             }
         }
     }

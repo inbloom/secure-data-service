@@ -16,12 +16,13 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.handler.ReferenceResolutionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Processes a XML file
@@ -36,6 +37,9 @@ public class XmlFileProcessor implements Processor {
     @Autowired
     private ReferenceResolutionHandler referenceResolutionHandler;
 
+    @Autowired
+    private BatchJobDAO batchJobDAO;
+
     @Override
     public void process(Exchange exchange) throws Exception {
         boolean hasErrors = false;
@@ -43,8 +47,6 @@ public class XmlFileProcessor implements Processor {
         String batchJobId = getBatchJobId(exchange);
 
         if (batchJobId != null) {
-
-            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
 
             NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
 
@@ -83,8 +85,9 @@ public class XmlFileProcessor implements Processor {
                 exchange.getIn().setHeader("ErrorMessage", exception.toString());
                 exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
                 log.error("Exception:", exception);
-                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.XML_FILE_PROCESSOR,
-                        FaultType.TYPE_ERROR.getName(), null, exception.toString());
+                Error error = Error.createIngestionError(batchJobId, BatchJobStageType.XML_FILE_PROCESSOR.getName(),
+                        null, null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
+                batchJobDAO.saveError(error);
             }
 
             stage.stopStage();
@@ -103,11 +106,12 @@ public class XmlFileProcessor implements Processor {
             String faultLevel = fault.isError() ? FaultType.TYPE_ERROR.getName()
                     : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
 
-            // TODO: this should use the BatchJobDAO interface
-            BatchJobMongoDA.logIngestionError(batchJobId, BatchJobStageType.XML_FILE_PROCESSOR.getName(),
+            Error error = Error.createIngestionError(batchJobId, BatchJobStageType.XML_FILE_PROCESSOR.getName(),
                     fe.getFileName(), null, null, null, faultLevel, faultLevel, faultMessage);
+            batchJobDAO.saveError(error);
         }
-        BatchJobMongoDA.writeErrorsToMongo(batchJobId, BatchJobStageType.XML_FILE_PROCESSOR, fe.getFaultsReport());
+        BatchJobUtils.writeErrorsWithDAO(batchJobId, BatchJobStageType.XML_FILE_PROCESSOR, fe.getFaultsReport(),
+                batchJobDAO);
     }
 
     public ReferenceResolutionHandler getReferenceResolutionHandler() {

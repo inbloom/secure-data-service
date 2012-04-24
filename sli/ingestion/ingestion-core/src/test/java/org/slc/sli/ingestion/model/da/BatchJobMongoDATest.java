@@ -1,17 +1,20 @@
 package org.slc.sli.ingestion.model.da;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,16 +37,25 @@ public class BatchJobMongoDATest {
 
     private static final String BATCHJOBID = "controlfile.ctl-2345342-2342334234";
 
+    @InjectMocks
+    @Autowired
+    private BatchJobMongoDA mockBatchJobMongoDA;
+
+    @Mock
+    MongoTemplate mockMongoTemplate;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
     public void testFindBatchJob() {
         NewBatchJob job = new NewBatchJob(BATCHJOBID);
 
-        MongoTemplate mockedTemplate = mock(MongoTemplate.class);
-        when(mockedTemplate.findOne((Query) any(), eq(NewBatchJob.class))).thenReturn(job);
+        when(mockMongoTemplate.findOne((Query) any(), eq(NewBatchJob.class))).thenReturn(job);
 
-        BatchJobMongoDA bjmda = new BatchJobMongoDA();
-        bjmda.setBatchJobMongoTemplate(mockedTemplate);
-        NewBatchJob resultJob = bjmda.findBatchJobById(BATCHJOBID);
+        NewBatchJob resultJob = mockBatchJobMongoDA.findBatchJobById(BATCHJOBID);
 
         assertEquals(resultJob.getId(), BATCHJOBID);
     }
@@ -51,22 +63,15 @@ public class BatchJobMongoDATest {
     @Test
     public void testFindBatchJobErrors() {
         List<Error> errors = new ArrayList<Error>();
-        Error error = new Error(BATCHJOBID, BatchJobStageType.EDFI_PROCESSOR.getName(), "resourceid",
-                "sourceIp", "hostname", "recordId", "timestamp", FaultType.TYPE_ERROR.getName(),
-                "errorType", "errorDetail");
+        Error error = new Error(BATCHJOBID, BatchJobStageType.EDFI_PROCESSOR.getName(), "resourceid", "sourceIp",
+                "hostname", "recordId", "timestamp", FaultType.TYPE_ERROR.getName(), "errorType", "errorDetail");
         errors.add(error);
 
-        MongoTemplate mockedTemplate = mock(MongoTemplate.class);
-        when(mockedTemplate.find((Query) any(), eq(Error.class), eq("error"))).thenReturn(errors);
+        when(mockMongoTemplate.find((Query) any(), eq(Error.class), eq("error"))).thenReturn(errors);
 
-        BatchJobMongoDA bjmda = new BatchJobMongoDA();
-        bjmda.setBatchJobMongoTemplate(mockedTemplate);
-        BatchJobMongoDAStatus resultStatus = bjmda.findBatchJobErrors(BATCHJOBID);
+        List<Error> errorList = mockBatchJobMongoDA.findBatchJobErrors(BATCHJOBID);
 
-        assertTrue(resultStatus.isSuccess());
-        assertEquals(resultStatus.getMessage(), "Returned errors for " + BATCHJOBID);
-
-        Error errorReturned = ((List<Error>) resultStatus.getResult()).get(0);
+        Error errorReturned = errorList.get(0);
         assertEquals(errorReturned.getBatchJobId(), BATCHJOBID);
         assertEquals(errorReturned.getStageName(), BatchJobStageType.EDFI_PROCESSOR.getName());
         assertEquals(errorReturned.getResourceId(), "resourceid");

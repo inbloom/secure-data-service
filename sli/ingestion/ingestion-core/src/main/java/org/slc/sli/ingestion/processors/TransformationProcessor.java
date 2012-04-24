@@ -14,7 +14,6 @@ import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.TransformationFactory;
 import org.slc.sli.ingestion.transformation.Transmogrifier;
@@ -33,6 +32,9 @@ public class TransformationProcessor implements Processor {
     @Autowired
     private TransformationFactory transformationFactory;
 
+    @Autowired
+    private BatchJobDAO batchJobDAO;
+
     /**
      * Camel Exchange process callback method
      *
@@ -49,7 +51,6 @@ public class TransformationProcessor implements Processor {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
         }
-        BatchJobDAO batchJobDAO = new BatchJobMongoDA();
         NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
 
         Stage stage = new Stage();

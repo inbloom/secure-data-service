@@ -1,19 +1,22 @@
 package org.slc.sli.ingestion.util;
 
-import static org.slc.sli.ingestion.model.da.BatchJobMongoDA.logIngestionError;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.List;
 
 import org.apache.camel.Exchange;
+import org.apache.commons.lang.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.Fault;
+import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.Job;
+import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
 /**
  * Utilities for BatchJob
@@ -25,7 +28,8 @@ public class BatchJobUtils {
 
     private static final Logger LOG = LoggerFactory.getLogger(BatchJobUtils.class);
 
-    public static final String TIMESTAMPPATTERN = "yyyy-MM-dd:HH-mm-ss";
+    private static final String TIMESTAMPPATTERN = "yyyy-MM-dd:HH-mm-ss";
+    private static final FastDateFormat FORMATTER = FastDateFormat.getInstance(TIMESTAMPPATTERN);
 
     private static InetAddress localhost;
     static {
@@ -189,47 +193,30 @@ public class BatchJobUtils {
         return localhost.getHostName();
     }
 
-    public static String getTimeStamp() {
-        return getTimeStamp(TIMESTAMPPATTERN);
+    public static String getCurrentTimeStamp() {
+        String timeStamp = FORMATTER.format(System.currentTimeMillis());
+        return timeStamp;
     }
 
-    public static String getTimeStamp(String pattern) {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-        return sdf.format(cal.getTime());
-    }
-
-    // TODO: enumerate severity for errors
-
-    /**
-     * Write a batch job error using state manager system properties.
-     * This should be refactored to be an interface with different implementations.
-     *
-     * @param batchJobId
-     * @param stageName
-     * @param fileId
-     * @param severity
-     * @param errorDetail
-     */
-    public static void logError(String batchJobId, BatchJobStageType stage, String fileId, String severity,
-            String errorDetail) {
-
-        if ("mongodb".equals(System.getProperty("state.manager"))) {
-
-            LOG.info("creating a error in the db");
-            // TODO: create an error document in the db
-
-            logIngestionError(batchJobId, stage.getName(), fileId, null, null, null, severity, "generic", errorDetail);
+    public static void writeErrorsWithDAO(String batchId, BatchJobStageType stage, FaultsReport errorReport,
+            BatchJobDAO batchJobDAO) {
+        if (errorReport.hasErrors()) {
+            String severity;
+            List<Fault> faults = errorReport.getFaults();
+            for (Fault fault : faults) {
+                if (fault.isError()) {
+                    severity = FaultType.TYPE_ERROR.getName();
+                } else if (fault.isWarning()) {
+                    severity = FaultType.TYPE_WARNING.getName();
+                } else {
+                    // TODO consider adding this to FaultType
+                    severity = "UNKNOWN";
+                }
+                Error error = Error.createIngestionError(batchId, stage.getName(), null, null, null, null, severity,
+                        null, fault.getMessage());
+                batchJobDAO.saveError(error);
+            }
         }
-    }
-
-    public static void logBatchError(String batchJobId, String severity, String errorDetail) {
-        logError(batchJobId, null, null, severity, errorDetail);
-    }
-
-    public static void logBatchStageError(String batchJobId, BatchJobStageType stage, String severity,
-            String errorDetail) {
-        logError(batchJobId, stage, null, severity, errorDetail);
     }
 
 }

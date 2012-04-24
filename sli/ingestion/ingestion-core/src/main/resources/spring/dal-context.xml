@@ -90,19 +90,4 @@
     </property>
   </bean>
 
-  <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-    <property name="targetClass">
-      <value>org.slc.sli.ingestion.model.da.BatchJobMongoDA</value>
-    </property>
-    <property name="targetMethod">
-      <value>setBatchJobMongoTemplate</value>
-    </property>
-    <property name="arguments">
-      <list>
-        <ref bean="batchJobMongoTemplate" />
-      </list>
-    </property>
-
-  </bean>
-
 </beans>

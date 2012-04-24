@@ -14,12 +14,13 @@ import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
+import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Zip file handler.
@@ -34,6 +35,9 @@ public class ZipFileProcessor implements Processor {
 
     @Autowired
     private ZipFileHandler handler;
+
+    @Autowired
+    private BatchJobDAO batchJobDAO;
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -59,13 +63,13 @@ public class ZipFileProcessor implements Processor {
             stage.startStage();
 
             exchange.getIn().setHeader("BatchJobId", batchJobId);
-            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
 
             FaultsReport errorReport = new FaultsReport();
 
             File ctlFile = handler.handle(zipFile, errorReport);
 
-            BatchJobMongoDA.writeErrorsToMongo(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSOR, errorReport);
+            BatchJobUtils
+                    .writeErrorsWithDAO(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSOR, errorReport, batchJobDAO);
 
             ResourceEntry resourceName = new ResourceEntry();
             resourceName.setResourceName(zipFile.getCanonicalPath());
@@ -92,8 +96,9 @@ public class ZipFileProcessor implements Processor {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             log.error("Exception:", exception);
             if (batchJobId != null) {
-                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSOR,
-                        FaultType.TYPE_ERROR.getName(), null, exception.toString());
+                Error error = Error.createIngestionError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSOR.getName(),
+                        null, null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
+                batchJobDAO.saveError(error);
             }
         }
     }

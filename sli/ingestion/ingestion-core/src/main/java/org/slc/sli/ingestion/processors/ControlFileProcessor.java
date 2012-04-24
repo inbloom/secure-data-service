@@ -19,12 +19,13 @@ import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
+import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Control file processor.
@@ -46,6 +47,9 @@ public class ControlFileProcessor implements Processor {
 
     @Autowired
     private BatchJobAssembler jobAssembler;
+
+    @Autowired
+    private BatchJobDAO batchJobDAO;
 
     @Override
     @Profiled
@@ -76,7 +80,6 @@ public class ControlFileProcessor implements Processor {
         try {
             Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
-            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
             NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
 
             ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
@@ -92,8 +95,7 @@ public class ControlFileProcessor implements Processor {
                 createAndAddResourceEntries(newJob, cf);
             }
 
-            // TODO: this should use the BatchJobDAO interface
-            BatchJobMongoDA.writeErrorsToMongo(batchJobId, BATCH_JOB_STAGE, errorReport);
+            BatchJobUtils.writeErrorsWithDAO(batchJobId, BATCH_JOB_STAGE, errorReport, batchJobDAO);
 
             // TODO set properties on the exchange based on job properties
 
@@ -113,8 +115,9 @@ public class ControlFileProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         log.error("Exception:", exception);
         if (batchJobId != null) {
-            BatchJobMongoDA.logBatchStageError(batchJobId, BATCH_JOB_STAGE, FaultType.TYPE_ERROR.getName(), null,
-                    exception.toString());
+            Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null, null, null, null,
+                    FaultType.TYPE_ERROR.getName(), null, exception.toString());
+            batchJobDAO.saveError(error);
         }
     }
 

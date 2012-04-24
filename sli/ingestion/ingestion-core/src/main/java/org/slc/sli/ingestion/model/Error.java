@@ -2,6 +2,8 @@ package org.slc.sli.ingestion.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import org.slc.sli.ingestion.util.BatchJobUtils;
+
 /**
  *
  * @author dduran
@@ -46,6 +48,25 @@ public final class Error {
         this.severity = severity;
         this.errorType = errorType;
         this.errorDetail = errorDetail;
+    }
+
+    // TODO: too many params. refactor.
+    public static Error createIngestionError(String ingestionJobId, String stageName, String resourceId,
+            String sourceIp, String hostname, String recordIdentifier, String severity, String errorType,
+            String errorDetail) {
+
+        if (sourceIp == null) {
+            sourceIp = BatchJobUtils.getHostAddress();
+        }
+
+        if (hostname == null) {
+            hostname = BatchJobUtils.getHostName();
+        }
+
+        Error error = new Error(ingestionJobId, stageName, resourceId, sourceIp, hostname, recordIdentifier,
+                BatchJobUtils.getCurrentTimeStamp(), severity, errorType, errorDetail);
+
+        return error;
     }
 
     public String getBatchJobId() {

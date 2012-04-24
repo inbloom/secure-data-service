@@ -16,6 +16,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
@@ -28,8 +29,6 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDAStatus;
 import org.slc.sli.ingestion.queues.MessageType;
 
 /**
@@ -47,11 +46,11 @@ public class JobReportingProcessor implements Processor {
 
     private LandingZone landingZone;
 
+    @Autowired
     private BatchJobDAO batchJobDAO;
 
     public JobReportingProcessor(LandingZone lz) {
         this.landingZone = lz;
-        this.batchJobDAO = new BatchJobMongoDA();
     }
 
     @Override
@@ -135,46 +134,41 @@ public class JobReportingProcessor implements Processor {
         Map<String, PrintWriter> resourceToWarningMap = new HashMap<String, PrintWriter>();
 
         try {
-            BatchJobMongoDAStatus status = batchJobDAO.findBatchJobErrors(job.getId());
-            if (status != null && status.isSuccess()) {
+            List<Error> errors = batchJobDAO.findBatchJobErrors(job.getId());
+            for (Error error : errors) {
 
-                // TODO handle large numbers of errors
-                @SuppressWarnings("unchecked")
-                List<Error> errors = (List<Error>) status.getResult();
-                for (Error error : errors) {
+                String externalResourceId = getExternalResourceId(error.getResourceId(), job);
 
-                    String externalResourceId = getExternalResourceId(error.getResourceId(), job);
+                if (externalResourceId != null) {
 
-                    if (externalResourceId != null) {
+                    PrintWriter externalResourceErrorWriter = null;
+                    if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
 
-                        PrintWriter externalResourceErrorWriter = null;
-                        if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
+                        hasErrors = true;
+                        externalResourceErrorWriter = getExternalResourceTypeWriter("error", job.getId(),
+                                externalResourceId, resourceToErrorMap);
 
-                            hasErrors = true;
-                            externalResourceErrorWriter = getExternalResourceTypeWriter("error", job.getId(),
-                                    externalResourceId, resourceToErrorMap);
+                        if (externalResourceErrorWriter != null) {
+                            writeErrorLine(externalResourceErrorWriter, error.getErrorDetail());
+                        } else {
+                            LOG.error("Error: Unable to write to error file for: {} {}", job.getId(),
+                                    externalResourceId);
+                        }
+                    } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
 
-                            if (externalResourceErrorWriter != null) {
-                                writeErrorLine(externalResourceErrorWriter, error.getErrorDetail());
-                            } else {
-                                LOG.error("Error: Unable to write to error file for: {} {}", job.getId(),
-                                        externalResourceId);
-                            }
-                        } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
+                        externalResourceErrorWriter = getExternalResourceTypeWriter("warn", job.getId(),
+                                externalResourceId, resourceToWarningMap);
 
-                            externalResourceErrorWriter = getExternalResourceTypeWriter("warn", job.getId(),
-                                    externalResourceId, resourceToWarningMap);
-
-                            if (externalResourceErrorWriter != null) {
-                                writeWarningLine(externalResourceErrorWriter, error.getErrorDetail());
-                            } else {
-                                LOG.error("Error: Unable to write to warning file for: {} {}", job.getId(),
-                                        externalResourceId);
-                            }
+                        if (externalResourceErrorWriter != null) {
+                            writeWarningLine(externalResourceErrorWriter, error.getErrorDetail());
+                        } else {
+                            LOG.error("Error: Unable to write to warning file for: {} {}", job.getId(),
+                                    externalResourceId);
                         }
                     }
                 }
             }
+
         } catch (IOException e) {
             LOG.error("Error: Unable to write error file for: {}", job.getId());
         } finally {
@@ -213,7 +207,7 @@ public class JobReportingProcessor implements Processor {
         return null;
     }
 
-    private static long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
+    private long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
         long totalProcessed = 0;
 
         // TODO group counts by externallyUploadedResourceId
@@ -239,10 +233,11 @@ public class JobReportingProcessor implements Processor {
         return totalProcessed;
     }
 
-    private static void doesntHavePersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
+    private void doesntHavePersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
         // write out 0 count metrics for the input files
-        BatchJobMongoDA.logBatchStageError(job.getId(), BATCH_JOB_STAGE, FaultType.TYPE_WARNING.getName(), null,
-                "There were no metrics for " + BATCH_JOB_STAGE.getName() + ".");
+        Error error = Error.createIngestionError(job.getId(), BATCH_JOB_STAGE.getName(), null, null, null, null,
+                FaultType.TYPE_WARNING.getName(), null, "There were no metrics for " + BATCH_JOB_STAGE.getName());
+        batchJobDAO.saveError(error);
 
         for (ResourceEntry resourceEntry : job.getResourceEntries()) {
             if (resourceEntry.getResourceFormat() != null
@@ -271,7 +266,8 @@ public class JobReportingProcessor implements Processor {
         return stage;
     }
 
-    // TODO move this into a dedicated cleanup processor routing stage run on error or normal completion
+    // TODO move this into a dedicated cleanup processor routing stage run on error or normal
+    // completion
     private void deleteNeutralRecordFiles(NewBatchJob job) {
         for (ResourceEntry resourceEntry : job.getResourceEntries()) {
             if (resourceEntry.getResourceName() != null
@@ -329,14 +325,6 @@ public class JobReportingProcessor implements Processor {
                 LOG.error("unable to close FileChannel.", e);
             }
         }
-    }
-
-    public BatchJobDAO getBatchJobDAO() {
-        return batchJobDAO;
-    }
-
-    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
-        this.batchJobDAO = batchJobDAO;
     }
 
 }

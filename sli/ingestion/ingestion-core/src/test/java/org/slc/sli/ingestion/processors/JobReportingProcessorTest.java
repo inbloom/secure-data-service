@@ -18,8 +18,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Matchers;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -34,8 +37,6 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDAStatus;
 
 /**
  *
@@ -60,13 +61,25 @@ public class JobReportingProcessorTest {
 
     private static PrintStream printOut = new PrintStream(System.out);
 
+    LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone();
+
+    @InjectMocks
+    JobReportingProcessor jobReportingProcessor = new JobReportingProcessor(tmpLz);
+
+    @Mock
+    private BatchJobDAO mockedBatchJobDAO;
+
     File tmpDir = new File(TEMP_DIR);
 
     @Before
     public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+
         if (tmpDir.mkdirs()) {
             printOut.println("Created temp directory " + tmpDir.getAbsolutePath());
         }
+
+        tmpLz.setDirectory(new File(TEMP_DIR));
     }
 
     @After
@@ -94,13 +107,11 @@ public class JobReportingProcessorTest {
                 mockedStages, mockedResourceEntries);
         mockedJob.setSourceId(TEMP_DIR);
 
-        BatchJobMongoDAStatus mockedFindErrorsStatus = createFakeStatus();
+        List<Error> fakeErrorList = createFakeErrorList();
 
         // set mocked BatchJobMongoDA in jobReportingProcessor
-        BatchJobDAO mockedBatchJobDAO = Mockito.mock(BatchJobMongoDA.class);
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(BATCHJOBID))).thenReturn(mockedJob);
-        Mockito.when(mockedBatchJobDAO.findBatchJobErrors(Matchers.eq(BATCHJOBID))).thenReturn(mockedFindErrorsStatus);
-        Mockito.when(mockedBatchJobDAO.saveBatchJob(mockedJob)).thenReturn(null);
+        Mockito.when(mockedBatchJobDAO.findBatchJobErrors(Matchers.eq(BATCHJOBID))).thenReturn(fakeErrorList);
 
         // create exchange
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
@@ -112,19 +123,11 @@ public class JobReportingProcessorTest {
 
         printOut.println("Writing to " + tmpLz.getDirectory().getAbsolutePath());
 
-        JobReportingProcessor jobReportingProcessor = new JobReportingProcessor(tmpLz);
-        jobReportingProcessor.setBatchJobDAO(mockedBatchJobDAO);
-
         jobReportingProcessor.process(exchange);
 
         // read the generated job output file and check values
         FileReader fr = new FileReader(TEMP_DIR + OUTFILE);
         BufferedReader br = new BufferedReader(fr);
-
-//        String s;
-        // while ((s = br.readLine()) != null) {
-        // System.out.println(s);
-        // }
 
         assertTrue(br.readLine().contains("jobId: " + BATCHJOBID));
         assertTrue(br.readLine().contains(
@@ -177,13 +180,13 @@ public class JobReportingProcessorTest {
         return resourceEntries;
     }
 
-    private BatchJobMongoDAStatus createFakeStatus() {
+    private List<Error> createFakeErrorList() {
         List<Error> errors = new LinkedList<Error>();
         Error error = new Error(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), RESOURCEID,
                 "10.81.1.27", "testhost", RECORDID, "20120412 10:04:46.111", FaultType.TYPE_ERROR.getName(),
                 "errorType", ERRORDETAIL);
         errors.add(error);
-        return new BatchJobMongoDAStatus(true, "Got fake errors for testing", errors);
+        return errors;
     }
 
     private List<Stage> createFakeStages() {

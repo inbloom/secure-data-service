@@ -9,6 +9,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.performance.Profiled;
@@ -21,12 +22,12 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
+import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -47,6 +48,9 @@ public class EdFiProcessor implements Processor {
 
     private Map<FileFormat, AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry>> fileHandlerMap;
 
+    @Autowired
+    private BatchJobDAO batchJobDAO;
+
     @Override
     @ExtractBatchJobIdToContext
     @Profiled
@@ -65,7 +69,6 @@ public class EdFiProcessor implements Processor {
 
     private void processEdFi(Exchange exchange, String batchJobId) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
-        BatchJobDAO batchJobDAO = new BatchJobMongoDA();
 
         NewBatchJob newJob = null;
         try {
@@ -142,9 +145,9 @@ public class EdFiProcessor implements Processor {
             String faultLevel = fault.isError() ? FaultType.TYPE_ERROR.getName()
                     : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
 
-            // TODO: this should use the BatchJobDAO interface
-            BatchJobMongoDA.logIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), fe.getFileName(), null, null,
-                    null, faultLevel, faultLevel, faultMessage);
+            Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), fe.getFileName(), null,
+                    null, null, faultLevel, faultLevel, faultMessage);
+            batchJobDAO.saveError(error);
         }
         return errorCount;
     }
@@ -154,8 +157,9 @@ public class EdFiProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Exception:", exception);
         if (batchJobId != null) {
-            BatchJobMongoDA.logBatchStageError(batchJobId, BATCH_JOB_STAGE, FaultType.TYPE_ERROR.getName(), null,
-                    exception.toString());
+            Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null, null, null, null,
+                    FaultType.TYPE_ERROR.getName(), null, exception.toString());
+            batchJobDAO.saveError(error);
         }
     }
 

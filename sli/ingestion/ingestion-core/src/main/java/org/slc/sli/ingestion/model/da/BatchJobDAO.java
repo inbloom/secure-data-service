@@ -1,5 +1,8 @@
 package org.slc.sli.ingestion.model.da;
 
+import java.util.List;
+
+import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 
 /**
@@ -9,9 +12,11 @@ import org.slc.sli.ingestion.model.NewBatchJob;
  */
 public interface BatchJobDAO {
 
-    BatchJobMongoDAStatus saveBatchJob(NewBatchJob newBatchJob);
+    void saveBatchJob(NewBatchJob newBatchJob);
 
     NewBatchJob findBatchJobById(String batchJobId);
 
-    BatchJobMongoDAStatus findBatchJobErrors(String batchJobId);
+    List<Error> findBatchJobErrors(String batchJobId);
+
+    void saveError(Error error);
 }

@@ -6,16 +6,17 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
+import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
 
 /**
@@ -31,6 +32,9 @@ public class ControlFilePreProcessor implements Processor {
     private LandingZone landingZone;
 
     Logger log = LoggerFactory.getLogger(ZipFileProcessor.class);
+
+    @Autowired
+    private BatchJobDAO batchJobDAO;
 
     public ControlFilePreProcessor(LandingZone lz) {
         this.landingZone = lz;
@@ -54,7 +58,6 @@ public class ControlFilePreProcessor implements Processor {
         // TODO handle invalid control file (user error)
         // TODO handle IOException or other system error
         try {
-            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
 
             File fileForControlFile = exchange.getIn().getBody(File.class);
 
@@ -83,8 +86,9 @@ public class ControlFilePreProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         log.error("Exception:", exception);
         if (batchJobId != null) {
-            BatchJobMongoDA.logBatchStageError(batchJobId, BATCH_JOB_STAGE,
+            Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null, null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
+            batchJobDAO.saveError(error);
         }
     }
 

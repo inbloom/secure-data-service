@@ -31,12 +31,12 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
 import org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
+import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer;
@@ -71,6 +71,9 @@ public class PersistenceProcessor implements Processor {
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
+    @Autowired
+    private BatchJobDAO batchJobDAO;
+
     /**
      * Camel Exchange process callback method
      *
@@ -88,7 +91,6 @@ public class PersistenceProcessor implements Processor {
 
             Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
-            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
             NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
             newJob.getStages().add(stage);
 
@@ -111,8 +113,9 @@ public class PersistenceProcessor implements Processor {
                                 processNeutralRecordsFile(new File(resource.getResourceName()), getTenantId(newJob),
                                         batchJobId, metrics);
                             } catch (IOException e) {
-                                BatchJobMongoDA.logBatchStageError(batchJobId, BATCH_JOB_STAGE,
-                                        FaultType.TYPE_ERROR.getName(), "Exception", e.getMessage());
+                                Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null,
+                                        null, null, null, FaultType.TYPE_ERROR.getName(), "Exception", e.getMessage());
+                                batchJobDAO.saveError(error);
                             }
                         }
                         metrics.stopMetric();
@@ -309,8 +312,10 @@ public class PersistenceProcessor implements Processor {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Exception:", exception);
-        BatchJobMongoDA.logBatchStageError(batchJobId, BATCH_JOB_STAGE, FaultType.TYPE_ERROR.getName(), "Exception",
-                exception.getMessage());
+
+        Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null, null, null, null,
+                FaultType.TYPE_ERROR.getName(), "Exception", exception.getMessage());
+        batchJobDAO.saveError(error);
     }
 
     // TODO: currently only called by unit tests.... GET RID OF IT!!!
