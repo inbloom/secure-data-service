@@ -39,11 +39,11 @@ public class MongoIndexManagerTest {
         Map<String, List<IndexDefinition>> res = MongoIndexManager.getCollectionIndexes();
         Assert.assertEquals(1, res.size());
         Assert.assertEquals(2, res.get("student").size());
-        Assert.assertEquals(3, res.get("student").get(0).getIndexKeys().keySet().size());
-        Assert.assertTrue(res.get("student").get(0).getIndexKeys().containsField("body.sex"));
-        Assert.assertTrue(res.get("student").get(0).getIndexKeys().containsField("body.name"));
-        Assert.assertTrue(res.get("student").get(0).getIndexKeys().containsField("body.birthDate"));
-        Assert.assertTrue(res.get("student").get(1).getIndexKeys().containsField("metaData.tenantId"));
+        Assert.assertEquals(3, res.get("student").get(1).getIndexKeys().keySet().size());
+        Assert.assertTrue(res.get("student").get(1).getIndexKeys().containsField("body.sex"));
+        Assert.assertTrue(res.get("student").get(1).getIndexKeys().containsField("body.name"));
+        Assert.assertTrue(res.get("student").get(1).getIndexKeys().containsField("body.birthDate"));
+        Assert.assertTrue(res.get("student").get(0).getIndexKeys().containsField("metaData.tenantId"));
     }
 
     @Test
