@@ -171,7 +171,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         List<String> changedKeys = new ArrayList<String>();
 
         for (Map.Entry<String, Object> entry : app.entrySet()) {
-            if (!oldApp.get(entry.getKey()).equals(entry.getValue())) {
+            if (oldApp.containsKey(entry.getKey()) && !oldApp.get(entry.getKey()).equals(entry.getValue())) {
                 changedKeys.add(entry.getKey());
             }
         }
