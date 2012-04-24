@@ -4,11 +4,11 @@
   xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
   xmlns:util="http://www.springframework.org/schema/util"
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
-		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
   default-autowire="byName">
 
 
@@ -22,9 +22,9 @@
   <!-- MONGODB CONFIG -->
 
   <mongo:db-factory
-  	id="mongoDbStagingFactory"
-  	dbname="${sli.ingestion.staging.mongodb.database}"
-  	host="${sli.ingestion.staging.mongodb.host}"
+    id="mongoDbStagingFactory"
+    dbname="${sli.ingestion.staging.mongodb.database}"
+    host="${sli.ingestion.staging.mongodb.host}"
     port="${sli.ingestion.staging.mongodb.port}" />
   <!-- username="${sli.ingestion.staging.mongodb.user}" password="${sli.ingestion.staging.mongodb.pass}" -->
 <util:map  id="pii" key-type="java.lang.String" value-type="java.lang.Object"></util:map>
@@ -61,20 +61,28 @@
 -->
 
   <!--<bean id="neutralRecordMongoIdConverter" class="org.slc.sli.dal.convert.MongoIdConverter" />-->
+  <bean id="indexResourcePatternResolver" class="org.slc.sli.ingestion.dal.IndexResourcePatternResolver">
+  </bean>
 
-  <bean id="neutralRecordRepository" class="org.slc.sli.ingestion.dal.NeutralRecordRepository">
+  <bean id="mongoIndexManager" class="org.slc.sli.ingestion.dal.MongoIndexManager" scope="singleton">
+    <property name="indexRootDir" value="mongoIndexes" />
+    <property name="indexResolver" ref="indexResourcePatternResolver" />
+  </bean>
+
+  <bean id="neutralRecordRepository" class="org.slc.sli.ingestion.dal.NeutralRecordRepository" >
     <property name="template" ref="neutralRecordMongoTemplate" />
     <property name="idConverter" ref="mongoIdConverter" />
     <property name="entityEncryption" ref="stagingEntityEncryption" />
+    <property name="stagingMongoIndexManager" ref="mongoIndexManager"/>
   </bean>
-
+  
   <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
     <property name="neutralRecordRepository" ref="neutralRecordRepository" />
   </bean>
 
   <context:component-scan base-package="org.slc.sli.ingestion.dal" />
 
-  
+
   <!-- MONGODB BATCHJOB CONFIG -->
 
   <mongo:db-factory

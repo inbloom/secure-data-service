@@ -61,7 +61,13 @@ public class EntityResourcesCrudTest {
     private String[] classesToTest;
 
     // this array contains classes that should be excluded
-    private String[] classesNotToTest = { "LearningStandardResource" };
+    private String[] classesNotToTest = {
+            "LearningStandardResource",
+            "ReportCardResource",
+            "StudentCompetencyResource",
+            "StudentCompetencyObjectiveResource",
+            "CompetencyLevelDescriptorResource",
+            "CompetencyLevelDescriptorTypeResource" };
 
     @Autowired
     EntityDefinitionStore entityDefs;

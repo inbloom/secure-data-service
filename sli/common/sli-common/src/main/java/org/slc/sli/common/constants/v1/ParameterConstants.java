@@ -95,6 +95,8 @@ public class ParameterConstants {
     public static final String ASSESSMENT_ID = "assessmentId";
     public static final String BELL_SCHEDULE_ID = "bellScheduleId";
     public static final String COURSE_ID = "courseId";
+    public static final String COMPETENCY_LEVEL_DESCRIPTOR_ID = "competencyLevelDescriptorId";
+    public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPE_ID = "competencyLevelDescriptorTypeId";
     public static final String DISCIPLINE_INCIDENT_ID = "disciplineIncidentId";
     public static final String DISCIPLINE_ACTION_ID = "disciplineActionId";
     public static final String GRADEBOOK_ENTRY_ID = "gradebookEntryId";
@@ -105,14 +107,16 @@ public class ParameterConstants {
     public static final String SESSION_ID = "sessionId";
     public static final String STAFF_ID = "staffId";
     public static final String STUDENT_ID = "studentId";
+    public static final String STUDENT_COMPETENCY_ID = "studentCompetencyId";
+    public static final String STUDENT_COMPETENCY_OBJECTIVE_ID = "studentCompetencyObjectiveId";
     public static final String TEACHER_ID = "teacherId";
-    public static final String STUDENT_ACADEMIC_RECORD_ID = "studentAcademicRecordId";
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRY_ID = "studentSectionGradebookEntryId";
     public static final String COHORT_ID = "cohortId";
     public static final String EDUCATION_ORGANIZATION_ID = "educationOrganizationId";
     public static final String ATTENDANCE_ID = "attendanceId";
     public static final String LEARNING_STANDARD_ID = "learningStandardId";
     public static final String LEARNINGOBJECTIVE_ID = "learningObjectiveId";
+    public static final String REPORT_CARD_ID = "reportCardId";
     public static final String SCHOOL_SESSION_ASSOCIATION_ID = "schoolSessionAssociationId";
     public static final String TEACHER_SCHOOL_ASSOCIATION_ID = "teacherSchoolAssociationId";
     public static final String TEACHER_SCHOOL_ASSOC_ID = "teacherSchoolAssociationId";
