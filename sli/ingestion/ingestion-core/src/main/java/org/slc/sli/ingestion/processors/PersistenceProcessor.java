@@ -58,7 +58,6 @@ import org.slc.sli.ingestion.validation.ProxyErrorReport;
  * persistence behavior.
  *
  */
-
 @Component
 public class PersistenceProcessor implements Processor {
 
@@ -265,14 +264,15 @@ public class PersistenceProcessor implements Processor {
 
                         Iterable<NeutralRecord> neutralRecordData = null;
 
+                        NeutralQuery neutralQuery = new NeutralQuery();
+                        neutralQuery.setLimit(0);
                         if (neutralRecord.getRecordType().equals("studentTranscriptAssociation")) {
-                            NeutralQuery neutralQuery = new NeutralQuery();
                             String studentAcademicRecordId = (String) neutralRecord.getAttributes().remove("studentAcademicRecordId");
                             neutralQuery.addCriteria(new NeutralCriteria("studentAcademicRecordId", "=", studentAcademicRecordId));
                             neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed", neutralQuery);
                         } else {
                             processedStagedCollections.add(neutralRecord.getRecordType());
-                            neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed");
+                            neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed", neutralQuery);
                         }
 
                         if (neutralRecordData != null) {

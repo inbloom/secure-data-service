@@ -32,6 +32,11 @@
                 <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffProgramAssociation.xml" />
             </bean>
         </entry>
+        <entry key="attendance">
+            <bean class="org.milyn.Smooks">
+                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/attendance.xml" />
+            </bean>
+        </entry>
     </util:map>
 
     <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
@@ -48,10 +53,6 @@
     </bean>
 
     <bean id="studentTranscriptAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.StudentTranscriptAssociationCombiner" scope="prototype">
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-    </bean>
-    
-    <bean id="attendanceTransformationStrategy" class="org.slc.sli.ingestion.transformation.AttendanceTransformer" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     </bean>
 
@@ -79,7 +80,7 @@
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
 		<property name="passThroughCollectionName" value="studentProgramAssociation" />
     </bean>
-		
+    
 </beans>
 
 
