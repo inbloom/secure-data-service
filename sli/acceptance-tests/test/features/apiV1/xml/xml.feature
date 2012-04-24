@@ -96,4 +96,3 @@ Scenario: Applying optional fields - attendances with year filter
 
   Then I should find 161 "<attendances>" under "<student><attendances>"
   And I should find 87 entries with "<eventDate>" including the string "2011"
->>>>>>> 29b3c3349b0e9e4fdb1e89bf33054cfb5aa0b9d9
