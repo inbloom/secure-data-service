@@ -6,6 +6,7 @@ class AppsControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
+    session[:roles] = []
     get :index
     assert_response :success
     assert_not_nil assigns(:apps)
