@@ -1,4 +1,4 @@
-Feature: As an SLI application, I want to be able to manage student academic record entities
+Feature: As an SLI application, I want to be able to manage assessment entities
 This means I want to be able to perform CRUD on all entities.
 and verify that the correct links are made available.
   
@@ -8,7 +8,6 @@ Background: Nothing yet
 
 Scenario: Create a valid entity
    Given a valid entity json document for a "<ENTITY TYPE>"
-   Given format "application/json"
     When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 201
      And I should receive an ID for the newly created entity
@@ -48,7 +47,6 @@ Scenario: Delete entity
 
 Scenario: Non-happy path Attempt to create invalid entity
    Given an invalid entity json document for a "<ENTITY TYPE>"
-   Given format "application/json"
     When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 400
      And the error message should indicate "<VALIDATION>"
@@ -67,6 +65,7 @@ Scenario: Non-happy path Attempt to update an entity to an invalid state
 
 Scenario: Non-happy path Attempt to update a non-existing entity
    Given a valid entity json document for a "<ENTITY TYPE>"
+    When I set the "<ENDPOINT2 FIELD>" to "<INVALID REFERENCE>"
     When I navigate to PUT "/<ENTITY URI>/<INVALID REFERENCE>"
     Then I should receive a return code of 404
 

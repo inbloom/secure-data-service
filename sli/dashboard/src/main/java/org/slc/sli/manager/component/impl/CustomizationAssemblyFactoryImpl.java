@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -19,6 +21,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import org.slc.sli.entity.Config;
+import org.slc.sli.entity.Config.Item;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.ConfigManager;
@@ -27,6 +30,7 @@ import org.slc.sli.manager.Manager.EntityMappingManager;
 import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.DashboardException;
+import org.slc.sli.util.ExecutionTimeLogger.LogExecutionTime;
 import org.slc.sli.util.SecurityUtil;
 
 /**
@@ -37,6 +41,7 @@ import org.slc.sli.util.SecurityUtil;
 public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFactory, ApplicationContextAware {
     public static final Class<?>[] ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE =
             new Class[]{String.class, Object.class, Config.Data.class};
+    public static final String SUBSTITUTE_TOKEN_PATTERN = "\\$\\{([^}]+)\\}";
     private static final String DATA_CACHE_REGION = "user.panel.data";
     private Logger logger = LoggerFactory.getLogger(getClass());
     private ApplicationContext applicationContext;
@@ -82,48 +87,66 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
      * @param entity - entity for the component
      * @return true if condition passes and false otherwise
      */
-    public final boolean checkCondition(Config config, GenericEntity entity) {
+    @SuppressWarnings("unchecked")
+    public final boolean checkCondition(Config parentConfig, Config config, GenericEntity entity) {
         if (config != null && config.getCondition() != null) {
+            //todo: figure out what to do when no entity
             if (entity == null) {
-                // TEMPORARY
                 return true;
-                //throw new DashboardException("Entity is null for a conditional item.");
             }
             Config.Condition condition = config.getCondition();
-            String[] tokens = condition.getField().split("\\.");
-            tokens = (tokens.length == 0) ? new String[]{condition.getField()} : tokens;
-            Object childEntity = entity;
-            for (String token : tokens) {
-                if (childEntity == null || !(childEntity instanceof GenericEntity)) {
-                    return false;
-                }
-                childEntity = ((GenericEntity) childEntity).get(token);
-            }
             Object[] values = condition.getValue();
-            // if null and value is null, it's allowed, otherwise it's not
-            if (childEntity == null) {
-                return values.length == 0;
-            }
-            if (childEntity instanceof Number) {
-                double childNumber = ((Number) childEntity).doubleValue();
-                for (Object n : values) {
-                    if (childNumber == ((Number) n).doubleValue()) {
-                        return true;
-                    }
+            // for simplicity always treat as an array
+            List<GenericEntity> listOfEntitites = (parentConfig != null && parentConfig.getRoot() != null) ? entity.getList(parentConfig.getRoot()) : Arrays.asList(entity);
+            Object childEntity;
+            // condition is equivalent to exists in the list
+            for (GenericEntity oneEntity : listOfEntitites) {
+                childEntity = getValue(oneEntity, condition.getField());
+                // if null and value is null, it's allowed, otherwise it's not
+                if (childEntity == null) {
+                    return values.length == 0;
                 }
-            } else if (childEntity instanceof String) {
-                String childString = (String) childEntity;
-                for (Object n : values) {
-                    if (childString.equalsIgnoreCase((String) n)) {
-                        return true;
+                if (childEntity instanceof Number) {
+                    double childNumber = ((Number) childEntity).doubleValue();
+                    for (Object n : values) {
+                        if (childNumber == ((Number) n).doubleValue()) {
+                            return true;
+                        }
                     }
+                } else if (childEntity instanceof String) {
+                    String childString = (String) childEntity;
+                    for (Object n : values) {
+                        if (childString.equalsIgnoreCase((String) n)) {
+                            return true;
+                        }
+                    }
+                } else {
+                    throw new DashboardException("Unsupported data type for condition. Only allow string and numbers");
                 }
-            } else {
-                throw new DashboardException("Unsupported data type for condition. Only allow string and numbers");
             }
             return false;
         }
         return true;
+    }
+
+    /**
+     * Get value from the entity model map where sub-entities are identified by a dot
+     * "data.history.id"
+     * @param entity
+     * @param dataField
+     * @return
+     */
+    private Object getValue(GenericEntity entity, String dataField) {
+        String[] pathTokens = dataField.split("\\.");
+        pathTokens = (pathTokens.length == 0) ? new String[]{dataField} : pathTokens;
+        Object childEntity = entity;
+        for (String token : pathTokens) {
+            if (childEntity == null || !(childEntity instanceof GenericEntity)) {
+                return null;
+            }
+            childEntity = ((GenericEntity) childEntity).get(token);
+        }
+        return childEntity;
     }
 
     /**
@@ -135,8 +158,8 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
      * @param depth - depth of the recursion
      */
     private Config populateModelRecursively(
-        ModelAndViewConfig model, String componentId, Object entityKey, Config.Item parentToComponentConfigRef,
-        GenericEntity parentEntity, int depth
+        ModelAndViewConfig model, String componentId, Object entityKey, Config.Item parentToComponentConfigRef, Config panelConfig,
+        GenericEntity parentEntity, int depth, boolean lazyOverride
     ) {
         if (depth > 5) {
             throw new DashboardException("The items hierarchy is too deep - only allow 5 elements");
@@ -150,11 +173,11 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
                         "Unable to find config for " + componentId + " and entity id " + entityKey + ", config " + componentId);
             }
             Config.Data dataConfig = config.getData();
-            if (dataConfig != null && !dataConfig.isLazy() && !model.hasDataForAlias(dataConfig.getAlias())) {
+            if (dataConfig != null && (!dataConfig.isLazy() || lazyOverride) && !model.hasDataForAlias(dataConfig.getCacheKey())) {
                 entity = getDataComponent(componentId, entityKey, dataConfig);
-                model.addData(dataConfig.getAlias(), entity);
+                model.addData(dataConfig.getCacheKey(), entity);
             }
-            if (!checkCondition(config, entity)) {
+            if (!checkCondition(config, config, entity)) {
                 return null;
             }
         }
@@ -162,10 +185,14 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             List<Config.Item> items = new ArrayList<Config.Item>();
             depth++;
             Config newConfig;
-            for (Config.Item item : config.getItems()) {
-                if (checkCondition(item, entity)) {
+            // get items, go through all of them and update config as need according to conditions and template substitutions
+            for (Config.Item item : getUpdatedDynamicHeaderTemplate(config, entity)) {
+                if (checkCondition(config, item, entity)) {
+                    newConfig = populateModelRecursively(model, item.getId(), entityKey, item, config, entity, depth, lazyOverride);
+                    if (newConfig != null) {
+                        item = (Item) item.cloneWithItems(newConfig.getItems());
+                    }
                     items.add(item);
-                    newConfig = populateModelRecursively(model, item.getId(), entityKey, item, entity, depth);
                     if (config.getType().isLayoutItem()) {
                         model.addLayoutItem(newConfig);
                     }
@@ -173,15 +200,53 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             }
             config = config.cloneWithItems(items.toArray(new Config.Item[0]));
         }
-        model.addComponentViewConfigMap(componentId, config);
+        if (componentId != null) {
+            model.addComponentViewConfigMap(componentId, config);
+        }
         return config;
+    }
+
+    /**
+     * Replace tokens in headers with values from entity's internal metadata
+     * @param config
+     * @param entity
+     */
+    protected Config.Item[] getUpdatedDynamicHeaderTemplate(Config config, GenericEntity entity) {
+        if (entity != null) {
+            Pattern p = Pattern.compile(SUBSTITUTE_TOKEN_PATTERN);
+            Matcher matcher;
+            String name, value;
+            Collection<Config.Item> newItems = new ArrayList<Config.Item>();
+            for (Config.Item item : config.getItems()) {
+                name = item.getName();
+                if (name != null) {
+                    matcher = p.matcher(name);
+                    while (matcher.find()) {
+                        value = (String) getValue(entity, matcher.group(1));
+                        if (value != null) {
+                            name = name.replace(matcher.group(), value);
+                        }
+                    }
+                    item = item.cloneWithName(name);
+                }
+                newItems.add(item);
+            }
+            return newItems.toArray(new Config.Item[0]);
+        }
+        return config.getItems();
     }
 
     @Override
     public ModelAndViewConfig getModelAndViewConfig(String componentId, Object entityKey) {
+        return getModelAndViewConfig(componentId, entityKey, false);
+    }
+
+    @Override
+    @LogExecutionTime
+    public ModelAndViewConfig getModelAndViewConfig(String componentId, Object entityKey, boolean lazyOverride) {
 
         ModelAndViewConfig modelAndViewConfig = new ModelAndViewConfig();
-        populateModelRecursively(modelAndViewConfig, componentId, entityKey, null, null, 0);
+        populateModelRecursively(modelAndViewConfig, componentId, entityKey, null, null, null, 0, lazyOverride);
         return modelAndViewConfig;
     }
 
@@ -241,7 +306,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
                 if (!Arrays.equals(ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE, m.getParameterTypes())) {
                     throw new DashboardException("Wrong signature for the method for "
                             + entityMapping.value() + ". Expected is "
-                            + ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE.toString() + "!!!");
+                            + Arrays.asList(ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE) + "!!!");
                 }
                 entityReferenceToManagerMethodMap.put(entityMapping.value(), new InvokableSet(instance, m));
             }
@@ -282,6 +347,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         }
     }
 
+    @LogExecutionTime
     protected GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
         CacheKey cacheKey = new CacheKey(getTokenId(), componentId, entityKey, config);
         GenericEntity value = getCached(cacheKey);
