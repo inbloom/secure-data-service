@@ -59,7 +59,7 @@ public class SliSmooksFactory {
 
             nrMongoStagingWriter.registerBatchId(batchJobId);
             // !!!removed the call to fix the unit tests first
-            nrMongoStagingWriter.getRecordRepository().generateMongoIndexes();
+           // nrMongoStagingWriter.getRecordRepository().generateMongoIndexes();
 
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             for (String targetSelector : targetSelectorList) {
