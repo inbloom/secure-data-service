@@ -7,7 +7,7 @@ class Role < SessionResource
       role.examples = nil
       role.individual = nil
       case role.name
-      when /Aggregator/
+      when /Aggregate/
         role.examples = "State Data Analyst, State DOE Representative"
         role.individual = nil
       when /Leader/

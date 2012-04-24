@@ -38,24 +38,20 @@
 	
 	<ObjectiveAssessment id="ACTEnglish">
 		<IdentificationCode>ACT-English</IdentificationCode>
-		<MaxRawScore>36</MaxRawScore>
 		<ObjectiveAssessmentReference ref="ACTEnglishUsage"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ACTEnglishRhetorical"></ObjectiveAssessmentReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ACTEnglishUsage">
 		<IdentificationCode>ACT-English-Usage</IdentificationCode>
-		<MaxRawScore>18</MaxRawScore>
-	</ObjectiveAssessment>
+		</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ACTEnglishRhetorical">
 		<IdentificationCode>ACT-English-Rhetorical</IdentificationCode>
-		<MaxRawScore>18</MaxRawScore>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ACTMathematics">
 		<IdentificationCode>ACT-Mathematics</IdentificationCode>
-		<MaxRawScore>36</MaxRawScore>
 		<ObjectiveAssessmentReference ref="ACTMathematicsPreAlgebra"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ACTMathemacticsAlgebra"></ObjectiveAssessmentReference>
 		<ObjectiveAssessmentReference ref="ACTMathematicsPlaneGeometry"></ObjectiveAssessmentReference>
@@ -63,19 +59,16 @@
 
 	<ObjectiveAssessment id="ACTMathematicsPreAlgebra">
 		<IdentificationCode>ACT-Math-Pre-Algebra</IdentificationCode>
-		<MaxRawScore>18</MaxRawScore>
 		<AssessmentItemReference ref="AssessmentItem-1"></AssessmentItemReference>
 		<AssessmentItemReference ref="AssessmentItem-2"></AssessmentItemReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment id="ACTMathemacticsAlgebra">
 		<IdentificationCode>ACT-Math-Algebra</IdentificationCode>
-		<MaxRawScore>18</MaxRawScore>
 	</ObjectiveAssessment>
 	
 	<ObjectiveAssessment id="ACTMathematicsPlaneGeometry">
 		<IdentificationCode>ACT-Math-Plane-Geometry</IdentificationCode>
-		<MaxRawScore>18</MaxRawScore>
 		<LearningObjectiveReference>
 			<LearningObjectiveIdentity>
 				<Objective>Circles</Objective>
@@ -119,7 +112,7 @@
 		<LearningStandardReference>
 			<LearningStandardIdentity>
 				<LearningStandardId>
-					<IdentificationCode>G.SRT.2</IdentificationCode>
+					<IdentificationCode>G.SRT.3</IdentificationCode>
 				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
@@ -127,10 +120,9 @@
 
 	<ObjectiveAssessment id="ACTReading">
 		<IdentificationCode>ACT-Reading</IdentificationCode>
-		<MaxRawScore>36</MaxRawScore>
 		<LearningObjectiveReference>
 			<LearningObjectiveIdentity>
-				<Objective>Reading: Informational Text</Objective>
+				<IdentificationCode>RI-11-12</IdentificationCode>
 			</LearningObjectiveIdentity>
 		</LearningObjectiveReference>
 		<ObjectiveAssessmentReference ref="ACTReadingSocialStudies"></ObjectiveAssessmentReference>
@@ -139,7 +131,6 @@
 	
 	<ObjectiveAssessment id="ACTReadingSocialStudies">
 		<IdentificationCode>ACT-Reading-SocialStudies</IdentificationCode>
-		<MaxRawScore>18</MaxRawScore>
 		<LearningObjectiveReference>
 			<LearningObjectiveIdentity>
 				<Objective>Reading: Informational Text</Objective>
@@ -149,7 +140,6 @@
 
 	<ObjectiveAssessment id="ACTReadingArts">
 		<IdentificationCode>ACT-Reading-Arts</IdentificationCode>
-		<MaxRawScore>18</MaxRawScore>
 		<LearningStandardReference>
 			<LearningObjectiveIdentity>
 				<Objective>Reading: Informational Text</Objective>
@@ -159,12 +149,10 @@
 	
 	<ObjectiveAssessment id="ACTScience">
 		<IdentificationCode>ACT-Science</IdentificationCode>
-		<MaxRawScore>36</MaxRawScore>
 	</ObjectiveAssessment>
 	
 	<ObjectiveAssessment id="ACTWriting">
 		<IdentificationCode>ACT-Writing</IdentificationCode>
-		<MaxRawScore>36</MaxRawScore>
 	</ObjectiveAssessment>
 	
 </InterchangeAssessmentMetadata>

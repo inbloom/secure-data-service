@@ -3,7 +3,7 @@ default:
     api: &API-DEFAULT
 
         # used to specify the location of performance log (only used in api)
-        api.perf.log.path: 
+        api.perf.log.path: target/apilogs/logs
 
         # Security  (only used in api)
         sli.security.noSession.landing.url: http://local.slidev.org:8080/api/oauth/authorize?response_type=code
@@ -15,7 +15,7 @@ default:
         sli.trust.certificates: ../common/common-util/trust/trustedCertificates
 
         # Support Email (only used in api)
-        sli.support.email: sli@slc.org
+        sli.support.email: sli@example.com
 
         # Session lengths in milliseconds (5 minutes - only in api)
         sli.session.length: 300000
@@ -147,7 +147,7 @@ acceptance-tests:
         sli.security.sp.issuerName: https://nxbuild.slidev.org
 
         #Support Email
-        sli.support.email: sli@slc.org
+        sli.support.email: sli@example.com
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # acceptance-tests/data-access/db.properties
@@ -209,7 +209,7 @@ ci:
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
         #Support Email
-        sli.support.email: sli@slc.org
+        sli.support.email: sli@example.com
 
         api.perf.log.path: 
     data-access:
@@ -292,7 +292,7 @@ dev:
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
         #Support Email
-        sli.support.email: sli@slc.org
+        sli.support.email: sli@example.com
 
         api.perf.log.path: /home/api/logs/        
     data-access:
@@ -374,7 +374,7 @@ devapp1:
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
         #Support Email
-        sli.support.email: sli@slc.org
+        sli.support.email: sli@example.com
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # devapp1/data-access/db.properties
@@ -434,9 +434,9 @@ local:
         sli.trust.certificates: ../common/common-util/trust/trustedCertificates
 
         #Support Email
-        sli.support.email: sli@slc.org
+        sli.support.email: sli@example.com
 
-        api.perf.log.path: 
+        api.perf.log.path: target/apilogs/logs
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # local/data-access/db.properties
@@ -517,7 +517,7 @@ nxbuild2:
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
         #Support Email
-        sli.support.email: sli@slc.org
+        sli.support.email: sli@example.com
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # nxbuild2/data-access/db.properties
@@ -589,9 +589,9 @@ team:
         sli.security.sp.issuerName: https://${sli.dev.subdomain}.slidev.org
 
         #Support Email
-        sli.support.email: sli@slc.org
+        sli.support.email: sli@example.com
 
-        api.perf.log.path: /home/api/logs/
+        api.perf.log.path: /storage/logs
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # team/data-access/db.properties
