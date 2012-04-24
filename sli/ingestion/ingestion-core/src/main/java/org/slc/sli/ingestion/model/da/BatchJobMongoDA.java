@@ -18,33 +18,37 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 @Component
 public class BatchJobMongoDA implements BatchJobDAO {
 
-    private static MongoTemplate template;
+    private MongoTemplate batchJobMongoTemplate;
 
     @Override
     public void saveBatchJob(NewBatchJob job) {
         if (job != null) {
-            template.save(job);
+            batchJobMongoTemplate.save(job);
         }
     }
 
     @Override
     public NewBatchJob findBatchJobById(String batchJobId) {
         Query query = new Query(Criteria.where("_id").is(batchJobId));
-        return template.findOne(query, NewBatchJob.class);
+        return batchJobMongoTemplate.findOne(query, NewBatchJob.class);
     }
 
     @Override
     public List<Error> findBatchJobErrors(String jobId) {
         Query query = new Query(Criteria.where("batchJobId").is(jobId));
-        List<Error> errors = template.find(query, Error.class, "error");
+        List<Error> errors = batchJobMongoTemplate.find(query, Error.class, "error");
         return errors;
     }
 
     @Override
     public void saveError(Error error) {
         if (error != null) {
-            template.save(error);
+            batchJobMongoTemplate.save(error);
         }
+    }
+
+    public void setBatchJobMongoTemplate(MongoTemplate mongoTemplate) {
+        this.batchJobMongoTemplate = mongoTemplate;
     }
 
 }

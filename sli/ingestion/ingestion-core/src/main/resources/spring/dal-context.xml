@@ -90,4 +90,8 @@
     </property>
   </bean>
 
+  <bean id="batchJobMongoDA" class="org.slc.sli.ingestion.model.da.BatchJobMongoDA">
+    <property name="batchJobMongoTemplate" ref="batchJobMongoTemplate" />
+  </bean>
+
 </beans>
