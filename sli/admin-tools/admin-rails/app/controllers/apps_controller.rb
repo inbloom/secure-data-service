@@ -79,27 +79,19 @@ class AppsController < ApplicationController
     @app = App.find(params[:id])
     logger.debug {"App found (Update): #{@app.attributes}"}
 
-    if params[:update_districts]
-      params[:app] = {:authorized_ed_orgs => params[:authorized_ed_orgs]}
-      params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
-    else
-      params[:app][:is_admin] = boolean_fix params[:app][:is_admin]
-      params[:app][:enabled] = boolean_fix params[:app][:enabled]
-      params[:app][:developer_info][:license_acceptance] = boolean_fix params[:app][:developer_info][:license_acceptance]
+    params[:app][:is_admin] = boolean_fix params[:app][:is_admin]
+    params[:app][:enabled] = boolean_fix params[:app][:enabled]
+    params[:app][:developer_info][:license_acceptance] = boolean_fix params[:app][:developer_info][:license_acceptance]
+    params[:app][:authorized_ed_orgs] = params[@app.name.gsub(" ", "_") + "_authorized_ed_orgs"]
+    params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
 
-      #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
-      params[:app][:behavior] = params[:app_behavior]
-    end
+    #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
+    params[:app][:behavior] = params[:app_behavior]
 
     respond_to do |format|
       if @app.update_attributes(params[:app])
-        if params[:update_districts]
-          format.html { redirect_to edit_district_authorization_path, notice: "Updated the app's districts succesfully"}
-          format.json { head :ok }
-        else
           format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
           format.json { head :ok }
-        end
       else
         format.html { render action: "edit" }
         format.json { render json: @app.errors, status: :unprocessable_entity }
