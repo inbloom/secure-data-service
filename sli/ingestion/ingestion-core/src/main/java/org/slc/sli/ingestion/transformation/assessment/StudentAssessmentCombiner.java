@@ -3,6 +3,7 @@ package org.slc.sli.ingestion.transformation.assessment;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -36,21 +37,20 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     
     public static final String SA_EDFI_COLLECTION_NAME = "studentAssessmentAssociation";
     public static final String SOA_EDFI_COLLECTION_NAME = "studentObjectiveAssessment";
-    private static final String STUDENT_ASSESSMENT_REFERENCE = "sTAReference";
-    private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "oAReference";
-    private static final String XML_ID_FIELD = "xmlId";
+    public static final String STUDENT_ASSESSMENT_REFERENCE = "sTAReference";
+    public static final String OBJECTIVE_ASSESSMENT_REFERENCE = "oAReference";
+    public static final String XML_ID_FIELD = "xmlId";
     
     @SuppressWarnings("unchecked")
     @Override
     protected void performTransformation() {
         NeutralRecordMongoAccess db = getNeutralRecordMongoAccess();
         Repository<NeutralRecord> repo = db.getRecordRepository();
-        DBCollection studentAssessments = repo.getCollection(SA_EDFI_COLLECTION_NAME);
         Map<String, Map<String, Object>> oas = getOAs(repo.getCollection(SOA_EDFI_COLLECTION_NAME));
         for (IngestionFileEntry fe : getFEs()) {
             BasicDBObject query = getJobQuery();
             query.append("sourceFile", fe.getFileName());
-            DBCursor cursor = studentAssessments.find(query);
+            Iterator<DBObject> cursor = getMatching(SA_EDFI_COLLECTION_NAME, query);
             try {
                 NeutralRecordFileWriter writer = new NeutralRecordFileWriter(fe.getNeutralRecordFile());
                 try {
@@ -87,6 +87,13 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         }
     }
     
+    protected Iterator<DBObject> getMatching(String collectionName, DBObject query) {
+        DBCollection studentAssessments = getNeutralRecordMongoAccess().getRecordRepository().getCollection(
+                collectionName);
+        DBCursor cursor = studentAssessments.find(query);
+        return cursor;
+    }
+    
     private BasicDBObject getJobQuery() {
         return new BasicDBObject(BATCH_JOB_ID_KEY, getBatchJobId());
     }
@@ -106,6 +113,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         Map<String, Object> soaObject = ref.getAttributes();
         soaObject.remove(STUDENT_ASSESSMENT_REFERENCE);
         String objAssmtRef = (String) soaObject.get(OBJECTIVE_ASSESSMENT_REFERENCE);
+        LOG.debug("trying to resolve soa for {}", objAssmtRef);
         soaObject.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
         Map<String, Object> objAssmt = oas.get(objAssmtRef);
         if (objAssmt != null) {

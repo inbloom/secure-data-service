@@ -10,6 +10,7 @@ admin:
     client_id: kW1yIK2cMn
     application_url: https://devadmin1.slidev.org/
     administration_url: https://devadmin1.slidev.org/apps
+    registered: true
     version: "1.0"
     behavior: "Full Window App"
     is_admin: true
@@ -34,6 +35,7 @@ waffles:
     client_id: kW1yIK2cMn
     application_url: https://devadmin1.slidev.org/
     administration_url: https://devadmin1.slidev.org/apps
+    registered: true
     version: ".waffles"
     behavior: "Full Window App"
     is_admin: true
@@ -56,6 +58,7 @@ update:
     name: Waffle Application (Deoployment)
     application_url: https://devadmin1.slidev.org/
     administration_url: https://devadmin1.slidev.org/apps
+    registered: true
     version: ".waffles"
     behavior: "Full Window App"
     is_admin: "0"
@@ -72,6 +75,7 @@ new:
     name: Waffle Application (Deoployment)
     application_url: https://devadmin1.slidev.org/
     administration_url: https://devadmin1.slidev.org/apps
+    registered: false
     version: 1.0
     behavior: "Full Window App"
     is_admin: "0"

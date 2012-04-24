@@ -30,6 +30,7 @@ import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.transformation.TransformationStrategy;
 import org.slc.sli.ingestion.util.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
@@ -46,12 +47,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class AssessmentCombinerTest {
     
-    private static final String OBJ2_ID = "Obj2";
+    public static final String OBJ2_ID = "Obj2";
     
-    private static final String OBJ1_ID = "Obj1";
+    public static final String OBJ1_ID = "Obj1";
     
     @Autowired
     private AssessmentCombiner combiner;
+    
+    @Autowired
+    private StudentAssessmentCombiner saCombiner;
     
     @Autowired
     private FileUtils fileUtils;
@@ -131,7 +135,7 @@ public class AssessmentCombinerTest {
     @Test
     public void testAssessments() throws IOException {
         
-        Collection<NeutralRecord> transformedCollections = getTransformedAssessments();
+        Collection<NeutralRecord> transformedCollections = getTransformedEntities(combiner, job, fe);
         
         // Compare the result
         for (NeutralRecord neutralRecord : transformedCollections) {
@@ -144,9 +148,10 @@ public class AssessmentCombinerTest {
         }
     }
     
-    private Collection<NeutralRecord> getTransformedAssessments() throws IOException {
+    public static Collection<NeutralRecord> getTransformedEntities(TransformationStrategy transformer, Job job,
+            IngestionFileEntry fe) throws IOException {
         // Performing the transformation
-        combiner.perform(job);
+        transformer.perform(job);
         NeutralRecordFileReader reader = new NeutralRecordFileReader(fe.getNeutralRecordFile());
         List<NeutralRecord> records = new ArrayList<NeutralRecord>();
         while (reader.hasNext()) {
@@ -177,7 +182,7 @@ public class AssessmentCombinerTest {
         assessment.setAttributeField("objectiveAssessmentRefs", Arrays.asList(superOA));
         when(repository.findByQuery(Mockito.eq("assessment"), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
                 .thenReturn(Arrays.asList(assessment));
-        for (NeutralRecord neutralRecord : getTransformedAssessments()) {
+        for (NeutralRecord neutralRecord : getTransformedEntities(combiner, job, fe)) {
             assertEquals(Arrays.asList(superObjAssessmentActual.getAttributes()),
                     neutralRecord.getAttributes().get("objectiveAssessment"));
             
@@ -306,7 +311,7 @@ public class AssessmentCombinerTest {
         return rec;
     }
     
-    private NeutralRecord buildTestObjAssmt(String idCode) {
+    public static NeutralRecord buildTestObjAssmt(String idCode) {
         NeutralRecord rec = new NeutralRecord();
         rec.setRecordType("objectiveAssessment");
         rec.setAttributeField("identificationCode", idCode);
