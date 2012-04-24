@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 
 /**
  * Generates Type 1 UUIDs.
+ *
  * @author smelody
  *
  */
 @Component
-public class Type1UUIDGeneratorStrategy implements UUIDGeneratorStrategy{
-
+public class Type1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
 
     @Override
     public UUID randomUUID() {
