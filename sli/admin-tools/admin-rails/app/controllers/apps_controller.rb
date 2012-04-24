@@ -53,6 +53,9 @@ class AppsController < ApplicationController
     #     end
     #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
     params[:app][:behavior] = params[:app_behavior]
+    params[:app][:authorized_ed_orgs] = params[:authorized_ed_orgs]
+    params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
+
     @app = App.new(params[:app])
     logger.debug{"Application is valid? #{@app.valid?}"}
     @app.is_admin = boolean_fix @app.is_admin
