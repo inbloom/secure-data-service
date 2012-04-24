@@ -20,6 +20,14 @@ Then I see a list of 28 students
 And the list includes: "Matt Sollars"
 And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
 And there is no lozenges for student "Lettie Hose"
+And the fuel gauge for "Matt Sollars" in "ISAT Reading.perfLevel" is "195"
+And the fuel gauge for "Matt Sollars" in "ISAT Writing.perfLevel" is "1"
+And the fuel gauge for "Oralia Merryweather" in "ISAT Reading.perfLevel" is "205"
+And the fuel gauge for "Oralia Merryweather" in "ISAT Writing.perfLevel" is "32"
+And the fuel gauge for "Gerardo Saltazor" in "ISAT Reading.perfLevel" is "150"
+#And the fuel gauge for "Gerardo Saltazor" in "ISAT Writing.perfLevel" is "15"
+And the fuel gauge for "Karrie Rudesill" in "ISAT Reading.perfLevel" is "181"
+And the fuel gauge for "Karrie Rudesill" in "ISAT Writing.perfLevel" is "11"
 And the count for id "attendances.absenceCount" for student "Matt Sollars" is "5"
 And the class for id "attendances.absenceCount" for student "Matt Sollars" is "color-widget-green"
 And the count for id "attendances.attendanceRate" for student "Matt Sollars" is "97"
@@ -50,6 +58,21 @@ And the class for id "attendances.attendanceRate" for student "Merry Mccanse" is
 And the count for id "attendances.attendanceRate" for student "Dominic Brisendine" is "99"
 And the class for id "attendances.attendanceRate" for student "Dominic Brisendine" is "color-widget-darkgreen"
 # TODO:  all TardyCount and rates are 0
+#And I check the student list for grade "A+" is mapped to "teardrop-darkgreen"
+#And I check the student list for grade "A" is mapped to "teardrop-darkgreen"
+#And I check the student list for grade "A-" is mapped to "teardrop-darkgreen"
+#And I check the student list for grade "B" is mapped to "teardrop-lightgreen"
+#And I check the student list for grade "B+" is mapped to "teardrop-lightgreen"
+#And I check the student list for grade "B-" is mapped to "teardrop-lightgreen"
+#And I check the student list for grade "C" is mapped to "teardrop-yellow"
+#And I check the student list for grade "C+" is mapped to "teardrop-yellow"
+#And I check the student list for grade "C-" is mapped to "teardrop-yellow"
+#And I check the student list for grade "D-" is mapped to "teardrop-orange"
+#And I check the student list for grade "D" is mapped to "teardrop-orange"
+#And I check the student list for grade "D+" is mapped to "teardrop-orange"
+#And I check the student list for grade "F-" is mapped to "teardrop-red"
+#And I check the student list for grade "F+" is mapped to "teardrop-red"
+#And I check the student list for grade "F" is mapped to "teardrop-red"
 And I click on student "Matt Sollars"
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Copyright"
@@ -69,6 +92,12 @@ And Tab has a title named "Grades and Credits"
 And Tab has a title named "Advanced Academics"
 And Tab has a title named "ELL"
 And Tab has a title named "Daybreak District"
+And in "Middle School Overview" tab, there are "2" Panels
+And in "Attendance and Discipline" tab, there are "1" Panels
+And in "Assessments" tab, there are "0" Panels
+And in "Grades and Credits" tab, there are "0" Panels
+And in "Advanced Academics" tab, there are "0" Panels
+And in "ELL" tab, there are "0" Panels
 And I look at the panel "Contact Information"
 And there are "1" email addresses
 And the list of email address includes "m.sollars@gmail.com"
@@ -87,7 +116,7 @@ And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Copyright"
 
 
-@integration 
+@integration
 Scenario: View Mi-Ha Tran
 When I login as "rbraverman" "rbraverman1234"
 When I select ed org "Daybreak School District 4529"
@@ -135,6 +164,11 @@ And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
 And Tab has a title named "Advanced Academics"
 And Tab has a title named "Daybreak District"
+And in "Elementary School Overview" tab, there are "2" Panels
+And in "Attendance and Discipline" tab, there are "1" Panels
+And in "Assessments" tab, there are "0" Panels
+And in "Grades and Credits" tab, there are "0" Panels
+And in "Advanced Academics" tab, there are "0" Panels
 And I look at the panel "Contact Information"
 And there are "3" email addresses
 And the list of email address includes "ti.troung@gmail.com"
@@ -179,16 +213,14 @@ And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Copyright"
 And the count for id "attendances.absenceCount" for student "Carmen Ortiz" is "5"
 And the class for id "attendances.absenceCount" for student "Carmen Ortiz" is "color-widget-green"
-And the count for id "attendances.attendanceRate" for student "Carmen Ortiz" is "97"
-And the class for id "attendances.attendanceRate" for student "Carmen Ortiz" is "color-widget-green"
 And the count for id "attendances.tardyCount" for student "Carmen Ortiz" is "0"
 And the class for id "attendances.tardyCount" for student "Carmen Ortiz" is "color-widget-darkgreen"
-And the count for id "attendances.tardyRate" for student "Carmen Ortiz" is "0"
-And the class for id "attendances.tardyRate" for student "Carmen Ortiz" is "color-widget-darkgreen"
 # Absence count: > 11
 And the count for id "attendances.absenceCount" for student "Geoffrey Pillard" is "18"
 And the class for id "attendances.absenceCount" for student "Geoffrey Pillard" is "color-widget-red"
-# Attendance Rate
+# Absense count 1-5
+And the count for id "attendances.absenceCount" for student "Maya Cun" is "3"
+And the class for id "attendances.absenceCount" for student "Maya Cun" is "color-widget-green"
 And I click on student "Carmen Ortiz"
 And I view its student profile
 And their name shown in profile is "Carmen Daniella Ortiz"
@@ -203,6 +235,11 @@ And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
 And Tab has a title named "Advanced Academics"
+And in "High School Overview" tab, there are "2" Panels
+And in "Attendance and Discipline" tab, there are "1" Panels
+And in "Assessments" tab, there are "0" Panels
+And in "Grades and Credits" tab, there are "0" Panels
+And in "Advanced Academics" tab, there are "0" Panels
 #And Tab has a title named "Daybreak District"
 And I look at the panel "Contact Information"
 And there are "1" email addresses
