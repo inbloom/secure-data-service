@@ -108,6 +108,12 @@ class AppsController < ApplicationController
       # format.json { head :ok }
     end
   end
+
+  def operator?
+    puts session[:roles]
+    !session[:roles].include? "Application Developer"
+  end
+
   private
   def boolean_fix (parameter)
     case parameter
@@ -116,9 +122,6 @@ class AppsController < ApplicationController
     when "0"
       parameter = false
     end
-  end
-  def operator?
-    !session[:roles].include? /developer/
   end
 
 end
