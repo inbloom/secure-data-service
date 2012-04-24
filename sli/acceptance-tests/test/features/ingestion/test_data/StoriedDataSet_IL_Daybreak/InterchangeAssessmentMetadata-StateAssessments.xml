@@ -8,7 +8,7 @@
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 6 2011 State Reading</ID>
     </AssessmentIdentificationCode>
-    <AssessmentCategory>State summative assessment 3-8 Reading</AssessmentCategory>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
     <AcademicSubject>Reading</AcademicSubject>
     <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
@@ -67,7 +67,7 @@
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 7 2011 State Writing</ID>
     </AssessmentIdentificationCode>
-    <AssessmentCategory>State summative assessment 3-8 Writing</AssessmentCategory>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
     <AcademicSubject>Writing</AcademicSubject>
     <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
@@ -126,8 +126,8 @@
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 7 2011 State Math</ID>
     </AssessmentIdentificationCode>
-    <AssessmentCategory>State summative assessment 3-8 Math</AssessmentCategory>
-    <AcademicSubject>Math</AcademicSubject>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
+    <AcademicSubject>Mathematics</AcademicSubject>
     <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
@@ -185,7 +185,7 @@
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 6 2010 State Reading</ID>
     </AssessmentIdentificationCode>
-    <AssessmentCategory>State summative assessment 3-8 Reading</AssessmentCategory>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
     <AcademicSubject>Reading</AcademicSubject>
     <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
@@ -244,8 +244,8 @@
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 6 2010 State Math</ID>
     </AssessmentIdentificationCode>
-    <AssessmentCategory>State summative assessment 3-8 Math</AssessmentCategory>
-    <AcademicSubject>Math</AcademicSubject>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
+    <AcademicSubject>Mathematics</AcademicSubject>
     <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
@@ -303,7 +303,7 @@
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 5 2009 State Reading</ID>
     </AssessmentIdentificationCode>
-    <AssessmentCategory>State summative assessment 3-8 Reading</AssessmentCategory>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
     <AcademicSubject>Reading</AcademicSubject>
     <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
@@ -362,8 +362,8 @@
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 5 2009 State Math</ID>
     </AssessmentIdentificationCode>
-    <AssessmentCategory>State summative assessment 3-8 Math</AssessmentCategory>
-    <AcademicSubject>Math</AcademicSubject>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
+    <AcademicSubject>Mathematics</AcademicSubject>
     <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
@@ -421,7 +421,7 @@
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 4 2008 State Reading</ID>
     </AssessmentIdentificationCode>
-    <AssessmentCategory>State summative assessment 3-8 Reading</AssessmentCategory>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
     <AcademicSubject>Reading</AcademicSubject>
     <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
@@ -480,8 +480,8 @@
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 4 2008 State Math</ID>
     </AssessmentIdentificationCode>
-    <AssessmentCategory>State summative assessment 3-8 Math</AssessmentCategory>
-    <AcademicSubject>Math</AcademicSubject>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
+    <AcademicSubject>Mathematics</AcademicSubject>
     <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
@@ -539,7 +539,7 @@
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 3 2007 State Reading</ID>
     </AssessmentIdentificationCode>
-    <AssessmentCategory>State summative assessment 3-8 Reading</AssessmentCategory>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
     <AcademicSubject>Reading</AcademicSubject>
     <GradeLevelAssessed>Third grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
@@ -598,7 +598,7 @@
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 3 2007 State Writing</ID>
     </AssessmentIdentificationCode>
-    <AssessmentCategory>State summative assessment 3-8 Writing</AssessmentCategory>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
     <AcademicSubject>Writing</AcademicSubject>
     <GradeLevelAssessed>Third grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
@@ -657,8 +657,8 @@
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
       <ID>Grade 3 2007 State Math</ID>
     </AssessmentIdentificationCode>
-    <AssessmentCategory>State summative assessment 3-8 Math</AssessmentCategory>
-    <AcademicSubject>Math</AcademicSubject>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
+    <AcademicSubject>Mathematics</AcademicSubject>
     <GradeLevelAssessed>Third grade</GradeLevelAssessed>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
@@ -718,7 +718,7 @@
     </AssessmentFamilyIdentificationCode>
   </AssessmentFamily>
 
-  <AssessmentFamily id="State Reading Assessments">
+  <AssessmentFamily id="State_Reading_Assessments">
     <AssessmentFamilyTitle>State Reading Assessments</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
@@ -841,7 +841,7 @@
     </AssessmentFamilyReference>
   </AssessmentFamily>
 
-  <AssessmentFamily id="State Writing Assessments">
+  <AssessmentFamily id="State_Writing_Assessments">
     <AssessmentFamilyTitle>State Writing Assessments</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
@@ -962,7 +962,7 @@
     </AssessmentFamilyReference>
   </AssessmentFamily>
 
-  <AssessmentFamily id="State Math Assessments">
+  <AssessmentFamily id="State_Math_Assessments">
     <AssessmentFamilyTitle>State Math Assessments</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode
         IdentificationSystem="Test Contractor">
@@ -972,7 +972,7 @@
         <AssessmentFamilyIdentity>
             <AssessmentFamilyIdentificationCode
                 IdentificationSystem="Test Contractor">
-                <ID>State</ID>
+                <ID>State Math</ID>
             </AssessmentFamilyIdentificationCode>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>

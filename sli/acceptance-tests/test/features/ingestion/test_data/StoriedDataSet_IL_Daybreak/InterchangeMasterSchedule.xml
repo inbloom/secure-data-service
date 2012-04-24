@@ -269,7 +269,7 @@
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>Special Elective: Debate Clinic</LocalCourseCode>
+        <LocalCourseCode>Special Elective:Debate Clinic</LocalCourseCode>
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Special Elective: Debate Clinic</ID>
         </CourseCode>
@@ -2627,7 +2627,7 @@
   </Section>
 
   <Section>
-    <UniqueSectionCode>Mrs. Braverman's Homeroom #3-25</UniqueSectionCode>
+    <UniqueSectionCode>Mrs. Braverman's Homeroom #25</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
@@ -2656,7 +2656,7 @@
   </Section>
 
   <Section>
-    <UniqueSectionCode>Mrs. Braverman's Homeroom #4-9</UniqueSectionCode>
+    <UniqueSectionCode>Mrs. Braverman's Homeroom #9</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
@@ -2685,7 +2685,7 @@
   </Section>
 
   <Section>
-    <UniqueSectionCode>Mrs. Braverman's Homeroom #5-33</UniqueSectionCode>
+    <UniqueSectionCode>Mrs. Braverman's Homeroom #33</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
