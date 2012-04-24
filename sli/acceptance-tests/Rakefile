@@ -371,6 +371,7 @@ task :apiV1Tests => [:apiV1EntityTests,
 end
 
 task :apiV1EntityTests => [:v1AssessmentTests,
+                           :v1LearningStandardTests,
                            :v1LearningObjectiveTests,
                            :v1AttendanceTests,
                            :v1CourseTests,
@@ -715,6 +716,7 @@ end
 
 desc "Run V1 LearningObjective Tests"
 task :v1LearningObjectiveTests => [:realmInit] do
+  setFixture("learningStandard", "learningStandard_fixture.json")
   runFixtureAndTests("test/features/apiV1/entities/learningObjective","learningObjective","learningObjective_fixture.json")
 end
 
