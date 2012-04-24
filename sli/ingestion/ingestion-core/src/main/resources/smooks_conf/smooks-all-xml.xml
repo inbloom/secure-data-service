@@ -1496,6 +1496,16 @@
       data="ObjectiveAssessment/LearningStandardReference/LearningStandardIdentity/LearningStandardId/IdentificationCode" />
   </jb:bean>
 
+  <!-- Learning Standard mapping -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeAssessmentMetadata/LearningStandard">
+    <jb:expression property="recordType">'learningStandard'</jb:expression>
+    <jb:value property="localId" data="InterchangeAssessmentMetadata/LearningStandard/LearningStandardId/IdentificationCode" />
+    <jb:wiring property="attributes" beanIdRef="learningStandardAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="learningStandardAttributes" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/LearningStandard">
+  </jb:bean>
+  
   <!-- ObjectiveAssessmentReferenceType -->
   <jb:bean beanId="ObjectiveAssessmentReferenceTypeArray" class="java.util.ArrayList"
     createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
