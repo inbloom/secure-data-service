@@ -76,7 +76,7 @@ public class PurgeProcessor implements Processor {
 
             String tenantId = newJob.getProperty(TENANT_ID);
             if (tenantId == null) {
-                logger.error("TenantId missing. No purge operation performed.");
+                logger.info("TenantId missing. No purge operation performed.");
                 BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PURGE_PROCESSOR,
                         FaultType.TYPE_WARNING.getName(), null, "No tenant specified. No purge will be done.");
             } else {

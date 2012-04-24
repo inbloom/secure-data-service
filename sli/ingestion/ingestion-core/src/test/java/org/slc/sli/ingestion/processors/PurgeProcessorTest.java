@@ -33,6 +33,7 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class PurgeProcessorTest {
 
+    private static final String BATCHJOBID = "MT.ctl-1234235235";
     @InjectMocks
     @Autowired
     private PurgeProcessor purgeProcessor;
@@ -51,35 +52,32 @@ public class PurgeProcessorTest {
     @Test
     public void testNoTenantId() throws Exception {
 
-        String batchJobId = "123";
-
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
         Mockito.when(ex.getIn()).thenReturn(message);
-        Mockito.when(message.getHeader("BatchJobId", String.class)).thenReturn(batchJobId);
+        Mockito.when(message.getHeader("BatchJobId", String.class)).thenReturn(BATCHJOBID);
 
         NewBatchJob job = new NewBatchJob();
-        Mockito.when(mockBatchJobDAO.findBatchJobById(batchJobId)).thenReturn(job);
+        Mockito.when(mockBatchJobDAO.findBatchJobById(BATCHJOBID)).thenReturn(job);
 
         Logger log = Mockito.mock(org.slf4j.Logger.class);
         PrivateAccessor.setField(purgeProcessor, "logger", log);
 
         purgeProcessor.process(ex);
-        Mockito.verify(log, Mockito.atLeastOnce()).error("TenantId missing. No purge operation performed.");
+        Mockito.verify(log, Mockito.atLeastOnce()).info("TenantId missing. No purge operation performed.");
     }
 
     @Test
     public void testPurging() throws Exception {
-        String batchJobId = "123";
 
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
         Mockito.when(ex.getIn()).thenReturn(message);
-        Mockito.when(message.getHeader("BatchJobId", String.class)).thenReturn(batchJobId);
+        Mockito.when(message.getHeader("BatchJobId", String.class)).thenReturn(BATCHJOBID);
 
         NewBatchJob job = new NewBatchJob();
         job.setProperty("tenantId", "SLI");
-        Mockito.when(mockBatchJobDAO.findBatchJobById(batchJobId)).thenReturn(job);
+        Mockito.when(mockBatchJobDAO.findBatchJobById(BATCHJOBID)).thenReturn(job);
 
         Set<String> collectionNames = new HashSet<String>();
         collectionNames.add("student");
@@ -94,16 +92,15 @@ public class PurgeProcessorTest {
 
     @Test
     public void testPurgingSystemCollections() throws Exception {
-        String batchJobId = "123";
 
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
         Mockito.when(ex.getIn()).thenReturn(message);
-        Mockito.when(message.getHeader("BatchJobId", String.class)).thenReturn(batchJobId);
+        Mockito.when(message.getHeader("BatchJobId", String.class)).thenReturn(BATCHJOBID);
 
         NewBatchJob job = new NewBatchJob();
         job.setProperty("tenantId", "SLI");
-        Mockito.when(mockBatchJobDAO.findBatchJobById(batchJobId)).thenReturn(job);
+        Mockito.when(mockBatchJobDAO.findBatchJobById(BATCHJOBID)).thenReturn(job);
 
         Set<String> collectionNames = new HashSet<String>();
         collectionNames.add("system.js");
@@ -115,5 +112,4 @@ public class PurgeProcessorTest {
 
         Mockito.verify(mongoTemplate, Mockito.never()).remove(Mockito.any(Query.class), Mockito.eq("system.js"));
     }
-
 }
