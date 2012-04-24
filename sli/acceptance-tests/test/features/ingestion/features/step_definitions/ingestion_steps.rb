@@ -174,10 +174,6 @@ end
 def dirContainsBatchJobLog?(dir)
   Dir.foreach(dir) do |file|
     if /^job-#{@source_file_name}.*.log$/.match file
-      File.open(dir + file, 'r+') {|openedFile|
-        openedFile.flock(File::LOCK_EX)
-        puts " acquired exclusive lock on  " + openedFile.path
-        }
       return true
     end
   end
@@ -584,9 +580,9 @@ end
 
 # Uncomment the following to exit after the first failing scenario.
 # Useful for debugging
-#After do |scenario| 
-#  Cucumber.wants_to_quit = true if scenario.failed? 
-#end 
+#After do |scenario|
+#  Cucumber.wants_to_quit = true if scenario.failed?
+#end
 ############################################################
 # END
 ############################################################
