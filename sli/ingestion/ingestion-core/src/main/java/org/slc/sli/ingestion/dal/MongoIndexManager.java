@@ -71,7 +71,32 @@ public final class MongoIndexManager {
         return index;
     }
 
-    /**Set indexes for all the collections
+    /**Set indexes for one collection
+    *
+    * @param template : mongo template to set the index
+    * @param collection: the collection to be ensureIndex'ed
+    * @param batchJobId
+    */
+    public void ensureIndex(MongoTemplate template, String collection, String batchJobId) {
+        if (!collectionIndexes.containsKey(collection)) {
+            LOG.error("No indexes found for " + collection + ". Skipping...");
+        }
+
+       for (IndexDefinition index : collectionIndexes.get(collection)) {
+           String collectionName = collection + "_" + batchJobId;
+           if (!template.collectionExists(collectionName)) {
+               template.createCollection(collectionName);
+           }
+           try {
+               template.ensureIndex(index, collectionName);
+           } catch (Exception e) {
+               //Mongo indexes are not ensured
+               LOG.error("Failed to create mongo indexes");
+           }
+       }
+   }
+
+    /**Set indexes for all the collections configured
      *
      * @param template : mongo template to set the index
      */
@@ -79,18 +104,7 @@ public final class MongoIndexManager {
         Set<String> collections = collectionIndexes.keySet();
 
         for (String collection : collections) {
-            for (IndexDefinition index : collectionIndexes.get(collection)) {
-                String collectionName = collection + "_" + batchJobId;
-                if (!template.collectionExists(collectionName)) {
-                    template.createCollection(collectionName);
-                }
-                try {
-                    template.ensureIndex(index, collectionName);
-                } catch (Exception e) {
-                    //Mongo indexes are not ensured
-                    LOG.error("Failed to create mongo indexes");
-                }
-            }
+            ensureIndex(template, collection, batchJobId);
         }
     }
 
