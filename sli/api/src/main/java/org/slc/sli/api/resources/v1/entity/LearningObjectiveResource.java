@@ -14,7 +14,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +30,9 @@ import org.slc.sli.common.constants.v1.PathConstants;
 
 /**
  * Prototype new api end points and versioning
- *
+ * 
  * @author dliu
- *
+ * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.LEARNING_OBJECTIVES)
 @Component
@@ -49,7 +48,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
     /**
      * Returns all $$learningObjectives$$ entities for which the logged in User has permission and
      * context.
-     *
+     * 
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -72,7 +71,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
 
     /**
      * Create a new $$learningObjectives$$ entity.
-     *
+     * 
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -93,7 +92,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
 
     /**
      * Get a single $$learningObjectives$$ entity
-     *
+     * 
      * @param learningObjectiveId
      *            The Id of the $$learningObjectives$$.
      * @param headers
@@ -115,7 +114,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
      * Get a collection of $$learningStandards$$ entities for which the logged in user has
      * permission and context and directly referenced by learningObjective entity that specified by
      * learningObjective Id
-     *
+     * 
      * @param learningObjectiveId
      *            The Id of the $$learningObjectives$$.
      * @param offset
@@ -136,12 +135,13 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.read(ResourceNames.LEARNINGOBJECTIVES, "_id", learningObjectiveId,
+                ParameterConstants.LEARNING_STANDARDS, ResourceNames.LEARNINGSTANDARDS, headers, uriInfo);
     }
 
     /**
      * Get a single $$learningObjectives$$ entity is the parent of this resource
-     *
+     * 
      * @param learningObjectiveId
      *            The Id of the $$learningObjectives$$.
      * @param headers
@@ -156,12 +156,13 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
     public Response getParentLearningObjective(
             @PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.read(ResourceNames.LEARNINGOBJECTIVES, "_id", learningObjectiveId,
+                ParameterConstants.PARENT_LEARNING_OBJECTIVE, ResourceNames.LEARNINGOBJECTIVES, headers, uriInfo);
     }
 
     /**
      * Get all the $$learningObjectives$$ entities that are children of this resource
-     *
+     * 
      * @param learningObjectiveId
      *            The Id of the $$learningObjectives$$.
      * @param headers
@@ -176,12 +177,13 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
     public Response getChildrenLearningObjective(
             @PathParam(ParameterConstants.LEARNINGOBJECTIVE_ID) final String learningObjectiveId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return Response.status(Status.NOT_FOUND).build();
+        return super.read(ResourceNames.LEARNINGOBJECTIVES, ParameterConstants.PARENT_LEARNING_OBJECTIVE,
+                learningObjectiveId, headers, uriInfo);
     }
 
     /**
      * Delete a $$learningObjectives$$ entity
-     *
+     * 
      * @param learningObjectiveId
      *            The Id of the $$learningObjectives$$.
      * @param headers
@@ -201,7 +203,7 @@ public class LearningObjectiveResource extends DefaultCrudEndpoint {
 
     /**
      * Update an existing $$learningObjectives$$ entity.
-     *
+     * 
      * @param learningObjectiveId
      *            The id of the $$learningObjectives$$.
      * @param newEntityBody
