@@ -96,3 +96,55 @@ Scenario: Applying optional fields - attendances with year filter
 
   Then I should find 161 "<attendances>" under "<student><attendances>"
   And I should find 87 entries with "<eventDate>" including the string "2011"
+
+Scenario: Applying optional fields - single student view
+  Given optional field "attendances"
+  And optional field "assessments"
+  And optional field "gradebook"
+  And optional field "transcript"
+  And parameter "limit" is "0"
+  When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
+  Then I should receive an XML document
+  And I should receive a return code of 200
+
+  # attendances
+  Then I should find "<attendances>" under "<student>"
+  And I should find 161 "<attendances>" under "<student><attendances>"
+  And I should find 87 entries with "<eventDate>" including the string "2011"
+  And I should see "<entityType>" is "attendance" for the one at position 2
+  And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for the one at position 2
+  And I should see "<attendanceEventCategory>" is "In Attendance" for the one at position 2
+
+  # assessments
+  Then I should find "<studentAssessments>" under "<student>"
+  And I should see "<entityType>" is "studentAssessmentAssociation"
+  And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>"
+  And I should find "<assessments>" under "<student><studentAssessments>"
+  And I should see "<entityType>" is "assessment"
+  And I should see "<gradeLevelAssessed>" is "Twelfth grade"
+  And I should find 3 "<studentObjectiveAssessments>" under "<student><studentAssessments>"
+  And I should find 2 "<scoreResults>" under "<student><studentAssessments><studentObjectiveAssessments>"
+  And I should see "<result>" is "80" for the one at position 2
+
+  # gradebook
+  Then I should find 3 "<studentGradebookEntries>" under "<student>"
+  And I should see "<entityType>" is "studentSectionGradebookEntry" for the one at position 1
+  And I should see "<letterGradeEarned>" is "A" for the one at position 1
+  And I should see "<dateFulfilled>" is "2012-01-31" for the one at position 1
+  And I should find 1 "<gradebookEntries>" under "<student><studentGradebookEntries>"
+  And I should see "<entityType>" is "gradebookEntry" for the one at position 1
+  And I should see "<dateAssigned>" is "2012-01-31" for the one at position 1
+
+  # transcript
+  Then I should find "<transcript>" under "<student>"
+  And I should find "<courseTranscripts>" under "<student><transcript>"
+  And I should see "<entityType>" is "studentTranscriptAssociation"
+  And I should see "<finalLetterGradeEarned>" is "B"
+  And I should find 2 "<studentSectionAssociations>" under "<student><transcript>"
+  And I should see "<entityType>" is "studentSectionAssociation" for the one at position 1
+  And I should find "<sections>" under "<student><transcript><studentSectionAssociations>"
+  And I should see "<entityType>" is "section"
+  And I should find "<sessions>" under "<student><transcript><studentSectionAssociations><sections>"
+  And I should see "<entityType>" is "session"
+  And I should find "<courses>" under "<student><transcript><studentSectionAssociations><sections>"
+  And I should see "<entityType>" is "course"
