@@ -28,10 +28,12 @@ public final class EntityNames {
     public static final String STAFF = "staff";
     public static final String STUDENT = "student";
     public static final String LEARNINGOBJECTIVE = "learningObjective";
+    public static final String LEARNINGSTANDARD = "learningStandard";
     public static final String STUDENT_COMPETENCY = "studentCompetency";
     public static final String STUDENT_COMPETENCY_OBJECTIVE = "studentCompetencyObjective";
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRY = "studentSectionGradebookEntry";
     public static final String TEACHER = "teacher";
+    public static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
     public static final String STUDENT_SECTION_ASSOCIATION = "studentSectionAssociation";
     public static final String STUDENT_PARENT_ASSOCIATION = "studentParentAssociation";
     public static final String TEACHER_SECTION_ASSOCIATION = "teacherSectionAssociation";

@@ -31,6 +31,8 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "teacher_SLI" => "4cf7a5d4-37a1-ca77-8b13-b5f95131ac85",
                 "prince_SLI" => "4cf7a5d4-37a1-ca88-8b13-b5f95131ac85",
                 "root_SLI" => "4cf7a5d4-37a1-ca99-8b13-b5f95131ac85",
+                "developer_SLI" => "26c4b55b-5fa8-4287-af3d-98e7b5f98232",
+                "operator_SLI" => "a8cf184b-9c7e-4253-9f45-ed4e9f4f596c",
                 "bigbro_SLI" => "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85",
                 "badadmin_IL" => "5cf7a5d4-57a1-c100-8b13-b5f95131ac85",
                 "sampleUser_SLI" => "e88cb5c1-771d-46ac-a207-e88cb7c1771d",
@@ -187,7 +189,12 @@ end
 ##############################################################################
 ###### After hook(s) #########################################################
 
-# None remaining
+After do |scenario| 
+  if(ENV['FAILFAST'])
+    Cucumber.wants_to_quit = true if scenario.failed?
+  end
+end
+
 
 ##############################################################################
 ##############################################################################

@@ -20,8 +20,8 @@ Scenario: Home URI returns valid links for user 'demo'
   When I navigate to GET "/v1/home"
   Then I should receive a return code of 200
     And I should receive a link named "self" with URI "/v1/staff/<'demo' ID>"
-    And I should receive a link named "getStaffEducationOrganizationAssociations" with URI "/v1/staff/<'demo' ID>/staffEducationOrganizationAssociations"
-    And I should receive a link named "getEducationOrganizations" with URI "/v1/staff/<'demo' ID>/staffEducationOrganizationAssociations/educationOrganizations"
+    And I should receive a link named "getStaffEducationOrgAssignmentAssociations" with URI "/v1/staff/<'demo' ID>/staffEducationOrgAssignmentAssociations"
+    And I should receive a link named "getEducationOrganizations" with URI "/v1/staff/<'demo' ID>/staffEducationOrgAssignmentAssociations/educationOrganizations"
     
  @wip
 Scenario: Home URI returns valid links for user 'aggregator'
@@ -30,7 +30,7 @@ Scenario: Home URI returns valid links for user 'aggregator'
   When I navigate to GET "/home"
   Then I should receive a return code of 200
     And I should receive a link named "self" with URI "/staff/<'aggregator' ID>"
-    And I should receive a link named "getStaffEducationOrganizationAssociations" with URI "/staff-educationOrganization-associations/<'aggregator' ID>"
+    And I should receive a link named "getStaffEducationOrgAssignmentAssociations" with URI "/staff-educationOrganization-associations/<'aggregator' ID>"
     And I should receive a link named "getEducationOrganizations" with URI "/staff-educationOrganization-associations/<'aggregator' ID>/targets"
 
 @wip
@@ -40,7 +40,7 @@ Scenario: Home URI returns appropriate links for 'baduser'
   When I navigate to GET "/home"
   Then I should receive a return code of 200
     And I should receive a link named "self" with URI "/staff/<'baduser' ID>"
-    And I should receive a link named "getStaffEducationOrganizationAssociations" with URI "/staff-educationOrganization-associations/<'baduser' ID>"
+    And I should receive a link named "getStaffEducationOrgAssignmentAssociations" with URI "/staff-educationOrganization-associations/<'baduser' ID>"
     And I should receive a link named "getEducationOrganizations" with URI "/staff-educationOrganization-associations/<'baduser' ID>/targets"
   When I navigate to GET "/staff-educationOrganization-associations/<'baduser' ID>"
   Then I should receive a return code of 403

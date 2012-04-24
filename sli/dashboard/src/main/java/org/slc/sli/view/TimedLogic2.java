@@ -26,9 +26,14 @@ public class TimedLogic2 {
     private static Logger logger = LoggerFactory.getLogger(TimedLogic2.class);
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     
-    public static final String TIMESLOT_MOSTRECENTWINDOW = "MOST_RECENT_WINDOW";
-    public static final String TIMESLOT_MOSTRECENTRESULT = "MOST_RECENT_RESULT";
-    public static final String TIMESLOT_HIGHESTEVER = "HIGHEST_EVER";
+    /**
+     *
+     */
+    public enum TimeSlot {
+        MOST_RECENT_WINDOW,
+        MOST_RECENT_RESULT,
+        HIGHEST_EVER;
+    }
     
     /**
      * Returns the student assessment association with the most recent timestamp

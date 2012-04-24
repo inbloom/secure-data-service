@@ -46,7 +46,7 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Returns all $$studentAssessmentAssociations$$ entities for which the logged in User has permission and context.
+     * Returns all $$studentAssessments$$ entities for which the logged in User has permission and context.
      *
      * @param offset
      *            starting position in results to return to user
@@ -68,7 +68,7 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Create a new $$studentAssessmentAssociations$$ entity.
+     * Create a new $$studentAssessments$$ entity.
      *
      * @param newEntityBody
      *            entity data
@@ -90,30 +90,30 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
     }
 
     /**
-     * Get a single $$studentAssessmentAssociations$$ entity
+     * Get a single $$studentAssessments$$ entity
      *
-     * @param studentAssessmentAssociationId
-     *            The Id of the $$studentAssessmentAssociations$$.
+     * @param studentAssessmentId
+     *            The Id of the $$studentAssessments$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single $$studentAssessmentAssociations$$ entity
+     * @return A single $$studentAssessments$$ entity
      */
     @Override
     @GET
-    @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID + "}")
+    @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
-    public Response read(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID) final String studentAssessmentAssociationId,
+    public Response read(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ID) final String studentAssessmentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(studentAssessmentAssociationId, headers, uriInfo);
+        return super.read(studentAssessmentId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$studentAssessmentAssociations$$ entity
+     * Delete a $$studentAssessments$$ entity
      *
-     * @param studentAssessmentAssociationId
-     *            The Id of the $$studentAssessmentAssociations$$.
+     * @param studentAssessmentId
+     *            The Id of the $$studentAssessments$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -123,17 +123,17 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
      */
     @Override
     @DELETE
-    @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID) final String studentAssessmentAssociationId,
+    @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ID) final String studentAssessmentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(studentAssessmentAssociationId, headers, uriInfo);
+        return super.delete(studentAssessmentId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$studentAssessmentAssociations$$ entity.
+     * Update an existing $$studentAssessments$$ entity.
      *
-     * @param studentAssessmentAssociationId
-     *            The id of the $$studentAssessmentAssociations$$.
+     * @param studentAssessmentId
+     *            The id of the $$studentAssessments$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -145,20 +145,20 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
      */
     @Override
     @PUT
-    @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID + "}")
+    @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ID + "}")
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response update(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID) final String studentAssessmentAssociationId,
+    public Response update(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ID) final String studentAssessmentId,
             final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(studentAssessmentAssociationId, newEntityBody, headers, uriInfo);
+        return super.update(studentAssessmentId, newEntityBody, headers, uriInfo);
     }
 
     /**
      * Returns each $$students$$ that
-     * references the given $$studentAssessmentAssociations$$
+     * references the given $$studentAssessments$$
      *
-     * @param studentAssessmentAssociationId
-     *            The Id of the studentAssessmentAssociationId.
+     * @param studentAssessmentId
+     *            The Id of the studentAssessmentId.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -173,20 +173,20 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
-    @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID + "}" + "/" + PathConstants.STUDENTS)
-    public Response getStudentsForAssociation(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID) final String studentAssessmentAssociationId,
+    @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ID + "}" + "/" + PathConstants.STUDENTS)
+    public Response getStudentsForAssociation(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ID) final String studentAssessmentId,
                                               @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
                                               @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
                                               @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "_id", studentAssessmentAssociationId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "_id", studentAssessmentId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
     }
 
     /**
      * Returns each $$assessments$$ that
-     * references the given $$studentAssessmentAssociations$$
+     * references the given $$studentAssessments$$
      *
-     * @param studentAssessmentAssociationId
-     *            The Id of the studentAssessmentAssociationId.
+     * @param studentAssessmentId
+     *            The Id of the studentAssessmentId.
      * @param offset
      *            Index of the first result to return
      * @param limit
@@ -201,12 +201,12 @@ public class StudentAssessmentAssociationResource extends DefaultCrudEndpoint {
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
-    @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID + "}" + "/" + PathConstants.ASSESSMENTS)
-    public Response getAssessmentsForAssociation(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ASSOCIATION_ID) final String studentAssessmentAssociationId,
+    @Path("{" + ParameterConstants.STUDENT_ASSESSMENT_ID + "}" + "/" + PathConstants.ASSESSMENTS)
+    public Response getAssessmentsForAssociation(@PathParam(ParameterConstants.STUDENT_ASSESSMENT_ID) final String studentAssessmentId,
                                                  @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
                                                  @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
                                                  @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "_id", studentAssessmentAssociationId, "assessmentId", ResourceNames.ASSESSMENTS, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "_id", studentAssessmentId, "assessmentId", ResourceNames.ASSESSMENTS, headers, uriInfo);
     }
 
 }
