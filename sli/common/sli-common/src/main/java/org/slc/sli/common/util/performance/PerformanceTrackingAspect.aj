@@ -22,7 +22,7 @@ abstract public class PerformanceTrackingAspect {
 
 	protected Logger log = LoggerFactory.getLogger(PerformanceTrackingAspect.class);
 
-	protected ThreadLocalStorage store = new ThreadLocalStorage(String.valueOf(System.currentTimeMillis()));
+	protected ThreadLocalStorage store = new ThreadLocalStorage();
 
 	// storing a field/value into the store
 	@Pointcut("@annotation(org.slc.sli.common.util.performance.PutResultInContext)")
