@@ -52,10 +52,10 @@ public class PurgeProcessorTest {
         purgeProcessor.setBatchJobDAO(mockedBatchJobDAO);
 
         Logger log = Mockito.mock(org.slf4j.Logger.class);
-        PrivateAccessor.setField(purgeProcessor, "LOG", log);
+        PrivateAccessor.setField(purgeProcessor, "logger", log);
 
         purgeProcessor.process(exchange);
-        Mockito.verify(log, Mockito.atLeastOnce()).error("TenantId is missing. No purge operation performed.");
+        Mockito.verify(log, Mockito.atLeastOnce()).info("TenantId missing. No purge operation performed.");
     }
 
     @Test
