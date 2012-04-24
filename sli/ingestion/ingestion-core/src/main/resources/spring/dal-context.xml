@@ -21,29 +21,26 @@
 
   <!-- MONGODB CONFIG -->
 
-  <mongo:db-factory
-    id="mongoDbStagingFactory"
-    dbname="${sli.ingestion.staging.mongodb.database}"
-    host="${sli.ingestion.staging.mongodb.host}"
+  <mongo:db-factory id="mongoDbStagingFactory" dbname="${sli.ingestion.staging.mongodb.database}" host="${sli.ingestion.staging.mongodb.host}"
     port="${sli.ingestion.staging.mongodb.port}" />
   <!-- username="${sli.ingestion.staging.mongodb.user}" password="${sli.ingestion.staging.mongodb.pass}" -->
-<util:map  id="pii" key-type="java.lang.String" value-type="java.lang.Object"></util:map>
+  <util:map id="pii" key-type="java.lang.String" value-type="java.lang.Object"></util:map>
 
-<bean id="stagingEntityEncryption" class="org.slc.sli.ingestion.dal.StagingEntityEncryption">
-    <property name="entityConfigFactory" ref="entityConfigurationsFactory"/>
-</bean>
+  <bean id="stagingEntityEncryption" class="org.slc.sli.ingestion.dal.StagingEntityEncryption">
+    <property name="entityConfigFactory" ref="entityConfigurationsFactory" />
+  </bean>
 
-<bean id="neutralRecordWriteConverter" class="org.slc.sli.ingestion.dal.NeutralRecordWriteConverter">
-    <property name="stagingEncryptor" ref="stagingEntityEncryption"/>
-</bean>
-<bean id="neutralRecordReadConverter" class="org.slc.sli.ingestion.dal.NeutralRecordReadConverter">
-    <property name="stagingEncryptor" ref="stagingEntityEncryption"/>
-</bean>
+  <bean id="neutralRecordWriteConverter" class="org.slc.sli.ingestion.dal.NeutralRecordWriteConverter">
+    <property name="stagingEncryptor" ref="stagingEntityEncryption" />
+  </bean>
+  <bean id="neutralRecordReadConverter" class="org.slc.sli.ingestion.dal.NeutralRecordReadConverter">
+    <property name="stagingEncryptor" ref="stagingEntityEncryption" />
+  </bean>
 
   <mongo:mapping-converter id="neutralRecordMappingConverter" base-package="org.slc.sli.ingestion.dal"
     db-factory-ref="mongoDbStagingFactory">
     <mongo:custom-converters>
-      <mongo:converter ref="neutralRecordReadConverter"/>
+      <mongo:converter ref="neutralRecordReadConverter" />
       <mongo:converter ref="neutralRecordWriteConverter" />
     </mongo:custom-converters>
   </mongo:mapping-converter>
@@ -53,14 +50,11 @@
     <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="neutralRecordMappingConverter" />
   </bean>
 
-<!--
-  <bean id="neutralRecordMongoTemplate" class="org.slc.sli.ingestion.dal.StagingMongoTemplate">
-    <constructor-arg value="${sli.ingestion.staging.mongodb.database}"  />
-    <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="neutralRecordMappingConverter" />
-  </bean>
--->
+  <!-- <bean id="neutralRecordMongoTemplate" class="org.slc.sli.ingestion.dal.StagingMongoTemplate"> <constructor-arg value="${sli.ingestion.staging.mongodb.database}"
+    /> <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="neutralRecordMappingConverter"
+    /> </bean> -->
 
-  <!--<bean id="neutralRecordMongoIdConverter" class="org.slc.sli.dal.convert.MongoIdConverter" />-->
+  <!--<bean id="neutralRecordMongoIdConverter" class="org.slc.sli.dal.convert.MongoIdConverter" /> -->
   <bean id="indexResourcePatternResolver" class="org.slc.sli.ingestion.dal.IndexResourcePatternResolver">
   </bean>
 
@@ -69,13 +63,13 @@
     <property name="indexResolver" ref="indexResourcePatternResolver" />
   </bean>
 
-  <bean id="neutralRecordRepository" class="org.slc.sli.ingestion.dal.NeutralRecordRepository" >
+  <bean id="neutralRecordRepository" class="org.slc.sli.ingestion.dal.NeutralRecordRepository">
     <property name="template" ref="neutralRecordMongoTemplate" />
     <property name="idConverter" ref="mongoIdConverter" />
     <property name="entityEncryption" ref="stagingEntityEncryption" />
-    <property name="stagingMongoIndexManager" ref="mongoIndexManager"/>
+    <property name="stagingMongoIndexManager" ref="mongoIndexManager" />
   </bean>
-  
+
   <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
     <property name="neutralRecordRepository" ref="neutralRecordRepository" />
   </bean>
@@ -85,19 +79,19 @@
 
   <!-- MONGODB BATCHJOB CONFIG -->
 
-  <mongo:db-factory
-    id="mongoDbBatchJobFactory"
-    dbname="${sli.ingestion.batchjob.mongodb.database}"
-    host="${sli.ingestion.batchjob.mongodb.host}"
-    port="${sli.ingestion.batchjob.mongodb.port}" />
+  <mongo:db-factory id="mongoDbBatchJobFactory" dbname="${sli.ingestion.batchjob.mongodb.database}"
+    host="${sli.ingestion.batchjob.mongodb.host}" port="${sli.ingestion.batchjob.mongodb.port}" />
   <!-- username="${sli.ingestion.staging.mongodb.user}" password="${sli.ingestion.staging.mongodb.pass}" -->
 
   <bean id="batchJobMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
     <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbBatchJobFactory" />
-    <!-- <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="neutralRecordMappingConverter" /> -->
+    <property name="writeConcern">
+      <util:constant static-field="com.mongodb.WriteConcern.SAFE"></util:constant>
+    </property>
   </bean>
 
-  <context:component-scan base-package="org.slc.sli.ingestion.model.da" />
-
+  <bean id="batchJobMongoDA" class="org.slc.sli.ingestion.model.da.BatchJobMongoDA">
+    <property name="batchJobMongoTemplate" ref="batchJobMongoTemplate" />
+  </bean>
 
 </beans>

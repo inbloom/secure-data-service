@@ -4,7 +4,7 @@ As an OAuth application developer for SLI, I want to create a registration entit
 
 Scenario: CRUD operations on Applications
 
-	Given I am logged in using "demo" "demo1234" to realm "SLI"
+	Given I am logged in using "developer" "developer1234" to realm "SLI"
 	When I navigate to POST "/apps"
 	Then I should receive a return code of 201
      And I should receive an ID for the newly created application
@@ -19,7 +19,7 @@ Scenario: CRUD operations on Applications
 
 Scenario: Deny creation when specifying invalid fields
 
-	Given I am logged in using "demo" "demo1234" to realm "SLI"
+	Given I am logged in using "developer" "developer1234" to realm "SLI"
 	When I POST an application specifying an invalid field
 	Then I should receive a return code of 400
 
@@ -35,7 +35,7 @@ Scenario Outline: Deny access when logging in as invalid user
 
 Scenario Outline: Deny creation when user specifying auto-generated field
 
-	Given I am logged in using "demo" "demo1234" to realm "SLI"
+	Given I am logged in using "developer" "developer1234" to realm "SLI"
 	When I POST an application specifying the auto-generated field <Field> 
 	Then I should receive a return code of 400
 	Examples:
@@ -45,7 +45,7 @@ Scenario Outline: Deny creation when user specifying auto-generated field
 
 Scenario Outline: Deny update when user updating read-only auto-generated field
 
-	Given I am logged in using "demo" "demo1234" to realm "SLI"
+	Given I am logged in using "developer" "developer1234" to realm "SLI"
 	When I PUT an application updating the auto-generated field <Field> 
 	Then I should receive a return code of 400
 	Examples:

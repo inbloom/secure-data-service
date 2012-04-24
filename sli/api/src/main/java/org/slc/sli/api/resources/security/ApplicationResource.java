@@ -1,5 +1,10 @@
 package org.slc.sli.api.resources.security;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -24,10 +29,13 @@ import org.slc.sli.api.service.EntityService;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -42,9 +50,6 @@ import org.springframework.stereotype.Component;
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class ApplicationResource extends DefaultCrudEndpoint {
 
-
-    private static final String REGISTERED = "registered";
-
     @Autowired
     private EntityDefinitionStore store;
 
@@ -52,6 +57,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     private static final int CLIENT_ID_LENGTH = 10;
     private static final int CLIENT_SECRET_LENGTH = 48;
+    private static final String REGISTERED = "registered";
     public static final String CLIENT_ID = "client_id";
     public static final String CLIENT_SECRET = "client_secret";
     public static final String RESOURCE_NAME = "application";
@@ -64,6 +70,11 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 //        EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
 //        this.service = def.getService();
 //    }
+    
+    private boolean hasRight(Right required) {
+        Collection<GrantedAuthority> rights = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        return rights.contains(required);
+    }
 
     @Autowired
     public ApplicationResource(EntityDefinitionStore entityDefs) {
@@ -74,11 +85,6 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     @POST
     public Response createApplication(EntityBody newApp, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        String clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
-        while (isDuplicateToken(clientId)) {
-            clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
-        }
-
         if (newApp.containsKey(CLIENT_SECRET)
                 || newApp.containsKey(CLIENT_ID)
  || newApp.containsKey("id")) {
@@ -87,6 +93,16 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             + "Remove attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
+        if (!hasRight(Right.APP_CREATION)) {
+            EntityBody body = new EntityBody();
+            body.put("message", "You are not authorized to create new applications.");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+        }
+        String clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
+        while (isDuplicateToken(clientId)) {
+            clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
+        }
+
         newApp.put(CLIENT_ID, clientId);
         newApp.put(REGISTERED, true);
 
@@ -139,6 +155,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public Response deleteApplication(@PathParam(UUID) String uuid,
                                       @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
+
         return super.delete(uuid, headers, uriInfo);
     }
 
@@ -150,7 +167,14 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         String clientSecret = (String) app.get(CLIENT_SECRET);
         String clientId = (String) app.get(CLIENT_ID);
         String id = (String) app.get("id");
+        Boolean registered = (Boolean) app.get(REGISTERED);
+        List<String> changedKeys = new ArrayList<String>();
 
+        for (Map.Entry<String, Object> entry : app.entrySet()) {
+            if (oldApp.containsKey(entry.getKey()) && !oldApp.get(entry.getKey()).equals(entry.getValue())) {
+                changedKeys.add(entry.getKey());
+            }
+        }
         if ((clientSecret != null && !clientSecret.equals(oldApp.get(CLIENT_SECRET)))
                 || (clientId != null && !clientId.equals(oldApp.get(CLIENT_ID)))
                 || (id != null && !id.equals(oldApp.get("id")))) {
@@ -159,6 +183,17 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             + "Remove attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
 
+        }
+        
+        if (!hasRight(Right.APP_REGISTER) && registered != (Boolean) oldApp.get(REGISTERED)) {
+            EntityBody body = new EntityBody();
+            body.put("message", "You are not authorized to register applications.");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+        } else if (hasRight(Right.APP_REGISTER) && registered != (Boolean) oldApp.get(REGISTERED)
+                && changedKeys.size() != 1) {
+            EntityBody body = new EntityBody();
+            body.put("message", "You are not authorized to alter applications.");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
 
         return super.update(uuid, app, headers, uriInfo);
