@@ -20,6 +20,7 @@ import javax.ws.rs.core.UriInfo;
 import com.sun.jersey.api.uri.UriBuilderImpl;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +33,7 @@ import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -73,7 +75,7 @@ public class ApplicationResourceTest {
     public void setUp() throws Exception {
 
         uriInfo = buildMockUriInfo(null);
-        injector.setAdminContextWithElevatedRights();
+        injector.setDeveloperContext();
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
 
@@ -82,10 +84,10 @@ public class ApplicationResourceTest {
         when(headers.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
     }
 
-//    @After
-//    public void tearDown() throws Exception {
-//        SecurityContextHolder.clearContext();
-//    }
+    @After
+    public void tearDown() throws Exception {
+        SecurityContextHolder.clearContext();
+    }
 
     @Test
     public void testGoodCreate() {
@@ -123,6 +125,17 @@ public class ApplicationResourceTest {
 
     @Test
     public void testBadCreate3() {   // include client_secret in POST
+        EntityBody app = getNewApp();
+        app.put("client_secret", "123");
+        
+        Response resp = resource.createApplication(app, headers, uriInfo);
+        assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
+    }
+    
+    @Test
+    public void testBadAsAdmin() {   // include client_secret in POST
+        SecurityContextHolder.clearContext();
+        injector.setAdminContextWithElevatedRights();
         EntityBody app = getNewApp();
         app.put("client_secret", "123");
         
@@ -205,8 +218,44 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
 
     }
-
-
+    
+    @Test
+    public void testUpdateRegistrationAsDeveloper() {
+        EntityBody app = getNewApp();
+        
+        Response created = resource.createApplication(app, headers, uriInfo);
+        app.put("registered", false);
+        String uuid = parseIdFromLocation(created);
+        assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        
+    }
+    
+    @Test
+    public void testUpdateRegistrationAsOperator() {
+        EntityBody app = getNewApp();
+        Response created = resource.createApplication(app, headers, uriInfo);
+        // Switch to operator
+        SecurityContextHolder.clearContext();
+        injector.setOperatorContext();
+        app.put("registered", false);
+        String uuid = parseIdFromLocation(created);
+        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        
+    }
+    
+    @Test
+    public void testUpdateAppAsOperator() {
+        EntityBody app = getNewApp();
+        Response created = resource.createApplication(app, headers, uriInfo);
+        // Switch to operator
+        SecurityContextHolder.clearContext();
+        injector.setOperatorContext();
+        app.put("registered", false);
+        app.put("name", "Super mega awesome app!");
+        String uuid = parseIdFromLocation(created);
+        assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        
+    }
 
     public UriInfo buildMockUriInfo(final String queryString) throws Exception {
         UriInfo mock = mock(UriInfo.class);
