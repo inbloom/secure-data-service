@@ -8,11 +8,15 @@ Scenario: Post a zip file containing all configured interchanges as a payload of
 Given I post "Cohort1.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName              |
+     | program                     |
+     | educationOrganization       |
      | cohort                      |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
+     | program                     | 1     |
+     | educationOrganization       | 3     |
      | cohort                      | 3     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
@@ -26,6 +30,9 @@ Then I should see following map of entry counts in the corresponding collections
      | cohort                      | 1                   | body.academicSubject        | Mathematics             | string               |
   And I should see "Processed 7 records." in the resulting batch job file
   And I should not see an error log file created
+  And I should see "Program1.xml records considered: 4" in the resulting batch job file
+  And I should see "Program1.xml records ingested successfully: 4" in the resulting batch job file
+  And I should see "Program1.xml records failed: 0" in the resulting batch job file
   And I should see "Cohort1.xml records considered: 3" in the resulting batch job file
   And I should see "Cohort1.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "Cohort1.xml records failed: 0" in the resulting batch job file

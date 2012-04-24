@@ -197,7 +197,7 @@ desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest, 
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest] do
+                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -226,11 +226,6 @@ task :ingestionProgramTest do
   runTests("test/features/ingestion/features/ingestion_program.feature")
 end
 
-desc "Run Ingestion Cohort Test"
-task :ingestionCohortTest do
-  runTests("test/features/ingestion/features/ingestion_cohort.feature")
-end
-
 desc "Run Ingestion StudentProgramAssociation Test"
 task :ingestionStudentProgramAssociationTest do
   runTests("test/features/ingestion/features/ingestion_StudentProgramAssociation.feature")
@@ -239,6 +234,16 @@ end
 desc "Run Ingestion StaffProgramAssociation Test"
 task :ingestionStaffProgramAssociationTest do
   runTests("test/features/ingestion/features/ingestion_StaffProgramAssociation.feature")
+end
+
+desc "Run Ingestion Cohort Test"
+task :ingestionCohortTest do
+  runTests("test/features/ingestion/features/ingestion_cohort.feature")
+end
+
+desc "Run Ingestion StudentCohortAssociation Test"
+task :ingestionStudentCohortAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_StudentCohortAssociation.feature")
 end
 
 desc "Run Ingestion Negative Tests"
