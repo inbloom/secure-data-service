@@ -12,6 +12,7 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.ResourceWriter;
+import org.slc.sli.ingestion.dal.MongoIndices;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.validation.ErrorReport;
@@ -60,6 +61,11 @@ public class SliSmooksFactory {
             nrMongoStagingWriter.registerBatchId(batchJobId);
             // !!!removed the call to fix the unit tests first
             nrMongoStagingWriter.getRecordRepository().generateMongoIndexes();
+
+
+            // Ensure database indexing for this job. Tom Shewchuk 04/21/2012.
+            MongoIndices.ensureMongoIndicies("_" + nrMongoStagingWriter.getRecordRepository()
+                    .getCollectionGroupingIdentifier(), nrMongoStagingWriter.getRecordRepository().getTemplate());
 
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             for (String targetSelector : targetSelectorList) {

@@ -59,11 +59,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
     public boolean update(String collection, Entity entity) {
         validator.validate(entity);
         this.updateTimestamp(entity);
-        Map<String, Object> body = entity.getBody();
-        if (encrypt != null) {
-            body = encrypt.encrypt(entity.getType(), entity.getBody());
-        }
-        return super.update(collection, entity, body);
+//        Map<String, Object> body = entity.getBody();
+//        if (encrypt != null) {
+//            body = encrypt.encrypt(entity.getType(), entity.getBody());
+//        }
+        return super.update(collection, entity, null); //body);
     }
 
     /** Add the created and updated timestamp to the document metadata. */

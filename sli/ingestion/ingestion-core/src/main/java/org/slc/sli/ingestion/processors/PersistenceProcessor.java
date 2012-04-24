@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -33,6 +34,7 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.Translator;
+import org.slc.sli.ingestion.dal.MongoIndices;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
 import org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler;
@@ -120,13 +122,17 @@ public class PersistenceProcessor implements Processor {
             // Create the database for this job.
             neutralRecordMongoAccess.registerBatchId(job.getId());
 
+            // Ensure database indexing for this job. Tom Shewchuk 04/21/2012.
+            MongoIndices.ensureMongoIndicies("_" + neutralRecordMongoAccess.getRecordRepository()
+                    .getCollectionGroupingIdentifier(), neutralRecordMongoAccess.getRecordRepository().getTemplate());
+
             for (IngestionFileEntry fe : job.getFiles()) {
                 String filename = fe.getFileName();
-                Metrics metric =  new Metrics();
+                Metrics metric = new Metrics();
                 metric.startMetric();
                 metric.setResourceId(filename);
                 if (stage.getMetrics() == null) {
-                    List<Metrics> metricsList  = new ArrayList<Metrics>();
+                    List<Metrics> metricsList = new ArrayList<Metrics>();
                     stage.setMetrics(metricsList);
                 }
                 stage.getMetrics().add(metric);
@@ -134,11 +140,13 @@ public class PersistenceProcessor implements Processor {
 
                 ErrorReport errorReportForFile = null;
                 try {
-                    errorReportForFile = processIngestionStream(batchJobId, fe, tenantId, getTransformedCollections(), new HashSet<String>());
+                    errorReportForFile = processIngestionStream(batchJobId, fe, tenantId, getTransformedCollections(),
+                            new HashSet<String>());
 
                 } catch (IOException e) {
                     job.getFaultsReport().error("Internal error reading neutral representation of input file.", this);
-                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, FaultType.TYPE_ERROR.getName(), "Exception", e.getMessage());
+                    BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING,
+                            FaultType.TYPE_ERROR.getName(), "Exception", e.getMessage());
                 }
 
                 // Inform user if there were any record-level errors encountered
@@ -149,7 +157,8 @@ public class PersistenceProcessor implements Processor {
 
                     for (Fault fault : job.getFaultsReport().getFaults()) {
                         String faultMessage = fault.getMessage();
-                        BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, FaultType.TYPE_ERROR.getName(), "Error", faultMessage);
+                        BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING,
+                                FaultType.TYPE_ERROR.getName(), "Error", faultMessage);
                     }
                 }
 
@@ -175,7 +184,8 @@ public class PersistenceProcessor implements Processor {
             exchange.getIn().setHeader("ErrorMessage", exception.toString());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             LOG.error("Exception:", exception);
-            BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, FaultType.TYPE_ERROR.getName(), "Exception",  exception.getMessage());
+            BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING,
+                    FaultType.TYPE_ERROR.getName(), "Exception", exception.getMessage());
 
         } finally {
             neutralRecordMongoAccess.cleanupGroupedCollections();
@@ -186,7 +196,6 @@ public class PersistenceProcessor implements Processor {
 
     }
 
-
     /**
      * Consumes the SLI Neutral records file contained by ingestionFileEntry, parses, and persists
      * the SLI Ingestion instances. Validation errors will go to an error file that corresponds with
@@ -196,10 +205,11 @@ public class PersistenceProcessor implements Processor {
      * @param tenantId
      * @throws IOException
      */
-    public ErrorReport processIngestionStream(String batchJobId, IngestionFileEntry ingestionFileEntry, String tenantId,
-            ArrayList<String> transformedCollections, Set<String> processedStagedCollections) throws IOException {
-        return processIngestionStream(batchJobId, ingestionFileEntry.getNeutralRecordFile(), ingestionFileEntry.getFileName(),
-                tenantId, transformedCollections, processedStagedCollections);
+    public ErrorReport processIngestionStream(String batchJobId, IngestionFileEntry ingestionFileEntry,
+            String tenantId, ArrayList<String> transformedCollections, Set<String> processedStagedCollections)
+            throws IOException {
+        return processIngestionStream(batchJobId, ingestionFileEntry.getNeutralRecordFile(),
+                ingestionFileEntry.getFileName(), tenantId, transformedCollections, processedStagedCollections);
     }
 
     /**
@@ -210,17 +220,22 @@ public class PersistenceProcessor implements Processor {
      * @param tenantId
      * @throws IOException
      */
-    public ErrorReport processIngestionStream(String batchJobId, File neutralRecordsFile, String tenantId) throws IOException {
+    public ErrorReport processIngestionStream(String batchJobId, File neutralRecordsFile, String tenantId)
+            throws IOException {
         return processIngestionStream(batchJobId, neutralRecordsFile, neutralRecordsFile.getName(), tenantId,
                 new ArrayList<String>(), new HashSet<String>());
     }
 
-    private ErrorReport processIngestionStream(String batchJobId, File neutralRecordsFile, String originalInputFileName,
-            String tenantId, ArrayList<String> transformedCollections, Set<String> processedStagedCollections)
-            throws IOException {
+    private ErrorReport processIngestionStream(String batchJobId, File neutralRecordsFile,
+            String originalInputFileName, String tenantId, ArrayList<String> transformedCollections,
+            Set<String> processedStagedCollections) throws IOException {
 
         long recordNumber = 0;
         long numFailed = 0;
+
+        StopWatch sw = new StopWatch();
+        sw.start();
+
 
         ch.qos.logback.classic.Logger errorLogger = createErrorLoggerForFile(originalInputFileName);
         LoggingFaultReport recordLevelErrorsInFile = new LoggingFaultReport(errorLogger);
@@ -241,7 +256,7 @@ public class PersistenceProcessor implements Processor {
 
                 if (!transformedCollections.contains(neutralRecord.getRecordType())) {
                     if (persistedCollections.contains(neutralRecord.getRecordType())) {
-                        //this doesn't exist in collection, persist
+                        // this doesn't exist in collection, persist
 
                         LOG.debug("processing {}", neutralRecord);
 
@@ -258,21 +273,25 @@ public class PersistenceProcessor implements Processor {
                         }
                     }
                 } else {
-                    //process collection of the entities from db
+                    // process collection of the entities from db
                     LOG.debug("processing staged collection: {}", neutralRecord.getRecordType());
                     if (!processedStagedCollections.contains(neutralRecord.getRecordType())) {
-                        //collection wasn't processed yet
+                        // collection wasn't processed yet
 
                         Iterable<NeutralRecord> neutralRecordData = null;
 
                         if (neutralRecord.getRecordType().equals("studentTranscriptAssociation")) {
                             NeutralQuery neutralQuery = new NeutralQuery();
-                            String studentAcademicRecordId = (String) neutralRecord.getAttributes().remove("studentAcademicRecordId");
-                            neutralQuery.addCriteria(new NeutralCriteria("studentAcademicRecordId", "=", studentAcademicRecordId));
-                            neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed", neutralQuery);
+                            String studentAcademicRecordId = (String) neutralRecord.getAttributes().remove(
+                                    "studentAcademicRecordId");
+                            neutralQuery.addCriteria(new NeutralCriteria("studentAcademicRecordId", "=",
+                                    studentAcademicRecordId));
+                            neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(
+                                    neutralRecord.getRecordType() + "_transformed", neutralQuery);
                         } else {
                             processedStagedCollections.add(neutralRecord.getRecordType());
-                            neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed");
+                            neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(
+                                    neutralRecord.getRecordType() + "_transformed");
                         }
 
                         if (neutralRecordData != null) {
@@ -321,7 +340,7 @@ public class PersistenceProcessor implements Processor {
                 }
             }
 
-                // TODO store record counts in batch job db
+            // TODO store record counts in batch job db
             if (exchange != null) {
                 LOG.info("Setting records.processed value on exchange header");
 
@@ -341,6 +360,9 @@ public class PersistenceProcessor implements Processor {
                 // number of records not processed successfully
                 exchange.setProperty(originalInputFileName + ".records.failed", numFailed);
             }
+
+            sw.stop();
+            LOG.info("Performance - {} - {} : {}", new Object[] {batchJobId, originalInputFileName, sw.getTotalTimeMillis()});
         }
         neutralRecordsFile.delete();
 
@@ -349,8 +371,10 @@ public class PersistenceProcessor implements Processor {
             if (faultMessage != null) {
                 faultMessage = faultMessage.replaceAll("\r|\n", " ");
             }
-            String faultLevel  = fault.isError() ? FaultType.TYPE_ERROR.getName() : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
-            BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel, "Error", faultMessage);
+            String faultLevel = fault.isError() ? FaultType.TYPE_ERROR.getName()
+                    : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
+            BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.PERSISTENCE_PROCESSING, faultLevel,
+                    "Error", faultMessage);
         }
 
         return recordLevelErrorsInFile;
@@ -417,7 +441,6 @@ public class PersistenceProcessor implements Processor {
     public void setObsoletePersistHandler(NeutralRecordEntityPersistHandler obsoletePersistHandler) {
         this.obsoletePersistHandler = obsoletePersistHandler;
     }
-
 
     public Set<String> getPersistedCollections() {
         return persistedCollections;

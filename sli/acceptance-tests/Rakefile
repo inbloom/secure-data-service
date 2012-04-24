@@ -61,6 +61,7 @@ def runTests(testDirPath)
     else
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Failed"
       $SUCCESS=false
+      raise "Tests Failed" if (ENV['FAILFAST'])
     end
   end
 end
@@ -197,7 +198,8 @@ desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest] do
+                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest,
+                         :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionIndexTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -317,6 +319,12 @@ task :ingestionMongoDBPerformanceTest do
   runTests("test/features/ingestion/features/ingestion_mongo_performance.feature")
 end
 
+desc "Run Ingestion Index Tests"
+task :ingestionIndexTest do
+  runTests("test/features/ingestion/features/index_testing.feature")
+end
+
+
 ############################################################
 # Ingestion Offline Tool tests start
 ############################################################
@@ -370,6 +378,7 @@ task :apiV1Tests => [:apiV1EntityTests,
 end
 
 task :apiV1EntityTests => [:v1AssessmentTests,
+                           :v1LearningStandardTests,
                            :v1LearningObjectiveTests,
                            :v1AttendanceTests,
                            :v1CourseTests,
@@ -714,7 +723,13 @@ end
 
 desc "Run V1 LearningObjective Tests"
 task :v1LearningObjectiveTests => [:realmInit] do
+  setFixture("learningStandard", "learningStandard_fixture.json")
   runFixtureAndTests("test/features/apiV1/entities/learningObjective","learningObjective","learningObjective_fixture.json")
+end
+
+desc "Run V1 LearningStandard Tests"
+task :v1LearningStandardTests => [:realmInit] do
+  runFixtureAndTests("test/features/apiV1/entities/learningStandard","learningStandard","learningStandard_fixture.json")
 end
 
 desc "Run V1 Parent Tests"
@@ -812,6 +827,11 @@ desc "Run V1 Single Student View Tests"
 task :v1SingleStudentViewTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/optional_fields/single_student_view.feature")
+end
+
+desc "Run V1 Simple CRUD Test"
+task :v1SimpleCrudTests do
+  runTests("test/features/apiV1/entities/crud")
 end
 
 ############################################################
@@ -1000,14 +1020,67 @@ desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
 task :localDashboardTests => [:realmInit,:importUnifiedData,:dashboardTests] do
 end
 
+desc "Run Dashboard Tests against SDS"
+task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
+                         :dashboardSdsContactInfoTests,
+                         :dashboardSdsLoginTests,
+                         :dashboardSdsHSViewTests,
+                         :dashboardSdsK3ViewTests,
+                         :dashboardSdsPopWidgetTests,
+                         :dashboardSdsStudentProfileTests,
+                         :dashboardSdsUserBasedViewsTests,
+                         :dashboardSdsAttendanceTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
 desc "Run dashboard integration tests"
-task :dashboardSdsTests do
+task :dashboardSdsCoreStudentsTests do
   runTests("test/features/dashboard/dash/dashboard_sds.feature")
 end
 
 desc "Run dashboard integrated Tests - Student Contact info"
 task :dashboardSdsContactInfoTests do
   runTests("test/features/dashboard/dash/contact_info_sds.feature")
+end
+
+desc "Run dashboard integrated Tests - Login Tests"
+task :dashboardSdsLoginTests do
+  runTests("test/features/dashboard/dash/dashboard_login_sds.feature")
+end
+
+desc "Run dashboard integrated Tests - High School View Tests"
+task :dashboardSdsHSViewTests do
+  runTests("test/features/dashboard/dash/high_school_view_sds.feature")
+end
+
+desc "Run dashboard integrated Tests - K3 View Tests"
+task :dashboardSdsK3ViewTests do
+  runTests("test/features/dashboard/dash/k3view_sds.feature")
+end
+
+desc "Run dashboard integrated Tests - Population Widget Tests"
+task :dashboardSdsPopWidgetTests do
+  runTests("test/features/dashboard/dash/population_widget_sds.feature")
+end
+
+desc "Run dashboard integrated Tests - Population Widget Tests"
+task :dashboardSdsStudentProfileTests do
+  runTests("test/features/dashboard/dash/student_profile_sds.feature")
+end
+
+desc "Run dashboard integrated Tests - Population Widget Tests"
+task :dashboardSdsUserBasedViewsTests do
+  runTests("test/features/dashboard/dash/user_based_views_sds.feature")
+end
+
+desc "Run dashboard integrated Tests - Population Widget Tests"
+task :dashboardSdsAttendanceTests do
+  runTests("test/features/dashboard/dash/attendance_sds.feature")
 end
 
 desc "Run dashboard student gradebook entry tests"
@@ -1028,8 +1101,7 @@ task :integrationTests => [:realmInitNoPeople] do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
-  Rake::Task["dashboardSdsTests"].execute
-  Rake::Task["dashboardSdsContactInfoTests"].execute    
+  Rake::Task["dashboardSdsTests"].invoke  
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

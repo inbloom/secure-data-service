@@ -163,6 +163,118 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
   assert(@result == "true", "Some collections were not cleared successfully.")
 end
 
+Given /^I create collections and add index$/ do
+  @db   = @conn[INGESTION_DB_NAME]
+
+  @collection = @db["student"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["section"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
+  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.courseId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["studentSectionAssociation"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.sectionId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+end
+
+def createIndexes(db_host, db_name)
+  @conn = Mongo::Connection.new(db_host)
+  @db   = @conn[db_name]
+
+  @collection = @db["assessment"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["attendance"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["course"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["educationOrganization"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["gradebookEntry"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["parent"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["school"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["section"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
+  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.courseId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["session"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["staff"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["staffEducationOrganizationAssociation"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["student"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["studentAssessmentAssociation"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["studentParentAssociation"]
+  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.parentId', 1], ['body.studentId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["studentSchoolAssociation"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["studentSectionAssociation"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.sectionId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["studentSectionGradebookEntry"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["studentTranscriptAssociation"]
+  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'courseId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.courseId', 1]])
+
+  @collection = @db["teacher"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["teacherSectionAssociation"]
+  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'teacherId' => " ", 'sectionId' => " "}} )
+  @collection.ensure_index([ ['body.teacherId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
+
+end
 ############################################################
 # STEPS: WHEN
 ############################################################
@@ -185,7 +297,7 @@ def dirContainsBatchJobLogs?(dir, num)
   Dir.foreach(dir) do |file|
     if /^job-.*.log$/.match file
       count += 1
-      if count >= num 
+      if count >= num
         return true
       end
     end
@@ -293,6 +405,28 @@ end
 ############################################################
 # STEPS: THEN
 ############################################################
+Then /^I should see following map of indexes in the corresponding collections:$/ do |table|
+  @db   = @conn[INGESTION_DB_NAME]
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @db.collection(row["collectionName"])
+    @indexcollection = @db.collection("system.indexes")
+    #puts "ns" + INGESTION_DB_NAME+"student," + "name" + row["index"].to_s
+    @indexCount = @indexcollection.find("ns" => INGESTION_DB_NAME + "." + row["collectionName"], "name" => row["index"]).to_a.count()
+
+    #puts "Index Count = " + @indexCount.to_s
+
+    if @indexCount.to_s == "0"
+      puts "Index was not created for " + INGESTION_DB_NAME+ "." + row["collectionName"] + + " with name = " + row["index"]
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Some indexes were not created successfully.")
+
+end
 
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
   @db   = @conn[INGESTION_DB_NAME]
@@ -395,7 +529,7 @@ Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do
   @entity_collection = @db.collection(collection)
   @entity =  @entity_collection.find({field => value})
   assert(@entity.count == 1, "Found more than one document with this query (or zero :) )")
-  
+
 end
 
 When /^verify that "([^"]*)" is (equal|unequal) to "([^"]*)"$/ do |arg1, equal_or_unequal, arg2|
@@ -424,7 +558,7 @@ Then /^verify the following data in that document:$/ do |table|
       curSearchString.split('.').each do |part|
         is_num?(part) ? val = val[part.to_i] : val = val[part]
       end
-      if row["searchType"] == "integer" 
+      if row["searchType"] == "integer"
         assert(val == row['searchValue'].to_i, "Expected value: #{row['searchValue']}, but received #{val}")
       else
         assert(val == row['searchValue'], "Expected value: #{row['searchValue']}, but received #{val}")
@@ -443,7 +577,7 @@ end
 
 
 def checkForContentInFileGivenPrefix(message, prefix)
-  
+
   if (INGESTION_MODE == 'remote')
 
     runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
