@@ -46,7 +46,7 @@ public final class MongoIndexManager {
                 } else {
                     indexList = collectionIndexes.get(collectionName);
                 }
-                    indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields()));
+                    indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields(), collectionName));
                     collectionIndexes.put(collectionName, indexList);
             }
 
@@ -58,16 +58,17 @@ public final class MongoIndexManager {
     /**Create index definition from buffered reader
      *
      * @param fields : the fields read from the config files
-     * @param collectionName : name of the collection the indexes to be created for
+     * @param name : the name of the index
      * @return
      * @throws IOException
      */
-    public IndexDefinition createIndexDefinition(List<Map<String, String>> fields) throws IOException {
+    private IndexDefinition createIndexDefinition(List<Map<String, String>> fields, String name) throws IOException {
         Index index = new Index();
 
         for (Map<String, String> field : fields) {
             index.on(field.get("name"), field.get("position").equals("1") ? Order.ASCENDING : Order.DESCENDING);
         }
+        index.named(name);
         return index;
     }
 
