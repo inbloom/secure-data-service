@@ -7,7 +7,7 @@ package org.slc.sli.ingestion;
  *
  */
 public enum FileType {
-    
+
     XML_EDUCATION_ORGANIZATION("EducationOrganization", FileFormat.EDFI_XML),
     XML_EDUCATION_ORG_CALENDAR("EducationOrgCalendar", FileFormat.EDFI_XML),
     XML_STAFF_ASSOCIATION("StaffAssociation", FileFormat.EDFI_XML),
@@ -20,6 +20,8 @@ public enum FileType {
     XML_STUDENT_GRADES("StudentGrades", FileFormat.EDFI_XML),
     XML_STUDENT_PARENT_ASSOCIATION("Parent", FileFormat.EDFI_XML),
     XML_STUDENT_PROGRAM("StudentProgram", FileFormat.EDFI_XML),
+    XML_STUDENT_COHORT("StudentCohort", FileFormat.EDFI_XML),
+    XML_STUDENT_DISCIPLINE("StudentDiscipline", FileFormat.EDFI_XML),
 
     CSV_STUDENT("Student", FileFormat.CSV),
     CSV_SCHOOL("School", FileFormat.CSV),

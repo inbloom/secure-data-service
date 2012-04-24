@@ -1,7 +1,6 @@
 package org.slc.sli.common.util.threadutil;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Hashtable;
 
 /**
  * ThreadLocal storage
@@ -9,22 +8,39 @@ import java.util.Map;
  * @author ifaybyshev
  *
  */
+public class ThreadLocalStorage extends Hashtable<Object, Object> {
 
-public class ThreadLocalStorage {
+    /** Class version. */
+    private static final long serialVersionUID = 1L;
 
-    private final ThreadLocal<Map<Object, Object>> threadStore;
+    private ThreadLocal<Object> holder = new ThreadLocal<Object>();
 
-    public ThreadLocalStorage() {
-        this.threadStore = new ThreadLocal<Map<Object, Object>>();
-        this.threadStore.set(new HashMap<Object, Object>());
+    private String specialKey;
+
+    /**
+     * Construct a new thread local storage, accessed by special key
+     * @param specialKey key used to lookup thread local storage.
+     */
+    public ThreadLocalStorage(String specialKey) {
+        super();
+        this.holder.set(null);
+        this.specialKey = specialKey;
     }
 
+    @Override
     public synchronized Object get(Object key) {
-        return this.threadStore.get().get(key);
+        if ((specialKey != null) && specialKey.equals(key)) {
+                return holder.get();
+        }
+        return super.get(key);
     }
 
+    @Override
     public synchronized Object put(Object key, Object value) {
-        return this.threadStore.get().put(key, value);
+        if ((specialKey != null) && specialKey.equals(key)) {
+                holder.set(value);
+        }
+        return super.put(key, value);
     }
 
 }

@@ -38,6 +38,7 @@ public final class ResourceNames {
     public static final String STUDENT_COMPETENCIES = "studentCompetencies";
     public static final String STUDENT_COMPETENCY_OBJECTIVES = "studentCompetencyObjectives";
     public static final String LEARNINGOBJECTIVES = "learningObjectives";
+    public static final String LEARNINGSTANDARDS = "learningStandards";
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
     public static final String TEACHERS = "teachers";
 
@@ -81,13 +82,13 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "getTeacherSectionAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "getSchoolSessionAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "getSectionAssessmentAssociation");
-        SINGULAR_LINK_NAMES.put(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "getSessionCourseAssociation");
-        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "getStudentAssessmentAssociation");
+        SINGULAR_LINK_NAMES.put(ResourceNames.SESSION_COURSE_ASSOCIATIONS, "getCourseOffering");
+        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "getStudentAssessment");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "getStudentSectionAssociation");
-        SINGULAR_LINK_NAMES.put(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "getStaffEducationOrganizationAssociation");
+        SINGULAR_LINK_NAMES.put(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "getStaffEducationOrgAssignmentAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATION_ASSOCIATIONS, "getEducationOrganization");
         SINGULAR_LINK_NAMES.put(ResourceNames.COURSE_SECTION_ASSOCIATIONS, "getCourseSectionAssociation");
-        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "getStudentTranscriptAssociation");
+        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, "getCourseTranscript");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, "getStudentParentAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "getStudentDisciplineIncidentAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "getStudentProgramAssociation");
@@ -107,10 +108,12 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.PARENTS, "getParent");
         SINGULAR_LINK_NAMES.put(ResourceNames.PROGRAMS, "getProgram");
         SINGULAR_LINK_NAMES.put(ResourceNames.SECTIONS, "getSection");
+        SINGULAR_LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES, "getLearningObjective");
+        SINGULAR_LINK_NAMES.put(ResourceNames.LEARNINGSTANDARDS, "getLearningStandard");
         SINGULAR_LINK_NAMES.put(ResourceNames.SESSIONS, "getSession");
         SINGULAR_LINK_NAMES.put(ResourceNames.SCHOOLS, "getSchool");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENTS, "getStudent");
-        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, "getStudentSectionGradebookEntry");
+        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, "getStudentGradebookEntry");
         SINGULAR_LINK_NAMES.put(ResourceNames.TEACHERS, "getTeacher");
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF, "getStaff");
     }
