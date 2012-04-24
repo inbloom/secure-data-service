@@ -367,13 +367,23 @@ module EntityProvider
 
   def self.get_new_entity(type)
     case type
-    when 'attendance', 'v1attendance'
-      { 
-        "eventDate" => "2012-02-24", 
-        "attendanceEventType" => "Daily Attendance", 
-        "attendanceEventCategory" => "Tardy", 
-        "studentId" => "7a86a6a7-1f80-4581-b037-4a9328b9b650"
-      }
+      when 'attendance', 'v1attendance'
+        {
+            "studentId" => "7a86a6a7-1f80-4581-b037-4a9328b9b650",
+            "schoolId" => "2058ddfb-b5c6-70c4-3bee-b43e9e93307d",
+            "schoolYearAttendance" =>
+                [{
+                     "schoolYear" => "2011-2012",
+                     "attendanceEvent" =>
+                         [{
+
+                              "date" => "2012-02-24",
+                              "event" => "Tardy",
+                              "reason" => "missed the bus"
+
+                          }]
+                 }]
+        }
     end
   end
 
