@@ -35,7 +35,6 @@ public class MongoIndexManagerTest {
     String batchJobId = "testBatchJob";
     @Before
     public void setup() {
-        template = Mockito.mock(MongoTemplate.class);
         manager.setIndexRootDir(rootDir);
     }
 
