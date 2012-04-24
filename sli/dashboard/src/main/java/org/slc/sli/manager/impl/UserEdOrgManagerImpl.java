@@ -12,6 +12,9 @@ import java.util.Vector;
 
 import com.googlecode.ehcache.annotations.Cacheable;
 
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
+
 import org.slc.sli.entity.Config.Data;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.EdOrgKey;
@@ -27,6 +30,15 @@ import org.slc.sli.util.Constants;
  */
 public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgManager {
     
+    private static final String USER_SCHOOLS = "user.schools";
+    private CacheManager cacheManager;
+    
+    public void setCacheManager(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+        this.cacheManager.addCache(USER_SCHOOLS);
+    }
+    
+    
     private GenericEntity getParentEducationalOrganization(String token, GenericEntity edOrgOrSchool) {
         return getApiClient().getParentEducationalOrganization(token, edOrgOrSchool);
     }
@@ -40,29 +52,59 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      */
     @Cacheable(cacheName = "user.district")
     public EdOrgKey getUserEdOrg(String token) {
+        
         // get list of school
-        // Delete this comment after Replace getToken() to token when token
-        // passes actual token
-        // instead of username
-        List<GenericEntity> schools = getApiClient().getSchools(getToken(), null);
-        if (!schools.isEmpty()) {
+        List<GenericEntity> schools = getSchools();
+        
+        if (schools != null && !schools.isEmpty()) {
+            
             // read first school
             GenericEntity school = schools.get(0);
-            // read parenet organization
-            // Delete this comment after Replace getToken() to token when token
-            // passes actual token
-            // instead of username
+        
+            // read parent organization
             GenericEntity parentEdOrg = getParentEducationalOrganization(getToken(), school);
             @SuppressWarnings("unchecked")
             LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) parentEdOrg
                     .get(Constants.METADATA);
-            if (!metaData.isEmpty()) {
+            if (metaData != null && !metaData.isEmpty()) {
                 if (metaData.containsKey(Constants.EXTERNAL_ID)) {
                     return new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString());
                 }
             }
         }
         return null;
+    }
+    
+    /**
+     * Get user's schools. Cache the results so we don't have to make the call twice.
+     * 
+     * @return
+     */
+    public List<GenericEntity> getSchools() {
+       
+        List<GenericEntity> schools = null;
+        
+        // get it from the cache if you can
+        if (cacheManager != null) {
+            Element elem = cacheManager.getCache(USER_SCHOOLS).get(getToken());
+            if (elem != null) {
+                schools = (List<GenericEntity>) elem.getValue();
+            }
+        }
+        
+        // otherwise, call the api
+        if (schools == null) {
+            schools = getApiClient().getSchools(getToken(), null);
+        
+            // cache it
+            if (schools != null) {
+                if (cacheManager != null) {
+                    cacheManager.getCache(USER_SCHOOLS).put(new Element(getToken(), schools));
+                }
+            }
+        }
+        
+        return schools; 
     }
     
     /**
@@ -77,37 +119,34 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     public List<GenericEntity> getUserInstHierarchy(String token) {
         
         // Find all the schools first.
-        List<GenericEntity> schools = getApiClient().getSchools(token, null);
+        List<GenericEntity> schools = getSchools();
         if (schools == null) {
             return new ArrayList<GenericEntity>();
         }
         
         // This maps ids from educational organisations to schools reachable
-        // from it via the "child"
-        // relationship
+        // from it via the "child" relationship
         Map<String, HashSet<GenericEntity>> schoolReachableFromEdOrg = new HashMap<String, HashSet<GenericEntity>>();
+        
         // This just maps ed org ids to ed org objects.
         Map<String, GenericEntity> edOrgIdMap = new HashMap<String, GenericEntity>();
         
         // traverse the ancestor chain from each school and find ed orgs that
-        // the school is
-        // reachable from
+        // the school is reachable from
         for (int i = 0; i < schools.size(); i++) {
             GenericEntity edOrg = getParentEducationalOrganization(token, schools.get(i));
             while (edOrg != null) {
                 String edOrgId = edOrg.getString(Constants.ATTR_ID);
+            
                 // insert ed-org id to - edOrg mapping
                 edOrgIdMap.put(edOrgId, edOrg);
+                
                 // insert ed-org - school mapping into the reverse map
                 if (!schoolReachableFromEdOrg.keySet().contains(edOrgId)) {
                     schoolReachableFromEdOrg.put(edOrgId, new HashSet<GenericEntity>());
                 }
                 schoolReachableFromEdOrg.get(edOrgId).add(schools.get(i));
-                edOrg = getParentEducationalOrganization(token, edOrg); // next
-                                                                        // in
-                                                                        // the
-                                                                        // ancestor
-                                                                        // chain
+                edOrg = getParentEducationalOrganization(token, edOrg); // next in the ancestor chain
             }
         }
         

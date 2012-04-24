@@ -8,10 +8,10 @@ When /^I view its student profile$/ do
 
   csiContent = @explicitWait.until{@driver.find_element(:class, "csi")}
   studentInfo = csiContent.find_element(:class, "studentInfo")
-  table_cells = studentInfo.find_elements(:xpath, "//div[@class='field']/span")
+  table_cells = studentInfo.find_elements(:xpath, ".//div[@class='field']/span")
   @info = Hash.new
-  sName = csiContent.find_element(:xpath, "//div[@class='colMain']/h1") 
-
+  sName = csiContent.find_element(:xpath, ".//div[@class='colMain']/h1") 
+  
   @info["Name"] = sName.text
   puts sName.text
   
@@ -30,6 +30,12 @@ end
 Then /^their name shown in profile is "([^"]*)"$/ do |expectedStudentName|
    containsName = @info["Name"] == expectedStudentName
    assert(containsName, "Actual name is :" + @info["Name"]) 
+end
+
+When /^their nickname shown in profile is "([^"]*)"$/ do |expectedNickName|
+  csiContent = @driver.find_element(:class, "csi")
+  nickName = csiContent.find_element(:xpath,".//div[@class='colMain']/small")
+  assert(nickName.text == expectedNickName, "Actual displayed nickname is: " + nickName.text)
 end
 
 Then /^their id shown in proflie is "([^"]*)"$/ do |studentId|
