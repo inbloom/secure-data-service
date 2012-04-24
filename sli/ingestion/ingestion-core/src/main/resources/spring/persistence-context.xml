@@ -57,6 +57,9 @@
     <value>program</value>
     <value>studentProgramAssociation</value>
     <value>staffProgramAssociation</value>
+    <value>cohort</value>
+    <value>studentCohortAssociation</value>
+    <value>staffCohortAssociation</value>
     <value>disciplineIncident</value>
   </util:set>
 

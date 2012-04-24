@@ -21,9 +21,9 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "09eced61-edd9-4826-a7bc-137ffecda877"   if human_readable_id == "ASSOCIATION ID"
   id = "310755a4-3473-4649-8a89-dbbb1ae86388"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
   id = "3b86eab4-1779-4fed-b38f-27b7dba5d41b"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
-  id = "getStudentTranscriptAssociations"  		if human_readable_id == "ASSOCIATION LINK NAME"
-  id = "studentTranscriptAssociation"     		if human_readable_id == "ASSOCIATION TYPE"
-  id = "studentTranscriptAssociations"     		if human_readable_id == "ASSOCIATION URI"
+  id = "getCourseTranscripts"			  		if human_readable_id == "ASSOCIATION LINK NAME"
+  id = "studentTranscriptAssociation"			if human_readable_id == "ASSOCIATION TYPE"
+  id = "courseTranscripts"			     		if human_readable_id == "ASSOCIATION URI"
   
   #student related data
   id = "studentId"                         		if human_readable_id == "ENDPOINT1 FIELD"

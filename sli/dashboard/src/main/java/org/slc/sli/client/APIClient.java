@@ -1,5 +1,6 @@
 package org.slc.sli.client;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +17,8 @@ public interface APIClient {
 
     public List<GenericEntity> getSchools(final String token, List<String> schoolIds);
 
-    public List<GenericEntity> getStudents(final String token, List<String> studentIds);
-    
+    public List<GenericEntity> getStudents(final String token, Collection<String> studentIds);
+
     public GenericEntity getStudent(String token, String id);
 
     public List<GenericEntity> getStudentAssessments(final String token, String studentId);
@@ -31,38 +32,38 @@ public interface APIClient {
     public List<GenericEntity> getStudentAttendance(final String token, String studentId, String start, String end);
 
     public GenericEntity getParentEducationalOrganization(final String token, GenericEntity educationalOrganization);
-    
+
     public List<GenericEntity> getStudentEnrollment(final String token, GenericEntity student);
 
     public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId);
-    
+
     public String getHeader(String token);
 
     public String getFooter(String token);
-    
+
     /**
      * Returns a list of courses for a given student and query params
      * i.e students/{studentId}/studentCourseAssociations/courses?subejctArea="math"&includeFields=courseId,name
-     * 
+     *
      * @param token Security token
      * @param studentId The student Id
      * @param params Query params
      * @return
      */
     public List<GenericEntity> getCourses(final String token, final String studentId, Map<String, String> params);
-    
+
     /**
      * Returns a list of studentCourseAssociations for a
      * given student and query params
      * i.e students/{studentId}/studentCourseAssociations?courseId={courseId}&includeFields=finalGrade
-     * 
+     *
      * @param token Security token
      * @param studentId The student Id
      * @param params Query params
      * @return
      */
     public List<GenericEntity> getStudentTranscriptAssociations(final String token, final String studentId, Map<String, String> params);
-    
+
     /**
      * Returns a list of sections for the given student and params
      * @param token Security token
@@ -71,17 +72,17 @@ public interface APIClient {
      * @return
      */
     public List<GenericEntity> getSections(final String token, final String studentId, Map<String, String> params);
-    
+
     /**
      * Returns an entity for the given type, id and params
      * @param token Security token
-     * @param type Type of the entity 
+     * @param type Type of the entity
      * @param id The id of the entity
      * @param params param map
      * @return
      */
     public GenericEntity getEntity(final String token, final String type, final String id, Map<String, String> params);
-    
+
     /**
      * Returns a list of student grade book entries for a given student and params
      * @param token Security token
@@ -99,9 +100,9 @@ public interface APIClient {
      * @return
      */
     public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds);
-    
+
     public GenericEntity getTeacherForSection(String sectionId, String token);
-    
+
     public GenericEntity getHomeRoomForStudent(String studentId, String token);
 
     public GenericEntity getSession(String token, String sessionId);
