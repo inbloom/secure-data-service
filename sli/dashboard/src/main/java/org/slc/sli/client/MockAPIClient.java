@@ -5,28 +5,30 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.util.Constants;
+import com.google.gson.Gson;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.Gson;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
 
 /**
- * 
+ *
  * A mock API client. Reads json data from local files, instead of calling an API server.
- * 
+ *
  */
 public class MockAPIClient implements APIClient {
 
     private static Logger log = LoggerFactory.getLogger(MockAPIClient.class);
-    
+
     private ClassLoader classLoader;
-    
+
     // Mock Data Files
     private static final String MOCK_DATA_DIRECTORY = "mock_data/";
     private static final String MOCK_ENROLLMENT_FILE = "school.json";
@@ -38,11 +40,11 @@ public class MockAPIClient implements APIClient {
     private static final String MOCK_ED_ORG_FILE = "educational_organization.json";
     private static final String MOCK_ED_ORG_ASSOC_FILE = "educational_organization_association.json";
     private static final String MOCK_SCHOOL_ED_ORG_ASSOC_FILE = "school_educational_organization_association.json";
-    
+
     public MockAPIClient() {
         this.classLoader = Thread.currentThread().getContextClassLoader();
     }
-    
+
     @Override
     public GenericEntity getStudent(final String token, String studentId) {
         return this.getEntity(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_STUDENTS_FILE), studentId);
@@ -53,12 +55,13 @@ public class MockAPIClient implements APIClient {
         return getStudents(token, studentIds);
     }
 
+    @Override
     public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId) {
         return null;
     }
-    
+
     @Override
-    public List<GenericEntity> getStudents(final String token, List<String> studentIds) {
+    public List<GenericEntity> getStudents(final String token, Collection<String> studentIds) {
         return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_STUDENTS_FILE), studentIds);
     }
 
@@ -70,7 +73,7 @@ public class MockAPIClient implements APIClient {
 
     @Override
     public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
-        
+
         // get all assessments in the file. this is very inefficient, since we're reading the whole
         // file each time, but only
         // grabbing assmts for one student. not sure of a good way around it at the moment.
@@ -84,7 +87,7 @@ public class MockAPIClient implements APIClient {
                 filteredAssmts.add(studentAssmt);
             }
         }
-        
+
         return filteredAssmts;
     }
 
@@ -111,15 +114,15 @@ public class MockAPIClient implements APIClient {
 
     @Override
     public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds) {
-        
+
         return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + MOCK_ASSESSMENT_METADATA_FILE), null);
     }
-    
+
     @Override
     public List<GenericEntity> getCustomData(String token, String key) {
         return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/custom_" + key + ".json"), null);
     }
-    
+
     @Override
     public List<GenericEntity> getPrograms(final String token, List<String> studentIds) {
         // TODO: student id logic isn't working yet. for now, pass in null.
@@ -132,7 +135,7 @@ public class MockAPIClient implements APIClient {
         String parentEdOrgId = edOrgOrSchool.getString(Constants.ATTR_PARENT_EDORG);
         return getEducationOrganization(token, parentEdOrgId);
     }
-    
+
     // helper, to find an ed-org entity.
     private GenericEntity getEducationOrganization(final String token, String id) {
         List<GenericEntity> allEdOrgs = this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/"
@@ -153,7 +156,7 @@ public class MockAPIClient implements APIClient {
      * Helper function to translate a .json file into object.
      * TODO: remove this after assessment meta data is switched to use the generic entity
      */
-    
+
     public static <T> T[] fromFile(String fileName, Class<T[]> c) {
 
         BufferedReader bin = null;
@@ -186,11 +189,11 @@ public class MockAPIClient implements APIClient {
             }
         }
     }
-    
+
     /**
      * Get the list of entities identified by the entity id list and authorized for the security
      * token
-     * 
+     *
      * @param token
      *            - the principle authentication token
      * @param filePath
@@ -200,11 +203,11 @@ public class MockAPIClient implements APIClient {
      * @return entityList
      *         - the entity list
      */
-    public List<GenericEntity> getEntities(final String token, String filePath, List<String> entityIds) {
-        
+    public List<GenericEntity> getEntities(final String token, String filePath, Collection<String> entityIds) {
+
         // Get all the entities for the user identified by token
         List<GenericEntity> entities = fromFile(filePath);
-        
+
         // Filter entities according to the entity id list
         List<GenericEntity> filteredEntities = new ArrayList<GenericEntity>();
         if (entityIds != null) {
@@ -216,13 +219,13 @@ public class MockAPIClient implements APIClient {
         } else {
             filteredEntities.addAll(entities);
         }
-        
+
         return filteredEntities;
     }
-    
+
     /**
      * Get the entity identified by the entity id and authorized for the security token
-     * 
+     *
      * @param token
      *            - the principle authentication token
      * @param filePath
@@ -233,10 +236,10 @@ public class MockAPIClient implements APIClient {
      *         - the entity entity
      */
     public GenericEntity getEntity(final String token, String filePath, String id) {
-        
+
         // Get all the entities for the user identified by token
         List<GenericEntity> entities = fromFile(filePath);
-        
+
         // Select entity identified by id
         if (id != null) {
             for (GenericEntity entity : entities) {
@@ -245,23 +248,24 @@ public class MockAPIClient implements APIClient {
                 }
             }
         }
-        
+
         return null;
     }
-    
+
     /**
      * In mock data, each student only exists in one section
      * Retrieves the population hierarchy and returns the section containing the student, populated with minimal data
      */
+    @Override
     public GenericEntity getHomeRoomForStudent(String studentId, String token) {
         List<GenericEntity> hierarchy = getSchools(token, null);
 
         for (GenericEntity school : hierarchy) {
             List<LinkedHashMap> courses = school.getList(Constants.ATTR_COURSES);
-            
+
             for (LinkedHashMap course : courses) {
                 List<LinkedHashMap> sections = (List<LinkedHashMap>) course.get(Constants.ATTR_SECTIONS);
-                
+
                 for (LinkedHashMap section : sections) {
                     List<String> studentUIDs = (List<String>) section.get(Constants.ATTR_STUDENT_UIDS);
                     if (studentUIDs.contains(studentId)) {
@@ -276,11 +280,12 @@ public class MockAPIClient implements APIClient {
         }
         return null;
     }
-    
+
     /**
      * Returns teacher with only name object, with first, last, middle names, and prefix populated
      * Token is the username of logged in user, we use it to populate the name
      */
+    @Override
     public GenericEntity getTeacherForSection(String sectionId, String token) {
         GenericEntity name = new GenericEntity();
         name.put(Constants.ATTR_FIRST_NAME, token);
@@ -295,7 +300,7 @@ public class MockAPIClient implements APIClient {
     /**
      * Retrieves an entity list from the specified file
      * and instantiates from its JSON representation
-     * 
+     *
      * @param filePath
      *            - the file path to persist the view component XML string representation
      * @return entityList
@@ -303,11 +308,11 @@ public class MockAPIClient implements APIClient {
      */
     public List<GenericEntity> fromFile(String filePath) {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
-        
+
         BufferedReader reader = null;
-        
+
         try {
-            
+
             // Read JSON file
             reader = new BufferedReader(new FileReader(filePath));
             StringBuffer jsonBuffer = new StringBuffer();
@@ -315,11 +320,11 @@ public class MockAPIClient implements APIClient {
             while ((line = reader.readLine()) != null) {
                 jsonBuffer.append(line);
             }
-            
+
             // Parse JSON
             Gson gson = new Gson();
             List<Map> maps = gson.fromJson(jsonBuffer.toString(), new ArrayList<Map>().getClass());
-            
+
             for (Map<String, Object> map : maps) {
                 entityList.add(new GenericEntity(map));
             }
@@ -335,10 +340,10 @@ public class MockAPIClient implements APIClient {
                 log.error(e.getMessage());
             }
         }
-        
+
         return entityList;
     }
-    
+
     public String getFilename(String filename) {
         URL url = classLoader.getResource(filename);
         return url.getFile();
@@ -364,7 +369,7 @@ public class MockAPIClient implements APIClient {
     public GenericEntity getEntity(String token, String type, String id, Map<String, String> params) {
         return null;
     }
-    
+
     @Override
     public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId, Map<String, String> params) {
         return null;

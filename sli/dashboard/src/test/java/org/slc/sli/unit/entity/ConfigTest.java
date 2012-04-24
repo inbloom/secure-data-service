@@ -18,23 +18,23 @@ import org.slc.sli.entity.Config.Type;
 public class ConfigTest {
     
     private static final String DEFAULT_LAYOUT_JSON = "{id : 'studentProfile', type: 'LAYOUT', "
-            + " data :{entity: 'mock', alias: 'mock' }, "
+            + " data :{entity: 'mock', cacheKey: 'mock' }, "
             + " items: [{id : 'csi', name: 'Student Info', type: 'PANEL'},"
             + "         {id: 'tab2', name: 'Attendance and Discipline', type : 'TAB', "
             + "          condition: {field: 'limitedEnglishProficiency', value: ['Limited']}, "
             + "          items: [{id : 'csi', type: 'PANEL'}]}]}";
     
     private static final String GRID_JSON = "{id : 'enrollmentHist', type : 'GRID', "
-            + " name : 'Enrollment History', data :{ entity: 'student', alias: 'student'}, "
+            + " name : 'Enrollment History', data :{ entity: 'student', cacheKey: 'student'}, "
             + " items : [ "
             + "  {id: 'col1', name: 'School Year', type:'FIELD', datatype: 'string', field: 'studentSchool.schoolYear', width: 100}, "
             + "  {id: 'col2', name: 'School', type:'FIELD', datatype: 'string', field: 'studentSchool.nameOfInstitution', width: 220} ]}";
     
     private static final String STUDENT_PROFILE_DRIVER = "{id : 'studentProfile',name: 'Name', type: 'LAYOUT',data :{"
-            + "entity: 'student',alias: 'student'}, items: [" + "{id : 'csi', name: 'Student Info', type: 'PANEL'}]}";
+            + "entity: 'student',cacheKey: 'student'}, items: [" + "{id : 'csi', name: 'Student Info', type: 'PANEL'}]}";
     
     private static final String STUDENT_PROFILE_DISTRICT = "{id : 'studentProfileDistrict',"
-            + "type: 'FIELD', name: 'District Name', data :{entity: 'studentDistrct',alias: 'studentDistrct'}, "
+            + "type: 'FIELD', name: 'District Name', data :{entity: 'studentDistrct',cacheKey: 'studentDistrct'}, "
             + "items: [{id : 'csiDistrict', name: 'Student Info District', type: 'PANEL'},"
             + "{id: 'tabDistrict', name: 'Daybreak district tab',  type : 'TAB', items: []}]}";
     
@@ -87,7 +87,7 @@ public class ConfigTest {
         Assert.assertEquals(merged.getType(), Type.LAYOUT);
         
         Config.Data data = merged.getData();
-        Assert.assertEquals(data.getAlias(), "student");
+        Assert.assertEquals(data.getCacheKey(), "student");
         Assert.assertEquals(data.getEntityRef(), "student");
         Assert.assertNull(data.getParams());
         
