@@ -57,12 +57,11 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                  | 86    |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                | searchValue     |
-#     | attendance                  | 16056               | body.educationalEnvironment   | Classroom       |
-#     | attendance                  | 14422               | body.attendanceEventCategory  | In Attendance   |
-#     | attendance                  | 850                 | body.attendanceEventCategory  | Excused Absence |
-#     | attendance                  | 784                 | body.attendanceEventCategory  | Tardy           |
+     | attendance                  | 16056               | body.educationalEnvironment   | Classroom       |
+     | attendance                  | 14422               | body.attendanceEventCategory  | In Attendance   |
+     | attendance                  | 850                 | body.attendanceEventCategory  | Excused Absence |
+     | attendance                  | 784                 | body.attendanceEventCategory  | Tardy           |
      | attendance                  | 72                  | body.schoolYearAttendance.attendanceEvent.date | 2012-07-09      |
-
    And I should see "Processed 72 records." in the resulting batch job file
    And I should not see an error log file created
    And I should see "StudentAttendanceAppend.xml records considered: 72" in the resulting batch job file
