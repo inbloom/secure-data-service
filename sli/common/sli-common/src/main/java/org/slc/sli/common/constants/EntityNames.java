@@ -11,6 +11,8 @@ public final class EntityNames {
     public static final String ATTENDANCE = "attendance";
     public static final String BELL_SCHEDULE = "bellSchedule";
     public static final String COHORT = "cohort";
+    public static final String COMPETENCY_LEVEL_DESCRIPTOR = "competencyLevelDescriptor";
+    public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPE = "competencyLevelDescriptorType";
     public static final String COURSE = "course";
     public static final String DISCIPLINE_INCIDENT = "disciplineIncident";
     public static final String DISCIPLINE_ACTION = "disciplineAction";
@@ -19,6 +21,7 @@ public final class EntityNames {
     public static final String PARENT = "parent";
     public static final String PROGRAM = "program";
     public static final String REALM = "realm";
+    public static final String REPORT_CARD = "reportCard";
     public static final String SCHOOL = "school";
     public static final String SECTION = "section";
     public static final String SESSION = "session";
@@ -26,6 +29,8 @@ public final class EntityNames {
     public static final String STUDENT = "student";
     public static final String LEARNINGOBJECTIVE = "learningObjective";
     public static final String LEARNINGSTANDARD = "learningStandard";
+    public static final String STUDENT_COMPETENCY = "studentCompetency";
+    public static final String STUDENT_COMPETENCY_OBJECTIVE = "studentCompetencyObjective";
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRY = "studentSectionGradebookEntry";
     public static final String TEACHER = "teacher";
     public static final String STUDENT_SECTION_ASSOCIATION = "studentSectionAssociation";
