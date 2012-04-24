@@ -271,12 +271,15 @@ public class JobReportingProcessor implements Processor {
         return stage;
     }
 
+    // TODO move this into a dedicated cleanup processor routing stage run on error or normal completion
     private void deleteNeutralRecordFiles(NewBatchJob job) {
         for (ResourceEntry resourceEntry : job.getResourceEntries()) {
             if (resourceEntry.getResourceName() != null
                     && FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
                 File nrFile = new File(resourceEntry.getResourceName());
-                nrFile.delete();
+                if (!nrFile.delete()) {
+                    LOG.warn("Failed to delete neutral record file " + resourceEntry.getResourceName());
+                }
             }
         }
     }
