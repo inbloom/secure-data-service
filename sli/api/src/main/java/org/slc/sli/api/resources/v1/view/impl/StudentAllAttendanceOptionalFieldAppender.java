@@ -46,15 +46,27 @@ public class StudentAllAttendanceOptionalFieldAppender implements OptionalFieldA
 
         // build a map of studentId -> list of attendances
         Map<String, List<EntityBody>> attendancesPerStudent = new HashMap<String, List<EntityBody>>();
-        for (EntityBody studentSchoolPair : attendances) {
+        for (EntityBody studentSchoolPair : entities) {
             String studentId = (String) studentSchoolPair.get("studentId");
             attendancesPerStudent.put(studentId, new ArrayList<EntityBody>());
         }
         
-        //iterate through attendances, adding to the appropriate student's list
+        // iterate through attendances, adding to the appropriate student's list
         for (EntityBody attendance : attendances) {
             String id = (String) attendance.get("studentId");
-            attendancesPerStudent.get(id).add(attendance);
+            
+            List<EntityBody> events = new ArrayList<EntityBody>();
+            if (attendance.containsKey("schoolYearAttendance")) {
+                List<Map<String, Object>> schoolYearAttendances = (List<Map<String, Object>>) attendance.get("schoolYearAttendance");
+                for (int i = 0; i < schoolYearAttendances.size(); i++) {
+                    Map<String, Object> year = schoolYearAttendances.get(i);
+                    List<Map<String, Object>> yearEvents = (List<Map<String, Object>>) year.get("attendanceEvent");
+                    for (int j = 0; j < yearEvents.size(); j++) {
+                        events.add(new EntityBody(yearEvents.get(j)));
+                    }
+                }
+            }
+            attendancesPerStudent.get(id).addAll(events);
         }
 
         //add attendances to appropriate student's entityBody
@@ -84,26 +96,5 @@ public class StudentAllAttendanceOptionalFieldAppender implements OptionalFieldA
         }
 
         return entities;
-    }
-    
-    /**
-     * Pulls attendance events out of the schoolYearAttendance object (list of maps containing school year
-     * attendance) and returns a list of entity bodies representing the attendance events.
-     * @param schoolYearAttendance stored in transformed attendance collection.
-     * @return list of entity bodies representing transformed attendance events.
-     */
-    private List<EntityBody> getAttendanceEventEntityBodies(List<Map<String, Object>> schoolYearAttendance) {
-        List<EntityBody> bodies = new ArrayList<EntityBody>();
-        for (int i = 0; i < schoolYearAttendance.size(); i++) {
-            Map<String, Object> attendance = schoolYearAttendance.get(i);
-            
-            @SuppressWarnings("unchecked")
-            List<Map<String, Object>> events = (List<Map<String, Object>>) attendance.get("attendanceEvent");
-            
-            for (Map<String, Object> event : events) {
-                bodies.add(new EntityBody(event));
-            }
-        }
-        return bodies;
     }
 }
