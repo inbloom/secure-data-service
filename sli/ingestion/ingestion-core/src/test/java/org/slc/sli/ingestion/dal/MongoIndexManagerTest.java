@@ -8,6 +8,7 @@ import java.util.Map;
 import junitx.util.PrivateAccessor;
 
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -39,10 +40,12 @@ public class MongoIndexManagerTest {
         Map<String, List<IndexDefinition>> res = MongoIndexManager.getCollectionIndexes();
         Assert.assertEquals(1, res.size());
         Assert.assertEquals(1, res.get("student").size());
-        Assert.assertEquals(3, res.get("student").get(0).getIndexKeys().keySet().size());
-        Assert.assertTrue(res.get("student").get(0).getIndexKeys().containsField("body.sex"));
-        Assert.assertTrue(res.get("student").get(0).getIndexKeys().containsField("body.name"));
-        Assert.assertTrue(res.get("student").get(0).getIndexKeys().containsField("body.birthDate"));
+        DBObject indexKeys = res.get("student").get(0).getIndexKeys();
+        Assert.assertEquals(3, indexKeys.keySet().size());
+
+        Assert.assertTrue(indexKeys.containsField("body.sex"));
+        Assert.assertTrue(indexKeys.containsField("body.name"));
+        Assert.assertTrue(indexKeys.containsField("body.birthDate"));
     }
 
     @Test
