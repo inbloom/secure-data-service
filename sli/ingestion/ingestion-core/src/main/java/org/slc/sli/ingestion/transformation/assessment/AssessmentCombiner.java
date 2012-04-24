@@ -43,7 +43,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     
     private final FileUtils fileUtils;
     
-    private final static Set<String> IGNORE_TYPES = new HashSet<String>(Arrays.asList("learningStandard"));
+    private static final Set<String> IGNORE_TYPES = new HashSet<String>(Arrays.asList("learningStandard"));
     
     @Autowired
     public AssessmentCombiner(FileUtils fileUtils) {
