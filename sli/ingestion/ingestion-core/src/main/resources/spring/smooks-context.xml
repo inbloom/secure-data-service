@@ -159,7 +159,9 @@
               <constructor-arg value="${smooks.config.all.xml}" />
               <constructor-arg>
                 <list>
-                  <value>${smooks.targetselector.xml.disciplineIncident}</value>
+                  <value>${smooks.targetselector.xml.cohort}</value>
+                  <value>${smooks.targetselector.xml.student.cohort}</value>
+                  <value>${smooks.targetselector.xml.staff.cohort}</value>
                 </list>
               </constructor-arg>
             </bean>
@@ -169,9 +171,7 @@
               <constructor-arg value="${smooks.config.all.xml}" />
               <constructor-arg>
                 <list>
-                  <value>${smooks.targetselector.xml.cohort}</value>
-                  <value>${smooks.targetselector.xml.student.cohort}</value>
-                  <value>${smooks.targetselector.xml.staff.cohort}</value>
+                  <value>${smooks.targetselector.xml.disciplineIncident}</value>
                 </list>
               </constructor-arg>
             </bean>
