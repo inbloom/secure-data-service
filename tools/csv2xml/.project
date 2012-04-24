@@ -3,6 +3,7 @@
 	<name>CSV2XML</name>
 	<comment></comment>
 	<projects>
+		<project>ExportTools</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -1,4 +1,4 @@
-package org.slc.sli.sample.tranform;
+package org.slc.sli.sample.transform;
 
 import java.io.File;
 import java.io.IOException;
