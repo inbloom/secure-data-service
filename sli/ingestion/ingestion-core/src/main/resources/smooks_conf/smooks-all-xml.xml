@@ -2958,8 +2958,8 @@
     <!-- ProgramReference - array of reference type -->
     <jb:wiring property="programReferences" beanIdRef="cohort_programReferenceTypeArray" />
 
-    <!-- ProgramId: placeholder for reference resolution -->
-    <jb:wiring property="programId" beanIdRef="cohort_programIdArray" /> 
+	<!-- ProgramId: placeholder for reference resolution -->
+	<jb:wiring property="programId" beanIdRef="cohort_programIdArray" /> 
   </jb:bean>
 
   <jb:bean beanId="cohort_programReferenceTypeArray" class="java.util.ArrayList" 
@@ -3032,13 +3032,13 @@
     <jb:value property="ID"
       data="Cohort/ProgramReference/ProgramIdentity/EducationOrgIdentificationCode/ID" />
   </jb:bean>
-  <!-- placeholder for reference resolution. -->
-  <jb:bean beanId="cohort_programIdArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentCohort/Cohort">
-    <jb:value data="Cohort/ProgramReference/ProgramIdentity/ProgramId" />
-  </jb:bean>
 
-  <!-- End Cohort Mapping -->
+	<!-- placeholder for reference resolution. -->
+	<jb:bean beanId="cohort_programIdArray" class="java.util.ArrayList"
+	  createOnElement="InterchangeStudentCohort/Cohort">
+	<jb:value data="Cohort/ProgramReference/ProgramIdentity/ProgramId" />
+	</jb:bean>
+	<!-- End Cohort Mapping -->
 
   <!-- Start StudentCohortAssociation mapping -->
 
@@ -3161,63 +3161,56 @@
 
   <jb:bean beanId="staffCohortAssociationAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation">
+    <jb:wiring property="staffReference" beanIdRef="StaffCohortAssoc_staffReferenceArray" />
     <jb:wiring property="staffId" beanIdRef="StaffCohortAssoc_staffIdArray" />
+    <jb:wiring property="cohortReference" beanIdRef="StaffCohortAssoc_cohortReferenceArray" />
     <jb:wiring property="cohortId" beanIdRef="StaffCohortAssoc_cohortIdArray" />
     <jb:value property="beginDate" data="StaffCohortAssociation/BeginDate" />
     <jb:value property="endDate" data="StaffCohortAssociation/EndDate" />
     <jb:value property="studentRecordAccess" data="StaffCohortAssociation/StudentRecordAccess" decoder="Boolean" />
   </jb:bean>
 
-  <!-- StaffCohortAssociation support object: StaffCohortAssoc_staffIdArray  -->
-  <jb:bean beanId="StaffCohortAssoc_staffIdArray" class="java.util.ArrayList"
+  <!-- StaffCohortAssociation support object: StaffCohortAssoc_staffReferenceArray  -->
+  <jb:bean beanId="StaffCohortAssoc_staffReferenceArray" class="java.util.ArrayList"
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation">
-    <jb:wiring beanIdRef="StaffCohortAssoc_staffId" />
+    <jb:wiring beanIdRef="StaffCohortAssoc_staffReference" />
   </jb:bean>
 
-  <jb:bean beanId="StaffCohortAssoc_staffId" class="java.util.HashMap"
+  <jb:bean beanId="StaffCohortAssoc_staffReference" class="java.util.HashMap"
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation/StaffReference">
-    <jb:wiring property="staffIdentity" beanIdRef="StaffCohortAssoc_staffId_staffIdentity" />
+    <jb:wiring property="staffIdentity" beanIdRef="StaffCohortAssoc_staffReference_staffIdentity" />
   </jb:bean>
 
-  <jb:bean beanId="StaffCohortAssoc_staffId_staffIdentity" class="java.util.HashMap"
+  <jb:bean beanId="StaffCohortAssoc_staffReference_staffIdentity" class="java.util.HashMap"
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation/StaffReference/StaffIdentity">
     <jb:value property="staffUniqueStateId" data="StaffCohortAssociation/StaffReference/StaffIdentity/StaffUniqueStateId" />
   </jb:bean>
-  
-  <!-- More ???-->
 
-
-
-
-  <!-- StaffCohortAssociation support object: StaffCohortAssoc_cohortIdArray  -->
-  <jb:bean beanId="StaffCohortAssoc_cohortIdArray" class="java.util.ArrayList"
+  <jb:bean beanId="StaffCohortAssoc_staffIdArray" class="java.util.ArrayList"
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation">
-    <jb:wiring beanIdRef="StaffCohortAssoc_cohortId" />
-  </jb:bean>
-
-  <jb:bean beanId="StaffCohortAssoc_cohortId" class="java.util.HashMap"
-    createOnElement="InterchangeStudentCohort/StaffCohortAssociation/CohortReference">
-    <jb:wiring property="cohortIdentity" beanIdRef="StaffCohortAssoc_cohortId_cohortIdentity" />
+    <jb:value data="StaffCohortAssociation/StaffReference/StaffIdentity/StaffUniqueStateId" />
   </jb:bean>
   
-  <jb:bean beanId="StaffCohortAssoc_cohortId_cohortIdentity" class="java.util.HashMap"
+  <!-- StaffCohortAssociation support object: StaffCohortAssoc_cohortReferenceArray  -->
+  <jb:bean beanId="StaffCohortAssoc_cohortReferenceArray" class="java.util.ArrayList"
+    createOnElement="InterchangeStudentCohort/StaffCohortAssociation">
+    <jb:wiring beanIdRef="StaffCohortAssoc_cohortReference" />
+  </jb:bean>
+
+  <jb:bean beanId="StaffCohortAssoc_cohortReference" class="java.util.HashMap"
+    createOnElement="InterchangeStudentCohort/StaffCohortAssociation/CohortReference">
+    <jb:wiring property="cohortIdentity" beanIdRef="StaffCohortAssoc_cohortReference_cohortIdentity" />
+  </jb:bean>
+
+  <jb:bean beanId="StaffCohortAssoc_cohortReference_cohortIdentity" class="java.util.HashMap"
     createOnElement="InterchangeStudentCohort/StaffCohortAssociation/CohortReference/CohortIdentity">
     <jb:value property="cohortIdentifier"
         data="StaffCohortAssociation/CohortReference/CohortIdentity/CohortIdentifier" />
-    <jb:wiring property="stateOrganizationId"
-      beanIdRef="StaffCohortAssoc_cohortId_cohortIdentity_stateOrganizationIdArray" />
-    <jb:wiring property="educationOrgIdentificationCode"
-      beanIdRef="StaffCohortAssoc_cohortId_cohortIdentity_educationOrgIdentificationCodeArray" />
-  </jb:bean>  
-  
-  <jb:bean beanId="StaffCohortAssoc_cohortId_cohortIdentity_stateOrganizationIdArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentCohort/StaffCohortAssociation/CohortReference/CohortIdentity">
-    <jb:value data="StaffCohortAssociation/CohortReference/CohortIdentity/StateOrganizationId" />
   </jb:bean>
-  
-  <jb:bean beanId="StaffCohortAssoc_cohortId_cohortIdentity_educationOrgIdentificationCodeArray" class="java.util.ArrayList"
-    createOnElement="InterchangeStudentCohort/StaffCohortAssociation/CohortReference/CohortIdentity">
-    <jb:value data="StaffCohortAssociation/CohortReference/CohortIdentity/EducationOrgIdentificationCode" />
+
+  <jb:bean beanId="StaffCohortAssoc_cohortIdArray" class="java.util.ArrayList"
+    createOnElement="InterchangeStudentCohort/StaffCohortAssociation">
+    <jb:value data="StaffCohortAssociation/CohortReference/CohortIdentity/CohortIdentifier" />
   </jb:bean>
   
   <!-- End StaffCohortAssociation Mapping -->

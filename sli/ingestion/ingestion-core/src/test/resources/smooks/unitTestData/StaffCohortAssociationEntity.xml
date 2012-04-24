@@ -3,14 +3,25 @@
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentCohort.xsd">
 
   <StaffCohortAssociation>
-    <StaffReference>
-	  <StaffIdentity>
-	    <StaffUniqueStateId>100000000</StaffUniqueStateId>
-	  </StaffIdentity>
+	<StaffReference>
+		<StaffIdentity>
+			<StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+		</StaffIdentity>
+	</StaffReference>
+	<StaffReference>
+		<StaffIdentity>
+			<StaffUniqueStateId>cgray</StaffUniqueStateId>
+		</StaffIdentity>
 	</StaffReference>
 	<CohortReference>
 	  <CohortIdentity>
 	    <CohortIdentifier>ACC-TEST-COH-1</CohortIdentifier>
+		<StateOrganizationId>IL</StateOrganizationId>
+	  </CohortIdentity>
+	</CohortReference>
+	<CohortReference>
+	  <CohortIdentity>
+	    <CohortIdentifier>ACC-TEST-COH-2</CohortIdentifier>
 		<StateOrganizationId>IL</StateOrganizationId>
 	  </CohortIdentity>
 	</CohortReference>

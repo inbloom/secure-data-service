@@ -161,7 +161,7 @@
                 <list>
                   <value>${smooks.targetselector.xml.cohort}</value>
                   <value>${smooks.targetselector.xml.student.cohort}</value>
-                  <!-- value>${smooks.targetselector.xml.staff.cohort}</value -->
+                  <value>${smooks.targetselector.xml.staff.cohort}</value>
                 </list>
               </constructor-arg>
             </bean>
