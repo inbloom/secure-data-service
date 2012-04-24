@@ -48,6 +48,7 @@ public class JobReportingProcessorTest {
 
     private static final String TEMP_DIR = "tmp/";
     private static final String OUTFILE = "job-test.ctl-11111111111111111.log";
+    private static final String ERRORFILEPREFIX = "error.";
 
     private static final String BATCHJOBID = "test.ctl-11111111111111111";
     private static final String RESOURCEID = "InterchangeStudentParent.xml";
@@ -116,11 +117,11 @@ public class JobReportingProcessorTest {
 
         jobReportingProcessor.process(exchange);
 
-        // read the generated file and check values
+        // read the generated job output file and check values
         FileReader fr = new FileReader(TEMP_DIR + OUTFILE);
         BufferedReader br = new BufferedReader(fr);
-        String s;
 
+//        String s;
         // while ((s = br.readLine()) != null) {
         // System.out.println(s);
         // }
@@ -133,13 +134,29 @@ public class JobReportingProcessorTest {
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records ingested successfully: " + RECORDS_PASSED));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records failed: " + RECORDS_FAILED));
         assertTrue(br.readLine().contains("[configProperty] purge: false"));
-        assertTrue(br.readLine().contains(
-                "ERROR  " + BatchJobStageType.PERSISTENCE_PROCESSOR.getName() + "," + RESOURCEID + "," + RECORDID + ","
-                        + ERRORDETAIL));
         assertTrue(br.readLine().contains("Not all records were processed completely due to errors."));
         assertTrue(br.readLine().contains("Processed " + RECORDS_CONSIDERED + " records."));
 
+        // read the generated error file and check values
+        String errorFileName = getErrorFileName();
+        fr = new FileReader(TEMP_DIR + errorFileName);
+        br = new BufferedReader(fr);
+        assertTrue(br.readLine().contains("ERROR  " + ERRORDETAIL));
+
         fr.close();
+    }
+
+    private String getErrorFileName() {
+        if (tmpDir.exists()) {
+            String[] files = tmpDir.list();
+
+            for (String temp : files) {
+                if (temp.startsWith(ERRORFILEPREFIX)) {
+                    return temp;
+                }
+            }
+        }
+        return null;
     }
 
     private Map<String, String> createFakeBatchProperties() {
