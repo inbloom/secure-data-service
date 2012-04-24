@@ -9,10 +9,11 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Order;
+
+import org.slc.sli.domain.Repository;
 
 /** Mongo indexes manager, which loads the indexes from the json configuration file.
  *
@@ -23,7 +24,7 @@ import org.springframework.data.mongodb.core.query.Order;
 public final class MongoIndexManager {
     private static final Logger LOG = LoggerFactory.getLogger(MongoIndexManager.class);
 
-    private static Map<String, List<IndexDefinition>> collectionIndexes = null;
+    private Map<String, List<IndexDefinition>> collectionIndexes = new HashMap<String, List<IndexDefinition>>();
 
     private String indexRootDir;
 
@@ -31,23 +32,23 @@ public final class MongoIndexManager {
      * Init function used by Spring. Load indexes map for all collections
      */
     public void init() {
-        List<MongoIndexConfig> mongoIndexConfigs = new ArrayList<MongoIndexConfig>();
         IndexResourcePatternResolver indexResolver = new IndexResourcePatternResolver();
 
-        mongoIndexConfigs = indexResolver.findAllIndexes(indexRootDir);
-        collectionIndexes = new HashMap<String, List<IndexDefinition>>();
+        List<MongoIndexConfig> mongoIndexConfigs = indexResolver.findAllIndexes(indexRootDir);
 
         try {
             for (MongoIndexConfig mongoIndexConfig : mongoIndexConfigs) {
                 List<IndexDefinition> indexList;
                 String collectionName = mongoIndexConfig.getCollection();
+
                 if (!collectionIndexes.containsKey(collectionName)) {
                     indexList = new ArrayList<IndexDefinition>();
                 } else {
                     indexList = collectionIndexes.get(collectionName);
                 }
-                    indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields(), collectionName));
-                    collectionIndexes.put(collectionName, indexList);
+
+                indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields(), collectionName));
+                collectionIndexes.put(collectionName, indexList);
             }
 
         } catch (IOException e) {
@@ -62,7 +63,7 @@ public final class MongoIndexManager {
      * @return
      * @throws IOException
      */
-    private IndexDefinition createIndexDefinition(List<Map<String, String>> fields, String name) throws IOException {
+    private static final IndexDefinition createIndexDefinition(List<Map<String, String>> fields, String name) throws IOException {
         Index index = new Index();
 
         for (Map<String, String> field : fields) {
@@ -78,21 +79,23 @@ public final class MongoIndexManager {
     * @param collection: the collection to be ensureIndex'ed
     * @param batchJobId
     */
-    public void ensureIndex(MongoTemplate template, String collection, String batchJobId) {
+    public void ensureIndex(Repository<?> repository, String collection) {
+
         if (!collectionIndexes.containsKey(collection)) {
-            LOG.error("No indexes found for " + collection + ". Skipping...");
+            LOG.warn("No indexes found for " + collection + ". Skipping...");
+            return;
         }
 
        for (IndexDefinition index : collectionIndexes.get(collection)) {
-           String collectionName = collection + "_" + batchJobId;
-           if (!template.collectionExists(collectionName)) {
-               template.createCollection(collectionName);
+
+           if (!repository.collectionExists(collection)) {
+               repository.createCollection(collection);
            }
+
            try {
-               template.ensureIndex(index, collectionName);
+               repository.ensureIndex(index, collection);
            } catch (Exception e) {
-               //Mongo indexes are not ensured
-               LOG.error("Failed to create mongo indexes");
+               LOG.error("Failed to create mongo indexes, reason: {}", e.getMessage());
            }
        }
    }
@@ -101,11 +104,11 @@ public final class MongoIndexManager {
      *
      * @param template : mongo template to set the index
      */
-    public void ensureIndex(MongoTemplate template, String batchJobId) {
+    public void ensureIndex(Repository<?> repository) {
         Set<String> collections = collectionIndexes.keySet();
 
         for (String collection : collections) {
-            ensureIndex(template, collection, batchJobId);
+            ensureIndex(repository, collection);
         }
     }
 
@@ -117,11 +120,11 @@ public final class MongoIndexManager {
         this.indexRootDir = indexRootDir;
     }
 
-    public static Map<String, List<IndexDefinition>> getCollectionIndexes() {
+    public Map<String, List<IndexDefinition>> getCollectionIndexes() {
         return collectionIndexes;
     }
 
-    public static void setCollectionIndexes(Map<String, List<IndexDefinition>> collectionIndexes) {
-        MongoIndexManager.collectionIndexes = collectionIndexes;
+    public void setCollectionIndexes(Map<String, List<IndexDefinition>> collectionIndexes) {
+        this.collectionIndexes = collectionIndexes;
     }
 }

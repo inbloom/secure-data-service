@@ -24,7 +24,6 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     protected static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
 
     private EntityEncryption entityEncryption;
-    private MongoIndexManager mongoIndexManager;
 
     @Override
     public boolean update(String collection, NeutralRecord neutralRecord) {
@@ -109,22 +108,5 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     public void setEntityEncryption(EntityEncryption entityEncryption) {
         this.entityEncryption = entityEncryption;
     }
-
-    /** ensureIndexes for all the collections configured
-    *
-    * @author tke
-    */
-    public void ensureIndex() {
-        mongoIndexManager.ensureIndex(getTemplate(), getBatchJobId());
-    }
-
-    public MongoIndexManager getMongoIndexManager() {
-        return mongoIndexManager;
-    }
-
-    public void setMongoIndexManager(MongoIndexManager mongoIndexManager) {
-        this.mongoIndexManager = mongoIndexManager;
-    }
-
 
 }
