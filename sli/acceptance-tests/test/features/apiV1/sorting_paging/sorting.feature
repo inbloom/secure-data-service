@@ -112,15 +112,16 @@ Scenario: Request the last and middle page of results from a API request
             
 Scenario Outline: Confirm ability to use different operators with numbers
     Given format "application/json"
+    And parameter "limit" is "0"
       And parameter "sequenceOfCourse" <operator> "2"
      When I navigate to GET "/v1/sections"
      Then I should receive a return code of 200
       And I should receive a collection with <entities returned> elements
     Examples:
         | operator  | entities returned |
-        | "<="      | 25                |
-        | ">"       | 10                |
-        | "<"       | 23                |
-        | ">="      | 12                |
-        | "!="      | 33                |
+        | "<="      | 46                |
+        | ">"       | 96                |
+        | "<"       | 44                |
+        | ">="      | 98                |
+        | "!="      | 140                |
         | "="       | 2                 |
