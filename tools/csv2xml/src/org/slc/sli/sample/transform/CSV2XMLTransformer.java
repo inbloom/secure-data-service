@@ -20,6 +20,7 @@ import org.slc.sli.sample.entities.LanguageItemType;
 import org.slc.sli.sample.entities.LanguagesType;
 import org.slc.sli.sample.entities.Name;
 import org.slc.sli.sample.entities.Parent;
+import org.slc.sli.sample.entities.ParentIdentityType;
 import org.slc.sli.sample.entities.ParentReferenceType;
 import org.slc.sli.sample.entities.PersonalInformationVerificationType;
 import org.slc.sli.sample.entities.PersonalTitlePrefixType;
@@ -29,6 +30,7 @@ import org.slc.sli.sample.entities.RelationType;
 import org.slc.sli.sample.entities.SexType;
 import org.slc.sli.sample.entities.StateAbbreviationType;
 import org.slc.sli.sample.entities.Student;
+import org.slc.sli.sample.entities.StudentIdentityType;
 import org.slc.sli.sample.entities.StudentParentAssociation;
 import org.slc.sli.sample.entities.StudentReferenceType;
 
@@ -49,10 +51,6 @@ public class CSV2XMLTransformer {
     // CSV reader for studentParentAssociation files
     private CSVReader studentParentAssociationReader;
 
-    // maps to track references
-    private Map<String, StudentReferenceType> studentRefs = new HashMap<String, StudentReferenceType>();
-    private Map<String, ParentReferenceType> parentRefs = new HashMap<String, ParentReferenceType>();
-
     // input csv files
     private String studentFile = "data/Student.csv";
     private String studentAddressFile = "data/StudentAddress.csv";
@@ -62,6 +60,11 @@ public class CSV2XMLTransformer {
 
     // output Ed-Fi xml file
     private static String interchangeStudentParentFile = "data/InterchangeStudentParent.xml";
+
+    // counters
+    private int studentCounter = 0;
+    private int parentCounter = 0;
+    private int studentParentAssociationCounter = 0;
 
     /**
      * open csv files and create CSV reader for each file
@@ -100,19 +103,29 @@ public class CSV2XMLTransformer {
         // process student
         while (studentReader.getNextRecord() != null) {
             list.add(this.getStudent());
+            this.studentCounter++;
         }
 
         // process parent
         while (parentReader.getNextRecord() != null) {
             list.add(this.getParent());
+            this.parentCounter++;
         }
 
         // process studentParentAssociation
         while (studentParentAssociationReader.getNextRecord() != null) {
             list.add(this.getStudentParentAssociation());
+            this.studentParentAssociationCounter++;
         }
 
         marshaller.marshal(interchangeStudentParent, ps);
+
+        System.out.println("Total " + this.studentCounter + " students are exported.");
+        System.out.println("Total " + this.parentCounter + " parents are exported.");
+        System.out.println("Total " + this.studentParentAssociationCounter
+                + " student-parent-associations are exported.");
+        System.out.println("Total " + (this.studentCounter + this.parentCounter + this.studentParentAssociationCounter)
+                + " entities are exported.");
     }
 
     /**
@@ -194,11 +207,6 @@ public class CSV2XMLTransformer {
             student.setLanguages(languages);
         }
 
-        // tracking student references
-        StudentReferenceType studentReference = new StudentReferenceType();
-        studentReference.setRef(student);
-        studentRefs.put(studentId, studentReference);
-
         return student;
     }
 
@@ -223,11 +231,6 @@ public class CSV2XMLTransformer {
         // set sex
         parent.setSex(SexType.fromValue(parentRecord.get("Sex")));
 
-        // tracking parent references
-        ParentReferenceType parentReference = new ParentReferenceType();
-        parentReference.setRef(parent);
-        parentRefs.put(parentId, parentReference);
-
         return parent;
     }
 
@@ -242,10 +245,19 @@ public class CSV2XMLTransformer {
         StudentParentAssociation studentParentAssociation = new StudentParentAssociation();
 
         // set student reference
-        studentParentAssociation.setStudentReference(studentRefs.get(studentParentAssociationRecord.get("StudentUSI")));
+        StudentIdentityType sit = new StudentIdentityType();
+        sit.setStudentUniqueStateId(studentParentAssociationRecord.get("StudentUSI"));
+        StudentReferenceType srt = new StudentReferenceType();
+        srt.setStudentIdentity(sit);
+        studentParentAssociation.setStudentReference(srt);
 
         // set parent reference
-        studentParentAssociation.setParentReference(parentRefs.get(studentParentAssociationRecord.get("ParentUSI")));
+        ParentIdentityType pit = new ParentIdentityType();
+        pit.setParentUniqueStateId(studentParentAssociationRecord.get("ParentUSI"));
+        ParentReferenceType prt = new ParentReferenceType();
+        prt.setParentIdentity(pit);
+        studentParentAssociation.setParentReference(prt);
+
 
         // set relation
         if (!studentParentAssociationRecord.get("Relation").isEmpty()) {
