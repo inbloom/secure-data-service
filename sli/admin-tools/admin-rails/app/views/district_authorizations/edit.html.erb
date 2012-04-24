@@ -7,18 +7,27 @@
 <%= form_for @app do |f| %>
     <%= hidden_field_tag("update_districts", true) %>
 <table>
-<% EducationOrganization.all.each do |education_organization| %>
-  <tr>
-    <td><%= education_organization.nameOfInstitution %></td>
-    <td>
-          <%= check_box_tag("authorized_ed_orgs[]", education_organization.id, @app.authorized_ed_orgs.include?(education_organization.id)) %>
-    </td>
-  </tr>
+<% ed_orgs = EducationOrganization.all %>
+<% @result.keys.each do |parent_organization| %>
+    <tr>
+      <td>
+        <%= check_box_tag("authorized_ed_orgs[]", parent_organization, @app.authorized_ed_orgs.include?(parent_organization)) %>
+        <%= ed_orgs.select{|ed_org| ed_org.id == parent_organization}[0].nameOfInstitution %></td>
+      <td></td>
+    </tr>
+    <% @result[parent_organization].each do |child_organization| %>
+      <tr>
+        <td></td>
+        <td><%= check_box_tag("authorized_ed_orgs[]", child_organization, @app.authorized_ed_orgs.include?(child_organization)) %>
+          <%= ed_orgs.select{|ed_org| ed_org.id == child_organization}[0].nameOfInstitution %></td>
+      </tr>
+    <% end %>
+
 <% end %>
 </table>
     <%= f.submit "Submit" %>
-    <%= button_to_function("Check All", "checkAll()") %>
-    <%= button_to_function("Uncheck All", "uncheckAll()") %>
+    <%= button_to_function("Enable All", "checkAll()") %>
+    <%= button_to_function("Disable All", "uncheckAll()") %>
 <% end %>
 <%= link_to 'Back', district_authorizations_path %>
 

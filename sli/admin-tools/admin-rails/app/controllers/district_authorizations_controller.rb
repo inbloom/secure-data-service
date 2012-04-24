@@ -34,6 +34,16 @@ class DistrictAuthorizationsController < ApplicationController
 
   # GET /district_authorizations/1/edit
   def edit
+    @result = {}
+    edOrgs = EducationOrganization.all
+    ed_org_assocs = EducationOrganizationAssociations.all
+    ed_org_assocs.each do |assoc|
+      if @result.keys.include?(assoc.educationOrganizationParentId)
+        @result[assoc.educationOrganizationParentId].push(assoc.educationOrganizationChildId)
+      else
+        @result[assoc.educationOrganizationParentId] = [assoc.educationOrganizationChildId]
+      end
+    end
     @app = App.find(params[:id])
   end
 
