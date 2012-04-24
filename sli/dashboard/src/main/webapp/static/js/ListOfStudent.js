@@ -1,4 +1,6 @@
-  function getStudentListData() 
+var listOfStudents = 'listOfStudents';
+
+function getStudentListData() 
   {
       var edorgSelect = document.getElementById("edOrgSelect");
       var schoolSelect = document.getElementById("schoolSelect");
@@ -9,57 +11,44 @@
       var courseIndex = courseSelect.options[courseSelect.selectedIndex].value;
       var selectionIndex = selectionSelect.options[selectionSelect.selectedIndex].value;
       var sections = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections;
-      var gridId = 'listOfStudents';
-      DashboardUtil.getData(
-          gridId,
-          'sectionId='+sections[selectionIndex].id,
-          function(panelData) {
-              populateView();
+      DashboardProxy.load(
+    	  listOfStudents,
+          sections[selectionIndex].id,
+          function(panel) {
+              populateView(panel.viewConfig);
               populateFilter();
               printStudentList();
           });
           
   }
   
-  function populateView() 
+  function populateView(panelConfig) 
   {
-    var gridId = 'listOfStudents';
-    var panelConfig = config[gridId];
     var select = "<select id='viewSelect' onChange='clearStudentList();printStudentList()'>";
-    filterViews();
     var index=0;
-    for(index=0;index<panelConfig.items.length;index++) {
-        select += "<option value='"+index+"'>"+panelConfig.items[index].name+"</option>";
+    if(panelConfig.items.length == 0) {
+	    select += "<option value='-1'></option>";
+    }
+    else {
+	    for(index=0;index<panelConfig.items.length;index++) {
+	        select += "<option value='"+index+"'>"+panelConfig.items[index].name+"</option>";
+	    }
     }
     select += "</selection>";
     document.getElementById("viewDiv").innerHTML = select;
   } 
   
-  function filterViews() 
-  {
-    var gridId = 'listOfStudents';
-    var panelConfig = config[gridId];
-    var filteredViews = [];
-    
-    for (var i=0; i < panelConfig.items.length; i++) {
-        if (DashboardUtil.checkCondition(DashboardProxy[gridId], panelConfig.items[i].condition)) {
-            filteredViews.push(panelConfig.items[i]);
-        }
-    }
-    
-    config[gridId].items = filteredViews;
-  }
-  
   function printStudentList()
   {
-      var gridId = 'listOfStudents';
       var tableId = getTableId();
-      var panelConfig = config[gridId];
+      var panelConfig = DashboardProxy.getConfig(listOfStudents);
       var viewSelect=document.getElementById("viewSelect");
       var viewIndex=viewSelect.options[viewSelect.selectedIndex].value;
       var options={};
-      jQuery.extend(options, panelConfig, {items:panelConfig.items[viewIndex].items});
-      DashboardUtil.makeGrid(tableId, options, DashboardProxy[gridId], {});
+      if(viewIndex != -1) {
+	      jQuery.extend(options, panelConfig, {items:panelConfig.items[viewIndex].items});
+	      DashboardUtil.makeGrid(tableId, options, DashboardProxy.getData(listOfStudents), {});
+      }
     }
     
     function clearStudentList()
@@ -69,29 +58,30 @@
     
     function filterStudentList(filterBy)
     {
-      var panelConfig = config['listOfStudents'];
+      var panelConfig = DashboardProxy.getConfig(listOfStudents);
       var options={};
       var viewSelect=document.getElementById("viewSelect");
       var viewIndex=viewSelect.options[viewSelect.selectedIndex].value;      
-      jQuery.extend(options, panelConfig, {items:panelConfig.items[viewIndex].items});
-      
-      
-      if (filterBy == undefined) {
-        DashboardUtil.makeGrid(getTableId(), options, DashboardProxy.listOfStudents, {});
-      }else {
-         
-          var filteredData = jQuery.extend({}, DashboardProxy.listOfStudents);
-          filteredStudents = filteredData.students;
-          fieldName = filterBy['condition']['field'];
-          fieldValues = filterBy['condition']['value'];
-          filteredStudents = jQuery.grep(filteredStudents, function(n, i){
-            filterValue = n[fieldName];
-            var y = jQuery.inArray(filterValue, fieldValues);
-            return y != -1;
-          });
-
-          filteredData.students = filteredStudents;
-          DashboardUtil.makeGrid(getTableId(), options, filteredData, {});
+      if(viewIndex != -1) {
+	      jQuery.extend(options, panelConfig, {items:panelConfig.items[viewIndex].items});
+	      
+	      if (filterBy == undefined) {
+	        DashboardUtil.makeGrid(getTableId(), options, DashboardProxy.getData(listOfStudents), {});
+	      }else {
+	         
+	          var filteredData = jQuery.extend({}, DashboardProxy.getData(listOfStudents));
+	          filteredStudents = filteredData.students;
+	          fieldName = filterBy['condition']['field'];
+	          fieldValues = filterBy['condition']['value'];
+	          filteredStudents = jQuery.grep(filteredStudents, function(n, i){
+	            filterValue = n[fieldName];
+	            var y = jQuery.inArray(filterValue, fieldValues);
+	            return y != -1;
+	          });
+	
+	          filteredData.students = filteredStudents;
+	          DashboardUtil.makeGrid(getTableId(), options, filteredData, {});
+	      }
       }
     }
 function populateInstHierarchy(){
@@ -99,7 +89,7 @@ function populateInstHierarchy(){
     y += "<option value='-1'></option>";
     var i = 0;
     for(i = 0;i<instHierarchy.length;i++){
-        y += "<option value='" +i +"'>"+ instHierarchy[i].name + "</option>";
+	y += "<option value='" +i +"'>"+ instHierarchy[i].name + "</option>";
     }
     y += "</select>";
     document.getElementById("edorgDiv").innerHTML = y;
@@ -171,8 +161,9 @@ function populateFilter() {
     var select = "<select id='filterSelect' onChange='clearStudentList();filterStudents()'>";
     var index=0;
     select += "<option value='-1'>No Filter</option>";
-    for(index=0;index<DashboardUtil.widgetConfig.lozenge.items.length; index++) {
-        select += "<option value='"+index+"'>"+DashboardUtil.widgetConfig.lozenge.items[index].description+"</option>";
+    var lozengeConfig = DashboardProxy.widgetConfig.lozenge;
+    for(index=0;index<lozengeConfig.items.length; index++) {
+        select += "<option value='"+index+"'>"+lozengeConfig.items[index].description+"</option>";
     }
     select += "</select>";
     document.getElementById("filterDiv").innerHTML = select;
@@ -181,5 +172,5 @@ function populateFilter() {
 
 function filterStudents() {
     var filterSelect = document.getElementById("filterSelect");
-    filterStudentList(DashboardUtil.widgetConfig.lozenge.items[filterSelect.selectedIndex-1]); 
+    filterStudentList(DashboardProxy.widgetConfig.lozenge.items[filterSelect.selectedIndex-1]); 
 }
