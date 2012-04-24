@@ -5,7 +5,7 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require 'date'
 
-Given /^I am a valid SLI Administrator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
+Given /^I am a valid SLI Developer "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
   # No code needed, done as configuration
 end
 
