@@ -64,14 +64,16 @@
   <bean id="indexResourcePatternResolver" class="org.slc.sli.ingestion.dal.IndexResourcePatternResolver">
   </bean>
 
-  <bean id="mongoIndexManager" class="org.slc.sli.ingestion.dal.MongoIndexManager" scope="singleton" init-method="init">
+  <bean id="mongoIndexManager" class="org.slc.sli.ingestion.dal.MongoIndexManager" scope="singleton">
     <property name="indexRootDir" value="mongoIndexes" />
+    <property name="indexResolver" ref="indexResourcePatternResolver" />
   </bean>
 
   <bean id="neutralRecordRepository" class="org.slc.sli.ingestion.dal.NeutralRecordRepository" >
     <property name="template" ref="neutralRecordMongoTemplate" />
     <property name="idConverter" ref="mongoIdConverter" />
     <property name="entityEncryption" ref="stagingEntityEncryption" />
+    <property name="stagingMongoIndexManager" ref="mongoIndexManager"/>
   </bean>
   
   <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
