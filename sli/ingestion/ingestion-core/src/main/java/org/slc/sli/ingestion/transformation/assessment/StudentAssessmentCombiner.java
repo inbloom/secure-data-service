@@ -113,6 +113,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         Map<String, Object> soaObject = ref.getAttributes();
         soaObject.remove(STUDENT_ASSESSMENT_REFERENCE);
         String objAssmtRef = (String) soaObject.get(OBJECTIVE_ASSESSMENT_REFERENCE);
+        LOG.debug("trying to resolve soa for {}", objAssmtRef);
         soaObject.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
         Map<String, Object> objAssmt = oas.get(objAssmtRef);
         if (objAssmt != null) {

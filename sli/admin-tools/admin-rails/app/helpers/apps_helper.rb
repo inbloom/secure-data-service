@@ -27,4 +27,13 @@ module AppsHelper
   def get_ed_org_name_from_id(ed_orgs, id)
     ed_orgs.select{|ed_org| ed_org.id == id}[0].nameOfInstitution
   end
+
+  # For client_id and client_secret, return 'Pending' if app isn't yet registered
+  def client_field_value(app, field)
+    if app.registered?
+      app.attributes[field]
+    else
+      "Pending"
+    end
+  end
 end

@@ -1,5 +1,6 @@
 package org.slc.sli.unit.manager;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,63 +41,75 @@ public class CustomizationAssemblyFactoryTest {
     @Autowired
     ApplicationContext applicationContext;
 
-    private static final String DEFAULT_LAYOUT_JSON = 
-            "{id : 'studentProfile', type: 'LAYOUT', " 
-          + " data :{entity: 'mock', alias: 'mock' }, " 
+    private static final String DEFAULT_LAYOUT_JSON =
+            "{id : 'studentProfile', type: 'LAYOUT', "
+          + " data :{entity: 'mock', alias: 'mock' }, "
           + " items: [{id : 'panel', name: 'Student Info', type: 'PANEL'},"
-          + "         {id: 'tab2', condition: {field: 'gender', value: ['male']}, name: 'Attendance and Discipline', type : 'TAB', " 
+          + "         {id: 'tab2', condition: {field: 'gender', value: ['male']}, name: 'Attendance and Discipline', type : 'TAB', "
           + "          items: [{id : 'panel', type: 'PANEL'}]}]}";
-    private static final String DEFAULT_LAYOUT_TOO_DEEP_JSON = 
-            "{id : 'deep', type: 'LAYOUT', " 
-          + " data :{entity: 'mock', alias: 'mock' }, " 
+    private static final String DEFAULT_LAYOUT_TOO_DEEP_JSON =
+            "{id : 'deep', type: 'LAYOUT', "
+          + " data :{entity: 'mock', alias: 'mock' }, "
           + " items: [{id : 'deep', name: 'Student Info', type: 'PANEL'}]}";
-    private static final String DEFAULT_PANEL_JSON = 
+    private static final String DEFAULT_PANEL_JSON =
             "{id : 'panel', type: 'PANEL', condition: {field: 'gender', value: ['male']}, data :{entity: 'test',alias: 'mock' }}";
-    
-    private static final String DEFAULT_PANEL1_JSON = 
+
+    private static final String DEFAULT_PANEL1_JSON =
             "{id : 'panel1', type: 'PANEL', condition: {field: 'gradeNumeric', value: [1,2,5]}, data :{entity: 'test',alias: 'mock' }}";
-    
-    private static final String DEFAULT_PANEL_EXCEPTION_JSON = 
+
+    private static final String DEFAULT_PANEL_EXCEPTION_JSON =
             "{id : 'panelException', type: 'PANEL', condition: {field: 'gradeNumeric', value: [1,2,5]}, data :{entity: 'testException',alias: 'mock' }}";
-    
+
+    private static final String PANEL_WITH_DYNAMIC_HEADERS =
+            "{id : 'dynamicHeaders', type: 'PANEL', items: [{name: '${meta.name.first}'}, {name: '${meta.id}'}]}";
+
+
     private static GenericEntity simpleMaleStudentEntity;
     private static GenericEntity simpleFemaleStudentEntity;
-    
+
     private static Map<String, Config> configMap;
-    
+
     private static Map<String, GenericEntity> sampleEntityMap;
-    
+
     /**
      * Expose some methods
      * @author agrebneva
      *
      */
     class MockCustomizationAssemblyFactoryImpl extends CustomizationAssemblyFactoryImpl {
-        
+
+        @Override
         protected String getTokenId() {
             return "1";
         }
-        
+
+        @Override
         protected Config getConfig(String componentId) {
-            
+
             return configMap.get(componentId);
         }
-        
+
+        @Override
         public GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
-            return sampleEntityMap.get((String) entityKey);
+            return sampleEntityMap.get(entityKey);
         }
-        
+
         public boolean hasInvokableSet(String entityRef) {
             return getInvokableSet(entityRef) != null;
         }
-        
-        public GenericEntity getDataComponentForTest(String componentId, Object entityKey, Config.Data config) { 
+
+        public GenericEntity getDataComponentForTest(String componentId, Object entityKey, Config.Data config) {
             return super.getDataComponent(componentId, entityKey, config);
         }
+
+        @Override
+        protected Config.Item[] getUpdatedDynamicHeaderTemplate(Config config, GenericEntity entity) {
+            return super.getUpdatedDynamicHeaderTemplate(config, entity);
+        }
     };
-    
+
     private MockCustomizationAssemblyFactoryImpl customizationAssemblyFactory = new MockCustomizationAssemblyFactoryImpl();
-    
+
     /**
      * Duplicate entity reference config
      * @author agrebneva
@@ -109,7 +122,7 @@ public class CustomizationAssemblyFactoryTest {
             return new BadManagerWithWrongEntitySignature();
         }
     }
-    
+
     /**
      * Mock Manager with bad signature
      * @author agrebneva
@@ -118,7 +131,7 @@ public class CustomizationAssemblyFactoryTest {
     @Component
     @EntityMappingManager
     public static class BadManagerWithWrongEntitySignature {
-        
+
         /**
          * Bad signature mapping
          * @param token
@@ -131,7 +144,7 @@ public class CustomizationAssemblyFactoryTest {
             return simpleMaleStudentEntity;
         }
     }
-    
+
     /**
      * Duplicate entity reference config
      * @author agrebneva
@@ -145,7 +158,7 @@ public class CustomizationAssemblyFactoryTest {
         }
     }
 
-    
+
     /**
      * Mock Manager with bad signature
      * @author agrebneva
@@ -154,9 +167,9 @@ public class CustomizationAssemblyFactoryTest {
     @Component
     @EntityMappingManager
     public static class BadManagerWithDuplicate {
-        
+
         /**
-         * Good 
+         * Good
          * @param token
          * @param studentId
          * @param config
@@ -166,7 +179,7 @@ public class CustomizationAssemblyFactoryTest {
         public GenericEntity getTest(String token, Object studentId, Config.Data data) {
             return simpleMaleStudentEntity;
         }
-        
+
         /**
          * Bad signature mapping
          * @param token
@@ -179,7 +192,7 @@ public class CustomizationAssemblyFactoryTest {
             return simpleFemaleStudentEntity;
         }
     }
-    
+
     /**
      * Duplicate entity reference config
      * @author agrebneva
@@ -192,7 +205,7 @@ public class CustomizationAssemblyFactoryTest {
             return new GoodManager();
         }
     }
-    
+
     /**
      * Mock Manager with bad signature
      * @author agrebneva
@@ -201,7 +214,7 @@ public class CustomizationAssemblyFactoryTest {
     @Component
     @EntityMappingManager
     public static class GoodManager {
-        
+
         /**
          * Good signature mapping
          * @param token
@@ -213,7 +226,7 @@ public class CustomizationAssemblyFactoryTest {
         public GenericEntity getTest1(String token, Object studentId, Config.Data config) {
             return simpleMaleStudentEntity;
         }
-        
+
         /**
          * Good signature mapping but throws an exception
          * @param token
@@ -226,7 +239,7 @@ public class CustomizationAssemblyFactoryTest {
             throw new IllegalArgumentException("Something bad happened");
         }
     }
-    
+
     @BeforeClass
     public static void setupAll() {
         Gson gson = new GsonBuilder().create();
@@ -236,7 +249,8 @@ public class CustomizationAssemblyFactoryTest {
         configMap.put("panel1", gson.fromJson(DEFAULT_PANEL1_JSON, Config.class));
         configMap.put("deep", gson.fromJson(DEFAULT_LAYOUT_TOO_DEEP_JSON, Config.class));
         configMap.put("panelException", gson.fromJson(DEFAULT_PANEL_EXCEPTION_JSON, Config.class));
-        
+        configMap.put("dynamicHeaders", gson.fromJson(PANEL_WITH_DYNAMIC_HEADERS, Config.class));
+
         simpleMaleStudentEntity = new GenericEntity();
         simpleMaleStudentEntity.put("id", "1");
         simpleMaleStudentEntity.put("gender", "male");
@@ -245,17 +259,17 @@ public class CustomizationAssemblyFactoryTest {
         simpleFemaleStudentEntity.put("id", "2");
         simpleFemaleStudentEntity.put("gender", "female");
         simpleFemaleStudentEntity.put("gradeNumeric", 7);
-        
+
         sampleEntityMap = new HashMap<String, GenericEntity>();
         sampleEntityMap.put(simpleMaleStudentEntity.getString("id"), simpleMaleStudentEntity);
         sampleEntityMap.put(simpleFemaleStudentEntity.getString("id"), simpleFemaleStudentEntity);
     }
-    
+
     @Before
     public void setup() {
         customizationAssemblyFactory.setApplicationContext(applicationContext);
     }
-    
+
     /**
      * Test entity reference map contains student mapping
      */
@@ -264,7 +278,7 @@ public class CustomizationAssemblyFactoryTest {
         Assert.assertTrue("Student entity reference must exists", customizationAssemblyFactory.hasCachedEntityMapperReference("student"));
         Assert.assertTrue(customizationAssemblyFactory.hasInvokableSet("student"));
     }
-    
+
     /**
      * Test simple layout contains expected number of configs
      */
@@ -272,10 +286,10 @@ public class CustomizationAssemblyFactoryTest {
     public void testSimpleLayout() {
         ModelAndViewConfig viewAndConfig =
                 customizationAssemblyFactory.getModelAndViewConfig("studentProfile", simpleMaleStudentEntity.get("id"));
-        
+
         Assert.assertEquals(3, viewAndConfig.getComponentViewConfigMap().size());
     }
-    
+
     /**
      * Test conditional layout contains different number of items depending on entity
      */
@@ -283,13 +297,13 @@ public class CustomizationAssemblyFactoryTest {
     public void testConditionalLayout() {
         ModelAndViewConfig viewAndConfig =
                 customizationAssemblyFactory.getModelAndViewConfig("studentProfile", simpleMaleStudentEntity.get("id"));
-        
+
         Assert.assertEquals(3, viewAndConfig.getComponentViewConfigMap().size());
         viewAndConfig =
                 customizationAssemblyFactory.getModelAndViewConfig("studentProfile", simpleFemaleStudentEntity.get("id"));
         Assert.assertEquals(1, viewAndConfig.getComponentViewConfigMap().size());
     }
-    
+
     /**
      * Test not to allow infinite recursion
      */
@@ -302,27 +316,28 @@ public class CustomizationAssemblyFactoryTest {
             Assert.assertEquals("The items hierarchy is too deep - only allow 5 elements", t.getMessage());
         }
     }
-    
+
     /**
      * Test data domain condition
      */
     @Test
     public void testCondition() {
+        Config panel = configMap.get("panel");
         Assert.assertTrue(
-                "Must be true for a student with gender = 'male'", 
-                customizationAssemblyFactory.checkCondition(configMap.get("panel"), simpleMaleStudentEntity));
+                "Must be true for a student with gender = 'male'",
+                customizationAssemblyFactory.checkCondition(panel, panel, simpleMaleStudentEntity));
         Assert.assertFalse(
-                "Must be true for a student with gender = 'male'", 
-                customizationAssemblyFactory.checkCondition(configMap.get("panel"), simpleFemaleStudentEntity));
-        
+                "Must be true for a student with gender = 'male'",
+                customizationAssemblyFactory.checkCondition(panel, panel, simpleFemaleStudentEntity));
+        panel = configMap.get("panel1");
         Assert.assertTrue(
-                "Must be true for a student with gradeNumeric = 5", 
-                customizationAssemblyFactory.checkCondition(configMap.get("panel1"), simpleMaleStudentEntity));
+                "Must be true for a student with gradeNumeric = 5",
+                customizationAssemblyFactory.checkCondition(panel, panel, simpleMaleStudentEntity));
         Assert.assertFalse(
-                "Must be false for a student with gradeNumeric = 7", 
-                customizationAssemblyFactory.checkCondition(configMap.get("panel1"), simpleFemaleStudentEntity));
+                "Must be false for a student with gradeNumeric = 7",
+                customizationAssemblyFactory.checkCondition(panel, panel, simpleFemaleStudentEntity));
     }
-    
+
     /**
      * Test not to allow bad signature entity references
      */
@@ -333,21 +348,21 @@ public class CustomizationAssemblyFactoryTest {
             customizationAssemblyFactory.setApplicationContext(badContext);
             Assert.fail("Should not allow testBad - bad signature");
         } catch (DashboardException de) {
-            Assert.assertEquals("Wrong signature for the method for testBad. Expected is " 
-                                + CustomizationAssemblyFactoryImpl.ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE.toString() + "!!!", de.getMessage());
-            
+            Assert.assertEquals("Wrong signature for the method for testBad. Expected is "
+                                + Arrays.asList(CustomizationAssemblyFactoryImpl.ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE) + "!!!", de.getMessage());
+
         }
-        
+
         badContext = new AnnotationConfigApplicationContext(new Class<?>[]{ContextConfigurationWithDuplicates.class});
         try {
             customizationAssemblyFactory.setApplicationContext(badContext);
             Assert.fail("Should not allow testBad - duplicate entity reference");
         } catch (DashboardException de) {
             Assert.assertEquals("Duplicate entity mapping references found for test. Fix!!!", de.getMessage());
-            
+
         }
     }
-    
+
     /**
      * Test getting a component for a test
      */
@@ -357,21 +372,36 @@ public class CustomizationAssemblyFactoryTest {
         customizationAssemblyFactory.setApplicationContext(goodContext);
         // test good one
         Assert.assertEquals(
-                simpleMaleStudentEntity, 
+                simpleMaleStudentEntity,
                 customizationAssemblyFactory.getDataComponentForTest("panel", "1", configMap.get("panel").getData()));
         // test an entity mapping that throws an exception
         Assert.assertNull(
                 customizationAssemblyFactory.getDataComponentForTest("panelException", "1", configMap.get("panelException").getData()));
-        
+
         // test non-existent one
         Config.Data fakeDataConfig = null;
         try {
-            fakeDataConfig = new Config.Data("fake", "fake", null);
+            fakeDataConfig = new Config.Data("fake", "fake", false, null);
             Assert.assertNotNull(fakeDataConfig);
             customizationAssemblyFactory.getDataComponentForTest("panel", "1", fakeDataConfig);
             Assert.fail("Must not be able to find fake entity reference and throw an exception");
         } catch (DashboardException de) {
             Assert.assertEquals("No entity mapping references found for " + fakeDataConfig.getEntityRef() + ". Fix!!!", de.getMessage());
         }
+    }
+
+    @Test
+    public void testDynamicHeaders() {
+        Config panel = configMap.get("dynamicHeaders");
+        GenericEntity meta = new GenericEntity();
+        meta.put("id", "Funky ID");
+        GenericEntity name = new GenericEntity();
+        name.put("first", "AAA");
+        meta.put("name", name);
+        GenericEntity entity = new GenericEntity();
+        entity.put("meta", meta);
+        Config.Item[] items = customizationAssemblyFactory.getUpdatedDynamicHeaderTemplate(panel, entity);
+        Assert.assertEquals("AAA", items[0].getName());
+        Assert.assertEquals("Funky ID", items[1].getName());
     }
 }
