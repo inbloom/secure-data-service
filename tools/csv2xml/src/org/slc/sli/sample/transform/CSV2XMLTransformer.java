@@ -65,6 +65,7 @@ public class CSV2XMLTransformer {
 
     /**
      * open csv files and create CSV reader for each file
+     *
      * @throws IOException
      */
     private void loadData() throws IOException {
@@ -84,6 +85,7 @@ public class CSV2XMLTransformer {
 
     /**
      * Convert csv files into one xml and print it into PrintStream: ps
+     *
      * @param ps
      * @throws JAXBException
      */
@@ -115,6 +117,7 @@ public class CSV2XMLTransformer {
 
     /**
      * generate student jaxb object from csv records
+     *
      * @return one jaxb student object
      */
     private Student getStudent() {
@@ -187,7 +190,9 @@ public class CSV2XMLTransformer {
 
             studentLanguageReader.getNextRecord();
         }
-        student.setLanguages(languages);
+        if (languages.getLanguage().size() > 0) {
+            student.setLanguages(languages);
+        }
 
         // tracking student references
         StudentReferenceType studentReference = new StudentReferenceType();
@@ -199,6 +204,7 @@ public class CSV2XMLTransformer {
 
     /**
      * generate jaxb parent object from csv record
+     *
      * @return jaxb parent object
      */
     private Parent getParent() {
@@ -227,6 +233,7 @@ public class CSV2XMLTransformer {
 
     /**
      * generate StudentParentAssociation jaxb object from csv record
+     *
      * @return a studentParentAssociation jaxb object
      */
     private StudentParentAssociation getStudentParentAssociation() {
@@ -269,6 +276,7 @@ public class CSV2XMLTransformer {
 
     /**
      * generate address jaxb object from csv record
+     *
      * @param addressRecord
      * @return an Address jaxb object
      */
@@ -296,6 +304,7 @@ public class CSV2XMLTransformer {
 
     /**
      * generate name jaxb object from csv record
+     *
      * @param nameRecord
      * @return a name jaxb object
      */
@@ -309,7 +318,7 @@ public class CSV2XMLTransformer {
 
         String prefix = nameRecord.get("PersonalTitlePrefix");
         if (!prefix.isEmpty()) {
-        name.setPersonalTitlePrefix(PersonalTitlePrefixType.fromValue(prefix));
+            name.setPersonalTitlePrefix(PersonalTitlePrefixType.fromValue(prefix));
         }
 
         name.setFirstName(nameRecord.get("FirstName"));
@@ -330,6 +339,7 @@ public class CSV2XMLTransformer {
 
     /**
      * main method
+     *
      * @param args
      * @throws Exception
      */
