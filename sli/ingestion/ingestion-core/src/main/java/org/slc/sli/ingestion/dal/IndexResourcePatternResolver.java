@@ -20,14 +20,12 @@ public class IndexResourcePatternResolver extends PathMatchingResourcePatternRes
 
     private static final Logger LOG = LoggerFactory.getLogger(IndexResourcePatternResolver.class);
 
-    private static final String INDEX_FILES = "/**/*.json";
-
-    public List<MongoIndexConfig> findAllIndexes(String rootDir) {
+    public List<MongoIndexConfig> findAllIndexes(String directoryPattern) {
 
         List<MongoIndexConfig> indexConfigs = new ArrayList<MongoIndexConfig>();
 
         try {
-            Resource[] collectionDirectories = findPathMatchingResources("classpath:" + rootDir + INDEX_FILES);
+            Resource[] collectionDirectories = findPathMatchingResources(directoryPattern);
 
             for (Resource collectionDirectory : collectionDirectories) {
                 InputStream inputStream = collectionDirectory.getInputStream();
@@ -36,7 +34,7 @@ public class IndexResourcePatternResolver extends PathMatchingResourcePatternRes
             }
 
         } catch (IOException e) {
-            LOG.error("Path to index directory does not exist: " + rootDir);
+            LOG.error("Path to index directory does not exist: " + directoryPattern);
         }
 
         return indexConfigs;

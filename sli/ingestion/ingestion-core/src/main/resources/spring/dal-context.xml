@@ -65,7 +65,7 @@
   </bean>
 
   <bean id="mongoIndexManager" class="org.slc.sli.ingestion.dal.MongoIndexManager" scope="singleton">
-    <property name="indexRootDir" value="mongoIndexes" />
+    <property name="indexRootDir" value="classpath:mongoIndexes/**/*.json" />
     <property name="indexResolver" ref="indexResourcePatternResolver" />
   </bean>
 
@@ -75,7 +75,7 @@
     <property name="entityEncryption" ref="stagingEntityEncryption" />
     <property name="stagingMongoIndexManager" ref="mongoIndexManager"/>
   </bean>
-  
+
   <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
     <property name="neutralRecordRepository" ref="neutralRecordRepository" />
   </bean>
