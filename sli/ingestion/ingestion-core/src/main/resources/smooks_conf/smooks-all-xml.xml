@@ -2936,7 +2936,6 @@
     <jb:value data="StaffProgramAssociation/ProgramReference/ProgramIdentity/ProgramId" />
   </jb:bean>
 
-<<<<<<< HEAD
   <!-- Start Cohort mapping -->
 
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentCohort/Cohort">
