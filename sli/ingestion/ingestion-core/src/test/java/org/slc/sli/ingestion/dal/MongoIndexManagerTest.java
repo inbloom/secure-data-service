@@ -10,7 +10,6 @@ import junitx.util.PrivateAccessor;
 import com.mongodb.DBCollection;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -28,25 +27,22 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class MongoIndexManagerTest {
+
     @Autowired
     MongoIndexManager manager;
     MongoTemplate template;
     String rootDir = "mongoIndexes";
     String batchJobId = "testBatchJob";
-    @Before
-    public void setup() {
-        manager.setIndexRootDir(rootDir);
-    }
 
     @Test
     public void testCreateIndex() {
-        Map<String, List<IndexDefinition>> res = manager.createIndexes(batchJobId);
+        Map<String, List<IndexDefinition>> res = MongoIndexManager.getCollectionIndexes();
         Assert.assertEquals(1, res.size());
-        Assert.assertEquals(2, res.get("student_testBatchJob").size());
-        Assert.assertTrue(res.get("student_testBatchJob").get(0).getIndexKeys().containsField("body.sex"));
-        Assert.assertTrue(res.get("student_testBatchJob").get(0).getIndexKeys().containsField("body.name"));
-        Assert.assertTrue(res.get("student_testBatchJob").get(0).getIndexKeys().containsField("body.birthDate"));
-        Assert.assertTrue(res.get("student_testBatchJob").get(1).getIndexKeys().containsField("metaData.tenantId"));
+        Assert.assertEquals(2, res.get("student").size());
+        Assert.assertTrue(res.get("student").get(0).getIndexKeys().containsField("body.sex"));
+        Assert.assertTrue(res.get("student").get(0).getIndexKeys().containsField("body.name"));
+        Assert.assertTrue(res.get("student").get(0).getIndexKeys().containsField("body.birthDate"));
+        Assert.assertTrue(res.get("student").get(1).getIndexKeys().containsField("metaData.tenantId"));
     }
 
     @Test
@@ -62,7 +58,7 @@ public class MongoIndexManagerTest {
         Mockito.when(template.collectionExists(Mockito.anyString())).thenReturn(false);
         DBCollection dbcollection = Mockito.mock(DBCollection.class);
         Mockito.when(template.createCollection(Mockito.anyString())).thenReturn(dbcollection);
-        manager.setIndex(template);
+        manager.ensureIndex(template, batchJobId);
         Mockito.verify(template, Mockito.times(1)).ensureIndex(Mockito.any(IndexDefinition.class), Mockito.anyString());
     }
 
