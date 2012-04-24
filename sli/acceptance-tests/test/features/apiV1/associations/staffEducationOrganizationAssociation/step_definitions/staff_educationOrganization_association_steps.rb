@@ -13,7 +13,7 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #school session association data
-  id = 9                                        if human_readable_id == "ASSOCIATION COUNT"
+  id = 29                                        if human_readable_id == "ASSOCIATION COUNT"
   id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
   id = 4                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
@@ -21,9 +21,9 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "2f2f2849-ccd3-4fe1-9941-04dd01e61268"   if human_readable_id == "ASSOCIATION ID"
   id = "2933c597-da51-409f-9d67-c2e478bf0581"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
   id = "e0fb84a1-0806-47e1-9cc9-764917d4d258"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
-  id = "getStaffEducationOrganizationAssociations"  if human_readable_id == "ASSOCIATION LINK NAME"
+  id = "getStaffEducationOrgAssignmentAssociations" if human_readable_id == "ASSOCIATION LINK NAME"
   id = "staffEducationOrganizationAssociation"      if human_readable_id == "ASSOCIATION TYPE"
-  id = "staffEducationOrganizationAssociations"     if human_readable_id == "ASSOCIATION URI"
+  id = "staffEducationOrgAssignmentAssociations"    if human_readable_id == "ASSOCIATION URI"
   
   #staff related data
   id = "staffReference"                         if human_readable_id == "ENDPOINT1 FIELD"

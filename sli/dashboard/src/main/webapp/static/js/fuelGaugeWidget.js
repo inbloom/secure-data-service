@@ -1,10 +1,7 @@
 /*
  *  Draws a fuel gauge widget using raphaeljs on the element identified by id. 
  *  
- *  The element must have the following styles defined for it: 
- *    font-size
- *    color
- *    width
+ *  
  */ 
 
 // Constructor
@@ -17,74 +14,87 @@
 function FuelGaugeWidget (element, score, cutpoints) { 
 
     // constants
-    this.PADDING = 2; // paddings between levels, in pixel
-    this.BACKGROUNDCOLOUR = "#eeeeee"; // background colour of rectangles
-
-    this.element = element;
-    this.score = score;
-    this.cutpoints = cutpoints;
+    this.PADDING = undefined; // paddings between levels, in pixel
+    this.WIDTH = undefined;
+	this.HEIGHT = undefined;
+	this.BACKGROUNDCOLOUR = DashboardUtil.CutPoints.PERF_LEVEL_TO_COLOR[0]; // background colour of rectangles
+    
+    this.ELEMENT = element;
+    this.SCORE = score;
+    this.CUTPOINTS = cutpoints;
 
 }
 
+FuelGaugeWidget.prototype.setSize = function(width, height) {
+	this.WIDTH = width;
+	this.HEIGHT = height;
+}
 // Do the actual drawing. 
 FuelGaugeWidget.prototype.create = function()  
 {  
-    // Check we have all the information to draw a fuel gauge. 
-    var fontSize = 10;//DashboardUtil.getElementFontSize(element);
-    var color = 'black'//DashboardUtil.getElementColor(element);
-    var width = '100'//DashboardUtil.getElementWidth(element);
-
-    // missing info. Return an error. 
-    if (!fontSize || !width || !color || isNaN(fontSize) || isNaN(width)) {
-	throw ("Fuel Gauge widget: font size, color, and width property must be defined for elementID: " + this.id);
-	return; 
+    if (this.WIDTH == null || this.WIDTH == undefined || this.HEIGHT == null || this.HEIGHT == null) {
+    	throw("Width and Height for the Fuel Gauge are not set");
     }
-
     // calculate the width of level
-    var fullLevelRectWidth = width / (this.cutpoints.length - 1)
+    var fullLevelRectWidth = this.WIDTH / (this.CUTPOINTS.length - 1);
+    this.PADDING =  fullLevelRectWidth / 10;
+    this.PADDING -= this.PADDING % 1;//remove decimal points
     fullLevelRectWidth -= this.PADDING;
     
     var scoreWidth = 0;
     var backgroundWidth = 0;
     var rects = new Array();
-    var colorCode = 1;
-    for (var i = 0; i < this.cutpoints.length - 1; i++) {
-    	backgroundWidth += fullLevelRectWidth;
-    	if ( i != (this.cutpoints.length - 1)) {
-    		backgroundWidth += this.PADDING;
+    var colorCode = 0;
+    if (this.SCORE != null && this.SCORE != undefined) {
+    	for (var i = 0; i < this.CUTPOINTS.length - 1; i++) {
+    		backgroundWidth += fullLevelRectWidth;
+    		if ( i != (this.CUTPOINTS.length - 1)) {
+    			backgroundWidth += this.PADDING;
+    		}
+    		if (this.SCORE > this.CUTPOINTS[i+1]) {
+    			// higher than the ith level
+    			rects[i] = fullLevelRectWidth;
+    			scoreWidth += fullLevelRectWidth + this.PADDING;
+    			colorCode++;
+    		} else if (this.SCORE >= this.CUTPOINTS[i] && this.SCORE != 0) {
+    			
+    			var cutPointsRange = (this.CUTPOINTS[i+1] - this.CUTPOINTS[i]);
+    			var scoreRange =  (this.SCORE - this.CUTPOINTS[i]) + 1;
+    			if (this.CUTPOINTS[i] == 0 ) {
+    				if (i+1 != this.CUTPOINTS.length - 1) {
+    					cutPointsRange -= 1;
+    				}
+    				
+    				scoreRange -= 1;
+    			} else if (i+1 == this.CUTPOINTS.length - 1) {
+    				cutPointsRange += 1
+    			}
+    			// in the ith level
+    			rects[i] = scoreRange / cutPointsRange * fullLevelRectWidth;
+    			scoreWidth += rects[i];
+    			colorCode++;
+    		} else {
+    			// lower than the ith level
+    		}
     	}
-		if (this.score > this.cutpoints[i+1]) {
-	    	// higher than the ith level
-	    	rects[i] = fullLevelRectWidth;
-	    	scoreWidth += fullLevelRectWidth + this.PADDING;
-	    	colorCode++;
-		} else if (this.score > this.cutpoints[i]) {
-	    	// in the ith level
-	    	rects[i] = (this.score - this.cutpoints[i]) / 
-                       (this.cutpoints[i+1] - this.cutpoints[i]) * fullLevelRectWidth;
-		    scoreWidth += rects[i];
-		} else {
-	    // lower than the ith level
-		}
-    }
+    } else {
+		scoreWidth = 0;
+		colorCode = 0;
+	}
     
-    switch (colorCode) {
-    	case 1: color = "#b40610"; break;
-    	case 2: color = "#e58829"; break;
-    	case 3: color = "#dfc836"; break;
-    	case 4: color = "#7fc124"; break;
-    	case 5: color = "#438746"; break;
+    color = DashboardUtil.CutPoints.PERF_LEVEL_TO_COLOR[colorCode];
+    if (color == null || color == undefined) {
+    	color = this.BACKGROUNDCOLOUR;
     }
-    
 
     // Now call raphael.
-    this.paper = Raphael(this.element, width, fontSize);
+    this.paper = Raphael(this.ELEMENT, this.WIDTH, this.HEIGHT);
     // draw background first
-    this.paper.rect(0, 0, backgroundWidth, fontSize, 5)
+    this.paper.rect(0, 0, backgroundWidth, this.HEIGHT, 5)
                   .attr("fill", this.BACKGROUNDCOLOUR)
                   .attr("stroke", "none");
                   
-    this.paper.rect(0, 0, scoreWidth, fontSize, 5)
+    this.paper.rect(0, 0, scoreWidth, this.HEIGHT, 5)
                   .attr("fill", color)
                   .attr("stroke", "none");
     var rightCorner = 0;
@@ -93,16 +103,16 @@ FuelGaugeWidget.prototype.create = function()
     } 
     
     if ((5 - scoreWidth) < 0) {
-    	this.paper.rect(scoreWidth-5, 0, 5, fontSize, rightCorner)
+    	this.paper.rect(scoreWidth-5, 0, 5, this.HEIGHT, rightCorner)
     			  .attr("fill", color)
     			  .attr("stroke", "none");
     }
     
     var gapPosition = 0;
     var gapColor = "white";
-    for (var i = 0; i < this.cutpoints.length - 2; i++) {
+    for (var i = 0; i < this.CUTPOINTS.length - 2; i++) {
     	gapPosition += fullLevelRectWidth;
-		this.paper.rect(gapPosition, 0, this.PADDING, fontSize, 0)
+		this.paper.rect(gapPosition, 0, this.PADDING, this.HEIGHT, 0)
                   .attr("fill", gapColor)
                   .attr("stroke", "none");
         gapPosition += this.PADDING;

@@ -18,7 +18,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "31e52ceb-0439-4905-8d50-14b26a05c50f"   if human_readable_id == "ENTITY ID FOR UPDATE"
   id = "7f05ef51-c974-4071-b91b-f644f9b087cf"   if human_readable_id == "ENTITY ID FOR DELETE"
   id = "studentSectionGradebookEntry"           if human_readable_id == "ENTITY TYPE"
-  id = "studentSectionGradebookEntries"         if human_readable_id == "ENTITY URI"
+  id = "studentGradebookEntries"         if human_readable_id == "ENTITY URI"
   
   #update related field data
   id = "gradebookEntryId"                       if human_readable_id == "REQUIRED FIELD"
@@ -48,7 +48,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "gradebookEntryId" => "008fd89d-88a2-43aa-8af1-74ac16a29380", 
     "letterGradeEarned" => "A", 
     "sectionId" => "706ee3be-0dae-4e98-9525-f564e05aa388", 
-    "studentId" => "dd69083f-a053-4819-a3cd-a162cdc627d7", 
+    "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085", 
     "numericGradeEarned" => 98, 
     "dateFulfilled" => "2012-01-31", 
     "diagnosticStatement" => "Finished the quiz in 5 minutes" 

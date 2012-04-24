@@ -1,5 +1,6 @@
 package org.slc.sli.api.security.oauth;
 
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -91,7 +92,7 @@ public class ApplicationAuthorizationValidatorTest {
     public void testAppAuthorizationNoAppAuth() {
         SLIPrincipal principal = new SLIPrincipal();
         principal.setEntity(new MongoEntity("teacher", "teacherUniqueId", new HashMap<String, Object>(), new HashMap<String, Object>()));
-        assertTrue("Empty app list", validator.getAuthorizedApps(principal).isEmpty());
+        assertNull(validator.getAuthorizedApps(principal));
     }
 
     @Test

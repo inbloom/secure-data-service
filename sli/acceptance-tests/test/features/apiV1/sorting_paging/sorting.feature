@@ -24,7 +24,7 @@ Scenario: Sorting a collection of entities obtained via a hop using a (nested) f
     Given format "application/json"
     And parameter "sortBy" is "name.firstName"
     And parameter "sortOrder" is "descending"
-    When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrganizationAssociations/staff"
+    When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrgAssignmentAssociations/staff"
     Then I should receive a return code of 200
     And I should receive a collection
     And the link at index 0 should have "name.firstName" equal to "Sample"
@@ -51,7 +51,7 @@ Scenario: Sorting a collection of staff through a hop (from an ed-org)
     Given format "application/json"
     And parameter "sortBy" is "name.firstName"
     And parameter "sortOrder" is "ascending"
-    When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrganizationAssociations/staff"
+    When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrgAssignmentAssociations/staff"
     Then I should receive a return code of 200
     And I should receive a collection
     And the link at index 0 should have "name.firstName" equal to "Jane"
@@ -77,11 +77,11 @@ Scenario: Paging request the first two results from an API request via a hop
     Given format "application/json"
 		And parameter "sortBy" is "name.firstName"
 		And parameter "sortOrder" is "ascending"
-	When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrganizationAssociations/staff"
+	When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrgAssignmentAssociations/staff"
 	Then I should receive a collection with 4 elements
  	Given parameter "offset" is "0"
 		And parameter "limit" is "1"
-	When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrganizationAssociations/staff"
+	When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrgAssignmentAssociations/staff"
 	Then I should receive a collection with 1 elements
 		And the link at index 0 should point to an entity with id "f0e41d87-92d4-4850-9262-ed2f2723159b"
 		And the header "TotalCount" equals 4
@@ -112,15 +112,16 @@ Scenario: Request the last and middle page of results from a API request
             
 Scenario Outline: Confirm ability to use different operators with numbers
     Given format "application/json"
+    And parameter "limit" is "0"
       And parameter "sequenceOfCourse" <operator> "2"
      When I navigate to GET "/v1/sections"
      Then I should receive a return code of 200
       And I should receive a collection with <entities returned> elements
     Examples:
         | operator  | entities returned |
-        | "<="      | 25                |
-        | ">"       | 10                |
-        | "<"       | 23                |
-        | ">="      | 12                |
-        | "!="      | 33                |
+        | "<="      | 46                |
+        | ">"       | 96                |
+        | "<"       | 44                |
+        | ">="      | 98                |
+        | "!="      | 140                |
         | "="       | 2                 |

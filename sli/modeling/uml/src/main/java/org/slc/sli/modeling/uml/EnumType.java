@@ -7,32 +7,32 @@ import java.util.List;
 /**
  * The representation of an enumeration.
  */
-public final class EnumType extends NamespaceOwnedElement implements Type {
+public final class EnumType extends NamespaceOwnedElement implements SimpleType {
     /**
      * The literals that are part of the enumeration.
      */
     private final List<EnumLiteral> literals;
-    
+
     public EnumType(final Identifier id, final String name, final List<EnumLiteral> literals,
             final List<TaggedValue> taggedValues) {
         super(id, name, taggedValues);
         this.literals = Collections.unmodifiableList(new ArrayList<EnumLiteral>(literals));
     }
-    
+
     @Override
     public void accept(final Visitor visitor) {
         visitor.visit(this);
     }
-    
+
     public List<EnumLiteral> getLiterals() {
         return literals;
     }
-    
+
     @Override
     public boolean isAbstract() {
         return false;
     }
-    
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
