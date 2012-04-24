@@ -2,8 +2,6 @@ package org.slc.sli.ingestion.validation;
 
 import java.io.Serializable;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.model.Error;
@@ -25,13 +23,14 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
 
     private boolean hasErrors;
 
-    @Autowired
-    BatchJobDAO batchJobDAO;
+    private BatchJobDAO batchJobDAO;
 
-    public DatabaseLoggingErrorReport(String batchJobId, BatchJobStageType stageType, String resourceId) {
+    public DatabaseLoggingErrorReport(String batchJobId, BatchJobStageType stageType, String resourceId,
+            BatchJobDAO batchJobDAO) {
         this.batchJobId = batchJobId;
         this.stage = stageType;
         this.resourceId = resourceId;
+        this.batchJobDAO = batchJobDAO;
     }
 
     @Override

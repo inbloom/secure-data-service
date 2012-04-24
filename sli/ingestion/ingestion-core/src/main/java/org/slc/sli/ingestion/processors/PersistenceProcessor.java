@@ -283,9 +283,9 @@ public class PersistenceProcessor implements Processor {
         return collections;
     }
 
-    private static DatabaseLoggingErrorReport createDbErrorReport(String batchJobId, String resourceId) {
+    private DatabaseLoggingErrorReport createDbErrorReport(String batchJobId, String resourceId) {
         DatabaseLoggingErrorReport dbErrorReport = new DatabaseLoggingErrorReport(batchJobId, BATCH_JOB_STAGE,
-                resourceId);
+                resourceId, batchJobDAO);
         return dbErrorReport;
     }
 
