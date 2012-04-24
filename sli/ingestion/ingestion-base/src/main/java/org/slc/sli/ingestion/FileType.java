@@ -20,6 +20,7 @@ public enum FileType {
     XML_STUDENT_GRADES("StudentGrades", FileFormat.EDFI_XML),
     XML_STUDENT_PARENT_ASSOCIATION("Parent", FileFormat.EDFI_XML),
     XML_STUDENT_PROGRAM("StudentProgram", FileFormat.EDFI_XML),
+    XML_STUDENT_COHORT("StudentCohort", FileFormat.EDFI_XML),
     XML_STUDENT_DISCIPLINE("StudentDiscipline", FileFormat.EDFI_XML),
 
     CSV_STUDENT("Student", FileFormat.CSV),
