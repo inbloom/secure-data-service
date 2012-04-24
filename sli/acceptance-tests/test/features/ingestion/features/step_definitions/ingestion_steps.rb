@@ -582,6 +582,11 @@ After do
   @conn.close if @conn != nil
 end
 
+# Uncomment the following to exit after the first failing scenario.
+# Useful for debugging
+#After do |scenario| 
+#  Cucumber.wants_to_quit = true if scenario.failed? 
+#end 
 ############################################################
 # END
 ############################################################
