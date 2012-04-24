@@ -4,7 +4,7 @@
   name : "Grid",
   data :{
     entity: "studentAttendance",
-    alias: "studentAttendance",
+    cacheKey: "studentAttendance",
     params: {
     }
   },

@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -82,7 +83,7 @@ public class EntityManager extends ApiClientManager {
      * @return studentList
      *         - the student entity list
      */
-    public List<GenericEntity> getStudents(final String token, List<String> studentIds) {
+    public List<GenericEntity> getStudents(final String token, Collection<String> studentIds) {
         return getApiClient().getStudents(token, studentIds);
     }
 

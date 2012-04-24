@@ -8,6 +8,10 @@
 			<FirstName>Roberta</FirstName>
 			<LastSurname>Jones</LastSurname>
 		</Name>
+		<OtherName OtherNameType="Nickname">
+		    <FirstName>Robbie</FirstName>
+		    <LastSurname>Jones</LastSurname>
+		</OtherName>
 		<Sex>Female</Sex>
 		<BirthData>
 			<BirthDate>2001-01-23</BirthDate>
@@ -39,4 +43,32 @@
 		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
 		<Section504Disabilities/>
 	</Student>
+	<Student>
+        <StudentUniqueStateId>1000000001</StudentUniqueStateId>
+        <Name>
+            <FirstName>Betty</FirstName>
+            <LastSurname>Davis</LastSurname>
+        </Name>
+        <Sex>Female</Sex>
+        <BirthData>
+            <BirthDate>1999-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1 Water Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60053-1532</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>708-234-2352</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
 </InterchangeStudent>
