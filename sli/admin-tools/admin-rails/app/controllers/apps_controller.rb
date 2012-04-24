@@ -110,7 +110,6 @@ class AppsController < ApplicationController
   end
 
   def operator?
-    puts session[:roles]
     !session[:roles].include? "Application Developer"
   end
 
