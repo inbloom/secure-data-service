@@ -102,6 +102,9 @@ public class RoleInitializer {
         if (!hasAppDeveloper) {
             createdRoles.add(buildAppDeveloper());
         }
+        if (!hasSLCOperator) {
+            createdRoles.add(buildSLCOperator());
+        }
         
         for (Role body : createdRoles) {
             repository.create(ROLES, body.getRoleAsEntityBody());
@@ -116,7 +119,7 @@ public class RoleInitializer {
     }
     
     private Role buildSLCOperator() {
-        LOG.info("Building Application Developer role.");
+        LOG.info("Building SLC Operator role.");
         return RoleBuilder.makeRole(SLC_OPERATOR)
                 .addRights(new Right[] { Right.ADMIN_ACCESS, Right.APP_REGISTER, Right.APP_EDORG_SELECT }).build();
     }

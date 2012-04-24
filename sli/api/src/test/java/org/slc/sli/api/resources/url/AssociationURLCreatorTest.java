@@ -78,7 +78,7 @@ public class AssociationURLCreatorTest {
         EntityDefinition school = factory.makeEntity("school").exposeAs("schools").build();
 
         // create the mock staffedorg association
-        AssociationDefinition staffEdOrgAssoc = factory.makeAssoc("staffEducationOrganizationAssociation")
+        AssociationDefinition staffEdOrgAssoc = factory.makeAssoc("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociations")
                 .exposeAs("staff-educationOrganization-associations").storeAs(ENTITY_TYPE_STAFF_EDORG_ASSOC)
                 .from(staff, "getStaff", "getStaff")
                 .to(educationOrganization, "getEducationOrganization", "getEducationOrganizations")
@@ -86,7 +86,7 @@ public class AssociationURLCreatorTest {
 
         // create the mock edorgschool association
         AssociationDefinition educationOrganizationSchoolAssoc = factory
-                .makeAssoc("educationOrganizationSchoolAssociation")
+                .makeAssoc("educationOrganizationSchoolAssociation", "educationOrganizationSchoolAssociations")
                 .exposeAs("educationOrganization-school-associations")
                 .storeAs(ENTITY_TYPE_EDORG_SCHOOL_ASSOC)
                 .from(educationOrganization, "getEducationOrganization", "getEducationOrganizations")

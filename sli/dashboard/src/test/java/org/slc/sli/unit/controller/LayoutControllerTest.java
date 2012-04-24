@@ -28,26 +28,28 @@ import org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl;
 
 /**
  * Tesing layout controller
- * 
+ *
  * @author svankina
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/application-context.xml" })
 public class LayoutControllerTest {
-    
+
     @Autowired
     ApplicationContext applicationContext;
-    
+
     @Autowired
     ConfigManager configManager;
-    
+
     CustomizationAssemblyFactoryImpl dataFactory = new CustomizationAssemblyFactoryImpl() {
-        
+
+        @Override
         protected String getTokenId() {
             return "1";
         }
 
+        @Override
         public GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
             GenericEntity simpleMaleStudentEntity = new GenericEntity();
             simpleMaleStudentEntity.put("id", "1");
@@ -56,10 +58,10 @@ public class LayoutControllerTest {
             return simpleMaleStudentEntity;
         }
     };
-    
+
     /**
      * Mock class extension for testing
-     * 
+     *
      */
     class LayoutControllerMock extends GenericLayoutController {
         public ModelAndView handleStudentProfile(String id) {
@@ -70,37 +72,45 @@ public class LayoutControllerTest {
             model.addAttribute("programUtil", new StudentProgramUtil());
             return getModelView(tabbedOneCol, model);
         }
-        
+
+        @Override
         protected void setContextPath(ModelMap model, HttpServletRequest request) {
         }
-        
+
         public String getUsername() {
             return "lkim";
         }
-        
+
+        @Override
         public String getToken() {
             return "";
         }
-        
+
+        @Override
         public void populateModelLegacyItems(ModelMap model) {
-            
+
         }
-        
+
+        @Override
+        protected void addHeaderFooter(ModelMap map) {
+
+        }
+
     }
-    
+
     private LayoutControllerMock layoutController;
-    
+
     @Before
     public void setUp() throws Exception {
         layoutController = new LayoutControllerMock();
         dataFactory.setConfigManager(configManager);
         dataFactory.setUserEdOrgManager(new UserEdOrgManager() {
-            
+
             @Override
             public List<GenericEntity> getUserInstHierarchy(String token) {
                 return null;
             }
-            
+
             @Override
             public EdOrgKey getUserEdOrg(String token) {
                 return new EdOrgKey("fake");
@@ -111,17 +121,17 @@ public class LayoutControllerTest {
                 return null;
             }
         });
-        layoutController.setCustomizedDataFactory(dataFactory);   
+        layoutController.setCustomizedDataFactory(dataFactory);
     }
-    
+
     /*
      * TODO: Remove this test
      * This test is going to be removed when the controllers are rrefactored
      */
     @Test
     public void testLayoutController() throws Exception {
-        
+
         Assert.assertNotNull(layoutController.handleStudentProfile("1"));
     }
-    
+
 }

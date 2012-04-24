@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
+
+  <DisciplineIncident id="whack-a-mole">
+      <IncidentIdentifier>Whack-a-mole</IncidentIdentifier>
+      <IncidentDate>2011-02-01</IncidentDate>
+      <IncidentTime>15:23:02</IncidentTime>
+      <IncidentLocation>On School</IncidentLocation>
+      <ReporterDescription>Student</ReporterDescription>
+      <ReporterName>Gold Finger</ReporterName>
+      <Behaviors>
+      	<CodeValue>Code Value 1</CodeValue>
+      	<ShortDescription>Short Description 1</ShortDescription>
+      	<Description>Description 1</Description>
+      </Behaviors>
+      <Behaviors>
+      	<CodeValue>Code Value 2</CodeValue>
+      	<ShortDescription>Short Description 2</ShortDescription>
+      	<Description>Description 2</Description>
+      </Behaviors>
+      <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      	<SecondaryBehavior>Mischief</SecondaryBehavior>
+      </SecondaryBehaviors>
+      <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      	<SecondaryBehavior>Hair Pulling</SecondaryBehavior>
+      </SecondaryBehaviors>      	
+      <Weapons>
+      	<Weapon>Club</Weapon>
+      	<Weapon>Non-Illegal Knife</Weapon>
+      </Weapons>
+      <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+      <CaseNumber>Case Number 1</CaseNumber>
+      <SchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>State Organization Id 1</StateOrganizationId>
+          <StateOrganizationId>State Organization Id 2</StateOrganizationId>
+          <EducationOrgIdentificationCode IdentificationSystem="Test Contractor">
+          	<ID>Identifier 1</ID>
+          </EducationOrgIdentificationCode>
+          <EducationOrgIdentificationCode IdentificationSystem="District">
+          	<ID>Identifier 2</ID>
+          </EducationOrgIdentificationCode>
+        </EducationalOrgIdentity>
+      </SchoolReference>
+      <StaffReference>
+        <StaffIdentity>
+          <StaffUniqueStateId>Staff Unique State Id</StaffUniqueStateId>
+          <StaffIdentificationCode IdentificationSystem="Canadian SIN" AssigningOrganizationCode="Assigning Organization Code 1">
+          	<ID>Staff Identification Code 1</ID>
+          </StaffIdentificationCode>
+          <StaffIdentificationCode IdentificationSystem="Medicaid" AssigningOrganizationCode="Assigning Organization Code 2">
+          	<ID>Staff Identification Code 2</ID>
+          </StaffIdentificationCode>
+          <Name Verification="Baptismal or church certificate">
+            <PersonalTitlePrefix>Colonel</PersonalTitlePrefix>
+            <FirstName>FN1</FirstName>
+            <MiddleName>MN1</MiddleName>
+            <LastSurname>LN1</LastSurname>
+            <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+            <MaidenName>Nee</MaidenName>
+          </Name>
+          <OtherName OtherNameType="Previous Legal Name">
+            <PersonalTitlePrefix>Sister</PersonalTitlePrefix>
+            <FirstName>FN2</FirstName>
+            <MiddleName>MN2</MiddleName>
+            <LastSurname>LN2</LastSurname>
+            <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
+          </OtherName>
+          <OtherName OtherNameType="Alias">
+            <PersonalTitlePrefix>Sr</PersonalTitlePrefix>
+            <FirstName>FN3</FirstName>
+            <MiddleName>MN3</MiddleName>
+            <LastSurname>LN3</LastSurname>
+            <GenerationCodeSuffix>VIII</GenerationCodeSuffix>
+          </OtherName>
+          <Sex>Female</Sex>
+          <BirthDate>05-27-1980</BirthDate>
+          <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+          <Race>
+            <RacialCategory>American Indian - Alaskan Native</RacialCategory>
+            <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+          </Race>
+          <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+          	<TelephoneNumber>555-555-1234</TelephoneNumber>
+          </Telephone>
+          <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+          	<TelephoneNumber>555-555-4321</TelephoneNumber>
+          </Telephone>
+          <ElectronicMail EmailAddressType="Work">
+          	<EmailAddress>1@example.com</EmailAddress>
+          </ElectronicMail>
+          <ElectronicMail EmailAddressType="Home/Personal">
+        	<EmailAddress>2@example.com</EmailAddress>
+          </ElectronicMail>
+        </StaffIdentity>
+      </StaffReference>
+  </DisciplineIncident>
+
+</InterchangeStudentDiscipline>

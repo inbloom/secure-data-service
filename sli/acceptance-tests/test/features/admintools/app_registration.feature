@@ -4,12 +4,12 @@ As a super-admin I want to be able to create new application keys to allow the o
 Background:
 Given I have an open web browser
 
-Scenario: SLI Administrator Logging in
+Scenario: SLI Developer Logging in
 
-Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
+Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I get redirected to the IDP login page
-And I authenticate with username "demo" and password "changeit"
+And I authenticate with username "developer" and password "developer1234"
 Then I am redirected to the Application Registration Tool page
 And I see all of the applications that are registered to SLI
 And those apps are sorted by the Last Update column
@@ -24,10 +24,10 @@ Then I receive a message that I am not authorized
 
 Scenario: Register a new application
 
-Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
+Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I get redirected to the IDP login page
-And I authenticate with username "demo" and password "changeit"
+And I authenticate with username "developer" and password "developer1234"
 Then I am redirected to the Application Registration Tool page
 And I have clicked to the button New
 And I am redirected to a new application page
@@ -40,10 +40,10 @@ And a client ID is created for the new application that can be used to access SL
 
 Scenario: View application details
 
-Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
+Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I get redirected to the IDP login page
-And I authenticate with username "demo" and password "changeit"
+And I authenticate with username "developer" and password "developer1234"
 Then I am redirected to the Application Registration Tool page
 When I click on the row of application named "NewApp" in the table
 Then the row expands
@@ -53,10 +53,10 @@ And all the fields are read only
 
 Scenario: Edit application
 
-Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
+Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I get redirected to the IDP login page
-And I authenticate with username "demo" and password "changeit"
+And I authenticate with username "developer" and password "developer1234"
 Then I am redirected to the Application Registration Tool page
 And I clicked on the button Edit for the application "NewApp"
 And every field except the shared secret and the app ID became editable
@@ -68,10 +68,10 @@ And I the field named "Description" still says "Kittens"
 
 Scenario: Removing (Un-registering) Application
 
-Given I am a valid SLI Administrator "demo" from the "SLI" hosted directory
+Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I get redirected to the IDP login page
-And I authenticate with username "demo" and password "changeit"
+And I authenticate with username "developer" and password "developer1234"
 Then I am redirected to the Application Registration Tool page
 And I have clicked on the button 'X' for the application named "NewApp"
 And I got warning message saying 'You are trying to remove this application from SLI. By doing so, you will prevent any active user to access it. Do you want to continue?'

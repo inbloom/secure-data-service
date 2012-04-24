@@ -10,12 +10,15 @@ When /^I select "([^"]*)" and click go$/ do |arg1|
  realm_select = @explicitWait.until{@driver.find_element(:name=> "realmId")}
   
   options = realm_select.find_elements(:tag_name=>"option")
+  found = false
   options.each do |e1|
     if (e1.text == arg1)
+      found = true
       e1.click()
       break
     end
   end
+  assert(found, "The exact realm cannot be found")
   clickButton("go", "id")
   
 end
