@@ -448,7 +448,7 @@ public class StudentResource extends DefaultCrudEndpoint {
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
-    @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_TRANSCRIPT_ASSOCIATIONS)
+    @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.COURSE_TRANSCRIPTS)
     public Response getStudentTranscriptAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
@@ -469,7 +469,7 @@ public class StudentResource extends DefaultCrudEndpoint {
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
-    @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_TRANSCRIPT_ASSOCIATIONS + "/" + PathConstants.COURSES)
+    @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.COURSE_TRANSCRIPTS + "/" + PathConstants.COURSES)
     public Response getStudentTranscriptAssociationCourses(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {

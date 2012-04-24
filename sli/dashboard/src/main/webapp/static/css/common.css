@@ -31,15 +31,15 @@ body {
     font-size: 13px;
 }
 .panel-container {
-	position:relative;
+    position:relative;
 }
 .panel-container .panel-item {
-	float:left;
+    float:left;
     top:0;
     right:0;
 }
 .panel-content .tabular table {
-	border-right: 0 solid #DDDDDD;
+    border-right: 0 solid #DDDDDD;
     border-top: 0 solid #DDDDDD; 
     vertical-align: top;
     font-weight: normal;
@@ -166,10 +166,10 @@ th.ui-th-column div {
 /* Custom */
 /* Contact Info panel related */
 .contactInfoItem {
-	width:30%;
+    width:30%;
 }
 .contactInfoData {
-	width:250px;
+    width:250px;
 }
 
 .lozenge-widget
@@ -208,6 +208,10 @@ th.ui-th-column div {
 .color-widget-yellow
 {
     color:#DFC836;
+}
+.color-widget-orange
+{
+    color:#e58829;
 }
 .color-widget-red
 {
@@ -309,21 +313,25 @@ th.ui-th-column div {
 {
     color: #b40610
 }
-
-.fuelGauge
+.fuelGauge,
+.fuelGauge-perfLevel {
+    padding: 5px;
+}
+.fuelGauge-perfLevel
 {
-    width: 64px;
+    float:left;
 }
 .fuelGaugeLabel
 {
     float: left;
     width: 30px;
 }
-.fuelGauge, 
+
 .fuelGaugeLabel
 {
     font-size:12px;
 }
+
 .lozenge
 {
     font-size: 9px;
@@ -370,17 +378,10 @@ th.ui-th-column div {
 {
     height: 100px;
 }
-    
-.csi .colImage
-{
-    height:100px;
-    width:100px;
-    float:left;
-}
 
 .csi .colMain
 {
-    margin-left: 100px;
+    margin-left: 20px;
     width: 900px;
 }
 
