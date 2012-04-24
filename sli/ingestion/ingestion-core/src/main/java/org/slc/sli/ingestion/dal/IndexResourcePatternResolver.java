@@ -22,21 +22,23 @@ public class IndexResourcePatternResolver extends PathMatchingResourcePatternRes
 
     private static final String INDEX_FILES = "/**/*.json";
 
-    public List<InputStream> findAllIndexes(String rootDir) {
+    public List<MongoIndexConfig> findAllIndexes(String rootDir) {
 
-        List<InputStream> inputStreams = new ArrayList<InputStream>();
+        List<MongoIndexConfig> indexConfigs = new ArrayList<MongoIndexConfig>();
 
         try {
             Resource[] collectionDirectories = findPathMatchingResources("classpath:" + rootDir + INDEX_FILES);
 
             for (Resource collectionDirectory : collectionDirectories) {
-                inputStreams.add(collectionDirectory.getInputStream());
+                InputStream inputStream = collectionDirectory.getInputStream();
+                indexConfigs.add(MongoIndexConfig.parse(inputStream));
+                inputStream.close();
             }
 
         } catch (IOException e) {
             LOG.error("Path to index directory does not exist: " + rootDir);
         }
 
-        return inputStreams;
+        return indexConfigs;
     }
 }
