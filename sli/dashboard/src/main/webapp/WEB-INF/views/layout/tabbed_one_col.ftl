@@ -23,11 +23,7 @@
   <div id="content">
     <#-- create header panels -->
     <#list layout as item>     
-      <#if item.type == "PANEL">
-        <div class="panel">
-          <#include "../panel/" + item.id + ".ftl">
-        </div>
-      </#if>
+      <@includePanelContent panel=item/>  
     </#list> 
 
     <#-- create tab div -->
@@ -56,13 +52,7 @@
             <h7>${viewConfigs[panel.id].name}</h7>
           </div>
           <div class="panel-content">
-          <#if panel.type == "PANEL">
-            
-            <#include "../panel/" + panel.id + ".ftl">
-            </#if> 
-          <#if panel.type == "GRID">
-            <@includeGrid gridId=panel.id/>
-          </#if>    
+          <@includePanelContent panel=panel/>  
           </div>   
           </div>  
         </#list>

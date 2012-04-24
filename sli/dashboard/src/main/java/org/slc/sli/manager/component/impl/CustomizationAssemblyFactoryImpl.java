@@ -30,6 +30,7 @@ import org.slc.sli.manager.Manager.EntityMappingManager;
 import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.DashboardException;
+import org.slc.sli.util.ExecutionTimeLogger.LogExecutionTime;
 import org.slc.sli.util.SecurityUtil;
 
 /**
@@ -96,7 +97,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             Config.Condition condition = config.getCondition();
             Object[] values = condition.getValue();
             // for simplicity always treat as an array
-            List<GenericEntity> listOfEntitites = (parentConfig != null && parentConfig.getRoot() == null) ? Arrays.asList(entity) : entity.getList(parentConfig.getRoot());
+            List<GenericEntity> listOfEntitites = (parentConfig != null && parentConfig.getRoot() != null) ? entity.getList(parentConfig.getRoot()) : Arrays.asList(entity);
             Object childEntity;
             // condition is equivalent to exists in the list
             for (GenericEntity oneEntity : listOfEntitites) {
@@ -237,13 +238,11 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
 
     @Override
     public ModelAndViewConfig getModelAndViewConfig(String componentId, Object entityKey) {
-
-        ModelAndViewConfig modelAndViewConfig = new ModelAndViewConfig();
-        populateModelRecursively(modelAndViewConfig, componentId, entityKey, null, null, null, 0, false);
-        return modelAndViewConfig;
+        return getModelAndViewConfig(componentId, entityKey, false);
     }
 
     @Override
+    @LogExecutionTime
     public ModelAndViewConfig getModelAndViewConfig(String componentId, Object entityKey, boolean lazyOverride) {
 
         ModelAndViewConfig modelAndViewConfig = new ModelAndViewConfig();
@@ -307,7 +306,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
                 if (!Arrays.equals(ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE, m.getParameterTypes())) {
                     throw new DashboardException("Wrong signature for the method for "
                             + entityMapping.value() + ". Expected is "
-                            + ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE.toString() + "!!!");
+                            + Arrays.asList(ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE) + "!!!");
                 }
                 entityReferenceToManagerMethodMap.put(entityMapping.value(), new InvokableSet(instance, m));
             }
@@ -348,6 +347,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         }
     }
 
+    @LogExecutionTime
     protected GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
         CacheKey cacheKey = new CacheKey(getTokenId(), componentId, entityKey, config);
         GenericEntity value = getCached(cacheKey);

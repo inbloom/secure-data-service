@@ -37,7 +37,7 @@ Given /^I am using destination-local data store$/ do
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
-  if INGESTION_LANDING_ZONE.rindex('/') == -1
+  if INGESTION_LANDING_ZONE.rindex('/') == (INGESTION_LANDING_ZONE.length - 1)
     @landing_zone_path = INGESTION_LANDING_ZONE
   else
     @landing_zone_path = INGESTION_LANDING_ZONE+'/'

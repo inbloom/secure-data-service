@@ -307,7 +307,7 @@ DashboardUtil.Grid.Formatters = {
 		  var link = options.colModel.formatoptions.link;
 		  if(typeof link == 'string')
 		  {
-		    return '<a href="'+link + rowObject.id+'">'+value+'</a>';
+		    return '<a href="' + contextRootPath + '/' + link + rowObject.id+'">'+value+'</a>';
 		  }else{
 		    return cellvalue;
 		  }

@@ -8,7 +8,7 @@ class RolesController < ApplicationController
   # GET /roles
   # GET /roles.json
   def index
-   @roles = Role.get_static_information
+    @roles = Role.get_static_information
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @roles }

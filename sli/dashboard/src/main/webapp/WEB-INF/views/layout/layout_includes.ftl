@@ -5,6 +5,15 @@
   </#if>
 </#macro>
 
+<#macro includePanelContent panel>
+  <#if panel.type == "PANEL">
+    <#include "../panel/" + panel.id + ".ftl">
+  </#if> 
+  <#if panel.type == "GRID">
+    <@includeGrid gridId=panel.id/>
+  </#if>   
+</#macro>
+
 <#function getDivId panelId>
   <#return panelId + "-" + random.nextInt(99999)?string("#####")>
 </#function>
