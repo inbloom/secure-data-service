@@ -61,6 +61,7 @@ def runTests(testDirPath)
     else
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Failed"
       $SUCCESS=false
+      raise "Tests Failed" if (ENV['FAILFAST'])
     end
   end
 end

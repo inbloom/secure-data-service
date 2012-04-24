@@ -1,4 +1,4 @@
-require File.expand_path('../common_stepdefs.rb', __FILE__)
+#require File.expand_path('../common_stepdefs.rb', __FILE__)
 require 'rubygems'
 require 'bundler/setup'
 
@@ -187,7 +187,12 @@ end
 ##############################################################################
 ###### After hook(s) #########################################################
 
-# None remaining
+After do |scenario| 
+  if(ENV['FAILFAST'])
+    Cucumber.wants_to_quit = true if scenario.failed?
+  end
+end
+
 
 ##############################################################################
 ##############################################################################
