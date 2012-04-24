@@ -30,22 +30,23 @@ import org.slc.sli.util.SecurityUtil;
  */
 public class LiveAPIClient implements APIClient {
 
-    public static final String ATTENDANCES_URL = "/attendances";
-
     private static final Logger LOGGER = LoggerFactory.getLogger(LiveAPIClient.class);
 
-    private static final String SECTIONS_V1_URL = "/v1/sections/";
-    private static final String SECTIONS_URL = "/sections/";
-    private static final String STUDENT_SECTION_ASSOC_URL = "/student-section-associations/";
-    private static final String STUDENTS_URL = "/students/";
-    private static final String TEACHERS_URL = "/teachers/";
-    private static final String HOME_URL = "/home/";
-    private static final String TEACHER_SECTION_ASSOC_URL = "/teacher-section-associations";
-    private static final String STUDENT_ASSMT_ASSOC_URL = "/student-assessment-associations/";
-    private static final String ASSMT_URL = "/assessments/";
-    private static final String SESSION_URL = "/sessions/";
-
-    private static final String STUDENT_WITH_GRADE_PARAMETER = "/studentWithGrade";
+    // base urls
+    private static final String SECTIONS_URL = "/v1/sections/";
+    private static final String STUDENTS_URL = "/v1/students/";
+    private static final String TEACHERS_URL = "/v1/teachers/";
+    private static final String HOME_URL = "/v1/home/";
+    private static final String ASSMT_URL = "/v1/assessments/";
+    private static final String SESSION_URL = "/v1/sessions/";
+    
+    // resources to append to base urls
+    private static final String ATTENDANCES = "/attendances";
+    private static final String STUDENT_SECTION_ASSOC = "/studentSectionAssociations/";
+    private static final String TEACHER_SECTION_ASSOC = "/teacherSectionAssociations";
+    private static final String TEACHER_SECTION_ASSOC_SECTIONS = "/teacherSectionAssociations/sections";
+    private static final String STUDENT_ASSMT_ASSOC = "/studentAssessmentAssociations/";
+    private static final String STUDENT_WITH_GRADE = "/studentWithGrade";
 
     private static final String ED_ORG_LINK = "getEducationOrganization";
     private static final String COURSE_LINK = "getCourse";
@@ -118,7 +119,7 @@ public class LiveAPIClient implements APIClient {
     public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
         // make a call to student-assessments, with the student id
         List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + STUDENTS_URL + studentId
-                + STUDENT_ASSMT_ASSOC_URL, token, true);
+                + STUDENT_ASSMT_ASSOC, token, true);
 
         // for each link in the returned list, make the student-assessment call for the result data
         List<GenericEntity> studentAssmts = new ArrayList<GenericEntity>();
@@ -186,7 +187,7 @@ public class LiveAPIClient implements APIClient {
     private List<String> getStudentIdsForSection(String id, String token) {
 
         List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + id
-                + STUDENT_SECTION_ASSOC_URL, token, true);
+                + STUDENT_SECTION_ASSOC, token, true);
         List<String> studentIds = new ArrayList<String>();
 
         if (responses != null) {
@@ -202,19 +203,18 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public GenericEntity getStudent(String token, String id) {
-        // TODO: Remove v1, when api is switched over
-        return createEntityFromAPI(getApiUrl() + "/v1" + STUDENTS_URL + id + STUDENT_WITH_GRADE_PARAMETER, token, false);
+        return createEntityFromAPI(getApiUrl() + STUDENTS_URL + id + STUDENT_WITH_GRADE, token, false);
     }
 
     @Override
     public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
-        return createEntitiesFromAPI(getApiUrl() + "/v1" + SECTIONS_URL + sectionId
+        return createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + sectionId
                 + "/studentSectionAssociations" + "/students" + "?optionalFields=assessments,attendances.1", token, false);
     }
 
     @Override
     public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId) {
-        return createEntitiesFromAPI(getApiUrl() + "/v1" + SECTIONS_URL + sectionId + "/studentSectionAssociations"
+        return createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + sectionId + "/studentSectionAssociations"
                 + "/students" + "?optionalFields=gradebook", token, false);
     }
 
@@ -225,11 +225,10 @@ public class LiveAPIClient implements APIClient {
         if (id == null) {
             return null;
         }
-        GenericEntity section = createEntityFromAPI(getApiUrl() + SECTIONS_V1_URL + id, token, false);
+        GenericEntity section = createEntityFromAPI(getApiUrl() + SECTIONS_URL + id, token, false);
         if (section == null) {
             return null;
         }
-        section.put(Constants.ATTR_STUDENT_UIDS, getStudentIdsForSection(id, token));
 
         // if no section name, fill in with section code
         if (section.get(Constants.ATTR_SECTION_NAME) == null) {
@@ -256,7 +255,7 @@ public class LiveAPIClient implements APIClient {
      * Get one student-assessment association
      */
     private GenericEntity getStudentAssessment(String id, String token) {
-        return createEntityFromAPI(getApiUrl() + STUDENT_ASSMT_ASSOC_URL + id, token, true);
+        return createEntityFromAPI(getApiUrl() + STUDENT_ASSMT_ASSOC + id, token, true);
     }
 
     /**
@@ -305,20 +304,20 @@ public class LiveAPIClient implements APIClient {
      */
     public List<GenericEntity> getSectionsForTeacher(String id, String token) {
 
-        List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + TEACHERS_URL + id
-                + TEACHER_SECTION_ASSOC_URL, token, true);
-        List<GenericEntity> sections = new ArrayList<GenericEntity>();
-
-        // TODO: for a more efficient implementation, build a comma-delimited list of section ids,
-        // make one single api call, and then loop through the response JSONArray and parse
-        // out the section entities one by one.
-        for (GenericEntity response : responses) {
-            String sectionId = response.getString(Constants.ATTR_SECTION_ID);
-            if (sectionId != null) {
-                GenericEntity section = getSection(sectionId, token);
-                if (section != null) {
-                    sections.add(section);
+        List<GenericEntity> sections = createEntitiesFromAPI(getApiUrl() + TEACHERS_URL + id
+                + TEACHER_SECTION_ASSOC_SECTIONS, token, false);
+        
+        if (sections != null) {
+            for (GenericEntity section : sections) {
+                
+                // if no section name, fill in with section code
+                if (section.get(Constants.ATTR_SECTION_NAME) == null) {
+                    section.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
                 }
+                
+                // TODO: remove this when old LOS is retired
+                // get student ids in section
+                section.put(Constants.ATTR_STUDENT_UIDS, getStudentIdsForSection(section.getId(), token));
             }
         }
 
@@ -452,7 +451,7 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public GenericEntity getHomeRoomForStudent(String studentId, String token) {
-        String url = getApiUrl() + STUDENTS_URL + studentId + STUDENT_SECTION_ASSOC_URL;
+        String url = getApiUrl() + STUDENTS_URL + studentId + STUDENT_SECTION_ASSOC;
         List<GenericEntity> sectionStudentAssociations = createEntitiesFromAPI(url, token, true);
 
         // If only one section association exists for the student, return the section as home room
@@ -483,16 +482,19 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public GenericEntity getTeacherForSection(String sectionId, String token) {
-        String url = getApiUrl() + SECTIONS_URL + sectionId + TEACHER_SECTION_ASSOC_URL;
+        String url = getApiUrl() + SECTIONS_URL + sectionId + TEACHER_SECTION_ASSOC;
         List<GenericEntity> teacherSectionAssociations = createEntitiesFromAPI(url, token, true);
-        for (GenericEntity teacherSectionAssociation : teacherSectionAssociations) {
+        if (teacherSectionAssociations != null) {
+        
+            for (GenericEntity teacherSectionAssociation : teacherSectionAssociations) {
 
-            if (teacherSectionAssociation.getString(Constants.ATTR_CLASSROOM_POSITION).equals(
-                    Constants.TEACHER_OF_RECORD)) {
-                String teacherUrl = getApiUrl() + TEACHERS_URL
-                        + teacherSectionAssociation.getString(Constants.ATTR_TEACHER_ID);
-                GenericEntity teacher = createEntityFromAPI(teacherUrl, token, true);
-                return teacher;
+                if (teacherSectionAssociation.getString(Constants.ATTR_CLASSROOM_POSITION).equals(
+                        Constants.TEACHER_OF_RECORD)) {
+                    String teacherUrl = getApiUrl() + TEACHERS_URL
+                            + teacherSectionAssociation.getString(Constants.ATTR_TEACHER_ID);
+                    GenericEntity teacher = createEntityFromAPI(teacherUrl, token, true);
+                    return teacher;
+                }
             }
         }
 
@@ -507,7 +509,7 @@ public class LiveAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getStudentAttendance(final String token, String studentId, String start, String end) {
         LOGGER.info("Getting attendance for ID: {}", studentId);
-        String url = "/v1" + STUDENTS_URL + studentId + ATTENDANCES_URL;
+        String url = STUDENTS_URL + studentId + ATTENDANCES;
         if (start != null && start.length() > 0) {
             url += "?eventDate>=" + start;
             url += "&eventDate<=" + end;
@@ -598,7 +600,7 @@ public class LiveAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getCourses(final String token, final String sectionId, Map<String, String> params) {
         // get the entities
-        return createEntitiesFromAPI(getApiUrl() + "/v1" + SECTIONS_URL + sectionId + "/studentSectionAssociations"
+        return createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + sectionId + "/studentSectionAssociations"
                 + "/students" + "?optionalFields=transcript", token, false);
     }
 
