@@ -163,6 +163,16 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
   assert(@result == "true", "Some collections were not cleared successfully.")
 end
 
+Given /^I create collections and add index$/ do
+@db   = @conn[INGESTION_DB_NAME]
+
+@collection = @db["student"]
+@collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+@collection.ensure_index([['metaData.tenantId', 1]])
+@collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+end
+
 ############################################################
 # STEPS: WHEN
 ############################################################
@@ -185,7 +195,7 @@ def dirContainsBatchJobLogs?(dir, num)
   Dir.foreach(dir) do |file|
     if /^job-.*.log$/.match file
       count += 1
-      if count >= num 
+      if count >= num
         return true
       end
     end
@@ -293,6 +303,28 @@ end
 ############################################################
 # STEPS: THEN
 ############################################################
+Then /^I should see following map of indexes in the corresponding collections:$/ do |table|
+  @db   = @conn[INGESTION_DB_NAME]
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @db.collection(row["collectionName"])
+    @indexcollection = @db.collection("system.indexes")
+    #puts "ns" + INGESTION_DB_NAME+"student," + "name" + row["index"].to_s
+    @indexCount = @indexcollection.find("ns" => INGESTION_DB_NAME+".student", "name" => row["index"]).to_a.count()
+
+    #puts "Index Count = " + @indexCount.to_s
+
+    if @indexCount.to_s == "0"
+      puts "Index was not created for " + INGESTION_DB_NAME+".student" + " with name = " + row["index"]
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Some indexes were not created successfully.")
+
+end
 
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
   @db   = @conn[INGESTION_DB_NAME]
@@ -395,7 +427,7 @@ Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do
   @entity_collection = @db.collection(collection)
   @entity =  @entity_collection.find({field => value})
   assert(@entity.count == 1, "Found more than one document with this query (or zero :) )")
-  
+
 end
 
 When /^verify that "([^"]*)" is (equal|unequal) to "([^"]*)"$/ do |arg1, equal_or_unequal, arg2|
@@ -424,7 +456,7 @@ Then /^verify the following data in that document:$/ do |table|
       curSearchString.split('.').each do |part|
         is_num?(part) ? val = val[part.to_i] : val = val[part]
       end
-      if row["searchType"] == "integer" 
+      if row["searchType"] == "integer"
         assert(val == row['searchValue'].to_i, "Expected value: #{row['searchValue']}, but received #{val}")
       else
         assert(val == row['searchValue'], "Expected value: #{row['searchValue']}, but received #{val}")
@@ -443,7 +475,7 @@ end
 
 
 def checkForContentInFileGivenPrefix(message, prefix)
-  
+
   if (INGESTION_MODE == 'remote')
 
     runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");

@@ -312,6 +312,12 @@ task :ingestionPerformanceTest do
   runTests("test/features/ingestion/features/performance_testing.feature")
 end
 
+desc "Run Ingestion Index Tests"
+task :ingestionIndexTest do
+  runTests("test/features/ingestion/features/index_testing.feature")
+end
+
+
 ############################################################
 # Ingestion Offline Tool tests start
 ############################################################
@@ -1013,7 +1019,7 @@ task :integrationTests => [:realmInitNoPeople] do
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
   Rake::Task["dashboardSdsTests"].execute
-  Rake::Task["dashboardSdsContactInfoTests"].execute    
+  Rake::Task["dashboardSdsContactInfoTests"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
