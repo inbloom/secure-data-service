@@ -35,22 +35,5 @@
 	  </ProgramIdentity>
 	</ProgramReference>
   </Cohort>
-  <Cohort>
-    <CohortIdentifier>ACC-TEST-COH-3</CohortIdentifier>
-	<CohortDescription>District-wide academic intervention cohort for Social Studies</CohortDescription>
-	<CohortType>Academic Intervention</CohortType>
-	<CohortScope>District</CohortScope>
-	<AcademicSubject>Social Studies</AcademicSubject>
-	<EducationOrgReference>
-	  <EducationalOrgIdentity>
-	    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
-	  </EducationalOrgIdentity>
-	</EducationOrgReference>
-	<ProgramReference>
-	  <ProgramIdentity>
-	    <ProgramId>ACC-TEST-PROG-1</ProgramId>
-	  </ProgramIdentity>
-	</ProgramReference>
-  </Cohort>
 
 </InterchangeStudentCohort>

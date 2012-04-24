@@ -72,4 +72,30 @@
         <Section504Disabilities/>
     </Student>
 
+	<Student>
+		<StudentUniqueStateId>800000025</StudentUniqueStateId>
+		<Name>
+			<FirstName>Matt</FirstName>
+			<MiddleName>Joseph</MiddleName>
+			<LastSurname>Sollars</LastSurname>
+			<GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+		</Name>
+		<Sex>Male</Sex>
+		<BirthData>
+			<BirthDate>2000-04-23</BirthDate>
+		</BirthData>
+		<Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>309-555-2449</TelephoneNumber>
+		</Telephone>
+		<ElectronicMail EmailAddressType="Other">
+			<EmailAddress>m.sollars@gmail.com</EmailAddress>
+		</ElectronicMail>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race/>
+		<EconomicDisadvantaged>false</EconomicDisadvantaged>
+		<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+		<Section504Disabilities/>
+	</Student>
+
 </InterchangeStudent>
