@@ -312,6 +312,11 @@ task :ingestionPerformanceTest do
   runTests("test/features/ingestion/features/performance_testing.feature")
 end
 
+desc "Run Ingestion Database Performance Tests"
+task :ingestionMongoDBPerformanceTest do
+  runTests("test/features/ingestion/features/ingestion_mongo_performance.feature")
+end
+
 ############################################################
 # Ingestion Offline Tool tests start
 ############################################################
