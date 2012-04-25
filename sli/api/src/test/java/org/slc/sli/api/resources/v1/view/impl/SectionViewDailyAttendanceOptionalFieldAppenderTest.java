@@ -36,7 +36,7 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class StudentAssessmentOptionalFieldAppenderTest {
+public class SectionViewDailyAttendanceOptionalFieldAppenderTest {
     
     @Autowired
     private OptionalFieldAppender studentAssessmentOptionalFieldAppender;
