@@ -56,9 +56,11 @@ public enum FileType {
     }
 
     public static FileType findByNameAndFormat(String name, FileFormat fileFormat) {
-        for (FileType ft : FileType.values()) {
-            if (ft.getName().toLowerCase().equals(name.toLowerCase()) && ft.getFileFormat().equals(fileFormat)) {
-                return ft;
+        if (name != null) {
+            for (FileType ft : FileType.values()) {
+                if (ft.getName().toLowerCase().equals(name.toLowerCase()) && ft.getFileFormat().equals(fileFormat)) {
+                    return ft;
+                }
             }
         }
         return null;

@@ -28,10 +28,6 @@ import org.slc.sli.modeling.xml.XmlTools;
 
 public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
 
-    private static final String camelCase(final String text) {
-        return text.substring(0, 1).toLowerCase().concat(text.substring(1));
-    }
-
     private static final TagDefinition makeTagDefinition(final String name, final Occurs lower, final Occurs upper,
             final Xsd2UmlPluginHost host) {
         final Range range = new Range(lower, upper);
@@ -62,7 +58,6 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_READ, Occurs.ZERO, Occurs.ONE, host));
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_WRITE, Occurs.ZERO, Occurs.ONE, host));
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_REST_RESOURCE, Occurs.ZERO, Occurs.UNBOUNDED, host));
-        tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_MONGO_COLLECTION, Occurs.ZERO, Occurs.ONE, host));
         return Collections.unmodifiableList(tagDefs);
     }
 
@@ -135,20 +130,17 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
                 final String localName = element.getLocalName();
                 final QName name = new QName(namespace, localName);
                 if (SliMongoConstants.SLI_REFERENCE_TYPE.equals(name)) {
-                    final Identifier tagDefinition = host
-                            .ensureTagDefinitionId(SliUmlConstants.TAGDEF_REFERENCE);
+                    final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_REFERENCE);
                     final String refereceType = nameFromTypeName(new QName(
                             XmlTools.collapseWhitespace(stringValue(element.getChildNodes()))));
                     taggedValues.add(new TaggedValue(refereceType, tagDefinition));
                 } else if (SliMongoConstants.SLI_PII.equals(name)) {
-                    final Identifier tagDefinition = host
-                            .ensureTagDefinitionId(SliUmlConstants.TAGDEF_PII);
+                    final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_PII);
                     final Boolean isPII = Boolean.valueOf(XmlTools.collapseWhitespace(stringValue(element
                             .getChildNodes())));
                     taggedValues.add(new TaggedValue(isPII.toString(), tagDefinition));
                 } else if (SliMongoConstants.SLI_READ_ENFORCEMENT.equals(name)) {
-                    final Identifier tagDefinition = host
-                            .ensureTagDefinitionId(SliUmlConstants.TAGDEF_READ);
+                    final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_READ);
                     final String text = XmlTools.collapseWhitespace(stringValue(element.getChildNodes()));
                     if ("READ_RESTRICTED".equals(text)) {
                         taggedValues.add(new TaggedValue(text, tagDefinition));
@@ -156,8 +148,7 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
                         throw new AssertionError("Unexpected value for appinfo: " + name + " => " + text);
                     }
                 } else if (SliMongoConstants.SLI_WRITE_ENFORCEMENT.equals(name)) {
-                    final Identifier tagDefinition = host
-                            .ensureTagDefinitionId(SliUmlConstants.TAGDEF_WRITE);
+                    final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_WRITE);
                     final String text = XmlTools.collapseWhitespace(stringValue(element.getChildNodes()));
                     if ("WRITE_RESTRICTED".equals(text)) {
                         taggedValues.add(new TaggedValue(text, tagDefinition));
@@ -170,17 +161,5 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
             }
         }
         return taggedValues;
-    }
-
-    @Override
-    public List<TaggedValue> tagsFromTopLevelElement(final QName name, final Xsd2UmlPluginHost host) {
-        final List<TaggedValue> tags = new LinkedList<TaggedValue>();
-        // This is a poor-man's pluralization!
-        final Identifier resourceTag = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_REST_RESOURCE);
-        final TaggedValue resource = new TaggedValue(camelCase(name.getLocalPart()).concat("s"), resourceTag);
-        tags.add(resource);
-        final Identifier collectionTag = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_MONGO_COLLECTION);
-        tags.add(new TaggedValue(camelCase(name.getLocalPart()), collectionTag));
-        return Collections.unmodifiableList(tags);
     }
 }
