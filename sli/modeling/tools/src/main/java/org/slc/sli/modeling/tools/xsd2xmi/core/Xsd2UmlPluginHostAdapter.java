@@ -3,6 +3,7 @@ package org.slc.sli.modeling.tools.xsd2xmi.core;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
@@ -12,6 +13,7 @@ import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Identifier;
+import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
@@ -38,7 +40,13 @@ final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost {
 
     @Override
     public Identifier ensureTagDefinitionId(final String name) {
-        throw new UnsupportedOperationException();
+        final Set<ModelElement> elements = mapper.lookupByName(name);
+        for (final ModelElement element : elements) {
+            if (element instanceof TagDefinition) {
+                return element.getId();
+            }
+        }
+        throw new IllegalArgumentException(name);
     }
 
     @Override
@@ -91,11 +99,6 @@ final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost {
 
     @Override
     public List<TaggedValue> tagsFromAppInfo(final XmlSchemaAppInfo appInfo, final Xsd2UmlPluginHost host) {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<TaggedValue> tagsFromTopLevelElement(final QName name, final Xsd2UmlPluginHost host) {
         return Collections.emptyList();
     }
 }

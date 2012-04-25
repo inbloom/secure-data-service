@@ -35,6 +35,4 @@ public interface Xsd2UmlPlugin {
     String nameFromTypeName(QName name);
 
     List<TaggedValue> tagsFromAppInfo(XmlSchemaAppInfo appInfo, Xsd2UmlPluginHost host);
-
-    List<TaggedValue> tagsFromTopLevelElement(QName name, Xsd2UmlPluginHost host);
 }
