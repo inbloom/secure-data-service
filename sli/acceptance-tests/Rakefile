@@ -55,7 +55,8 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-  sh "cucumber #{testDirPath} #{EXPAND} --tags ~@wip #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
+  @tags ||= ["~@wip", "~@sandbox"]
+  sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
@@ -854,6 +855,16 @@ end
 ############################################################
 # API V1 tests end
 ############################################################
+
+
+############################################################
+# API Sandbox Tests
+############################################################
+desc "Run API Sandbox Tests"
+task :apiSandboxTests => [:realmInit, :importSandboxData] do
+  @tags = ["~@wip", "@sandbox"]
+  Rake::Task["apiAndSecurityTests"].execute
+end
 
 ############################################################
 # API Selenium tests start
