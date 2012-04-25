@@ -15,8 +15,10 @@
 			StaffProgramAssociation.
 		</description>
 		<diagram>
+			<prolog xml:lang="en"></prolog>
 			<title xml:lang="en">Alternative/Supplemental Services</title>
 			<source>alt-supp-services-01.svg</source>
+			<epilog xml:lang="en"></epilog>
 		</diagram>
 		<entity>
 			<title xml:lang="en">Education Organization</title>
@@ -76,9 +78,10 @@
 			</ul>
 		</description>
 		<diagram>
+			<prolog xml:lang="en"></prolog>
 			<title xml:lang="en">Assessment Core Standards</title>
 			<source>assessment-core-standards-01.svg</source>
-			<description xml:lang="en">Many states have standard learning
+			<epilog xml:lang="en">Many states have standard learning
 				standards that drive the curriculum and the assessments. The Common
 				Core State Standards Initiative
 				(www.corestandards.org) is a national
@@ -93,12 +96,13 @@
 				hierarchical taxonomy of learning
 				skills using multiple levels of
 				LearningObjectives.
-			</description>
+			</epilog>
 		</diagram>
 		<diagram>
+			<prolog xml:lang="en"></prolog>
 			<title xml:lang="en">Assessment Metadata</title>
 			<source>assessment-metadata-01.svg</source>
-			<description xml:lang="en">
+			<epilog xml:lang="en">
 				Assessment metadata is defined as all data that describes the
 				assessment, as shown below. The model reflects four levels of
 				definition,
@@ -140,12 +144,13 @@
 				or
 				more
 				LearningObjectives, and/or may test one or more LearningStandards.
-			</description>
+			</epilog>
 		</diagram>
 		<diagram>
+			<prolog xml:lang="en"></prolog>
 			<title xml:lang="en">Student Assessment</title>
 			<source>assessment-student-01.svg</source>
-			<description xml:lang="en">
+			<epilog xml:lang="en">
 				The student’s assessment results follows a similar structure:
 				<ul>
 					<li>StudentAssessment – holds the overall assessment score and
@@ -161,7 +166,7 @@
 				</ul>
 				The Assessment domain model is meant to adapt to support whatever
 				level of results is reported for an Assessment.
-			</description>
+			</epilog>
 		</diagram>
 		<entity>
 			<title xml:lang="en">Assessment</title>
