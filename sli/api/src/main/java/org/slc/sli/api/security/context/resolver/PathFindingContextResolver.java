@@ -10,15 +10,20 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.BrutePathFinder;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Class to adapt our path finding technique to our context resolving system.
@@ -37,6 +42,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
     @Autowired
     private EntityDefinitionStore store;
 
+    @Autowired
+    private Repository<Entity> repo;
+    
     private String fromEntity;
     private String toEntity;
 
@@ -106,7 +114,20 @@ public class PathFindingContextResolver implements EntityContextResolver {
             current = path.get(i);
         }
         debug("We found {} ids", ids);
+        
+        //  Allow creator access
+        ids.addAll(getAllowedForCreator());
         return new ArrayList<String>(ids);
+    }
+
+    private List<String> getAllowedForCreator() {
+        SLIPrincipal user = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userId = user.getEntity().getEntityId();
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("metadata.createdBy", "=", userId, false));
+        nq.addCriteria(new NeutralCriteria("metadata.isOrphaned", "=", "true", false));
+        List<String> createdIds = (List<String>) repo.findAllIds(toEntity, nq);
+        
+        return createdIds;
     }
 
     private boolean isAssociative(SecurityNode next, SecurityNodeConnection connection) {

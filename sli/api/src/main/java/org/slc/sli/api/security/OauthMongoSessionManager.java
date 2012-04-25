@@ -320,7 +320,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     private OAuth2Authentication createAnonymousAuth() {
         String time = Long.toString(System.currentTimeMillis());
         SLIPrincipal anon = new SLIPrincipal(time);
-        anon.setEntity(new MongoEntity("user", "-133", new HashMap<String,Object>(), new HashMap<String,Object>()) );
+        anon.setEntity(new MongoEntity("user", "-133", new HashMap<String, Object>(), new HashMap<String, Object>()));
         return new OAuth2Authentication(new ClientToken("UNKNOWN", "UNKNOWN", new HashSet<String>()), new AnonymousAuthenticationToken(time, anon , Arrays.<GrantedAuthority>asList(Right.ANONYMOUS_ACCESS)));
     }
 
