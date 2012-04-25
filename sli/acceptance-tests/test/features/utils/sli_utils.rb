@@ -402,7 +402,7 @@ module EntityProvider
       {
           "id" => "530f0704-c240-4ed9-0a64-55c0308f91ee",
           "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
-          "schoolId" => "4cb03fa0-81ad-46e2-6505-09ab31af377e",
+          "schoolId" => "fdacc41b-8133-f12d-5d47-358e6c0c791c",
           "schoolYearAttendance" =>
               [
                   {"schoolYear" => "2011-2012",
@@ -601,9 +601,9 @@ module EntityProvider
     case type
     when 'attendance', 'v1attendance'
       { 
-        "id" => "9953166a-9722-447c-094a-bfcce701c2c9",
+        "id" => "530f0704-c240-4ed9-0a64-55c0308f91ee",
         "studentId" => "6a98d5d3-d508-4b9c-aec2-59fce7e16825",
-        "schoolId" => "4cb03fa0-81ad-46e2-6505-09ab31af377e",
+        "schoolId" => "fdacc41b-8133-f12d-5d47-358e6c0c791c",
         "schoolYearAttendance" =>
             [
                 {"schoolYear" => "2011-2012",
