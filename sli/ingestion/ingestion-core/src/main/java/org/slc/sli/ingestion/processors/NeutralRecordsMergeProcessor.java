@@ -14,9 +14,6 @@ import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
-import org.slc.sli.ingestion.model.NewBatchJob;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
 
 /**
@@ -25,6 +22,7 @@ import org.slc.sli.ingestion.queues.MessageType;
  * type has been collapsed
  * into another in the sliXsd data model. These 'processed' NeutralRecords will later be mapped to
  * Entity (sliXsd).
+ *
  * @deprecated This will be removed at a later date.
  */
 @Deprecated
@@ -52,8 +50,7 @@ public class NeutralRecordsMergeProcessor implements Processor {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
             LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
         }
-        BatchJobDAO batchJobDAO = new BatchJobMongoDA();
-        NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+
         // batchJobDAO.startStage(batchJobId, BatchJobStageType.EDFI_PROCESSING);
 
         BatchJob job = exchange.getIn().getBody(BatchJob.class);
@@ -70,7 +67,8 @@ public class NeutralRecordsMergeProcessor implements Processor {
 
             if (FileType.XML_ASSESSMENT_METADATA.equals(file.getFileType())) {
 
-                // batchJobDAO.startMetric(batchJobId, BatchJobStageType.EDFI_PROCESSING, file.getFileName());
+                // batchJobDAO.startMetric(batchJobId, BatchJobStageType.EDFI_PROCESSING,
+                // file.getFileName());
 
                 try {
                     assessmentConvertor.doConversion(file);

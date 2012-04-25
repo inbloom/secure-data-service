@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+  <json:reader rootName="json" />
+
+  <jb:bean beanId="studentCohortAssociations" class="java.util.ArrayList" createOnElement="#document">
+    <jb:wiring beanIdRef="studentCohortAssociation" />
+  </jb:bean>
+
+  <jb:bean beanId="studentCohortAssociation" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+    <jb:expression property="type">'studentCohortAssociation'</jb:expression>
+    <jb:wiring property="body" beanIdRef="studentCohortAssociationBody" />
+  </jb:bean>
+
+  <jb:bean beanId="studentCohortAssociationBody" class="java.util.HashMap" createOnElement="attributes">
+    <jb:value property="studentId" data="attributes studentId" />
+    <jb:value property="cohortId" data="attributes cohortId" />
+    <jb:value property="beginDate" data="attributes BeginDate" />
+    <jb:value property="endDate" data="attributes EndDate" />
+  </jb:bean>
+
+</smooks-resource-list>
