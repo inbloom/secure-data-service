@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion.dal;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,10 +9,11 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Order;
+
+import org.slc.sli.domain.Repository;
 
 /** Mongo indexes manager, which loads the indexes from the json configuration file.
  *
@@ -24,86 +24,91 @@ import org.springframework.data.mongodb.core.query.Order;
 public final class MongoIndexManager {
     private static final Logger LOG = LoggerFactory.getLogger(MongoIndexManager.class);
 
-    private Map<String, List<IndexDefinition>> collectionIndexes = null;
-    private List<InputStream> indexesConfigs;
-
-    private IndexResourcePatternResolver indexResolver;
+    private Map<String, List<IndexDefinition>> collectionIndexes = new HashMap<String, List<IndexDefinition>>();
 
     private String indexRootDir;
 
     /**
-     * Create the indexes map for all collections
-     *
-     * @param indexesIput : the list of InputStream for all the indexes files
-     * @return
+     * Init function used by Spring. Load indexes map for all collections
      */
-    public Map<String, List<IndexDefinition>> createIndexes(String batchJobId) {
+    public void init() {
+        IndexResourcePatternResolver indexResolver = new IndexResourcePatternResolver();
 
-        indexesConfigs = indexResolver.findAllIndexes(indexRootDir);
-        List<MongoIndexConfig> mongoIndexConfigs = new ArrayList<MongoIndexConfig>();
-
-        if (collectionIndexes == null) {
-            collectionIndexes = new HashMap<String, List<IndexDefinition>>();
-        }
+        List<MongoIndexConfig> mongoIndexConfigs = indexResolver.findAllIndexes(indexRootDir);
 
         try {
-            for (InputStream indexesConfig : indexesConfigs) {
-                mongoIndexConfigs.add(MongoIndexConfig.parse(indexesConfig));
-            }
-
             for (MongoIndexConfig mongoIndexConfig : mongoIndexConfigs) {
                 List<IndexDefinition> indexList;
-                String collectionName = mongoIndexConfig.getCollection() + "_" + batchJobId;
+                String collectionName = mongoIndexConfig.getCollection();
+
                 if (!collectionIndexes.containsKey(collectionName)) {
                     indexList = new ArrayList<IndexDefinition>();
                 } else {
                     indexList = collectionIndexes.get(collectionName);
                 }
-                    indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields()));
-                    collectionIndexes.put(collectionName, indexList);
+
+                indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields(), collectionName));
+                collectionIndexes.put(collectionName, indexList);
             }
 
         } catch (IOException e) {
             throw new RuntimeException("Failed to create the indexes");
         }
-
-        return collectionIndexes;
     }
 
     /**Create index definition from buffered reader
      *
      * @param fields : the fields read from the config files
-     * @param collectionName : name of the collection the indexes to be created for
+     * @param name : the name of the index
      * @return
      * @throws IOException
      */
-    public IndexDefinition createIndexDefinition(List<Map<String, String>> fields) throws IOException {
+    private static final IndexDefinition createIndexDefinition(List<Map<String, String>> fields, String name) throws IOException {
         Index index = new Index();
 
         for (Map<String, String> field : fields) {
             index.on(field.get("name"), field.get("position").equals("1") ? Order.ASCENDING : Order.DESCENDING);
         }
+        index.named(name);
         return index;
     }
 
-    /**Set indexes for all the collections
+    /**Set indexes for one collection
+    *
+    * @param template : mongo template to set the index
+    * @param collection: the collection to be ensureIndex'ed
+    * @param batchJobId
+    */
+    public void ensureIndex(Repository<?> repository, String collection) {
+
+        if (!collectionIndexes.containsKey(collection)) {
+            LOG.warn("No indexes found for " + collection + ". Skipping...");
+            return;
+        }
+
+       for (IndexDefinition index : collectionIndexes.get(collection)) {
+
+           if (!repository.collectionExists(collection)) {
+               repository.createCollection(collection);
+           }
+
+           try {
+               repository.ensureIndex(index, collection);
+           } catch (Exception e) {
+               LOG.error("Failed to create mongo indexes, reason: {}", e.getMessage());
+           }
+       }
+   }
+
+    /**Set indexes for all the collections configured
      *
      * @param template : mongo template to set the index
      */
-    public void setIndex(MongoTemplate template) {
+    public void ensureIndex(Repository<?> repository) {
         Set<String> collections = collectionIndexes.keySet();
 
         for (String collection : collections) {
-            for (IndexDefinition index : collectionIndexes.get(collection)) {
-                if (!template.collectionExists(collection)) {
-                    template.createCollection(collection);
-                }
-                try {
-                    template.ensureIndex(index, collection);
-                } catch (Exception e) {
-                    LOG.error("Failed to create mongo indexes");
-                }
-            }
+            ensureIndex(repository, collection);
         }
     }
 
@@ -115,20 +120,11 @@ public final class MongoIndexManager {
         this.indexRootDir = indexRootDir;
     }
 
-    public List<InputStream> getIndexesConfigs() {
-        return indexesConfigs;
+    public Map<String, List<IndexDefinition>> getCollectionIndexes() {
+        return collectionIndexes;
     }
 
-    public void setIndexesConfigs(List<InputStream> indexesConfigs) {
-        this.indexesConfigs = indexesConfigs;
+    public void setCollectionIndexes(Map<String, List<IndexDefinition>> collectionIndexes) {
+        this.collectionIndexes = collectionIndexes;
     }
-
-    public IndexResourcePatternResolver getIndexResolver() {
-        return indexResolver;
-    }
-
-    public void setIndexResolver(IndexResourcePatternResolver indexResolver) {
-        this.indexResolver = indexResolver;
-    }
-
 }
