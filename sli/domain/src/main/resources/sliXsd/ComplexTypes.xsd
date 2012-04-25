@@ -1190,6 +1190,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="stateOrganizationId" type="identificationCode">
+				<xs:annotation>
+					<xs:documentation>The identifier assigned to an education
+								organization by the State Education Agency (SEA).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="sequenceOfCourse">
 				<xs:annotation>
 					<xs:documentation>When a section is part of a sequence of parts
@@ -1279,12 +1286,12 @@
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="schoolId" type="reference">
+			<xs:element name="educationOrganizationId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The school where the section is taught.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1484,7 +1491,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="school">
+	<xs:complexType name="educationOrganization">
 		<xs:annotation>
 			<xs:documentation>This entity represents an educational organization
 				that includes staff
@@ -1494,10 +1501,10 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="educationOrganization">
+			<xs:extension base="abstractEducationOrganization">
 				<xs:sequence>
-					<xs:element maxOccurs="unbounded" name="gradesOffered"
-						type="gradeLevelType">
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+								name="gradesOffered" type="gradeLevelType">
 						<xs:annotation>
 							<xs:documentation>The grade levels served at the school.
 							</xs:documentation>
@@ -1588,13 +1595,13 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="schoolId" type="reference">
+			<xs:element name="educationOrganizationId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Reference to the school associated with the
 						session.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1665,24 +1672,6 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="staff">
-		<xs:annotation>
-			<xs:documentation>This entity represents a person that is employed by
-				an LEA or other
-				educational unit engaged in student instruction.
-				These persons are
-				instructional-type staff members. In the data
-				model, a teacher
-				entity is a staff
-				member with additional properties.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="abstractStaff">
-			</xs:extension>
-		</xs:complexContent>
 	</xs:complexType>
 
 	<xs:complexType name="staffCohortAssociation">
@@ -3451,12 +3440,19 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="schoolId" type="reference">
+			<xs:element name="educationOrganizationId" type="reference">
 				<xs:annotation>
 					<xs:documentation>School enrolling the student.</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="stateOrganizationId" type="identificationCode">
+				<xs:annotation>
+					<xs:documentation>The identifier assigned to an education
+							organization by the State Education Agency (SEA).
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="entryDate" type="xs:date" minOccurs="0">
@@ -3906,7 +3902,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="teacher">
+	<xs:complexType name="staff">
 		<xs:annotation>
 			<xs:documentation>This entity represents a person that is employed by
 				an LEA or other
@@ -3921,15 +3917,6 @@
 		<xs:complexContent>
 			<xs:extension base="abstractStaff">
 				<xs:sequence>
-					<xs:element minOccurs="0" name="teacherUniqueStateId"
-						type="uniqueStateIdentifier">
-						<xs:annotation>
-							<xs:documentation>An ID number maintained by the state that
-								uniquely
-								identifies this teacher.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
 					<xs:element minOccurs="0" name="highlyQualifiedTeacher"
 						type="xs:boolean">
 						<xs:annotation>
@@ -3956,22 +3943,36 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="teacherId" type="reference">
+			<xs:element name="staffId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The teacher providing services to the school.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>teacher</sli:ReferenceType>
+						<sli:ReferenceType>staff</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="schoolId" type="reference">
+			<xs:element name="staffUniqueStateId" type="uniqueStateIdentifier">
+				<xs:annotation>
+					<xs:documentation>A unique number or alphanumeric code assigned
+						to a staff by a state education agency.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="educationOrganizationId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The school where the teacher provides services.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="stateOrganizationId" type="identificationCode">
+				<xs:annotation>
+					<xs:documentation>The identifier assigned to an education
+							organization by the State Education Agency (SEA).
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="programAssignment" type="programAssignmentType">
@@ -4016,13 +4017,20 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="teacherId" type="reference">
+			<xs:element name="staffId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The teacher assigned to the section.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>teacher</sli:ReferenceType>
+						<sli:ReferenceType>staff</sli:ReferenceType>
 					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="staffUniqueStateId" type="uniqueStateIdentifier">
+				<xs:annotation>
+					<xs:documentation>A unique number or alphanumeric code assigned
+						to a staff by a state education agency.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="sectionId" type="reference">
@@ -4281,7 +4289,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="educationOrganization">
+	<xs:complexType name="abstractEducationOrganization">
 		<xs:annotation>
 			<xs:documentation>This entity represents any public or private
 				institution,
@@ -6481,12 +6489,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="schoolId" type="reference">
+			<xs:element name="educationOrganizationId" type="reference">
 				<xs:annotation>
 					<xs:documentation>School where incident occurred
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>

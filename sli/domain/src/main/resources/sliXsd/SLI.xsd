@@ -23,7 +23,7 @@
 	<xs:element name="parent" type="parent" />
 	<xs:element name="program" type="program" />
 	<xs:element name="reportCard" type="reportCard" />
-	<xs:element name="school" type="school" />
+	<xs:element name="educationOrganization" type="educationOrganization" />
 	<xs:element name="schoolSessionAssociation" type="schoolSessionAssociation" />
 	<xs:element name="section" type="section" />
 	<xs:element name="sectionAssessmentAssociation" type="sectionAssessmentAssociation" />
@@ -51,7 +51,6 @@
 	<xs:element name="studentSpecialEdProgramAssociation" type="studentSpecialEdProgramAssociation" />
 	<xs:element name="studentSchoolAssociation" type="studentSchoolAssociation" />
 	<xs:element name="studentTranscriptAssociation" type="studentTranscriptAssociation" />
-	<xs:element name="teacher" type="teacher" />
 	<xs:element name="teacherSchoolAssociation" type="teacherSchoolAssociation" />
 	<xs:element name="teacherSectionAssociation" type="teacherSectionAssociation" />
 
