@@ -36,14 +36,14 @@ Scenario: As a teacher I want to see all my students in 3rd period Algebra II cl
         And I should have an entity with ID "<'Dong Steve' ID>"
     
     When I navigate to GET "/v1/students/<'Suzy Queue' ID>"
-    Then I should receive a link named "getStudentAssessmentAssociations" with URI "/v1/students/<'Suzy Queue' ID>/studentAssessmentAssociations"
-        And I should receive a link named "getAssessments" with URI "/v1/students/<'Suzy Queue' ID>/studentAssessmentAssociations/assessments"
+    Then I should receive a link named "getStudentAssessments" with URI "/v1/students/<'Suzy Queue' ID>/studentAssessments"
+        And I should receive a link named "getAssessments" with URI "/v1/students/<'Suzy Queue' ID>/studentAssessments/assessments"
     
-    When I navigate to "getAssessments" with URI "/v1/students/<'Suzy Queue' ID>/studentAssessmentAssociations/assessments" and filter by assessmentTitle is "ISAT MATH"
+    When I navigate to "getAssessments" with URI "/v1/students/<'Suzy Queue' ID>/studentAssessments/assessments" and filter by assessmentTitle is "ISAT MATH"
     Then I should have a list of 1 "assessment" entities
         And I should have an entity with ID "<'ISAT MATH' ID>"
 
-    When I navigate to "getStudentAssessmentAssociations" with URI "/v1/studentAssessmentAssociations" to filter
+    When I navigate to "getStudentAssessments" with URI "/v1/studentAssessments" to filter
         And filter by administrationDate is between "2011-01-01" and "2011-12-31"
         And filter by studentId is <'Suzy Queue' ID>
     Then I should find a ScoreResult is 89

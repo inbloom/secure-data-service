@@ -230,12 +230,12 @@ public class ResourceUtil {
 
         String sourceLink = ResourceNames.PLURAL_LINK_NAMES.get(assoc.getSourceEntity().getResourceName());
         links.add(new EmbeddedLink(sourceLink, assoc.getSourceEntity().getType(), getURI(uriInfo, PathConstants.V1,
-                assoc.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getSourceEntity().getResourceName()))
+                PathConstants.TEMP_MAP.get(assoc.getResourceName()), id, PathConstants.TEMP_MAP.get(assoc.getSourceEntity().getResourceName()))
                 .toString()));
 
         String targetLink = ResourceNames.PLURAL_LINK_NAMES.get(assoc.getTargetEntity().getResourceName());
         links.add(new EmbeddedLink(targetLink, assoc.getTargetEntity().getType(), getURI(uriInfo, PathConstants.V1,
-                assoc.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getTargetEntity().getResourceName()))
+                PathConstants.TEMP_MAP.get(assoc.getResourceName()), id, PathConstants.TEMP_MAP.get(assoc.getTargetEntity().getResourceName()))
                 .toString()));
         return links;
     }

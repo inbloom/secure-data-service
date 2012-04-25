@@ -6,17 +6,19 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
+import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
 
 /**
@@ -25,15 +27,18 @@ import org.slc.sli.ingestion.queues.MessageType;
  * @author okrook
  *
  */
+@Component
 public class ControlFilePreProcessor implements Processor {
 
+    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PREPROCESSOR;
+
+    @Autowired
     private LandingZone landingZone;
 
     Logger log = LoggerFactory.getLogger(ZipFileProcessor.class);
 
-    public ControlFilePreProcessor(LandingZone lz) {
-        this.landingZone = lz;
-    }
+    @Autowired
+    private BatchJobDAO batchJobDAO;
 
     /**
      * @see org.apache.camel.Processor#process(org.apache.camel.Exchange)
@@ -41,136 +46,88 @@ public class ControlFilePreProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-
-        processExistingBatchJob(exchange);
-
-        // TODO we are doing both in parallel for now, but will replace the existing once testing is done
-        // this writes to a newJobxxx.txt output file in the lz
-//        processUsingNewBatchJob(exchange);
-    }
-
-    private void processExistingBatchJob(Exchange exchange) throws Exception {
-
-        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
-
-        // TODO handle invalid control file (user error)
-        // TODO handle IOException or other system error
-        try {
-            File controlFile = exchange.getIn().getBody(File.class);
-            NewBatchJob newJob = null;
-            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
-            if (batchJobId == null) {
-                batchJobId = NewBatchJob.createId(controlFile.getName());
-                exchange.getIn().setHeader("BatchJobId", batchJobId);
-                log.info("Created job [{}]", batchJobId);
-                newJob = new NewBatchJob(batchJobId);
-                newJob.setStatus(BatchJobStatusType.RUNNING.getName());
-            } else {
-                newJob = batchJobDAO.findBatchJobById(batchJobId);
-            }
-
-
-            // TODO Make getting the path a little nicer (i.e.,  not
-            // stripping the zip temp path
-            String done = new String(".done");
-            int endString = landingZone.getLZId().indexOf(done);
-            if (endString != -1) {
-                newJob.setSourceId(landingZone.getLZId().substring(0, endString));
-            } else {
-                newJob.setSourceId(landingZone.getLZId());
-            }
-
-            Stage stage = new Stage();
-            stage.setStageName(BatchJobStageType.CONTROL_FILE_PREPROCESSING.getName());
-            stage.startStage();
-
-            // JobLogStatus.startStage(batchJobId, stageName)
-
-            ControlFile cf = ControlFile.parse(controlFile);
-
-            newJob.setTotalFiles(cf.getFileEntries().size());
-
-            stage.stopStage();
-            newJob.getStages().add(stage);
-            batchJobDAO.saveBatchJob(newJob);
-
-            // set headers for ingestion routing
-            exchange.getIn().setBody(new ControlFileDescriptor(cf, landingZone), ControlFileDescriptor.class);
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
-
-            // TODO May not need this ... JobLogStatus.completeStage(batchJobId, stageName)
-
-        } catch (Exception exception) {
-            exchange.getIn().setHeader("ErrorMessage", exception.toString());
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            log.error("Exception:",  exception);
-            if (batchJobId != null) {
-                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.CONTROL_FILE_PREPROCESSING, FaultType.TYPE_ERROR.getName(), null, exception.toString());
-            }
-        }
-
+        processUsingNewBatchJob(exchange);
     }
 
     private void processUsingNewBatchJob(Exchange exchange) throws Exception {
 
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
 
         // TODO handle invalid control file (user error)
         // TODO handle IOException or other system error
         try {
-            File controlFile = exchange.getIn().getBody(File.class);
-            NewBatchJob newJob = null;
-            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
-            if (batchJobId == null) {
-                batchJobId = NewBatchJob.createId(controlFile.getName());
-                exchange.getIn().setHeader("BatchJobId", batchJobId);
-                log.info("Created job [{}]", batchJobId);
-                newJob = new NewBatchJob(batchJobId);
-                newJob.setStatus(BatchJobStatusType.RUNNING.getName());
-            } else {
-                newJob = batchJobDAO.findBatchJobById(batchJobId);
+
+            File fileForControlFile = exchange.getIn().getBody(File.class);
+
+            LandingZone resolvedLandingZone = resolveLandingZone(batchJobId, fileForControlFile);
+
+            NewBatchJob newBatchJob = getNewBatchJobFromDb(batchJobId, batchJobDAO);
+            if (newBatchJob == null) {
+                newBatchJob = createNewBatchJob(fileForControlFile, exchange);
             }
 
+            ControlFile controlFile = ControlFile.parse(fileForControlFile);
 
-            // TODO Make getting the path a little nicer (i.e.,  not
-            // stripping the zip temp path
-            String done = new String(".done");
-            int endString = landingZone.getLZId().indexOf(done);
-            if (endString != -1) {
-                newJob.setSourceId(landingZone.getLZId().substring(0, endString));
-            } else {
-                newJob.setSourceId(landingZone.getLZId());
-            }
+            ControlFileDescriptor controlFileDescriptor = new ControlFileDescriptor(controlFile, resolvedLandingZone);
 
-            Stage stage = new Stage();
-            stage.setStageName(BatchJobStageType.CONTROL_FILE_PREPROCESSING.getName());
-            stage.startStage();
+            newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
 
-            // JobLogStatus.startStage(batchJobId, stageName)
+            newBatchJob.addCompletedStage(stage);
 
-            ControlFile cf = ControlFile.parse(controlFile);
+            batchJobDAO.saveBatchJob(newBatchJob);
 
-            newJob.setTotalFiles(cf.getFileEntries().size());
-
-            stage.stopStage();
-            newJob.getStages().add(stage);
-            batchJobDAO.saveBatchJob(newJob);
-
-            // set headers for ingestion routing
-            exchange.getIn().setBody(new ControlFileDescriptor(cf, landingZone), ControlFileDescriptor.class);
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
-
-            // TODO May not need this ... JobLogStatus.completeStage(batchJobId, stageName)
+            setExchangeHeaders(exchange, controlFileDescriptor);
 
         } catch (Exception exception) {
-            exchange.getIn().setHeader("ErrorMessage", exception.toString());
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            log.error("Exception:",  exception);
-            if (batchJobId != null) {
-                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.CONTROL_FILE_PREPROCESSING, FaultType.TYPE_ERROR.getName(), null, exception.toString());
-            }
+            handleExceptions(exchange, batchJobId, exception);
         }
+    }
 
+    private LandingZone resolveLandingZone(String batchJobId, File fileForControlFile) {
+        // if this has a batch id it came from zipfileprocessor so change lz to parent of ctl file
+        LandingZone resolvedLandingZone = landingZone;
+        if (batchJobId != null) {
+            resolvedLandingZone = new LocalFileSystemLandingZone();
+            ((LocalFileSystemLandingZone) resolvedLandingZone).setDirectory(fileForControlFile.getParentFile());
+        }
+        return resolvedLandingZone;
+    }
+
+    private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {
+        exchange.getIn().setHeader("ErrorMessage", exception.toString());
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        log.error("Exception:", exception);
+        if (batchJobId != null) {
+            Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null, null, null, null,
+                    FaultType.TYPE_ERROR.getName(), null, exception.toString());
+            batchJobDAO.saveError(error);
+        }
+    }
+
+    private void setExchangeHeaders(Exchange exchange, ControlFileDescriptor controlFileDescriptor) {
+        exchange.getIn().setBody(controlFileDescriptor, ControlFileDescriptor.class);
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
+    }
+
+    private NewBatchJob getNewBatchJobFromDb(String batchJobId, BatchJobDAO batchJobDAO) {
+        if (batchJobId != null) {
+            return batchJobDAO.findBatchJobById(batchJobId);
+        }
+        return null;
+    }
+
+    private NewBatchJob createNewBatchJob(File controlFile, Exchange exchange) {
+
+        NewBatchJob newJob = NewBatchJob.createJobForFile(controlFile.getName());
+
+        // TODO Make getting the path a little nicer (i.e., not stripping the zip temp path)
+        newJob.setSourceId(landingZone.getLZId() + File.separator);
+
+        exchange.getIn().setHeader("BatchJobId", newJob.getId());
+        log.info("Created job [{}]", newJob.getId());
+        return newJob;
     }
 
 }
