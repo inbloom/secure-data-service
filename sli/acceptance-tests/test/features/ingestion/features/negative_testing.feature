@@ -212,7 +212,9 @@ Given I post "NoValidFilesInCtlFile.zip" file as the payload of the ingestion jo
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 
-    And I should see "ERROR No valid files specified in control file." in the resulting batch job file
-    And I should see "INFO  Not all records were processed completely due to errors." in the resulting batch job file
+  And I check to find if record is in batch job collection:
+  | collectionName | expectedRecordCount | searchParameter                  | searchValue                          | searchType |
+  | error          | 1                   | errorDetail                      | No valid files specified in control file.    | string    |
+    And I should see "INFO  Processed 0 records." in the resulting batch job file
 
 

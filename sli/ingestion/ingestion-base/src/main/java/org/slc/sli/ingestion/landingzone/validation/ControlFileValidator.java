@@ -31,7 +31,7 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
             return false;
         }
 
-        int failedFiles = 0;
+        boolean hasValidFiles = false;
         for (IngestionFileEntry entry : entries) {
             File file = item.getLandingZone().getFile(entry.getFileName());
 
@@ -43,7 +43,8 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
                 if (!isValid(new FileEntryDescriptor(entry, item.getLandingZone()), callback)) {
                     // remove the file from the entry since it did not pass the validation
                     entry.setFile(null);
-                    failedFiles++;
+                } else {
+                    hasValidFiles = true;
                 }
             }
         }
@@ -51,7 +52,7 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
         // If all the entries failed and we haven't logged an error yet
         // then this is a case of 'no valid files in control file'
         // (i.e., SL_ERR_MSG8)
-        if (failedFiles == entries.size() && !callback.hasErrors()) {
+        if (!hasValidFiles && !callback.hasErrors()) {
             fail(callback, getFailureMessage("SL_ERR_MSG8"));
             return false;
         }
