@@ -839,7 +839,7 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public String getHeader(String token) {
-        return restClient.getJsonRequest(portalHeaderUrl);
+        return restClient.getJsonRequest(portalHeaderUrl + "?isAdmin=" + SecurityUtil.isAdmin());
     }
 
     /*
@@ -848,7 +848,7 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public String getFooter(String token) {
-        return restClient.getJsonRequest(portalFooterUrl);
+        return restClient.getJsonRequest(portalFooterUrl + "?isAdmin=" + SecurityUtil.isAdmin());
     }
 
     @Override
