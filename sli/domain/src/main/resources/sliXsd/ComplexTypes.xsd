@@ -1491,20 +1491,18 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="educationOrganization">
+	<xs:complexType name="school">
 		<xs:annotation>
 			<xs:documentation>This entity represents an educational organization
-				that includes staff
-				and students who participate in classes and
-				educational activity
-				groups.
+				that includes staff and students who participate in classes and
+				educational activity groups.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="abstractEducationOrganization">
+			<xs:extension base="educationOrganization">
 				<xs:sequence>
-					<xs:element maxOccurs="unbounded" minOccurs="0"
-								name="gradesOffered" type="gradeLevelType">
+					<xs:element maxOccurs="unbounded" name="gradesOffered" 
+								type="gradeLevelType">
 						<xs:annotation>
 							<xs:documentation>The grade levels served at the school.
 							</xs:documentation>
@@ -1672,6 +1670,20 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="staff">
+		<xs:annotation>
+			<xs:documentation>This entity represents a person that is employed by
+				an LEA or other educational unit engaged in student instruction.
+				These persons are instructional-type staff members. In the data
+				model, a teacher entity is a staff member with additional properties.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="abstractStaff">
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
 	<xs:complexType name="staffCohortAssociation">
@@ -3902,31 +3914,33 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="staff">
+	<xs:complexType name="teacher">
 		<xs:annotation>
 			<xs:documentation>This entity represents a person that is employed by
-				an LEA or other
-				educational unit engaged in student instruction.
-				These persons are
-				instructional-type staff members. In the data
-				model, a teacher
-				entity is a staff
-				member with additional properties.
+				an LEA or other educational unit engaged in student instruction.
+				These persons are instructional-type staff members. In the data
+				model, a teacher entity is a staff member with additional properties.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="abstractStaff">
 				<xs:sequence>
+					<xs:element minOccurs="0" name="teacherUniqueStateId"
+						type="uniqueStateIdentifier">
+						<xs:annotation>
+							<xs:documentation>An ID number maintained by the state that
+								uniquely
+								identifies this teacher.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element minOccurs="0" name="highlyQualifiedTeacher"
 						type="xs:boolean">
 						<xs:annotation>
 							<xs:documentation>An indication of whether a teacher is
-								classified
-								as highly qualified for his/her assignment according
-								to state
-								definition. This attribute indicates the teacher is
-								highly
-								qualified for ALL sections being taught.
+								classified as highly qualified for his/her assignment according
+								to state definition. This attribute indicates the teacher is
+								highly qualified for ALL sections being taught.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -4289,7 +4303,7 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="abstractEducationOrganization">
+	<xs:complexType name="educationOrganization">
 		<xs:annotation>
 			<xs:documentation>This entity represents any public or private
 				institution,
