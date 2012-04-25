@@ -22,55 +22,79 @@ public final class MongoIndices {
     private static final Logger LOG = LoggerFactory.getLogger(MongoIndices.class);
 
     @SuppressWarnings("serial")
-    static final Map<String, ArrayList<String>> BASE_MONGO_ENTITIES = new HashMap<String, ArrayList<String>>() {
+    static final Map<String, ArrayList<ArrayList<String>>> MONGO_COLLECTIONS = new HashMap<String, ArrayList<ArrayList<String>>>() {
         private static final long serialVersionUID = 1L;
         {
-           put("assessment", new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("course", new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("educationOrganization", new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("gradebookEntry", new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("parent", new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("school", new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("session", new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("staff", new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("staffEducationOrganizationAssociation", new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("student", new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("studentAssessmentAssociation", new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("teacher", new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("studentSectionGradebookEntry", new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("studentSchoolAssociation", new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("studentSchoolAssociation", new ArrayList<String>() { { add("body.studentId"); add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("studentSchoolAssociation", new ArrayList<String>() { { add("body.schoolId"); add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("studentSectionAssociation", new ArrayList<String>() { { add("body.studentId"); add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("studentSectionAssociation", new ArrayList<String>() { { add("body.sectionId"); add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("studentParentAssociation", new ArrayList<String>() { { add("body.parentId"); add("body.studentId"); add("metaData.tenantId"); } });
-           put("studentSectionAssociation", new ArrayList<String>() { { add("body.studentId"); add("metaData.tenantId"); add("body.sectionId"); } });
-           put("studentTranscriptAssociation", new ArrayList<String>() { { add("body.studentId"); add("metaData.tenantId"); add("body.courseId"); } });
-           put("teacherSectionAssociation", new ArrayList<String>() { { add("body.teacherId"); add("metaData.tenantId"); add("body.sectionId"); } });
-           put("section", new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("section", new ArrayList<String>() { { add("body.schoolId"); add("metaData.tenantId"); add("metaData.externalId"); } });
-           put("section", new ArrayList<String>() { { add("body.courseId"); add("metaData.tenantId"); add("metaData.externalId"); } });
+           put("assessment", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } }); } });
+           put("attendance", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("metaData.tenantId"); add("body.studentId"); } }); } });
+           put("course", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } }); } });
+           put("educationOrganization", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } }); } });
+           put("gradebookEntry", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } }); } });
+           put("parent", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } }); } });
+           put("school", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } }); } });
+           put("session", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } }); } });
+           put("staff", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } }); } });
+           put("staffEducationOrganizationAssociation", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } }); } });
+           put("student", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } }); } });
+           put("studentAssessmentAssociation", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } }); } });
+           put("teacher", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } }); } });
+           put("studentSectionGradebookEntry", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } }); } });
+           put("studentSchoolAssociation", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
+               add(new ArrayList<String>() { { add("body.studentId"); add("metaData.tenantId"); add("metaData.externalId"); } });
+               add(new ArrayList<String>() { { add("body.schoolId"); add("metaData.tenantId"); add("metaData.externalId"); } }); } });
+           put("studentSectionAssociation", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("body.studentId"); add("metaData.tenantId"); add("metaData.externalId"); } });
+               add(new ArrayList<String>() { { add("body.sectionId"); add("metaData.tenantId"); add("metaData.externalId"); } });
+               add(new ArrayList<String>() { { add("body.studentId"); add("metaData.tenantId"); add("body.sectionId"); } }); } });
+           put("studentParentAssociation", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("body.parentId"); add("body.studentId"); add("metaData.tenantId"); } }); } });
+           put("studentTranscriptAssociation", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("body.studentId"); add("metaData.tenantId"); add("body.courseId"); } }); } });
+           put("teacherSectionAssociation", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("body.teacherId"); add("metaData.tenantId"); add("body.sectionId"); } }); } });
+           put("section", new ArrayList<ArrayList<String>>() { {
+               add(new ArrayList<String>() { { add("metaData.tenantId"); add("metaData.externalId"); } });
+               add(new ArrayList<String>() { { add("body.schoolId"); add("metaData.tenantId"); add("metaData.externalId"); } });
+               add(new ArrayList<String>() { { add("body.courseId"); add("metaData.tenantId"); add("metaData.externalId"); } }); } });
         }
     };
 
     public static void ensureMongoIndicies(String collectionNameSuffix, MongoTemplate mongoTemplate) {
         // Read the configuration file into the index list.
-        for (Map.Entry<String, ArrayList<String>> indexCommand : BASE_MONGO_ENTITIES.entrySet()) {
+        for (Map.Entry<String, ArrayList<ArrayList<String>>> collection : MONGO_COLLECTIONS.entrySet()) {
 //            DBObject dBObject = new BasicDBObject();
-            Index index = new Index();
-//            int serial = 0;
-            for (Iterator<String> indexSet = indexCommand.getValue().iterator(); indexSet.hasNext();) {
-                index.on(indexSet.next(), Order.ASCENDING);
-//                dBObject.put(index.next(), ++serial);
-            }
-            String collectionName = indexCommand.getKey() + collectionNameSuffix;
-            try {
+            String collectionName = collection.getKey() + collectionNameSuffix;
+            int serial = 0;
+            for (Iterator<ArrayList<String>> indexes = collection.getValue().iterator(); indexes.hasNext();) {
+                Index indexDef = new Index();
+                for (Iterator<String> index = indexes.next().iterator(); index.hasNext();) {
+                    indexDef.on(index.next(), Order.ASCENDING);
+//                    dBObject.put(index.next(), ++serial);
+                }
+                indexDef.named(collection.getKey() + String.valueOf(++serial));
+                try {
 //                mongoTemplate.getDb().getCollection(collectionName).ensureIndex(dBObject);
-                mongoTemplate.ensureIndex(index, collectionName);
-            } catch (Exception e) {
-                LOG.error(e.getMessage());
+                    mongoTemplate.ensureIndex(indexDef, collectionName);
+                } catch (Exception e) {
+                    LOG.error(e.getMessage());
+                }
             }
-         }
+        }
     }
 
 }

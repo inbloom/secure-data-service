@@ -102,11 +102,7 @@ public class NeutralRecordFileWriter {
 
         // populate the localId
         if (record.getLocalId() != null) {
-            if (record.getLocalId() instanceof Map) {
-                avroRecord.put("localId", new Utf8(maptoJson((Map<String, Object>) record.getLocalId())));
-            } else {
-                avroRecord.put("localId", new Utf8(record.getLocalId().toString()));
-            }
+            avroRecord.put("localId", new Utf8(record.getLocalId().toString()));
         } else {
             avroRecord.put("localId", null);
         }
