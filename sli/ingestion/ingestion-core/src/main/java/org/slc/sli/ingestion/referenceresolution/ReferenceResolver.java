@@ -1,9 +1,13 @@
-package org.slc.sli.ingestion;
+package org.slc.sli.ingestion.referenceresolution;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,6 +17,8 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  *
@@ -27,18 +33,23 @@ public class ReferenceResolver extends DefaultHandler {
 
     private BufferedWriter outputFileWriter;
 
+    private ErrorReport errorReport;
+
+    private String inputFileName;
+    private String inputFilePathname;
     private String currentXMLString;
     private StringBuffer tempVal;
     private String topElementName;
     private boolean isValidEntity;
     private boolean startCharacters;
 
-    public ReferenceResolver(Map<String, String> referenceMap) {
+    public ReferenceResolver(Map<String, String> referenceMap, ErrorReport errorReport) {
         referenceObjects = referenceMap;
+        this.errorReport = errorReport;
 
         tempVal = new StringBuffer();
         topElementName = "";
-        currentXMLString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        currentXMLString = "";
         isValidEntity = true;
     }
 
@@ -59,6 +70,8 @@ public class ReferenceResolver extends DefaultHandler {
         // Resolve references to references within the input file using the reference memory map.
         SAXParserFactory spf = SAXParserFactory.newInstance();
         File inputFile = new File(inputFilePath);
+        inputFileName = inputFile.getName();
+        inputFilePathname = inputFile.getPath();
         try {
             FileWriter fstream = new FileWriter(outputFilePath);
             outputFileWriter = new BufferedWriter(fstream);
@@ -75,6 +88,33 @@ public class ReferenceResolver extends DefaultHandler {
             throw (ie);
         } finally {
             outputFileWriter.close();
+        }
+    }
+
+    /**
+     * SAX parser callback method for XML document start.
+     *
+     * @throws SAXException
+     *             Parser exception thrown by SAX
+     */
+    @Override
+
+    public void startDocument() throws SAXException {
+        // Write the input file header to the output file.
+        try {
+            FileInputStream inputFileStream = new FileInputStream(inputFilePathname);
+            DataInputStream inputFileDataStream = new DataInputStream(inputFileStream);
+            BufferedReader inputFileReader = new BufferedReader(new InputStreamReader(inputFileDataStream));
+            String header = inputFileReader.readLine() + "\n";
+            inputFileReader.close();
+            if (header.contains("<?xml version=")) {
+                currentXMLString = header;
+            } else {
+                currentXMLString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+            }
+        } catch (IOException e) {
+            SAXException se = new SAXException(e.getMessage());
+            throw (se);
         }
     }
 
@@ -109,12 +149,11 @@ public class ReferenceResolver extends DefaultHandler {
             // Reference to reference - get reference body from map.
             String refId = attributes.getValue("ref");
             if (referenceObjects.containsKey(refId)) {
-                isValidEntity = false;
                 currentXMLString += referenceObjects.get(refId);
+                isValidEntity = false;
             } else {
-                // Unresolved reference! Abort processing.
-                SAXException se = new SAXException("Unresolved reference, id=\"" + refId + "\"");
-                throw (se);
+                // Unresolved reference! Log error, but continue processing of current entity.
+                errorReport.warning(inputFileName + ": Unresolved reference, id=\"" + refId + "\"", ReferenceResolver.class);
             }
         }
 
@@ -128,6 +167,12 @@ public class ReferenceResolver extends DefaultHandler {
                 }
             }
             currentXMLString += ">";
+        }
+
+        // Write the input file header to the output file.
+        if ((qName.startsWith("Interchange")) && topElementName.isEmpty()) {
+            writeXML(currentXMLString);
+            currentXMLString = "";
         }
         startCharacters = true;
     }
@@ -172,18 +217,18 @@ public class ReferenceResolver extends DefaultHandler {
      */
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
-        // Unmark if top-level element.
-        if (qName.equals(topElementName)) {
-            topElementName = "";
-        }
-
         // Write element to output file.
         if (!isValidEntity && qName.endsWith("Reference")) {
             isValidEntity = true;
-        } else if (isValidEntity) {
+        } else if (isValidEntity || qName.startsWith("Interchange")) {
             currentXMLString += tempVal.toString();
             tempVal.append("\n");
             currentXMLString += "</" + qName + ">";
+        }
+
+        // Write element to output file.
+        if ((isValidEntity && qName.equals(topElementName)) || qName.startsWith("Interchange")) {
+            topElementName = "";
             writeXML(currentXMLString);
             currentXMLString = "";
         }

@@ -216,10 +216,10 @@
     </EducationOrganizationReference>
   </Course>
   <Course>
-    <CourseTitle>4rd Grade Homeroom</CourseTitle>
+    <CourseTitle>4th Grade Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="CSSC course code">
-      <ID>4rd Grade Homeroom</ID>
+      <ID>4th Grade Homeroom</ID>
     </CourseCode>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -238,10 +238,10 @@
     </EducationOrganizationReference>
   </Course>
   <Course>
-    <CourseTitle>5rd Grade Homeroom</CourseTitle>
+    <CourseTitle>5th Grade Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="CSSC course code">
-      <ID>5rd Grade Homeroom</ID>
+      <ID>5th Grade Homeroom</ID>
     </CourseCode>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -391,10 +391,10 @@
     </EducationOrganizationReference>
   </Course>
   <Course>
-    <CourseTitle>Special Elective: Debate Clinic</CourseTitle>
+    <CourseTitle>Special Elective:Debate Clinic</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Special Elective: Debate Clinic</ID>
+      <ID>Special Elective:Debate Clinic</ID>
     </CourseCode>
     <SubjectArea>English Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
@@ -1106,6 +1106,52 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </Course>
+  <Course>
+    <CourseTitle>6th Grade Math</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>6th Grade Math</ID>
+    </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>East Daybreak Junior High</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </Course>    
+  <Course>
+    <CourseTitle>7th Grade Math</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>7th Grade Math</ID>
+    </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>East Daybreak Junior High</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </Course>  
   <Course>
     <CourseTitle>Science 8B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1891,6 +1937,7 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </Course>
+
   <Course>
     <CourseTitle>Geography-5</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
