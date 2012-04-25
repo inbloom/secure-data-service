@@ -1,0 +1,2496 @@
+StudentUSI,Language
+100001,Spanish
+100003,Turkish
+100006,Chamorro
+100007,Lingala
+100008,Romany (Gypsy)
+100010,Bulgarian
+100012,Efik
+100016,Lithuanian
+100018,Bengali
+100019,Apache
+100021,Efik
+100022,Yoruba
+100023,Guyanese
+100025,Spanish
+100026,Choctaw
+100028,Croatian
+100032,Shanghai (Chinese)
+100034,Latvian
+100035,Portuguese
+100037,Chamorro
+100041,Russian
+100042,Okinawan
+100044,Mandarin (Chinese)
+100045,Luyia (Luhya)
+100046,Norwegian
+100049,Burmese
+100052,Hainanese (Chinese)
+100053,Oriya
+100054,Chippewa/Ojibawa/Ottawa
+100055,Orri (Oring)
+100056,Oneida
+100059,Ukrainian
+100060,Greek
+100066,Icelandic
+100067,Menominee
+100068,German
+100071,Chamorro
+100074,Japanese
+100076,Malayalam
+100078,Tiwa
+100079,Korean
+100081,Other languages
+100085,Hainanese (Chinese)
+100091,Hebrew
+100092,Tiwa
+100093,Cantonese (Chinese)
+100096,Kannada (Kanarese)
+100097,Malayalam
+100099,Portuguese
+100100,Hungarian
+100102,Tiwa
+100103,Panjabi (Punjabi)
+100104,Ilonggo (Hiligaynon)
+100105,Choctaw
+100106,Tiwa
+100107,Sikkimese
+100109,Armenian
+100111,Pueblo
+100113,Afrikaans (Taal)
+100116,Maltese
+100117,Farsi (Persian)
+100121,Korean
+100124,Maltese
+100127,Afrikaans (Taal)
+100130,Tiwa
+100131,Tibetan
+100133,Hungarian
+100134,Yoruba
+100135,Macedonian
+100137,Sikkimese
+100138,Amharic
+100140,Apache
+100142,Greek
+100143,Portuguese
+100144,Farsi (Persian)
+100145,Chamorro
+100146,Fukien/Hokkien (Chinese)
+100148,Korean
+100150,Telugu (Telegu)
+100153,Afrikaans (Taal)
+100154,Nepali
+100156,Cebuano (Visayan)
+100157,Bengali
+100158,Italian
+100165,Luganda
+100166,Oneida
+100167,Portuguese
+100168,Tigrinya
+100169,Malayalam
+100170,Hakka (Chinese)
+100171,Pashto (Pushto)
+100178,Arabic
+100179,Mandarin (Chinese)
+100181,Korean
+100182,Bulgarian
+100185,Yoruba
+100187,Sioux (Dakota)
+100188,Tamil
+100189,Greek
+100191,Swahili
+100192,Polish
+100193,Ewe
+100194,Bulgarian
+100196,Pampangan
+100199,Mandarin (Chinese)
+100202,Hopi
+100208,Kwa
+100211,Swahili
+100215,Tigrinya
+100216,Samoan
+100217,Konkani
+100219,Armenian
+100220,Balinese
+100222,Amharic
+100223,Kickapoo
+100230,Samoan
+100231,English
+100233,Crow
+100236,Czech
+100238,Sotho
+100242,Laotian (Lao)
+100243,Luyia (Luhya)
+100244,Bulgarian
+100248,Oneida
+100249,Cambodian (Khmer)
+100254,Bulgarian
+100255,Kurdish
+100256,Mande
+100258,Amharic
+100259,Indonesian
+100261,Comanche
+100262,Tibetan
+100263,Croatian
+100264,Chippewa/Ojibawa/Ottawa
+100265,Japanese
+100267,Kickapoo
+100268,Coushatta
+100270,Marathi
+100271,Kpelle
+100273,Swedish
+100277,Thai
+100281,Apache
+100284,Romanian
+100285,Yombe
+100286,Indonesian
+100288,Estonian
+100289,Bosnian
+100293,Okinawan
+100297,Latvian
+100298,Hainanese (Chinese)
+100300,Norwegian
+100302,Farsi (Persian)
+100303,Malay
+100304,Slovenian (Slovene)
+100305,Ibo/Igbo
+100307,Pampangan
+100308,Menominee
+100311,Konkani
+100312,Cherokee
+100314,Navajo
+100320,Pima
+100323,Cantonese (Chinese)
+100324,Mandarin (Chinese)
+100325,Okinawan
+100326,Kannada (Kanarese)
+100327,Yoruba
+100329,Mien (Yao)
+100331,Orri (Oring)
+100332,Menominee
+100333,Algonquin
+100337,Luganda
+100338,Armenian
+100339,Tibetan
+100343,Korean
+100344,Ewe
+100346,Okinawan
+100348,Dard
+100352,Turkish
+100353,Navajo
+100356,Czech
+100360,Hungarian
+100366,Hakka (Chinese)
+100370,Hausa
+100371,Shona
+100380,Greek
+100383,Afrikaans (Taal)
+100385,Slovenian (Slovene)
+100386,Sindhi
+100388,Comanche
+100390,Fukien/Hokkien (Chinese)
+100393,Hopi
+100396,Indonesian
+100399,Hopi
+100400,Bosnian
+100401,Apache
+100406,Bengali
+100408,Lingala
+100410,Urdu
+100412,Ukrainian
+100413,Gaelic (Scottish)
+100416,Norwegian
+100418,Panjabi (Punjabi)
+100419,Choctaw
+100422,Kpelle
+100423,Comanche
+100424,Hainanese (Chinese)
+100425,Marathi
+100426,German
+100429,Yombe
+100430,Winnebago
+100434,Hindi
+100435,Romany (Gypsy)
+100439,Cantonese (Chinese)
+100440,Telugu (Telegu)
+100441,Chippewa/Ojibawa/Ottawa
+100442,Arabic
+100443,Slovenian (Slovene)
+100444,Eskimo
+100445,Sikkimese
+100447,Luganda
+100448,Hausa
+100449,Vietnamese
+100451,Apache
+100452,Estonian
+100455,Other languages
+100456,Ukrainian
+100460,Slavic
+100462,Ibo/Igbo
+100472,Nepali
+100476,Dard
+100477,Kwa
+100478,Bosnian
+100479,Hebrew
+100480,Afrikaans (Taal)
+100482,Hungarian
+100484,Balinese
+100485,Fukien/Hokkien (Chinese)
+100486,Estonian
+100488,Panjabi (Punjabi)
+100490,Ethiopic
+100491,Taiwanese/Formosan/Min Nan (Chinese)
+100492,Winnebago
+100494,Macedonian
+100499,Cambodian (Khmer)
+100507,Luganda
+100509,Kickapoo
+100510,Yombe
+100513,Orri (Oring)
+100515,German
+100516,Crow
+100527,Chippewa/Ojibawa/Ottawa
+100528,Maltese
+100531,Farsi (Persian)
+100533,Croatian
+100539,Other languages
+100540,Macedonian
+100543,Malayalam
+100546,Pueblo
+100548,Pueblo
+100549,Somali
+100550,Greek
+100552,Gaelic (Irish)
+100553,Vietnamese
+100555,Winnebago
+100556,Malayalam
+100557,Lithuanian
+100558,Other languages
+100559,Chaochow/Teochiu (Chinese)
+100562,Welsh
+100564,Malay
+100570,Thai
+100571,Portuguese
+100575,Indonesian
+100577,Turkish
+100581,Chaochow/Teochiu (Chinese)
+100584,Japanese
+100586,Shanghai (Chinese)
+100588,Yoruba
+100589,Ewe
+100590,Slovenian (Slovene)
+100592,Choctaw
+100595,Farsi (Persian)
+100598,Burmese
+100599,English
+100600,Kanuri
+100601,Serbian
+100602,Shona
+100605,Tigrinya
+100610,Hausa
+100612,Pashto (Pushto)
+100615,Dutch/Flemish
+100617,Czech
+100618,Pima
+100620,Latvian
+100622,Krio
+100623,Norwegian
+100624,Kanuri
+100625,Pueblo
+100628,Menominee
+100634,Armenian
+100635,Kurdish
+100636,Guyanese
+100637,Chamorro
+100638,Kannada (Kanarese)
+100640,Slavic
+100643,Balinese
+100649,Krio
+100656,Pima
+100657,Romany (Gypsy)
+100658,Haitian-Creole
+100659,Turkish
+100661,Kwa
+100663,Lithuanian
+100673,Slavic
+100677,Efik
+100679,Malayalam
+100683,Romany (Gypsy)
+100686,Kpelle
+100687,Mandarin (Chinese)
+100688,Pueblo
+100692,Italian
+100694,Finnish
+100697,Turkish
+100699,Danish
+100704,Taiwanese/Formosan/Min Nan (Chinese)
+100705,Chamorro
+100708,Mien (Yao)
+100711,Bulgarian
+100712,Bosnian
+100714,French
+100715,Sioux (Dakota)
+100716,Japanese
+100718,Cambodian (Khmer)
+100720,Hakka (Chinese)
+100721,Pima
+100724,Hausa
+100726,Hmong
+100727,Kashmiri
+100728,Oriya
+100730,Armenian
+100732,Winnebago
+100734,Hindi
+100735,Efik
+100736,Latvian
+100738,Oriya
+100741,Kwa
+100742,Winnebago
+100743,Icelandic
+100746,Urdu
+100749,Afrikaans (Taal)
+100751,Gaelic (Scottish)
+100753,Lithuanian
+100754,Kpelle
+100755,Icelandic
+100756,Chippewa/Ojibawa/Ottawa
+100757,Marathi
+100759,Hainanese (Chinese)
+100761,Nepali
+100767,Oneida
+100768,Krio
+100769,Hungarian
+100771,Konkani
+100772,French
+100773,Afrikaans (Taal)
+100774,Efik
+100775,Pima
+100777,Hakka (Chinese)
+100778,Tuluau
+100779,Malayalam
+100780,Burmese
+100782,Norwegian
+100783,Bosnian
+100788,Pueblo
+100790,Afrikaans (Taal)
+100791,Polish
+100794,Bengali
+100801,Danish
+100803,Lithuanian
+100807,Thai
+100810,Gaelic (Scottish)
+100811,Kwa
+100812,Kanuri
+100815,Balinese
+100816,Telugu (Telegu)
+100818,Spanish
+100819,Tibetan
+100821,Mandarin (Chinese)
+100823,Yoruba
+100826,Korean
+100827,German
+100829,Somali
+100833,Ewe
+100838,Swedish
+100839,Spanish
+100840,Luganda
+100841,Vietnamese
+100844,Hindi
+100845,Gaelic (Scottish)
+100849,Pampangan
+100851,Nepali
+100852,Dard
+100853,Menominee
+100857,Cebuano (Visayan)
+100858,Slovenian (Slovene)
+100859,Cebuano (Visayan)
+100864,Okinawan
+100869,Kannada (Kanarese)
+100870,Coushatta
+100871,Romany (Gypsy)
+100872,Gujarati
+100875,Latvian
+100879,Marathi
+100883,Hainanese (Chinese)
+100884,Urdu
+100885,Gaelic (Irish)
+100886,Italian
+100888,Tamil
+100889,Bulgarian
+100890,Ethiopic
+100891,Algonquin
+100892,Hindi
+100894,Kurdish
+100896,Latvian
+100898,Swedish
+100899,Greek
+100900,Armenian
+100901,Russian
+100903,Efik
+100906,Yoruba
+100907,Coushatta
+100908,Efik
+100909,Lithuanian
+100912,Gaelic (Scottish)
+100914,Gaelic (Scottish)
+100915,Pashto (Pushto)
+100916,Sioux (Dakota)
+100917,Croatian
+100919,Pueblo
+100921,Cebuano (Visayan)
+100923,Cantonese (Chinese)
+100924,Tiwa
+100925,Cambodian (Khmer)
+100926,Cantonese (Chinese)
+100927,Kickapoo
+100929,Kwa
+100931,Fukien/Hokkien (Chinese)
+100933,Yiddish
+100935,Marathi
+100936,Pashto (Pushto)
+100937,Krio
+100938,Gaelic (Scottish)
+100939,Pilipino (Tagalog)
+100940,Kwa
+100943,Marathi
+100946,Marathi
+100948,Burmese
+100949,Swedish
+100950,Polish
+100951,Kurdish
+100956,Ilonggo (Hiligaynon)
+100958,Farsi (Persian)
+100961,Fukien/Hokkien (Chinese)
+100963,Serbian
+100964,Czech
+100965,Tiwa
+100967,Somali
+100968,Romany (Gypsy)
+100971,Oneida
+100972,Hmong
+100973,Taiwanese/Formosan/Min Nan (Chinese)
+100976,Kashmiri
+100977,Choctaw
+100979,Laotian (Lao)
+100980,English
+100981,Urdu
+100983,Marathi
+100990,Armenian
+100993,Sindhi
+100997,Russian
+100998,Hausa
+101000,Portuguese
+101002,Chippewa/Ojibawa/Ottawa
+101006,Kashmiri
+101008,Vietnamese
+101009,Cherokee
+101012,Algonquin
+101013,Sinhalese (Sri Lanka)
+101016,Balinese
+101017,Estonian
+101018,Czech
+101027,Cebuano (Visayan)
+101029,Welsh
+101031,Pilipino (Tagalog)
+101032,Russian
+101035,Gaelic (Irish)
+101037,Latvian
+101038,French
+101041,Haitian-Creole
+101042,Kickapoo
+101045,Krio
+101046,Ewe
+101048,Kpelle
+101051,Bulgarian
+101052,Cherokee
+101054,Kannada (Kanarese)
+101055,Winnebago
+101056,Eskimo
+101057,Pilipino (Tagalog)
+101059,Pilipino (Tagalog)
+101060,Gujarati
+101064,Sinhalese (Sri Lanka)
+101065,Oriya
+101066,Pueblo
+101067,Creek
+101068,Icelandic
+101069,Swahili
+101070,Tiwa
+101075,Greek
+101078,Hainanese (Chinese)
+101079,Orri (Oring)
+101082,Indonesian
+101083,Gujarati
+101084,Winnebago
+101087,Slavic
+101088,Lingala
+101089,Pilipino (Tagalog)
+101091,Farsi (Persian)
+101097,Other languages
+101099,Kannada (Kanarese)
+101101,Cantonese (Chinese)
+101102,Pampangan
+101105,Coushatta
+101106,Cantonese (Chinese)
+101107,Tibetan
+101109,Amharic
+101111,Comanche
+101113,Macedonian
+101114,Romanian
+101116,Tiwa
+101117,Kickapoo
+101118,Chamorro
+101119,Macedonian
+101120,Spanish
+101121,Telugu (Telegu)
+101123,Krio
+101125,Finnish
+101127,Slovenian (Slovene)
+101128,Japanese
+101129,Winnebago
+101131,Serbian
+101133,Ilonggo (Hiligaynon)
+101134,Pashto (Pushto)
+101136,Amharic
+101137,Danish
+101138,Chamorro
+101139,Mandarin (Chinese)
+101141,Hakka (Chinese)
+101145,Chaochow/Teochiu (Chinese)
+101146,Ibo/Igbo
+101148,Tibetan
+101149,Winnebago
+101150,Taiwanese/Formosan/Min Nan (Chinese)
+101154,Malay
+101163,Amharic
+101164,Malay
+101167,Armenian
+101169,Dard
+101176,Somali
+101178,Hungarian
+101179,Yombe
+101180,Gujarati
+101182,Choctaw
+101186,Arabic
+101188,Slavic
+101190,Russian
+101191,Latvian
+101193,Tigrinya
+101194,Danish
+101195,Winnebago
+101197,Kannada (Kanarese)
+101198,Sotho
+101203,Romany (Gypsy)
+101204,Burmese
+101205,French
+101209,Choctaw
+101210,Chaochow/Teochiu (Chinese)
+101214,Creek
+101215,Hainanese (Chinese)
+101217,Lithuanian
+101222,Turkish
+101223,Navajo
+101224,Japanese
+101225,German
+101226,English
+101227,Malay
+101231,French
+101233,Sindhi
+101235,Japanese
+101237,Kickapoo
+101238,Ilonggo (Hiligaynon)
+101241,Shona
+101242,Creek
+101243,Nepali
+101244,Haitian-Creole
+101246,Cantonese (Chinese)
+101247,Welsh
+101248,Samoan
+101251,Panjabi (Punjabi)
+101254,Taiwanese/Formosan/Min Nan (Chinese)
+101256,Coushatta
+101257,English
+101258,Oriya
+101259,Navajo
+101262,Kpelle
+101263,Lithuanian
+101264,Japanese
+101265,Crow
+101267,Tiwa
+101268,Arabic
+101270,Ethiopic
+101273,Tigrinya
+101275,Sotho
+101278,Armenian
+101279,Cambodian (Khmer)
+101280,Cambodian (Khmer)
+101283,Romanian
+101284,Ilonggo (Hiligaynon)
+101285,Panjabi (Punjabi)
+101286,Tibetan
+101287,Pueblo
+101290,Oriya
+101291,Pueblo
+101294,Navajo
+101296,Kickapoo
+101298,Tigrinya
+101299,Tibetan
+101301,Indonesian
+101303,Ethiopic
+101308,Ukrainian
+101311,Balinese
+101313,Thai
+101314,Dutch/Flemish
+101317,Swedish
+101318,Romanian
+101319,Hausa
+101320,Turkish
+101322,Haitian-Creole
+101323,Telugu (Telegu)
+101324,Panjabi (Punjabi)
+101325,Slovenian (Slovene)
+101327,Hebrew
+101329,Maltese
+101331,Sindhi
+101332,Luganda
+101334,Thai
+101335,Pima
+101339,Pashto (Pushto)
+101340,Hindi
+101341,Comanche
+101348,Winnebago
+101350,Ethiopic
+101351,Hungarian
+101352,Comanche
+101353,Cambodian (Khmer)
+101358,Yoruba
+101363,Hakka (Chinese)
+101367,Apache
+101369,Japanese
+101372,Korean
+101377,Malay
+101381,Laotian (Lao)
+101382,Haitian-Creole
+101383,Malayalam
+101384,Yombe
+101385,Sikkimese
+101389,Macedonian
+101392,Ewe
+101395,Hausa
+101397,Algonquin
+101399,Orri (Oring)
+101401,Ewe
+101402,Hausa
+101406,Kurdish
+101409,Burmese
+101413,Kpelle
+101415,French
+101423,Somali
+101424,Sinhalese (Sri Lanka)
+101427,Sikkimese
+101428,Kannada (Kanarese)
+101430,Russian
+101431,Kashmiri
+101432,Finnish
+101435,Armenian
+101436,Maltese
+101437,Comanche
+101438,Ethiopic
+101439,Hakka (Chinese)
+101440,Tuluau
+101442,Hainanese (Chinese)
+101443,Kashmiri
+101445,Bengali
+101446,Finnish
+101451,Pueblo
+101452,Kannada (Kanarese)
+101457,Hebrew
+101459,Swahili
+101461,Fukien/Hokkien (Chinese)
+101463,Somali
+101465,Swedish
+101466,Chamorro
+101467,Korean
+101468,Romany (Gypsy)
+101471,Bengali
+101473,Crow
+101478,Ewe
+101480,Slovenian (Slovene)
+101481,Kannada (Kanarese)
+101484,Estonian
+101485,Gujarati
+101487,Danish
+101488,Farsi (Persian)
+101491,Vietnamese
+101492,Kurdish
+101494,Kanuri
+101495,English
+101496,Danish
+101498,Gaelic (Scottish)
+101499,Chamorro
+101503,Swedish
+101511,Coushatta
+101512,Coushatta
+101515,Bosnian
+101517,Oneida
+101518,Konkani
+101521,Pima
+101523,Lithuanian
+101525,Ukrainian
+101527,Latvian
+101528,Slavic
+101529,Laotian (Lao)
+101530,Other languages
+101531,Bengali
+101532,Sioux (Dakota)
+101533,Luganda
+101534,Norwegian
+101535,Macedonian
+101536,Nepali
+101541,Pilipino (Tagalog)
+101542,Ilonggo (Hiligaynon)
+101543,Nepali
+101545,Cambodian (Khmer)
+101546,Polish
+101549,Gaelic (Irish)
+101552,Laotian (Lao)
+101553,Hausa
+101555,Welsh
+101559,Choctaw
+101560,Chamorro
+101565,Russian
+101566,Hainanese (Chinese)
+101568,Coushatta
+101569,Somali
+101570,Ethiopic
+101572,Cantonese (Chinese)
+101573,Estonian
+101574,Orri (Oring)
+101575,Coushatta
+101576,Serbian
+101582,Swedish
+101583,Ukrainian
+101586,Somali
+101587,Somali
+101588,Sikkimese
+101590,Oriya
+101599,Comanche
+101600,Lunda
+101602,Kpelle
+101604,Welsh
+101605,Tiwa
+101606,Yombe
+101608,Romany (Gypsy)
+101610,Luyia (Luhya)
+101612,Slavic
+101615,Dutch/Flemish
+101616,Krio
+101619,Amharic
+101620,Comanche
+101621,Swahili
+101622,Norwegian
+101625,Thai
+101626,Eskimo
+101627,Lunda
+101628,Amharic
+101631,Burmese
+101632,Guyanese
+101633,Indonesian
+101634,Oriya
+101635,Sikkimese
+101637,Hebrew
+101639,Lithuanian
+101640,Italian
+101641,Slavic
+101642,Hakka (Chinese)
+101645,Mande
+101647,Guyanese
+101648,Dutch/Flemish
+101649,Kpelle
+101652,Samoan
+101655,Mien (Yao)
+101657,Yoruba
+101660,Italian
+101665,Urdu
+101666,Balinese
+101667,Hopi
+101668,Korean
+101670,Laotian (Lao)
+101672,Tigrinya
+101675,Tuluau
+101677,Oriya
+101678,Finnish
+101681,Polish
+101682,Sotho
+101684,Balinese
+101685,Swedish
+101688,Algonquin
+101689,Urdu
+101691,Cebuano (Visayan)
+101692,Tiwa
+101693,Czech
+101694,Sotho
+101696,Romany (Gypsy)
+101697,Bosnian
+101698,Sinhalese (Sri Lanka)
+101702,Gujarati
+101705,Kannada (Kanarese)
+101706,Okinawan
+101707,Marathi
+101709,Ukrainian
+101710,Luyia (Luhya)
+101712,Kanuri
+101716,Shanghai (Chinese)
+101717,Armenian
+101718,Tibetan
+101723,Telugu (Telegu)
+101725,Gaelic (Scottish)
+101726,Lunda
+101727,Pilipino (Tagalog)
+101728,Kashmiri
+101729,Tibetan
+101732,Pueblo
+101734,Hungarian
+101735,Indonesian
+101737,Guyanese
+101739,Kannada (Kanarese)
+101741,Mandarin (Chinese)
+101742,Icelandic
+101744,Dard
+101745,Pima
+101746,Hopi
+101748,Somali
+101750,Kanuri
+101751,Comanche
+101752,Serbian
+101753,Creek
+101754,Kurdish
+101755,Choctaw
+101756,Mandarin (Chinese)
+101757,Indonesian
+101758,Indonesian
+101759,Sinhalese (Sri Lanka)
+101762,Choctaw
+101764,Pampangan
+101766,Dutch/Flemish
+101768,Pashto (Pushto)
+101770,Yoruba
+101773,Yombe
+101777,Hindi
+101778,Laotian (Lao)
+101780,Menominee
+101782,Oneida
+101783,Ilonggo (Hiligaynon)
+101785,Oneida
+101786,Thai
+101787,Luganda
+101788,Hmong
+101793,Creek
+101795,Ukrainian
+101796,Turkish
+101800,Chamorro
+101802,Arabic
+101803,Mandarin (Chinese)
+101804,Bosnian
+101807,Oneida
+101808,Efik
+101810,Luyia (Luhya)
+101812,Navajo
+101813,Amharic
+101814,Sioux (Dakota)
+101817,Czech
+101820,Cebuano (Visayan)
+101821,Oneida
+101822,French
+101823,Czech
+101824,Pampangan
+101825,Winnebago
+101826,Taiwanese/Formosan/Min Nan (Chinese)
+101827,Creek
+101829,Bengali
+101832,Japanese
+101835,Nepali
+101836,Czech
+101842,Malay
+101843,Mien (Yao)
+101845,Hebrew
+101846,Portuguese
+101847,Estonian
+101850,Russian
+101851,Korean
+101856,English
+101857,Bengali
+101858,Urdu
+101860,Swahili
+101861,Cebuano (Visayan)
+101865,Somali
+101868,Kashmiri
+101870,Burmese
+101871,Pilipino (Tagalog)
+101872,Bengali
+101874,Lithuanian
+101876,German
+101877,Chamorro
+101878,Orri (Oring)
+101879,Spanish
+101880,Sikkimese
+101881,Gaelic (Scottish)
+101882,Greek
+101883,German
+101886,Hungarian
+101887,Amharic
+101888,Ukrainian
+101890,Nepali
+101891,Pilipino (Tagalog)
+101894,Hainanese (Chinese)
+101897,Estonian
+101898,Tuluau
+101900,Spanish
+101905,French
+101906,Maltese
+101907,Kwa
+101909,Tuluau
+101910,Hausa
+101911,Finnish
+101914,Oneida
+101916,Mandarin (Chinese)
+101917,Konkani
+101920,Ukrainian
+101922,Bengali
+101923,Bulgarian
+101925,Slovenian (Slovene)
+101929,Gaelic (Irish)
+101934,Kurdish
+101936,Mien (Yao)
+101937,Samoan
+101938,Armenian
+101943,Krio
+101946,Samoan
+101949,Kashmiri
+101950,Pampangan
+101951,Lingala
+101952,Bosnian
+101955,Krio
+101956,Algonquin
+101957,Fukien/Hokkien (Chinese)
+101959,Portuguese
+101960,Navajo
+101961,Chippewa/Ojibawa/Ottawa
+101962,Slovenian (Slovene)
+101964,Icelandic
+101967,Russian
+101968,Bengali
+101969,Finnish
+101972,Sindhi
+101975,Croatian
+101976,Mande
+101978,Polish
+101981,Burmese
+101982,Efik
+101983,Bulgarian
+101984,Tiwa
+101986,Indonesian
+101992,Ewe
+101993,Sinhalese (Sri Lanka)
+101996,Telugu (Telegu)
+101998,Ilonggo (Hiligaynon)
+102000,Estonian
+102001,Gaelic (Irish)
+102003,Comanche
+102004,Cantonese (Chinese)
+102005,Algonquin
+102010,Bengali
+102012,Navajo
+102013,Swahili
+102015,Tibetan
+102016,Mande
+102019,Cantonese (Chinese)
+102020,Lithuanian
+102021,Croatian
+102025,Urdu
+102026,Pashto (Pushto)
+102028,Tamil
+102029,Macedonian
+102034,Latvian
+102037,Czech
+102045,Bengali
+102046,Mandarin (Chinese)
+102047,Efik
+102049,Dutch/Flemish
+102051,Crow
+102054,Cantonese (Chinese)
+102055,Telugu (Telegu)
+102057,Kickapoo
+102058,Portuguese
+102060,Afrikaans (Taal)
+102062,English
+102064,Romanian
+102067,Romany (Gypsy)
+102068,Creek
+102070,Shanghai (Chinese)
+102072,Ewe
+102073,Swahili
+102075,Panjabi (Punjabi)
+102078,Konkani
+102083,Farsi (Persian)
+102085,Haitian-Creole
+102086,Hebrew
+102087,Lingala
+102090,Tuluau
+102093,Russian
+102094,Sikkimese
+102095,Sindhi
+102097,English
+102100,Navajo
+102105,Luyia (Luhya)
+102108,Lingala
+102109,Hungarian
+102116,Mande
+102118,Lingala
+102119,Efik
+102120,Cambodian (Khmer)
+102121,Gaelic (Scottish)
+102123,Vietnamese
+102124,Lithuanian
+102125,Japanese
+102126,Latvian
+102128,Eskimo
+102137,Nepali
+102138,Norwegian
+102139,Slovenian (Slovene)
+102144,Other languages
+102147,Spanish
+102149,Kickapoo
+102150,Orri (Oring)
+102152,Sindhi
+102153,Apache
+102154,Afrikaans (Taal)
+102160,Afrikaans (Taal)
+102165,Yoruba
+102166,Slovenian (Slovene)
+102167,Panjabi (Punjabi)
+102168,Sikkimese
+102173,Romanian
+102175,Armenian
+102176,Eskimo
+102177,Creek
+102180,Swedish
+102183,Tibetan
+102184,Ukrainian
+102186,Kashmiri
+102187,Lithuanian
+102188,Mien (Yao)
+102189,Navajo
+102190,Luganda
+102196,Menominee
+102197,Cambodian (Khmer)
+102198,Bosnian
+102199,Slovenian (Slovene)
+102203,Malayalam
+102206,Ukrainian
+102207,Tigrinya
+102208,Yombe
+102209,Yiddish
+102210,Sioux (Dakota)
+102211,Tuluau
+102212,Hausa
+102213,Pampangan
+102214,Hungarian
+102218,Krio
+102221,Menominee
+102222,Nepali
+102227,Somali
+102228,Fukien/Hokkien (Chinese)
+102230,Sotho
+102231,Crow
+102232,Korean
+102240,Serbian
+102244,Comanche
+102245,Kanuri
+102246,Spanish
+102249,Gaelic (Irish)
+102250,Swedish
+102251,Chamorro
+102252,Sinhalese (Sri Lanka)
+102254,Tuluau
+102255,Croatian
+102257,Winnebago
+102261,Slovenian (Slovene)
+102262,Creek
+102266,Lithuanian
+102267,Shanghai (Chinese)
+102268,Konkani
+102271,Pueblo
+102273,Danish
+102278,Latvian
+102279,French
+102280,Pilipino (Tagalog)
+102281,Mande
+102282,Bosnian
+102283,Pashto (Pushto)
+102284,Kickapoo
+102288,Other languages
+102290,Urdu
+102292,Slovenian (Slovene)
+102293,Panjabi (Punjabi)
+102295,Yombe
+102296,Sikkimese
+102297,Russian
+102299,Hakka (Chinese)
+102301,Armenian
+102303,Apache
+102304,Czech
+102307,Chamorro
+102309,Hopi
+102312,Telugu (Telegu)
+102314,Serbian
+102315,Menominee
+102316,Tuluau
+102323,Welsh
+102324,Spanish
+102325,Panjabi (Punjabi)
+102330,Urdu
+102332,Finnish
+102333,Afrikaans (Taal)
+102334,Haitian-Creole
+102335,Danish
+102336,Burmese
+102337,Ilonggo (Hiligaynon)
+102340,Coushatta
+102341,Croatian
+102345,Amharic
+102347,Taiwanese/Formosan/Min Nan (Chinese)
+102350,Menominee
+102351,Indonesian
+102352,Oneida
+102353,Tibetan
+102354,Mien (Yao)
+102355,Hausa
+102356,Hungarian
+102363,Yiddish
+102364,Hainanese (Chinese)
+102366,Dutch/Flemish
+102372,Chamorro
+102374,Dard
+102375,Nepali
+102376,Mande
+102377,Kashmiri
+102378,Romany (Gypsy)
+102382,Ukrainian
+102384,English
+102385,Danish
+102387,Bosnian
+102388,Pampangan
+102390,Arabic
+102391,Mien (Yao)
+102392,Lingala
+102393,Hebrew
+102395,Turkish
+102396,Norwegian
+102399,Slavic
+102400,Luyia (Luhya)
+102401,Macedonian
+102402,Cherokee
+102404,Burmese
+102406,Ilonggo (Hiligaynon)
+102408,Serbian
+102410,Swahili
+102411,Navajo
+102414,Comanche
+102416,Indonesian
+102417,Turkish
+102419,Cherokee
+102421,Crow
+102423,Portuguese
+102424,Marathi
+102426,Greek
+102427,Oneida
+102430,Korean
+102433,Samoan
+102437,Orri (Oring)
+102438,Chamorro
+102440,Luganda
+102441,Pashto (Pushto)
+102443,Icelandic
+102445,Sotho
+102448,Gujarati
+102450,Turkish
+102452,Pima
+102455,Tiwa
+102457,Ilonggo (Hiligaynon)
+102462,Serbian
+102466,Kashmiri
+102469,Mande
+102475,Eskimo
+102477,Choctaw
+102479,Okinawan
+102480,Oneida
+102481,Menominee
+102483,Other languages
+102485,Winnebago
+102487,Haitian-Creole
+102490,Cantonese (Chinese)
+102491,Farsi (Persian)
+102492,Maltese
+102493,Nepali
+102494,Laotian (Lao)
+102495,German
+102496,Oriya
+102499,Spanish
+102502,Pashto (Pushto)
+102510,Gaelic (Irish)
+102513,Dutch/Flemish
+102514,Yoruba
+102515,Pueblo
+102518,Sotho
+102520,Tuluau
+102521,Luyia (Luhya)
+102522,Slovenian (Slovene)
+102523,Luyia (Luhya)
+102526,French
+102527,Telugu (Telegu)
+102528,Menominee
+102529,Amharic
+102532,Bosnian
+102534,Romany (Gypsy)
+102535,Hausa
+102536,Tiwa
+102541,Taiwanese/Formosan/Min Nan (Chinese)
+102544,Oriya
+102545,Indonesian
+102546,Oriya
+102549,Balinese
+102550,Gaelic (Irish)
+102553,Ewe
+102556,Cebuano (Visayan)
+102557,Kashmiri
+102560,Amharic
+102561,Japanese
+102562,Swahili
+102566,Burmese
+102567,Dutch/Flemish
+102569,Crow
+102570,Mien (Yao)
+102573,Farsi (Persian)
+102574,Polish
+102575,Amharic
+102576,Crow
+102580,Orri (Oring)
+102582,Hainanese (Chinese)
+102584,Hausa
+102588,Dard
+102590,French
+102591,Cebuano (Visayan)
+102592,Kpelle
+102594,Hainanese (Chinese)
+102595,Bengali
+102597,Croatian
+102600,Portuguese
+102603,Telugu (Telegu)
+102604,Ethiopic
+102606,Panjabi (Punjabi)
+102608,Lithuanian
+102609,Pilipino (Tagalog)
+102612,Coushatta
+102616,Mien (Yao)
+102624,Croatian
+102627,Tigrinya
+102628,Afrikaans (Taal)
+102629,Pima
+102635,Chamorro
+102637,Yombe
+102639,Fukien/Hokkien (Chinese)
+102641,Sotho
+102643,Panjabi (Punjabi)
+102645,Krio
+102646,Cambodian (Khmer)
+102648,Hopi
+102653,Taiwanese/Formosan/Min Nan (Chinese)
+102655,Hakka (Chinese)
+102656,Somali
+102657,Croatian
+102658,Korean
+102659,Oneida
+102661,Sikkimese
+102662,Choctaw
+102663,Menominee
+102664,Okinawan
+102675,Burmese
+102676,Ukrainian
+102678,Spanish
+102679,Spanish
+102680,Dutch/Flemish
+102682,Navajo
+102683,Arabic
+102684,Konkani
+102685,Marathi
+102688,Slavic
+102689,Urdu
+102690,German
+102693,Pashto (Pushto)
+102695,Hungarian
+102698,Okinawan
+102700,Hainanese (Chinese)
+102702,Romany (Gypsy)
+102704,Pilipino (Tagalog)
+102707,Fukien/Hokkien (Chinese)
+102708,Hausa
+102712,Serbian
+102716,Burmese
+102722,Pueblo
+102723,Kanuri
+102724,Lunda
+102725,Ukrainian
+102727,Shona
+102729,Turkish
+102731,English
+102733,Dard
+102734,Welsh
+102735,Taiwanese/Formosan/Min Nan (Chinese)
+102736,Luganda
+102738,Gaelic (Irish)
+102741,Malayalam
+102743,Latvian
+102745,Kickapoo
+102746,Farsi (Persian)
+102749,Bengali
+102751,Chaochow/Teochiu (Chinese)
+102752,Amharic
+102755,Pashto (Pushto)
+102756,Tiwa
+102757,Coushatta
+102758,Russian
+102759,Guyanese
+102760,Sikkimese
+102761,Gujarati
+102763,Swedish
+102767,Croatian
+102768,Yoruba
+102771,Yoruba
+102772,Sioux (Dakota)
+102777,Swahili
+102778,Apache
+102779,Russian
+102780,Creek
+102783,Chaochow/Teochiu (Chinese)
+102784,Panjabi (Punjabi)
+102785,Slavic
+102789,Arabic
+102790,Menominee
+102792,Lunda
+102793,Navajo
+102794,Winnebago
+102795,Cantonese (Chinese)
+102798,Luganda
+102799,Sinhalese (Sri Lanka)
+102802,Icelandic
+102804,Nepali
+102805,Guyanese
+102809,Yoruba
+102810,Chamorro
+102812,Konkani
+102813,Burmese
+102817,Kanuri
+102819,Balinese
+102820,Farsi (Persian)
+102821,Lithuanian
+102822,Fukien/Hokkien (Chinese)
+102823,Fukien/Hokkien (Chinese)
+102824,Pampangan
+102825,Yiddish
+102826,Slavic
+102829,Lingala
+102832,Pueblo
+102834,Bosnian
+102835,Konkani
+102836,Navajo
+102837,Pima
+102838,Estonian
+102840,Balinese
+102841,Sioux (Dakota)
+102844,Fukien/Hokkien (Chinese)
+102845,Maltese
+102849,Tigrinya
+102850,Tibetan
+102851,Lunda
+102852,Ilonggo (Hiligaynon)
+102853,Amharic
+102855,Haitian-Creole
+102858,Arabic
+102859,Slavic
+102860,Hmong
+102861,Telugu (Telegu)
+102864,Shanghai (Chinese)
+102865,Menominee
+102866,Somali
+102867,Macedonian
+102871,Italian
+102873,German
+102875,Lingala
+102880,Czech
+102883,Lithuanian
+102885,Ilonggo (Hiligaynon)
+102887,Lingala
+102889,Tibetan
+102890,Haitian-Creole
+102892,Gaelic (Irish)
+102893,Russian
+102896,Latvian
+102898,Welsh
+102900,Sotho
+102902,Kanuri
+102903,Nepali
+102904,Ewe
+102906,Indonesian
+102908,Tigrinya
+102909,Maltese
+102910,Luyia (Luhya)
+102911,Eskimo
+102912,Comanche
+102913,Latvian
+102916,Yombe
+102920,Fukien/Hokkien (Chinese)
+102921,Estonian
+102923,Korean
+102924,Luganda
+102926,Armenian
+102928,Taiwanese/Formosan/Min Nan (Chinese)
+102929,Gujarati
+102935,English
+102936,Konkani
+102937,Hmong
+102941,Japanese
+102943,Malay
+102945,Kashmiri
+102947,Hainanese (Chinese)
+102949,Balinese
+102951,Oriya
+102954,Efik
+102962,Indonesian
+102963,Hungarian
+102965,Somali
+102967,Romany (Gypsy)
+102968,Oriya
+102970,Hebrew
+102971,Eskimo
+102972,Marathi
+102973,Urdu
+102978,Hindi
+102979,Norwegian
+102980,Sindhi
+102984,Oriya
+102986,Mande
+102990,Sindhi
+102996,Balinese
+102997,Chamorro
+102998,Icelandic
+102999,Bosnian
+103003,German
+103007,Croatian
+103008,Kickapoo
+103010,Ibo/Igbo
+103011,Ewe
+103017,Yiddish
+103018,Latvian
+103022,Farsi (Persian)
+103023,Pima
+103024,Hakka (Chinese)
+103027,Coushatta
+103028,Swahili
+103029,Mien (Yao)
+103031,Panjabi (Punjabi)
+103032,Cantonese (Chinese)
+103034,Oriya
+103037,Coushatta
+103038,Turkish
+103039,Macedonian
+103041,Tiwa
+103043,Haitian-Creole
+103044,Sikkimese
+103046,Hungarian
+103047,Krio
+103052,Romanian
+103054,Mandarin (Chinese)
+103056,German
+103060,Panjabi (Punjabi)
+103062,Swedish
+103065,Shona
+103068,Samoan
+103069,Kanuri
+103070,Croatian
+103071,Hakka (Chinese)
+103074,Shanghai (Chinese)
+103075,Turkish
+103079,Creek
+103082,Tigrinya
+103085,Lithuanian
+103087,Gaelic (Scottish)
+103091,Urdu
+103094,Tiwa
+103097,Sioux (Dakota)
+103098,Tuluau
+103101,Mandarin (Chinese)
+103104,Maltese
+103107,Sindhi
+103111,Gaelic (Irish)
+103113,Malayalam
+103116,Navajo
+103118,English
+103121,Kwa
+103124,Malayalam
+103126,Kashmiri
+103128,Yombe
+103134,Kurdish
+103135,Menominee
+103138,Estonian
+103139,Japanese
+103140,Cambodian (Khmer)
+103144,Yoruba
+103146,Chamorro
+103148,Thai
+103149,Cebuano (Visayan)
+103152,Romanian
+103154,Taiwanese/Formosan/Min Nan (Chinese)
+103155,Sikkimese
+103160,Krio
+103162,Croatian
+103168,Indonesian
+103170,Shona
+103171,Ilonggo (Hiligaynon)
+103175,Efik
+103176,Pampangan
+103177,Cambodian (Khmer)
+103178,Ukrainian
+103180,Farsi (Persian)
+103183,Kpelle
+103184,Gaelic (Scottish)
+103185,Slovenian (Slovene)
+103189,Tamil
+103190,Somali
+103191,Welsh
+103193,Fukien/Hokkien (Chinese)
+103194,Burmese
+103197,Orri (Oring)
+103199,Bengali
+103202,Hmong
+103203,Slavic
+103206,Crow
+103207,Hausa
+103209,Eskimo
+103211,Armenian
+103212,Apache
+103214,Italian
+103217,German
+103220,Yombe
+103221,Slovenian (Slovene)
+103222,French
+103226,Winnebago
+103227,Tuluau
+103228,Amharic
+103229,Krio
+103230,Yoruba
+103231,Pashto (Pushto)
+103232,Tiwa
+103233,Hopi
+103234,Norwegian
+103235,Nepali
+103236,Amharic
+103243,Tamil
+103245,Swedish
+103246,Konkani
+103248,Pima
+103250,Romany (Gypsy)
+103251,Yombe
+103252,Panjabi (Punjabi)
+103253,Cherokee
+103256,Lithuanian
+103258,Tibetan
+103259,Farsi (Persian)
+103260,Navajo
+103263,Telugu (Telegu)
+103264,Algonquin
+103265,Hakka (Chinese)
+103268,Lingala
+103269,Pampangan
+103273,Spanish
+103274,Hungarian
+103275,Okinawan
+103280,Lithuanian
+103282,Bosnian
+103283,Somali
+103285,Mandarin (Chinese)
+103287,Luyia (Luhya)
+103290,Arabic
+103291,Dard
+103292,Shanghai (Chinese)
+103294,Choctaw
+103295,Icelandic
+103299,Polish
+103301,Oriya
+103303,Hindi
+103305,Kanuri
+103307,Urdu
+103308,Navajo
+103310,Mien (Yao)
+103311,Urdu
+103314,Icelandic
+103315,Danish
+103317,Ukrainian
+103322,Sioux (Dakota)
+103326,Cantonese (Chinese)
+103328,Tigrinya
+103329,Croatian
+103331,Kannada (Kanarese)
+103332,Danish
+103333,Kickapoo
+103335,Vietnamese
+103337,Kpelle
+103338,Spanish
+103340,Yombe
+103343,Chamorro
+103348,Sinhalese (Sri Lanka)
+103350,English
+103351,Kashmiri
+103352,Shanghai (Chinese)
+103353,Kpelle
+103355,Swahili
+103357,Armenian
+103359,Icelandic
+103365,Hakka (Chinese)
+103368,Ewe
+103369,Maltese
+103372,Kurdish
+103373,Turkish
+103377,Bengali
+103378,Hebrew
+103380,Crow
+103381,Polish
+103382,Sioux (Dakota)
+103383,Eskimo
+103390,Cambodian (Khmer)
+103391,Ibo/Igbo
+103392,Arabic
+103395,Amharic
+103401,Pima
+103404,Urdu
+103405,Czech
+103406,Pilipino (Tagalog)
+103407,Shona
+103408,Bengali
+103410,Yiddish
+103411,Kpelle
+103412,Hindi
+103414,German
+103415,Hainanese (Chinese)
+103416,Bengali
+103417,Shona
+103419,Estonian
+103422,English
+103423,Cherokee
+103427,Latvian
+103429,Sikkimese
+103431,Latvian
+103432,Gaelic (Irish)
+103436,Burmese
+103437,Ewe
+103441,Serbian
+103443,Afrikaans (Taal)
+103445,Cambodian (Khmer)
+103446,Cherokee
+103447,Maltese
+103449,Hopi
+103452,Yiddish
+103454,Menominee
+103456,Swedish
+103457,Ibo/Igbo
+103461,Balinese
+103462,Cantonese (Chinese)
+103464,Luganda
+103465,Kurdish
+103466,Kwa
+103470,Welsh
+103471,Creek
+103472,Gujarati
+103473,Marathi
+103474,Russian
+103475,Mien (Yao)
+103476,Swedish
+103482,Ibo/Igbo
+103483,Winnebago
+103485,Other languages
+103486,Pueblo
+103487,Sinhalese (Sri Lanka)
+103488,Bengali
+103489,Swedish
+103491,Bulgarian
+103494,Pampangan
+103495,Mien (Yao)
+103498,Latvian
+103502,Pima
+103506,Hindi
+103509,Tuluau
+103515,Turkish
+103516,Hmong
+103517,Kpelle
+103518,Armenian
+103519,Eskimo
+103520,Creek
+103524,Chamorro
+103525,Sioux (Dakota)
+103527,Indonesian
+103528,Estonian
+103529,Estonian
+103530,Gaelic (Scottish)
+103532,Fukien/Hokkien (Chinese)
+103534,Navajo
+103536,Cherokee
+103539,Hakka (Chinese)
+103541,Fukien/Hokkien (Chinese)
+103542,Navajo
+103543,Guyanese
+103545,Romanian
+103546,Thai
+103547,Ibo/Igbo
+103549,Other languages
+103550,Pampangan
+103552,Chaochow/Teochiu (Chinese)
+103554,Cherokee
+103559,Hausa
+103560,Pilipino (Tagalog)
+103562,Bengali
+103563,Konkani
+103565,Orri (Oring)
+103566,Sinhalese (Sri Lanka)
+103570,Ibo/Igbo
+103573,German
+103574,Tuluau
+103575,Lingala
+103576,Malay
+103577,Sinhalese (Sri Lanka)
+103579,Estonian
+103583,Vietnamese
+103584,German
+103587,Estonian
+103588,Cantonese (Chinese)
+103590,Guyanese
+103591,Italian
+103593,Urdu
+103595,Maltese
+103597,Comanche
+103598,Guyanese
+103600,Cebuano (Visayan)
+103602,Menominee
+103603,Tiwa
+103605,Lithuanian
+103606,Marathi
+103607,Mien (Yao)
+103610,Hakka (Chinese)
+103613,Slovenian (Slovene)
+103614,Kannada (Kanarese)
+103615,Bosnian
+103618,Croatian
+103620,Malay
+103624,Dard
+103626,Norwegian
+103629,Pashto (Pushto)
+103632,Lithuanian
+103634,Ukrainian
+103638,Apache
+103640,Efik
+103644,Vietnamese
+103647,Mandarin (Chinese)
+103648,Chippewa/Ojibawa/Ottawa
+103650,Hopi
+103653,Krio
+103655,Shona
+103656,Malay
+103657,Turkish
+103658,Nepali
+103660,Tigrinya
+103661,Cherokee
+103663,Ukrainian
+103664,Shanghai (Chinese)
+103666,Bosnian
+103667,Mande
+103668,Pashto (Pushto)
+103669,Ibo/Igbo
+103671,Nepali
+103675,Mien (Yao)
+103676,Comanche
+103678,Czech
+103679,Ethiopic
+103682,Sinhalese (Sri Lanka)
+103684,Kwa
+103685,Yoruba
+103686,Tigrinya
+103687,Danish
+103689,Oneida
+103690,Spanish
+103694,Danish
+103695,Other languages
+103701,Kickapoo
+103703,Ilonggo (Hiligaynon)
+103704,Greek
+103705,Croatian
+103706,Romanian
+103707,Kurdish
+103711,Korean
+103713,Tigrinya
+103715,Telugu (Telegu)
+103716,Algonquin
+103722,Bulgarian
+103724,Kpelle
+103725,Kannada (Kanarese)
+103727,Tuluau
+103728,Kanuri
+103729,German
+103730,Ethiopic
+103734,Creek
+103736,Greek
+103737,Slavic
+103739,Winnebago
+103741,Kwa
+103742,Crow
+103744,Hebrew
+103745,Tamil
+103746,Ibo/Igbo
+103748,Bengali
+103749,Kickapoo
+103752,Apache
+103753,Hausa
+103755,German
+103756,Krio
+103757,Pampangan
+103760,Sinhalese (Sri Lanka)
+103761,Haitian-Creole
+103762,Pashto (Pushto)
+103763,Urdu
+103767,Kashmiri
+103769,Lunda
+103771,Arabic
+103772,Choctaw
+103775,Sikkimese
+103776,Shanghai (Chinese)
+103777,Balinese
+103779,Krio
+103781,Farsi (Persian)
+103783,Tiwa
+103786,Tamil
+103789,Chippewa/Ojibawa/Ottawa
+103791,Navajo
+103794,Shona
+103795,Greek
+103798,Konkani
+103801,Pashto (Pushto)
+103802,Portuguese
+103803,Yombe
+103804,Laotian (Lao)
+103806,Ibo/Igbo
+103808,Shanghai (Chinese)
+103809,Tibetan
+103811,Kanuri
+103812,Farsi (Persian)
+103813,Kanuri
+103814,Mande
+103815,Other languages
+103817,Mandarin (Chinese)
+103820,Pashto (Pushto)
+103822,Chamorro
+103823,Sinhalese (Sri Lanka)
+103825,Sikkimese
+103826,Pampangan
+103834,Winnebago
+103836,Russian
+103838,Konkani
+103843,Danish
+103845,Laotian (Lao)
+103847,Turkish
+103849,Haitian-Creole
+103850,Ibo/Igbo
+103857,Kurdish
+103859,Romanian
+103863,Okinawan
+103864,Orri (Oring)
+103866,Marathi
+103867,Yombe
+103873,Konkani
+103877,Haitian-Creole
+103878,Sioux (Dakota)
+103881,Apache
+103882,Amharic
+103887,Lingala
+103888,Tigrinya
+103889,Balinese
+103890,Yiddish
+103892,Tiwa
+103893,Cebuano (Visayan)
+103894,Panjabi (Punjabi)
+103897,Maltese
+103898,Greek
+103900,Krio
+103903,Kashmiri
+103909,French
+103910,Cherokee
+103911,Comanche
+103912,Hausa
+103916,Pilipino (Tagalog)
+103917,Kpelle
+103921,Japanese
+103923,Pueblo
+103924,Hopi
+103926,Vietnamese
+103927,Thai
+103928,Tuluau
+103930,Apache
+103931,Apache
+103933,Kannada (Kanarese)
+103936,Norwegian
+103937,Winnebago
+103938,Czech
+103939,Ilonggo (Hiligaynon)
+103940,Other languages
+103941,Creek
+103942,Navajo
+103943,Hainanese (Chinese)
+103946,Sikkimese
+103947,Pilipino (Tagalog)
+103948,Coushatta
+103950,Sikkimese
+103952,Norwegian
+103953,Krio
+103958,Ewe
+103959,Kashmiri
+103960,Yoruba
+103961,Kannada (Kanarese)
+103963,Marathi
+103965,Okinawan
+103968,Orri (Oring)
+103969,Gaelic (Irish)
+103970,Lithuanian
+103971,Chamorro
+103974,Kurdish
+103975,Russian
+103976,Swedish
+103977,English
+103978,Spanish
+103983,Ibo/Igbo
+103986,Comanche
+103991,Menominee
+103992,Dutch/Flemish
+103994,Sindhi
+103995,Maltese
+103996,Yombe
+103998,Farsi (Persian)
+103999,Pilipino (Tagalog)
+104001,Welsh
+104002,Tiwa
+104004,Danish
+104007,Pashto (Pushto)
+104008,Kashmiri
+104010,Chippewa/Ojibawa/Ottawa
+104011,Kpelle
+104013,Indonesian
+104015,Latvian
+104016,Dutch/Flemish
+104021,Afrikaans (Taal)
+104026,Croatian
+104027,Arabic
+104028,Efik
+104029,Yiddish
+104030,Yiddish
+104032,Chippewa/Ojibawa/Ottawa
+104034,Luganda
+104035,Krio
+104036,Tiwa
+104038,Gujarati
+104039,Pilipino (Tagalog)
+104040,Hebrew
+104043,Chippewa/Ojibawa/Ottawa
+104044,Luganda
+104048,Nepali
+104049,Sikkimese
+104050,Eskimo
+104052,Russian
+104053,Malay
+104056,Pueblo
+104058,Slavic
+104059,Mandarin (Chinese)
+104060,Czech
+104063,Hmong
+104064,Luganda
+104065,Polish
+104067,Hakka (Chinese)
+104069,Gaelic (Irish)
+104071,Romany (Gypsy)
+104073,Finnish
+104074,Sinhalese (Sri Lanka)
+104075,Romanian
+104076,Finnish
+104077,Cantonese (Chinese)
+104080,German
+104083,Orri (Oring)
+104086,Japanese
+104087,Balinese
+104089,Laotian (Lao)
+104090,Urdu
+104091,Guyanese
+104092,Ilonggo (Hiligaynon)
+104094,Efik
+104097,Cherokee
+104099,Kannada (Kanarese)
+104101,Orri (Oring)
+104106,Gaelic (Scottish)
+104107,Welsh
+104108,Pilipino (Tagalog)
+104109,Cebuano (Visayan)
+104110,Romany (Gypsy)
+104111,English
+104112,Lingala
+104116,Greek
+104117,Tamil
+104118,Tuluau
+104119,Orri (Oring)
+104120,Gaelic (Scottish)
+104121,Somali
+104122,Farsi (Persian)
+104123,Efik
+104124,Somali
+104125,Kashmiri
+104126,Kurdish
+104127,Hebrew
+104128,Bosnian
+104129,Yiddish
+104131,Czech
+104132,Panjabi (Punjabi)
+104140,Pilipino (Tagalog)
+104141,Malayalam
+104144,Latvian
+104146,Fukien/Hokkien (Chinese)
+104148,Other languages
+104149,Chamorro
+104159,Samoan
+104160,Chippewa/Ojibawa/Ottawa
+104161,Hakka (Chinese)
+104163,Gujarati
+104164,Other languages
+104166,Yoruba
+104169,Vietnamese
+104170,Cebuano (Visayan)
+104176,Urdu
+104179,Thai
+104181,Tibetan
+104183,Pima
+104185,Guyanese
+104186,Krio
+104187,Kashmiri
+104189,Kickapoo
+104190,Yiddish
+104191,Algonquin
+104192,Hainanese (Chinese)
+104193,Armenian
+104194,Comanche
+104196,Luyia (Luhya)
+104197,Kurdish
+104201,Choctaw
+104210,Maltese
+104211,Pueblo
+104212,Choctaw
+104213,Pashto (Pushto)
+104215,Efik
+104218,Winnebago
+104219,Coushatta
+104221,Amharic
+104224,Mandarin (Chinese)
+104225,Chippewa/Ojibawa/Ottawa
+104227,Japanese
+104229,Turkish
+104232,Hakka (Chinese)
+104235,Hindi
+104236,Czech
+104238,Shanghai (Chinese)
+104240,Icelandic
+104245,Cantonese (Chinese)
+104246,Okinawan
+104247,Swahili
+104248,Malayalam
+104250,Polish
+104251,Efik
+104252,Efik
+104253,Krio
+104260,Menominee
+104261,Slovenian (Slovene)
+104262,Navajo
+104266,Kickapoo
+104267,Cantonese (Chinese)
+104268,Finnish
+104269,Chaochow/Teochiu (Chinese)
+104270,Latvian
+104271,Bengali
+104273,Kanuri
+104274,Chamorro
+104275,Polish
+104284,Samoan
+104290,Korean
+104293,Japanese
+104300,Pilipino (Tagalog)
+104301,Japanese
+104306,Lunda
+104311,Gujarati
+104312,Hebrew
+104313,Hebrew
+104314,Shona
+104315,Estonian
+104318,Bosnian
+104319,Panjabi (Punjabi)
+104322,Hebrew
+104323,Sinhalese (Sri Lanka)
+104324,Chippewa/Ojibawa/Ottawa
+104326,Gujarati
+104328,Apache
+104329,Bulgarian
+104330,Amharic
+104332,Bulgarian
+104333,Korean
+104334,Swedish
+104335,Okinawan
+104338,Mien (Yao)
+104339,Armenian
+104340,Sindhi
+104342,Gaelic (Irish)
+104343,Kurdish
+104344,Marathi
+104345,Sioux (Dakota)
+104346,Armenian
+104347,Czech
+104348,Coushatta
+104350,Croatian
+104353,Cebuano (Visayan)
+104357,German
+104361,Kickapoo
+104365,Dard
+104367,Lunda
+104368,Mandarin (Chinese)
+104372,German
+104373,Cambodian (Khmer)
+104374,Sinhalese (Sri Lanka)
+104375,Hungarian
+104376,Balinese
+104381,Mande
+104382,Panjabi (Punjabi)
+104383,Hainanese (Chinese)
+104384,Panjabi (Punjabi)
+104388,Kwa
+104390,Panjabi (Punjabi)
+104391,Ewe
+104395,English
+104396,Shanghai (Chinese)
+104399,Mandarin (Chinese)
+104401,Sinhalese (Sri Lanka)
+104402,Gujarati
+104403,Efik
+104404,Ibo/Igbo
+104407,Taiwanese/Formosan/Min Nan (Chinese)
+104408,Haitian-Creole
+104409,Finnish
+104410,Mande
+104412,Eskimo
+104413,Hindi
+104416,Macedonian
+104418,Malay
+104421,Ibo/Igbo
+104422,Pueblo
+104423,Polish
+104424,Navajo
+104426,Kwa
+104428,Kurdish
+104429,Winnebago
+104432,Telugu (Telegu)
+104433,Panjabi (Punjabi)
+104434,Thai
+104435,French
+104436,Sotho
+104437,Tuluau
+104440,Hmong
+104441,Mien (Yao)
+104445,Norwegian
+104446,Thai
+104447,Japanese
+104448,Comanche
+104449,Sinhalese (Sri Lanka)
+104450,Sindhi
+104451,Creek
+104453,Panjabi (Punjabi)
+104454,Maltese
+104455,Pashto (Pushto)
+104456,Tuluau
+104458,Lingala
+104460,Shanghai (Chinese)
+104463,Tamil
+104464,Italian
+104467,Croatian
+104469,Balinese
+104470,Gaelic (Irish)
+104473,Apache
+104476,Kwa
+104479,Oneida
+104481,Shanghai (Chinese)
+104485,Marathi
+104486,Cambodian (Khmer)
+104488,Yoruba
+104490,Laotian (Lao)
+104492,Kpelle
+104493,Guyanese
+104494,Swahili
+104495,Polish
+104496,German
+104497,Sotho
+104499,Italian
+104500,Tibetan
+104501,Shanghai (Chinese)
+104504,Turkish
+104507,Portuguese
+104508,Kannada (Kanarese)
+104511,Kurdish
+104512,Greek
+104513,Gujarati
+104514,Danish
+104516,Dard
+104517,Somali
+104519,Tamil
+104523,Yiddish
+104524,English
+104528,Icelandic
+104529,Fukien/Hokkien (Chinese)
+104530,Taiwanese/Formosan/Min Nan (Chinese)
+104531,Yombe
+104532,Kashmiri
+104533,Cantonese (Chinese)
+104534,Slovenian (Slovene)
+104537,Tigrinya
+104539,Luyia (Luhya)
+104541,Burmese
+104543,Fukien/Hokkien (Chinese)
+104547,English
+104549,Guyanese
+104551,Gaelic (Scottish)
+104552,Lunda
+104553,Japanese
+104554,Shanghai (Chinese)
+104555,Ethiopic
+104560,Yoruba
+104562,Tiwa
+104563,Sinhalese (Sri Lanka)
+104565,Hausa
+104566,Haitian-Creole
+104567,Welsh
+104569,Shona
+104572,Cantonese (Chinese)
+104575,Arabic
+104576,Finnish
+104577,Sioux (Dakota)
+104578,Luyia (Luhya)
+104579,Thai
+104581,Japanese
+104582,Norwegian
+104583,Vietnamese
+104585,Bengali
+104586,Luganda
+104587,Indonesian
+104589,Dard
+104590,Kurdish
+104593,Tuluau
+104595,Oriya
+104597,Coushatta
+104614,Luyia (Luhya)
+104615,French
+104621,Bosnian
+104624,Cherokee
+104625,Vietnamese
+104626,Krio
+104627,Fukien/Hokkien (Chinese)
+104628,Guyanese
+104630,Arabic
+104632,Somali
+104634,Nepali
+104635,Hungarian
+104637,Kpelle
+104641,Mandarin (Chinese)
+104642,Norwegian
+104645,Pueblo
+104649,Haitian-Creole
+104652,French
+104653,Sindhi
+104654,Maltese
+104655,Mande
+104657,Russian
+104659,Pueblo
+104660,Spanish
+104663,Slavic
+104664,Swahili
+104668,Eskimo
+104670,Danish
+104674,Malayalam
+104675,Hakka (Chinese)
+104677,Pilipino (Tagalog)
+104678,Slovenian (Slovene)
+104679,Korean
+104681,Creek
+104682,Danish
+104684,Swahili
+104685,Cambodian (Khmer)
+104686,Shanghai (Chinese)
+104687,Eskimo
+104688,Bosnian
+104691,Sioux (Dakota)
+104692,Pueblo
+104695,Pampangan
+104696,Kickapoo
+104697,Cambodian (Khmer)
+104698,Urdu
+104699,Japanese
+104703,Spanish
+104706,Portuguese
+104707,Kanuri
+104708,Sinhalese (Sri Lanka)
+104709,Ukrainian
+104710,Tamil
+104711,Tigrinya
+104712,Creek
+104715,Farsi (Persian)
+104717,Samoan
+104720,English
+104722,Nepali
+104723,Haitian-Creole
+104724,Sinhalese (Sri Lanka)
+104725,Taiwanese/Formosan/Min Nan (Chinese)
+104729,Hopi
+104732,Other languages
+104738,Creek
+104740,Slavic
+104743,Armenian
+104745,Slavic
+104746,Marathi
+104747,Afrikaans (Taal)
+104750,Telugu (Telegu)
+104751,Swedish
+104753,Ukrainian
+104754,Panjabi (Punjabi)
+104755,Kickapoo
+104756,Kwa
+104758,Okinawan
+104760,Welsh
+104763,Pueblo
+104765,Balinese
+104766,Fukien/Hokkien (Chinese)
+104770,Kurdish
+104773,Malay
+104776,Kpelle
+104777,Hainanese (Chinese)
+104779,Oneida
+104782,Efik
+104783,Hausa
+104784,Gaelic (Irish)
+104786,Amharic
+104788,Norwegian
+104789,Cambodian (Khmer)
+104790,Indonesian
+104791,Pashto (Pushto)
+104792,Croatian
+104793,Bosnian
+104795,Ewe
+104796,French
+104801,Konkani
+104802,Gaelic (Scottish)
+104803,Malayalam
+104804,Afrikaans (Taal)
+104806,Ukrainian
+104810,Ewe
+104813,Sotho
+104814,Hungarian
+104816,Romany (Gypsy)
+104818,Hausa
+104822,Malay
+104823,Oneida
+104825,Fukien/Hokkien (Chinese)
+104832,Latvian
+104833,Choctaw
+104834,Yombe
+104835,Norwegian
+104837,Tamil
+104838,Hopi
+104839,Serbian
+104840,Urdu
+104841,Serbian
+104842,Sinhalese (Sri Lanka)
+104843,Hopi
+104844,Pilipino (Tagalog)
+104845,Afrikaans (Taal)
+104849,Crow
+104852,Hungarian
+104855,Ibo/Igbo
+104856,Hmong
+104858,Comanche
+104859,Chamorro
+104861,Panjabi (Punjabi)
+104867,Malayalam
+104868,Mande
+104869,Serbian
+104872,Bulgarian
+104880,Oneida
+104881,Polish
+104882,Krio
+104883,Czech
+104884,Latvian
+104885,Vietnamese
+104889,Kurdish
+104897,Hopi
+104898,Cantonese (Chinese)
+104899,Cambodian (Khmer)
+104901,Portuguese
+104905,Okinawan
+104906,Kickapoo
+104910,Oriya
+104911,Efik
+104912,Swedish
+104913,Swahili
+104914,Menominee
+104915,Sotho
+104921,Guyanese
+104922,Czech
+104923,Dard
+104924,Navajo
+104927,Kickapoo
+104928,Estonian
+104929,Malay
+104930,Romanian
+104932,Tigrinya
+104933,Romany (Gypsy)
+104937,Shona
+104938,Arabic
+104939,Latvian
+104942,Spanish
+104943,Estonian
+104944,Kwa
+104951,Hainanese (Chinese)
+104954,Hindi
+104956,Menominee
+104957,Icelandic
+104958,Telugu (Telegu)
+104959,Kashmiri
+104960,Farsi (Persian)
+104964,Afrikaans (Taal)
+104967,Hungarian
+104969,Lunda
+104974,Serbian
+104975,Turkish
+104976,Tibetan
+104977,Slovenian (Slovene)
+104983,Sindhi
+104989,Dutch/Flemish
+104990,Bosnian
+104992,Crow
+104994,Balinese
+104995,Icelandic
+104996,Latvian
+104997,Cebuano (Visayan)
+104999,Panjabi (Punjabi)

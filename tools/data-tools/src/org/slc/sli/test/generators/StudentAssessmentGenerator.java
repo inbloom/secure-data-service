@@ -17,7 +17,7 @@ import org.slc.sli.test.edfi.entities.meta.StudentAssessmentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 
 public class StudentAssessmentGenerator {
-    private static final boolean INCLUDE_OPTIONAL_DATA = false;
+    private static final boolean INCLUDE_OPTIONAL_DATA = true;
     private static final Random RANDOM = new Random();
 
     public static StudentAssessment generateLowFi(StudentAssessmentMeta studentAssessmentMeta) {
@@ -68,14 +68,18 @@ public class StudentAssessmentGenerator {
 
             sa.setReasonNotTested(ReasonNotTestedType.values()[RANDOM.nextInt(ReasonNotTestedType.values().length)]);
 
-            int numberOfScoreResults = RANDOM.nextInt(3);
-            for (int i = 0; i < numberOfScoreResults; i++) {
-                ScoreResult sr = new ScoreResult();
-                sr.setAssessmentReportingMethod(AssessmentReportingMethodType.values()[RANDOM
-                        .nextInt(AssessmentReportingMethodType.values().length)]);
-                sr.setResult("Assessment Result" + i);
-                sa.getScoreResults().add(sr);
-            }
+//            int numberOfScoreResults = RANDOM.nextInt(3);
+//            for (int i = 0; i < numberOfScoreResults; i++) {
+//                ScoreResult sr = new ScoreResult();
+//                sr.setAssessmentReportingMethod(AssessmentReportingMethodType.values()[RANDOM
+//                        .nextInt(AssessmentReportingMethodType.values().length)]);
+//                sr.setResult(""+RANDOM.nextInt(100));
+//                sa.getScoreResults().add(sr);
+//            }
+          ScoreResult sr = new ScoreResult();
+          sr.setAssessmentReportingMethod(AssessmentReportingMethodType.SCALE_SCORE);
+          sr.setResult(""+RANDOM.nextInt(100));
+          sa.getScoreResults().add(sr);
 
             sa.setGradeLevelWhenAssessed(GradeLevelType.values()[RANDOM.nextInt(GradeLevelType.values().length)]);
 
