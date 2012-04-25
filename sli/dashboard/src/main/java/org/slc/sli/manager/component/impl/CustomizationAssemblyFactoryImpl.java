@@ -102,9 +102,9 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             // condition is equivalent to exists in the list
             for (GenericEntity oneEntity : listOfEntitites) {
                 childEntity = getValue(oneEntity, condition.getField());
-                // if doesn't exist, assume true - this is not entitlements, so it should not be restrictive
+                // if null and value is null, it's allowed, otherwise it's not
                 if (childEntity == null) {
-                    return true;
+                    return values.length == 0;
                 }
                 if (childEntity instanceof Number) {
                     double childNumber = ((Number) childEntity).doubleValue();

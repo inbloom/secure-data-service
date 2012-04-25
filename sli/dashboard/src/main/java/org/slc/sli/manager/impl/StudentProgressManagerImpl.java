@@ -7,22 +7,20 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.slc.sli.entity.Config;
-import org.slc.sli.manager.EntityManager;
-import org.slc.sli.manager.StudentProgressManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.manager.EntityManager;
+import org.slc.sli.manager.StudentProgressManager;
 import org.slc.sli.util.Constants;
 
 /**
@@ -31,7 +29,7 @@ import org.slc.sli.util.Constants;
  *
  */
 public class StudentProgressManagerImpl implements StudentProgressManager {
-    
+
     private static Logger log = LoggerFactory.getLogger(StudentProgressManagerImpl.class);
 
     @Autowired
@@ -51,21 +49,27 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         GenericEntity studentWithTranscript = entityManager.getStudentWithOptionalFields(token, studentId, optionalFields);
 
         Map<String, Object> studentTranscript = (Map<String, Object>) studentWithTranscript.get("transcript");
-        if (studentTranscript == null) return new GenericEntity();
+        if (studentTranscript == null) {
+            return new GenericEntity();
+        }
 
         List<Map<String, Object>> studentTranscriptAssociations = (List<Map<String, Object>>)
                 studentTranscript.get("studentTranscriptAssociations");
         List<Map<String, Object>> studentSectionAssociations = (List<Map<String, Object>>)
                 studentTranscript.get("studentSectionAssociations");
 
-        if (studentSectionAssociations == null || studentTranscriptAssociations == null) return new GenericEntity();
+        if (studentSectionAssociations == null || studentTranscriptAssociations == null) {
+            return new GenericEntity();
+        }
 
         for (Map<String, Object> studentSectionAssociation : studentSectionAssociations) {
             Map<String, Object> courseTranscript = getCourseTranscriptForSection(studentSectionAssociation,
                     studentTranscriptAssociations);
 
             // skip this course if we can't find previous info
-            if (courseTranscript == null) continue;
+            if (courseTranscript == null) {
+                continue;
+            }
 
             Map<String, Object> section = getGenericEntity(studentSectionAssociation, Constants.ATTR_SECTIONS);
             Map<String, Object> course = getGenericEntity(section, Constants.ATTR_COURSES);
@@ -118,7 +122,9 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         String grade = "";
         // Try to get numeric grade first
         grade = getValue(courseTranscript, "finalNumericGradeEarned");
-        if (grade.equals("")) grade = getValue(courseTranscript, Constants.ATTR_FINAL_LETTER_GRADE);
+        if (grade.equals("")) {
+            grade = getValue(courseTranscript, Constants.ATTR_FINAL_LETTER_GRADE);
+        }
         return grade;
     }
 
@@ -145,14 +151,16 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
     public Map<String, List<GenericEntity>> getStudentHistoricalAssessments(final String token, List<String> studentIds,
                                                                             String selectedCourse, String selectedSection) {
         Map<String, List<GenericEntity>> results = new HashMap<String, List<GenericEntity>>();
-        
+
         //get the subject area
         String subjectArea = getSubjectArea(token, selectedCourse);
         Map<String, String> params = new HashMap<String, String>();
 
         List<GenericEntity> students = entityManager.getCourses(token, selectedSection, params);
 
-        if (students == null || students.isEmpty()) return results;
+        if (students == null || students.isEmpty()) {
+            return results;
+        }
         for (GenericEntity student : students) {
             String studentId = student.getString(Constants.ATTR_ID);
             List<GenericEntity> transcriptData = new ArrayList<GenericEntity>();
@@ -162,7 +170,9 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
             List<Map<String, Object>> studentSectionAssociations = (List<Map<String, Object>>) transcript.get(Constants.ATTR_STUDENT_SECTION_ASSOC);
 
             // skip if we have no associations or we have no previous transcripts
-            if (studentSectionAssociations == null || studentTranscriptAssociations == null) continue;
+            if (studentSectionAssociations == null || studentTranscriptAssociations == null) {
+                continue;
+            }
 
             studentSectionAssociations = filterBySubjectArea(studentSectionAssociations, subjectArea);
 
@@ -170,7 +180,9 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
                 // Get the course transcript for a particular section
                 Map<String, Object> courseTranscript = getCourseTranscriptForSection(studentSectionAssoc, studentTranscriptAssociations);
                 // skip this course if we can't find previous info
-                if (courseTranscript == null) continue;
+                if (courseTranscript == null) {
+                    continue;
+                }
 
                 Map<String, Object> section = getGenericEntity(studentSectionAssoc, Constants.ATTR_SECTIONS);
                 Map<String, Object> course = getGenericEntity(section, Constants.ATTR_COURSES);
@@ -194,7 +206,9 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
     @SuppressWarnings("unchecked")
     private Map<String, Object> getGenericEntity(Map<String, Object> map, String field) {
 
-        if (map == null) return null;
+        if (map == null) {
+            return null;
+        }
 
         return (Map<String, Object>) map.get(field);
     }
@@ -203,8 +217,9 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
     private String getValue(Map<String, Object> map, String field) {
         String ret = "";
 
-        if (map.containsKey(field))
+        if (map.containsKey(field)) {
             ret = map.get(field).toString();
+        }
 
         return ret;
     }
@@ -246,8 +261,9 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         }
 
         for (Map<String, Object> studentTranscriptAssociation : studentTranscriptAssociations) {
-            if (courseId.equals(studentTranscriptAssociation.get(Constants.ATTR_COURSE_ID).toString()))
+            if (courseId.equals(studentTranscriptAssociation.get(Constants.ATTR_COURSE_ID).toString())) {
                 return studentTranscriptAssociation;
+            }
         }
 
         return null;
@@ -281,7 +297,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
 
         return filteredAssociations;
     }
-    
+
     /**
      * Set the transcript and session information for the given sections
      * @param token Security token
@@ -302,7 +318,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
 
         return results;
     }
-    
+
     /**
      * Returns all the gradebook entries for all the students in the given section
      * @param token Security token
@@ -322,7 +338,9 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
 
             @SuppressWarnings("unchecked")
             List<Map<String, Object>> studentGradebookEntries = (List<Map<String, Object>>) student.get(Constants.ATTR_STUDENT_SECTION_GRADEBOOK);
-            if (studentGradebookEntries == null) continue;
+            if (studentGradebookEntries == null) {
+                continue;
+            }
 
             Map<String, GenericEntity> gradebookEntries = new HashMap<String, GenericEntity>();
 
@@ -334,7 +352,9 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
 
                 @SuppressWarnings("unchecked")
                 Map<String, Object> entries = (Map<String, Object>) geStudentGradebookEntry.get(Constants.ATTR_GRADEBOOK_ENTRIES);
-                if (entries == null) continue;
+                if (entries == null) {
+                    continue;
+                }
 
                 geStudentGradebookEntry.put(Constants.ATTR_GRADEBOOK_ENTRY_TYPE, entries.get(Constants.ATTR_GRADEBOOK_ENTRY_TYPE));
 
@@ -356,10 +376,11 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
     protected double parseNumericGrade(Object numericGrade) {
         if (numericGrade != null && numericGrade instanceof Double) {
             return ((Double) numericGrade).doubleValue();
-        } else
+        } else {
             return 0;
+        }
     }
-    
+
     /**
      * Returns a sorted unique set of gradebook entries(tests)
      * @param gradebookEntryData The gradebook entry data for a section
@@ -368,10 +389,10 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
     @Override
     public SortedSet<GenericEntity> retrieveSortedGradebookEntryList(Map<String, Map<String, GenericEntity>> gradebookEntryData) {
         SortedSet<GenericEntity> list = new TreeSet<GenericEntity>(new DateFulFilledComparator());
-        
+
         //Sorting by entity to be able to handle the introduction of GradebookEntry/type in the future
         //Can be sorted by the keyset if GradebookEntry/type will not be used
-        
+
         //go through and add the tests into one list
         for (Map<String, GenericEntity> map : gradebookEntryData.values()) {
             list.addAll(map.values());
@@ -379,11 +400,11 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
 
         return list;
     }
-    
+
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-    
+
     /**
      * Compare two GenericEntities by the dateFulFilled
      * @author srupasinghe
@@ -394,19 +415,19 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         @Override
         public int compare(GenericEntity o1, GenericEntity o2) {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            
+
             if (o1.getString(Constants.ATTR_DATE_FULFILLED) != null && o2.getString(Constants.ATTR_DATE_FULFILLED) != null) {
                 try {
                     Date date1 = formatter.parse(o1.getString(Constants.ATTR_DATE_FULFILLED));
                     Date date2 = formatter.parse(o2.getString(Constants.ATTR_DATE_FULFILLED));
-                    
+
                     return date1.compareTo(date2);
-                    
+
                 } catch (ParseException e) {
                     return 0;
                 }
             }
-            
+
             return 0;
         }
     }
