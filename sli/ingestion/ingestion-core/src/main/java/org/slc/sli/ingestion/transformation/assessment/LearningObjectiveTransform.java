@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion.transformation.assessment;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +53,6 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
         for (NeutralRecord parentLO : allLearningObjectives) {
             String parentObjectiveId = getByPath("learningObjectiveId.identificationCode", parentLO.getAttributes());
-//            String parentContentStandardName = getByPath("learningObjectiveId.contentStandardName", parentLO.getAttributes());
             List<Map<String, Object>> childRefs = (List<Map<String, Object>>) parentLO.getAttributes().get(
                     "learningObjectiveRefs");
             for (int i = 0; i < childRefs.size(); i++) {
@@ -65,7 +63,6 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                 NeutralRecord childLo = learningObjectiveIdMap.get(loId);
                 if (childLo != null) {
                     childLo.getAttributes().put("parentLearningObjectiveIdentificationCode", parentObjectiveId);
-//                    childLo.getAttributes().put("parentLearningObjectiveContentStandardName", parentContentStandardName);
                 } else {
                     LOG.error("Could not find object for learning objective reference: " + parentObjectiveId);
                 }
@@ -74,7 +71,6 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             parentLO.getAttributes().remove("learningStandardRefs");
         }
 
-        Collections.reverse(allLearningObjectives);
         for (NeutralRecord nr : allLearningObjectives) {
             nr.setRecordType(nr.getRecordType() + "_transformed");
             getNeutralRecordMongoAccess().getRecordRepository().create(nr);
