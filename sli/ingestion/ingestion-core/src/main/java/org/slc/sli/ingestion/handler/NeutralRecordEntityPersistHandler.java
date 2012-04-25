@@ -78,16 +78,25 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
      *             Validation Exception
      */
     private Entity persist(Entity entity) throws EntityValidationException {
+
+        String collection = entity.getType();
+
+        if (collection.equals ("teacher")) {
+            collection = "staff";
+        } else if (collection.equals ("school")) {
+            collection = "educationOrganization";
+        }
+
         if (entity.getEntityId() != null) {
 
-            if (!entityRepository.update(entity.getType(), entity)) {
+            if (!entityRepository.update(collection, entity)) {
                 // TODO: exception should be replace with some logic.
                 throw new RuntimeException("Record was not updated properly.");
             }
 
             return entity;
         } else {
-            return entityRepository.create(entity.getType(), entity.getBody(), entity.getMetaData(), entity.getType());
+            return entityRepository.create(entity.getType(), entity.getBody(), entity.getMetaData(), collection);
         }
     }
 
