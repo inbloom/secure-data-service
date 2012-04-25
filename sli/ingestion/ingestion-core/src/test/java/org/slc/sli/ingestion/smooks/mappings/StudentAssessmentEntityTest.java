@@ -18,9 +18,9 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Test the smooks mappings for StudentAssessment entity
- * 
+ *
  * @author bsuzuki
- * 
+ *
  */
 public class StudentAssessmentEntityTest {
 
@@ -31,12 +31,12 @@ public class StudentAssessmentEntityTest {
         String smooksConfig = "smooks_conf/smooks-studentAssessment-csv.xml";
 
         String targetSelector = "csv-record";
-        
+
         String studentAssessmentCsv = null;
-        
+
         try {
             studentAssessmentCsv = EntityTestUtils.readResourceAsString("smooks/unitTestData/StudentAssessmentEntity.csv");
-            
+
         }   catch (FileNotFoundException e) {
             System.err.println(e);
             Assert.fail();
@@ -56,11 +56,11 @@ public class StudentAssessmentEntityTest {
         String targetSelector = "InterchangeStudentAssessment/StudentAssessment";
 
         String edfiStudentAssessmentXml = null;
-        
+
         try {
             edfiStudentAssessmentXml = EntityTestUtils
                     .readResourceAsString("smooks/unitTestData/StudentAssessmentEntity.xml");
-            
+
         } catch (FileNotFoundException e) {
             System.err.println(e);
             Assert.fail();
@@ -76,10 +76,10 @@ public class StudentAssessmentEntityTest {
     @SuppressWarnings("rawtypes")
     private void checkValidStudentAssessmentNeutralRecord(
             NeutralRecord studentAssessmentNeutralRecord) {
-        
+
         assertEquals("studentAssessmentAssociation", studentAssessmentNeutralRecord.getRecordType());
-        assertEquals("{administrationDate=2013-11-11, studentId=Yjmyw}", studentAssessmentNeutralRecord.getLocalId());
-        
+        assertEquals("{\"administrationDate\":\"2013-11-11\",\"studentId\":\"Yjmyw\"}", studentAssessmentNeutralRecord.getLocalId());
+
         assertEquals("2013-11-11", studentAssessmentNeutralRecord
                 .getAttributes().get("administrationDate"));
         assertEquals("2013-08-07", studentAssessmentNeutralRecord
@@ -134,7 +134,7 @@ public class StudentAssessmentEntityTest {
         EntityTestUtils.assertObjectInMapEquals(performanceLevelMap,
                 "description", "performancelvldescription");
          */
-        
+
         assertEquals("Yjmyw", studentAssessmentNeutralRecord
                 .getAttributes().get("studentId"));
 
@@ -149,7 +149,7 @@ public class StudentAssessmentEntityTest {
                 Map studentIdentificationCodeMap = (Map) studentIdentificationCodeArray.get(0);
                     EntityTestUtils.assertObjectInMapEquals(studentIdentificationCodeMap, "IdentificationSystem", "State Migrant");
                     EntityTestUtils.assertObjectInMapEquals(studentIdentificationCodeMap, "AssigningOrganizationCode", "XcjWvDlTR");
-                    EntityTestUtils.assertObjectInMapEquals(studentIdentificationCodeMap, 
+                    EntityTestUtils.assertObjectInMapEquals(studentIdentificationCodeMap,
                             "IdentificationCode", "rm2eQj5XDoyb1_vtJ5JRfWX.y4DQEKL7bp8HmsOnbd");
             Map nameMap = (Map) studentIdentityTypeMap.get("Name");
                 EntityTestUtils.assertObjectInMapEquals(nameMap, "Verification", "Immigration document/visa");
@@ -190,7 +190,7 @@ public class StudentAssessmentEntityTest {
                 Map assessmentIdentificationCodeMap = (Map) assessmentIdentificationCodeList.get(0);
                     EntityTestUtils.assertObjectInMapEquals(assessmentIdentificationCodeMap, "IdentificationSystem", "State Migrant");
                     EntityTestUtils.assertObjectInMapEquals(assessmentIdentificationCodeMap, "AssigningOrganizationCode", "XcjWvDlTR");
-                    EntityTestUtils.assertObjectInMapEquals(assessmentIdentificationCodeMap, 
+                    EntityTestUtils.assertObjectInMapEquals(assessmentIdentificationCodeMap,
                             "ID", "rm2eQj5XDoyb1_vtJ5JRfWX.y4DQEKL7bp8HmsOnbd");
             }
         */
