@@ -53,9 +53,9 @@ When /^I navigate to "([^"]*)" with URI "(\/v1\/teachers\/<[^>]*>)\/teacherSecti
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-When /^I navigate to "([^"]*)" with URI "(\/v1\/students\/<[^>]*>)\/studentAssessmentAssociations\/assessments" and filter by assessmentTitle is "([^"]*)"$/ do |rel, href,assessmentTitle|
+When /^I navigate to "([^"]*)" with URI "(\/v1\/students\/<[^>]*>)\/studentAssessments\/assessments" and filter by assessmentTitle is "([^"]*)"$/ do |rel, href,assessmentTitle|
   queryParams = "assessmentTitle="+assessmentTitle
-  uri = href+"/studentAssessmentAssociations/assessments?"+URI.escape(queryParams,Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
+  uri = href+"/studentAssessments/assessments?"+URI.escape(queryParams,Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")
 end

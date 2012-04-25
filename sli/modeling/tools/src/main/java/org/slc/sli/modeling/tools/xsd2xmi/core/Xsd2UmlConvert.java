@@ -1,6 +1,5 @@
 package org.slc.sli.modeling.tools.xsd2xmi.core;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,6 +38,7 @@ import org.apache.ws.commons.schema.XmlSchemaType;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import org.slc.sli.modeling.tools.TagName;
 import org.slc.sli.modeling.uml.Association;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
@@ -283,15 +283,17 @@ final class Xsd2UmlConvert {
         tagDefinitions.add(makeTagDefinition("documentation", Occurs.ZERO, Occurs.ONE, config));
         tagDefinitions.add(makeTagDefinition("version", Occurs.ZERO, Occurs.ONE, config));
         // Tag definitions used to represent W3C XML Schema facets.
-        tagDefinitions.add(makeTagDefinition("length", Occurs.ZERO, Occurs.ONE, config));
-        tagDefinitions.add(makeTagDefinition("maxLength", Occurs.ZERO, Occurs.ONE, config));
-        tagDefinitions.add(makeTagDefinition("minLength", Occurs.ZERO, Occurs.ONE, config));
-        tagDefinitions.add(makeTagDefinition("pattern", Occurs.ZERO, Occurs.ONE, config));
-        tagDefinitions.add(makeTagDefinition("whiteSpace", Occurs.ZERO, Occurs.ONE, config));
-        tagDefinitions.add(makeTagDefinition("maxExclusive", Occurs.ZERO, Occurs.ONE, config));
-        tagDefinitions.add(makeTagDefinition("minExclusive", Occurs.ZERO, Occurs.ONE, config));
-        tagDefinitions.add(makeTagDefinition("maxInclusive", Occurs.ZERO, Occurs.ONE, config));
-        tagDefinitions.add(makeTagDefinition("minInclusive", Occurs.ZERO, Occurs.ONE, config));
+        tagDefinitions.add(makeTagDefinition(TagName.LENGTH, Occurs.ZERO, Occurs.ONE, config));
+        tagDefinitions.add(makeTagDefinition(TagName.MAX_LENGTH, Occurs.ZERO, Occurs.ONE, config));
+        tagDefinitions.add(makeTagDefinition(TagName.MIN_LENGTH, Occurs.ZERO, Occurs.ONE, config));
+        tagDefinitions.add(makeTagDefinition(TagName.PATTERN, Occurs.ZERO, Occurs.ONE, config));
+        tagDefinitions.add(makeTagDefinition(TagName.WHITE_SPACE, Occurs.ZERO, Occurs.ONE, config));
+        tagDefinitions.add(makeTagDefinition(TagName.MAX_EXCLUSIVE, Occurs.ZERO, Occurs.ONE, config));
+        tagDefinitions.add(makeTagDefinition(TagName.MIN_EXCLUSIVE, Occurs.ZERO, Occurs.ONE, config));
+        tagDefinitions.add(makeTagDefinition(TagName.MAX_INCLUSIVE, Occurs.ZERO, Occurs.ONE, config));
+        tagDefinitions.add(makeTagDefinition(TagName.MIN_INCLUSIVE, Occurs.ZERO, Occurs.ONE, config));
+        tagDefinitions.add(makeTagDefinition(TagName.MONGO_NAME, Occurs.ZERO, Occurs.ONE, config));
+        tagDefinitions.add(makeTagDefinition(TagName.MONGO_NAVIGABLE, Occurs.ZERO, Occurs.ONE, config));
         // Tag definition used by the plug-in.
         tagDefinitions.addAll(config.declareTagDefinitions(config));
         return tagDefinitions;
@@ -574,101 +576,16 @@ final class Xsd2UmlConvert {
                 }, schemaType.getQName(), annotations(schemaType, config));
             } else if (schemaObject instanceof XmlSchemaElement) {
                 // These are the top-level elements.
-                // There's a bit of hacking here to handle anonymous types
-                // in the SLI.xsd. We
-                // should try to get rid of the cause. We'll still use the
-                // existence of the element
-                // to infer the existence of REST resource and we'll guess at a
-                // collection name.
                 final XmlSchemaElement element = (XmlSchemaElement) schemaObject;
                 if (element.getSchemaTypeName() == null) {
-                    final XmlSchemaType elementType = element.getSchemaType();
+                } else {
 
-                    // The first hack will be to pick up the documentation for
-                    // the type from the
-                    // element.
-                    final List<TaggedValue> taggedValues = new ArrayList<TaggedValue>(annotations(element, config));
-                    taggedValues.addAll(plugin.tagsFromTopLevelElement(element.getQName(), config));
-
-                    convertType(elementType, schema, config, new Visitor() {
-
-                        @Override
-                        public void visit(final Association association) {
-                            throw new AssertionError();
-                        }
-
-                        @Override
-                        public void visit(final AssociationEnd associationEnd) {
-                            throw new AssertionError();
-                        }
-
-                        @Override
-                        public void visit(final Attribute attribute) {
-                            throw new AssertionError();
-                        }
-
-                        @Override
-                        public void visit(final ClassType classType) {
-                            ownedElements.add(classType);
-                        }
-
-                        @Override
-                        public void visit(final DataType dataType) {
-                            ownedElements.add(dataType);
-                        }
-
-                        @Override
-                        public void visit(final EnumLiteral enumLiteral) {
-                            throw new AssertionError();
-                        }
-
-                        @Override
-                        public void visit(final EnumType enumType) {
-                            ownedElements.add(enumType);
-                        }
-
-                        @Override
-                        public void visit(final Generalization generalization) {
-                            ownedElements.add(generalization);
-                        }
-
-                        @Override
-                        public void visit(final Model model) {
-                            throw new AssertionError();
-                        }
-
-                        @Override
-                        public void visit(final Multiplicity multiplicity) {
-                            throw new AssertionError();
-                        }
-
-                        @Override
-                        public void visit(final Range range) {
-                            throw new AssertionError();
-                        }
-
-                        @Override
-                        public void visit(final TagDefinition tagDefinition) {
-                            throw new AssertionError();
-                        }
-
-                        @Override
-                        public void visit(final TaggedValue taggedValue) {
-                            throw new AssertionError();
-                        }
-
-                        @Override
-                        public void visit(final UmlPackage pkg) {
-                            throw new AssertionError();
-                        }
-                    }, element.getQName(), taggedValues);
                 }
             } else if (schemaObject instanceof XmlSchemaInclude) {
                 final XmlSchemaInclude includedSchema = (XmlSchemaInclude) schemaObject;
                 final XmlSchema embeddedSchema = includedSchema.getSchema();
 
-                // While we load the embedded schema the context for looking up
-                // identifiers is
+                // While we load the embedded schema the context for looking up identifiers is
                 // shared so that names resolve to the same objects.
                 final Model embeddedModel = parseXmlSchema("", level + 1, embeddedSchema, config, plugin);
                 ownedElements.addAll(embeddedModel.getOwnedElements());

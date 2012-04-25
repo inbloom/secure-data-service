@@ -15,7 +15,19 @@ import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.TaggedValue;
 
+/**
+ * Used to configure the reverse-engineering of UML from W3C XML Schemas.
+ *
+ * The conversion of EdFi TitleCase attribute names to camelCase is configurable.
+ *
+ */
 public final class Xsd2UmlPluginForEdFi implements Xsd2UmlPlugin {
+
+    private final boolean camelCase;
+
+    public Xsd2UmlPluginForEdFi(final boolean camelCase) {
+        this.camelCase = camelCase;
+    }
 
     private static final String camelCase(final String text) {
         return text.substring(0, 1).toLowerCase().concat(text.substring(1));
@@ -51,7 +63,12 @@ public final class Xsd2UmlPluginForEdFi implements Xsd2UmlPlugin {
 
     @Override
     public String nameFromElementName(final QName name) {
-        return camelCase(name.getLocalPart());
+        final String localName = name.getLocalPart();
+        if (camelCase) {
+            return camelCase(localName);
+        } else {
+            return localName;
+        }
     }
 
     @Override
@@ -67,10 +84,5 @@ public final class Xsd2UmlPluginForEdFi implements Xsd2UmlPlugin {
     @Override
     public List<TaggedValue> tagsFromAppInfo(final XmlSchemaAppInfo appInfo, final Xsd2UmlPluginHost host) {
         throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public List<TaggedValue> tagsFromTopLevelElement(final QName name, final Xsd2UmlPluginHost host) {
-        return Collections.emptyList();
     }
 }

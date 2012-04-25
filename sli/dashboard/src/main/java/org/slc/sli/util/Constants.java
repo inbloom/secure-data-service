@@ -116,7 +116,7 @@ public final class Constants {
     public static final String ATTR_ASSESSMENTS = "assessments";
     public static final String ATTR_COHORT_YEAR = "cohortYear";
     public static final String ATTR_UNIQUE_SECTION_CODE = "uniqueSectionCode";
-    public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessmentAssociations";
+    public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessments";
     public static final String ATTR_COURSE_ID = "courseId";
     public static final String ATTR_STUDENT_ATTENDANCES = "attendances";
     public static final String ATTR_PARENT_EDORG = "parentEducationAgencyReference";
@@ -128,6 +128,7 @@ public final class Constants {
     public static final String ATTR_SCHOOL_YEAR = "schoolYear";
     public static final String ATTR_SESSION_ID = "sessionId";
     public static final String ATTR_FINAL_LETTER_GRADE = "finalLetterGradeEarned";
+    public static final String ATTR_FINAL_NUMERIC_GRADE = "finalNumericGradeEarned";
     public static final String ATTR_SESSIONS = "sessions";
     public static final String ATTR_CLASSROOM_POSITION = "classroomPosition";
     public static final String ATTR_TERM = "term";
@@ -139,6 +140,7 @@ public final class Constants {
     public static final String ATTR_GRADEBOOK_ENTRY_TYPE = "gradebookEntryType";
     public static final String ATTR_GRADEBOOK_ENTRIES = "gradebookEntries";
     public static final String ATTR_GRADE_LEVEL = "gradeLevel";
+    public static final String ATTR_GRADE_LEVEL_WHEN_TAKEN = "gradeLevelWhenTaken";
     public static final String ATTR_GRADE_LEVELS = "gradeLevels";
     public static final String ATTR_STUDENT_ENROLLMENT = "studentEnrollment";
     public static final String ATTR_SCHOOL = "school";
@@ -146,7 +148,7 @@ public final class Constants {
     public static final String ATTR_FOOTER_STRING = "footerString";
     public static final String ATTR_OPTIONAL_FIELDS = "optionalFields";
     public static final String ATTR_GRADEBOOK_VIEW = "gradebookView";
-    public static final String ATTR_STUDENT_SECTION_GRADEBOOK = "studentSectionGradebookEntries";
+    public static final String ATTR_STUDENT_SECTION_GRADEBOOK = "studentGradebookEntries";
     public static final String ATTR_ATTENDANCE_EVENT_CATEGORY = "attendanceEventCategory";
     public static final String ATTR_ABSENCE_COUNT = "absenceCount";
     public static final String ATTR_TARDY_COUNT = "tardyCount";
@@ -154,11 +156,9 @@ public final class Constants {
     public static final String ATTR_TARDY_RATE = "tardyRate";
     public static final String ATTR_STUDENTS = "students";
     public static final String ATTR_TRANSCRIPT = "transcript";
-    public static final String ATTR_STUDENT_TRANSCRIPT_ASSOC = "studentTranscriptAssociations";
+    public static final String ATTR_STUDENT_TRANSCRIPT_ASSOC = "courseTranscripts";
     public static final String ATTR_STUDENT_SECTION_ASSOC = "studentSectionAssociations";
     public static final String ATTR_INTERNAL_METADATA = "meta";
-
-
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
 
@@ -202,6 +202,12 @@ public final class Constants {
     // extra elements added by API
     public static final String METADATA = "metaData";
     public static final String EXTERNAL_ID = "externalId";
+    
+    // Grades for Sections Constants
+    public static final String SECTION = "section";
+    public static final String SECTION_LETTER_GRADE = "letterGrade";
+    public static final String SECTION_HEADER = "header";
+    public static final Integer NUMBER_OF_SECTIONS = 2;
 
 
     /**

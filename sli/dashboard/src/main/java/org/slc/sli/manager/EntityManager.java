@@ -71,6 +71,17 @@ public class EntityManager extends ApiClientManager {
         return getApiClient().getSchools(token, schoolIds);
     }
 
+    /**
+     * Returns a single student entity with optional fields embedded.
+     * @param token authentication token
+     * @param studentId The student we are looking for
+     * @param optionalFields A list of "optional views" that we are appending to the student.  These could be related
+     *                       to attendance, assessments, etc..
+     * @return A single student entity with selected optional views embedded.
+     */
+    public GenericEntity getStudentWithOptionalFields(final String token, String studentId, List<String> optionalFields) {
+        return getApiClient().getStudentWithOptionalFields(token, studentId, optionalFields);
+    }
 
     /**
      * Get the list of student entities identified by the student id list and authorized for the
