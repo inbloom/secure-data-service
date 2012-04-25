@@ -15,9 +15,9 @@ import javax.ws.rs.ext.Provider;
 import com.fasterxml.jackson.xml.XmlMapper;
 
 import org.codehaus.jackson.map.SerializationConfig;
+import org.slc.sli.api.resources.v1.HypermediaType;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.resources.Resource;
 
 /**
  * Custom JAXB Context Resolver that will generate XML
@@ -26,7 +26,7 @@ import org.slc.sli.api.resources.Resource;
 @SuppressWarnings("rawtypes")
 @Provider
 @Component
-@Produces({ MediaType.APPLICATION_XML, Resource.SLC_XML_MEDIA_TYPE })
+@Produces({ MediaType.APPLICATION_XML, HypermediaType.VENDOR_SLC_XML })
 public class JacksonXMLMsgBodyWriter implements MessageBodyWriter {
 
     @Override

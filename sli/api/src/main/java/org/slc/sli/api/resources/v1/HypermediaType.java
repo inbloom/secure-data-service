@@ -12,4 +12,5 @@ public class HypermediaType {
      * SLC JSON format.
      */
     public static final String VENDOR_SLC_JSON = "application/vnd.slc+json";
+    public static final String VENDOR_SLC_XML = "application/vnd.slc+xml";
 }
