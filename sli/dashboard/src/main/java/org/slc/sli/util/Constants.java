@@ -108,6 +108,7 @@ public final class Constants {
     public static final String ATTR_PERF_LEVEL = "perfLevel";
     public static final String ATTR_PERCENTILE = "Percentile";
     public static final String ATTR_LEXILE_SCORE = "Other";
+    public static final String ATTR_ED_ORGS = "educationOrganizations";
     public static final String ATTR_ED_ORG_ID = "educationOrganizationId";
     public static final String ATTR_ED_ORG_CHILD_ID = "educationOrganizationChildId";
     public static final String ATTR_ED_ORG_PARENT_ID = "educationOrganizationParentId";
