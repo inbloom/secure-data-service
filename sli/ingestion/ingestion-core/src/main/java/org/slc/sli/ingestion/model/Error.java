@@ -1,14 +1,8 @@
 package org.slc.sli.ingestion.model;
 
-import java.util.List;
-
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.Fault;
-import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.FaultsReport;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  *
@@ -54,6 +48,25 @@ public final class Error {
         this.severity = severity;
         this.errorType = errorType;
         this.errorDetail = errorDetail;
+    }
+
+    // TODO: too many params. refactor.
+    public static Error createIngestionError(String ingestionJobId, String stageName, String resourceId,
+            String sourceIp, String hostname, String recordIdentifier, String severity, String errorType,
+            String errorDetail) {
+
+        if (sourceIp == null) {
+            sourceIp = BatchJobUtils.getHostAddress();
+        }
+
+        if (hostname == null) {
+            hostname = BatchJobUtils.getHostName();
+        }
+
+        Error error = new Error(ingestionJobId, stageName, resourceId, sourceIp, hostname, recordIdentifier,
+                BatchJobUtils.getCurrentTimeStamp(), severity, errorType, errorDetail);
+
+        return error;
     }
 
     public String getBatchJobId() {
@@ -134,24 +147,6 @@ public final class Error {
 
     public void setErrorDetail(String errorDetail) {
         this.errorDetail = errorDetail;
-    }
-
-    public static void writeErrorsToMongo(String batchId, FaultsReport errorReport) {
-        if (errorReport.hasErrors()) {
-            List<Fault> faults = errorReport.getFaults();
-            for (Fault fault : faults) {
-                String errorType = new String();
-                if (fault.isError()) {
-                    errorType = "ERROR";
-                } else if (fault.isWarning()) {
-                    errorType = "WARNING";
-                } else {
-                    errorType = "OTHER";
-                }
-                BatchJobMongoDA.logBatchStageError(batchId, BatchJobStageType.ZIP_FILE_PROCESSING,
-                        FaultType.TYPE_ERROR.getName(), errorType, fault.getMessage());
-            }
-        }
     }
 
 }

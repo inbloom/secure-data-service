@@ -579,13 +579,13 @@ public final class MetaRelations {
         int staffIdsIndx = 0;
 
         for (CohortMeta cohortMeta : freeStandingCohortsForSchool.values()) {
-            
+
             // add students
             for (int idNum = 0; idNum < FREE_STANDING_COHORT_SIZE; idNum++) {
                 cohortMeta.studentIds.add((String) studentIds[studentIdsIndx]);
                 studentIdsIndx = (studentIdsIndx + 1) % studentIds.length;
             }
-            
+
             // add staff
             for (int staffToAssign = 0; staffToAssign < STAFF_PER_FREE_STANDING_COHORT; staffToAssign++) {
                 cohortMeta.staffIds.add((String) staffIds[staffIdsIndx]);
