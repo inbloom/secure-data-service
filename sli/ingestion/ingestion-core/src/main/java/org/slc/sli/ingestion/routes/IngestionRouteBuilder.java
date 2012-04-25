@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
@@ -71,7 +72,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: ctlFilePoller
         from(
-                "file:" + inboundDir + "?include=^(.*)\\.ctl$"
+                "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension() + "$"
                         + "&move=" + inboundDir + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
                         + "&moveFailed=" + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
                         + "&readLock=changed")
@@ -82,7 +83,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: zipFilePoller
         from(
-                "file:" + inboundDir + "?include=^(.*)\\.zip$&preMove="
+                "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.ZIP_FILE.getExtension() + "$&preMove="
                         + inboundDir + "/.done&moveFailed=" + inboundDir
                         + "/.error"
                         + "&readLock=changed")
