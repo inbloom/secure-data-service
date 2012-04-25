@@ -2,11 +2,8 @@
     "collection": "student",
     "indexFields":
     [
-        {"name" : "body.name" , "order" : "1"},
-        {"name" : "body.sex" , "order" : "-1"},
-        {"name" : "body.birthDate", "order" : "1"},
-        {"name" : "body.address", "order" : "1" },
-        {"name" : "body.telephone", "order" : "1"},
-        {"name" : "body.oldEthnicity", "order" : 1}
+        {"name" : "body.name" , "position" : "1"},
+        {"name" : "body.sex" , "position" : "-1"},
+        {"name" : "body.birthDate", "position" : "1"}
     ]
 }
