@@ -19,6 +19,7 @@ import org.slc.sli.api.security.context.traversal.BrutePathFinder;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 
 /**
  * Class to adapt our path finding technique to our context resolving system.
@@ -36,6 +37,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
 
     @Autowired
     private EntityDefinitionStore store;
+    
+    @Autowired
+    private Repository<Entity> repository;
 
     private String fromEntity;
     private String toEntity;
@@ -53,6 +57,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
         if (pathFinder.isPathExcluded(fromEntityType, toEntityType)) {
             return false;
         }
+        if (pathFinder.isPublic(toEntityType)) {
+            return true;
+        }
         Set<String> entities = pathFinder.getNodeMap().keySet();
         return (entities.contains(fromEntityType) && entities.contains(toEntityType));
     }
@@ -64,9 +71,19 @@ public class PathFindingContextResolver implements EntityContextResolver {
      */
     @Override
     public List<String> findAccessible(Entity principal) {
-        if (principal.getBody().get("staffUniqueStateId").equals("demo")) {
+        if (principal != null && principal.getBody().get("staffUniqueStateId").equals("demo")) {
             info("Resolver override for demo user.");
             return AllowAllEntityContextResolver.SUPER_LIST;
+        }
+        
+        if (pathFinder.isPublic(toEntity)) {
+            debug("The entity, {}, is public, returning all ids", toEntity);
+            List<String> ids = new ArrayList<String>();
+            Iterable<Entity> entities = repository.findAll(toEntity);
+            for (Entity entity : entities) {
+                ids.add(entity.getEntityId());
+            }
+            return ids;
         }
 
         List<SecurityNode> path = new ArrayList<SecurityNode>();
