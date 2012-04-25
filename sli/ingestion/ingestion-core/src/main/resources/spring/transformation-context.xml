@@ -110,7 +110,6 @@
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
 	<property name="passThroughCollectionName" value="studentCohortAssociation" />
     </bean>
-    
 </beans>
 
 

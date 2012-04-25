@@ -1,7 +1,7 @@
 package org.slc.sli.ingestion.transformation.assessment;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +12,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
@@ -31,14 +29,17 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
     private static final Logger LOG = LoggerFactory.getLogger(LearningObjectiveTransform.class);
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void performTransformation() {
+
+        // load data
         NeutralRecordMongoAccess db = getNeutralRecordMongoAccess();
         Repository<NeutralRecord> repo = db.getRecordRepository();
 
         Map<LearningObjectiveId, NeutralRecord> learningObjectiveIdMap = new HashMap<LearningObjectiveId, NeutralRecord>();
-        List<NeutralRecord> allLearningObjectives = new ArrayList<NeutralRecord>();
 
+        List<NeutralRecord> allLearningObjectives = new ArrayList<NeutralRecord>();
         Iterable<NeutralRecord> learningObjectives = repo.findAll("learningObjective");
         for (NeutralRecord lo : learningObjectives) {
             Map<String, Object> attributes = lo.getAttributes();
@@ -50,8 +51,11 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             allLearningObjectives.add(lo);
         }
 
-        for (NeutralRecord lo : allLearningObjectives) {
-            List<Map<String, Object>> childRefs = (List<Map<String, Object>>) lo.getAttributes().get(
+
+        for (NeutralRecord parentLO : allLearningObjectives) {
+            String parentObjectiveId = getByPath("learningObjectiveId.identificationCode", parentLO.getAttributes());
+//            String parentContentStandardName = getByPath("learningObjectiveId.contentStandardName", parentLO.getAttributes());
+            List<Map<String, Object>> childRefs = (List<Map<String, Object>>) parentLO.getAttributes().get(
                     "learningObjectiveRefs");
             for (int i = 0; i < childRefs.size(); i++) {
                 Map<String, Object> loRef = childRefs.get(i);
@@ -60,41 +64,20 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                 LearningObjectiveId loId = new LearningObjectiveId(objectiveId, contentStandard);
                 NeutralRecord childLo = learningObjectiveIdMap.get(loId);
                 if (childLo != null) {
-                    childLo.getAttributes().put("parentLearningObjective", objectiveId); // TODO BOGUS
+                    childLo.getAttributes().put("parentLearningObjectiveIdentificationCode", parentObjectiveId);
+//                    childLo.getAttributes().put("parentLearningObjectiveContentStandardName", parentContentStandardName);
                 } else {
-                    LOG.error("Could not find object for learning objective reference: " + objectiveId);
+                    LOG.error("Could not find object for learning objective reference: " + parentObjectiveId);
                 }
             }
-            lo.getAttributes().remove("learningObjectiveRefs");
+            parentLO.getAttributes().remove("learningObjectiveRefs");
+            parentLO.getAttributes().remove("learningStandardRefs");
         }
 
-        // write the modified stuff to nr
-        for (IngestionFileEntry ife : getJob().getFiles()) {
-            List<NeutralRecord> loForFile = new ArrayList<NeutralRecord>();
-            for (NeutralRecord lo : allLearningObjectives) {
-                if (ife.getFileName().equals(lo.getSourceFile())) {
-                    loForFile.add(lo);
-                }
-            }
-            if (loForFile.size() > 0) {
-                try {
-                    NeutralRecordFileWriter writer = new NeutralRecordFileWriter(ife.getNeutralRecordFile());
-                    try {
-                        for (NeutralRecord lo : loForFile) {
-                            NeutralRecord transformed = new NeutralRecord();
-                            transformed.setRecordType("learningObjective");
-                            transformed.setLocalParentIds(lo.getLocalParentIds());
-                            transformed.setLocalId(lo.getLocalId());
-                            transformed.setAttributes(lo.getAttributes());
-                            writer.writeRecord(transformed);
-                        }
-                    } finally {
-                        writer.close();
-                    }
-                } catch (IOException e) {
-                    LOG.error("Exception occurred while writing transformed learning objectives", e);
-                }
-            }
+        Collections.reverse(allLearningObjectives);
+        for (NeutralRecord nr : allLearningObjectives) {
+            nr.setRecordType(nr.getRecordType() + "_transformed");
+            getNeutralRecordMongoAccess().getRecordRepository().create(nr);
         }
     }
 
