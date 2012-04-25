@@ -2,12 +2,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
-	<LearningObjective>
+	<!-- <LearningObjective>
 		<Objective>Geometry</Objective>
 		<AcademicSubject>Mathematics</AcademicSubject>
 		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningObjectiveReference ref="Similarity-Right-Triangle-Trig"></LearningObjectiveReference>
-	</LearningObjective>
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>G-SRT</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+	</LearningObjective> -->
 	
 	<LearningObjective id="Similarity-Right-Triangle-Trig">
 		<LearningObjectiveId>
