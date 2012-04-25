@@ -30,12 +30,12 @@ import org.slc.sli.ingestion.queues.MessageType;
 @Component
 public class ControlFilePreProcessor implements Processor {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ControlFilePreProcessor.class);
+
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PREPROCESSOR;
 
     @Autowired
     private LandingZone landingZone;
-
-    Logger log = LoggerFactory.getLogger(ZipFileProcessor.class);
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -98,7 +98,7 @@ public class ControlFilePreProcessor implements Processor {
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        log.error("Exception:", exception);
+        LOG.error("Exception:", exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null, null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
@@ -126,7 +126,7 @@ public class ControlFilePreProcessor implements Processor {
         newJob.setSourceId(landingZone.getLZId() + File.separator);
 
         exchange.getIn().setHeader("BatchJobId", newJob.getId());
-        log.info("Created job [{}]", newJob.getId());
+        LOG.info("Created job [{}]", newJob.getId());
         return newJob;
     }
 
