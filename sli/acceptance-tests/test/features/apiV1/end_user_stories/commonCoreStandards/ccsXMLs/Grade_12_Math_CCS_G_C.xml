@@ -10,12 +10,12 @@
 	</LearningObjective>
 	
 	<LearningObjective id="Circles">
-		<Objective>Circles</Objective>
-		<AcademicSubject>Mathematics</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningObjectiveId>
 			<IdentificationCode>G-C</IdentificationCode>
 		</LearningObjectiveId>
+		<Objective>Circles</Objective>
+		<AcademicSubject>Mathematics</AcademicSubject>
+		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningStandardReference ref="G-C.1"></LearningStandardReference>
 		<LearningStandardReference ref="G-C.2"></LearningStandardReference>
 		<LearningStandardReference ref="G-C.3"></LearningStandardReference>

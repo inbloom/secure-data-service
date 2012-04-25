@@ -186,12 +186,13 @@ public class ComplexSchemaTest {
         String stringEntity = "test";
         String tokenEntity = "validToken";
         String dateTimeEntity = "2012-01-01T12:00:00-05:00";
+        Boolean booleanEntity = true;
         hierarchyEntity.put("schemaField", complexEntity);
 
         // Setup for field failure
-        complexEntity.put("booleanField", stringEntity);
+        complexEntity.put("longField", stringEntity);
 
-        complexEntity.put("longField", longEntity);
+        complexEntity.put("booleanField", booleanEntity);
         complexEntity.put("doubleField", doubleEntity);
         complexEntity.put("stringField", stringEntity);
         complexEntity.put("tokenField", tokenEntity);

@@ -38,7 +38,12 @@ public class BooleanSchema extends NeutralSchema {
 
     @Override
     public Object convert(Object value) {
-        return Boolean.parseBoolean((String) value);
+        return NumberUtils.converterHelper(value, new NumberUtils.Converter() {
+            @Override
+            public Object convert(Object value) {
+                return Boolean.parseBoolean((String) value);
+            }
+        });
     }
     
     // Methods
@@ -59,6 +64,7 @@ public class BooleanSchema extends NeutralSchema {
      * @return true if valid
      */
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
+        entity = convert(entity);
         return addError(Boolean.class.isInstance(entity), fieldName, entity, "Boolean", ErrorType.INVALID_DATATYPE,
                 errors);
     }
