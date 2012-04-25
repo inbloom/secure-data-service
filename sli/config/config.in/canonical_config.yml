@@ -664,7 +664,7 @@ nxbuild2:
         log.path: ${user.home}/logs
 
 team:
-    api:
+    api: &API-TEAM
         <<: *API-DEFAULT
         # team/api/security/security.properties
         #
@@ -680,7 +680,7 @@ team:
         sli.support.email: sli@example.com
 
         api.perf.log.path: /storage/logs
-    data-access:
+    data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
         # team/data-access/db.properties
         #
@@ -708,7 +708,7 @@ team:
         sli.ingestion.batchjob.mongodb.user: 
         sli.ingestion.batchjob.mongodb.pass: 
 
-    ingestion:
+    ingestion: &INGESTION-TEAM
         <<: *INGESTION-DEFAULT
         # team/ingestion/ingestion_conf.properties
         landingzone.inbounddir: /home/ingestion/lz/inbound
@@ -721,7 +721,7 @@ team:
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
 
-    dashboard:
+    dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT
         api.client: apiClient
         api.server.url: https://${sli.dev.subdomain}.slidev.org/
@@ -738,7 +738,7 @@ team:
         panel.config.driver.dir: config
         panel.config.custom.dir: custom
 
-    misc:
+    misc: &MISC-TEAM
         <<: *MISC-DEFAULT
         sli.dev.subdomain: ci
         log.path: ${user.home}/logs
@@ -1009,14 +1009,14 @@ test-perf:
         
 sandbox:
     api: 
-        <<: *API-DEFAULT
+        <<: *API-TEAM
         sli.sandbox.autoRegisterApps: true
     dashboard:
-        <<: *DASHBOARD-DEFAULT
+        <<: *DASHBOARD-TEAM
     ingestion:
-        <<: *INGESTION-DEFAULT
+        <<: *INGESTION-TEAM
     data-access:
-        <<: *DATA-ACCESS-DEFAULT
+        <<: *DATA-ACCESS-TEAM
     misc:
-        <<: *MISC-DEFAULT
+        <<: *MISC-TEAM
 
