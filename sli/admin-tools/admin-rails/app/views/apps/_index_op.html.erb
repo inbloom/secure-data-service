@@ -16,7 +16,7 @@
 		<td><%= I18n.localize(Time.at(app.metaData.created / 1000)) unless !app.metaData.attributes.has_key? :created %></td>
 		<td><%= I18n.localize(Time.at(app.metaData.updated / 1000)) unless !app.metaData.attributes.has_key? :updated %></td>
                 <td>Pending</td>
-		<td><%= link_to_if !app.registered, 'Y', "#", :class=> 'edit-link' %> | <%= link_to 'X', app, :remote => true,  :confirm => "Are you sure?", :method => :delete %></td>
+		<td><%= link_to_if app.registration.status == 'PENDING', 'Y', "#", :class=> 'edit-link' %> | <%= link_to 'X', app, :remote => true,  :confirm => "Are you sure?", :method => :delete %></td>
 		</tr>
 		<tr>
 			<td colspan="6"><%= render :partial => 'form', :locals => {:app => app} %></td>
