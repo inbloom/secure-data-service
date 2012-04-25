@@ -99,7 +99,7 @@ public class ConfigManagerTest {
         Assert.assertEquals("attendance", config.getRoot());
         Assert.assertEquals(config.getName(), "Grid");
         Assert.assertEquals("studentAttendance", config.getData().getEntityRef());
-        Assert.assertEquals("studentAttendance", config.getData().getAlias());
+        Assert.assertEquals("studentAttendance", config.getData().getCacheKey());
         Config.Item[] items = config.getItems();
         Assert.assertEquals(items.length, 3);
         // check the default one is a FIELD

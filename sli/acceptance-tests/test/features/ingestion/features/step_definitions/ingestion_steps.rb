@@ -37,7 +37,7 @@ Given /^I am using destination-local data store$/ do
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
-  if INGESTION_LANDING_ZONE.rindex('/') == -1
+  if INGESTION_LANDING_ZONE.rindex('/') == (INGESTION_LANDING_ZONE.length - 1)
     @landing_zone_path = INGESTION_LANDING_ZONE
   else
     @landing_zone_path = INGESTION_LANDING_ZONE+'/'
@@ -185,7 +185,7 @@ def dirContainsBatchJobLogs?(dir, num)
   Dir.foreach(dir) do |file|
     if /^job-.*.log$/.match file
       count += 1
-      if count >= num 
+      if count >= num
         return true
       end
     end
@@ -395,7 +395,7 @@ Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do
   @entity_collection = @db.collection(collection)
   @entity =  @entity_collection.find({field => value})
   assert(@entity.count == 1, "Found more than one document with this query (or zero :) )")
-  
+
 end
 
 When /^verify that "([^"]*)" is (equal|unequal) to "([^"]*)"$/ do |arg1, equal_or_unequal, arg2|
@@ -424,7 +424,7 @@ Then /^verify the following data in that document:$/ do |table|
       curSearchString.split('.').each do |part|
         is_num?(part) ? val = val[part.to_i] : val = val[part]
       end
-      if row["searchType"] == "integer" 
+      if row["searchType"] == "integer"
         assert(val == row['searchValue'].to_i, "Expected value: #{row['searchValue']}, but received #{val}")
       else
         assert(val == row['searchValue'], "Expected value: #{row['searchValue']}, but received #{val}")
@@ -443,7 +443,7 @@ end
 
 
 def checkForContentInFileGivenPrefix(message, prefix)
-  
+
   if (INGESTION_MODE == 'remote')
 
     runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
@@ -493,6 +493,11 @@ end
 
 Then /^I should see "([^"]*)" in the resulting error log file$/ do |message|
     prefix = "error."
+    checkForContentInFileGivenPrefix(message, prefix)
+end
+
+Then /^I should see "([^"]*)" in the resulting warning log file$/ do |message|
+    prefix = "warn."
     checkForContentInFileGivenPrefix(message, prefix)
 end
 
@@ -573,6 +578,11 @@ After do
   @conn.close if @conn != nil
 end
 
+# Uncomment the following to exit after the first failing scenario.
+# Useful for debugging
+#After do |scenario|
+#  Cucumber.wants_to_quit = true if scenario.failed?
+#end
 ############################################################
 # END
 ############################################################

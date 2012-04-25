@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documents>
+	<document name="Academic Honor">
+		<class name="AcademicHonor"></class>
+		<resourceName>academicHonors</resourceName>
+		<collectionName>academicHonor</collectionName>
+	</document>
+	<document name="Academic Subjects Type">
+		<class name="AcademicSubjectsType"></class>
+		<resourceName>academicSubjectsTypes</resourceName>
+		<collectionName>academicSubjectsType</collectionName>
+	</document>
+	<document name="Academic Week">
+		<class name="AcademicWeek"></class>
+		<resourceName>academicWeeks</resourceName>
+		<collectionName>academicWeek</collectionName>
+	</document>
+	<document name="Accountability Rating">
+		<class name="AccountabilityRating"></class>
+		<resourceName>accountabilityRatings</resourceName>
+		<collectionName>accountabilityRating</collectionName>
+	</document>
+	<document name="AdditionalCredits">
+		<class name="AdditionalCredits"></class>
+		<resourceName>additionalCreditss</resourceName>
+		<collectionName>additionalCredits</collectionName>
+	</document>
+	<document name="Assessment">
+		<class name="Assessment"></class>
+		<resourceName>assessments</resourceName>
+		<collectionName>assessment</collectionName>
+	</document>
+	<document name="AssessmentIdentificationCode">
+		<class name="AssessmentIdentificationCode"></class>
+		<resourceName>assessmentIdentificationCodes</resourceName>
+		<collectionName>assessmentIdentificationCode</collectionName>
+	</document>
+	<document name="AssessmentItem">
+		<class name="AssessmentItem"></class>
+		<resourceName>assessmentItems</resourceName>
+		<collectionName>assessmentItem</collectionName>
+	</document>
+	<document name="AssessmentPerformanceLevel">
+		<class name="AssessmentPerformanceLevel"></class>
+		<resourceName>assessmentPerformanceLevels</resourceName>
+		<collectionName>assessmentPerformanceLevel</collectionName>
+	</document>
+	<document name="AssessmentPeriodDescriptor">
+		<class name="AssessmentPeriodDescriptor"></class>
+		<resourceName>assessmentPeriodDescriptors</resourceName>
+		<collectionName>assessmentPeriodDescriptor</collectionName>
+	</document>
+	<document name="Attendance">
+		<class name="Attendance"></class>
+		<resourceName>attendances</resourceName>
+		<collectionName>attendance</collectionName>
+	</document>
+	<document name="AttendanceEvent">
+		<class name="AttendanceEvent"></class>
+		<resourceName>attendanceEvents</resourceName>
+		<collectionName>attendanceEvent</collectionName>
+	</document>
+	<document name="BehaviorDescriptor">
+		<class name="BehaviorDescriptor"></class>
+		<resourceName>behaviorDescriptors</resourceName>
+		<collectionName>behaviorDescriptor</collectionName>
+	</document>
+	<document name="BellSchedule">
+		<class name="BellSchedule"></class>
+		<resourceName>bellSchedules</resourceName>
+		<collectionName>bellSchedule</collectionName>
+	</document>
+	<document name="CTEProgram">
+		<class name="CTEProgram"></class>
+		<resourceName>cTEPrograms</resourceName>
+		<collectionName>cTEProgram</collectionName>
+	</document>
+	<document name="CalendarDate">
+		<class name="CalendarDate"></class>
+		<resourceName>calendarDates</resourceName>
+		<collectionName>calendarDate</collectionName>
+	</document>
+	<document name="ClassRanking">
+		<class name="ClassRanking"></class>
+		<resourceName>classRankings</resourceName>
+		<collectionName>classRanking</collectionName>
+	</document>
+	<document name="Cohort">
+		<class name="Cohort"></class>
+		<resourceName>cohorts</resourceName>
+		<collectionName>cohort</collectionName>
+	</document>
+	<document name="CohortYear">
+		<class name="CohortYear"></class>
+		<resourceName>cohortYears</resourceName>
+		<collectionName>cohortYear</collectionName>
+	</document>
+	<document name="Course">
+		<class name="Course"></class>
+		<resourceName>courses</resourceName>
+		<collectionName>course</collectionName>
+	</document>
+	<document name="CourseCode">
+		<class name="CourseCode"></class>
+		<resourceName>courseCodes</resourceName>
+		<collectionName>courseCode</collectionName>
+	</document>
+	<document name="Credential">
+		<class name="Credential"></class>
+		<resourceName>credentials</resourceName>
+		<collectionName>credential</collectionName>
+	</document>
+	<document name="CredentialFieldDescriptor">
+		<class name="CredentialFieldDescriptor"></class>
+		<resourceName>credentialFieldDescriptors</resourceName>
+		<collectionName>credentialFieldDescriptor</collectionName>
+	</document>
+	<document name="Credits">
+		<class name="Credits"></class>
+		<resourceName>creditss</resourceName>
+		<collectionName>credits</collectionName>
+	</document>
+	<document name="CreditsByCourse">
+		<class name="CreditsByCourse"></class>
+		<resourceName>creditsByCourses</resourceName>
+		<collectionName>creditsByCourse</collectionName>
+	</document>
+	<document name="CreditsBySubject">
+		<class name="CreditsBySubject"></class>
+		<resourceName>creditsBySubjects</resourceName>
+		<collectionName>creditsBySubject</collectionName>
+	</document>
+	<document name="DailyAttendanceType">
+		<class name="DailyAttendanceType"></class>
+		<resourceName>dailyAttendanceTypes</resourceName>
+		<collectionName>dailyAttendanceType</collectionName>
+	</document>
+	<document name="Diploma">
+		<class name="Diploma"></class>
+		<resourceName>diplomas</resourceName>
+		<collectionName>diploma</collectionName>
+	</document>
+	<document name="Disability">
+		<class name="Disability"></class>
+		<resourceName>disabilitys</resourceName>
+		<collectionName>disability</collectionName>
+	</document>
+	<document name="DisciplineAction">
+		<class name="DisciplineAction"></class>
+		<resourceName>disciplineActions</resourceName>
+		<collectionName>disciplineAction</collectionName>
+	</document>
+	<document name="DisciplineDescriptor">
+		<class name="DisciplineDescriptor"></class>
+		<resourceName>disciplineDescriptors</resourceName>
+		<collectionName>disciplineDescriptor</collectionName>
+	</document>
+	<document name="DisciplineIncident">
+		<class name="DisciplineIncident"></class>
+		<resourceName>disciplineIncidents</resourceName>
+		<collectionName>disciplineIncident</collectionName>
+	</document>
+	<document name="EducationOrgAssociation">
+		<class name="EducationOrgAssociation"></class>
+		<resourceName>educationOrgAssociations</resourceName>
+		<collectionName>educationOrgAssociation</collectionName>
+	</document>
+	<document name="EducationOrgIdentificationCode">
+		<class name="EducationOrgIdentificationCode"></class>
+		<resourceName>educationOrgIdentificationCodes</resourceName>
+		<collectionName>educationOrgIdentificationCode</collectionName>
+	</document>
+	<document name="EducationOrganization">
+		<class name="EducationOrganization"></class>
+		<resourceName>educationOrganizations</resourceName>
+		<collectionName>educationOrganization</collectionName>
+	</document>
+	<document name="EducationalOrgIdentityType">
+		<class name="EducationalOrgIdentityType"></class>
+		<resourceName>educationalOrgIdentityTypes</resourceName>
+		<collectionName>educationalOrgIdentityType</collectionName>
+	</document>
+	<document name="ElectronicMail">
+		<class name="ElectronicMail"></class>
+		<resourceName>electronicMails</resourceName>
+		<collectionName>electronicMail</collectionName>
+	</document>
+	<document name="EmploymentPeriod">
+		<class name="EmploymentPeriod"></class>
+		<resourceName>employmentPeriods</resourceName>
+		<collectionName>employmentPeriod</collectionName>
+	</document>
+	<document name="EventBellScheduleAssociation">
+		<class name="EventBellScheduleAssociation"></class>
+		<resourceName>eventBellScheduleAssociations</resourceName>
+		<collectionName>eventBellScheduleAssociation</collectionName>
+	</document>
+	<document name="FeederSchoolType">
+		<class name="FeederSchoolType"></class>
+		<resourceName>feederSchoolTypes</resourceName>
+		<collectionName>feederSchoolType</collectionName>
+	</document>
+	<document name="Grade">
+		<class name="Grade"></class>
+		<resourceName>grades</resourceName>
+		<collectionName>grade</collectionName>
+	</document>
+	<document name="GradebookEntry">
+		<class name="GradebookEntry"></class>
+		<resourceName>gradebookEntrys</resourceName>
+		<collectionName>gradebookEntry</collectionName>
+	</document>
+	<document name="GradingPeriod">
+		<class name="GradingPeriod"></class>
+		<resourceName>gradingPeriods</resourceName>
+		<collectionName>gradingPeriod</collectionName>
+	</document>
+	<document name="GraduationPlan">
+		<class name="GraduationPlan"></class>
+		<resourceName>graduationPlans</resourceName>
+		<collectionName>graduationPlan</collectionName>
+	</document>
+	<document name="InstitutionTelephone">
+		<class name="InstitutionTelephone"></class>
+		<resourceName>institutionTelephones</resourceName>
+		<collectionName>institutionTelephone</collectionName>
+	</document>
+	<document name="LearningObjective">
+		<class name="LearningObjective"></class>
+		<resourceName>learningObjectives</resourceName>
+		<collectionName>learningObjective</collectionName>
+	</document>
+	<document name="LearningObjectiveIdentityType">
+		<class name="LearningObjectiveIdentityType"></class>
+		<resourceName>learningObjectiveIdentityTypes</resourceName>
+		<collectionName>learningObjectiveIdentityType</collectionName>
+	</document>
+	<document name="LearningStandard">
+		<class name="LearningStandard"></class>
+		<resourceName>learningStandards</resourceName>
+		<collectionName>learningStandard</collectionName>
+	</document>
+	<document name="LearningStandardId">
+		<class name="LearningStandardId"></class>
+		<resourceName>learningStandardIds</resourceName>
+		<collectionName>learningStandardId</collectionName>
+	</document>
+	<document name="LearningStandardIdentityType">
+		<class name="LearningStandardIdentityType"></class>
+		<resourceName>learningStandardIdentityTypes</resourceName>
+		<collectionName>learningStandardIdentityType</collectionName>
+	</document>
+	<document name="LearningStyles">
+		<class name="LearningStyles"></class>
+		<resourceName>learningStyless</resourceName>
+		<collectionName>learningStyles</collectionName>
+	</document>
+	<document name="LeaveEvent">
+		<class name="LeaveEvent"></class>
+		<resourceName>leaveEvents</resourceName>
+		<collectionName>leaveEvent</collectionName>
+	</document>
+	<document name="Location">
+		<class name="Location"></class>
+		<resourceName>locations</resourceName>
+		<collectionName>location</collectionName>
+	</document>
+	<document name="MeetingTime">
+		<class name="MeetingTime"></class>
+		<resourceName>meetingTimes</resourceName>
+		<collectionName>meetingTime</collectionName>
+	</document>
+	<document name="MiscellaneousEvent">
+		<class name="MiscellaneousEvent"></class>
+		<resourceName>miscellaneousEvents</resourceName>
+		<collectionName>miscellaneousEvent</collectionName>
+	</document>
+	<document name="Name">
+		<class name="Name"></class>
+		<resourceName>names</resourceName>
+		<collectionName>name</collectionName>
+	</document>
+	<document name="ObjectiveAssessment">
+		<class name="ObjectiveAssessment"></class>
+		<resourceName>objectiveAssessments</resourceName>
+		<collectionName>objectiveAssessment</collectionName>
+	</document>
+	<document name="OpenStaffPosition">
+		<class name="OpenStaffPosition"></class>
+		<resourceName>openStaffPositions</resourceName>
+		<collectionName>openStaffPosition</collectionName>
+	</document>
+	<document name="OtherName">
+		<class name="OtherName"></class>
+		<resourceName>otherNames</resourceName>
+		<collectionName>otherName</collectionName>
+	</document>
+	<document name="Parent">
+		<class name="Parent"></class>
+		<resourceName>parents</resourceName>
+		<collectionName>parent</collectionName>
+	</document>
+	<document name="PerformanceLevelDescriptor">
+		<class name="PerformanceLevelDescriptor"></class>
+		<resourceName>performanceLevelDescriptors</resourceName>
+		<collectionName>performanceLevelDescriptor</collectionName>
+	</document>
+	<document name="PostSecondaryEvent">
+		<class name="PostSecondaryEvent"></class>
+		<resourceName>postSecondaryEvents</resourceName>
+		<collectionName>postSecondaryEvent</collectionName>
+	</document>
+	<document name="Program">
+		<class name="Program"></class>
+		<resourceName>programs</resourceName>
+		<collectionName>program</collectionName>
+	</document>
+	<document name="ProgramParticipation">
+		<class name="ProgramParticipation"></class>
+		<resourceName>programParticipations</resourceName>
+		<collectionName>programParticipation</collectionName>
+	</document>
+	<document name="Recognition">
+		<class name="Recognition"></class>
+		<resourceName>recognitions</resourceName>
+		<collectionName>recognition</collectionName>
+	</document>
+	<document name="RestraintEvent">
+		<class name="RestraintEvent"></class>
+		<resourceName>restraintEvents</resourceName>
+		<collectionName>restraintEvent</collectionName>
+	</document>
+	<document name="RestraintEventReasonsType">
+		<class name="RestraintEventReasonsType"></class>
+		<resourceName>restraintEventReasonsTypes</resourceName>
+		<collectionName>restraintEventReasonsType</collectionName>
+	</document>
+	<document name="School">
+		<class name="School"></class>
+		<resourceName>schools</resourceName>
+		<collectionName>school</collectionName>
+	</document>
+	<document name="SchoolSessionAssociation">
+		<class name="SchoolSessionAssociation"></class>
+		<resourceName>schoolSessionAssociations</resourceName>
+		<collectionName>schoolSessionAssociation</collectionName>
+	</document>
+	<document name="SchoolYearAttendanceType">
+		<class name="SchoolYearAttendanceType"></class>
+		<resourceName>schoolYearAttendanceTypes</resourceName>
+		<collectionName>schoolYearAttendanceType</collectionName>
+	</document>
+	<document name="ScoreResult">
+		<class name="ScoreResult"></class>
+		<resourceName>scoreResults</resourceName>
+		<collectionName>scoreResult</collectionName>
+	</document>
+	<document name="SecondaryBehavior">
+		<class name="SecondaryBehavior"></class>
+		<resourceName>secondaryBehaviors</resourceName>
+		<collectionName>secondaryBehavior</collectionName>
+	</document>
+	<document name="Section">
+		<class name="Section"></class>
+		<resourceName>sections</resourceName>
+		<collectionName>section</collectionName>
+	</document>
+	<document name="SectionAssessmentAssociation">
+		<class name="SectionAssessmentAssociation"></class>
+		<resourceName>sectionAssessmentAssociations</resourceName>
+		<collectionName>sectionAssessmentAssociation</collectionName>
+	</document>
+	<document name="SectionBellScheduleAssociation">
+		<class name="SectionBellScheduleAssociation"></class>
+		<resourceName>sectionBellScheduleAssociations</resourceName>
+		<collectionName>sectionBellScheduleAssociation</collectionName>
+	</document>
+	<document name="ServiceDescriptor">
+		<class name="ServiceDescriptor"></class>
+		<resourceName>serviceDescriptors</resourceName>
+		<collectionName>serviceDescriptor</collectionName>
+	</document>
+	<document name="ServiceDescriptorType">
+		<class name="ServiceDescriptorType"></class>
+		<resourceName>serviceDescriptorTypes</resourceName>
+		<collectionName>serviceDescriptorType</collectionName>
+	</document>
+	<document name="Session">
+		<class name="Session"></class>
+		<resourceName>sessions</resourceName>
+		<collectionName>session</collectionName>
+	</document>
+	<document name="SessionCourseAssociation">
+		<class name="SessionCourseAssociation"></class>
+		<resourceName>sessionCourseAssociations</resourceName>
+		<collectionName>sessionCourseAssociation</collectionName>
+	</document>
+	<document name="Staff">
+		<class name="Staff"></class>
+		<resourceName>staff</resourceName>
+		<collectionName>staff</collectionName>
+	</document>
+	<document name="StaffCohortAssociation">
+		<class name="StaffCohortAssociation"></class>
+		<resourceName>staffCohortAssociations</resourceName>
+		<collectionName>staffCohortAssociation</collectionName>
+	</document>
+	<document name="StaffEducationOrganizationAssociation">
+		<class name="StaffEducationOrganizationAssociation"></class>
+		<resourceName>staffEducationOrganizationAssociations</resourceName>
+		<collectionName>staffEducationOrganizationAssociation</collectionName>
+	</document>
+	<document name="StaffIdentificationCode">
+		<class name="StaffIdentificationCode"></class>
+		<resourceName>staffIdentificationCodes</resourceName>
+		<collectionName>staffIdentificationCode</collectionName>
+	</document>
+	<document name="StaffProgramAssociation">
+		<class name="StaffProgramAssociation"></class>
+		<resourceName>staffProgramAssociations</resourceName>
+		<collectionName>staffProgramAssociation</collectionName>
+	</document>
+	<document name="Student">
+		<class name="Student"></class>
+		<resourceName>students</resourceName>
+		<collectionName>student</collectionName>
+	</document>
+	<document name="StudentAcademicRecord">
+		<class name="StudentAcademicRecord"></class>
+		<resourceName>studentAcademicRecords</resourceName>
+		<collectionName>studentAcademicRecord</collectionName>
+	</document>
+	<document name="StudentAssessmentAssociation">
+		<class name="StudentAssessmentAssociation"></class>
+		<resourceName>studentAssessmentAssociations</resourceName>
+		<collectionName>studentAssessmentAssociation</collectionName>
+	</document>
+	<document name="StudentAssessmentItem">
+		<class name="StudentAssessmentItem"></class>
+		<resourceName>studentAssessmentItems</resourceName>
+		<collectionName>studentAssessmentItem</collectionName>
+	</document>
+	<document name="StudentCTEProgramAssociation">
+		<class name="StudentCTEProgramAssociation"></class>
+		<resourceName>studentCTEProgramAssociations</resourceName>
+		<collectionName>studentCTEProgramAssociation</collectionName>
+	</document>
+	<document name="StudentCharacteristic">
+		<class name="StudentCharacteristic"></class>
+		<resourceName>studentCharacteristics</resourceName>
+		<collectionName>studentCharacteristic</collectionName>
+	</document>
+	<document name="StudentCohortAssociation">
+		<class name="StudentCohortAssociation"></class>
+		<resourceName>studentCohortAssociations</resourceName>
+		<collectionName>studentCohortAssociation</collectionName>
+	</document>
+	<document name="StudentDisciplineIncidentAssociation">
+		<class name="StudentDisciplineIncidentAssociation"></class>
+		<resourceName>studentDisciplineIncidentAssociations</resourceName>
+		<collectionName>studentDisciplineIncidentAssociation</collectionName>
+	</document>
+	<document name="StudentIdentificationCode">
+		<class name="StudentIdentificationCode"></class>
+		<resourceName>studentIdentificationCodes</resourceName>
+		<collectionName>studentIdentificationCode</collectionName>
+	</document>
+	<document name="StudentIndicator">
+		<class name="StudentIndicator"></class>
+		<resourceName>studentIndicators</resourceName>
+		<collectionName>studentIndicator</collectionName>
+	</document>
+	<document name="StudentObjectiveAssessment">
+		<class name="StudentObjectiveAssessment"></class>
+		<resourceName>studentObjectiveAssessments</resourceName>
+		<collectionName>studentObjectiveAssessment</collectionName>
+	</document>
+	<document name="StudentParentAssociation">
+		<class name="StudentParentAssociation"></class>
+		<resourceName>studentParentAssociations</resourceName>
+		<collectionName>studentParentAssociation</collectionName>
+	</document>
+	<document name="StudentProgramAssociation">
+		<class name="StudentProgramAssociation"></class>
+		<resourceName>studentProgramAssociations</resourceName>
+		<collectionName>studentProgramAssociation</collectionName>
+	</document>
+	<document name="StudentSchoolAssociation">
+		<class name="StudentSchoolAssociation"></class>
+		<resourceName>studentSchoolAssociations</resourceName>
+		<collectionName>studentSchoolAssociation</collectionName>
+	</document>
+	<document name="StudentSectionAssociation">
+		<class name="StudentSectionAssociation"></class>
+		<resourceName>studentSectionAssociations</resourceName>
+		<collectionName>studentSectionAssociation</collectionName>
+	</document>
+	<document name="StudentSectionGradebookEntry">
+		<class name="StudentSectionGradebookEntry"></class>
+		<resourceName>studentSectionGradebookEntrys</resourceName>
+		<collectionName>studentSectionGradebookEntry</collectionName>
+	</document>
+	<document name="StudentSpecialEdProgramAssociation">
+		<class name="StudentSpecialEdProgramAssociation"></class>
+		<resourceName>studentSpecialEdProgramAssociations</resourceName>
+		<collectionName>studentSpecialEdProgramAssociation</collectionName>
+	</document>
+	<document name="StudentTranscriptAssociation">
+		<class name="StudentTranscriptAssociation"></class>
+		<resourceName>studentTranscriptAssociations</resourceName>
+		<collectionName>studentTranscriptAssociation</collectionName>
+	</document>
+	<document name="Teacher">
+		<class name="Teacher"></class>
+		<resourceName>teachers</resourceName>
+		<collectionName>teacher</collectionName>
+	</document>
+	<document name="TeacherSchoolAssociation">
+		<class name="TeacherSchoolAssociation"></class>
+		<resourceName>teacherSchoolAssociations</resourceName>
+		<collectionName>teacherSchoolAssociation</collectionName>
+	</document>
+	<document name="TeacherSectionAssociation">
+		<class name="TeacherSectionAssociation"></class>
+		<resourceName>teacherSectionAssociations</resourceName>
+		<collectionName>teacherSectionAssociation</collectionName>
+	</document>
+	<document name="Telephone">
+		<class name="Telephone"></class>
+		<resourceName>telephones</resourceName>
+		<collectionName>telephone</collectionName>
+	</document>
+	<document name="WeaponsType">
+		<class name="WeaponsType"></class>
+		<resourceName>weaponsTypes</resourceName>
+		<collectionName>weaponsType</collectionName>
+	</document>
+</documents>

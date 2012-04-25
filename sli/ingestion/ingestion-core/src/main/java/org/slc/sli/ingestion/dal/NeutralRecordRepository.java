@@ -25,6 +25,16 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
     private EntityEncryption entityEncryption;
 
+    MongoIndexManager stagingMongoIndexManager;
+
+    public MongoIndexManager getStagingMongoIndexManager() {
+        return stagingMongoIndexManager;
+    }
+
+    public void setStagingMongoIndexManager(MongoIndexManager stagingMongoIndexManager) {
+        this.stagingMongoIndexManager = stagingMongoIndexManager;
+    }
+
     @Override
     public boolean update(String collection, NeutralRecord neutralRecord) {
         Map<String, Object> body = neutralRecord.getAttributes();
@@ -54,7 +64,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
     public Set<String> getCollectionNames() {
         if (isCollectionGrouping()) {
-            Set<String> collectionSet = template.getCollectionNames();
+            Set<String> collectionSet = getTemplate().getCollectionNames();
             Iterator<String> iter = collectionSet.iterator();
 
             Set<String> currentCollections = new HashSet<String>();
@@ -71,12 +81,12 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
             return currentCollections;
         }
 
-        return template.getCollectionNames();
+        return getTemplate().getCollectionNames();
     }
 
     public void deleteGroupedCollections() {
         if (isCollectionGrouping()) {
-            Set<String> collectionSet = template.getCollectionNames();
+            Set<String> collectionSet = getTemplate().getCollectionNames();
             Iterator<String> iter = collectionSet.iterator();
 
             String currentCollection;
@@ -85,7 +95,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
                 currentCollection = iter.next();
 
                 if (currentCollection.endsWith(getCollectionGroupingIdentifier())) {
-                    template.dropCollection(currentCollection);
+                    getTemplate().dropCollection(currentCollection);
                 }
             }
         }
@@ -108,4 +118,10 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     public void setEntityEncryption(EntityEncryption entityEncryption) {
         this.entityEncryption = entityEncryption;
     }
+
+    public void generateMongoIndexes() {
+        stagingMongoIndexManager.createIndexes(getCollectionGroupingIdentifier());
+        stagingMongoIndexManager.setIndex(getTemplate());
+    }
+
 }

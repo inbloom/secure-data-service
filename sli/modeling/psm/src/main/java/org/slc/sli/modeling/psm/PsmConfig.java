@@ -5,17 +5,17 @@ import java.util.Collections;
 import java.util.List;
 
 public final class PsmConfig<TYPE> {
-    
-    private final List<PsmClassType<TYPE>> classTypes;
-    
-    public PsmConfig(final List<PsmClassType<TYPE>> classTypes) {
-        if (classTypes == null) {
-            throw new NullPointerException("classTypes");
+
+    private final List<PsmDocument<TYPE>> documents;
+
+    public PsmConfig(final List<PsmDocument<TYPE>> documents) {
+        if (documents == null) {
+            throw new NullPointerException("documents");
         }
-        this.classTypes = Collections.unmodifiableList(new ArrayList<PsmClassType<TYPE>>(classTypes));
+        this.documents = Collections.unmodifiableList(new ArrayList<PsmDocument<TYPE>>(documents));
     }
-    
-    public List<PsmClassType<TYPE>> getClassTypes() {
-        return classTypes;
+
+    public List<PsmDocument<TYPE>> getDocuments() {
+        return documents;
     }
 }

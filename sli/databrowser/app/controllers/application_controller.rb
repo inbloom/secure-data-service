@@ -18,8 +18,13 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveResource::ForbiddenAccess do |exception|
     logger.info { "Forbidden access."}
     flash[:error] = "You do not have access to view this."
+
+    # If 403 happened during login, we don't have a valid :back, so render 403 page.
+    # Otherwise redirect back with the flash set
+    if request.headers['referer'].nil? or !request.headers['referer'].include?(request.host)  
+        return render :status => :forbidden, :layout=> false, :file => "#{Rails.root}/public/403.html"
+    end
     redirect_to :back
-    # raise exception
   end
   
   rescue_from ActiveResource::ServerError do |exception|
@@ -89,4 +94,5 @@ class ApplicationController < ActionController::Base
     end
 
   end
+
 end

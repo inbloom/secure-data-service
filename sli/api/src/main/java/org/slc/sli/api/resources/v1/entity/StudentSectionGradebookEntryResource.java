@@ -36,7 +36,7 @@ import org.slc.sli.common.constants.v1.PathConstants;
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_SECTION_GRADEBOOK_ENTRIES)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
 
     @Autowired
@@ -55,11 +55,11 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return all $$studentSectionGradebookEntries$$ the user has context to view
+     * @return all $$studentGradebookEntries$$ the user has context to view
      *
      */
     @Override
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
@@ -89,8 +89,8 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
     /**
      * read
      *
-     * @param studentSectionGradebookEntryId
-     *            The id (or list of ids) of the $$studentSectionGradebookEntries$$.
+     * @param studentGradebookEntryId
+     *            The id (or list of ids) of the $$studentGradebookEntries$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -100,18 +100,18 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
      */
     @Override
     @GET
-    @Path("{" + ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response read(@PathParam(ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID) final String studentSectionGradebookEntryId,
+    @Path("{" + ParameterConstants.STUDENT_GRADEBOOK_ENTRY_ID + "}")
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
+    public Response read(@PathParam(ParameterConstants.STUDENT_GRADEBOOK_ENTRY_ID) final String studentGradebookEntryId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(studentSectionGradebookEntryId, headers, uriInfo);
+        return super.read(studentGradebookEntryId, headers, uriInfo);
     }
 
     /**
      * delete
      *
-     * @param studentSectionGradebookEntryId
-     *            The Id of the $$studentSectionGradebookEntries$$.
+     * @param studentGradebookEntryId
+     *            The Id of the $$studentGradebookEntries$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
@@ -120,17 +120,17 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
      */
     @Override
     @DELETE
-    @Path("{" + ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID) final String studentSectionGradebookEntryId,
+    @Path("{" + ParameterConstants.STUDENT_GRADEBOOK_ENTRY_ID + "}")
+    public Response delete(@PathParam(ParameterConstants.STUDENT_GRADEBOOK_ENTRY_ID) final String studentGradebookEntryId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(studentSectionGradebookEntryId, headers, uriInfo);
+        return super.delete(studentGradebookEntryId, headers, uriInfo);
     }
 
     /**
      * update
      *
-     * @param studentSectionGradebookEntryId
-     *            The id of the $$studentSectionGradebookEntries$$.
+     * @param studentGradebookEntryId
+     *            The id of the $$studentGradebookEntries$$.
      * @param newEntityBody
      *            entity data
      * @param headers
@@ -141,10 +141,10 @@ public class StudentSectionGradebookEntryResource extends DefaultCrudEndpoint {
      */
     @Override
     @PUT
-    @Path("{" + ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID + "}")
-    public Response update(@PathParam(ParameterConstants.STUDENT_SECTION_GRADEBOOK_ENTRY_ID) final String studentSectionGradebookEntryId,
+    @Path("{" + ParameterConstants.STUDENT_GRADEBOOK_ENTRY_ID + "}")
+    public Response update(@PathParam(ParameterConstants.STUDENT_GRADEBOOK_ENTRY_ID) final String studentGradebookEntryId,
             final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(studentSectionGradebookEntryId, newEntityBody, headers, uriInfo);
+        return super.update(studentGradebookEntryId, newEntityBody, headers, uriInfo);
     }
 }
