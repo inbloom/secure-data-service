@@ -110,8 +110,8 @@ public class XmlFileProcessor implements Processor {
                     fe.getFileName(), null, null, null, faultLevel, faultLevel, faultMessage);
             batchJobDAO.saveError(error);
         }
-        BatchJobUtils.writeErrorsWithDAO(batchJobId, BatchJobStageType.XML_FILE_PROCESSOR, fe.getFaultsReport(),
-                batchJobDAO);
+        BatchJobUtils.writeErrorsWithDAO(batchJobId, null, BatchJobStageType.XML_FILE_PROCESSOR,
+                fe.getFaultsReport(), batchJobDAO);
     }
 
     public ReferenceResolutionHandler getReferenceResolutionHandler() {
