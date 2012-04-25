@@ -2,7 +2,7 @@ ${headerString}
 
 
 <div id="banner">
-<form class="student-search-form" action="studentSearchPage" method="get" float="right">
+<form class="student-search-form" action="${CONTEXT_ROOT_PATH}/service/layout/studentSearchPage" method="get" float="right">
     
 <input name = "firstName" class="input-small" type="text" placeholder="First Name">
 <input name = "lastName" class="input-small" type="password" placeholder="Last Name">
