@@ -50,6 +50,9 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         optionalFields.add(Constants.ATTR_TRANSCRIPT);
 
         GenericEntity studentWithTranscript = entityManager.getStudentWithOptionalFields(token, studentId, optionalFields);
+        if (studentWithTranscript == null) {
+            return new GenericEntity();
+        }
 
         Map<String, Object> studentTranscript = (Map<String, Object>) studentWithTranscript.get(Constants.ATTR_TRANSCRIPT);
         if (studentTranscript == null) {

@@ -184,10 +184,10 @@ public class PopulationManagerImpl implements PopulationManager {
                 tallyAttendanceData(student);
 
             }
-            
-            
+
+
         }
-        
+
     }
 
     /**
@@ -303,14 +303,14 @@ public class PopulationManagerImpl implements PopulationManager {
 
         student.remove(Constants.ATTR_LINKS);
     }
-    
-    
+
+
     /**
      * This method adds the final grades of a student to the student data. It will only grab the
      * latest two grades.
      * Ideally we would filter on subject area, but there is currently no subject area data in the
      * SDS.
-     * 
+     *
      * @param student
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -324,13 +324,14 @@ public class PopulationManagerImpl implements PopulationManager {
                     .get(Constants.ATTR_STUDENT_SECTION_ASSOC);
             List<Map<String, Object>> stuTransAssocs = (List<Map<String, Object>>) transcripts
                     .get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC);
-            
+
             // Course IDs ordered so that newest course is first. Need to do this because we should
             // show the
             // latest courses first.
-            
+
             Map<Date, Map<String, Object>> previousCourseIds = new TreeMap<Date, Map<String, Object>>(
                     new Comparator<Date>() {
+                        @Override
                         public int compare(Date a, Date b) {
                             if (a.compareTo(b) > 0) {
                                 return -1;
@@ -341,7 +342,7 @@ public class PopulationManagerImpl implements PopulationManager {
                             }
                         }
                     });
-            
+
             // Collect all courseIds based on subject Area if possible
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             for (Map<String, Object> assoc : stuSectAssocs) {
@@ -350,17 +351,17 @@ public class PopulationManagerImpl implements PopulationManager {
                         .get(Constants.ATTR_ASSESSMENT_PERIOD_END_DATE));
                 previousCourseIds.put(date, sections);
             }
-            
+
             // Iterate through the course Id's and grab transcripts grades, once we have 2
             // transcript grades, we're done
             int count = 1;
             for (Date key : previousCourseIds.keySet()) {
-                
+
                 String courseId = (String) (previousCourseIds.get(key).get(Constants.ATTR_COURSE_ID));
                 for (Map<String, Object> assoc : stuTransAssocs) {
                     if (courseId.equalsIgnoreCase((String) assoc.get(Constants.ATTR_COURSE_ID))) {
                         String finalLetterGrade = (String) assoc.get(Constants.ATTR_FINAL_LETTER_GRADE);
-                        Map<String, Object> sections = (Map) previousCourseIds.get(key);
+                        Map<String, Object> sections = previousCourseIds.get(key);
                         String term = (String) ((Map) sections.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_TERM);
                         String year = (String) ((Map) sections.get(Constants.ATTR_SESSIONS))
                                 .get(Constants.ATTR_SCHOOL_YEAR);
@@ -376,12 +377,12 @@ public class PopulationManagerImpl implements PopulationManager {
                         }
                     }
                 }
-                
+
                 if (count > Constants.NUMBER_OF_SECTIONS) {
                     break;
                 }
             }
-            
+
         } catch (ClassCastException ex) {
             ex.printStackTrace();
             Map<String, Object> grade = new LinkedHashMap<String, Object>();
@@ -518,7 +519,11 @@ public class PopulationManagerImpl implements PopulationManager {
     }
 
     private List<GenericEntity> getStudentAttendance(String token, String studentId, String startDate, String endDate) {
-        return entityManager.getAttendance(token, studentId, startDate, endDate);
+        List<GenericEntity> list = entityManager.getAttendance(token, studentId, startDate, endDate);
+        if (list == null) {
+            return Collections.emptyList();
+        }
+        return list;
     }
 
     /**
