@@ -8,7 +8,8 @@
 		<th>Status</th>
 		<th></th>
 	</tr>
-	<% @apps.each do |app| %>
+	<% @apps.select {|app| app.registration.status == 'PENDING' || app.registration.status == 'APPROVED'}
+            .sort{|a,b| b.registration.status <=> a.registration.status}.each do |app| %>
 		<tr id='<%= app.id %>'>
 	    	<td><%= app.name %></td>
 		<td><%= app.version %></td>
