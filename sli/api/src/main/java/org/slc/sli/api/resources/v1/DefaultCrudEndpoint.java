@@ -19,7 +19,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.representation.EntityResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
@@ -256,6 +256,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
                     for (EntityBody result : endpointEntity.getService().list(endpointNeutralQuery)) {
                         if (associations.get(result.get("id")) != null) {
+
+                            // direct self reference dont need to include association in reponse
+                            if (!endpointEntity.getResourceName().equals(entityDef.getResourceName()))
                             result.put(resource1, associations.get(result.get("id")));
                         }
 
