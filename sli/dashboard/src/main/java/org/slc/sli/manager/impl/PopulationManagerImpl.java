@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,10 +17,6 @@ import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
@@ -27,6 +24,9 @@ import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.view.TimedLogic2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi entities/associations such
@@ -630,23 +630,30 @@ public class PopulationManagerImpl implements PopulationManager {
         String firstName = nameList[0];
         String lastName = nameList[1];
         List<GenericEntity> students = entityManager.getStudentsFromSearch(token, firstName, lastName);
+        List<GenericEntity> enhancedStudents = new LinkedList<GenericEntity>();
         HashMap<String, GenericEntity> retrievedSchools = new HashMap<String, GenericEntity>();
         GenericEntity school;
+        
         for (GenericEntity student: students) {
-            if (student.get("currentSchoolId") != null) {
-                if (retrievedSchools.containsKey((String) student.get("currentSchoolId"))) {
-                    school = retrievedSchools.get(student.get("currentSchoolId"));
+            
+            student = entityManager.getStudent(token, student.getId());
+            addFullName(student);
+            
+            if (student.get("schoolId") != null) {
+                if (retrievedSchools.containsKey((String) student.get("schoolId"))) {
+                    school = retrievedSchools.get(student.get("schoolId"));
                     student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST)); 
                 } else {
-                    school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, student.getString("currentSchoolId"), new HashMap());
+                    school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, student.getString("schoolId"), new HashMap());
                     retrievedSchools.put(school.getString(Constants.ATTR_ID), school);
                     student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
                 }
             }
+            enhancedStudents.add(student);
         }
         
         GenericEntity studentSearch = new GenericEntity();
-        studentSearch.put(Constants.ATTR_STUDENTS, students);
+        studentSearch.put(Constants.ATTR_STUDENTS, enhancedStudents);
         return studentSearch;
     }
 }

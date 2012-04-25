@@ -18,6 +18,10 @@
   <#return panelId + "-" + random.nextInt(99999)?string("#####")>
 </#function>
 
+<#function getContextPath>
+    <#return contextRootPath>
+</#function> 
+
 <#macro includeGrid gridId>
   
   <#assign id = getDivId(gridId)>
@@ -59,3 +63,4 @@
   DashboardProxy.loadWidgetConfig(widgetConfigArray);
   var contextRootPath = '${CONTEXT_ROOT_PATH}';
 </script>
+<#include "layout_header.ftl">

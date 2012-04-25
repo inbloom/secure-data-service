@@ -3,6 +3,6 @@
   type: "LAYOUT",
   
   items: [
-    {id: "tab4", name: "Grades and Credits",  type : "TAB", items: [{id: "studentSearch", name: "Student Search", type: "GRID"}]}
+    {id: "studentSearch", name: "Student Search", type: "GRID"}
   ]
 }

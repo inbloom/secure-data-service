@@ -41,6 +41,7 @@ public class LiveAPIClient implements APIClient {
     private static final String SESSION_URL = "/v1/sessions/";
     private static final String STUDENT_ASSMT_ASSOC_URL = "/v1/studentAssessmentAssociations/";
     private static final String STUDENT_SECTION_GRADEBOOK = "/v1/studentSectionGradebookEntries";
+    private static final String STUDENTS_NO_SLASH_URL = "/v1/students";
     
     // resources to append to base urls
     private static final String ATTENDANCES = "/attendances";
@@ -838,7 +839,7 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public String getHeader(String token) {
-        return restClient.getJsonRequest(portalHeaderUrl + "e88cb6d1-771d-46ac-a207-2e58d7f12196");
+        return restClient.getJsonRequest(portalHeaderUrl);
     }
 
     /*
@@ -847,12 +848,32 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public String getFooter(String token) {
-        return restClient.getJsonRequest(portalFooterUrl + "e88cb6d1-771d-46ac-a207-2e58d7f12196");
+        return restClient.getJsonRequest(portalFooterUrl);
     }
 
     @Override
     public List<GenericEntity> getStudentsWithSearch(String token, String firstName, String lastName) {
         // TODO Auto-generated method stub
-        return createEntitiesFromAPI(getApiUrl() + "/v1" + STUDENTS_URL, token, false);
+        String queryString = "?";
+        boolean queryExists = false;
+        if (firstName != null && !firstName.equals("")) {
+            queryString += "name.firstName=" + firstName;
+            queryExists = true;
+            if (lastName != null && !lastName.equals("")) {
+                queryString += "&name.lastSurname=" + lastName;
+            }
+        } else {
+            if (lastName != null && !lastName.equals("")) {
+                queryExists = true;
+                queryString += "name.lastSurname=" + lastName;
+            }
+        }
+        String url = getApiUrl() + STUDENTS_URL;
+        
+        if (queryExists) {
+            url += queryString;
+        }
+        
+        return createEntitiesFromAPI(url, token, false);
     }
 }
