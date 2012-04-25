@@ -119,6 +119,120 @@
   </Section>
 
   <Section>
+    <UniqueSectionCode>7th Grade English - Sec 5</UniqueSectionCode>
+    <SequenceOfCourse>3</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>7th Grade English</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>7th Grade English</ID>
+        </CourseCode>
+        <Term>Spring Semester</Term>
+        <SchoolYear>2010-2011</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Spring 2010 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>6th Grade English - Sec 4</UniqueSectionCode>
+    <SequenceOfCourse>3</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>6th Grade English</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>6th Grade English</ID>
+        </CourseCode>
+        <Term>Spring Semester</Term>
+        <SchoolYear>2009-2010</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Spring 2010 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+
+  <Section>
+    <UniqueSectionCode>7th Grade Math - Sec 2</UniqueSectionCode>
+    <SequenceOfCourse>3</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>7th Grade Math</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>7th Grade Math</ID>
+        </CourseCode>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2010-2011</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>6th Grade Math - Sec 1</UniqueSectionCode>
+    <SequenceOfCourse>3</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>6th Grade Math</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>6th Grade Math</ID>
+        </CourseCode>
+        <Term>Spring Semester</Term>
+        <SchoolYear>2009-2010</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Spring 2010 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+
+  <Section>
     <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
     <SequenceOfCourse>3</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -155,7 +269,7 @@
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>Special Elective: Debate Clinic</LocalCourseCode>
+        <LocalCourseCode>Special Elective:Debate Clinic</LocalCourseCode>
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Special Elective: Debate Clinic</ID>
         </CourseCode>
@@ -1190,7 +1304,7 @@
     </SessionReference>
   </Section>
 
-  <!-- these sections are for Matt Sollars historical data, grade 6 and 7 at middle school, grades 3 - 5 at elementary school. 
+  <!-- these sections are for Matt Sollars historical data, grade 6 and 7 at middle school, grades 3 - 5 at elementary school.
        Note that there is only a single section for his 3rd grade transcript.
        Note that sections for 7th Grade English and 7th Grade Composition have already been defined. -->
   <Section>
@@ -1641,7 +1755,7 @@
       </SessionIdentity>
     </SessionReference>
   </Section>
-  
+
   <Section>
     <UniqueSectionCode>ELA 6A - Sec 5f09</UniqueSectionCode>
     <SequenceOfCourse>3</SequenceOfCourse>
@@ -2482,7 +2596,7 @@
       </SessionIdentity>
     </SessionReference>
   </Section>
-  
+
   <Section>
     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
@@ -2508,6 +2622,93 @@
     <SessionReference>
       <SessionIdentity>
         <SessionName>Fall 2006 South Daybreak Elementary</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+
+  <Section>
+    <UniqueSectionCode>Mrs. Braverman's Homeroom #25</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>3rd Grade Homeroom</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>3rd Grade Homeroom</ID>
+        </CourseCode>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2006-2007</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2006 South Daybreak Elementary</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+
+  <Section>
+    <UniqueSectionCode>Mrs. Braverman's Homeroom #9</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>4th Grade Homeroom</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>4th Grade Homeroom</ID>
+        </CourseCode>
+        <Term>Spring Semester</Term>
+        <SchoolYear>2007-2008</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Spring 2008 South Daybreak Elementary</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+
+  <Section>
+    <UniqueSectionCode>Mrs. Braverman's Homeroom #33</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>5th Grade Homeroom</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>5th Grade Homeroom</ID>
+        </CourseCode>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2008-2009</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2008 South Daybreak Elementary</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
