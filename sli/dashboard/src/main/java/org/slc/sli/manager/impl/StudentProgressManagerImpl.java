@@ -31,6 +31,10 @@ import org.slc.sli.util.Constants;
 public class StudentProgressManagerImpl implements StudentProgressManager {
 
     private static Logger log = LoggerFactory.getLogger(StudentProgressManagerImpl.class);
+    public static final String TRANSCRIPT_HISTORY = "transcriptHistory";
+    public static final String GRADE = "grade";
+    public static final String SUBJECT = "subject";
+    public static final String COURSE = "course";
 
     @Autowired
     private EntityManager entityManager;
@@ -43,19 +47,19 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
 
         String studentId = studentIdObj.toString();
         List<String> optionalFields = new LinkedList<String>();
-        optionalFields.add("transcript");
+        optionalFields.add(Constants.ATTR_TRANSCRIPT);
 
         GenericEntity studentWithTranscript = entityManager.getStudentWithOptionalFields(token, studentId, optionalFields);
 
-        Map<String, Object> studentTranscript = (Map<String, Object>) studentWithTranscript.get("transcript");
+        Map<String, Object> studentTranscript = (Map<String, Object>) studentWithTranscript.get(Constants.ATTR_TRANSCRIPT);
         if (studentTranscript == null) {
             return new GenericEntity();
         }
 
         List<Map<String, Object>> studentTranscriptAssociations = (List<Map<String, Object>>)
-                studentTranscript.get("studentTranscriptAssociations");
+                studentTranscript.get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC);
         List<Map<String, Object>> studentSectionAssociations = (List<Map<String, Object>>)
-                studentTranscript.get("studentSectionAssociations");
+                studentTranscript.get(Constants.ATTR_STUDENT_SECTION_ASSOC);
 
         if (studentSectionAssociations == null || studentTranscriptAssociations == null) {
             return new GenericEntity();
@@ -77,7 +81,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
             GenericEntity term = new GenericEntity();
 
             term.put(Constants.ATTR_TERM, getValue(session, Constants.ATTR_TERM));
-            term.put(Constants.ATTR_GRADE_LEVEL, getValue(courseTranscript, "gradeLevelWhenTaken"));
+            term.put(Constants.ATTR_GRADE_LEVEL, getValue(courseTranscript, Constants.ATTR_GRADE_LEVEL_WHEN_TAKEN));
             term.put(Constants.ATTR_SCHOOL, getSchoolName(section, token));
             term.put(Constants.ATTR_SCHOOL_YEAR, getValue(session, Constants.ATTR_SCHOOL_YEAR));
 
@@ -99,27 +103,27 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         for (Map.Entry<GenericEntity, List<GenericEntity>> entry : transcripts.entrySet()) {
             GenericEntity term = new GenericEntity();
             term.putAll(entry.getKey());
-            term.put("courses", entry.getValue());
+            term.put(Constants.ATTR_COURSES, entry.getValue());
             transcriptData.add(term);
         }
 
         GenericEntity ret = new GenericEntity();
-        ret.put("transcriptHistory", transcriptData);
+        ret.put(TRANSCRIPT_HISTORY, transcriptData);
         return ret;
     }
 
     private GenericEntity getCourseData(Map<String, Object> courseTranscript, Map<String, Object> course) {
         GenericEntity courseData = new GenericEntity();
-        courseData.put("grade", getGrade(courseTranscript));
-        courseData.put("subject", getValue(courseTranscript, Constants.ATTR_SUBJECTAREA));
-        courseData.put("course", getValue(course, Constants.ATTR_COURSE_TITLE));
+        courseData.put(GRADE, getGrade(courseTranscript));
+        courseData.put(SUBJECT, getValue(courseTranscript, Constants.ATTR_SUBJECTAREA));
+        courseData.put(COURSE, getValue(course, Constants.ATTR_COURSE_TITLE));
         return courseData;
     }
 
     private String getGrade(Map<String, Object> courseTranscript) {
         String grade = "";
         // Try to get numeric grade first
-        grade = getValue(courseTranscript, "finalNumericGradeEarned");
+        grade = getValue(courseTranscript, Constants.ATTR_FINAL_NUMERIC_GRADE);
         if (grade.equals("")) {
             grade = getValue(courseTranscript, Constants.ATTR_FINAL_LETTER_GRADE);
         }
@@ -128,11 +132,11 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
 
     private String getSchoolName(Map<String, Object> section, String token) {
         String schoolId = getValue(section, Constants.ATTR_SCHOOL_ID);
-        GenericEntity school = entityManager.getEntity(token, "schools", schoolId, new HashMap<String, String>());
+        GenericEntity school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, schoolId, new HashMap<String, String>());
 
         String schoolName = "";
         if (school != null) {
-            schoolName = school.getString("nameOfInstitution");
+            schoolName = school.getString(Constants.ATTR_NAME_OF_INST);
         }
         return schoolName;
     }
