@@ -58,11 +58,11 @@ public class CSV2XMLTransformer {
     private CSVReader studentParentAssociationReader;
 
     // input csv files
-    private final String studentFile = "data/Student.csv";
-    private final String studentAddressFile = "data/StudentAddress.csv";
-    private final String studentLanguagesFile = "data/StudentLanguage.csv";
-    private final String parentFile = "data/Parent.csv";
-    private final String studentParentAssociationFile = "data/StudentParentAssociation.csv";
+    private static final String studentFile = "data/Student.csv";
+    private static final String studentAddressFile = "data/StudentAddress.csv";
+    private static final String studentLanguagesFile = "data/StudentLanguage.csv";
+    private static final String parentFile = "data/Parent.csv";
+    private static final String studentParentAssociationFile = "data/StudentParentAssociation.csv";
 
     // output Ed-Fi xml file
     private static final String interchangeStudentParentFile = "data/InterchangeStudentParent.xml";
@@ -223,6 +223,8 @@ public class CSV2XMLTransformer {
 
             String id = studentAddressRecord.get("StudentUSI");
             if (id.compareTo(studentId) > 0) {
+                // if the studentUSI of the address record is larger than studentUSI of the student
+                // which means the current address record belongs to next student, not the current one.
                 break;
             } else if (id.equals(studentId)) {
                 student.getAddress().add(this.getAddress(studentAddressRecord));
@@ -246,6 +248,8 @@ public class CSV2XMLTransformer {
 
             String id = studentLanguageRecord.get("StudentUSI");
             if (id.compareTo(studentId) > 0) {
+                // if the studentUSI of the language record is larger than studentUSI of the student
+                // which means the current language record belongs to next student, not the current one.
                 break;
             } else if (id.equals(studentId)) {
                 String ls = studentLanguageRecord.get("Language");
