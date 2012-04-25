@@ -30,10 +30,6 @@
     <jb:value data="attributes staffId element" />
   </jb:bean>
   
-  <jb:bean beanId="staffProgramAssociation_programIdArray" class="java.util.ArrayList" createOnElement="attributes">
-    <jb:value data="attributes programId element" />
-  </jb:bean>
-
   <jb:bean beanId="staffCohortAssociation_cohortIdArray" class="java.util.ArrayList" createOnElement="attributes">
     <jb:value data="attributes cohortId element" />
   </jb:bean>

@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.slc.sli.modeling.psm.PsmDocument;
+import org.slc.sli.modeling.tools.TagName;
 import org.slc.sli.modeling.tools.uml2Xsd.core.Uml2XsdPlugin;
 import org.slc.sli.modeling.tools.uml2Xsd.core.Uml2XsdPluginWriter;
 import org.slc.sli.modeling.tools.uml2Xsd.core.Uml2XsdSyntheticHasName;
@@ -108,7 +109,7 @@ final class PluginForXml implements Uml2XsdPlugin {
             xsw.annotation();
             for (final TaggedValue taggedValue : element.getTaggedValues()) {
                 final TagDefinition tagDefinition = lookup.getTagDefinition(taggedValue.getTagDefinition());
-                if (TagDefinition.NAME_DOCUMENTATION.equals(tagDefinition.getName())) {
+                if (TagName.DOCUMENTATION.equals(tagDefinition.getName())) {
                     xsw.documentation();
                     xsw.characters(collapseWhitespace(taggedValue.getValue()));
                     xsw.end();
@@ -136,7 +137,7 @@ final class PluginForXml implements Uml2XsdPlugin {
             xsw.annotation();
             for (final TaggedValue taggedValue : element.getTaggedValues()) {
                 final TagDefinition tagDefinition = lookup.getTagDefinition(taggedValue.getTagDefinition());
-                if (TagDefinition.NAME_DOCUMENTATION.equals(tagDefinition.getName())) {
+                if (TagName.DOCUMENTATION.equals(tagDefinition.getName())) {
                     xsw.documentation();
                     xsw.characters(collapseWhitespace(taggedValue.getValue()));
                     xsw.end();
