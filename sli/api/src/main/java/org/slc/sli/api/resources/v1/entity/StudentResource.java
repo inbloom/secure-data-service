@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -13,11 +12,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -31,7 +28,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
-import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
@@ -51,7 +47,6 @@ import org.slc.sli.common.constants.v1.PathConstants;
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENTS)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class StudentResource extends DefaultCrudEndpoint {
 
     public static final String UNIQUE_STATE_ID = "studentUniqueStateId";
@@ -94,7 +89,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @Override
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
@@ -118,7 +112,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      */
     @Override
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
@@ -138,7 +131,6 @@ public class StudentResource extends DefaultCrudEndpoint {
     @Override
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.STUDENT_ID) final String id,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(id, headers, uriInfo);
@@ -162,7 +154,6 @@ public class StudentResource extends DefaultCrudEndpoint {
     @SuppressWarnings("unchecked")
     @GET
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_WITH_GRADE)
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response readWithGrade(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
@@ -301,7 +292,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_SECTION_ASSOCIATIONS)
     public Response getStudentSectionAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
@@ -322,7 +312,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_SECTION_ASSOCIATIONS + "/"
             + PathConstants.SECTIONS)
     public Response getStudentSectionAssociationSections(
@@ -344,7 +333,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS)
     public Response getStudentSchoolAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers,
@@ -364,7 +352,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_SCHOOL_ASSOCIATIONS + "/" + PathConstants.SCHOOLS)
     public Response getStudentSchoolAssociationSchools(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers,
@@ -385,7 +372,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS)
     public Response getStudentAssessmentAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
                                                      @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
@@ -403,7 +389,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_ASSESSMENT_ASSOCIATIONS + "/"
             + PathConstants.ASSESSMENTS)
     public Response getStudentAssessmentAssociationsAssessments(
@@ -426,7 +411,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.ATTENDANCES)
     public Response getStudentsAttendance(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
                                                      @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
@@ -447,7 +431,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.COURSE_TRANSCRIPTS)
     public Response getStudentTranscriptAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers,
@@ -468,7 +451,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.COURSE_TRANSCRIPTS + "/" + PathConstants.COURSES)
     public Response getStudentTranscriptAssociationCourses(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers,
@@ -486,7 +468,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS)
     public Response getStudentParentAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
                                                  @Context HttpHeaders headers,
@@ -504,7 +485,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_PARENT_ASSOCIATIONS + "/" + PathConstants.PARENTS)
     public Response getStudentParentAssociationCourses(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
                                                        @Context HttpHeaders headers,
@@ -522,7 +502,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
     public Response getStudentDisciplineIncidentAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
                                                              @Context HttpHeaders headers,
@@ -541,7 +520,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS + "/" + PathConstants.DISCIPLINE_INCIDENTS)
     public Response getStudentDisciplineIncidentAssociationDisciplineIncidents(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
                                                                                @Context HttpHeaders headers,
@@ -568,7 +546,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS)
     public Response getStudentCohortAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers,
@@ -590,7 +567,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_COHORT_ASSOCIATIONS + "/" + PathConstants.COHORTS)
     public Response getStudentCohortAssociationCohorts(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers,
@@ -618,7 +594,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_PROGRAM_ASSOCIATIONS)
     public Response getStudentProgramAssociations(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers,
@@ -640,7 +615,6 @@ public class StudentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.STUDENT_PROGRAM_ASSOCIATIONS + "/" + PathConstants.PROGRAMS)
     public Response getStudentProgramAssociationPrograms(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
             @Context HttpHeaders headers,

@@ -10,6 +10,13 @@ package org.slc.sli.validation.schema;
  * 
  */
 public class NumberUtils {
+
+    /**
+     * Helper interface for converting objects
+     */
+    public interface Converter {
+        public Object convert(Object value);
+    }
     
     /**
      * Takes an object and attempts to convert it to a double, returning null if it's not a numeric
@@ -50,5 +57,25 @@ public class NumberUtils {
             return (Integer) data;
         }
         return null;
+    }
+
+    /**
+     * Converts a string object to the desired object
+     * @param value Value to convert
+     * @param converter The actual converter doing the work
+     * @return
+     */
+    public static Object converterHelper(Object value, Converter converter) {
+        Object retValue = value;
+        try {
+            if (value != null && String.class.isInstance(value)
+                    && !((String) value).isEmpty()) {
+                retValue = converter.convert(value);
+            }
+        } catch (NumberFormatException e) {
+            retValue = value;
+        }
+
+        return retValue;
     }
 }

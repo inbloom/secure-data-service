@@ -81,6 +81,11 @@
         <sli.home>${project.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
         <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf> 
+		
+		<!-- Signing Artifacts -->
+		<sli.sign.keystore>${project.parent.basedir}/../data-access/dal/keyStore/localKeyStore.jks</sli.sign.keystore>
+		<sli.sign.storepass>dalKey</sli.sign.storepass>
+		
 	</properties>
 
 	<!-- Environment profiles. A profile encapsulates a set of properties and
@@ -800,6 +805,26 @@
 					<artifactId>maven-site-plugin</artifactId>
 					<version>3.0-beta-3</version>
 				</plugin>
+				
+		      <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-jarsigner-plugin</artifactId>
+		        <version>1.2</version>
+				<executions>
+			        <execution>
+			          <id>sign</id>
+			          <goals>
+			            <goal>sign</goal>
+			          </goals>
+			        </execution>
+				</executions>
+				<configuration>
+					<alias>wildcard</alias>
+					<keystore>${sli.sign.keystore}</keystore>
+					<storepass>${sli.sign.storepass}</storepass>
+				</configuration>
+		      </plugin>
+		
 			</plugins>
 		</pluginManagement>
 
