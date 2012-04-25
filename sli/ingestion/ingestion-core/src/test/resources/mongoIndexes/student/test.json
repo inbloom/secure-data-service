@@ -2,6 +2,8 @@
     "collection": "student",
     "indexFields":
     [
-        {"name" : "body.name" , "position" : "1"}
+        {"name" : "body.name" , "position" : "1"},
+        {"name" : "body.sex" , "position" : "-1"},
+        {"name" : "body.birthDate", "position" : "1"}
     ]
 }

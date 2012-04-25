@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion;
+package org.slc.sli.ingestion.referenceresolution;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -148,9 +148,9 @@ public class ReferenceConstructor extends DefaultHandler {
         // If in reference, add reference to reference map.
         if (isInsideReferenceEntity) {
             currentReferenceXMLString += tempVal.toString();
-            if ((tempVal.toString().contains("\n")) && tempVal.toString().trim().isEmpty()) {
-                currentReferenceXMLString += "\t";
-            }
+//            if ((tempVal.toString().contains("\n")) && tempVal.toString().trim().isEmpty()) {
+//                currentReferenceXMLString += "\t";
+//            }
             tempVal.append("\n\t");
             currentReferenceXMLString += "</" + qName + ">";
             if (qName.endsWith("Reference")) {
