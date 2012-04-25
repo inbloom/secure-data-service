@@ -5,6 +5,17 @@ module AppsHelper
     link_to title, {:sort => value, :direction => direction}, {:class => direction}
   end
 
+  #def get_district_hierarchy
+  #foo = EducationOrganization.find(:all, :params => {"shortNameOfInstitution" => "NYPDSS"})
+  #
+  #  ed_orgs = EducationOrganization.all
+  #  result = {}
+  #
+  #  ed_orgs.each do |ed_org|
+  #
+  #  end
+  #end
+
   def get_district_hierarchy
     result = {}
     ed_orgs = EducationOrganization.all
