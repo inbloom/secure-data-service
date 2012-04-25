@@ -9,9 +9,9 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>mock-idp</artifactId>
+  <artifactId>simple-idp</artifactId>
   <packaging>war</packaging>
-  <name>Sandbox Mock IDP</name>
+  <name>Simple IDP</name>
 
   <properties>
     <sli.home>${project.parent.basedir}</sli.home>
@@ -84,7 +84,7 @@
   </dependencies>
 
   <build>
-    <finalName>mock-idp</finalName>
+    <finalName>simple-idp</finalName>
 
     <plugins>
       <plugin>

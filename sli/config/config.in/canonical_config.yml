@@ -115,11 +115,11 @@ default:
         # (used in common and data-access)
         sli.wildcard.x509certificate.alias: wildcard
 
-        # (only used in mock-idp)
-        sli.mock-idp.issuer-base: http://local.slidev.org:8082/mock-idp
+        # (only used in simple-idp)
+        sli.simple-idp.issuer-base: http://local.slidev.org:8082/simple-idp
 
-        # (only used in mock-idp)
-        sli.mock-idp.response-destination: http://local.slidev.org:8080/api/rest/saml/sso/post  
+        # (only used in simple-idp)
+        sli.simple-idp.response-destination: http://local.slidev.org:8080/api/rest/saml/sso/post  
 
         # SLI Subdomain substituted by various services (used by SDK and dashboard) 
         sli.dev.subdomain: ci
@@ -130,7 +130,7 @@ default:
         sli.log4j.logger.org.apache.activemq: WARN
         sli.log4j.logger.org.springframework: WARN
 
-        # path to log directory (used by mock-idp and dashboard)
+        # path to log directory (used by simple-idp and dashboard)
         log.path: ${user.home}/logs
 
 acceptance-tests: 
@@ -741,8 +741,8 @@ team:
         <<: *MISC-DEFAULT
         sli.dev.subdomain: ci
         log.path: /storage/logs
-        sli.mock-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/mock-idp
-        sli.mock-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
+        sli.simple-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/simple-idp
+        sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
 
 
 

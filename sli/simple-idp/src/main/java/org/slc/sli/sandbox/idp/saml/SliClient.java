@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SliClient {
     
-    @Value("${sli.mock-idp.response-destination}")
+    @Value("${sli.simple-idp.response-destination}")
     String destination;
     
     private HttpClient httpclient = new DefaultHttpClient();

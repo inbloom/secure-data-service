@@ -1,0 +1,7 @@
+load the local host realm json into mongo realm collection
+run API on locahost:8080
+run simple-idp on localhost:8082
+hit api with clientId and redirect_uri from application collection:
+  eg.  http://localhost:8080/api/oauth/authorize?client_id=fm67sH6vZZ&redirect_uri=http://local.slidev.org:8081/sample/callback
+
+

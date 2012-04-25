@@ -35,7 +35,7 @@ public class LoginService {
      * in a realm document, otherwise the API will not be able to figure out which tenant this
      * request is for.
      */
-    @Value("${sli.mock-idp.issuer-base}")
+    @Value("${sli.simple-idp.issuer-base}")
     private String issuerBase;
     
     /**

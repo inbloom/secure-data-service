@@ -1,6 +1,6 @@
-{ "_id" : { "$binary" : "ZUUkF5b+S1rhPG55sBOGUQ==", "$type" : "03" },
-  "body" : { "idp" : { "id" : "http://local.slidev.org:8082/mock-idp?tenant=SLI",
-      "redirectEndpoint" : "http://local.slidev.org:8082/mock-idp?tenant=SLI" },
+{ "_id" : { "$binary" : "ZUUkF5b+S1rhPG55sBOGIL==", "$type" : "03" },
+  "body" : { "idp" : { "id" : "http://local.slidev.org:8082/simple-idp?tenant=IL",
+      "redirectEndpoint" : "http://local.slidev.org:8082/simple-idp?tenant=IL" },
     "mappings" : { "role" : [ 
         { "sliRoleName" : "SLI Administrator",
           "clientRoleName" : [ 
@@ -20,7 +20,7 @@
         { "sliRoleName" : "Leader",
           "clientRoleName" : [ 
             "Leader" ] } ] },
-    "name" : "Mock IDP - localhost (SLI)",
+    "name" : "Simple IDP - localhost (IL)",
     "saml" : { "field" : [ 
         { "clientName" : "roles",
           "sliName" : "roles",
@@ -40,6 +40,6 @@
         { "clientName" : "userName",
           "sliName" : "userName",
           "transform" : "(.+)" } ] },
-    "tenantId" : "SLI" },
+    "tenantId" : "IL" },
   "metadata" : {},
   "type" : "realm" }
