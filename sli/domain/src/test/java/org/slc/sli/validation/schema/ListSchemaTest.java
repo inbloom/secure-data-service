@@ -56,7 +56,7 @@ public class ListSchemaTest {
     }
 
     @Test
-    public void testListOfBooleanFailureValidation() throws IllegalArgumentException {
+    public void testListOfBooleanStringValidation() throws IllegalArgumentException {
         schema.clearFields();
         schema.getList().add(booleanSchema);
         List<String> listEntity = new ArrayList<String>();
@@ -65,7 +65,7 @@ public class ListSchemaTest {
         // Setup for failure
         listEntity.add(stringEntity);
 
-        assertFalse("Expected ListSchema boolean validation failure did not succeed", schema.validate(listEntity));
+        assertTrue("ListSchema boolean validation failed", schema.validate(listEntity));
     }
 
     @Test
@@ -104,7 +104,7 @@ public class ListSchemaTest {
     }
 
     @Test
-    public void testListOfLongFailureValidation() throws IllegalArgumentException {
+    public void testListOfLongNonNumberStringValidation() throws IllegalArgumentException {
         schema.clearFields();
         schema.getList().add(longSchema);
         List<String> listEntity = new ArrayList<String>();
@@ -113,7 +113,7 @@ public class ListSchemaTest {
         // Setup for failure
         listEntity.add(stringEntity);
 
-        assertFalse("Expected ListSchema long validation failure did not succeed", schema.validate(listEntity));
+        assertFalse("ListSchema long validation failed", schema.validate(listEntity));
     }
 
     @Test

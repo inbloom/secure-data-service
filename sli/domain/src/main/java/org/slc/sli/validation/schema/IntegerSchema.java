@@ -41,7 +41,12 @@ public class IntegerSchema extends NeutralSchema {
 
     @Override
     public Object convert(Object value) {
-        return Integer.parseInt((String) value);
+        return NumberUtils.converterHelper(value, new NumberUtils.Converter() {
+            @Override
+            public Object convert(Object value) {
+                return Integer.parseInt((String) value);
+            }
+        });
     }
     
     /**
@@ -60,6 +65,7 @@ public class IntegerSchema extends NeutralSchema {
      * @return true if valid
      */
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
+        entity = convert(entity);
         Integer data = NumberUtils.toInteger(entity);
         if (!addError(data != null, fieldName, entity, "Integer", ErrorType.INVALID_DATATYPE, errors)) {
             return false;
