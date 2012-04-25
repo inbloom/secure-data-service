@@ -8,6 +8,7 @@ import java.util.SortedSet;
 
 import freemarker.ext.beans.BeansWrapper;
 
+import org.slc.sli.manager.StudentProgressManager;
 import org.slc.sli.view.GradebookEntryResolver;
 import org.slc.sli.view.HistoricalDataResolver;
 import org.slc.sli.view.LozengeConfigResolver;
@@ -34,7 +35,6 @@ import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.PopulationManager;
-import org.slc.sli.manager.StudentProgressManager;
 import org.slc.sli.manager.ViewManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;

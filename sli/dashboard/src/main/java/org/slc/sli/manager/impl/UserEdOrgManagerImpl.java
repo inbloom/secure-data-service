@@ -12,6 +12,9 @@ import java.util.Vector;
 
 import com.googlecode.ehcache.annotations.Cacheable;
 
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
+
 import org.slc.sli.entity.Config.Data;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.EdOrgKey;
@@ -26,6 +29,15 @@ import org.slc.sli.util.Constants;
  * 
  */
 public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgManager {
+    
+    private static final String USER_SCHOOLS = "user.schools";
+    private CacheManager cacheManager;
+    
+    public void setCacheManager(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+        this.cacheManager.addCache(USER_SCHOOLS);
+    }
+    
     
     private GenericEntity getParentEducationalOrganization(String token, GenericEntity edOrgOrSchool) {
         return getApiClient().getParentEducationalOrganization(token, edOrgOrSchool);
@@ -42,7 +54,8 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     public EdOrgKey getUserEdOrg(String token) {
         
         // get list of school
-        List<GenericEntity> schools = getApiClient().getSchools(getToken(), null);
+        List<GenericEntity> schools = getSchools();
+        
         if (schools != null && !schools.isEmpty()) {
             
             // read first school
@@ -63,6 +76,38 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     }
     
     /**
+     * Get user's schools. Cache the results so we don't have to make the call twice.
+     * 
+     * @return
+     */
+    public List<GenericEntity> getSchools() {
+       
+        List<GenericEntity> schools = null;
+        
+        // get it from the cache if you can
+        if (cacheManager != null) {
+            Element elem = cacheManager.getCache(USER_SCHOOLS).get(getToken());
+            if (elem != null) {
+                schools = (List<GenericEntity>) elem.getValue();
+            }
+        }
+        
+        // otherwise, call the api
+        if (schools == null) {
+            schools = getApiClient().getSchools(getToken(), null);
+        
+            // cache it
+            if (schools != null) {
+                if (cacheManager != null) {
+                    cacheManager.getCache(USER_SCHOOLS).put(new Element(getToken(), schools));
+                }
+            }
+        }
+        
+        return schools; 
+    }
+    
+    /**
      * Returns the institutional hierarchy visible to the user with the given
      * auth token as a list of generic entities, with the ed-org level flattened
      * This assumes there are no cycles in the education organization hierarchy
@@ -74,7 +119,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     public List<GenericEntity> getUserInstHierarchy(String token) {
         
         // Find all the schools first.
-        List<GenericEntity> schools = getApiClient().getSchools(token, null);
+        List<GenericEntity> schools = getSchools();
         if (schools == null) {
             return new ArrayList<GenericEntity>();
         }

@@ -50,12 +50,12 @@ public class LiveAPIClientTest {
     @Test
     public void testGetSessionsByYear() throws Exception {
         List<GenericEntity> sessions;
-        String url = client.getApiUrl() + "/sessions/";
+        String url = client.getApiUrl() + "/v1/sessions/";
         when(mockRest.makeJsonRequestWHeaders(url, null, false)).thenReturn("[]");
         sessions = client.getSessionsByYear(null, null);
         assertNull(sessions);
         
-        url = client.getApiUrl() + "/sessions/?schoolYear=2011-2012";
+        url = client.getApiUrl() + "/v1/sessions/?schoolYear=2011-2012";
         String json = "[{session: \"Yes\"}, {session: \"No\"}]";
         when(mockRest.makeJsonRequestWHeaders(url, null, false)).thenReturn(json);
         sessions = client.getSessionsByYear(null, "2011-2012");
@@ -283,8 +283,6 @@ public class LiveAPIClientTest {
         GenericEntity section = liveClient.getSection("1", "fakeToken");
         assertEquals(section.get("uniqueSectionCode"), "section");
         assertEquals(section.get("sectionName"), "section");
-        List studentUids = (List) section.get("studentUIDs");
-        assertEquals(studentUids.size(), 1);
         
     }
     

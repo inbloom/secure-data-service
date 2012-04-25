@@ -1,5 +1,6 @@
 package org.slc.sli.unit.manager;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -348,7 +349,7 @@ public class CustomizationAssemblyFactoryTest {
             Assert.fail("Should not allow testBad - bad signature");
         } catch (DashboardException de) {
             Assert.assertEquals("Wrong signature for the method for testBad. Expected is "
-                                + CustomizationAssemblyFactoryImpl.ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE.toString() + "!!!", de.getMessage());
+                                + Arrays.asList(CustomizationAssemblyFactoryImpl.ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE) + "!!!", de.getMessage());
 
         }
 
