@@ -48,7 +48,7 @@ When /^I navigate to GET "([^\"]*)"$/ do |uri|
   elsif /application\/xml/.match contentType
     doc = Document.new @res.body
     @result = doc.root
-    puts @result
+    #puts @result
   else
     @result = {}
   end

@@ -4,6 +4,6 @@
   name : "Contact Information",
   data :{
     entity: "student",
-    alias: "student"
+    cacheKey: "student"
   }
 }

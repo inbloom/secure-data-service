@@ -12,13 +12,12 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.schema.NeutralSchemaValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.schema.NeutralSchemaValidator;
 
 /**
  * Tests sample fixture data against Neutral schema.
@@ -318,6 +317,11 @@ public class NeutralSchemaValidationTest {
     @Test
     public void testValidLearningObjective() throws Exception {
         readAndValidateFixtureData("src/test/resources/learningObjective_fixture_neutral.json", "learningObjective");
+    }
+    
+    @Test
+    public void testValidLearningStandard() throws Exception {
+        readAndValidateFixtureData("src/test/resources/learningStandard_fixture_neutral.json", "learningStandard");
     }
 
     @Test

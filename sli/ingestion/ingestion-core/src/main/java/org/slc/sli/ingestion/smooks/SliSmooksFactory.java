@@ -59,6 +59,9 @@ public class SliSmooksFactory {
                     fe);
 
             nrMongoStagingWriter.registerBatchId(batchJobId);
+            // !!!removed the call to fix the unit tests first
+            nrMongoStagingWriter.getRecordRepository().generateMongoIndexes();
+
 
             // Ensure database indexing for this job. Tom Shewchuk 04/21/2012.
             MongoIndices.ensureMongoIndicies("_" + nrMongoStagingWriter.getRecordRepository()

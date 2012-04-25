@@ -1,6 +1,7 @@
 package org.slc.sli.validation;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -26,6 +27,7 @@ import org.apache.avro.SchemaParseException;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
 import org.slc.sli.domain.Entity;
@@ -35,7 +37,7 @@ import org.slc.sli.domain.Entity;
  *
  * @author Sean Melody <smelody@wgen.net>
  */
-//@Component
+@Component
 @Deprecated
 public class AvroEntitySchemaRegistry implements EntitySchemaRegistry {
     private static final Logger LOG                   = LoggerFactory.getLogger(AvroEntitySchemaRegistry.class);

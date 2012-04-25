@@ -54,7 +54,7 @@ public class ApplicationAuthorizationValidator {
         if (districts == null) {
             return null;
         }
-        List<String> apps = new ArrayList<String>();
+        List<String> apps = null;
         for (Entity district : districts) {
 
             NeutralQuery query = new NeutralQuery();
@@ -63,6 +63,9 @@ public class ApplicationAuthorizationValidator {
             Entity authorizedApps = repo.findOne("applicationAuthorization", query);
 
             if (authorizedApps != null) {
+                if (apps == null) {
+                    apps = new ArrayList<String>();
+                }
                 apps.addAll((List<String>) authorizedApps.getBody().get("appIds"));
             }
 

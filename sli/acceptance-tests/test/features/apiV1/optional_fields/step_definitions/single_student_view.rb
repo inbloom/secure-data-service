@@ -9,6 +9,6 @@ require_relative '../../entities/common.rb'
 
 Transform /^<(.+)>$/ do |template|
   id = template
-  id = "dd69083f-a053-4819-a3cd-a162cdc627d7" if template == "STUDENT_ID"
+  id = "74cf790e-84c4-4322-84b8-fca7206f1085" if template == "STUDENT_ID"
   id
 end

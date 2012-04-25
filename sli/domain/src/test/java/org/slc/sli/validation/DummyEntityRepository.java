@@ -144,8 +144,11 @@ public class DummyEntityRepository implements Repository<Entity> {
 
     @Override
     public boolean exists(String collectionName, String id) {
-        // TODO Auto-generated method stub
-        return false;
+        Map<String, Entity> collection = entities.get(collectionName);
+        if (collection.get(id) == null) {
+            return false;
+        }
+        return true;
     }
 
 }

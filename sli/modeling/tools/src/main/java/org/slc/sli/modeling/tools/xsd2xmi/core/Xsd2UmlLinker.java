@@ -24,8 +24,10 @@ import org.slc.sli.modeling.uml.index.Mapper;
 /**
  * This class takes an incoming UML {@link Model} and converts attributes to
  * associations based upon heuristics provided by plug-ins.
+ *
+ * Intentionally package protected.
  */
-public final class Xsd2UmlLinker {
+final class Xsd2UmlLinker {
 
     private static final String camelCase(final String text) {
         return text.substring(0, 1).toLowerCase().concat(text.substring(1));

@@ -3,6 +3,6 @@
   type : "PANEL",
   data :{
     entity: "student",
-    alias: "student"
+    cacheKey: "student"
   }
 }
