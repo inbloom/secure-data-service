@@ -115,7 +115,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
     private GenericEntity getCourseData(Map<String, Object> courseTranscript, Map<String, Object> course) {
         GenericEntity courseData = new GenericEntity();
         courseData.put(GRADE, getGrade(courseTranscript));
-        courseData.put(SUBJECT, getValue(courseTranscript, Constants.ATTR_SUBJECTAREA));
+        courseData.put(SUBJECT, getValue(course, Constants.ATTR_SUBJECTAREA));
         courseData.put(COURSE, getValue(course, Constants.ATTR_COURSE_TITLE));
         return courseData;
     }
