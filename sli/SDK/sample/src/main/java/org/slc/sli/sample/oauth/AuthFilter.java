@@ -44,7 +44,7 @@ public class AuthFilter implements Filter {
         if (req.getParameter("byPassToken") != null && !req.getParameter("byPassToken").equals("")) {
             byPassAuthenticate(request, response);
             chain.doFilter(request, response);
-        } else if (req.getRequestURI().equals("/oauth2-sample/callback")) {
+        } else if (req.getRequestURI().equals("/sample/callback")) {
             handleCallback(request, response);
             ((HttpServletResponse) response).sendRedirect(afterCallbackRedirect);
             return;

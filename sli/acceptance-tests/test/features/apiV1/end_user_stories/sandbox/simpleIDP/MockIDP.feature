@@ -16,7 +16,7 @@ And the heading of the Mock IDP Page contains the realm "SLI"
 Scenario: Use Mock IDP to log in as IT Admin
 Given I navigate to sample app web page
 Then I will be redirected to realm selector web page
-When I select the "MockIDP Test Realm - SLI" realm
+When I select the "SimpleIDP Test Realm - SLI" realm
 Then I should be redirected to the Mock IDP page for the realm
 When I select "John Doe" from the user drop down
 And I select "IT Administrator" from role selector
@@ -31,7 +31,7 @@ Scenario: Use Mock IDP to log in as Educator and Leader
 
 Given I navigate to sample app web page
 Then I will be redirected to realm selector web page
-When I select the "MockIDP Test Realm - SLI" realm
+When I select the "SimpleIDP Test Realm - SLI" realm
 Then I should be redirected to the Mock IDP page for the realm
 When I select "John Doe" from the user drop down
 And I select "Educator"  and "Leader" from role selector

@@ -10,10 +10,10 @@
   </parent>
   
   <groupId>org.slc.sli.client.sample</groupId>
-  <artifactId>oauth2-sample</artifactId>
+  <artifactId>client-sample</artifactId>
 
   <packaging>war</packaging>
-  <name>oauth2-sample Maven Webapp</name>
+  <name>client sample</name>
   <url>http://maven.apache.org</url>
   
   <dependencies>
@@ -46,7 +46,7 @@
   </dependencies>
   
   <build>
-    <finalName>oauth2-sample</finalName>
+    <finalName>client-sample</finalName>
     <plugins>
       <plugin>
         <groupId>org.mortbay.jetty</groupId>

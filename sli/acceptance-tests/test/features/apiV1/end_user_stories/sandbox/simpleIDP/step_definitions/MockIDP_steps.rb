@@ -2,12 +2,12 @@ require_relative '../../../../../utils/sli_utils.rb'
 require_relative '../../../../../dashboard/dash/step_definitions/selenium_common_dash.rb'
 
 Given /^I have selected the realm using the realm selector$/ do
-  url = PropLoader.getProps['mockIDP_realm_server_address']+"api/oauth/authorize?"+URI.escape(PropLoader.getProps['mockIDP_realm_params'])
+  url = PropLoader.getProps['simpleIDP_realm_server_address']+"api/oauth/authorize?"+URI.escape(PropLoader.getProps['simpleIDP_realm_params'])
   @driver.get url
   sleep(1)
 
   #assume the user selected the mock sli realm
-  realmName= PropLoader.getProps['mockIDP_realm_SLI'] + " - " + PropLoader.getProps['mockIDP_realm_suffix']
+  realmName= PropLoader.getProps['simpleIDP_realm_SLI'] + " - " + PropLoader.getProps['simpleIDP_realm_suffix']
   realm_select = @driver.find_element(:name=> "realmId")
   options = realm_select.find_elements(:tag_name=>"option")
   options.each do |e1|
@@ -23,7 +23,7 @@ end
 Given /^I navigate to sample app web page$/ do
   
   sampleAppUrl = PropLoader.getProps['sampleApp_server_address']
-  url = sampleAppUrl+"oauth2-sample"
+  url = sampleAppUrl+"sample"
   @driver.get url
 end
 
@@ -33,7 +33,7 @@ Then /^I will be redirected to realm selector web page$/ do
 end
 
 When /^I select the "([^"]*)" realm$/ do |realmName|
-  realmName = realmName + " - " + PropLoader.getProps['mockIDP_realm_suffix']
+  realmName = realmName + " - " + PropLoader.getProps['simpleIDP_realm_suffix']
   realm_select = @driver.find_element(:name=> "realmId")
   options = realm_select.find_elements(:tag_name=>"option")
   options.each do |e1|
@@ -46,7 +46,7 @@ When /^I select the "([^"]*)" realm$/ do |realmName|
 end
 
 Then /^I should be redirected to the Mock IDP page for the realm$/ do
-  mockIdpUrl = PropLoader.getProps['mockIDP_login_url']
+  mockIdpUrl = PropLoader.getProps['simpleIDP_login_url']
   assert(@driver.current_url.start_with?(mockIdpUrl))
 end
 
