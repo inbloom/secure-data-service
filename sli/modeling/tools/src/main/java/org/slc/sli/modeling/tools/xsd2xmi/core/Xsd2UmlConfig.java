@@ -131,12 +131,4 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
         }
         return plugin.tagsFromAppInfo(appInfo, host);
     }
-
-    @Override
-    public List<TaggedValue> tagsFromTopLevelElement(final QName name, final Xsd2UmlPluginHost host) {
-        if (name == null) {
-            throw new NullPointerException("name");
-        }
-        return plugin.tagsFromTopLevelElement(name, host);
-    }
 }

@@ -12,8 +12,8 @@ Scenario: Post an empty zip file should fail
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
+  And I should see "File student.xml: Empty file" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
-  And I should see "File student.xml: Empty file" in the resulting batch job file
   And I should see "student.xml records considered: 0" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "student.xml records failed: 0" in the resulting batch job file

@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.UUID;
 
 import org.slc.sli.common.util.performance.PutResultInContext;
@@ -17,8 +19,9 @@ import org.slc.sli.ingestion.validation.ErrorReportSupport;
  * Batch Job class.
  *
  * @author okrook
- *
+ * @deprecated
  */
+@Deprecated
 public final class BatchJob implements Serializable, ErrorReportSupport, Job {
 
     private static final long serialVersionUID = -340538024579162600L;
@@ -93,7 +96,9 @@ public final class BatchJob implements Serializable, ErrorReportSupport, Job {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see org.slc.sli.ingestion.Job#addFile(org.slc.sli.ingestion.landingzone.IngestionFileEntry)
      */
     @Override
@@ -103,10 +108,11 @@ public final class BatchJob implements Serializable, ErrorReportSupport, Job {
         return files.add(ingestionFileEntry);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see org.slc.sli.ingestion.Job#getCreationDate()
      */
-    @Override
     public Date getCreationDate() {
         return creationDate;
     }
@@ -116,7 +122,9 @@ public final class BatchJob implements Serializable, ErrorReportSupport, Job {
         return getFaultsReport();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see org.slc.sli.ingestion.Job#getFaultsReport()
      */
     @Override
@@ -124,7 +132,9 @@ public final class BatchJob implements Serializable, ErrorReportSupport, Job {
         return faults;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see org.slc.sli.ingestion.Job#getFiles()
      */
     @Override
@@ -132,7 +142,16 @@ public final class BatchJob implements Serializable, ErrorReportSupport, Job {
         return files;
     }
 
-    /* (non-Javadoc)
+    /**
+     * set the files
+     */
+    public void setFiles(List<IngestionFileEntry> files) {
+        this.files = files;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
      * @see org.slc.sli.ingestion.Job#getId()
      */
     @Override
@@ -140,7 +159,9 @@ public final class BatchJob implements Serializable, ErrorReportSupport, Job {
         return id;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see org.slc.sli.ingestion.Job#getProperty(java.lang.String)
      */
     @Override
@@ -148,7 +169,9 @@ public final class BatchJob implements Serializable, ErrorReportSupport, Job {
         return configProperties.getProperty(key);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see org.slc.sli.ingestion.Job#getProperty(java.lang.String, java.lang.String)
      */
     @Override
@@ -156,20 +179,25 @@ public final class BatchJob implements Serializable, ErrorReportSupport, Job {
         return configProperties.getProperty(key, defaultValue);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see org.slc.sli.ingestion.Job#propertyNames()
      */
+
     @Override
-    public Enumeration<?> propertyNames() {
-        return configProperties.propertyNames();
+    public Set<String> propertyNames() {
+        Set<String> propNames = new HashSet<String>();
+        Enumeration<?> enumeration = configProperties.propertyNames();
+        while (enumeration.hasMoreElements()) {
+            propNames.add(enumeration.nextElement().toString());
+        }
+        return propNames;
     }
 
-    /* (non-Javadoc)
-     * @see org.slc.sli.ingestion.Job#setProperty(java.lang.String, java.lang.String)
-     */
     @Override
-    public Object setProperty(String key, String value) {
-        return configProperties.setProperty(key, value);
+    public void setProperty(String key, String value) {
+        configProperties.setProperty(key, value);
     }
 
     @Override

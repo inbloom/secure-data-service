@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.FileNotFoundException;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +81,7 @@ public class DisciplineIncidentEntityTest {
         Map<String, Object> choice = behavior.get(0);
         assertNotNull("Expected non-null behavior choice", choice);
         assertEquals("Expected different behavior code value", "Code Value 1", choice.get("CodeValue"));
- 
+
         choice = behavior.get(1);
         assertNotNull("Expected non-null behavior choice", choice);
         assertEquals("Expected different short description of behavior", "Short Description 1", choice.get("ShortDescription"));
@@ -98,11 +97,11 @@ public class DisciplineIncidentEntityTest {
         choice = behavior.get(0);
         assertNotNull("Expected non-null behavior choice", choice);
         assertEquals("Expected different behavior code value", "Code Value 2", choice.get("CodeValue"));
-        
+
         choice = behavior.get(1);
         assertNotNull("Expected non-null behavior choice", choice);
         assertEquals("Expected different short description of behavior", "Short Description 2", choice.get("ShortDescription"));
-        
+
         choice = behavior.get(2);
         assertNotNull("Expected non-null behavior choice", choice);
         assertEquals("Expected different description of behavior", "Description 2", choice.get("Description"));
@@ -125,7 +124,7 @@ public class DisciplineIncidentEntityTest {
 
         //weapons
         @SuppressWarnings("unchecked")
-        Map<String, List<String>> weapons = (Map<String, List<String>>) attributes.get("Weapons"); 
+        Map<String, List<String>> weapons = (Map<String, List<String>>) attributes.get("Weapons");
         assertNotNull("Expected non-null weapons", weapons);
 
         List<String> weaponsList = weapons.get("Weapon");
@@ -159,7 +158,7 @@ public class DisciplineIncidentEntityTest {
         assertNotNull("Expected non-null education org identification code", educationOrgIdentificationCode);
         assertEquals("Expected different identification system", "Test Contractor", educationOrgIdentificationCode.get("IdentificationSystem"));
         assertEquals("Expected different ID", "Identifier 1", educationOrgIdentificationCode.get("ID"));
-        
+
         educationOrgIdentificationCode = educationOrgIdentificationCodes.get(1);
         assertNotNull("Expected non-null education org identification code", educationOrgIdentificationCode);
         assertEquals("Expected different identification system", "District", educationOrgIdentificationCode.get("IdentificationSystem"));
@@ -185,12 +184,12 @@ public class DisciplineIncidentEntityTest {
         assertEquals("Expected different identification system", "Canadian SIN", staffIdentificationCode.get("IdentificationSystem"));
         assertEquals("Expected different AssigningOrganizationCode", "Assigning Organization Code 1", staffIdentificationCode.get("AssigningOrganizationCode"));
         assertEquals("Expected different ID", "Staff Identification Code 1", staffIdentificationCode.get("ID"));
-        
+
         staffIdentificationCode = staffIdentificationCodes.get(1);
         assertNotNull("Expected non-null staff identification code", staffIdentificationCode);
         assertEquals("Expected different AssigningOrganizationCode", "Assigning Organization Code 2", staffIdentificationCode.get("AssigningOrganizationCode"));
         assertEquals("Expected different ID", "Staff Identification Code 2", staffIdentificationCode.get("ID"));
-        
+
         @SuppressWarnings("unchecked")
         Map<String, String> name = (Map<String, String>) staffIdentity.get("Name");
         assertNotNull("Expected non-null name", name);
@@ -228,13 +227,13 @@ public class DisciplineIncidentEntityTest {
         assertEquals("Expected different sex", "Female", staffIdentity.get("Sex"));
         assertEquals("Expected different birth date", "05-27-1980", staffIdentity.get("BirthDate"));
         assertEquals("Expected different hispanic latino ethnicity", false, staffIdentity.get("HispanicLatinoEthnicity"));
-        
+
         @SuppressWarnings("unchecked")
         Map<String, List<String>> race = (Map<String, List<String>>) staffIdentity.get("Race");
         assertNotNull("Expected non-null race", race);
 
         List<String> racialCategories = race.get("RacialCategory");
-        assertNotNull("Expected non-null RacialCategories", racialCategories);;
+        assertNotNull("Expected non-null RacialCategories", racialCategories);
         assertEquals("Expected two RacialCategories", 2, racialCategories.size());
         assertEquals("Expected different RacialCategory", "American Indian - Alaskan Native", racialCategories.get(0));
         assertEquals("Expected different RacialCategory", "Native Hawaiian - Pacific Islander", racialCategories.get(1));
@@ -265,7 +264,7 @@ public class DisciplineIncidentEntityTest {
         assertNotNull("Expected non-null ElectronicMail", electronicMail);
         assertEquals("Expected different EmailAddressType", "Work", electronicMail.get("EmailAddressType"));
         assertEquals("Expected different EmailAddress", "1@example.com", electronicMail.get("EmailAddress"));
-        
+
         electronicMail = electronicMails.get(1);
         assertNotNull("Expected non-null ElectronicMail", electronicMail);
         assertEquals("Expected different EmailAddressType", "Home/Personal", electronicMail.get("EmailAddressType"));

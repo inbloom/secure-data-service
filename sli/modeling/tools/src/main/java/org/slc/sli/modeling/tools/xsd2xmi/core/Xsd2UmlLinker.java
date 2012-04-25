@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.modeling.tools.TagName;
 import org.slc.sli.modeling.uml.Association;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
@@ -86,12 +87,24 @@ final class Xsd2UmlLinker {
             // We can reuse the attribute parts because the attribute is no
             // longer needed.
             final Identifier id = attribute.getId();
-            final String name = suggestAssociationEndName(attribute.getName(), attribute.getMultiplicity().getRange()
-                    .getUpper() == Occurs.UNBOUNDED);
             final Multiplicity multiplicity = attribute.getMultiplicity();
-            final List<TaggedValue> taggedValues = attribute.getTaggedValues();
+            // TODO: What happens if we don't try to fix up the attribute name?
+            final String oldName = attribute.getName();
+            final String newName = suggestAssociationEndName(attribute.getName(),
+                    multiplicity.getRange().getUpper() == Occurs.UNBOUNDED);
+            final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>(attribute.getTaggedValues());
+            {
+                final Identifier navigation = lookup.ensureTagDefinitionId(TagName.MONGO_NAVIGABLE);
+                final TaggedValue tag = new TaggedValue(Boolean.toString(true), navigation);
+                taggedValues.add(tag);
+            }
+            if (!oldName.equals(newName)) {
+                final Identifier nameTag = lookup.ensureTagDefinitionId(TagName.MONGO_NAME);
+                final TaggedValue tag = new TaggedValue(oldName, nameTag);
+                taggedValues.add(tag);
+            }
             final boolean isNavigable = true;
-            return new AssociationEnd(multiplicity, name, isNavigable, id, taggedValues, reference);
+            return new AssociationEnd(multiplicity, newName, isNavigable, id, taggedValues, reference);
         } else {
             throw new IllegalStateException(referenceType + " " + nameToClassTypeId);
         }
