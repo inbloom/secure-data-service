@@ -80,9 +80,9 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
     private Entity persist(Entity entity) throws EntityValidationException {
 
         String collectionName = entity.getType();
-        if ((String)entity.getBody().get("collectionName") != null) {
-            collectionName = (String)entity.getBody().get("collectionName");
-            entity.getBody().remove ("collectionName");
+        if ((String) entity.getBody().get("collectionName") != null) {
+            collectionName = (String) entity.getBody().get("collectionName");
+            entity.getBody().remove("collectionName");
         }
 
         if (entity.getEntityId() != null) {
