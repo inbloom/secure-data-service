@@ -1406,9 +1406,9 @@
     <jb:wiring beanIdRef="learningStandardReference" />
   </jb:bean>
   
-  <jb:bean beanId="learningObjectiveIdRef" class="java.util.HashMap" createOnElement="LearningObjectiveId">
-    <jb:value property="identificationCode" data="LearningObjectiveId/IdentificationCode" />
-    <jb:value property="contentStandardName" data="LearningObjectiveId/IdentificationCode/@ContentStandardName" />
+  <jb:bean beanId="learningObjectiveIdRef" class="java.util.HashMap" createOnElement="LearningObjective/LearningObjectiveId">
+    <jb:value property="identificationCode" data="LearningObjective/LearningObjectiveId/IdentificationCode" />
+    <jb:value property="contentStandardName" data="LearningObjective/LearningObjectiveId/IdentificationCode/@ContentStandardName" />
   </jb:bean>
   
   <jb:bean beanId="learningStandardReference" class="java.util.HashMap" createOnElement="LearningStandardReference">
@@ -1424,9 +1424,12 @@
   <jb:bean beanId="learningObjectiveReference" class="java.util.HashMap" createOnElement="LearningObjectiveReference">
     <jb:value property="ref" data="LearningObjectiveReference/@ref" />
     <jb:value property="objective" data="LearningObjectiveReference/LearningObjectiveIdentity/Objective" />
-    <jb:wiring property="learningObjectiveId" beanIdRef="learningObjectiveIdRef" />
-<!--     <jb:value property="learningObjectiveId" data="LearningObjectiveReference/LearningObjectiveIdentity/LearningObjectiveId/IdentificationCode" />
-    <jb:value property="contentStandardName" data="LearningObjectiveReference/LearningObjectiveIdentity/LearningObjectiveId/IdentificationCode/@ContentStandardName" /> -->
+    <jb:wiring property="learningObjectiveId" beanIdRef="learningObjectiveRefIdRef" />
+  </jb:bean>
+  
+  <jb:bean beanId="learningObjectiveRefIdRef" class="java.util.HashMap" createOnElement="LearningObjectiveReference/LearningObjectiveIdentity/LearningObjectiveId">
+    <jb:value property="identificationCode" data="LearningObjectiveIdentity/LearningObjectiveId/IdentificationCode" />
+    <jb:value property="contentStandardName" data="LearningObjectiveIdentity/LearningObjectiveId/IdentificationCode/@ContentStandardName" />
   </jb:bean>
   
 
