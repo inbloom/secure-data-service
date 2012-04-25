@@ -19,17 +19,81 @@ Transform /^data for "([^"]*)"$/ do |path|
   id
 end
 
+Transform /^data containing "([^"]*)"$/ do |path|
+  id = ["a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"] if path == "South Daybreak Elementary"
+  id = ["67ed9078-431a-465e-adf7-c720d08ef512"] if path == "Linda Kim"
+  id = ["edce823c-ee28-4840-ae3d-74d9e9976dc5"] if path == "Mark Anthony"
+  id = ["a060273b-3e65-4e5f-b5d1-45226f584c5d"] if path == "Dale Reiss"
+  id = ["92d1a002-2695-4fb8-a0d6-4ef655d29e48"] if path == "Malcolm Haehn NY"
+  id = ["5738d251-dd0b-4734-9ea6-417ac9320a15"] if path == "Matt Sollars"
+  id = ["1894b083-5e6e-470f-bc5e-01435a899d44",
+        "439b5c9d-3ebf-49a3-a483-f10943e148ba",
+        "6944f8d8-1fda-41c3-a2b7-d9d416d07ebc",
+        "85ff53e3-2779-4dc7-bc31-59c405f3a49e"] if path == "Students in Parker Elementary"
+  id = ["1563ec1d-924d-4c02-8099-3a0e314ef1d4",
+        "274f4c71-1984-4607-8c6f-0a91db2d240a",
+        "0cff1537-95e6-440b-ba2f-3003a2ecd7ed",
+        "41df2791-b33c-4b10-8de6-a24963bbd3dd",
+        "23ca4b0f-33a6-4826-be55-a819f683b982",
+        "27fea52e-94ab-462c-b80f-7e868f6919d7",
+        "d2462231-4f6c-452e-9b29-4a63ad92138e",
+        "5738d251-dd0b-4734-9ea6-417ac9320a15",
+        "365906f4-bfe0-453e-8622-29b33bdea405",
+        "b20bf77d-9f45-493e-a660-085d0e9a7a2b",
+        "9630059d-e76c-4f47-ba1e-dcd928bd1c38",
+        "fb71442f-1023-4c55-a675-92ad8c393c82",
+        "11d13fde-371c-4b58-b0b0-a6e2d955a947",
+        "98174ba6-7643-4c6b-8745-9683d04f889b",
+        "00209530-6e1f-4273-a5a7-eb686c79fcd9",
+        "cab8d70e-7720-447a-a6a3-512bea6dc3c6",
+        "e0aab7d8-a486-417b-b3b3-1fbf4ee7b3bf",
+        "d5b69caa-52bb-4d91-a0f4-2940e295a5d0",
+        "fff656b2-5031-4897-b6b8-7b0f5769b482",
+        "4de1bb23-c4d7-4d98-98a2-1710181ed015",
+        "4992906e-8f7a-4ba5-b940-4c2751ca52d0",
+        "83e21fcd-5472-40cf-b60d-8e7aae0c5f52",
+        "8f5928fe-d733-4bd3-921a-03e5d0fdf552",
+        "61fccb27-262c-43dd-a822-7380ac298286",
+        "26928f4a-2420-4ee1-b88a-72b87c536366",
+        "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b",
+        "b1fd8fb1-6eec-4bfa-9c4b-2dd39a41d769"] if path == "Students in South Daybreak Elementary"
+  id = ["737dd4c1-86bd-4892-b9e0-0f24f76210be"] if path == "Students in AP Calculus Sec 201"
+  id = ["bcfcc33f-f4a6-488f-baee-b92fbd062e8d"] if path == "Teachers in South Daybreak Elementary"
+  id = ["35ac640e-8f6e-427f-bbab-abbdca50df5b",
+        "8ecbbd5e-5d5b-48ba-ab01-cdc0eefc02f7",
+        "1406ed76-f6d8-4ce4-a61b-f118d453e373",
+        "a312b789-8a4c-41fd-a43d-368240926545"] if path == "Teachers in Dawn Elementary"
+  id = ["a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
+        "ec2e4218-6483-4e9c-8954-0aecccfd4731",
+        "92d6d5a0-852c-45f4-907a-912752831772"] if path == "Schools in Daybreak District"
+  id = ["5b03de1f-9cf0-409b-ae35-edeed11161ab",
+        "46c2e439-f800-4aaf-901c-8cf3299658cc"] if path == "Schools in Parker District"
+  id
+end
 
 When /^I try to access the (data for "[^"]*") in my "[^"]*" from the API$/ do |dataPath|
   @format = "application/json"
   restHttpGet(dataPath)
 end
 
-Then /^I get the data returned in json format$/ do
+Then /^I get the (data containing "[^"]*") returned in json format$/ do |idArray|
   assert(@res != nil, "Did not receive a response from the API")
   assert(@res.code == 200, "Received a #{@res.code.to_s} response from the request, expected 200")
   result = JSON.parse(@res.body)
   assert(result != nil)
+  
+  if result.class == Array 
+    numMatches = 0
+    result.each {|jsonObj| 
+      # Find each ID in the JSON
+      assert(idArray.include?(jsonObj["id"]),"ID returned in json was not expected: ID="+jsonObj["id"])
+      numMatches += 1
+    }
+    assert(numMatches == idArray.length, "Did not find all matches: found "+numMatches.to_s+" but expected "+idArray.length.to_s+" maches")
+  else
+    assert(idArray[0] == result["id"], "ID returned in json was not expected: ID="+result["id"])
+  end
+
 end
 
 When /^I try to access the (data for "[^"]*") in another "[^"]*" from the API$/ do |dataPath|

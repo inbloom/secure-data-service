@@ -7,7 +7,7 @@ Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals <Role>
 And my "district" is <District>
 When I try to access the data for <Data> in my "district" from the API
-Then I get the data returned in json format
+Then I get the data containing <Data> returned in json format
 Examples:
 	|Username    |Password        |Realm|Role      |District     |Data|
 	|"gcanning"  |"gcanning1234"  |"NY" |"Leader"  |"NY-Parker"  |"Students in Parker Elementary"|
@@ -63,7 +63,7 @@ Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "Aggregate Viewer"
 And my "district" is <District>
 When I try to access the data for <Data> in my "district" from the API
-Then I get the data returned in json format
+Then I get the data containing <Data> returned in json format
 Examples:
 	|Username  |Password      |Realm|District     |Data|
 	|"jjackson"|"jjackson1234"|"IL" |"IL-Daybreak"|"Schools in Daybreak District"|
