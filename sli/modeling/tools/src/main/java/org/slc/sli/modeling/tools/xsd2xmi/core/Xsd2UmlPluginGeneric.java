@@ -63,9 +63,4 @@ final class Xsd2UmlPluginGeneric implements Xsd2UmlPlugin {
     public List<TaggedValue> tagsFromAppInfo(final XmlSchemaAppInfo appInfo, final Xsd2UmlPluginHost host) {
         throw new UnsupportedOperationException();
     }
-
-    @Override
-    public List<TaggedValue> tagsFromTopLevelElement(final QName name, final Xsd2UmlPluginHost host) {
-        throw new UnsupportedOperationException();
-    }
 }

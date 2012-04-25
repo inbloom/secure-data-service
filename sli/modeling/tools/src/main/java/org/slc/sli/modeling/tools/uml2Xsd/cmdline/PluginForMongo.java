@@ -11,19 +11,26 @@ import javax.xml.namespace.QName;
 import org.slc.sli.modeling.psm.PsmDocument;
 import org.slc.sli.modeling.tools.SliMongoConstants;
 import org.slc.sli.modeling.tools.SliUmlConstants;
+import org.slc.sli.modeling.tools.TagName;
 import org.slc.sli.modeling.tools.uml2Xsd.core.Uml2XsdPlugin;
 import org.slc.sli.modeling.tools.uml2Xsd.core.Uml2XsdPluginWriter;
-import org.slc.sli.modeling.tools.uml2Xsd.core.Uml2XsdSyntheticHasName;
 import org.slc.sli.modeling.tools.uml2Xsd.core.Uml2XsdTools;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.Feature;
 import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
+import org.slc.sli.modeling.uml.helpers.TaggedValueHelper;
 import org.slc.sli.modeling.uml.index.Mapper;
 
 final class PluginForMongo implements Uml2XsdPlugin {
+
+    /**
+     * This is the type that is used whenever we have just a reference.
+     */
+    private static final String MONGO_REFERENCE_TYPE = "Reference";
 
     @SuppressWarnings("unused")
     private static final String camelCase(final String text) {
@@ -38,21 +45,21 @@ final class PluginForMongo implements Uml2XsdPlugin {
     /**
      * Not all association ends have names so we synthesize a name based upon the type.
      */
-    private static final String getName(final AssociationEnd element, final Mapper lookup) {
-        if (!element.getName().trim().isEmpty()) {
-            return element.getName();
+    private static final String getName(final AssociationEnd end, final Mapper lookup) {
+        if (!end.getName().trim().isEmpty()) {
+            // If a name has been specified explicitly, use it without change.
+            return end.getName();
         } else {
-            // Name using the element type. Could be more sophisticated here.
-            return new Uml2XsdSyntheticHasName(element, lookup).getName();
+            // Synthesize the name using the and accounting for naive plurality.
+            final Occurs maxOccurs = end.getMultiplicity().getRange().getUpper();
+            final boolean unbounded = isUnbounded(maxOccurs);
+            final String name = Uml2XsdTools.camelCase(lookup.getType(end.getType()).getName());
+            return name.concat(unbounded ? "Ids" : "Id");
         }
     }
 
     private static final boolean isUnbounded(final Occurs occurs) {
         return occurs.equals(Occurs.UNBOUNDED);
-    }
-
-    private static final String withId(final String name, final Occurs maxOccurs) {
-        return name.concat(isUnbounded(maxOccurs) ? "Ids" : "Id");
     }
 
     @Override
@@ -114,28 +121,50 @@ final class PluginForMongo implements Uml2XsdPlugin {
         xsw.end();
     }
 
+    private static final boolean isMongoNavigable(final AssociationEnd element, final Mapper lookup) {
+        return TaggedValueHelper.getBooleanTag(TagName.MONGO_NAVIGABLE, element, lookup, false);
+    }
+
+    private static final boolean hasMongoName(final Feature feature, final Mapper lookup) {
+        return TaggedValueHelper.hasTag(TagName.MONGO_NAME, feature, lookup);
+    }
+
+    private static final String getMongoName(final Feature feature, final Mapper lookup) {
+        return TaggedValueHelper.getStringTag(TagName.MONGO_NAME, feature, lookup, null);
+    }
+
     @Override
-    public void writeAssociation(final ClassType complexType, final AssociationEnd element, final Mapper lookup,
+    public void writeAssociation(final ClassType complexType, final AssociationEnd end, final Mapper lookup,
             final Uml2XsdPluginWriter xsw) {
-        if (element.isNavigable()) {
-            final String name = getName(element, lookup);
-            final Type type = lookup.getType(element.getType());
-            final Occurs minOccurs = element.getMultiplicity().getRange().getLower();
-            final Occurs maxOccurs = element.getMultiplicity().getRange().getUpper();
+        if (isMongoNavigable(end, lookup)) {
+            final Type type = lookup.getType(end.getType());
+            final Occurs minOccurs = end.getMultiplicity().getRange().getLower();
+            final Occurs maxOccurs = end.getMultiplicity().getRange().getUpper();
             xsw.element();
-            xsw.name(new QName(withId(name, maxOccurs)));
-            xsw.type(getTypeName(type.getName()));
+            if (hasMongoName(end, lookup)) {
+                xsw.name(new QName(getMongoName(end, lookup)));
+            } else {
+                xsw.name(new QName(getName(end, lookup)));
+            }
+            xsw.type(getTypeName(MONGO_REFERENCE_TYPE));
+            // xsw.type(getTypeName(type.getName()));
             xsw.minOccurs(minOccurs);
             xsw.maxOccurs(maxOccurs);
             {
                 xsw.annotation();
                 {
-                    for (final TaggedValue taggedValue : element.getTaggedValues()) {
+                    for (final TaggedValue taggedValue : end.getTaggedValues()) {
                         final TagDefinition tagDefinition = lookup.getTagDefinition(taggedValue.getTagDefinition());
-                        if (TagDefinition.NAME_DOCUMENTATION.equals(tagDefinition.getName())) {
+                        if (TagName.DOCUMENTATION.equals(tagDefinition.getName())) {
                             xsw.documentation();
                             xsw.characters(collapseWhitespace(taggedValue.getValue()));
                             xsw.end();
+                        } else if (SliUmlConstants.TAGDEF_REFERENCE.equals(tagDefinition.getName())) {
+                            // Ignore, or should we used the code below?
+                        } else if (TagName.MONGO_NAME.equals(tagDefinition.getName())) {
+                            // Ignore.
+                        } else if (TagName.MONGO_NAVIGABLE.equals(tagDefinition.getName())) {
+                            // Ignore.
                         } else {
                             throw new AssertionError(tagDefinition.getName());
                         }
