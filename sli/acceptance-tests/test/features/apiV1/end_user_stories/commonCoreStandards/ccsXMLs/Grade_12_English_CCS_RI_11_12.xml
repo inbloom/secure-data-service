@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
 	<LearningObjective>
-		<Objective>Reading: Informational Text</Objective>
-		<AcademicSubject>ELA</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningObjectiveId>
 			<IdentificationCode>RI-11-12</IdentificationCode>
 		</LearningObjectiveId>
+		<Objective>Reading: Informational Text</Objective>
+		<AcademicSubject>ELA</AcademicSubject>
+		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningStandardReference ref="RI-11-12-1"></LearningStandardReference>
 		<LearningStandardReference ref="RI-11-12-2"></LearningStandardReference>
 		<LearningStandardReference ref="RI-11-12-3"></LearningStandardReference>
