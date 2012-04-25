@@ -6,7 +6,6 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.representation.Home;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -21,14 +20,10 @@ import static org.junit.Assert.assertTrue;
  */
 public class JacksonXMLMsgBodyWriterTest {
     private JacksonXMLMsgBodyWriter writer;
-    private DocumentBuilderFactory docFactory;
 
     @Before
     public void setup() {
-        docFactory = DocumentBuilderFactory.newInstance();
         writer = new JacksonXMLMsgBodyWriter();
-
-        docFactory.setNamespaceAware(true);
     }
 
     @Test

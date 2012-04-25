@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration debug="false">
-  <property resource="${env}.properties"/>	
+  <property file="${sli.conf}"/>	
 	
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
     <File>${log.path}/dashboard.log</File>

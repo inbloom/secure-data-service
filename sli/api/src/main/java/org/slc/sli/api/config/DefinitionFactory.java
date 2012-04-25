@@ -50,8 +50,8 @@ public class DefinitionFactory {
         return new EntityBuilder(type, resourceName);
     }
 
-    public AssocBuilder makeAssoc(String type) {
-        return new AssocBuilder(type);
+    public AssocBuilder makeAssoc(String type, String resourceName) {
+        return new AssocBuilder(type, resourceName);
     }
 
     /**
@@ -192,8 +192,8 @@ public class DefinitionFactory {
          * @param resourceName
          *            the name of the association in the ReST uri
          */
-        AssocBuilder(String type) {
-            super(type, type);
+        AssocBuilder(String type, String resourceName) {
+            super(type, resourceName);
         }
 
         /**

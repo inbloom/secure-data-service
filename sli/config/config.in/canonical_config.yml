@@ -586,6 +586,8 @@ local:
         sli.log4j.logger.org.apache.camel: WARN
         sli.log4j.logger.org.apache.activemq: WARN
         sli.log4j.logger.org.springframework: WARN
+        
+        log.path: target/logs
 
 nxbuild2:
     api:
@@ -741,7 +743,7 @@ team:
     misc: &MISC-TEAM
         <<: *MISC-DEFAULT
         sli.dev.subdomain: ci
-        log.path: ${user.home}/logs
+        log.path: /storage/logs
         sli.mock-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/mock-idp
         sli.mock-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
 

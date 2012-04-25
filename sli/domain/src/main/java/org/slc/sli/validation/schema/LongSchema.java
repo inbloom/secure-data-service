@@ -41,7 +41,12 @@ public class LongSchema extends NeutralSchema {
 
     @Override
     public Object convert(Object value) {
-        return Long.parseLong((String) value);
+        return NumberUtils.converterHelper(value, new NumberUtils.Converter() {
+            @Override
+            public Object convert(Object value) {
+                return Long.parseLong((String) value);
+            }
+        });
     }
     
     /**
@@ -60,6 +65,7 @@ public class LongSchema extends NeutralSchema {
      * @return true if valid
      */
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
+        entity = convert(entity);
         Long data = NumberUtils.toLong(entity);
         if (!addError(data != null, fieldName, entity, "Long", ErrorType.INVALID_DATATYPE, errors)) {
             return false;

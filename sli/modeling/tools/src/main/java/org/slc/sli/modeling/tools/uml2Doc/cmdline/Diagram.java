@@ -3,23 +3,28 @@ package org.slc.sli.modeling.tools.uml2Doc.cmdline;
 public final class Diagram {
     private final String title;
     private final String source;
-    private final String description;
-    
-    public Diagram(final String title, final String source, final String description) {
+    private final String prolog;
+    private final String epilog;
+
+    public Diagram(final String title, final String source, final String prolog, final String epilog) {
         if (title == null) {
             throw new NullPointerException("title");
         }
         if (source == null) {
             throw new NullPointerException("source");
         }
-        if (description == null) {
-            throw new NullPointerException("description");
+        if (prolog == null) {
+            throw new NullPointerException("prolog");
+        }
+        if (epilog == null) {
+            throw new NullPointerException("epilog");
         }
         this.title = title;
         this.source = source;
-        this.description = description;
+        this.prolog = prolog;
+        this.epilog = epilog;
     }
-    
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
@@ -28,20 +33,26 @@ public final class Diagram {
         sb.append(", ");
         sb.append("source : \"").append(source).append("\"");
         sb.append(", ");
-        sb.append("description : \"").append(description).append("\"");
+        sb.append("prolog : \"").append(prolog).append("\"");
+        sb.append(", ");
+        sb.append("epilog : \"").append(epilog).append("\"");
         sb.append("}");
         return sb.toString();
     }
-    
+
     public String getTitle() {
         return title;
     }
-    
+
     public String getSource() {
         return source;
     }
-    
-    public String getDescription() {
-        return description;
+
+    public String getProlog() {
+        return prolog;
+    }
+
+    public String getEpilog() {
+        return epilog;
     }
 }

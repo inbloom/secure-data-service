@@ -1,5 +1,5 @@
 <configuration>
-  <property resource="api.properties" />
+  <property file="${sli.conf}" />
     
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <!-- encoders are assigned the type

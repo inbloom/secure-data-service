@@ -53,6 +53,9 @@
         <entry key="StudentProgram">
             <value>classpath:edfiXsd/Interchange-StudentProgram.xsd</value>
         </entry>
+        <entry key="StudentCohort">
+            <value>classpath:edfiXsd/Interchange-StudentCohort.xsd</value>
+        </entry>
     </util:map>
 
     <bean id="xsdValidator" class="org.slc.sli.ingestion.validation.XsdValidator">

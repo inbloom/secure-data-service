@@ -25,7 +25,9 @@ public class LongSchemaTest {
         assertTrue(schema.validate(1000));
         assertTrue(schema.validate(1000L));
         assertFalse(schema.validate(1000.24));
-        assertFalse(schema.validate("1234"));
+        assertTrue(schema.validate("1234"));
+        assertFalse(schema.validate("test"));
+        assertFalse(schema.validate(""));
     }
     
     @Test
