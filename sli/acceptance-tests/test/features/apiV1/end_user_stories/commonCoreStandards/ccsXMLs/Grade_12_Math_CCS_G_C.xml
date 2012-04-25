@@ -3,13 +3,23 @@
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
 	<LearningObjective>
+		<LearningObjectiveId>
+			<IdentificationCode>G</IdentificationCode>
+		</LearningObjectiveId>
 		<Objective>Geometry</Objective>
 		<AcademicSubject>Mathematics</AcademicSubject>
 		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningObjectiveReference>
+		<LearningObjectiveReference ref="Circle">
 			<LearningObjectiveIdentity>
 				<LearningObjectiveId>
 					<IdentificationCode>G-C</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>G-SRT</IdentificationCode>
 				</LearningObjectiveId>
 			</LearningObjectiveIdentity>
 		</LearningObjectiveReference>
