@@ -6134,6 +6134,11 @@
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
+        <xs:unique name="uniqueStudentSchoolCombination">
+            <xs:selector xpath="attendance"/>
+            <xs:field xpath="studentId"/>
+            <xs:field xpath="schoolId"/>
+        </xs:unique>
     </xs:complexType>
 
 	<xs:complexType name="bellSchedule">
@@ -6734,9 +6739,13 @@
 		</xs:annotation>
 		<xs:sequence>
             <xs:element name="schoolYear" type="schoolYearType" use="required" />
-			<xs:element name="attendanceEvent" minOccurs="0" maxOccurs="unbounded" type="attendanceEvent" />
-		</xs:sequence>
-	</xs:complexType>
+            <xs:element name="attendanceEvent" minOccurs="0" maxOccurs="unbounded" type="attendanceEvent"/>
+        </xs:sequence>
+        <xs:unique name="uniqueSchoolYears">
+            <xs:selector xpath="schoolYearAttendance"/>
+            <xs:field xpath="schoolYear"/>
+        </xs:unique>
+    </xs:complexType>
   
     <xs:complexType name="attendanceEvent">
         <xs:annotation>
