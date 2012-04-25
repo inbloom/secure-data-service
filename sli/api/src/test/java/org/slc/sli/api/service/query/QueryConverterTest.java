@@ -48,7 +48,7 @@ public class QueryConverterTest {
         
         // test student school association entity
         assertEquals("REFERENCE", queryConverter.findParamType("studentSchoolAssociation", "studentId").getType());
-        assertEquals("REFERENCE", queryConverter.findParamType("studentSchoolAssociation", "educationOrganizationId").getType());
+        assertEquals("REFERENCE", queryConverter.findParamType("studentSchoolAssociation", "schoolId").getType());
         assertEquals("DATE", queryConverter.findParamType("studentSchoolAssociation", "entryDate").getType());
         assertEquals("TOKEN", queryConverter.findParamType("studentSchoolAssociation", "entryGradeLevel").getType());
         assertEquals("BOOLEAN", queryConverter.findParamType("studentSchoolAssociation", "repeatGradeIndicator")
