@@ -28,9 +28,6 @@ public final class MongoIndexManager {
 
     private String indexRootDir;
 
-    //The length limit of mongo index name
-    private static int mongoIndexNameLimit = 127;
-
     /**
      * Init function used by Spring. Load indexes map for all collections
      */
@@ -50,7 +47,7 @@ public final class MongoIndexManager {
                     indexList = collectionIndexes.get(collectionName);
                 }
 
-                indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields()));
+                indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields(), collectionName));
                 collectionIndexes.put(collectionName, indexList);
             }
 
@@ -66,20 +63,12 @@ public final class MongoIndexManager {
      * @return
      * @throws IOException
      */
-    private static final IndexDefinition createIndexDefinition(List<Map<String, String>> fields) throws IOException {
+    private static final IndexDefinition createIndexDefinition(List<Map<String, String>> fields, String name) throws IOException {
         Index index = new Index();
 
-        String name = "";
         for (Map<String, String> field : fields) {
-            name += field.get("name") + "_" + field.get("order") + "_";
-            index.on(field.get("name"), field.get("order").equals("1") ? Order.ASCENDING : Order.DESCENDING);
+            index.on(field.get("name"), field.get("position").equals("1") ? Order.ASCENDING : Order.DESCENDING);
         }
-
-        //Make sure the length of index name is valid
-        if (name.length() > mongoIndexNameLimit) {
-            name = name.substring(0, mongoIndexNameLimit);
-        }
-
         index.named(name);
         return index;
     }
@@ -91,11 +80,17 @@ public final class MongoIndexManager {
     * @param batchJobId
     */
     public void ensureIndex(Repository<?> repository, String collection) {
-        if (!repository.collectionExists(collection)) {
-            repository.createCollection(collection);
+
+        if (!collectionIndexes.containsKey(collection)) {
+            LOG.warn("No indexes found for " + collection + ". Skipping...");
+            return;
         }
 
        for (IndexDefinition index : collectionIndexes.get(collection)) {
+
+           if (!repository.collectionExists(collection)) {
+               repository.createCollection(collection);
+           }
 
            try {
                repository.ensureIndex(index, collection);

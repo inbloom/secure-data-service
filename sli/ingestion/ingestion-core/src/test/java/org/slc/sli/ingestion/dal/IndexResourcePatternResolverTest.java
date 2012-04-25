@@ -30,7 +30,7 @@ public class IndexResourcePatternResolverTest {
         Assert.assertEquals("student", indexes.get(0).getCollection());
 
         List<Map<String, String>> fields1 = indexes.get(0).getIndexFields();
-        Assert.assertEquals(6, fields1.size());
+        Assert.assertEquals(3, fields1.size());
         Assert.assertEquals("body.name", fields1.get(0).get("name"));
         Assert.assertEquals("body.sex", fields1.get(1).get("name"));
         Assert.assertEquals("body.birthDate", fields1.get(2).get("name"));

@@ -39,7 +39,7 @@ public class MongoIndexManagerTest {
         Assert.assertEquals(1, res.size());
         Assert.assertEquals(1, res.get("student").size());
         DBObject indexKeys = res.get("student").get(0).getIndexKeys();
-        Assert.assertEquals(6, indexKeys.keySet().size());
+        Assert.assertEquals(3, indexKeys.keySet().size());
 
         Assert.assertTrue(indexKeys.containsField("body.sex"));
         Assert.assertTrue(indexKeys.containsField("body.name"));

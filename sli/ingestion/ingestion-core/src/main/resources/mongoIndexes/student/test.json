@@ -2,6 +2,6 @@
     "collection": "student",
     "indexFields":
     [
-        {"name" : "metaData.tenantId", "order" : "1"}
+        {"name" : "metaData.tenantId", "position" : "1"}
     ]
 }
