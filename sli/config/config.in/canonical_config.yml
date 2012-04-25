@@ -22,6 +22,9 @@ default:
 
         # Session hard logout (8 hours - only in api)
         sli.session.hardLogout: 28800000
+        
+        # Sandbox settings
+        sli.sandbox.autoRegisterApps: false
 
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
@@ -1003,4 +1006,17 @@ test-perf:
         # perf/ingestion/test.properties
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
+        
+sandbox:
+    api: 
+        <<: *API-DEFAULT
+        sli.sandbox.autoRegisterApps: true
+    dashboard:
+        <<: *DASHBOARD-DEFAULT
+    ingestion:
+        <<: *INGESTION-DEFAULT
+    data-access:
+        <<: *DATA-ACCESS-DEFAULT
+    misc:
+        <<: *MISC-DEFAULT
 
