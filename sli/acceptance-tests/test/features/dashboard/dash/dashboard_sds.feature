@@ -60,7 +60,7 @@ And the class for id "attendances.attendanceRate" for student "Merry Mccanse" is
 # AbsenceRate: between 99 - 100%
 And the count for id "attendances.attendanceRate" for student "Dominic Brisendine" is "99"
 And the class for id "attendances.attendanceRate" for student "Dominic Brisendine" is "color-widget-darkgreen"
-# TODO:  all TardyCount and rates are 0
+# TODO:  all TardyCount and rates are 0"
 And I click on student "Matt Sollars"
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Copyright"
@@ -83,7 +83,7 @@ And Tab has a title named "Daybreak District"
 And in "Middle School Overview" tab, there are "2" Panels
 And in "Attendance and Discipline" tab, there are "1" Panels
 And in "Assessments" tab, there are "0" Panels
-And in "Grades and Credits" tab, there are "0" Panels
+And in "Grades and Credits" tab, there are "1" Panels
 And in "Advanced Academics" tab, there are "0" Panels
 And in "ELL" tab, there are "0" Panels
 And I look at the panel "Contact Information"
@@ -156,7 +156,7 @@ And Tab has a title named "Daybreak District"
 And in "Elementary School Overview" tab, there are "2" Panels
 And in "Attendance and Discipline" tab, there are "1" Panels
 And in "Assessments" tab, there are "0" Panels
-And in "Grades and Credits" tab, there are "0" Panels
+And in "Grades and Credits" tab, there are "1" Panels
 And in "Advanced Academics" tab, there are "0" Panels
 And I look at the panel "Contact Information"
 And there are "3" email addresses
@@ -258,7 +258,7 @@ And Tab has a title named "Advanced Academics"
 And in "High School Overview" tab, there are "2" Panels
 And in "Attendance and Discipline" tab, there are "1" Panels
 And in "Assessments" tab, there are "0" Panels
-And in "Grades and Credits" tab, there are "0" Panels
+And in "Grades and Credits" tab, there are "1" Panels
 And in "Advanced Academics" tab, there are "0" Panels
 #And Tab has a title named "Daybreak District"
 And I look at the panel "Contact Information"

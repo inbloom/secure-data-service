@@ -150,7 +150,6 @@ def tableHeaderContains(desiredContent)
   until headerNames.length > 0 || retries == 0
     puts "No headers found.  Sleeping for #{retry_sleep}.  #{retries} retries remaining."
     retries -= 1
-    # Let's remove this... TODO
     sleep retry_sleep
     headerNames = @driver.find_elements(:tag_name, "th")
   end
