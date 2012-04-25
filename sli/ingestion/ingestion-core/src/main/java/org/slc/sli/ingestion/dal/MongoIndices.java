@@ -5,12 +5,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.index.Index;
+import org.springframework.data.mongodb.core.query.Order;
 
 /**
  * Get mongo indexing commands for all collections.
@@ -57,14 +56,17 @@ public final class MongoIndices {
     public static void ensureMongoIndicies(String collectionNameSuffix, MongoTemplate mongoTemplate) {
         // Read the configuration file into the index list.
         for (Map.Entry<String, ArrayList<String>> indexCommand : BASE_MONGO_ENTITIES.entrySet()) {
-            DBObject dBObject = new BasicDBObject();
-            int serial = 0;
-            for (Iterator<String> index = indexCommand.getValue().iterator(); index.hasNext();) {
-                dBObject.put(index.next(), ++serial);
+//            DBObject dBObject = new BasicDBObject();
+            Index index = new Index();
+//            int serial = 0;
+            for (Iterator<String> indexSet = indexCommand.getValue().iterator(); indexSet.hasNext();) {
+                index.on(indexSet.next(), Order.ASCENDING);
+//                dBObject.put(index.next(), ++serial);
             }
             String collectionName = indexCommand.getKey() + collectionNameSuffix;
             try {
-                mongoTemplate.getDb().getCollection(collectionName).ensureIndex(dBObject);
+//                mongoTemplate.getDb().getCollection(collectionName).ensureIndex(dBObject);
+                mongoTemplate.ensureIndex(index, collectionName);
             } catch (Exception e) {
                 LOG.error(e.getMessage());
             }
