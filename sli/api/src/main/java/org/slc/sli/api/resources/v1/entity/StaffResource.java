@@ -1,6 +1,5 @@
 package org.slc.sli.api.resources.v1.entity;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -8,11 +7,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -23,7 +20,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
-import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.common.constants.ResourceNames;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
@@ -42,7 +38,6 @@ import org.slc.sli.common.constants.v1.PathConstants;
 @Path(PathConstants.V1 + "/" + PathConstants.STAFF)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
 public class StaffResource extends DefaultCrudEndpoint {
 
     public static final String UNIQUE_STATE_ID = "staffUniqueStateId";
@@ -70,7 +65,6 @@ public class StaffResource extends DefaultCrudEndpoint {
      * @return Returns all $$staff$$ entities for which the logged in User has permission and context.
      */
     @Override
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
@@ -94,7 +88,6 @@ public class StaffResource extends DefaultCrudEndpoint {
      */
     @Override
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
@@ -114,7 +107,6 @@ public class StaffResource extends DefaultCrudEndpoint {
     @Override
     @GET
     @Path("{" + ParameterConstants.STAFF_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     public Response read(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(staffId, headers, uriInfo);
@@ -175,7 +167,6 @@ public class StaffResource extends DefaultCrudEndpoint {
      * @return Returns each $$staffEducationOrganizationAssociations$$ that references the given $$staff$$
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
     public Response getStaffEducationOrganizationAssociations(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             @Context HttpHeaders headers,
@@ -197,7 +188,6 @@ public class StaffResource extends DefaultCrudEndpoint {
      * through a $$staffEducationOrganizationAssociations$$
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS + "/" + PathConstants.EDUCATION_ORGANIZATIONS)
     public Response getStaffEducationOrganizationAssociationEducationOrganizations(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             @Context HttpHeaders headers,
@@ -218,7 +208,6 @@ public class StaffResource extends DefaultCrudEndpoint {
      * @return Returns each $$staffCohortAssociations$$ that references the given $$staff$$
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_COHORT_ASSOCIATIONS)
     public Response getStaffCohortAssociations(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             @Context HttpHeaders headers,
@@ -239,7 +228,6 @@ public class StaffResource extends DefaultCrudEndpoint {
      * @return Returns each $$cohorts$$ associated to the given staff through a $$staffCohortAssociations$$
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_COHORT_ASSOCIATIONS + "/" + PathConstants.COHORTS)
     public Response getStaffCohortAssociationCohorts(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             @Context HttpHeaders headers,
@@ -261,7 +249,6 @@ public class StaffResource extends DefaultCrudEndpoint {
      * @return Returns each $$staffProgramAssociations$$ that references the given $$staff$$
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_PROGRAM_ASSOCIATIONS)
     public Response getStaffProgramAssociations(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             @Context HttpHeaders headers,
@@ -285,7 +272,6 @@ public class StaffResource extends DefaultCrudEndpoint {
      * that references the given $$staff$$.
      */
     @GET
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
     @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_PROGRAM_ASSOCIATIONS + "/" + PathConstants.PROGRAMS)
     public Response getStaffProgramAssociationPrograms(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             @Context HttpHeaders headers,
