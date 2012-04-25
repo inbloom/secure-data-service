@@ -202,6 +202,12 @@ public final class Constants {
     // extra elements added by API
     public static final String METADATA = "metaData";
     public static final String EXTERNAL_ID = "externalId";
+    
+    // Grades for Sections Constants
+    public static final String SECTION = "section";
+    public static final String SECTION_LETTER_GRADE = "letterGrade";
+    public static final String SECTION_HEADER = "header";
+    public static final Integer NUMBER_OF_SECTIONS = 2;
 
 
     /**

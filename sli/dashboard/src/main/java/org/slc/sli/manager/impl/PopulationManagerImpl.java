@@ -163,7 +163,6 @@ public class PopulationManagerImpl implements PopulationManager {
      */
     public void enhanceListOfStudents(List<GenericEntity> studentSummaries, String sectionId) {
         if (studentSummaries != null) {
-            int count = 0;
             for (GenericEntity student : studentSummaries) {
                 if (student == null) {
                     continue;
@@ -175,9 +174,8 @@ public class PopulationManagerImpl implements PopulationManager {
                 // add full name
                 addFullName(student);
 
-                // TODO - Switch once real API data is implemented
-                addFinalGrade(student);
-//                addGrade(student, count++);
+                // add the final grade
+                addFinalGrade(student, sectionId);
 
                 // transform assessment score format
                 transformAssessmentFormat(student);
@@ -306,80 +304,97 @@ public class PopulationManagerImpl implements PopulationManager {
         student.remove(Constants.ATTR_LINKS);
     }
     
+    
+    /**
+     * This method adds the final grades of a student to the student data. It will only grab the
+     * latest two grades.
+     * Ideally we would filter on subject area, but there is currently no subject area data in the
+     * SDS.
+     * 
+     * @param student
+     */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-	private void addFinalGrade(GenericEntity student){
-    	try {
-        	Map<String, Object> transcripts = (Map<String, Object>) student.get(Constants.ATTR_TRANSCRIPT);  
-        	List<Map<String, Object>> stuSectAssocs = (List<Map<String, Object>>) transcripts.get(Constants.ATTR_STUDENT_SECTION_ASSOC);
-        	List<Map<String, Object>> stuTransAssocs = (List<Map<String, Object>>) transcripts.get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC);       	
-
-            // Course IDs ordered so that newest course is first
-        	Map <Date, Map<String, Object>> previousCourseIds = new TreeMap<Date, Map<String, Object>>(
-    				new Comparator<Date> () { 
-    					public int compare(Date a, Date b) {
-    						if( a.compareTo(b) > 0) {
-    							return -1;
-    						} else if (a.compareTo(b) == 0) {
-    							return 0;
-    						} else {
-    							return 1;
-    						}
-    					}
-    		        }
-    		);
-    		
-    		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        	
-    		//Collect all courseIds based on subject Area if possible
-    		for(Map<String,Object> assoc : stuSectAssocs){
-    			Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
-    		    Date date = formatter.parse( (String) ( (Map) sections.get(Constants.ATTR_SESSIONS)).get("endDate"));
-    			previousCourseIds.put(date, sections);
-    	    }
-
-    		
-    		//Iterate through the course Id's and grab transcripts grades, once we have 2 transcript grades, we're done
-    		int count = 1;
-    		int semestersAllowed = 2;
-        	for(Date key: previousCourseIds.keySet()) {
-        		
-        		String courseId = (String) (previousCourseIds.get(key).get(Constants.ATTR_COURSE_ID));
-            	for(Map<String,Object> assoc : stuTransAssocs){
-                    if(courseId.equalsIgnoreCase((String)assoc.get(Constants.ATTR_COURSE_ID))) {
+    private void addFinalGrade(GenericEntity student, String sectionId) {
+        try {
+            Map<String, Object> transcripts = (Map<String, Object>) student.get(Constants.ATTR_TRANSCRIPT);
+            if (transcripts == null) {
+                return;
+            }
+            List<Map<String, Object>> stuSectAssocs = (List<Map<String, Object>>) transcripts
+                    .get(Constants.ATTR_STUDENT_SECTION_ASSOC);
+            List<Map<String, Object>> stuTransAssocs = (List<Map<String, Object>>) transcripts
+                    .get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC);
+            
+            // Course IDs ordered so that newest course is first. Need to do this because we should
+            // show the
+            // latest courses first.
+            
+            Map<Date, Map<String, Object>> previousCourseIds = new TreeMap<Date, Map<String, Object>>(
+                    new Comparator<Date>() {
+                        public int compare(Date a, Date b) {
+                            if (a.compareTo(b) > 0) {
+                                return -1;
+                            } else if (a.compareTo(b) == 0) {
+                                return 0;
+                            } else {
+                                return 1;
+                            }
+                        }
+                    });
+            
+            // Collect all courseIds based on subject Area if possible
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            for (Map<String, Object> assoc : stuSectAssocs) {
+                Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
+                Date date = formatter.parse((String) ((Map) sections.get(Constants.ATTR_SESSIONS))
+                        .get(Constants.ATTR_ASSESSMENT_PERIOD_END_DATE));
+                previousCourseIds.put(date, sections);
+            }
+            
+            // Iterate through the course Id's and grab transcripts grades, once we have 2
+            // transcript grades, we're done
+            int count = 1;
+            for (Date key : previousCourseIds.keySet()) {
+                
+                String courseId = (String) (previousCourseIds.get(key).get(Constants.ATTR_COURSE_ID));
+                for (Map<String, Object> assoc : stuTransAssocs) {
+                    if (courseId.equalsIgnoreCase((String) assoc.get(Constants.ATTR_COURSE_ID))) {
                         String finalLetterGrade = (String) assoc.get(Constants.ATTR_FINAL_LETTER_GRADE);
                         Map<String, Object> sections = (Map) previousCourseIds.get(key);
-                        String term = (String) ((Map)sections.get(Constants.ATTR_SESSIONS)).get("term");
-                        String year = (String) ((Map)sections.get(Constants.ATTR_SESSIONS)).get("schoolYear");
-                        String courseTitle = (String) ((Map)sections.get(Constants.ATTR_COURSES)).get("courseTitle");
-                        if(finalLetterGrade != null) {
-                            Map <String, Object> grade = new LinkedHashMap<String,Object>();
-                        	grade.put("grade", finalLetterGrade);
-                        	grade.put("header", year + " " + term + " " + courseTitle);
-                            student.put("score" + count, grade );
+                        String term = (String) ((Map) sections.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_TERM);
+                        String year = (String) ((Map) sections.get(Constants.ATTR_SESSIONS))
+                                .get(Constants.ATTR_SCHOOL_YEAR);
+                        String courseTitle = (String) ((Map) sections.get(Constants.ATTR_COURSES))
+                                .get(Constants.ATTR_COURSE_TITLE);
+                        if (finalLetterGrade != null) {
+                            Map<String, Object> grade = new LinkedHashMap<String, Object>();
+                            grade.put(Constants.SECTION_LETTER_GRADE, finalLetterGrade);
+                            grade.put(Constants.SECTION_HEADER, year + " " + term + " " + courseTitle);
+                            student.put(Constants.SECTION + count, grade);
                             ++count;
                             break;
                         }
                     }
                 }
-        	    
-        		if(count > semestersAllowed) {
-        			break;
-        		}
-        	}
-    		
-    	} catch (ClassCastException ex) {
-    		ex.printStackTrace();
-    		Map <String, Object> grade = new LinkedHashMap<String,Object>();
+                
+                if (count > Constants.NUMBER_OF_SECTIONS) {
+                    break;
+                }
+            }
+            
+        } catch (ClassCastException ex) {
+            ex.printStackTrace();
+            Map<String, Object> grade = new LinkedHashMap<String, Object>();
             student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
-    	} catch (NullPointerException ex) {
-    		ex.printStackTrace();
-    		Map <String, Object> grade = new LinkedHashMap<String,Object>();
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+            Map<String, Object> grade = new LinkedHashMap<String, Object>();
             student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
-    	} catch (ParseException ex) {
-    		ex.printStackTrace();
-    		Map <String, Object> grade = new LinkedHashMap<String,Object>();
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+            Map<String, Object> grade = new LinkedHashMap<String, Object>();
             student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
-    	}
+        }
     }
 
     /**

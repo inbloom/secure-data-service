@@ -31,8 +31,8 @@
         {name: "Perf. Lvl.", field: "assessments.ISAT Writing.perfLevel", width:150, sorter: 'int', formatter: FuelGaugeWithScore, params:{name:'ISAT Writing', valueField:'Scale score', fieldName: "ISATWriting", cutPoints:{ 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}}}},
         {name: "SS", field: "assessments.ISAT Writing.Scale score", width:100, sorter: 'int'}]},
       {name: "Grade", items:[   
-        {name: "score1.header", field: "score1.grade", width:100, sorter: 'char', formatter: TearDrop},
-        {name: "score2.header", field: "score2.grade", width:100, sorter: 'char', formatter: TearDrop} 
+        {name: "section1.header", field: "section1.letterGrade", width:100, sorter: 'char', formatter: TearDrop},
+        {name: "section2.header", field: "section2.letterGrade", width:100, sorter: 'char', formatter: TearDrop} 
       ]},
       {name: "Attendance (current school year)", items:[   
         {name: "Absence Count", field: "attendances.absenceCount", width:100, sorter: 'int', formatter: CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style:'color-widget-red'}}}},
