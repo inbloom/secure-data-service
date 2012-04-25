@@ -32,6 +32,7 @@ public class ControlFilePreProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PREPROCESSOR;
 
+    @Autowired
     private LandingZone landingZone;
 
     Logger log = LoggerFactory.getLogger(ZipFileProcessor.class);

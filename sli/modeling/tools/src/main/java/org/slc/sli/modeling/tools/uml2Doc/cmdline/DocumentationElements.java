@@ -10,6 +10,14 @@ public interface DocumentationElements {
     public static final QName CLASS = new QName("class");
     public static final QName DATA_TYPE = new QName("datatype");
     public static final QName DESCRIPTION = new QName("description");
+    /**
+     * Prolog is text that comes before a diagram.
+     */
+    public static final QName PROLOG = new QName("prolog");
+    /**
+     * Epilog is text that comes after a diagram.
+     */
+    public static final QName EPILOG = new QName("epilog");
     public static final QName DIAGRAM = new QName("diagram");
     public static final QName DOMAIN = new QName("domain");
     /**

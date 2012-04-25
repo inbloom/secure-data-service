@@ -120,6 +120,5 @@
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
 		<property name="passThroughCollectionName" value="disciplineIncident" />
     </bean>
-
 </beans>
 

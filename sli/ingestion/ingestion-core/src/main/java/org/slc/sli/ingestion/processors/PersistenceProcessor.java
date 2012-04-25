@@ -204,6 +204,11 @@ public class PersistenceProcessor implements Processor {
                     List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForNrFile);
                     for (SimpleEntity xformedEntity : xformedEntities) {
 
+                        if ("learningObjective".equals(xformedEntity.getType())) {
+                            xformedEntity.getBody().remove("parentLearningObjectiveIdentificationCode");
+                            xformedEntity.getBody().remove("parentLearningObjectiveContentStandardName");
+                        }
+
                         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForNrFile);
                         entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
 
