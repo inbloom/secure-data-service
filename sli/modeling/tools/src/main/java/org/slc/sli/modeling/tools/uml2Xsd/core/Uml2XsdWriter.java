@@ -20,6 +20,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.slc.sli.modeling.psm.PsmDocument;
+import org.slc.sli.modeling.tools.TagName;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
@@ -229,7 +230,7 @@ public final class Uml2XsdWriter {
                     for (final TaggedValue taggedValue : simpleType.getTaggedValues()) {
                         final TagDefinition tagDefinition = lookup.getTagDefinition(taggedValue.getTagDefinition());
                         final String name = tagDefinition.getName();
-                        if (TagDefinition.NAME_DOCUMENTATION.equals(name)) {
+                        if (TagName.DOCUMENTATION.equals(name)) {
                             writeDocumentation(taggedValue, xsw);
                         }
                     }
@@ -252,25 +253,25 @@ public final class Uml2XsdWriter {
                     for (final TaggedValue taggedValue : simpleType.getTaggedValues()) {
                         final TagDefinition tagDefinition = lookup.getTagDefinition(taggedValue.getTagDefinition());
                         final String name = tagDefinition.getName();
-                        if (TagDefinition.NAME_MAX_LENGTH.equals(name)) {
+                        if (TagName.MAX_LENGTH.equals(name)) {
                             writeFacet(XsdElementName.MAX_LENGTH, taggedValue, xsw);
-                        } else if (TagDefinition.NAME_MIN_LENGTH.equals(name)) {
+                        } else if (TagName.MIN_LENGTH.equals(name)) {
                             writeFacet(XsdElementName.MIN_LENGTH, taggedValue, xsw);
-                        } else if (TagDefinition.NAME_MAX_INCLUSIVE.equals(name)) {
+                        } else if (TagName.MAX_INCLUSIVE.equals(name)) {
                             writeFacet(XsdElementName.MAX_INCLUSIVE, taggedValue, xsw);
-                        } else if (TagDefinition.NAME_MIN_INCLUSIVE.equals(name)) {
+                        } else if (TagName.MIN_INCLUSIVE.equals(name)) {
                             writeFacet(XsdElementName.MIN_INCLUSIVE, taggedValue, xsw);
-                        } else if (TagDefinition.NAME_MAX_EXCLUSIVE.equals(name)) {
+                        } else if (TagName.MAX_EXCLUSIVE.equals(name)) {
                             writeFacet(XsdElementName.MAX_EXCLUSIVE, taggedValue, xsw);
-                        } else if (TagDefinition.NAME_MIN_EXCLUSIVE.equals(name)) {
+                        } else if (TagName.MIN_EXCLUSIVE.equals(name)) {
                             writeFacet(XsdElementName.MIN_EXCLUSIVE, taggedValue, xsw);
-                        } else if (TagDefinition.NAME_TOTAL_DIGITS.equals(name)) {
+                        } else if (TagName.TOTAL_DIGITS.equals(name)) {
                             writeFacet(XsdElementName.TOTAL_DIGITS, taggedValue, xsw);
-                        } else if (TagDefinition.NAME_FRACTION_DIGITS.equals(name)) {
+                        } else if (TagName.FRACTION_DIGITS.equals(name)) {
                             writeFacet(XsdElementName.FRACTION_DIGITS, taggedValue, xsw);
-                        } else if (TagDefinition.NAME_LENGTH.equals(name)) {
+                        } else if (TagName.LENGTH.equals(name)) {
                             writeFacet(XsdElementName.LENGTH, taggedValue, xsw);
-                        } else if (TagDefinition.NAME_PATTERN.equals(name)) {
+                        } else if (TagName.PATTERN.equals(name)) {
                             writeFacet(XsdElementName.PATTERN, taggedValue, xsw);
                         }
                     }
@@ -428,7 +429,7 @@ public final class Uml2XsdWriter {
             try {
                 for (final TaggedValue taggedValue : element.getTaggedValues()) {
                     final TagDefinition tagDefinition = lookup.getTagDefinition(taggedValue.getTagDefinition());
-                    if (TagDefinition.NAME_DOCUMENTATION.equals(tagDefinition.getName())) {
+                    if (TagName.DOCUMENTATION.equals(tagDefinition.getName())) {
                         writeDocumentation(taggedValue, xsw);
                     } else {
                         plugin.writeAppInfo(taggedValue, lookup, new Uml2XsdPluginWriterAdapter(xsw, PREFIX_XS));
@@ -462,7 +463,7 @@ public final class Uml2XsdWriter {
             try {
                 for (final TaggedValue taggedValue : elementType.getTaggedValues()) {
                     final TagDefinition tagDefinition = lookup.getTagDefinition(taggedValue.getTagDefinition());
-                    if (TagDefinition.NAME_DOCUMENTATION.equals(tagDefinition.getName())) {
+                    if (TagName.DOCUMENTATION.equals(tagDefinition.getName())) {
                         writeDocumentation(taggedValue, xsw);
                     }
                 }
