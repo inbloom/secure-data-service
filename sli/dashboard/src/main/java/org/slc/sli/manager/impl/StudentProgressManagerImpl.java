@@ -39,7 +39,6 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
     @SuppressWarnings("unchecked")
     public GenericEntity getTranscript(String token, Object studentIdObj, Config.Data config) {
 
-        //Set<GenericEntity> transcripts = new HashSet<GenericEntity>();
         Map<GenericEntity, List<GenericEntity>> transcripts = new HashMap<GenericEntity, List<GenericEntity>>();
 
         String studentId = studentIdObj.toString();
@@ -102,7 +101,6 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
             term.putAll(entry.getKey());
             term.put("courses", entry.getValue());
             transcriptData.add(term);
-            log.debug("{}", entry);
         }
 
         GenericEntity ret = new GenericEntity();
