@@ -61,6 +61,23 @@ And the class for id "attendances.attendanceRate" for student "Merry Mccanse" is
 And the count for id "attendances.attendanceRate" for student "Dominic Brisendine" is "99"
 And the class for id "attendances.attendanceRate" for student "Dominic Brisendine" is "color-widget-darkgreen"
 # TODO:  all TardyCount and rates are 0"
+And the grades teardrop color widgets are mapped correctly:
+ |grade|teardrop           |
+ |A+   |teardrop-darkgreen |
+ |A-   |teardrop-darkgreen |
+ |A    |teardrop-darkgreen |
+ |B+   |teardrop-lightgreen|
+ |B-   |teardrop-lightgreen|
+ |B    |teardrop-lightgreen|
+ |C+   |teardrop-yellow    |
+ |C-   |teardrop-yellow    |
+ |C    |teardrop-yellow    |
+ |D+   |teardrop-orange    |
+ |D-   |teardrop-orange    |
+ |D    |teardrop-orange    |
+ |F+   |teardrop-red       |
+ |F-   |teardrop-red       |
+ |F    |teardrop-red       |
 And I click on student "Matt Sollars"
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Copyright"
@@ -224,23 +241,23 @@ And the class for id "attendances.attendanceRate" for student "Garry Mcconnaughy
 # Attendance rate < 90
 And the count for id "attendances.attendanceRate" for student "Oma Bevington" is "87"
 And the class for id "attendances.attendanceRate" for student "Oma Bevington" is "color-widget-red"
-#And the grades teardrop color widgets are mapped correctly:
- # |grade|teardrop           |
- # |A+   |teardrop-darkgreen |
- # |A-   |teardrop-darkgreen |
- # |A    |teardrop-darkgreen |
- #|B+   |teardrop-lightgreen|
- # |B-   |teardrop-lightgreen|
- # |B    |teardrop-lightgreen|
- # |C+   |teardrop-yellow    |
- # |C-   |teardrop-yellow    |
- # |C    |teardrop-yellow    |
- # |D+   |teardrop-orange    |
- # |D-   |teardrop-orange    |
- # |D    |teardrop-orange    |
-#  |F+   |teardrop-red       |
- # |F-   |teardrop-red       |
-  #|F    |teardrop-red       |
+And the grades teardrop color widgets are mapped correctly:
+ |grade|teardrop           |
+ |A+   |teardrop-darkgreen |
+ |A-   |teardrop-darkgreen |
+ |A    |teardrop-darkgreen |
+ |B+   |teardrop-lightgreen|
+ |B-   |teardrop-lightgreen|
+ |B    |teardrop-lightgreen|
+ |C+   |teardrop-yellow    |
+ |C-   |teardrop-yellow    |
+ |C    |teardrop-yellow    |
+ |D+   |teardrop-orange    |
+ |D-   |teardrop-orange    |
+ |D    |teardrop-orange    |
+ |F+   |teardrop-red       |
+ |F-   |teardrop-red       |
+ |F    |teardrop-red       |
 And I click on student "Carmen Ortiz"
 And I view its student profile
 And their name shown in profile is "Carmen Daniella Ortiz"

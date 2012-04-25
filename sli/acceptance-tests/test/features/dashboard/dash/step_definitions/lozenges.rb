@@ -43,35 +43,24 @@ Then /^the grades teardrop color widgets are mapped correctly:$/ do |table|
     value = row['teardrop'].rstrip.lstrip
     gradeMapping[key] = value
   end
-  studentTable = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")} 
-  all_trs = studentTable.find_elements(:xpath,".//tr[contains(@class,'ui-widget-content')]")
+  all_trs = getStudentGrid()
    
   all_trs.each do |tr|
-    foundGrade = getStudentGrade(tr)
-    if (gradeMapping[foundGrade] == nil)
-      puts "Grade Mapping doesn't exist for grade: " + foundGrade
-    else
-      searchText = ".//div[contains(@class,'" + gradeMapping[foundGrade] + "')]"
-      tearDrop = tr.find_element(:xpath, searchText)
-      assert(tearDrop != nil, "Expected color" + gradeMapping[foundGrade])
+    foundGrades = getStudentGrades(tr)
+    tdsWithGrades = getStudentAttributeTds(tr, getGradeColumnName())
+    assert(tdsWithGrades.length == foundGrades.length, "Grade columns discrepancy for comparison")
+    i = 0
+    foundGrades.each do |grade|
+      if (gradeMapping[grade] == nil)
+        puts "Grade Mapping doesn't exist for grade: " + grade
+      else
+        searchText = ".//div[contains(@class,'" + gradeMapping[grade] + "')]"
+        tearDrop = tdsWithGrades[i].find_element(:xpath, searchText)
+        assert(tearDrop != nil, "Expected color" + gradeMapping[grade])
+      end
+      i +=1
     end
   end 
-end
-
-Then /^I check the student list for grade "([^"]*)" is mapped to "([^"]*)"$/ do |grade, classId|
-  studentTable = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
-  all_trs = studentTable.find_elements(:xpath,".//tr[contains(@class,'ui-widget-content')]")
-  searchText = ".//div[contains(@class,'" + classId + "')]"
-  i = 0
-  all_trs.each do |tr|
-    foundGrade = getStudentGrade(tr)
-    if (grade == foundGrade)
-      i += 1
-      tearDrop = tr.find_element(:xpath, searchText)
-      assert(tearDrop != nil, "Expected color" + classId)
-    end
-  end 
-  puts i.to_s + " students have grade: " + grade
 end
 
 Then /^the fuel gauge for "([^"]*)" in "([^"]*)" is "([^"]*)"$/ do |studentName, assessment, score|
@@ -208,6 +197,13 @@ def getStudentAttributeTd(studentTr,attribute)
   return td
 end
 
+def getStudentAttributeTds(studentTr,attribute)
+  assert(!studentTr.nil?, "Student Row is empty")
+  searchText = "td[contains(@aria-describedby,'" + attribute + "')]"
+  tds = studentTr.find_elements(:xpath, searchText)
+  return tds
+end
+
 def getStudentAttribute(studentTr, attribute)
   assert(!studentTr.nil?, "Student Row is empty")
   searchText = "td[contains(@aria-describedby,'" + attribute + "')]"
@@ -238,8 +234,9 @@ def getStudentProgramParticipation(studentTr)
   return getStudentAttributes(studentTr, getStudentProgramParticipationColumnName())
 end
 
-def getStudentGrade(studentTr)
-  return getStudentAttribute(studentTr, getGradeColumnName())
+#returns an array of grades
+def getStudentGrades(studentTr)
+  return getStudentAttributes(studentTr, getGradeColumnName())
 end
 
 
@@ -265,7 +262,7 @@ def getStudentProgramParticipationColumnName()
 end
 
 def getGradeColumnName()
-  return "grade"
+  return "letterGrade"
 end
 
 def getAbsenceCountColumnName()
