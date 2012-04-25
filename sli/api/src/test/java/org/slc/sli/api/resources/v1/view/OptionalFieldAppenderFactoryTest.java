@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.resources.v1.view.impl.SectionViewDailyAttendanceOptionalFieldAppender;
+import org.slc.sli.api.resources.v1.view.impl.StudentAssessmentOptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.impl.StudentAttendanceOptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.impl.StudentGradebookOptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.impl.StudentTranscriptOptionalFieldAppender;
@@ -42,7 +42,7 @@ public class OptionalFieldAppenderFactoryTest {
     public void testGetViewGenerator() {
         assertTrue("Should be of type studentassessment",
                 factory.getOptionalFieldAppender(ResourceNames.SECTIONS + "_" + ParameterConstants.OPTIONAL_FIELD_ASSESSMENTS)
-                instanceof SectionViewDailyAttendanceOptionalFieldAppender);
+                instanceof StudentAssessmentOptionalFieldAppender);
         assertTrue("Should be of type studentattendance",
                 factory.getOptionalFieldAppender(ResourceNames.SECTIONS + "_" + ParameterConstants.OPTIONAL_FIELD_ATTENDANCES)
                 instanceof StudentAttendanceOptionalFieldAppender);

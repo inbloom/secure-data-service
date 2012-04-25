@@ -19,12 +19,12 @@ import org.slc.sli.common.constants.v1.PathConstants;
  *
  */
 @Component
-public class SectionViewDailyAttendanceOptionalFieldAppender implements OptionalFieldAppender {
+public class StudentAssessmentOptionalFieldAppender implements OptionalFieldAppender {
 
     @Autowired
     private OptionalFieldAppenderHelper optionalFieldAppenderHelper;
 
-    public SectionViewDailyAttendanceOptionalFieldAppender() {
+    public StudentAssessmentOptionalFieldAppender() {
     }
 
     @Override
