@@ -340,6 +340,7 @@
     <jb:value property="magnetSpecialProgramEmphasisSchool" data="School/MagnetSpecialProgramEmphasisSchool" />
     <jb:value property="administrativeFundingControl" data="School/AdministrativeFundingControl" />
     <jb:value property="parentEducationAgencyReference" data="School/LocalEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
+    <jb:expression property="collectionName">'educationOrganization'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="educationOrgIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
@@ -717,6 +718,7 @@
     <jb:value property="loginId" data="LoginId" />
     <jb:value property="staffUniqueStateId" data="TeacherUniqueStateId" />
     <jb:value property="highlyQualifiedTeacher" data="HighlyQualifiedTeacher" decoder="Boolean" />
+    <jb:expression property="collectionName">'staff'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="staffIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">
