@@ -99,7 +99,6 @@ public class StudentResource extends DefaultCrudEndpoint {
 
     
     @Path(PathConstants.STUDENT_WITH_GRADE)
-    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAllWithGrade(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
