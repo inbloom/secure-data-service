@@ -8,11 +8,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.uuid.Type1UUIDGeneratorStrategy;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -138,7 +139,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     private NeutralRecord createTransformedAttendanceRecord() {
         NeutralRecord record = new NeutralRecord();
-        record.setRecordId(UUID.randomUUID().toString());
+        record.setRecordId(new Type1UUIDGeneratorStrategy().randomUUID().toString());
         record.setRecordType(EntityNames.ATTENDANCE);
         return record;
     }
@@ -181,44 +182,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         return collection;
     }
 
-    /**
-     * Parses a date presently stored in the format yyyy-MM-dd and returns the corresponding DateTime object.
-     *
-     * @param dateToBeParsed String to be parsed into a DateTime object.
-     * @return DateTime object.
-     */
-    private DateTime parseDateTime(String dateToBeParsed) {
-        String[] pieces = dateToBeParsed.split("-");
-        int year = Integer.valueOf(pieces[0]);
-        int month = Integer.valueOf(pieces[1]);
-        int day = Integer.valueOf(pieces[2]);
-        DateTime date = new DateTime().withDate(year, month, day);
-        return date;
-    }
-
-    /**
-     * Determines if the 1st date is before or equal to the 2nd date (comparing only year, month, day).
-     *
-     * @param date1 1st date object.
-     * @param date2 2nd date object.
-     * @return true if date1 is before or equal to date2, false if date1 is after date2.
-     */
-    private boolean isLeftDateBeforeRightDate(DateTime date1, DateTime date2) {
-        boolean less = false;
-        if (date1.getYear() < date2.getYear()) {
-            less = true;
-        } else if (date1.getYear() == date2.getYear()) {
-            if (date1.getMonthOfYear() < date2.getMonthOfYear()) {
-                less = true;
-            } else if (date1.getMonthOfYear() == date2.getMonthOfYear()) {
-                if (date1.getDayOfMonth() <= date2.getDayOfMonth()) {
-                    less = true;
-                }
-            }
-        }
-        return less;
-    }
-    
     /**
      * Gets attendance events for the specified student.
      * @param studentId StudentUniqueStateId for student.
@@ -302,8 +265,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             NeutralRecord sessionRecord = session.getValue();
             Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
             String schoolYear = (String) sessionAttributes.get("schoolYear");
-            DateTime sessionBegin = parseDateTime((String) sessionAttributes.get("beginDate"));
-            DateTime sessionEnd = parseDateTime((String) sessionAttributes.get("endDate"));
+            DateTime sessionBegin = DateTimeUtil.parseDateTime((String) sessionAttributes.get("beginDate"));
+            DateTime sessionEnd = DateTimeUtil.parseDateTime((String) sessionAttributes.get("endDate"));
             
             List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
             for (Iterator<Map.Entry<Object, NeutralRecord>> recordItr = studentAttendance.entrySet().iterator(); recordItr.hasNext(); ) {
@@ -312,8 +275,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 Map<String, Object> eventAttributes = eventRecord.getAttributes();
                 
                 String eventDate = (String) eventAttributes.get("eventDate");
-                DateTime date = parseDateTime(eventDate);
-                if (isLeftDateBeforeRightDate(sessionBegin, date) && isLeftDateBeforeRightDate(date, sessionEnd)) {
+                DateTime date = DateTimeUtil.parseDateTime(eventDate);
+                if (DateTimeUtil.isLeftDateBeforeRightDate(sessionBegin, date) && DateTimeUtil.isLeftDateBeforeRightDate(date, sessionEnd)) {
                     Map<String, Object> event = new HashMap<String, Object>();
                     String eventCategory = (String) eventAttributes.get("attendanceEventCategory");
                     event.put("date", eventDate);
