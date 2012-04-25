@@ -10,12 +10,12 @@
 	</LearningObjective>
 	
 	<LearningObjective id="Similarity-Right-Triangle-Trig">
-		<Objective>Similarity, Right Triangle, and Trigonometry</Objective>
-		<AcademicSubject>Mathematics</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningObjectiveId>
 			<IdentificationCode>G-SRT</IdentificationCode>
 		</LearningObjectiveId>
+		<Objective>Similarity, Right Triangle, and Trigonometry</Objective>
+		<AcademicSubject>Mathematics</AcademicSubject>
+		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningStandardReference ref="G-SRT-1"></LearningStandardReference>
 		<LearningStandardReference ref="G-SRT-2"></LearningStandardReference>
 		<LearningStandardReference ref="G-SRT-3"></LearningStandardReference>
