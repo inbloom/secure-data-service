@@ -81,9 +81,9 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
 
         String collection = entity.getType();
 
-        if (collection.equals ("teacher")) {
+        if (collection.equals("teacher")) {
             collection = "staff";
-        } else if (collection.equals ("school")) {
+        } else if (collection.equals("school")) {
             collection = "educationOrganization";
         }
 
