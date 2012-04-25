@@ -49,12 +49,11 @@ Scenario: Fail when passing an incorrectly capitalized enum during POST for stud
 #	   And the response body should tell me why the request was invalid
 
 
-Scenario: Fail when passing map instead of array during POST for school
+Scenario: Succeed when passing map instead of array during POST for school
 	Given format "application/json"
 	Given I create a create a school object with "address" set to a single map
 	When I navigate to POST "/v1/schools"
-    Then I should receive a return code of 400
-#	   And the response body should tell me why the request was invalid
+    Then I should receive a return code of 201
     Given I create the same school object with "address" as an array with the same map
 	When I navigate to POST "/v1/schools"
     Then I should receive a return code of 201
@@ -111,12 +110,11 @@ Scenario: Fail when posting a string to a field that has fewer characters than t
 #	   And the response body should tell me why the request was invalid
 
 
-Scenario: Fail when posting a string "true" to a field expecting a boolean
+Scenario: Succeed when posting a string "true" when a boolean is expected
 	Given format "application/json"
     Given I create a student object with "hispanicLatinoEthnicity" set to a true string
 	When I navigate to POST "/v1/students"
-    Then I should receive a return code of 400
-#	   And the response body should tell me why the request was invalid
+    Then I should receive a return code of 201
 
 
 Scenario: Fail when posting a date in the wrong format

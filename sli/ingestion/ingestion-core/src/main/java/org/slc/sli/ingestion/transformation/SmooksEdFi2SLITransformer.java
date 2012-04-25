@@ -2,6 +2,7 @@ package org.slc.sli.ingestion.transformation;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -28,13 +29,23 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
 
     private Map<String, Smooks> smooksConfigs;
 
-    
-    @SuppressWarnings("unchecked")
     @Override
     public List<SimpleEntity> transform(NeutralRecord item, ErrorReport errorReport) {
 
         JavaResult result = new JavaResult();
         Smooks smooks = smooksConfigs.get(item.getRecordType());
+
+        // if no smooks configured for this, then just convert the neutral record to a SimpleEntity
+        // directly.
+        if (smooks == null) {
+            String type = item.getRecordType().replaceAll("_transformed", "");
+            Map<String, Object> body = item.getAttributes();
+            SimpleEntity entity = new SimpleEntity();
+            entity.setType(type);
+            entity.setBody(body);
+
+            return Arrays.asList(entity);
+        }
 
         List<SimpleEntity> sliEntities;
 
@@ -44,17 +55,17 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             smooks.filterSource(source, result);
 
             sliEntities = getEntityListResult(result);
-            //sliEntities = result.getBean(List.class);
+            // sliEntities = result.getBean(List.class);
         } catch (IOException e) {
             sliEntities = Collections.emptyList();
         }
 
         return sliEntities;
     }
-    
-   /**
-    * Traverse the results map to get the entity list
-    */
+
+    /**
+     * Traverse the results map to get the entity list
+     */
     @SuppressWarnings("unchecked")
     private List<SimpleEntity> getEntityListResult(JavaResult result) {
         List<SimpleEntity> entityList = new ArrayList<SimpleEntity>();

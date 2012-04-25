@@ -42,7 +42,7 @@ public class AssessmentGenerator {
             apLevel.setPerformanceLevel(PerformanceLevelDescriptorGenerator
                     .getPerformanceLevelDescriptorType(assessmentPerformanceLevelId));
 
-            apLevel.setAssessmentReportingMethod(AssessmentReportingMethodType.ADAPTIVE_SCALE_SCORE);
+            apLevel.setAssessmentReportingMethod(AssessmentReportingMethodType.SCALE_SCORE);
             apLevel.setMinimumScore(0);
             apLevel.setMaximumScore(100);
 

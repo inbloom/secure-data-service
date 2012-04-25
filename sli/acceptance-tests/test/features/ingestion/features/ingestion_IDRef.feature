@@ -70,6 +70,6 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName              | count    |
      | student                      | 78      |
      | assessment                   |  2      |
-  And I should see "There is no ID/IDREF binding for IDREF 'ISAT-51'" in the resulting batch job file
-  And I should see "Errors found for input file " in the resulting batch job file
+  And I should see "There is no ID/IDREF binding for IDREF 'ISAT-51'" in the resulting warning log file
+  And I should see "Not all records were processed completely due to errors" in the resulting batch job file
 

@@ -16,10 +16,10 @@ import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.EnumLiteral;
 import org.slc.sli.modeling.uml.EnumType;
-import org.slc.sli.modeling.uml.Taggable;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.Range;
+import org.slc.sli.modeling.uml.Taggable;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.Mapper;
@@ -27,7 +27,7 @@ import org.slc.sli.modeling.xmi.XmiAttributeName;
 import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
 
 public final class DocumentationWriter {
-    
+
     private static final void closeQuiet(final Closeable closeable) {
         try {
             closeable.close();
@@ -35,7 +35,7 @@ public final class DocumentationWriter {
             e.printStackTrace();
         }
     }
-    
+
     private static final void writeAttribute(final Attribute attribute, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(DocumentationElements.ATTRIBUTE.getLocalPart());
@@ -75,7 +75,7 @@ public final class DocumentationWriter {
             xsw.writeEndElement();
         }
     }
-    
+
     private static final String toString(final Occurs value) {
         if (value == null) {
             throw new NullPointerException("value");
@@ -95,7 +95,7 @@ public final class DocumentationWriter {
             }
         }
     }
-    
+
     private static final void writeClassType(final ClassType classType, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(DocumentationElements.CLASS.getLocalPart());
@@ -114,7 +114,7 @@ public final class DocumentationWriter {
             xsw.writeEndElement();
         }
     }
-    
+
     private static final void writeDataType(final DataType dataType, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(DocumentationElements.DATA_TYPE.getLocalPart());
@@ -131,7 +131,7 @@ public final class DocumentationWriter {
             xsw.writeEndElement();
         }
     }
-    
+
     private static final void writeEnumType(final EnumType enumType, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(DocumentationElements.ENUM_TYPE.getLocalPart());
@@ -156,7 +156,7 @@ public final class DocumentationWriter {
             xsw.writeEndElement();
         }
     }
-    
+
     private static final void writeDescription(final Taggable type, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         for (final TaggedValue taggedValue : type.getTaggedValues()) {
@@ -171,7 +171,7 @@ public final class DocumentationWriter {
             }
         }
     }
-    
+
     private static final void writeFacets(final Taggable type, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         for (final TaggedValue taggedValue : type.getTaggedValues()) {
@@ -186,7 +186,7 @@ public final class DocumentationWriter {
             }
         }
     }
-    
+
     private static final void writeDiagram(final Diagram diagram, final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(DocumentationElements.DIAGRAM.getLocalPart());
         try {
@@ -202,9 +202,15 @@ public final class DocumentationWriter {
             } finally {
                 xsw.writeEndElement();
             }
-            xsw.writeStartElement(DocumentationElements.DESCRIPTION.getLocalPart());
+            xsw.writeStartElement(DocumentationElements.PROLOG.getLocalPart());
             try {
-                xsw.writeCharacters(diagram.getDescription());
+                xsw.writeCharacters(diagram.getProlog());
+            } finally {
+                xsw.writeEndElement();
+            }
+            xsw.writeStartElement(DocumentationElements.EPILOG.getLocalPart());
+            try {
+                xsw.writeCharacters(diagram.getEpilog());
             } finally {
                 xsw.writeEndElement();
             }
@@ -212,7 +218,7 @@ public final class DocumentationWriter {
             xsw.writeEndElement();
         }
     }
-    
+
     public static final void writeDocument(final Documentation<Type> documentation, final Mapper model,
             final OutputStream outstream) {
         final XMLOutputFactory xof = XMLOutputFactory.newInstance();
@@ -230,7 +236,7 @@ public final class DocumentationWriter {
             throw new RuntimeException(e);
         }
     }
-    
+
     public static final void writeDocument(final Documentation<Type> documentation, final Mapper model,
             final String fileName) {
         try {
@@ -244,7 +250,7 @@ public final class DocumentationWriter {
             e.printStackTrace();
         }
     }
-    
+
     private static final void writeDomain(final Domain<Type> domain, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(DocumentationElements.DOMAIN.getLocalPart());
@@ -271,7 +277,7 @@ public final class DocumentationWriter {
             xsw.writeEndElement();
         }
     }
-    
+
     private static final void writeEntity(final Entity<Type> entity, final Mapper model, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(DocumentationElements.ENTITY.getLocalPart());
@@ -301,7 +307,7 @@ public final class DocumentationWriter {
             xsw.writeEndElement();
         }
     }
-    
+
     private static final void writeRoot(final Documentation<Type> documentation, final Mapper model,
             final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(DocumentationElements.DOMAINS.getLocalPart());

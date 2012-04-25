@@ -41,9 +41,13 @@ public class DoubleSchema extends NeutralSchema {
 
     @Override
     public Object convert(Object value) {
-        return Double.parseDouble((String) value);
+        return NumberUtils.converterHelper(value, new NumberUtils.Converter() {
+            @Override
+            public Object convert(Object value) {
+                return Double.parseDouble((String) value);
+            }
+        });
     }
-    
     
     /**
      * Validates the given entity
@@ -61,6 +65,7 @@ public class DoubleSchema extends NeutralSchema {
      * @return true if valid
      */
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
+        entity = convert(entity);
         Double data = NumberUtils.toDouble(entity);
         if (!addError(data != null, fieldName, entity, "Double", ErrorType.INVALID_DATATYPE, errors)) {
             return false;

@@ -44,11 +44,17 @@ public class BooleanSchemaTest {
         boolean booleanEntity = false;
         assertTrue("Primitive(false) entity validation failed", schema.validate(booleanEntity));
     }
-    
+
     @Test
-    public void testValidationOfStringFailure() throws IOException {
+    public void testValidationOfEmptyString() throws IOException {
         String stringEntity = "";
-        assertFalse("Expected BooleanSchema string validation failure did not succeed", schema.validate(stringEntity));
+        assertFalse("BooleanSchema string validation failed", schema.validate(stringEntity));
+    }
+
+    @Test
+    public void testValidationOfString() throws IOException {
+        String stringEntity = "true";
+        assertTrue("BooleanSchema string validation failed", schema.validate(stringEntity));
     }
     
 }

@@ -44,7 +44,7 @@ public class InterchangeStudentAssessmentGenerator {
         Collection<StudentAssessment> studentAssessments = generateStudentAssessments(interchangeObjects,
                 MetaRelations.STUDENT_ASSES_MAP.values());
 
-        generateStudentObjectiveAssessments(interchangeObjects, studentAssessments);
+        //generateStudentObjectiveAssessments(interchangeObjects, studentAssessments);
 
         // TODO: StudentAssessmentItem (post-alpha)
     }
@@ -78,7 +78,7 @@ public class InterchangeStudentAssessmentGenerator {
                 studentAssessment = StudentAssessmentGenerator.generateLowFi(studentAssessmentMeta);
             }
 
-            studentAssessments.add(studentAssessment);
+            //studentAssessments.add(studentAssessment);
             interchangeObjects.add(studentAssessment);
         }
 

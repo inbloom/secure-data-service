@@ -12,7 +12,7 @@ end
 Given /^the server is in "([^"]*)" mode$/ do |serverMode|
   @appPrefix = "dashboard_app_prefix_" + serverMode + "_mode"
   # Setting an explicit timeout for elements that may take a long time to load
-  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60) 
+  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 180) 
 end
 
 def localLogin (username, password)

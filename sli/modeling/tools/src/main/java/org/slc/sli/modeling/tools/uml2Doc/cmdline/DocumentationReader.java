@@ -87,12 +87,21 @@ public final class DocumentationReader {
         return readElementText(DocumentationElements.DESCRIPTION, reader);
     }
 
+    private static final String readProlog(final XMLStreamReader reader) throws XMLStreamException {
+        return readElementText(DocumentationElements.PROLOG, reader);
+    }
+
+    private static final String readEpilog(final XMLStreamReader reader) throws XMLStreamException {
+        return readElementText(DocumentationElements.EPILOG, reader);
+    }
+
     private static final Diagram readDiagram(final XMLStreamReader reader) throws XMLStreamException {
         assertStartElement(reader);
         assertName(DocumentationElements.DIAGRAM, reader);
         String title = null;
         String source = null;
-        String description = "";
+        String prolog = "";
+        String epilog = "";
         boolean done = false;
         while (!done && reader.hasNext()) {
             reader.next();
@@ -102,8 +111,10 @@ public final class DocumentationReader {
                         title = assertNotNull(readTitle(reader));
                     } else if (match(DocumentationElements.SOURCE, reader)) {
                         source = assertNotNull(readSource(reader));
-                    } else if (match(DocumentationElements.DESCRIPTION, reader)) {
-                        description = assertNotNull(readDescription(reader));
+                    } else if (match(DocumentationElements.PROLOG, reader)) {
+                        prolog = assertNotNull(readProlog(reader));
+                    } else if (match(DocumentationElements.EPILOG, reader)) {
+                        epilog = assertNotNull(readEpilog(reader));
                     } else {
                         throw new AssertionError(reader.getLocalName());
                     }
@@ -125,7 +136,7 @@ public final class DocumentationReader {
         }
         assertNotNull(title);
         validateNotNull(source, "Missing source for diagram with title : " + title);
-        return new Diagram(title, source, description);
+        return new Diagram(title, source, prolog, epilog);
     }
 
     private static final Documentation<Type> readDocument(final Mapper mapper, final XMLStreamReader reader)
