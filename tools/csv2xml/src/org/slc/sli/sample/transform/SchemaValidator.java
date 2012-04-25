@@ -14,10 +14,9 @@ import org.xml.sax.SAXException;
 
 /**
  * this class validate generated xml based on Ed-Fi schema
- * @author yzhang
  *
  */
-public class SchemaValidater {
+public class SchemaValidator {
 
     private static final String SCHEMA_DIR = "./edfiXsd/";
 

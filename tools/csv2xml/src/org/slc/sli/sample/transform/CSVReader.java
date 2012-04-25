@@ -41,6 +41,7 @@ public class CSVReader {
         csvFile = new BufferedReader(new FileReader(filename));
         String dataRow = csvFile.readLine();
         columnNames = dataRow.split(",");
+        this.readRecord();
     }
 
     /**
