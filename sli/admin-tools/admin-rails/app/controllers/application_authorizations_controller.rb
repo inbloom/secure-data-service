@@ -54,7 +54,6 @@ class ApplicationAuthorizationsController < ApplicationController
 
     respond_to do |format|
       if @application_authorization.save
-        puts("About to redirect from create " + @application_authorization.inspect)
         format.html { redirect_to @application_authorization, notice: 'Application authorization was successfully created.' }
         format.json { render json: @application_authorization, status: :created, location: @application_authorization }
       else
@@ -79,7 +78,6 @@ class ApplicationAuthorizationsController < ApplicationController
     updates = {"appIds" =>  idArray}
     respond_to do |format|
       if @application_authorization.update_attributes(updates)
-        puts("About to redirect from update " + @application_authorization.inspect)
         format.html { redirect_to @application_authorization, notice: 'Application authorization was successfully updated.' }
         #format.html {redirect_to :action => 'index', notice: 'Application authorization was succesfully updated.'}
         format.json { head :ok }

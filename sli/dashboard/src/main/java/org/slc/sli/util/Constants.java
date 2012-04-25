@@ -116,7 +116,7 @@ public final class Constants {
     public static final String ATTR_ASSESSMENTS = "assessments";
     public static final String ATTR_COHORT_YEAR = "cohortYear";
     public static final String ATTR_UNIQUE_SECTION_CODE = "uniqueSectionCode";
-    public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessmentAssociations";
+    public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessments";
     public static final String ATTR_COURSE_ID = "courseId";
     public static final String ATTR_STUDENT_ATTENDANCES = "attendances";
     public static final String ATTR_PARENT_EDORG = "parentEducationAgencyReference";
@@ -146,7 +146,7 @@ public final class Constants {
     public static final String ATTR_FOOTER_STRING = "footerString";
     public static final String ATTR_OPTIONAL_FIELDS = "optionalFields";
     public static final String ATTR_GRADEBOOK_VIEW = "gradebookView";
-    public static final String ATTR_STUDENT_SECTION_GRADEBOOK = "studentSectionGradebookEntries";
+    public static final String ATTR_STUDENT_SECTION_GRADEBOOK = "studentGradebookEntries";
     public static final String ATTR_ATTENDANCE_EVENT_CATEGORY = "attendanceEventCategory";
     public static final String ATTR_ABSENCE_COUNT = "absenceCount";
     public static final String ATTR_TARDY_COUNT = "tardyCount";
@@ -154,11 +154,9 @@ public final class Constants {
     public static final String ATTR_TARDY_RATE = "tardyRate";
     public static final String ATTR_STUDENTS = "students";
     public static final String ATTR_TRANSCRIPT = "transcript";
-    public static final String ATTR_STUDENT_TRANSCRIPT_ASSOC = "studentTranscriptAssociations";
+    public static final String ATTR_STUDENT_TRANSCRIPT_ASSOC = "courseTranscripts";
     public static final String ATTR_STUDENT_SECTION_ASSOC = "studentSectionAssociations";
-    public static final String ATTR_INTERNAL_METADATA = "meta";
-
-
+	public static final String ATTR_INTERNAL_METADATA = "meta";
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
 

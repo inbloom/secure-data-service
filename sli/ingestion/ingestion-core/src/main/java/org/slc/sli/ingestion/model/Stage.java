@@ -3,7 +3,7 @@ package org.slc.sli.ingestion.model;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
+import org.slc.sli.ingestion.BatchJobStageType;
 
 /**
  * Model for the different stages of ingestion processing.
@@ -13,7 +13,7 @@ import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
  */
 public class Stage {
 
-    //mongoTemplate requires this constructor.
+    // mongoTemplate requires this constructor.
     public Stage() {
     }
 
@@ -27,17 +27,26 @@ public class Stage {
 
     private List<Metrics> metrics;
 
-    public Stage(String stageName, String status,
-            String startTimestamp, String stopTimestamp, List<Metrics> metrics) {
-        super();
+    public Stage(String stageName) {
+        this.stageName = stageName;
+        this.metrics = new LinkedList<Metrics>();
+    }
+
+    public Stage(String stageName, String status, String startTimestamp, String stopTimestamp, List<Metrics> metrics) {
         this.stageName = stageName;
         this.status = status;
         this.startTimestamp = startTimestamp;
         this.stopTimestamp = stopTimestamp;
         if (metrics == null) {
-            metrics = new  LinkedList<Metrics>();
+            metrics = new LinkedList<Metrics>();
         }
         this.metrics = metrics;
+    }
+
+    public static Stage createAndStartStage(BatchJobStageType batchJobStageType) {
+        Stage stage = new Stage(batchJobStageType.getName());
+        stage.startStage();
+        return stage;
     }
 
     public String getStageName() {
@@ -74,7 +83,7 @@ public class Stage {
 
     public List<Metrics> getMetrics() {
         if (metrics == null) {
-            metrics = new  LinkedList<Metrics>();
+            metrics = new LinkedList<Metrics>();
         }
         return metrics;
     }
@@ -84,20 +93,33 @@ public class Stage {
     }
 
     public void update(String stageName, String status, String startTimestamp, String stopTimestamp) {
-         if (stageName != null) this.stageName = stageName;
-         if (status != null) this.status = status;
-         if (startTimestamp != null) this.startTimestamp = startTimestamp;
-         if (stopTimestamp != null) this.stopTimestamp = stopTimestamp;
+        if (stageName != null) {
+            this.stageName = stageName;
+        }
+        if (status != null) {
+            this.status = status;
+        }
+        if (startTimestamp != null) {
+            this.startTimestamp = startTimestamp;
+        }
+        if (stopTimestamp != null) {
+            this.stopTimestamp = stopTimestamp;
+        }
     }
 
     public void startStage() {
         this.setStatus("running");
-        this.setStartTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
+        this.setStartTimestamp(NewBatchJob.getCurrentTimeStamp());
     }
 
     public void stopStage() {
         this.setStatus("finished");
-        this.setStopTimestamp(BatchJobMongoDA.getCurrentTimeStamp());
+        this.setStopTimestamp(NewBatchJob.getCurrentTimeStamp());
+    }
+
+    public void addCompletedMetrics(Metrics metrics) {
+        metrics.stopMetric();
+        this.metrics.add(metrics);
     }
 
 }

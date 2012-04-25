@@ -1,0 +1,69 @@
+{
+    "keyFields" : [ "body.studentId", "body.cohortId", "body.beginDate"],
+	"references" :
+	[{
+        "fieldPath" : "body.studentId",
+        "ref" :
+        {
+	        "collectionName" : "student",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.studentId.StudentIdentity.StudentUniqueStateId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    { 
+        "fieldPath" : "body.cohortId",
+        "ref" :
+        {
+	        "collectionName" : "cohort",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.cohortId.CohortIdentity.CohortIdentifier"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    }],
+
+    "piiFields" : {
+        "StudentReference" : {
+            "StudentIdentity" : {
+                "Name" : {
+                    "Verification" : true,
+                    "FirstName" : true,
+                    "MiddleName" : true,
+                    "LastSurname" : true,
+                    "PersonalTitlePrefix" : true,
+                    "GenerationCodeSuffix" : true,
+                    "MaidenName" : true
+                  },
+                 "OtherName" : {
+                    "OtherNameType" : true,
+                    "PersonalTitlePrefix" : true,
+                    "FirstName" : true,
+                    "MiddleName" : true,
+                    "LastSurname" : true,
+                    "GenerationCodeSuffix" : true 
+                  },
+                "BirthDate" : true,
+                "Sex" : true
+            }
+        }
+    }
+}
+
