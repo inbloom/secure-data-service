@@ -6,7 +6,13 @@
 		<Objective>Geometry</Objective>
 		<AcademicSubject>Mathematics</AcademicSubject>
 		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningObjectiveReference ref="Similarity-Right-Triangle-Trig"></LearningObjectiveReference>
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>G-SRT</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
 	</LearningObjective>
 	
 	<LearningObjective id="Similarity-Right-Triangle-Trig">
