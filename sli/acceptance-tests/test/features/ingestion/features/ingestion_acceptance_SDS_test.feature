@@ -54,7 +54,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 4     |
         | session                     | 22    |
         | assessment                  | 5     |
-        | studentAssessmentAssociation| 116   |
+        | studentAssessmentAssociation| 141   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
@@ -82,7 +82,7 @@ Then I should see following map of entry counts in the corresponding collections
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-1             | string               |
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-2             | string               |
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-3             | string               |
-    And I should see "Processed 15267 records." in the resulting batch job file
+    And I should see "Processed 15292 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -123,6 +123,9 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentAssessment-Rbraverman1stgrade.xml records considered: 4" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman1stgrade.xml records ingested successfully: 4" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman1stgrade.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records considered: 25" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records ingested successfully: 25" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAttendance.xml records considered: 13650" in the resulting batch job file
     And I should see "InterchangeAttendance.xml records ingested successfully: 13650" in the resulting batch job file
     And I should see "InterchangeAttendance.xml records failed: 0" in the resulting batch job file
@@ -157,7 +160,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 5     |
         | session                     | 22    |
         | assessment                  | 5     |
-        | studentAssessmentAssociation| 116   |
+        | studentAssessmentAssociation| 141   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
@@ -220,7 +223,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 21    |
         | session                     | 26    |
         | assessment                  | 5     |
-        | studentAssessmentAssociation| 116   |
+        | studentAssessmentAssociation| 141   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
