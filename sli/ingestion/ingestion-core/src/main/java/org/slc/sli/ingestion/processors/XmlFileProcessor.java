@@ -22,7 +22,6 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Processes a XML file
@@ -110,8 +109,6 @@ public class XmlFileProcessor implements Processor {
                     fe.getFileName(), null, null, null, faultLevel, faultLevel, faultMessage);
             batchJobDAO.saveError(error);
         }
-        BatchJobUtils.writeErrorsWithDAO(batchJobId, null, BatchJobStageType.XML_FILE_PROCESSOR,
-                fe.getFaultsReport(), batchJobDAO);
     }
 
     public ReferenceResolutionHandler getReferenceResolutionHandler() {
