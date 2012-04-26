@@ -17,7 +17,7 @@ import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 /**
  * Modifies the LearningObjective to match the SLI datamodel.
  *
- * Changes:
+ * Transform:
  * Instead of a LO pointing to its children, it points to its parent.
  *
  * @author Ryan Farris <rfarris@wgen.net>
@@ -29,15 +29,18 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
     public static final String LEARNING_OBJ_COLLECTION = "learningObjective";
     public static final String ID_CODE_PATH = "learningObjectiveId.identificationCode";
     public static final String CONTENT_STANDARD_NAME_PATH = "learningObjectiveId.contentStandardName";
-    public static final String SYNTHETIC_PARENT_ID = "parentLearningObjectiveIdentificationCode";
     public static final String LEARNING_OBJ_REFS = "learningObjectiveRefs";
     public static final String LEARNING_STD_REFS = "learningStandardRefs";
+    public static final String LOCAL_ID_OBJECTIVE_ID = "parentObjectiveId";
+    public static final String LOCAL_ID_CONTENT_STANDARD = "parentContentStandardName";
+    public static final String LOCAL_ID_OBJECTIVE = "parentObjective";
 
     private static final Logger LOG = LoggerFactory.getLogger(LearningObjectiveTransform.class);
 
     @SuppressWarnings("unchecked")
     @Override
     protected void performTransformation() {
+        long syntheticIdCount = 0;
 
         // load data
         NeutralRecordMongoAccess db = getNeutralRecordMongoAccess();
@@ -52,32 +55,46 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             String objectiveId = getByPath(ID_CODE_PATH, attributes);
             String contentStandard = getByPath(CONTENT_STANDARD_NAME_PATH, attributes);
             if (objectiveId != null) {
+                if (learningObjectiveIdMap.containsKey(new LearningObjectiveId(objectiveId, contentStandard))) {
+                    // TODO get this error back to the job's error log
+                    LOG.warn("Record has duplicate ObjectiveId, ContentStandardName combination.");
+                    continue;
+                }
                 learningObjectiveIdMap.put(new LearningObjectiveId(objectiveId, contentStandard), lo);
             }
             allLearningObjectives.add(lo);
         }
 
         for (NeutralRecord parentLO : allLearningObjectives) {
+
+
             String parentObjectiveId = getByPath(ID_CODE_PATH, parentLO.getAttributes());
+            String parentContentStandard = getByPath(CONTENT_STANDARD_NAME_PATH, parentLO.getAttributes());
+            String parentObjective = getByPath("objective", parentLO.getAttributes());
             List<Map<String, Object>> childRefs = (List<Map<String, Object>>) parentLO.getAttributes().get(
                     LEARNING_OBJ_REFS);
 
             if (parentObjectiveId == null && childRefs.size() > 0) {
-                LOG.warn("Unable to form learningObjective references.  Parent learningObjective does not have an id."); // TODO
-                                                                                                                         // report
-                                                                                                                         // to
-                                                                                                                         // user
+                // TODO use synthetic reference to avoid this constraint
+                LOG.warn("Unable to form learningObjective references.  Parent learningObjective does not have an id.");
             } else {
-                for (int i = 0; i < childRefs.size(); i++) {
-                    Map<String, Object> loRef = childRefs.get(i);
-                    String objectiveId = getByPath(ID_CODE_PATH, loRef);
-                    String contentStandard = getByPath(CONTENT_STANDARD_NAME_PATH, loRef);
-                    LearningObjectiveId loId = new LearningObjectiveId(objectiveId, contentStandard);
-                    NeutralRecord childLo = learningObjectiveIdMap.get(loId);
-                    if (childLo != null) {
-                        childLo.getAttributes().put(SYNTHETIC_PARENT_ID, parentObjectiveId);
-                    } else {
-                        LOG.error("Could not find object for learning objective reference: " + parentObjectiveId);
+                if (childRefs.size() > 0) {
+                    for (int i = 0; i < childRefs.size(); i++) {
+                        Map<String, Object> loRef = childRefs.get(i);
+                        String objectiveId = getByPath(ID_CODE_PATH, loRef);
+                        String contentStandard = getByPath(CONTENT_STANDARD_NAME_PATH, loRef);
+                        LearningObjectiveId loId = new LearningObjectiveId(objectiveId, contentStandard);
+                        NeutralRecord childLo = learningObjectiveIdMap.get(loId);
+                        if (childLo != null) {
+                            if (childLo.getLocalParentIds() == null) {
+                                childLo.setLocalParentIds(new HashMap<String, Object>());
+                            }
+                            childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE_ID, parentObjectiveId);
+                            childLo.getLocalParentIds().put(LOCAL_ID_CONTENT_STANDARD, parentContentStandard);
+                            childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE, parentObjective);
+                        } else {
+                            LOG.error("Could not find object for learning objective reference: " + parentObjectiveId);
+                        }
                     }
                 }
             }

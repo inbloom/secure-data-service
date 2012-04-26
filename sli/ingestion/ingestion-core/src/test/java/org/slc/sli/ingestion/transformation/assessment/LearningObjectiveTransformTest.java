@@ -71,10 +71,9 @@ public class LearningObjectiveTransformTest {
         Mockito.verify(repo).create(child2);
         Mockito.verify(repo).create(grandChild1);
 
-        Assert.assertEquals(null, root.getAttributes().get(LearningObjectiveTransform.SYNTHETIC_PARENT_ID));
-        Assert.assertEquals("root", child1.getAttributes().get(LearningObjectiveTransform.SYNTHETIC_PARENT_ID));
-        Assert.assertEquals("root", child2.getAttributes().get(LearningObjectiveTransform.SYNTHETIC_PARENT_ID));
-        Assert.assertEquals("child1", grandChild1.getAttributes().get(LearningObjectiveTransform.SYNTHETIC_PARENT_ID));
+        Assert.assertEquals("root", child1.getLocalParentIds().get(LearningObjectiveTransform.LOCAL_ID_OBJECTIVE_ID));
+        Assert.assertEquals("root", child2.getLocalParentIds().get(LearningObjectiveTransform.LOCAL_ID_OBJECTIVE_ID));
+        Assert.assertEquals("child1", grandChild1.getLocalParentIds().get(LearningObjectiveTransform.LOCAL_ID_OBJECTIVE_ID));
 
         Assert.assertEquals(transformCollection, root.getRecordType());
         Assert.assertEquals(transformCollection, child1.getRecordType());
@@ -86,6 +85,7 @@ public class LearningObjectiveTransformTest {
         NeutralRecord nr = new NeutralRecord();
         nr.setRecordType(LearningObjectiveTransform.LEARNING_OBJ_COLLECTION);
         nr.setAttributes(new HashMap<String, Object>());
+        nr.setLocalParentIds(new HashMap<String, Object>());
         setAtPath(nr.getAttributes(), LearningObjectiveTransform.ID_CODE_PATH, objectiveId);
         setAtPath(nr.getAttributes(), LearningObjectiveTransform.CONTENT_STANDARD_NAME_PATH, contentStandardName);
         setAtPath(nr.getAttributes(), LearningObjectiveTransform.LEARNING_OBJ_REFS,
@@ -97,7 +97,7 @@ public class LearningObjectiveTransformTest {
     private static void addChild(NeutralRecord parent, String objectiveId, String contentStandardName) {
         List<Map<String, Object>> childRefs = (List<Map<String, Object>>) parent.getAttributes().get(
                 LearningObjectiveTransform.LEARNING_OBJ_REFS);
-        Map<String,Object> map = new HashMap<String,Object>();
+        Map<String, Object> map = new HashMap<String, Object>();
         setAtPath(map, LearningObjectiveTransform.ID_CODE_PATH, objectiveId);
         setAtPath(map, LearningObjectiveTransform.CONTENT_STANDARD_NAME_PATH, contentStandardName);
         childRefs.add(map);

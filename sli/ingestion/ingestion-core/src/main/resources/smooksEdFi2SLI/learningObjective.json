@@ -14,7 +14,23 @@
 		           	    "path" : "body.learningObjectiveId.identificationCode",
 		                "values" : 
 		                [{
-			                "valueSource" : "body.parentLearningObjectiveIdentificationCode"
+			                "valueSource" : "localParentIds.parentObjectiveId"
+		                }]
+		            },
+		            { 
+		           	    "path" : "body.learningObjectiveId.contentStandardName",
+		                "values" : 
+		                [{
+			                "valueSource" : "localParentIds.parentContentStandardName"
+		                }]
+		            }
+	            ],
+	            [
+		            { 
+		           	    "path" : "body.objective",
+		                "values" : 
+		                [{
+			                "valueSource" : "localParentIds.parentObjective"
 		                }]
 		            }
 	            ]
