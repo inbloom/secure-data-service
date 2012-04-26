@@ -40,23 +40,24 @@ Given I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingesti
         | disciplineIncident          |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
+
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 78    |
         | studentSchoolAssociation    | 167   |
-        | course                      | 89    |
+        | course                      | 95    |
         | educationOrganization       | 3     |
         | school                      | 4     |
-        | section                     | 90    |
-        | studentSectionAssociation   | 259   |
+        | section                     | 97    |
+        | studentSectionAssociation   | 266   |
         | teacher                     | 3     |
         | staff                       | 11    |
         | staffEducationOrganizationAssociation| 8|
         | teacherSchoolAssociation    | 4     |
-        | teacherSectionAssociation   | 4     |
+        | teacherSectionAssociation   | 11    |
         | session                     | 22    |
-        | assessment                  | 5     |
-        | studentAssessmentAssociation| 116   |
+        | assessment                  | 19    |
+        | studentAssessmentAssociation| 178   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
