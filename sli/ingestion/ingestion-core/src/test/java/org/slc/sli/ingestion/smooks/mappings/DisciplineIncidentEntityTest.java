@@ -17,7 +17,7 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Test the smooks mappings for Program entity.
- *
+ * 
  * @author vmcglaughlin
  *
  */
