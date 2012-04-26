@@ -1,5 +1,5 @@
 {
-    "keyFields" : [ "body.learningObjectiveId.identificationCode", "body.learningObjectiveId.contentStandardName" ],
+    "keyFields" : [ "body.objective" ],
 	"references" :
 	[{
         "fieldPath" : "body.parentLearningObjective",

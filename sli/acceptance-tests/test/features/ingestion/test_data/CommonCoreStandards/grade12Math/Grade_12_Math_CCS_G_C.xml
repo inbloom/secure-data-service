@@ -3,9 +3,6 @@
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
 	<LearningObjective>
-		<LearningObjectiveId>
-			<IdentificationCode>G</IdentificationCode>
-		</LearningObjectiveId>
 		<Objective>Geometry</Objective>
 		<AcademicSubject>Mathematics</AcademicSubject>
 		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
