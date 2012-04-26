@@ -10,10 +10,10 @@
   </parent>
   
   <groupId>org.slc.sli.client.sample</groupId>
-  <artifactId>client-sample</artifactId>
+  <artifactId>sample</artifactId>
 
   <packaging>war</packaging>
-  <name>client sample</name>
+  <name>sample</name>
   <url>http://maven.apache.org</url>
   
   <dependencies>
@@ -46,7 +46,7 @@
   </dependencies>
   
   <build>
-    <finalName>client-sample</finalName>
+    <finalName>sample</finalName>
     <plugins>
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
