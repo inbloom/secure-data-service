@@ -36,7 +36,9 @@ public class ExecutionTimeLogger {
         try {
             return proceedingJoinPoint.proceed();
         } finally {
-            logger.info(">>>>>" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime) + " ms " + proceedingJoinPoint.toShortString() + "," + Arrays.asList(proceedingJoinPoint.getArgs()));
+            if (ProceedingJoinPoint.METHOD_CALL.equals(proceedingJoinPoint.getKind())) {
+                logger.info(">>>>>" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime) + " ms " + proceedingJoinPoint.toShortString() + "," + Arrays.asList(proceedingJoinPoint.getArgs()));
+            }
         }
     }
 }

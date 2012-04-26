@@ -233,7 +233,8 @@ public class PopulationManagerTest {
         // make the call
         PopulationManagerImpl pm = new PopulationManagerImpl();
         pm.applyAssessmentFilters(studentSummaries, config);
-        pm.enhanceListOfStudents(studentSummaries);
+        //TODO - Pass "real" data, update createSomeStudentSummaries to use the same section ID that you pass here.
+        pm.enhanceListOfStudents(studentSummaries, "");
 
         // check for full name
         GenericEntity student = studentSummaries.get(0);

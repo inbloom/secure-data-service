@@ -33,11 +33,6 @@ And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Copyright"
 #Display hide tabs based on grades
 And there are "7" Tabs
-And in Tab ID "8", there is "2" Panels
-And in Tab ID "2", there is "1" Panels
-And in Tab ID "3", there is "0" Panels
-And in Tab ID "4", there is "0" Panels 
-And in Tab ID "5", there is "0" Panels
 And Tab has a title named "Middle School Overview"
 And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
