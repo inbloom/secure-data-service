@@ -36,6 +36,7 @@ Given I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingesti
         | cohort                      |
         | staffCohortAssociation      |
         | studentCohortAssociation    |
+        | learningStandard    |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
@@ -67,6 +68,7 @@ Then I should see following map of entry counts in the corresponding collections
         | cohort                      | 3     |
         | staffCohortAssociation      | 3     |
         | studentCohortAssociation    | 9     |
+        | learningStandard            | 10    |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
@@ -82,7 +84,7 @@ Then I should see following map of entry counts in the corresponding collections
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-1             | string               |
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-2             | string               |
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-3             | string               |
-    And I should see "Processed 15267 records." in the resulting batch job file
+    And I should see "Processed 15277 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -114,8 +116,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeAssessmentMetadata-ACT.xml records considered: 1" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 1" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ACT.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-Learning.xml records considered: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-Learning.xml records ingested successfully: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-Learning.xml records considered: 10" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-Learning.xml records ingested successfully: 10" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-Learning.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Lkim8thgrade.xml records considered: 112" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Lkim8thgrade.xml records ingested successfully: 112" in the resulting batch job file
