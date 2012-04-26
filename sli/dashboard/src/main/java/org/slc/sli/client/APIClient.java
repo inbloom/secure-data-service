@@ -15,6 +15,10 @@ import org.slc.sli.entity.GenericEntity;
  */
 public interface APIClient {
 
+    public GenericEntity getEdOrgCustomData(String token, String id);
+    
+    public void putEdOrgCustomData(String token, String id, String customJson);
+    
     public List<GenericEntity> getSchools(final String token, List<String> schoolIds);
 
     public List<GenericEntity> getStudents(final String token, Collection<String> studentIds);

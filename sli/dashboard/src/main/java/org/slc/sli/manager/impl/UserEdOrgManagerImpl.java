@@ -11,17 +11,20 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.googlecode.ehcache.annotations.Cacheable;
 
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-
 import org.slc.sli.entity.Config.Data;
-import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.CustomConfig;
 import org.slc.sli.entity.EdOrgKey;
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.ApiClientManager;
 import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.util.Constants;
+
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 
 /**
  * Retrieves and applies necessary business logic to obtain institution data
@@ -33,6 +36,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     
     private static final String USER_SCHOOLS = "user.schools";
     private CacheManager cacheManager;
+    private CustomConfig customConfig;
     
     public void setCacheManager(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
@@ -238,6 +242,37 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         //Dashboard expects return one GenericEntity.
         entity.put("root", entities);
         return entity;
+    }
+    
+    /**
+     * Get the user's educational organization's custom configuration.
+     * 
+     * @param token
+     *            The user's authentication token.
+     * @return The education organization's custom configuration
+     */
+    public CustomConfig getCustomConfig(String token) {
+        if (customConfig == null) {
+            EdOrgKey edOrgKey = getUserEdOrg(token);
+            GenericEntity customEntity = getApiClient().getEdOrgCustomData(token, edOrgKey.getDistrictId());
+            customConfig = new CustomConfig(customEntity);
+        }
+        return customConfig;
+    }
+    
+    /**
+     * Put or save the user's educational organization's custom configuration.
+     * 
+     * @param token
+     *            The user's authentication token.
+     * @param customConfigJson
+     *            The education organization's custom configuration JSON.
+     */
+    public void putCustomConfig(String token, String customConfigJson) {
+        EdOrgKey edOrgKey = getUserEdOrg(token);
+        getApiClient().putEdOrgCustomData(token, edOrgKey.getDistrictId(), customConfigJson);
+        Gson gson = new GsonBuilder().create();
+        customConfig = gson.fromJson(customConfigJson, CustomConfig.class);
     }
     
 }

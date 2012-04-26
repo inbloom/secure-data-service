@@ -18,14 +18,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.slc.sli.client.LiveAPIClient;
 import org.slc.sli.client.RESTClient;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Unit test for the Live API client.
@@ -33,6 +35,9 @@ import org.slc.sli.util.Constants;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/application-context-test.xml" })
 public class LiveAPIClientTest {
+
+    private static final String EDORGS_URL = "/v1/educationOrganizations/";
+    private static final String CUSTOM_DATA = "/custom";
 
     private LiveAPIClient client;
     private RESTClient mockRest;
@@ -57,6 +62,67 @@ public class LiveAPIClientTest {
     public void tearDown() throws Exception {
         client = null;
         mockRest = null;
+    }
+
+    @Test
+    public void testGetEdOrgCustomData() throws Exception {
+        
+        String token = "token";
+        String id = "id";
+        String url = client.getApiUrl() + EDORGS_URL + id + CUSTOM_DATA;
+        String json = "{" + "\"component_1\": " + "{" + "\"id\" : \"component_1\", " + "\"name\" : \"Component 1\", "
+                + "\"type\" : \"LAYOUT\", " + "\"items\": ["
+                + "{\"id\" : \"component_1_1\", \"name\": \"First Child Component\", \"type\": \"PANEL\"}, "
+                + "{\"id\" : \"component_1_2\", \"name\": \"Second Child Component\", \"type\": \"PANEL\"}" + "]" + "}"
+                + "}";
+        
+        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
+        GenericEntity customConfig = client.getEdOrgCustomData(token, id);
+        assertNotNull(customConfig);
+        assertEquals(1, customConfig.size());
+        assertEquals("component_1", ((Map) customConfig.get("component_1")).get("id"));
+        
+    }
+    
+    @Test
+    public void testPutEdOrgCustomData() throws Exception {
+        
+        String token = "token";
+        String id = "id";
+        String url = client.getApiUrl() + EDORGS_URL + id + CUSTOM_DATA;
+        String json = "{" + "\"component_1\": " + "{" + "\"id\" : \"component_1\", " + "\"name\" : \"Component 1\", "
+                + "\"type\" : \"LAYOUT\", " + "\"items\": ["
+                + "{\"id\" : \"component_1_1\", \"name\": \"First Child Component\", \"type\": \"PANEL\"}, "
+                + "{\"id\" : \"component_1_2\", \"name\": \"Second Child Component\", \"type\": \"PANEL\"}" + "]" + "}"
+                + "}";
+        
+        RestClientAnswer restClientAnswer = new RestClientAnswer();
+        Mockito.doAnswer(restClientAnswer).when(mockRest)
+                .putJsonRequestWHeaders(Mockito.anyString(), Mockito.anyString(), Mockito.anyObject());
+        client.putEdOrgCustomData(token, id, json);
+        String customJson = restClientAnswer.getJson();
+        
+        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(customJson);
+        GenericEntity customConfig = client.getEdOrgCustomData(token, id);
+        assertNotNull(customConfig);
+        assertEquals(1, customConfig.size());
+        assertEquals("component_1", ((Map) customConfig.get("component_1")).get("id"));
+        
+    }
+    
+    private static class RestClientAnswer implements Answer {
+        
+        private String json;
+        
+        @Override
+        public Object answer(InvocationOnMock invocation) throws Throwable {
+            json = (String) invocation.getArguments()[2];
+            return null;
+        }
+        
+        public String getJson() {
+            return json;
+        }
     }
 
     @Test

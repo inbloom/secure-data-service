@@ -14,14 +14,13 @@ import java.util.Set;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.ExecutionTimeLogger.LogExecutionTime;
 import org.slc.sli.util.SecurityUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -37,6 +36,7 @@ public class LiveAPIClient implements APIClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(LiveAPIClient.class);
 
     // base urls
+    private static final String EDORGS_URL = "/v1/educationOrganizations/";
     private static final String SECTIONS_URL = "/v1/sections/";
     private static final String STUDENTS_URL = "/v1/students/";
     private static final String TEACHERS_URL = "/v1/teachers/";
@@ -56,6 +56,7 @@ public class LiveAPIClient implements APIClient {
     private static final String SECTIONS = "/sections";
     private static final String STUDENTS = "/students";
     private static final String STUDENT_TRANSCRIPT_ASSOC = "/studentTranscriptAssociations";
+    private static final String CUSTOM_DATA = "/custom";
 
     // link names
     private static final String ED_ORG_LINK = "getEducationOrganization";
@@ -84,6 +85,22 @@ public class LiveAPIClient implements APIClient {
     public LiveAPIClient() {
         mockClient = new MockAPIClient();
         gson = new Gson();
+    }
+
+    /**
+     * Get educational organization custom data
+     */
+    @Override
+    public GenericEntity getEdOrgCustomData(String token, String id) {
+        return createEntityFromAPI(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token);
+    }
+    
+    /**
+     * Put or save educational organization custom data
+     */
+    @Override
+    public void putEdOrgCustomData(String token, String id, String customJson) {
+        restClient.putJsonRequestWHeaders(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token, customJson);
     }
 
     /**

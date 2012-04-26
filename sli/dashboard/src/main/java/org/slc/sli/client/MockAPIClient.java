@@ -12,11 +12,10 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -45,6 +44,25 @@ public class MockAPIClient implements APIClient {
         this.classLoader = Thread.currentThread().getContextClassLoader();
     }
     
+    /**
+     * 
+     * Mock API client does not support custom data API calls.
+     * 
+     */
+    @Override
+    public GenericEntity getEdOrgCustomData(String token, String id) {
+        return null;
+    }
+    
+    /**
+     * 
+     * Mock API client does not support custom data API calls.
+     * 
+     */
+    @Override
+    public void putEdOrgCustomData(String token, String id, String customJson) {
+    }
+
     @Override
     public GenericEntity getStudent(final String token, String studentId) {
         return this.getEntity(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_STUDENTS_FILE), studentId);
