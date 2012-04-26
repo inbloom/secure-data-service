@@ -21,13 +21,10 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.stereotype.Component;
 
 /**
- * Simple class for injecting a security context for unit tests. Future implementations will allow
- * for greater
- * flexibility in selecting which roles become available to the user (including multiple roles).
+ * Simple class for injecting a security context for unit tests.
  *
  * @author shalka
  */
-
 @Component
 public class SecurityContextInjector {
     private static final Logger   LOG              = LoggerFactory.getLogger(SecurityContextInjector.class);
@@ -88,7 +85,9 @@ public class SecurityContextInjector {
     public void setAdminContextWithElevatedRights() {
         setAdminContext();
 
-        PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder.getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext().getAuthentication().getCredentials(),
+        PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(
+                SecurityContextHolder.getContext().getAuthentication().getPrincipal(), 
+                SecurityContextHolder.getContext().getAuthentication().getCredentials(),
                 Arrays.asList(Right.FULL_ACCESS));
 
         LOG.debug("elevating rights to {}", Right.FULL_ACCESS);
@@ -117,6 +116,18 @@ public class SecurityContextInjector {
         String fullName = "Educator";
         List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR);
 
+        Entity entity = Mockito.mock(Entity.class);
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        setSecurityContext(principal);
+    }
+    
+    /**
+     * Injects the context of 'demo' user.
+     */
+    public void setDemoContext() {
+        String user = "demo";
+        String fullName = "demo";
+        List<String> roles = Arrays.asList(RoleInitializer.SLI_ADMINISTRATOR, RoleInitializer.IT_ADMINISTRATOR);
         Entity entity = Mockito.mock(Entity.class);
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         setSecurityContext(principal);
