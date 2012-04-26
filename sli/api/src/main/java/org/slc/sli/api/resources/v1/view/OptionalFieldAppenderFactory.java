@@ -27,9 +27,6 @@ public class OptionalFieldAppenderFactory {
     private OptionalFieldAppender studentAssessmentOptionalFieldAppender;
 
     @Autowired
-    private OptionalFieldAppender studentAttendanceOptionalFieldAppender;
-
-    @Autowired
     private OptionalFieldAppender studentAllAttendanceOptionalFieldAppender;
 
     @Autowired
@@ -47,7 +44,6 @@ public class OptionalFieldAppenderFactory {
 
         generators.put(ResourceNames.SECTIONS + "_" + ParameterConstants.OPTIONAL_FIELD_ASSESSMENTS,
                 studentAssessmentOptionalFieldAppender);
-        generators.put(ResourceNames.SECTIONS + "_" + ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, studentAttendanceOptionalFieldAppender);
         generators.put(ResourceNames.SECTIONS + "_" + ParameterConstants.OPTIONAL_FIELD_GRADEBOOK, studentGradebookOptionalFieldAppender);
         generators.put(ResourceNames.SECTIONS + "_" + ParameterConstants.OPTIONAL_FIELD_TRANSCRIPT, studentTranscriptOptionalFieldAppender);
 
