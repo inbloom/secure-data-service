@@ -424,11 +424,11 @@ public class LiveAPIClientTest {
             public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
                 GenericEntity ge = new GenericEntity();
                 ge.put(Constants.ATTR_ID, "school");
-                List<GenericEntity> list=new ArrayList<GenericEntity>();
+                List<GenericEntity> list = new ArrayList<GenericEntity>();
                 list.add(ge);
                 return list;
             }
-            
+
         };
 
         List<GenericEntity> list = new LinkedList<GenericEntity>();

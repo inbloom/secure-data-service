@@ -35,7 +35,7 @@
                     var data = DashboardProxy.getData("transcriptHistory")["transcriptHistory"];
                     var row = $("#"+getTableId()).getRowData(row_id);
                     var row_data = select_by_row(data, row);
-                    jQuery("#"+subgrid_table_id).jqGrid({
+                    jQuery("#"+subgrid_table_id).sliGrid({}, {
                         data: row_data,
                         datatype: 'local',
                         root: "courses",
