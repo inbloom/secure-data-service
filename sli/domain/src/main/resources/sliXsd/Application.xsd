@@ -99,7 +99,7 @@
                 <xs:element name="registration" type="registration"
                     minOccurs="0" />   
                 <xs:element name="endpoints" type="endpoint" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element name="authorized_ed_orgs" minOccurs="1">
+                <xs:element name="authorized_ed_orgs" minOccurs="0">
                     <xs:simpleType>
                         <xs:list itemType="xs:string"/>
                     </xs:simpleType>
