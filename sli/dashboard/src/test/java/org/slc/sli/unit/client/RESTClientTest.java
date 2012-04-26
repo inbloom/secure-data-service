@@ -22,7 +22,7 @@ public class RESTClientTest {
     public void testSessionCheck() {
         final String jsonText = "{\"name\": \"something\"}";
         RESTClient client = new RESTClient() {
-            public String makeJsonRequestWHeaders(String path, String token, boolean fullEntities) {
+            public String makeJsonRequestWHeaders(String path, String token) {
                 return jsonText;
             }
         };
@@ -44,7 +44,7 @@ public class RESTClientTest {
         };
 
 
-        String s = client.makeJsonRequestWHeaders("http://www.google.com", "fakeToken", true);
+        String s = client.makeJsonRequestWHeaders("http://www.google.com", "fakeToken");
         assertEquals(s, "fakeResponse");
     }
 }

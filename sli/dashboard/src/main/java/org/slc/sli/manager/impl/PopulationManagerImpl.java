@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.WordUtils;
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -25,6 +28,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.util.GenericEntityEnhancer;
 import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.util.Constants;
@@ -123,37 +127,10 @@ public class PopulationManagerImpl implements PopulationManager {
         // data enhancements
         enhanceListOfStudents(studentSummaries, (String) sectionId);
 
-        // get student grades (kindergarten, first grade, etc..) - TODO: get this data from the integrated API call
-        updateWithStudentGrades(token, studentSummaries);
-
         GenericEntity result = new GenericEntity();
         result.put(Constants.ATTR_STUDENTS, studentSummaries);
 
         return result;
-    }
-
-    /**
-     * Helper function to get a list of grades for a set of students.
-     * NOTE: refactor the bundled API call to provide student grade, so this method won't be
-     * necessary!
-     *
-     * @param token
-     * @param studentSummaries
-     * @return
-     */
-    public void updateWithStudentGrades(String token, List<GenericEntity> studentSummaries) {
-        Map<String, GenericEntity> mapByUid = new HashMap<String, GenericEntity>();
-        if (studentSummaries != null) {
-            // get student uids
-            for (GenericEntity student : studentSummaries) {
-                mapByUid.put(student.getString(Constants.ATTR_ID), student);
-            }
-            List<GenericEntity> students = entityManager.getStudents(token, mapByUid.keySet());
-            // put together set of grades
-            for (GenericEntity s : students) {
-                mapByUid.get(s.getString(Constants.ATTR_ID)).put(Constants.ATTR_GRADE_LEVEL, s.getString(Constants.ATTR_GRADE_LEVEL));
-            }
-        }
     }
 
     /**
@@ -682,12 +659,20 @@ public class PopulationManagerImpl implements PopulationManager {
         String firstName = nameList[0];
         String lastName = nameList[1];
         List<GenericEntity> students = entityManager.getStudentsFromSearch(token, firstName, lastName);
+        
+        List<GenericEntity> titleCaseStudents = entityManager.getStudentsFromSearch(token, WordUtils.capitalize(firstName), WordUtils.capitalize(lastName));
+        
+        HashSet<GenericEntity> studentSet  = new HashSet<GenericEntity>();
+        studentSet.addAll(students);
+        studentSet.addAll(titleCaseStudents);
+        
+        
         List<GenericEntity> enhancedStudents = new LinkedList<GenericEntity>();
         HashMap<String, GenericEntity> retrievedSchools = new HashMap<String, GenericEntity>();
         GenericEntity school;
-        
-        for (GenericEntity student: students) {
-            
+        Iterator<GenericEntity> studentSetIterator = studentSet.iterator();
+        while (studentSetIterator.hasNext()) {
+            GenericEntity student = studentSetIterator.next();
             student = entityManager.getStudent(token, student.getId());
             addFullName(student);
             
@@ -701,6 +686,7 @@ public class PopulationManagerImpl implements PopulationManager {
                     student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
                 }
             }
+            GenericEntityEnhancer.enhanceStudent(student);
             enhancedStudents.add(student);
         }
         
