@@ -209,6 +209,11 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :i
   end
 end
 
+desc "Run Common Core Standards Tests"
+task :ingestionCommonCoreTest do
+  runTests("test/features/ingestion/features/ingestion_common_core_standards.feature")
+end
+
 desc "Run Ingestion Demo Tests"
 task :ingestionDemoDataTest do
   runTests("test/features/ingestion/features/ingestion_demo.feature")

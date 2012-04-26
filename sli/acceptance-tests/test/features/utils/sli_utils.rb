@@ -220,7 +220,7 @@ def prepareData(format, hash)
   elsif format == "application/vnd.slc+json"
     hash.to_json
   elsif format == "application/xml"
-    raise "XML not implemented"
+    hash.to_s
   else
     assert(false, "Unsupported MIME type")
   end
