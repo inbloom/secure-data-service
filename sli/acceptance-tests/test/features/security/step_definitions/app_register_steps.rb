@@ -10,7 +10,7 @@ end
 When /^I navigate to POST "([^"]*)"$/ do |arg1|
   @format = "application/json"
   dataObj = DataProvider.getValidAppData()
-  dataObj.delete "registered"
+  dataObj.delete "registration"
   data = prepareData("application/json", dataObj)
 
 
@@ -96,19 +96,21 @@ end
 
 Then /^it should be "([^"]*)"$/ do |arg1|
   app = JSON.parse(@res.body)
-  assert(app["registered"] === arg1, "Registered field should be #{arg1}, not #{app["registered"]}")
+  puts app["registration"]
+  assert(app["registration"]["status"] === arg1, "Registration field should be #{arg1}, not #{app["registration"]["status"]}")
 end
 
 Then /^I should only see "([^"]*)" applications$/ do |arg1|
   apps = JSON.parse(@res.body)
   apps.each do |app|
-    assert(app["registered"] === arg1, "App #{app["name"]} should be #{arg1}")
+    assert(app["registration"]["status"] === arg1, "App #{app["name"]} should be #{arg1}")
   end
 end
 
 When /^I navigate to PUT "([^"]*)" to update an application's name$/ do |arg1|
   @format = "application/json"
-  restHttpGet(arg1)
+  uri = "/apps/deb9a9d2-771d-40a1-bb9c-7f93b44e51df"
+  restHttpGet(uri)
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
   
@@ -120,6 +122,27 @@ When /^I navigate to PUT "([^"]*)" to update an application's name$/ do |arg1|
   data = prepareData("application/json", dataObj)
 
   restHttpPut(uri, data)
+
+  assert(@res != nil, "Response from PUT operation was null")
+end
+
+Then /^I should only see "([^"]*)" and "([^"]*)" applications$/ do |arg1, arg2|
+  apps = JSON.parse(@res.body)
+  apps.each do |app|
+    assert(app["registration"]["status"] === arg1 || app["registration"]["status"] === arg2, "App #{app["name"]} should be #{arg1}")
+  end
+end
+
+When /^I navigate to PUT "([^"]*)" to update an application to "([^"]*)"$/ do |arg1, arg2|
+  @format = "application/json"
+  dataObj = DataProvider.getValidAppData()
+  dataObj["description"] = "New and Improved"
+  dataObj["client_secret"] = @client_secret
+  dataObj["client_id"] = @client_id
+  dataObj["registration"]["status"] = arg2
+  data = prepareData("application/json", dataObj)
+
+  restHttpPut(arg1, data)
 
   assert(@res != nil, "Response from PUT operation was null")
 end

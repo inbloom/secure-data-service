@@ -11,6 +11,7 @@ Scenario: CRUD operations on Applications
 	When I navigate to GET "/apps/<New App ID>"
 	Then I should receive a return code of 200
      And I should receive the data for the specified application entry
+	 And it should be "PENDING"
      When I navigate to PUT "/apps/<New App ID>"
      Then I should receive a return code of 204
 	When I navigate to DELETE "/apps/<New App ID>"
@@ -53,7 +54,7 @@ Scenario Outline: Deny update when user updating read-only auto-generated field
 	| "client_id"     |
 	| "client_secret" |
 
-@sandbox @wip
+@sandbox 
 Scenario: CRUD operations on Applications In Sandbox as a Developer
 	Given I am logged in using "developer" "developer1234" to realm "SLI"
 	When I navigate to POST "/apps"
@@ -62,12 +63,12 @@ Scenario: CRUD operations on Applications In Sandbox as a Developer
 	When I navigate to GET "/apps/<New App ID>"
 	Then I should receive a return code of 200
      And I should receive the data for the specified application entry
-	 And it should be "Registered"
-     When I navigate to PUT "/apps/<New App ID>"
+	 And it should be "APPROVED"
+    When I navigate to PUT "/apps/<New App ID>"
      Then I should receive a return code of 204
 	When I navigate to DELETE "/apps/<New App ID>"
 	Then I should receive a return code of 204
-     And I should no longer be able to get that application's data'
+     And I should no longer be able to get that application's data
 
 @wip
 Scenario: CRUD operations on Applications In production as an Operator
@@ -76,12 +77,12 @@ Scenario: CRUD operations on Applications In production as an Operator
 	Then I should receive a return code of 400
 	When I navigate to GET "/apps/"
 	 Then I should receive a return code of 200
-     And I should only see "Pending" and "Approved" applications
-    When I navigate to PUT "/apps/<New App ID>" to update an application to "Approved"
+     And I should only see "PENDING" and "APPROVED" applications
+    When I navigate to PUT "/apps/<Testing App>" to update an application to "APPROVED"
      Then I should receive a return code of 204
-    When I navigate to PUT "/apps/<New App ID>" to update an application's name
+    When I navigate to PUT "/apps/<Testing App>" to update an application's name
      Then I should receive a return code of 400
-	When I navigate to DELETE "/apps/<New App ID>"
+	When I navigate to DELETE "/apps/<Testing App>"
 	Then I should receive a return code of 400
 
 @sandbox @wip
@@ -91,9 +92,9 @@ Scenario: CRUD operations on Applications In production as an Operator
 	Then I should receive a return code of 400
 	When I navigate to GET "/apps/"
 	 Then I should receive a return code of 200
-     And I should only see "Approved" applications
-    When I navigate to PUT "/apps/<New App ID>" to update an application's name
+     And I should only see "APPROVED" applications
+    When I navigate to PUT "/apps/<Testing App>" to update an application's name
      Then I should receive a return code of 400
-	When I navigate to DELETE "/apps/<New App ID>"
+	When I navigate to DELETE "/apps/<Testing App>"
 	Then I should receive a return code of 400
 
