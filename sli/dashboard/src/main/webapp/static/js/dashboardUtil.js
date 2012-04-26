@@ -322,7 +322,7 @@ DashboardUtil.Grid.Formatters = {
 		  {
 		    return '<a href="' + contextRootPath + '/' + link + rowObject.id+'">'+value+'</a>';
 		  }else{
-		    return cellvalue;
+		    return value;
 		  }
 		}
 

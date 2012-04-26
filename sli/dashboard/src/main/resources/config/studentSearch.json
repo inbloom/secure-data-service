@@ -10,7 +10,7 @@ data : {
     root: "students",
     
     items: [
-    {id: "col1", name: "Student", width: 220, field: "name.fullName", formatter:'restLink', params: {baseLinkUrl:'service/layout/studentProfile/', idName:'id', target:"_self", showAction=""}},
+    {id: "col1", name: "Student", width: 220, field: "name.fullName", formatter: restLink, params: {link:'service/layout/studentProfile/', target:"_self"}},
     {id: "col2", name: "School", type:"FIELD", datatype: "string", field: "currentSchoolName", width: 250},
     {id: "col3", name: "GradeLevel", type: "FIELD", datatype: "string", field: "gradeLevel", width: 220}
     ]
