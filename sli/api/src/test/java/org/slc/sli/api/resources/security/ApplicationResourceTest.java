@@ -208,7 +208,7 @@ public class ApplicationResourceTest {
     @Test
     public void testGoodGet() {
         EntityBody toGet = getNewApp();
-        Response created = resource.create(toGet, headers, uriInfo);
+        Response created = resource.createApplication(toGet, headers, uriInfo);
         assertEquals(STATUS_CREATED, created.getStatus());
         String uuid = parseIdFromLocation(created);
         Response resp = resource.getApplication(uuid, headers, uriInfo);
@@ -235,7 +235,20 @@ public class ApplicationResourceTest {
     public void testUpdate() {
         EntityBody app = getNewApp();
         Response created = resource.createApplication(app, headers, uriInfo);
+        
+        //switch to operator and approve
+        SecurityContextHolder.clearContext();
+        injector.setOperatorContext();
         String uuid = parseIdFromLocation(created);
+        Map registration = getRegistrationDataForApp(uuid);
+        registration.put(STATUS, "APPROVED");
+        app.put(REGISTRATION, registration); 
+        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        
+        //switch back to developer and try to update
+        SecurityContextHolder.clearContext();
+        injector.setDeveloperContext();
+        app.put("description", "coolest app ever.");
         assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
 
     }
@@ -243,14 +256,21 @@ public class ApplicationResourceTest {
     @Test
     public void testUpdateRegistrationAsDeveloper() {
         EntityBody app = getNewApp();
-        
         Response created = resource.createApplication(app, headers, uriInfo);
-        Map registration = new HashMap();
+        String uuid = parseIdFromLocation(created);
+        Map registration = getRegistrationDataForApp(uuid);
         registration.put(STATUS, "APPROVED");
-        app.put(REGISTRATION, registration);
+        app.put(REGISTRATION, registration);  
+        assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+    }
+    
+    @Test
+    public void testUpdateWhilePending() {
+        //a pending application is read-only accept for operator changing registration status
+        EntityBody app = getNewApp();
+        Response created = resource.createApplication(app, headers, uriInfo);
         String uuid = parseIdFromLocation(created);
         assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
-        
     }
     
     @Test
