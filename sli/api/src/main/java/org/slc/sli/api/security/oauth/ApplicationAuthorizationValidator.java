@@ -97,10 +97,10 @@ public class ApplicationAuthorizationValidator {
                 edOrgs = contextResolverStore.findResolver(EntityNames.STAFF, EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
             }
 
-            //Need to clean this up when we remove the demo user 'hack'
+            /*//Need to clean this up when we remove the demo user 'hack'
             if (edOrgs == AllowAllEntityContextResolver.SUPER_LIST) {
                 return null;
-            }
+            }*/
             for (String id : edOrgs) {
                 Entity entity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
                 if (entity == null) {
