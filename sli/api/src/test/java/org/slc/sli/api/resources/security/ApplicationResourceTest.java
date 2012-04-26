@@ -97,6 +97,7 @@ public class ApplicationResourceTest {
         SecurityContextHolder.clearContext();
     }
 
+    @SuppressWarnings("rawtypes")
     @Test
     public void testGoodCreate() {
         EntityBody app = getNewApp();
@@ -180,6 +181,7 @@ public class ApplicationResourceTest {
     public void testBadDelete() {
         String uuid = "9999999999";
         try {
+            @SuppressWarnings("unused")
             Response resp = resource.deleteApplication(uuid, headers, uriInfo);
         } catch (EntityNotFoundException e) {
             assertTrue(true);
@@ -228,7 +230,7 @@ public class ApplicationResourceTest {
         EntityBody app = getNewApp();
         
         Response created = resource.createApplication(app, headers, uriInfo);
-        Map registration = new HashMap();
+        Map<Object, Object> registration = new HashMap<Object, Object>();
         registration.put(STATUS, "APPROVED");
         app.put(REGISTRATION, registration);
         String uuid = parseIdFromLocation(created);
@@ -236,6 +238,7 @@ public class ApplicationResourceTest {
         
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdateApprovalDate() {
         EntityBody app = getNewApp();
@@ -247,6 +250,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdateRequestDate() {
         EntityBody app = getNewApp();
@@ -258,6 +262,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdateRegistrationAsOperator() {
         EntityBody app = getNewApp();
@@ -273,6 +278,7 @@ public class ApplicationResourceTest {
         
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdateAppAsOperator() {
         EntityBody app = getNewApp();
@@ -287,6 +293,7 @@ public class ApplicationResourceTest {
         
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void denyApplication() {
         // Create - Deny
@@ -301,6 +308,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void approveApplication() {
         //Create - Approve
@@ -317,6 +325,7 @@ public class ApplicationResourceTest {
         assertTrue("approval date set", reg.containsKey(APPROVAL_DATE));
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private Map getRegistrationDataForApp(String uuid) {
         Response resp = resource.getApplication(uuid, headers, uriInfo);
         Map data = (Map) resp.getEntity();
@@ -325,6 +334,7 @@ public class ApplicationResourceTest {
         return toReturn;
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void unregisterApplication() {
         //Create - Approve - Unregister
@@ -348,6 +358,7 @@ public class ApplicationResourceTest {
         assertFalse("request date not set", reg.containsKey(REQUEST_DATE));
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void resubmitDeniedApplication() {
         //Create - Deny - Dev Update
@@ -372,6 +383,7 @@ public class ApplicationResourceTest {
         assertTrue("request date set", reg.containsKey(REQUEST_DATE));
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void unregisterDeniedApplication() {
         //Create - Deny - Unregister
