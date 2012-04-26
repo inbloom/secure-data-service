@@ -91,7 +91,6 @@ public class SamlFederationResource {
         Document doc = saml.decodeSamlPost(postData);
         
         String inResponseTo = doc.getRootElement().getAttributeValue("InResponseTo");
-        String samlMessageId = doc.getRootElement().getAttributeValue("ID");
         String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
         
         NeutralQuery neutralQuery = new NeutralQuery();
