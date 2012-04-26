@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
-import org.slc.sli.ingestion.landingzone.LandingZoneManager;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
@@ -19,7 +18,6 @@ import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.XmlFileProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.tenant.TenantPopulator;
 
 /**
  * Ingestion route builder.
@@ -29,6 +27,9 @@ import org.slc.sli.ingestion.tenant.TenantPopulator;
  */
 @Component
 public class IngestionRouteBuilder extends SpringRouteBuilder {
+
+    @Autowired
+    LocalFileSystemLandingZone lz;
 
     @Autowired
     ZipFileProcessor zipFileProcessor;
@@ -57,48 +58,25 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     JobReportingProcessor jobReportingProcessor;
 
-    @Autowired
-    LandingZoneManager landingZoneManager;
-
-    @Autowired
-    TenantPopulator tenantPopulator;
-
     @Value("${sli.ingestion.queue.workItem.queueURI}")
     private String workItemQueue;
 
     @Value("${sli.ingestion.queue.workItem.concurrentConsumers}")
     private int concurrentConsumers;
 
-    @Value("${sli.ingestion.tenant.loadDefaultTenants}")
-    private boolean loadDefaultTenants;
-
     @Override
     public void configure() throws Exception {
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
 
-        if (loadDefaultTenants) {
-            //populate the tenant collection with a default set of tenants
-            tenantPopulator.populateDefaultTenants();
-        }
-
-        configureCommonRoute(workItemQueueUri);
-
-        // configure ctlFilePoller and zipFilePoller per landing zone
-        for (LocalFileSystemLandingZone lz : landingZoneManager.getLandingZones()) {
-            configureRoutePerLandingZone(workItemQueueUri, lz);
-        }
-    }
-
-
-    private void configureRoutePerLandingZone(String workItemQueueUri, LocalFileSystemLandingZone lz) {
         String inboundDir = lz.getDirectory().getAbsolutePath();
+
         // routeId: ctlFilePoller
         from(
                 "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension() + "$"
                         + "&move=" + inboundDir + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
                         + "&moveFailed=" + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
                         + "&readLock=changed")
-                .routeId("ctlFilePoller-" + inboundDir)
+                .routeId("ctlFilePoller")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
                 .process(controlFilePreProcessor)
                 .to(workItemQueueUri);
@@ -109,7 +87,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         + inboundDir + "/.done&moveFailed=" + inboundDir
                         + "/.error"
                         + "&readLock=changed")
-                .routeId("zipFilePoller-" + inboundDir)
+                .routeId("zipFilePoller")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing zip file.")
                 .process(zipFileProcessor)
                 .choice()
@@ -118,10 +96,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .otherwise()
                     .process(controlFilePreProcessor)
                     .to(workItemQueueUri);
-    }
 
-    private void configureCommonRoute(String workItemQueueUri) {
-     // routeId: workItemRoute -> main ingestion route: ctlFileProcessor -> xmlFileProcessor -> edFiProcessor -> persistenceProcessor
+       // routeId: workItemRoute -> main ingestion route: ctlFileProcessor -> xmlFileProcessor -> edFiProcessor -> persistenceProcessor
         from(workItemQueueUri)
             .routeId("workItemRoute")
             .choice()
@@ -191,6 +167,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log("end of job: " + header("jobId").toString())
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - File processed.")
                 .stop();
+
     }
 
 }

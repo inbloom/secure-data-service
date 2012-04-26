@@ -2,11 +2,11 @@ Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
 Given I am using local data store
+    And I am using preconfigured Ingestion Landing Zone
 
 @smoke @integration
 Scenario: Post a zip file containing all data for Illinois Daybreak as a payload of the ingestion job: Clean Database
-Given I am using preconfigured Ingestion Landing Zone for "IL-STATE-Daybreak"
-    And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
+Given I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
     And the following collections are empty in datastore:
         | collectionName              |
         | student                     |
@@ -140,8 +140,7 @@ Then I should see following map of entry counts in the corresponding collections
 
 @smoke @integration
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
-Given I am using preconfigured Ingestion Landing Zone for "IL-STATE-Sunset"
-  And I post "StoriedDataSet_IL_Sunset.zip" file as the payload of the ingestion job
+Given I post "StoriedDataSet_IL_Sunset.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
@@ -172,7 +171,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentProgramAssociation   | 10    |
         | cohort                      | 3     |
         | staffCohortAssociation      | 3     |
-        | studentCohortAssociation    | 9     |
+        | studentCohortAssociation    | 9     | 
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 1000000000                 | string               |
@@ -204,8 +203,7 @@ Then I should see following map of entry counts in the corresponding collections
 
 @smoke @integration
 Scenario: Post a zip file containing all data for New York as a payload of the ingestion job: Append Database
-Given I am using preconfigured Ingestion Landing Zone for "NY-STATE-NYC"
-  And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
+Given I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:

@@ -15,7 +15,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -30,9 +29,6 @@ public class MatchDiffHandlerTest {
     @Autowired
     private MatchDiffHandler matchDiffHandler;
 
-    @Autowired
-    LocalFileSystemLandingZone lz;
-
     @Test
     public void testDoHandling() throws IOException {
         IngestionFileEntry mockedIngestionFileEntry = mock(IngestionFileEntry.class);
@@ -42,7 +38,6 @@ public class MatchDiffHandlerTest {
         newRecordFile.deleteOnExit();
 
         when(mockedIngestionFileEntry.getNeutralRecordFile()).thenReturn(newRecordFile);
-        when(mockedIngestionFileEntry.getTopLevelLandingZonePath()).thenReturn(lz.getLZId());
 
         matchDiffHandler.doHandling(mockedIngestionFileEntry, mockedErrorReport);
 

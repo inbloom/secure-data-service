@@ -7,7 +7,6 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJobStageType;
@@ -18,15 +17,12 @@ import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
-import org.slc.sli.ingestion.landingzone.validation.IngestionException;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.tenant.TenantDA;
-import org.slc.sli.ingestion.tenant.TenantMongoDA;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -42,10 +38,10 @@ public class ControlFilePreProcessor implements Processor {
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PREPROCESSOR;
 
     @Autowired
-    private BatchJobDAO batchJobDAO;
+    private LandingZone landingZone;
 
-    @Value("${sli.ingestion.tenant.deriveTenants}")
-    private boolean deriveTenantId;
+    @Autowired
+    private BatchJobDAO batchJobDAO;
 
     /**
      * @see org.apache.camel.Processor#process(org.apache.camel.Exchange)
@@ -68,25 +64,17 @@ public class ControlFilePreProcessor implements Processor {
         try {
 
             File fileForControlFile = exchange.getIn().getBody(File.class);
-            newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
 
-            File lzFile = new File(newBatchJob.getTopLevelSourceId());
-            File sourceFile = new File(newBatchJob.getSourceId());
-            LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
-            LandingZone resolvedLandingZone = new LocalFileSystemLandingZone(sourceFile);
+            LandingZone resolvedLZ = resolveLandingZone(batchJobId, fileForControlFile);
 
-            ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone);
+            newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile, resolvedLZ);
+
+            ControlFile controlFile = ControlFile.parse(fileForControlFile);
 
             newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
             createResourceEntryAndAddToJob(controlFile, newBatchJob);
 
-            //determine whether to override the tenantId property with a LZ derived value
-            if (deriveTenantId) {
-                //derive the tenantId property from the landing zone directory with a mongo lookup
-                setTenantId(controlFile, lzFile.getAbsolutePath());
-            }
-
-            ControlFileDescriptor controlFileDescriptor = new ControlFileDescriptor(controlFile, resolvedLandingZone);
+            ControlFileDescriptor controlFileDescriptor = new ControlFileDescriptor(controlFile, resolvedLZ);
 
             setExchangeHeaders(exchange, controlFileDescriptor, newBatchJob);
 
@@ -98,6 +86,16 @@ public class ControlFilePreProcessor implements Processor {
                 batchJobDAO.saveBatchJob(newBatchJob);
             }
         }
+    }
+
+    private LandingZone resolveLandingZone(String batchJobId, File fileForControlFile) {
+        // if this has a batch id it came from zipfileprocessor so change lz to parent of ctl file
+        LandingZone resolvedLandingZone = landingZone;
+        if (batchJobId != null) {
+            resolvedLandingZone = new LocalFileSystemLandingZone();
+            ((LocalFileSystemLandingZone) resolvedLandingZone).setDirectory(fileForControlFile.getParentFile());
+        }
+        return resolvedLandingZone;
     }
 
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {
@@ -117,19 +115,19 @@ public class ControlFilePreProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
     }
 
-    private NewBatchJob getOrCreateNewBatchJob(String batchJobId, File cf) {
+    private NewBatchJob getOrCreateNewBatchJob(String batchJobId, File cf, LandingZone lz) {
         NewBatchJob job = null;
         if (batchJobId != null) {
             job = batchJobDAO.findBatchJobById(batchJobId);
         } else {
-            job = createNewBatchJob(cf);
+            job = createNewBatchJob(cf, lz);
         }
         return job;
     }
 
-    private NewBatchJob createNewBatchJob(File controlFile) {
+    private NewBatchJob createNewBatchJob(File controlFile, LandingZone landingZone) {
         NewBatchJob newJob = NewBatchJob.createJobForFile(controlFile.getName());
-        newJob.setSourceId(controlFile.getParentFile().getAbsolutePath() + File.separator);
+        newJob.setSourceId(landingZone.getLZId() + File.separator);
         newJob.setStatus(BatchJobStatusType.RUNNING.getName());
         LOG.info("Created job [{}]", newJob.getId());
         return newJob;
@@ -141,27 +139,7 @@ public class ControlFilePreProcessor implements Processor {
         resourceEntry.setExternallyUploadedResourceId(cf.getFileName());
         resourceEntry.setResourceName(newJob.getSourceId() + cf.getFileName());
         resourceEntry.setResourceFormat(FileFormat.CONTROL_FILE.getCode());
-        resourceEntry.setTopLevelLandingZonePath(newJob.getTopLevelSourceId());
         newJob.getResourceEntries().add(resourceEntry);
-    }
-
-    /**
-     * Derive the tenantId using a database look up based on the LZ path
-     * and override the property on the ControlFile with he derived value.
-     *
-     * Throws an IngestionException if a tenantId could not be resolved.
-     */
-    private void setTenantId(ControlFile cf, String lzPath) throws IngestionException {
-        TenantDA tenantDA = new TenantMongoDA();
-        // replacing windows-style paths with unix-style
-        lzPath = lzPath.replaceAll("\\\\", "/");
-        //TODO add user facing error report for no tenantId found
-        String tenantId = tenantDA.getTenantId(lzPath);
-        if (tenantId != null) {
-            cf.getConfigProperties().put("tenantId", tenantId);
-        } else {
-            throw new IngestionException("Could not find tenantId for landing zone: " + lzPath);
-        }
     }
 
 }

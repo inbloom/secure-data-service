@@ -144,7 +144,6 @@ public class ControlFileProcessor implements Processor {
             resourceEntry.setResourceFormat(file.getFileFormat().getCode());
             resourceEntry.setResourceType(file.getFileType().getName());
             resourceEntry.setChecksum(file.getChecksum());
-            resourceEntry.setTopLevelLandingZonePath(newJob.getTopLevelSourceId());
             newJob.getResourceEntries().add(resourceEntry);
         }
     }

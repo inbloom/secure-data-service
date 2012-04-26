@@ -20,8 +20,6 @@ public final class ResourceEntry {
 
     private String checksum;
 
-    private String topLevelLandingZonePath;
-
     private int recordCount;
 
     private int errorCount;
@@ -82,14 +80,6 @@ public final class ResourceEntry {
 
     public void setChecksum(String checksum) {
         this.checksum = checksum;
-    }
-
-    public String getTopLevelLandingZonePath() {
-        return topLevelLandingZonePath;
-    }
-
-    public void setTopLevelLandingZonePath(String topLevelLandingZone) {
-        this.topLevelLandingZonePath = topLevelLandingZone;
     }
 
     public int getRecordCount() {

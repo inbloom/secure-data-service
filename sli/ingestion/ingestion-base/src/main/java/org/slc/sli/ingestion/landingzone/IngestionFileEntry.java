@@ -27,23 +27,17 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
     private File deltaNeutralRecordFile;
     private String checksum;
     private FaultsReport faultsReport;
-    private String topLevelLandingZonePath;
 
     // will only be set when this is added to a BatchJob
     private String batchJobId;
 
     // Constructors
     public IngestionFileEntry(FileFormat fileFormat, FileType fileType, String fileName, String checksum) {
-        this(fileFormat, fileType, fileName, checksum, null);
-    }
-
-    public IngestionFileEntry(FileFormat fileFormat, FileType fileType, String fileName, String checksum, String topLevelLandingZonePath) {
         this.fileFormat = fileFormat;
         this.fileType = fileType;
         this.fileName = fileName;
         this.checksum = checksum;
         this.faultsReport = new FaultsReport();
-        this.topLevelLandingZonePath = topLevelLandingZonePath;
     }
 
     // Methods
@@ -176,17 +170,4 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
         this.batchJobId = batchJobId;
     }
 
-    /**
-     * @return the topLevelLandingZonePath
-     */
-    public String getTopLevelLandingZonePath() {
-        return topLevelLandingZonePath;
-    }
-
-    /**
-     * @param topLevelLandingZonePath the topLevelLandingZonePath to set
-     */
-    public void setTopLevelLandingZonePath(String topLevelLandingZonePath) {
-        this.topLevelLandingZonePath = topLevelLandingZonePath;
-    }
 }

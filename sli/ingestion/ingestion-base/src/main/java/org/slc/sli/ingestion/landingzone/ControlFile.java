@@ -31,10 +31,6 @@ public class ControlFile implements Serializable {
     protected Properties configProperties = new Properties();
 
     public static ControlFile parse(File file) throws IOException {
-        return parse(file, null);
-    }
-
-    public static ControlFile parse(File file, LandingZone landingZone) throws IOException {
 
         Scanner scanner = new Scanner(file);
         Pattern fileItemPattern = Pattern.compile("^([^\\s]+)\\,([^\\s]+)\\,([^,]+)\\,(\\w+)\\s*$");
@@ -45,11 +41,6 @@ public class ControlFile implements Serializable {
         FileFormat fileFormat;
         FileType fileType;
         int lineNumber = 1;
-
-        String topLevelLandingZonePath = null;
-        if (landingZone != null) {
-            topLevelLandingZonePath = landingZone.getLZId();
-        }
 
         Properties configProperties = new Properties();
         ArrayList<IngestionFileEntry> fileEntries = new ArrayList<IngestionFileEntry>();
@@ -67,7 +58,7 @@ public class ControlFile implements Serializable {
                     fileFormat = FileFormat.findByCode(fileItemMatcher.group(1));
                     fileType = FileType.findByNameAndFormat(fileItemMatcher.group(2), fileFormat);
                     fileEntries.add(new IngestionFileEntry(fileFormat, fileType, fileItemMatcher.group(3),
-                            fileItemMatcher.group(4), topLevelLandingZonePath));
+                            fileItemMatcher.group(4)));
                     continue;
                 }
 

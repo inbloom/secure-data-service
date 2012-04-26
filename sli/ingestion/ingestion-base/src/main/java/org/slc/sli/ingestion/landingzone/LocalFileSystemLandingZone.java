@@ -18,19 +18,13 @@ public class LocalFileSystemLandingZone implements LandingZone, Serializable {
 
     protected File directory;
 
-    public LocalFileSystemLandingZone() {}
-
-    public LocalFileSystemLandingZone(File directory) {
-        this.directory = directory;
-    }
-
     /**
      * Return the absolute local path
      */
     public String getLZId() {
         return getDirectory().getAbsolutePath();
     }
-
+    
     /**
      * @return the directory
      */
