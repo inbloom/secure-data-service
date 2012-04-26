@@ -27,6 +27,7 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.Translator;
+import org.slc.sli.ingestion.dal.MongoIndices;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
 import org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler;
@@ -101,6 +102,8 @@ public class PersistenceProcessor implements Processor {
                 neutralRecordMongoAccess.registerBatchId(newJob.getId());
 
             // Ensure database indexing for this job. Tom Shewchuk 04/21/2012.
+            MongoIndices.ensureMongoIndicies("_" + neutralRecordMongoAccess.getRecordRepository()
+                    .getCollectionGroupingIdentifier(), neutralRecordMongoAccess.getRecordRepository().getTemplate());
 
                 for (ResourceEntry resource : newJob.getResourceEntries()) {
 
