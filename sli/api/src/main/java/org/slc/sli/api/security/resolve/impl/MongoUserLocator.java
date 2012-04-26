@@ -58,6 +58,15 @@ public class MongoUserLocator implements UserLocator {
         if (user.getEntity() == null) {
             LOG.warn("Failed to locate user {} in the datastore", user.getId());
         }
+
         return user;
+    }
+
+    /**
+     * Used by auto-wiring to set the entity repository.
+     * @param repo repository to be used by mongo user locator.
+     */
+    public void setRepo(Repository<Entity> repo) {
+        this.repo = repo;
     }
 }
