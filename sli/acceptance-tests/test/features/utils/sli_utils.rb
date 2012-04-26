@@ -220,7 +220,7 @@ def prepareData(format, hash)
   elsif format == "application/vnd.slc+json"
     hash.to_json
   elsif format == "application/xml"
-    raise "XML not implemented"
+    hash.to_s
   else
     assert(false, "Unsupported MIME type")
   end
@@ -311,7 +311,7 @@ module DataProvider
       "administration_url" => "https://slidev.org/admin",
       "image_url" => "https://slidev.org/image",
       "application_url" => "https://slidev.org/image",
-      "registered" => true,
+      "registration" => {},
       "version" => "3.14",
       "developer_info" => { "license_acceptance" => true, "organization" => "Acme" }, 
       "authorized_ed_orgs" => []

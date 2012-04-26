@@ -30,13 +30,26 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | stages.1.status                  | finished                             | string     |
   | newBatchJob    | 1                   | stages.2.stageName               | ControlFileProcessor                 | string     |
   | newBatchJob    | 1                   | stages.2.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.3.stageName               | XmlFileProcessor                     | string     |
+  | newBatchJob    | 1                   | stages.3.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.4.stageName               | EdFiProcessor                        | string     |
+  | newBatchJob    | 1                   | stages.4.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.5.stageName               | TransformationProcessor              | string     |
+  | newBatchJob    | 1                   | stages.5.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.6.stageName               | PersistenceProcessor                 | string     |
+  | newBatchJob    | 1                   | stages.6.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.7.stageName               | JobReportingProcessor                | string     |
+  | newBatchJob    | 1                   | stages.7.status                  | finished                             | string     |
   #resources
   | newBatchJob    | 1                   | resourceEntries.0.resourceId     | BatchJob.zip                         | string     |
-  | newBatchJob    | 1                   | resourceEntries.0.recordCount    | 0                                    | integer    |
-  | newBatchJob    | 1                   | resourceEntries.0.errorCount     | 0                                    | integer    |
-  | newBatchJob    | 1                   | resourceEntries.1.resourceId     | InterchangeEducationOrganization.xml | string     |
-  | newBatchJob    | 1                   | resourceEntries.1.resourceFormat | edfi-xml                             | string     |
-  | newBatchJob    | 1                   | resourceEntries.1.resourceType   | EducationOrganization                | string     |
+  | newBatchJob    | 1                   | resourceEntries.0.resourceFormat | zip-file                             | string     |
+  | newBatchJob    | 1                   | resourceEntries.1.resourceId     | controlfile.ctl                      | string     |
+  | newBatchJob    | 1                   | resourceEntries.1.resourceFormat | control-file                         | string     |
+  | newBatchJob    | 1                   | resourceEntries.2.resourceId     | InterchangeEducationOrganization.xml | string     |
+  | newBatchJob    | 1                   | resourceEntries.2.resourceFormat | edfi-xml                             | string     |
+  | newBatchJob    | 1                   | resourceEntries.2.resourceType   | EducationOrganization                | string     |
+  | newBatchJob    | 1                   | resourceEntries.3.resourceFormat | neutralrecord                        | string     |
+  | newBatchJob    | 1                   | resourceEntries.3.resourceType   | EducationOrganization                | string     |
  #errors
 
    And I should see "Processed 1 records." in the resulting batch job file

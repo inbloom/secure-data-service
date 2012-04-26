@@ -24,6 +24,7 @@ Then /^I should receive the data for the specified application entry$/ do
   assert(result != nil, "Result of JSON parsing is nil")
   @client_secret = result["client_secret"]
   @client_id = result["client_id"]
+  @registration = result["registration"]
 end
 
 When /^I navigate to PUT "([^"]*)"$/ do |arg1|
@@ -32,6 +33,7 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
   dataObj["description"] = "New and Improved"
   dataObj["client_secret"] = @client_secret
   dataObj["client_id"] = @client_id
+  dataObj["registration"]  = @registration
   data = prepareData("application/json", dataObj)
 
   restHttpPut(arg1, data)

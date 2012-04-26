@@ -12,6 +12,8 @@ Transform /^<(.+)>$/ do |template|
   id = template
   id = "706ee3be-0dae-4e98-9525-f564e05aa388" if template == "LINDA KIM SECTION ID"
   id = "74cf790e-84c4-4322-84b8-fca7206f1085" if template == "MARVIN MILLER STUDENT ID"
+  id = @newId                                 if template == "NEWLY CREATED ENTITY ID"
+  id = "eb3b8c35-f582-df23-e406-6947249a19f2"  if template == "SCHOOL ENTITY TO BE UPDATED"
   id
 end
 
@@ -29,12 +31,66 @@ Given /^optional field "([^\"]*)"$/ do |field|
   end
 end
 
+Given /^a valid XML document for a new school entity$/ do
+  @result = <<-eos
+<school>
+    <schoolCategories>Elementary School</schoolCategories>
+    <gradesOffered>Fifth grade</gradesOffered>
+    <gradesOffered>Fourth grade</gradesOffered>
+    <gradesOffered>Sixth grade</gradesOffered>
+    <organizationCategories>School</organizationCategories>
+    <address>
+        <addressType>Physical</addressType>
+        <streetNumberName>123 Main Street</streetNumberName>
+        <city>Lebanon</city>
+        <stateAbbreviation>KS</stateAbbreviation>
+        <postalCode>66952</postalCode>
+        <nameOfCounty>Smith County</nameOfCounty>
+    </address>
+    <stateOrganizationId>152901001</stateOrganizationId>
+    <nameOfInstitution>CRUD Test Elementary School</nameOfInstitution>
+</school>
+eos
+end
+
+###############################################################################
+# WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
+###############################################################################
+
+When /^I change the name to "([^"]*)"$/ do |newName|
+  @result = <<-eos
+<school>
+    <schoolCategories>Elementary School</schoolCategories>
+    <gradesOffered>Third grade</gradesOffered>
+    <gradesOffered>Fifth grade</gradesOffered>
+    <gradesOffered>Fourth grade</gradesOffered>
+    <gradesOffered>Sixth grade</gradesOffered>
+    <organizationCategories>School</organizationCategories>
+    <address>
+        <addressType>Physical</addressType>
+        <streetNumberName>123 Main Street</streetNumberName>
+        <city>Lebanon</city>
+        <stateAbbreviation>KS</stateAbbreviation>
+        <postalCode>66952</postalCode>
+        <nameOfCounty>Smith County</nameOfCounty>
+    </address>
+    <stateOrganizationId>152901001</stateOrganizationId>
+    <telephone>
+        <institutionTelephoneNumberType>Main</institutionTelephoneNumberType>
+        <telephoneNumber>(785) 667-6006</telephoneNumber>
+    </telephone>
+    <nameOfInstitution>#{newName}</nameOfInstitution>
+</school>
+eos
+end
+
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
 
 Then /^I should receive an XML document$/ do
   assert(contentType(@res).match "application/xml")
+  @node = @result.elements[1]
 end
 
 Then /^I should see "([^\"]*)" is "([^\"]*)"$/ do |key, value|

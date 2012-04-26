@@ -52,6 +52,8 @@ public class JobReportingProcessor implements Processor {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
+    public static final String JOB_STAGE_RESOURCE_ID = "job";
+
     @Override
     public void process(Exchange exchange) {
 
@@ -138,34 +140,31 @@ public class JobReportingProcessor implements Processor {
 
                 String externalResourceId = getExternalResourceId(error.getResourceId(), job);
 
-                if (externalResourceId != null) {
-
-                    PrintWriter externalResourceErrorWriter = null;
+                    PrintWriter errorWriter = null;
                     if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
 
                         hasErrors = true;
-                        externalResourceErrorWriter = getExternalResourceTypeWriter("error", job.getId(),
+                        errorWriter = getErrorWriter("error", job.getId(),
                                 externalResourceId, resourceToErrorMap);
 
-                        if (externalResourceErrorWriter != null) {
-                            writeErrorLine(externalResourceErrorWriter, error.getErrorDetail());
+                        if (errorWriter != null) {
+                            writeErrorLine(errorWriter, error.getErrorDetail());
                         } else {
                             LOG.error("Error: Unable to write to error file for: {} {}", job.getId(),
                                     externalResourceId);
                         }
                     } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
 
-                        externalResourceErrorWriter = getExternalResourceTypeWriter("warn", job.getId(),
+                        errorWriter = getErrorWriter("warn", job.getId(),
                                 externalResourceId, resourceToWarningMap);
 
-                        if (externalResourceErrorWriter != null) {
-                            writeWarningLine(externalResourceErrorWriter, error.getErrorDetail());
+                        if (errorWriter != null) {
+                            writeWarningLine(errorWriter, error.getErrorDetail());
                         } else {
                             LOG.error("Error: Unable to write to warning file for: {} {}", job.getId(),
                                     externalResourceId);
                         }
                     }
-                }
             }
 
         } catch (IOException e) {
@@ -181,13 +180,24 @@ public class JobReportingProcessor implements Processor {
         return hasErrors;
     }
 
-    private PrintWriter getExternalResourceTypeWriter(String type, String batchJobId, String externalResourceId,
+    private PrintWriter getErrorWriter(String type, String batchJobId, String externalResourceId,
             Map<String, PrintWriter> externalFileResourceToErrorMap) throws IOException {
+
+        // writer for job and stage level (non-resource specific) errors and warnings
+        if (externalResourceId == null) {
+            externalResourceId = JOB_STAGE_RESOURCE_ID;
+        }
 
         PrintWriter writer = externalFileResourceToErrorMap.get(externalResourceId);
 
         if (writer == null) {
-            String errorFileName = type + "." + externalResourceId + "." + System.currentTimeMillis() + ".log";
+            String errorFileName = null;
+
+            if (JOB_STAGE_RESOURCE_ID.equals(externalResourceId)) {
+                errorFileName = JOB_STAGE_RESOURCE_ID + "_" + type + "-" + batchJobId + ".log";
+            } else {
+                errorFileName = type + "." + externalResourceId + "." + System.currentTimeMillis() + ".log";
+            }
             writer = new PrintWriter(new FileWriter(landingZone.createFile(errorFileName)));
             externalFileResourceToErrorMap.put(externalResourceId, writer);
             return writer;
