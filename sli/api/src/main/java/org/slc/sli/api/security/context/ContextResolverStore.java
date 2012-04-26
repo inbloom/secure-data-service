@@ -46,11 +46,11 @@ public class ContextResolverStore implements ApplicationContextAware {
             }
         }
         
-        if (found == null) { // FIXME make secure by default!
+        /*if (found == null) { // FIXME make secure by default!
             found = new AllowAllEntityContextResolver();
             LOG.warn("No path resolver defined for {} -> {} returning a yes-man (for now)", fromEntityType, toEntityType);
             // throw new IllegalStateException("Requested an usupported resolution path " + fromEntityType + " -> " + toEntityType);
-        }
+        }*/
         
         return found;
     }
