@@ -311,7 +311,7 @@ module DataProvider
       "administration_url" => "https://slidev.org/admin",
       "image_url" => "https://slidev.org/image",
       "application_url" => "https://slidev.org/image",
-      "registered" => true,
+      "registration" => {},
       "version" => "3.14",
       "developer_info" => { "license_acceptance" => true, "organization" => "Acme" } 
     }

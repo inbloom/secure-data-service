@@ -7,7 +7,7 @@ module AppsHelper
 
   # For client_id and client_secret, return 'Pending' if app isn't yet registered
   def client_field_value(app, field)
-    if app.registration.status == 'APPROVED'
+    if app.attributes.has_key? 'registration' and app.registration.status == 'APPROVED'
       app.attributes[field]
     else
       "Pending"
