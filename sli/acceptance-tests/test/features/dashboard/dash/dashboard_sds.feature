@@ -117,8 +117,8 @@ And Student Enrollment History includes " ;East Daybreak Junior High;6;2009-09-0
 And Student Enrollment History includes " ; ;5;2008-09-05;Next year school; ;2009-05-11;End of school year"
 And Student Enrollment History includes " ; ;4;2007-09-12;Next year school; ;2008-05-10;End of school year"
 And Student Enrollment History includes " ; ;3;2006-09-11;Transfer from a private, religiously-affiliated school in a different state; ;2007-05-09;Student is in a different public school in the same local education agency"
-And I see a header on the page that has the text "Logout"
-And I see a footer on the page that has the text "Copyright"
+#And I see a header on the page that has the text "Logout"
+#And I see a footer on the page that has the text "Copyright"
 
 
 @integration 
