@@ -64,7 +64,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     /* Access to entity definitions */
     private final EntityDefinitionStore entityDefs;
 
-    private final String typeName;
+    private final String resourceName;
 
     /* Logger utility to use to output debug, warning, or other messages to the "console" */
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCrudEndpoint.class);
@@ -86,21 +86,21 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @param entityDefs
      *            access to entity definitions
      */
-    public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, String typeName) {
+    public DefaultCrudEndpoint(final EntityDefinitionStore entityDefs, String resourceName) {
         if (entityDefs == null) {
             throw new NullPointerException("entityDefs");
         }
-        if (typeName == null) {
-            throw new NullPointerException("typeName");
+        if (resourceName == null) {
+            throw new NullPointerException("resourceName");
         }
         this.entityDefs = entityDefs;
-        this.typeName = typeName;
+        this.resourceName = resourceName;
     }
 
     /**
      * Creates a new entity in a specific location or collection.
      *
-     * @param collectionName
+     * @param resourceName
      *            where the entity should be located
      * @param newEntityBody
      *            new map of keys/values for entity
@@ -111,9 +111,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @return resulting status from request
      */
     @Override
-    public Response create(final String collectionName, final EntityBody newEntityBody, final HttpHeaders headers,
+    public Response create(final String resourceName, final EntityBody newEntityBody, final HttpHeaders headers,
             final UriInfo uriInfo) {
-        return handle(collectionName, entityDefs, new ResourceLogic() {
+        return handle(resourceName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
@@ -152,6 +152,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 NeutralQuery neutralQuery = new ApiQuery(uriInfo);
                 List<String> valueList = Arrays.asList(value.split(","));
                 neutralQuery.addCriteria(new NeutralCriteria(key, "in", valueList));
+                neutralQuery = addTypeCriteria(entityDef, neutralQuery);
 
                 // a new list to store results
                 List<EntityBody> results = new ArrayList<EntityBody>();
@@ -222,8 +223,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         new Object[] { resource2, resource1, idKey });
 
                 NeutralQuery endpointNeutralQuery = new ApiQuery(uriInfo);
-                NeutralQuery associationNeutralQuery = createAssociationNeutralQuery(endpointNeutralQuery, key, value,
-                        idKey);
+                NeutralQuery associationNeutralQuery = createAssociationNeutralQuery(key, value, idKey);
+                associationNeutralQuery = addTypeCriteria(entityDef, associationNeutralQuery);
 
                 // final/resulting information
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
@@ -254,6 +255,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                 if (!ids.isEmpty()) {
                     endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+                    endpointNeutralQuery = addTypeCriteria(endpointEntity, endpointNeutralQuery);
                     for (EntityBody result : endpointEntity.getService().list(endpointNeutralQuery)) {
                         if (associations.get(result.get("id")) != null) {
 
@@ -267,7 +269,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         finalResults.add(result);
                     }
 
-                    finalResults = appendOptionalFields(uriInfo, finalResults, typeName);
+                    finalResults = appendOptionalFields(uriInfo, finalResults, DefaultCrudEndpoint.this.resourceName);
                 }
 
                 if (finalResults.isEmpty()) {
@@ -325,6 +327,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                 NeutralQuery neutralQuery = new ApiQuery(uriInfo);
                 neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+                neutralQuery = addTypeCriteria(entityDef, neutralQuery);
 
                 // final/resulting information
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
@@ -347,7 +350,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     finalResults.add(result);
                 }
 
-                finalResults = appendOptionalFields(uriInfo, finalResults, typeName);
+                finalResults = appendOptionalFields(uriInfo, finalResults, DefaultCrudEndpoint.this.resourceName);
 
                 // Return results as an array if multiple IDs were requested (comma separated list),
                 // single entity otherwise
@@ -443,7 +446,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 // final/resulting information
                 List<EntityBody> results = new ArrayList<EntityBody>();
 
-                for (EntityBody entityBody : entityDef.getService().list(new ApiQuery(uriInfo))) {
+                NeutralQuery query = new ApiQuery(uriInfo);
+                query = addTypeCriteria(entityDef, query);
+
+                for (EntityBody entityBody : entityDef.getService().list(query)) {
                     // if links should be included then put them in the entity body
                     entityBody.put(ResourceConstants.LINKS,
                             ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
@@ -468,7 +474,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @Override
     public CustomEntityResource getCustomEntityResource(@PathParam("id") String id) {
-        EntityDefinition entityDef = entityDefs.lookupByResourceName(this.typeName);
+        EntityDefinition entityDef = entityDefs.lookupByResourceName(this.resourceName);
         return new CustomEntityResource(id, entityDef);
     }
 
@@ -529,14 +535,13 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * field.
      * A convenience method for querying for associations when resolving their endpoints.
      *
-     * @param endpointNeutralQuery
      * @param key
      * @param value
      *            a comma separated list of values
      * @param includeField
      * @return
      */
-    private NeutralQuery createAssociationNeutralQuery(NeutralQuery endpointNeutralQuery, String key, String value,
+    private NeutralQuery createAssociationNeutralQuery(String key, String value,
             String includeField) {
         NeutralQuery neutralQuery = new NeutralQuery();
         List<String> list = new ArrayList<String>(Arrays.asList(value.split(",")));
@@ -609,6 +614,24 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return values;
     }
 
+    /**
+     * Add the type criteria to a given query if the stored collection of the
+     * resource is different from its type
+     * @param entityDefinition The entity definition for the resource
+     * @param query The query to append the criteria
+     * @return The modified query
+     */
+    protected NeutralQuery addTypeCriteria(EntityDefinition entityDefinition, NeutralQuery query) {
+
+        if (query != null && entityDefinition != null
+                && !entityDefinition.getType().equals(entityDefinition.getStoredCollectionName())) {
+            query.addCriteria(new NeutralCriteria("type", NeutralCriteria.CRITERIA_IN,
+                    Arrays.asList(entityDefinition.getType()), false));
+        }
+
+        return query;
+    }
+
     private Response.ResponseBuilder addPagingHeaders(Response.ResponseBuilder resp, long total, UriInfo info) {
         if (info != null && resp != null) {
             NeutralQuery neutralQuery = new ApiQuery(info);
@@ -651,7 +674,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @return result of CRUD operation
      */
     public Response readAll(final int offset, final int limit, HttpHeaders headers, final UriInfo uriInfo) {
-        return this.readAll(typeName, headers, uriInfo);
+        return this.readAll(resourceName, headers, uriInfo);
     }
 
     /**
@@ -669,7 +692,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      *                 item is accessable.}
      */
     public Response create(final EntityBody newEntityBody, HttpHeaders headers, final UriInfo uriInfo) {
-        return this.create(typeName, newEntityBody, headers, uriInfo);
+        return this.create(resourceName, newEntityBody, headers, uriInfo);
     }
 
     /**
@@ -684,7 +707,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @return A single entity
      */
     public Response read(final String id, HttpHeaders headers, final UriInfo uriInfo) {
-        return this.read(typeName, id, headers, uriInfo);
+        return this.read(resourceName, id, headers, uriInfo);
     }
 
     /**
@@ -700,7 +723,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     public Response delete(final String id, HttpHeaders headers, final UriInfo uriInfo) {
-        return this.delete(typeName, id, headers, uriInfo);
+        return this.delete(resourceName, id, headers, uriInfo);
     }
 
     /**
@@ -718,6 +741,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
     public Response update(final String id, final EntityBody newEntityBody, HttpHeaders headers, final UriInfo uriInfo) {
-        return this.update(typeName, id, newEntityBody, headers, uriInfo);
+        return this.update(resourceName, id, newEntityBody, headers, uriInfo);
     }
 }

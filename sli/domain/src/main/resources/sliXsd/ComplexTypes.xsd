@@ -1190,13 +1190,6 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="stateOrganizationId" type="identificationCode">
-				<xs:annotation>
-					<xs:documentation>The identifier assigned to an education
-								organization by the State Education Agency (SEA).
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="sequenceOfCourse">
 				<xs:annotation>
 					<xs:documentation>When a section is part of a sequence of parts
@@ -3460,13 +3453,6 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="stateOrganizationId" type="identificationCode">
-				<xs:annotation>
-					<xs:documentation>The identifier assigned to an education
-							organization by the State Education Agency (SEA).
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="entryDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The month, day, and year on which an individual
@@ -3966,13 +3952,6 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="staffUniqueStateId" type="uniqueStateIdentifier">
-				<xs:annotation>
-					<xs:documentation>A unique number or alphanumeric code assigned
-						to a staff by a state education agency.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="educationOrganizationId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The school where the teacher provides services.
@@ -3980,13 +3959,6 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="stateOrganizationId" type="identificationCode">
-				<xs:annotation>
-					<xs:documentation>The identifier assigned to an education
-							organization by the State Education Agency (SEA).
-					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="programAssignment" type="programAssignmentType">
@@ -4038,13 +4010,6 @@
 					<xs:appinfo>
 						<sli:ReferenceType>staff</sli:ReferenceType>
 					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="staffUniqueStateId" type="uniqueStateIdentifier">
-				<xs:annotation>
-					<xs:documentation>A unique number or alphanumeric code assigned
-						to a staff by a state education agency.
-					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="sectionId" type="reference">
