@@ -71,7 +71,6 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public static final String UUID = "uuid";
     public static final String LOCATION = "Location";
 
-    private static final Logger LOG = LoggerFactory.getLogger(ApplicationResource.class);
 
 //    @PostConstruct
 //    public void init() {

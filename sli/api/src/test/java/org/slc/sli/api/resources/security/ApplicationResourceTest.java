@@ -124,7 +124,8 @@ public class ApplicationResourceTest {
         resource.setAutoRegister(true);
         Response resp = resource.createApplication(app, headers, uriInfo);
         assertEquals(STATUS_CREATED, resp.getStatus());
-        assertTrue("Autoregistered", app.get("registered").toString().equals("Approved"));
+        Map reg = (Map) app.get(REGISTRATION);
+        assertTrue("Autoregistered", reg.get(STATUS).toString().equals("APPROVED"));
     }
 
     @Test
