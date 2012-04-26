@@ -3,6 +3,23 @@
 
 /**** CSS Reset ****/
 /** Theme */
+* {
+	margin: 0;
+}
+html, body {
+	height: 100%;
+}
+.body-container {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -142px; 
+	color: #FFFFFF;
+}
+.footer, .push {
+	height: 142px; 
+}
+
 body {
     color: #333333;
     font-family: Arial,Helvetica,sans-serif;
@@ -141,19 +158,31 @@ h7 {
 /** JQGrid overrides */
 .ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column-header {
     background: url("../images/ui-bg_glass_65_ffffff_1x400.png") repeat-x scroll 50% 50% #FFFFFF;
-    border-bottom: 2px solid #000000;
-    border-right: 0px none;
-    border-top: 0px none;
-    border-left: 0px none;
+    border-bottom: 1px solid #CCCCCC;
+    border-left: 0 solid #CCCCCC;
+    border-right: 1px solid #CCCCCC;
+    border-top: 0px solid #CCCCCC;
+    line-height: 18px;
+    vertical-align: top;
     color: #999999;
-    font-weight: normal;
+    font-weight: 100;
     font-size:13px;
+}
+
+.ui-jqgrid .ui-jqgrid-htable  {
+	border-bottom: 2px solid #000000;
+	border-top: 1px solid #CCCCCC;
+}
+
+.ui-jqgrid .ui-jqgrid-htable th.end {
+	border-right: 0px solid #DDDDDD;
+	padding: 4px 5px;
 }
 
 th.ui-th-column div {
     white-space: normal !important;
     height: auto !important;
-    padding: 2px;
+    padding: 4px 5px;
     text-align: left;
 }
 .ui-jqgrid-bdiv {border-collapse: collapse;}
