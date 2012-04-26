@@ -22,9 +22,6 @@ public class MatchDiffHandler extends AbstractIngestionHandler<IngestionFileEntr
 
     private static final Logger LOG = LoggerFactory.getLogger(MatchDiffHandler.class);
 
-    @Autowired
-    LocalFileSystemLandingZone lz;
-
     private File newRecordFile;
     private File currentRecordFile;
 
@@ -50,6 +47,7 @@ public class MatchDiffHandler extends AbstractIngestionHandler<IngestionFileEntr
     }
 
     void loadFiles(IngestionFileEntry fileEntry, ErrorReport errorReport) throws IOException {
+        LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone(new File(fileEntry.getTopLevelLandingZonePath()));
 
         // load new files from user
         newRecordFile = fileEntry.getNeutralRecordFile();
