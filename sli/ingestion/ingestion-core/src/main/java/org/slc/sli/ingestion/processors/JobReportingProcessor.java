@@ -34,7 +34,7 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
- * Transforms body from ControlFile to ControlFileDescriptor type.
+ * Writes out a job report and any errors/warnings associated with the job.
  *
  * @author bsuzuki
  *
