@@ -1286,7 +1286,7 @@
 				</xs:annotation>
 			</xs:element>
 
-			<xs:element name="educationOrganizationId" type="reference">
+			<xs:element name="schoolId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The school where the section is taught.
 					</xs:documentation>
@@ -3452,7 +3452,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="educationOrganizationId" type="reference">
+			<xs:element name="schoolId" type="reference">
 				<xs:annotation>
 					<xs:documentation>School enrolling the student.</xs:documentation>
 					<xs:appinfo>
@@ -4031,7 +4031,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="staffId" type="reference">
+			<xs:element name="teacherId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The teacher assigned to the section.
 					</xs:documentation>

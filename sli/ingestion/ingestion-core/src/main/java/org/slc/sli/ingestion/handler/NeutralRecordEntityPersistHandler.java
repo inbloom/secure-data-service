@@ -84,6 +84,10 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
             collectionName = (String) entity.getBody().get("collectionName");
             entity.getBody().remove("collectionName");
         }
+        
+        if (entity.getType().equals("school")) {
+            System.out.println();
+        }
 
         if (entity.getEntityId() != null) {
 
@@ -225,8 +229,16 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
         if (matchFilter.isEmpty()) {
             return;
         }
+        
+        String collectionName = entity.getType();
+        
+        if (collectionName.equals("teacher")) {
+            collectionName = "staff";
+        } else if (collectionName.equals("school")) {
+            collectionName = "educationOrganization";
+        }
 
-        Iterable<Entity> match = entityRepository.findAllByPaths(entity.getType(), matchFilter, new NeutralQuery());
+        Iterable<Entity> match = entityRepository.findAllByPaths(collectionName, matchFilter, new NeutralQuery());
         if (match != null && match.iterator().hasNext()) {
             // Entity exists in data store.
             Entity matched = match.iterator().next();
@@ -258,6 +270,13 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
             for (Map.Entry<String, Object> externalReference : entity.getLocalParentIds().entrySet()) {
                 String referencedCollection = WordUtils.uncapitalize(externalReference.getKey());
                 String referencedId = referencedCollection + "Id";
+                
+                if (referencedCollection.contains("#")) {
+                    referencedId = referencedCollection.substring(referencedCollection.indexOf("#") + 1);
+                }
+                if (entity.getType().equals("teacherSectionAssociation")) {
+                    System.out.println();
+                }
 
                 filter.put("body." + referencedId, entity.getBody().get(referencedId).toString());
             }
