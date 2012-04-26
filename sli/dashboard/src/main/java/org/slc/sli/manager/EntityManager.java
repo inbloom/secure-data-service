@@ -274,6 +274,18 @@ public class EntityManager extends ApiClientManager {
         return getApiClient().getStudents(token, sectionId, studentIds);
     }
 
+    /**
+     * Returns a list of students, which match the search parameters
+     * @param token
+     * @param firstName
+     * @param lastName
+     * @return
+     */
+    
+    public List<GenericEntity> getStudentsFromSearch(String token, String firstName, String lastName) {
+        return getApiClient().getStudentsWithSearch(token, firstName, lastName);
+    }
+    
 
     /**
      * Saves an entity list to the specified file using its JSON representation

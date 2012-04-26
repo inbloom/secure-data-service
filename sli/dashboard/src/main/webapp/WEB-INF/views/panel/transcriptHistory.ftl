@@ -43,9 +43,9 @@
                         viewrecords:true,
                         colNames: ['Subject','Course','Grade'],
                         colModel: [
-                            {name:"subject",index:"subject",width:80,key:true},
+                            {name:"subject",index:"subject",width:120,key:true},
                             {name:"course",index:"course",width:130},
-                            {name:"grade",index:"grade",width:70,align:"right"}
+                            {name:"grade",index:"grade",width:50}
                         ],
                         rowNum:1000,
                         sortname: 'num',

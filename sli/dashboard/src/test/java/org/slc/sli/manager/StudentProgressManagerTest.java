@@ -15,6 +15,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.slc.sli.client.MockAPIClient;
+import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.impl.StudentProgressManagerImpl;
 import org.slc.sli.util.Constants;
@@ -231,5 +233,47 @@ public class StudentProgressManagerTest {
         data.put(STUDENTID, map);
         
         return data;
+    }
+
+    @Test
+    public void testGetTranscript() {
+
+        String token = "1234";
+        String studentId = "STUDENT-1234";
+        Config.Data config = new Config.Data();
+        List<String> optionalFields = new ArrayList<String>();
+        optionalFields.add(Constants.ATTR_TRANSCRIPT);
+
+        when(mockEntity.getStudentWithOptionalFields(token, studentId, optionalFields)).
+                thenReturn(new MockAPIClient().getStudentWithOptionalFields(token, studentId, optionalFields));
+
+        GenericEntity actual = manager.getTranscript(token, studentId, config);
+
+        @SuppressWarnings("unchecked")
+        List<GenericEntity> transcriptHistory = (List<GenericEntity>) actual.get(StudentProgressManagerImpl.TRANSCRIPT_HISTORY);
+        assertEquals(2, transcriptHistory.size());
+        GenericEntity termOne = transcriptHistory.get(0);
+        GenericEntity termTwo = transcriptHistory.get(1);
+
+        assertEquals("Spring Semester", termOne.getString(Constants.ATTR_TERM));
+        assertEquals("Fall Semester", termTwo.getString(Constants.ATTR_TERM));
+
+        assertEquals("Seventh grade", termOne.getString(Constants.ATTR_GRADE_LEVEL));
+        assertEquals("Seventh grade", termTwo.getString(Constants.ATTR_GRADE_LEVEL));
+
+        @SuppressWarnings("unchecked")
+        List<GenericEntity> termOneCourses = (List<GenericEntity>) termOne.get(Constants.ATTR_COURSES);
+
+        assertEquals(1, termOneCourses.size());
+        assertEquals("85.0", termOneCourses.get(0).getString("grade"));
+        assertEquals("7th Grade Composition", termOneCourses.get(0).getString(StudentProgressManagerImpl.COURSE));
+
+        @SuppressWarnings("unchecked")
+        List<GenericEntity> termTwoCourses = (List<GenericEntity>) termTwo.get(Constants.ATTR_COURSES);
+
+        assertEquals(1, termTwoCourses.size());
+        assertEquals("87.0", termTwoCourses.get(0).getString(StudentProgressManagerImpl.GRADE));
+        assertEquals("7th Grade English", termTwoCourses.get(0).getString(StudentProgressManagerImpl.COURSE));
+
     }
 }

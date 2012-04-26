@@ -32,12 +32,17 @@ public interface APIClient {
     public List<GenericEntity> getStudentAttendance(final String token, String studentId, String start, String end);
 
     public GenericEntity getParentEducationalOrganization(final String token, GenericEntity educationalOrganization);
+    
+    public List<GenericEntity> getParentEducationalOrganizations(final String token, List<GenericEntity> educationalOrganizations);
 
     public List<GenericEntity> getStudentEnrollment(final String token, GenericEntity student);
 
     public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId);
-
+    
+    public List<GenericEntity> getStudentsWithSearch(final String token, String firstName, String lastName);
+    
     public GenericEntity getStudentWithOptionalFields(final String token, final String studentId, List<String> optionalFields);
+
 
     public String getHeader(String token);
 
@@ -84,6 +89,16 @@ public interface APIClient {
      * @return
      */
     public GenericEntity getEntity(final String token, final String type, final String id, Map<String, String> params);
+    
+    /**
+     * Returns entity for the given type, id and params
+     * @param token Security token
+     * @param type Type of the entity
+     * @param id The id of the entity
+     * @param params param map
+     * @return
+     */
+    public List<GenericEntity> getEntities(final String token, final String type, final String id, Map<String, String> params);
 
     /**
      * Returns a list of student grade book entries for a given student and params

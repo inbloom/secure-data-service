@@ -49,7 +49,13 @@ DashboardProxy = {
 		getWidgetConfig: function(widget) {
 			return this.widgetConfig[widget];
 		}
+		
+
 };
+
+DashboardUtil.getContextRootPath = function() {
+	return contextRootPath;
+}
 
 DashboardUtil.getElementFontSize = function (element)
 {
