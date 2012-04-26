@@ -93,3 +93,33 @@ When /^I PUT an application updating the auto\-generated field "([^"]*)"$/ do |a
 
   assert(@res != nil, "Response from PUT operation was null")
 end
+
+Then /^it should be "([^"]*)"$/ do |arg1|
+  app = JSON.parse(@res.body)
+  assert(app["registered"] === arg1, "Registered field should be #{arg1}, not #{app["registered"]}")
+end
+
+Then /^I should only see "([^"]*)" applications$/ do |arg1|
+  apps = JSON.parse(@res.body)
+  apps.each do |app|
+    assert(app["registered"] === arg1, "App #{app["name"]} should be #{arg1}")
+  end
+end
+
+When /^I navigate to PUT "([^"]*)" to update an application's name$/ do |arg1|
+  @format = "application/json"
+  restHttpGet(arg1)
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  
+  prev_client_secret = result["client_secret"]
+  prev_client_id = result["client_id"] 
+
+  dataObj = DataProvider.getValidAppData()
+  dataObj["name"] = "Waffle App"
+  data = prepareData("application/json", dataObj)
+
+  restHttpPut(uri, data)
+
+  assert(@res != nil, "Response from PUT operation was null")
+end

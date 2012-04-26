@@ -32,6 +32,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,6 +52,10 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     @Autowired
     private EntityDefinitionStore store;
+    
+    @Autowired
+    @Value("${sli.sandbox.autoRegisterApps}")
+    private boolean autoRegister;
 
     private EntityService service;
 
@@ -66,11 +71,15 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public static final String UUID = "uuid";
     public static final String LOCATION = "Location";
 
-    //    @PostConstruct
-    //    public void init() {
-    //        EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
-    //        this.service = def.getService();
-    //    }
+
+//    @PostConstruct
+//    public void init() {
+//        EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
+//        this.service = def.getService();
+//    }
+    public void setAutoRegister(boolean register) {
+        this.autoRegister = register;
+    }
 
     private boolean hasRight(Right required) {
         Collection<GrantedAuthority> rights = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
@@ -103,11 +112,14 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         while (isDuplicateToken(clientId)) {
             clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
         }
-
+        
         newApp.put(CLIENT_ID, clientId);
 
         Map<String, Object> registration = new HashMap<String, Object>();
         registration.put(STATUS, "PENDING");
+        if (autoRegister) {
+            registration.put(STATUS, "APPROVED");
+        }
         registration.put(REQUEST_DATE, System.currentTimeMillis());
         newApp.put(REGISTRATION, registration);
 
