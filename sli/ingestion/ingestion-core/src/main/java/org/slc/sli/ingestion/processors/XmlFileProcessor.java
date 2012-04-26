@@ -84,8 +84,8 @@ public class XmlFileProcessor implements Processor {
                 exchange.getIn().setHeader("ErrorMessage", exception.toString());
                 exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
                 log.error("Exception:", exception);
-                Error error = Error.createIngestionError(batchJobId, BatchJobStageType.XML_FILE_PROCESSOR.getName(),
-                        null, null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
+                Error error = Error.createIngestionError(batchJobId, null,
+                        BatchJobStageType.XML_FILE_PROCESSOR.getName(), null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
                 batchJobDAO.saveError(error);
             }
 
@@ -105,8 +105,8 @@ public class XmlFileProcessor implements Processor {
             String faultLevel = fault.isError() ? FaultType.TYPE_ERROR.getName()
                     : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
 
-            Error error = Error.createIngestionError(batchJobId, BatchJobStageType.XML_FILE_PROCESSOR.getName(),
-                    fe.getFileName(), null, null, null, faultLevel, faultLevel, faultMessage);
+            Error error = Error.createIngestionError(batchJobId, fe.getFileName(),
+                    BatchJobStageType.XML_FILE_PROCESSOR.getName(), null, null, null, faultLevel, faultLevel, faultMessage);
             batchJobDAO.saveError(error);
         }
     }

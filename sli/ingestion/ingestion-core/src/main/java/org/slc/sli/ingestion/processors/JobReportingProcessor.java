@@ -244,7 +244,7 @@ public class JobReportingProcessor implements Processor {
 
     private void doesntHavePersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
         // write out 0 count metrics for the input files
-        Error error = Error.createIngestionError(job.getId(), BATCH_JOB_STAGE.getName(), null, null, null, null,
+        Error error = Error.createIngestionError(job.getId(), null, BATCH_JOB_STAGE.getName(), null, null, null,
                 FaultType.TYPE_WARNING.getName(), null, "There were no metrics for " + BATCH_JOB_STAGE.getName());
         batchJobDAO.saveError(error);
 

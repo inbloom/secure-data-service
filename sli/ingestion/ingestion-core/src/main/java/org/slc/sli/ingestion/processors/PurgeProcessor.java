@@ -79,7 +79,7 @@ public class PurgeProcessor implements Processor {
                 String noTenantMessage = "TenantId missing. No purge operation performed.";
                 logger.info(noTenantMessage);
 
-                Error error = Error.createIngestionError(batchJobId, BatchJobStageType.PURGE_PROCESSOR.getName(), null,
+                Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.PURGE_PROCESSOR.getName(),
                         null, null, null, FaultType.TYPE_WARNING.getName(), null, noTenantMessage);
                 batchJobDAO.saveError(error);
             } else {
@@ -121,7 +121,7 @@ public class PurgeProcessor implements Processor {
 
             String batchJobId = getBatchJobId(exchange);
             if (batchJobId != null) {
-                Error error = Error.createIngestionError(batchJobId, BatchJobStageType.PURGE_PROCESSOR.getName(), null,
+                Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.PURGE_PROCESSOR.getName(),
                         null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
                 batchJobDAO.saveError(error);
             }

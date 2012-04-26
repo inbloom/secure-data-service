@@ -145,7 +145,7 @@ public class EdFiProcessor implements Processor {
             String faultLevel = fault.isError() ? FaultType.TYPE_ERROR.getName()
                     : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
 
-            Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), fe.getFileName(), null,
+            Error error = Error.createIngestionError(batchJobId, fe.getFileName(), BATCH_JOB_STAGE.getName(), null,
                     null, null, faultLevel, faultLevel, faultMessage);
             batchJobDAO.saveError(error);
         }
@@ -157,7 +157,7 @@ public class EdFiProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Exception:", exception);
         if (batchJobId != null) {
-            Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null, null, null, null,
+            Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
             batchJobDAO.saveError(error);
         }

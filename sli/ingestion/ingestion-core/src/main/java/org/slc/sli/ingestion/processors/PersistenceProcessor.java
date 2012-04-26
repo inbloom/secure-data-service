@@ -113,7 +113,7 @@ public class PersistenceProcessor implements Processor {
                                 processNeutralRecordsFile(new File(resource.getResourceName()), getTenantId(newJob),
                                         batchJobId, metrics);
                             } catch (IOException e) {
-                                Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), resource.getResourceId(),
+                                Error error = Error.createIngestionError(batchJobId, resource.getResourceId(), BATCH_JOB_STAGE.getName(),
                                         null, null, null, FaultType.TYPE_ERROR.getName(), "Exception", e.getMessage());
                                 batchJobDAO.saveError(error);
                             }
@@ -318,7 +318,7 @@ public class PersistenceProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Exception:", exception);
 
-        Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null, null, null, null,
+        Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                 FaultType.TYPE_ERROR.getName(), "Exception", exception.getMessage());
         batchJobDAO.saveError(error);
     }
