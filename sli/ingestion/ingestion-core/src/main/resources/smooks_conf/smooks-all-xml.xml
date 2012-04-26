@@ -1225,8 +1225,8 @@
   <jb:bean beanId="teacherSchoolAssociationParentIds" class="java.util.HashMap"
     createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
 
-    <jb:wiring property="Staff" beanIdRef="TeacherSchoolAssociation_TeacherReference" />
-    <jb:wiring property="EducationOrganization" beanIdRef="TeacherSchoolAssociation_SchoolReference" />
+    <jb:wiring property="staff#teacherId" beanIdRef="TeacherSchoolAssociation_TeacherReference" />
+    <jb:wiring property="educationOrganization#schoolId" beanIdRef="TeacherSchoolAssociation_SchoolReference" />
 
   </jb:bean>
 

@@ -1586,7 +1586,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="educationOrganizationId" type="reference">
+			<xs:element name="schoolId" type="reference">
 				<xs:annotation>
 					<xs:documentation>Reference to the school associated with the
 						session.
@@ -3943,7 +3943,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="staffId" type="reference">
+			<xs:element name="teacherId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The teacher providing services to the school.
 					</xs:documentation>
@@ -3952,7 +3952,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="educationOrganizationId" type="reference">
+			<xs:element name="schoolId" type="reference">
 				<xs:annotation>
 					<xs:documentation>The school where the teacher provides services.
 					</xs:documentation>
@@ -6468,7 +6468,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="educationOrganizationId" type="reference">
+			<xs:element name="schoolId" type="reference">
 				<xs:annotation>
 					<xs:documentation>School where incident occurred
 					</xs:documentation>
