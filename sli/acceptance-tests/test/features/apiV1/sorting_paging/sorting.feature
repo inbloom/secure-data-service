@@ -78,13 +78,13 @@ Scenario: Paging request the first two results from an API request via a hop
 		And parameter "sortBy" is "name.firstName"
 		And parameter "sortOrder" is "ascending"
 	When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrgAssignmentAssociations/staff"
-	Then I should receive a collection with 4 elements
+	Then I should receive a collection with 5 elements
  	Given parameter "offset" is "0"
 		And parameter "limit" is "1"
 	When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrgAssignmentAssociations/staff"
 	Then I should receive a collection with 1 elements
 		And the link at index 0 should point to an entity with id "f0e41d87-92d4-4850-9262-ed2f2723159b"
-		And the header "TotalCount" equals 4
+		And the header "TotalCount" equals 5
 		And the a next link exists with offset equal to 1 and limit equal to 1
 		And the a previous link should not exist
 
@@ -123,5 +123,5 @@ Scenario Outline: Confirm ability to use different operators with numbers
         | ">"       | 96                |
         | "<"       | 44                |
         | ">="      | 98                |
-        | "!="      | 140                |
+        | "!="      | 140               |
         | "="       | 2                 |
