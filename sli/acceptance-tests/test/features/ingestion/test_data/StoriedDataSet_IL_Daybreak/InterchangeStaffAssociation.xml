@@ -163,11 +163,15 @@
 		</SchoolReference>
 		<ProgramAssignment>Regular Education</ProgramAssignment>
 		<InstructionalGradeLevels>
-			<GradeLevel>First grade</GradeLevel>
+			<GradeLevel>Sixth grade</GradeLevel>
+			<GradeLevel>Seventh grade</GradeLevel>
+			<GradeLevel>Eighth grade</GradeLevel>
+			<GradeLevel>Ninth grade</GradeLevel>
 		</InstructionalGradeLevels>
 		<AcademicSubjects>
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 			<AcademicSubject>English Language and Literature</AcademicSubject>
+			<AcademicSubject>Mathematics</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
 	<TeacherSectionAssociation>
@@ -180,6 +184,62 @@
 			<SectionIdentity>
 				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
 				<UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<UniqueSectionCode>7th Grade English - Sec 5</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<UniqueSectionCode>7th Grade Math - Sec 2</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<UniqueSectionCode>6th Grade English - Sec 4</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<UniqueSectionCode>6th Grade Math - Sec 1</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
 		<ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -237,9 +297,15 @@
 		<ProgramAssignment>Special Education</ProgramAssignment>
 		<InstructionalGradeLevels>
 			<GradeLevel>First grade</GradeLevel>
+			<GradeLevel>Second grade</GradeLevel>
+			<GradeLevel>Third grade</GradeLevel>
+			<GradeLevel>Fourth grade</GradeLevel>
+			<GradeLevel>Fifth grade</GradeLevel>
 		</InstructionalGradeLevels>
 		<AcademicSubjects>
 			<AcademicSubject>Reading</AcademicSubject>
+			<AcademicSubject>Writing</AcademicSubject>
+			<AcademicSubject>Mathematics</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
 	<TeacherSectionAssociation>
@@ -252,6 +318,48 @@
 			<SectionIdentity>
 				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
 				<UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #25</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #9</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<UniqueSectionCode>Mrs. Braverman's Homeroom #33</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
 		<ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -952,7 +1060,7 @@
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
-	
+
 	<!-- jjackson and jstevenson to ACC-TEST-PROG-1 and ACC-TEST-PROG-2 -->
 	<StaffProgramAssociation>
 		<StaffReference>

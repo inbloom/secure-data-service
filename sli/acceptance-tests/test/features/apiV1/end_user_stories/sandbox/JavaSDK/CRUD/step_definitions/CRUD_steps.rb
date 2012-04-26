@@ -7,7 +7,7 @@ Given /^I am logged in using "([^"]*)" and "([^"]*)" to realm Daybreak Central H
 end
 
 Given /^the Java SDK test app  is deployed on test app server$/ do
-  @appPrefix = "oauth2-sample/testsdk"
+  @appPrefix = "sample/testsdk"
 end
 
 When /^I put "([^"]*)"  with Name "([^"]*)"$/ do |arg1, arg2|
