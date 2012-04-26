@@ -85,7 +85,7 @@ public class UserEdOrgManagerImplTest {
         String customConfigJson = CustomConfigTest.DEFAULT_CUSTOM_CONFIG_JSON;
         this.testInstitutionalHierarchyManagerImpl.putCustomConfig("fakeToken", customConfigJson);
         CustomConfig customConfig = this.testInstitutionalHierarchyManagerImpl.getCustomConfig("fakeToken");
-        Assert.assertEquals(1, customConfig.size());
+        Assert.assertEquals(2, customConfig.size());
         Assert.assertEquals("component_1", customConfig.get("component_1").getId());
         Assert.assertEquals(customConfigJson, customConfig.toJson());
     }
