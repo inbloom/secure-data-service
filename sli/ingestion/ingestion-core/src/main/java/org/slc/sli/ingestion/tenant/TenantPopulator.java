@@ -17,25 +17,25 @@ import org.springframework.core.io.ResourceLoader;
 
 /**
  * Populates the tenant database collection with default tenant collections.
- * 
+ *
  * @author jtully
  */
 public class TenantPopulator implements ResourceLoaderAware {
-        
+
     Logger log = LoggerFactory.getLogger(IngestionRouteBuilder.class);
-    
+
     private ResourceLoader resourceLoader;
-    
+
     private String parentLandingZoneDir;
-    
+
     private List<String> tenantRecordResourcePaths;
-    
+
     private static final String HOSTNAME_PLACEHOLDER = "<hostname>";
     private static final String PARENT_LZ_PATH_PLACEHOLDER = "<lzpath>";
-    
+
     /**
      * Populate the tenant data store with a default set of tenants.
-     * 
+     *
      */
     public void populateDefaultTenants() {
         try {
@@ -50,10 +50,10 @@ public class TenantPopulator implements ResourceLoaderAware {
             log.error("Exception:", e);
         }
     }
-    
+
     /**
      * Construct the tenant collection based on the configured TenantRecord resources.
-     * 
+     *
      * @param hostName
      * @return a list of constructed TenantRecord objects
      */
@@ -67,13 +67,13 @@ public class TenantPopulator implements ResourceLoaderAware {
         }
         return tenants;
     }
-    
+
     /**
-     * 
+     *
      * Create the landing zone directory for a tenant.
-     * 
+     *
      * @param tenant, the tenant for which to create landing zone directories
-     * 
+     *
      */
     private void createTenantLzDirectory(TenantRecord tenant) {
         List<LandingZoneRecord> landingZones = tenant.getLandingZone();
@@ -81,14 +81,16 @@ public class TenantPopulator implements ResourceLoaderAware {
             String lzPath = lz.getPath();
             File lzDirectory = new File(lzPath);
             lzDirectory.mkdir();
-        } 
+            lzDirectory.setReadable(true, false);
+            lzDirectory.setWritable(true, false);
+        }
     }
-    
+
     /**
-     * 
+     *
      * Process TenantRecord, Replacing hostname and lzPath placeholder fields with
      * the actual values.
-     * 
+     *
      * @param tenant record to be processed
      * @param hostname the hostname to be used in placeholder replacement
      */
@@ -99,14 +101,14 @@ public class TenantPopulator implements ResourceLoaderAware {
             String serverVal = lz.getIngestionServer();
             serverVal = serverVal.replaceFirst(HOSTNAME_PLACEHOLDER, hostname);
             lz.setIngestionServer(serverVal);
-            
+
             //replace pathname field
             String pathVal = lz.getPath();
             pathVal = pathVal.replaceFirst(PARENT_LZ_PATH_PLACEHOLDER, parentLandingZoneDir);
             lz.setPath(pathVal);
         }
     }
-    
+
     /**
      * Loads a TenantRecord from a tenant resource
      * @param resourcePath to load into a tenant record
@@ -129,12 +131,12 @@ public class TenantPopulator implements ResourceLoaderAware {
         }
         return tenant;
     }
-    
+
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
-    
+
     /**
      * @return the parentLandingZoneDir
      */
@@ -148,11 +150,11 @@ public class TenantPopulator implements ResourceLoaderAware {
     public void setParentLandingZoneDir(String singleLandingZoneDir) {
         this.parentLandingZoneDir = singleLandingZoneDir;
     }
-    
+
     public List<String> getTenantRecordResourcePaths() {
         return tenantRecordResourcePaths;
     }
-    
+
     public void setTenantRecordResourcePaths(List<String> tenantRecordResourcePaths) {
         this.tenantRecordResourcePaths = tenantRecordResourcePaths;
     }
