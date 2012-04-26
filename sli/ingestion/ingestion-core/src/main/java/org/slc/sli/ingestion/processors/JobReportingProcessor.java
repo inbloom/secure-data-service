@@ -31,6 +31,7 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -43,7 +44,8 @@ public class JobReportingProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.JOB_REPORTING_PROCESSOR;
 
-    // Logging
+    public static final String JOB_STAGE_RESOURCE_ID = "job";
+
     private static final Logger LOG = LoggerFactory.getLogger(JobReportingProcessor.class);
 
     @Autowired
@@ -52,36 +54,37 @@ public class JobReportingProcessor implements Processor {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
-    public static final String JOB_STAGE_RESOURCE_ID = "job";
-
     @Override
     public void process(Exchange exchange) {
 
-        // get job from the batch job db
         String batchJobId = getBatchJobId(exchange);
-
         if (batchJobId != null) {
-
-            NewBatchJob job = batchJobDAO.findBatchJobById(batchJobId);
-
-            try {
-
-                Stage stage = startAndAddStageToJob(job);
-
-                boolean hasErrors = writeErrorAndWarningReports(job);
-
-                writeBatchJobReportFile(job, hasErrors);
-
-                stage.stopStage();
-                batchJobDAO.saveBatchJob(job);
-
-            } catch (Exception e) {
-                LOG.error("Exception encountered in JobReportingProcessor. ", e);
-            } finally {
-                deleteNeutralRecordFiles(job);
-            }
+            processJobReporting(batchJobId);
         } else {
             missingBatchJobIdError(exchange);
+        }
+    }
+
+    private void processJobReporting(String batchJobId) {
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+
+        NewBatchJob job = null;
+        try {
+            job = batchJobDAO.findBatchJobById(batchJobId);
+
+            boolean hasErrors = writeErrorAndWarningReports(job);
+
+            writeBatchJobReportFile(job, hasErrors);
+
+        } catch (Exception e) {
+            LOG.error("Exception encountered in JobReportingProcessor. ", e);
+        } finally {
+            deleteNeutralRecordFiles(job);
+
+            if (job != null) {
+                BatchJobUtils.stopStageAndAddToJob(stage, job);
+                batchJobDAO.saveBatchJob(job);
+            }
         }
     }
 
@@ -140,31 +143,27 @@ public class JobReportingProcessor implements Processor {
 
                 String externalResourceId = getExternalResourceId(error.getResourceId(), job);
 
-                    PrintWriter errorWriter = null;
-                    if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
+                PrintWriter errorWriter = null;
+                if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
 
-                        hasErrors = true;
-                        errorWriter = getErrorWriter("error", job.getId(),
-                                externalResourceId, resourceToErrorMap);
+                    hasErrors = true;
+                    errorWriter = getErrorWriter("error", job.getId(), externalResourceId, resourceToErrorMap);
 
-                        if (errorWriter != null) {
-                            writeErrorLine(errorWriter, error.getErrorDetail());
-                        } else {
-                            LOG.error("Error: Unable to write to error file for: {} {}", job.getId(),
-                                    externalResourceId);
-                        }
-                    } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
-
-                        errorWriter = getErrorWriter("warn", job.getId(),
-                                externalResourceId, resourceToWarningMap);
-
-                        if (errorWriter != null) {
-                            writeWarningLine(errorWriter, error.getErrorDetail());
-                        } else {
-                            LOG.error("Error: Unable to write to warning file for: {} {}", job.getId(),
-                                    externalResourceId);
-                        }
+                    if (errorWriter != null) {
+                        writeErrorLine(errorWriter, error.getErrorDetail());
+                    } else {
+                        LOG.error("Error: Unable to write to error file for: {} {}", job.getId(), externalResourceId);
                     }
+                } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
+
+                    errorWriter = getErrorWriter("warn", job.getId(), externalResourceId, resourceToWarningMap);
+
+                    if (errorWriter != null) {
+                        writeWarningLine(errorWriter, error.getErrorDetail());
+                    } else {
+                        LOG.error("Error: Unable to write to warning file for: {} {}", job.getId(), externalResourceId);
+                    }
+                }
             }
 
         } catch (IOException e) {
@@ -267,12 +266,6 @@ public class JobReportingProcessor implements Processor {
         writeInfoLine(jobReportWriter, id + " records considered: " + numProcessed);
         writeInfoLine(jobReportWriter, id + " records ingested successfully: " + numPassed);
         writeInfoLine(jobReportWriter, id + " records failed: " + numFailed);
-    }
-
-    private static Stage startAndAddStageToJob(NewBatchJob newJob) {
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
-        newJob.getStages().add(stage);
-        return stage;
     }
 
     // TODO move this into a dedicated cleanup processor routing stage run on error or normal

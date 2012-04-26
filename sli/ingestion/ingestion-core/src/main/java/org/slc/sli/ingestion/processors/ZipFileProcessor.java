@@ -34,9 +34,9 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 @Component
 public class ZipFileProcessor implements Processor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ZipFileProcessor.class);
-
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.ZIP_FILE_PROCESSOR;
+
+    private static final Logger LOG = LoggerFactory.getLogger(ZipFileProcessor.class);
 
     @Autowired
     private ZipFileHandler zipFileHandler;
@@ -84,7 +84,7 @@ public class ZipFileProcessor implements Processor {
             handleProcessingException(exchange, batchJobId, exception);
         } finally {
             if (newJob != null) {
-                newJob.addCompletedStage(stage);
+                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
                 batchJobDAO.saveBatchJob(newJob);
             }
         }

@@ -107,7 +107,7 @@ public class ControlFileProcessor implements Processor {
             handleExceptions(exchange, batchJobId, exception);
         } finally {
             if (newJob != null) {
-                newJob.addCompletedStage(stage);
+                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
                 batchJobDAO.saveBatchJob(newJob);
             }
         }

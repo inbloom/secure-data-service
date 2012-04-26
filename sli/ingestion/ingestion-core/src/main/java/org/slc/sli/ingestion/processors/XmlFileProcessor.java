@@ -22,6 +22,7 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Processes a XML file
@@ -31,7 +32,9 @@ import org.slc.sli.ingestion.queues.MessageType;
  */
 @Component
 public class XmlFileProcessor implements Processor {
-    private Logger log = LoggerFactory.getLogger(XmlFileProcessor.class);
+    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.XML_FILE_PROCESSOR;
+
+    private static final Logger LOG = LoggerFactory.getLogger(XmlFileProcessor.class);
 
     @Autowired
     private ReferenceResolutionHandler referenceResolutionHandler;
@@ -41,74 +44,82 @@ public class XmlFileProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        boolean hasErrors = false;
 
         String batchJobId = getBatchJobId(exchange);
-
         if (batchJobId != null) {
 
-            NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
-
-            Stage stage = startAndGetStage(newJob);
-
-            batchJobDAO.saveBatchJob(newJob);
-
-            try {
-
-                for (ResourceEntry resource : newJob.getResourceEntries()) {
-
-                    // TODO change the Abstract handler to work with ResourceEntry so we can avoid
-                    // this kludge here and elsewhere
-                    if (resource.getResourceFormat() != null
-                            && resource.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())) {
-                        FileFormat format = FileFormat.findByCode(resource.getResourceFormat());
-                        FileType type = FileType.findByNameAndFormat(resource.getResourceType(), format);
-                        IngestionFileEntry fe = new IngestionFileEntry(format, type, resource.getResourceId(),
-                                resource.getChecksum());
-
-                        fe.setFile(new File(resource.getResourceName()));
-
-                        referenceResolutionHandler.handle(fe, fe.getErrorReport());
-
-                        aggregateAndPersistErrors(batchJobId, fe);
-
-                        if (fe.getErrorReport().hasErrors()) {
-                            hasErrors = true;
-                        }
-                    }
-                }
-                exchange.getIn().setHeader("hasErrors", hasErrors);
-                exchange.getIn().setHeader("IngestionMessageType", MessageType.XML_FILE_PROCESSED.name());
-
-            } catch (Exception exception) {
-                exchange.getIn().setHeader("ErrorMessage", exception.toString());
-                exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-                log.error("Exception:", exception);
-                Error error = Error.createIngestionError(batchJobId, null,
-                        BatchJobStageType.XML_FILE_PROCESSOR.getName(), null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
-                batchJobDAO.saveError(error);
-            }
-
-            stage.stopStage();
-
-            batchJobDAO.saveBatchJob(newJob);
-
+            processXmlFile(exchange, batchJobId);
         } else {
-            missingBatchJobIdError(exchange);
 
+            missingBatchJobIdError(exchange);
         }
     }
 
-    private void aggregateAndPersistErrors(String batchJobId, IngestionFileEntry fe) {
+    private void processXmlFile(Exchange exchange, String batchJobId) {
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+
+        NewBatchJob newJob = null;
+        try {
+            newJob = batchJobDAO.findBatchJobById(batchJobId);
+
+            boolean hasErrors = false;
+            for (ResourceEntry resource : newJob.getResourceEntries()) {
+
+                // TODO change the Abstract handler to work with ResourceEntry so we can avoid
+                // this kludge here and elsewhere
+                if (resource.getResourceFormat() != null
+                        && resource.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())) {
+                    FileFormat format = FileFormat.findByCode(resource.getResourceFormat());
+                    FileType type = FileType.findByNameAndFormat(resource.getResourceType(), format);
+                    IngestionFileEntry fe = new IngestionFileEntry(format, type, resource.getResourceId(),
+                            resource.getChecksum());
+
+                    fe.setFile(new File(resource.getResourceName()));
+
+                    referenceResolutionHandler.handle(fe, fe.getErrorReport());
+
+                    hasErrors = aggregateAndPersistErrors(batchJobId, fe);
+                }
+            }
+
+            setExchangeHeaders(exchange, hasErrors);
+
+        } catch (Exception exception) {
+            handleProcessingExceptions(exchange, batchJobId, exception);
+        } finally {
+            BatchJobUtils.stopStageAndAddToJob(stage, newJob);
+            batchJobDAO.saveBatchJob(newJob);
+        }
+    }
+
+    private void setExchangeHeaders(Exchange exchange, boolean hasErrors) {
+        exchange.getIn().setHeader("hasErrors", hasErrors);
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.XML_FILE_PROCESSED.name());
+    }
+
+    private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
+        exchange.getIn().setHeader("ErrorMessage", exception.toString());
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        LOG.error("Exception:", exception);
+        Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.XML_FILE_PROCESSOR.getName(),
+                null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
+        batchJobDAO.saveError(error);
+    }
+
+    private boolean aggregateAndPersistErrors(String batchJobId, IngestionFileEntry fe) {
+
         for (Fault fault : fe.getFaultsReport().getFaults()) {
             String faultMessage = fault.getMessage();
             String faultLevel = fault.isError() ? FaultType.TYPE_ERROR.getName()
                     : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
 
             Error error = Error.createIngestionError(batchJobId, fe.getFileName(),
-                    BatchJobStageType.XML_FILE_PROCESSOR.getName(), null, null, null, faultLevel, faultLevel, faultMessage);
+                    BatchJobStageType.XML_FILE_PROCESSOR.getName(), null, null, null, faultLevel, faultLevel,
+                    faultMessage);
             batchJobDAO.saveError(error);
         }
+
+        return fe.getErrorReport().hasErrors();
     }
 
     public ReferenceResolutionHandler getReferenceResolutionHandler() {
@@ -119,14 +130,6 @@ public class XmlFileProcessor implements Processor {
         this.referenceResolutionHandler = referenceResolutionHandler;
     }
 
-    private Stage startAndGetStage(NewBatchJob newJob) {
-        Stage stage = new Stage();
-        newJob.getStages().add(stage);
-        stage.setStageName(BatchJobStageType.XML_FILE_PROCESSOR.getName());
-        stage.startStage();
-        return stage;
-    }
-
     private String getBatchJobId(Exchange exchange) {
         return exchange.getIn().getHeader("BatchJobId", String.class);
     }
@@ -134,7 +137,7 @@ public class XmlFileProcessor implements Processor {
     private void missingBatchJobIdError(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        log.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
 }

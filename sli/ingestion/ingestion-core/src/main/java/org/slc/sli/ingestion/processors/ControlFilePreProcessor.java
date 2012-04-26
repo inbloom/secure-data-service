@@ -23,6 +23,7 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -82,7 +83,7 @@ public class ControlFilePreProcessor implements Processor {
             handleExceptions(exchange, batchJobId, exception);
         } finally {
             if (newBatchJob != null) {
-                newBatchJob.addCompletedStage(stage);
+                BatchJobUtils.stopStageAndAddToJob(stage, newBatchJob);
                 batchJobDAO.saveBatchJob(newBatchJob);
             }
         }
