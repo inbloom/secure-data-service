@@ -91,7 +91,7 @@ public final class MongoIndices {
 //                mongoTemplate.getDb().getCollection(collectionName).ensureIndex(dBObject);
                     mongoTemplate.ensureIndex(indexDef, collectionName);
                 } catch (Exception e) {
-                    LOG.error(e.getMessage());
+                    LOG.error("Error ensuring index " + collection.getKey() + String.valueOf(++serial) + " of collection " + collectionName + ":\n" + e.getMessage());
                 }
             }
         }
