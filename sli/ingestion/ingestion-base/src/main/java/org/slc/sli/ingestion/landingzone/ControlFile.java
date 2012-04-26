@@ -57,8 +57,8 @@ public class ControlFile implements Serializable {
                 if (fileItemMatcher.matches()) {
                     fileFormat = FileFormat.findByCode(fileItemMatcher.group(1));
                     fileType = FileType.findByNameAndFormat(fileItemMatcher.group(2), fileFormat);
-                    fileEntries.add(new IngestionFileEntry(fileFormat, fileType, fileItemMatcher.group(3), fileItemMatcher
-                            .group(4)));
+                    fileEntries.add(new IngestionFileEntry(fileFormat, fileType, fileItemMatcher.group(3),
+                            fileItemMatcher.group(4)));
                     continue;
                 }
 
@@ -73,8 +73,8 @@ public class ControlFile implements Serializable {
                 if (line.trim().length() > 0) {
                     // line was not parseable
                     // TODO fault or custom exception?
-                    throw new RuntimeException("invalid control file entry. line number:"
-                            + lineNumber + ", line: \"" + line + "\"");
+                    throw new RuntimeException("invalid control file entry. line number:" + lineNumber + ", line: \""
+                            + line + "\"");
                 }
                 lineNumber += 1;
             }
@@ -103,6 +103,13 @@ public class ControlFile implements Serializable {
 
     public Properties getConfigProperties() {
         return configProperties;
+    }
+
+    public String getFileName() {
+        if (file != null) {
+            return file.getName();
+        }
+        return null;
     }
 
 }

@@ -10,7 +10,9 @@ public enum FileFormat {
 
     EDFI_XML("edfi-xml", "xml"),
     CSV("csv", "csv"),
-    NEUTRALRECORD("neutralrecord", "tmp");
+    NEUTRALRECORD("neutralrecord", "tmp"),
+    CONTROL_FILE("control-file", "ctl"),
+    ZIP_FILE("zip-file", "zip");
 
     private final String code;
     private final String extension;
