@@ -90,4 +90,10 @@ public class BrutePathFinderTest {
         assertTrue(path.size() == 5);
         assertTrue(path.get(4).getName().equals(EntityNames.COURSE));
     }
+    
+    @Test
+    public void testPublicPath() {
+        assertTrue(pathFinder.isPublic(EntityNames.EDUCATION_ORGANIZATION));
+        
+    }
 }

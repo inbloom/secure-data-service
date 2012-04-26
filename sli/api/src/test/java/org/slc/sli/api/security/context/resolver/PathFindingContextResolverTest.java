@@ -3,12 +3,14 @@
  */
 package org.slc.sli.api.security.context.resolver;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -30,6 +33,7 @@ import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 
 /**
  * @author rlatta
@@ -41,23 +45,28 @@ import org.slc.sli.domain.Entity;
         DirtiesContextTestExecutionListener.class })
 public class PathFindingContextResolverTest {
     
-    @Autowired
+    @Autowired 
     private PathFindingContextResolver resolver;
     
     private AssociativeContextHelper mockHelper;
+    
+    private Repository<Entity> mockRepo;
 
     /**
      * @throws java.lang.Exception
      */
+    @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
         mockHelper = Mockito.mock(AssociativeContextHelper.class);
+        mockRepo = Mockito.mock(Repository.class);
         resolver.setHelper(mockHelper);
+        resolver.setRepository(mockRepo);
         List<String> tsKeys = Arrays.asList(new String[] { "teacherId", "sectionId" });
         List<String> ssKeys = Arrays.asList(new String[] { "sectionId", "studentId" });
         when(mockHelper.getAssocKeys(eq(EntityNames.TEACHER), any(AssociationDefinition.class))).thenReturn(tsKeys);
         when(mockHelper.getAssocKeys(eq(EntityNames.SECTION), any(AssociationDefinition.class))).thenReturn(ssKeys);
-
     }
 
     @Test
@@ -161,6 +170,29 @@ public class PathFindingContextResolverTest {
         for (String id : finalList) {
             assertTrue(returned.contains(id));
         }
+    }
+    
+    @Test
+    public void testAnythingCanResolveEdOrg() {
+        assertTrue(resolver.canResolve(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION));
+        assertTrue(resolver.canResolve(EntityNames.STUDENT, EntityNames.EDUCATION_ORGANIZATION));
+        assertTrue(resolver.canResolve(EntityNames.AGGREGATION, EntityNames.EDUCATION_ORGANIZATION));
+    }
+    
+    @Test
+    public void testFindTeacherToEdOrg() {
+        List<Entity> entities = new ArrayList<Entity>();
+        Entity mockEntityOne = Mockito.mock(Entity.class);
+        when(mockEntityOne.getEntityId()).thenReturn("1");
+        Entity mockEntityTwo = Mockito.mock(Entity.class);
+        when(mockEntityTwo.getEntityId()).thenReturn("2");
+        entities.add(mockEntityOne);
+        entities.add(mockEntityTwo);
+        Mockito.when(mockRepo.findAll(EntityNames.EDUCATION_ORGANIZATION)).thenReturn(entities);
+        resolver.canResolve(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION);
+        List<String> ids = resolver.findAccessible(null);
+        List<String> expectedIds = Arrays.asList(new String[]{"1", "2"});
+        assertEquals(expectedIds, ids);
     }
 
 }
