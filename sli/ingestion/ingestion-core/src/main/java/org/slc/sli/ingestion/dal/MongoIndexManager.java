@@ -60,11 +60,11 @@ public final class MongoIndexManager {
     /**Create index definition from buffered reader
      *
      * @param fields : the fields read from the config files
-     * @param name : the name of the index
+     * @param indexName: the name of the index.
      * @return
      * @throws IOException
      */
-    private static final IndexDefinition createIndexDefinition(List<Map<String, String>> fields, int count) throws IOException {
+    private static final IndexDefinition createIndexDefinition(List<Map<String, String>> fields, int indexName) throws IOException {
         Index index = new Index();
 
         String name = "";
@@ -73,7 +73,7 @@ public final class MongoIndexManager {
             index.on(field.get("name"), field.get("order").equals("1") ? Order.ASCENDING : Order.DESCENDING);
         }
 
-        index.named(Integer.toString(count));
+        index.named(Integer.toString(indexName));
         return index;
     }
 
