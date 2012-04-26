@@ -25,6 +25,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import com.sun.jersey.api.uri.UriBuilderImpl;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -32,11 +35,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
@@ -46,8 +44,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import com.sun.jersey.api.uri.UriBuilderImpl;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  *
@@ -95,6 +96,7 @@ public class ApplicationResourceTest {
     @After
     public void tearDown() throws Exception {
         SecurityContextHolder.clearContext();
+        resource.setAutoRegister(false);
     }
 
     @SuppressWarnings("rawtypes")
@@ -110,6 +112,22 @@ public class ApplicationResourceTest {
         assertEquals("Reg is pending", "PENDING", reg.get(STATUS));
         assertTrue("request date set", reg.containsKey(REQUEST_DATE));
         assertFalse("approval date not set", reg.containsKey(APPROVAL_DATE));
+    }
+    
+    @Test
+    public void testGoodCreateWithSandbox() {
+        EntityBody app = getNewApp();
+        
+        // test create during dup check
+        // Mockito.when(
+        // service.listIds(any(NeutralQuery.class)))
+        // .thenReturn(new ArrayList<String>());
+        
+        resource.setAutoRegister(true);
+        Response resp = resource.createApplication(app, headers, uriInfo);
+        assertEquals(STATUS_CREATED, resp.getStatus());
+        Map reg = (Map) app.get(REGISTRATION);
+        assertTrue("Autoregistered", reg.get(STATUS).toString().equals("APPROVED"));
     }
 
     @Test
@@ -193,7 +211,7 @@ public class ApplicationResourceTest {
     @Test
     public void testGoodGet() {
         EntityBody toGet = getNewApp();
-        Response created = resource.create(toGet, headers, uriInfo);
+        Response created = resource.createApplication(toGet, headers, uriInfo);
         assertEquals(STATUS_CREATED, created.getStatus());
         String uuid = parseIdFromLocation(created);
         Response resp = resource.getApplication(uuid, headers, uriInfo);
@@ -220,7 +238,20 @@ public class ApplicationResourceTest {
     public void testUpdate() {
         EntityBody app = getNewApp();
         Response created = resource.createApplication(app, headers, uriInfo);
+        
+        //switch to operator and approve
+        SecurityContextHolder.clearContext();
+        injector.setOperatorContext();
         String uuid = parseIdFromLocation(created);
+        Map registration = getRegistrationDataForApp(uuid);
+        registration.put(STATUS, "APPROVED");
+        app.put(REGISTRATION, registration); 
+        assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+        
+        //switch back to developer and try to update
+        SecurityContextHolder.clearContext();
+        injector.setDeveloperContext();
+        app.put("description", "coolest app ever.");
         assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
 
     }
@@ -228,14 +259,21 @@ public class ApplicationResourceTest {
     @Test
     public void testUpdateRegistrationAsDeveloper() {
         EntityBody app = getNewApp();
-        
         Response created = resource.createApplication(app, headers, uriInfo);
-        Map<Object, Object> registration = new HashMap<Object, Object>();
+        String uuid = parseIdFromLocation(created);
+        Map registration = getRegistrationDataForApp(uuid);
         registration.put(STATUS, "APPROVED");
-        app.put(REGISTRATION, registration);
+        app.put(REGISTRATION, registration);  
+        assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
+    }
+    
+    @Test
+    public void testUpdateWhilePending() {
+        //a pending application is read-only accept for operator changing registration status
+        EntityBody app = getNewApp();
+        Response created = resource.createApplication(app, headers, uriInfo);
         String uuid = parseIdFromLocation(created);
         assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
-        
     }
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
