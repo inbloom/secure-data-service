@@ -31,8 +31,6 @@
   </beans:bean>
 
   <context:component-scan base-package="org.slc.sli" />
-  <!-- This import must be below the propertyPlaceholderConfigurer because it's not marked ignoreUnresolvablePlaceholders. 
-    It will see our ${sli.mock-idp.*} placeholders and not be able to find them. -->
-  <beans:import resource="classpath:/spring/db.xml" />
+
 
 </beans:beans>

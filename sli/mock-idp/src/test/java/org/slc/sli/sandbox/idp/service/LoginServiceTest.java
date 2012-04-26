@@ -49,21 +49,20 @@ public class LoginServiceTest {
         Mockito.when(sliClient.findDestination()).thenReturn(destUri);
         Mockito.when(
                 samlComposer.componseResponse("destUri", "http://local.slidev.org:8082/mock-idp?tenant=TENANT",
-                        "request_id", "unique_id", "Test User", roles)).thenReturn("samlResponse");
+                        "request_id", "unique_id", "unique_id", roles)).thenReturn("samlResponse");
         
         Request request = Mockito.mock(AuthRequests.Request.class);
         Mockito.when(request.getRequestId()).thenReturn("request_id");
         Mockito.when(request.getTenant()).thenReturn("TENANT");
         
         User user = Mockito.mock(User.class);
-        Mockito.when(user.getId()).thenReturn("unique_id");
-        Mockito.when(user.getUserName()).thenReturn("Test User");
+        Mockito.when(user.getUserId()).thenReturn("unique_id");
         
         login.login(user, roles, request);
         
         Mockito.verify(sliClient).findDestination();
         Mockito.verify(samlComposer).componseResponse("destUri", "http://local.slidev.org:8082/mock-idp?tenant=TENANT",
-                "request_id", "unique_id", "Test User", roles);
+                "request_id", "unique_id", "unique_id", roles);
         Mockito.verify(sliClient).postResponse(destUri, "samlResponse");
     }
 }

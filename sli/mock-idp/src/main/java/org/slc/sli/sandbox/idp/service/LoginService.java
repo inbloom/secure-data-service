@@ -52,13 +52,13 @@ public class LoginService {
     public URI login(User user, List<String> roles, AuthRequests.Request requestInfo) {
         URI destination = sliClient.findDestination();
         
-        LOG.info("Login for user: {} roles: {} inResponseTo: {} destination: {}", new Object[] { user.getId(), roles,
+        LOG.info("Login for user: {} roles: {} inResponseTo: {} destination: {}", new Object[] { user.getUserId(), roles,
                 requestInfo.getRequestId(), destination.toString() });
         
         String issuer = issuerBase + "?tenant=" + requestInfo.getTenant();
         
         String encodedResponse = samlComposer.componseResponse(destination.toString(), issuer,
-                requestInfo.getRequestId(), user.getId(), user.getUserName(), roles);
+                requestInfo.getRequestId(), user.getUserId(), user.getUserId(), roles);
         
         URI redirectUri = sliClient.postResponse(destination, encodedResponse);
         return redirectUri;

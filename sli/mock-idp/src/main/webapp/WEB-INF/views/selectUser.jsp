@@ -36,22 +36,12 @@
 		</div>
 
 		<div class='form-container'>
-			<form id="login_form" action="login" method="post"
+			<form id="login_form" action="selectUser" method="post"
 				class="form-horizontal">
 				<fieldset>
 					<div class="control-group">
-						<label for="selected_user" class="control-label">User:</label>
-						<div class="controls">
-							<select id="selected_user" name="selected_user"
-								class="input-xlarge">
-								<c:forEach items="${users}" var="user">
-									<option value="${user.id}">${user.lastName},
-										${user.firstName} (${user.type})</option>
-								</c:forEach>
-							</select>
-							<p class="help-block">Staff and Teachers available to this
-								tenant</p>
-						</div>
+						<label for="userId" class="control-label">UserId:</label>
+						<input type="text" id="userId" name="userId" />
 					</div>
 					<div class="control-group">
 						<label for="selected_roles" class="control-label">Roles:</label>
