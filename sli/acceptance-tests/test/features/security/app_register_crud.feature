@@ -12,7 +12,8 @@ Scenario: CRUD operations on Applications
 	Then I should receive a return code of 200
      And I should receive the data for the specified application entry
 	 And it should be "PENDING"
-     When I navigate to PUT "/apps/<New App ID>"
+	When an operator approves the "/apps/<New App ID>" application
+     And I navigate to PUT "/apps/<New App ID>"
      Then I should receive a return code of 204
 	When I navigate to DELETE "/apps/<New App ID>"
 	Then I should receive a return code of 204

@@ -5,6 +5,7 @@
 		<th>Vendor</th>
 		<th>Creation Date</th>
 		<th>Last Update</th>
+                <th>Status</th>
 		<th>Actions</th>
 	</tr>
 	<% @apps.each do |app| %>
@@ -14,6 +15,7 @@
 			<td><%= app.developer_info.organization %></td>
 		        <td><%= I18n.localize(Time.at(app.metaData.created / 1000)) unless !app.metaData.attributes.has_key? :created %></td>
 		        <td><%= I18n.localize(Time.at(app.metaData.updated / 1000)) unless !app.metaData.attributes.has_key? :updated %></td>
+                        <td><%= app.registration.status %></td>
 			<td><%= link_to 'Edit', "#", :class=> 'edit-link' %> | <%= link_to 'Delete', app, :remote => true,  :confirm => "Are you sure?", :method => :delete %></td>
 		</tr>
 		<tr>
