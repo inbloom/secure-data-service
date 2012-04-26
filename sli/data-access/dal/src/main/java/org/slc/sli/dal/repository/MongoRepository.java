@@ -303,6 +303,14 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public void ensureIndex(IndexDefinition index, String collection) {
-        template.ensureIndex(index, getComposedCollectionName(collection));
+        String collectionName = getComposedCollectionName(collection);
+
+        String nsName = (String) index.getIndexOptions().get("name") + collectionName + "." + template.getDb().getName();
+        if (nsName.length() >= 128) {
+            LOG.error("ns and name exceeds 128 characters, failed to create index");
+            return;
+        }
+        template.ensureIndex(index, collectionName);
+
     }
 }
