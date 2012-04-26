@@ -6,10 +6,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -253,32 +251,6 @@ public class PopulationManagerTest {
         Assert.assertEquals(1, attendances.get(Constants.ATTR_TARDY_COUNT));
     }
 
-    @Test
-    public void testGetStudentGrades() throws Exception {
-
-        List<GenericEntity> students = createSomeStudentSummaries();
-        Collection<String> studentUIDs = new HashSet<String>();
-        studentUIDs.add("dummyId");
-
-        // mock student api calls
-        EntityManager mockedEntityManager = PowerMockito.spy(new EntityManager());
-
-        GenericEntity student = new GenericEntity();
-        student.put("id", "dummyId");
-        student.put(Constants.ATTR_GRADE_LEVEL, "Eighth grade");
-        List<GenericEntity> students2 = new ArrayList<GenericEntity>();
-        students2.add(student);
-
-        PowerMockito.doReturn(students2).when(mockedEntityManager, "getStudents", null, studentUIDs);
-        // make the call
-        PopulationManagerImpl pm = new PopulationManagerImpl();
-        pm.setEntityManager(mockedEntityManager);
-        pm.updateWithStudentGrades(null, students);
-
-        // check grades
-        Assert.assertEquals("Eighth grade", students.get(0).get(Constants.ATTR_GRADE_LEVEL));
-    }
-
     private List<GenericEntity> createSomeStudentSummaries() {
 
         List<GenericEntity> studentSummaries = new ArrayList<GenericEntity>();
@@ -337,7 +309,7 @@ public class PopulationManagerTest {
         
         
         //StudentTranscripts
-        List<Map<String,Object>> studentTranscriptAssociations = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> studentTranscriptAssociations = new ArrayList<Map<String, Object>>();
         //7th Grade English Transcript
         Map<String, Object> studentTranscript = new LinkedHashMap<String, Object>();
         studentTranscript.put("id", "dc41d13b-9f8c-486d-b720-6b3c8a761f06");
@@ -352,23 +324,23 @@ public class PopulationManagerTest {
         studentTranscriptAssociations.add(studentTranscript);
         
         //StudentSections
-        List<Map<String,Object>> studentSectionAssociations = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> studentSectionAssociations = new ArrayList<Map<String, Object>>();
         //7th Grade Enlish Section 6       
         Map<String, Object> sessions = new LinkedHashMap<String, Object>();
         sessions.put("id", "432f3ed2-f413-4ed0-82f3-d2ba00c5b61a");
-        sessions.put("schoolYear","2010-2011");
-        sessions.put("sessionName","Fall 2010 East Daybreak Junior High");
-        sessions.put("term","Fall Semester");
-        sessions.put("endDate","2010-12-16");
-        sessions.put("beginDate","2010-09-06");
+        sessions.put("schoolYear", "2010-2011");
+        sessions.put("sessionName", "Fall 2010 East Daybreak Junior High");
+        sessions.put("term", "Fall Semester");
+        sessions.put("endDate", "2010-12-16");
+        sessions.put("beginDate", "2010-09-06");
         Map<String, Object> courses = new LinkedHashMap<String, Object>();
-        courses.put("id","5fac98fc-62a4-49d1-9417-11b0823a2e7a");
-        courses.put("subjectArea","English Language and Literature");
-        courses.put("courseTitle","7th Grade English");
+        courses.put("id", "5fac98fc-62a4-49d1-9417-11b0823a2e7a");
+        courses.put("subjectArea", "English Language and Literature");
+        courses.put("courseTitle", "7th Grade English");
         Map<String, Object> sections = new LinkedHashMap<String, Object>();
         sections.put("sessions", sessions);
         sections.put("courses", courses);
-        sections.put("courseId", "5fac98fc-62a4-49d1-9417-11b0823a2e7a" );
+        sections.put("courseId", "5fac98fc-62a4-49d1-9417-11b0823a2e7a");
         sections.put("sessionId", "432f3ed2-f413-4ed0-82f3-d2ba00c5b61a");
         Map<String, Object> sectionAssoc = new LinkedHashMap<String, Object>();
         sectionAssoc.put("id", "a38a9d24-26c8-4f56-9af8-bacac6fc445d");
@@ -382,7 +354,7 @@ public class PopulationManagerTest {
         sessions.put("sessionName", "Fall 2011 East Daybreak Junior High");
         sessions.put("term", "Fall Semester");
         sessions.put("endDate", "2011-12-16");
-        sessions.put("beginDate","2011-09-06");
+        sessions.put("beginDate", "2011-09-06");
         courses = new LinkedHashMap<String, Object>();
         courses.put("id", "48e8e237-1039-455f-a5ee-d3cc188ceac8");
         courses.put("subjectArea", "English Language and Literature");
@@ -390,7 +362,7 @@ public class PopulationManagerTest {
         sections = new LinkedHashMap<String, Object>();
         sections.put("sessions", sessions);
         sections.put("courses", courses);
-        sections.put("courseId", "48e8e237-1039-455f-a5ee-d3cc188ceac8" );
+        sections.put("courseId", "48e8e237-1039-455f-a5ee-d3cc188ceac8");
         sections.put("sessionId", "c689b232-b075-4bae-a579-8c7dc0f471cb");
         sectionAssoc = new LinkedHashMap<String, Object>();
         sectionAssoc.put("id", "db7836e8-97b4-4079-9971-63a741403e43");
@@ -412,7 +384,7 @@ public class PopulationManagerTest {
         sections = new LinkedHashMap<String, Object>();
         sections.put("sessions", sessions);
         sections.put("courses", courses);
-        sections.put("courseId", "9eb8fe49-a08a-4722-a6d4-fe1d2ec69ddd," );
+        sections.put("courseId", "9eb8fe49-a08a-4722-a6d4-fe1d2ec69ddd,");
         sections.put("sessionId", "bf67a1cb-c7df-40b2-bfa8-99a0691e8c09");
         sectionAssoc = new LinkedHashMap<String, Object>();
         sectionAssoc.put("id", "d720837a-ee94-4add-bd4b-7d4176b38d05");
