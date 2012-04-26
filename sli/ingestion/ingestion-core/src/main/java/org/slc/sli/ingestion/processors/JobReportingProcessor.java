@@ -52,6 +52,8 @@ public class JobReportingProcessor implements Processor {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
+    public static final String JOB_STAGE_RESOURCE_ID = "job";
+
     @Override
     public void process(Exchange exchange) {
 
@@ -177,9 +179,6 @@ public class JobReportingProcessor implements Processor {
         }
         return hasErrors;
     }
-
-    public static final String JOB_STAGE_RESOURCE_ID = "job";
-
 
     private PrintWriter getErrorWriter(String type, String batchJobId, String externalResourceId,
             Map<String, PrintWriter> externalFileResourceToErrorMap) throws IOException {
