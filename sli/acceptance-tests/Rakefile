@@ -55,7 +55,8 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-  sh "cucumber #{testDirPath} #{EXPAND} --tags ~@wip #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
+  @tags ||= ["~@wip", "~@sandbox"]
+  sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
@@ -394,6 +395,7 @@ end
 task :apiV1EntityTests => [:v1AssessmentTests,
                            :v1LearningStandardTests,
                            :v1LearningObjectiveTests,
+                           :v1CCSTests,
                            :v1AttendanceTests,
                            :v1CourseTests,
                            :v1EducationOrganizationTests,
@@ -749,6 +751,12 @@ task :v1LearningObjectiveTests => [:realmInit] do
   runFixtureAndTests("test/features/apiV1/entities/learningObjective","learningObjective","learningObjective_fixture.json")
 end
 
+desc "Run V1 Common Core Standards reference traversal Tests"
+task :v1CCSTests => [:realmInit] do
+  setFixture("learningStandard", "learningStandard_fixture.json")
+  runFixtureAndTests("test/features/apiV1/end_user_stories/commonCoreStandards/API/api_ccs.feature","learningObjective","learningObjective_fixture.json")
+end
+
 desc "Run V1 LearningStandard Tests"
 task :v1LearningStandardTests => [:realmInit] do
   runFixtureAndTests("test/features/apiV1/entities/learningStandard","learningStandard","learningStandard_fixture.json")
@@ -859,6 +867,22 @@ end
 ############################################################
 # API V1 tests end
 ############################################################
+
+
+############################################################
+# API Sandbox Tests
+############################################################
+desc "Run Sandbox mode Tests"
+task :adminSandboxTests do
+  @tags = ["~@wip", "@sandbox"]
+  Rake::Task["adminToolsTests"].invoke
+end
+
+desc "Run Sandbox API tests"
+task :apiSandboxTests do
+  @tags = ["~@wip", "@sandbox"]
+  Rake::Task["securityTests"].invoke
+end
 
 ############################################################
 # API Selenium tests start

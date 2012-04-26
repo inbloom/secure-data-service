@@ -113,7 +113,7 @@ public class PersistenceProcessor implements Processor {
                                 processNeutralRecordsFile(new File(resource.getResourceName()), getTenantId(newJob),
                                         batchJobId, metrics);
                             } catch (IOException e) {
-                                Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null,
+                                Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), resource.getResourceId(),
                                         null, null, null, FaultType.TYPE_ERROR.getName(), "Exception", e.getMessage());
                                 batchJobDAO.saveError(error);
                             }
