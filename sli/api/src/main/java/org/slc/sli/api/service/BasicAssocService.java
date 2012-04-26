@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Implementation of AssociationService.
@@ -26,13 +28,15 @@ import org.slc.sli.domain.NeutralQuery;
 public class BasicAssocService extends BasicService implements AssociationService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicAssocService.class);
     
-    private final EntityDefinition sourceDefn;
+    private final EntityDefinition sourceDefn;  
     private final EntityDefinition targetDefn;
     private final String sourceKey;
     private final String targetKey;
     
-    public BasicAssocService(final String collectionName, final List<Treatment> treatments, final EntityDefinition sourceDefn,
-            final String sourceKey, final EntityDefinition targetDefn, final String targetKey) {
+    @Autowired
+    private Repository<Entity> repo;
+    
+    public BasicAssocService(final String collectionName, final List<Treatment> treatments, final EntityDefinition sourceDefn, final String sourceKey, final EntityDefinition targetDefn, final String targetKey) {
         super(collectionName, treatments);
         this.sourceDefn = sourceDefn;
         this.targetDefn = targetDefn;
@@ -71,8 +75,28 @@ public class BasicAssocService extends BasicService implements AssociationServic
     @Override
     public String create(final EntityBody content) {
         
-        //validateAssociationContent(content);
-        return super.create(content);
+        String sourceCollection = this.sourceDefn.getStoredCollectionName();
+        String targetCollection = this.targetDefn.getStoredCollectionName();
+        
+        Entity sourceEntity = repo.findById(sourceCollection, (String) content.get(this.sourceKey));
+        Entity targetEntity = repo.findById(targetCollection, (String) content.get(this.targetKey));
+        
+        // If both entities are orphaned, don't allow linking
+        if ("true".equals(sourceEntity.getMetaData().get("isOrphaned")) && "true".equals(targetEntity.getMetaData().get("isOrphaned"))) {
+            throw new IllegalArgumentException("Cannot link two orphaned entities");
+        }
+
+        //  Create the association
+        String id = super.create(content);
+        
+        //  Unorphan
+        targetEntity.getMetaData().remove("isOrphaned");
+        sourceEntity.getMetaData().remove("isOrphaned");
+        
+        repo.update(sourceCollection, sourceEntity);
+        repo.update(targetCollection, targetEntity);
+        
+        return id;
     }
     
     @Override
@@ -108,7 +132,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
      * @return
      */
     private Iterable<String> getAssociations(final EntityDefinition type, final String id, final String key, final NeutralQuery neutralQuery) {
-        //LOG.debug("Getting assocations with {} from {} through {}", new Object[] { id, start, numResults });
+        // LOG.debug("Getting assocations with {} from {} through {}", new Object[] { id, start, numResults });
         return getAssociationsList(type, id, key, neutralQuery);
     }
     
@@ -138,9 +162,8 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            the query string to filter returned collection results
      * @return
      */
-    private EntityIdList getAssociatedEntities(final EntityDefinition type, final String id, final String key, final String otherEntityKey,
-            final NeutralQuery neutralQuery) {
-        //LOG.debug("Getting assocated entities with {} from {} through {}", new Object[] { id, start, numResults });
+    private EntityIdList getAssociatedEntities(final EntityDefinition type, final String id, final String key, final String otherEntityKey, final NeutralQuery neutralQuery) {
+        // LOG.debug("Getting assocated entities with {} from {} through {}", new Object[] { id, start, numResults });
         EntityDefinition otherEntityDefn = type == sourceDefn ? targetDefn : sourceDefn;
         
         Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, new NeutralQuery());
@@ -212,4 +235,5 @@ public class BasicAssocService extends BasicService implements AssociationServic
         
         return getRepo().count(getCollectionName(), localNeutralQuery);
     }
+    
 }
