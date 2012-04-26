@@ -18,7 +18,7 @@ public class LocalFileSystemLandingZone implements LandingZone, Serializable {
 
     protected File directory;
 
-    public LocalFileSystemLandingZone() {}
+    public LocalFileSystemLandingZone() { }
 
     public LocalFileSystemLandingZone(File directory) {
         this.directory = directory;
