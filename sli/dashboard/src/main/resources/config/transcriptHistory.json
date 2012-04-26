@@ -11,7 +11,7 @@
         {id : "year", name : "Year", type : "FIELD", datatype : "string", field : "schoolYear", width : 90 },
         {id : "term", name : "Term", type : "FIELD", datatype : "string", field : "term", width : 75 },
         {id : "school", name : "School", type : "FIELD", datatype : "string", field : "school", width : 200},
-        {id : "gradeLevel", name : "Grade Level", type : "FIELD", datatype : "string", field : "gradeLevel", width : 150},
-        {id : "cumulativeGPA", name : "Cumulative GPA", type : "FIELD", datatype : "string", field : "cumulativeGPA", width : 75}
+        {id : "gradeLevel", name : "Grade Level", type : "FIELD", datatype : "string", field : "gradeLevel", width : 125},
+        {id : "cumulativeGPA", name : "Cumulative GPA", type : "FIELD", datatype : "string", field : "cumulativeGPA", width : 100}
     ]
 }
