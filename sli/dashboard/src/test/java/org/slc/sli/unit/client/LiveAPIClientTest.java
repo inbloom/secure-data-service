@@ -63,13 +63,13 @@ public class LiveAPIClientTest {
     public void testGetSessionsByYear() throws Exception {
         List<GenericEntity> sessions;
         String url = client.getApiUrl() + "/v1/sessions/";
-        when(mockRest.makeJsonRequestWHeaders(url, null, false)).thenReturn("[]");
+        when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn("[]");
         sessions = client.getSessionsByYear(null, null);
         assertNull(sessions);
 
         url = client.getApiUrl() + "/v1/sessions/?schoolYear=2011-2012";
         String json = "[{session: \"Yes\"}, {session: \"No\"}]";
-        when(mockRest.makeJsonRequestWHeaders(url, null, false)).thenReturn(json);
+        when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn(json);
         sessions = client.getSessionsByYear(null, "2011-2012");
         assertNotNull(sessions);
         assertTrue(sessions.size() == 2);
@@ -84,7 +84,7 @@ public class LiveAPIClientTest {
         String url = client.getApiUrl() + "/v1/students/1000/attendances";
 
         String json = "[{attendance: \"yes\"},{attendance:\"no\"}]";
-        when(mockRest.makeJsonRequestWHeaders(url, null, false)).thenReturn(json);
+        when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn(json);
         attendance = null;
         attendance = client.getStudentAttendance(null, "1000", null, null);
         assertNotNull(attendance);
@@ -94,7 +94,7 @@ public class LiveAPIClientTest {
         url = client.getApiUrl() + "/v1/students/1000/attendances?eventDate>=2011-07-13&eventDate<=2012-07-13";
 
         json = "[{attendance: \"yes\"},{attendance:\"no\"}]";
-        when(mockRest.makeJsonRequestWHeaders(url, null, false)).thenReturn(json);
+        when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn(json);
         attendance = null;
         attendance = client.getStudentAttendance(null, "1000", "2011-07-13", "2012-07-13");
         assertNotNull(attendance);
@@ -114,7 +114,7 @@ public class LiveAPIClientTest {
         params.put("includeFields", "courseId,courseTitle");
 
         String json = "[{courseId: \"123456\",courseTitle:\"Math 1\"},{courseId: \"987654\",courseTitle:\"French 1\"}]";
-        when(mockRest.makeJsonRequestWHeaders(url, token, false)).thenReturn(json);
+        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
 
         List<GenericEntity> courses = client.getCourses(token, "56789", params);
         assertEquals("Size should match", 2, courses.size());
@@ -134,7 +134,7 @@ public class LiveAPIClientTest {
         params.put("includeFields", "finalLetterGradeEarned,studentId");
 
         String json = "[{finalLetterGradeEarned: \"A\",studentId:\"56789\"},{finalLetterGradeEarned: \"C\",studentId:\"56789\"}]";
-        when(mockRest.makeJsonRequestWHeaders(url, token, false)).thenReturn(json);
+        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
 
         List<GenericEntity> assocs = client.getStudentTranscriptAssociations(token, "56789", params);
         assertEquals("Size should match", 2, assocs.size());
@@ -154,7 +154,7 @@ public class LiveAPIClientTest {
         params.put("includeFields", "sessionId");
 
         String json = "[{sessionId:\"98765\"},{sessionId:\"99999\"}]";
-        when(mockRest.makeJsonRequestWHeaders(url, token, false)).thenReturn(json);
+        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
 
         List<GenericEntity> assocs = client.getSections(token, "56789", params);
         assertEquals("Size should match", 2, assocs.size());
@@ -171,7 +171,7 @@ public class LiveAPIClientTest {
         params.put("includeFields", "schoolYear,term");
 
         String json = "{schoolYear:\"2008-2009\",term:\"Fall Semester\"}";
-        when(mockRest.makeJsonRequestWHeaders(url, token, false)).thenReturn(json);
+        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
 
         GenericEntity entity = client.getEntity(token, "sessions", "56789", params);
         assertNotNull("should not be null", entity);
@@ -192,7 +192,7 @@ public class LiveAPIClientTest {
         params.put("includeFields", "numericGradeEarned,dateFulfilled");
 
         String json = "[{numericGradeEarned:\"84.0\",dateFulfilled:\"2011-10-30\"},{numericGradeEarned:\"98.0\",dateFulfilled:\"2011-11-20\"}]";
-        when(mockRest.makeJsonRequestWHeaders(url, token, false)).thenReturn(json);
+        when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
 
         List<GenericEntity> gradebookEntries = client.getStudentSectionGradebookEntries(token, "5678", params);
         assertEquals("Size should match", 2, gradebookEntries.size());
@@ -260,7 +260,7 @@ public class LiveAPIClientTest {
         String id = "1";
         LiveAPIClient liveClient = new LiveAPIClient() {
             @Override
-            public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
+            public List<GenericEntity> createEntitiesFromAPI(String url, String token) {
                 GenericEntity ge = new GenericEntity();
                 List<GenericEntity> list = new LinkedList<GenericEntity>();
                 list.add(ge);
@@ -276,7 +276,7 @@ public class LiveAPIClientTest {
     public void testGetSection() {
         LiveAPIClient liveClient = new LiveAPIClient() {
             @Override
-            public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
+            public List<GenericEntity> createEntitiesFromAPI(String url, String token) {
                 GenericEntity ge = new GenericEntity();
                 ge.put(Constants.ATTR_STUDENT_ID, "1");
                 List<GenericEntity> list = new LinkedList<GenericEntity>();
@@ -285,7 +285,7 @@ public class LiveAPIClientTest {
             }
 
             @Override
-            public GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
+            public GenericEntity createEntityFromAPI(String url, String token) {
                 GenericEntity ge = new GenericEntity();
                 ge.put(Constants.ATTR_UNIQUE_SECTION_CODE, "section");
                 return ge;
@@ -306,7 +306,7 @@ public class LiveAPIClientTest {
     public void testGetId() {
         LiveAPIClient liveClient = new LiveAPIClient() {
             @Override
-            public GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
+            public GenericEntity createEntityFromAPI(String url, String token) {
                 GenericEntity ge = new GenericEntity();
                 List<Map> list = new LinkedList<Map>();
                 Map selfMap = new HashMap();
@@ -325,7 +325,7 @@ public class LiveAPIClientTest {
     public void testGetSectionsForTeacher() {
         LiveAPIClient liveClient = new LiveAPIClient() {
             @Override
-            public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
+            public List<GenericEntity> createEntitiesFromAPI(String url, String token) {
                 GenericEntity ge = new GenericEntity();
                 ge.put(Constants.ATTR_SECTION_ID, "1");
                 List<GenericEntity> list = new LinkedList<GenericEntity>();
@@ -350,7 +350,7 @@ public class LiveAPIClientTest {
 
         LiveAPIClient liveClient = new LiveAPIClient() {
             @Override
-            public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
+            public List<GenericEntity> createEntitiesFromAPI(String url, String token) {
                 List<GenericEntity> list = new LinkedList<GenericEntity>();
                 if (token.equals("empty")) {
                     return list;
@@ -385,7 +385,7 @@ public class LiveAPIClientTest {
     public void testGetTeacherForSection() {
         LiveAPIClient liveClient = new LiveAPIClient() {
             @Override
-            public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
+            public List<GenericEntity> createEntitiesFromAPI(String url, String token) {
                 GenericEntity ge = new GenericEntity();
                 ge.put(Constants.ATTR_CLASSROOM_POSITION, Constants.TEACHER_OF_RECORD);
                 List<GenericEntity> list = new LinkedList<GenericEntity>();
@@ -397,7 +397,7 @@ public class LiveAPIClientTest {
             }
 
             @Override
-            public GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
+            public GenericEntity createEntityFromAPI(String url, String token) {
                 GenericEntity teacher = new GenericEntity();
                 teacher.put("name", "teacher");
                 return teacher;
@@ -415,13 +415,13 @@ public class LiveAPIClientTest {
     public void testGetSchoolsForSection() {
         LiveAPIClient liveClient = new LiveAPIClient() {
             @Override
-            public GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
+            public GenericEntity createEntityFromAPI(String url, String token) {
                 GenericEntity ge = new GenericEntity();
                 ge.put(Constants.ATTR_ID, url);
                 return ge;
             }
             @Override
-            public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
+            public List<GenericEntity> createEntitiesFromAPI(String url, String token) {
                 GenericEntity ge = new GenericEntity();
                 ge.put(Constants.ATTR_ID, "school");
                 List<GenericEntity> list = new ArrayList<GenericEntity>();
@@ -468,7 +468,7 @@ public class LiveAPIClientTest {
              * Mock out call to studentSchoolAssociations to return a fake association when a call is made.
              */
             @Override
-            public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
+            public List<GenericEntity> createEntitiesFromAPI(String url, String token) {
                 GenericEntity studentSchoolAssociation = new GenericEntity();
                 ArrayList<Map<String, String>> links = new ArrayList<Map<String, String>>();
                 HashMap<String, String> link = new HashMap<String, String>();
@@ -486,7 +486,7 @@ public class LiveAPIClientTest {
              * Mock out call to schools to return a fake school when a call is made via the api.
              */
             @Override
-            public GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
+            public GenericEntity createEntityFromAPI(String url, String token) {
                 GenericEntity school = new GenericEntity();
                 school.put(Constants.ATTR_NAME, "schoolName");
                 return school;

@@ -5,11 +5,14 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,20 +21,23 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.WordUtils;
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.util.GenericEntityEnhancer;
 import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.view.TimedLogic2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi entities/associations such
@@ -123,37 +129,10 @@ public class PopulationManagerImpl implements PopulationManager {
         // data enhancements
         enhanceListOfStudents(studentSummaries, (String) sectionId);
 
-        // get student grades (kindergarten, first grade, etc..) - TODO: get this data from the integrated API call
-        updateWithStudentGrades(token, studentSummaries);
-
         GenericEntity result = new GenericEntity();
         result.put(Constants.ATTR_STUDENTS, studentSummaries);
 
         return result;
-    }
-
-    /**
-     * Helper function to get a list of grades for a set of students.
-     * NOTE: refactor the bundled API call to provide student grade, so this method won't be
-     * necessary!
-     *
-     * @param token
-     * @param studentSummaries
-     * @return
-     */
-    public void updateWithStudentGrades(String token, List<GenericEntity> studentSummaries) {
-        Map<String, GenericEntity> mapByUid = new HashMap<String, GenericEntity>();
-        if (studentSummaries != null) {
-            // get student uids
-            for (GenericEntity student : studentSummaries) {
-                mapByUid.put(student.getString(Constants.ATTR_ID), student);
-            }
-            List<GenericEntity> students = entityManager.getStudents(token, mapByUid.keySet());
-            // put together set of grades
-            for (GenericEntity s : students) {
-                mapByUid.get(s.getString(Constants.ATTR_ID)).put(Constants.ATTR_GRADE_LEVEL, s.getString(Constants.ATTR_GRADE_LEVEL));
-            }
-        }
     }
 
     /**
@@ -402,6 +381,7 @@ public class PopulationManagerImpl implements PopulationManager {
      * Find the required assessment results according to the data configuration. Filter out the
      * rest.
      */
+    @SuppressWarnings("unchecked")
     public void applyAssessmentFilters(List<GenericEntity> studentSummaries, Config.Data config) {
 
         // Loop through student summaries
@@ -409,7 +389,7 @@ public class PopulationManagerImpl implements PopulationManager {
             for (GenericEntity summary : studentSummaries) {
 
                 // Grab the student's assmt results. Grab assmt filters from config.
-                List<Map> assmtResults = (List<Map>) (summary.remove(Constants.ATTR_STUDENT_ASSESSMENTS));
+                List<Map<String, Object>> assmtResults = (List<Map<String, Object>>) (summary.remove(Constants.ATTR_STUDENT_ASSESSMENTS));
 
                 Map<String, Object> param = config.getParams();
                 if (param == null) {
@@ -442,6 +422,24 @@ public class PopulationManagerImpl implements PopulationManager {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    private List<Map<String, Object>> filterAssessmentByFamily(List<?> assmtResults, String assmtFamily) {
+        // filter by assmt family name
+        List<Map<String, Object>> studentAssessmentFiltered = new ArrayList<Map<String, Object>>();
+        Map<String, Object> assmtResult, assessments;
+        String family;
+        for (Object assmtResultObj : assmtResults) {
+            assmtResult = (Map<String, Object>) assmtResultObj;
+            assessments = (Map<String, Object>) assmtResult.get(Constants.ATTR_ASSESSMENTS);
+            if (assessments != null) {
+                family = (String) assessments.get(Constants.ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME);
+                if (family != null && family.contains(assmtFamily)) {
+                    studentAssessmentFiltered.add(assmtResult);
+                }
+            }
+        }
+        return studentAssessmentFiltered;
+    }
     /**
      * Filter a list of assessment results, based on the assessment family and timed logic
      *
@@ -450,17 +448,9 @@ public class PopulationManagerImpl implements PopulationManager {
      * @param timedLogic
      * @return
      */
-    private Map applyAssessmentFilter(List<Map> assmtResults, String assmtFamily, TimedLogic2.TimeSlot timeSlot) {
-
+    private Map applyAssessmentFilter(List<Map<String, Object>> assmtResults, String assmtFamily, TimedLogic2.TimeSlot timeSlot) {
         // filter by assmt family name
-        List<Map> studentAssessmentFiltered = new ArrayList<Map>();
-        for (Map assmtResult : assmtResults) {
-            String family = (String) ((Map) (assmtResult.get(Constants.ATTR_ASSESSMENTS)))
-                    .get(Constants.ATTR_ASSESSMENT_FAMILY_HIERARCHY_NAME);
-            if (family.contains(assmtFamily)) {
-                studentAssessmentFiltered.add(assmtResult);
-            }
-        }
+        List<Map<String, Object>> studentAssessmentFiltered = filterAssessmentByFamily(assmtResults, assmtFamily);
 
         if (studentAssessmentFiltered.size() == 0) {
             return null;
@@ -488,7 +478,7 @@ public class PopulationManagerImpl implements PopulationManager {
 
             case MOST_RECENT_WINDOW:
 
-                List<Map> assessmentMetaData = new ArrayList<Map>();
+                List<Map<String, Object>> assessmentMetaData = new ArrayList<Map<String, Object>>();
 
                 // TODO: get the assessment meta data
                 /*
@@ -682,30 +672,54 @@ public class PopulationManagerImpl implements PopulationManager {
         String firstName = nameList[0];
         String lastName = nameList[1];
         List<GenericEntity> students = entityManager.getStudentsFromSearch(token, firstName, lastName);
+
+        List<GenericEntity> titleCaseStudents = entityManager.getStudentsFromSearch(token, WordUtils.capitalize(firstName), WordUtils.capitalize(lastName));
+
+        HashSet<GenericEntity> studentSet  = new HashSet<GenericEntity>();
+        studentSet.addAll(students);
+        studentSet.addAll(titleCaseStudents);
+
+
         List<GenericEntity> enhancedStudents = new LinkedList<GenericEntity>();
         HashMap<String, GenericEntity> retrievedSchools = new HashMap<String, GenericEntity>();
         GenericEntity school;
-        
-        for (GenericEntity student: students) {
-            
+        Iterator<GenericEntity> studentSetIterator = studentSet.iterator();
+        while (studentSetIterator.hasNext()) {
+            GenericEntity student = studentSetIterator.next();
             student = entityManager.getStudent(token, student.getId());
             addFullName(student);
-            
+
             if (student.get("schoolId") != null) {
-                if (retrievedSchools.containsKey((String) student.get("schoolId"))) {
+                if (retrievedSchools.containsKey(student.get("schoolId"))) {
                     school = retrievedSchools.get(student.get("schoolId"));
-                    student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST)); 
+                    student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
                 } else {
                     school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, student.getString("schoolId"), new HashMap());
                     retrievedSchools.put(school.getString(Constants.ATTR_ID), school);
                     student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
                 }
             }
+            GenericEntityEnhancer.enhanceStudent(student);
             enhancedStudents.add(student);
         }
-        
+
         GenericEntity studentSearch = new GenericEntity();
         studentSearch.put(Constants.ATTR_STUDENTS, enhancedStudents);
         return studentSearch;
+    }
+
+    @Override
+    public GenericEntity getAssessments(String token, Object id, Config.Data config) {
+        GenericEntity entity = new GenericEntity();
+        GenericEntity student = entityManager.getStudentWithOptionalFields(token, (String) id, Arrays.asList("assessments"));
+        if (student == null) {
+            log.error("Requested data for non-existing ID" + id);
+            return entity;
+        }
+        // get all assessments for student
+        entity.put(
+                "assessments",
+                filterAssessmentByFamily(student.getList(Constants.ATTR_STUDENT_ASSESSMENTS), (String) config.getParams().get("assessmentFamily")));
+        return entity;
     }
 }

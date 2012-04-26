@@ -245,16 +245,21 @@ public class ConfigManagerImpl implements ConfigManager {
     private Config getConfigByPath(String customPath, String componentId) {
         Config driverConfig = null;
         try {
-            // read Driver (default) config.
-            File f = new File(getDriverConfigLocation(componentId));
-            driverConfig = loadConfig(f);
-
             // read custom Config
-            f = new File(getComponentConfigLocation(customPath, componentId));
+            File f = new File(getComponentConfigLocation(customPath, componentId));
+            String driverId = componentId;
+            Config customConfig = null;
             // if custom config exist, read the config file
             if (f.exists()) {
+                customConfig = loadConfig(f);
+                driverId = customConfig.getParentId();
+            }
+            // read Driver (default) config.
+            f = new File(getDriverConfigLocation(driverId));
+            driverConfig = loadConfig(f);
+            if (customConfig != null) {
                 // get overwritten Config file with customConfig based on Driver config.
-                return driverConfig.overWrite(loadConfig(f));
+                return driverConfig.overWrite(customConfig);
             }
             return driverConfig;
         } catch (Throwable t) {
