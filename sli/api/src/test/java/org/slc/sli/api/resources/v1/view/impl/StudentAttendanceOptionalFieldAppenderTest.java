@@ -1,24 +1,13 @@
 package org.slc.sli.api.resources.v1.view.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Date;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.service.MockRepo;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,8 +17,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 /**
  * Unit tests
@@ -206,16 +205,16 @@ public class StudentAttendanceOptionalFieldAppenderTest {
 
     @Test
     public void testGetYearSuffix() {
-        assertEquals("Should match", 1, studentAttendanceOptionalFieldAppender.getYearSuffix("1"));
-        assertEquals("Should match", 2, studentAttendanceOptionalFieldAppender.getYearSuffix("2"));
-        assertEquals("Should match", 3, studentAttendanceOptionalFieldAppender.getYearSuffix("3"));
-        assertEquals("Should match", 4, studentAttendanceOptionalFieldAppender.getYearSuffix("4"));
-        assertEquals("Should match", 4, studentAttendanceOptionalFieldAppender.getYearSuffix("100"));
-        assertEquals("Should match", 0, studentAttendanceOptionalFieldAppender.getYearSuffix("not a number"));
-        assertEquals("Should match", 2, studentAttendanceOptionalFieldAppender.getYearSuffix("-2"));
-        assertEquals("Should match", 4, studentAttendanceOptionalFieldAppender.getYearSuffix("-100"));
-        assertEquals("Should match", 0, studentAttendanceOptionalFieldAppender.getYearSuffix(null));
-        assertEquals("Should match", 0, studentAttendanceOptionalFieldAppender.getYearSuffix(""));
+        assertEquals("Should match", 1, studentAttendanceOptionalFieldAppender.parseAttendanceRange("1"));
+        assertEquals("Should match", 2, studentAttendanceOptionalFieldAppender.parseAttendanceRange("2"));
+        assertEquals("Should match", 3, studentAttendanceOptionalFieldAppender.parseAttendanceRange("3"));
+        assertEquals("Should match", 4, studentAttendanceOptionalFieldAppender.parseAttendanceRange("4"));
+        assertEquals("Should match", 4, studentAttendanceOptionalFieldAppender.parseAttendanceRange("100"));
+        assertEquals("Should match", 0, studentAttendanceOptionalFieldAppender.parseAttendanceRange("not a number"));
+        assertEquals("Should match", 2, studentAttendanceOptionalFieldAppender.parseAttendanceRange("-2"));
+        assertEquals("Should match", 4, studentAttendanceOptionalFieldAppender.parseAttendanceRange("-100"));
+        assertEquals("Should match", 0, studentAttendanceOptionalFieldAppender.parseAttendanceRange(null));
+        assertEquals("Should match", 0, studentAttendanceOptionalFieldAppender.parseAttendanceRange(""));
     }
 
     private EntityBody makeEntityBody(Entity entity) {

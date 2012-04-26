@@ -6,10 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,51 +38,49 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
     public StudentAttendanceOptionalFieldAppender() {
     }
 
+    /**
+     *
+     * @param students student entity bodies also containing a studentSectionAssociation
+     * @param attendanceRange attendance range, 0 = section, 1 = section year, 2+ includes previous years
+     * @return student entities with appended with attendance
+     */
     @Override
-    public List<EntityBody> applyOptionalField(List<EntityBody> entities, String parameters) {
+    public List<EntityBody> applyOptionalField(List<EntityBody> students, String attendanceRange) {
         //get the year suffix from the params
-        int yearSuffix = getYearSuffix(parameters);
-        //get the student Ids
-        List<String> studentIds = optionalFieldAppenderHelper.getIdList(entities, "id");
+        int range = parseAttendanceRange(attendanceRange);
 
-        //get the section Ids
-        Set<String> sectionIds = optionalFieldAppenderHelper.getSectionIds(entities);
-        //get the sections
+        /*
         List<EntityBody> sections = optionalFieldAppenderHelper.queryEntities(ResourceNames.SECTIONS,
                 "_id", new ArrayList<String>(sectionIds));
-        //get the selectedSession Ids
         List<String> sessionIds = optionalFieldAppenderHelper.getIdList(sections, ParameterConstants.SESSION_ID);
-        //get the sessions
-        List<EntityBody> sessions = optionalFieldAppenderHelper.queryEntities(ResourceNames.SESSIONS,
-                "_id", sessionIds);
 
-        //get the attendances per selectedSession
-        Map<String, List<EntityBody>> attendancePerSession = getAttendances(studentIds, sessions, yearSuffix);
+        Map<String, List<EntityBody>> attendancePerSession = getAttendances(studentIds, sessions, range); //TODO
+        */
 
-        //add attendances to student's entityBody
-        for (EntityBody student : entities) {
-            String id = (String) student.get("id");
-            //get the student section associations
-            List<EntityBody> studentSectionAssociations = (List<EntityBody>) student.get("studentSectionAssociation");
-
-            if (studentSectionAssociations == null) {
+        for (EntityBody student : students) {
+            String studentId = (String) student.get("id");
+            EntityBody section = getSectionId(student);
+            String sectionId = (String) section.get("id");
+            String schoolId = getSchoolIdFromSection(section);
+            if (section == null) {
+                warn("No section found on SectionView entity {}", studentId);
                 continue;
             }
 
+            List<EntityBody> attendanceEntities = getAttendanceForStudent(studentId, sectionId, range);
+            addAttendanceToStudent( student, attendanceEntities);
+
+
+
             Set<EntityBody> attendancesForStudent = new HashSet<EntityBody>();
             for (EntityBody studentSectionAssociation : studentSectionAssociations) {
-                //get the sectionId
-                String sectionId = (String) studentSectionAssociation.get(ParameterConstants.SECTION_ID);
-                //get the section
-                EntityBody section = optionalFieldAppenderHelper.getEntityFromList(sections, "id", sectionId);
-
                 if (section != null) {
                     //get the attendances for this selectedSession
                     List<EntityBody> attendancesForSession = attendancePerSession.get(section.get(ParameterConstants.SESSION_ID));
 
                     if (attendancesForSession != null && !attendancesForSession.isEmpty()) {
                         List<EntityBody> attendancesForStudentForSession = optionalFieldAppenderHelper.getEntitySubList(attendancesForSession,
-                                ParameterConstants.STUDENT_ID, id);
+                                ParameterConstants.STUDENT_ID, studentId);
 
                         if (attendancesForStudentForSession != null && !attendancesForStudentForSession.isEmpty()) {
                             attendancesForStudent.addAll(attendancesForStudentForSession);
@@ -99,9 +95,32 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
                 attendancesBody.put(ResourceNames.ATTENDANCES, new ArrayList<EntityBody>(attendancesForStudent));
                 student.put(ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, attendancesBody);
             }
+            */
         }
 
-        return entities;
+        return students;
+    }
+
+    private String getSchoolIdFromSection(EntityBody section) {
+        return (String) section.get("schoolId");
+    }
+
+    private EntityBody getSectionId(EntityBody student) {
+        //TODO NOTE why would a section view have a list of sections on a student. there should only be one.
+        List<EntityBody> studentSectionAssociations = (List<EntityBody>) student.get("studentSectionAssociation");
+        if( studentSectionAssociations.isEmpty() ) {
+            return null;
+        } else {
+            return studentSectionAssociations.get(0);
+        }
+    }
+
+    private void addAttendanceToStudent(EntityBody student, List<EntityBody> attendanceEntities) {
+        //TODO replace stub
+    }
+
+    private List<EntityBody> getAttendanceForStudent(String studentId, String sectionId, int range) {
+        return null;  //TODO replace stub
     }
 
     /**
@@ -248,22 +267,22 @@ public class StudentAttendanceOptionalFieldAppender implements OptionalFieldAppe
 
     /**
      * Parses the params and converts it to year suffix
-     * @param params
+     * @param range
      * @return
      */
-    protected int getYearSuffix(String params) {
+    protected int parseAttendanceRange(String range) {
         int yearSuffix = 0;
 
-        if (params != null && !params.isEmpty()) {
+        if (range != null && !range.isEmpty()) {
             try {
                 //parse the params
-                yearSuffix = Integer.parseInt(params);
+                yearSuffix = Integer.parseInt(range);
                 yearSuffix = Math.abs(yearSuffix);
 
                 //cap the years at 4
                 yearSuffix = (yearSuffix > 4) ? 4 : yearSuffix;
             } catch (NumberFormatException e) {
-                warn("Could not parse param to year {}", params);
+                warn("Could not parse param to year {}", range);
             }
         }
 
