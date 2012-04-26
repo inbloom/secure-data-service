@@ -9,7 +9,7 @@ import org.slc.sli.manager.Manager.EntityMapping;
 import org.slc.sli.manager.Manager.EntityMappingManager;
 
 /**
- * 
+ *
  * @author dwu
  *
  */
@@ -28,7 +28,7 @@ public interface PopulationManager {
     /**
      * Get the list of student summaries identified by the student id list and authorized for the
      * security token
-     * 
+     *
      * @param token
      *            - the principle authentication token
      * @param studentIds
@@ -44,7 +44,7 @@ public interface PopulationManager {
 
     /**
      * Get data for the list of students
-     * 
+     *
      * @return
      */
     @EntityMapping("listOfStudents")
@@ -55,7 +55,7 @@ public interface PopulationManager {
 
     /**
      * Get student entity
-     * 
+     *
      * @param token
      * @param studentId
      * @return
@@ -64,7 +64,7 @@ public interface PopulationManager {
 
     /**
      * Get enriched student entity
-     * 
+     *
      * @param token
      * @param studentId
      * @param config
@@ -78,10 +78,13 @@ public interface PopulationManager {
     public abstract GenericEntity getAttendance(String token,
             Object studentIdObj, Config.Data config);
 
-    
+
     @EntityMapping("studentSearch")
     public abstract GenericEntity getStudentsBySearch(String token, Object nameQuery, Config.Data config);
-    
+
+    @EntityMapping("studentAssessment")
+    public GenericEntity getAssessments(String token, Object id, Config.Data config);
+
     public abstract List<String> getSessionDates(String token, String sessionId);
 
 }
