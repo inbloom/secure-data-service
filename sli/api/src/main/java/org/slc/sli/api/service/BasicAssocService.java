@@ -28,7 +28,7 @@ import org.slc.sli.domain.Repository;
 public class BasicAssocService extends BasicService implements AssociationService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicAssocService.class);
     
-    private final EntityDefinition sourceDefn;  
+    private final EntityDefinition sourceDefn;
     private final EntityDefinition targetDefn;
     private final String sourceKey;
     private final String targetKey;
@@ -82,14 +82,14 @@ public class BasicAssocService extends BasicService implements AssociationServic
         Entity targetEntity = repo.findById(targetCollection, (String) content.get(this.targetKey));
         
         // If both entities are orphaned, don't allow linking
-        if ("true".equals(sourceEntity.getMetaData().get("isOrphaned")) && "true".equals(targetEntity.getMetaData().get("isOrphaned"))) {
+        if (sourceEntity != null && targetEntity != null && "true".equals(sourceEntity.getMetaData().get("isOrphaned")) && "true".equals(targetEntity.getMetaData().get("isOrphaned"))) {
             throw new IllegalArgumentException("Cannot link two orphaned entities");
         }
-
-        //  Create the association
+        
+        // Create the association
         String id = super.create(content);
         
-        //  Unorphan
+        // Unorphan
         targetEntity.getMetaData().remove("isOrphaned");
         sourceEntity.getMetaData().remove("isOrphaned");
         
