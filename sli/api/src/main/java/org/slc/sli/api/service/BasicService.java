@@ -682,12 +682,16 @@ public class BasicService implements EntityService {
         return toReturn;
     }
 
+    /**
+     * Creates the metaData HashMap to be added to the entity created in mongo.
+     * @return Map containing important metadata for the created entity.
+     */
     private Map<String, Object> createMetadata() {
         Map<String, Object> metadata = new HashMap<String, Object>();
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         metadata.put("isOrphaned", "true");
         metadata.put("createdBy", principal.getEntity().getEntityId());
+        metadata.put("tenantId", principal.getTenantId());
         return metadata;
     }
 
