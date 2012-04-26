@@ -40,6 +40,7 @@ public final class ResourceNames {
     public static final String LEARNINGOBJECTIVES = "learningObjectives";
     public static final String LEARNINGSTANDARDS = "learningStandards";
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
+    public static final String STUDENT_ACADEMIC_RECORDS = "studentAcademicRecords";
     public static final String TEACHERS = "teachers";
 
     public static final String SCHOOL_SESSION_ASSOCIATIONS = "school-session-associations";
