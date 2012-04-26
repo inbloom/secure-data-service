@@ -26,6 +26,13 @@ import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 @Component("learningObjectiveTransformationStrategy")
 public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
+    public static final String LEARNING_OBJ_COLLECTION = "learningObjective";
+    public static final String ID_CODE_PATH = "learningObjectiveId.identificationCode";
+    public static final String CONTENT_STANDARD_NAME_PATH = "learningObjectiveId.contentStandardName";
+    public static final String SYNTHETIC_PARENT_ID = "parentLearningObjectiveIdentificationCode";
+    public static final String LEARNING_OBJ_REFS = "learningObjectiveRefs";
+    public static final String LEARNING_STD_REFS = "learningStandardRefs";
+
     private static final Logger LOG = LoggerFactory.getLogger(LearningObjectiveTransform.class);
 
     @SuppressWarnings("unchecked")
@@ -39,11 +46,11 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         Map<LearningObjectiveId, NeutralRecord> learningObjectiveIdMap = new HashMap<LearningObjectiveId, NeutralRecord>();
 
         List<NeutralRecord> allLearningObjectives = new ArrayList<NeutralRecord>();
-        Iterable<NeutralRecord> learningObjectives = repo.findAll("learningObjective");
+        Iterable<NeutralRecord> learningObjectives = repo.findAll(LEARNING_OBJ_COLLECTION);
         for (NeutralRecord lo : learningObjectives) {
             Map<String, Object> attributes = lo.getAttributes();
-            String objectiveId = getByPath("learningObjectiveId.identificationCode", attributes);
-            String contentStandard = getByPath("learningObjectiveId.contentStandardName", attributes);
+            String objectiveId = getByPath(ID_CODE_PATH, attributes);
+            String contentStandard = getByPath(CONTENT_STANDARD_NAME_PATH, attributes);
             if (objectiveId != null) {
                 learningObjectiveIdMap.put(new LearningObjectiveId(objectiveId, contentStandard), lo);
             }
@@ -51,28 +58,31 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         }
 
         for (NeutralRecord parentLO : allLearningObjectives) {
-            String parentObjectiveId = getByPath("learningObjectiveId.identificationCode", parentLO.getAttributes());
+            String parentObjectiveId = getByPath(ID_CODE_PATH, parentLO.getAttributes());
             List<Map<String, Object>> childRefs = (List<Map<String, Object>>) parentLO.getAttributes().get(
-                    "learningObjectiveRefs");
+                    LEARNING_OBJ_REFS);
 
             if (parentObjectiveId == null && childRefs.size() > 0) {
-                LOG.warn("Unable to form learningObjective references.  Parent learningObjective does not have an id."); // TODO report to user
+                LOG.warn("Unable to form learningObjective references.  Parent learningObjective does not have an id."); // TODO
+                                                                                                                         // report
+                                                                                                                         // to
+                                                                                                                         // user
             } else {
                 for (int i = 0; i < childRefs.size(); i++) {
                     Map<String, Object> loRef = childRefs.get(i);
-                    String objectiveId = getByPath("learningObjectiveId.identificationCode", loRef);
-                    String contentStandard = getByPath("learningObjectiveId.contentStandardName", loRef);
+                    String objectiveId = getByPath(ID_CODE_PATH, loRef);
+                    String contentStandard = getByPath(CONTENT_STANDARD_NAME_PATH, loRef);
                     LearningObjectiveId loId = new LearningObjectiveId(objectiveId, contentStandard);
                     NeutralRecord childLo = learningObjectiveIdMap.get(loId);
                     if (childLo != null) {
-                        childLo.getAttributes().put("parentLearningObjectiveIdentificationCode", parentObjectiveId);
+                        childLo.getAttributes().put(SYNTHETIC_PARENT_ID, parentObjectiveId);
                     } else {
                         LOG.error("Could not find object for learning objective reference: " + parentObjectiveId);
                     }
                 }
             }
-            parentLO.getAttributes().remove("learningObjectiveRefs");
-            parentLO.getAttributes().remove("learningStandardRefs");
+            parentLO.getAttributes().remove(LEARNING_OBJ_REFS);
+            parentLO.getAttributes().remove(LEARNING_STD_REFS);
         }
 
         for (NeutralRecord nr : allLearningObjectives) {

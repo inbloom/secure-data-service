@@ -40,6 +40,7 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer;
+import org.slc.sli.ingestion.transformation.assessment.LearningObjectiveTransform;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
@@ -204,9 +205,8 @@ public class PersistenceProcessor implements Processor {
                     List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForNrFile);
                     for (SimpleEntity xformedEntity : xformedEntities) {
 
-                        if ("learningObjective".equals(xformedEntity.getType())) {
-                            xformedEntity.getBody().remove("parentLearningObjectiveIdentificationCode");
-                            xformedEntity.getBody().remove("parentLearningObjectiveContentStandardName");
+                        if (LearningObjectiveTransform.LEARNING_OBJ_COLLECTION.equals(xformedEntity.getType())) {
+                            xformedEntity.getBody().remove(LearningObjectiveTransform.SYNTHETIC_PARENT_ID);
                         }
 
                         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForNrFile);
