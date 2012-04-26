@@ -1,16 +1,15 @@
 package org.slc.sli.api.security.resolve.impl;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +35,7 @@ public class MongoUserLocator implements UserLocator {
         LOG.info("Locating user {}@{}", externalUserId, tenantId);
         SLIPrincipal user = new SLIPrincipal(externalUserId + "@" + tenantId);
         user.setExternalId(externalUserId);
+        user.setTenantId(tenantId);
         
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
@@ -58,11 +58,6 @@ public class MongoUserLocator implements UserLocator {
         if (user.getEntity() == null) {
             LOG.warn("Failed to locate user {} in the datastore", user.getId());
         }
-
         return user;
-    }
-
-    public void setRepo(Repository repo) {
-        this.repo = repo;
     }
 }
