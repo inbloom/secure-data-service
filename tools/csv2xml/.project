@@ -2,9 +2,6 @@
 <projectDescription>
 	<name>CSV2XML</name>
 	<comment></comment>
-	<projects>
-		<project>ExportTools</project>
-	</projects>
 	<buildSpec>
 		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
