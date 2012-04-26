@@ -6,7 +6,7 @@ Given /^I have an open web browser$/ do
   profile = Selenium::WebDriver::Firefox::Profile.new
   profile['network.http.prompt-temp-redirect'] = false
   @driver = Selenium::WebDriver.for :firefox, :profile => profile
-  @driver.manage.timeouts.implicit_wait = 2 # seconds
+  @driver.manage.timeouts.implicit_wait = 4 # seconds
 end
 
 When /^I wait for a second$/ do

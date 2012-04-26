@@ -7,6 +7,7 @@
 		<th>Approval Date</th>
 		<th>Status</th>
 		<th></th>
+		<th></th>
 	</tr>
 	<% @apps.select {|app| app.registration.status == 'PENDING' || app.registration.status == 'APPROVED'}
             .sort{|a,b| b.registration.status <=> a.registration.status}.each do |app| %>
@@ -17,7 +18,8 @@
 		<td><%= I18n.localize(Time.at(app.registration.request_date / 1000)) unless !app.registration.attributes.has_key? :request_date %></td>
 		<td><%= I18n.localize(Time.at(app.registration.approval_date / 1000)) unless !app.registration.attributes.has_key? :approval_date %></td>
                 <td><%= app.registration.status %></td>
-		<td><%= link_to_if app.registration.status == 'PENDING', 'Y', "#", :class=> 'edit-link' %> | <%= link_to 'X', app, :remote => true,  :confirm => "Are you sure?", :method => :delete %></td>
+		<td><%= button_to "Y", {:action => "approve", :id => app.id}, {:disabled => app.registration.status != 'PENDING', :class => 'approve-button', } %></td>
+                <td><%= button_to 'X', {:action => "unregister", :id => app.id}, {:class => 'unregister-button', :confirm => 'Are you sure?'}%></td>
 		</tr>
 		<tr>
 			<td colspan="6"><%= render :partial => 'form', :locals => {:app => app} %></td>

@@ -2,7 +2,7 @@ require_relative '../../../../../../utils/sli_utils.rb'
 require_relative '../../../../../../dashboard/dash/step_definitions/selenium_common_dash.rb'
 
 Given /^the sampleApp is deployed on sampleApp server$/ do
-  @appPrefix = "oauth2-sample/students"
+  @appPrefix = "sample/students"
 end
 
 When /^I navigate to the sampleApp home page$/ do

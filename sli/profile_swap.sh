@@ -9,8 +9,8 @@ fi
 #Take care of build profiles for Spring
 echo "Altering dashboard/api/ingetion projects..."
 grep -lR "sli.dev.subdomain:" config/* | xargs --verbose -L 1 sed -i "s/sli\.dev\.subdomain:.*/sli.dev.subdomain: $hostname/g"
-grep -lR "\${sli.dev.subdomain}" SDK/oauth2-sample/* | xargs --verbose -L 1 sed -i "s/\${sli\.dev\.subdomain}/$hostname/g"
-sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" mock-idp/src/main/resources/config/team-mock-idp.properties
+grep -lR "\${sli.dev.subdomain}" SDK/sample/* | xargs --verbose -L 1 sed -i "s/\${sli\.dev\.subdomain}/$hostname/g"
+sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" simple-idp/src/main/resources/config/team-simple-idp.properties
 
 #Take care of fixture data for applications
 echo "Altering fixture data for applications to match..."

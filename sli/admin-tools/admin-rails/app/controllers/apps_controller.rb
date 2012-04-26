@@ -40,6 +40,40 @@ class AppsController < ApplicationController
     end
   end
 
+  def approve
+    @app = App.find(params[:id])
+    respond_to do |format|
+      reg = @app.attributes["registration"]
+      reg.status = "APPROVED"
+      if @app.update_attribute("registration", reg)
+        format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @app.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def unregister
+    @app = App.find(params[:id])
+    respond_to do |format|
+      reg = @app.attributes["registration"]
+      if reg.status == 'PENDING'
+        reg.status = 'DENIED'
+      else
+        reg.status = "UNREGISTERED"
+      end
+      if @app.update_attribute("registration", reg)
+        format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @app.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # # GET /apps/1/edit
   # def edit
   #   @app = App.find(params[:id])
