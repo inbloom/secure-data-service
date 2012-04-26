@@ -230,7 +230,7 @@ Then I should see following map of entry counts in the corresponding collections
        | student                     | 2                   | metaData.externalId      | 100000006                  | string               |
        | staff                       | 1                   | metaData.externalId      | jcarlyle                   | string               |
        | section                     | 1                   | metaData.externalId      | Mason201-Sec1              | string               |
-       | school                      | 1                   | metaData.externalId      | 1000000111                 | string               |
+       | educationOrganization       | 1                   | metaData.externalId      | 1000000111                 | string               |
        | educationOrganization       | 1                   | metaData.externalId      | NY-Parker                  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | NY                         | string               |
     And I should see "Processed 137 records." in the resulting batch job file
