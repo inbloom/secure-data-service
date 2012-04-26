@@ -36,14 +36,14 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 @Component
 public class ControlFileProcessor implements Processor {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ControlFileProcessor.class);
+
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PROCESSOR;
+
+    private static final String PURGE = "purge";
 
     @Autowired
     private ControlFileValidator validator;
-
-    private Logger log = LoggerFactory.getLogger(ControlFileProcessor.class);
-
-    private static final String PURGE = "purge";
 
     @Autowired
     private BatchJobAssembler jobAssembler;
@@ -73,14 +73,16 @@ public class ControlFileProcessor implements Processor {
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        log.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
     private void processControlFile(Exchange exchange, String batchJobId) {
-        try {
-            Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
-            NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+        NewBatchJob newJob = null;
+        try {
+
+            newJob = batchJobDAO.findBatchJobById(batchJobId);
 
             ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
 
@@ -95,25 +97,26 @@ public class ControlFileProcessor implements Processor {
                 createAndAddResourceEntries(newJob, cf);
             }
 
-            BatchJobUtils.writeErrorsWithDAO(batchJobId, BATCH_JOB_STAGE, errorReport, batchJobDAO);
+            BatchJobUtils.writeErrorsWithDAO(batchJobId, cf.getFileName(), BATCH_JOB_STAGE, errorReport, batchJobDAO);
 
             // TODO set properties on the exchange based on job properties
-
-            // TODO Create the stage and metric
-            newJob.addCompletedStage(stage);
-            batchJobDAO.saveBatchJob(newJob);
 
             setExchangeHeaders(exchange, newJob, errorReport);
 
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
+        } finally {
+            if (newJob != null) {
+                newJob.addCompletedStage(stage);
+                batchJobDAO.saveBatchJob(newJob);
+            }
         }
     }
 
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        log.error("Exception:", exception);
+        LOG.error("Exception:", exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null, null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
