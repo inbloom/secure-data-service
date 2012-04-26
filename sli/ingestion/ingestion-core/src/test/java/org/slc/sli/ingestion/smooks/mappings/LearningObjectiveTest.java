@@ -6,7 +6,6 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -36,7 +35,7 @@ public class LearningObjectiveTest {
             + "      <Objective>objective</Objective>"
             + "    </LearningObjectiveIdentity>"
             + "  </LearningObjectiveReference>"
-            + "  <LearningObjectiveReference ref=\"lo-ref-1\"></LearningObjectiveReference>"
+            + "  <LearningObjectiveReference></LearningObjectiveReference>"
             + "  <LearningObjectiveReference>"
             + "    <LearningObjectiveIdentity>"
             + "      <LearningObjectiveId>"
@@ -44,6 +43,13 @@ public class LearningObjectiveTest {
             + "      </LearningObjectiveId>"
             + "    </LearningObjectiveIdentity>"
             + "  </LearningObjectiveReference>"
+            + "  <LearningStandardReference>"
+            + "    <LearningStandardIdentity>"
+            + "      <LearningStandardId>"
+            + "        <IdentificationCode ContentStandardName=\"standard_name\">standard_id</IdentificationCode>"
+            + "      </LearningStandardId>"
+            + "    </LearningStandardIdentity>"
+            + "  </LearningStandardReference>"
             + "</LearningObjective>" + "</InterchangeAssessmentMetadata>";
 
     @SuppressWarnings("unchecked")
@@ -62,28 +68,13 @@ public class LearningObjectiveTest {
         Assert.assertNotNull(learningObjectives);
         Assert.assertEquals(3, learningObjectives.size());
 
-        assertInList(learningObjectives, "ref", "lo-ref-1");
         assertInList(learningObjectives, "objective", "objective");
         assertInList(learningObjectives, "learningObjectiveId.identificationCode", "objective_id");
         assertInList(learningObjectives, "learningObjectiveId.contentStandardName", "standard_name");
-    }
 
-    @Test
-    @Ignore
-    public void testInvalidObjectiveAssessmentXML() throws IOException, SAXException {
-        String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String targetSelector = "InterchangeAssessmentMetadata/LearningObjective";
-
-        String invalidXmlTestData = "<InterchangeAssessmentMetadata xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-AssessmentMetadata.xsd\">"
-                + "<ObjectiveAssessment id=\"TAKSReading3-4\">"
-                + "<MaxRawScore>8</MaxRawScore>"
-                + "<PercentOfAssessment>50</PercentOfAssessment>"
-                + "<Nomenclature>nomenclature</Nomenclature>"
-                + "</ObjectiveAssessment>" + "</InterchangeAssessmentMetadata>";
-
-        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-                invalidXmlTestData);
-
+        List<Map<String, Object>> learningStandards = (List<Map<String, Object>>) m.get("learningStandardRefs");
+        assertInList(learningStandards, "learningStandardId.identificationCode", "standard_id");
+        assertInList(learningStandards, "learningStandardId.contentStandardName", "standard_name");
     }
 
 
@@ -103,7 +94,9 @@ public class LearningObjectiveTest {
 
     @SuppressWarnings("unchecked")
     private static String getByPath(String name, Map<String, Object> map) {
-        // how many times have I written this code? Not enough, I say!
+        if (map == null) {
+            return null;
+        }
         String[] path = name.split("\\.");
         for (int i = 0; i < path.length; i++) {
             Object obj = map.get(path[i]);

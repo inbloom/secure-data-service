@@ -86,8 +86,8 @@ public class LearningObjectiveTransformTest {
         nr.setRecordType(LearningObjectiveTransform.LEARNING_OBJ_COLLECTION);
         nr.setAttributes(new HashMap<String, Object>());
         nr.setLocalParentIds(new HashMap<String, Object>());
-        setAtPath(nr.getAttributes(), LearningObjectiveTransform.ID_CODE_PATH, objectiveId);
-        setAtPath(nr.getAttributes(), LearningObjectiveTransform.CONTENT_STANDARD_NAME_PATH, contentStandardName);
+        setAtPath(nr.getAttributes(), LearningObjectiveTransform.LO_ID_CODE_PATH, objectiveId);
+        setAtPath(nr.getAttributes(), LearningObjectiveTransform.LO_CONTENT_STANDARD_NAME_PATH, contentStandardName);
         setAtPath(nr.getAttributes(), LearningObjectiveTransform.LEARNING_OBJ_REFS,
                 new ArrayList<Map<String, Object>>());
         return nr;
@@ -98,8 +98,8 @@ public class LearningObjectiveTransformTest {
         List<Map<String, Object>> childRefs = (List<Map<String, Object>>) parent.getAttributes().get(
                 LearningObjectiveTransform.LEARNING_OBJ_REFS);
         Map<String, Object> map = new HashMap<String, Object>();
-        setAtPath(map, LearningObjectiveTransform.ID_CODE_PATH, objectiveId);
-        setAtPath(map, LearningObjectiveTransform.CONTENT_STANDARD_NAME_PATH, contentStandardName);
+        setAtPath(map, LearningObjectiveTransform.LO_ID_CODE_PATH, objectiveId);
+        setAtPath(map, LearningObjectiveTransform.LO_CONTENT_STANDARD_NAME_PATH, contentStandardName);
         childRefs.add(map);
     }
 

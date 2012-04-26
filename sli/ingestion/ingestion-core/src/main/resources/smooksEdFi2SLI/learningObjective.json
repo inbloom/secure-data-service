@@ -36,6 +36,27 @@
 	            ]
 	        ]
         }
-    }]
+    },
+    {
+            "fieldPath" : "body.learningStandards",
+            "ref" :
+            {
+                "collectionName" : "learningStandard",
+                "isRefList" : true,
+                "refObjectPath" : "localParentIds.childLearningStandards",
+                "choiceOfFields" :
+                [
+                  [
+                    { 
+                        "path" : "body.learningStandardId.identificationCode",
+                        "values" : 
+                        [{
+                            "valueSource" : "localParentIds.childLearningStandards.identificationCode"
+                        }]
+                    }
+                  ]
+                ]
+            }
+     }]
 }
 

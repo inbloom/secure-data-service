@@ -124,7 +124,7 @@ public class IdNormalizer {
                         errorReport);
 
                 if ((ids == null || ids.size() == 0) && reference.getRef().isOptional()) {
-                    return;
+                    continue;
                 }
 
                 if (ids.size() != numRefInstances) {
@@ -141,7 +141,7 @@ public class IdNormalizer {
                 }
 
                 if (errorReport.hasErrors()) {
-                    return;
+                    continue;
                 }
 
                 if (reference.getRef().isRefList()) {
