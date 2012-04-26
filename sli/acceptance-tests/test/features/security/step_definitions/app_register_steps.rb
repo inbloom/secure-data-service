@@ -41,6 +41,24 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
   assert(@res != nil, "Response from PUT operation was null")
 end
 
+When /^an operator approves the "([^"]*)" application$/ do |arg1|
+  @format = "application/json"
+  dataObj = DataProvider.getValidAppData()	
+  dataObj["client_secret"] = @client_secret
+  dataObj["client_id"] = @client_id
+  dataObj["registration"]  = @registration
+  dataObj["registration"]["status"] = "APPROVED"
+  data = prepareData("application/json", dataObj)
+  restHttpPut(arg1, data, @format, "a8cf184b-9c7e-4253-9f45-ed4e9f4f596c")
+  assert(@res != nil, "Response from PUT operation was null")
+
+  #re-get the app so we have updated data, like approval date
+  restHttpGet(arg1)
+  result = JSON.parse(@res.body)
+  @registration = result["registration"]
+end
+
+
 Then /^I should no longer be able to get that application's data'$/ do
   @format = "application/json"
   restHttpGet("/apps/#{@newId}")

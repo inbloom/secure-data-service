@@ -940,9 +940,9 @@ task :idpAuthTests => [:realmInit] do
   end
 end
 
-desc "Run Sandbox Mock IDP Authentication Selenium Tests"
-task :mockIDPAuthTests => [:realmInit, :importSandboxData] do
-  runTests("test/features/apiV1/end_user_stories/sandbox/mockIDP/MockIDP.feature")
+desc "Run Sandbox Simple IDP Authentication Selenium Tests"
+task :simpleIDPAuthTests => [:realmInit, :importSandboxData] do
+  runTests("test/features/apiV1/end_user_stories/sandbox/simpleIDP/MockIDP.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
