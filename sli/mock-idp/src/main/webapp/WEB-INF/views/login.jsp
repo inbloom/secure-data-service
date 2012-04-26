@@ -31,7 +31,7 @@
 
 		<div class="realm-name">
 			<h1>
-				<span class="heading">SLI IDP</span> <span class="tenant">${tenant}</span> <span class="heading">Realm</span>
+				<span class="heading">SLI IDP</span>
 			</h1>
 		</div>
 
