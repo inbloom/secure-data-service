@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -708,18 +709,35 @@ public class PopulationManagerImpl implements PopulationManager {
         return studentSearch;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public GenericEntity getAssessments(String token, Object id, Config.Data config) {
         GenericEntity entity = new GenericEntity();
-        GenericEntity student = entityManager.getStudentWithOptionalFields(token, (String) id, Arrays.asList("assessments"));
+        GenericEntity student = entityManager.getStudentWithOptionalFields(token, (String) id, Arrays.asList(Constants.ATTR_ASSESSMENTS));
         if (student == null) {
             log.error("Requested data for non-existing ID" + id);
             return entity;
         }
+        List<Map<String, Object>> assessements =
+                filterAssessmentByFamily(
+                        student.getList(Constants.ATTR_STUDENT_ASSESSMENTS),
+                        (String) config.getParams().get(Constants.ATTR_ASSESSMENT_FAMILY));
         // get all assessments for student
-        entity.put(
-                "assessments",
-                filterAssessmentByFamily(student.getList(Constants.ATTR_STUDENT_ASSESSMENTS), (String) config.getParams().get("assessmentFamily")));
+        entity.put(Constants.ATTR_ASSESSMENTS, assessements);
+        Set<String> scoreResultNames = new LinkedHashSet<String>();
+        List<Map<String, Object>> scoreResults;
+        String reportingMethod;
+        for (Map<String, Object> elem : assessements) {
+            scoreResults = (List<Map<String, Object>>) elem.get(Constants.ATTR_SCORE_RESULTS);
+            if (scoreResults != null) {
+                for (Map<String, Object> oneScore : scoreResults) {
+                    reportingMethod = (String) oneScore.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD);
+                    scoreResultNames.add(reportingMethod);
+                    elem.put(reportingMethod, oneScore.get(Constants.ATTR_RESULT));
+                }
+            }
+        }
+        entity.put("scoreResultsSet", new ArrayList<String>(scoreResultNames));
         return entity;
     }
 }

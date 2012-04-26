@@ -128,6 +128,18 @@ public class Config implements Cloneable {
             return item;
         }
 
+        public Item cloneWithParams(String name, String field) {
+            Item item;
+            try {
+                item = (Item) this.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new DashboardException("Unable to clone items", e);
+            }
+            item.name = name;
+            item.field = field;
+            return item;
+        }
+
         @Override
         public String toString() {
             return "ViewItem [width=" + width + ", type=" + datatype + ", color=" + color + ", style=" + style

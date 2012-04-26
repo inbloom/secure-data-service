@@ -11,6 +11,6 @@
         {id : "year", name : "Date", type : "FIELD", datatype : "string", field : "administrationDate", width : 90 },
         {id : "grade", name : "Grade", type : "FIELD", datatype : "string", field : "gradeLevelWhenAssessed", width : 75 },
         {id : "name", name : "Assessment Name", type : "FIELD", datatype : "string", field : "assessments.assessmentTitle", width : 200},
-        {id : "scoreResults", root: "scoreResults", type : "FIELD", datatype : "string", width : 150}
+        {id : "scoreResults", root: "scoreResultsSet", type : "FIELD", datatype : "string", width : 120}
     ]
 }
