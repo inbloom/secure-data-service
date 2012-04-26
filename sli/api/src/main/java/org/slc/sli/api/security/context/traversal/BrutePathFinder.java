@@ -26,7 +26,6 @@ public class BrutePathFinder implements SecurityPathFinder {
     private Map<String, SecurityNode> nodeMap;
     private Map<String, List<SecurityNode>> prePath;
     private List<String> excludePath;
-    private List<String> publicPath;
 
     @Autowired
     private EdOrgToChildEdOrgNodeFilter edorgFilter;
@@ -36,7 +35,6 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap = new HashMap<String, SecurityNode>();
         prePath = new HashMap<String, List<SecurityNode>>();
         excludePath = new ArrayList<String>();
-        publicPath = new ArrayList<String>();
         
         nodeMap.put(EntityNames.TEACHER,
                 SecurityNodeBuilder.buildNode("teacher")
@@ -118,7 +116,6 @@ public class BrutePathFinder implements SecurityPathFinder {
                         nodeMap.get(EntityNames.STUDENT), nodeMap.get(EntityNames.SECTION),
                         nodeMap.get(EntityNames.SESSION)));
         
-        publicPath.add(EntityNames.EDUCATION_ORGANIZATION);
     }
 
     @Override
@@ -184,8 +181,5 @@ public class BrutePathFinder implements SecurityPathFinder {
         return excludePath.contains(from + to);
     }
     
-    public boolean isPublic(String to) {
-        return publicPath.contains(to);
-    }
 
 }

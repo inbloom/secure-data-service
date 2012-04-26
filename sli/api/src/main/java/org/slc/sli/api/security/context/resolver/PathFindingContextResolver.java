@@ -53,9 +53,6 @@ public class PathFindingContextResolver implements EntityContextResolver {
     public boolean canResolve(String fromEntityType, String toEntityType) {
         this.fromEntity = fromEntityType;
         this.toEntity = toEntityType;
-        if (pathFinder.isPublic(toEntityType)) {
-            return true;
-        }
         if (pathFinder.isPathExcluded(fromEntityType, toEntityType)) {
             return false;
         }
@@ -75,16 +72,6 @@ public class PathFindingContextResolver implements EntityContextResolver {
             return AllowAllEntityContextResolver.SUPER_LIST;
         }
         
-        if (pathFinder.isPublic(toEntity)) {
-            debug("The entity, {}, is public, returning all ids", toEntity);
-            List<String> ids = new ArrayList<String>();
-            Iterable<Entity> entities = repository.findAll(toEntity);
-            for (Entity entity : entities) {
-                ids.add(entity.getEntityId());
-            }
-            return ids;
-        }
-
         List<SecurityNode> path = new ArrayList<SecurityNode>();
         path = pathFinder.getPreDefinedPath(fromEntity, toEntity);
         if (path.size() == 0) {

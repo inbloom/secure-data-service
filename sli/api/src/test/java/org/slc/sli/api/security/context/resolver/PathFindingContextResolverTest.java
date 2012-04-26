@@ -172,27 +172,4 @@ public class PathFindingContextResolverTest {
         }
     }
     
-    @Test
-    public void testAnythingCanResolveEdOrg() {
-        assertTrue(resolver.canResolve(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION));
-        assertTrue(resolver.canResolve(EntityNames.STUDENT, EntityNames.EDUCATION_ORGANIZATION));
-        assertTrue(resolver.canResolve(EntityNames.AGGREGATION, EntityNames.EDUCATION_ORGANIZATION));
-    }
-    
-    @Test
-    public void testFindTeacherToEdOrg() {
-        List<Entity> entities = new ArrayList<Entity>();
-        Entity mockEntityOne = Mockito.mock(Entity.class);
-        when(mockEntityOne.getEntityId()).thenReturn("1");
-        Entity mockEntityTwo = Mockito.mock(Entity.class);
-        when(mockEntityTwo.getEntityId()).thenReturn("2");
-        entities.add(mockEntityOne);
-        entities.add(mockEntityTwo);
-        Mockito.when(mockRepo.findAll(EntityNames.EDUCATION_ORGANIZATION)).thenReturn(entities);
-        resolver.canResolve(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION);
-        List<String> ids = resolver.findAccessible(null);
-        List<String> expectedIds = Arrays.asList(new String[]{"1", "2"});
-        assertEquals(expectedIds, ids);
-    }
-
 }
