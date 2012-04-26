@@ -22,6 +22,9 @@ default:
 
         # Session hard logout (8 hours - only in api)
         sli.session.hardLogout: 28800000
+        
+        # Sandbox settings
+        sli.sandbox.autoRegisterApps: false
 
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
@@ -663,7 +666,7 @@ nxbuild2:
         log.path: ${user.home}/logs
 
 team:
-    api:
+    api: &API-TEAM
         <<: *API-DEFAULT
         # team/api/security/security.properties
         #
@@ -679,7 +682,7 @@ team:
         sli.support.email: sli@example.com
 
         api.perf.log.path: /storage/logs
-    data-access:
+    data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
         # team/data-access/db.properties
         #
@@ -707,7 +710,7 @@ team:
         sli.ingestion.batchjob.mongodb.user: 
         sli.ingestion.batchjob.mongodb.pass: 
 
-    ingestion:
+    ingestion: &INGESTION-TEAM
         <<: *INGESTION-DEFAULT
         # team/ingestion/ingestion_conf.properties
         landingzone.inbounddir: /home/ingestion/lz/inbound
@@ -720,7 +723,7 @@ team:
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
 
-    dashboard:
+    dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT
         api.client: apiClient
         api.server.url: https://${sli.dev.subdomain}.slidev.org/
@@ -737,7 +740,7 @@ team:
         panel.config.driver.dir: config
         panel.config.custom.dir: custom
 
-    misc:
+    misc: &MISC-TEAM
         <<: *MISC-DEFAULT
         sli.dev.subdomain: ci
         log.path: /storage/logs
@@ -1005,4 +1008,17 @@ test-perf:
         # perf/ingestion/test.properties
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
+        
+sandbox:
+    api: 
+        <<: *API-TEAM
+        sli.sandbox.autoRegisterApps: true
+    dashboard:
+        <<: *DASHBOARD-TEAM
+    ingestion:
+        <<: *INGESTION-TEAM
+    data-access:
+        <<: *DATA-ACCESS-TEAM
+    misc:
+        <<: *MISC-TEAM
 

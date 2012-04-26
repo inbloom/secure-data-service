@@ -64,13 +64,26 @@ end
 
 def processPayloadFile(file_name)
   path_name = file_name[0..-5]
+  file_name = file_name.split('/')[-1] if file_name.include? '/'
 
   # copy everything into a new directory (to avoid touching git tracked files)
+  path_delim = ""
+  if path_name.include? '/'
+    folders = path_name.split '/'
+    p folders
+    if folders.size > 0
+      folders[0...-1].each { |path| path_delim += path + '/'}
+      path_name = folders[-1]
+      p path_delim
+      p path_name
+    end
+  end
   zip_dir = @local_file_store_path + "temp-" + path_name + "/"
+  p zip_dir
   if Dir.exists?(zip_dir)
     FileUtils.rm_r zip_dir
   end
-  FileUtils.cp_r @local_file_store_path + path_name, zip_dir
+  FileUtils.cp_r @local_file_store_path + path_delim + path_name, zip_dir
 
   ctl_template = nil
   Dir.foreach(zip_dir) do |file|
@@ -200,7 +213,7 @@ end
 When /^a batch job log has been created$/ do
   intervalTime = 3 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 420
+  @maxTimeout ? @maxTimeout : @maxTimeout = 900
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')

@@ -10,13 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
@@ -30,12 +33,12 @@ import org.slc.sli.ingestion.queues.MessageType;
 @Component
 public class ControlFilePreProcessor implements Processor {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ControlFilePreProcessor.class);
+
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PREPROCESSOR;
 
     @Autowired
     private LandingZone landingZone;
-
-    Logger log = LoggerFactory.getLogger(ZipFileProcessor.class);
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -57,31 +60,31 @@ public class ControlFilePreProcessor implements Processor {
 
         // TODO handle invalid control file (user error)
         // TODO handle IOException or other system error
+        NewBatchJob newBatchJob = null;
         try {
 
             File fileForControlFile = exchange.getIn().getBody(File.class);
 
-            LandingZone resolvedLandingZone = resolveLandingZone(batchJobId, fileForControlFile);
+            LandingZone resolvedLZ = resolveLandingZone(batchJobId, fileForControlFile);
 
-            NewBatchJob newBatchJob = getNewBatchJobFromDb(batchJobId, batchJobDAO);
-            if (newBatchJob == null) {
-                newBatchJob = createNewBatchJob(fileForControlFile, exchange);
-            }
+            newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile, resolvedLZ);
 
             ControlFile controlFile = ControlFile.parse(fileForControlFile);
 
-            ControlFileDescriptor controlFileDescriptor = new ControlFileDescriptor(controlFile, resolvedLandingZone);
-
             newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
+            createResourceEntryAndAddToJob(controlFile, newBatchJob);
 
-            newBatchJob.addCompletedStage(stage);
+            ControlFileDescriptor controlFileDescriptor = new ControlFileDescriptor(controlFile, resolvedLZ);
 
-            batchJobDAO.saveBatchJob(newBatchJob);
-
-            setExchangeHeaders(exchange, controlFileDescriptor);
+            setExchangeHeaders(exchange, controlFileDescriptor, newBatchJob);
 
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
+        } finally {
+            if (newBatchJob != null) {
+                newBatchJob.addCompletedStage(stage);
+                batchJobDAO.saveBatchJob(newBatchJob);
+            }
         }
     }
 
@@ -98,7 +101,7 @@ public class ControlFilePreProcessor implements Processor {
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        log.error("Exception:", exception);
+        LOG.error("Exception:", exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null, null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
@@ -106,28 +109,37 @@ public class ControlFilePreProcessor implements Processor {
         }
     }
 
-    private void setExchangeHeaders(Exchange exchange, ControlFileDescriptor controlFileDescriptor) {
+    private void setExchangeHeaders(Exchange exchange, ControlFileDescriptor controlFileDescriptor, NewBatchJob newJob) {
+        exchange.getIn().setHeader("BatchJobId", newJob.getId());
         exchange.getIn().setBody(controlFileDescriptor, ControlFileDescriptor.class);
         exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
     }
 
-    private NewBatchJob getNewBatchJobFromDb(String batchJobId, BatchJobDAO batchJobDAO) {
+    private NewBatchJob getOrCreateNewBatchJob(String batchJobId, File cf, LandingZone lz) {
+        NewBatchJob job = null;
         if (batchJobId != null) {
-            return batchJobDAO.findBatchJobById(batchJobId);
+            job = batchJobDAO.findBatchJobById(batchJobId);
+        } else {
+            job = createNewBatchJob(cf, lz);
         }
-        return null;
+        return job;
     }
 
-    private NewBatchJob createNewBatchJob(File controlFile, Exchange exchange) {
-
+    private NewBatchJob createNewBatchJob(File controlFile, LandingZone landingZone) {
         NewBatchJob newJob = NewBatchJob.createJobForFile(controlFile.getName());
-
-        // TODO Make getting the path a little nicer (i.e., not stripping the zip temp path)
         newJob.setSourceId(landingZone.getLZId() + File.separator);
-
-        exchange.getIn().setHeader("BatchJobId", newJob.getId());
-        log.info("Created job [{}]", newJob.getId());
+        newJob.setStatus(BatchJobStatusType.RUNNING.getName());
+        LOG.info("Created job [{}]", newJob.getId());
         return newJob;
+    }
+
+    private void createResourceEntryAndAddToJob(ControlFile cf, NewBatchJob newJob) {
+        ResourceEntry resourceEntry = new ResourceEntry();
+        resourceEntry.setResourceId(cf.getFileName());
+        resourceEntry.setExternallyUploadedResourceId(cf.getFileName());
+        resourceEntry.setResourceName(newJob.getSourceId() + cf.getFileName());
+        resourceEntry.setResourceFormat(FileFormat.CONTROL_FILE.getCode());
+        newJob.getResourceEntries().add(resourceEntry);
     }
 
 }
