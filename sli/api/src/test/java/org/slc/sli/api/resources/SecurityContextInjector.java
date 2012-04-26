@@ -5,8 +5,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.mockito.Mockito;
+import org.slc.sli.api.init.RoleInitializer;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +19,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.enums.Right;
 
 /**
  * Simple class for injecting a security context for unit tests. Future implementations will allow
@@ -45,6 +45,44 @@ public class SecurityContextInjector {
         Mockito.when(entity.getType()).thenReturn("admin-staff");
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         setSecurityContext(principal);
+    }
+    
+    public void setDeveloperContext() {
+        String user = "developer";
+        String fullName = "App Developer";
+        List<String> roles = Arrays.asList(RoleInitializer.APP_DEVELOPER);
+        
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("admin-staff");
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        setSecurityContext(principal);
+        
+        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.APP_CREATION, Right.APP_EDORG_SELECT };
+        PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
+                .getAuthentication().getCredentials(), Arrays.asList(rights));
+        
+        LOG.debug("elevating rights to {}", rights.toString());
+        SecurityContextHolder.getContext().setAuthentication(token);
+    }
+    
+    public void setOperatorContext() {
+        String user = "Operator";
+        String fullName = "SLC Operator";
+        List<String> roles = Arrays.asList(RoleInitializer.SLC_OPERATOR);
+        
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("admin-staff");
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        setSecurityContext(principal);
+        
+        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.APP_REGISTER, Right.APP_EDORG_SELECT };
+        PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
+                .getAuthentication().getCredentials(), Arrays.asList(rights));
+        
+        LOG.debug("elevating rights to {}", rights.toString());
+        SecurityContextHolder.getContext().setAuthentication(token);
     }
 
     public void setAdminContextWithElevatedRights() {

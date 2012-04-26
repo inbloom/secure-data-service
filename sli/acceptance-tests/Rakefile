@@ -55,7 +55,8 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-  sh "cucumber #{testDirPath} #{EXPAND} --tags ~@wip #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
+  @tags ||= ["~@wip", "~@sandbox"]
+  sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
@@ -196,16 +197,21 @@ end
 ############################################################
 desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
-                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest,
+                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest, 
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest,
-                         :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionIndexTest] do
+                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, 
+                         :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionIndexTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
   else
     raise "Tests have failed"
   end
+end
+
+desc "Run Common Core Standards Tests"
+task :ingestionCommonCoreTest do
+  runTests("test/features/ingestion/features/ingestion_common_core_standards.feature")
 end
 
 desc "Run Ingestion Demo Tests"
@@ -236,6 +242,21 @@ end
 desc "Run Ingestion StaffProgramAssociation Test"
 task :ingestionStaffProgramAssociationTest do
   runTests("test/features/ingestion/features/ingestion_StaffProgramAssociation.feature")
+end
+
+desc "Run Ingestion Cohort Test"
+task :ingestionCohortTest do
+  runTests("test/features/ingestion/features/ingestion_cohort.feature")
+end
+
+desc "Run Ingestion StudentCohortAssociation Test"
+task :ingestionStudentCohortAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_StudentCohortAssociation.feature")
+end
+
+desc "Run Ingestion StaffCohortAssociation Test"
+task :ingestionStaffCohortAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_StaffCohortAssociation.feature")
 end
 
 desc "Run Ingestion Negative Tests"
@@ -380,6 +401,7 @@ end
 task :apiV1EntityTests => [:v1AssessmentTests,
                            :v1LearningStandardTests,
                            :v1LearningObjectiveTests,
+                           :v1CCSTests,
                            :v1AttendanceTests,
                            :v1CourseTests,
                            :v1EducationOrganizationTests,
@@ -422,8 +444,16 @@ task :v1XMLTests => [:realmInit] do
   setFixture("school", "school_fixture.json")
   setFixture("student", "student_fixture.json")
   setFixture("assessment", "assessment_fixture.json")
+  setFixture("attendance", "attendance_fixture.json")
+  setFixture("section", "section_fixture.json")
+  setFixture("session", "session_fixture.json")
+  setFixture("course", "course_fixture.json")
+  setFixture("gradebookEntry", "gradebookEntry_fixture.json")
+  setFixture("studentSectionGradebookEntry", "studentSectionGradebookEntry_fixture.json")
   setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
   setFixture("sessionCourseAssociation", "sessionCourseAssociation_fixture.json")
+  setFixture("studentAssessmentAssociation", "studentAssessmentAssociation_fixture.json")
+  setFixture("studentTranscriptAssociation", "studentTranscriptAssociation_fixture.json")
   runTests("test/features/apiV1/xml/xml.feature")
 end
 
@@ -727,6 +757,12 @@ task :v1LearningObjectiveTests => [:realmInit] do
   runFixtureAndTests("test/features/apiV1/entities/learningObjective","learningObjective","learningObjective_fixture.json")
 end
 
+desc "Run V1 Common Core Standards reference traversal Tests"
+task :v1CCSTests => [:realmInit] do
+  setFixture("learningStandard", "learningStandard_fixture.json")
+  runFixtureAndTests("test/features/apiV1/end_user_stories/commonCoreStandards/API/api_ccs.feature","learningObjective","learningObjective_fixture.json")
+end
+
 desc "Run V1 LearningStandard Tests"
 task :v1LearningStandardTests => [:realmInit] do
   runFixtureAndTests("test/features/apiV1/entities/learningStandard","learningStandard","learningStandard_fixture.json")
@@ -837,6 +873,22 @@ end
 ############################################################
 # API V1 tests end
 ############################################################
+
+
+############################################################
+# API Sandbox Tests
+############################################################
+desc "Run Sandbox mode Tests"
+task :adminSandboxTests do
+  @tags = ["~@wip", "@sandbox"]
+  Rake::Task["adminToolsTests"].invoke
+end
+
+desc "Run Sandbox API tests"
+task :apiSandboxTests do
+  @tags = ["~@wip", "@sandbox"]
+  Rake::Task["securityTests"].invoke
+end
 
 ############################################################
 # API Selenium tests start

@@ -98,8 +98,8 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
     private File createTempFile() throws IOException {
         File landingZone = new File(lzDirectory);
-        File outputFile = landingZone.exists() ? File.createTempFile("camel_", ".tmp", landingZone) : File
-                .createTempFile("camel_", ".tmp");
+        File outputFile = landingZone.exists() ? File.createTempFile("neutralRecord_", ".tmp", landingZone) : File
+                .createTempFile("neutralRecord_", ".tmp");
         return outputFile;
     }
 

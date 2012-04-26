@@ -87,12 +87,12 @@ public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppe
 
                 //add the expanded items to the association
                 studentSectionAssociationForStudent.put(PathConstants.SECTIONS, sectionForStudent);
-                //studentSectionAssociationForStudent.put(PathConstants.STUDENT_TRANSCRIPT_ASSOCIATIONS, studentTranscriptsForStudentAndCourse);
+                //studentSectionAssociationForStudent.put(PathConstants.COURSE_TRANSCRIPTS, studentTranscriptsForStudentAndCourse);
             }
 
             EntityBody body = new EntityBody();
             body.put(PathConstants.STUDENT_SECTION_ASSOCIATIONS, studentSectionAssociationsForStudent);
-            body.put(PathConstants.STUDENT_TRANSCRIPT_ASSOCIATIONS, studentTranscriptAssociations);
+            body.put(PathConstants.COURSE_TRANSCRIPTS, studentTranscriptAssociations);
 
             //add the associations to the student
             student.put(ParameterConstants.OPTIONAL_FIELD_TRANSCRIPT, body);

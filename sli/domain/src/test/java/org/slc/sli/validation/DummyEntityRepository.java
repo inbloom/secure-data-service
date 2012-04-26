@@ -7,6 +7,7 @@ import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
+import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
@@ -40,6 +41,24 @@ public class DummyEntityRepository implements Repository<Entity> {
             entities.put(collection, new HashMap<String, Entity>());
         }
         entities.get(collection).put(id, entity);
+    }
+
+    @Override
+    public boolean collectionExists(String collection) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void createCollection(String collection) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void ensureIndex(IndexDefinition index, String collection) {
+        // TODO Auto-generated method stub
+
     }
 
     @Override

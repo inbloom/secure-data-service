@@ -1,0 +1,25 @@
+{
+    "keyFields" : [ "body.learningObjectiveId.identificationCode", "body.learningObjectiveId.contentStandardName" ],
+	"references" :
+	[{
+        "fieldPath" : "body.parentLearningObjective",
+        "ref" :
+        {
+	        "collectionName" : "learningObjective",
+	        "optional" : true,
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "body.learningObjectiveId.identificationCode",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.parentLearningObjectiveIdentificationCode"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    }]
+}
+

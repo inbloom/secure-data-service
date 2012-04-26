@@ -25,7 +25,8 @@ public class BatchJobAssembler {
      * Attempt to generate a new BatchJob based on data found in the
      * controlFile.
      *
-     * @param controlFile Control file descriptor
+     * @param controlFile
+     *            Control file descriptor
      * @return BatchJob Assembled batch job
      */
     public Job assembleJob(ControlFileDescriptor fileDesc) {
@@ -38,8 +39,10 @@ public class BatchJobAssembler {
      * Attempt to generate a new BatchJob based on data found in the
      * controlFile.
      *
-     * @param controlFile Control file descriptor
-     * @param filename string representation of incoming file
+     * @param controlFile
+     *            Control file descriptor
+     * @param filename
+     *            string representation of incoming file
      * @return BatchJob Assembled batch job
      */
     public Job assembleJob(ControlFileDescriptor fileDesc, String filename) {
@@ -52,8 +55,11 @@ public class BatchJobAssembler {
     /**
      * Attempt to populate a BatchJob based on data found in the
      * controlFile.
-     * @param fileDesc Control file descriptor
-     * @param job Batch Job to populate
+     *
+     * @param fileDesc
+     *            Control file descriptor
+     * @param job
+     *            Batch Job to populate
      * @return populated Batch Job
      */
     public Job populateJob(ControlFileDescriptor fileDesc, Job job) {
@@ -68,15 +74,14 @@ public class BatchJobAssembler {
         }
 
         if (job.getProperty(PURGE) == null) {
-            if (validator.isValid(fileDesc, job.getFaultsReport())) {
+            if (validator.isValid(fileDesc, ((BatchJob) job).getFaultsReport())) {
                 for (IngestionFileEntry entry : controlFile.getFileEntries()) {
                     if (entry.getFile() != null) {
-                        job.addFile(entry);
+                        ((BatchJob) job).addFile(entry);
                     }
                 }
             }
         }
-
 
         return job;
     }

@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.util.Assert;
@@ -299,5 +300,20 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
 
         return query;
+    }
+
+    @Override
+    public boolean collectionExists(String collection) {
+        return template.collectionExists(getComposedCollectionName(collection));
+    }
+
+    @Override
+    public void createCollection(String collection) {
+        template.createCollection(getComposedCollectionName(collection));
+    }
+
+    @Override
+    public void ensureIndex(IndexDefinition index, String collection) {
+        template.ensureIndex(index, getComposedCollectionName(collection));
     }
 }
