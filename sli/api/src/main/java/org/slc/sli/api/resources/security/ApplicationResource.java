@@ -72,11 +72,6 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public static final String LOCATION = "Location";
 
 
-//    @PostConstruct
-//    public void init() {
-//        EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
-//        this.service = def.getService();
-//    }
     public void setAutoRegister(boolean register) {
         this.autoRegister = register;
     }
@@ -119,10 +114,11 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         registration.put(STATUS, "PENDING");
         if (autoRegister) {
             registration.put(STATUS, "APPROVED");
+            registration.put(APPROVAL_DATE, System.currentTimeMillis());
         }
         registration.put(REQUEST_DATE, System.currentTimeMillis());
         newApp.put(REGISTRATION, registration);
-
+        
         String clientSecret = TokenGenerator.generateToken(CLIENT_SECRET_LENGTH);
         newApp.put(CLIENT_SECRET, clientSecret);
         return super.create(newApp, headers, uriInfo);
@@ -140,12 +136,15 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         }
     }
 
+    @SuppressWarnings("rawtypes")
     @GET
     public Response getApplications(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context
             HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.readAll(offset, limit, headers, uriInfo);
+        Response resp = super.readAll(offset, limit, headers, uriInfo);
+        filterSensitiveData((Map) resp.getEntity());
+        return resp;
     }
 
     /**
@@ -156,11 +155,42 @@ public class ApplicationResource extends DefaultCrudEndpoint {
      *            the client ID, not the "id"
      * @return the JSON data of the application, otherwise 404 if not found
      */
+    @SuppressWarnings("rawtypes")
     @GET
     @Path("{" + UUID + "}")
     public Response getApplication(@PathParam(UUID) String uuid,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(uuid, headers, uriInfo);
+        Response resp =  super.read(uuid, headers, uriInfo);
+        filterSensitiveData((Map) resp.getEntity());
+        return resp;
+    }
+
+    /**
+     * If an app hasn't been approved, the client_id and client_secret shouldn't
+     * be visible to the developer.
+     * 
+     * @param entity
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private void filterSensitiveData(Map entity) {
+        Object appObj = entity.get("application");
+        List appList = new ArrayList();
+        if (appObj != null) {
+            if (appObj instanceof Map) {
+                appList.add(appObj);
+            } else if (appObj instanceof List) {
+                appList = (List) appObj;
+            }
+            
+            for (Object app : appList) {
+                Map appMap = (Map) app;
+                Map reg = (Map) appMap.get("registration");
+                if (!reg.get("status").equals("APPROVED")) {
+                    appMap.remove(CLIENT_ID);
+                    appMap.remove(CLIENT_SECRET);
+                }
+            }
+        }
     }
 
     @DELETE
@@ -179,8 +209,15 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
         EntityBody oldApp = service.get(uuid);
+        
+        //The client id and secret could be null if they were filtered from the client
         String clientSecret = (String) app.get(CLIENT_SECRET);
+        if (clientSecret == null)
+            app.put(CLIENT_SECRET, oldApp.get(CLIENT_SECRET));
         String clientId = (String) app.get(CLIENT_ID);
+        if (clientId == null)
+            app.put(CLIENT_ID, oldApp.get(CLIENT_ID));
+        
         String id = (String) app.get("id");
         Map<String, Object> oldReg = ((Map<String, Object>) oldApp.get(REGISTRATION));
         Map<String, Object> newReg = ((Map<String, Object>) app.get(REGISTRATION));
@@ -205,8 +242,10 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
         
-        changedKeys.remove("registration"); //only care about non-reg keys
-                
+        changedKeys.remove("registration");
+        changedKeys.remove("developer_info");   //TODO: developer_info is a pain since it's nested--need to validate this hasn't changed
+        changedKeys.remove("metaData");
+        
         //Operator - can only change registration status
         if (hasRight(Right.APP_REGISTER)) {
             if (changedKeys.size() > 0) {
@@ -217,8 +256,6 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             
             if (newRegStatus.equals("APPROVED") && oldRegStatus.equals("PENDING")) {
                 debug("App approved");
-                
-                //TODO: If auto approval is on, approve instead
                 newReg.put(STATUS, "APPROVED");
                 newReg.put(APPROVAL_DATE, System.currentTimeMillis());
             } else if (newRegStatus.equals("DENIED") && oldRegStatus.equals("PENDING")) {
@@ -240,6 +277,12 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
             
+            if (oldRegStatus.equals("PENDING")) {
+                EntityBody body = new EntityBody();
+                body.put("message", "Application cannot be modified while approval request is in Pending state.");
+                return Response.status(Status.BAD_REQUEST).entity(body).build();
+            }
+            
             //when a denied or unreg'ed app is altered, it goes back into pending
             if (oldRegStatus.equals("DENIED") || oldRegStatus.equals("UNREGISTERED")) {
                 
@@ -256,6 +299,17 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         return super.update(uuid, app, headers, uriInfo);
     }
 
+    /**
+     * Compares two date fields on the registration object.
+     * 
+     * It's only tricky because we one or both could be null
+     * e.g. an app in pending state won't have an approval date field
+     * 
+     * @param oldReg
+     * @param newReg
+     * @param field either request_date or approval_date
+     * @return
+     */
     private boolean registrationDatesMatch(Map<String, Object> oldReg,
             Map<String, Object> newReg, String field) {
         Long oldDate = (Long) oldReg.get(field);
