@@ -17,15 +17,15 @@ import org.slc.sli.util.Constants;
 
 /**
  * A static class for views in SLI dashboard to perform "timed" business logics
- * 
+ *
  * @author syau
- * 
+ *
  */
 public class TimedLogic2 {
-    
+
     private static Logger logger = LoggerFactory.getLogger(TimedLogic2.class);
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    
+
     /**
      *
      */
@@ -34,38 +34,40 @@ public class TimedLogic2 {
         MOST_RECENT_RESULT,
         HIGHEST_EVER;
     }
-    
+
     /**
      * Returns the student assessment association with the most recent timestamp
      */
-    public static Map getMostRecentAssessment(List<Map> a) {
-        
+    public static Map getMostRecentAssessment(List<Map<String, Object>> a) {
+
         Collections.sort(a, new Comparator<Map>() {
-            
+
+            @Override
             public int compare(Map o1, Map o2) {
-                
+
                 try {
                     Date d1 = dateFormat.parse((String) o1.get(Constants.ATTR_ADMIN_DATE));
                     Date d2 = dateFormat.parse((String) o2.get(Constants.ATTR_ADMIN_DATE));
                     return d2.compareTo(d1);
-                    
+
                 } catch (Exception e) {
                     logger.error("Date compare error");
                     return 0;
                 }
             }
         });
-        
+
         return a.get(0);
     }
-    
+
     /**
      * Returns the student assessment association with the highest score
      */
-    public static Map getHighestEverAssessment(List<Map> a) {
-        
+    public static Map getHighestEverAssessment(List<Map<String, Object>> a) {
+
         Collections.sort(a, new Comparator<Map>() {
-            
+
+            @Override
             public int compare(Map o1, Map o2) {
                 List<Map<String, String>> scoreResults1 = (List) o1.get(Constants.ATTR_SCORE_RESULTS);
                 List<Map<String, String>> scoreResults2 = (List) o2.get(Constants.ATTR_SCORE_RESULTS);
@@ -76,35 +78,38 @@ public class TimedLogic2 {
                         score1 = scoreResult.get(Constants.ATTR_RESULT);
                     }
                 }
-                
+
                 for (Map<String, String> scoreResult : scoreResults2) {
                     if (scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD).equals(Constants.ATTR_SCALE_SCORE)) {
                         score2 = scoreResult.get(Constants.ATTR_RESULT);
                     }
                 }
-                
+
                 return Integer.parseInt(score2) - Integer.parseInt(score1);
             }
         });
         return a.get(0);
     }
-    
+
     /**
      * Returns the student assessment association with the highest objective assessment score, based
      * on objective assessment identification code (i.e. SAT-Reading)
      */
-    
-    public static Map getHighestEverObjAssmt(List<Map> saaList, final String objAssmtCode) {
-        if (objAssmtCode == null || objAssmtCode.equals(""))
+
+    public static Map getHighestEverObjAssmt(List<Map<String, Object>> saaList, final String objAssmtCode) {
+        if (objAssmtCode == null || objAssmtCode.equals("")) {
             return null;
+        }
         Collections.sort(saaList, new Comparator<Map>() {
-            
+
+            @Override
             public int compare(Map o1, Map o2) {
-                if (o1 == null || o2 == null)
+                if (o1 == null || o2 == null) {
                     return 0;
+                }
                 try {
-                    List<Map> studentObjAssmts1 = (List<Map>) o1.get(Constants.ATTR_STUDENT_OBJECTIVE_ASSESSMENTS);
-                    List<Map> studentObjAssmts2 = (List<Map>) o2.get(Constants.ATTR_STUDENT_OBJECTIVE_ASSESSMENTS);
+                    List<Map<String, Object>> studentObjAssmts1 = (List<Map<String, Object>>) o1.get(Constants.ATTR_STUDENT_OBJECTIVE_ASSESSMENTS);
+                    List<Map<String, Object>> studentObjAssmts2 = (List<Map<String, Object>>) o2.get(Constants.ATTR_STUDENT_OBJECTIVE_ASSESSMENTS);
                     List<Map<String, String>> scoreResults1 = getScoreResults(studentObjAssmts1, objAssmtCode);
                     List<Map<String, String>> scoreResults2 = getScoreResults(studentObjAssmts2, objAssmtCode);
                     String score1 = getScoreFromScoreResults(scoreResults1);
@@ -125,18 +130,18 @@ public class TimedLogic2 {
         });
         return saaList.get(0);
     }
-    
+
     /**
      * Returns the assessment from the most recent window of the given assessment family
      * Most recent window is defined as:
      * - assessment with lastest beginDate that is not in the future
      * - if there is no assessment window, most recent studentAssessment admin date is used
      */
-    public static Map getMostRecentAssessmentWindow(Collection<Map> results,
-            Collection<Map> assessmentMetaData) {
-        
+    public static Map getMostRecentAssessmentWindow(Collection<Map<String, Object>> results,
+            Collection<Map<String, Object>> assessmentMetaData) {
+
         AssessmentPeriod window = getMostRecentWindow(assessmentMetaData);
-        
+
         if (window != null) {
             Map best = null;
             for (Map studentAssessment : results) {
@@ -160,8 +165,8 @@ public class TimedLogic2 {
             return mostRecent;
         }
     }
-    
-    private static AssessmentPeriod getMostRecentWindow(Collection<Map> assessmentMetaData) {
+
+    private static AssessmentPeriod getMostRecentWindow(Collection<Map<String, Object>> assessmentMetaData) {
         String now = javax.xml.bind.DatatypeConverter.printDate(Calendar.getInstance());
         List<AssessmentPeriod> periods = new ArrayList<AssessmentPeriod>();
         for (Map assessment : assessmentMetaData) {
@@ -175,15 +180,15 @@ public class TimedLogic2 {
             if (beginDate == null || endDate == null) {
                 continue;
             }
-            
+
             // ignore any assessment periods in the future
             if (now.compareTo(beginDate) < 0) {
                 continue;
             }
-            
+
             AssessmentPeriod period = new AssessmentPeriod(assessment, beginDate, endDate);
             periods.add(period);
-            
+
         }
         Collections.sort(periods);
         if (periods.size() > 0) {
@@ -192,7 +197,7 @@ public class TimedLogic2 {
             return null;
         }
     }
-    
+
     /**
      * Sortable assessment period. Protected level for unit tests.
      */
@@ -200,13 +205,13 @@ public class TimedLogic2 {
         final Map assessment;
         final String beginDate;
         final String endDate;
-        
+
         public AssessmentPeriod(Map assessment, String beginDate, String endDate) {
             this.assessment = assessment;
             this.beginDate = beginDate;
             this.endDate = endDate;
         }
-        
+
         /**
          * -1 means more recent, 1 means older
          */
@@ -231,8 +236,8 @@ public class TimedLogic2 {
             }
         }
     }
-    
-    protected static List<Map<String, String>> getScoreResults(List<Map> studentObjAssmts, String objAssmtCode) {
+
+    protected static List<Map<String, String>> getScoreResults(List<Map<String, Object>> studentObjAssmts, String objAssmtCode) {
         List<Map<String, String>> scoreResults = new ArrayList<Map<String, String>>();
         if (studentObjAssmts != null) {
             for (Map studentObjAssmt : studentObjAssmts) {
@@ -252,7 +257,7 @@ public class TimedLogic2 {
         }
         return scoreResults;
     }
-    
+
     protected static String getScoreFromScoreResults(List<Map<String, String>> scoreResults) {
         String score = "";
         for (Map<String, String> scoreResult : scoreResults) {
