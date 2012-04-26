@@ -198,8 +198,8 @@ public class BatchJobUtils {
         return timeStamp;
     }
 
-    public static void writeErrorsWithDAO(String batchId, BatchJobStageType stage, FaultsReport errorReport,
-            BatchJobDAO batchJobDAO) {
+    public static void writeErrorsWithDAO(String batchId, String resourceId, BatchJobStageType stage,
+            FaultsReport errorReport, BatchJobDAO batchJobDAO) {
         if (errorReport.hasErrors()) {
             String severity;
             List<Fault> faults = errorReport.getFaults();
@@ -212,8 +212,8 @@ public class BatchJobUtils {
                     // TODO consider adding this to FaultType
                     severity = "UNKNOWN";
                 }
-                Error error = Error.createIngestionError(batchId, stage.getName(), null, null, null, null, severity,
-                        null, fault.getMessage());
+                Error error = Error.createIngestionError(batchId, stage.getName(), resourceId, null, null, null,
+                        severity, null, fault.getMessage());
                 batchJobDAO.saveError(error);
             }
         }
