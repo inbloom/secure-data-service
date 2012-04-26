@@ -28,8 +28,8 @@ api_database_name : "sli"
 
 sampleApp_server_address: "http://local.slidev.org:8081/"
 
-mockIDP_realm_server_address: "http://local.slidev.org:8080/"
-mockIDP_realm_params: "response_type=code&client_id=fm67sH6vZZ&redirect_uri=http://local.slidev.org:8081/oauth2-sample/callback"
-mockIDP_login_url: "http://local.slidev.org:8082/mock-idp"
-mockIDP_realm_SLI: "MockIDP Test Realm - SLI"
-mockIDP_realm_suffix: "Local"
+simpleIDP_realm_server_address: "http://local.slidev.org:8080/"
+simpleIDP_realm_params: "response_type=code&client_id=fm67sH6vZZ&redirect_uri=http://local.slidev.org:8081/sample/callback"
+simpleIDP_login_url: "http://local.slidev.org:8082/simple-idp"
+simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
+simpleIDP_realm_suffix: "Local"

@@ -51,6 +51,8 @@ And I see the details of "NewApp"
 And all the fields are read only 
 
 
+#Won't work until we add an extra step for an operator to approve the application
+@wip
 Scenario: Edit application
 
 Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
