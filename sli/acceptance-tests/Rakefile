@@ -395,6 +395,7 @@ end
 task :apiV1EntityTests => [:v1AssessmentTests,
                            :v1LearningStandardTests,
                            :v1LearningObjectiveTests,
+                           :v1CCSTests,
                            :v1AttendanceTests,
                            :v1CourseTests,
                            :v1EducationOrganizationTests,
@@ -748,6 +749,12 @@ desc "Run V1 LearningObjective Tests"
 task :v1LearningObjectiveTests => [:realmInit] do
   setFixture("learningStandard", "learningStandard_fixture.json")
   runFixtureAndTests("test/features/apiV1/entities/learningObjective","learningObjective","learningObjective_fixture.json")
+end
+
+desc "Run V1 Common Core Standards reference traversal Tests"
+task :v1CCSTests => [:realmInit] do
+  setFixture("learningStandard", "learningStandard_fixture.json")
+  runFixtureAndTests("test/features/apiV1/end_user_stories/commonCoreStandards/API/api_ccs.feature","learningObjective","learningObjective_fixture.json")
 end
 
 desc "Run V1 LearningStandard Tests"
