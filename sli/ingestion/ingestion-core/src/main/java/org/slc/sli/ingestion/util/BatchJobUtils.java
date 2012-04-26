@@ -13,6 +13,8 @@ import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
 /**
@@ -69,6 +71,11 @@ public class BatchJobUtils {
                 batchJobDAO.saveError(error);
             }
         }
+    }
+
+    public static void stopStageAndAddToJob(Stage stage, NewBatchJob job) {
+        stage.stopStage();
+        job.addStage(stage);
     }
 
 }
