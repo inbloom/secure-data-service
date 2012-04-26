@@ -18,6 +18,7 @@ Background: Nothing yet
 	     And the response should contain the appropriate fields and values
 	     And "entityType" should be <EntityType>
 	     And I should receive a link named "self" with URI "/<NEWLY CREATED ENTITY URI>"
+	     And the tenant ID of the entity should be "SLI"
 		# Update 
 	    When I set the <UpdateField> to <UpdatedValue>
 	     And I navigate to PUT "/<NEWLY CREATED ENTITY URI>"
@@ -31,9 +32,23 @@ Background: Nothing yet
 	     And I should receive a return code of 404
 
 Examples:
-| EntityType        | EntityURI            | UpdateField              | UpdatedValue                                 |
-| "student"         | "/students"          | "sex"                    | "Female"                                     |
-| "assessment"      | "/assessments"       | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
-| "parent"          | "/parents"           | "parentUniqueStateId"    | "ParentID102"                                |
-| "school"          | "/schools"           | "nameOfInstitution"      | "Yellow Middle School"                       |
-| "teacher"         | "/teachers"          | "highlyQualifiedTeacher" | "false"                                      |
+| EntityType                     | EntityURI                  | UpdateField              | UpdatedValue                                 |
+| "assessment"                   | "/assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
+| "attendance"                   | "/attendances"             | "schoolYearAttendance"   | "[]"                                         |
+| "cohort"                       | "/cohorts"                 | "cohortDescription"      | "frisbee golf team"                          |
+| "course"                       | "/courses"                 | "courseDescription"      | "Advanced Linguistic Studies"                |
+| "disciplineAction"             | "/disciplineActions"       | "disciplineDate"         | "2012-03-18"                                 |
+| "disciplineIncident"           | "/disciplineIncidents"     | "incidentTime"           | "01:02:15"                                   |
+| "educationOrganization"        | "/educationOrganizations"  | "nameOfInstitution"      | "Bananas School District"                    |
+| "gradebookEntry"               | "/gradebookEntries"        | "gradebookEntryType"     | "Homework"                                   |
+| "learningObjective"            | "/learningObjectives"      | "academicSubject"        | "Mathematics"                                |
+| "learningStandard"             | "/learningStandards"       | "gradeLevel"             | "Ninth grade"                                |
+| "parent"                       | "/parents"                 | "parentUniqueStateId"    | "ParentID102"                                |
+| "program"                      | "/programs"                | "programSponsor"         | "State Education Agency"                     |
+| "school"                       | "/schools"                 | "nameOfInstitution"      | "Yellow Middle School"                       |
+| "section"                      | "/sections"                | "sequenceOfCourse"       | "2"                                          |
+| "session"                      | "/sessions"                | "totalInstructionalDays" | "43"                                         |
+| "staff"                        | "/staff"                   | "sex"                    | "Female"                                     |
+| "student"                      | "/students"                | "sex"                    | "Female"                                     |
+| "studentSectionGradebookEntry" | "/studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
+| "teacher"                      | "/teachers"                | "highlyQualifiedTeacher" | "false"                                      |
