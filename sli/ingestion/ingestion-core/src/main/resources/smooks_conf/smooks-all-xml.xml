@@ -3266,6 +3266,7 @@
   <!-- End StaffCohortAssociation Mapping -->
 
   <!-- Start DisciplineIncident mapping -->
+  <!-- DisciplineIncident is keyed by IncidentIdentifier+SchoolReference, as the identifier is unique only within the scope of the school -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
     createOnElement="InterchangeStudentDiscipline/DisciplineIncident">
     <jb:expression property="recordType">'disciplineIncident'</jb:expression>
