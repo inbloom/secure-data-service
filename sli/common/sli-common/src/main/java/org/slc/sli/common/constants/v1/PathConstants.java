@@ -58,7 +58,7 @@ public class PathConstants {
     public static final String TEACHERS = "teachers";
     public static final String STAFF = "staff";
     public static final String STUDENT_ACADEMIC_RECORDS = "studentAcademicRecords";
-    public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
+    public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentGradebookEntries";
     public static final String STAFF_PROGRAM_ASSOCIATIONS = "staffProgramAssociations";
     public static final String STUDENT_PROGRAM_ASSOCIATIONS = "studentProgramAssociations";
 
