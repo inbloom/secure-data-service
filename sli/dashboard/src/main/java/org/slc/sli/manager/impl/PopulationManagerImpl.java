@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.WordUtils;
@@ -307,81 +306,81 @@ public class PopulationManagerImpl implements PopulationManager {
      * @param sectionId
      * @return
      */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private String getSubjectArea(List<Map<String, Object>> stuSectAssocs,
-			String sectionId) {
-		String subjectArea = null;
-		for (Map<String, Object> assoc : stuSectAssocs) {
-			if (sectionId.equalsIgnoreCase((String) assoc
-					.get(Constants.ATTR_SECTION_ID))) {
-				Map<String, Object> sections = (Map<String, Object>) assoc
-						.get(Constants.ATTR_SECTIONS);
-				subjectArea = (String) ((Map) sections
-						.get(Constants.ATTR_COURSES))
-						.get(Constants.ATTR_SUBJECTAREA);
-				break;
-			}
-		}
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private String getSubjectArea(List<Map<String, Object>> stuSectAssocs,
+            String sectionId) {
+        String subjectArea = null;
+        for (Map<String, Object> assoc : stuSectAssocs) {
+            if (sectionId.equalsIgnoreCase((String) assoc
+                    .get(Constants.ATTR_SECTION_ID))) {
+                Map<String, Object> sections = (Map<String, Object>) assoc
+                        .get(Constants.ATTR_SECTIONS);
+                subjectArea = (String) ((Map) sections
+                        .get(Constants.ATTR_COURSES))
+                        .get(Constants.ATTR_SUBJECTAREA);
+                break;
+            }
+        }
 
-		return subjectArea;
-	}
-	
-	/**
-	 * Extracts grades from transcriptAssociationRecord based on sections in the
-	 * passed. For each section where a transcript with final letter grade
-	 * exist, the grade is added to the list of grades for the semester.
-	 * 
-	 * @param student
-	 * @param interSections
-	 * @param stuTransAssocs
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void addSemesterFinalGrades(GenericEntity student,
-			List<Map<String, Object>> interSections,
-			List<Map<String, Object>> stuTransAssocs) {
+        return subjectArea;
+    }
 
-		// Iterate through the course Id's and grab transcripts grades, once
-		// we have NUMBER_OF_SEMESTERS transcript grades, we're done
-		for (Map<String, Object> section : interSections) {
-			String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
-
-			// Find the correct course. If that course is found in
-			// the transcript, then record that letter grade to the
-			// semesterScores.
-			for (Map<String, Object> assoc : stuTransAssocs) {
-				if (courseId.equalsIgnoreCase((String) assoc
-						.get(Constants.ATTR_COURSE_ID))) {
-					String finalLetterGrade = (String) assoc
-							.get(Constants.ATTR_FINAL_LETTER_GRADE);
-					String term = (String) ((Map) section
-							.get(Constants.ATTR_SESSIONS))
-							.get(Constants.ATTR_TERM);
-					String year = (String) ((Map) section
-							.get(Constants.ATTR_SESSIONS))
-							.get(Constants.ATTR_SCHOOL_YEAR);
-					String courseTitle = (String) ((Map) section
-							.get(Constants.ATTR_COURSES))
-							.get(Constants.ATTR_COURSE_TITLE);
-					if (finalLetterGrade != null) {
-						String semesterString = term.replaceAll(" ", "")
-								+ year.replaceAll(" ", "");
-						Map<String, Object> grade = new LinkedHashMap<String, Object>();
-						grade.put(Constants.SECTION_LETTER_GRADE,
-								finalLetterGrade);
-						grade.put(Constants.SECTION_COURSE, courseTitle);
-						List<Map<String, Object>> semesterScores = (List<Map<String, Object>>) student
-								.get(semesterString);
-						if (semesterScores == null) {
-							semesterScores = new ArrayList<Map<String, Object>>();
-						}
-						semesterScores.add(grade);
-						student.put(semesterString, semesterScores);
-						break;
-					}
-				}
-			}
-		}
-	}
+    /**
+     * Extracts grades from transcriptAssociationRecord based on sections in the
+     * passed. For each section where a transcript with final letter grade
+     * exist, the grade is added to the list of grades for the semester.
+     * 
+     * @param student
+     * @param interSections
+     * @param stuTransAssocs
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private void addSemesterFinalGrades(GenericEntity student,
+        List<Map<String, Object>> interSections,
+        List<Map<String, Object>> stuTransAssocs) {
+    
+            // Iterate through the course Id's and grab transcripts grades, once
+            // we have NUMBER_OF_SEMESTERS transcript grades, we're done
+            for (Map<String, Object> section : interSections) {
+                String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
+    
+            // Find the correct course. If that course is found in
+            // the transcript, then record that letter grade to the
+            // semesterScores.
+            for (Map<String, Object> assoc : stuTransAssocs) {
+                if (courseId.equalsIgnoreCase((String) assoc
+                        .get(Constants.ATTR_COURSE_ID))) {
+                    String finalLetterGrade = (String) assoc
+                            .get(Constants.ATTR_FINAL_LETTER_GRADE);
+                    String term = (String) ((Map) section
+                            .get(Constants.ATTR_SESSIONS))
+                            .get(Constants.ATTR_TERM);
+                    String year = (String) ((Map) section
+                            .get(Constants.ATTR_SESSIONS))
+                            .get(Constants.ATTR_SCHOOL_YEAR);
+                    String courseTitle = (String) ((Map) section
+                            .get(Constants.ATTR_COURSES))
+                            .get(Constants.ATTR_COURSE_TITLE);
+                    if (finalLetterGrade != null) {
+                        String semesterString = term.replaceAll(" ", "")
+                                + year.replaceAll(" ", "");
+                        Map<String, Object> grade = new LinkedHashMap<String, Object>();
+                        grade.put(Constants.SECTION_LETTER_GRADE,
+                                finalLetterGrade);
+                        grade.put(Constants.SECTION_COURSE, courseTitle);
+                        List<Map<String, Object>> semesterScores = (List<Map<String, Object>>) student
+                                .get(semesterString);
+                        if (semesterScores == null) {
+                            semesterScores = new ArrayList<Map<String, Object>>();
+                        }
+                        semesterScores.add(grade);
+                        student.put(semesterString, semesterScores);
+                        break;
+                    }
+                }
+            }
+            }
+    }
 
 	/**
 	 * This method adds the final grades of a student to the student data. It
