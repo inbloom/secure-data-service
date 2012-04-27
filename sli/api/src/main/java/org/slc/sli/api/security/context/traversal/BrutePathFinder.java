@@ -35,6 +35,7 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap = new HashMap<String, SecurityNode>();
         prePath = new HashMap<String, List<SecurityNode>>();
         excludePath = new ArrayList<String>();
+        
         nodeMap.put(EntityNames.TEACHER,
                 SecurityNodeBuilder.buildNode("teacher")
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)
@@ -114,7 +115,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                 Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SECTION),
                         nodeMap.get(EntityNames.STUDENT), nodeMap.get(EntityNames.SECTION),
                         nodeMap.get(EntityNames.SESSION)));
-
+        
     }
 
     @Override
@@ -179,5 +180,6 @@ public class BrutePathFinder implements SecurityPathFinder {
     public boolean isPathExcluded(String from, String to) {
         return excludePath.contains(from + to);
     }
+    
 
 }

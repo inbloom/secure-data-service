@@ -121,13 +121,13 @@ public class RoleInitializer {
     private Role buildSLCOperator() {
         LOG.info("Building SLC Operator role.");
         return RoleBuilder.makeRole(SLC_OPERATOR)
-                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.APP_REGISTER, Right.APP_EDORG_SELECT }).build();
+                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.APP_REGISTER, Right.APP_EDORG_SELECT, Right.READ_GENERAL }).build();
     }
 
     private Role buildAppDeveloper() {
-        LOG.info("Building Application Developer role.");
+        LOG.info("Building Application Developer default role.");
         return RoleBuilder.makeRole(APP_DEVELOPER)
-                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.APP_CREATION, Right.APP_EDORG_SELECT }).build();
+                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.APP_CREATION, Right.APP_EDORG_SELECT, Right.READ_GENERAL}).build();
     }
 
     private Role buildEducator() {

@@ -60,7 +60,7 @@ public class EducationOrganizationResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.readAll(offset, limit, headers, uriInfo);
+        return super.readAll(ResourceNames.EDUCATION_ORGANIZATIONS, headers, uriInfo, true);
     }
 
     /**

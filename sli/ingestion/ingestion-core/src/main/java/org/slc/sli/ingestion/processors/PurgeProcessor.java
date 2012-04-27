@@ -22,6 +22,7 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Performs purging of data in mongodb based on the tenant id.
@@ -32,6 +33,7 @@ import org.slc.sli.ingestion.queues.MessageType;
 @Component
 public class PurgeProcessor implements Processor {
 
+    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PURGE_PROCESSOR;
     private static Logger logger = LoggerFactory.getLogger(PurgeProcessor.class);
 
     private static final String METADATA_BLOCK = "metaData";
@@ -64,30 +66,32 @@ public class PurgeProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = getBatchJobId(exchange);
         if (batchJobId != null) {
 
-            NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+            NewBatchJob newJob = null;
+            try {
+                newJob = batchJobDAO.findBatchJobById(batchJobId);
 
-            Stage stage = startAndGetStage(newJob);
+                String tenantId = newJob.getProperty(TENANT_ID);
+                if (tenantId == null) {
 
-            batchJobDAO.saveBatchJob(newJob);
+                    handleNoTenantId(batchJobId);
+                } else {
 
-            String tenantId = newJob.getProperty(TENANT_ID);
-            if (tenantId == null) {
-                String noTenantMessage = "TenantId missing. No purge operation performed.";
-                logger.info(noTenantMessage);
+                    purgeForTenant(exchange, tenantId);
+                }
 
-                Error error = Error.createIngestionError(batchJobId, BatchJobStageType.PURGE_PROCESSOR.getName(), null,
-                        null, null, null, FaultType.TYPE_WARNING.getName(), null, noTenantMessage);
-                batchJobDAO.saveError(error);
-            } else {
-                purgeForTenant(exchange, tenantId);
+            } catch (Exception exception) {
+                handleProcessingExceptions(exchange, batchJobId, exception);
+            } finally {
+                if (newJob != null) {
+                    BatchJobUtils.stopStageAndAddToJob(stage, newJob);
+                    batchJobDAO.saveBatchJob(newJob);
+                }
             }
-
-            stage.stopStage();
-            batchJobDAO.saveBatchJob(newJob);
 
         } else {
             missingBatchJobIdError(exchange);
@@ -99,33 +103,20 @@ public class PurgeProcessor implements Processor {
         Query searchTenantId = new Query();
         searchTenantId.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
                 tenantId));
-        try {
-            Set<String> collectionNames = mongoTemplate.getCollectionNames();
-            Iterator<String> iter = collectionNames.iterator();
-            String collectionName;
-            while (iter.hasNext()) {
-                collectionName = iter.next();
-                if (isSystemCollection(collectionName)) {
-                    continue;
-                }
-                mongoTemplate.remove(searchTenantId, collectionName);
-            }
-            exchange.setProperty("purge.complete", "Purge process completed successfully.");
-            logger.info("Purge process complete.");
 
-        } catch (Exception exception) {
-            exchange.getIn().setHeader("ErrorMessage", exception.toString());
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            exchange.setProperty("purge.complete", "Purge process complete.");
-            logger.error("Exception:", exception);
-
-            String batchJobId = getBatchJobId(exchange);
-            if (batchJobId != null) {
-                Error error = Error.createIngestionError(batchJobId, BatchJobStageType.PURGE_PROCESSOR.getName(), null,
-                        null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
-                batchJobDAO.saveError(error);
+        Set<String> collectionNames = mongoTemplate.getCollectionNames();
+        Iterator<String> iter = collectionNames.iterator();
+        String collectionName;
+        while (iter.hasNext()) {
+            collectionName = iter.next();
+            if (isSystemCollection(collectionName)) {
+                continue;
             }
+            mongoTemplate.remove(searchTenantId, collectionName);
         }
+        exchange.setProperty("purge.complete", "Purge process completed successfully.");
+        logger.info("Purge process complete.");
+
     }
 
     private boolean isSystemCollection(String collectionName) {
@@ -137,12 +128,26 @@ public class PurgeProcessor implements Processor {
         return false;
     }
 
-    private Stage startAndGetStage(NewBatchJob newJob) {
-        Stage stage = new Stage();
-        newJob.getStages().add(stage);
-        stage.setStageName(BatchJobStageType.PURGE_PROCESSOR.getName());
-        stage.startStage();
-        return stage;
+    private void handleNoTenantId(String batchJobId) {
+        String noTenantMessage = "TenantId missing. No purge operation performed.";
+        logger.info(noTenantMessage);
+
+        Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.PURGE_PROCESSOR.getName(), null,
+                null, null, FaultType.TYPE_WARNING.getName(), null, noTenantMessage);
+        batchJobDAO.saveError(error);
+    }
+
+    private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
+        exchange.getIn().setHeader("ErrorMessage", exception.toString());
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        exchange.setProperty("purge.complete", "Purge process complete.");
+        logger.error("Exception:", exception);
+
+        if (batchJobId != null) {
+            Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.PURGE_PROCESSOR.getName(),
+                    null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
+            batchJobDAO.saveError(error);
+        }
     }
 
     private String getBatchJobId(Exchange exchange) {

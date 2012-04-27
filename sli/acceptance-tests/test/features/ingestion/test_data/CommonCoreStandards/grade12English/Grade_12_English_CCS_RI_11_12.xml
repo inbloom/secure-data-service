@@ -2,26 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
-	<LearningObjective>
-		<LearningObjectiveId>
-			<IdentificationCode>RI-11-12</IdentificationCode>
-		</LearningObjectiveId>
-		<Objective>Reading: Informational Text</Objective>
-		<AcademicSubject>ELA</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningStandardReference ref="RI-11-12-1"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-12-2"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-12-3"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-12-4"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-12-5"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-12-6"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-12-7"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-12-8"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-12-9"></LearningStandardReference>
-		<LearningStandardReference ref="RI-11-12-10"></LearningStandardReference>
-	</LearningObjective>
-	
-	<LearningStandard id="RI-11-12-1">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>RI.11-12.1</IdentificationCode>
 		</LearningStandardId>
@@ -33,7 +14,7 @@
 		<SubjectArea>ELA</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="RI-11-12-2">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>RI.11-12.2</IdentificationCode>
 		</LearningStandardId>
@@ -45,7 +26,7 @@
 		<SubjectArea>ELA</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="RI-11-12-3">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>RI.11-12.3</IdentificationCode>
 		</LearningStandardId>
@@ -57,7 +38,7 @@
 		<SubjectArea>ELA</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="RI-11-12-4">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>RI.11-12.4</IdentificationCode>
 		</LearningStandardId>
@@ -70,7 +51,7 @@
 		<SubjectArea>ELA</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="RI-11-12-5">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>RI.11-12.5</IdentificationCode>
 		</LearningStandardId>
@@ -82,7 +63,7 @@
 		<SubjectArea>ELA</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="RI-11-12-6">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>RI.11-12.6</IdentificationCode>
 		</LearningStandardId>
@@ -94,7 +75,7 @@
 		<SubjectArea>ELA</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="RI-11-12-7">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>RI.11-12.7</IdentificationCode>
 		</LearningStandardId>
@@ -106,7 +87,7 @@
 		<SubjectArea>ELA</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="RI-11-12-8">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>RI.11-12.8</IdentificationCode>
 		</LearningStandardId>
@@ -119,7 +100,7 @@
 		<SubjectArea>ELA</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="RI-11-12-9">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>RI.11-12.9</IdentificationCode>
 		</LearningStandardId>
@@ -132,7 +113,7 @@
 		<SubjectArea>ELA</SubjectArea>
 	</LearningStandard>
 	
-	<LearningStandard id="RI-11-12-10">
+	<LearningStandard>
 		<LearningStandardId>
 			<IdentificationCode>RI.11-12.10</IdentificationCode>
 		</LearningStandardId>
@@ -145,4 +126,84 @@
 		<GradeLevel>Twelfth grade</GradeLevel>
 		<SubjectArea>ELA</SubjectArea>
 	</LearningStandard>
+
+	<LearningObjective>
+		<LearningObjectiveId>
+			<IdentificationCode>RI-11-12</IdentificationCode>
+		</LearningObjectiveId>
+		<Objective>Reading: Informational Text</Objective>
+		<AcademicSubject>ELA</AcademicSubject>
+		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>RI.11-12.1</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>RI.11-12.2</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>RI.11-12.3</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>RI.11-12.4</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>RI.11-12.5</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>RI.11-12.6</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>RI.11-12.7</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>RI.11-12.8</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>RI.11-12.9</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+		<LearningStandardReference>
+			<LearningStandardIdentity>
+				<LearningStandardId>
+					<IdentificationCode>RI.11-12.10</IdentificationCode>
+				</LearningStandardId>
+			</LearningStandardIdentity>
+		</LearningStandardReference>
+	</LearningObjective>
+	
 </InterchangeAssessmentMetadata>

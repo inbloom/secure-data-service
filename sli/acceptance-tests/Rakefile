@@ -197,10 +197,11 @@ end
 ############################################################
 desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
-                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest, 
+                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, 
-                         :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest] do
+                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
+                         :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionCommonCoreTests, :ingestionIndexTest] do
+
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -210,7 +211,7 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :i
 end
 
 desc "Run Common Core Standards Tests"
-task :ingestionCommonCoreTest do
+task :ingestionCommonCoreTests do
   runTests("test/features/ingestion/features/ingestion_common_core_standards.feature")
 end
 
@@ -222,6 +223,11 @@ end
 desc "Run Ingestion Acceptance SDS Tests"
 task :ingestionAcceptanceSdsTest do
   runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
+end
+
+desc "Run Ingestion Acceptance Parallel Tests"
+task :ingestionAcceptanceParallelTest do
+  runTests("test/features/ingestion/features/ingestion_acceptance_parallel_test.feature")
 end
 
 desc "Run Ingestion Session Test"
@@ -339,6 +345,12 @@ desc "Run Ingestion Database Performance Tests"
 task :ingestionMongoDBPerformanceTest do
   runTests("test/features/ingestion/features/ingestion_mongo_performance.feature")
 end
+
+desc "Run Ingestion Index Tests"
+task :ingestionIndexTest do
+  runTests("test/features/ingestion/features/index_testing.feature")
+end
+
 
 ############################################################
 # Ingestion Offline Tool tests start
@@ -1148,7 +1160,7 @@ task :integrationTests => [:realmInitNoPeople] do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
-  Rake::Task["dashboardSdsTests"].invoke  
+  Rake::Task["dashboardSdsTests"].invoke
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
