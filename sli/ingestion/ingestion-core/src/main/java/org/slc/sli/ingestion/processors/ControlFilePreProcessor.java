@@ -154,8 +154,7 @@ public class ControlFilePreProcessor implements Processor {
      */
     private void setTenantId(ControlFile cf, String lzPath) throws IngestionException {
         TenantDA tenantDA = new TenantMongoDA();
-        // replacing windows-style paths with unix-style
-        lzPath = lzPath.replaceAll("\\\\", "/");
+        lzPath = new File(lzPath).getAbsolutePath();
         // TODO add user facing error report for no tenantId found
         String tenantId = tenantDA.getTenantId(lzPath);
         if (tenantId != null) {
