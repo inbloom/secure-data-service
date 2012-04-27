@@ -1,12 +1,13 @@
 package org.slc.sli.validation.schema;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
@@ -40,16 +41,16 @@ public class TokenSchema extends NeutralSchema {
         return NeutralSchemaType.TOKEN;
     }
 
+    @Override
     public boolean isPrimitive() {
         return false;
     }
-    
+
     @Override
     public Object convert(Object value) {
         return value;
     }
-    
-    
+
     /**
      * Validates the given entity
      * Returns true if the validation was successful or a ValidationException if the validation was
@@ -65,35 +66,24 @@ public class TokenSchema extends NeutralSchema {
      *            reference to the entity repository
      * @return true if valid
      */
+    @Override
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
-        return addError(this.matchesToken(entity), fieldName, entity, getTokensArray(), ErrorType.ENUMERATION_MISMATCH,
+        return addError(this.matchesToken(entity), fieldName, entity, getTokens(), ErrorType.ENUMERATION_MISMATCH,
                 errors);
     }
 
     protected boolean matchesToken(Object entity) {
-        if (this.getTokens() != null) {
-            for (String token : this.getTokens()) {
-                if (token.equals(entity.toString())) {
-                    return true;
-                }
-            }
+        String[] tokens = this.getTokens();
+        if (tokens != null && tokens.length > 0) {
+            // values were sorted before put in properties map (XsdToNeutralSchemaRepository)
+            return (Arrays.binarySearch(this.getTokens(), entity) >= 0);
         }
         return false;
     }
 
     @SuppressWarnings("unchecked")
-    protected List<String> getTokens() {
-        return (List<String>) this.getProperties().get(TOKENS);
-    }
-
-    protected String[] getTokensArray() {
-        String[] tokensArray = new String[0];
-        if (this.getTokens() != null) {
-            tokensArray = new String[this.getTokens().size()];
-            for (int index = 0; index < this.getTokens().size(); index++) {
-                tokensArray[index] = this.getTokens().get(index);
-            }
-        }
-        return tokensArray;
+    protected String[] getTokens() {
+        List<String> tokens = (List<String>) this.getProperties().get(TOKENS);
+        return tokens.toArray(new String[0]);
     }
 }

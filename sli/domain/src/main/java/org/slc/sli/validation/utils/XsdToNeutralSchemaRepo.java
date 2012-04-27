@@ -3,6 +3,7 @@ package org.slc.sli.validation.utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -413,6 +414,7 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
 
                 if (tokens.size() > 0) {
                     // Token Schema
+                    Collections.sort(tokens); // sort so we can binary search
                     simpleSchema.getProperties().put(TokenSchema.TOKENS, tokens);
                 }
             }
