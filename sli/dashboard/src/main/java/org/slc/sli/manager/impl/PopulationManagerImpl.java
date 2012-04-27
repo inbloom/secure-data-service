@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.WordUtils;
@@ -42,33 +41,34 @@ import org.slc.sli.util.Constants;
 import org.slc.sli.view.TimedLogic2;
 
 /**
- * PopulationManager facilitates creation of logical aggregations of EdFi entities/associations such
- * as a
- * student summary comprised of student profile, enrollment, program, and assessment information in
- * order to
- * deliver the Population Summary interaction.
- *
+ * PopulationManager facilitates creation of logical aggregations of EdFi
+ * entities/associations such as a student summary comprised of student profile,
+ * enrollment, program, and assessment information in order to deliver the
+ * Population Summary interaction.
+ * 
  * @author Robert Bloh rbloh@wgen.net
- *
+ * 
  */
 public class PopulationManagerImpl implements PopulationManager {
-
+    
     private static final String ATTENDANCE_TARDY = "Tardy";
     private static final String ATTENDANCE_ABSENCE = "Absence";
-
+    
     private static Logger log = LoggerFactory.getLogger(PopulationManagerImpl.class);
-
+    
     @Autowired
     private EntityManager entityManager;
-
+    
     public PopulationManagerImpl() {
-
+        
     }
-
+    
     /*
      * (non-Javadoc)
-     *
-     * @see org.slc.sli.manager.PopulationManagerI#getAssessments(java.lang.String, java.util.List)
+     * 
+     * @see
+     * org.slc.sli.manager.PopulationManagerI#getAssessments(java.lang.String,
+     * java.util.List)
      */
     @Override
     public List<GenericEntity> getAssessments(String token, List<GenericEntity> studentSummaries) {
@@ -81,7 +81,7 @@ public class PopulationManagerImpl implements PopulationManager {
         for (GenericEntity studentSummary : studentSummaries) {
             List<Map<String, Object>> studentAssessments = (List<Map<String, Object>>) studentSummary
                     .get(Constants.ATTR_STUDENT_ASSESSMENTS);
-
+            
             for (Map<String, Object> studentAssessment : studentAssessments) {
                 try {
                     GenericEntity assessment = new GenericEntity((Map) studentAssessment.get("assessments"));
@@ -93,65 +93,70 @@ public class PopulationManagerImpl implements PopulationManager {
         }
         return new ArrayList<GenericEntity>(assessments);
     }
-
+    
     /*
      * (non-Javadoc)
-     *
-     * @see org.slc.sli.manager.PopulationManagerI#getStudentSummaries(java.lang.String,
-     * java.util.List, org.slc.sli.config.ViewConfig, java.lang.String, java.lang.String)
+     * 
+     * @see
+     * org.slc.sli.manager.PopulationManagerI#getStudentSummaries(java.lang.
+     * String, java.util.List, org.slc.sli.config.ViewConfig, java.lang.String,
+     * java.lang.String)
      */
     @Override
     public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig,
             String sessionId, String sectionId) {
-
+        
         long startTime = System.nanoTime();
         // Initialize student summaries
-
+        
         List<GenericEntity> studentSummaries = entityManager.getStudents(token, sectionId, studentIds);
         log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for student section view: {}", (System.nanoTime() - startTime) * 1.0e-9);
-
+        
         return studentSummaries;
     }
     
     public List<GenericEntity> getStudentGradeBookEntries(String token, List<String> studentIds, ViewConfig viewConfig,
             String sessionId, String sectionId) {
-
+        
         long startTime = System.nanoTime();
         // Initialize student summaries
-
+        
         List<GenericEntity> studentSummaries = entityManager.getStudentsWithGradebookEntries(token, sectionId);
         log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for student section view: {}", (System.nanoTime() - startTime) * 1.0e-9);
-
+        
         return studentSummaries;
     }
-
+    
     /*
      * (non-Javadoc)
-     *
-     * @see org.slc.sli.manager.PopulationManagerI#getListOfStudents(java.lang.String,
-     * java.lang.Object, org.slc.sli.entity.Config.Data)
+     * 
+     * @see
+     * org.slc.sli.manager.PopulationManagerI#getListOfStudents(java.lang.String
+     * , java.lang.Object, org.slc.sli.entity.Config.Data)
      */
     @Override
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
-
+        
         // get student summary data
         List<GenericEntity> studentSummaries = getStudentSummaries(token, null, null, null, (String) sectionId);
-
-        // apply assmt filters and flatten assmt data structure for easy fetching
+        
+        // apply assmt filters and flatten assmt data structure for easy
+        // fetching
         applyAssessmentFilters(studentSummaries, config);
-
+        
         // data enhancements
         enhanceListOfStudents(studentSummaries, (String) sectionId);
-
+        
         GenericEntity result = new GenericEntity();
         result.put(Constants.ATTR_STUDENTS, studentSummaries);
-
+        
         return result;
     }
-
+    
     /**
-     * Make enhancements that make it easier for front-end javascript to use the data
-     *
+     * Make enhancements that make it easier for front-end javascript to use the
+     * data
+     * 
      * @param studentSummaries
      */
     public void enhanceListOfStudents(List<GenericEntity> studentSummaries, String sectionId) {
@@ -160,13 +165,13 @@ public class PopulationManagerImpl implements PopulationManager {
                 if (student == null) {
                     continue;
                 }
-
+                
                 // clean out some unneeded gunk
                 scrubStudentData(student);
-
+                
                 // add full name
                 addFullName(student);
-
+                
                 // add the final grade
                 addFinalGrades(student, sectionId);
                 
@@ -175,25 +180,23 @@ public class PopulationManagerImpl implements PopulationManager {
                 
                 // transform assessment score format
                 transformAssessmentFormat(student);
-       
-
+                
                 // tally up attendance data
                 tallyAttendanceData(student);
-
+                
             }
-
-
+            
         }
-
+        
     }
-
+    
     /**
      * Create an attribute for the full student name (first name + last name)
-     *
+     * 
      * @param student
      */
     public void addFullName(GenericEntity student) {
-
+        
         Map name = (Map) student.get(Constants.ATTR_NAME);
         if (name != null) {
             String fullName = (String) name.get(Constants.ATTR_FIRST_NAME) + " "
@@ -201,38 +204,39 @@ public class PopulationManagerImpl implements PopulationManager {
             name.put(Constants.ATTR_FULL_NAME, fullName);
         }
     }
-
+    
     /**
-     * Tally up individual attendance events. Front-end needs to show aggregated results.
-     *
+     * Tally up individual attendance events. Front-end needs to show aggregated
+     * results.
+     * 
      * @param student
      */
     public void tallyAttendanceData(GenericEntity student) {
-
+        
         Map<String, Object> attendanceBody = (Map<String, Object>) student.get(Constants.ATTR_STUDENT_ATTENDANCES);
         if (attendanceBody != null) {
-
+            
             List<Map<String, Object>> attendances = (List<Map<String, Object>>) attendanceBody
                     .get(Constants.ATTR_STUDENT_ATTENDANCES);
             int absenceCount = 0;
             int tardyCount = 0;
             if (attendances != null && attendances.size() > 0) {
                 for (Map attendance : attendances) {
-
+                    
                     String eventCategory = (String) attendance.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
-
+                    
                     if (eventCategory.contains(ATTENDANCE_ABSENCE)) {
                         absenceCount++;
-
+                        
                     } else if (eventCategory.contains(ATTENDANCE_TARDY)) {
                         tardyCount++;
                     }
                 }
-
+                
                 int attendanceRate = Math
                         .round((((float) (attendances.size() - absenceCount)) / attendances.size()) * 100);
                 int tardyRate = Math.round((((float) tardyCount) / attendances.size()) * 100);
-
+                
                 attendanceBody.remove(Constants.ATTR_STUDENT_ATTENDANCES);
                 attendanceBody.put(Constants.ATTR_ABSENCE_COUNT, absenceCount);
                 attendanceBody.put(Constants.ATTR_TARDY_COUNT, tardyCount);
@@ -241,268 +245,254 @@ public class PopulationManagerImpl implements PopulationManager {
             }
         }
     }
-
+    
     /**
      * Modify the data structure for assessments, for front-end convenience
-     *
+     * 
      * @param student
      */
     public void transformAssessmentFormat(GenericEntity student) {
-
+        
         Map studentAssmtAssocs = (Map) student.get(Constants.ATTR_ASSESSMENTS);
         if (studentAssmtAssocs == null) {
             return;
         }
-
+        
         Collection<Map> assmtResults = studentAssmtAssocs.values();
         for (Map assmtResult : assmtResults) {
-
+            
             if (assmtResult == null) {
                 continue;
             }
-
-            // for each score result, create a new attribute that makes the score easily accessible
+            
+            // for each score result, create a new attribute that makes the
+            // score easily accessible
             // without looping through this list
             List<Map> scoreResults = (List<Map>) assmtResult.get(Constants.ATTR_SCORE_RESULTS);
             if (scoreResults != null) {
-
+                
                 for (Map scoreResult : scoreResults) {
-
+                    
                     String type = (String) scoreResult.get(Constants.ATTR_ASSESSMENT_REPORTING_METHOD);
                     String result = (String) scoreResult.get(Constants.ATTR_RESULT);
                     assmtResult.put(type, result);
                 }
             }
-
+            
             // create a new attribute "perfLevel"
             List<List<Map>> perfLevelsDescs = (List<List<Map>>) assmtResult
                     .get(Constants.ATTR_PERFORMANCE_LEVEL_DESCRIPTOR);
-
+            
             if (perfLevelsDescs != null) {
                 for (List<Map> perfLevelsDesc : perfLevelsDescs) {
                     if (perfLevelsDesc != null && perfLevelsDesc.size() > 0) {
-
+                        
                         String perfLevel = (String) perfLevelsDesc.get(0).get(Constants.ATTR_CODE_VALUE);
                         assmtResult.put(Constants.ATTR_PERF_LEVEL, perfLevel);
-
+                        
                     }
                 }
             }
         }
     }
-
+    
     /**
-     * Clean out some student data, so we don't pass too much unnecessary stuff to the front-end
-     *
+     * Clean out some student data, so we don't pass too much unnecessary stuff
+     * to the front-end
+     * 
      * @param student
      */
     public void scrubStudentData(GenericEntity student) {
-
+        
         student.remove(Constants.ATTR_LINKS);
     }
     
     /**
      * Grabs the subject area from the data based on the section ID.
+     * 
      * @param stuSectAssocs
      * @param sectionId
      * @return
      */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private String getSubjectArea(List<Map<String, Object>> stuSectAssocs,
-			String sectionId) {
-		String subjectArea = null;
-		for (Map<String, Object> assoc : stuSectAssocs) {
-			if (sectionId.equalsIgnoreCase((String) assoc
-					.get(Constants.ATTR_SECTION_ID))) {
-				Map<String, Object> sections = (Map<String, Object>) assoc
-						.get(Constants.ATTR_SECTIONS);
-				subjectArea = (String) ((Map) sections
-						.get(Constants.ATTR_COURSES))
-						.get(Constants.ATTR_SUBJECTAREA);
-				break;
-			}
-		}
-
-		return subjectArea;
-	}
-	
-	/**
-	 * Extracts grades from transcriptAssociationRecord based on sections in the
-	 * passed. For each section where a transcript with final letter grade
-	 * exist, the grade is added to the list of grades for the semester.
-	 * 
-	 * @param student
-	 * @param interSections
-	 * @param stuTransAssocs
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void addSemesterFinalGrades(GenericEntity student,
-			List<Map<String, Object>> interSections,
-			List<Map<String, Object>> stuTransAssocs) {
-
-		// Iterate through the course Id's and grab transcripts grades, once
-		// we have NUMBER_OF_SEMESTERS transcript grades, we're done
-		for (Map<String, Object> section : interSections) {
-			String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
-
-			// Find the correct course. If that course is found in
-			// the transcript, then record that letter grade to the
-			// semesterScores.
-			for (Map<String, Object> assoc : stuTransAssocs) {
-				if (courseId.equalsIgnoreCase((String) assoc
-						.get(Constants.ATTR_COURSE_ID))) {
-					String finalLetterGrade = (String) assoc
-							.get(Constants.ATTR_FINAL_LETTER_GRADE);
-					String term = (String) ((Map) section
-							.get(Constants.ATTR_SESSIONS))
-							.get(Constants.ATTR_TERM);
-					String year = (String) ((Map) section
-							.get(Constants.ATTR_SESSIONS))
-							.get(Constants.ATTR_SCHOOL_YEAR);
-					String courseTitle = (String) ((Map) section
-							.get(Constants.ATTR_COURSES))
-							.get(Constants.ATTR_COURSE_TITLE);
-					if (finalLetterGrade != null) {
-						String semesterString = term.replaceAll(" ", "")
-								+ year.replaceAll(" ", "");
-						Map<String, Object> grade = new LinkedHashMap<String, Object>();
-						grade.put(Constants.SECTION_LETTER_GRADE,
-								finalLetterGrade);
-						grade.put(Constants.SECTION_COURSE, courseTitle);
-						List<Map<String, Object>> semesterScores = (List<Map<String, Object>>) student
-								.get(semesterString);
-						if (semesterScores == null) {
-							semesterScores = new ArrayList<Map<String, Object>>();
-						}
-						semesterScores.add(grade);
-						student.put(semesterString, semesterScores);
-						break;
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * This method adds the final grades of a student to the student data. It
-	 * will only grab the latest two grades. Ideally we would filter on subject
-	 * area, but there is currently no subject area data in the SDS.
-	 * 
-	 * @param student
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void addFinalGrades(GenericEntity student, String sectionId) {
-		try {
-			Map<String, Object> transcripts = (Map<String, Object>) student
-					.get(Constants.ATTR_TRANSCRIPT);
-			if (transcripts == null) {
-				return;
-			}
-
-			List<Map<String, Object>> stuSectAssocs = (List<Map<String, Object>>) transcripts
-					.get(Constants.ATTR_STUDENT_SECTION_ASSOC);
-			String subjectArea = getSubjectArea(stuSectAssocs, sectionId);
-			List<Map<String, Object>> interSections = new ArrayList<Map<String, Object>>();
-			
-			for (Map<String, Object> assoc : stuSectAssocs) {
-				Map<String, Object> sections = (Map<String, Object>) assoc
-						.get(Constants.ATTR_SECTIONS);
-				// This case will catch if the subjectArea is null
-				if (subjectArea == null
-						|| subjectArea
-								.equalsIgnoreCase((String) ((Map) sections
-										.get(Constants.ATTR_COURSES))
-										.get(Constants.ATTR_SUBJECTAREA))) {
-					interSections.add(sections);
-				}
-			}
-
-			addSemesterFinalGrades(student, interSections,
-					(List<Map<String, Object>>) transcripts
-							.get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC));
-
-		} catch (ClassCastException ex) {
-			ex.printStackTrace();
-			Map<String, Object> grade = new LinkedHashMap<String, Object>();
-			student.put(Constants.ATTR_SCORE_RESULTS,
-					grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
-		} catch (NullPointerException ex) {
-			ex.printStackTrace();
-			Map<String, Object> grade = new LinkedHashMap<String, Object>();
-			student.put(Constants.ATTR_SCORE_RESULTS,
-					grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
-		}
-	}
-	
-	@SuppressWarnings("rawtypes")
-	private void addCurrentSemesterGrades(GenericEntity student, String sectionId) {
-		//Sort the grades
-		SortedSet<GenericEntity> sortedList = new TreeSet<GenericEntity>(new Comparator<GenericEntity>() {
-			public int compare(GenericEntity a, GenericEntity b) {
-			    	Date dateA = (Date)a.get(Constants.ATTR_DATE_FULFILLED);
-			    	Date dateB = (Date)b.get(Constants.ATTR_DATE_FULFILLED);
-                    return dateA.compareTo(dateB);
-		    }
-		});
-		
-		//Get the term and year
-		try {
-			Map<String, Object> transcripts = (Map<String, Object>) student.get(Constants.ATTR_TRANSCRIPT);
-			List<Map<String, Object>> stuSectAssocs = (List<Map<String, Object>>) transcripts
-					.get(Constants.ATTR_STUDENT_SECTION_ASSOC);
-			String semesterString = null;
-			for (Map<String, Object> assoc : stuSectAssocs) {
-	            if(((String) assoc.get(Constants.ATTR_SECTION_ID)).equalsIgnoreCase(sectionId)) {
-	            	Map<String, Object> sections = (Map<String, Object>)assoc.get(Constants.ATTR_SECTIONS);
-	            	String term = (String) ((Map) sections.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_TERM);
-	            	String year = (String) ((Map) sections.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_SCHOOL_YEAR);
-				    semesterString = term.replaceAll(" ", "")
-							+ year.replaceAll(" ", "");
-				    break;
-	            }
-			}
-			
-			//iterate and add to letter grade
-			List<Map<String, Object>> gradeEntries = (ArrayList<Map<String, Object>>)student.get("studentGradebookEntries");
-			if(semesterString != null) { 
-				for(Map<String, Object> currentGrade : gradeEntries){
-					GenericEntity gradeDate = new GenericEntity();
-					DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-					double numericGrade = (Double)currentGrade.get(Constants.ATTR_NUMERIC_GRADE_EARNED);
-					try {
-						Date date = formatter.parse((String)currentGrade.get(Constants.ATTR_DATE_FULFILLED));
-						gradeDate.put(Constants.ATTR_DATE_FULFILLED, date);
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-	                gradeDate.put(Constants.ATTR_NUMERIC_GRADE_EARNED, numericGrade);
-	                sortedList.add(gradeDate);  
-				}
-				student.put(semesterString, sortedList);
-			}
-		}catch(ClassCastException ex){
-			ex.printStackTrace();
-		} catch(NullPointerException ex) {
-			ex.printStackTrace();
-		}
-
-		
-	}
-
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private String getSubjectArea(List<Map<String, Object>> stuSectAssocs, String sectionId) {
+        String subjectArea = null;
+        for (Map<String, Object> assoc : stuSectAssocs) {
+            if (sectionId.equalsIgnoreCase((String) assoc.get(Constants.ATTR_SECTION_ID))) {
+                Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
+                subjectArea = (String) ((Map) sections.get(Constants.ATTR_COURSES)).get(Constants.ATTR_SUBJECTAREA);
+                break;
+            }
+        }
+        
+        return subjectArea;
+    }
+    
     /**
-     * Find the required assessment results according to the data configuration. Filter out the
-     * rest.
+     * Extracts grades from transcriptAssociationRecord based on sections in the
+     * passed. For each section where a transcript with final letter grade
+     * exist, the grade is added to the list of grades for the semester.
+     * 
+     * @param student
+     * @param interSections
+     * @param stuTransAssocs
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private void addSemesterFinalGrades(GenericEntity student, List<Map<String, Object>> interSections,
+            List<Map<String, Object>> stuTransAssocs) {
+        
+        // Iterate through the course Id's and grab transcripts grades, once
+        // we have NUMBER_OF_SEMESTERS transcript grades, we're done
+        for (Map<String, Object> section : interSections) {
+            String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
+            
+            // Find the correct course. If that course is found in
+            // the transcript, then record that letter grade to the
+            // semesterScores.
+            for (Map<String, Object> assoc : stuTransAssocs) {
+                if (courseId.equalsIgnoreCase((String) assoc.get(Constants.ATTR_COURSE_ID))) {
+                    String finalLetterGrade = (String) assoc.get(Constants.ATTR_FINAL_LETTER_GRADE);
+                    String term = (String) ((Map) section.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_TERM);
+                    String year = (String) ((Map) section.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_SCHOOL_YEAR);
+                    String courseTitle = (String) ((Map) section.get(Constants.ATTR_COURSES))
+                            .get(Constants.ATTR_COURSE_TITLE);
+                    if (finalLetterGrade != null) {
+                        String semesterString = term.replaceAll(" ", "") + year.replaceAll(" ", "");
+                        Map<String, Object> grade = new LinkedHashMap<String, Object>();
+                        grade.put(Constants.SECTION_LETTER_GRADE, finalLetterGrade);
+                        grade.put(Constants.SECTION_COURSE, courseTitle);
+                        List<Map<String, Object>> semesterScores = (List<Map<String, Object>>) student
+                                .get(semesterString);
+                        if (semesterScores == null) {
+                            semesterScores = new ArrayList<Map<String, Object>>();
+                        }
+                        semesterScores.add(grade);
+                        student.put(semesterString, semesterScores);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * This method adds the final grades of a student to the student data. It
+     * will only grab the latest two grades. Ideally we would filter on subject
+     * area, but there is currently no subject area data in the SDS.
+     * 
+     * @param student
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private void addFinalGrades(GenericEntity student, String sectionId) {
+        try {
+            Map<String, Object> transcripts = (Map<String, Object>) student.get(Constants.ATTR_TRANSCRIPT);
+            if (transcripts == null) {
+                return;
+            }
+            
+            List<Map<String, Object>> stuSectAssocs = (List<Map<String, Object>>) transcripts
+                    .get(Constants.ATTR_STUDENT_SECTION_ASSOC);
+            String subjectArea = getSubjectArea(stuSectAssocs, sectionId);
+            List<Map<String, Object>> interSections = new ArrayList<Map<String, Object>>();
+            
+            for (Map<String, Object> assoc : stuSectAssocs) {
+                Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
+                // This case will catch if the subjectArea is null
+                if (subjectArea == null
+                        || subjectArea.equalsIgnoreCase((String) ((Map) sections.get(Constants.ATTR_COURSES))
+                                .get(Constants.ATTR_SUBJECTAREA))) {
+                    interSections.add(sections);
+                }
+            }
+            
+            addSemesterFinalGrades(student, interSections,
+                    (List<Map<String, Object>>) transcripts.get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC));
+            
+        } catch (ClassCastException ex) {
+            ex.printStackTrace();
+            Map<String, Object> grade = new LinkedHashMap<String, Object>();
+            student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+            Map<String, Object> grade = new LinkedHashMap<String, Object>();
+            student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
+        }
+    }
+    
+    @SuppressWarnings("rawtypes")
+    private void addCurrentSemesterGrades(GenericEntity student, String sectionId) {
+        // Sort the grades
+        SortedSet<GenericEntity> sortedList = new TreeSet<GenericEntity>(new Comparator<GenericEntity>() {
+            public int compare(GenericEntity a, GenericEntity b) {
+                Date dateA = (Date) a.get(Constants.ATTR_DATE_FULFILLED);
+                Date dateB = (Date) b.get(Constants.ATTR_DATE_FULFILLED);
+                return dateA.compareTo(dateB);
+            }
+        });
+        
+        // Get the term and year
+        try {
+            Map<String, Object> transcripts = (Map<String, Object>) student.get(Constants.ATTR_TRANSCRIPT);
+            List<Map<String, Object>> stuSectAssocs = (List<Map<String, Object>>) transcripts
+                    .get(Constants.ATTR_STUDENT_SECTION_ASSOC);
+            String semesterString = null;
+            for (Map<String, Object> assoc : stuSectAssocs) {
+                if (((String) assoc.get(Constants.ATTR_SECTION_ID)).equalsIgnoreCase(sectionId)) {
+                    Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
+                    String term = (String) ((Map) sections.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_TERM);
+                    String year = (String) ((Map) sections.get(Constants.ATTR_SESSIONS))
+                            .get(Constants.ATTR_SCHOOL_YEAR);
+                    semesterString = term.replaceAll(" ", "") + year.replaceAll(" ", "");
+                    break;
+                }
+            }
+            
+            // iterate and add to letter grade
+            List<Map<String, Object>> gradeEntries = (ArrayList<Map<String, Object>>) student
+                    .get("studentGradebookEntries");
+            if (semesterString != null) {
+                for (Map<String, Object> currentGrade : gradeEntries) {
+                    GenericEntity gradeDate = new GenericEntity();
+                    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    double numericGrade = (Double) currentGrade.get(Constants.ATTR_NUMERIC_GRADE_EARNED);
+                    try {
+                        Date date = formatter.parse((String) currentGrade.get(Constants.ATTR_DATE_FULFILLED));
+                        gradeDate.put(Constants.ATTR_DATE_FULFILLED, date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    gradeDate.put(Constants.ATTR_NUMERIC_GRADE_EARNED, numericGrade);
+                    sortedList.add(gradeDate);
+                }
+                int count = 0;
+                for (GenericEntity entity : sortedList) {
+                    student.put(semesterString + "-" + count++, entity);
+                }
+            }
+        } catch (ClassCastException ex) {
+            ex.printStackTrace();
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
+        
+    }
+    
+    /**
+     * Find the required assessment results according to the data configuration.
+     * Filter out the rest.
      */
     @SuppressWarnings("unchecked")
     public void applyAssessmentFilters(List<GenericEntity> studentSummaries, Config.Data config) {
-
+        
         // Loop through student summaries
         if (studentSummaries != null) {
             for (GenericEntity summary : studentSummaries) {
-
-                // Grab the student's assmt results. Grab assmt filters from config.
-                List<Map<String, Object>> assmtResults = (List<Map<String, Object>>) (summary.remove(Constants.ATTR_STUDENT_ASSESSMENTS));
-
+                
+                // Grab the student's assmt results. Grab assmt filters from
+                // config.
+                List<Map<String, Object>> assmtResults = (List<Map<String, Object>>) (summary
+                        .remove(Constants.ATTR_STUDENT_ASSESSMENTS));
+                
                 Map<String, Object> param = config.getParams();
                 if (param == null) {
                     return;
@@ -512,28 +502,28 @@ public class PopulationManagerImpl implements PopulationManager {
                 if (assmtFilters == null) {
                     return;
                 }
-
+                
                 Map<String, Object> newAssmtResults = new LinkedHashMap<String, Object>();
-
+                
                 // Loop through assmt filters
                 for (String assmtFamily : assmtFilters.keySet()) {
-
+                    
                     String timeSlotStr = assmtFilters.get(assmtFamily);
                     if (timeSlotStr != null) {
-
+                        
                         TimedLogic2.TimeSlot timeSlot = TimedLogic2.TimeSlot.valueOf(timeSlotStr);
-
+                        
                         // Apply filter. Add result to student summary.
                         Map assmt = applyAssessmentFilter(assmtResults, assmtFamily, timeSlot);
                         newAssmtResults.put(assmtFamily, assmt);
                     }
                 }
-
+                
                 summary.put(Constants.ATTR_ASSESSMENTS, newAssmtResults);
             }
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     private List<Map<String, Object>> filterAssessmentByFamily(List<?> assmtResults, String assmtFamily) {
         // filter by assmt family name
@@ -552,74 +542,75 @@ public class PopulationManagerImpl implements PopulationManager {
         }
         return studentAssessmentFiltered;
     }
+    
     /**
-     * Filter a list of assessment results, based on the assessment family and timed logic
-     *
+     * Filter a list of assessment results, based on the assessment family and
+     * timed logic
+     * 
      * @param assmtResults
      * @param assmtFamily
      * @param timedLogic
      * @return
      */
-    private Map applyAssessmentFilter(List<Map<String, Object>> assmtResults, String assmtFamily, TimedLogic2.TimeSlot timeSlot) {
+    private Map applyAssessmentFilter(List<Map<String, Object>> assmtResults, String assmtFamily,
+            TimedLogic2.TimeSlot timeSlot) {
         // filter by assmt family name
         List<Map<String, Object>> studentAssessmentFiltered = filterAssessmentByFamily(assmtResults, assmtFamily);
-
+        
         if (studentAssessmentFiltered.size() == 0) {
             return null;
         }
-
+        
         Map chosenAssessment = null;
-
+        
         // TODO: fix objective assessment code and use it
         String objAssmtCode = "";
-
+        
         // call timeslot logic to pick out the assessment we want
         switch (timeSlot) {
-
-            case MOST_RECENT_RESULT:
-                chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
-                break;
-
-            case HIGHEST_EVER:
-                if (!objAssmtCode.equals("")) {
-                    chosenAssessment = TimedLogic2.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
-                } else {
-                    chosenAssessment = TimedLogic2.getHighestEverAssessment(studentAssessmentFiltered);
-                }
-                break;
-
-            case MOST_RECENT_WINDOW:
-
-                List<Map<String, Object>> assessmentMetaData = new ArrayList<Map<String, Object>>();
-
-                // TODO: get the assessment meta data
-                /*
-                 * Set<String> assessmentIds = new HashSet<String>();
-                 * for (Map studentAssessment : studentAssessmentFiltered) {
-                 * String assessmentId = (String)
-                 * studentAssessment.get(Constants.ATTR_ASSESSMENT_ID);
-                 * if (!assessmentIds.contains(assessmentId)) {
-                 * GenericEntity assessment = metaDataResolver.getAssmtById(assessmentId);
-                 * assessmentMetaData.add(assessment);
-                 * assessmentIds.add(assessmentId);
-                 * }
-                 * }
-                 */
-
-                chosenAssessment = TimedLogic2.getMostRecentAssessmentWindow(studentAssessmentFiltered,
-                        assessmentMetaData);
-                break;
-
-            default:
-
-                // Decide whether to throw runtime exception here. Should timed logic default @@@
-                chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
-                break;
+        
+        case MOST_RECENT_RESULT:
+            chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
+            break;
+        
+        case HIGHEST_EVER:
+            if (!objAssmtCode.equals("")) {
+                chosenAssessment = TimedLogic2.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
+            } else {
+                chosenAssessment = TimedLogic2.getHighestEverAssessment(studentAssessmentFiltered);
+            }
+            break;
+        
+        case MOST_RECENT_WINDOW:
+            
+            List<Map<String, Object>> assessmentMetaData = new ArrayList<Map<String, Object>>();
+            
+            // TODO: get the assessment meta data
+            /*
+             * Set<String> assessmentIds = new HashSet<String>(); for (Map
+             * studentAssessment : studentAssessmentFiltered) { String
+             * assessmentId = (String)
+             * studentAssessment.get(Constants.ATTR_ASSESSMENT_ID); if
+             * (!assessmentIds.contains(assessmentId)) { GenericEntity
+             * assessment = metaDataResolver.getAssmtById(assessmentId);
+             * assessmentMetaData.add(assessment);
+             * assessmentIds.add(assessmentId); } }
+             */
+            
+            chosenAssessment = TimedLogic2.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
+            break;
+        
+        default:
+            
+            // Decide whether to throw runtime exception here. Should timed
+            // logic default @@@
+            chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
+            break;
         }
-
+        
         return chosenAssessment;
     }
-
+    
     private List<GenericEntity> getStudentAttendance(String token, String studentId, String startDate, String endDate) {
         List<GenericEntity> list = entityManager.getAttendance(token, studentId, startDate, endDate);
         if (list == null) {
@@ -627,61 +618,65 @@ public class PopulationManagerImpl implements PopulationManager {
         }
         return list;
     }
-
+    
     /**
-     * Get a list of assessment results for one student, filtered by assessment name
-     *
+     * Get a list of assessment results for one student, filtered by assessment
+     * name
+     * 
      * @param username
      * @param studentId
      * @param config
      * @return
      */
     private List<GenericEntity> getStudentAssessments(String username, String studentId, ViewConfig config) {
-
+        
         // get all assessments for student
         List<GenericEntity> assmts = entityManager.getStudentAssessments(username, studentId);
-
+        
         return assmts;
     }
-
+    
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
-     * org.slc.sli.manager.PopulationManagerI#setEntityManager(org.slc.sli.manager.EntityManager)
+     * org.slc.sli.manager.PopulationManagerI#setEntityManager(org.slc.sli.manager
+     * .EntityManager)
      */
     @Override
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-
+    
     /*
      * (non-Javadoc)
-     *
-     * @see org.slc.sli.manager.PopulationManagerI#getStudent(java.lang.String, java.lang.String)
+     * 
+     * @see org.slc.sli.manager.PopulationManagerI#getStudent(java.lang.String,
+     * java.lang.String)
      */
     @Override
     public GenericEntity getStudent(String token, String studentId) {
         return entityManager.getStudent(token, studentId);
     }
-
+    
     /*
      * (non-Javadoc)
-     *
-     * @see org.slc.sli.manager.PopulationManagerI#getStudent(java.lang.String, java.lang.Object,
-     * org.slc.sli.entity.Config.Data)
+     * 
+     * @see org.slc.sli.manager.PopulationManagerI#getStudent(java.lang.String,
+     * java.lang.Object, org.slc.sli.entity.Config.Data)
      */
     @Override
     public GenericEntity getStudent(String token, Object studentId, Config.Data config) {
         String key = (String) studentId;
         return entityManager.getStudentForCSIPanel(token, key);
     }
-
+    
     /*
      * (non-Javadoc)
-     *
-     * @see org.slc.sli.manager.PopulationManagerI#getAttendance(java.lang.String, java.lang.Object,
-     * org.slc.sli.entity.Config.Data)
+     * 
+     * @see
+     * org.slc.sli.manager.PopulationManagerI#getAttendance(java.lang.String,
+     * java.lang.Object, org.slc.sli.entity.Config.Data)
      */
     @Override
     public GenericEntity getAttendance(String token, Object studentIdObj, Config.Data config) {
@@ -691,17 +686,17 @@ public class PopulationManagerImpl implements PopulationManager {
         int daysBack = (period == null) ? 360 : Integer.parseInt(period);
         MutableDateTime daysBackTime = new DateTime().toMutableDateTime();
         daysBackTime.addDays(-1 * daysBack);
-
+        
         DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
         DateTimeFormatter dtfMonth = DateTimeFormat.forPattern("yyyy-MM");
         List<GenericEntity> attendanceList = this.getStudentAttendance(token, studentId, null, null);
         Collections.sort(attendanceList, new Comparator<GenericEntity>() {
-
+            
             @Override
             public int compare(GenericEntity att1, GenericEntity att2) {
                 return ((String) att2.get("eventDate")).compareTo((String) att1.get("eventDate"));
             }
-
+            
         });
         GenericEntity attendance = new GenericEntity();
         GenericEntity currentEntry;
@@ -742,11 +737,12 @@ public class PopulationManagerImpl implements PopulationManager {
         }
         return attendance;
     }
-
+    
     /*
      * (non-Javadoc)
-     *
-     * @see org.slc.sli.manager.PopulationManagerI#getSessionDates(java.lang.String,
+     * 
+     * @see
+     * org.slc.sli.manager.PopulationManagerI#getSessionDates(java.lang.String,
      * java.lang.String)
      */
     @Override
@@ -767,7 +763,7 @@ public class PopulationManagerImpl implements PopulationManager {
                     endDate = session.getString("endDate");
                 }
             }
-
+            
             dates.add(beginDate);
             dates.add(endDate);
         } else {
@@ -776,22 +772,22 @@ public class PopulationManagerImpl implements PopulationManager {
         }
         return dates;
     }
-
+    
     @Override
     public GenericEntity getStudentsBySearch(String token, Object nameQuery, Config.Data config) {
-        //Map<String, String> nameQueryMap = (Map<String, String>) nameQuery;
+        // Map<String, String> nameQueryMap = (Map<String, String>) nameQuery;
         String[] nameList = (String[]) nameQuery;
         String firstName = nameList[0];
         String lastName = nameList[1];
         List<GenericEntity> students = entityManager.getStudentsFromSearch(token, firstName, lastName);
-
-        List<GenericEntity> titleCaseStudents = entityManager.getStudentsFromSearch(token, WordUtils.capitalize(firstName), WordUtils.capitalize(lastName));
-
-        HashSet<GenericEntity> studentSet  = new HashSet<GenericEntity>();
+        
+        List<GenericEntity> titleCaseStudents = entityManager.getStudentsFromSearch(token,
+                WordUtils.capitalize(firstName), WordUtils.capitalize(lastName));
+        
+        HashSet<GenericEntity> studentSet = new HashSet<GenericEntity>();
         studentSet.addAll(students);
         studentSet.addAll(titleCaseStudents);
-
-
+        
         List<GenericEntity> enhancedStudents = new LinkedList<GenericEntity>();
         HashMap<String, GenericEntity> retrievedSchools = new HashMap<String, GenericEntity>();
         GenericEntity school;
@@ -800,13 +796,14 @@ public class PopulationManagerImpl implements PopulationManager {
             GenericEntity student = studentSetIterator.next();
             student = entityManager.getStudent(token, student.getId());
             addFullName(student);
-
+            
             if (student.get("schoolId") != null) {
                 if (retrievedSchools.containsKey(student.get("schoolId"))) {
                     school = retrievedSchools.get(student.get("schoolId"));
                     student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
                 } else {
-                    school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, student.getString("schoolId"), new HashMap());
+                    school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, student.getString("schoolId"),
+                            new HashMap());
                     retrievedSchools.put(school.getString(Constants.ATTR_ID), school);
                     student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
                 }
@@ -814,33 +811,33 @@ public class PopulationManagerImpl implements PopulationManager {
             GenericEntityEnhancer.enhanceStudent(student);
             enhancedStudents.add(student);
         }
-
+        
         GenericEntity studentSearch = new GenericEntity();
         studentSearch.put(Constants.ATTR_STUDENTS, enhancedStudents);
         return studentSearch;
     }
-
+    
     @SuppressWarnings("unchecked")
     @Override
     public GenericEntity getAssessments(String token, Object id, Config.Data config) {
         GenericEntity entity = new GenericEntity();
-        GenericEntity student = entityManager.getStudentWithOptionalFields(token, (String) id, Arrays.asList(Constants.ATTR_ASSESSMENTS));
+        GenericEntity student = entityManager.getStudentWithOptionalFields(token, (String) id,
+                Arrays.asList(Constants.ATTR_ASSESSMENTS));
         if (student == null) {
             log.error("Requested data for non-existing ID" + id);
             return entity;
         }
-        List<Map<String, Object>> assessements =
-                filterAssessmentByFamily(
-                        student.getList(Constants.ATTR_STUDENT_ASSESSMENTS),
-                        (String) config.getParams().get(Constants.ATTR_ASSESSMENT_FAMILY));
-        //add gradeLevelAssessedCode for gradeLevelAssessed
-        for(Map<String,Object> assessment:assessements) {
-            Map assessmentDetails=(Map) assessment.get(Constants.ATTR_ASSESSMENTS);
-            if(assessmentDetails!=null) {
+        List<Map<String, Object>> assessements = filterAssessmentByFamily(
+                student.getList(Constants.ATTR_STUDENT_ASSESSMENTS),
+                (String) config.getParams().get(Constants.ATTR_ASSESSMENT_FAMILY));
+        // add gradeLevelAssessedCode for gradeLevelAssessed
+        for (Map<String, Object> assessment : assessements) {
+            Map assessmentDetails = (Map) assessment.get(Constants.ATTR_ASSESSMENTS);
+            if (assessmentDetails != null) {
                 GenericEntityEnhancer.convertGradeLevel(assessmentDetails, Constants.ATTR_GRADE_LEVEL_ASSESSED);
             }
         }
-            
+        
         // get all assessments for student
         entity.put(Constants.ATTR_ASSESSMENTS, assessements);
         Set<String> scoreResultNames = new LinkedHashSet<String>();

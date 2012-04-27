@@ -31,7 +31,9 @@
         {name: "Perf. Lvl.", field: "assessments.ISAT Writing.perfLevel", width:150, sorter: 'int', formatter: FuelGaugeWithScore, params:{name:'ISAT Writing', valueField:'Scale score', fieldName: "ISATWriting", cutPoints:{ 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}}}},
         {name: "SS", field: "assessments.ISAT Writing.Scale score", width:100, sorter: 'int'}]},
       {name: "Current Grades", items:[
-               {name: "Current Semester", field: "FallSemester2011-2012", width:100, sorter: "int", formatter: NumberGrade}
+               {name: "Unit Test 1", field: "FallSemester2011-2012-0", width:100, sorter: "int", formatter: NumberGrade},
+               {name: "Unit Test 2", field: "FallSemester2011-2012-1", width:100, sorter: "int", formatter: NumberGrade},
+               {name: "Unit Test 3", field: "FallSemester2011-2012-2", width:100, sorter: "int", formatter: NumberGrade}
             ]
       },
       {name: "Final Grades", items:[
