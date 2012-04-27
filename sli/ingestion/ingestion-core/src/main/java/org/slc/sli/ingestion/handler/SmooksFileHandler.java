@@ -20,6 +20,8 @@ import org.xml.sax.SAXException;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.landingzone.LandingZone;
+import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -34,8 +36,6 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     private static final Logger LOG = LoggerFactory.getLogger(SmooksFileHandler.class);
 
     private SliSmooksFactory sliSmooksFactory;
-
-    private String lzDirectory;
 
     @Override
     IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
@@ -57,8 +57,14 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
     void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) throws IOException,
             SAXException {
-
-        File neutralRecordOutFile = createTempFile();
+        LandingZone landingZone = new LocalFileSystemLandingZone(new File(ingestionFileEntry.getTopLevelLandingZonePath()));
+        String lzDirectory = "";
+        if (landingZone != null && landingZone.getLZId() != null) {
+            lzDirectory = landingZone.getLZId();
+        } else {
+            lzDirectory = ingestionFileEntry.getFile().getParent();
+        }
+        File neutralRecordOutFile = createTempFile(lzDirectory);
 
         fileProcessStatus.setOutputFilePath(neutralRecordOutFile.getAbsolutePath());
         fileProcessStatus.setOutputFileName(neutralRecordOutFile.getName());
@@ -95,7 +101,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         }
     }
 
-    private File createTempFile() throws IOException {
+    private File createTempFile(String lzDirectory) throws IOException {
         File landingZone = new File(lzDirectory);
         File outputFile = landingZone.exists() ? File.createTempFile("neutralRecord_", ".tmp", landingZone) : File
                 .createTempFile("neutralRecord_", ".tmp");
@@ -104,20 +110,6 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
     public void setSliSmooksFactory(SliSmooksFactory sliSmooksFactory) {
         this.sliSmooksFactory = sliSmooksFactory;
-    }
-
-    /**
-     * @return the lzDirectory
-     */
-    public String getLzDirectory() {
-        return lzDirectory;
-    }
-
-    /**
-     * @param lzDirectory the lzDirectory to set
-     */
-    public void setLzDirectory(String lzDirectory) {
-        this.lzDirectory = lzDirectory;
     }
 
 }
