@@ -9,9 +9,19 @@ exit
 EOF
 }
 
-TODAY=`date "+%Y-%m-%d"`
-YESTERDAY=`date -d yesterday "+%Y-%m-%d"`
-OUT=`remoteProfile $TODAY $YESTERDAY`
+remoteProfileMongo()
+{
+ssh ingestion@igingest.slidev.org << EOF
+/home/ingestion/tools/mongoPerformanceTool.sh
+exit
+EOF
+}
+
+#TODAY=`date "+%Y-%m-%d"`
+#YESTERDAY=`date -d yesterday "+%Y-%m-%d"`
+#OUT=`remoteProfile $TODAY $YESTERDAY`
+
+OUT=`remoteProfileMongo`
 
 echo "$OUT"
 exit 0
