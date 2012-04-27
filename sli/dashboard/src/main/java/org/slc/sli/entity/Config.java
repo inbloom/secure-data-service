@@ -343,7 +343,7 @@ public class Config implements Cloneable {
         Config config = new Config(this.id, this.id, customConfig.name, this.type, this.condition, new Data(this.data.entity,
                 customConfig.data.cacheKey, this.data.lazy, customConfig.data.params == null ? null
                         : Collections.unmodifiableMap(new HashMap<String, Object>(customConfig.data.params))),
-                customConfig.items, this.root);
+                (customConfig.items == null) ? this.items : customConfig.items, this.root);
         return config;
     }
 }
