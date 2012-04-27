@@ -88,7 +88,7 @@ public class StudentAllAttendanceOptionalFieldAppender implements OptionalFieldA
             List<EntityBody> attendancesForStudent = attendancesPerStudent.get(id);
 
             // add the attendances to the student body
-            if (!attendancesForStudent.isEmpty()) {
+            if (attendancesForStudent != null && !attendancesForStudent.isEmpty()) {
                 EntityBody attendancesBody = new EntityBody();
                 attendancesBody.put(ResourceNames.ATTENDANCES, attendancesForStudent);
                 student.put(ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, attendancesBody);
