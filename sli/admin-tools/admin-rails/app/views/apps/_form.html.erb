@@ -25,10 +25,6 @@
 		<%= dev.label :organization, "Vendor" %>
 		<%= dev.text_field :organization %>
 	</div>
-	<div class = "field">
-		<%= dev.label :license_acceptance, "License Accepted" %>
-		<%= dev.check_box :license_acceptance %>
-	</div>
 <% end %>
 
 <div class = "field">
@@ -50,12 +46,6 @@
 <div class = "field">
 	<%= f.label :redirect_uri, "Redirect Url" %>
 	<%= f.text_field :redirect_uri, :placeholder => 'https://' %>
-</div>
-<div class = "field">
-	<%= f.label :client_type, "Public" %>
-	<%= f.radio_button :client_type, :PUBLIC %>
-	<%= f.label :client_type, "Confidential" %>
-	<%= f.radio_button :client_type, :CONFIDENTIAL %>
 </div>
 <div class = "field">
 	<%= f.label :enabled, "Enabled" %>

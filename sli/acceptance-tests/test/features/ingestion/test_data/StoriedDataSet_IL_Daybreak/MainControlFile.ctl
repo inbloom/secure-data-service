@@ -15,4 +15,5 @@ edfi-xml,StudentGrades,InterchangeStudentGrade.xml,37194a7528a532aae4d1bf073e064
 edfi-xml,Parent,InterchangeStudentParent.xml,e128e4d7c514de8698075c01b8ac64a5
 edfi-xml,StudentProgram,InterchangeStudentProgram.xml,63f5801a5f9975388576311f5de9d7db
 edfi-xml,StudentCohort,InterchangeStudentCohort.xml,c6e6ab709ba6a92509eb960c06d2412b
+edfi-xml,StudentDiscipline,InterchangeStudentDiscipline.xml,eafef8f8cf8fd7a8e366fb7e9bc3d616
 

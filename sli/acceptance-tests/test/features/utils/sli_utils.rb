@@ -301,7 +301,6 @@ module DataProvider
   
   def self.getValidAppData()
     return {
-      "client_type" => "PUBLIC",
       "enabled" => true,
       "redirect_uri" => "https://slidev.org",
       "description" => "Prints hello world.",
@@ -313,7 +312,7 @@ module DataProvider
       "application_url" => "https://slidev.org/image",
       "registration" => {},
       "version" => "3.14",
-      "developer_info" => { "license_acceptance" => true, "organization" => "Acme" }, 
+      "developer_info" => { "organization" => "Acme" }, 
       "authorized_ed_orgs" => []
     }
   end
