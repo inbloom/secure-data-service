@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Mananges the landing zones to be monitored.
- * 
+ *
  * @author vmcglaughlin
  *
  */
@@ -20,7 +20,7 @@ public class LandingZoneManager {
 
     private boolean multipleLandingZonesEnabled;
     private String singleLandingZoneDir;
-    
+
     private Logger log = LoggerFactory.getLogger(ControlFileProcessor.class);
 
     public List<LocalFileSystemLandingZone> getLandingZones() {
@@ -34,14 +34,14 @@ public class LandingZoneManager {
         return landingZoneList;
     }
 
-    private LocalFileSystemLandingZone getSingleLandingZone() {
+    protected LocalFileSystemLandingZone getSingleLandingZone() {
         return new LocalFileSystemLandingZone(new File(singleLandingZoneDir));
     }
 
-    private List<LocalFileSystemLandingZone> getMultipleLandingZones() {
+    protected List<LocalFileSystemLandingZone> getMultipleLandingZones() {
         List<LocalFileSystemLandingZone> landingZoneList = new ArrayList<LocalFileSystemLandingZone>();
         try {
-           
+
             String localhostname = null;
             //get the ingestion server host name to use for obtaining landing zones
             localhostname = java.net.InetAddress.getLocalHost().getHostName();
@@ -51,7 +51,7 @@ public class LandingZoneManager {
             for (String lzPath : lzPaths) {
                 landingZoneList.add(new LocalFileSystemLandingZone(new File(lzPath)));
             }
-            
+
         } catch (Exception e) {
             log.error("Exception encountered extracting landing zones from tenant collection:", e);
         }

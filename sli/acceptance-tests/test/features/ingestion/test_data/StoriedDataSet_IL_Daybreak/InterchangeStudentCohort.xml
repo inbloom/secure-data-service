@@ -31,7 +31,7 @@
 	</EducationOrgReference>
 	<ProgramReference>
 	  <ProgramIdentity>
-	    <ProgramId>ACC-TEST-PROG-1</ProgramId>
+	    <ProgramId>ACC-TEST-PROG-2</ProgramId>
 	  </ProgramIdentity>
 	</ProgramReference>
   </Cohort>
@@ -204,7 +204,7 @@
   <StaffCohortAssociation>
     <StaffReference>
 	  <StaffIdentity>
-	    <StaffUniqueStateId>msmith</StaffUniqueStateId>
+	    <StaffUniqueStateId>sbantu</StaffUniqueStateId>
 	  </StaffIdentity>
 	</StaffReference>
 	<CohortReference>

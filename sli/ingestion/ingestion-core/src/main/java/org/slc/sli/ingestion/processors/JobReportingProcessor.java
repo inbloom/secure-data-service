@@ -116,7 +116,7 @@ public class JobReportingProcessor implements Processor {
             writeInfoLine(jobReportWriter, "Processed " + recordsProcessed + " records.");
 
         } catch (IOException e) {
-            LOG.error("Error: Unable to write report file for: {}", job.getId());
+            LOG.error("Unable to write report file for: {}", job.getId());
         } finally {
             cleanupWriterAndLocks(jobReportWriter, lock, channel);
         }
@@ -169,7 +169,7 @@ public class JobReportingProcessor implements Processor {
             }
 
         } catch (IOException e) {
-            LOG.error("Error: Unable to write error file for: {}", job.getId());
+            LOG.error("Unable to write error file for: {}", job.getId());
         } finally {
             for (PrintWriter writer : resourceToErrorMap.values()) {
                 writer.close();
@@ -245,9 +245,6 @@ public class JobReportingProcessor implements Processor {
 
     private void doesntHavePersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
         // write out 0 count metrics for the input files
-        Error error = Error.createIngestionError(job.getId(), null, BATCH_JOB_STAGE.getName(), null, null, null,
-                FaultType.TYPE_WARNING.getName(), null, "There were no metrics for " + BATCH_JOB_STAGE.getName());
-        batchJobDAO.saveError(error);
 
         for (ResourceEntry resourceEntry : job.getResourceEntries()) {
             if (resourceEntry.getResourceFormat() != null
@@ -291,7 +288,7 @@ public class JobReportingProcessor implements Processor {
     private void missingBatchJobIdError(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
     private static void writeInfoLine(PrintWriter jobReportWriter, String string) {
