@@ -14,6 +14,7 @@ import org.slc.sli.test.edfi.entities.InterchangeStudentAttendance;
 import org.slc.sli.test.edfi.entities.InterchangeStudentCohort;
 import org.slc.sli.test.edfi.entities.InterchangeStudentDiscipline;
 import org.slc.sli.test.edfi.entities.InterchangeStudentEnrollment;
+import org.slc.sli.test.edfi.entities.InterchangeStudentGrade;
 import org.slc.sli.test.edfi.entities.InterchangeStudentProgram;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.interchange.InterchangeAssessmentMetadataGenerator;
@@ -27,6 +28,7 @@ import org.slc.sli.test.generators.interchange.InterchangeStudentCohortGenerator
 import org.slc.sli.test.generators.interchange.InterchangeStudentDisciplineGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentEnrollmentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentGenerator;
+import org.slc.sli.test.generators.interchange.InterchangeStudentGradeGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentProgramGenerator;
 import org.slc.sli.test.utils.DataUtils;
 import org.slc.sli.test.utils.JaxbUtils;
@@ -117,6 +119,8 @@ public class StateEdFiXmlGenerator {
         assessmentMetaData();
 
         studentAssessment();
+        
+        studentGrade();
 
     }
 
@@ -245,7 +249,9 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentProgram, new PrintStream(xmlFilePath));
 
-        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentProgram", xmlFilePath);
+        // TODO: uncomment when ingestion supports this
+        // DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentProgram",
+        // xmlFilePath);
     }
 
     /**
@@ -316,4 +322,19 @@ public class StateEdFiXmlGenerator {
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentAssessment", xmlFilePath);
     }
 
+    /**
+     * Generate InterchangeStudentGrade data and use Jaxb to output the XML file.
+     *
+     * @throws Exception
+     */
+    private static void studentGrade() throws Exception {
+
+        InterchangeStudentGrade studentGrade = InterchangeStudentGradeGenerator.generate();
+
+        String xmlFilePath = rootOutputPath + "/InterchangeStudentGrade.xml";
+
+        JaxbUtils.marshal(studentGrade, new PrintStream(xmlFilePath));
+
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentGrades", xmlFilePath);
+    }
 }

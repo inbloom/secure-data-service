@@ -63,12 +63,12 @@ import org.slc.sli.test.edfi.entities.StudentSectionAssociationReferenceType;
 public class StudentGradeGenerator {
 
 	private static Random rand = new Random(); 
-	private String thisDay, oneYearAgo, oneYearHence;
-	ObjectFactory objectFactory = new ObjectFactory();
- 	private int idCount            = 0; 
+	private static String thisDay, oneYearAgo, oneYearHence;
+	private static ObjectFactory objectFactory = new ObjectFactory();
+ 	private static int idCount            = 0; 
  	
-	public StudentGradeGenerator() throws Exception {
-    	DateFormat dateFormatter = new SimpleDateFormat("YYYYmmDD");
+	static {
+    	DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
      	thisDay      = dateFormatter.format(new Date());
 	    oneYearAgo   = dateFormatter.format(new Date(new Date().getTime() - 365*24*60*60*1000));
 	    oneYearHence = dateFormatter.format(new Date(new Date().getTime() + 365*24*60*60*1000));
@@ -79,7 +79,7 @@ public class StudentGradeGenerator {
 		return num < 0? -1 * num:num;
 	}
 	
-	public StudentSectionAssociationReferenceType getStudentSectionAssociationReference(
+	public static StudentSectionAssociationReferenceType getStudentSectionAssociationReference(
 			StudentReferenceType student, 
 			SectionReferenceType section) {
 		StudentSectionAssociationReferenceType ssaRef = new StudentSectionAssociationReferenceType();
@@ -90,11 +90,11 @@ public class StudentGradeGenerator {
 	    return ssaRef;
 	}
 	
-	public StudentAcademicRecord getStudentAcademicRecord( 
+	public static StudentAcademicRecord getStudentAcademicRecord( 
 			StudentReferenceType studentRef , 
 			SessionReferenceType sessionRef, 
 			List<ReferenceType>reportCardRef, 
-			ReferenceType diplomaRef) throws Exception {
+			ReferenceType diplomaRef){
 		StudentAcademicRecord sar = new StudentAcademicRecord();
 		Credits earned = new Credits();
 		sar.setCumulativeCreditsEarned(earned);
@@ -140,16 +140,16 @@ public class StudentGradeGenerator {
 		return sar;
 	}
 
-	public ReportCard getReportCard(StudentReferenceType studentRef, 
+	public static ReportCard getReportCard(StudentReferenceType studentRef, 
 			                        GradingPeriodReferenceType gradingPeriodRef,
-			                        ReferenceType gradeReference, 
-			                        ReferenceType scReference) 
-			                        		throws Exception {
+			                        List<ReferenceType> gradeReference, 
+			                        List<ReferenceType> scReference) 
+			                        		{
 		ReportCard reportCard = new ReportCard();
 		if(gradeReference != null)
-		    reportCard.getGradeReference().add(gradeReference);
+		    reportCard.getGradeReference().addAll(gradeReference);
 		if(scReference != null)
-		    reportCard.getStudentCompetencyReference().add(scReference);
+		    reportCard.getStudentCompetencyReference().addAll(scReference);
 		if(studentRef != null)
 		    reportCard.setStudentReference(studentRef);
 		if(gradeReference != null)
@@ -162,8 +162,8 @@ public class StudentGradeGenerator {
 		return reportCard;
 	}
 
-	public Grade getGrade(StudentSectionAssociationReferenceType ssaRef, 
-			GradingPeriodReferenceType gradingPeriodRef) throws Exception {
+	public static Grade getGrade(StudentSectionAssociationReferenceType ssaRef, 
+			GradingPeriodReferenceType gradingPeriodRef) {
 		Grade grade = new Grade();
 		grade.setLetterGradeEarned("A B C D E F".split(" ")[getRand()%6]); 
 		grade.setNumericGradeEarned(new BigInteger("3"));
@@ -177,10 +177,9 @@ public class StudentGradeGenerator {
 		return grade;
 	}
 
-	public StudentCompetency getStudentCompetency(StudentSectionAssociationReferenceType ssaRef, 
+	public static StudentCompetency getStudentCompetency(StudentSectionAssociationReferenceType ssaRef, 
 			                                      LearningObjectiveReferenceType learningObjectiveRef,
-			                                      StudentCompetencyObjectiveReferenceType scoRef) 
-			                                    		  throws Exception {
+			                                      StudentCompetencyObjectiveReferenceType scoRef)  {
 		StudentCompetency studentCompetancy = new StudentCompetency();
 		CompetencyLevelDescriptorType cl = new CompetencyLevelDescriptorType();
 		studentCompetancy.setCompetencyLevel(cl);
@@ -197,9 +196,10 @@ public class StudentGradeGenerator {
 		return studentCompetancy;
 	}
 	
-	public Diploma getDiploma(EducationalOrgReferenceType schoolRef) {
+	public static Diploma getDiploma(EducationalOrgReferenceType schoolRef) {
 		Diploma diploma = new Diploma();
 		diploma.setDiplomaAwardDate(thisDay);
+		diploma.setDiplomaAwardDate("2003-02-01");
 		diploma.setDiplomaLevel(DiplomaLevelType.DISTINGUISHED);
 		diploma.setDiplomaType(DiplomaType.CERTIFICATE_OF_ATTENDANCE);
 		diploma.setCTECompleter(true);
@@ -221,7 +221,7 @@ public class StudentGradeGenerator {
 		return diploma;
 	}
 	
-	public CourseTranscript getCourseTranscript(CourseReferenceType courseRef, 
+	public static CourseTranscript getCourseTranscript(CourseReferenceType courseRef, 
 			ReferenceType academicRecordRef, 
 			EducationalOrgReferenceType school){
 		CourseTranscript courseTranscript = new CourseTranscript();
@@ -256,7 +256,7 @@ public class StudentGradeGenerator {
 		return courseTranscript;
 	}
 	
-	public GradebookEntry getGradeBooEntry(GradingPeriodReferenceType gradingPeriodRef, SectionReferenceType sectionRef)
+	public static GradebookEntry getGradeBookEntry(GradingPeriodReferenceType gradingPeriodRef, SectionReferenceType sectionRef)
 	{
 		idCount++;
 		GradebookEntry gbe = new GradebookEntry();
@@ -268,7 +268,7 @@ public class StudentGradeGenerator {
 		return gbe;
 	}
 	
-	public GradingPeriod getGradingPeriod()
+	public static GradingPeriod getGradingPeriod()
 	{
 		GradingPeriod period = new GradingPeriod();
 		period.setBeginDate(oneYearAgo);
@@ -278,7 +278,7 @@ public class StudentGradeGenerator {
 		return period;
 	}
 	
-	public GradingPeriodReferenceType getGradingPeriodReferenceType(GradingPeriod period, EducationOrgIdentificationCode edOrg)
+	public static GradingPeriodReferenceType getGradingPeriodReferenceType(GradingPeriod period, EducationOrgIdentificationCode edOrg)
 	{
 		GradingPeriodReferenceType ref = new GradingPeriodReferenceType();
 		GradingPeriodIdentityType identity = new GradingPeriodIdentityType();
@@ -289,7 +289,7 @@ public class StudentGradeGenerator {
 		return ref;
 	}
 	
-	public StudentGradebookEntry getStudentGradebookEntry(SectionReferenceType section, StudentReferenceType student)
+	public static StudentGradebookEntry getStudentGradebookEntry(SectionReferenceType section, StudentReferenceType student)
 	{
 		StudentGradebookEntry sgbe = new StudentGradebookEntry();
 		sgbe.setDateFulfilled(thisDay);
@@ -307,7 +307,7 @@ public class StudentGradeGenerator {
 		ssIdentity.setStudentIdentity(student.getStudentIdentity());
 		
 		sgbe.setStudentSectionAssociationReference(ssRef);
-		return null;
+		return sgbe;
 
 	}
 
@@ -401,7 +401,7 @@ public class StudentGradeGenerator {
 		int GRADE_BOOK_ENTRY_COUNT                       = 1;
 		GradebookEntry [] gradeBookEntries               = new GradebookEntry[GRADE_BOOK_ENTRY_COUNT];
 		for(int i = 0; i < GRADE_BOOK_ENTRY_COUNT; i++){
-			gradeBookEntries[i]                          = studentGradeGenerator.getGradeBooEntry(gradingPeriodRef, sectionRefs[0]);                       
+			gradeBookEntries[i]                          = studentGradeGenerator.getGradeBookEntry(gradingPeriodRef, sectionRefs[0]);                       
 		}
 		
 		StudentSectionAssociationReferenceType ssaRef    = studentGradeGenerator.getStudentSectionAssociationReference(studentRef, sectionRefs[0]);    
@@ -416,7 +416,7 @@ public class StudentGradeGenerator {
 		ReferenceType scoReference = new ReferenceType();
 		scoReference.setRef(studentCompetancy);
 		
-		ReportCard reportCard                            = studentGradeGenerator.getReportCard(studentRef, gradingPeriodRef, gradeReference, scoReference);
+		ReportCard reportCard                            = studentGradeGenerator.getReportCard(studentRef, gradingPeriodRef, null, null);
 		reportCard.setId("reportCard1Id");
 		
 		Diploma diploma                                  = studentGradeGenerator.getDiploma(schoolRef);
