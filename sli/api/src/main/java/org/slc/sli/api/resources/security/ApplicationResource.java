@@ -113,6 +113,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         Map<String, Object> registration = new HashMap<String, Object>();
         registration.put(STATUS, "PENDING");
         if (autoRegister) {
+            registration.put(APPROVAL_DATE, System.currentTimeMillis());
             registration.put(STATUS, "APPROVED");
             registration.put(APPROVAL_DATE, System.currentTimeMillis());
         }

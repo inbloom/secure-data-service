@@ -313,7 +313,8 @@ module DataProvider
       "application_url" => "https://slidev.org/image",
       "registration" => {},
       "version" => "3.14",
-      "developer_info" => { "license_acceptance" => true, "organization" => "Acme" } 
+      "developer_info" => { "license_acceptance" => true, "organization" => "Acme" }, 
+      "authorized_ed_orgs" => []
     }
   end
 end
@@ -411,4 +412,17 @@ module EntityProvider
       }
     end
   end
+end
+
+######################
+######################
+### Create uuids that can be used thusly:  @db['collection'].find_one( '_id' => id_from_juuid("e5420397-908e-11e1-9a9d-68a86d2267de"))
+def id_from_juuid(uuid)
+  hex = uuid.gsub(/[-]+/, '')
+  msb = hex[0, 16]
+  lsb = hex[16, 16]
+  msb = msb[14, 2] + msb[12, 2] + msb[10, 2] + msb[8, 2] + msb[6, 2] + msb[4, 2] + msb[2, 2] + msb[0, 2]
+  lsb = lsb[14, 2] + lsb[12, 2] + lsb[10, 2] + lsb[8, 2] + lsb[6, 2] + lsb[4, 2] + lsb[2, 2] + lsb[0, 2]
+  hex = msb + lsb;
+  BSON::Binary.new([hex].pack('H*'), BSON::Binary::SUBTYPE_UUID)
 end

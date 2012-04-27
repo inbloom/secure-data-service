@@ -197,10 +197,11 @@ end
 ############################################################
 desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
-                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest, 
+                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, 
-                         :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest] do
+                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
+                         :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionCommonCoreTests, :ingestionIndexTest] do
+
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -210,7 +211,7 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :i
 end
 
 desc "Run Common Core Standards Tests"
-task :ingestionCommonCoreTest do
+task :ingestionCommonCoreTests do
   runTests("test/features/ingestion/features/ingestion_common_core_standards.feature")
 end
 
@@ -222,6 +223,11 @@ end
 desc "Run Ingestion Acceptance SDS Tests"
 task :ingestionAcceptanceSdsTest do
   runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
+end
+
+desc "Run Ingestion Acceptance Parallel Tests"
+task :ingestionAcceptanceParallelTest do
+  runTests("test/features/ingestion/features/ingestion_acceptance_parallel_test.feature")
 end
 
 desc "Run Ingestion Session Test"
@@ -340,6 +346,12 @@ task :ingestionMongoDBPerformanceTest do
   runTests("test/features/ingestion/features/ingestion_mongo_performance.feature")
 end
 
+desc "Run Ingestion Index Tests"
+task :ingestionIndexTest do
+  runTests("test/features/ingestion/features/index_testing.feature")
+end
+
+
 ############################################################
 # Ingestion Offline Tool tests start
 ############################################################
@@ -392,6 +404,7 @@ task :apiV1Tests => [:apiV1EntityTests,
   displayFailureReport()
 end
 
+
 task :apiV1EntityTests do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud")
@@ -413,6 +426,15 @@ task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
                                 :v1TeacherSectionAssociationTests,
                                 :v1StaffCohortAssociationTests,
                                 :v1StudentCohortAssociationTests] do
+end
+
+desc "Run V1 Student Academic Record Tests"
+task :v1StudentAcademicRecordTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
+  setFixture("session", "session_fixture.json")
+  setFixture("session", "smallville_sessions_fixture.json", "test/data/smallville", false)
+  runFixtureAndTests("test/features/apiV1/entities/studentAcademicRecord", "studentAcademicRecord", "studentAcademicRecord_fixture.json")
 end
 
 desc "Run V1 XML Tests"
@@ -455,6 +477,12 @@ desc "Run V1 program Tests"
 task :v1ProgramTests => [:realmInit] do
   setFixture("program", "program_fixture.json")
   runTests("test/features/apiV1/entities/program")
+end
+
+desc "Run V1 Program Security Tests"
+task :v1ProgramSecurityTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/program/program_security.feature")
 end
 
 desc "Run V1 Discipline Incident Tests"
@@ -770,6 +798,12 @@ task :v1CohortTests => [:realmInit] do
   runFixtureAndTests("test/features/apiV1/entities/cohort","cohort","cohort_fixture.json")
 end
 
+desc "Run V1 Cohort Security Tests"
+task :v1CohortSecurityTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/cohort/cohort_security.feature")
+end
+
 desc "Run V1 Home URI Tests"
 task :v1homeUriTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
@@ -843,7 +877,7 @@ end
 
 desc "Run V1 Simple CRUD Test"
 task :v1SimpleCrudTests do
-  runTests("test/features/apiV1/entities/crud")
+  runTests("test/features/apiV1/entities/crud_rc")
 end
 
 ############################################################
@@ -1129,7 +1163,7 @@ task :integrationTests => [:realmInitNoPeople] do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
-  Rake::Task["dashboardSdsTests"].invoke  
+  Rake::Task["dashboardSdsTests"].invoke
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1248,7 +1282,8 @@ task :importSandboxData do
     "staffCohortAssociation" => "staffCohortAssociation_fixture.json",
     "studentCohortAssociation" => "studentCohortAssociation_fixture.json",
     "staffProgramAssociation" => "staffProgramAssociation_fixture.json",
-    "studentProgramAssociation" => "studentProgramAssociation_fixture.json"
+    "studentProgramAssociation" => "studentProgramAssociation_fixture.json",
+    "studentAcademicRecord" => "studentAcademicRecord_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 

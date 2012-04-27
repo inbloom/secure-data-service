@@ -42,7 +42,7 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
     public void error(String message, Object sender) {
 
         String recordIdentifier = null;
-        Error error = Error.createIngestionError(batchJobId, (stage == null) ? null : stage.getName(), resourceId,
+        Error error = Error.createIngestionError(batchJobId, resourceId, (stage == null) ? null : stage.getName(),
                 BatchJobUtils.getHostName(), BatchJobUtils.getHostAddress(), recordIdentifier,
                 FaultType.TYPE_ERROR.getName(), FaultType.TYPE_ERROR.getName(), message);
         batchJobDAO.saveError(error);
@@ -54,7 +54,7 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
     public void warning(String message, Object sender) {
 
         String recordIdentifier = null;
-        Error error = Error.createIngestionError(batchJobId, (stage == null) ? "" : stage.getName(), resourceId,
+        Error error = Error.createIngestionError(batchJobId, resourceId, (stage == null) ? "" : stage.getName(),
                 BatchJobUtils.getHostName(), BatchJobUtils.getHostAddress(), recordIdentifier,
                 FaultType.TYPE_WARNING.getName(), FaultType.TYPE_WARNING.getName(), message);
         batchJobDAO.saveError(error);

@@ -37,6 +37,7 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  *
@@ -115,7 +116,7 @@ public class JobReportingProcessorTest {
 
         LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone();
         tmpLz.setDirectory(tmpDir);
-        jobReportingProcessor.setLandingZone(tmpLz);
+        //jobReportingProcessor.setLandingZone(tmpLz);
         printOut.println("Writing to " + tmpLz.getDirectory().getAbsolutePath());
 
         jobReportingProcessor.process(exchange);
@@ -178,19 +179,19 @@ public class JobReportingProcessorTest {
     private List<Error> createFakeErrorList() {
         List<Error> errors = new LinkedList<Error>();
         Error error = new Error(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), RESOURCEID,
-                "10.81.1.27", "testhost", RECORDID, "20120412 10:04:46.111", FaultType.TYPE_ERROR.getName(),
+                "10.81.1.27", "testhost", RECORDID, BatchJobUtils.getCurrentTimeStamp(), FaultType.TYPE_ERROR.getName(),
                 "errorType", ERRORDETAIL);
         errors.add(error);
         return errors;
     }
 
     private List<Stage> createFakeStages() {
-        Metrics m = new Metrics(RESOURCEID, "192.168.59.11", "transform1.slidev.org", "20120412 10:04:13.463",
-                "20120412 10:04:45.778", 50, 5);
+        Metrics m = new Metrics(RESOURCEID, "192.168.59.11", "transform1.slidev.org", BatchJobUtils.getCurrentTimeStamp(),
+                BatchJobUtils.getCurrentTimeStamp(), 50, 5);
         List<Metrics> ms = new LinkedList<Metrics>();
         ms.add(m);
-        Stage s = new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "fininshed", "20120412 10:04:13.463",
-                "20120412 10:04:45.778", ms);
+        Stage s = new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "fininshed", BatchJobUtils.getCurrentTimeStamp(),
+                BatchJobUtils.getCurrentTimeStamp(), ms);
 
         List<Stage> listStages = new LinkedList<Stage>();
         listStages.add(s);

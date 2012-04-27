@@ -28,11 +28,6 @@
     </property>
   </bean>
 
-  <bean id="lz"
-    class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone">
-    <property name="directory" value="${landingzone.inbounddir}"></property>
-  </bean>
-
   <!-- Main application context, contains all other contexts in /spring -->
 
   <aop:aspectj-autoproxy />

@@ -197,9 +197,9 @@ public class BasicQueryConverter implements QueryConverter {
         for (String field : nestedFields) {
             schema = getNestedSchema(schema, field);
             if (schema != null) {
-                LOG.info("nested schema type is {}", schema.getSchemaType());
+                LOG.debug("nested schema type is {}", schema.getSchemaType());
             } else {
-                LOG.info("nested schema type is {}", "NULL");
+                LOG.debug("nested schema type is {}", "NULL");
             }
         }
         if (schema == null) {
@@ -245,7 +245,7 @@ public class BasicQueryConverter implements QueryConverter {
             return null;
         case LIST:
             for (NeutralSchema possibleSchema : ((ListSchema) schema).getList()) {
-                LOG.info("possible schema type is {}", possibleSchema.getSchemaType());
+                LOG.debug("possible schema type is {}", possibleSchema.getSchemaType());
                 if (getNestedSchema(possibleSchema, field) != null) {
                     return getNestedSchema(possibleSchema, field);
                 }

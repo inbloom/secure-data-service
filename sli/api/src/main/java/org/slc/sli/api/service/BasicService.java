@@ -563,6 +563,18 @@ public class BasicService implements EntityService {
             neededRight = Right.ADMIN_ACCESS;
         }
         
+        Collection<GrantedAuthority> auths = getAuths();
+        
+        if (auths.contains(Right.FULL_ACCESS)) {
+            LOG.trace("User has full access");
+        } else if (auths.contains(neededRight)) {
+            LOG.trace("User has needed right: {}", neededRight);
+        } else {
+            throw new AccessDeniedException("Insufficient Privileges");
+        }
+    }
+    
+    private Collection<GrantedAuthority> getAuths() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         
         if (auth instanceof AnonymousAuthenticationToken || auth == null) {
@@ -573,15 +585,7 @@ public class BasicService implements EntityService {
             throw new InsufficientAuthenticationException("Login Required");
         }
         
-        Collection<GrantedAuthority> auths = auth.getAuthorities();
-        
-        if (auths.contains(Right.FULL_ACCESS)) {
-            LOG.trace("User has full access");
-        } else if (auths.contains(neededRight)) {
-            LOG.trace("User has needed right: {}", neededRight);
-        } else {
-            throw new AccessDeniedException("Insufficient Privileges");
-        }
+        return auth.getAuthorities();
     }
     
     private List<String> findAccessible() {
@@ -596,8 +600,7 @@ public class BasicService implements EntityService {
                                                                   // they don't contain mongo
                                                                   // entries
         
-        if (type == null) { // Super admin
-            checkRights(Right.FULL_ACCESS);
+        if (getAuths().contains(Right.FULL_ACCESS)) {  //Super admin
             return AllowAllEntityContextResolver.SUPER_LIST;
         }
         

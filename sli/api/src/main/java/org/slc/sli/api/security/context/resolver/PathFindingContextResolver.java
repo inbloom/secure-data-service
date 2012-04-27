@@ -41,6 +41,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
 
     @Autowired
     private EntityDefinitionStore store;
+    
+    @Autowired
+    private Repository<Entity> repository;
 
     @Autowired
     private Repository<Entity> repo;
@@ -55,7 +58,6 @@ public class PathFindingContextResolver implements EntityContextResolver {
      */
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-
         this.fromEntity = fromEntityType;
         this.toEntity = toEntityType;
         if (pathFinder.isPathExcluded(fromEntityType, toEntityType)) {
@@ -152,6 +154,10 @@ public class PathFindingContextResolver implements EntityContextResolver {
      */
     public void setHelper(AssociativeContextHelper helper) {
         this.helper = helper;
+    }
+    
+    public void setRepository(Repository<Entity> repo) {
+        this.repository = repo;
     }
 
 }

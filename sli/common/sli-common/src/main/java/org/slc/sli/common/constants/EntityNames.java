@@ -31,6 +31,7 @@ public final class EntityNames {
     public static final String LEARNINGSTANDARD = "learningStandard";
     public static final String STUDENT_COMPETENCY = "studentCompetency";
     public static final String STUDENT_COMPETENCY_OBJECTIVE = "studentCompetencyObjective";
+    public static final String STUDENT_ACADEMIC_RECORD = "studentAcademicRecord";
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRY = "studentSectionGradebookEntry";
     public static final String TEACHER = "teacher";
     public static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
