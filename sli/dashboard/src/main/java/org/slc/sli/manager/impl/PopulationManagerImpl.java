@@ -1,32 +1,41 @@
 package org.slc.sli.manager.impl;
 
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.WordUtils;
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.util.GenericEntityEnhancer;
 import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.view.TimedLogic2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi entities/associations such
@@ -116,10 +125,7 @@ public class PopulationManagerImpl implements PopulationManager {
         applyAssessmentFilters(studentSummaries, config);
 
         // data enhancements
-        enhanceListOfStudents(studentSummaries);
-
-        // get student grades (kindergarten, first grade, etc..) - TODO: get this data from the integrated API call
-        updateWithStudentGrades(token, studentSummaries);
+        enhanceListOfStudents(studentSummaries, (String) sectionId);
 
         GenericEntity result = new GenericEntity();
         result.put(Constants.ATTR_STUDENTS, studentSummaries);
@@ -128,37 +134,12 @@ public class PopulationManagerImpl implements PopulationManager {
     }
 
     /**
-     * Helper function to get a list of grades for a set of students.
-     * NOTE: refactor the bundled API call to provide student grade, so this method won't be
-     * necessary!
-     *
-     * @param token
-     * @param studentSummaries
-     * @return
-     */
-    public void updateWithStudentGrades(String token, List<GenericEntity> studentSummaries) {
-        Map<String, GenericEntity> mapByUid = new HashMap<String, GenericEntity>();
-        if (studentSummaries != null) {
-            // get student uids
-            for (GenericEntity student : studentSummaries) {
-                mapByUid.put(student.getString(Constants.ATTR_ID), student);
-            }
-            List<GenericEntity> students = entityManager.getStudents(token, mapByUid.keySet());
-            // put together set of grades
-            for (GenericEntity s : students) {
-                mapByUid.get(s.getString(Constants.ATTR_ID)).put(Constants.ATTR_GRADE_LEVEL, s.getString(Constants.ATTR_GRADE_LEVEL));
-            }
-        }
-    }
-
-    /**
      * Make enhancements that make it easier for front-end javascript to use the data
      *
      * @param studentSummaries
      */
-    public void enhanceListOfStudents(List<GenericEntity> studentSummaries) {
+    public void enhanceListOfStudents(List<GenericEntity> studentSummaries, String sectionId) {
         if (studentSummaries != null) {
-            int count = 0;
             for (GenericEntity student : studentSummaries) {
                 if (student == null) {
                     continue;
@@ -170,8 +151,8 @@ public class PopulationManagerImpl implements PopulationManager {
                 // add full name
                 addFullName(student);
 
-                // TODO - Switch once real API data is implemented
-                addGrade(student, count++);
+                // add the final grade
+                addFinalGrade(student, sectionId);
 
                 // transform assessment score format
                 transformAssessmentFormat(student);
@@ -180,7 +161,10 @@ public class PopulationManagerImpl implements PopulationManager {
                 tallyAttendanceData(student);
 
             }
+
+
         }
+
     }
 
     /**
@@ -297,57 +281,98 @@ public class PopulationManagerImpl implements PopulationManager {
         student.remove(Constants.ATTR_LINKS);
     }
 
-    private void addGrade(GenericEntity student, int count) {
-        Map<String, Object> grade = new LinkedHashMap<String, Object>();
 
-        switch (count % 15) {
-            case 0:
-                grade.put("grade", "A+");
-                break;
-            case 1:
-                grade.put("grade", "B+");
-                break;
-            case 2:
-                grade.put("grade", "C+");
-                break;
-            case 3:
-                grade.put("grade", "D+");
-                break;
-            case 4:
-                grade.put("grade", "F+");
-                break;
-            case 5:
-                grade.put("grade", "A");
-                break;
-            case 6:
-                grade.put("grade", "B");
-                break;
-            case 7:
-                grade.put("grade", "C");
-                break;
-            case 8:
-                grade.put("grade", "D");
-                break;
-            case 9:
-                grade.put("grade", "F");
-                break;
-            case 10:
-                grade.put("grade", "A-");
-                break;
-            case 11:
-                grade.put("grade", "B-");
-                break;
-            case 12:
-                grade.put("grade", "C-");
-                break;
-            case 13:
-                grade.put("grade", "D-");
-                break;
-            case 14:
-                grade.put("grade", "F-");
-                break;
+    /**
+     * This method adds the final grades of a student to the student data. It will only grab the
+     * latest two grades.
+     * Ideally we would filter on subject area, but there is currently no subject area data in the
+     * SDS.
+     *
+     * @param student
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private void addFinalGrade(GenericEntity student, String sectionId) {
+        try {
+            Map<String, Object> transcripts = (Map<String, Object>) student.get(Constants.ATTR_TRANSCRIPT);
+            if (transcripts == null) {
+                return;
+            }
+            List<Map<String, Object>> stuSectAssocs = (List<Map<String, Object>>) transcripts
+                    .get(Constants.ATTR_STUDENT_SECTION_ASSOC);
+            List<Map<String, Object>> stuTransAssocs = (List<Map<String, Object>>) transcripts
+                    .get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC);
+
+            // Course IDs ordered so that newest course is first. Need to do this because we should
+            // show the
+            // latest courses first.
+
+            Map<Date, Map<String, Object>> previousCourseIds = new TreeMap<Date, Map<String, Object>>(
+                    new Comparator<Date>() {
+                        @Override
+                        public int compare(Date a, Date b) {
+                            if (a.compareTo(b) > 0) {
+                                return -1;
+                            } else if (a.compareTo(b) == 0) {
+                                return 0;
+                            } else {
+                                return 1;
+                            }
+                        }
+                    });
+
+            // Collect all courseIds based on subject Area if possible
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            for (Map<String, Object> assoc : stuSectAssocs) {
+                Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
+                Date date = formatter.parse((String) ((Map) sections.get(Constants.ATTR_SESSIONS))
+                        .get(Constants.ATTR_ASSESSMENT_PERIOD_END_DATE));
+                previousCourseIds.put(date, sections);
+            }
+
+            // Iterate through the course Id's and grab transcripts grades, once we have 2
+            // transcript grades, we're done
+            int count = 1;
+            for (Date key : previousCourseIds.keySet()) {
+
+                String courseId = (String) (previousCourseIds.get(key).get(Constants.ATTR_COURSE_ID));
+                for (Map<String, Object> assoc : stuTransAssocs) {
+                    if (courseId.equalsIgnoreCase((String) assoc.get(Constants.ATTR_COURSE_ID))) {
+                        String finalLetterGrade = (String) assoc.get(Constants.ATTR_FINAL_LETTER_GRADE);
+                        Map<String, Object> sections = previousCourseIds.get(key);
+                        String term = (String) ((Map) sections.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_TERM);
+                        String year = (String) ((Map) sections.get(Constants.ATTR_SESSIONS))
+                                .get(Constants.ATTR_SCHOOL_YEAR);
+                        String courseTitle = (String) ((Map) sections.get(Constants.ATTR_COURSES))
+                                .get(Constants.ATTR_COURSE_TITLE);
+                        if (finalLetterGrade != null) {
+                            Map<String, Object> grade = new LinkedHashMap<String, Object>();
+                            grade.put(Constants.SECTION_LETTER_GRADE, finalLetterGrade);
+                            grade.put(Constants.SECTION_HEADER, year + " " + term + " " + courseTitle);
+                            student.put(Constants.SECTION + count, grade);
+                            ++count;
+                            break;
+                        }
+                    }
+                }
+
+                if (count > Constants.NUMBER_OF_SECTIONS) {
+                    break;
+                }
+            }
+
+        } catch (ClassCastException ex) {
+            ex.printStackTrace();
+            Map<String, Object> grade = new LinkedHashMap<String, Object>();
+            student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+            Map<String, Object> grade = new LinkedHashMap<String, Object>();
+            student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+            Map<String, Object> grade = new LinkedHashMap<String, Object>();
+            student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
         }
-        student.put("score", grade);
     }
 
     /**
@@ -471,7 +496,11 @@ public class PopulationManagerImpl implements PopulationManager {
     }
 
     private List<GenericEntity> getStudentAttendance(String token, String studentId, String startDate, String endDate) {
-        return entityManager.getAttendance(token, studentId, startDate, endDate);
+        List<GenericEntity> list = entityManager.getAttendance(token, studentId, startDate, endDate);
+        if (list == null) {
+            return Collections.emptyList();
+        }
+        return list;
     }
 
     /**
@@ -621,5 +650,48 @@ public class PopulationManagerImpl implements PopulationManager {
             dates.add("");
         }
         return dates;
+    }
+
+    @Override
+    public GenericEntity getStudentsBySearch(String token, Object nameQuery, Config.Data config) {
+        //Map<String, String> nameQueryMap = (Map<String, String>) nameQuery;
+        String[] nameList = (String[]) nameQuery;
+        String firstName = nameList[0];
+        String lastName = nameList[1];
+        List<GenericEntity> students = entityManager.getStudentsFromSearch(token, firstName, lastName);
+        
+        List<GenericEntity> titleCaseStudents = entityManager.getStudentsFromSearch(token, WordUtils.capitalize(firstName), WordUtils.capitalize(lastName));
+        
+        HashSet<GenericEntity> studentSet  = new HashSet<GenericEntity>();
+        studentSet.addAll(students);
+        studentSet.addAll(titleCaseStudents);
+        
+        
+        List<GenericEntity> enhancedStudents = new LinkedList<GenericEntity>();
+        HashMap<String, GenericEntity> retrievedSchools = new HashMap<String, GenericEntity>();
+        GenericEntity school;
+        Iterator<GenericEntity> studentSetIterator = studentSet.iterator();
+        while (studentSetIterator.hasNext()) {
+            GenericEntity student = studentSetIterator.next();
+            student = entityManager.getStudent(token, student.getId());
+            addFullName(student);
+            
+            if (student.get("schoolId") != null) {
+                if (retrievedSchools.containsKey((String) student.get("schoolId"))) {
+                    school = retrievedSchools.get(student.get("schoolId"));
+                    student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST)); 
+                } else {
+                    school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, student.getString("schoolId"), new HashMap());
+                    retrievedSchools.put(school.getString(Constants.ATTR_ID), school);
+                    student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
+                }
+            }
+            GenericEntityEnhancer.enhanceStudent(student);
+            enhancedStudents.add(student);
+        }
+        
+        GenericEntity studentSearch = new GenericEntity();
+        studentSearch.put(Constants.ATTR_STUDENTS, enhancedStudents);
+        return studentSearch;
     }
 }

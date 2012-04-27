@@ -53,7 +53,7 @@ public final class Error {
     }
 
     // TODO: too many params. refactor.
-    public static Error createIngestionError(String ingestionJobId, String stageName, String resourceId,
+    public static Error createIngestionError(String ingestionJobId, String resourceId, String stageName,
             String sourceIp, String hostname, String recordIdentifier, String severity, String errorType,
             String errorDetail) {
 

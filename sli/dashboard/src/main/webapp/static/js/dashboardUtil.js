@@ -49,7 +49,13 @@ DashboardProxy = {
 		getWidgetConfig: function(widget) {
 			return this.widgetConfig[widget];
 		}
+		
+
 };
+
+DashboardUtil.getContextRootPath = function() {
+	return contextRootPath;
+}
 
 DashboardUtil.getElementFontSize = function (element)
 {
@@ -84,36 +90,37 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
     var items = [];
     var groupHeaders = [];
     var j;
-    for (var i = 0; i < panelConfig.items.length; i++) {
-        var item = panelConfig.items[i]; 
-        if (item.items && item.items.length > 0) {
-        	items = item.items;
-        	groupHeaders.push({startColumnName: item.items[0].field, numberOfColumns: item.items.length, titleText: item.name});
-        } else {
-        	items = [item];
-        }
-        j = 0;
-        for (var j in items) {
-        	var item1 = items[j];
-        	colNames.push(item1.name); 
-            var colModelItem = {name:item1.field,index:item1.field,width:item1.width};
-            if (item1.formatter) {
-          	    colModelItem.formatter = (DashboardUtil.Grid.Formatters[item1.formatter]) ? DashboardUtil.Grid.Formatters[item1.formatter] : item1.formatter;
-            }
-            if (item1.sorter) {
-            	colModelItem.sorttype = (DashboardUtil.Grid.Sorters[item1.sorter]) ? DashboardUtil.Grid.Sorters[item1.sorter](item1.params) : item1.sorter;
-            }
-            if (item1.params) {
-        	  colModelItem.formatoptions = item1.params;
-            }
-            if (item1.align) {
-            	colModelItem.align = item1.align;
-            }
-            colModel.push( colModelItem );
-        }
-        
+    if (panelConfig.items) {
+	    for (var i = 0; i < panelConfig.items.length; i++) {
+	        var item = panelConfig.items[i]; 
+	        if (item.items && item.items.length > 0) {
+	        	items = item.items;
+	        	groupHeaders.push({startColumnName: item.items[0].field, numberOfColumns: item.items.length, titleText: item.name});
+	        } else {
+	        	items = [item];
+	        }
+	        j = 0;
+	        for (var j in items) {
+	        	var item1 = items[j];
+	        	colNames.push(item1.name); 
+	            var colModelItem = {name:item1.field,index:item1.field,width:item1.width};
+	            if (item1.formatter) {
+	          	    colModelItem.formatter = (DashboardUtil.Grid.Formatters[item1.formatter]) ? DashboardUtil.Grid.Formatters[item1.formatter] : item1.formatter;
+	            }
+	            if (item1.sorter) {
+	            	colModelItem.sorttype = (DashboardUtil.Grid.Sorters[item1.sorter]) ? DashboardUtil.Grid.Sorters[item1.sorter](item1.params) : item1.sorter;
+	            }
+	            if (item1.params) {
+	        	  colModelItem.formatoptions = item1.params;
+	            }
+	            if (item1.align) {
+	            	colModelItem.align = item1.align;
+	            }
+	            colModel.push( colModelItem );
+	        }     
+	    }
+        options = jQuery.extend(options, {colNames: colNames, colModel: colModel});
     }
-    options = jQuery.extend(options, {colNames: colNames, colModel: colModel});
     jQuery(this).jqGrid(options);
     if (groupHeaders.length > 0) {
     	jQuery(this).jqGrid('setGroupHeaders', {
@@ -123,6 +130,12 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
     }
     jQuery(this).removeClass('.ui-widget-header');
     jQuery(this).addClass('.jqgrid-header');
+    var headers = jQuery(this)[0].grid.headers;
+    $(headers[headers.length - 1].el).addClass("end"); 
+    // extra header added
+    if (headers.length > colModel.length) {
+    	$(headers[0].el).addClass("end"); 
+    }
 }
 
 DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
@@ -307,9 +320,9 @@ DashboardUtil.Grid.Formatters = {
 		  var link = options.colModel.formatoptions.link;
 		  if(typeof link == 'string')
 		  {
-		    return '<a href="'+link + rowObject.id+'">'+value+'</a>';
+		    return '<a href="' + contextRootPath + '/' + link + rowObject.id+'">'+value+'</a>';
 		  }else{
-		    return cellvalue;
+		    return value;
 		  }
 		}
 

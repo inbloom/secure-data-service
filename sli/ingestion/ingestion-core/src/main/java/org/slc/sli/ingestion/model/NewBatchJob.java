@@ -227,12 +227,11 @@ public final class NewBatchJob implements Job {
     }
 
     /**
-     * stops given stage and adds to this NewBatchJob instance
+     * adds stage to this NewBatchJob instance
      *
      * @param stage
      */
-    public void addCompletedStage(Stage stage) {
-        stage.stopStage();
+    public void addStage(Stage stage) {
         this.stages.add(stage);
     }
 
@@ -290,4 +289,5 @@ public final class NewBatchJob implements Job {
         // TODO Auto-generated method stub
         return null;
     }
+
 }
