@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.slc.sli.ingestion.routes.IngestionRouteBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+
+import org.slc.sli.ingestion.routes.IngestionRouteBuilder;
 
 /**
  * Populates the tenant database collection with default tenant collections.
@@ -148,7 +149,8 @@ public class TenantPopulator implements ResourceLoaderAware {
      * @param parentLandingZoneDir the parentLandingZoneDir to set
      */
     public void setParentLandingZoneDir(String singleLandingZoneDir) {
-        this.parentLandingZoneDir = singleLandingZoneDir;
+        File lzFile = new File(singleLandingZoneDir);
+        this.parentLandingZoneDir = lzFile.getAbsolutePath();
     }
 
     public List<String> getTenantRecordResourcePaths() {

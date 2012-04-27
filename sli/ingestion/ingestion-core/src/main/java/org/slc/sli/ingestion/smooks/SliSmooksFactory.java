@@ -60,6 +60,7 @@ public class SliSmooksFactory {
             nrMongoStagingWriter.registerBatchId(batchJobId);
             nrMongoStagingWriter.ensureIndex();
 
+
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             for (String targetSelector : targetSelectorList) {
                 smooks.addVisitor(smooksEdFiVisitor, targetSelector);
