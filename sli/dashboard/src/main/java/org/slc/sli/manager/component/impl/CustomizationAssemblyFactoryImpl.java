@@ -1,25 +1,7 @@
 package org.slc.sli.manager.component.impl;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.Config.Item;
 import org.slc.sli.entity.GenericEntity;
@@ -32,6 +14,22 @@ import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.DashboardException;
 import org.slc.sli.util.ExecutionTimeLogger.LogExecutionTime;
 import org.slc.sli.util.SecurityUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Implementation of the CustomizationAssemblyFactory
@@ -362,9 +360,9 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             value = (GenericEntity) set.getMethod().invoke(set.getManager(), getTokenId(), entityKey, config);
             addCached(cacheKey, value);
             return value;
-        } catch (Throwable t) {
+        } catch (Exception e) {
             logger.error("Unable to invoke population manager for " + componentId + " and entity id " + entityKey
-                    + ", config " + componentId, t);
+                    + ", config " + componentId, e);
         }
         return null;
     }

@@ -80,13 +80,13 @@ public class ConfigManagerImpl implements ConfigManager {
      */
     @Override
     public ViewConfig getConfig(String userId, String viewName) {
-        
+
         ViewConfigSet config = getConfigSet(userId);
-        
+
         if (config == null) {
             return null;
         }
-        
+
         // loop through, find right config
         for (ViewConfig view : config.getViewConfig()) {
             if (view.getName().equals(viewName)) {
