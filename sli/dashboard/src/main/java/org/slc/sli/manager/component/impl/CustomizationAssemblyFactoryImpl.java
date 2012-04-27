@@ -242,7 +242,9 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     }
 
     @Override
+    @LogExecutionTime
     public ModelAndViewConfig getModelAndViewConfig(String componentId, Object entityKey, boolean lazyOverride) {
+
         ModelAndViewConfig modelAndViewConfig = new ModelAndViewConfig();
         populateModelRecursively(modelAndViewConfig, componentId, entityKey, null, null, null, 0, lazyOverride);
         return modelAndViewConfig;

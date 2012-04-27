@@ -18,8 +18,8 @@ When I select section "8th Grade English - Sec 6"
 And the following students have "ELL" lozenges: "Matt Sollars;Odysseus Merrill;Hoyt Hicks;Brielle Klein;Patricia Harper"
 # Lozenges check on LOS
 Then there is no lozenges for student "Jeanette Graves"
-#And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Copyright"
+And I see a header on the page that has the text "Logout"
+And I see a footer on the page that has the text "Copyright"
 And I click on student "Kimberley Pennington"
 And I view its student profile
 And their name shown in profile is "Kimberley Yuli Pennington Jr"
@@ -29,10 +29,15 @@ And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
 And the lozenges include "ELL"
-#And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Copyright"
+And I see a header on the page that has the text "Logout"
+And I see a footer on the page that has the text "Copyright"
 #Display hide tabs based on grades
 And there are "7" Tabs
+And in Tab ID "8", there is "2" Panels
+And in Tab ID "2", there is "1" Panels
+And in Tab ID "3", there is "0" Panels
+And in Tab ID "4", there is "0" Panels 
+And in Tab ID "5", there is "0" Panels
 And Tab has a title named "Middle School Overview"
 And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"

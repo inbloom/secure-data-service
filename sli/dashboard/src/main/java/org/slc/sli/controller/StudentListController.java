@@ -3,8 +3,6 @@ package org.slc.sli.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.google.gson.Gson;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +52,7 @@ public class StudentListController extends DashboardController {
      * @throws IOException
      */
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView retrieveStudentList(ModelMap model, HttpServletRequest request) throws IOException {
+    public ModelAndView retrieveStudentList(ModelMap model) throws IOException {
         //TODO: Make call to actual client instead of mock client, and use a token instead of empty string
 
         UserDetails user = getPrincipal();
@@ -63,7 +61,7 @@ public class StudentListController extends DashboardController {
         model.addAttribute(INST_HIERARCHY, convertToJson(instHierarchy));
         model.addAttribute(USER_NAME, user.getUsername());
         model.addAttribute(Constants.ATTR_HEADER_STRING, portalWSManager.getHeader(SecurityUtil.getToken()));
-        model.addAttribute(Constants.CONTEXT_ROOT_PATH,  request.getContextPath());
+
         //Currently portal returns overlapping div names
         //TODO: Remove hack to override div_main
         model.addAttribute(Constants.ATTR_FOOTER_STRING, portalWSManager.getFooter(SecurityUtil.getToken()).replaceFirst("div_main", "div_footer"));
