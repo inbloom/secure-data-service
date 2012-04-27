@@ -6,7 +6,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -25,6 +24,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * JUnits for testing the BatchJobMongoDA class.
@@ -65,7 +65,7 @@ public class BatchJobMongoDATest {
     public void testFindBatchJobErrors() {
         List<Error> errors = new ArrayList<Error>();
         Error error = new Error(BATCHJOBID, BatchJobStageType.EDFI_PROCESSOR.getName(), "resourceid", "sourceIp",
-                "hostname", "recordId", new Date(), FaultType.TYPE_ERROR.getName(), "errorType", "errorDetail");
+                "hostname", "recordId", BatchJobUtils.getCurrentTimeStamp(), FaultType.TYPE_ERROR.getName(), "errorType", "errorDetail");
         errors.add(error);
 
         when(mockMongoTemplate.find((Query) any(), eq(Error.class), eq("error"))).thenReturn(errors);

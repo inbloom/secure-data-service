@@ -133,10 +133,10 @@ public class Metrics {
     }
 
     public void startMetric() {
-        this.setStartTimestamp(new Date());
+        this.setStartTimestamp(BatchJobUtils.getCurrentTimeStamp());
     }
 
     public void stopMetric() {
-        this.setStopTimestamp(new Date());
+        this.setStopTimestamp(BatchJobUtils.getCurrentTimeStamp());
     }
 }

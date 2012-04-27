@@ -68,6 +68,37 @@
 	<%= f.label :image_url, "Image Url" %>
 	<%= f.text_field :image_url %>
 </div>
+
+<div class = "field">
+  <% district_hierarchy = get_district_hierarchy() %>
+  <% check_box_name = h(app.name + "_authorized_ed_orgs[]").gsub(" ", "_") if app.name !=  nil%>
+  <% check_box_name = "authorized_ed_orgs[]" if check_box_name == nil %>
+  <% district_hierarchy.keys.each do |district| %>
+      <%=
+          if app.authorized_ed_orgs != nil
+              check_box_tag(check_box_name, district["id"], app.authorized_ed_orgs.include?(district["id"]))
+          else
+              check_box_tag(check_box_name, district["id"])
+          end
+      %>
+
+         <%= district["name"] %>    <br />
+    <% district_hierarchy[district].each do |child_district| %>
+            &#160;&#160;
+            <%=
+                if app.authorized_ed_orgs != nil
+                    check_box_tag(check_box_name, child_district["id"], app.authorized_ed_orgs.include?(child_district["id"]))
+                else
+                    check_box_tag(check_box_name, child_district["id"])
+                end
+            %>
+            <%= child_district["name"] %> <br />
+    <% end %>
+  <% end %>
+  <%= button_to_function("Enable All", 'changeCheck("' + check_box_name + '", 1)') %>
+  <%= button_to_function("Disable All", 'changeCheck("' + check_box_name + '", 0)') %>
+
+</div>
 <div class = "actions">
 	<%= f.submit "Submit", :disable_with => 'Submitting...' %>
 </div>

@@ -23,6 +23,7 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.util.MD5;
 import org.slc.sli.ingestion.validation.ErrorReport;
@@ -39,6 +40,9 @@ public class SmooksFileHandlerTest {
 
     @Autowired
     SmooksFileHandler smooksFileHandler;
+
+    @Autowired
+    LocalFileSystemLandingZone lz;
 
     @Test
     @Ignore
@@ -109,7 +113,7 @@ public class SmooksFileHandlerTest {
 
         // Create Ingestion File Entry
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT,
-                inputFile.getName(), MD5.calculate(inputFile));
+                inputFile.getName(), MD5.calculate(inputFile), lz.getLZId());
         inputFileEntry.setFile(inputFile);
         inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
 
@@ -144,10 +148,9 @@ public class SmooksFileHandlerTest {
         SliSmooksFactory factory = Mockito.mock(SliSmooksFactory.class);
         Mockito.when(factory.createInstance(Mockito.any(IngestionFileEntry.class), Mockito.any(NeutralRecordFileWriter.class), Mockito.any(ErrorReport.class))).thenReturn(smooks);
         PrivateAccessor.setField(smooksFileHandler, "sliSmooksFactory", factory);
-        PrivateAccessor.setField(smooksFileHandler, "lzDirectory", "XsdValidation");
 
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Valid.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getAbsolutePath(), "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getAbsolutePath(), "", lz.getLZId());
         ife.setFile(xmlFile);
         ErrorReport errorReport = Mockito.mock(ErrorReport.class);
 

@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Model for the different stages of ingestion processing.
@@ -110,12 +111,12 @@ public class Stage {
 
     public void startStage() {
         this.setStatus("running");
-        this.setStartTimestamp(new Date());
+        this.setStartTimestamp(BatchJobUtils.getCurrentTimeStamp());
     }
 
     public void stopStage() {
         this.setStatus("finished");
-        this.setStopTimestamp(new Date());
+        this.setStopTimestamp(BatchJobUtils.getCurrentTimeStamp());
     }
 
     public void addCompletedMetrics(Metrics metrics) {

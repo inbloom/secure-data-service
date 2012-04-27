@@ -66,7 +66,7 @@ public final class Error {
         }
 
         Error error = new Error(ingestionJobId, stageName, resourceId, sourceIp, hostname, recordIdentifier,
-                new Date(), severity, errorType, errorDetail);
+                BatchJobUtils.getCurrentTimeStamp(), severity, errorType, errorDetail);
 
         return error;
     }
