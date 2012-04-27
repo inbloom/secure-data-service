@@ -15,7 +15,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #general
   id = $newEntityUri                            if human_readable_id == "NEWLY CREATED ENTITY URI"
-  
+  id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
+
   #return the translated value
   id
 end

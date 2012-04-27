@@ -392,27 +392,9 @@ task :apiV1Tests => [:apiV1EntityTests,
   displayFailureReport()
 end
 
-task :apiV1EntityTests => [:v1AssessmentTests,
-                           :v1LearningStandardTests,
-                           :v1LearningObjectiveTests,
-                           :v1CCSTests,
-                           :v1AttendanceTests,
-                           :v1CourseTests,
-                           :v1EducationOrganizationTests,
-                           :v1GradebookEntryTests,
-                           :v1ParentTests,
-                           :v1ParentSecurityTests,
-                           :v1SchoolTests,
-                           :v1SectionTests,
-                           :v1SessionTests,
-                           :v1StaffTests,
-                           :v1StudentTests,
-                           :v1StudentSectionGradebookEntryTests,
-                           :v1ProgramTests,
-                           :v1DisciplineIncidentTests,
-                           :v1DisciplineActionTests,
-                           :v1TeacherTests,
-                           :v1CohortTests] do
+task :apiV1EntityTests do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/crud")
 end
 
 task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
