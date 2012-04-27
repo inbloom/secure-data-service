@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion.smooks;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,6 @@ public class SliSmooksFactory {
     private Map<FileType, SliSmooksConfig> sliSmooksConfigMap;
     private String beanId;
     private NeutralRecordMongoAccess nrMongoStagingWriter;
-    private Map<String, Smooks> mapSmooks = new HashMap<String, Smooks>();
 
     public Smooks createInstance(IngestionFileEntry ingestionFileEntry, NeutralRecordFileWriter fileWriter,
             ErrorReport errorReport) throws IOException, SAXException {
@@ -49,7 +47,7 @@ public class SliSmooksFactory {
     private Smooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, NeutralRecordFileWriter fileWriter,
             ErrorReport errorReport, String batchJobId, IngestionFileEntry fe) throws IOException, SAXException {
 
-        Smooks smooks = fetchSmooks(sliSmooksConfig);
+        Smooks smooks = new Smooks(sliSmooksConfig.getConfigFileName());
 
         // based on target selectors for this file type, add visitors
         List<String> targetSelectorList = sliSmooksConfig.getTargetSelectors();
@@ -62,34 +60,13 @@ public class SliSmooksFactory {
             nrMongoStagingWriter.registerBatchId(batchJobId);
             nrMongoStagingWriter.ensureIndex();
 
+
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             for (String targetSelector : targetSelectorList) {
                 smooks.addVisitor(smooksEdFiVisitor, targetSelector);
             }
         }
         return smooks;
-    }
-
-    /**
-     * Returns a Smooks object for the given config, either from cache or by constructing a new
-     * instance. Constructing smooks objects are slow, hence our use of a cache.
-     *
-     * @param sliSmooksConfig
-     * @return
-     * @throws IOException
-     * @throws SAXException
-     */
-    private Smooks fetchSmooks(SliSmooksConfig sliSmooksConfig) throws IOException, SAXException {
-
-        String configName = sliSmooksConfig.getConfigFileName();
-        Smooks inCache = mapSmooks.get(configName);
-        if (inCache == null) {
-            Smooks smooks = new Smooks(configName);
-            mapSmooks.put(configName, smooks);
-            return smooks;
-        } else {
-            return inCache;
-        }
     }
 
     public void setSliSmooksConfigMap(Map<FileType, SliSmooksConfig> sliSmooksConfigMap) {
