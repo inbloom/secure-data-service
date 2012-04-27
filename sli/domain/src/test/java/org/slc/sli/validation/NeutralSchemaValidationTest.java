@@ -75,7 +75,7 @@ public class NeutralSchemaValidationTest {
     @Test
     public void testValidDisciplineIncident() throws Exception {
         this.addDummyEntity("educationOrganization", "eb3b8c35-f582-df23-e406-6947249a19f2");
-        this.addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2");
+        this.addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2", "educationOrganization");
 
         readAndValidateFixtureData("src/test/resources/disciplineIncident_fixture_neutral.json", "disciplineIncident");
     }
@@ -88,8 +88,8 @@ public class NeutralSchemaValidationTest {
         this.addDummyEntity("student", "714c1304-8a04-4e23-b043-4ad80eb60992");
         this.addDummyEntity("student", "7a86a6a7-1f80-4581-b037-4a9328b9b650");
         this.addDummyEntity("disciplineIncident", "0e26de79-22aa-5d67-9201-5113ad50a03b");
-        this.addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2");
-        this.addDummyEntity("school", "2058ddfb-b5c6-70c4-3bee-b43e9e93307d");
+        this.addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2", "educationOrganization");
+        this.addDummyEntity("school", "2058ddfb-b5c6-70c4-3bee-b43e9e93307d", "educationOrganization");
 
         readAndValidateFixtureData("src/test/resources/disciplineAction_fixture_neutral.json", "disciplineAction");
     }
@@ -107,7 +107,7 @@ public class NeutralSchemaValidationTest {
 
     @Test
     public void testValidSection() throws Exception {
-        addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2");
+        addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2", "educationOrganization");
         addDummyEntity("session", "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e");
         addDummyEntity("course", "53777181-3519-4111-9210-529350429899");
         addDummyEntity("program", "cb292c7d-3503-414a-92a2-dc76a1585d79");
@@ -160,7 +160,7 @@ public class NeutralSchemaValidationTest {
 
     @Test
     public void testValidTeacherSectionAssociation() throws Exception {
-        addDummyEntity("teacher", "eb424dcc-6cff-a69b-c1b3-2b1fc86b2c94");
+        addDummyEntity("teacher", "eb424dcc-6cff-a69b-c1b3-2b1fc86b2c94", "staff");
         addDummyEntity("section", "4efb4262-bc49-f388-0000-0000c9355700");
         addDummyEntity("section", "58c9ef19-c172-4798-8e6e-c73e68ffb5a3");
         addDummyEntity("section", "5c4b1a9c-2fcd-4fa0-b21c-f867cf4e7431");
@@ -260,7 +260,7 @@ public class NeutralSchemaValidationTest {
 
     @Test
     public void testValidStudentSchoolAssociation() throws Exception {
-        this.addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2");
+        this.addDummyEntity("school", "eb3b8c35-f582-df23-e406-6947249a19f2", "educationOrganization");
         this.addDummyEntity("student", "714c1304-8a04-4e23-b043-4ad80eb60992");
         this.addDummyEntity("student", "7a86a6a7-1f80-4581-b037-4a9328b9b650");
         this.addDummyEntity("student", "e0e99028-6360-4247-ae48-d3bb3ecb606a");
@@ -279,7 +279,7 @@ public class NeutralSchemaValidationTest {
 
     @Test
     public void testValidSchoolSessionAssociation() throws Exception {
-        this.addDummyEntity("school", "0f464187-30ff-4e61-a0dd-74f45e5c7a9d");
+        this.addDummyEntity("school", "0f464187-30ff-4e61-a0dd-74f45e5c7a9d", "educationOrganization");
         this.addDummyEntity("session", "cb1fb2d3-a906-446a-bdfd-06ad23823265");
         this.addDummyEntity("session", "31e8e04f-5b1a-4631-91b3-a5433a735d3b");
         this.addDummyEntity("session", "f5f042f8-9617-4a7b-bcee-5ff157240594");
@@ -298,9 +298,9 @@ public class NeutralSchemaValidationTest {
 
     @Test
     public void testValidTeacherSchoolAssociation() throws Exception {
-        this.addDummyEntity("school", "0f464187-30ff-4e61-a0dd-74f45e5c7a9d");
-        this.addDummyEntity("teacher", "8e5b2d0e-959c-42ef-b3df-9b83cba85a33");
-        this.addDummyEntity("teacher", "a249d5d9-f149-d348-9b10-b26d68e7cb9c");
+        this.addDummyEntity("school", "0f464187-30ff-4e61-a0dd-74f45e5c7a9d", "educationOrganization");
+        this.addDummyEntity("teacher", "8e5b2d0e-959c-42ef-b3df-9b83cba85a33", "staff");
+        this.addDummyEntity("teacher", "a249d5d9-f149-d348-9b10-b26d68e7cb9c", "staff");
 
         readAndValidateFixtureData("src/test/resources/teacher_school_association_fixture_neutral.json", "teacherSchoolAssociation");
     }
@@ -511,8 +511,12 @@ public class NeutralSchemaValidationTest {
     }
 
     private void addDummyEntity(String collection, String id) {
+        this.addDummyEntity (collection, id, collection);
+    }
+
+    private void addDummyEntity(String type, String id, String collection) {
         repo.addEntity(collection, id,
-                ValidationTestUtils.makeDummyEntity(collection, id));
+                ValidationTestUtils.makeDummyEntity(type, id));
     }
 
     private void addDummyCollection(String collection) {
