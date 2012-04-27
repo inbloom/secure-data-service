@@ -127,6 +127,9 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
       	  useColSpanStyle: false, 
       	  groupHeaders:groupHeaders
       	});
+    	// not elegant, but couldn't figure out a better way to get to grouped headers
+    	var groupRow = $(jQuery(this)[0].grid.hDiv).find('.jqg-second-row-header th');
+    	$(groupRow[groupRow.length - 1].el).addClass('end');
     }
     jQuery(this).removeClass('.ui-widget-header');
     jQuery(this).addClass('.jqgrid-header');
@@ -227,9 +230,13 @@ DashboardUtil.Grid.Formatters = {
 			var valueField = options.colModel.formatoptions.valueField;
 			
 			var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
+			
+			if (!assessments || assessments == undefined) {
+				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+			}
 			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
 			
-			if (!assessments || !score) {
+			if (!score || score == undefined) {
 				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
 			}
 			
@@ -260,9 +267,12 @@ DashboardUtil.Grid.Formatters = {
 			var valueField = options.colModel.formatoptions.valueField;
 			
 			var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
+			if (!assessments || assessments == undefined) {
+				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+			}
 			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
 			
-			if (!assessments || !score) {
+			if (!score || score == undefined) {
 				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
 			}
 			
