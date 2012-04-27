@@ -12,19 +12,19 @@ require_relative '../../../utils/api_utils.rb'
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
-  #cohort data
+  #discipline incident data
   id = 7                                        if human_readable_id == "ENTITY COUNT"
-  id = "7e9915ed-ea6f-4e6b-b8b0-aeae20a25826"   if human_readable_id == "ENTITY ID"
-  id = "a50121a2-c566-401b-99a5-71eb5cab5f4f"   if human_readable_id == "ENTITY ID FOR UPDATE"
-  id = "a6929135-4782-46f1-ab01-b4df2e6ad093"   if human_readable_id == "ENTITY ID FOR DELETE"
-  id = "cohort"                                 if human_readable_id == "ENTITY TYPE"
-  id = "cohorts"                                if human_readable_id == "ENTITY URI"
+  id = "3a0cc576-fe7f-40bd-b86c-ca861244db12"   if human_readable_id == "ENTITY ID"
+  id = "44658e50-6982-40fd-aa4a-f6d8624f3de9"   if human_readable_id == "ENTITY ID FOR UPDATE"
+  id = "6e088863-c72a-4f9a-a6c4-b4eccc2dde4d"   if human_readable_id == "ENTITY ID FOR DELETE"
+  id = "studentAcademicRecord"                  if human_readable_id == "ENTITY TYPE"
+  id = "studentAcademicRecords"                 if human_readable_id == "ENTITY URI"
   
   #update related field data
-  id = "cohortType"                             if human_readable_id == "REQUIRED FIELD"
-  id = "programId"                        if human_readable_id == "UPDATE FIELD"
-  id = ["e8d33606-d114-4ee4-878b-90ac7fc3df16"]                            if human_readable_id == "UPDATE FIELD EXPECTED VALUE"
-  id = "[]" if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
+  id = "studentId"                              if human_readable_id == "REQUIRED FIELD"
+  id = "sessionId"                              if human_readable_id == "UPDATE FIELD"
+  id = "389b0caa-dcd2-4e84-93b7-daa4a6e9b18e"   if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
+  id = "67ce204b-9999-4a11-aacb-000000000003"   if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
@@ -45,12 +45,14 @@ end
 
 Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "cohortIdentifier" => "ACC-TEST-COH-4",
-    "cohortDescription" => "ultimate frisbee team",
-    "cohortType" => "Extracurricular Activity",
-    "cohortScope" => "Statewide",
-    "academicSubject" => "Physical, Health, and Safety Education",
-    "educationOrgId" => "9f5cb095-8e99-49a9-b130-bedfa20639d2",
-    "programId" => ["cb292c7d-3503-414a-92a2-dc76a1585d79"]
+    "studentId" => "eb4d7e1b-7bed-890a-d5f4-5d8aa9fbfc2d", 
+    "sessionId" => "67ce204b-9999-4a11-aacb-000000000003"
   }
 end
+
+# New entity in json
+#
+# {
+# "studentId":"eb4d7e1b-7bed-890a-d5f4-5d8aa9fbfc2d", 
+# "sessionId": "67ce204b-9999-4a11-aacb-000000000003"
+# }
