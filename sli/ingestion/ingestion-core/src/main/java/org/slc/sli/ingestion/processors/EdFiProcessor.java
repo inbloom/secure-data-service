@@ -177,7 +177,9 @@ public class EdFiProcessor implements Processor {
                 String fileName = resource.getResourceId();
                 String checksum = resource.getChecksum();
 
-                IngestionFileEntry fe = new IngestionFileEntry(fileFormat, fileType, fileName, checksum);
+                String lzPath = resource.getTopLevelLandingZonePath();
+
+                IngestionFileEntry fe = new IngestionFileEntry(fileFormat, fileType, fileName, checksum, lzPath);
                 fe.setFile(new File(resource.getResourceName()));
                 fe.setBatchJobId(batchJobId);
 
