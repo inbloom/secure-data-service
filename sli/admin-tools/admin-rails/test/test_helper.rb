@@ -27,6 +27,7 @@ class ActiveSupport::TestCase
     @realm_fixtures = load_fixture("realms")
     @app_fixtures = load_fixture("apps")
     @appauth_fixtures = load_fixture("application_authorizations")
+    @ed_org_fixtures = load_fixture("education_organization")
     ActiveResource::HttpMock.respond_to do |mock|
       mock.get "/api/rest/admin/roles", {"Accept" => "application/json"}, [@role_fixtures["admin"], @role_fixtures["educator"]].to_json
       mock.get "/api/rest/admin/roles/0", {"Accept" => "application/json"}, @role_fixtures["admin"].to_json
@@ -52,6 +53,12 @@ class ActiveSupport::TestCase
       mock.post "/api/rest/applicationAuthorization", {"Content-Type" => "application/json"}, @app_fixtures['new_district'], 201
       mock.put "/api/rest/applicationAuthorization/1", {"Content-Type" => "application/json"}, @app_fixtures['district'], 201
       mock.get "/api/rest/system/session/check/", {"Accept" => "application/json"}, @appauth_fixtures['sessionCheck'].to_json
+
+      #ed orgs
+      mock.get "/api/rest/educationOrganizations", {"Accept" => "application/json"}, [@ed_org_fixtures["state"], @ed_org_fixtures["local"]].to_json
+      mock.get "/api/rest/educationOrganization-associations", {"Accept" => "application/json"}, [@ed_org_fixtures["assoc_one"]].to_json
+      #ed org associations
+      mock.get "/api/rest/"
     end
   end
 

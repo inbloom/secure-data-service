@@ -7,7 +7,7 @@
 <script type="text/javascript" charset="utf-8">
 	jQuery(document).ready(function() {
 		jQuery.noConflict();
-		jQuery(':input:enabled').attr('disabled', true);
+		jQuery(':input:enabled').not('.approve-button').not('.unregister-button').attr('disabled', true);
 		jQuery("a.edit-link").click(function() {
 			//Enable input on this form.
 			var set = null;

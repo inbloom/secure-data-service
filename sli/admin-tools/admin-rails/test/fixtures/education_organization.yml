@@ -1,0 +1,17 @@
+state:
+    id: 1
+    organizationCategories: ["State Education Agency"]
+    nameOfInstitution: "Some Fake District"
+    metaData:
+        updated: 10000000
+        created: 10000000
+
+local:
+  id: 2
+  organizationCategories: ["Local Education Agency"]
+  nameOfInstitution: "A Fake Local District"
+
+
+assoc_one:
+  educationOrganizationParentId: 1
+  educationOrganizationChildId: 2

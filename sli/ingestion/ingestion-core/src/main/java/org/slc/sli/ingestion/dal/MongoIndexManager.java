@@ -36,6 +36,7 @@ public final class MongoIndexManager {
 
         List<MongoIndexConfig> mongoIndexConfigs = indexResolver.findAllIndexes(indexRootDir);
 
+        int count = 0;
         try {
             for (MongoIndexConfig mongoIndexConfig : mongoIndexConfigs) {
                 List<IndexDefinition> indexList;
@@ -47,7 +48,7 @@ public final class MongoIndexManager {
                     indexList = collectionIndexes.get(collectionName);
                 }
 
-                indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields(), collectionName));
+                indexList.add(createIndexDefinition(mongoIndexConfig.getIndexFields(), count++));
                 collectionIndexes.put(collectionName, indexList);
             }
 
@@ -59,17 +60,20 @@ public final class MongoIndexManager {
     /**Create index definition from buffered reader
      *
      * @param fields : the fields read from the config files
-     * @param name : the name of the index
+     * @param indexName: the name of the index.
      * @return
      * @throws IOException
      */
-    private static final IndexDefinition createIndexDefinition(List<Map<String, String>> fields, String name) throws IOException {
+    private static final IndexDefinition createIndexDefinition(List<Map<String, String>> fields, int indexName) throws IOException {
         Index index = new Index();
 
+        String name = "";
         for (Map<String, String> field : fields) {
-            index.on(field.get("name"), field.get("position").equals("1") ? Order.ASCENDING : Order.DESCENDING);
+            name += field.get("name") + "_" + field.get("order") + "_";
+            index.on(field.get("name"), field.get("order").equals("1") ? Order.ASCENDING : Order.DESCENDING);
         }
-        index.named(name);
+
+        index.named(Integer.toString(indexName));
         return index;
     }
 
@@ -80,17 +84,11 @@ public final class MongoIndexManager {
     * @param batchJobId
     */
     public void ensureIndex(Repository<?> repository, String collection) {
-
-        if (!collectionIndexes.containsKey(collection)) {
-            LOG.warn("No indexes found for " + collection + ". Skipping...");
-            return;
+        if (!repository.collectionExists(collection)) {
+            repository.createCollection(collection);
         }
 
        for (IndexDefinition index : collectionIndexes.get(collection)) {
-
-           if (!repository.collectionExists(collection)) {
-               repository.createCollection(collection);
-           }
 
            try {
                repository.ensureIndex(index, collection);

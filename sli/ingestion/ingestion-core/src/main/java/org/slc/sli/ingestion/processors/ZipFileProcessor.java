@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -13,6 +14,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -21,6 +23,7 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Zip file handler.
@@ -31,10 +34,12 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 @Component
 public class ZipFileProcessor implements Processor {
 
-    Logger log = LoggerFactory.getLogger(ZipFileProcessor.class);
+    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.ZIP_FILE_PROCESSOR;
+
+    private static final Logger LOG = LoggerFactory.getLogger(ZipFileProcessor.class);
 
     @Autowired
-    private ZipFileHandler handler;
+    private ZipFileHandler zipFileHandler;
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -42,71 +47,96 @@ public class ZipFileProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        processUsingNewBatchJob(exchange);
+        processZipFile(exchange);
     }
 
-    private void processUsingNewBatchJob(Exchange exchange) throws Exception {
+    private void processZipFile(Exchange exchange) throws Exception {
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = null;
 
+        NewBatchJob newJob = null;
         try {
-            log.info("Received zip file: " + exchange.getIn());
+            LOG.info("Received zip file: " + exchange.getIn());
 
             File zipFile = exchange.getIn().getBody(File.class);
 
-            batchJobId = NewBatchJob.createId(zipFile.getName());
-            NewBatchJob newJob = new NewBatchJob(batchJobId);
-            newJob.setStatus(BatchJobStatusType.RUNNING.getName());
-
-            Stage stage = new Stage();
-            stage.setStageName(BatchJobStageType.ZIP_FILE_PROCESSOR.getName());
-            stage.startStage();
-
-            exchange.getIn().setHeader("BatchJobId", batchJobId);
+            newJob = createNewBatchJob(zipFile);
+            batchJobId = newJob.getId();
 
             FaultsReport errorReport = new FaultsReport();
 
-            File ctlFile = handler.handle(zipFile, errorReport);
+            File ctlFile = zipFileHandler.handle(zipFile, errorReport);
 
-            BatchJobUtils
-                    .writeErrorsWithDAO(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSOR, errorReport, batchJobDAO);
+            BatchJobUtils.writeErrorsWithDAO(batchJobId, zipFile.getName(), BATCH_JOB_STAGE, errorReport, batchJobDAO);
 
-            ResourceEntry resourceName = new ResourceEntry();
-            resourceName.setResourceName(zipFile.getCanonicalPath());
-            resourceName.setResourceId(zipFile.getName());
-            newJob.getResourceEntries().add(resourceName);
+            createResourceEntryAndAddToJob(zipFile, newJob);
 
             if (ctlFile != null) {
                 newJob.setSourceId(ctlFile.getParentFile().getCanonicalPath() + File.separator);
             }
-            stage.stopStage();
-            newJob.getStages().add(stage);
-            batchJobDAO.saveBatchJob(newJob);
 
-            if (errorReport.hasErrors()) {
-                exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
-                exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
-            } else if (ctlFile != null) {
-                exchange.getIn().setBody(ctlFile, File.class);
-            }
+            setExchangeHeaders(exchange, errorReport, newJob);
+
+            setExchangeBody(exchange, ctlFile, errorReport);
+
         } catch (Exception exception) {
-            exchange.getIn().setHeader("ErrorMessage", exception.toString());
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            log.error("Exception:", exception);
-            if (batchJobId != null) {
-                Error error = Error.createIngestionError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSOR.getName(),
-                        null, null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
-                batchJobDAO.saveError(error);
+            handleProcessingException(exchange, batchJobId, exception);
+        } finally {
+            if (newJob != null) {
+                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
+                batchJobDAO.saveBatchJob(newJob);
             }
         }
     }
 
+    private NewBatchJob createNewBatchJob(File zipFile) {
+        String batchJobId = NewBatchJob.createId(zipFile.getName());
+        NewBatchJob newJob = new NewBatchJob(batchJobId);
+        newJob.setStatus(BatchJobStatusType.RUNNING.getName());
+        return newJob;
+    }
+
+    private void handleProcessingException(Exchange exchange, String batchJobId, Exception exception) {
+        exchange.getIn().setHeader("ErrorMessage", exception.toString());
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        LOG.error("Exception:", exception);
+        if (batchJobId != null) {
+            Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.ZIP_FILE_PROCESSOR.getName(),
+                    null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
+            batchJobDAO.saveError(error);
+        }
+    }
+
+    private void setExchangeBody(Exchange exchange, File ctlFile, ErrorReport errorReport) {
+        if (!errorReport.hasErrors() && ctlFile != null) {
+            exchange.getIn().setBody(ctlFile, File.class);
+        }
+    }
+
+    private void setExchangeHeaders(Exchange exchange, FaultsReport errorReport, NewBatchJob newJob) {
+        exchange.getIn().setHeader("BatchJobId", newJob.getId());
+        if (errorReport.hasErrors()) {
+            exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
+        }
+    }
+
+    private void createResourceEntryAndAddToJob(File zipFile, NewBatchJob newJob) throws IOException {
+        ResourceEntry resourceName = new ResourceEntry();
+        resourceName.setResourceName(zipFile.getCanonicalPath());
+        resourceName.setResourceId(zipFile.getName());
+        resourceName.setExternallyUploadedResourceId(zipFile.getName());
+        resourceName.setResourceFormat(FileFormat.ZIP_FILE.getCode());
+        newJob.getResourceEntries().add(resourceName);
+    }
+
     public ZipFileHandler getHandler() {
-        return handler;
+        return zipFileHandler;
     }
 
     public void setHandler(ZipFileHandler handler) {
-        this.handler = handler;
+        this.zipFileHandler = handler;
     }
 
 }

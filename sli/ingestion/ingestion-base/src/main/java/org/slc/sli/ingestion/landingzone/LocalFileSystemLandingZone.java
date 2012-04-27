@@ -18,13 +18,21 @@ public class LocalFileSystemLandingZone implements LandingZone, Serializable {
 
     protected File directory;
 
+    public LocalFileSystemLandingZone() {
+    }
+
+    public LocalFileSystemLandingZone(File directory) {
+        this.directory = directory;
+    }
+
     /**
      * Return the absolute local path
      */
+    @Override
     public String getLZId() {
         return getDirectory().getAbsolutePath();
     }
-    
+
     /**
      * @return the directory
      */
@@ -43,6 +51,7 @@ public class LocalFileSystemLandingZone implements LandingZone, Serializable {
     /**
      * @return File object for the given fileName
      */
+    @Override
     public File getFile(String fileName) {
         File f = FileUtils.getFile(this.directory, fileName);
         if (f.exists()) {
@@ -55,6 +64,7 @@ public class LocalFileSystemLandingZone implements LandingZone, Serializable {
     /**
      * @return File object for the newly-created file
      */
+    @Override
     public File createFile(String fileName) throws IOException {
         File f = FileUtils.getFile(this.directory, fileName);
         if (f.exists()) {
@@ -80,6 +90,7 @@ public class LocalFileSystemLandingZone implements LandingZone, Serializable {
      *
      * @return File object
      */
+    @Override
     public File getLogFile(String jobId) throws IOException {
         String fileName = "job-" + jobId + ".log";
         File f = FileUtils.getFile(this.directory, fileName);
@@ -92,6 +103,7 @@ public class LocalFileSystemLandingZone implements LandingZone, Serializable {
     /**
      * @return md5Hex string for the given File object
      */
+    @Override
     public String getMd5Hex(File file) throws IOException {
         FileInputStream s = FileUtils.openInputStream(file);
         try {
