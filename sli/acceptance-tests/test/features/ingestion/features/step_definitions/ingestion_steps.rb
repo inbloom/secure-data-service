@@ -104,12 +104,9 @@ def processPayloadFile(file_name)
   path_delim = ""
   if path_name.include? '/'
     folders = path_name.split '/'
-    p folders
     if folders.size > 0
       folders[0...-1].each { |path| path_delim += path + '/'}
       path_name = folders[-1]
-      p path_delim
-      p path_name
     end
   end
   zip_dir = @local_file_store_path + "temp-" + path_name + "/"
