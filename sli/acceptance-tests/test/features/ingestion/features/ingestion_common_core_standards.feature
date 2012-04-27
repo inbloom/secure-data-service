@@ -4,7 +4,7 @@ Background: I have a landing zone route configured
 Given I am using local data store
   And I am using preconfigured Ingestion Landing Zone
 
-
+@wip
 Scenario: Post a zip file containing all configured Learning Objective interchanges as a payload of the ingestion job: Clean Database
 Given I post "CommonCoreStandards/grade12English.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
@@ -32,7 +32,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Grade_12_English_CCS_RI_11_12.xml records failed: 0" in the resulting batch job file
 
 
-
+@wip
 Scenario: Post a zip file containing all configured High School Math CCS interchanges as a payload of the ingestion job: Clean Database
 Given I post "CommonCoreStandards/grade12Math.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
@@ -63,86 +63,48 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Grade_12_Math_CCS_G_C.xml records considered: 19" in the resulting batch job file
   And I should see "Grade_12_Math_CCS_G_C.xml records ingested successfully: 19" in the resulting batch job file
   And I should see "Grade_12_Math_CCS_G_C.xml records failed: 0" in the resulting batch job file
-  # And I should see "Grade_12_Math_CCS_G_SRT.xml records considered: 12" in the resulting batch job file
-  # And I should see "Grade_12_Math_CCS_G_SRT.xml records ingested successfully: 12" in the resulting batch job file
-  # And I should see "Grade_12_Math_CCS_G_SRT.xml records failed: 0" in the resulting batch job file
 
 
-
-
-@wip
-Scenario: Post a zip file containing all configured Learning Standards interchanges as a payload of the ingestion job: Clean Database
-Given I post "grade12English.zip" file as the payload of the ingestion job
+Scenario: Verify resolved references and ingestion to populated database
+Given I post "CommonCoreStandards/grade12Math.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
-     | collectionName              |
-     | learningStandard            |
-When zip file is scp to ingestion landing zone
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
-     | collectionName              | count |
-     | learningStandard            | 10     |
-   And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter                                | searchValue                                      |
-     | learningStandard            | 1                   | body.learningStandard.description              | Analyze a complex set of ideas or sequence of events and explain how specific individuals, ideas, or events interact and develop over the course of the text.                                 |
-     | learningStandard            | 10                  | body.learningStandard.grade                    | Twelfth                                      |
-
-  And I should see "Processed 10 records." in the resulting batch job file
-  And I should not see an error log file created
-  And I should see "grade12English.xml records considered: 10" in the resulting batch job file
-  And I should see "grade12English.xml records ingested successfully: 11" in the resulting batch job file
-  And I should see "grade12English.xml records failed: 0" in the resulting batch job file 
-  
-@wip  
-Scenario: Post a zip file containing all configured High School Math CCS interchanges as a payload of the ingestion job: Clean Database
-Given I post "grade12MathSRT.zip" file as the payload of the ingestion job
-  And the following collections are empty in datastore:
-     | collectionName              |
+     | collectionName                     |
      | learningObjective                  |
      | learningStandard                   |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
-     | learningObjective           | 2     |
-     | learningStandard            | 11    |
-   And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter                                | searchValue |
-     | learningObjective           | 1                   | body.learningObjective.objective               | Geometry |
-     | learningStandard            | 1                   | body.learningStandard.description              | Explain and use the relationship between the sine and cosine of complementary angles. |
-     | learningObjective           | 2                   | body.learningObjective.grade                   | Twelfth                               |
-     | learningStandard            | 11                  | body.learningStandard.grade                    | Twelfth                                      |
-
-  And I should see "Processed 13 records." in the resulting batch job file
-  And I should not see an error log file created
-  And I should see "grade12MathSRT.xml records considered: 13" in the resulting batch job file
-  And I should see "grade12MathSRT.xml records ingested successfully: 12" in the resulting batch job file
-  And I should see "grade12MathSRT.xml records failed: 0" in the resulting batch job file
-  
-  
-@wip
-Scenario: Post a zip file containing all configured High School Math Circle CCS interchanges as a payload of the ingestion job: Clean Database
-Given I post "grade12MathGC.zip" file as the payload of the ingestion job
-  And the following collections are empty in datastore:
-     | collectionName              |
-     | learningObjective           |
-     | learningStandard            |
+     | learningObjective           | 3     |
+     | learningStandard            | 16    |
+Given I post "CommonCoreStandards/grade12Math.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
-     | learningObjective           | 2     |
-     | learningStandard            | 5     |
-   And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter                                | searchValue |
-     | learningObjective           | 2                   | body.learningObjective.objective               | Circles |
-     | learningStandard            | 1                   | body.learningStandard.description              | Prove that all circles are similar. |
-     | learningObjective           | 2                   | body.learningObjective.grade                   | Twelfth  |
-     | learningStandard            | 5                   | body.learningStandard.grade                    | Twelfth  |
+     | learningObjective           | 3     |
+     | learningStandard            | 16    |
+When I find a record in "learningObjective" where "body.objective" is "Circles"
+Then the field "body.learningStandards" is an array of size 5
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-C.1"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-C.2"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-C.3"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-C.4"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-C.5"
+  And "body.parentLearningObjective" is a reference to "learningObjective" where "body.objective" is "Geometry"
+When I find a record in "learningObjective" where "body.objective" is "Similarity, Right Triangle, and Trigonometry"
+Then the field "body.learningStandards" is an array of size 11
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.1"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.2"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.3"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.4"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.5"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.6"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.7"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.8"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.9"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.10"
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.11"
+  And "body.parentLearningObjective" is a reference to "learningObjective" where "body.objective" is "Geometry"
 
-  And I should see "Processed 7 records." in the resulting batch job file
-  And I should not see an error log file created
-  And I should see "grade12MathGC.xml records considered: 7" in the resulting batch job file
-  And I should see "grade12MathGC.xml records ingested successfully: 6" in the resulting batch job file
-  And I should see "grade12MathGC.xml records failed: 0" in the resulting batch job file
-  
-  
+

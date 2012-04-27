@@ -189,6 +189,27 @@
 	</LearningStandard>
 	
 <!-- Learning Objectives -->
+
+	<LearningObjective>
+		<Objective>Geometry</Objective>
+		<AcademicSubject>Mathematics</AcademicSubject>
+		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>G-C</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>G-SRT</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+	</LearningObjective>
+
 	<LearningObjective>
 		<LearningObjectiveId>
 			<IdentificationCode>G-C</IdentificationCode>
@@ -318,26 +339,6 @@
 				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
-	</LearningObjective>
-	
-	<LearningObjective>
-		<Objective>Geometry</Objective>
-		<AcademicSubject>Mathematics</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningObjectiveReference>
-			<LearningObjectiveIdentity>
-				<LearningObjectiveId>
-					<IdentificationCode>G-C</IdentificationCode>
-				</LearningObjectiveId>
-			</LearningObjectiveIdentity>
-		</LearningObjectiveReference>
-		<LearningObjectiveReference>
-			<LearningObjectiveIdentity>
-				<LearningObjectiveId>
-					<IdentificationCode>G-SRT</IdentificationCode>
-				</LearningObjectiveId>
-			</LearningObjectiveIdentity>
-		</LearningObjectiveReference>
 	</LearningObjective>
 	
 </InterchangeAssessmentMetadata>
