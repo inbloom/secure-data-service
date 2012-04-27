@@ -110,8 +110,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                         lsRefList.add(ref);
                         uuidRefs.add(null); // this is slightly hacky, but the IdNormalizer will
                                             // throw ArrayIndexOutOfBounds unless we pre-populate
-                                            // the
-                                            // list the UUIDs will be added to.
+                                            // the list the UUIDs will be added to.
                     }
                 }
             }

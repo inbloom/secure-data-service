@@ -123,7 +123,7 @@ public class IdNormalizer {
                 List<String> ids = resolveReferenceInternalIds(entity, tenantId, reference.getRef(), fieldPath,
                         errorReport);
 
-                if ((ids == null || ids.size() == 0) && reference.getRef().isOptional()) {
+                if ((ids == null || ids.size() == 0) && (reference.getRef().isOptional() || numRefInstances == 0)) {
                     continue;
                 }
 

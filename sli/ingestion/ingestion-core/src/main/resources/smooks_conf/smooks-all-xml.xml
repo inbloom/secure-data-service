@@ -1411,7 +1411,6 @@
   </jb:bean>
   
   <jb:bean beanId="learningStandardReference" class="java.util.HashMap" createOnElement="LearningStandardReference">
-    <jb:value property="ref" data="LearningStandardReference/@ref" />
     <jb:wiring property="learningStandardId" beanIdRef="learningStandardRefIdRef" />
   </jb:bean>
   
