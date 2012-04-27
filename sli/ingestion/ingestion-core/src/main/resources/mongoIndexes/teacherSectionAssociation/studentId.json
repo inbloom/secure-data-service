@@ -1,9 +1,0 @@
-{
-    "collection": "teacherSectionAssociation",
-    "indexFields":
-    [
-        {"name" : "body.teacherId", "order" : "1"},
-        {"name" : "metaData.externalId", "order" : "1"},
-        {"name" : "body.sectionId", "order" : "1"}
-    ]
-}
