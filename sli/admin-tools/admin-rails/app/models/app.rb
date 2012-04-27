@@ -7,6 +7,7 @@ class App < SessionResource
     boolean "is_admin", "license_acceptance", "enabled"
     time "created", "updated"
     string "organization", "client_type", "scope", "developer_info"
+    string "authorized_ed_orgs"
   end
   
   class DeveloperInfo < SessionResource

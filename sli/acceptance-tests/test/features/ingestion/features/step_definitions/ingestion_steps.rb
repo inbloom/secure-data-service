@@ -14,7 +14,7 @@ INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_na
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
 INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_data_store']
-INGESTION_TENANT_DISTRICT_MAP = {'IL-STATE' => ['Sunset', 'Daybreak'], 'NY-STATE' => ['NYC']}
+INGESTION_TENANT_DISTRICT_MAP = {'IL' => ['Sunset', 'Daybreak'], 'NY' => ['NYC']}
 
 ############################################################
 # STEPS: BEFORE
@@ -61,7 +61,7 @@ Given /^I am using destination-local data store$/ do
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
-  initializeLandingZone(@ingestion_lz_identifer_map['IL-STATE-Daybreak'])
+  initializeLandingZone(@ingestion_lz_identifer_map['IL-Daybreak'])
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_key|
@@ -104,12 +104,9 @@ def processPayloadFile(file_name)
   path_delim = ""
   if path_name.include? '/'
     folders = path_name.split '/'
-    p folders
     if folders.size > 0
       folders[0...-1].each { |path| path_delim += path + '/'}
       path_name = folders[-1]
-      p path_delim
-      p path_name
     end
   end
   zip_dir = @local_file_store_path + "temp-" + path_name + "/"

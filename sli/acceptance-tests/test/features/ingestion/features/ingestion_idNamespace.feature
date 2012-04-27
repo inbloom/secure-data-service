@@ -5,7 +5,7 @@ Given I am using local data store
 
 @smoke
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Specified Tenant
-Given I am using preconfigured Ingestion Landing Zone for "IL-STATE-Daybreak"
+Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
   And I post "idNamespace.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName              |
@@ -17,7 +17,7 @@ Then I should see following map of entry counts in the corresponding collections
      | session                     | 1     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue      | searchType           |
-     | session                     | 1                   | metaData.tenantId           | IL-STATE         | string               |
+     | session                     | 1                   | metaData.tenantId           | IL               | string               |
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "idNamespace.xml records considered: 1" in the resulting batch job file
