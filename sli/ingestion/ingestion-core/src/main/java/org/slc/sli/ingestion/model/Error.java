@@ -1,5 +1,7 @@
 package org.slc.sli.ingestion.model;
 
+import java.util.Date;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -24,7 +26,7 @@ public final class Error {
 
     private String recordIdentifier;
 
-    private String timestamp;
+    private Date timestamp;
 
     private String severity;
 
@@ -37,7 +39,7 @@ public final class Error {
     }
 
     public Error(String batchJobId, String stageName, String resourceId, String sourceIp, String hostname,
-            String recordIdentifier, String timestamp, String severity, String errorType, String errorDetail) {
+            String recordIdentifier, Date timestamp, String severity, String errorType, String errorDetail) {
         this.batchJobId = batchJobId;
         this.stageName = stageName;
         this.resourceId = resourceId;
@@ -117,11 +119,11 @@ public final class Error {
         this.recordIdentifier = recordIdentifier;
     }
 
-    public String getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 

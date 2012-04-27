@@ -78,7 +78,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition assessment = factory.makeEntity(EntityNames.ASSESSMENT, ResourceNames.ASSESSMENTS)
                 .buildAndRegister(this);
         factory.makeEntity(EntityNames.ATTENDANCE, ResourceNames.ATTENDANCES).buildAndRegister(this);
-        factory.makeEntity(EntityNames.BELL_SCHEDULE, ResourceNames.BELL_SCHEDULES).buildAndRegister(this);
+        //factory.makeEntity(EntityNames.BELL_SCHEDULE, ResourceNames.BELL_SCHEDULES).buildAndRegister(this);
         EntityDefinition cohort = factory.makeEntity(EntityNames.COHORT, ResourceNames.COHORTS).buildAndRegister(this);
         EntityDefinition course = factory.makeEntity(EntityNames.COURSE, ResourceNames.COURSES).buildAndRegister(this);
         EntityDefinition disciplineIncident = factory.makeEntity(EntityNames.DISCIPLINE_INCIDENT,
@@ -101,6 +101,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition teacher = factory.makeEntity(EntityNames.TEACHER, ResourceNames.TEACHERS).buildAndRegister(
                 this);
         EntityDefinition parent = factory.makeEntity(EntityNames.PARENT, ResourceNames.PARENTS).buildAndRegister(this);
+        factory.makeEntity(EntityNames.STUDENT_ACADEMIC_RECORD, ResourceNames.STUDENT_ACADEMIC_RECORDS).buildAndRegister(this);
 
         factory.makeEntity(EntityNames.AGGREGATION, ResourceNames.AGGREGATIONS).buildAndRegister(this);
         factory.makeEntity(EntityNames.AGGREGATION_DEFINITION, ResourceNames.AGGREGATION_DEFINITIONS).buildAndRegister(
