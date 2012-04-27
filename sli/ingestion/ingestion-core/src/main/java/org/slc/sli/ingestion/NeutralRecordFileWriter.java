@@ -84,6 +84,7 @@ public class NeutralRecordFileWriter {
 
     }
 
+    @SuppressWarnings("unchecked")
     public void writeRecord(NeutralRecord record) throws IOException {
         // populate the sourceId if present
         if (record.getSourceId() != null) {

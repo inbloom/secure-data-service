@@ -15,14 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
-import org.slc.sli.ingestion.landingzone.validation.FileTypeValidator;
-import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
@@ -38,12 +31,6 @@ public class SessionEntityTest {
 
     @Autowired
     private EntityValidator validator;
-
-    private TestErrorReport errorReport = new TestErrorReport();
-
-    private LocalFileSystemLandingZone landingZone = new LocalFileSystemLandingZone();
-
-    private FileTypeValidator fileTypeValidator = new FileTypeValidator();
 
     private String validXmlTestData = "<InterchangeEducationOrgCalendar xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance"
             + "\" xsi:schemaLocation=\"Interchange-EducationOrgCalendar.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
@@ -318,16 +305,6 @@ public class SessionEntityTest {
         assertEquals("2012-06-22", entity.get("endDate"));
         assertEquals("118", entity.get("totalInstructionalDays").toString());
 
-    }
-
-    @Test
-    public void testValidSessionCSVFileType() throws Exception {
-        // Create a valid CSV file of type Session.
-        FileEntryDescriptor entry = new FileEntryDescriptor(new IngestionFileEntry(FileFormat.CSV,
-                FileType.CSV_SESSION, "Dummy.csv", ""), landingZone);
-
-        // Now validate that the file is indeed of type Session.
-        assertTrue(fileTypeValidator.isValid(entry, errorReport));
     }
 
 }

@@ -16,7 +16,11 @@ public final class ResourceEntry {
 
     private String resourceType;
 
+    private String externallyUploadedResourceId;
+
     private String checksum;
+
+    private String topLevelLandingZonePath;
 
     private int recordCount;
 
@@ -80,6 +84,14 @@ public final class ResourceEntry {
         this.checksum = checksum;
     }
 
+    public String getTopLevelLandingZonePath() {
+        return topLevelLandingZonePath;
+    }
+
+    public void setTopLevelLandingZonePath(String topLevelLandingZone) {
+        this.topLevelLandingZonePath = topLevelLandingZone;
+    }
+
     public int getRecordCount() {
         return recordCount;
     }
@@ -94,5 +106,19 @@ public final class ResourceEntry {
 
     public void setErrorCount(int errorCount) {
         this.errorCount = errorCount;
+    }
+
+    /**
+     * @return the externallyUploadedResourceId
+     */
+    public String getExternallyUploadedResourceId() {
+        return externallyUploadedResourceId;
+    }
+
+    /**
+     * @param externallyUploadedResourceId the externallyUploadedResourceId to set
+     */
+    public void setExternallyUploadedResourceId(String externallyUploadedResourceId) {
+        this.externallyUploadedResourceId = externallyUploadedResourceId;
     }
 }

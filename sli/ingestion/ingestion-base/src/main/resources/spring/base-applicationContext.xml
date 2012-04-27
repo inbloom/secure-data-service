@@ -22,19 +22,11 @@
 
     <property name="locations">
       <list>
-        <value>file:///${sli.conf}</value>
+        <value>file:${sli.conf}</value>
         <value>classpath:ingestion.properties</value>
       </list>
     </property>
   </bean>
-
-  <bean id="lz"
-    class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone">
-    <property name="directory" value="${landingzone.inbounddir}"></property>
-  </bean>
-
-  <bean id="tempLz"
-    class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone" />
 
   <!-- Main application context, contains all other contexts in /spring -->
 

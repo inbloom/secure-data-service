@@ -40,6 +40,40 @@ class AppsController < ApplicationController
     end
   end
 
+  def approve
+    @app = App.find(params[:id])
+    respond_to do |format|
+      reg = @app.attributes["registration"]
+      reg.status = "APPROVED"
+      if @app.update_attribute("registration", reg)
+        format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @app.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def unregister
+    @app = App.find(params[:id])
+    respond_to do |format|
+      reg = @app.attributes["registration"]
+      if reg.status == 'PENDING'
+        reg.status = 'DENIED'
+      else
+        reg.status = "UNREGISTERED"
+      end
+      if @app.update_attribute("registration", reg)
+        format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @app.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # # GET /apps/1/edit
   # def edit
   #   @app = App.find(params[:id])
@@ -48,30 +82,19 @@ class AppsController < ApplicationController
   # POST /apps
   # POST /apps.json
   def create
+    # if operator?
+    #       redirect_to apps_path, notice: "Only developers can create new applications" and return
+    #     end
     #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
     params[:app][:behavior] = params[:app_behavior]
+    params[:app][:authorized_ed_orgs] = params[:authorized_ed_orgs]
+    params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
+
     @app = App.new(params[:app])
     logger.debug{"Application is valid? #{@app.valid?}"}
-    case @app.is_admin
-    when "1"
-      @app.is_admin = true
-    when "0"
-      @app.is_admin = false
-    end
-
-    case @app.enabled
-    when "1"
-      @app.enabled = true
-    when "0"
-      @app.enabled = false
-    end
-    
-    case @app.developer_info.license_acceptance
-    when "1"
-      @app.developer_info.license_acceptance = true
-    when "0"
-      @app.developer_info.license_acceptance = false
-    end
+    @app.is_admin = boolean_fix @app.is_admin
+    @app.enabled = boolean_fix @app.enabled
+    @app.developer_info.license_acceptance = boolean_fix @app.developer_info.license_acceptance
 
     respond_to do |format|
       if @app.save
@@ -92,34 +115,20 @@ class AppsController < ApplicationController
   def update
     @app = App.find(params[:id])
     logger.debug {"App found (Update): #{@app.attributes}"}
-    case params[:app][:is_admin]
-    when "1"
-      params[:app][:is_admin] = true
-    when "0"
-      params[:app][:is_admin] = false
-    end
 
-    case params[:app][:enabled]
-    when "1"
-      params[:app][:enabled] = true
-    when "0"
-      params[:app][:enabled] = false
-    end
-    
-    case params[:app][:developer_info][:license_acceptance]
-    when "1"
-      params[:app][:developer_info][:license_acceptance] = true
-    when "0"
-      params[:app][:developer_info][:license_acceptance] = false
-    end
-  
+    params[:app][:is_admin] = boolean_fix params[:app][:is_admin]
+    params[:app][:enabled] = boolean_fix params[:app][:enabled]
+    params[:app][:developer_info][:license_acceptance] = boolean_fix params[:app][:developer_info][:license_acceptance]
+    params[:app][:authorized_ed_orgs] = params[@app.name.gsub(" ", "_") + "_authorized_ed_orgs"]
+    params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
+
     #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
     params[:app][:behavior] = params[:app_behavior]
 
     respond_to do |format|
       if @app.update_attributes(params[:app])
-        format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
-        format.json { head :ok }
+          format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
+          format.json { head :ok }
       else
         format.html { render action: "edit" }
         format.json { render json: @app.errors, status: :unprocessable_entity }
@@ -137,6 +146,20 @@ class AppsController < ApplicationController
       format.js
       # format.html { redirect_to apps_url }
       # format.json { head :ok }
+    end
+  end
+
+  def operator?
+    !session[:roles].include? "Application Developer"
+  end
+
+  private
+  def boolean_fix (parameter)
+    case parameter
+    when "1"
+      parameter = true
+    when "0"
+      parameter = false
     end
   end
 

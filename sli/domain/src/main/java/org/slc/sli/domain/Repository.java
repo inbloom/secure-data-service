@@ -6,6 +6,7 @@ import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
+import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 
 
@@ -61,6 +62,8 @@ public interface Repository<T> {
      * @return the object retrieved
      */
     public T findById(String collectionName, String id);
+
+    public boolean exists(String collectionName, String id);
 
     /**
      * Fetches first element from given query
@@ -196,5 +199,26 @@ public interface Repository<T> {
      */
     @Deprecated
     public Iterable<T> findByQuery(String collectionName, Query query, int skip, int max);
+
+    /**check if the collection exists in database
+     *
+     * @param collection: name of the collection
+     * @return
+     */
+    public boolean collectionExists(String collection);
+
+    /**Create a collection
+     *
+     * @param collection
+     */
+    public void createCollection(String collection);
+
+    /**
+     * ensureIndex for a collection the database
+     *
+     * @param index   : the index to be ensured
+     * @param collection : name of collection
+     */
+    public void ensureIndex(IndexDefinition index, String collection);
 
 }

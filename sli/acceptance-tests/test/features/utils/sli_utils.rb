@@ -31,10 +31,30 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "teacher_SLI" => "4cf7a5d4-37a1-ca77-8b13-b5f95131ac85",
                 "prince_SLI" => "4cf7a5d4-37a1-ca88-8b13-b5f95131ac85",
                 "root_SLI" => "4cf7a5d4-37a1-ca99-8b13-b5f95131ac85",
+                "developer_SLI" => "26c4b55b-5fa8-4287-af3d-98e7b5f98232",
+                "operator_SLI" => "a8cf184b-9c7e-4253-9f45-ed4e9f4f596c",
                 "bigbro_SLI" => "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85",
                 "badadmin_IL" => "5cf7a5d4-57a1-c100-8b13-b5f95131ac85",
                 "sampleUser_SLI" => "e88cb5c1-771d-46ac-a207-e88cb7c1771d",
-                "demo_IL" => "e88cb5c1-771d-46ac-a2c7-2d58d7f12196" }
+                "demo_IL" => "e88cb5c1-771d-46ac-a2c7-2d58d7f12196",
+                "eengland_NY" => "ebbec99c-c8cf-4982-b853-3513374d0073",
+                "gcanning_NY" => "0a50a4ec-e00f-4944-abac-2abbdb99f7d9",
+                "jbarrera_NY" => "2485c0ec-bf37-4b30-b96e-07b98b205bf9",
+                "jpratt_NY" => "2b0608b6-5162-4e13-8669-f71e9878a2ef",
+                "jsmalley_NY" => "144e272d-cfbd-42a2-a8e7-ee333e77eec6",
+                "jcarlyle_NY" => "81198176-7d9f-4fc1-8f4a-9ff9dda0870d",
+                "mhahn_NY" => "9e95a2f8-686c-4b0f-9816-9d8dfec3de1d",
+                "rlindsey_NY" => "3fe8d3dc-577b-401e-82e0-faa847048ede",
+                "sholcomb_NY" => "e6aa1a6f-1ae2-4727-b9d8-131cdfdd239a",
+                "llogan_IL" => "6fb146b3-6dac-41c9-ab72-0f4d4832b873",
+                "jwashington_IL" => "0b496e6d-471d-4c1b-bd83-bb3fe0d671b6",
+                "jvasquez_IL" => "c294f7ee-45ee-4c56-8e72-dad9c926d42b",
+                "ckoch_IL" => "a21a9381-e189-408d-b21d-b44d847af83f",
+                "rrogers_IL" => "cacd9227-5b14-4685-babe-31230476cf3b",
+                "mjohnson_IL" => "29da4ea2-40e1-466a-8f2c-ea357d4f096c",
+                "sbantu_IL" => "79abdc40-dcd8-4412-b5db-32f63befcc90",
+                "jstevenson_IL" => "9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd",
+                "jjackson_IL" => "b7cbbc75-23bf-4005-a545-8a110eefa063" }
 
 def assert(bool, message = 'assertion failure')
   raise message unless bool
@@ -169,7 +189,12 @@ end
 ##############################################################################
 ###### After hook(s) #########################################################
 
-# None remaining
+After do |scenario| 
+  if(ENV['FAILFAST'])
+    Cucumber.wants_to_quit = true if scenario.failed?
+  end
+end
+
 
 ##############################################################################
 ##############################################################################
@@ -195,7 +220,7 @@ def prepareData(format, hash)
   elsif format == "application/vnd.slc+json"
     hash.to_json
   elsif format == "application/xml"
-    raise "XML not implemented"
+    hash.to_s
   else
     assert(false, "Unsupported MIME type")
   end
@@ -286,8 +311,10 @@ module DataProvider
       "administration_url" => "https://slidev.org/admin",
       "image_url" => "https://slidev.org/image",
       "application_url" => "https://slidev.org/image",
+      "registration" => {},
       "version" => "3.14",
-      "developer_info" => { "license_acceptance" => true, "organization" => "Acme" } 
+      "developer_info" => { "license_acceptance" => true, "organization" => "Acme" }, 
+      "authorized_ed_orgs" => []
     }
   end
 end

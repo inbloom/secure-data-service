@@ -1,28 +1,25 @@
 package org.slc.sli.ingestion.routes;
 
-import java.io.File;
-
-import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
-import org.apache.camel.Processor;
 import org.apache.camel.spring.SpringRouteBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.landingzone.LandingZoneManager;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
-import org.slc.sli.ingestion.processors.NeutralRecordsMergeProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.XmlFileProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.tenant.TenantPopulator;
 
 /**
  * Ingestion route builder.
@@ -34,13 +31,16 @@ import org.slc.sli.ingestion.queues.MessageType;
 public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
-    EdFiProcessor edFiProcessor;
+    ZipFileProcessor zipFileProcessor;
+
+    @Autowired
+    ControlFilePreProcessor controlFilePreProcessor;
 
     @Autowired
     ControlFileProcessor ctlFileProcessor;
 
     @Autowired
-    ZipFileProcessor zipFileProcessor;
+    EdFiProcessor edFiProcessor;
 
     @Autowired
     PurgeProcessor purgeProcessor;
@@ -52,16 +52,16 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     TransformationProcessor transformationProcessor;
 
     @Autowired
-    NeutralRecordsMergeProcessor nrMergeProcessor;
-
-    @Autowired
     XmlFileProcessor xmlFileProcessor;
 
     @Autowired
-    LocalFileSystemLandingZone lz;
+    JobReportingProcessor jobReportingProcessor;
 
     @Autowired
-    LocalFileSystemLandingZone tempLz;
+    LandingZoneManager landingZoneManager;
+
+    @Autowired
+    TenantPopulator tenantPopulator;
 
     @Value("${sli.ingestion.queue.workItem.queueURI}")
     private String workItemQueue;
@@ -69,48 +69,59 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.queue.workItem.concurrentConsumers}")
     private int concurrentConsumers;
 
+    @Value("${sli.ingestion.tenant.loadDefaultTenants}")
+    private boolean loadDefaultTenants;
+
     @Override
     public void configure() throws Exception {
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
 
-        String inboundDir = lz.getDirectory().getPath();
+        if (loadDefaultTenants) {
+            //populate the tenant collection with a default set of tenants
+            tenantPopulator.populateDefaultTenants();
+        }
 
+        configureCommonRoute(workItemQueueUri);
+
+        // configure ctlFilePoller and zipFilePoller per landing zone
+        for (LocalFileSystemLandingZone lz : landingZoneManager.getLandingZones()) {
+            configureRoutePerLandingZone(workItemQueueUri, lz);
+        }
+    }
+
+
+    private void configureRoutePerLandingZone(String workItemQueueUri, LocalFileSystemLandingZone lz) {
+        String inboundDir = lz.getDirectory().getAbsolutePath();
         // routeId: ctlFilePoller
         from(
-                "file:" + inboundDir + "?include=^(.*)\\.ctl$"
+                "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension() + "$"
                         + "&move=" + inboundDir + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
                         + "&moveFailed=" + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
                         + "&readLock=changed")
-                .routeId("ctlFilePoller")
+                .routeId("ctlFilePoller-" + inboundDir)
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
-                .process(new ControlFilePreProcessor(lz))
+                .process(controlFilePreProcessor)
                 .to(workItemQueueUri);
 
         // routeId: zipFilePoller
         from(
-                "file:" + inboundDir + "?include=^(.*)\\.zip$&preMove="
+                "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.ZIP_FILE.getExtension() + "$&preMove="
                         + inboundDir + "/.done&moveFailed=" + inboundDir
                         + "/.error"
                         + "&readLock=changed")
-                .routeId("zipFilePoller")
+                .routeId("zipFilePoller-" + inboundDir)
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing zip file.")
                 .process(zipFileProcessor)
                 .choice()
-                .when(body().isInstanceOf(BatchJob.class))
-                    .to("direct:assembledJobs")
+                .when(header("hasErrors").isEqualTo(true))
+                    .to("direct:stop")
                 .otherwise()
-                    .process(new Processor() {
-
-                        // set temporary path to where the files were unzipped
-                        @Override
-                        public void process(Exchange exchange) throws Exception {
-                            File ctlFile = exchange.getIn().getBody(File.class);
-                            tempLz.setDirectory(ctlFile.getParentFile());
-                        }
-                    }).process(new ControlFilePreProcessor(tempLz))
+                    .process(controlFilePreProcessor)
                     .to(workItemQueueUri);
+    }
 
-       // routeId: workItemRoute -> main ingestion route: ctlFileProcessor -> xmlFileProcessor -> edFiProcessor -> persistenceProcessor
+    private void configureCommonRoute(String workItemQueueUri) {
+     // routeId: workItemRoute -> main ingestion route: ctlFileProcessor -> xmlFileProcessor -> edFiProcessor -> persistenceProcessor
         from(workItemQueueUri)
             .routeId("workItemRoute")
             .choice()
@@ -134,10 +145,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Data transformation.")
                 .process(transformationProcessor)
                 .to(workItemQueueUri)
-// Call to NeutralRecordMergeProcessor has been deprecated.
-//            .when(header("IngestionMessageType").isEqualTo(MessageType.MERGE_REQUEST.name()))
-//                .process(nrMergeProcessor)
-//                .to(workItemQueueUri)
             .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
                 .to("direct:persist")
             .when(header("IngestionMessageType").isEqualTo(MessageType.ERROR.name()))
@@ -175,7 +182,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from("direct:jobReporting")
                 .routeId("jobReporting")
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Reporting on jobs for file.")
-                .process(new JobReportingProcessor(lz));
+                .process(jobReportingProcessor);
 
         // end of routing
         from("direct:stop")
@@ -184,7 +191,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log("end of job: " + header("jobId").toString())
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - File processed.")
                 .stop();
-
     }
 
 }

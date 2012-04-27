@@ -15,11 +15,9 @@ import javax.ws.rs.ext.Provider;
 import com.fasterxml.jackson.xml.XmlMapper;
 
 import org.codehaus.jackson.map.SerializationConfig;
+import org.slc.sli.api.resources.v1.HypermediaType;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.representation.Associations;
-import org.slc.sli.api.representation.CollectionResponse;
-import org.slc.sli.api.resources.Resource;
 
 /**
  * Custom JAXB Context Resolver that will generate XML
@@ -28,7 +26,7 @@ import org.slc.sli.api.resources.Resource;
 @SuppressWarnings("rawtypes")
 @Provider
 @Component
-@Produces({ MediaType.APPLICATION_XML, Resource.SLC_XML_MEDIA_TYPE })
+@Produces({ MediaType.APPLICATION_XML, HypermediaType.VENDOR_SLC_XML })
 public class JacksonXMLMsgBodyWriter implements MessageBodyWriter {
 
     @Override
@@ -37,29 +35,19 @@ public class JacksonXMLMsgBodyWriter implements MessageBodyWriter {
     }
 
     @Override
-    public long getSize(Object t, Class type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+    public long getSize(Object object, Class type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return -1;
     }
 
     @Override
-    public void writeTo(Object t, Class type, Type genericType, Annotation[] annotations, MediaType mediaType,
+    public void writeTo(Object object, Class type, Type genericType, Annotation[] annotations, MediaType mediaType,
             MultivaluedMap httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
-
-        Object xmlBody = t;
-
-        // check on the class type to see if we want to
-        // pretty up the xmlBody by using a wrapper class
-        if (type != null) {
-            if (type.getName().equals("CollectionResponse")) {
-                // wrap the CollectionResponse in an Associations class
-                xmlBody = new Associations((CollectionResponse) t);
-            }
-        }
 
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
         xmlMapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
-        xmlMapper.writeValue(entityStream, xmlBody);
+        xmlMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+        xmlMapper.writeValue(entityStream, object);
     }
 
 }

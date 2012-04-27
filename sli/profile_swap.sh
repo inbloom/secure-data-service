@@ -8,21 +8,21 @@ fi
 
 #Take care of build profiles for Spring
 echo "Altering dashboard/api/ingetion projects..."
-grep -lR "sli.dev.subdomain:" config/* | xargs -L 1 sed -i "" -e "s/sli\.dev\.subdomain:.*/sli.dev.subdomain: $hostname/g"
-grep -lR "\${sli.dev.subdomain}" SDK/oauth2-sample/* | xargs -L 1 sed -i "" -e "s/\${sli\.dev\.subdomain}/$hostname/g"
-sed -i "" -e "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" mock-idp/src/main/resources/config/team-mock-idp.properties
+grep -lR "sli.dev.subdomain:" config/* | xargs --verbose -L 1 sed -i "s/sli\.dev\.subdomain:.*/sli.dev.subdomain: $hostname/g"
+grep -lR "\${sli.dev.subdomain}" SDK/sample/* | xargs --verbose -L 1 sed -i "s/\${sli\.dev\.subdomain}/$hostname/g"
+sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" simple-idp/src/main/resources/config/team-simple-idp.properties
 
 #Take care of fixture data for applications
 echo "Altering fixture data for applications to match..."
 # sed -i "" -e "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" acceptance-tests/test/data/team_application_fixtures.json
-sed -i "" -e "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" acceptance-tests/test/data/application_fixture.json
-sed -i "" -e "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" acceptance-tests/test/data/realm_fixture.json
+sed -i  "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" acceptance-tests/test/data/application_fixture.json
+sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g" acceptance-tests/test/data/realm_fixture.json
 
 #Take care of rails projects
 echo "Altering rails applications to match..."
-grep -lR "https://ci.slidev.org" admin-tools/admin-rails/config/config.yml | xargs -L 1 sed -i "" -e "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g"
-grep -lR "https://ci.slidev.org" databrowser/config/config.yml | xargs -L 1 sed -i "" -e "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g"
-sed -i "" -e "s/ci.slidev.org/$hostname.slidev.org/g" admin-tools/admin-rails/config/deploy/team.rb
-sed -i "" -e "s/ci.slidev.org/$hostname.slidev.org/g" databrowser/config/deploy/team.rb
+grep -lR "https://ci.slidev.org" admin-tools/admin-rails/config/config.yml | xargs -L 1 sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g"
+grep -lR "https://ci.slidev.org" databrowser/config/config.yml | xargs -L 1 sed -i "s/https:\/\/ci.slidev.org/https:\/\/$hostname.slidev.org/g"
+sed -i "s/ci.slidev.org/$hostname.slidev.org/g" admin-tools/admin-rails/config/deploy/team.rb
+sed -i "s/ci.slidev.org/$hostname.slidev.org/g" databrowser/config/deploy/team.rb
 
 echo "Done.. ready to build and deploy!"

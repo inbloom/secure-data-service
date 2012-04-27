@@ -2,8 +2,8 @@ require 'json'
 require_relative '../../../../utils/sli_utils.rb'
 
 Transform /the student "([^"]*)"/ do |arg1|
-  id = "dd69083f-a053-4819-a3cd-a162cdc627d7" if arg1 == "Marvin Miller"
-  id = "410b2004-44cb-4671-8abc-69739275177d" if arg1 == "Delilah D. Sims"
+  id = "74cf790e-84c4-4322-84b8-fca7206f1085" if arg1 == "Marvin Miller"
+  id = "6a98d5d3-d508-4b9c-aec2-59fce7e16825" if arg1 == "Delilah D. Sims"
   id
 end
 

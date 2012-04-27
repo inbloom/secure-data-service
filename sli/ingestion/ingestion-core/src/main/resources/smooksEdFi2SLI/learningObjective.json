@@ -1,0 +1,62 @@
+{
+    "keyFields" : [ "body.objective" ],
+	"references" :
+	[{
+        "fieldPath" : "body.parentLearningObjective",
+        "ref" :
+        {
+	        "collectionName" : "learningObjective",
+	        "optional" : true,
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "body.learningObjectiveId.identificationCode",
+		                "values" : 
+		                [{
+			                "valueSource" : "localParentIds.parentObjectiveId"
+		                }]
+		            },
+		            { 
+		           	    "path" : "body.learningObjectiveId.contentStandardName",
+		                "values" : 
+		                [{
+			                "valueSource" : "localParentIds.parentContentStandardName"
+		                }]
+		            }
+	            ],
+	            [
+		            { 
+		           	    "path" : "body.objective",
+		                "values" : 
+		                [{
+			                "valueSource" : "localParentIds.parentObjective"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    {
+            "fieldPath" : "body.learningStandards",
+            "ref" :
+            {
+                "collectionName" : "learningStandard",
+                "isRefList" : true,
+                "refObjectPath" : "localParentIds.childLearningStandards",
+                "choiceOfFields" :
+                [
+                  [
+                    { 
+                        "path" : "body.learningStandardId.identificationCode",
+                        "values" : 
+                        [{
+                            "valueSource" : "localParentIds.childLearningStandards.identificationCode"
+                        }]
+                    }
+                  ]
+                ]
+            }
+     }]
+}
+

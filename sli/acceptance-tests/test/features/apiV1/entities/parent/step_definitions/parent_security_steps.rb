@@ -2,14 +2,14 @@ require 'json'
 require_relative '../../../../utils/sli_utils.rb'
 
 Transform /the student "([^"]*)"/ do |arg1|
-  id = "dd69083f-a053-4819-a3cd-a162cdc627d7" if arg1 == "Marvin Miller"
-  id = "410b2004-44cb-4671-8abc-69739275177d" if arg1 == "Delilah D. Sims"
+  id = "74cf790e-84c4-4322-84b8-fca7206f1085" if arg1 == "Marvin Miller"
+  id = "6a98d5d3-d508-4b9c-aec2-59fce7e16825" if arg1 == "Delilah D. Sims"
   id
 end
 
 Transform /the studentParentAssociation "([^"]*)"/ do |arg1|
   id = "dd69083f-a053-4819-a3cd-a162cdc627d7" if arg1 == "Marvin Miller to Mr. Miller"
-  id = "0add1afd-1863-4005-a73f-5c66bf7985a7" if arg1 == "Delilah D. Sims to Mrs. Sims"
+  id = "83279cab-ec94-4a04-a1f3-c87752d1d725" if arg1 == "Delilah D. Sims to Mrs. Sims"
   id
 end
 

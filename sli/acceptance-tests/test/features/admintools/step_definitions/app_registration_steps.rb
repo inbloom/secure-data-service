@@ -5,7 +5,7 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require 'date'
 
-Given /^I am a valid SLI Administrator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
+Given /^I am a valid SLI Developer "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
   # No code needed, done as configuration
 end
 
@@ -150,9 +150,9 @@ end
 
 Then /^every field except the shared secret and the app ID became editable$/ do
   @form = @driver.find_element(:id, "edit_app_#{@id}")
-  editible = @form.find_elements(:css, "input").count
-  uneditible = @form.find_elements(:css, "input[disabled='disabled']").count
-  assert(editible - uneditible == 19)
+  editable = @form.find_elements(:css, "input").count
+  uneditable = @form.find_elements(:css, "input[disabled='disabled']").count
+  assert(uneditable == 2, "Found #{uneditable} elements")
 end
 
 Then /^I have edited the field named "([^"]*)" to say "([^"]*)"$/ do |arg1, arg2|

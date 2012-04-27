@@ -1,0 +1,2 @@
+module EducationOrganizationsHelper
+end

@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -91,6 +92,24 @@ public class ReferenceSchemaTest {
 
                 data.put(collectionName, list);
             }
+        }
+
+        @Override
+        public boolean collectionExists(String collection) {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
+        public void createCollection(String collection) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void ensureIndex(IndexDefinition index, String collection) {
+            // TODO Auto-generated method stub
+
         }
 
         @Override
@@ -198,6 +217,19 @@ public class ReferenceSchemaTest {
         public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
             // TODO Auto-generated method stub
             return null;
+        }
+
+        @Override
+        public boolean exists(String collectionName, String id) {
+            List<Entity> list = data.get(collectionName);
+
+            for (Entity e : list) {
+                if (e.getEntityId().equals(id)) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
     }

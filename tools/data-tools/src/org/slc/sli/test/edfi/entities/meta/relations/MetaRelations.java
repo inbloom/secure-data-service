@@ -36,8 +36,10 @@ public final class MetaRelations {
     public static final int TEACHERS_PER_SCHOOL = 10;
     public static final int STUDENTS_PER_SCHOOL = 10;
     public static final int PROGRAMS_PER_SCHOOL = 2;
+    public static final int STAFF_PER_PROGRAM = 2;
     public static final int FREE_STANDING_COHORT_PER_SCHOOL = 4;
     public static final int FREE_STANDING_COHORT_SIZE = 4;
+    public static final int STAFF_PER_FREE_STANDING_COHORT = 2;
     public static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
     public static final int ASSESSMENTS_PER_STUDENT = 10;
     public static final int ATTENDANCE_PER_STUDENT_SECTION = 1;
@@ -574,16 +576,18 @@ public final class MetaRelations {
         Object[] staffMetas = staffForSea.values().toArray();
         int staffCounter = 0;
 
-        // each program needs to be referenced by a StaffMeta
+        // each program needs to be referenced by STAFF_PER_PROGRAM StaffMetas
         for (ProgramMeta programMeta : programsForSchool.values()) {
 
-            // loop through the sections we have in this school and assign students to them
-            if (staffCounter >= staffMetas.length) {
-                staffCounter = 0;
+            for (int staffToAssign = 0; staffToAssign < STAFF_PER_PROGRAM; staffToAssign++) {
+                // loop through the sections we have in this school and assign students to them
+                if (staffCounter >= staffMetas.length) {
+                    staffCounter = 0;
+                }
+                String staffId = ((StaffMeta) staffMetas[staffCounter]).id;
+                programMeta.staffIds.add(staffId);
+                staffCounter++;
             }
-            String staffId = ((StaffMeta) staffMetas[staffCounter]).id;
-            programMeta.staffIds.add(staffId);
-            staffCounter++;
         }
 
         // for each cohort in the program, add all the staff in it to the cohort too.
@@ -612,12 +616,18 @@ public final class MetaRelations {
         int staffIdsIndx = 0;
 
         for (CohortMeta cohortMeta : freeStandingCohortsForSchool.values()) {
+
+            // add students
             for (int idNum = 0; idNum < FREE_STANDING_COHORT_SIZE; idNum++) {
                 cohortMeta.studentIds.add((String) studentIds[studentIdsIndx]);
                 studentIdsIndx = (studentIdsIndx + 1) % studentIds.length;
             }
-            cohortMeta.staffIds.add((String) staffIds[staffIdsIndx]);
-            staffIdsIndx = (staffIdsIndx + 1) % staffIds.length;
+
+            // add staff
+            for (int staffToAssign = 0; staffToAssign < STAFF_PER_FREE_STANDING_COHORT; staffToAssign++) {
+                cohortMeta.staffIds.add((String) staffIds[staffIdsIndx]);
+                staffIdsIndx = (staffIdsIndx + 1) % staffIds.length;
+            }
         }
     }
 
@@ -651,8 +661,6 @@ public final class MetaRelations {
     private static void addStaffStudentToDisciplines(Map<String, DisciplineIncidentMeta> disciplineIncidentsForSchool,
             Map<String, DisciplineActionMeta> disciplineActionsForSchool, Map<String, StudentMeta> studentsForSchool,
             Map<String, StaffMeta> staffForSea) {
-        Object[] disciplineIncidentMetas = disciplineIncidentsForSchool.values().toArray();
-        int disciplineIncidentIndx = 0;
         Object[] staffMetas = staffForSea.values().toArray();
         int staffIndx = 0;
         Object[] studentMetas = studentsForSchool.values().toArray();

@@ -1,8 +1,6 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -124,8 +122,7 @@ public class SchoolEntityTest {
                 edfiSchoolXml);
 
         // mock repository will simulate "finding" the referenced educationOrganization
-        Entity returnEntity = mock(Entity.class);
-        Mockito.when(mockRepository.findById("educationOrganization", "LEA123")).thenReturn(returnEntity);
+        Mockito.when(mockRepository.exists("educationOrganization", "LEA123")).thenReturn(true);
 
         EntityTestUtils.mapValidation(neutralRecord.getAttributes(), "school", validator);
     }
