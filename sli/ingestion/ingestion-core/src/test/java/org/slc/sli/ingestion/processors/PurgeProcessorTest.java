@@ -7,9 +7,13 @@ import junitx.util.PrivateAccessor;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -17,7 +21,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.ingestion.BatchJob;
+import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
 /**
  *
@@ -28,41 +33,51 @@ import org.slc.sli.ingestion.BatchJob;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class PurgeProcessorTest {
 
+    private static final String BATCHJOBID = "MT.ctl-1234235235";
+    @InjectMocks
     @Autowired
     private PurgeProcessor purgeProcessor;
+
+    @Mock
+    private BatchJobDAO mockBatchJobDAO;
+
+    @Mock
+    private MongoTemplate mongoTemplate;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void testNoTenantId() throws Exception {
 
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
-        BatchJob job = (BatchJob) BatchJob.createDefault();
-
-
         Mockito.when(ex.getIn()).thenReturn(message);
-        Mockito.when(message.getBody(String.class)).thenReturn("testId");
-        Mockito.when(message.getBody(BatchJob.class)).thenReturn(job);
+        Mockito.when(message.getHeader("BatchJobId", String.class)).thenReturn(BATCHJOBID);
+
+        NewBatchJob job = new NewBatchJob();
+        Mockito.when(mockBatchJobDAO.findBatchJobById(BATCHJOBID)).thenReturn(job);
 
         Logger log = Mockito.mock(org.slf4j.Logger.class);
         PrivateAccessor.setField(purgeProcessor, "logger", log);
 
         purgeProcessor.process(ex);
-        Mockito.verify(log, Mockito.atLeastOnce()).error("TenantId is missing. No purge operation performed.");
+        Mockito.verify(log, Mockito.atLeastOnce()).info("TenantId missing. No purge operation performed.");
     }
 
     @Test
     public void testPurging() throws Exception {
+
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
-        BatchJob job = (BatchJob) BatchJob.createDefault();
-        job.setProperty("tenantId", "SLI");
-
         Mockito.when(ex.getIn()).thenReturn(message);
-        Mockito.when(message.getBody(String.class)).thenReturn("testId");
-        Mockito.when(message.getBody(BatchJob.class)).thenReturn(job);
+        Mockito.when(message.getHeader("BatchJobId", String.class)).thenReturn(BATCHJOBID);
 
-        MongoTemplate mongoTemplate = Mockito.mock(MongoTemplate.class);
-        purgeProcessor.setMongoTemplate(mongoTemplate);
+        NewBatchJob job = new NewBatchJob();
+        job.setProperty("tenantId", "SLI");
+        Mockito.when(mockBatchJobDAO.findBatchJobById(BATCHJOBID)).thenReturn(job);
 
         Set<String> collectionNames = new HashSet<String>();
         collectionNames.add("student");
@@ -77,17 +92,15 @@ public class PurgeProcessorTest {
 
     @Test
     public void testPurgingSystemCollections() throws Exception {
+
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
-        BatchJob job = (BatchJob) BatchJob.createDefault();
-        job.setProperty("tenantId", "SLI");
-
         Mockito.when(ex.getIn()).thenReturn(message);
-        Mockito.when(message.getBody(String.class)).thenReturn("testId");
-        Mockito.when(message.getBody(BatchJob.class)).thenReturn(job);
+        Mockito.when(message.getHeader("BatchJobId", String.class)).thenReturn(BATCHJOBID);
 
-        MongoTemplate mongoTemplate = Mockito.mock(MongoTemplate.class);
-        purgeProcessor.setMongoTemplate(mongoTemplate);
+        NewBatchJob job = new NewBatchJob();
+        job.setProperty("tenantId", "SLI");
+        Mockito.when(mockBatchJobDAO.findBatchJobById(BATCHJOBID)).thenReturn(job);
 
         Set<String> collectionNames = new HashSet<String>();
         collectionNames.add("system.js");
@@ -99,5 +112,4 @@ public class PurgeProcessorTest {
 
         Mockito.verify(mongoTemplate, Mockito.never()).remove(Mockito.any(Query.class), Mockito.eq("system.js"));
     }
-
 }

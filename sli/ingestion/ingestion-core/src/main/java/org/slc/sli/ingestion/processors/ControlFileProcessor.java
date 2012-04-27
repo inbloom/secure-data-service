@@ -11,11 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.performance.Profiled;
-import org.slc.sli.ingestion.BatchJob;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
-import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
@@ -26,8 +24,8 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Control file processor.
@@ -38,205 +36,130 @@ import org.slc.sli.ingestion.queues.MessageType;
 @Component
 public class ControlFileProcessor implements Processor {
 
-    @Autowired
-    private ControlFileValidator validator;
+    private static final Logger LOG = LoggerFactory.getLogger(ControlFileProcessor.class);
 
-    private Logger log = LoggerFactory.getLogger(ControlFileProcessor.class);
+    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PROCESSOR;
 
     private static final String PURGE = "purge";
 
     @Autowired
+    private ControlFileValidator validator;
+
+    @Autowired
     private BatchJobAssembler jobAssembler;
+
+    @Autowired
+    private BatchJobDAO batchJobDAO;
 
     @Override
     @Profiled
     public void process(Exchange exchange) throws Exception {
 
-
-        processExistingBatchJob(exchange);
-
-        // TODO we are doing both in parallel for now, but will replace the existing once testing is done
-        // this writes to a newJobxxx.txt output file in the lz
-//        processUsingNewBatchJob(exchange);
-    }
-
-    private void processExistingBatchJob(Exchange exchange) throws Exception {
-        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
-        if (batchJobId == null) {
-            exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            log.error("Error:", "No BatchJobId specified in " + this.getClass().getName()
-                    + " exchange message header.");
-        }
-
-        try {
-            // get the job from the db
-            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
-            NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
-
-            Stage stage = new Stage();
-            stage.setStageName(BatchJobStageType.CONTROL_FILE_PROCESSING.getName());
-            stage.startStage();
-            // TODO JobLogStatus
-            // Create the stage and metric
-            // JobLogStatus.startStage(batchJobId, stageName)
-
-            long startTime = System.currentTimeMillis();
-
-            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-
-            Job job = getJobAssembler()
-                    .assembleJob(cfd, (String) exchange.getIn().getHeader("CamelFileNameOnly"));
-
-            ControlFile cf = cfd.getFileItem();
-
-            HashMap<String, String> batchProperties = new HashMap<String, String>();
-            Enumeration<Object> keys = cf.getConfigProperties().keys();
-            Enumeration<Object> elements = cf.getConfigProperties().elements();
-
-            while (keys.hasMoreElements()) {
-                String key = keys.nextElement().toString();
-                String element = elements.nextElement().toString();
-                batchProperties.put(key, element);
-            }
-            newJob.setBatchProperties(batchProperties);
-
-            for (IngestionFileEntry file : cf.getFileEntries()) {
-                ResourceEntry resourceEntry = new ResourceEntry();
-                resourceEntry.update(file.getFileFormat().getCode() ,
-                        file.getFileType().getName(), file.getChecksum(), 0, 0);
-                resourceEntry.setResourceName(newJob.getSourceId() + file.getFileName());
-                resourceEntry.setResourceId(file.getFileName());
-                newJob.getResourceEntries().add(resourceEntry);
-            }
-
-            long endTime = System.currentTimeMillis();
-            log.info("Assembled batch job [{}] in {} ms", job.getId(), endTime - startTime);
-
-
-            //  TODO set properties on the exchange based on job properties
-            // TODO set faults on the exchange if the control file sucked (?)
-
-            // TODO Create the stage and metric
-            // JobLogStatus.completeStage(batchJobId, stageName)
-            stage.stopStage();
-            newJob.getStages().add(stage);
-            batchJobDAO.saveBatchJob(newJob);
-
-            // set the exchange outbound message to the value of the job
-            exchange.getIn().setBody(job, BatchJob.class);
-
-            // set headers
-            exchange.getIn().setHeader("hasErrors", job.getFaultsReport().hasErrors());
-            if (job.getProperty(PURGE) != null) {
-                exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
-            } else {
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
-            }
-        } catch (Exception exception) {
-            exchange.getIn().setHeader("ErrorMessage", exception.toString());
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            log.error("Exception:", exception);
-            if (batchJobId != null) {
-                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.CONTROL_FILE_PROCESSING,
-                        FaultType.TYPE_ERROR.getName(), null, exception.toString());
-            }
-        }
-
+        processUsingNewBatchJob(exchange);
     }
 
     private void processUsingNewBatchJob(Exchange exchange) throws Exception {
+
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         if (batchJobId == null) {
-            exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            log.error("Error:", "No BatchJobId specified in " + this.getClass().getName()
-                    + " exchange message header.");
+
+            handleNoBatchJobIdInExchange(exchange);
+        } else {
+
+            processControlFile(exchange, batchJobId);
         }
+    }
 
+    private void handleNoBatchJobIdInExchange(Exchange exchange) {
+        exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+    }
+
+    private void processControlFile(Exchange exchange, String batchJobId) {
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+
+        NewBatchJob newJob = null;
         try {
-            // get the job from the db
-            BatchJobDAO batchJobDAO = new BatchJobMongoDA();
-            NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
 
-            Stage stage = new Stage();
-            stage.setStageName(BatchJobStageType.CONTROL_FILE_PROCESSING.getName());
-            stage.startStage();
-            // TODO JobLogStatus
-            // Create the stage and metric
-            // JobLogStatus.startStage(batchJobId, stageName)
-
-            long startTime = System.currentTimeMillis();
+            newJob = batchJobDAO.findBatchJobById(batchJobId);
 
             ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
 
-
-//            BatchJob job = getJobAssembler()
-//                    .assembleJob(cfd, (String) exchange.getIn().getHeader("CamelFileNameOnly"));
-
-            // TODO This code is basically the new job assembler.  move it to a
-            // better place.
             ControlFile cf = cfd.getFileItem();
 
-            HashMap<String, String> batchProperties = new HashMap<String, String>();
-            Enumeration<Object> keys = cf.getConfigProperties().keys();
-            Enumeration<Object> elements = cf.getConfigProperties().elements();
-
-            while (keys.hasMoreElements()) {
-                String key = keys.nextElement().toString();
-                String element = elements.nextElement().toString();
-                batchProperties.put(key, element);
-            }
-            newJob.setBatchProperties(batchProperties);
+            newJob.setBatchProperties(aggregateBatchJobProperties(cf));
 
             FaultsReport errorReport = new FaultsReport();
-//            ControlFileDescriptor cfd = new ControlFileDescriptor(cf, landingZone);
 
-            //TODO Deal with validator being autowired in BatchJobAssembler
-            // This code should live there anyway.
+            // TODO Deal with validator being autowired in BatchJobAssembler
             if (validator.isValid(cfd, errorReport)) {
-                for (IngestionFileEntry file : cf.getFileEntries()) {
-                    ResourceEntry resourceEntry = new ResourceEntry();
-                    resourceEntry.update(file.getFileFormat().getCode() ,
-                            file.getFileType().getName(), file.getChecksum(), 0, 0);
-                    resourceEntry.setResourceName(newJob.getSourceId() + file.getFileName());
-                    resourceEntry.setResourceId(file.getFileName());
-                    newJob.getResourceEntries().add(resourceEntry);
-                }
+                createAndAddResourceEntries(newJob, cf);
             }
 
-            Error.writeErrorsToMongo(batchJobId, errorReport);
-
-            long endTime = System.currentTimeMillis();
-            log.info("Assembled batch job [{}] in {} ms", newJob.getId(), endTime - startTime);
+            BatchJobUtils.writeErrorsWithDAO(batchJobId, cf.getFileName(), BATCH_JOB_STAGE, errorReport, batchJobDAO);
 
             // TODO set properties on the exchange based on job properties
-            // TODO set faults on the exchange if the control file sucked (?)
 
-            // TODO Create the stage and metric
-            // JobLogStatus.completeStage(batchJobId, stageName)
-            stage.stopStage();
-            newJob.getStages().add(stage);
-            batchJobDAO.saveBatchJob(newJob);
-
-            // set the exchange outbound message to the value of the job
-            exchange.getIn().setBody(newJob, NewBatchJob.class);
-
-            // set headers
-            // This error section is now handled by the writeErrorsToMongo above
-//            exchange.getIn().setHeader("hasErrors", job.getFaultsReport().hasErrors());
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
+            setExchangeHeaders(exchange, newJob, errorReport);
 
         } catch (Exception exception) {
-            exchange.getIn().setHeader("ErrorMessage", exception.toString());
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            log.error("Exception:", exception);
-            if (batchJobId != null) {
-                BatchJobMongoDA.logBatchStageError(batchJobId, BatchJobStageType.CONTROL_FILE_PROCESSING,
-                        FaultType.TYPE_ERROR.getName(), null, exception.toString());
+            handleExceptions(exchange, batchJobId, exception);
+        } finally {
+            if (newJob != null) {
+                newJob.addCompletedStage(stage);
+                batchJobDAO.saveBatchJob(newJob);
             }
         }
+    }
 
+    private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {
+        exchange.getIn().setHeader("ErrorMessage", exception.toString());
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        LOG.error("Exception:", exception);
+        if (batchJobId != null) {
+            Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null, null, null, null,
+                    FaultType.TYPE_ERROR.getName(), null, exception.toString());
+            batchJobDAO.saveError(error);
+        }
+    }
+
+    private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, FaultsReport errorReport) {
+        if (errorReport.hasErrors()) {
+            exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        } else if (newJob.getProperty(PURGE) != null) {
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
+        } else {
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
+        }
+    }
+
+    private void createAndAddResourceEntries(NewBatchJob newJob, ControlFile cf) {
+        for (IngestionFileEntry file : cf.getFileEntries()) {
+            ResourceEntry resourceEntry = new ResourceEntry();
+            resourceEntry.setResourceId(file.getFileName());
+            resourceEntry.setExternallyUploadedResourceId(file.getFileName());
+            resourceEntry.setResourceName(newJob.getSourceId() + file.getFileName());
+            resourceEntry.setResourceFormat(file.getFileFormat().getCode());
+            resourceEntry.setResourceType(file.getFileType().getName());
+            resourceEntry.setChecksum(file.getChecksum());
+            resourceEntry.setTopLevelLandingZonePath(newJob.getTopLevelSourceId());
+            newJob.getResourceEntries().add(resourceEntry);
+        }
+    }
+
+    private HashMap<String, String> aggregateBatchJobProperties(ControlFile cf) {
+        HashMap<String, String> batchProperties = new HashMap<String, String>();
+        Enumeration<Object> keys = cf.getConfigProperties().keys();
+        Enumeration<Object> elements = cf.getConfigProperties().elements();
+
+        while (keys.hasMoreElements()) {
+            String key = keys.nextElement().toString();
+            String element = elements.nextElement().toString();
+            batchProperties.put(key, element);
+        }
+        return batchProperties;
     }
 
     public BatchJobAssembler getJobAssembler() {

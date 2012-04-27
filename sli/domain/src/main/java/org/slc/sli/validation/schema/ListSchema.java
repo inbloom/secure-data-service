@@ -1,7 +1,10 @@
 package org.slc.sli.validation.schema;
 
-import java.util.LinkedList;
+import java.util.Map;
 import java.util.List;
+import java.util.LinkedList;
+import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Map.Entry;
 
 import org.springframework.context.annotation.Scope;
@@ -79,6 +82,15 @@ public class ListSchema extends NeutralSchema {
 
     @Override
     public Object convert(Object value) {
+        if (String.class.isInstance(value)) {
+            return Arrays.asList(((String) value).split(","));
+        } else if (Map.class.isInstance(value)) {
+            List<Object> list = new ArrayList<Object>();
+            list.add(value);
+
+            return list;
+        }
+
         return value;
     }
 
@@ -100,6 +112,8 @@ public class ListSchema extends NeutralSchema {
     @Override
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
         boolean isValid = true;
+
+        entity = convert(entity);
 
         if (entity instanceof List) {
             List<?> entityList = (List<?>) entity;

@@ -4,8 +4,7 @@
   <div class="ui-widget-no-border">
     <table id="${id}"></table>
   </div>
-<script type="text/javascript" src="/dashboard/static/js/ListOfStudent.js">
-</script>
+<script type="text/javascript" src="/dashboard/static/js/ListOfStudent.js"></script>
 <script type="text/javascript">
     function getTableId() {
         return '${id}';

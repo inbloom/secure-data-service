@@ -1,10 +1,14 @@
 package org.slc.sli.ingestion.handler;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import junitx.framework.Assert;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -32,39 +36,51 @@ public class ReferenceResolutionHandlerTest {
     private final ErrorReport errorReport = new TestErrorReport();
 
     /**
-     * @throws FileNotFoundException
+     * @throws IOException
      *
      */
     @Test
-    public void testValidFile() throws FileNotFoundException {
+    public void testValidFile() throws IOException {
         // Test the XML reference resolution handler on a valid test file.
         File inputFile = IngestionTest.getFile("ReferenceResolution/studentAssessment_Valid.xml");
+        File tempInputFile = new File(inputFile.getPath().substring(0, inputFile.getPath().lastIndexOf(".xml")) + "_TEMP.xml");
+
+        IOUtils.copy(new FileInputStream(inputFile), new FileOutputStream(tempInputFile));
+
         long inputFileLength = inputFile.length();
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
-                FileType.XML_STUDENT_ASSESSMENT, inputFile.getName(), MD5.calculate(inputFile));
-        inputFileEntry.setFile(inputFile);
+                FileType.XML_STUDENT_ASSESSMENT, tempInputFile.getName(), MD5.calculate(tempInputFile));
+        inputFileEntry.setFile(tempInputFile);
         IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, null);
         long outputFileLength = outputFileEntry.getFile().length();
-        Assert.assertEquals(inputFile.getName(), "studentAssessment_Valid.xml");
-        Assert.assertNotEquals(inputFileLength, outputFileLength);
+        Assert.assertEquals(tempInputFile.getName(), "studentAssessment_Valid_TEMP.xml");
+        Assert.assertNotSame(inputFileLength, outputFileLength);
+
+        tempInputFile.delete();
     }
 
     /**
-     * @throws FileNotFoundException
+     * @throws IOException
      *
      */
     @Test
-    public void testInvalidFile() throws FileNotFoundException {
+    public void testInvalidFile() throws IOException {
         // Test the XML reference resolution handler on an invalid test file.
         File inputFile = IngestionTest.getFile("ReferenceResolution/studentAssessment_Invalid.xml");
+        File tempInputFile = new File(inputFile.getPath().substring(0, inputFile.getPath().lastIndexOf(".xml")) + "_TEMP.xml");
+
+        IOUtils.copy(new FileInputStream(inputFile), new FileOutputStream(tempInputFile));
+
         long inputFileLength = inputFile.length();
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
-                FileType.XML_STUDENT_ASSESSMENT, inputFile.getName(), MD5.calculate(inputFile));
-        inputFileEntry.setFile(inputFile);
+                FileType.XML_STUDENT_ASSESSMENT, tempInputFile.getName(), MD5.calculate(tempInputFile));
+        inputFileEntry.setFile(tempInputFile);
         IngestionFileEntry outputFileEntry = referenceResolutionHandler.doHandling(inputFileEntry, errorReport, null);
         long outputFileLength = outputFileEntry.getFile().length();
-        Assert.assertEquals(inputFile.getName(), "studentAssessment_Invalid.xml");
-        Assert.assertNotEquals(inputFileLength, outputFileLength);
+        Assert.assertEquals(tempInputFile.getName(), "studentAssessment_Invalid_TEMP.xml");
+        Assert.assertNotSame(inputFileLength, outputFileLength);
+
+        tempInputFile.delete();
     }
 
     /**

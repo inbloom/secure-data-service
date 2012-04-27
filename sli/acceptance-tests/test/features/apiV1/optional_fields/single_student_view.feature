@@ -23,7 +23,7 @@ Feature: As an SLI application, I want to be able to view more student data in a
     And I should see "studentId" is "<STUDENT_ID>" in it
 
   # Assessments
-    And I should find "1" "studentAssessmentAssociations"
+    And I should find "1" "studentAssessments"
     And I should find "assessments" expanded in each of them
     When I look at the first one
     Then I should see "administrationDate" is "2011-05-10" in it
@@ -45,7 +45,7 @@ Feature: As an SLI application, I want to be able to view more student data in a
     And I should see "result" is "680" in it
 
   # Gradebook Entries
-    And I should find "3" "studentSectionGradebookEntries"
+    And I should find "3" "studentGradebookEntries"
     And I should find "gradebookEntries" expanded in each of them
     When I look at the first one
     Then I should see "letterGradeEarned" is "A" in it
@@ -76,12 +76,12 @@ Feature: As an SLI application, I want to be able to view more student data in a
     Then inside "courses"
     And I should see "courseDescription" is "Intro to French" in it
 
-  Scenario: Applying optional fields - transcript - studentTranscriptAssociations
+  Scenario: Applying optional fields - transcript - courseTranscripts
     Given optional field "transcript"
     When I navigate to GET "/v1/students/<STUDENT_ID>"
     Then I should receive a return code of 200
 
     And inside "transcript"
-    And I should find "1" "studentTranscriptAssociations" in it
+    And I should find "1" "courseTranscripts" in it
     When I look at the first one
     And I should see "finalLetterGradeEarned" is "B" in it

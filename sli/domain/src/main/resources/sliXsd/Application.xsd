@@ -31,8 +31,6 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element name="scope" minOccurs="0" type="xs:string">
-                </xs:element>
                 <xs:element name="redirect_uri" minOccurs="1">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
@@ -92,15 +90,41 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
+          
 
                 <xs:element name="is_admin" type="xs:boolean" minOccurs="1" />
                 <xs:element name="enabled" type="xs:boolean" minOccurs="1" />
                 <xs:element name="developer_info" type="developer_info"
                     minOccurs="1" />
+                <xs:element name="registration" type="registration"
+                    minOccurs="0" />   
                 <xs:element name="endpoints" type="endpoint" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="authorized_ed_orgs" minOccurs="0">
+                    <xs:simpleType>
+                        <xs:list itemType="xs:string"/>
+                    </xs:simpleType>
+                </xs:element>
+                
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+    
+    <xs:complexType name="registration">
+        <xs:sequence>
+            <xs:element name="status" minOccurs="1">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="PENDING" />
+                        <xs:enumeration value="APPROVED" />
+                        <xs:enumeration value="DENIED" />
+                        <xs:enumeration value="UNREGISTERED" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="request_date" type="xs:long" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="approval_date" type="xs:long" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
 
     <xs:complexType name="developer_info">
         <xs:sequence>
@@ -123,6 +147,8 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
+    
+    
 
 </xs:schema>
 

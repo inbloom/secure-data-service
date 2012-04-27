@@ -33,16 +33,16 @@ import org.slc.sli.validation.schema.ReferenceSchema;
  * Performs tasks common to both Resource and HomeResource to eliminate code-duplication. These
  * tasks include creating a list of embedded links, adding links to a list regarding associations,
  * and resolving a new URI based on parameters.
- *
+ * 
  * @author kmyers <kmyers@wgen.net>
- *
+ * 
  */
 public class ResourceUtil {
 
     /**
      * Creates a new LinkedList and adds a link for self, then returns that list. When not creating
      * a self link, all other parameters can be null.
-     *
+     * 
      * @param uriInfo
      *            base URI
      * @param userId
@@ -71,7 +71,7 @@ public class ResourceUtil {
 
     /**
      * Create a self link
-     *
+     * 
      * @param uriInfo
      *            base URI
      * @param entityId
@@ -88,7 +88,7 @@ public class ResourceUtil {
 
     /**
      * Create the custom entity link
-     *
+     * 
      * @param uriInfo
      *            base uri
      * @param entityId
@@ -105,7 +105,7 @@ public class ResourceUtil {
     /**
      * Looks up associations for the given entity (definition) and adds embedded links for each
      * association for the given user ID.
-     *
+     * 
      * @param entityDefs
      *            all entity definitions
      * @param defn
@@ -149,7 +149,7 @@ public class ResourceUtil {
     /**
      * Looks up associations for the given entity (definition) and adds embedded links for each
      * association for the given user ID.
-     *
+     * 
      * @param entityDefs
      *            all entity definitions
      * @param defn
@@ -216,9 +216,16 @@ public class ResourceUtil {
 
             // loop through all reference fields, display as ? links
             for (String referenceFieldName : definition.getReferenceFieldNames(defn.getStoredCollectionName())) {
-                links.add(new EmbeddedLink(ResourceNames.PLURAL_LINK_NAMES.get(definition.getResourceName()), "type",
-                        getURI(uriInfo, PathConstants.V1, PathConstants.TEMP_MAP.get(definition.getResourceName()))
-                                .toString() + "?" + referenceFieldName + "=" + id));
+                String linkName = ResourceNames.PLURAL_LINK_NAMES.get(definition.getResourceName());
+                
+                // handle learningObjective direct self reference link name
+                if (defn.getResourceName().equals(definition.getResourceName())
+                        && defn.getResourceName().equals(ResourceNames.LEARNINGOBJECTIVES)) {
+                    linkName = "getChildLearningObjectives";
+                }
+                links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
+                        PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()
+                        + "?" + referenceFieldName + "=" + id));
             }
         }
         return links;
@@ -230,13 +237,13 @@ public class ResourceUtil {
 
         String sourceLink = ResourceNames.PLURAL_LINK_NAMES.get(assoc.getSourceEntity().getResourceName());
         links.add(new EmbeddedLink(sourceLink, assoc.getSourceEntity().getType(), getURI(uriInfo, PathConstants.V1,
-                assoc.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getSourceEntity().getResourceName()))
-                .toString()));
+                PathConstants.TEMP_MAP.get(assoc.getResourceName()), id,
+                PathConstants.TEMP_MAP.get(assoc.getSourceEntity().getResourceName())).toString()));
 
         String targetLink = ResourceNames.PLURAL_LINK_NAMES.get(assoc.getTargetEntity().getResourceName());
         links.add(new EmbeddedLink(targetLink, assoc.getTargetEntity().getType(), getURI(uriInfo, PathConstants.V1,
-                assoc.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getTargetEntity().getResourceName()))
-                .toString()));
+                PathConstants.TEMP_MAP.get(assoc.getResourceName()), id,
+                PathConstants.TEMP_MAP.get(assoc.getTargetEntity().getResourceName())).toString()));
         return links;
     }
 
@@ -252,6 +259,12 @@ public class ResourceUtil {
                     String resourceName = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(referenceField.getValue()
                             .getResourceName());
                     String linkName = ResourceNames.SINGULAR_LINK_NAMES.get(resourceName);
+                    
+                    // handle learningObjective direct self reference link names
+                    if (defn.getResourceName().equals(resourceName)
+                            && resourceName.equals(ResourceNames.LEARNINGOBJECTIVES)) {
+                        linkName = "getParentLearningObjective";
+                    }
 
                     links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
                             PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
@@ -263,7 +276,7 @@ public class ResourceUtil {
 
     /**
      * Returns the URI for aggregations
-     *
+     * 
      * @param uriInfo
      *            The base URI
      * @return A list of links pointing to the base Url for aggregations
@@ -280,7 +293,7 @@ public class ResourceUtil {
     /**
      * Adds the value to a list and then puts the list into the query parameters associated to the
      * given key.
-     *
+     * 
      * @param queryParameters
      *            where to put the value once added to a list
      * @param key
@@ -297,7 +310,7 @@ public class ResourceUtil {
     /**
      * Adds the value to a list and then puts the list into the query parameters associated to the
      * given key.
-     *
+     * 
      * @param queryParameters
      *            where to put the value once added to a list
      * @param key
@@ -311,7 +324,7 @@ public class ResourceUtil {
 
     /**
      * Helper method to convert MultivaluedMap to a Map
-     *
+     * 
      * @param map
      * @return
      */
@@ -329,7 +342,7 @@ public class ResourceUtil {
 
     /**
      * Returns a URI based on the supplied URI with the paths appended to the base URI.
-     *
+     * 
      * @param uriInfo
      *            URI of current actions
      * @param paths
@@ -350,7 +363,7 @@ public class ResourceUtil {
 
     /**
      * Analyzes security context to get SLIPrincipal for user.
-     *
+     * 
      * @return SLIPrincipal from security context
      */
     public static SLIPrincipal getSLIPrincipalFromSecurityContext() {

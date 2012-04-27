@@ -2,11 +2,11 @@ Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
 Given I am using local data store
-    And I am using preconfigured Ingestion Landing Zone
 
 @smoke @integration
 Scenario: Post a zip file containing all data for Illinois Daybreak as a payload of the ingestion job: Clean Database
-Given I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
+Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
+    And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
     And the following collections are empty in datastore:
         | collectionName              |
         | student                     |
@@ -33,6 +33,10 @@ Given I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingesti
         | program                     |
         | staffProgramAssociation     |
         | studentProgramAssociation   |
+        | cohort                      |
+        | staffCohortAssociation      |
+        | studentCohortAssociation    |
+        | learningStandard    |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
@@ -61,6 +65,10 @@ Then I should see following map of entry counts in the corresponding collections
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
         | studentProgramAssociation   | 10    |
+        | cohort                      | 3     |
+        | staffCohortAssociation      | 3     |
+        | studentCohortAssociation    | 9     |
+        | learningStandard            | 10    |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
@@ -73,7 +81,10 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-1            | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-2            | string               |
-    And I should see "Processed 15252 records." in the resulting batch job file
+       | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-1             | string               |
+       | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-2             | string               |
+       | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-3             | string               |
+    And I should see "Processed 15277 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -102,11 +113,11 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeAssessmentMetadata-ISAT.xml records considered: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ISAT.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ISAT.xml records failed: 0" in the resulting batch job file
-     And I should see "InterchangeAssessmentMetadata-ACT.xml records considered: 1" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml records considered: 1" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 1" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ACT.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-Learning.xml records considered: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-Learning.xml records ingested successfully: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-Learning.xml records considered: 10" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-Learning.xml records ingested successfully: 10" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-Learning.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Lkim8thgrade.xml records considered: 112" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Lkim8thgrade.xml records ingested successfully: 112" in the resulting batch job file
@@ -123,21 +134,25 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentProgram.xml records considered: 10" in the resulting batch job file
     And I should see "InterchangeStudentProgram.xml records ingested successfully: 10" in the resulting batch job file
     And I should see "InterchangeStudentProgram.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStudentCohort.xml records considered: 15" in the resulting batch job file
+    And I should see "InterchangeStudentCohort.xml records ingested successfully: 15" in the resulting batch job file
+    And I should see "InterchangeStudentCohort.xml records failed: 0" in the resulting batch job file
 
 @smoke @integration
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
-Given I post "StoriedDataSet_IL_Sunset.zip" file as the payload of the ingestion job
+Given I am using preconfigured Ingestion Landing Zone for "IL-Sunset"
+  And I post "StoriedDataSet_IL_Sunset.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
-        | student                     | 79    |
-        | studentSchoolAssociation    | 168   |
+        | student                     | 80    |
+        | studentSchoolAssociation    | 169   |
         | course                      | 90    |
         | educationOrganization       | 3     |
         | school                      | 4     |
         | section                     | 91    |
-        | studentSectionAssociation   | 260   |
+        | studentSectionAssociation   | 261   |
         | teacher                     | 4     |
         | staff                       | 17    |
         | staffEducationOrganizationAssociation|11|
@@ -155,6 +170,9 @@ Then I should see following map of entry counts in the corresponding collections
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
         | studentProgramAssociation   | 10    |
+        | cohort                      | 3     |
+        | staffCohortAssociation      | 3     |
+        | studentCohortAssociation    | 9     |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 1000000000                 | string               |
@@ -163,10 +181,10 @@ Then I should see following map of entry counts in the corresponding collections
        | school                      | 1                   | metaData.externalId      | Sunset Central High School | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-SUNSET                  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 20 records." in the resulting batch job file
+    And I should see "Processed 23 records." in the resulting batch job file
     And I should not see an error log file created
-    And I should see "InterchangeStudent.xml records considered: 1" in the resulting batch job file
-    And I should see "InterchangeStudent.xml records ingested successfully: 1" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records considered: 2" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records considered: 3" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records ingested successfully: 3" in the resulting batch job file
@@ -180,24 +198,25 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStaffAssociation.xml records considered: 12" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records ingested successfully: 12" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records considered: 2" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 2" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered: 4" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 4" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
 
 @smoke @integration
 Scenario: Post a zip file containing all data for New York as a payload of the ingestion job: Append Database
-Given I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
+Given I am using preconfigured Ingestion Landing Zone for "NY-NYC"
+  And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
-        | student                     | 87    |
-        | studentSchoolAssociation    | 176   |
+        | student                     | 88    |
+        | studentSchoolAssociation    | 177   |
         | course                      | 98    |
         | educationOrganization       | 6     |
         | school                      | 8     |
         | section                     | 107   |
-        | studentSectionAssociation   | 268   |
+        | studentSectionAssociation   | 269   |
         | teacher                     | 20    |
         | staff                       | 38    |
         | staffEducationOrganizationAssociation|20|
@@ -215,6 +234,9 @@ Then I should see following map of entry counts in the corresponding collections
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
         | studentProgramAssociation   | 10    |
+        | cohort                      | 3     |
+        | staffCohortAssociation      | 3     |
+        | studentCohortAssociation    | 9     |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 2                   | metaData.externalId      | 100000006                  | string               |

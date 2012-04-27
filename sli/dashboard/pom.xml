@@ -19,9 +19,6 @@
 		<powermock.version>1.4.10</powermock.version>
         <sli.home>${project.parent.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
-
-        <sli.home>${project.parent.basedir}</sli.home>
-        <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
         <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>     
 	</properties>
 
@@ -117,11 +114,6 @@
                 <server.mode>live</server.mode>
                 <war.file.name>dashboard</war.file.name>
             </properties>
-            <build>
-                <filters>
-                    <!-- <filter>src/main/filters/server.properties</filter> -->
-                </filters>
-            </build>
         </profile>
 	</profiles>
 
@@ -259,10 +251,10 @@
 		<finalName>dashboard</finalName>
 
 		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
+            <resource>
+                     <directory>src/main/resources</directory>
+                     <filtering>false</filtering>
+            </resource>
 			<resource>
 				<directory>src/main/webapp/WEB-INF</directory>
 				<includes>
@@ -296,9 +288,15 @@
 					<scanIntervalSeconds>5</scanIntervalSeconds>
                     <systemProperties>
                       <systemProperty>
+                        <name>sli.conf</name>
+                        <value>${sli.conf}</value>
+                      </systemProperty>
+
+                      <systemProperty>
                         <name>sli.env</name>
                           <value>${sli.env}</value>
                       </systemProperty>
+
                     </systemProperties>
 			         <connectors>
 			            <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">

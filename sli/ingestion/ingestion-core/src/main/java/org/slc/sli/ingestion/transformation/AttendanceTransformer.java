@@ -1,16 +1,17 @@
 package org.slc.sli.ingestion.transformation;
 
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+
+import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of attendance events} mappings and
@@ -40,9 +41,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         transform();
         persist();
     }
-    
+
     /**
-     * Pre-requisite interchanges for attendance data to be successfully transformed: 
+     * Pre-requisite interchanges for attendance data to be successfully transformed:
      * section, session, studentSchoolAssociation, studentSectionAssociation
      */
     public void loadData() {
@@ -64,21 +65,21 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         LOG.debug("Transforming attendance data");
 
         HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
-        
+
         // iterate over attendance events instead?
         // Map<Object, NeutralRecord> attendance = collections.get("attendance");
-        
+
         // iterate over each studentSchoolAssociation --> this is where the dailyAttendance Map will be added
         LOG.info("Iterating over {} student-school associations.", collections.get("studentSectionAssociation").size());
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("studentSchoolAssociation").entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
             String studentId = (String) attributes.get("studentId");
-            
-            LOG.info("For student with id: {}", studentId);
-            
+
+            LOG.debug("For student with id: {}", studentId);
+
             Map<Object, NeutralRecord> studentAttendance = new HashMap<Object, NeutralRecord>();
-            
+
             for (Map.Entry<Object, NeutralRecord> attendanceEntry : collections.get("attendance").entrySet()) {
                 NeutralRecord record = attendanceEntry.getValue();
                 Map<String, Object> attendanceAttributes = record.getAttributes();
@@ -86,22 +87,22 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                     studentAttendance.put(attendanceEntry.getKey(), attendanceEntry.getValue());
                 }
             }
-            LOG.info(" - Found {} attendance events.", studentAttendance.size());
-            
+            LOG.debug(" - Found {} attendance events.", studentAttendance.size());
+
             Map<Object, NeutralRecord> sessions = new HashMap<Object, NeutralRecord>();
-            
+
             for (Map.Entry<Object, NeutralRecord> association : collections.get("studentSectionAssociation").entrySet()) {
                 NeutralRecord record = association.getValue();
                 Map<String, Object> associationAttributes = record.getAttributes();
                 if (associationAttributes.get("studentId").equals(studentId)) {
                     String sectionId = (String) associationAttributes.get("sectionId");
-                    
+
                     for (Map.Entry<Object, NeutralRecord> section : collections.get("section").entrySet()) {
                         NeutralRecord sectionRecord = section.getValue();
                         Map<String, Object> sectionAttributes = sectionRecord.getAttributes();
                         if (sectionAttributes.get("uniqueSectionCode").equals(sectionId)) {
                             String sessionId = (String) sectionAttributes.get("sessionId");
-                            
+
                             for (Map.Entry<Object, NeutralRecord> session : collections.get("session").entrySet()) {
                                 NeutralRecord sessionRecord = session.getValue();
                                 Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
@@ -115,8 +116,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                     }
                 }
             }
-            LOG.info(" - Found {} sessions associated with student.", sessions.size());
-            
+            LOG.debug(" - Found {} sessions associated with student.", sessions.size());
+
 //            if (attributes.containsKey("dailyAttendance")) {
 //                Map<String, Object> daily = (Map<String, Object>) attributes.get("dailyAttendance");
 //                // work will eventually be done here
@@ -124,16 +125,16 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 //            } else {
 //                Map<String, Object> daily = new HashMap<String, Object>;
 //                List<Pair<String, List<Object>>> schoolYearAttendance = new ArrayList<Pair<String, List<Object>>>();
-//                
+//
 //                attributes.put("dailyAttendance", daily);
 //            }
-            
+
             neutralRecord.setAttributes(attributes);
             newCollection.put(neutralRecord.getRecordId(), neutralRecord);
         }
-        
+
         transformedCollections.put("studentSchoolAssociation", newCollection);
-        
+
         LOG.debug("Finished transforming attendance data.");
     }
 
@@ -143,7 +144,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     public void persist() {
         LOG.info("Persisting transformed attendance data into mongo.");
         // uncomment this when ready to persist transformed associations into mongo
-        
+
 //        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
 //            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
 //                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
@@ -175,5 +176,5 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             collection.put(tempNr.getRecordId(), tempNr);
         }
         return collection;
-    }    
+    }
 }

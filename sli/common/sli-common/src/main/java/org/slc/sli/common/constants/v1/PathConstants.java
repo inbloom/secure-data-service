@@ -18,13 +18,13 @@ public class PathConstants {
     public static final String TEACHER_SECTION_ASSOCIATIONS = "teacherSectionAssociations";
     public static final String SCHOOL_SESSION_ASSOCIATIONS = "schoolSessionAssociations";
     public static final String SECTION_ASSESSMENT_ASSOCIATIONS = "sectionAssessmentAssociations";
-    public static final String SESSION_COURSE_ASSOCIATIONS = "sessionCourseAssociations";
-    public static final String STUDENT_ASSESSMENT_ASSOCIATIONS = "studentAssessmentAssociations";
+    public static final String SESSION_COURSE_ASSOCIATIONS = "courseOfferings";
+    public static final String STUDENT_ASSESSMENT_ASSOCIATIONS = "studentAssessments";
     public static final String STUDENT_SECTION_ASSOCIATIONS = "studentSectionAssociations";
-    public static final String STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS = "staffEducationOrganizationAssociations";
+    public static final String STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS = "staffEducationOrgAssignmentAssociations";
     public static final String EDUCATION_ORGANIZATION_ASSOCIATIONS = "educationOrganizationAssociations";
     public static final String COURSE_SECTION_ASSOCIATIONS = "courseSectionAssociations";
-    public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "studentTranscriptAssociations";
+    public static final String COURSE_TRANSCRIPTS = "courseTranscripts";
     public static final String STUDENT_PARENT_ASSOCIATIONS = "studentParentAssociations";
     public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS = "studentDisciplineIncidentAssociations";
     public static final String STAFF_COHORT_ASSOCIATIONS = "staffCohortAssociations";
@@ -38,6 +38,8 @@ public class PathConstants {
     public static final String ATTENDANCES = "attendances";
     public static final String BELL_SCHEDULES = "bellSchedules";
     public static final String COHORTS = "cohorts";
+    public static final String COMPETENCY_LEVEL_DESCRIPTORS = "competencyLevelDescriptor";
+    public static final String COMPETENCY_LEVEL_DESCRIPTOR_TYPES = "competencyLevelDescriptorTypes";
     public static final String COURSES = "courses";
     public static final String DISCIPLINE_INCIDENTS = "disciplineIncidents";
     public static final String DISCIPLINE_ACTIONS = "disciplineActions";
@@ -46,13 +48,16 @@ public class PathConstants {
     public static final String LEARNING_STANDARDS = "learningStandards";
     public static final String PARENTS = "parents";
     public static final String PROGRAMS = "programs";
+    public static final String REPORT_CARDS = "reportCards";
     public static final String SECTIONS = "sections";
     public static final String SESSIONS = "sessions";
     public static final String SCHOOLS = "schools";
     public static final String STUDENTS = "students";
+    public static final String STUDENT_COMPETENCIES = "studentCompetencies";
+    public static final String STUDENT_COMPETENCY_OBJECTIVES = "studentCompetencyObjectives";
     public static final String TEACHERS = "teachers";
     public static final String STAFF = "staff";
-    public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
+    public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentGradebookEntries";
     public static final String STAFF_PROGRAM_ASSOCIATIONS = "staffProgramAssociations";
     public static final String STUDENT_PROGRAM_ASSOCIATIONS = "studentProgramAssociations";
 
@@ -94,7 +99,7 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.EDUCATION_ORGANIZATION_ASSOCIATIONS, EDUCATION_ORGANIZATION_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.COURSE_SECTION_ASSOCIATIONS, COURSE_SECTION_ASSOCIATIONS);
-        TEMP_MAP.put(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, STUDENT_TRANSCRIPT_ASSOCIATIONS);
+        TEMP_MAP.put(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, COURSE_TRANSCRIPTS);
         TEMP_MAP.put(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, STUDENT_PARENT_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, STUDENT_PROGRAM_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, STAFF_PROGRAM_ASSOCIATIONS);
@@ -105,9 +110,12 @@ public class PathConstants {
 
         TEMP_MAP.put(ResourceNames.ASSESSMENTS, ASSESSMENTS);
         TEMP_MAP.put(ResourceNames.LEARNINGOBJECTIVES, LEARNING_OBJECTIVES);
+        TEMP_MAP.put(ResourceNames.LEARNINGSTANDARDS, LEARNING_STANDARDS);
         TEMP_MAP.put(ResourceNames.ATTENDANCES, ATTENDANCES);
         TEMP_MAP.put(ResourceNames.BELL_SCHEDULES, BELL_SCHEDULES);
         TEMP_MAP.put(ResourceNames.COHORTS, COHORTS);
+        TEMP_MAP.put(ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS, COMPETENCY_LEVEL_DESCRIPTORS);
+        TEMP_MAP.put(ResourceNames.COMPETENCY_LEVEL_DESCRIPTOR_TYPES, COMPETENCY_LEVEL_DESCRIPTOR_TYPES);
         TEMP_MAP.put(ResourceNames.COURSES, COURSES);
         TEMP_MAP.put(ResourceNames.DISCIPLINE_INCIDENTS, DISCIPLINE_INCIDENTS);
         TEMP_MAP.put(ResourceNames.DISCIPLINE_ACTIONS, DISCIPLINE_ACTIONS);
@@ -115,10 +123,13 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.GRADEBOOK_ENTRIES, GRADEBOOK_ENTRIES);
         TEMP_MAP.put(ResourceNames.PARENTS, PARENTS);
         TEMP_MAP.put(ResourceNames.PROGRAMS, PROGRAMS);
+        TEMP_MAP.put(ResourceNames.REPORT_CARDS, REPORT_CARDS);
         TEMP_MAP.put(ResourceNames.SECTIONS, SECTIONS);
         TEMP_MAP.put(ResourceNames.SESSIONS, SESSIONS);
         TEMP_MAP.put(ResourceNames.SCHOOLS, SCHOOLS);
         TEMP_MAP.put(ResourceNames.STUDENTS, STUDENTS);
+        TEMP_MAP.put(ResourceNames.STUDENT_COMPETENCIES, STUDENT_COMPETENCIES);
+        TEMP_MAP.put(ResourceNames.STUDENT_COMPETENCY_OBJECTIVES, STUDENT_COMPETENCY_OBJECTIVES);
         TEMP_MAP.put(ResourceNames.STAFF, STAFF);
         TEMP_MAP.put(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, STUDENT_SECTION_GRADEBOOK_ENTRIES);
         TEMP_MAP.put(ResourceNames.TEACHERS, TEACHERS);

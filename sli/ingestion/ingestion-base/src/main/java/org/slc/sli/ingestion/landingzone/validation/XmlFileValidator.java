@@ -23,7 +23,7 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
 
     @Override
     public boolean isValid(IngestionFileEntry fileEntry, ErrorReport errorReport) {
-        LOG.debug("validating csv...");
+        LOG.debug("validating xml...");
 
         if (isEmptyOrUnreadable(fileEntry, errorReport))
             return false;

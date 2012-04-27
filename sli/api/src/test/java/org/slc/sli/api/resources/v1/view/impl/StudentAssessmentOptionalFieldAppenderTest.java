@@ -78,11 +78,11 @@ public class StudentAssessmentOptionalFieldAppenderTest {
         entities = studentAssessmentOptionalFieldAppender.applyOptionalField(entities, null);
         assertEquals("Should be 1", 1, entities.size());
 
-        List<EntityBody> studentAssessmentAssociations = (List<EntityBody>) entities.get(0).get("studentAssessmentAssociations");
+        List<EntityBody> studentAssessmentAssociations = (List<EntityBody>) entities.get(0).get("studentAssessments");
         assertEquals("Should match", 2, studentAssessmentAssociations.size());
         assertEquals("Should match", STUDENT_ID, studentAssessmentAssociations.get(0).get("studentId"));
 
-        EntityBody body = (EntityBody) ((List<EntityBody>) entities.get(0).get("studentAssessmentAssociations")).get(0);
+        EntityBody body = (EntityBody) ((List<EntityBody>) entities.get(0).get("studentAssessments")).get(0);
         EntityBody assessment = (EntityBody) body.get("assessments");
         assertNotNull("Should not be null", assessment);
         assertEquals("Should match", "Reading", assessment.get("academicSubject"));

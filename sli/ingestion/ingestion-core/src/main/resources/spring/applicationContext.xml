@@ -14,13 +14,13 @@
   <context:annotation-config />
 
   <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
- 
+
     <bean id="commonProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
       <property name="ignoreResourceNotFound" value="true" />
       <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
       <property name="locations">
          <list>
-            <value>file:///${sli.conf}</value>
+            <value>file:${sli.conf}</value>
             <value>classpath:ingestion.properties</value>
          </list>
       </property>
@@ -58,7 +58,7 @@
   <import resource="camel-context.xml" />
   <import resource="persistence-context.xml" />
   <import resource="processor-context.xml" />
-<import resource="classpath:/spring/base-applicationContext.xml" />
+  <import resource="classpath:/spring/base-applicationContext.xml" />
 
   <!-- Include resources from DAL -->
   <import resource="classpath:/spring/db.xml" />
@@ -81,10 +81,24 @@
 
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
     <property name="sliSmooksFactory" ref="sliSmooksFactory" />
-    <property name="lzDirectory" value="${landingzone.inbounddir}" />
   </bean>
 
-    <bean id="xmlFileHandler" parent="smooksFileHandler">
+  <bean id="landingZoneManager" class="org.slc.sli.ingestion.landingzone.LandingZoneManager">
+    <property name="singleLandingZoneDir" value="${landingzone.inbounddir}" />
+    <property name="multipleLandingZonesEnabled" value="${sli.ingestion.tenant.deriveTenants}" />
+  </bean>
+
+  <bean id="tenantPopulator" class="org.slc.sli.ingestion.tenant.TenantPopulator">
+    <property name="parentLandingZoneDir" value="${landingzone.inbounddir}" />
+    <property name="tenantRecordResourcePaths" >
+        <list>
+            <value>classpath:tenants/tenant_IL.json</value>
+            <value>classpath:tenants/tenant_NY.json</value>
+        </list>
+    </property>
+  </bean>
+
+  <bean id="xmlFileHandler" parent="smooksFileHandler">
   </bean>
 
   <bean id="referenceResolutionHandler" class="org.slc.sli.ingestion.handler.ReferenceResolutionHandler">
@@ -96,7 +110,7 @@
     </property>
   </bean>
 
-<bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+  <bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
 
     <bean id="csvFileHandler" parent="smooksFileHandler">
         <property name="preValidators">

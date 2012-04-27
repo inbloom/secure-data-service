@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+  
+  <StateEducationAgency>
+    <StateOrganizationId>IL</StateOrganizationId>
+    <NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>State Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+  </StateEducationAgency>
+  
+  <LocalEducationAgency>
+    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <LEACategory>Independent</LEACategory>
+    <StateEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </StateEducationAgencyReference>
+  </LocalEducationAgency>
+  <LocalEducationAgency>
+    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
+    <NameOfInstitution>Sunset School District 4526</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <LEACategory>Charter</LEACategory>
+    <StateEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </StateEducationAgencyReference>
+  </LocalEducationAgency>
+  
+  <Program>
+    <ProgramId>ACC-TEST-PROG-1</ProgramId>
+		<ProgramType>Regular Education</ProgramType>
+		<ProgramSponsor>State Education Agency</ProgramSponsor>
+		<Services>
+			<CodeValue>Test service 1</CodeValue>
+			<ShortDescription>Short description for program 1 service 1</ShortDescription>
+			<Description>This is a longer description of the services provided by program 1 service 1. More detail could be provided here.</Description>
+		</Services>
+		<Services>
+			<CodeValue>Test service 2</CodeValue>
+			<ShortDescription>Short description for program 1 service 2</ShortDescription>
+			<Description>This is a longer description of the services provided by program 1 service 2. More detail could be provided here.</Description>
+		</Services>
+	</Program>
+</InterchangeEducationOrganization>

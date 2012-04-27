@@ -14,10 +14,10 @@ Scenario: Zombie Bug 2: Infinate redirect loop when accessing Databrowser while 
 	Given I have an open web browser
 	And I navigated to the Data Browser Home URL
 	And I was redirected to the Realm page
-	And I choose realm "New York Realm" in the drop-down list
+	And I choose realm "Illinois Sunset School District 4526" in the drop-down list
 	And I click on the realm page Go button
 	And I was redirected to the SLI IDP Login page
-	When I enter "eengland" in the username text field
-	And I enter "eengland1234" in the password text field
+	When I enter "badadmin" in the username text field
+	And I enter "badadmin1234" in the password text field
 	And I click the IDP page Go button
 	Then I should see a message that I am forbidden

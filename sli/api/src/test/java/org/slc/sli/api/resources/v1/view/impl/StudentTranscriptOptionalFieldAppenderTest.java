@@ -106,7 +106,7 @@ public class StudentTranscriptOptionalFieldAppenderTest {
         assertEquals("Should match", section.get("courseId"), ((EntityBody) section.get("courses")).get("id"));
         assertEquals("Should match", "Math A", section.get("sectionname"));
 
-        List<EntityBody> studentTranscriptAssociations = (List<EntityBody>) transcripts.get("studentTranscriptAssociations");
+        List<EntityBody> studentTranscriptAssociations = (List<EntityBody>) transcripts.get("courseTranscripts");
         assertNotNull("Should not be null", studentTranscriptAssociations);
         assertEquals("Should match", 2, studentTranscriptAssociations.size());
         assertEquals("Should match", "A", studentTranscriptAssociations.get(0).get("letterGradeEarned"));

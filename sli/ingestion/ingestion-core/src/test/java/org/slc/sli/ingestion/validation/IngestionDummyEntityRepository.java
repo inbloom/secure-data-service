@@ -7,6 +7,7 @@ import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
+import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,24 @@ import org.slc.sli.domain.Repository;
  */
 @Component
 public class IngestionDummyEntityRepository implements Repository<Entity> {
+
+    @Override
+    public boolean collectionExists(String collection) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void createCollection(String collection) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void ensureIndex(IndexDefinition index, String collection) {
+        // TODO Auto-generated method stub
+
+    }
 
     private Map<String, Map<String, Entity>> entities = new HashMap<String, Map<String, Entity>>();
 
@@ -130,6 +149,12 @@ public class IngestionDummyEntityRepository implements Repository<Entity> {
     public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public boolean exists(String collectionName, String id) {
+        // TODO Auto-generated method stub
+        return true;
     }
 
 }

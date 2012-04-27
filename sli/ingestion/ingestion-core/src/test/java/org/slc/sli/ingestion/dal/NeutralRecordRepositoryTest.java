@@ -33,7 +33,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -416,30 +415,6 @@ public class NeutralRecordRepositoryTest {
         repository.deleteGroupedCollections();
         Mockito.verify(mockedMongoTemplate, Mockito.times(0)).dropCollection(eq("student_1234567"));
 
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testUpdateEncryption() {
-        EntityEncryption encrypt = mock(EntityEncryption.class);
-        Map<String, Object> encryptedMap = new HashMap<String, Object>();
-        Map<String, Object> unencryptedMap = new HashMap<String, Object>();
-        when(encrypt.encrypt(Mockito.anyString(), Mockito.any(Map.class))).thenReturn(encryptedMap);
-        repository.setEntityEncryption(encrypt);
-        NeutralRecord record = mock(NeutralRecord.class);
-        when(record.getRecordType()).thenReturn("student");
-        when(record.getAttributes()).thenReturn(unencryptedMap);
-        when(record.getRecordId()).thenReturn("id");
-
-        WriteResult result = mock(WriteResult.class);
-        when(result.getN()).thenReturn(1);
-        when(
-                mockedMongoTemplate.updateFirst(Mockito.any(Query.class), Mockito.any(Update.class),
-                        Mockito.anyString())).thenReturn(result);
-
-        repository.update("student", record);
-
-        Mockito.verify(encrypt).encrypt("student", unencryptedMap);
     }
 
 }

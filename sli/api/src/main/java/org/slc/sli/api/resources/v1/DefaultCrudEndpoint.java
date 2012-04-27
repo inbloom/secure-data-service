@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -27,17 +28,22 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.common.constants.ResourceConstants;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Prototype new api end points and versioning base class
@@ -48,6 +54,8 @@ import org.slc.sli.domain.NeutralQuery;
  */
 @Component
 @Scope("request")
+@Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
+@Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML, HypermediaType.VENDOR_SLC_XML })
 public class DefaultCrudEndpoint implements CrudEndpoint {
     /* Shared query parameters that are used by all endpoints */
     @QueryParam(ParameterConstants.INCLUDE_CUSTOM)
@@ -67,6 +75,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
     @Autowired
     private OptionalFieldAppenderFactory factory;
+    
+    @Autowired
+    private Repository<Entity> repo;
 
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
@@ -172,7 +183,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                                     "Entity not found: " + key + "=" + value)).build();
                 } else {
                     long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
-                    return addPagingHeaders(Response.ok(results), pagingHeaderTotalCount, uriInfo).build();
+                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getStoredCollectionName(),
+                            results)), pagingHeaderTotalCount, uriInfo).build();
                 }
             }
         });
@@ -251,6 +263,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
                     for (EntityBody result : endpointEntity.getService().list(endpointNeutralQuery)) {
                         if (associations.get(result.get("id")) != null) {
+
+                            // direct self reference dont need to include association in reponse
+                            if (!endpointEntity.getResourceName().equals(entityDef.getResourceName()))
                             result.put(resource1, associations.get(result.get("id")));
                         }
 
@@ -270,7 +285,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                                     "Entity not found: " + key + "=" + value)).build();
                 } else {
                     long pagingHeaderTotalCount = getTotalCount(endpointEntity.getService(), endpointNeutralQuery);
-                    return addPagingHeaders(Response.ok(finalResults), pagingHeaderTotalCount, uriInfo).build();
+                    return addPagingHeaders(Response.ok(new EntityResponse(endpointEntity.getStoredCollectionName(),
+                            finalResults)), pagingHeaderTotalCount, uriInfo).build();
                 }
             }
         });
@@ -343,12 +359,17 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 // Return results as an array if multiple IDs were requested (comma separated list),
                 // single entity otherwise
                 if (finalResults.isEmpty()) {
-                    return Response.status(Status.NOT_FOUND).build();
+                    return Response
+                            .status(Status.NOT_FOUND)
+                            .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
+                                    "Entity not found: " + resourceName + "=" + idList)).build();
                 } else if (finalResults.size() == 1) {
-                    return addPagingHeaders(Response.ok(finalResults.get(0)), 1, uriInfo).build();
+                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getStoredCollectionName(),
+                            finalResults.get(0))), 1, uriInfo).build();
                 } else {
                     long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
-                    return addPagingHeaders(Response.ok(finalResults), pagingHeaderTotalCount, uriInfo).build();
+                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getStoredCollectionName(),
+                            finalResults)), pagingHeaderTotalCount, uriInfo).build();
                 }
             }
         });
@@ -420,8 +441,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      *            URI information including path and query parameters
      * @return requested information or error status
      */
-    @Override
-    public Response readAll(final String collectionName, final HttpHeaders headers, final UriInfo uriInfo) {
+    public Response readAll(final String collectionName, final HttpHeaders headers, final UriInfo uriInfo, final boolean returnAll) {
         return handle(collectionName, entityDefs, new ResourceLogic() {
             // v1/entity
             @Override
@@ -429,7 +449,20 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 // final/resulting information
                 List<EntityBody> results = new ArrayList<EntityBody>();
 
-                for (EntityBody entityBody : entityDef.getService().list(new ApiQuery(uriInfo))) {
+                Iterable<EntityBody> entityBodies = null;
+                if (returnAll) {
+                    entityBodies = SecurityUtil.sudoRun(new SecurityTask<Iterable<EntityBody>>() {
+
+                        @Override
+                        public Iterable<EntityBody> execute() {
+                            // TODO Auto-generated method stub
+                            return entityDef.getService().list(new ApiQuery(uriInfo));
+                        }
+                    });
+                } else {
+                    entityBodies = entityDef.getService().list(new ApiQuery(uriInfo));
+                }
+                for (EntityBody entityBody : entityBodies) {
                     // if links should be included then put them in the entity body
                     entityBody.put(ResourceConstants.LINKS,
                             ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
@@ -438,9 +471,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 }
 
                 long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), new ApiQuery(uriInfo));
-                return addPagingHeaders(Response.ok(results), pagingHeaderTotalCount, uriInfo).build();
+                return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getStoredCollectionName(), results)),
+                        pagingHeaderTotalCount, uriInfo).build();
             }
         });
+    }
+
+    public Response readAll(final String collectionName, final HttpHeaders headers, final UriInfo uriInfo) {
+        return this.readAll(collectionName, headers, uriInfo, false);
     }
 
     /**

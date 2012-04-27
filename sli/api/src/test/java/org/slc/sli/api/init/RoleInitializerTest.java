@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
@@ -31,7 +30,7 @@ public class RoleInitializerTest {
     public void testAllRolesCreated() throws Exception {
         when(mockRepo.findAll("roles")).thenReturn(new ArrayList<Entity>());
 
-        assertTrue(roleInitializer.buildRoles() == 6);
+        assertTrue(roleInitializer.buildRoles() == 8);
 
     }
 }

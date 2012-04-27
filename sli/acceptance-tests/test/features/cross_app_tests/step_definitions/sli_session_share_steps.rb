@@ -69,7 +69,7 @@ When /^I navigate to the dashboard home page$/ do
 end
 
 Given /^I have navigated to the sample app page$/ do
-  @driver.get PropLoader.getProps['sampleApp_server_address']+"oauth2-sample"
+  @driver.get PropLoader.getProps['sampleApp_server_address']+"sample"
 end
 
 Then /^I am redirected to the sample app home page$/ do
@@ -77,7 +77,7 @@ Then /^I am redirected to the sample app home page$/ do
 end
 
 When /^I navigate to the sample app page$/ do
-  @driver.get PropLoader.getProps['sampleApp_server_address']+"oauth2-sample"
+  @driver.get PropLoader.getProps['sampleApp_server_address']+"sample"
   begin
     @driver.switch_to.alert.accept
   rescue
