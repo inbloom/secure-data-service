@@ -2,11 +2,11 @@ Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
 Given I am using local data store
-    And I am using preconfigured Ingestion Landing Zone
 
 @smoke @integration
 Scenario: Post a zip file containing all data for Illinois Daybreak as a payload of the ingestion job: Clean Database
-Given I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
+Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
+    And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
     And the following collections are empty in datastore:
         | collectionName              |
         | student                     |
@@ -40,24 +40,23 @@ Given I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingesti
         | disciplineIncident          |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
-
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 78    |
         | studentSchoolAssociation    | 167   |
-        | course                      | 95    |
+        | course                      | 89    |
         | educationOrganization       | 3     |
         | school                      | 4     |
-        | section                     | 97    |
-        | studentSectionAssociation   | 266   |
+        | section                     | 90    |
+        | studentSectionAssociation   | 259   |
         | teacher                     | 3     |
         | staff                       | 11    |
         | staffEducationOrganizationAssociation| 8|
-        | teacherSchoolAssociation    | 4     |
-        | teacherSectionAssociation   | 11    |
+        | teacherSchoolAssociation    | 3     |
+        | teacherSectionAssociation   | 3     |
         | session                     | 22    |
-        | assessment                  | 19    |
-        | studentAssessmentAssociation| 178   |
+        | assessment                  | 5     |
+        | studentAssessmentAssociation| 116   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
@@ -89,7 +88,7 @@ Then I should see following map of entry counts in the corresponding collections
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-3             | string               |
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Whack-a-mole               | string               |
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Underwater cruise          | string               |
-    And I should see "Processed 15279 records." in the resulting batch job file
+    And I should see "Processed 15277 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -103,8 +102,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeMasterSchedule.xml records considered: 90" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 90" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 33" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 33" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered: 31" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 31" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records considered: 491" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 491" in the resulting batch job file
@@ -148,7 +147,8 @@ Then I should see following map of entry counts in the corresponding collections
 
 @smoke @integration
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
-Given I post "StoriedDataSet_IL_Sunset.zip" file as the payload of the ingestion job
+Given I am using preconfigured Ingestion Landing Zone for "IL-Sunset"
+  And I post "StoriedDataSet_IL_Sunset.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
@@ -163,8 +163,8 @@ Then I should see following map of entry counts in the corresponding collections
         | teacher                     | 4     |
         | staff                       | 17    |
         | staffEducationOrganizationAssociation|11|
-        | teacherSchoolAssociation    | 5     |
-        | teacherSectionAssociation   | 5     |
+        | teacherSchoolAssociation    | 4     |
+        | teacherSectionAssociation   | 4     |
         | session                     | 22    |
         | assessment                  | 5     |
         | studentAssessmentAssociation| 116   |
@@ -179,7 +179,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentProgramAssociation   | 10    |
         | cohort                      | 3     |
         | staffCohortAssociation      | 3     |
-        | studentCohortAssociation    | 9     | 
+        | studentCohortAssociation    | 9     |
         | disciplineIncident          | 2     |
    And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
@@ -212,7 +212,8 @@ Then I should see following map of entry counts in the corresponding collections
 
 @smoke @integration
 Scenario: Post a zip file containing all data for New York as a payload of the ingestion job: Append Database
-Given I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
+Given I am using preconfigured Ingestion Landing Zone for "NY-NYC"
+  And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
@@ -227,8 +228,8 @@ Then I should see following map of entry counts in the corresponding collections
         | teacher                     | 20    |
         | staff                       | 38    |
         | staffEducationOrganizationAssociation|20|
-        | teacherSchoolAssociation    | 21    |
-        | teacherSectionAssociation   | 21    |
+        | teacherSchoolAssociation    | 20    |
+        | teacherSectionAssociation   | 20    |
         | session                     | 26    |
         | assessment                  | 5     |
         | studentAssessmentAssociation| 116   |
