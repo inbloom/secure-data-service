@@ -35,7 +35,7 @@ default:
         sli.mongodb.pass:
 
         # Ingestion Staging MongoDB options (used in ingestion to configure the datalayer)
-        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: localhost
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
@@ -168,7 +168,7 @@ acceptance-tests:
         #sli.mongodb.user =
         #sli.mongodb.pass =
 
-        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: nxbuild.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
@@ -234,7 +234,7 @@ ci:
         #sli.mongodb.pass =
 
         # Ingestion Staging DB
-        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: testdal1.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
@@ -314,7 +314,7 @@ dev:
         #sli.mongodb.pass =
 
         # Ingestion Staging DB
-        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: devdal1.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
@@ -397,7 +397,7 @@ devjuggernauts:
         #sli.mongodb.pass =
 
         # Ingestion Staging DB
-        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: devjuggernauts.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
@@ -478,7 +478,7 @@ devapp1:
         sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
-        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: devdal1.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
@@ -552,7 +552,7 @@ local:
         sli.mongodb.pass:
 
         # Ingestion Staging DB
-        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: localhost
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
@@ -627,7 +627,7 @@ nxbuild2:
         #sli.mongodb.pass =
 
         # Ingestion Staging DB
-        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: nxbuild2.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
@@ -700,7 +700,7 @@ team:
         #sli.mongodb.pass =
 
         # Ingestion Staging DB
-        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: localhost
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
@@ -798,7 +798,7 @@ perf:
         #sli.mongodb.pass =
 
         # Ingestion Staging DB
-        sli.ingestion.staging.mongodb.database: ingestion_staging
+        sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: igmongo.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
