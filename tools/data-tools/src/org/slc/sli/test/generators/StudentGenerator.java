@@ -468,7 +468,7 @@ public class StudentGenerator {
     			int randomInt12 = random.nextInt(12);
     			CohortYearType cyType = null;
     			if ( randomInt12 == 0 ) {
-    				cyType = CohortYearType.FIRST_GRADE; 
+    				cyType = CohortYearType.FIRST_GRADE;
    		        	cy.setSchoolYear("2011-2012");
     			}
   	            else if ( randomInt12 == 1 ) {
@@ -516,14 +516,14 @@ public class StudentGenerator {
    		        	cy.setSchoolYear("2022-2023");
    	            }
         		cy.setCohortYearType(cyType);
-                s.getCohortYears().add(cy);    			
+                s.getCohortYears().add(cy);
     		}
-            
+
     		// Student Indicators
         	if (randomizeNumbers) {
         		numStudentIndicators = random.nextInt(maxStudentIndicators+1);
         	}
-    		if (includeAllData) { 
+    		if (includeAllData) {
     			numStudentIndicators = Math.max(numStudentIndicators, 1);
     		}
     		for (int iSI=0; iSI<numStudentIndicators; iSI++) {
