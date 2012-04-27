@@ -141,7 +141,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         // This just maps ed org ids to ed org objects.
         Map<String, GenericEntity> edOrgIdMap = new HashMap<String, GenericEntity>();
         
-        for (GenericEntity school:schools) {
+        for (GenericEntity school : schools) {
             String parentEdOrgId = (String) school.get(Constants.ATTR_PARENT_EDORG);
             if (parentEdOrgId != null) {
                 if (!schoolReachableFromEdOrg.keySet().contains(parentEdOrgId)) {
@@ -155,13 +155,13 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         // the school is reachable from
         List<GenericEntity> edOrgs = getParentEducationalOrganizations(token, schools);
         while (!edOrgs.isEmpty()) {
-            for (GenericEntity edOrg:edOrgs) {
+            for (GenericEntity edOrg : edOrgs) {
                 String parentEdOrgId = (String) edOrg.get(Constants.ATTR_PARENT_EDORG);
                 String edOrgId = edOrg.getId();
                 // insert ed-org id to - edOrg mapping
                 edOrgIdMap.put(edOrgId, edOrg);
                 
-                //if parentedOrgId is not null, it means you are the top organization
+                // if parentedOrgId is not null, it means you are the top organization
                 if (parentEdOrgId != null) {
                     
                     // insert ed-org - school mapping into the reverse map

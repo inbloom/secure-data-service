@@ -160,7 +160,7 @@ public final class Constants {
     public static final String ATTR_STUDENT_TRANSCRIPT_ASSOC = "courseTranscripts";
     public static final String ATTR_STUDENT_SECTION_ASSOC = "studentSectionAssociations";
     public static final String ATTR_INTERNAL_METADATA = "meta";
-    public static final String ATTR_GRADE_LEVEL_ASSESSED="gradeLevelAssessed";
+    public static final String ATTR_GRADE_LEVEL_ASSESSED = "gradeLevelAssessed";
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
 

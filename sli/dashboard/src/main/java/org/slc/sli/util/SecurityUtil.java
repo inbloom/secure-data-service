@@ -24,11 +24,11 @@ public class SecurityUtil {
 
     public static boolean isAdmin() {
         Collection<GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        for (GrantedAuthority authority: authorities) {
+        for (GrantedAuthority authority : authorities) {
             if (authority.getAuthority().equals(ADMIN_KEY)) {
                 return true;
             }
-
+            
         }
         return false;
     }
