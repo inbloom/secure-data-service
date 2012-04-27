@@ -419,6 +419,27 @@ public class PopulationManagerImpl implements PopulationManager {
         }
     }
     
+    private String getSemesterYear(List<Map<String, Object>> stuSectAssocs, String sectionId) {
+        String semesterString = null;
+        for (Map<String, Object> assoc : stuSectAssocs) {
+            if (((String) assoc.get(Constants.ATTR_SECTION_ID)).equalsIgnoreCase(sectionId)) {
+                Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
+                String term = (String) ((Map) sections.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_TERM);
+                String year = (String) ((Map) sections.get(Constants.ATTR_SESSIONS))
+                        .get(Constants.ATTR_SCHOOL_YEAR);
+                semesterString = term.replaceAll(" ", "") + year.replaceAll(" ", "");
+                break;
+            }
+        }
+        return semesterString;
+    }
+    
+    /**
+     * Adds the current semester grades to the student in a easily retrievable manner.
+     * 
+     * @param student
+     * @param sectionId
+     */
     @SuppressWarnings("rawtypes")
     private void addCurrentSemesterGrades(GenericEntity student, String sectionId) {
         // Sort the grades
@@ -433,42 +454,44 @@ public class PopulationManagerImpl implements PopulationManager {
         // Get the term and year
         try {
             Map<String, Object> transcripts = (Map<String, Object>) student.get(Constants.ATTR_TRANSCRIPT);
+            if (transcripts == null) {
+                return;
+            }
             List<Map<String, Object>> stuSectAssocs = (List<Map<String, Object>>) transcripts
                     .get(Constants.ATTR_STUDENT_SECTION_ASSOC);
-            String semesterString = null;
-            for (Map<String, Object> assoc : stuSectAssocs) {
-                if (((String) assoc.get(Constants.ATTR_SECTION_ID)).equalsIgnoreCase(sectionId)) {
-                    Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
-                    String term = (String) ((Map) sections.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_TERM);
-                    String year = (String) ((Map) sections.get(Constants.ATTR_SESSIONS))
-                            .get(Constants.ATTR_SCHOOL_YEAR);
-                    semesterString = term.replaceAll(" ", "") + year.replaceAll(" ", "");
-                    break;
-                }
+            if (stuSectAssocs == null) {
+                return;
+            }
+            String semesterString = getSemesterYear(stuSectAssocs, sectionId);
+            if (semesterString == null) {
+                return;
             }
             
             // iterate and add to letter grade
-            List<Map<String, Object>> gradeEntries = (ArrayList<Map<String, Object>>) student
+            List<Map<String, Object>> gradeEntries = (List<Map<String, Object>>) student
                     .get("studentGradebookEntries");
-            if (semesterString != null) {
-                for (Map<String, Object> currentGrade : gradeEntries) {
-                    GenericEntity gradeDate = new GenericEntity();
-                    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                    double numericGrade = (Double) currentGrade.get(Constants.ATTR_NUMERIC_GRADE_EARNED);
-                    try {
-                        Date date = formatter.parse((String) currentGrade.get(Constants.ATTR_DATE_FULFILLED));
-                        gradeDate.put(Constants.ATTR_DATE_FULFILLED, date);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    gradeDate.put(Constants.ATTR_NUMERIC_GRADE_EARNED, numericGrade);
-                    sortedList.add(gradeDate);
-                }
-                int count = 0;
-                for (GenericEntity entity : sortedList) {
-                    student.put(semesterString + "-" + count++, entity);
-                }
+            if (gradeEntries == null) {
+                return;
             }
+            
+            for (Map<String, Object> currentGrade : gradeEntries) {
+                GenericEntity gradeDate = new GenericEntity();
+                DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                double numericGrade = (Double) currentGrade.get(Constants.ATTR_NUMERIC_GRADE_EARNED);
+                try {
+                    Date date = formatter.parse((String) currentGrade.get(Constants.ATTR_DATE_FULFILLED));
+                    gradeDate.put(Constants.ATTR_DATE_FULFILLED, date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                gradeDate.put(Constants.ATTR_NUMERIC_GRADE_EARNED, numericGrade);
+                sortedList.add(gradeDate);
+            }
+            int count = 0;
+            for (GenericEntity entity : sortedList) {
+                student.put(semesterString + "-" + count++, entity);
+            }
+            
         } catch (ClassCastException ex) {
             ex.printStackTrace();
         } catch (NullPointerException ex) {
