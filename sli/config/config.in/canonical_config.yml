@@ -726,7 +726,7 @@ team:
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
 
-        sli.ingestion.tenant.loadDefaultTenants: true
+        sli.ingestion.tenant.loadDefaultTenants: false
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT
