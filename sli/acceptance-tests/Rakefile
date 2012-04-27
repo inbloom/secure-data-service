@@ -883,7 +883,7 @@ end
 
 desc "Run V1 Simple CRUD Test"
 task :v1SimpleCrudTests do
-  runTests("test/features/apiV1/entities/crud")
+  runTests("test/features/apiV1/entities/crud_rc")
 end
 
 desc "Run V1 XML Tests"
