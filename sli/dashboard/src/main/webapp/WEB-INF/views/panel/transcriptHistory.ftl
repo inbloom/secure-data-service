@@ -62,14 +62,19 @@
             }
     );
 
-    function toggleAll() {
+    function expandAll() {
         $("#"+getTableId()).jqGrid("getDataIDs").forEach(function expandRow(rowId) {
-            $("#"+getTableId()).toggleSubGridRow(rowId);
+            $("#"+getTableId()).expandSubGridRow(rowId);
         });
+    }
 
-
+    function collapseAll() {
+        $("#"+getTableId()).jqGrid("getDataIDs").forEach(function expandRow(rowId) {
+            $("#"+getTableId()).collapseSubGridRow(rowId);
+        });
     }
 
 </script>
 
-<a href="#" onclick="toggleAll()">Expand/Collapse All</a>
+<a href="#" onclick="expandAll()">Expand All</a>
+<!-- <a href="#" onclick="collapseAll()">Collapse All</a> -->
