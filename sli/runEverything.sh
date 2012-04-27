@@ -19,5 +19,5 @@ cd $DIR/databrowser; bundle exec rails server  > $LOGDIR/prowlerConsole.log 2>&1
 echo Starting Admin Tools
 cd $DIR/admin-tools; bundle exec rails server  > $LOGDIR/adminConsole.log 2>&1 &
 
-echo Starting mock IDP
-cd $DIR/mock-Idp; mvn jetty:run   > $LOGDIR/mockIdpConsole.log 2>&1 &
+echo Starting Simple IDP
+cd $DIR/simple-idp; mvn jetty:run   > $LOGDIR/simpleIdpConsole.log 2>&1 &

@@ -2,6 +2,7 @@ package org.slc.sli.test.edfi.entities.meta.relations;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
 import org.slc.sli.test.edfi.entities.meta.CohortMeta;
@@ -9,6 +10,7 @@ import org.slc.sli.test.edfi.entities.meta.CourseMeta;
 import org.slc.sli.test.edfi.entities.meta.DisciplineActionMeta;
 import org.slc.sli.test.edfi.entities.meta.DisciplineIncidentMeta;
 import org.slc.sli.test.edfi.entities.meta.LeaMeta;
+import org.slc.sli.test.edfi.entities.meta.ParentMeta;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.SchoolMeta;
 import org.slc.sli.test.edfi.entities.meta.SeaMeta;
@@ -17,6 +19,7 @@ import org.slc.sli.test.edfi.entities.meta.SessionMeta;
 import org.slc.sli.test.edfi.entities.meta.StaffMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentAssessmentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
+import org.slc.sli.test.edfi.entities.meta.StudentParentAssociationMeta;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 
 public final class MetaRelations {
@@ -42,7 +45,9 @@ public final class MetaRelations {
     public static final int ATTENDANCE_PER_STUDENT_SECTION = 1;
     public static final int DISCPLINE_ACTIONS_PER_SCHOOL = 2;
     public static final int DISCPLINE_INCIDENTS_PER_SCHOOL = 5;
+    public static final int INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = 2;
     public static final int NUM_STAFF_PER_DISCIPLINE_ACTION = 2;
+
 
     // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
     // TODO: do we need maps? maybe just use Collections?
@@ -55,6 +60,8 @@ public final class MetaRelations {
     public static final Map<String, StaffMeta> STAFF_MAP = new TreeMap<String, StaffMeta>();
     public static final Map<String, TeacherMeta> TEACHER_MAP = new TreeMap<String, TeacherMeta>();
     public static final Map<String, StudentMeta> STUDENT_MAP = new TreeMap<String, StudentMeta>();
+    public static final Map<String, ParentMeta> PARENT_MAP = new TreeMap<String, ParentMeta>();
+    public static final Map<String, StudentParentAssociationMeta> STUDENT_PARENT_MAP = new TreeMap<String, StudentParentAssociationMeta>();
     public static final Map<String, ProgramMeta> PROGRAM_MAP = new TreeMap<String, ProgramMeta>();
     public static final Map<String, CohortMeta> COHORT_MAP = new TreeMap<String, CohortMeta>();
     public static final Map<String, StudentAssessmentMeta> STUDENT_ASSES_MAP = new TreeMap<String, StudentAssessmentMeta>();
@@ -158,6 +165,8 @@ public final class MetaRelations {
         }
     }
 
+
+
     private static void buildAndRelateEntitiesWithSchool(SchoolMeta schoolMeta, Map<String, StaffMeta> staffForSea) {
 
         Map<String, TeacherMeta> teachersForSchool = buildTeachersForSchool(schoolMeta);
@@ -238,8 +247,13 @@ public final class MetaRelations {
      * @return
      */
     private static Map<String, StudentMeta> buildStudentsForSchool(SchoolMeta schoolMeta) {
-
+        int counter = 0;
+        int parentId = 0;
+        Random random = new Random();
         Map<String, StudentMeta> studentsInSchoolMap = new HashMap<String, StudentMeta>(STUDENTS_PER_SCHOOL);
+        Map<String, ParentMeta> parentStudentsMap = new HashMap<String, ParentMeta>();
+        Map<String, StudentParentAssociationMeta> stuParAssoMap= new HashMap<String, StudentParentAssociationMeta>();
+
         for (int idNum = 0; idNum < STUDENTS_PER_SCHOOL; idNum++) {
 
             StudentMeta studentMeta = new StudentMeta("student" + idNum, schoolMeta);
@@ -248,8 +262,28 @@ public final class MetaRelations {
             // add to both maps here to avoid loop in map.putAll if we merged maps later
             studentsInSchoolMap.put(studentMeta.id, studentMeta);
             STUDENT_MAP.put(studentMeta.id, studentMeta);
-        }
 
+            boolean hasBoth = random.nextBoolean();
+
+            if(hasBoth == false) {
+                ParentMeta fatherMeta = new ParentMeta(studentMeta.id + "-far" + counter, true );
+                PARENT_MAP.put(fatherMeta.id, fatherMeta);
+                StudentParentAssociationMeta studentFatherMeta = new StudentParentAssociationMeta ("stuParAss" + counter ,studentMeta, fatherMeta);
+                STUDENT_PARENT_MAP.put( schoolMeta.id + counter + "2", studentFatherMeta);
+            }
+            else {
+                ParentMeta fatherMeta = new ParentMeta(studentMeta.id + "-dad" + counter, true );
+                PARENT_MAP.put(fatherMeta.id, fatherMeta);
+                ParentMeta motherMeta = new ParentMeta(studentMeta.id + "-mom" + counter, false );
+                PARENT_MAP.put(motherMeta.id, motherMeta);
+                StudentParentAssociationMeta studentMotherMeta = new StudentParentAssociationMeta ("stuParAss" + counter ,studentMeta, motherMeta);
+                STUDENT_PARENT_MAP.put( schoolMeta.id + counter + "1", studentMotherMeta);
+                StudentParentAssociationMeta studentFatherMeta = new StudentParentAssociationMeta ("stuParAss" + counter ,studentMeta, fatherMeta);
+                STUDENT_PARENT_MAP.put( schoolMeta.id + counter + "2", studentFatherMeta);
+             }
+
+            counter ++;
+        }
         return studentsInSchoolMap;
     }
 
@@ -278,6 +312,7 @@ public final class MetaRelations {
         return coursesForSchool;
     }
 
+
     /**
      * Generate the sessions for the school.
      * sessionsForSchool is used later in this class.
@@ -287,6 +322,7 @@ public final class MetaRelations {
      * @return
      */
     private static Map<String, SessionMeta> buildSessionsForSchool(SchoolMeta schoolMeta) {
+
 
         Map<String, SessionMeta> sessionsForSchool = new HashMap<String, SessionMeta>(SESSIONS_PER_SCHOOL);
 
@@ -496,6 +532,7 @@ public final class MetaRelations {
         }
     }
 
+
     /**
      * Correlates students and program on a 'per school' basis.
      * Student S is correlated with a program P iff there exists a section X s.t. S is
@@ -654,6 +691,7 @@ public final class MetaRelations {
 
     }
 
+
     private static void assignAssessmentsToStudents() {
         for (StudentMeta studentMeta : STUDENT_MAP.values()) {
             for (int count = 0; count < ASSESSMENTS_PER_STUDENT; count++) {
@@ -664,4 +702,7 @@ public final class MetaRelations {
             }
         }
     }
+
+
+
 }

@@ -3,19 +3,35 @@
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
 	<LearningObjective>
+		<LearningObjectiveId>
+			<IdentificationCode>G</IdentificationCode>
+		</LearningObjectiveId>
 		<Objective>Geometry</Objective>
 		<AcademicSubject>Mathematics</AcademicSubject>
 		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
-		<LearningObjectiveReference ref="Circles"></LearningObjectiveReference>
+		<LearningObjectiveReference ref="Circle">
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>G-C</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
+		<LearningObjectiveReference>
+			<LearningObjectiveIdentity>
+				<LearningObjectiveId>
+					<IdentificationCode>G-SRT</IdentificationCode>
+				</LearningObjectiveId>
+			</LearningObjectiveIdentity>
+		</LearningObjectiveReference>
 	</LearningObjective>
 	
 	<LearningObjective id="Circles">
-		<Objective>Circles</Objective>
-		<AcademicSubject>Mathematics</AcademicSubject>
-		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningObjectiveId>
 			<IdentificationCode>G-C</IdentificationCode>
 		</LearningObjectiveId>
+		<Objective>Circles</Objective>
+		<AcademicSubject>Mathematics</AcademicSubject>
+		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningStandardReference ref="G-C.1"></LearningStandardReference>
 		<LearningStandardReference ref="G-C.2"></LearningStandardReference>
 		<LearningStandardReference ref="G-C.3"></LearningStandardReference>

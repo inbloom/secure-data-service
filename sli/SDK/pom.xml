@@ -15,7 +15,7 @@
 
   <modules>
     <module>client</module>
-    <module>oauth2-sample</module>
+    <module>sample</module>
   </modules>
 
 </project>

@@ -13,14 +13,6 @@ Given /^format "([^\"]*)"$/ do |fmt|
 end
 
 Then /^I should receive a return code of (\d+)$/ do |arg1|
-
-  ###### Remove eventually
-  if(@res.code == 403 && Integer(arg1) != 403)
-    url = PropLoader.getProps['api_server_url']+"/api/rest/system/session/debug"
-    tempResponse = RestClient.get(url, {:accept => "application/json", :sessionId => @sessionId}){|response, request, result| response }
-    puts "#############################################", tempResponse.body, "##########################################################"
-  end
-
   assert(@res.code == Integer(arg1), "Return code was not expected: "+@res.code.to_s+" but expected "+ arg1)
 end
 
