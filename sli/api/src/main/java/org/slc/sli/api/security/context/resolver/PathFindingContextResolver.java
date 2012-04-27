@@ -123,8 +123,8 @@ public class PathFindingContextResolver implements EntityContextResolver {
     private List<String> getAllowedForCreator() {
         SLIPrincipal user = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = user.getEntity().getEntityId();
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("metadata.createdBy", "=", userId, false));
-        nq.addCriteria(new NeutralCriteria("metadata.isOrphaned", "=", "true", false));
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("metaData.createdBy", NeutralCriteria.OPERATOR_EQUAL, userId, false));
+        nq.addCriteria(new NeutralCriteria("metaData.isOrphaned", NeutralCriteria.OPERATOR_EQUAL, "true", false));
         List<String> createdIds = (List<String>) repo.findAllIds(toEntity, nq);
         
         return createdIds;
