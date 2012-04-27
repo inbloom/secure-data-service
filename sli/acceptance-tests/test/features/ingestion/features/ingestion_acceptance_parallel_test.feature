@@ -5,7 +5,7 @@ Given I am using local data store
   And I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
   And I am using preconfigured Ingestion Landing Zone for "NY-NYC"
 
-@smoke @integration
+@smoke @integration @wip
 Scenario: Post zip files containing all data for Illinois Daybreak and NY NYC as the payload for parallel ingestion jobs: Clean Database
 Given I am willing to wait upto 150 seconds for ingestion to complete
   And the following collections are empty in datastore:

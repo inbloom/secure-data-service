@@ -2,6 +2,7 @@ package org.slc.sli.ingestion.util;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.time.FastDateFormat;
@@ -47,9 +48,8 @@ public class BatchJobUtils {
         return localhost.getHostName();
     }
 
-    public static String getCurrentTimeStamp() {
-        String timeStamp = FORMATTER.format(System.currentTimeMillis());
-        return timeStamp;
+    public static Date getCurrentTimeStamp() {
+        return new Date();
     }
 
     public static void writeErrorsWithDAO(String batchId, String resourceId, BatchJobStageType stage,
