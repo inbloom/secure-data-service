@@ -58,4 +58,27 @@ public class MongoIterableTest {
         assertEquals(3, results.size());
         assertTrue(results.containsAll(Arrays.asList(objects)));
     }
+    
+    @Test
+    public void testGetAllSinglePage() {
+        Iterable<DBObject> it = new MongoIterable(collection, new BasicDBObject(), 3);
+        Set<DBObject> results = new HashSet<DBObject>();
+        for (DBObject db : it) {
+            results.add(db);
+        }
+        assertEquals(3, results.size());
+        assertTrue(results.containsAll(Arrays.asList(objects)));
+    }
+    
+    @Test
+    public void testGetAllWithQuery() {
+        Iterable<DBObject> it = new MongoIterable(collection, new BasicDBObject("test", "1"), 2);
+        Set<DBObject> results = new HashSet<DBObject>();
+        for (DBObject db : it) {
+            results.add(db);
+        }
+        assertEquals(1, results.size());
+        assertTrue(results.contains(objects[0]));
+    }
+    
 }

@@ -34,6 +34,12 @@ public class MongoIterable implements Iterable<DBObject> {
         return new PagingIterator();
     }
     
+    /**
+     * Iterator for paging
+     * 
+     * @author nbrown
+     * 
+     */
     private final class PagingIterator implements Iterator<DBObject> {
         private int position = 0;
         private Iterator<DBObject> currentPage;
@@ -44,7 +50,7 @@ public class MongoIterable implements Iterable<DBObject> {
         
         @Override
         public boolean hasNext() {
-            return currentPage.hasNext() || (collection.count() > position);
+            return currentPage.hasNext() || (collection.find(query).count() > position);
         }
         
         @Override
