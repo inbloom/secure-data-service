@@ -1,4 +1,3 @@
-@tenantId=IL
 edfi-xml,EducationOrganization,InterchangeEducationOrganization.xml,504b11f656cbadb42f94908cfa09b8c2
 edfi-xml,EducationOrgCalendar,InterchangeEducationOrgCalendar.xml,28230a7bb1969057aa86ac3d03bc0b75
 edfi-xml,MasterSchedule,InterchangeMasterSchedule.xml,4b477b78051238ae407aecf135e133f9
