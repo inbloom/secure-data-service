@@ -1,6 +1,10 @@
 package org.slc.sli.api.config;
 
-import java.util.*;
+import java.util.Set;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Collection;
 import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
@@ -60,7 +64,13 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
     @Override
     public EntityDefinition lookupByEntityType(String entityType) {
-        return mapping.get(ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(entityType));
+        for (Map.Entry<String, EntityDefinition> e : mapping.entrySet()) {
+            if (e.getValue().getType().equals(entityType)) {
+                return e.getValue();
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -300,8 +310,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     public void addDefinition(EntityDefinition defn) {
         LOG.debug("adding definition for {}", defn.getResourceName());
         defn.setSchema(repo.getSchema(defn.getStoredCollectionName()));
-        System.out.println("@@@@@ " + defn.getType() + " : " + defn.getResourceName());
-        System.out.println("@@@@@ " + defn.getStoredCollectionName() + " : " + defn.getResourceName());
 
         if (ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.containsKey(defn.getStoredCollectionName())) {
             ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(defn.getStoredCollectionName()).add(defn.getResourceName());
@@ -310,7 +318,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
             list.add(defn.getResourceName());
             ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.put(defn.getStoredCollectionName(), list);
         }
-        //ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.put(defn.getType(), defn.getResourceName());
         this.mapping.put(defn.getResourceName(), defn);
     }
 }

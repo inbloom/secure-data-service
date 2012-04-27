@@ -1,7 +1,13 @@
 package org.slc.sli.api.resources.util;
 
 import java.net.URI;
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
+import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Collection;
 import java.util.Map.Entry;
 
 import javax.ws.rs.core.MultivaluedMap;
