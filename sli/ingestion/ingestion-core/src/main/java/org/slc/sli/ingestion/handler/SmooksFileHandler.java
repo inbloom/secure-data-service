@@ -38,7 +38,8 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     private SliSmooksFactory sliSmooksFactory;
 
     @Override
-    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
+            FileProcessStatus fileProcessStatus) {
         try {
 
             generateNeutralRecord(fileEntry, errorReport, fileProcessStatus);
@@ -55,8 +56,8 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         return fileEntry;
     }
 
-    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) throws IOException,
-            SAXException {
+    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport,
+            FileProcessStatus fileProcessStatus) throws IOException, SAXException {
         LandingZone landingZone = new LocalFileSystemLandingZone(new File(ingestionFileEntry.getTopLevelLandingZonePath()));
         String lzDirectory = "";
         if (landingZone != null && landingZone.getLZId() != null) {
@@ -71,20 +72,20 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
         NeutralRecordFileWriter nrFileWriter = new NeutralRecordFileWriter(neutralRecordOutFile);
 
+        // set the IngestionFileEntry NeutralRecord file we just wrote
+        ingestionFileEntry.setNeutralRecordFile(neutralRecordOutFile);
+
         // create instance of Smooks (with visitors already added)
         Smooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, nrFileWriter, errorReport);
 
         InputStream inputStream = new BufferedInputStream(new FileInputStream(ingestionFileEntry.getFile()));
         try {
-
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             smooks.filterSource(new StreamSource(inputStream));
-
-            // set the IngestionFileEntry NeutralRecord file we just wrote
-            ingestionFileEntry.setNeutralRecordFile(neutralRecordOutFile);
-
         } catch (SmooksException se) {
-            LOG.error("smooks exception encountered:\n" + Arrays.toString(se.getStackTrace()));
+            LOG.error("smooks exception encountered converting " + ingestionFileEntry.getFile().getName() + " to "
+                    + neutralRecordOutFile.getName() + ": " + se.getMessage() + "\n"
+                    + Arrays.toString(se.getStackTrace()));
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
             IOUtils.closeQuietly(inputStream);

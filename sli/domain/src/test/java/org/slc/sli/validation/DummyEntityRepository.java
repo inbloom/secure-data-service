@@ -161,4 +161,13 @@ public class DummyEntityRepository implements Repository<Entity> {
         return null;
     }
 
+    @Override
+    public boolean exists(String collectionName, String id) {
+        Map<String, Entity> collection = entities.get(collectionName);
+        if (collection.get(id) == null) {
+            return false;
+        }
+        return true;
+    }
+
 }
