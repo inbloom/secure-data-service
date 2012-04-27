@@ -36,7 +36,8 @@ Then /^there is no lozenges for student "([^"]*)"$/ do |student_name|
   assert(lozenges.length == 0, "Student " + student_name + " has lozenges")
 end
 
-Then /^the grades teardrop color widgets are mapped correctly:$/ do |table|
+Then /^the grades teardrop color widgets for "([^"]*)" are mapped correctly:$/ do |gradeColumns, table|
+  gradeColumnsArray = gradeColumns.split(';')
   gradeMapping = Hash.new 
   table.hashes.each do |row|
     key = row['grade'].rstrip.lstrip
@@ -46,19 +47,16 @@ Then /^the grades teardrop color widgets are mapped correctly:$/ do |table|
   all_trs = getStudentGrid()
    
   all_trs.each do |tr|
-    foundGrades = getStudentGrades(tr)
-    tdsWithGrades = getStudentAttributeTds(tr, getGradeColumnName())
-    assert(tdsWithGrades.length == foundGrades.length, "Grade columns discrepancy for comparison")
-    i = 0
-    foundGrades.each do |grade|
-      if (gradeMapping[grade] == nil)
-        puts "Grade Mapping doesn't exist for grade: " + grade
+    gradeColumnsArray.each do |column|
+      foundGrade = getStudentAttribute(tr, column)
+      tdsWithGrade = getStudentAttributeTd(tr, column)
+      if (gradeMapping[foundGrade] == nil)
+          puts "Grade Mapping doesn't exist for grade: " + grade
       else
-        searchText = ".//div[contains(@class,'" + gradeMapping[grade] + "')]"
-        tearDrop = tdsWithGrades[i].find_element(:xpath, searchText)
-        assert(tearDrop != nil, "Expected color" + gradeMapping[grade])
+          searchText = ".//div[contains(@class,'" + gradeMapping[foundGrade] + "')]"
+          tearDrop = tdsWithGrade.find_element(:xpath, searchText)
+          assert(tearDrop != nil, "Expected color" + gradeMapping[foundGrade])
       end
-      i +=1
     end
   end 
 end
@@ -244,8 +242,6 @@ def getColumnLookupName(headerName)
   headerName.downcase!
   if (headerName == "student")
     return getStudentColumnName()
-  elsif (headerName == "grade")
-    return getGradeColumnName()
   elsif (headerName == "absence count")
     return getAbsenceCountColumnName()
   else
@@ -259,10 +255,6 @@ end
 
 def getStudentProgramParticipationColumnName()
   return "programParticipation"
-end
-
-def getGradeColumnName()
-  return "letterGrade"
 end
 
 def getAbsenceCountColumnName()
