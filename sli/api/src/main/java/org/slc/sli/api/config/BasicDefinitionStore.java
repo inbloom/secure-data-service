@@ -1,8 +1,6 @@
 package org.slc.sli.api.config;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
@@ -272,21 +270,25 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
             // loop for each reference field on the entity
             for (Entry<String, ReferenceSchema> fieldSchema : referringDefinition.getReferenceFields().entrySet()) {
                 ReferenceSchema schema = fieldSchema.getValue(); // access to the reference schema
-                String resource = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(schema.getResourceName());
-                EntityDefinition referencedEntity = this.mapping.get(resource);
-                LOG.debug(
-                        "* New reference: {}.{} -> {}._id",
-                        new Object[] { referringDefinition.getStoredCollectionName(), fieldSchema.getKey(),
-                                schema.getResourceName() });
-                // tell the referenced entity that some entity definition refers to it
+                Set<String> resources = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(schema.getResourceName());
 
-                if (referencedEntity != null) {
-                    referencedEntity.addReferencingEntity(referringDefinition);
-                    referencesLoaded++;
-                } else {
-                    LOG.warn("* Failed to add, null entity: {}.{} -> {}._id",
-                        new Object[] { referringDefinition.getStoredCollectionName(), fieldSchema.getKey(),
-                                schema.getResourceName() });
+                if (resources == null) continue;
+                for (String resource : resources) {
+                    EntityDefinition referencedEntity = this.mapping.get(resource);
+                    LOG.debug(
+                            "* New reference: {}.{} -> {}._id",
+                            new Object[] { referringDefinition.getStoredCollectionName(), fieldSchema.getKey(),
+                                    schema.getResourceName() });
+                    // tell the referenced entity that some entity definition refers to it
+
+                    if (referencedEntity != null) {
+                        referencedEntity.addReferencingEntity(referringDefinition);
+                        referencesLoaded++;
+                    } else {
+                        LOG.warn("* Failed to add, null entity: {}.{} -> {}._id",
+                            new Object[] { referringDefinition.getStoredCollectionName(), fieldSchema.getKey(),
+                                    schema.getResourceName() });
+                    }
                 }
             }
         }
@@ -298,7 +300,17 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     public void addDefinition(EntityDefinition defn) {
         LOG.debug("adding definition for {}", defn.getResourceName());
         defn.setSchema(repo.getSchema(defn.getStoredCollectionName()));
-        ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.put(defn.getType(), defn.getResourceName());
+        System.out.println("@@@@@ " + defn.getType() + " : " + defn.getResourceName());
+        System.out.println("@@@@@ " + defn.getStoredCollectionName() + " : " + defn.getResourceName());
+
+        if (ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.containsKey(defn.getStoredCollectionName())) {
+            ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(defn.getStoredCollectionName()).add(defn.getResourceName());
+        } else {
+            Set<String> list = new HashSet<String>();
+            list.add(defn.getResourceName());
+            ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.put(defn.getStoredCollectionName(), list);
+        }
+        //ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.put(defn.getType(), defn.getResourceName());
         this.mapping.put(defn.getResourceName(), defn);
     }
 }

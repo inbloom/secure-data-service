@@ -1,8 +1,10 @@
 package org.slc.sli.common.constants;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Defines for resource names exposed by API.
@@ -68,7 +70,7 @@ public final class ResourceNames {
     public static final String STUDENT_PROGRAM_ASSOCIATIONS = "studentProgramAssociations";
 
 
-    public static final Map<String, String> ENTITY_RESOURCE_NAME_MAPPING = new HashMap<String, String>();
+    public static final Map<String, Set<String>> ENTITY_RESOURCE_NAME_MAPPING = new HashMap<String, Set<String>>();
 
 
     /*
