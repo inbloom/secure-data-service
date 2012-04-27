@@ -19,6 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -111,6 +112,18 @@ public class PopulationManagerImpl implements PopulationManager {
 
         return studentSummaries;
     }
+    
+    public List<GenericEntity> getStudentGradeBookEntries(String token, List<String> studentIds, ViewConfig viewConfig,
+            String sessionId, String sectionId) {
+
+        long startTime = System.nanoTime();
+        // Initialize student summaries
+
+        List<GenericEntity> studentSummaries = entityManager.getStudentsWithGradebookEntries(token, sectionId);
+        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for student section view: {}", (System.nanoTime() - startTime) * 1.0e-9);
+
+        return studentSummaries;
+    }
 
     /*
      * (non-Javadoc)
@@ -155,10 +168,14 @@ public class PopulationManagerImpl implements PopulationManager {
                 addFullName(student);
 
                 // add the final grade
-                addFinalGrade(student, sectionId);
-
+                addFinalGrades(student, sectionId);
+                
+                // add the grade book
+                addCurrentSemesterGrades(student, sectionId);
+                
                 // transform assessment score format
                 transformAssessmentFormat(student);
+       
 
                 // tally up attendance data
                 tallyAttendanceData(student);
@@ -319,7 +336,7 @@ public class PopulationManagerImpl implements PopulationManager {
 	 * @param stuTransAssocs
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void addSemesterGrades(GenericEntity student,
+	private void addSemesterFinalGrades(GenericEntity student,
 			List<Map<String, Object>> interSections,
 			List<Map<String, Object>> stuTransAssocs) {
 
@@ -374,7 +391,7 @@ public class PopulationManagerImpl implements PopulationManager {
 	 * @param student
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void addFinalGrade(GenericEntity student, String sectionId) {
+	private void addFinalGrades(GenericEntity student, String sectionId) {
 		try {
 			Map<String, Object> transcripts = (Map<String, Object>) student
 					.get(Constants.ATTR_TRANSCRIPT);
@@ -400,7 +417,7 @@ public class PopulationManagerImpl implements PopulationManager {
 				}
 			}
 
-			addSemesterGrades(student, interSections,
+			addSemesterFinalGrades(student, interSections,
 					(List<Map<String, Object>>) transcripts
 							.get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC));
 
@@ -417,21 +434,59 @@ public class PopulationManagerImpl implements PopulationManager {
 		}
 	}
 	
-	private class IdYear {
-		private String id;
-		private Date date;
-		public String getId() {return id; }
-		public Date getDate(){return date;}
-		public IdYear(String id, Date date) {
-			this.id = id;
-			this.date = date;
-		}
-		public boolean equals(IdYear other) {
-			if(this.date.compareTo(other.getDate()) == 0 && this.id.equalsIgnoreCase(other.getId())){
-				return true;
+	@SuppressWarnings("rawtypes")
+	private void addCurrentSemesterGrades(GenericEntity student, String sectionId) {
+		//Sort the grades
+		SortedSet<GenericEntity> sortedList = new TreeSet<GenericEntity>(new Comparator<GenericEntity>() {
+			public int compare(GenericEntity a, GenericEntity b) {
+			    	Date dateA = (Date)a.get(Constants.ATTR_DATE_FULFILLED);
+			    	Date dateB = (Date)b.get(Constants.ATTR_DATE_FULFILLED);
+                    return dateA.compareTo(dateB);
+		    }
+		});
+		
+		//Get the term and year
+		try {
+			Map<String, Object> transcripts = (Map<String, Object>) student.get(Constants.ATTR_TRANSCRIPT);
+			List<Map<String, Object>> stuSectAssocs = (List<Map<String, Object>>) transcripts
+					.get(Constants.ATTR_STUDENT_SECTION_ASSOC);
+			String semesterString = null;
+			for (Map<String, Object> assoc : stuSectAssocs) {
+	            if(((String) assoc.get(Constants.ATTR_SECTION_ID)).equalsIgnoreCase(sectionId)) {
+	            	Map<String, Object> sections = (Map<String, Object>)assoc.get(Constants.ATTR_SECTIONS);
+	            	String term = (String) ((Map) sections.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_TERM);
+	            	String year = (String) ((Map) sections.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_SCHOOL_YEAR);
+				    semesterString = term.replaceAll(" ", "")
+							+ year.replaceAll(" ", "");
+				    break;
+	            }
 			}
-			return false;
+			
+			//iterate and add to letter grade
+			List<Map<String, Object>> gradeEntries = (ArrayList<Map<String, Object>>)student.get("studentGradebookEntries");
+			if(semesterString != null) { 
+				for(Map<String, Object> currentGrade : gradeEntries){
+					GenericEntity gradeDate = new GenericEntity();
+					DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+					double numericGrade = (Double)currentGrade.get(Constants.ATTR_NUMERIC_GRADE_EARNED);
+					try {
+						Date date = formatter.parse((String)currentGrade.get(Constants.ATTR_DATE_FULFILLED));
+						gradeDate.put(Constants.ATTR_DATE_FULFILLED, date);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+	                gradeDate.put(Constants.ATTR_NUMERIC_GRADE_EARNED, numericGrade);
+	                sortedList.add(gradeDate);  
+				}
+				student.put(semesterString, sortedList);
+			}
+		}catch(ClassCastException ex){
+			ex.printStackTrace();
+		} catch(NullPointerException ex) {
+			ex.printStackTrace();
 		}
+
+		
 	}
 
     /**

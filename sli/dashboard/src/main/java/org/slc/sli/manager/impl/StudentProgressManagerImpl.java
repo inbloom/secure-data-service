@@ -415,7 +415,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
      * @author srupasinghe
      *
      */
-    class DateFulFilledComparator implements Comparator<GenericEntity> {
+    public class DateFulFilledComparator implements Comparator<GenericEntity> {
 
         @Override
         public int compare(GenericEntity o1, GenericEntity o2) {

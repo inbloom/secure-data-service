@@ -309,21 +309,28 @@ DashboardUtil.Grid.Formatters = {
 			return  returnValue;
 		},
 
+                NumberGrade: function(value, options, rowobject) {
+                    var displayValue = "";
+                    for(var index in value) {
+                        var dateGrade = value[index];
+                        if(dateGrade.numericGradeEarned !== null && dateGrade.numericGradeEarned !== undefined) {
+                            displayValue = displayValue + "<br/>"+ dateGrade.numericGradeEarned;
+                        }
+                    }
+                    return "<div class=\"" + "\">"+ displayValue + "</div>";
+                },
+
 		TearDrop: function(value, options, rowObject) {
                         //var displayValue = "<table border=\"0\">";
-                        var displayValue;
-                        var courseIndex;
-			var teardropStyle; 
+                        var displayValue = "";
 
-                        for(courseIndex in value){
+                        for(var courseIndex in value){
                             var course = value[courseIndex];
-			    teardropStyle = "<div class=\"" + 
-                                DashboardUtil.teardrop.getStyle(course.letterGrade, null) +  
-                                "\">" + course.letterGrade + "</div>";
-                            //var row = "<tr><td>" + course.courseTitle + "</td><td>" + teardropStyle + "</td></tr>";
-                            if(displayValue === undefined && teardropStyle !== undefined) {
-                                displayValue = teardropStyle;
-                            } else if(teardropStyle !== undefined && teardropStyle !== null){
+                            if(course.letterGrade !== null && course.letterGrade !== undefined) {
+			        var teardropStyle = "<div class=\"" + 
+                                    DashboardUtil.teardrop.getStyle(course.letterGrade, null) +  
+                                    "\">" + course.letterGrade + "</div>";
+                                //var row = "<tr><td>" + course.courseTitle + "</td><td>" + teardropStyle + "</td></tr>";
                                 //displayValue = displayValue + row;
                                 displayValue = displayValue + teardropStyle;
                             }
