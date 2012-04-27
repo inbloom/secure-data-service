@@ -303,100 +303,156 @@ public class PopulationManagerImpl implements PopulationManager {
 
         student.remove(Constants.ATTR_LINKS);
     }
-
-
+    
     /**
-     * This method adds the final grades of a student to the student data. It will only grab the
-     * latest two grades.
-     * Ideally we would filter on subject area, but there is currently no subject area data in the
-     * SDS.
-     *
-     * @param student
+     * Grabs the subject area from the data based on the section ID.
+     * @param stuSectAssocs
+     * @param sectionId
+     * @return
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    private void addFinalGrade(GenericEntity student, String sectionId) {
-        try {
-            Map<String, Object> transcripts = (Map<String, Object>) student.get(Constants.ATTR_TRANSCRIPT);
-            if (transcripts == null) {
-                return;
-            }
-            List<Map<String, Object>> stuSectAssocs = (List<Map<String, Object>>) transcripts
-                    .get(Constants.ATTR_STUDENT_SECTION_ASSOC);
-            List<Map<String, Object>> stuTransAssocs = (List<Map<String, Object>>) transcripts
-                    .get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC);
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private String getSubjectArea(List<Map<String, Object>> stuSectAssocs,
+			String sectionId) {
+		String subjectArea = null;
+		for (Map<String, Object> assoc : stuSectAssocs) {
+			if (sectionId.equalsIgnoreCase((String) assoc
+					.get(Constants.ATTR_SECTION_ID))) {
+				Map<String, Object> sections = (Map<String, Object>) assoc
+						.get(Constants.ATTR_SECTIONS);
+				subjectArea = (String) ((Map) sections
+						.get(Constants.ATTR_COURSES))
+						.get(Constants.ATTR_SUBJECTAREA);
+				break;
+			}
+		}
 
-            // Course IDs ordered so that newest course is first. Need to do this because we should
-            // show the
-            // latest courses first.
+		return subjectArea;
+	}
+	
+	/**
+	 * Extracts grades from transcriptAssociationRecord based on sections in the
+	 * passed. For each section where a transcript with final letter grade
+	 * exist, the grade is added to the list of grades for the semester.
+	 * 
+	 * @param student
+	 * @param interSections
+	 * @param stuTransAssocs
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void addSemesterGrades(GenericEntity student,
+			List<Map<String, Object>> interSections,
+			List<Map<String, Object>> stuTransAssocs) {
 
-            Map<Date, Map<String, Object>> previousCourseIds = new TreeMap<Date, Map<String, Object>>(
-                    new Comparator<Date>() {
-                        @Override
-                        public int compare(Date a, Date b) {
-                            if (a.compareTo(b) > 0) {
-                                return -1;
-                            } else if (a.compareTo(b) == 0) {
-                                return 0;
-                            } else {
-                                return 1;
-                            }
-                        }
-                    });
+		// Iterate through the course Id's and grab transcripts grades, once
+		// we have NUMBER_OF_SEMESTERS transcript grades, we're done
+		for (Map<String, Object> section : interSections) {
+			String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
 
-            // Collect all courseIds based on subject Area if possible
-            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            for (Map<String, Object> assoc : stuSectAssocs) {
-                Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
-                Date date = formatter.parse((String) ((Map) sections.get(Constants.ATTR_SESSIONS))
-                        .get(Constants.ATTR_ASSESSMENT_PERIOD_END_DATE));
-                previousCourseIds.put(date, sections);
-            }
+			// Find the correct course. If that course is found in
+			// the transcript, then record that letter grade to the
+			// semesterScores.
+			for (Map<String, Object> assoc : stuTransAssocs) {
+				if (courseId.equalsIgnoreCase((String) assoc
+						.get(Constants.ATTR_COURSE_ID))) {
+					String finalLetterGrade = (String) assoc
+							.get(Constants.ATTR_FINAL_LETTER_GRADE);
+					String term = (String) ((Map) section
+							.get(Constants.ATTR_SESSIONS))
+							.get(Constants.ATTR_TERM);
+					String year = (String) ((Map) section
+							.get(Constants.ATTR_SESSIONS))
+							.get(Constants.ATTR_SCHOOL_YEAR);
+					String courseTitle = (String) ((Map) section
+							.get(Constants.ATTR_COURSES))
+							.get(Constants.ATTR_COURSE_TITLE);
+					if (finalLetterGrade != null) {
+						String semesterString = term.replaceAll(" ", "")
+								+ year.replaceAll(" ", "");
+						Map<String, Object> grade = new LinkedHashMap<String, Object>();
+						grade.put(Constants.SECTION_LETTER_GRADE,
+								finalLetterGrade);
+						grade.put(Constants.SECTION_COURSE, courseTitle);
+						List<Map<String, Object>> semesterScores = (List<Map<String, Object>>) student
+								.get(semesterString);
+						if (semesterScores == null) {
+							semesterScores = new ArrayList<Map<String, Object>>();
+						}
+						semesterScores.add(grade);
+						student.put(semesterString, semesterScores);
+						break;
+					}
+				}
+			}
+		}
+	}
 
-            // Iterate through the course Id's and grab transcripts grades, once we have 2
-            // transcript grades, we're done
-            int count = 1;
-            for (Date key : previousCourseIds.keySet()) {
+	/**
+	 * This method adds the final grades of a student to the student data. It
+	 * will only grab the latest two grades. Ideally we would filter on subject
+	 * area, but there is currently no subject area data in the SDS.
+	 * 
+	 * @param student
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void addFinalGrade(GenericEntity student, String sectionId) {
+		try {
+			Map<String, Object> transcripts = (Map<String, Object>) student
+					.get(Constants.ATTR_TRANSCRIPT);
+			if (transcripts == null) {
+				return;
+			}
 
-                String courseId = (String) (previousCourseIds.get(key).get(Constants.ATTR_COURSE_ID));
-                for (Map<String, Object> assoc : stuTransAssocs) {
-                    if (courseId.equalsIgnoreCase((String) assoc.get(Constants.ATTR_COURSE_ID))) {
-                        String finalLetterGrade = (String) assoc.get(Constants.ATTR_FINAL_LETTER_GRADE);
-                        Map<String, Object> sections = previousCourseIds.get(key);
-                        String term = (String) ((Map) sections.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_TERM);
-                        String year = (String) ((Map) sections.get(Constants.ATTR_SESSIONS))
-                                .get(Constants.ATTR_SCHOOL_YEAR);
-                        String courseTitle = (String) ((Map) sections.get(Constants.ATTR_COURSES))
-                                .get(Constants.ATTR_COURSE_TITLE);
-                        if (finalLetterGrade != null) {
-                            Map<String, Object> grade = new LinkedHashMap<String, Object>();
-                            grade.put(Constants.SECTION_LETTER_GRADE, finalLetterGrade);
-                            grade.put(Constants.SECTION_HEADER, year + " " + term + " " + courseTitle);
-                            student.put(Constants.SECTION + count, grade);
-                            ++count;
-                            break;
-                        }
-                    }
-                }
+			List<Map<String, Object>> stuSectAssocs = (List<Map<String, Object>>) transcripts
+					.get(Constants.ATTR_STUDENT_SECTION_ASSOC);
+			String subjectArea = getSubjectArea(stuSectAssocs, sectionId);
+			List<Map<String, Object>> interSections = new ArrayList<Map<String, Object>>();
+			
+			for (Map<String, Object> assoc : stuSectAssocs) {
+				Map<String, Object> sections = (Map<String, Object>) assoc
+						.get(Constants.ATTR_SECTIONS);
+				// This case will catch if the subjectArea is null
+				if (subjectArea == null
+						|| subjectArea
+								.equalsIgnoreCase((String) ((Map) sections
+										.get(Constants.ATTR_COURSES))
+										.get(Constants.ATTR_SUBJECTAREA))) {
+					interSections.add(sections);
+				}
+			}
 
-                if (count > Constants.NUMBER_OF_SECTIONS) {
-                    break;
-                }
-            }
+			addSemesterGrades(student, interSections,
+					(List<Map<String, Object>>) transcripts
+							.get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC));
 
-        } catch (ClassCastException ex) {
-            ex.printStackTrace();
-            Map<String, Object> grade = new LinkedHashMap<String, Object>();
-            student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
-        } catch (NullPointerException ex) {
-            ex.printStackTrace();
-            Map<String, Object> grade = new LinkedHashMap<String, Object>();
-            student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-            Map<String, Object> grade = new LinkedHashMap<String, Object>();
-            student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
-        }
-    }
+		} catch (ClassCastException ex) {
+			ex.printStackTrace();
+			Map<String, Object> grade = new LinkedHashMap<String, Object>();
+			student.put(Constants.ATTR_SCORE_RESULTS,
+					grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
+		} catch (NullPointerException ex) {
+			ex.printStackTrace();
+			Map<String, Object> grade = new LinkedHashMap<String, Object>();
+			student.put(Constants.ATTR_SCORE_RESULTS,
+					grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
+		}
+	}
+	
+	private class IdYear {
+		private String id;
+		private Date date;
+		public String getId() {return id; }
+		public Date getDate(){return date;}
+		public IdYear(String id, Date date) {
+			this.id = id;
+			this.date = date;
+		}
+		public boolean equals(IdYear other) {
+			if(this.date.compareTo(other.getDate()) == 0 && this.id.equalsIgnoreCase(other.getId())){
+				return true;
+			}
+			return false;
+		}
+	}
 
     /**
      * Find the required assessment results according to the data configuration. Filter out the

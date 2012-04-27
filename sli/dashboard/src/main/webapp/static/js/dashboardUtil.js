@@ -310,9 +310,26 @@ DashboardUtil.Grid.Formatters = {
 		},
 
 		TearDrop: function(value, options, rowObject) {
-			var style = DashboardUtil.teardrop.getStyle(value, null);
+                        //var displayValue = "<table border=\"0\">";
+                        var displayValue;
+                        var courseIndex;
+			var teardropStyle; 
 
-			return "<div class=\"" + style +  "\">" + value + "</div>";
+                        for(courseIndex in value){
+                            var course = value[courseIndex];
+			    teardropStyle = "<div class=\"" + 
+                                DashboardUtil.teardrop.getStyle(course.letterGrade, null) +  
+                                "\">" + course.letterGrade + "</div>";
+                            //var row = "<tr><td>" + course.courseTitle + "</td><td>" + teardropStyle + "</td></tr>";
+                            if(displayValue === undefined && teardropStyle !== undefined) {
+                                displayValue = teardropStyle;
+                            } else if(teardropStyle !== undefined && teardropStyle !== null){
+                                //displayValue = displayValue + row;
+                                displayValue = displayValue + teardropStyle;
+                            }
+                        }
+			//return displayValue + "</table>";
+			return displayValue; 
 		},
 		
 		restLink : function(value, options, rowObject)
@@ -340,7 +357,14 @@ DashboardUtil.Grid.Sorters = {
 				return i ? i : -1;
 			}
 			
-		}
+		},
+
+                LetterGrade: function(params) {
+                   return function(semesterGrades, rowObject) {
+                        var i = DashboardUtil.teardrop.GRADE_TREND_CODES[semesterGrades[0].letterGrade]; 
+                        return i ? i : -1;
+                   }
+                }
 }
 
 DashboardUtil.numbersFirstComparator = function(a,b){
