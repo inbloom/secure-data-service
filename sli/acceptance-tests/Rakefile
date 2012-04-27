@@ -716,7 +716,7 @@ end
 
 desc "Run V1 School Tests"
 task :v1SchoolTests => [:realmInit] do
-  runFixtureAndTests("test/features/apiV1/entities/school", "school", "school_fixture.json")
+  runFixtureAndTests("test/features/apiV1/entities/school", "educationOrganization", "educationOrganization_fixture.json")
 end
 
 desc "Run V1 Student Tests"
