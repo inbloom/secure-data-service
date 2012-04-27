@@ -29,24 +29,24 @@ import org.springframework.context.ApplicationContext;
 
 /**
  * Encrypts/Decrypts data using AES
- * 
+ *
  * @author Ryan Farris <rfarris@wgen.net>
- * 
+ *
  */
 public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
-    
+
     private Cipher encryptCipher;
     private Cipher decryptCipher;
 
     private static final Logger LOG = LoggerFactory.getLogger(AesCipher.class);
-    
+
     public AesCipher() {
     }
-    
+
     public AesCipher(SecretKey key) {
         this.setKey(key);
     }
-    
+
     @Override
     public String encrypt(Object data) {
         if (data instanceof String) {
@@ -80,10 +80,11 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
             return type + encryptFromBytes(bytes);
         }
     }
-    
+
     @Override
     public Object decrypt(String data) {
-        String[] splitData = data.split(":");
+        String[] splitData = org.apache.commons.lang3.StringUtils.split(data, ':');
+        //String[] splitData = data.split(":");
         if (splitData.length != 2) {
             return null;
         } else {
@@ -102,7 +103,7 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
             }
         }
     }
-    
+
     private Object decryptBinary(String data, Class<?> expectedType) {
         byte[] decoded = decryptToBytes(data);
         DataInputStream dis = new DataInputStream(new ByteArrayInputStream(decoded));
@@ -128,10 +129,10 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
             }
         }
     }
-    
+
     private String encryptFromBytes(byte[] data) {
         try {
-            
+
             byte[] encrypted = this.encryptCipher.doFinal(data);
             String encodedData = Base64.encodeBase64String(encrypted);
             return encodedData;
@@ -139,7 +140,7 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
             throw new RuntimeException(e);
         }
     }
-    
+
     private byte[] decryptToBytes(String encodedData) {
         byte[] data = Base64.decodeBase64(encodedData);
         try {
@@ -149,29 +150,29 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
             throw new RuntimeException(e);
         }
     }
-    
+
     // Support for DI
     String keyStore;
     String propertiesFile;
-    
+
     @Autowired
     ApplicationContext springContext;
-    
+
     public void setKeyStore(String keyStore) {
         this.keyStore = keyStore;
     }
-    
+
     public void setPropertiesFile(String propFile) {
         this.propertiesFile = propFile;
     }
-    
+
     @SuppressWarnings("unused")
     @PostConstruct
     private void init() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException,
             UnrecoverableKeyException {
-        
+
         String keyStorePass, keyAlias, keyPass;
-        
+
         FileInputStream propStream = null;
         try {
             propStream = new FileInputStream(new File(propertiesFile));
@@ -185,7 +186,7 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
                 propStream.close();
             }
         }
-        
+
         if (keyStorePass == null) {
             throw new RuntimeException("No key store password found in properties file.");
         }
@@ -195,9 +196,9 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
         if (keyPass == null) {
             throw new RuntimeException("No key password found in properties file");
         }
-        
+
         KeyStore ks = KeyStore.getInstance("JCEKS");
-        
+
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(new File(keyStore));
@@ -213,12 +214,12 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
         }
         this.setKey((SecretKey) key);
     }
-    
+
     protected void setKey(SecretKey key) {
         try {
             this.encryptCipher = Cipher.getInstance("AES");
             this.encryptCipher.init(Cipher.ENCRYPT_MODE, key);
-            
+
             this.decryptCipher = Cipher.getInstance("AES");
             this.decryptCipher.init(Cipher.DECRYPT_MODE, key);
         } catch (GeneralSecurityException e) {

@@ -311,9 +311,10 @@ module DataProvider
       "administration_url" => "https://slidev.org/admin",
       "image_url" => "https://slidev.org/image",
       "application_url" => "https://slidev.org/image",
-      "registered" => true,
+      "registration" => {},
       "version" => "3.14",
-      "developer_info" => { "license_acceptance" => true, "organization" => "Acme" } 
+      "developer_info" => { "license_acceptance" => true, "organization" => "Acme" }, 
+      "authorized_ed_orgs" => []
     }
   end
 end

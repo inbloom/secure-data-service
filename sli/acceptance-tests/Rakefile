@@ -55,7 +55,8 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-  sh "cucumber #{testDirPath} #{EXPAND} --tags ~@wip #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
+  @tags ||= ["~@wip", "~@sandbox"]
+  sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
     else
@@ -196,10 +197,11 @@ end
 ############################################################
 desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
-                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest, 
+                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, 
-                         :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest] do
+                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
+                         :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionCommonCoreTests, :ingestionIndexTest] do
+
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -209,7 +211,7 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :i
 end
 
 desc "Run Common Core Standards Tests"
-task :ingestionCommonCoreTest do
+task :ingestionCommonCoreTests do
   runTests("test/features/ingestion/features/ingestion_common_core_standards.feature")
 end
 
@@ -221,6 +223,11 @@ end
 desc "Run Ingestion Acceptance SDS Tests"
 task :ingestionAcceptanceSdsTest do
   runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
+end
+
+desc "Run Ingestion Acceptance Parallel Tests"
+task :ingestionAcceptanceParallelTest do
+  runTests("test/features/ingestion/features/ingestion_acceptance_parallel_test.feature")
 end
 
 desc "Run Ingestion Session Test"
@@ -339,6 +346,12 @@ task :ingestionMongoDBPerformanceTest do
   runTests("test/features/ingestion/features/ingestion_mongo_performance.feature")
 end
 
+desc "Run Ingestion Index Tests"
+task :ingestionIndexTest do
+  runTests("test/features/ingestion/features/index_testing.feature")
+end
+
+
 ############################################################
 # Ingestion Offline Tool tests start
 ############################################################
@@ -394,6 +407,7 @@ end
 task :apiV1EntityTests => [:v1AssessmentTests,
                            :v1LearningStandardTests,
                            :v1LearningObjectiveTests,
+                           :v1CCSTests,
                            :v1AttendanceTests,
                            :v1CourseTests,
                            :v1EducationOrganizationTests,
@@ -749,6 +763,12 @@ task :v1LearningObjectiveTests => [:realmInit] do
   runFixtureAndTests("test/features/apiV1/entities/learningObjective","learningObjective","learningObjective_fixture.json")
 end
 
+desc "Run V1 Common Core Standards reference traversal Tests"
+task :v1CCSTests => [:realmInit] do
+  setFixture("learningStandard", "learningStandard_fixture.json")
+  runFixtureAndTests("test/features/apiV1/end_user_stories/commonCoreStandards/API/api_ccs.feature","learningObjective","learningObjective_fixture.json")
+end
+
 desc "Run V1 LearningStandard Tests"
 task :v1LearningStandardTests => [:realmInit] do
   runFixtureAndTests("test/features/apiV1/entities/learningStandard","learningStandard","learningStandard_fixture.json")
@@ -860,6 +880,22 @@ end
 # API V1 tests end
 ############################################################
 
+
+############################################################
+# API Sandbox Tests
+############################################################
+desc "Run Sandbox mode Tests"
+task :adminSandboxTests do
+  @tags = ["~@wip", "@sandbox"]
+  Rake::Task["adminToolsTests"].invoke
+end
+
+desc "Run Sandbox API tests"
+task :apiSandboxTests do
+  @tags = ["~@wip", "@sandbox"]
+  Rake::Task["securityTests"].invoke
+end
+
 ############################################################
 # API Selenium tests start
 # NOTE: Do not add these tests to the production run yet!
@@ -916,9 +952,9 @@ task :idpAuthTests => [:realmInit] do
   end
 end
 
-desc "Run Sandbox Mock IDP Authentication Selenium Tests"
-task :mockIDPAuthTests => [:realmInit, :importSandboxData] do
-  runTests("test/features/apiV1/end_user_stories/sandbox/mockIDP/MockIDP.feature")
+desc "Run Sandbox Simple IDP Authentication Selenium Tests"
+task :simpleIDPAuthTests => [:realmInit, :importSandboxData] do
+  runTests("test/features/apiV1/end_user_stories/sandbox/simpleIDP/MockIDP.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1123,7 +1159,7 @@ task :integrationTests => [:realmInitNoPeople] do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
-  Rake::Task["dashboardSdsTests"].invoke  
+  Rake::Task["dashboardSdsTests"].invoke
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

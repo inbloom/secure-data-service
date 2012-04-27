@@ -24,6 +24,7 @@ import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.landingzone.LandingZone;
+import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -47,10 +48,9 @@ public class JobReportingProcessor implements Processor {
     private static final Logger LOG = LoggerFactory.getLogger(JobReportingProcessor.class);
 
     @Autowired
-    private LandingZone landingZone;
-
-    @Autowired
     private BatchJobDAO batchJobDAO;
+
+    public static final String JOB_STAGE_RESOURCE_ID = "job";
 
     @Override
     public void process(Exchange exchange) {
@@ -89,6 +89,7 @@ public class JobReportingProcessor implements Processor {
         FileLock lock = null;
         FileChannel channel = null;
         try {
+            LandingZone landingZone = new LocalFileSystemLandingZone(new File(job.getTopLevelSourceId()));
             File file = landingZone.getLogFile(job.getId());
             FileOutputStream outputStream = new FileOutputStream(file);
             channel = outputStream.getChannel();
@@ -134,38 +135,36 @@ public class JobReportingProcessor implements Processor {
 
         try {
             List<Error> errors = batchJobDAO.findBatchJobErrors(job.getId());
+            LandingZone landingZone = new LocalFileSystemLandingZone(new File(job.getTopLevelSourceId()));
             for (Error error : errors) {
 
                 String externalResourceId = getExternalResourceId(error.getResourceId(), job);
 
-                if (externalResourceId != null) {
-
-                    PrintWriter externalResourceErrorWriter = null;
+                    PrintWriter errorWriter = null;
                     if (FaultType.TYPE_ERROR.getName().equals(error.getSeverity())) {
 
                         hasErrors = true;
-                        externalResourceErrorWriter = getExternalResourceTypeWriter("error", job.getId(),
-                                externalResourceId, resourceToErrorMap);
+                        errorWriter = getErrorWriter("error", job.getId(),
+                                externalResourceId, resourceToErrorMap, landingZone);
 
-                        if (externalResourceErrorWriter != null) {
-                            writeErrorLine(externalResourceErrorWriter, error.getErrorDetail());
+                        if (errorWriter != null) {
+                            writeErrorLine(errorWriter, error.getErrorDetail());
                         } else {
                             LOG.error("Error: Unable to write to error file for: {} {}", job.getId(),
                                     externalResourceId);
                         }
                     } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
 
-                        externalResourceErrorWriter = getExternalResourceTypeWriter("warn", job.getId(),
-                                externalResourceId, resourceToWarningMap);
+                        errorWriter = getErrorWriter("warn", job.getId(),
+                                externalResourceId, resourceToWarningMap, landingZone);
 
-                        if (externalResourceErrorWriter != null) {
-                            writeWarningLine(externalResourceErrorWriter, error.getErrorDetail());
+                        if (errorWriter != null) {
+                            writeWarningLine(errorWriter, error.getErrorDetail());
                         } else {
                             LOG.error("Error: Unable to write to warning file for: {} {}", job.getId(),
                                     externalResourceId);
                         }
                     }
-                }
             }
 
         } catch (IOException e) {
@@ -181,13 +180,24 @@ public class JobReportingProcessor implements Processor {
         return hasErrors;
     }
 
-    private PrintWriter getExternalResourceTypeWriter(String type, String batchJobId, String externalResourceId,
-            Map<String, PrintWriter> externalFileResourceToErrorMap) throws IOException {
+    private PrintWriter getErrorWriter(String type, String batchJobId, String externalResourceId,
+            Map<String, PrintWriter> externalFileResourceToErrorMap, LandingZone landingZone) throws IOException {
+
+        // writer for job and stage level (non-resource specific) errors and warnings
+        if (externalResourceId == null) {
+            externalResourceId = JOB_STAGE_RESOURCE_ID;
+        }
 
         PrintWriter writer = externalFileResourceToErrorMap.get(externalResourceId);
 
         if (writer == null) {
-            String errorFileName = type + "." + externalResourceId + "." + System.currentTimeMillis() + ".log";
+            String errorFileName = null;
+
+            if (JOB_STAGE_RESOURCE_ID.equals(externalResourceId)) {
+                errorFileName = JOB_STAGE_RESOURCE_ID + "_" + type + "-" + batchJobId + ".log";
+            } else {
+                errorFileName = type + "." + externalResourceId + "." + System.currentTimeMillis() + ".log";
+            }
             writer = new PrintWriter(new FileWriter(landingZone.createFile(errorFileName)));
             externalFileResourceToErrorMap.put(externalResourceId, writer);
             return writer;
@@ -325,9 +335,4 @@ public class JobReportingProcessor implements Processor {
             }
         }
     }
-
-    public void setLandingZone(LandingZone lz) {
-        this.landingZone = lz;
-    }
-
 }
