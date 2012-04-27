@@ -1,8 +1,11 @@
 package org.slc.sli.client;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.slc.sli.util.Constants;
+import org.slc.sli.util.URLBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -11,9 +14,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-
-import org.slc.sli.util.Constants;
-import org.slc.sli.util.URLBuilder;
 
 /**
  * 
@@ -94,6 +94,42 @@ public class RESTClient {
         logger.debug("Token is null in call to RESTClient for path {}", path);
 
         return null;
+    }
+
+    /**
+     * Make a PUT request to a REST service
+     * 
+     * @param path
+     *            the unique portion of the requested REST service URL
+     * @param token
+     *            not used yet
+     * 
+     * @param entity
+     *            entity used for update
+     * 
+     * @throws NoSessionException
+     */
+    public void putJsonRequestWHeaders(String path, String token, Object entity) {
+        
+        if (token != null) {
+            URLBuilder url = null;
+            if (!path.startsWith("http")) {
+                url = new URLBuilder(getSecurityUrl());
+                url.addPath(path);
+            } else {
+                url = new URLBuilder(path);
+            }
+            
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Authorization", "Bearer " + token);
+            HttpEntity requestEntity = new HttpEntity(entity, headers);
+            logger.debug("Updating API at: {}", url);
+            try {
+                template.put(url.toString(), requestEntity);
+            } catch (HttpClientErrorException e) {
+                logger.debug("Catch HttpClientException: {}", e.getStatusCode());
+            }
+        }
     }
 
     public String getJsonRequest(String path) {

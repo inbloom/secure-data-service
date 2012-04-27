@@ -1,13 +1,12 @@
 {
-    id : "assessmentHist",
+    id : "assessmentHistISATW",
+    parentId: "assessmentHist",
     type : "GRID",
-    name : "Test History : ISAT Reading",
+    name : "Test History : ISAT Writing",
     data : {
-        entity: "studentAssessment",
-        cacheKey: "studentAssessment",
-        params: { assessmentFamily: "ISAT Reading"}
+        cacheKey: 'assessmentHistISATW',
+        params: { assessmentFamily: "ISAT Writing"}
     },
-    root : "assessments",
     items : [
         {id : "year", name : "Date", type : "FIELD", datatype : "string", field : "administrationDate", width : 90 },
         {id : "grade", name : "Grade", type : "FIELD", datatype : "string", field : "assessments.gradeLevelAssessedCode", width : 75 },

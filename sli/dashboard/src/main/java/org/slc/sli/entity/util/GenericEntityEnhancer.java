@@ -56,6 +56,18 @@ public class GenericEntityEnhancer {
         }
         return entity;
     }
+    
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public static Map convertGradeLevel(Map entity, String elementName) {
+        // determin this entity has gradeLevel
+        String gradeLevel=(String) entity.get(elementName);
+
+        // if gradeLevel exists, then add gradeLevelCode in the entity
+        if (gradeLevel != null && gradeConversion.containsKey(gradeLevel)) {
+            entity.put(elementName+"Code", gradeConversion.get(gradeLevel));
+        }
+        return entity;
+    }
 
     /**
      * Enhance input GenericEntity for StudentiSchoolAssociation

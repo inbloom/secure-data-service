@@ -1,14 +1,20 @@
 package org.slc.sli.unit.client;
 
 import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-import org.slc.sli.client.RESTClient;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import org.junit.Test;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.slc.sli.client.RESTClient;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * 
@@ -47,4 +53,46 @@ public class RESTClientTest {
         String s = client.makeJsonRequestWHeaders("http://www.google.com", "fakeToken");
         assertEquals(s, "fakeResponse");
     }
+
+    @Test
+    public void testPutJsonRequestWHeaders() {
+        
+        String path = "http://local.slidev.org";
+        String token = "token";
+        String id = "id";
+        String json = "{" + "\"component_1\": " + "{" + "\"id\" : \"component_1\", " + "\"name\" : \"Component 1\", "
+                + "\"type\" : \"LAYOUT\", " + "\"items\": ["
+                + "{\"id\" : \"component_1_1\", \"name\": \"First Child Component\", \"type\": \"PANEL\"}, "
+                + "{\"id\" : \"component_1_2\", \"name\": \"Second Child Component\", \"type\": \"PANEL\"}" + "]" + "}"
+                + "}";
+        
+        RESTClient client = new RESTClient();
+        RestTemplate mockTemplate = mock(RestTemplate.class);
+        client.setTemplate(mockTemplate);
+        RestTemplateAnswer restTemplateAnswer = new RestTemplateAnswer();
+        Mockito.doAnswer(restTemplateAnswer).when(mockTemplate).put(Mockito.anyString(), Mockito.anyObject());
+        client.putJsonRequestWHeaders(path, token, json);
+        String customJson = restTemplateAnswer.getJson();
+        
+        assertNotNull(customJson);
+        assertEquals(json, customJson);
+        
+    }
+    
+    private static class RestTemplateAnswer implements Answer {
+        
+        private String json;
+        
+        @Override
+        public Object answer(InvocationOnMock invocation) throws Throwable {
+            HttpEntity httpEntity = (HttpEntity) invocation.getArguments()[1];
+            json = (String) httpEntity.getBody();
+            return null;
+        }
+        
+        public String getJson() {
+            return json;
+        }
+    }
+    
 }
