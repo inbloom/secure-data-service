@@ -100,8 +100,6 @@ public class PersistenceProcessor implements Processor {
                 // sets jobid in thread local
                 neutralRecordMongoAccess.registerBatchId(newJob.getId());
 
-            // Ensure database indexing for this job. Tom Shewchuk 04/21/2012.
-
                 for (ResourceEntry resource : newJob.getResourceEntries()) {
 
                     if (FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resource.getResourceFormat())) {

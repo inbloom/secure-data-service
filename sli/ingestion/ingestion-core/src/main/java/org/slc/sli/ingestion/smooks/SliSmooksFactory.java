@@ -61,8 +61,6 @@ public class SliSmooksFactory {
             nrMongoStagingWriter.ensureIndex();
 
 
-            // Ensure database indexing for this job. Tom Shewchuk 04/21/2012.
-
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             for (String targetSelector : targetSelectorList) {
                 smooks.addVisitor(smooksEdFiVisitor, targetSelector);
