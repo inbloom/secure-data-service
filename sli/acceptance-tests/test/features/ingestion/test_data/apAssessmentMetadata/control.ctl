@@ -1,4 +1,3 @@
-@tenantId=IL
 edfi-xml,student,InterchangeStudent.xml,639d3bd8bedadfd333dcb7bd21dad42d
 edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata-AP-Eng.xml,d1828c20e6af119b6e6e06ae750b6690
 edfi-xml,StudentAssessment,InterchangeStudentAssessment-CgrayAP-English.xml,ec4b173d91d05951956fe2b51f53f0bd
