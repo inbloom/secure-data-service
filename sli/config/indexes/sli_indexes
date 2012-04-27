@@ -1,5 +1,5 @@
 db["assessment"].ensureIndex({"metaData.tenantId":1, "metaData.externalId":1});
-db["attendance"].ensureIndex({"metaData.tenantId":1, "body.studentId":1});
+db["attendance"].ensureIndex({"metaData.tenantId":1, "body.studentId":1, "body.schoolId":1});
 db["course"].ensureIndex({"metaData.tenantId":1, "metaData.externalId":1});
 db["educationOrganization"].ensureIndex({"metaData.tenantId":1, "metaData.externalId":1});
 db["gradebookEntry"].ensureIndex({"metaData.tenantId":1, "metaData.externalId":1});
