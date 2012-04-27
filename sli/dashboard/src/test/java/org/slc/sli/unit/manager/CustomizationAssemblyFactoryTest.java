@@ -71,8 +71,6 @@ public class CustomizationAssemblyFactoryTest {
 
     private static Map<String, GenericEntity> sampleEntityMap;
 
-    private static GenericEntity simpleNoGenderInfoStudentEntity;
-
     /**
      * Expose some methods
      * @author agrebneva
@@ -262,14 +260,9 @@ public class CustomizationAssemblyFactoryTest {
         simpleFemaleStudentEntity.put("gender", "female");
         simpleFemaleStudentEntity.put("gradeNumeric", 7);
 
-        simpleNoGenderInfoStudentEntity = new GenericEntity();
-        simpleNoGenderInfoStudentEntity.put("id", "3");
-        simpleNoGenderInfoStudentEntity.put("gradeNumeric", 7);
-
         sampleEntityMap = new HashMap<String, GenericEntity>();
         sampleEntityMap.put(simpleMaleStudentEntity.getString("id"), simpleMaleStudentEntity);
         sampleEntityMap.put(simpleFemaleStudentEntity.getString("id"), simpleFemaleStudentEntity);
-        sampleEntityMap.put(simpleNoGenderInfoStudentEntity.getString("id"), simpleNoGenderInfoStudentEntity);
     }
 
     @Before
@@ -336,11 +329,6 @@ public class CustomizationAssemblyFactoryTest {
         Assert.assertFalse(
                 "Must be true for a student with gender = 'male'",
                 customizationAssemblyFactory.checkCondition(panel, panel, simpleFemaleStudentEntity));
-
-        Assert.assertFalse(
-                "Must be false for a student with no gender field available",
-                customizationAssemblyFactory.checkCondition(panel, panel, simpleNoGenderInfoStudentEntity));
-
         panel = configMap.get("panel1");
         Assert.assertTrue(
                 "Must be true for a student with gradeNumeric = 5",
@@ -348,7 +336,6 @@ public class CustomizationAssemblyFactoryTest {
         Assert.assertFalse(
                 "Must be false for a student with gradeNumeric = 7",
                 customizationAssemblyFactory.checkCondition(panel, panel, simpleFemaleStudentEntity));
-
     }
 
     /**

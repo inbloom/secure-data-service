@@ -204,10 +204,6 @@ public class SectionResource extends DefaultCrudEndpoint {
     public Response getStudentSectionAssociationStudents(
             @PathParam(ParameterConstants.SECTION_ID) final String sectionId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        
-        // add optional field to the query params. always include the student's grade level.
-        uriInfo.getQueryParameters(true).add(ParameterConstants.OPTIONAL_FIELDS, "gradeLevel");
-
         return super.read(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "sectionId", sectionId, "studentId",
                 ResourceNames.STUDENTS, headers, uriInfo);
     }

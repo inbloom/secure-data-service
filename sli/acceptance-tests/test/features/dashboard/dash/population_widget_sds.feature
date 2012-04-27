@@ -8,7 +8,11 @@ When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
 When I login as "cgray" "cgray1234"
 When I look in the ed org drop-down
-Then I see these values in the drop-down: "Daybreak School District 4529;Illinois State Board of Education"
+Then I see these values in the drop-down: "Sunset School District 4526;Daybreak School District 4529;Illinois State Board of Education"
+
+When I select ed org "Sunset School District 4526"
+When I look in the school drop-down
+Then I only see "Sunset Central High School"
 
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
@@ -26,10 +30,10 @@ Then I see these values in the drop-down: "Sec 145"
  And I select <section> "Sec 145"
 #User based views - we have multiple views
 Then I should have a dropdown selector named "viewSelect"
-And I should have a selectable view named "College Ready ELA View"
+#And I should have a selectable view named "College Ready ELA View"
 #User based views - views have different headers
-When I select view "College Ready ELA View"
-Then I should see a table heading "Reading Test Scores (Highest)"
+#When I select view "College Ready ELA View"
+#Then I should see a table heading "Reading Test Scores (Highest)"
 Then I see a list of 25 students
 #Client filter tests
 And I should have a dropdown selector named "filterSelect"

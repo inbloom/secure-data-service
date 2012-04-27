@@ -21,10 +21,10 @@
 
     <intercept-url pattern="/static/**" filters="none"/>    
     <intercept-url pattern="/" access="hasRole('Educator')"/>
-    <intercept-url pattern="/studentlist" access="hasAnyRole('Educator', 'IT Administrator')"/>
-    <intercept-url pattern="/studentlistcontent" access="hasAnyRole('Educator', 'IT Administrator')"/>
-    <intercept-url pattern="/service/**" access="hasAnyRole('Educator', 'IT Administrator')"/>
-    <intercept-url pattern="/studentprofile" access="hasAnyRole('Educator', 'IT Administrator')"/>
+    <intercept-url pattern="/studentlist" access="hasRole('Educator')"/>
+    <intercept-url pattern="/studentlistcontent" access="hasRole('Educator')"/>
+    <intercept-url pattern="/service/**" access="hasRole('Educator')"/>
+    <intercept-url pattern="/studentprofile" access="hasRole('Educator')"/>
     <intercept-url pattern="/exception" access="permitAll"/>
     <intercept-url pattern="/testException" access="permitAll"/>
     <intercept-url pattern="/test404" access="permitAll"/>

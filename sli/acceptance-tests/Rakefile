@@ -1119,24 +1119,19 @@ task :dashboardSdsPopWidgetTests do
   runTests("test/features/dashboard/dash/population_widget_sds.feature")
 end
 
-desc "Run dashboard integrated Tests - Student Profile Tests"
+desc "Run dashboard integrated Tests - Population Widget Tests"
 task :dashboardSdsStudentProfileTests do
   runTests("test/features/dashboard/dash/student_profile_sds.feature")
 end
 
-desc "Run dashboard integrated Tests - User Based Views Tests"
+desc "Run dashboard integrated Tests - Population Widget Tests"
 task :dashboardSdsUserBasedViewsTests do
   runTests("test/features/dashboard/dash/user_based_views_sds.feature")
 end
 
-desc "Run dashboard integrated Tests - Attendance Tests"
+desc "Run dashboard integrated Tests - Population Widget Tests"
 task :dashboardSdsAttendanceTests do
   runTests("test/features/dashboard/dash/attendance_sds.feature")
-end
-
-desc "Run dashboard integrated Tests - Simple Search Tests"
-task :dashboardStudentSearchTests do
-  runTests("test/features/dashboard/dash/student_search.feature")
 end
 
 desc "Run dashboard student gradebook entry tests"
