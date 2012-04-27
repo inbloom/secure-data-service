@@ -6,55 +6,55 @@
 var counterInt = 1;
 
 counter = function() {
-    counterInt ++;
-    return counterInt;
+	counterInt ++;
+	return counterInt;
 }
 
 DashboardUtil = {
-        
+		
 };
 
 DashboardProxy = {
-        data : {},
-        config: {},
-        widgetConfig: {},
-        loadData : function(data) {
-            jQuery.extend(this.data, data);
-        },
-        loadConfig : function(config) {
-            jQuery.extend(this.config, config);
-        },
-        loadWidgetConfig : function(widgetConfigArray) {
-            for (var i in widgetConfigArray) {
-                this.widgetConfig[widgetConfigArray[i].id] = widgetConfigArray[i];
-            }
-        },
-        load : function(componentId, id, callback) {
-            var prx = this;
-            $.ajax({
-                  url: contextRootPath + '/service/component/' + componentId + '/' + id,
-                  scope: this,
-                  success: function(panel){
-                      prx.data[componentId] = panel.data; 
-                      prx.config[componentId] = panel.viewConfig; 
-                      callback(panel);
-                  }});
-        },
-        getData: function(componentId) {
-            return this.data[componentId];
-        },
-        getConfig: function(componentId) {
-            return this.config[componentId];
-        },
-        getWidgetConfig: function(widget) {
-            return this.widgetConfig[widget];
-        }
-        
+		data : {},
+		config: {},
+		widgetConfig: {},
+		loadData : function(data) {
+			jQuery.extend(this.data, data);
+		},
+		loadConfig : function(config) {
+			jQuery.extend(this.config, config);
+		},
+		loadWidgetConfig : function(widgetConfigArray) {
+			for (var i in widgetConfigArray) {
+				this.widgetConfig[widgetConfigArray[i].id] = widgetConfigArray[i];
+			}
+		},
+		load : function(componentId, id, callback) {
+			var prx = this;
+			$.ajax({
+				  url: contextRootPath + '/service/component/' + componentId + '/' + id,
+				  scope: this,
+				  success: function(panel){
+					  prx.data[componentId] = panel.data; 
+					  prx.config[componentId] = panel.viewConfig; 
+					  callback(panel);
+			      }});
+		},
+		getData: function(componentId) {
+			return this.data[componentId];
+		},
+		getConfig: function(componentId) {
+			return this.config[componentId];
+		},
+		getWidgetConfig: function(widget) {
+			return this.widgetConfig[widget];
+		}
+		
 
 };
 
 DashboardUtil.getContextRootPath = function() {
-    return contextRootPath;
+	return contextRootPath;
 }
 
 DashboardUtil.getElementFontSize = function (element)
@@ -85,48 +85,48 @@ DashboardUtil.makeTabs = function (element)
 };
 
 jQuery.fn.sliGrid = function(panelConfig, options) {
-    var colNames = [];
+	var colNames = [];
     var colModel = [];
     var items = [];
     var groupHeaders = [];
     var j;
     if (panelConfig.items) {
-        for (var i = 0; i < panelConfig.items.length; i++) {
-            var item = panelConfig.items[i]; 
-            if (item.items && item.items.length > 0) {
-                items = item.items;
-                groupHeaders.push({startColumnName: item.items[0].field, numberOfColumns: item.items.length, titleText: item.name});
-            } else {
-                items = [item];
-            }
-            j = 0;
-            for (var j in items) {
-                var item1 = items[j];
-                colNames.push(item1.name); 
-                var colModelItem = {name:item1.field,index:item1.field,width:item1.width};
-                if (item1.formatter) {
-                      colModelItem.formatter = (DashboardUtil.Grid.Formatters[item1.formatter]) ? DashboardUtil.Grid.Formatters[item1.formatter] : item1.formatter;
-                }
-                if (item1.sorter) {
-                    colModelItem.sorttype = (DashboardUtil.Grid.Sorters[item1.sorter]) ? DashboardUtil.Grid.Sorters[item1.sorter](item1.params) : item1.sorter;
-                }
-                if (item1.params) {
-                  colModelItem.formatoptions = item1.params;
-                }
-                if (item1.align) {
-                    colModelItem.align = item1.align;
-                }
-                colModel.push( colModelItem );
-            }     
-        }
+	    for (var i = 0; i < panelConfig.items.length; i++) {
+	        var item = panelConfig.items[i]; 
+	        if (item.items && item.items.length > 0) {
+	        	items = item.items;
+	        	groupHeaders.push({startColumnName: item.items[0].field, numberOfColumns: item.items.length, titleText: item.name});
+	        } else {
+	        	items = [item];
+	        }
+	        j = 0;
+	        for (var j in items) {
+	        	var item1 = items[j];
+	        	colNames.push(item1.name); 
+	            var colModelItem = {name:item1.field,index:item1.field,width:item1.width};
+	            if (item1.formatter) {
+	          	    colModelItem.formatter = (DashboardUtil.Grid.Formatters[item1.formatter]) ? DashboardUtil.Grid.Formatters[item1.formatter] : item1.formatter;
+	            }
+	            if (item1.sorter) {
+	            	colModelItem.sorttype = (DashboardUtil.Grid.Sorters[item1.sorter]) ? DashboardUtil.Grid.Sorters[item1.sorter](item1.params) : item1.sorter;
+	            }
+	            if (item1.params) {
+	        	  colModelItem.formatoptions = item1.params;
+	            }
+	            if (item1.align) {
+	            	colModelItem.align = item1.align;
+	            }
+	            colModel.push( colModelItem );
+	        }     
+	    }
         options = jQuery.extend(options, {colNames: colNames, colModel: colModel});
     }
     jQuery(this).jqGrid(options);
     if (groupHeaders.length > 0) {
-        jQuery(this).jqGrid('setGroupHeaders', {
-            useColSpanStyle: false, 
-            groupHeaders:groupHeaders
-          });
+    	jQuery(this).jqGrid('setGroupHeaders', {
+      	  useColSpanStyle: false, 
+      	  groupHeaders:groupHeaders
+      	});
     }
     jQuery(this).removeClass('.ui-widget-header');
     jQuery(this).addClass('.jqgrid-header');
@@ -134,26 +134,26 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
     $(headers[headers.length - 1].el).addClass("end"); 
     // extra header added
     if (headers.length > colModel.length) {
-        $(headers[0].el).addClass("end"); 
+    	$(headers[0].el).addClass("end"); 
     }
 }
 
 DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
 {
-    // for some reason root config doesn't work with local data, so manually extract
-    if (columnItems.root && panelData != null && panelData != undefined) {
-        panelData = panelData[columnItems.root];
-    }
-    gridOptions = { 
-            data: panelData,
-            datatype: 'local', 
-            height: 'auto',
-            viewrecords: true,
-            rowNum: 10000};
-    if (options) {
-        gridOptions = jQuery.extend(gridOptions, options);
-    }
-    return jQuery("#" + tableId).sliGrid(columnItems, gridOptions); 
+	// for some reason root config doesn't work with local data, so manually extract
+	if (columnItems.root && panelData != null && panelData != undefined) {
+		panelData = panelData[columnItems.root];
+	}
+	gridOptions = { 
+	    	data: panelData,
+	        datatype: 'local', 
+	        height: 'auto',
+	        viewrecords: true,
+	        rowNum: 10000};
+	if (options) {
+		gridOptions = jQuery.extend(gridOptions, options);
+	}
+	return jQuery("#" + tableId).sliGrid(columnItems, gridOptions); 
 };
 
 DashboardUtil.Grid = {};
@@ -222,92 +222,98 @@ DashboardUtil.Grid.Formatters = {
         },
         
         FuelGaugeWithScore: function(value, options, rowObject) {
-            var perfLevelClass = "";
-            var name = options.colModel.formatoptions.name;
-            var valueField = options.colModel.formatoptions.valueField;
-            
-            if (name == undefined || valueField == undefined ||  rowObject.assessments[name] == undefined || rowObject.assessments[name][valueField] == undefined ) {
-                return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
-            }
-            
-            var score = rowObject.assessments[name][valueField];
-            var cutPoints = rowObject.assessments[name].assessments.assessmentPerformanceLevel;
-            var cutPointsArray = DashboardUtil.CutPoints.toArray(cutPoints);
-            var perfLevel = DashboardUtil.CutPoints.getLevelFromArray(cutPointsArray, score);
-            
-            var cutPointLevel = options.colModel.formatoptions.cutPoints[perfLevel];
-            if (cutPointLevel != null && cutPointLevel != undefined) {
-                perfLevelClass = cutPointLevel.style;
-            }
-            
-            var width = options.colModel.width;
-            if (width != null &&  width != undefined) {
-                options.colModel.formatoptions["fuelGaugeWidth"] = Math.round(width * 3/400) * 100;
-            }
-            options.colModel.formatoptions["cutPointsArray"] = cutPointsArray;
-            options.colModel.formatoptions["perfLevel"] = perfLevel;
-            options.colModel.formatoptions["perfLevelClass"] = perfLevelClass;
-            
-            return "<span class='" + perfLevelClass + " fuelGauge-perfLevel'>" + value + "</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
-        },
-        
-        FuelGauge: function(value, options, rowObject) {
-            var name = options.colModel.formatoptions.name;
-            var valueField = options.colModel.formatoptions.valueField;
-            
-            if (name == undefined || valueField == undefined ||  rowObject.assessments[name] == undefined || rowObject.assessments[name][valueField] == undefined ) {
-                return "";
-            }
-            
-            var score = rowObject.assessments[name][valueField];
-            var fieldName = options.colModel.formatoptions.fieldName;
-            var cutPoints = rowObject.assessments[name].assessments.assessmentPerformanceLevel;
-            
-            var cutPointsArray = options.colModel.formatoptions["cutPointsArray"];
-            if (cutPointsArray == null || cutPointsArray == undefined) {
-                cutPointsArray = DashboardUtil.CutPoints.toArray(cutPoints);
-            }
-            
-            var perfLevel = options.colModel.formatoptions["perfLevel"];
-            if (perfLevel == null || perfLevel == undefined ) {
-                perfLevel = DashboardUtil.CutPoints.getLevelFromArray(cutPointsArray, score);
-            }
-            
-            var perfLevelClass = options.colModel.formatoptions["perfLevelClass"];
-            if (perfLevelClass == null || perfLevelClass == undefined) {
-                var cutPointLevel = options.colModel.formatoptions.cutPoints[perfLevel];
-                if (cutPointLevel != null && cutPointLevel != undefined) {
-                    perfLevelClass = cutPointLevel.style;
-                } else {
-                    perfLevelClass = "";
-                }
-            }
-            
-            var divId = fieldName + counter();
-            var returnValue = "<div id='" + divId + "' class='fuelGauge " + perfLevelClass + "' >";
-            returnValue += "<script>";
-            returnValue += "var cutPoints = new Array(" + DashboardUtil.CutPoints.getArrayToString(cutPointsArray) + ");";
-            returnValue += "var fuelGauge = new FuelGaugeWidget ('" + divId + "', " + score + ", cutPoints);";
-            
-            var width = options.colModel.formatoptions["fuelGaugeWidth"];
-            if (width == null || width == undefined) {
-                width = options.colModel.width;
-                if (width != null && width != undefined) {
-                    width = Math.round(width * 9 / 100) * 10;
-                } else {
-                    width = 0;
-                }
-            }
-            
-            var height = Math.sqrt(width);
-            height -= height % 1;//removing the decimals.
-            
-            returnValue += "fuelGauge.setSize('" + width + "', '" + height + "');"
-            returnValue += "fuelGauge.create();";
-            returnValue += "</script>";
-            returnValue += "</div>";
-            return  returnValue;
-        },
+			var perfLevelClass = "";
+			var name = options.colModel.formatoptions.name;
+			var valueField = options.colModel.formatoptions.valueField;
+			
+			var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
+			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
+			
+			if (!assessments || !score) {
+				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+			}
+			
+			var cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel;
+			var cutPointsArray = DashboardUtil.CutPoints.toArray(cutPoints);
+			var perfLevel = DashboardUtil.CutPoints.getLevelFromArray(cutPointsArray, score);
+			var defaultCutPointsSettings = { 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}};
+			var cutPointsSettings = (options.colModel.formatoptions.cutPoints) ? options.colModel.formatoptions.cutPoints : defaultCutPointsSettings;
+					
+			var cutPointLevel = cutPointsSettings[perfLevel];
+			if (cutPointLevel != null && cutPointLevel != undefined) {
+				perfLevelClass = cutPointLevel.style;
+			}
+			
+			var width = options.colModel.width;
+			if (width != null &&  width != undefined) {
+				options.colModel.formatoptions["fuelGaugeWidth"] = Math.round(width * 3/400) * 100;
+			}
+			options.colModel.formatoptions["cutPointsArray"] = cutPointsArray;
+			options.colModel.formatoptions["perfLevel"] = perfLevel;
+			options.colModel.formatoptions["perfLevelClass"] = perfLevelClass;
+			
+			return "<span class='" + perfLevelClass + " fuelGauge-perfLevel'>" + value + "</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
+		},
+		
+		FuelGauge: function(value, options, rowObject) {
+			var name = options.colModel.formatoptions.name;
+			var valueField = options.colModel.formatoptions.valueField;
+			
+			var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
+			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
+			
+			if (!assessments || !score) {
+				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+			}
+			
+			var fieldName = options.colModel.formatoptions.fieldName;
+			var cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel;
+
+			var cutPointsArray = options.colModel.formatoptions["cutPointsArray"];
+			if (cutPointsArray == null || cutPointsArray == undefined) {
+				cutPointsArray = DashboardUtil.CutPoints.toArray(cutPoints);
+			}
+			
+			var perfLevel = options.colModel.formatoptions["perfLevel"];
+			if (perfLevel == null || perfLevel == undefined ) {
+				perfLevel = DashboardUtil.CutPoints.getLevelFromArray(cutPointsArray, score);
+			}
+			
+			var perfLevelClass = options.colModel.formatoptions["perfLevelClass"];
+			if (perfLevelClass == null || perfLevelClass == undefined) {
+				var cutPointLevel = options.colModel.formatoptions.cutPoints[perfLevel];
+				if (cutPointLevel != null && cutPointLevel != undefined) {
+					perfLevelClass = cutPointLevel.style;
+				} else {
+					perfLevelClass = "";
+				}
+			}
+			
+			var divId = fieldName + counter();
+			var returnValue = "<div id='" + divId + "' class='fuelGauge " + perfLevelClass + "' >";
+			returnValue += "<script>";
+			returnValue += "var cutPoints = new Array(" + DashboardUtil.CutPoints.getArrayToString(cutPointsArray) + ");";
+			returnValue += "var fuelGauge = new FuelGaugeWidget ('" + divId + "', " + score + ", cutPoints);";
+			
+			var width = options.colModel.formatoptions["fuelGaugeWidth"];
+			if (width == null || width == undefined) {
+				width = options.colModel.width;
+				if (width != null && width != undefined) {
+					width = Math.round(width * 9 / 100) * 10;
+				} else {
+					width = 0;
+				}
+			}
+			
+			var height = Math.sqrt(width);
+			height -= height % 1;//removing the decimals.
+			
+			returnValue += "fuelGauge.setSize('" + width + "', '" + height + "');"
+			returnValue += "fuelGauge.create();";
+			returnValue += "</script>";
+			returnValue += "</div>";
+			return  returnValue;
+		},
 
         Grade: function(value, options, rowobject) {
             var displayValue = "";
@@ -358,25 +364,35 @@ DashboardUtil.Grid.Formatters = {
 };
 
 DashboardUtil.Grid.Sorters = {
-        Enum: function(params) {
-            var enumHash = {};
-            params.sortEnum.sort(DashboardUtil.numbersFirstComparator);
-            for (var i in params.sortEnum) {
-                enumHash[params.sortEnum[i]] = i;
-            }
-            return function(value, rowObject) {
-                var i = enumHash[value];
-                return i ? i : -1;
-            }
-            
-        },
+		Enum: function(params) {
+			var enumHash = {};
+			params.sortEnum.sort(DashboardUtil.numbersFirstComparator);
+			for (var i in params.sortEnum) {
+				enumHash[params.sortEnum[i]] = i;
+			}
+			return function(value, rowObject) {
+				var i = enumHash[value];
+				return i ? i : -1;
+			}
+			
+		},
 
-        LetterGrade: function(params) {
-            return function(semesterGrades, rowObject) {
-                var i = DashboardUtil.teardrop.GRADE_TREND_CODES[semesterGrades[0].letterGrade]; 
-                return i ? i : -1;
-            }
-        }
+                LetterGrade: function(params) {
+                   return function(semesterGrades, rowObject) {
+                        var i = DashboardUtil.teardrop.GRADE_TREND_CODES[semesterGrades[0].letterGrade]; 
+                        return i ? i : -1;
+                   }
+                },
+
+                LettersAndNumbers: function(params) {
+                    return function(gradeDate, rowObject) {
+                        var i = DashboardUtil.teardrop.GRADE_TREND_CODES[gradeDate.gradeEarned]; 
+                        if(i === undefined || i === null) {
+                            i = gradeDate.gradeEarned;
+                        }
+                        return i ? i : -1;
+                   }
+               }
 }
 
 DashboardUtil.numbersFirstComparator = function(a,b){
@@ -422,7 +438,7 @@ DashboardUtil.sortObject = function(o, compare) {
     key, a = [];
     for (key in o) {
         if (o.hasOwnProperty(key)) 
-            a.push(key);
+        	a.push(key);
     }
     a.sort(compare);
     for (key = 0; key < a.length; key++) {
@@ -457,124 +473,124 @@ DashboardUtil.getStyleDeclaration = function (element)
     if (window.getComputedStyle) {
         var compStyle = window.getComputedStyle (element, null);
     } else {
-    var compStyle = element.currentStyle;
+	var compStyle = element.currentStyle;
     }
     return compStyle;
 };
 
 DashboardUtil.renderLozenges = function(student) {
-    var config = DashboardProxy.getWidgetConfig("lozenge");
-    var item, condition, configItem;
-    var lozenges = '';
-    for (var i in config.items) {
-        configItem = config.items[i];
-        condition = configItem.condition;
-        item = student[condition.field];
-        if (item) {
-            for (var y in condition.value) {
-                if (condition.value[y] == item) {
-                    lozenges += '<div class="lozenge-widget ' + configItem.style + '">' + configItem.name + '</span>';
-                }
-            }
-        }
-    }
-    return lozenges;
+	var config = DashboardProxy.getWidgetConfig("lozenge");
+	var item, condition, configItem;
+	var lozenges = '';
+	for (var i in config.items) {
+		configItem = config.items[i];
+		condition = configItem.condition;
+		item = student[condition.field];
+		if (item) {
+			for (var y in condition.value) {
+				if (condition.value[y] == item) {
+					lozenges += '<div class="lozenge-widget ' + configItem.style + '">' + configItem.name + '</span>';
+				}
+			}
+		}
+	}
+	return lozenges;
 };
 
 /*
  * cutPoints take a specific json structure, which is an array where each element is expected to have a minimum score and a maximum score 
  */
 DashboardUtil.CutPoints = {
-        
-    toArray : function(cutPoints) {
-        
-        if (cutPoints == null || cutPoints == undefined) {
-            return undefined;
-        }
-        
-        var cutPointsArray = new Array();
-        var count = 0;
-        for( var i=0;i < cutPoints.length; i++) {
-            if (cutPoints[i]["minimumScore"] != null && cutPoints[i]["minimumScore"] != undefined) {
-                cutPointsArray[count++] = cutPoints[i]["minimumScore"];
-            }
-            if (i == cutPoints.length - 1) {
-                if (cutPoints[i]["maximumScore"] != null && cutPoints[i]["maximumScore"] != undefined) {
-                    cutPointsArray[count] = cutPoints[i]["maximumScore"] ;
-                }
-            }
-        }
-        
-        return cutPointsArray;
-    },
-    
-    getLevelFromArray : function(cutPointsArray, score) {
-        
-        if (cutPointsArray == null || cutPointsArray == undefined || score == null || score == undefined) {
-            return -1;
-        }
-        
-        for (var i = 0; i < cutPointsArray.length - 1; i++) {
-            if (cutPointsArray[i] <= score &&
-                (cutPointsArray[i+1] > score || (cutPointsArray.length - 1 == i+1 && cutPointsArray[i+1] >= score))) {
-                return i+1;
-            }
-        }
-        return -1;
-    },
-    
-    getLevelFromcutPoints : function(cutPoints, score) {
-        
-        if (cutPoints == null || cutPoints == undefined || score == null || score == undefined) {
-            return -1;
-        }
-        
-        for( var i=0;i < cutPoints.length; i++) {
-            if (score != null && score != undefined &&
-                cutPoints[i]["minimumScore"] != null && cutPoints[i]["minimumScore"] != undefined && 
-                cutPoints[i]["maximumScore"] != null && cutPoints[i]["maximumScore"] != undefined &&
-                cutPoints[i]["minimumScore"] <= score && cutPoints[i]["maximumScore"] >= score) {
-                    return i+1;
-            }
-        }
-        return -1;
-    },
+		
+	toArray : function(cutPoints) {
+		
+		if (cutPoints == null || cutPoints == undefined) {
+			return undefined;
+		}
+		
+		var cutPointsArray = new Array();
+		var count = 0;
+		for( var i=0;i < cutPoints.length; i++) {
+			if (cutPoints[i]["minimumScore"] != null && cutPoints[i]["minimumScore"] != undefined) {
+				cutPointsArray[count++] = cutPoints[i]["minimumScore"];
+			}
+			if (i == cutPoints.length - 1) {
+				if (cutPoints[i]["maximumScore"] != null && cutPoints[i]["maximumScore"] != undefined) {
+					cutPointsArray[count] = cutPoints[i]["maximumScore"] ;
+				}
+			}
+		}
+		
+		return cutPointsArray;
+	},
+	
+	getLevelFromArray : function(cutPointsArray, score) {
+		
+		if (cutPointsArray == null || cutPointsArray == undefined || score == null || score == undefined) {
+			return -1;
+		}
+		
+		for (var i = 0; i < cutPointsArray.length - 1; i++) {
+			if (cutPointsArray[i] <= score &&
+				(cutPointsArray[i+1] > score || (cutPointsArray.length - 1 == i+1 && cutPointsArray[i+1] >= score))) {
+				return i+1;
+			}
+		}
+		return -1;
+	},
+	
+	getLevelFromcutPoints : function(cutPoints, score) {
+		
+		if (cutPoints == null || cutPoints == undefined || score == null || score == undefined) {
+			return -1;
+		}
+		
+		for( var i=0;i < cutPoints.length; i++) {
+			if (score != null && score != undefined &&
+				cutPoints[i]["minimumScore"] != null && cutPoints[i]["minimumScore"] != undefined && 
+				cutPoints[i]["maximumScore"] != null && cutPoints[i]["maximumScore"] != undefined &&
+				cutPoints[i]["minimumScore"] <= score && cutPoints[i]["maximumScore"] >= score) {
+					return i+1;
+			}
+		}
+		return -1;
+	},
 
-    getArrayToString : function(cutPointsArray) {
-        
-        if (cutPointsArray == null || cutPointsArray == undefined) {
-            return "";
-        }
-        var returnString = "";
-        for (i = 0; i < cutPointsArray.length; i++) {
-            if (i != cutPointsArray.length - 1) {
-                returnString += cutPointsArray[i] + ", ";
-            } else {
-                returnString += cutPointsArray[i];
-            }
-        }
-        
-        return returnString;
-    }
+	getArrayToString : function(cutPointsArray) {
+		
+		if (cutPointsArray == null || cutPointsArray == undefined) {
+			return "";
+		}
+		var returnString = "";
+		for (i = 0; i < cutPointsArray.length; i++) {
+			if (i != cutPointsArray.length - 1) {
+				returnString += cutPointsArray[i] + ", ";
+			} else {
+				returnString += cutPointsArray[i];
+			}
+		}
+		
+		return returnString;
+	}
 };
 
 DashboardUtil.CutPoints.PERF_LEVEL_TO_COLOR = {
-    0: "#eeeeee",
-    1: "#b40610",
-    2: "#e58829",
-    3: "#dfc836",
-    4: "#7fc124",
-    5: "#438746"
+	0: "#eeeeee",
+	1: "#b40610",
+	2: "#e58829",
+	3: "#dfc836",
+	4: "#7fc124",
+	5: "#438746"
 };
 
 DashboardUtil.getData = function(componentId, queryString, callback) {
-    $.ajax({
-          url: contextRootPath + '/service/data/' + componentId + '?' + queryString,
-          success: function(panelData){DashboardProxy[componentId] = panelData; callback(panelData);}});
+	$.ajax({
+		  url: contextRootPath + '/service/data/' + componentId + '?' + queryString,
+		  success: function(panelData){DashboardProxy[componentId] = panelData; callback(panelData);}});
 };
 
 DashboardUtil.getPageUrl = function(componentId, queryString) {
-    return contextRootPath + '/service/layout/' + componentId + ((queryString) ? ('?' + queryString) : '');
+	return contextRootPath + '/service/layout/' + componentId + ((queryString) ? ('?' + queryString) : '');
 };
 
 DashboardUtil.checkCondition = function(data, condition) {
@@ -584,7 +600,7 @@ DashboardUtil.checkCondition = function(data, condition) {
     var validValues = condition.value;
     var values = data[condition.field];
     if (values == undefined || validValues == undefined) {
-        return false;
+    	return false;
     }
     for (var j=0; j < validValues.length; j++) {
         for (var k=0; k < values.length; k++) {
@@ -684,4 +700,3 @@ DashboardUtil.teardrop = {
 };
 
 DashboardUtil.teardrop.init();
-

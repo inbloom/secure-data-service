@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -258,8 +258,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         if (associations.get(result.get("id")) != null) {
 
                             // direct self reference dont need to include association in reponse
-                            if (!endpointEntity.getResourceName().equals(entityDef.getResourceName()))
-                            result.put(resource1, associations.get(result.get("id")));
+                            if (!endpointEntity.getResourceName().equals(entityDef.getResourceName())) {
+								result.put(resource1, associations.get(result.get("id")));
+							}
                         }
 
                         result.put(ResourceConstants.LINKS, ResourceUtil.getLinks(entityDefs,
@@ -555,6 +556,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @return
      */
     protected List<EntityBody> appendOptionalFields(UriInfo info, List<EntityBody> entities, String baseEndpoint) {
+
+        if (factory == null) {
+            return entities;
+        }
+
         List<String> optionalFields = info.getQueryParameters(true).get(ParameterConstants.OPTIONAL_FIELDS);
 
         if (optionalFields != null) {
