@@ -14,7 +14,7 @@ INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_na
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
 INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_data_store']
-INGESTION_TENANT_DISTRICT_MAP = {'IL-STATE' => ['Sunset', 'Daybreak'], 'NY-STATE' => ['NYC']}
+INGESTION_TENANT_DISTRICT_MAP = {'IL' => ['Sunset', 'Daybreak'], 'NY' => ['NYC']}
 
 ############################################################
 # STEPS: BEFORE
@@ -61,7 +61,7 @@ Given /^I am using destination-local data store$/ do
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
-  initializeLandingZone(@ingestion_lz_identifer_map['IL-STATE-Daybreak'])
+  initializeLandingZone(@ingestion_lz_identifer_map['IL-Daybreak'])
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_key|
