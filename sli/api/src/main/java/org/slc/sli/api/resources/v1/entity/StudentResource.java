@@ -94,6 +94,10 @@ public class StudentResource extends DefaultCrudEndpoint {
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        
+        // add optional field to the query params. always include the student's grade level.
+        uriInfo.getQueryParameters(true).add(ParameterConstants.OPTIONAL_FIELDS, "gradeLevel");
+        
         return super.readAll(offset, limit, headers, uriInfo);
     }
 
@@ -153,6 +157,10 @@ public class StudentResource extends DefaultCrudEndpoint {
     @Path("{" + ParameterConstants.STUDENT_ID + "}")
     public Response read(@PathParam(ParameterConstants.STUDENT_ID) final String id,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        
+        // add optional field to the query params. always include the student's grade level.
+        uriInfo.getQueryParameters(true).add(ParameterConstants.OPTIONAL_FIELDS, "gradeLevel");
+        
         return super.read(id, headers, uriInfo);
     }
 

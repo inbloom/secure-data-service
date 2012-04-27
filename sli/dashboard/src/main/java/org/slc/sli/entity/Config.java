@@ -128,6 +128,18 @@ public class Config implements Cloneable {
             return item;
         }
 
+        public Item cloneWithParams(String name, String field) {
+            Item item;
+            try {
+                item = (Item) this.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new DashboardException("Unable to clone items", e);
+            }
+            item.name = name;
+            item.field = field;
+            return item;
+        }
+
         @Override
         public String toString() {
             return "ViewItem [width=" + width + ", type=" + datatype + ", color=" + color + ", style=" + style
@@ -180,7 +192,11 @@ public class Config implements Cloneable {
             result = prime * result + ((cacheKey == null) ? 0 : cacheKey.hashCode());
             result = prime * result + ((entity == null) ? 0 : entity.hashCode());
             result = prime * result + (lazy ? 1231 : 1237);
-            result = prime * result + ((params == null) ? 0 : params.hashCode());
+            if (params != null) {
+                for (Object value : params.values()) {
+                      result = prime * result + ((value == null) ? 0 : value.hashCode());
+                  }
+            }
             return result;
         }
 
@@ -249,6 +265,10 @@ public class Config implements Cloneable {
     }
 
     protected String id;
+    /**
+     * if id of the parent is different from the id - in case when many similar panels share the driver
+     */
+    protected String parentId;
     protected String name;
     protected Type type = Type.FIELD;
     protected Condition condition;
@@ -256,9 +276,10 @@ public class Config implements Cloneable {
     protected Item[] items;
     protected String root;
 
-    public Config(String id, String name, Type type, Condition condition, Data data, Item[] items, String root) {
+    public Config(String id, String parentId, String name, Type type, Condition condition, Data data, Item[] items, String root) {
         super();
         this.id = id;
+        this.parentId = parentId;
         this.name = name;
         this.type = type;
         this.condition = condition;
@@ -272,6 +293,10 @@ public class Config implements Cloneable {
 
     public String getId() {
         return id;
+    }
+
+    public String getParentId() {
+        return parentId == null ? id : parentId;
     }
 
     public String getName() {
@@ -299,7 +324,7 @@ public class Config implements Cloneable {
     }
 
     public Config cloneWithItems(Item[] items) {
-        return new Config(id, name, type, condition, data, items, root);
+        return new Config(id, parentId, name, type, condition, data, items, root);
     }
 
     /**
@@ -314,8 +339,9 @@ public class Config implements Cloneable {
      * @return cloned Config obejct merged with customConfig
      */
     public Config overWrite(Config customConfig) {
-        Config config = new Config(this.id, customConfig.name, this.type, this.condition, new Data(this.data.entity,
-                this.data.cacheKey, this.data.lazy, customConfig.data.params == null ? null
+        // parent id for overwrite should be the same as id of the driver
+        Config config = new Config(this.id, this.id, customConfig.name, this.type, this.condition, new Data(this.data.entity,
+                customConfig.data.cacheKey, this.data.lazy, customConfig.data.params == null ? null
                         : Collections.unmodifiableMap(new HashMap<String, Object>(customConfig.data.params))),
                 customConfig.items, this.root);
         return config;

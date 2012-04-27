@@ -11,17 +11,20 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.googlecode.ehcache.annotations.Cacheable;
 
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-
 import org.slc.sli.entity.Config.Data;
-import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.CustomConfig;
 import org.slc.sli.entity.EdOrgKey;
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.ApiClientManager;
 import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.util.Constants;
+
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 
 /**
  * Retrieves and applies necessary business logic to obtain institution data
@@ -33,6 +36,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     
     private static final String USER_SCHOOLS = "user.schools";
     private CacheManager cacheManager;
+    private CustomConfig customConfig;
     
     public void setCacheManager(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
@@ -135,10 +139,9 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         // This just maps ed org ids to ed org objects.
         Map<String, GenericEntity> edOrgIdMap = new HashMap<String, GenericEntity>();
         
-        for(GenericEntity school:schools) {
-            String parentEdOrgId=(String)school.get(Constants.ATTR_PARENT_EDORG);
-            if(parentEdOrgId!=null)
-            {
+        for (GenericEntity school:schools) {
+            String parentEdOrgId = (String) school.get(Constants.ATTR_PARENT_EDORG);
+            if (parentEdOrgId != null) {
                 if (!schoolReachableFromEdOrg.keySet().contains(parentEdOrgId)) {
                     schoolReachableFromEdOrg.put(parentEdOrgId, new HashSet<GenericEntity>());
                 }
@@ -148,27 +151,27 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         
         // traverse the ancestor chain from each school and find ed orgs that
         // the school is reachable from
-        List<GenericEntity> edOrgs=getParentEducationalOrganizations(token, schools);
-        while(!edOrgs.isEmpty()) {
-            for(GenericEntity edOrg:edOrgs) {
-                String parentEdOrgId=(String)edOrg.get(Constants.ATTR_PARENT_EDORG);
-                String edOrgId=edOrg.getId();
+        List<GenericEntity> edOrgs = getParentEducationalOrganizations(token, schools);
+        while (!edOrgs.isEmpty()) {
+            for (GenericEntity edOrg:edOrgs) {
+                String parentEdOrgId = (String) edOrg.get(Constants.ATTR_PARENT_EDORG);
+                String edOrgId = edOrg.getId();
                 // insert ed-org id to - edOrg mapping
                 edOrgIdMap.put(edOrgId, edOrg);
                 
                 //if parentedOrgId is not null, it means you are the top organization
-                if(parentEdOrgId!=null) {
+                if (parentEdOrgId != null) {
                     
                     // insert ed-org - school mapping into the reverse map
-                    if(!schoolReachableFromEdOrg.keySet().contains(parentEdOrgId)){
+                    if (!schoolReachableFromEdOrg.keySet().contains(parentEdOrgId)) {
                         schoolReachableFromEdOrg.put(parentEdOrgId, new HashSet<GenericEntity>());
                     }
-                    Set<GenericEntity> reachableSchool=schoolReachableFromEdOrg.get(edOrgId);
-                    if(reachableSchool!=null)
+                    Set<GenericEntity> reachableSchool = schoolReachableFromEdOrg.get(edOrgId);
+                    if (reachableSchool != null)
                         schoolReachableFromEdOrg.get(parentEdOrgId).addAll(reachableSchool);
                 }
             }
-            edOrgs=getParentEducationalOrganizations(token, edOrgs);// next in the ancestor chain
+            edOrgs = getParentEducationalOrganizations(token, edOrgs); // next in the ancestor chain
         }
         
         // build result list
@@ -239,6 +242,37 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         //Dashboard expects return one GenericEntity.
         entity.put("root", entities);
         return entity;
+    }
+    
+    /**
+     * Get the user's educational organization's custom configuration.
+     * 
+     * @param token
+     *            The user's authentication token.
+     * @return The education organization's custom configuration
+     */
+    public CustomConfig getCustomConfig(String token) {
+        if (customConfig == null) {
+            EdOrgKey edOrgKey = getUserEdOrg(token);
+            GenericEntity customEntity = getApiClient().getEdOrgCustomData(token, edOrgKey.getDistrictId());
+            customConfig = new CustomConfig(customEntity);
+        }
+        return customConfig;
+    }
+    
+    /**
+     * Put or save the user's educational organization's custom configuration.
+     * 
+     * @param token
+     *            The user's authentication token.
+     * @param customConfigJson
+     *            The education organization's custom configuration JSON.
+     */
+    public void putCustomConfig(String token, String customConfigJson) {
+        EdOrgKey edOrgKey = getUserEdOrg(token);
+        getApiClient().putEdOrgCustomData(token, edOrgKey.getDistrictId(), customConfigJson);
+        Gson gson = new GsonBuilder().create();
+        customConfig = gson.fromJson(customConfigJson, CustomConfig.class);
     }
     
 }

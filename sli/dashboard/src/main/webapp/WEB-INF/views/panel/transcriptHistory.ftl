@@ -43,9 +43,9 @@
                         viewrecords:true,
                         colNames: ['Subject','Course','Grade'],
                         colModel: [
-                            {name:"subject",index:"subject",width:120,key:true},
+                            {name:"subject",index:"subject",width:175,key:true},
                             {name:"course",index:"course",width:130},
-                            {name:"grade",index:"grade",width:50}
+                            {name:"grade",index:"grade",width:75, align:"center"}
                         ],
                         rowNum:1000,
                         sortname: 'num',
@@ -61,4 +61,15 @@
                 subGrid : true
             }
     );
+
+    function toggleAll() {
+        $("#"+getTableId()).jqGrid("getDataIDs").forEach(function expandRow(rowId) {
+            $("#"+getTableId()).toggleSubGridRow(rowId);
+        });
+
+
+    }
+
 </script>
+
+<a href="#" onclick="toggleAll()">Expand/Collapse All</a>

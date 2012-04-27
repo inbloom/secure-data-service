@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.slc.sli.entity.util;
 
@@ -10,7 +10,7 @@ import org.slc.sli.entity.GenericEntity;
 
 /**
  * @author tosako
- * 
+ *
  */
 public class GenericEntityEnhancer {
     private static Map<String, String> gradeConversion = null;
@@ -39,35 +39,50 @@ public class GenericEntityEnhancer {
         gradeConversion.put("Twelfth grade", "12");
         gradeConversion.put("Ungraded", "UG");
     }
-    
+
     /**
      * Enhance input GenericEntity for Student
-     * 
+     *
      * @param entity
      * @return enhanced GenericEntity
      */
     public static GenericEntity enhanceStudent(GenericEntity entity) {
         // determin this entity has gradeLevel
         String gradeLevel = entity.getString("gradeLevel");
-        
+
         // if gradeLevel exists, then add gradeLevelCode in the entity
-        if (gradeLevel != null && gradeConversion.containsKey(gradeLevel))
+        if (gradeLevel != null && gradeConversion.containsKey(gradeLevel)) {
             entity.put("gradeLevelCode", gradeConversion.get(gradeLevel));
+        }
         return entity;
     }
+    
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public static Map convertGradeLevel(Map entity, String elementName) {
+        // determin this entity has gradeLevel
+        String gradeLevel=(String) entity.get(elementName);
+
+        // if gradeLevel exists, then add gradeLevelCode in the entity
+        if (gradeLevel != null && gradeConversion.containsKey(gradeLevel)) {
+            entity.put(elementName+"Code", gradeConversion.get(gradeLevel));
+        }
+        return entity;
+    }
+
     /**
      * Enhance input GenericEntity for StudentiSchoolAssociation
-     * 
+     *
      * @param entity
      * @return enhanced GenericEntity
      */
     public static GenericEntity enhanceStudentSchoolAssociation(GenericEntity entity) {
         // repeat for another element
         String gradeLevel = entity.getString("entryGradeLevel");
-        
+
         // if gradeLevel exists, then add gradeLevelCode in the entity
-        if (gradeLevel != null && gradeConversion.containsKey(gradeLevel))
+        if (gradeLevel != null && gradeConversion.containsKey(gradeLevel)) {
             entity.put("entryGradeLevelCode", gradeConversion.get(gradeLevel));
+        }
         return entity;
     }
 }

@@ -15,6 +15,10 @@ Given /^the server is in "([^"]*)" mode$/ do |serverMode|
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 180) 
 end
 
+Then /^I click on the browser back button$/ do
+  @driver.navigate().back()
+end
+
 def localLogin (username, password)
   puts "SLI_DEBUG = " + $SLI_DEBUG.to_s
   puts "localLogin" if $SLI_DEBUG
