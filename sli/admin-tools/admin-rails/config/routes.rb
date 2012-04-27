@@ -1,4 +1,9 @@
 SLIAdmin::Application.routes.draw do
+  resources :district_authorizations
+
+  resources :education_organizations
+  resources :education_organization_associations
+
   resources :application_authorizations
 
   get "sessions/new"
