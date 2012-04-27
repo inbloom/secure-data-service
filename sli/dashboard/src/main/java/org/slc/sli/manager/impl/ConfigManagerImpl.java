@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.googlecode.ehcache.annotations.Cacheable;
 
@@ -22,6 +23,8 @@ import org.slc.sli.config.StudentFilter;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.entity.Config;
+import org.slc.sli.entity.CustomConfig;
+import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.Config.Type;
 import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.manager.ConfigManager;
@@ -277,8 +280,13 @@ public class ConfigManagerImpl implements ConfigManager {
     }
 
     @Override
-    public Config getComponentConfig(EdOrgKey edOrgKey, String componentId) {
-
+    public Config getComponentConfig(CustomConfig customConfig, EdOrgKey edOrgKey, String componentId) {
+        if (customConfig != null) {
+            Config customComponentConfig = customConfig.get(componentId);
+            if (customComponentConfig != null) {
+                return customComponentConfig;
+            }
+        }
         return getConfigByPath(getCustomConfigPathForUserDomain(edOrgKey), componentId);
     }
 
@@ -288,7 +296,7 @@ public class ConfigManagerImpl implements ConfigManager {
 
     @Override
     @Cacheable(cacheName = "user.config.widget")
-    public Collection<Config> getWidgetConfigs(EdOrgKey edOrgKey) {
+    public Collection<Config> getWidgetConfigs(CustomConfig customConfig, EdOrgKey edOrgKey) {
         // id to config map
         Map<String, Config> widgets = new HashMap<String, Config>();
         Config config;
@@ -313,7 +321,7 @@ public class ConfigManagerImpl implements ConfigManager {
             }
         }
         for (String id : widgets.keySet()) {
-            widgets.put(id, getComponentConfig(edOrgKey, id));
+            widgets.put(id, getComponentConfig(customConfig, edOrgKey, id));
         }
         return widgets.values();
     }

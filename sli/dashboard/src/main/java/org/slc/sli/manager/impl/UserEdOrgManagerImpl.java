@@ -76,7 +76,9 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                     .get(Constants.METADATA);
             if (metaData != null && !metaData.isEmpty()) {
                 if (metaData.containsKey(Constants.EXTERNAL_ID)) {
-                    return new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString());
+                    EdOrgKey edOrgKey = new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString());
+                    edOrgKey.setSliId(parentEdOrg.getId());
+                    return edOrgKey;
                 }
             }
         }
@@ -254,8 +256,10 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     public CustomConfig getCustomConfig(String token) {
         if (customConfig == null) {
             EdOrgKey edOrgKey = getUserEdOrg(token);
-            GenericEntity customEntity = getApiClient().getEdOrgCustomData(token, edOrgKey.getDistrictId());
-            customConfig = new CustomConfig(customEntity);
+            GenericEntity customEntity = getApiClient().getEdOrgCustomData(token, edOrgKey.getSliId());
+            if (customEntity != null) {
+                customConfig = new CustomConfig(customEntity);
+            }
         }
         return customConfig;
     }
@@ -270,7 +274,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      */
     public void putCustomConfig(String token, String customConfigJson) {
         EdOrgKey edOrgKey = getUserEdOrg(token);
-        getApiClient().putEdOrgCustomData(token, edOrgKey.getDistrictId(), customConfigJson);
+        getApiClient().putEdOrgCustomData(token, edOrgKey.getSliId(), customConfigJson);
         Gson gson = new GsonBuilder().create();
         customConfig = gson.fromJson(customConfigJson, CustomConfig.class);
     }

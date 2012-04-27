@@ -74,12 +74,12 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     }
 
     protected Config getConfig(String componentId) {
-        return configManager.getComponentConfig(userEdOrgManager.getUserEdOrg(getTokenId()), componentId);
+        return configManager.getComponentConfig(userEdOrgManager.getCustomConfig(getTokenId()), userEdOrgManager.getUserEdOrg(getTokenId()), componentId);
     }
 
     @Override
     public Collection<Config> getWidgetConfigs() {
-        return configManager.getWidgetConfigs(userEdOrgManager.getUserEdOrg(getTokenId()));
+        return configManager.getWidgetConfigs(userEdOrgManager.getCustomConfig(getTokenId()), userEdOrgManager.getUserEdOrg(getTokenId()));
     }
 
     /**
