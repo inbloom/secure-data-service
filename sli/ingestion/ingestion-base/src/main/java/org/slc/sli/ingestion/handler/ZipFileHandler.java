@@ -35,7 +35,10 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
             // find manifest (ctl file)
             return ZipFileUtil.findCtlFile(dir);
         } catch (IOException ex) {
-            errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG4", zipFile.getName()), this);
+
+            String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG4", zipFile.getName());
+            LOG.error( message, ex );
+            errorReport.error(message, this);
         }
 
         return null;
