@@ -654,6 +654,9 @@
     <!-- Student Id -->
     <jb:value property="studentId" data="StudentSchoolAssociation/StudentReference/StudentIdentity/StudentUniqueStateId" />
 
+    <!-- School Id -->
+    <jb:value property="schoolId" data="StudentSchoolAssociation/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
+
     <!-- EntryDate -->
     <jb:value property="entryDate" data="StudentSchoolAssociation/EntryDate" />
 
@@ -713,7 +716,7 @@
     <jb:value property="yearsOfPriorTeachingExperience" data="YearsOfPriorTeachingExperience" decoder="Integer" />
     <jb:wiring property="credentials" beanIdRef="teacherCredentialTypeArray" />
     <jb:value property="loginId" data="LoginId" />
-    <jb:value property="staffUniqueStateId" data="TeacherUniqueStateId" />
+    <jb:value property="teacherUniqueStateId" data="TeacherUniqueStateId" />
     <jb:value property="highlyQualifiedTeacher" data="HighlyQualifiedTeacher" decoder="Boolean" />
     <jb:expression property="collectionName">'staff'</jb:expression>
   </jb:bean>
@@ -1126,6 +1129,9 @@
     <!-- CourseOfferingReference -->
     <jb:value property="courseId" data="Section/CourseOfferingReference/CourseOfferingIdentity/LocalCourseCode" />
 
+    <!-- SchoolReference -->
+    <jb:value property="schoolId" data="Section/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
+
     <!-- SessionReference -->
     <jb:value property="sessionId" data="Section/SessionReference/SessionIdentity/SessionName" />
 
@@ -1197,6 +1203,9 @@
     <!-- SectionReference -->
     <jb:value property="sectionId" data="TeacherSectionAssociation/SectionReference/SectionIdentity/UniqueSectionCode" />
 
+    <!-- TeacherReference -->
+    <jb:value property="teacherId" data="TeacherSectionAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
+
     <!-- BeginDate -->
     <jb:value property="beginDate" data="TeacherSectionAssociation/BeginDate" />
 
@@ -1249,6 +1258,12 @@
   </jb:bean>
 
   <jb:bean beanId="teacherSchoolAttributes" class="java.util.HashMap" createOnElement="InterchangeStaffAssociation/TeacherSchoolAssociation">
+
+    <!-- TeacherReference -->
+    <jb:value property="teacherId" data="TeacherSchoolAssociation/TeacherReference/StaffIdentity/StaffUniqueStateId" />
+
+    <!-- SchoolReference -->
+    <jb:value property="schoolId" data="TeacherSchoolAssociation/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
 
     <!-- ProgramAssignment -->
     <jb:value property="programAssignment" data="TeacherSchoolAssociation/ProgramAssignment" />
