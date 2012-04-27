@@ -241,23 +241,23 @@ And the class for id "attendances.attendanceRate" for student "Garry Mcconnaughy
 # Attendance rate < 90
 And the count for id "attendances.attendanceRate" for student "Oma Bevington" is "87"
 And the class for id "attendances.attendanceRate" for student "Oma Bevington" is "color-widget-red"
-#And the grades teardrop color widgets for "SpringSemester2010-2011;FallSemester2010-2011" are mapped correctly:
-# |grade|teardrop           |
-# |A+   |teardrop-darkgreen |
-# |A-   |teardrop-darkgreen |
-# |A    |teardrop-darkgreen |
-# |B+   |teardrop-lightgreen|
-# |B-   |teardrop-lightgreen|
-# |B    |teardrop-lightgreen|
-# |C+   |teardrop-yellow    |
-# |C-   |teardrop-yellow    |
-# |C    |teardrop-yellow    |
-# |D+   |teardrop-orange    |
-# |D-   |teardrop-orange    |
-# |D    |teardrop-orange    |
-# |F+   |teardrop-red       |
-# |F-   |teardrop-red       |
-# |F    |teardrop-red       |
+And the grades teardrop color widgets for "SpringSemester2010-2011;FallSemester2010-2011" are mapped correctly:
+ |grade|teardrop           |
+ |A+   |teardrop-darkgreen |
+ |A-   |teardrop-darkgreen |
+ |A    |teardrop-darkgreen |
+ |B+   |teardrop-lightgreen|
+ |B-   |teardrop-lightgreen|
+ |B    |teardrop-lightgreen|
+ |C+   |teardrop-yellow    |
+ |C-   |teardrop-yellow    |
+ |C    |teardrop-yellow    |
+ |D+   |teardrop-orange    |
+ |D-   |teardrop-orange    |
+ |D    |teardrop-orange    |
+ |F+   |teardrop-red       |
+ |F-   |teardrop-red       |
+ |F    |teardrop-red       |
 And I click on student "Carmen Ortiz"
 And I view its student profile
 And their name shown in profile is "Carmen Daniella Ortiz"

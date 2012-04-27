@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.googlecode.ehcache.annotations.Cacheable;
 
@@ -24,7 +23,6 @@ import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.CustomConfig;
-import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.Config.Type;
 import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.manager.ConfigManager;
