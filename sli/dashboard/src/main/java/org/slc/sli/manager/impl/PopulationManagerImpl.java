@@ -477,14 +477,19 @@ public class PopulationManagerImpl implements PopulationManager {
             for (Map<String, Object> currentGrade : gradeEntries) {
                 GenericEntity gradeDate = new GenericEntity();
                 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                double numericGrade = (Double) currentGrade.get(Constants.ATTR_NUMERIC_GRADE_EARNED);
+                Object grade = currentGrade.get("letterGradeEarned");
+                if(grade == null) {
+                    return;
+                }
+                
+                String letterGrade = (String) grade;
                 try {
                     Date date = formatter.parse((String) currentGrade.get(Constants.ATTR_DATE_FULFILLED));
                     gradeDate.put(Constants.ATTR_DATE_FULFILLED, date);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                gradeDate.put(Constants.ATTR_NUMERIC_GRADE_EARNED, numericGrade);
+                gradeDate.put(Constants.ATTR_NUMERIC_GRADE_EARNED, letterGrade);
                 sortedList.add(gradeDate);
             }
             int count = 0;

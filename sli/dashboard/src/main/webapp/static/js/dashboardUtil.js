@@ -311,10 +311,12 @@ DashboardUtil.Grid.Formatters = {
 
                 NumberGrade: function(value, options, rowobject) {
                     var displayValue = "";
+                    if(value === undefined || value === null){
+                        return displayValue;
+                    }
                     
-                        var dateGrade = value;
-                    if(dateGrade.numericGradeEarned !== null && dateGrade.numericGradeEarned !== undefined) {
-                        displayValue = displayValue + dateGrade.numericGradeEarned;
+                    if(value.numericGradeEarned !== null && value.numericGradeEarned !== undefined) {
+                        displayValue = displayValue + value.numericGradeEarned;
                     }
              
                     /*for(var index in value) {
@@ -327,10 +329,10 @@ DashboardUtil.Grid.Formatters = {
                 },
 
         TearDrop: function(value, options, rowObject) {
-                        //var displayValue = "<table border=\"0\">";
-                        var displayValue = "";
+            //var displayValue = "<table border=\"0\">";
+            var displayValue = "";
 
-                        for(var courseIndex in value){
+            for(var courseIndex in value){
                             var course = value[courseIndex];
                             if(course.letterGrade !== null && course.letterGrade !== undefined) {
                     var teardropStyle = "<div class=\"" + 
