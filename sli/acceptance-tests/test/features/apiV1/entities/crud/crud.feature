@@ -50,6 +50,7 @@ Examples:
 | "session"                      | sessions                | "totalInstructionalDays" | "43"                                         |
 | "staff"                        | staff                   | "sex"                    | "Female"                                     |
 | "student"                      | students                | "sex"                    | "Female"                                     |
+| "studentAcademicRecord"        | studentAcademicRecords  | "sessionId"              | "67ce204b-9999-4a11-aacb-000000000003"       |
 | "studentSectionGradebookEntry" | studentGradebookEntries | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "teacher"                      | teachers                | "highlyQualifiedTeacher" | "false"                                      |
 
@@ -85,6 +86,7 @@ Examples:
 | "session"                      | sessions                | "totalInstructionalDays" | "43"                                         |
 | "staff"                        | staff                   | "sex"                    | "Female"                                     |
 | "student"                      | students                | "sex"                    | "Female"                                     |
+| "studentAcademicRecord"        | studentAcademicRecords  | "sessionId"              | "67ce204b-9999-4a11-aacb-000000000003"       |
 | "studentSectionGradebookEntry" | studentGradebookEntries | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "teacher"                      | teachers                | "highlyQualifiedTeacher" | "false"                                      |
 
@@ -115,5 +117,6 @@ Examples:
 | "session"                      | sessions                | 0 |
 | "staff"                        | staff                   | 0 |
 | "student"                      | students                | 0 |
+| "studentAcademicRecord"        | studentAcademicRecords  | 0 |
 | "studentSectionGradebookEntry" | studentGradebookEntries | 0 |
 | "teacher"                      | teachers                | 0 |

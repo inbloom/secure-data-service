@@ -38,6 +38,10 @@ $entityData = {
       }]
     }]
   },
+  "studentAcademicRecord" => {
+    "studentId" => "eb4d7e1b-7bed-890a-d5f4-5d8aa9fbfc2d", 
+    "sessionId" => "67ce204b-9999-4a11-aacb-000000000003"
+  },
   "student" => {
     "birthData" => {
       "birthDate" => "1994-04-04"
