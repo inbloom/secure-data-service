@@ -43,7 +43,7 @@ public class RESTClient {
     public JsonObject sessionCheck(String token) {
         logger.info("Session check URL = {}", Constants.SESSION_CHECK_PREFIX);
         // String jsonText = makeJsonRequest(Constants.SESSION_CHECK_PREFIX, token);
-        String jsonText = makeJsonRequestWHeaders(Constants.SESSION_CHECK_PREFIX, token, true);
+        String jsonText = makeJsonRequestWHeaders(Constants.SESSION_CHECK_PREFIX, token);
         logger.info("jsonText = {}", jsonText);
         JsonParser parser = new JsonParser();
         return parser.parse(jsonText).getAsJsonObject();
@@ -64,10 +64,10 @@ public class RESTClient {
      *         null.
      * @throws NoSessionException
      */
-     public String makeJsonRequestWHeaders(String path, String token, boolean fullEntities) {
+     public String makeJsonRequestWHeaders(String path, String token) {
 
         if (token != null) {
-            // url.addQueryParam(API_SESSION_KEY, token);
+
             URLBuilder url = null;
             if (!path.startsWith("http")) {
                 url = new URLBuilder(getSecurityUrl());
@@ -75,12 +75,8 @@ public class RESTClient {
             } else {
                 url = new URLBuilder(path);
             }
-            //TODO probably should use media types
-            if (fullEntities)
-                url.addQueryParam("full-entities", "true");
 
             HttpHeaders headers = new HttpHeaders();
-            // headers.add(API_SESSION_KEY, token);
             headers.add("Authorization", "Bearer " + token);
             HttpEntity entity = new HttpEntity(headers);
             logger.debug("Accessing API at: {}", url);
