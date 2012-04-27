@@ -43,6 +43,12 @@ Then /^I see all of the applications that are registered to SLI$/ do
   assertWithWait("Failed to find applications table") {@driver.find_element(:id, "applications")}
 end
 
+Then /^application "([^"]*)" does not have an edit link$/ do |app|
+  appsTable = @driver.find_element(:id, "applications")
+  edit = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/a[text()='Edit']")
+  assert(edit.length == 0, "Should not see an edit link")
+end
+
 Then /^I see all the applications registered on SLI$/ do
   appsTable = @driver.find_element(:id, "applications")
   trs = appsTable.find_elements(:xpath, ".//tr/td[text()='APPROVED']")
@@ -53,6 +59,12 @@ Then /^I see all the applications pending registration$/ do
   appsTable = @driver.find_element(:id, "applications")
   trs = appsTable.find_elements(:xpath, ".//tr/td[text()='PENDING']")
   assert(trs.length == 1, "Should see a pending application")
+end
+
+Then /^application "([^"]*)" is pending approval$/ do |app|
+  appsTable = @driver.find_element(:id, "applications")
+  trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td[text()='PENDING']")
+  assert(trs.length > 0, "#{app} is pending")
 end
 
 Then /^the pending apps are on top$/ do
@@ -79,23 +91,44 @@ Then /^the pending apps are on top$/ do
   end
 end
 
-When /^I click on 'Y' next to NewApp$/ do
+
+When /^I click on 'Y' next to application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
   y_button  = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Y']")[0]
   assert(y_button != nil, "Found Y button")
   y_button.click
 end
 
-Then /^NewApp is registered$/ do
+When /^I click on 'X' next to application "([^"]*)"$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
-  trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='NewApp']/../td[text()='APPROVED']")
+  y_button  = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='X']")[0]
+  assert(y_button != nil, "Found X button")
+  y_button.click
+end
+
+Then /^I get a dialog asking if I want to continue$/ do
+  @driver.switch_to.alert
+end
+
+Then /^application "([^"]*)" is registered$/ do |app|
+  appsTable = @driver.find_element(:id, "applications")
+  trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td[text()='APPROVED']")
   assert(trs.length > 0, "No more pending applications")
 end
 
+Then /^application "([^"]*)" is not registered$/ do |app|
+	# no-op - in next step we verify it was removed from list
+end
 
-Then /^the 'Y' button is disabled$/ do
+Then /^application "([^"]*)" is removed from the list$/ do |app|
   appsTable = @driver.find_element(:id, "applications")
-  y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='NewApp']/../td/form/div/input[@value='Y']")[0]
+  tds  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']")
+  assert(tds.length == 0, "#{app} isn't in list")
+end
+
+Then /^the 'Y' button is disabled for application "([^"]*)"$/ do |app|
+  appsTable = @driver.find_element(:id, "applications")
+  y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Y']")[0]
   assert(y_button.attribute("disabled") == 'true', "Y button is disabled")
 end
 
@@ -159,10 +192,10 @@ When /^I click on the button Submit$/ do
   @driver.find_element(:name, 'commit').click
 end
 
-Then /^the application is listed in the table on the top$/ do
+Then /^the application "([^"]*)" is listed in the table on the top$/ do |app|
   value = @driver.find_element(:id, 'notice').text
   assert(value =~ /successfully created/, "Should have valid flash message")
-  assertWithWait("Couldn't locate NewApp at the top of the page") {@driver.find_element(:xpath, "//tr[2]/td[text()='NewApp']")}
+  assertWithWait("Couldn't locate #{app} at the top of the page") {@driver.find_element(:xpath, "//tr[2]/td[text()='#{app}']")}
 end
 
 Then /^a client ID is created for the new application that can be used to access SLI$/ do
