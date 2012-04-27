@@ -1,7 +1,6 @@
 admin:
     id: 1
     client_secret: "B5Y20Qi9Hp1ds5lMxWG9PiELwKRyb4xNgdh6Jm8G0my1lPHA"
-    client_type: PUBLIC
     scope: ENABLED
     redirect_uri: https://devdatab1.slidev.org/callback
     description: Admin application
@@ -21,14 +20,12 @@ admin:
     created_on: 1331670018
     updated_on: 1331670018
     developer_info: 
-        license_acceptance: true
         organization: SLI
     metaData:
         updated: 10000000
         created: 10000000
 waffles:
     id: 2
-    client_type: PUBLIC
     scope: ENABLED
     client_secret: "B5Y20Qi9Hp1ds5lMxWG9PiELwKRyb4xNgdh6Jm8G0my1lPHA"
     redirect_uri: https://devadmin1.slidev.org/callback
@@ -47,7 +44,6 @@ waffles:
     is_admin: true
     enabled: true
     developer_info: 
-        license_acceptance: true
         organization: SLI
     metaData:
         updated: 10000000
@@ -56,7 +52,6 @@ waffles:
 update:
     id: 1
     client_secret: "Waffle Copter"
-    client_type: PUBLIC
     scope: ENABLED
     redirect_uri: https://devadmin1.slidev.org/callback
     description: Waffle application
@@ -73,10 +68,8 @@ update:
     is_admin: "0"
     enabled: "0"
     developer_info: 
-        license_acceptance: "0"
         organization: SLI
 new:
-    client_type: PUBLIC
     scope: ENABLED
     redirect_uri: https://devadmin1.slidev.org/callback
     description: Waffle application
@@ -93,6 +86,5 @@ new:
     is_admin: "0"
     enabled: "0"
     developer_info: 
-        license_acceptance: "0"
         organization: SLI
 
