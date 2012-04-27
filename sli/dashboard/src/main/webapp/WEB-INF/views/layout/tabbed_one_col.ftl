@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
+<#include "layout_header.ftl">
 <#include "layout_includes.ftl">
 <#assign layoutConfig = viewConfigs>
 <script>
@@ -11,9 +12,14 @@
 </head>
 <body>
 
-
 <div id="container">
-
+    
+  <div id="banner">
+    <h1>
+      SLI Dashboard
+    </h1>
+  </div>
+    
   <div id="content">
     <#-- create header panels -->
     <#list layout as item>     
