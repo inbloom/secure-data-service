@@ -49,12 +49,10 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "incidentDate" => "2012-02-14", 
     "incidentTime" => "01:00:00", 
     "incidentLocation" => "On School",
-    "behaviors" => [{
-        "shortDescription" => "Behavior 012 description",
-        "codeValue" => "BEHAVIOR 012",
-        "behaviorCategory" => "School Code of Conduct",
-        "educationOrganizationId" => ["1d303c61-88d4-404a-ba13-d7c5cc324bc5"]
-    }],
+    "behaviors" => [[
+        {"shortDescription" => "Behavior 012 description"},
+        {"codeValue" => "BEHAVIOR 012"}
+    ]],
     "schoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2"
   }
 end
@@ -66,11 +64,9 @@ end
 #    "incidentDate": "2012-02-14", 
 #    "incidentTime": "01:00:00", 
 #    "incidentLocation": "On School",
-#    "behaviors": [{
-#        "shortDescription":"Behavior 012 description",
-#        "codeValue": "BEHAVIOR 012",
-#        "behaviorCategory":"School Code of Conduct",
-#        "educationOrganizationId": ["1d303c61-88d4-404a-ba13-d7c5cc324bc5"]
-#    }],
+#    "behaviors": [[
+#        {"shortDescription":"Behavior 012 description"},
+#        {"codeValue": "BEHAVIOR 012"}
+#    ]],
 #    "schoolId": "eb3b8c35-f582-df23-e406-6947249a19f2"
 #}

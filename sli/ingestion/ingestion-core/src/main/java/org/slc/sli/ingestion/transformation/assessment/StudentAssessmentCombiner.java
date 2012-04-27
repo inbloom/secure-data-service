@@ -3,20 +3,10 @@ package org.slc.sli.ingestion.transformation.assessment;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
+import org.slc.sli.dal.MongoIterable;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -26,6 +16,14 @@ import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 
 /**
  * Transformer for StudentAssessment entities
@@ -33,15 +31,15 @@ import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 @Scope("prototype")
 @Component(StudentAssessmentCombiner.SA_EDFI_COLLECTION_NAME + "TransformationStrategy")
 public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(StudentAssessmentCombiner.class);
-
+    
     public static final String SA_EDFI_COLLECTION_NAME = "studentAssessmentAssociation";
     public static final String SOA_EDFI_COLLECTION_NAME = "studentObjectiveAssessment";
     public static final String STUDENT_ASSESSMENT_REFERENCE = "sTAReference";
     public static final String OBJECTIVE_ASSESSMENT_REFERENCE = "oAReference";
     public static final String XML_ID_FIELD = "xmlId";
-
+    
     @SuppressWarnings("unchecked")
     @Override
     protected void performTransformation() {
@@ -51,12 +49,11 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         for (IngestionFileEntry fe : getFEs()) {
             BasicDBObject query = getJobQuery();
             query.append("sourceFile", fe.getFileName());
-            Iterator<DBObject> cursor = getMatching(SA_EDFI_COLLECTION_NAME, query);
+            Iterable<DBObject> cursor = getMatching(SA_EDFI_COLLECTION_NAME, query);
             try {
                 NeutralRecordFileWriter writer = new NeutralRecordFileWriter(fe.getNeutralRecordFile());
                 try {
-                    while (cursor.hasNext()) {
-                        DBObject studentAssessment = cursor.next();
+                    for (DBObject studentAssessment : cursor) {
                         LOG.debug("Transforming student assessment {}", studentAssessment);
                         Map<String, Object> body = ((DBObject) studentAssessment.get("body")).toMap();
                         String id = (String) body.get(XML_ID_FIELD);
@@ -87,18 +84,17 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             }
         }
     }
-
-    protected Iterator<DBObject> getMatching(String collectionName, DBObject query) {
+    
+    protected Iterable<DBObject> getMatching(String collectionName, DBObject query) {
         DBCollection studentAssessments = getNeutralRecordMongoAccess().getRecordRepository().getCollection(
                 collectionName);
-        DBCursor cursor = studentAssessments.find(query);
-        return cursor;
+        return new MongoIterable(studentAssessments, query);
     }
-
+    
     private BasicDBObject getJobQuery() {
         return new BasicDBObject(BATCH_JOB_ID_KEY, getBatchJobId());
     }
-
+    
     private Map<String, Map<String, Object>> getOAs(DBCollection soas) {
         @SuppressWarnings("unchecked")
         List<String> oaRefs = soas.distinct("body." + OBJECTIVE_ASSESSMENT_REFERENCE, getJobQuery());
@@ -109,7 +105,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         }
         return oas;
     }
-
+    
     private Map<String, Object> resolveSoa(NeutralRecord ref, Map<String, Map<String, Object>> oas) {
         Map<String, Object> soaObject = ref.getAttributes();
         soaObject.remove(STUDENT_ASSESSMENT_REFERENCE);
@@ -122,7 +118,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         }
         return soaObject;
     }
-
+    
     private List<IngestionFileEntry> getFEs() {
         List<IngestionFileEntry> all = getJob().getFiles();
         List<IngestionFileEntry> studentAssessmentFiles = new ArrayList<IngestionFileEntry>();
