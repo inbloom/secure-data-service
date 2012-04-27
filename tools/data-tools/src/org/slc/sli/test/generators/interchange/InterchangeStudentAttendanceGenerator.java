@@ -50,10 +50,14 @@ public class InterchangeStudentAttendanceGenerator {
 
         int objGenCounter = 0;
         for (StudentMeta studentMeta : studentMetas) {
+
+            AttendanceEventGenerator.resetCalendar();
+
             for (String sectionId : studentMeta.sectionIds) {
 
-                AttendanceEventGenerator.resetCalendar();
+
                 for (int count = 0; count < MetaRelations.ATTENDANCE_PER_STUDENT_SECTION; count++) {
+
                     AttendanceEvent attendanceEvent;
 
                     if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
@@ -68,7 +72,7 @@ public class InterchangeStudentAttendanceGenerator {
                     objGenCounter++;
                 }
             }
-        }
+       }
 
         System.out.println("generated " + objGenCounter + " AttendanceEvent objects in: "
                 + (System.currentTimeMillis() - startTime));
