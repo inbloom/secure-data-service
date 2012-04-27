@@ -2517,6 +2517,9 @@
             <xs:element name="schoolId" type="reference" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                     <xs:documentation>Current school</xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>school</sli:ReferenceType>
+                    </xs:appinfo>
                 </xs:annotation>
             </xs:element>
 		</xs:sequence>
