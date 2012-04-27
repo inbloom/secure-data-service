@@ -28,23 +28,29 @@ Before do
   @tenantColl = @mdb.collection('tenant')
 
   @ingestion_lz_identifer_map = {}
-  INGESTION_TENANT_DISTRICT_MAP.each do |tenantInfo|
-    tenantId = tenantInfo[0]
-    districts = INGESTION_TENANT_DISTRICT_MAP[tenantId]
-    current = @tenantColl.find_one({'tenantId' => tenantId}, {:fields => ['landingZone.district', 'landingZone.path']}).to_a[1]
-    lzInfo = current[1]
-    lzInfo.each do |lzMap|
-      district = lzMap['district']
-      path = lzMap['path']
-      districts.each do |interestedDistrict|
-        if district == interestedDistrict
-          identifier = tenantId + '-' + district
-          if path.rindex('/') != (path.length - 1)
-            path = path+ '/'
-          end
-          @ingestion_lz_identifer_map[identifier] = path
-        end
+  @tenantColl.find.each do |row|
+    @tenantId = row['tenantId']
+    @landingZones = row['landingZone'].to_a
+    @landingZones.each do |lz|
+      if lz['district'] == nil
+        puts 'No district for landing zone, skipping. Tenant id = ' + @tenantId
+        next
       end
+      if lz['path'] == nil
+        puts 'No path for landing zone, skipping. Tenant id = ' + @tenantId
+        next
+      end
+
+      district = lz['district']
+      path = lz['path']
+
+      if path.rindex('/') != (path.length - 1)
+        path = path+ '/'
+      end
+
+      identifier = @tenantId + '-' + district
+      puts identifier + " -> " + path
+      @ingestion_lz_identifer_map[identifier] = path
     end
   end
 end
