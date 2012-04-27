@@ -163,7 +163,7 @@ h7 {
     border-right: 1px solid #CCCCCC;
     border-top: 0px solid #CCCCCC;
     line-height: 18px;
-    vertical-align: top;
+    vertical-align: middle;
     color: #999999;
     font-weight: 100;
     font-size:13px;
@@ -177,6 +177,7 @@ h7 {
 .ui-jqgrid .ui-jqgrid-htable th.end {
 	border-right: 0px solid #DDDDDD;
 	padding: 4px 5px;
+	vertical-align: middle;
 }
 
 th.ui-th-column div {
