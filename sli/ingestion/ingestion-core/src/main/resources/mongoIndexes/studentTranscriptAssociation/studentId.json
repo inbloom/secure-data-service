@@ -1,0 +1,9 @@
+{
+    "collection": "studentTranscriptAssociation",
+    "indexFields":
+    [
+        {"name" : "body.studentId", "order" : "1"},
+        {"name" : "metaData.externalId", "order" : "1"},
+        {"name" : "body.courseId", "order" : "1"}
+    ]
+}
