@@ -55,6 +55,7 @@ public class ApplicationAuthorizationValidator {
             return null;
         }
         List<String> apps = null;
+        List<String> results = null;
         for (Entity district : districts) {
 
             NeutralQuery query = new NeutralQuery();
@@ -66,12 +67,25 @@ public class ApplicationAuthorizationValidator {
                 if (apps == null) {
                     apps = new ArrayList<String>();
                 }
+                if (results == null) {
+                    results = new ArrayList<String>();
+                }
+
+                NeutralQuery districtQuery = new NeutralQuery();
+                districtQuery.addCriteria(new NeutralCriteria("authorized_ed_orgs", "=", district.getEntityId()));
+                Iterable<Entity> districtAuthorizedApps = repo.findAll("application", districtQuery);
+
                 apps.addAll((List<String>) authorizedApps.getBody().get("appIds"));
+                for (Entity currentApp : districtAuthorizedApps) {
+                    if (apps.contains(currentApp.getEntityId())) {
+                        results.add(currentApp.getEntityId());
+                    }
+                }
             }
 
         }
 
-        return apps;
+        return results;
     }
 
     /**
