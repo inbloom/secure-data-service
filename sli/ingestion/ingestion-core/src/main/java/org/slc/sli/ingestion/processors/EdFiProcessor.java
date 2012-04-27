@@ -29,6 +29,7 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -64,7 +65,6 @@ public class EdFiProcessor implements Processor {
 
             processEdFi(exchange, batchJobId);
         }
-
     }
 
     private void processEdFi(Exchange exchange, String batchJobId) {
@@ -73,8 +73,6 @@ public class EdFiProcessor implements Processor {
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
-
-            newJob.getStages().add(stage);
 
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
 
@@ -110,7 +108,7 @@ public class EdFiProcessor implements Processor {
             handleProcessingExceptions(exchange, batchJobId, exception);
         } finally {
             if (newJob != null) {
-                stage.stopStage();
+                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
                 batchJobDAO.saveBatchJob(newJob);
             }
         }
@@ -145,31 +143,11 @@ public class EdFiProcessor implements Processor {
             String faultLevel = fault.isError() ? FaultType.TYPE_ERROR.getName()
                     : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
 
-            Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), fe.getFileName(), null,
+            Error error = Error.createIngestionError(batchJobId, fe.getFileName(), BATCH_JOB_STAGE.getName(), null,
                     null, null, faultLevel, faultLevel, faultMessage);
             batchJobDAO.saveError(error);
         }
         return errorCount;
-    }
-
-    private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
-        exchange.getIn().setHeader("ErrorMessage", exception.toString());
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Exception:", exception);
-        if (batchJobId != null) {
-            Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null, null, null, null,
-                    FaultType.TYPE_ERROR.getName(), null, exception.toString());
-            batchJobDAO.saveError(error);
-        }
-    }
-
-    private void setExchangeHeaders(Exchange exchange, boolean hasError) {
-        if (hasError) {
-            exchange.getIn().setHeader("hasErrors", hasError);
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        } else {
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.DATA_TRANSFORMATION.name());
-        }
     }
 
     private ResourceEntry createResourceForOutputFile(IngestionFileEntry fe, FileProcessStatus fileProcessStatus) {
@@ -199,7 +177,9 @@ public class EdFiProcessor implements Processor {
                 String fileName = resource.getResourceId();
                 String checksum = resource.getChecksum();
 
-                IngestionFileEntry fe = new IngestionFileEntry(fileFormat, fileType, fileName, checksum);
+                String lzPath = resource.getTopLevelLandingZonePath();
+
+                IngestionFileEntry fe = new IngestionFileEntry(fileFormat, fileType, fileName, checksum, lzPath);
                 fe.setFile(new File(resource.getResourceName()));
                 fe.setBatchJobId(batchJobId);
 
@@ -207,6 +187,26 @@ public class EdFiProcessor implements Processor {
             }
         }
         return fileEntryList;
+    }
+
+    private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
+        exchange.getIn().setHeader("ErrorMessage", exception.toString());
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        LOG.error("Exception:", exception);
+        if (batchJobId != null) {
+            Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
+                    FaultType.TYPE_ERROR.getName(), null, exception.toString());
+            batchJobDAO.saveError(error);
+        }
+    }
+
+    private void setExchangeHeaders(Exchange exchange, boolean hasError) {
+        if (hasError) {
+            exchange.getIn().setHeader("hasErrors", hasError);
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        } else {
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.DATA_TRANSFORMATION.name());
+        }
     }
 
     private void handleNoBatchJobIdInExchange(Exchange exchange) {

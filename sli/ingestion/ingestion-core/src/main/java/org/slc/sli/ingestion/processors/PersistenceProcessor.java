@@ -40,6 +40,7 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
@@ -89,47 +90,53 @@ public class PersistenceProcessor implements Processor {
             handleNoBatchJobIdInExchange(exchange);
         } else {
 
-            Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
+            processPersistence(exchange, batchJobId);
+        }
+    }
 
-            NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
-            newJob.getStages().add(stage);
+    private void processPersistence(Exchange exchange, String batchJobId) {
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
-            try {
-                LOG.info("processing persistence: {}", newJob);
+        NewBatchJob newJob = null;
+        try {
+            newJob = batchJobDAO.findBatchJobById(batchJobId);
+            LOG.info("processing persistence: {}", newJob);
 
-                // sets jobid in thread local
-                neutralRecordMongoAccess.registerBatchId(newJob.getId());
+            // sets jobid in thread local
+            neutralRecordMongoAccess.registerBatchId(newJob.getId());
 
-                for (ResourceEntry resource : newJob.getResourceEntries()) {
+            for (ResourceEntry resource : newJob.getResourceEntries()) {
 
-                    if (FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resource.getResourceFormat())) {
+                if (FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resource.getResourceFormat())) {
 
-                        Metrics metrics = Metrics.createAndStart(resource.getResourceId());
-                        stage.getMetrics().add(metrics);
+                    Metrics metrics = Metrics.createAndStart(resource.getResourceId());
+                    stage.getMetrics().add(metrics);
 
-                        if (resource.getResourceName() != null) {
-                            try {
+                    if (resource.getResourceName() != null) {
+                        try {
 
-                                processNeutralRecordsFile(new File(resource.getResourceName()), getTenantId(newJob),
-                                        batchJobId, metrics);
-                            } catch (IOException e) {
-                                Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), resource.getResourceId(),
-                                        null, null, null, FaultType.TYPE_ERROR.getName(), "Exception", e.getMessage());
-                                batchJobDAO.saveError(error);
-                            }
+                            processNeutralRecordsFile(new File(resource.getResourceName()), getTenantId(newJob),
+                                    batchJobId, metrics);
+                        } catch (IOException e) {
+                            Error error = Error.createIngestionError(batchJobId, resource.getResourceId(),
+                                    BATCH_JOB_STAGE.getName(), null, null, null, FaultType.TYPE_ERROR.getName(),
+                                    "Exception", e.getMessage());
+                            batchJobDAO.saveError(error);
                         }
-                        metrics.stopMetric();
                     }
+                    metrics.stopMetric();
                 }
-                exchange.getIn().setHeader("IngestionMessageType", MessageType.DONE.name());
+            }
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.DONE.name());
 
-            } catch (Exception exception) {
-                handleProcessingExceptions(exception, exchange, batchJobId);
-            } finally {
-                stage.stopStage();
+        } catch (Exception exception) {
+            handleProcessingExceptions(exception, exchange, batchJobId);
+        } finally {
+            cleanupStagingDbForJob();
+
+            if (newJob != null) {
+                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
                 batchJobDAO.saveBatchJob(newJob);
-
-                cleanupStagingDbForJob();
             }
         }
     }
@@ -204,11 +211,6 @@ public class PersistenceProcessor implements Processor {
                     List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForNrFile);
                     for (SimpleEntity xformedEntity : xformedEntities) {
 
-                        if ("learningObjective".equals(xformedEntity.getType())) {
-                            xformedEntity.getBody().remove("parentLearningObjectiveIdentificationCode");
-                            xformedEntity.getBody().remove("parentLearningObjectiveContentStandardName");
-                        }
-
                         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForNrFile);
                         entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
 
@@ -221,6 +223,7 @@ public class PersistenceProcessor implements Processor {
                 // TODO: this isn't really a failure per record. revisit.
                 numFailed++;
             }
+
         }
         return numFailed;
     }
@@ -318,7 +321,7 @@ public class PersistenceProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Exception:", exception);
 
-        Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null, null, null, null,
+        Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                 FaultType.TYPE_ERROR.getName(), "Exception", exception.getMessage());
         batchJobDAO.saveError(error);
     }

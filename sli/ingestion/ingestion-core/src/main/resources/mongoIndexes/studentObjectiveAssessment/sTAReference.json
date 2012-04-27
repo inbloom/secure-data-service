@@ -1,7 +1,0 @@
-{
-    "collection": "studentObjectiveAssessment",
-    "indexFields":
-    [
-        {"name" : "body.sTAReference", "order" : "1"}
-    ]
-}
