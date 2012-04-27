@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.model;
 
-import org.apache.commons.lang.time.FastDateFormat;
+
+import java.util.Date;
 
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
@@ -18,17 +19,13 @@ public class Metrics {
 
     private String hostname;
 
-    private String startTimestamp;
+    private Date startTimestamp;
 
-    private String stopTimestamp;
+    private Date stopTimestamp;
 
     private long recordCount;
 
     private long errorCount;
-
-    private static final String STR_TIMESTAMP_FORMAT = "yyyyMMdd hh:mm:ss.SSS";
-
-    private static final FastDateFormat FORMATTER = FastDateFormat.getInstance(STR_TIMESTAMP_FORMAT);
 
     // mongoTemplate requires this constructor.
     public Metrics() {
@@ -38,7 +35,7 @@ public class Metrics {
         this(resourceId, sourceIp, hostname, null, null, 0, 0);
     }
 
-    public Metrics(String resourceId, String sourceIp, String hostname, String startTimestamp, String stopTimestamp,
+    public Metrics(String resourceId, String sourceIp, String hostname, Date startTimestamp, Date stopTimestamp,
             long recordCount, long errorCount) {
         super();
         this.resourceId = resourceId;
@@ -82,19 +79,19 @@ public class Metrics {
         this.hostname = hostname;
     }
 
-    public String getStartTimestamp() {
+    public Date getStartTimestamp() {
         return startTimestamp;
     }
 
-    public void setStartTimestamp(String startTimestamp) {
+    public void setStartTimestamp(Date startTimestamp) {
         this.startTimestamp = startTimestamp;
     }
 
-    public String getStopTimestamp() {
+    public Date getStopTimestamp() {
         return stopTimestamp;
     }
 
-    public void setStopTimestamp(String stopTimestamp) {
+    public void setStopTimestamp(Date stopTimestamp) {
         this.stopTimestamp = stopTimestamp;
     }
 
@@ -114,8 +111,8 @@ public class Metrics {
         this.errorCount = errorCount;
     }
 
-    public void update(String resourceId, String sourceIp, String hostname, String startTimestamp,
-            String stopTimestamp, long recordCount, long errorCount) {
+    public void update(String resourceId, String sourceIp, String hostname, Date startTimestamp,
+            Date stopTimestamp, long recordCount, long errorCount) {
         if (resourceId != null) {
             this.resourceId = resourceId;
         }
@@ -136,10 +133,10 @@ public class Metrics {
     }
 
     public void startMetric() {
-        this.setStartTimestamp(NewBatchJob.getCurrentTimeStamp());
+        this.setStartTimestamp(new Date());
     }
 
     public void stopMetric() {
-        this.setStopTimestamp(NewBatchJob.getCurrentTimeStamp());
+        this.setStopTimestamp(new Date());
     }
 }

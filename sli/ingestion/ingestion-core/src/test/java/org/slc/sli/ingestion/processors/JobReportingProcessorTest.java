@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.PrintStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -178,19 +179,19 @@ public class JobReportingProcessorTest {
     private List<Error> createFakeErrorList() {
         List<Error> errors = new LinkedList<Error>();
         Error error = new Error(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), RESOURCEID,
-                "10.81.1.27", "testhost", RECORDID, "20120412 10:04:46.111", FaultType.TYPE_ERROR.getName(),
+                "10.81.1.27", "testhost", RECORDID, new Date(), FaultType.TYPE_ERROR.getName(),
                 "errorType", ERRORDETAIL);
         errors.add(error);
         return errors;
     }
 
     private List<Stage> createFakeStages() {
-        Metrics m = new Metrics(RESOURCEID, "192.168.59.11", "transform1.slidev.org", "20120412 10:04:13.463",
-                "20120412 10:04:45.778", 50, 5);
+        Metrics m = new Metrics(RESOURCEID, "192.168.59.11", "transform1.slidev.org", new Date(),
+                new Date(), 50, 5);
         List<Metrics> ms = new LinkedList<Metrics>();
         ms.add(m);
-        Stage s = new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "fininshed", "20120412 10:04:13.463",
-                "20120412 10:04:45.778", ms);
+        Stage s = new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "fininshed", new Date(),
+                new Date(), ms);
 
         List<Stage> listStages = new LinkedList<Stage>();
         listStages.add(s);

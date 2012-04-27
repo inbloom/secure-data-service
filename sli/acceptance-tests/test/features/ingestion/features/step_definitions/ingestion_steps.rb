@@ -36,6 +36,27 @@ Given /^I am using destination-local data store$/ do
   @local_file_store_path = INGESTION_DESTINATION_DATA_STORE
 end
 
+def lzFileRmWait(file, wait_time)
+  intervalTime = 3 #seconds
+  iters = (1.0*wait_time/intervalTime).ceil
+  deleted = false
+  iters.times do |i|
+    puts "Attempting delete of " + file
+    FileUtils.rm_rf file
+    if File.exists? file
+      puts "Retry delete " + file
+      sleep(intervalTime)
+    else
+      puts "Deleted " + file
+      deleted = true
+      break
+    end
+  end
+  if !deleted
+    puts "Failed to delete file " + file
+  end
+end
+
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
   if INGESTION_LANDING_ZONE.rindex('/') == (INGESTION_LANDING_ZONE.length - 1)
     @landing_zone_path = INGESTION_LANDING_ZONE
@@ -52,7 +73,8 @@ Given /^I am using preconfigured Ingestion Landing Zone$/ do
   else
     Dir.foreach(@landing_zone_path) do |file|
       if /.*.log$/.match file
-        FileUtils.rm_rf @landing_zone_path+file
+#        FileUtils.rm_rf @landing_zone_path+file
+        lzFileRmWait @landing_zone_path+file, 900
       end
       if /.done$/.match file
         FileUtils.rm_rf @landing_zone_path+file
@@ -244,6 +266,47 @@ When /^a batch job log has been created$/ do
   end
 
   if found
+    assert(true, "")
+  else
+    assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
+  end
+
+end
+
+When /^two batch job logs have been created$/ do
+  intervalTime = 3 #seconds
+  #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
+  @maxTimeout ? @maxTimeout : @maxTimeout = 900
+  iters = (1.0*@maxTimeout/intervalTime).ceil
+  found = false
+  if (INGESTION_MODE == 'remote') # TODO this needs testing for remote
+    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/getJobLogCount.sh");
+
+    iters.times do |i|
+      jobLogCount = runShellCommand(File.dirname(__FILE__) + "/../../util/getJobLogCount.sh")
+      if jobLogCount >= 2
+        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        found = true
+        break
+      else
+        sleep(intervalTime)
+      end
+    end
+  else
+    sleep(3) # waiting to poll job file removes race condition (windows-specific)
+    iters.times do |i|
+      if dirContainsBatchJobLogs? @landing_zone_path, 2
+        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        found = true
+        break
+      else
+        sleep(intervalTime)
+      end
+    end
+  end
+
+  if found
+    sleep(5) # give JobReportingProcessor time to finish the job
     assert(true, "")
   else
     assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
@@ -492,7 +555,7 @@ def checkForContentInFileGivenPrefix(message, prefix)
       if (file_contents.rindex(message) == nil)
         assert(false, "File doesn't contain correct processing message")
       end
-
+      aFile.close
     else
        raise "File " + @job_status_filename + "can't be opened"
     end
@@ -501,6 +564,16 @@ end
 
 Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
   prefix = "job-" + @source_file_name + "-"
+  checkForContentInFileGivenPrefix(message, prefix)
+end
+
+Then /^I should see "([^"]*)" in the resulting batch job error file$/ do |message|
+  prefix = "job_error-" + @source_file_name + "-"
+  checkForContentInFileGivenPrefix(message, prefix)
+end
+
+Then /^I should see "([^"]*)" in the resulting batch job warning file$/ do |message|
+  prefix = "job_warn-" + @source_file_name + "-"
   checkForContentInFileGivenPrefix(message, prefix)
 end
 
@@ -583,6 +656,28 @@ Then /^the field "([^\"]*)" with value "([^\"]*)" is encrypted$/ do |field, valu
   object.should_not == value
 end
 
+Then /^the jobs ran concurrently$/ do
+  @db   = @conn[INGESTION_BATCHJOB_DB_NAME]
+  @entity_collection = @db.collection("newBatchJob")
+
+  latestStartTime = nil
+  earliestStopTime = nil
+
+  @entity_collection.find( {}, :fields => { "_id" => 0, "stages" => 1 } ).each { |stages|
+    stages[ "stages" ].each { |stage|
+
+      if stage[ "stageName" ] == "ZipFileProcessor" and ( latestStartTime == nil or stage[ "startTimestamp" ] > latestStartTime )
+        latestStartTime = stage[ "startTimestamp" ]
+      end
+      if stage[ "stageName" ] == "JobReportingProcessor" and ( earliestStopTime == nil or stage[ "stopTimestamp" ] < earliestStopTime )
+        earliestStopTime = stage[ "stopTimestamp" ]
+      end
+    }
+  }
+  
+  assert(latestStartTime < earliestStopTime, "Expected concurrent job runs, but one finished before another began.")
+end
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
@@ -591,7 +686,10 @@ After do
   @conn.close if @conn != nil
 end
 
-# Uncomment the following to exit after the first failing scenario.
+# Set FAILFAST=1 in the acceptance test running environment to exit the tests after
+# the first feature failure
+
+# Uncomment the following to exit after the first failing scenario in a feature file.
 # Useful for debugging
 #After do |scenario|
 #  Cucumber.wants_to_quit = true if scenario.failed?

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.commons.lang.time.FastDateFormat;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -193,9 +194,8 @@ public class BatchJobUtils {
         return localhost.getHostName();
     }
 
-    public static String getCurrentTimeStamp() {
-        String timeStamp = FORMATTER.format(System.currentTimeMillis());
-        return timeStamp;
+    public static DateTime getCurrentTimeStamp() {
+        return new DateTime();
     }
 
     public static void writeErrorsWithDAO(String batchId, String resourceId, BatchJobStageType stage,
