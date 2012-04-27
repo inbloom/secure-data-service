@@ -426,7 +426,7 @@ end
 
 desc "Run V1 XML Tests"
 task :v1XMLTests => [:realmInit] do
-  setFixture("school", "school_fixture.json")
+  setFixture("educationOrganization", "educationOrganization_fixture.json")
   setFixture("student", "student_fixture.json")
   setFixture("assessment", "assessment_fixture.json")
   setFixture("attendance", "attendance_fixture.json")
@@ -482,8 +482,6 @@ task :v1DisciplineActionTests => [:realmInit] do
   setFixture("student", "smallville_student_fixture.json", "test/data/smallville", false)
   setFixture("staff", "staff_fixture.json")
   setFixture("staff", "smallville_staff_fixture.json", "test/data/smallville", false)
-  setFixture("school", "school_fixture.json")
-  setFixture("school", "smallville_schools_fixture.json", "test/data/smallville", false)
   setFixture("disciplineIncident", "disciplineIncident_fixture.json")
   setFixture("disciplineAction", "disciplineAction_fixture.json")
   runTests("test/features/apiV1/entities/disciplineAction")
@@ -537,8 +535,8 @@ desc "Run V1 Teacher School Association Tests"
 task :v1TeacherSchoolAssociationTests => [:realmInit] do
   setFixture("staff", "staff_fixture.json")
   setFixture("staff", "smallville_staff_fixture.json", "test/data/smallville", false)
-  setFixture("school", "school_fixture.json")
-  setFixture("school", "smallville_schools_fixture.json", "test/data/smallville", false)
+  setFixture("educationOrganization", "educationOrganization_fixture.json")
+  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
   setFixture("teacherSchoolAssociation", "teacherSchoolAssociation_fixture.json")
   runTests("test/features/apiV1/associations/teacherSchoolAssociation")
 end
@@ -625,11 +623,11 @@ end
 desc "Run V1 School Session Association Tests"
 task :v1SchoolSessionAssociationTests => [:realmInit] do
   #drop data, re add fixture data
-  setFixture("school", "school_fixture.json")
+  setFixture("educationOrganization", "educationOrganization_fixture.json")
   setFixture("session", "session_fixture.json")
   setFixture("schoolSessionAssociation", "schoolSessionAssociation_fixture.json")
   #add smallville (no drop)
-  setFixture("school", "smallville_schools_fixture.json", "test/data/smallville", false)
+  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
   setFixture("session", "smallville_sessions_fixture.json", "test/data/smallville", false)
   setFixture("schoolSessionAssociation", "smallville_school_session_association_fixture.json", "test/data/smallville", false)
   #run test
@@ -639,11 +637,11 @@ end
 desc "Run V1 Student School Association Tests"
 task :v1StudentSchoolAssociationTests => [:realmInit] do
   #drop data, re add fixture data
-  setFixture("school", "school_fixture.json")
+  setFixture("educationOrganization", "educationOrganization_fixture.json")
   setFixture("student", "student_fixture.json")
   setFixture("studentSchoolAssociation", "studentSchoolAssociation_fixture.json")
   #add smallville (no drop)
-  setFixture("school", "smallville_schools_fixture.json", "test/data/smallville", false)
+  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
   setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
   setFixture("studentSchoolAssociation", "smallville_student_school_association_fixture.json", "test/data/smallville", false)
   #run test
@@ -698,7 +696,7 @@ end
 
 desc "Run V1 Section Tests"
 task :v1SectionTests => [:realmInit] do
-  setFixture("school", "school_fixture.json")
+  setFixture("educationOrganization", "educationOrganization_fixture.json")
   setFixture("session", "session_fixture.json")
   setFixture("course", "course_fixture.json")
   runFixtureAndTests("test/features/apiV1/entities/section", "section", "section_fixture.json")
@@ -785,7 +783,7 @@ end
 
 desc "Run V1 Validation Tests"
 task :v1ValidationTests => [:realmInit] do
-  setFixture("school", "school_fixture.json")
+  setFixture("educationOrganization", "educationOrganization_fixture.json")
   setFixture("staff", "staff_fixture.json")
   setFixture("student", "student_fixture.json")
   setFixture("section", "section_fixture.json")
