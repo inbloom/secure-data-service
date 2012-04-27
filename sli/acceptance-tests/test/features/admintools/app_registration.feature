@@ -36,7 +36,8 @@ And I have entered data into the other required fields except for the shared sec
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
 And the application is listed in the table on the top
-And a client ID is created for the new application that can be used to access SLI
+And the client ID and shared secret fields are Pending
+And the Registration Status field is Pending
 
 Scenario: View application details
 
@@ -50,9 +51,21 @@ Then the row expands
 And I see the details of "NewApp"
 And all the fields are read only 
 
+Scenario: SLC Operator accepts application registration request
 
-#Won't work until we add an extra step for an operator to approve the application
-@wip
+Given I am a valid SLC Operator "operator" from the "SLI" hosted directory
+When I hit the Application Registration Tool URL
+And I get redirected to the IDP login page
+And I authenticate with username "operator" and password "operator1234"
+Then I am redirected to the Application Approval Tool page
+And I see all the applications registered on SLI
+And I see all the applications pending registration
+And the pending apps are on top
+When I click on 'Y' next to NewApp
+Then NewApp is registered
+And the 'Y' button is disabled
+
+
 Scenario: Edit application
 
 Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
@@ -102,6 +115,7 @@ Scenario: App Developer registers an application in App Registration Tool in San
 		And I can see the client ID and shared secret
 		And the Registration Status field is Registered
 
+#Enable when email support is available. Additional "Pending" verification is in normal app registration step
 @wip
 Scenario: Vendor send registration request for an application in App Registration Tool in Production
 	Given I am a valid Vendor

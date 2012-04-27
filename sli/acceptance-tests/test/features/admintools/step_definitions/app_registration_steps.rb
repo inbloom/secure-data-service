@@ -9,6 +9,10 @@ Given /^I am a valid SLI Developer "([^"]*)" from the "([^"]*)" hosted directory
   # No code needed, done as configuration
 end
 
+Given /^I am a valid SLC Operator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
+  # No code needed, done as configuration
+end
+
 When /^I hit the Application Registration Tool URL$/ do
   @driver.get(PropLoader.getProps['admintools_server_url']+"/apps/")
 end
@@ -27,12 +31,72 @@ When /^I authenticate with username "([^"]*)" and password "([^"]*)"$/ do |arg1,
   end  
 end
 
+Then /^I am redirected to the Application Approval Tool page$/ do
+  assertWithWait("Failed to navigate to the Admintools App Registration Approval page")  {@driver.page_source.index("Application Registration Approval") != nil}
+end
+
 Then /^I am redirected to the Application Registration Tool page$/ do
   assertWithWait("Failed to navigate to the Admintools App Registration page")  {@driver.page_source.index("New Application") != nil}
 end
 
 Then /^I see all of the applications that are registered to SLI$/ do
   assertWithWait("Failed to find applications table") {@driver.find_element(:id, "applications")}
+end
+
+Then /^I see all the applications registered on SLI$/ do
+  appsTable = @driver.find_element(:id, "applications")
+  trs = appsTable.find_elements(:xpath, ".//tr/td[text()='APPROVED']")
+  assert(trs.length > 10, "Should see a significant number of approved applications")
+end
+
+Then /^I see all the applications pending registration$/ do
+  appsTable = @driver.find_element(:id, "applications")
+  trs = appsTable.find_elements(:xpath, ".//tr/td[text()='PENDING']")
+  assert(trs.length == 1, "Should see a pending application")
+end
+
+Then /^the pending apps are on top$/ do
+  appsTable = @driver.find_element(:id, "applications")
+  tableHeadings = appsTable.find_elements(:xpath, ".//tr/th")
+  index = 0
+  tableHeadings.each do |arg|
+    index = tableHeadings.index(arg) + 1 if arg.text == "Status"    
+  end
+  trs = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Y']/../../../..")
+  assert(trs.length > 10, "Should see many applications")
+
+  last_status = nil
+  trs.each do |row|
+    td = row.find_element(:xpath, ".//td[#{index}]")
+    if last_status == nil
+      last_status = td.text
+      assert(last_status == 'PENDING', "First element should be PENDING, got #{last_status}")
+    end
+    if last_status == 'APPROVED'
+      assert(td.text != 'PENDING', "Once we find approved apps, we should no longer see any PENDING ones.")
+    end
+    last_status = td.text
+  end
+end
+
+When /^I click on 'Y' next to NewApp$/ do
+  appsTable = @driver.find_element(:id, "applications")
+  y_button  = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Y']")[0]
+  assert(y_button != nil, "Found Y button")
+  y_button.click
+end
+
+Then /^NewApp is registered$/ do
+  appsTable = @driver.find_element(:id, "applications")
+  trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='NewApp']/../td[text()='APPROVED']")
+  assert(trs.length > 0, "No more pending applications")
+end
+
+
+Then /^the 'Y' button is disabled$/ do
+  appsTable = @driver.find_element(:id, "applications")
+  y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='NewApp']/../td/form/div/input[@value='Y']")[0]
+  assert(y_button.attribute("disabled") == 'true', "Y button is disabled")
 end
 
 Then /^those apps are sorted by the Last Update column$/ do
@@ -103,6 +167,22 @@ end
 
 Then /^a client ID is created for the new application that can be used to access SLI$/ do
   assertWithWait("Should have located a client id") {@driver.find_element(:xpath, '//tr[3]').find_element(:name, 'app[client_id]')}
+end
+
+Then /^the client ID and shared secret fields are Pending$/ do
+  client_id = @driver.find_element(:xpath, '//tr[3]').find_element(:name, 'app[client_id]').attribute("value")
+  assert(client_id == 'Pending', "Expected 'Pending', got #{client_id}")
+end
+
+Then /^the Registration Status field is Pending$/ do
+  appsTable = @driver.find_element(:id, "applications")
+  tableHeadings = appsTable.find_elements(:xpath, ".//tr/th")
+  index = 0
+  tableHeadings.each do |arg|
+    index = tableHeadings.index(arg) + 1 if arg.text == "Status"
+  end
+  td = @driver.find_element(:xpath, "//tr[2]/td[#{index}]")
+  assert(td.text == 'PENDING', "Expected 'PENDING', got #{td.text}")
 end
 
 When /^I click on the row of application named "([^"]*)" in the table$/ do |arg1|
