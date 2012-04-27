@@ -104,9 +104,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 Map<Object, NeutralRecord> studentAttendance = getAttendanceEvents(studentId);
                 Map<Object, NeutralRecord> sessions = getSessions(studentId, schoolId);
                 
-                LOG.info("For student with id: {} in school: {}", studentId, schoolId);
-                LOG.info("  Found {} associated sessions.", sessions.size());
-                LOG.info("  Found {} attendance events.", studentAttendance.size());
+                // LOG.info("For student with id: {} in school: {}", studentId, schoolId);
+                // LOG.info("  Found {} associated sessions.", sessions.size());
+                // LOG.info("  Found {} attendance events.", studentAttendance.size());
                 
                 Map<String, Object> schoolYears = mapAttendanceIntoSchoolYears(studentAttendance, sessions);
                 
@@ -124,8 +124,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                     attendanceAttributes.put("schoolYearAttendance", daily);
                     attendanceRecord.setAttributes(attendanceAttributes);
                     newCollection.put(attendanceRecord.getRecordId(), attendanceRecord);
-                } else {
-                    LOG.warn("  No daily attendance for student: {}", studentId);
+                // } else {
+                //    LOG.warn("  No daily attendance for student: {}", studentId);
                 }
             }
         }
@@ -139,7 +139,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     private NeutralRecord createTransformedAttendanceRecord() {
         NeutralRecord record = new NeutralRecord();
-        record.setRecordId(new Type1UUIDGeneratorStrategy().randomUUID().toString());
+        Type1UUIDGeneratorStrategy uuidGenerator = new Type1UUIDGeneratorStrategy();
+        record.setRecordId(uuidGenerator.randomUUID().toString());
         record.setRecordType(EntityNames.ATTENDANCE);
         return record;
     }
@@ -291,8 +292,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             }
             if (events.size() > 0) {
                 schoolYears.put(schoolYear, events);
-            }
-            LOG.info("  {} attendance events for session in school year: {}", events.size(), schoolYear);    
+            }    
         }
         
         // if student attendance still has attendance events --> orphaned events
@@ -303,7 +303,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 recordItr.next();
                 orphanedEvents++;
             }
-            LOG.warn("  {} attendance events still need to be mapped into a school year.", orphanedEvents);    
+            // LOG.warn("  {} attendance events still need to be mapped into a school year.", orphanedEvents);    
         }
         return schoolYears;
     }
