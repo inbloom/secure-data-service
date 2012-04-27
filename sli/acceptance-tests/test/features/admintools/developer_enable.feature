@@ -13,16 +13,15 @@ When I hit the Application Registration Tool URL
 	And I authenticate with username "developer" and password "developer1234"
 Then I am redirected to the Application Registration Tool page
 	And I see the list of (only) my applications
-	And I click on the row of application named "Testing App" in the table
+	And I clicked on the button Edit for the application "Testing App"
 Then I can see the on-boarded states/districts
-Then I check the <District>
+Then I check the Districts
 When I click on Save
-Then the "Testing App" is enabled for <District>
+Then the "Testing App" is enabled for Districts
 Then I log out
 Then I log in as a valid SLI Operator "operator" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 	And I get redirected to the IDP login page
 	And I authenticate with username "operator" and password "operator1234"
-	And I am redirected to the Application Registration Tool page
-	And I am logged in to my Application Registration tool
-Then I see the newly enabled application
+	Then I am redirected to the Application Registration Approval Tool page
+	Then I see the newly enabled application
