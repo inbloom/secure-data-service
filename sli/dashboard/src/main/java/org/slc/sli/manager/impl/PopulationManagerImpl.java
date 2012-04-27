@@ -722,6 +722,14 @@ public class PopulationManagerImpl implements PopulationManager {
                 filterAssessmentByFamily(
                         student.getList(Constants.ATTR_STUDENT_ASSESSMENTS),
                         (String) config.getParams().get(Constants.ATTR_ASSESSMENT_FAMILY));
+        //add gradeLevelAssessedCode for gradeLevelAssessed
+        for(Map<String,Object> assessment:assessements) {
+            Map assessmentDetails=(Map) assessment.get(Constants.ATTR_ASSESSMENTS);
+            if(assessmentDetails!=null) {
+                GenericEntityEnhancer.convertGradeLevel(assessmentDetails, Constants.ATTR_GRADE_LEVEL_ASSESSED);
+            }
+        }
+            
         // get all assessments for student
         entity.put(Constants.ATTR_ASSESSMENTS, assessements);
         Set<String> scoreResultNames = new LinkedHashSet<String>();
