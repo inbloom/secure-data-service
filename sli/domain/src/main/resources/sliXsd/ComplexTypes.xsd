@@ -4249,7 +4249,7 @@
 						discipline.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4261,7 +4261,7 @@
 						discipline.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
