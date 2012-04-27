@@ -104,23 +104,23 @@ public class StateEdFiXmlGenerator {
 
         staffAssociation();
 
-        student();
+        //student();
 
-        studentEnrollment();
+       studentEnrollment();
 
-        studentProgram();
+       studentProgram();
 
-        studentCohort();
+       studentCohort();
 
-        studentDiscipline();
+       studentDiscipline();
 
-        studentAttendance();
+       studentAttendance();
 
-        assessmentMetaData();
+       assessmentMetaData();
 
-        studentAssessment();
+       studentAssessment();
 
-        studentParent();
+       studentParent();
 
     }
 
@@ -187,6 +187,25 @@ public class StateEdFiXmlGenerator {
 
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StaffAssociation", xmlFilePath);
     }
+
+    /**
+     * Generate InterchangeStudentParent data and use Jaxb to output the XML file.
+     *
+     * @throws Exception
+     */
+
+    private static void studentParent() throws Exception {
+
+        InterchangeStudentParent studentParent = InterchangeStudentParentGenerator.generate();
+
+        String xmlFilePath = rootOutputPath + "/InterchangeStudentParent.xml";
+
+        JaxbUtils.marshal(studentParent, new PrintStream(xmlFilePath));
+
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "Parent", xmlFilePath);
+
+    }
+
 
     /**
      * Generate InterchangeStudent data and use Jaxb to output the XML file.
@@ -322,22 +341,6 @@ public class StateEdFiXmlGenerator {
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentAssessment", xmlFilePath);
     }
 
-    /**
-     * Generate InterchangeStudentParent data and use Jaxb to output the XML file.
-     *
-     * @throws Exception
-     */
 
-    private static void studentParent() throws Exception {
-
-        InterchangeStudentParent studentParent = InterchangeStudentParentGenerator.generate();
-
-        String xmlFilePath = rootOutputPath + "/InterchangeStudentParent.xml";
-
-        JaxbUtils.marshal(studentParent, new PrintStream(xmlFilePath));
-
-        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "Parent", xmlFilePath);
-
-    }
 
 }

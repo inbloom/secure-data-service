@@ -10,29 +10,27 @@ import org.slc.sli.test.edfi.entities.meta.ParentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 
 public class StudentParentAssociationGenerator {
+   public static Random random = new Random();
 
     public StudentParentAssociation generate(String studentParentId, String studentId) {
+
     	StudentParentAssociation studentParentAssociation = new StudentParentAssociation();
 
     	try {
-            Random random = new Random();
 
-//            String studentId = studentParentId.split(delimiter)[0];
-//            String parentId = studentParentId.split(delimiter)[1];
-//
             StudentReferenceType srt = StudentGenerator.getStudentReferenceType(studentId);
-            studentParentAssociation.setStudentReference(srt);
 
-  //          ParentReferenceType prt = ParentGenerator.getParentReferenceType(parentId);
-           // studentParentAssociation.setParentReference(prt);
+            studentParentAssociation.setStudentReference(srt);
 
             studentParentAssociation.setRelation(random.nextBoolean() ? RelationType.MOTHER : RelationType.FATHER);
 
-            studentParentAssociation.setPrimaryContactStatus(true);
+            boolean bool = random.nextBoolean();
 
-            studentParentAssociation.setLivesWith(true);
+            studentParentAssociation.setPrimaryContactStatus(bool);
 
-            studentParentAssociation.setEmergencyContactStatus(true);
+            studentParentAssociation.setLivesWith(bool);
+
+            studentParentAssociation.setEmergencyContactStatus(bool);
 
             studentParentAssociation.setContactPriority(1);
 
@@ -45,17 +43,11 @@ public class StudentParentAssociationGenerator {
 
 
 
-
-    //public static StudentParentAssociation generateLowFi(ParentMeta parentMeta, StudentMeta studentMeta) {
       public static StudentParentAssociation generateLowFi(String parentId, boolean isMale, String studentId) {
         StudentParentAssociation studentParentAssociation = new StudentParentAssociation();
 
         try {
-            Random random = new Random();
 
-//            String studentId = studentParentId.split(delimiter)[0];
-//            String parentId = studentParentId.split(delimiter)[1];
-//
             StudentReferenceType srt = StudentGenerator.getStudentReferenceType(studentId);
             studentParentAssociation.setStudentReference(srt);
 
@@ -66,13 +58,14 @@ public class StudentParentAssociationGenerator {
                 studentParentAssociation.setRelation(RelationType.FATHER);
             else
                 studentParentAssociation.setRelation(RelationType.MOTHER);
-            //studentParentAssociation.setRelation(random.nextBoolean() ? RelationType.MOTHER : RelationType.FATHER);
 
-            studentParentAssociation.setPrimaryContactStatus(true);
+            boolean bool = random.nextBoolean();
 
-            studentParentAssociation.setLivesWith(true);
+            studentParentAssociation.setPrimaryContactStatus(bool);
 
-            studentParentAssociation.setEmergencyContactStatus(true);
+            studentParentAssociation.setLivesWith(bool);
+
+            studentParentAssociation.setEmergencyContactStatus(bool);
 
             studentParentAssociation.setContactPriority(1);
 

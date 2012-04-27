@@ -5,7 +5,6 @@ package org.slc.sli.test.generators.interchange;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.slc.sli.test.edfi.entities.InterchangeStudentParent;
 import org.slc.sli.test.edfi.entities.Parent;
@@ -19,6 +18,7 @@ import org.slc.sli.test.generators.FastStudentGenerator;
 import org.slc.sli.test.generators.ParentGenerator;
 import org.slc.sli.test.generators.StudentParentAssociationGenerator;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
+
 
 /**
  * @author lchen

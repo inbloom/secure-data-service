@@ -13,7 +13,6 @@ import java.util.List;
 public class ParentMeta {
 
     public final String id;
-    public final String simpleId;
     public boolean isMale;
 
 
@@ -21,14 +20,12 @@ public class ParentMeta {
 
         this.id = id;
         this.isMale = isMale;
-        this.simpleId = id;
-
     }
 
 
     @Override
     public String toString() {
-        return "ParentMeta [id=" + id + ", + simpleId=" + simpleId + "]";
+        return "ParentMeta [id=" + id + "]";
     }
 }
 

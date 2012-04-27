@@ -3,7 +3,6 @@ package org.slc.sli.test.edfi.entities.meta.relations;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 import java.util.TreeMap;
 
 import org.slc.sli.test.edfi.entities.meta.CohortMeta;
@@ -246,7 +245,7 @@ public final class MetaRelations {
      * @return
      */
     private static Map<String, StudentMeta> buildStudentsForSchool(SchoolMeta schoolMeta) {
-        int id = 0;
+        int counter = 0;
         int parentId = 0;
         Random random = new Random();
         Map<String, StudentMeta> studentsInSchoolMap = new HashMap<String, StudentMeta>(STUDENTS_PER_SCHOOL);
@@ -262,26 +261,26 @@ public final class MetaRelations {
             studentsInSchoolMap.put(studentMeta.id, studentMeta);
             STUDENT_MAP.put(studentMeta.id, studentMeta);
 
-            int roll = random.nextInt(2) + 1;
+            boolean hasBoth = random.nextBoolean();
 
-            if(roll == 1) {
-                ParentMeta fatherMeta = new ParentMeta(studentMeta.id + "-far" + id, true );
+            if(hasBoth == false) {
+                ParentMeta fatherMeta = new ParentMeta(studentMeta.id + "-far" + counter, true );
                 PARENT_MAP.put(fatherMeta.id, fatherMeta);
-                StudentParentAssociationMeta studentFatherMeta = new StudentParentAssociationMeta ("stuParAss" + id ,studentMeta, fatherMeta);
-                STUDENT_PARENT_MAP.put( schoolMeta.id + id + "2", studentFatherMeta);
+                StudentParentAssociationMeta studentFatherMeta = new StudentParentAssociationMeta ("stuParAss" + counter ,studentMeta, fatherMeta);
+                STUDENT_PARENT_MAP.put( schoolMeta.id + counter + "2", studentFatherMeta);
             }
             else {
-                ParentMeta fatherMeta = new ParentMeta(studentMeta.id + "-dad" + id, true );
+                ParentMeta fatherMeta = new ParentMeta(studentMeta.id + "-dad" + counter, true );
                 PARENT_MAP.put(fatherMeta.id, fatherMeta);
-                ParentMeta motherMeta = new ParentMeta(studentMeta.id + "-mom" + id, false );
+                ParentMeta motherMeta = new ParentMeta(studentMeta.id + "-mom" + counter, false );
                 PARENT_MAP.put(motherMeta.id, motherMeta);
-                StudentParentAssociationMeta studentMotherMeta = new StudentParentAssociationMeta ("stuParAss" + id ,studentMeta, motherMeta);
-                STUDENT_PARENT_MAP.put( schoolMeta.id + id + "1", studentMotherMeta);
-                StudentParentAssociationMeta studentFatherMeta = new StudentParentAssociationMeta ("stuParAss" + id ,studentMeta, fatherMeta);
-                STUDENT_PARENT_MAP.put( schoolMeta.id + id + "2", studentFatherMeta);
+                StudentParentAssociationMeta studentMotherMeta = new StudentParentAssociationMeta ("stuParAss" + counter ,studentMeta, motherMeta);
+                STUDENT_PARENT_MAP.put( schoolMeta.id + counter + "1", studentMotherMeta);
+                StudentParentAssociationMeta studentFatherMeta = new StudentParentAssociationMeta ("stuParAss" + counter ,studentMeta, fatherMeta);
+                STUDENT_PARENT_MAP.put( schoolMeta.id + counter + "2", studentFatherMeta);
              }
 
-             id ++;
+            counter ++;
         }
         return studentsInSchoolMap;
     }
