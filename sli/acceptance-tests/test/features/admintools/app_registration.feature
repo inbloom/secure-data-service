@@ -155,3 +155,26 @@ Scenario: Vendor send registration request for an application in App Registratio
 		And the client ID and shared secret fields are Pending
 		And the Registration Status field is Pending
 
+@wip
+Scenario: Vendor editing already registered application in production
+	Given I am a valid Vendor
+		And I am authenticated to the App Registration Tool in Production
+		And I have clicked on <application>
+		And <application> is registered
+	When I edit <field>
+		And I click Save
+	Then the <field> is updated
+
+@wip
+Scenario: Vendor trying to edit application that is pending registration in production
+	Given I am a valid Vendor
+		And I am authenticated to the App Registration Tool in Production
+		And <application> is pending
+	When I click on <application>
+	Then <application> expands
+		And all the fields are read only
+		
+
+
+
+
