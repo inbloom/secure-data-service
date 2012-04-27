@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.PropertyException;
 
 import org.slc.sli.sample.entities.Address;
 import org.slc.sli.sample.entities.AddressType;
@@ -36,6 +37,12 @@ import org.slc.sli.sample.entities.StudentReferenceType;
 /**
  *
  * This class converts CSV files into an Ed-Fi xml file.
+ * In this sample we have the following assumption for csv files:
+ * 1. The records in Student.csv, StudentAddress.csv and StudentLanguage.csv
+ *    are sorted by StudentUSI in ascending order.
+ * 2. The references (e.g. StudentUSI and ParentUSI) in StudentParentAssociation.csv
+ *    are correct and both exit in Student.csv and Parent.csv. This sample code does
+ *    not check reference integrity check across csv files.
  *
  */
 public class CSV2XMLTransformer {
@@ -51,22 +58,35 @@ public class CSV2XMLTransformer {
     private CSVReader studentParentAssociationReader;
 
     // input csv files
-    private String studentFile = "data/Student.csv";
-    private String studentAddressFile = "data/StudentAddress.csv";
-    private String studentLanguagesFile = "data/StudentLanguage.csv";
-    private String parentFile = "data/Parent.csv";
-    private String studentParentAssociationFile = "data/StudentParentAssociation.csv";
+    private static final String studentFile = "data/Student.csv";
+    private static final String studentAddressFile = "data/StudentAddress.csv";
+    private static final String studentLanguagesFile = "data/StudentLanguage.csv";
+    private static final String parentFile = "data/Parent.csv";
+    private static final String studentParentAssociationFile = "data/StudentParentAssociation.csv";
 
     // output Ed-Fi xml file
-    private static String interchangeStudentParentFile = "data/InterchangeStudentParent.xml";
+    private static final String interchangeStudentParentFile = "data/InterchangeStudentParent.xml";
+    private static final String outputPath = "data/";
 
-    // counters
-    private int studentCounter = 0;
-    private int parentCounter = 0;
-    private int studentParentAssociationCounter = 0;
+    /**
+     * main method
+     *
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+        CSV2XMLTransformer transformer = new CSV2XMLTransformer();
+        transformer.loadData();
+
+        PrintStream ps = new PrintStream(new File(interchangeStudentParentFile));
+        transformer.printInterchangeStudentParent(ps);
+
+        SchemaValidator.check(outputPath);
+    }
 
     /**
      * open csv files and create CSV reader for each file
+     * and load the first record for each reader
      *
      * @throws IOException
      */
@@ -74,9 +94,7 @@ public class CSV2XMLTransformer {
         // load student data
         studentReader = new CSVReader(studentFile);
         studentAddressReader = new CSVReader(studentAddressFile);
-        studentAddressReader.getNextRecord();
         studentLanguageReader = new CSVReader(studentLanguagesFile);
-        studentLanguageReader.getNextRecord();
 
         // load parent data
         parentReader = new CSVReader(parentFile);
@@ -86,45 +104,58 @@ public class CSV2XMLTransformer {
     }
 
     /**
-     * Convert csv files into one xml and print it into PrintStream: ps
+     * Iterate through Student, Parent, and studentParentAssociation records in the CSV files,
+     * converts them into JAXB java objects, and then marshals them into SLI-EdFi xml file.
      *
      * @param ps
      * @throws JAXBException
      */
     private void printInterchangeStudentParent(PrintStream ps) throws JAXBException {
-        JAXBContext context = JAXBContext.newInstance(InterchangeStudentParent.class);
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
+        int studentCounter = 0;
+        int parentCounter = 0;
+        int studentParentAssociationCounter = 0;
+
+        Marshaller marshaller = getMarshaller();
 
         InterchangeStudentParent interchangeStudentParent = new InterchangeStudentParent();
         List<Object> list = interchangeStudentParent.getStudentOrParentOrStudentParentAssociation();
 
         // process student
-        while (studentReader.getNextRecord() != null) {
+        while (studentReader.getCurrentRecord() != null) {
             list.add(this.getStudent());
-            this.studentCounter++;
+            studentReader.getNextRecord();
+            studentCounter++;
         }
 
         // process parent
-        while (parentReader.getNextRecord() != null) {
+        while (parentReader.getCurrentRecord() != null) {
             list.add(this.getParent());
-            this.parentCounter++;
+            parentReader.getNextRecord();
+            parentCounter++;
         }
 
         // process studentParentAssociation
-        while (studentParentAssociationReader.getNextRecord() != null) {
+        while (studentParentAssociationReader.getCurrentRecord() != null) {
             list.add(this.getStudentParentAssociation());
-            this.studentParentAssociationCounter++;
+            studentParentAssociationReader.getNextRecord();
+            studentParentAssociationCounter++;
         }
 
         marshaller.marshal(interchangeStudentParent, ps);
 
-        System.out.println("Total " + this.studentCounter + " students are exported.");
-        System.out.println("Total " + this.parentCounter + " parents are exported.");
-        System.out.println("Total " + this.studentParentAssociationCounter
+        System.out.println("Total " + studentCounter + " students are exported.");
+        System.out.println("Total " + parentCounter + " parents are exported.");
+        System.out.println("Total " + studentParentAssociationCounter
                 + " student-parent-associations are exported.");
-        System.out.println("Total " + (this.studentCounter + this.parentCounter + this.studentParentAssociationCounter)
+        System.out.println("Total " + ( studentCounter + parentCounter + studentParentAssociationCounter)
                 + " entities are exported.");
+    }
+
+    private Marshaller getMarshaller() throws JAXBException, PropertyException {
+        JAXBContext context = JAXBContext.newInstance(InterchangeStudentParent.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
+        return marshaller;
     }
 
     /**
@@ -171,11 +202,29 @@ public class CSV2XMLTransformer {
         }
 
         // set addresses
+        addStudentAddresses(student);
+
+        // set languages
+        addStudentLanguages(student);
+
+        return student;
+    }
+
+    /**
+     * Iterate through studentAddress csv file to add all addresses for a specific student
+     *
+     * @param student
+     */
+    private void addStudentAddresses(Student student) {
+        String studentId = student.getStudentUniqueStateId();
+
         while (studentAddressReader.getCurrentRecord() != null) {
             Map<String, String> studentAddressRecord = studentAddressReader.getCurrentRecord();
 
             String id = studentAddressRecord.get("StudentUSI");
             if (id.compareTo(studentId) > 0) {
+                // if the studentUSI of the address record is larger than studentUSI of the student
+                // which means the current address record belongs to next student, not the current one.
                 break;
             } else if (id.equals(studentId)) {
                 student.getAddress().add(this.getAddress(studentAddressRecord));
@@ -183,14 +232,24 @@ public class CSV2XMLTransformer {
 
             studentAddressReader.getNextRecord();
         }
+    }
 
-        // set languages
+    /**
+     * Iterate through studentLanguage csv file to add all languages for a specific student
+     *
+     * @param student
+     */
+    private void addStudentLanguages(Student student) {
+        String studentId = student.getStudentUniqueStateId();
+
         LanguagesType languages = new LanguagesType();
         while (studentLanguageReader.getCurrentRecord() != null) {
             Map<String, String> studentLanguageRecord = studentLanguageReader.getCurrentRecord();
 
             String id = studentLanguageRecord.get("StudentUSI");
             if (id.compareTo(studentId) > 0) {
+                // if the studentUSI of the language record is larger than studentUSI of the student
+                // which means the current language record belongs to next student, not the current one.
                 break;
             } else if (id.equals(studentId)) {
                 String ls = studentLanguageRecord.get("Language");
@@ -205,8 +264,6 @@ public class CSV2XMLTransformer {
         if (languages.getLanguage().size() > 0) {
             student.setLanguages(languages);
         }
-
-        return student;
     }
 
     /**
@@ -346,22 +403,6 @@ public class CSV2XMLTransformer {
         }
 
         return name;
-    }
-
-    /**
-     * main method
-     *
-     * @param args
-     * @throws Exception
-     */
-    public static void main(String[] args) throws Exception {
-        CSV2XMLTransformer transformer = new CSV2XMLTransformer();
-        transformer.loadData();
-
-        PrintStream ps = new PrintStream(new File(interchangeStudentParentFile));
-        transformer.printInterchangeStudentParent(ps);
-
-        SchemaValidater.check("./data/");
     }
 
 }

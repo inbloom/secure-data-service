@@ -8,13 +8,14 @@ require_relative '../../../utils/sli_utils.rb'
 # ENVIRONMENT CONFIGURATION
 ############################################################
 
-INGESTION_LANDING_ZONE = PropLoader.getProps['ingestion_landing_zone']
 INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
 INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_data_store']
+INGESTION_TENANT_DISTRICT_MAP = {'IL' => ['Sunset', 'Daybreak'], 'NY' => ['NYC']}
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
@@ -22,8 +23,31 @@ INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_da
 Before do
   @conn = Mongo::Connection.new(INGESTION_DB)
   @conn.drop_database(INGESTION_BATCHJOB_DB_NAME)
-end
 
+  @mdb = @conn.db(INGESTION_DB_NAME)
+  @tenantColl = @mdb.collection('tenant')
+
+  @ingestion_lz_identifer_map = {}
+  INGESTION_TENANT_DISTRICT_MAP.each do |tenantInfo|
+    tenantId = tenantInfo[0]
+    districts = INGESTION_TENANT_DISTRICT_MAP[tenantId]
+    current = @tenantColl.find_one({'tenantId' => tenantId}, {:fields => ['landingZone.district', 'landingZone.path']}).to_a[1]
+    lzInfo = current[1]
+    lzInfo.each do |lzMap|
+      district = lzMap['district']
+      path = lzMap['path']
+      districts.each do |interestedDistrict|
+        if district == interestedDistrict
+          identifier = tenantId + '-' + district
+          if path.rindex('/') != (path.length - 1)
+            path = path+ '/'
+          end
+          @ingestion_lz_identifer_map[identifier] = path
+        end
+      end
+    end
+  end
+end
 ############################################################
 # STEPS: GIVEN
 ############################################################
@@ -37,11 +61,22 @@ Given /^I am using destination-local data store$/ do
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
-  if INGESTION_LANDING_ZONE.rindex('/') == (INGESTION_LANDING_ZONE.length - 1)
-    @landing_zone_path = INGESTION_LANDING_ZONE
+  initializeLandingZone(@ingestion_lz_identifer_map['IL-Daybreak'])
+end
+
+Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_key|
+  lz = @ingestion_lz_identifer_map[lz_key]
+  initializeLandingZone(lz)
+end
+
+def initializeLandingZone(lz)
+  if lz.rindex('/') == (lz.length - 1)
+    @landing_zone_path = lz
   else
-    @landing_zone_path = INGESTION_LANDING_ZONE+'/'
+    @landing_zone_path = lz+ '/'
   end
+
+  @landing_zone_path = lz
   puts "Landing Zone = " + @landing_zone_path
 
   # clear out LZ before proceeding
@@ -59,18 +94,27 @@ Given /^I am using preconfigured Ingestion Landing Zone$/ do
       end
     end
   end
-
 end
 
 def processPayloadFile(file_name)
   path_name = file_name[0..-5]
+  file_name = file_name.split('/')[-1] if file_name.include? '/'
 
   # copy everything into a new directory (to avoid touching git tracked files)
+  path_delim = ""
+  if path_name.include? '/'
+    folders = path_name.split '/'
+    if folders.size > 0
+      folders[0...-1].each { |path| path_delim += path + '/'}
+      path_name = folders[-1]
+    end
+  end
   zip_dir = @local_file_store_path + "temp-" + path_name + "/"
+  p zip_dir
   if Dir.exists?(zip_dir)
     FileUtils.rm_r zip_dir
   end
-  FileUtils.cp_r @local_file_store_path + path_name, zip_dir
+  FileUtils.cp_r @local_file_store_path + path_delim + path_name, zip_dir
 
   ctl_template = nil
   Dir.foreach(zip_dir) do |file|
@@ -116,6 +160,18 @@ Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_nam
  @source_file_name = processPayloadFile file_name
 end
 
+Given /^I post "([^"]*)" file as the payload of the ingestion job for "([^"]*)"$/ do |file_name, lz_key|
+  if @file_lz_map == nil
+    @file_lz_map = {}
+  end
+  if @source_file_lz_map == nil
+    @source_file_lz_map = {}
+  end
+  @file_lz_map[lz_key] = file_name
+  source_file = processPayloadFile file_name
+  @source_file_lz_map[lz_key] = source_file
+end
+
 Given /^I post "([^"]*)" and "([^"]*)" files as the payload of two ingestion jobs$/ do |file_name1, file_name2|
   @source_file_name1 = processPayloadFile file_name1
   @source_file_name2 = processPayloadFile file_name2
@@ -140,7 +196,7 @@ Given /^the following collections are empty in datastore:$/ do |table|
       @result = "false"
     end
   end
-
+  createIndexesOnDb(@conn,INGESTION_DB_NAME)
   assert(@result == "true", "Some collections were not cleared successfully.")
 end
 
@@ -159,10 +215,159 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
       @result = "false"
     end
   end
-
   assert(@result == "true", "Some collections were not cleared successfully.")
 end
 
+Given /^I create collections and add index$/ do
+
+  @db   = @conn[INGESTION_DB_NAME]
+
+  @collection = @db["student"]
+  @collection.drop_indexes();
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+
+  @collection = @db["section"]
+  @collection.drop_indexes();
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
+  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.courseId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+  @collection = @db["studentSectionAssociation"]
+  @collection.drop_indexes();
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.sectionId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+
+end
+
+def connectToDbAndIndex(db_host,db_name)
+
+  @conn = Mongo::Connection.new(db_host)
+  @db   = @conn[db_name]
+  ensureIndexes(@db)
+
+end
+
+def createIndexesOnDb(db_connection,db_name)
+
+  @db = db_connection[db_name]
+  ensureIndexes(@db)
+
+end
+
+def ensureIndexes(db)
+
+  @collection = @db["assessment"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["attendance"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["course"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["educationOrganization"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["gradebookEntry"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["parent"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["school"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["section"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
+  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.courseId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
+
+  @collection = @db["session"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["staff"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["staffEducationOrganizationAssociation"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["student"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["studentAssessmentAssociation"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["studentParentAssociation"]
+  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.parentId', 1], ['body.studentId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
+
+  @collection = @db["studentSchoolAssociation"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
+
+  @collection = @db["studentSectionAssociation"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.sectionId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
+
+  @collection = @db["studentSectionGradebookEntry"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["studentTranscriptAssociation"]
+  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'courseId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.courseId', 1]])
+  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'courseId' => " ", 'studentId' => " "}} )
+
+  @collection = @db["teacher"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["teacherSectionAssociation"]
+  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'teacherId' => " ", 'sectionId' => " "}} )
+  @collection.ensure_index([ ['body.teacherId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
+  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'teacherId' => " ", 'sectionId' => " "}} )
+
+end
 ############################################################
 # STEPS: WHEN
 ############################################################
@@ -238,6 +443,51 @@ When /^a batch job log has been created$/ do
 
 end
 
+When /^a batch job log has been created for "([^"]*)"$/ do |lz_key|
+  lz = @ingestion_lz_identifer_map[lz_key]
+  checkForBatchJobLog(lz)
+end
+
+def checkForBatchJobLog(landing_zone)
+  intervalTime = 3 #seconds
+  #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
+  @maxTimeout ? @maxTimeout : @maxTimeout = 420
+  iters = (1.0*@maxTimeout/intervalTime).ceil
+  found = false
+  if (INGESTION_MODE == 'remote')
+    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/findJobLog.sh");
+
+    iters.times do |i|
+      @findJobLog = runShellCommand(File.dirname(__FILE__) + "/../../util/findJobLog.sh")
+      if /job-#{@source_file_name}.*.log/.match @findJobLog
+        puts "Result of find job log: " + @findJobLog
+        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        found = true
+        break
+      else
+        sleep(intervalTime)
+      end
+    end
+  else
+    sleep(3) # waiting to poll job file removes race condition (windows-specific)
+    iters.times do |i|
+      if dirContainsBatchJobLog? landing_zone
+        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        found = true
+        break
+      else
+        sleep(intervalTime)
+      end
+    end
+  end
+
+  if found
+    assert(true, "")
+  else
+    assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
+  end
+end
+
 def scpFileToLandingZone(filename)
   @source_path = @local_file_store_path + filename
   @destination_path = @landing_zone_path + filename
@@ -263,6 +513,30 @@ def scpFileToLandingZone(filename)
   assert(true, "File Not Uploaded")
 end
 
+def scpFileToParallelLandingZone(lz, filename)
+  @source_path = @local_file_store_path + filename
+  @destination_path = lz + filename
+
+  puts "Source = " + @source_path
+  puts "Destination = " + @destination_path
+
+  assert(@destination_path != nil, "Destination path was nil")
+  assert(@source_path != nil, "Source path was nil")
+
+  if (INGESTION_MODE == 'remote')
+    # copy file from external path to landing zone
+    ingestion_server_string = "\"" + ("ingestion@" + INGESTION_SERVER_URL + ":" + lz).to_s  + "\""
+    local_source_path = "\"" + @source_path.to_s + "\""
+
+    puts "Will Execute sh: " + "scp #{local_source_path} #{ingestion_server_string}"
+    runShellCommand("scp " + local_source_path + " " + ingestion_server_string)
+  else
+    # copy file from local filesystem to landing zone
+    FileUtils.cp @source_path, @destination_path
+  end
+
+  assert(true, "File Not Uploaded")
+end
 
 When /^zip file is scp to ingestion landing zone$/ do
   scpFileToLandingZone @source_file_name
@@ -293,6 +567,28 @@ end
 ############################################################
 # STEPS: THEN
 ############################################################
+Then /^I should see following map of indexes in the corresponding collections:$/ do |table|
+  @db   = @conn[INGESTION_DB_NAME]
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @db.collection(row["collectionName"])
+    @indexcollection = @db.collection("system.indexes")
+    #puts "ns" + INGESTION_DB_NAME+"student," + "name" + row["index"].to_s
+    @indexCount = @indexcollection.find("ns" => INGESTION_DB_NAME + "." + row["collectionName"], "name" => row["index"]).to_a.count()
+
+    #puts "Index Count = " + @indexCount.to_s
+
+    if @indexCount.to_s == "0"
+      puts "Index was not created for " + INGESTION_DB_NAME+ "." + row["collectionName"] + + " with name = " + row["index"]
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Some indexes were not created successfully.")
+
+end
 
 Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
   @db   = @conn[INGESTION_DB_NAME]
@@ -486,9 +782,60 @@ def checkForContentInFileGivenPrefix(message, prefix)
   end
 end
 
+def parallelCheckForContentInFileGivenPrefix(message, prefix, landing_zone)
+
+  if (INGESTION_MODE == 'remote')
+
+    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
+    @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + prefix)
+    #puts "Showing : <" + @resultOfIngestion + ">"
+
+    @messageString = message.to_s
+
+    if @resultOfIngestion.include? @messageString
+      assert(true, "Processed all the records.")
+    else
+      puts "Actual message was " + @resultOfIngestion
+      assert(false, "Didn't process all the records.")
+    end
+
+  else
+    @job_status_filename = ""
+    Dir.foreach(landing_zone) do |entry|
+      if (entry.rindex(prefix))
+        # LAST ENTRY IS OUR FILE
+        @job_status_filename = entry
+      end
+    end
+
+    aFile = File.new(landing_zone + @job_status_filename, "r")
+    puts "STATUS FILENAME = " + landing_zone + @job_status_filename
+    assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
+
+    if aFile
+      file_contents = IO.readlines(landing_zone + @job_status_filename).join()
+      #puts "FILE CONTENTS = " + file_contents
+
+      if (file_contents.rindex(message) == nil)
+        assert(false, "File doesn't contain correct processing message")
+      end
+
+    else
+       raise "File " + @job_status_filename + "can't be opened"
+    end
+  end
+end
+
 Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
   prefix = "job-" + @source_file_name + "-"
   checkForContentInFileGivenPrefix(message, prefix)
+end
+
+Then /^I should see "([^"]*)" in the resulting batch job file for "([^"]*)"$/ do |message, lz_key|
+  lz = @ingestion_lz_identifer_map[lz_key]
+  file = @file_lz_map[lz_key]
+  prefix = "job-" + file + "-"
+  parallelCheckForContentInFileGivenPrefix(message, prefix, lz)
 end
 
 Then /^I should see "([^"]*)" in the resulting error log file$/ do |message|
@@ -526,6 +873,35 @@ Then /^I should not see an error log file created$/ do
   end
 end
 
+Then /^I should not see an error log file created for "([^\"]*)"$/ do |lz_key|
+  lz = @ingestion_lz_identifer_map[lz_key]
+  checkForErrorLogFile(lz)
+end
+
+def checkForErrorLogFile(landing_zone)
+  if (INGESTION_MODE == 'remote')
+    #remote check of file
+    @error_filename_component = "error."
+
+    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
+    @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + @error_filename_component)
+    puts "Showing : <" + @resultOfIngestion + ">"
+
+  else
+    @error_filename_component = "error."
+
+    @error_status_filename = ""
+    Dir.foreach(landing_zone) do |entry|
+      if (entry.rindex(@error_filename_component))
+        # LAST ENTRY IS OUR FILE
+        @error_status_filename = entry
+      end
+    end
+
+    puts "STATUS FILENAME = " + landing_zone + @error_status_filename
+    assert(@error_status_filename == "", "File " + @error_status_filename + " exists")
+  end
+end
 
 Then /^I find a record in "([^\"]*)" with "([^\"]*)" equal to "([^\"]*)"$/ do |collection, searchTerm, value|
   db = @conn[INGESTION_DB_NAME]

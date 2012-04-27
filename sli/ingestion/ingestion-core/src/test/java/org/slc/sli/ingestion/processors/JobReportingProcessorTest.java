@@ -115,7 +115,7 @@ public class JobReportingProcessorTest {
 
         LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone();
         tmpLz.setDirectory(tmpDir);
-        jobReportingProcessor.setLandingZone(tmpLz);
+        //jobReportingProcessor.setLandingZone(tmpLz);
         printOut.println("Writing to " + tmpLz.getDirectory().getAbsolutePath());
 
         jobReportingProcessor.process(exchange);
