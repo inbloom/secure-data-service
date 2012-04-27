@@ -78,10 +78,6 @@ public interface PopulationManager {
     public abstract GenericEntity getAttendance(String token,
             Object studentIdObj, Config.Data config);
 
-    
-    @EntityMapping("studentSearch")
-    public abstract GenericEntity getStudentsBySearch(String token, Object nameQuery, Config.Data config);
-    
     public abstract List<String> getSessionDates(String token, String sessionId);
 
 }

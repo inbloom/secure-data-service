@@ -49,6 +49,26 @@
 		</TeacherReference>
 		<SchoolReference>
 			<EducationalOrgIdentity>
+				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<ProgramAssignment>Regular Education</ProgramAssignment>
+		<InstructionalGradeLevels>
+			<GradeLevel>First grade</GradeLevel>
+		</InstructionalGradeLevels>
+		<AcademicSubjects>
+			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
+			<AcademicSubject>English Language and Literature</AcademicSubject>
+		</AcademicSubjects>
+	</TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>cgray</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
 				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</SchoolReference>
@@ -71,6 +91,20 @@
 			<SectionIdentity>
 				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
 				<UniqueSectionCode>Sec 145</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<ClassroomPosition>Teacher of Record</ClassroomPosition>
+	</TeacherSectionAssociation>
+	<TeacherSectionAssociation>
+		<TeacherReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>cgray</StaffUniqueStateId>
+			</StaffIdentity>
+		</TeacherReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+				<UniqueSectionCode>Debate Clinic - Sec 1</UniqueSectionCode>
 			</SectionIdentity>
 		</SectionReference>
 		<ClassroomPosition>Teacher of Record</ClassroomPosition>

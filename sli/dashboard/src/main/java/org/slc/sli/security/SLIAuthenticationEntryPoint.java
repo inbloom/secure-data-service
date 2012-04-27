@@ -87,7 +87,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             }
             principal.setName(username);
             principal.setId(token);
-            JsonArray grantedAuthorities = json.getAsJsonArray("sliRoles");
+            JsonArray grantedAuthorities = json.getAsJsonArray("granted_authorities");
             Iterator<JsonElement> authIterator = grantedAuthorities.iterator();
             LinkedList<GrantedAuthority> authList = new LinkedList<GrantedAuthority>();
             
