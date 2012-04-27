@@ -21,7 +21,8 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-
+import org.slc.sli.ingestion.landingzone.LandingZone;
+import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 /**
  * Model for ingestion jobs.
  *
@@ -35,6 +36,8 @@ public final class NewBatchJob implements Job {
     private String id;
 
     private String sourceId;
+
+    private String topLevelSourceId;
 
     private String status;
 
@@ -67,6 +70,9 @@ public final class NewBatchJob implements Job {
             List<Stage> stages, List<ResourceEntry> resourceEntries) {
         this.id = id;
         this.sourceId = sourceId;
+
+        this.topLevelSourceId = deriveTopLevelSourceId(sourceId);
+
         this.status = status;
         this.totalFiles = totalFiles;
         if (batchProperties == null) {
@@ -135,6 +141,26 @@ public final class NewBatchJob implements Job {
 
     public void setSourceId(String sourceId) {
         this.sourceId = sourceId;
+        this.topLevelSourceId = deriveTopLevelSourceId(sourceId);
+    }
+
+    private String deriveTopLevelSourceId(String sourceId) {
+        String derivedTopLevelSourceId = sourceId;
+
+        int index = sourceId.indexOf(".done");
+        if (index != -1) {
+            derivedTopLevelSourceId = sourceId.substring(0, index);
+        }
+
+        return derivedTopLevelSourceId;
+    }
+
+    public String getTopLevelSourceId() {
+        return topLevelSourceId;
+    }
+
+    public void setTopLevelSourceId(String topLevelSourceId) {
+        this.topLevelSourceId = topLevelSourceId;
     }
 
     public String getStatus() {
@@ -231,13 +257,14 @@ public final class NewBatchJob implements Job {
 
         // create IngestionFileEntry items from eligible ResourceEntry items
         for (ResourceEntry resourceEntry : resourceEntries) {
+            String lzPath = resourceEntry.getTopLevelLandingZonePath();
             FileFormat fileFormat = FileFormat.findByCode(resourceEntry.getResourceFormat());
             if (fileFormat != null && resourceEntry.getResourceType() != null) {
 
                 FileType fileType = FileType.findByNameAndFormat(resourceEntry.getResourceType(), fileFormat);
                 if (fileType != null) {
                     IngestionFileEntry ingestionFileEntry = new IngestionFileEntry(fileFormat, fileType,
-                            resourceEntry.getResourceId(), resourceEntry.getChecksum());
+                            resourceEntry.getResourceId(), resourceEntry.getChecksum(), lzPath);
                     ingestionFileEntries.add(ingestionFileEntry);
                 }
             }
@@ -268,6 +295,7 @@ public final class NewBatchJob implements Job {
         resourceEntry.setResourceFormat(ingestionFileEntry.getFileFormat().getCode());
         resourceEntry.setResourceType(ingestionFileEntry.getFileType().getName());
         resourceEntry.setExternallyUploadedResourceId(ingestionFileEntry.getFileName());
+        resourceEntry.setTopLevelLandingZonePath(ingestionFileEntry.getTopLevelLandingZonePath());
 
         return resourceEntries.add(resourceEntry);
     }

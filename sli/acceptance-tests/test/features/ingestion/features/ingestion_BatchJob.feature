@@ -22,7 +22,7 @@ Then I should see following map of entry counts in the corresponding batch job d
   | collectionName | expectedRecordCount | searchParameter                  | searchValue                          | searchType |
   | newBatchJob    | 1                   | totalFiles                       | 1                                    | integer    |
   | newBatchJob    | 1                   | status                           | CompletedSuccessfully                | string     |
-  | newBatchJob    | 1                   | batchProperties.tenantId         | IL                                   |string      |
+  | newBatchJob    | 1                   | batchProperties.tenantId         | IL-STATE                             |string      |
   # stages
   | newBatchJob    | 1                   | stages.0.stageName               | ZipFileProcessor                     | string     |
   | newBatchJob    | 1                   | stages.0.status                  | finished                             | string     |

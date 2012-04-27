@@ -1,0 +1,198 @@
+Feature: Acceptance Storied Data Ingestion Test
+
+Background: I have a landing zone route configured
+Given I am using local data store
+  And I am using preconfigured Ingestion Landing Zone for "IL-STATE-Daybreak"
+  And I am using preconfigured Ingestion Landing Zone for "NY-STATE-NYC"
+
+@smoke @integration
+Scenario: Post zip files containing all data for Illinois Daybreak and NY NYC as the payload for parallel ingestion jobs: Clean Database
+Given I am willing to wait upto 150 seconds for ingestion to complete
+  And the following collections are empty in datastore:
+        | collectionName              |
+        | student                     |
+        | studentSchoolAssociation    |
+        | course                      |
+        | educationOrganization       |
+        | school                      |
+        | section                     |
+        | studentSectionAssociation   |
+        | teacher                     |
+        | staff                       |
+        |staffEducationOrganizationAssociation|
+        | teacherSchoolAssociation    |
+        | teacherSectionAssociation   |
+        | session                     |
+        | assessment                  |
+        | studentAssessmentAssociation|
+        | gradebookEntry              |
+        | studentTranscriptAssociation|
+        | studentSectionGradebookEntry|
+        | parent                      |
+        | studentParentAssociation    |
+        | attendance                  |
+        | program                     |
+        | staffProgramAssociation     |
+        | studentProgramAssociation   |
+  And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job for "IL-STATE-Daybreak"
+  And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job for "NY-STATE-NYC"
+When zip file is scp to ingestion landing zone for "IL-STATE-Daybreak"
+  And zip file is scp to ingestion landing zone for "NY-STATE-NYC"
+  And a batch job log has been created for "IL-STATE-Daybreak"
+  And a batch job log has been created for "NY-STATE-NYC"
+Then I should see following map of entry counts in the corresponding collections:
+        | collectionName                        | count |
+        | student                               | 86    |
+        | studentSchoolAssociation              | 175   |
+        | course                                | 97    |
+        | educationOrganization                 | 6     |
+        | school                                | 8     |
+        | section                               | 106   |
+        | studentSectionAssociation             | 267   |
+        | teacher                               | 19    |
+        | staff                                 | 32    |
+        | staffEducationOrganizationAssociation | 17    |
+        | teacherSchoolAssociation              | 20    |
+        | teacherSectionAssociation             | 20    |
+        | session                               | 26    |
+        | assessment                            | 5     |
+        | studentAssessmentAssociation          | 116   |
+        | studentTranscriptAssociation          | 196   |
+        | parent                                | 9     |
+        | studentParentAssociation              | 9     |
+        | gradebookEntry                        | 12    |
+        | studentSectionGradebookEntry          | 78    |
+        | attendance                            | 13650 |
+        | program                               | 2     |
+        | staffProgramAssociation               | 3     |
+        | studentProgramAssociation             | 10    |
+  And I check to find if record is in collection:
+        | collectionName                        | expectedRecordCount | searchParameter          | searchValue                | searchType           |
+        | student                               | 1                   | metaData.externalId      | 100000000                  | string               |
+        | student                               | 1                   | metaData.externalId      | 800000012                  | string               |
+        | student                               | 1                   | metaData.externalId      | 900000024                  | string               |
+        | teacher                               | 1                   | metaData.externalId      | cgray                      | string               |
+        | course                                | 1                   | metaData.externalId      | 1st Grade Homeroom         | string               |
+        | school                                | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
+        | educationOrganization                 | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
+        | educationOrganization                 | 1                   | metaData.externalId      | IL                         | string               |
+        | program                               | 1                   | metaData.externalId      | ACC-TEST-PROG-1            | string               |
+        | program                               | 1                   | metaData.externalId      | ACC-TEST-PROG-2            | string               |
+        | student                               | 78                  | metaData.tenantId        | IL-STATE                   | string               |
+        | student                               | 8                   | metaData.tenantId        | NY-STATE                   | string               |
+        | studentSchoolAssociation              | 167                 | metaData.tenantId        | IL-STATE                   | string               |
+        | studentSchoolAssociation              | 8                   | metaData.tenantId        | NY-STATE                   | string               |
+        | course                                | 89                  | metaData.tenantId        | IL-STATE                   | string               |
+        | course                                | 8                   | metaData.tenantId        | NY-STATE                   | string               |
+        | educationOrganization                 | 3                   | metaData.tenantId        | IL-STATE                   | string               |
+        | educationOrganization                 | 3                   | metaData.tenantId        | NY-STATE                   | string               |
+        | school                                | 4                   | metaData.tenantId        | IL-STATE                   | string               |
+        | school                                | 4                   | metaData.tenantId        | NY-STATE                   | string               |
+        | section                               | 90                  | metaData.tenantId        | IL-STATE                   | string               |
+        | section                               | 16                  | metaData.tenantId        | NY-STATE                   | string               |
+        | studentSectionAssociation             | 259                 | metaData.tenantId        | IL-STATE                   | string               |
+        | studentSectionAssociation             | 8                   | metaData.tenantId        | NY-STATE                   | string               |
+        | teacher                               | 3                   | metaData.tenantId        | IL-STATE                   | string               |
+        | teacher                               | 16                  | metaData.tenantId        | NY-STATE                   | string               |
+        | staff                                 | 11                  | metaData.tenantId        | IL-STATE                   | string               |
+        | staff                                 | 21                  | metaData.tenantId        | NY-STATE                   | string               |
+        | staffEducationOrganizationAssociation | 8                   | metaData.tenantId        | IL-STATE                   | string               |
+        | staffEducationOrganizationAssociation | 9                   | metaData.tenantId        | NY-STATE                   | string               |
+        | teacherSchoolAssociation              | 4                   | metaData.tenantId        | IL-STATE                   | string               |
+        | teacherSchoolAssociation              | 16                  | metaData.tenantId        | NY-STATE                   | string               |
+        | teacherSectionAssociation             | 4                   | metaData.tenantId        | IL-STATE                   | string               |
+        | teacherSectionAssociation             | 16                  | metaData.tenantId        | NY-STATE                   | string               |
+        | session                               | 22                  | metaData.tenantId        | IL-STATE                   | string               |
+        | session                               | 4                   | metaData.tenantId        | NY-STATE                   | string               |
+        | assessment                            | 5                   | metaData.tenantId        | IL-STATE                   | string               |
+        | assessment                            | 0                   | metaData.tenantId        | NY-STATE                   | string               |
+        | studentAssessmentAssociation          | 116                 | metaData.tenantId        | IL-STATE                   | string               |
+        | studentAssessmentAssociation          | 0                   | metaData.tenantId        | NY-STATE                   | string               |
+        | studentTranscriptAssociation          | 196                 | metaData.tenantId        | IL-STATE                   | string               |
+        | studentTranscriptAssociation          | 0                   | metaData.tenantId        | NY-STATE                   | string               |
+        | parent                                | 9                   | metaData.tenantId        | IL-STATE                   | string               |
+        | parent                                | 0                   | metaData.tenantId        | NY-STATE                   | string               |
+        | studentParentAssociation              | 9                   | metaData.tenantId        | IL-STATE                   | string               |
+        | studentParentAssociation              | 0                   | metaData.tenantId        | NY-STATE                   | string               |
+        | gradebookEntry                        | 12                  | metaData.tenantId        | IL-STATE                   | string               |
+        | gradebookEntry                        | 0                   | metaData.tenantId        | NY-STATE                   | string               |
+        | studentSectionGradebookEntry          | 78                  | metaData.tenantId        | IL-STATE                   | string               |
+        | studentSectionGradebookEntry          | 0                   | metaData.tenantId        | NY-STATE                   | string               |
+        | attendance                            | 13650               | metaData.tenantId        | IL-STATE                   | string               |
+        | attendance                            | 0                   | metaData.tenantId        | NY-STATE                   | string               |
+        | program                               | 2                   | metaData.tenantId        | IL-STATE                   | string               |
+        | program                               | 0                   | metaData.tenantId        | NY-STATE                   | string               |
+        | staffProgramAssociation               | 3                   | metaData.tenantId        | IL-STATE                   | string               |
+        | staffProgramAssociation               | 0                   | metaData.tenantId        | NY-STATE                   | string               |
+        | studentProgramAssociation             | 10                  | metaData.tenantId        | IL-STATE                   | string               |
+        | studentProgramAssociation             | 0                   | metaData.tenantId        | NY-STATE                   | string               |
+  And I should see "Processed 15252 records." in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should not see an error log file created for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeEducationOrganization.xml records considered: 99" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeEducationOrganization.xml records ingested successfully: 99" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeEducationOrgCalendar.xml records considered: 22" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 22" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeMasterSchedule.xml records considered: 90" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeMasterSchedule.xml records ingested successfully: 90" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStaffAssociation.xml records considered: 33" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStaffAssociation.xml records ingested successfully: 33" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentEnrollment.xml records considered: 491" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 491" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentGrade.xml records considered: 640" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentGrade.xml records ingested successfully: 640" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeAssessmentMetadata-DIBELS.xml records considered: 2" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeAssessmentMetadata-DIBELS.xml records ingested successfully: 2" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeAssessmentMetadata-DIBELS.xml records failed: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeAssessmentMetadata-ISAT.xml records considered: 2" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeAssessmentMetadata-ISAT.xml records ingested successfully: 2" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeAssessmentMetadata-ISAT.xml records failed: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+   And I should see "InterchangeAssessmentMetadata-ACT.xml records considered: 1" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 1" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeAssessmentMetadata-ACT.xml records failed: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeAssessmentMetadata-Learning.xml records considered: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeAssessmentMetadata-Learning.xml records ingested successfully: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeAssessmentMetadata-Learning.xml records failed: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentAssessment-Lkim8thgrade.xml records considered: 112" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentAssessment-Lkim8thgrade.xml records ingested successfully: 112" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentAssessment-Lkim8thgrade.xml records failed: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentAssessment-Rbraverman1stgrade.xml records considered: 4" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentAssessment-Rbraverman1stgrade.xml records ingested successfully: 4" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentAssessment-Rbraverman1stgrade.xml records failed: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeAttendance.xml records considered: 13650" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeAttendance.xml records ingested successfully: 13650" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeAttendance.xml records failed: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentParent.xml records considered: 18" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentParent.xml records ingested successfully: 18" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentParent.xml records failed: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentProgram.xml records considered: 10" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentProgram.xml records ingested successfully: 10" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "InterchangeStudentProgram.xml records failed: 0" in the resulting batch job file for "IL-STATE-Daybreak"
+  And I should see "Processed 137 records." in the resulting batch job file for "NY-STATE-NYC"
+  And I should not see an error log file created for "NY-STATE-NYC"
+  And I should see "InterchangeStudent.xml records considered: 8" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeStudent.xml records ingested successfully: 8" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeEducationOrganization.xml records considered: 15" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeEducationOrganization.xml records ingested successfully: 15" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeEducationOrgCalendar.xml records considered: 4" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 4" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeMasterSchedule.xml records considered: 16" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeMasterSchedule.xml records ingested successfully: 16" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeStaffAssociation.xml records considered: 78" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeStaffAssociation.xml records ingested successfully: 78" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeStudentEnrollment.xml records considered: 16" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 16" in the resulting batch job file for "NY-STATE-NYC"
+  And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file for "NY-STATE-NYC"
