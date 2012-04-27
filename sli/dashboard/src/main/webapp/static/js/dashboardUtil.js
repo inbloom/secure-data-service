@@ -227,9 +227,13 @@ DashboardUtil.Grid.Formatters = {
 			var valueField = options.colModel.formatoptions.valueField;
 			
 			var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
+			
+			if (!assessments || assessments == undefined) {
+				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+			}
 			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
 			
-			if (!assessments || !score) {
+			if (!score || score == undefined) {
 				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
 			}
 			
@@ -260,9 +264,12 @@ DashboardUtil.Grid.Formatters = {
 			var valueField = options.colModel.formatoptions.valueField;
 			
 			var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
+			if (!assessments || assessments == undefined) {
+				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+			}
 			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
 			
-			if (!assessments || !score) {
+			if (!score || score == undefined) {
 				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
 			}
 			
