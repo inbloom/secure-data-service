@@ -44,7 +44,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .construct());
         nodeMap.put(
                 EntityNames.SCHOOL,
-                SecurityNodeBuilder.buildNode(EntityNames.SCHOOL)
+                SecurityNodeBuilder.buildNode(EntityNames.SCHOOL, EntityNames.EDUCATION_ORGANIZATION)
                         .addConnection(EntityNames.TEACHER, "teacherId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)
                         .construct());
         nodeMap.put(EntityNames.SECTION,
