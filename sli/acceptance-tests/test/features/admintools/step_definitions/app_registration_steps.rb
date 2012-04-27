@@ -150,9 +150,9 @@ end
 
 Then /^every field except the shared secret and the app ID became editable$/ do
   @form = @driver.find_element(:id, "edit_app_#{@id}")
-  editible = @form.find_elements(:css, "input").count
-  uneditible = @form.find_elements(:css, "input[disabled='disabled']").count
-  assert(editible - uneditible == 19)
+  editable = @form.find_elements(:css, "input").count
+  uneditable = @form.find_elements(:css, "input[disabled='disabled']").count
+  assert(uneditable == 2, "Found #{uneditable} elements")
 end
 
 Then /^I have edited the field named "([^"]*)" to say "([^"]*)"$/ do |arg1, arg2|
