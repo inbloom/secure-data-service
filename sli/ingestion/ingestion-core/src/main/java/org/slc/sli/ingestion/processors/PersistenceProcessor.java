@@ -2,7 +2,7 @@ package org.slc.sli.ingestion.processors;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -11,6 +11,11 @@ import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
@@ -39,10 +44,6 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Ingestion Persistence Processor.
@@ -74,6 +75,9 @@ public class PersistenceProcessor implements Processor {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
+    /** The names of Mongo collections of documents that have been transformed. */
+    private Collection<String> transformedCollections;
+
     /**
      * Camel Exchange process callback method
      *
@@ -103,6 +107,8 @@ public class PersistenceProcessor implements Processor {
 
             // sets jobid in thread local
             neutralRecordMongoAccess.registerBatchId(newJob.getId());
+
+            transformedCollections = getTransformedCollections();
 
             for (ResourceEntry resource : newJob.getResourceEntries()) {
 
@@ -164,8 +170,7 @@ public class PersistenceProcessor implements Processor {
                         + neutralRecord.getRecordType() + "\n" + "\tIdentifier\t" + (String) neutralRecord.getLocalId()
                         + "\n";
 
-                // TODO: don't need to construct this collection every time. construct once.
-                if (getTransformedCollections().contains(neutralRecord.getRecordType())) {
+                if (transformedCollections.contains(neutralRecord.getRecordType())) {
 
                     numFailed += processTransformableNeutralRecord(neutralRecord, tenantId, encounteredStgCollections,
                             errorReportForNrFile);
@@ -272,8 +277,8 @@ public class PersistenceProcessor implements Processor {
      *
      * @return transformedCollections
      */
-    private List<String> getTransformedCollections() {
-        List<String> collections = new ArrayList<String>();
+    private Collection<String> getTransformedCollections() {
+        HashSet<String> collections = new HashSet<String>();
 
         Iterable<String> data = neutralRecordMongoAccess.getRecordRepository().getCollectionNames();
         Iterator<String> iter = data.iterator();
