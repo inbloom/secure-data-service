@@ -465,9 +465,7 @@ When /^a batch job log has been created$/ do
 
 end
 
-When /^two batch job logs have been created for "([^"]*)"$/ do |lz_key|
-  lz = @ingestion_lz_identifer_map[lz_key]
-
+When /^two batch job logs have been created$/ do
   intervalTime = 3 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
@@ -489,7 +487,7 @@ When /^two batch job logs have been created for "([^"]*)"$/ do |lz_key|
   else
     sleep(3) # waiting to poll job file removes race condition (windows-specific)
     iters.times do |i|
-      if dirContainsBatchJobLogs? landing_zone, 2
+      if dirContainsBatchJobLogs? @landing_zone_path, 2
         puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break

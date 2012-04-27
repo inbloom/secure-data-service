@@ -70,8 +70,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding batch job db collections:
         | collectionName              | count |
         | newBatchJob                 | 1     |
-        | error                       | 1     |
-
+ 
  And I check to find if record is in batch job collection:
   | collectionName | expectedRecordCount | searchParameter                  | searchValue                          | searchType |
   | newBatchJob    | 1                   | totalFiles                       | 1                                    | integer    |
@@ -96,9 +95,6 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | resourceEntries.2.resourceId     | InterchangeEducationOrganization.xml | string     |
   | newBatchJob    | 1                   | resourceEntries.2.resourceFormat | edfi-xml                             | string     |
   | newBatchJob    | 1                   | resourceEntries.2.resourceType   | EducationOrganization                | string     |
- #errors
-  | error          | 1                   | errorDetail                      | TenantId missing. No purge operation performed. |string      |
-  | error          | 1                   | severity                         | WARNING                              |string      |
 
    And I should see "Processed 0 records." in the resulting batch job file
    And I should see "[configProperty] purge: true" in the resulting batch job file
