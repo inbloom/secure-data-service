@@ -1,14 +1,14 @@
 .teardrop {
     background-repeat: no-repeat;
+    background-position: center;
     height: 18px;
-    width: 27px;
+    width: 90px;
     color: white;
     font-family: Arial, Helvica, sans-serif;
     font-size: 13px;
     font-weight: bold;
     padding-top: 1px;
     text-align: center;
-    vertical-align: bottom;
 }
 
 

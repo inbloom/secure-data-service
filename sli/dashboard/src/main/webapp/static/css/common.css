@@ -186,7 +186,7 @@ th.ui-th-column div {
     text-align: left;
 }
 .ui-jqgrid-bdiv {border-collapse: collapse;}
-.ui-widget-no-border .ui-jqgrid tr.jqgrow td {font-size:13px;color: #333333; padding: 4px 5px;border-top: 1px solid #DDDDDD;border-right-style:hidden;white-space: normal !important;}
+.ui-widget-no-border .ui-jqgrid tr.jqgrow td {font-size:13px;color: #333333; padding: 4px 5px;border-top: 1px solid #DDDDDD; text-align: center; border-right-style:hidden;white-space: normal !important;}
 .ui-widget-no-border .ui-jqgrid tr.jqgrow th { border: 0px none; padding: 4px 5px;}
 .ui-widget-no-border .ui-corner-all {border: 0px none;}
 .ui-widget-no-border .ui-widget-content a{ color: #000000; text-decoration: none; }

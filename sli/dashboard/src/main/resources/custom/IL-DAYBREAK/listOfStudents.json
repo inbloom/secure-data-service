@@ -30,6 +30,10 @@
       {name: "ISAT Writing (most recent)", items:[   
         {name: "Perf. Lvl.", field: "assessments.ISAT Writing.perfLevel", width:150, sorter: 'int', formatter: FuelGaugeWithScore, params:{name:'ISAT Writing', valueField:'Scale score', fieldName: "ISATWriting", cutPoints:{ 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}}}},
         {name: "SS", field: "assessments.ISAT Writing.Scale score", width:100, sorter: 'int'}]},
+      {name: "Current Grades", items:[
+               {name: "Unit Test 1", field: "FallSemester2011-2012-0", align:"center", width:100, sorter: LetterGrade, formatter: Grade}
+            ]
+      },
       {name: "Final Grades", items:[
                {name: "Last Semester", field: "SpringSemester2010-2011", width:100, sorter: LetterGrade, formatter: TearDrop},
                {name: "2 Semesters ago", field: "FallSemester2010-2011", width:100, sorter: LetterGrade, formatter: TearDrop}
