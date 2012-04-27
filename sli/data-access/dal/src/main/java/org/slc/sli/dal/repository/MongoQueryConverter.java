@@ -396,7 +396,7 @@ public class MongoQueryConverter {
                 return null;
             case LIST:
                 for (NeutralSchema possibleSchema : ((ListSchema) schema).getList()) {
-                    LOG.info("possible schema type is {}", possibleSchema.getSchemaType());
+                    LOG.debug("possible schema type is {}", possibleSchema.getSchemaType());
                     if (getNestedSchema(possibleSchema, field) != null) {
                         return getNestedSchema(possibleSchema, field);
                     }
@@ -423,9 +423,9 @@ public class MongoQueryConverter {
         for (String field : dottedField.split("\\.")) {
             schema = this.getNestedSchema(schema, field);
             if (schema != null) {
-                LOG.info("nested schema type is {}", schema.getSchemaType());
+                LOG.debug("nested schema type is {}", schema.getSchemaType());
             } else
-                LOG.info("nested schema type is {}", "NULL");
+                LOG.debug("nested schema type is {}", "NULL");
         }
 
         return schema;

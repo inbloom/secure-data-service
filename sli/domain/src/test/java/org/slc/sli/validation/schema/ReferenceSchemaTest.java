@@ -219,5 +219,18 @@ public class ReferenceSchemaTest {
             return null;
         }
 
+        @Override
+        public boolean exists(String collectionName, String id) {
+            List<Entity> list = data.get(collectionName);
+
+            for (Entity e : list) {
+                if (e.getEntityId().equals(id)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
     }
 }
