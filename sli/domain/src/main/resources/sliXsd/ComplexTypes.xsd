@@ -3063,7 +3063,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="behaviors"
-				type="behaviorDescriptor">
+				type="behaviorDescriptorType">
 				<xs:annotation>
 					<xs:documentation>Categories of student-specific behavior coded
 						for
@@ -6370,7 +6370,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" name="behaviors"
-				type="behaviorDescriptor">
+				type="behaviorDescriptorType">
 				<xs:annotation>
 					<xs:documentation>Categories of behavior coded for use in
 						describing an
@@ -6870,6 +6870,29 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="behaviorDescriptorType">
+		<xs:annotation>
+			<xs:documentation>Provides references for behavior descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="codeValue" type="codeValue">
+				<xs:annotation>
+					<xs:documentation>A code or abbreviation that is used to refer to the behavior category.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="shortDescription" type="shortDescription">
+				<xs:annotation>
+					<xs:documentation>A shortened description for the behavior.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" type="description">
+				<xs:annotation>
+					<xs:documentation>The description of the behavior.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
 	</xs:complexType>
 
 	<xs:complexType name="competencyLevelDescriptorType">

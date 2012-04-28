@@ -1,10 +1,5 @@
 package org.slc.sli.api.resources.v1.view.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderHelper;
@@ -14,6 +9,11 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides data about students and attendance to construct the custom
@@ -75,7 +75,7 @@ public class StudentAllAttendanceOptionalFieldAppender implements OptionalFieldA
             List<EntityBody> attendancesForStudent = attendancesPerStudent.get(id);
 
             //add the attendances to the student body
-            if (!attendancesForStudent.isEmpty()) {
+            if (attendancesForStudent != null && !attendancesForStudent.isEmpty()) {
                 EntityBody attendancesBody = new EntityBody();
                 attendancesBody.put(ResourceNames.ATTENDANCES, attendancesForStudent);
                 student.put(ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, attendancesBody);
@@ -88,7 +88,7 @@ public class StudentAllAttendanceOptionalFieldAppender implements OptionalFieldA
             List<EntityBody> attendancesForStudent = attendancesPerStudent.get(id);
 
             // add the attendances to the student body
-            if (!attendancesForStudent.isEmpty()) {
+            if (attendancesForStudent != null && !attendancesForStudent.isEmpty()) {
                 EntityBody attendancesBody = new EntityBody();
                 attendancesBody.put(ResourceNames.ATTENDANCES, attendancesForStudent);
                 student.put(ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, attendancesBody);

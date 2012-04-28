@@ -1,11 +1,12 @@
 package org.slc.sli.unit.client;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.slc.sli.client.LiveAPIClient;
+import org.slc.sli.client.RESTClient;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,13 +15,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.slc.sli.client.LiveAPIClient;
-import org.slc.sli.client.RESTClient;
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.util.Constants;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit test for the Live API client.
@@ -66,11 +66,7 @@ public class LiveAPIClientTest {
     @Test
     public void testGetStudentAttendance() throws Exception {
         List<GenericEntity> attendance;
-        attendance = client.getStudentAttendance(null, null, null, null);
-        assertNotNull(attendance);
-        assert (attendance.size() == 0);
         String url = client.getApiUrl() + "/v1/students/1000/attendances";
-        
         String json = "[{attendance: \"yes\"},{attendance:\"no\"}]";
         when(mockRest.makeJsonRequestWHeaders(url, null, false)).thenReturn(json);
         attendance = null;
@@ -83,10 +79,6 @@ public class LiveAPIClientTest {
     @Test
     public void testGetStudentAttendanceWithDates() throws Exception {
         List<GenericEntity> attendance;
-        attendance = client.getStudentAttendance(null, null, null, null);
-        assertNotNull(attendance);
-        assert (attendance.size() == 0);
-        
         String url = client.getApiUrl() + "/v1/students/1000/attendances?eventDate>=2011-07-13&eventDate<=2012-07-13";
         
         String json = "[{attendance: \"yes\"},{attendance:\"no\"}]";

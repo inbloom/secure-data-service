@@ -1,15 +1,13 @@
 package org.slc.sli.api.resources.v1.view;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.ParameterConstants;
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Factory for returning the needed strategy to create the custom views
@@ -46,6 +44,8 @@ public class OptionalFieldAppenderFactory {
                 studentAssessmentOptionalFieldAppender);
         generators.put(ResourceNames.SECTIONS + "_" + ParameterConstants.OPTIONAL_FIELD_GRADEBOOK, studentGradebookOptionalFieldAppender);
         generators.put(ResourceNames.SECTIONS + "_" + ParameterConstants.OPTIONAL_FIELD_TRANSCRIPT, studentTranscriptOptionalFieldAppender);
+        generators.put(ResourceNames.SECTIONS + "_" + ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, studentAllAttendanceOptionalFieldAppender);
+
 
         generators.put(ResourceNames.STUDENTS + "_" + ParameterConstants.OPTIONAL_FIELD_ASSESSMENTS, studentAssessmentOptionalFieldAppender);
         generators.put(ResourceNames.STUDENTS + "_" + ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, studentAllAttendanceOptionalFieldAppender);
