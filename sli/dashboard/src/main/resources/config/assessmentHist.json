@@ -1,0 +1,18 @@
+{
+    id : "assessmentHist",
+    type : "GRID",
+    name : "Test History : ISAT Reading",
+    data : {
+        entity: "studentAssessment",
+        cacheKey: "studentAssessment",
+        params: { assessmentFamily: "ISAT Reading"}
+    },
+    root : "assessments",
+    items : [
+        {id : "year", name : "Date", type : "FIELD", datatype : "string", field : "administrationDate", width : 90 },
+        {id : "grade", name : "Grade", type : "FIELD", datatype : "string", field : "assessments.gradeLevelAssessedCode", width : 75 },
+        {id : "name", name : "Assessment Name", type : "FIELD", datatype : "string", field : "assessments.assessmentTitle", width : 200},
+        {id : "perfLevel", name:'Perf. Lvl.', type : "FIELD", field: 'perfLevel', formatter: FuelGaugeWithScore, params:{ valueField:'Scale score', fieldName: "perf"}},
+        {id : "scoreResults", root: "scoreResultsSet", align: 'right', type : "FIELD", datatype : "int", width : 120}
+    ]
+}
