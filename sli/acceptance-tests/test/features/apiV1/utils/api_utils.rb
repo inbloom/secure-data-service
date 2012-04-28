@@ -17,7 +17,7 @@ Transform /^\/(<[^"]*>)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2|
   uri
 end
 
-Transform /^\/([^"]*)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2|
+Transform /^\/([^"<>]*)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2|
   uri = "/v1/" + uri_placeholder1 + "/" + Transform(uri_placeholder2)
   #puts "URI = #{uri}"
   uri
