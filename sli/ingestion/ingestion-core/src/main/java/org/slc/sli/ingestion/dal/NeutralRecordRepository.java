@@ -25,16 +25,6 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
     private EntityEncryption entityEncryption;
 
-    private MongoIndexManager mongoIndexManager;
-
-    public MongoIndexManager getMongoIndexManager() {
-        return mongoIndexManager;
-    }
-
-    public void setMongoIndexManager(MongoIndexManager mongoIndexManager) {
-        this.mongoIndexManager = mongoIndexManager;
-    }
-
     @Override
     public boolean update(String collection, NeutralRecord neutralRecord) {
 //        Map<String, Object> body = neutralRecord.getAttributes();
@@ -54,16 +44,8 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public NeutralRecord create(NeutralRecord neutralRecord) {
-
-        String collectionName = neutralRecord.getRecordType();
-        //Only create indexes when the collection is created.
-        if (!this.collectionExists(collectionName)) {
-            mongoIndexManager.ensureIndex(this, collectionName);
-        }
-
         return create(neutralRecord, neutralRecord.getRecordType());
     }
-
 
     @Override
     protected String getRecordId(NeutralRecord neutralRecord) {

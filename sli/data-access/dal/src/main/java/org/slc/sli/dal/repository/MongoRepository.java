@@ -38,7 +38,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     private ThreadLocalStorage threadStore = new ThreadLocalStorage("" + UUID.randomUUID().toString());
 
-    protected MongoTemplate template;
+    private MongoTemplate template;
 
     private IdConverter idConverter;
 

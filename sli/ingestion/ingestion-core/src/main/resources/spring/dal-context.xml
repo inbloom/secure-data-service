@@ -66,11 +66,11 @@
     <property name="template" ref="neutralRecordMongoTemplate" />
     <property name="idConverter" ref="mongoIdConverter" />
     <property name="entityEncryption" ref="stagingEntityEncryption" />
-    <property name="mongoIndexManager" ref="mongoIndexManager"/>
   </bean>
 
   <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
     <property name="neutralRecordRepository" ref="neutralRecordRepository" />
+    <property name="mongoIndexManager" ref="mongoIndexManager"/>
   </bean>
 
   <context:component-scan base-package="org.slc.sli.ingestion.dal" />

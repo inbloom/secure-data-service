@@ -13,6 +13,16 @@ public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
 
     private NeutralRecordRepository neutralRecordRepository;
 
+    private MongoIndexManager mongoIndexManager;
+
+    public MongoIndexManager getMongoIndexManager() {
+        return mongoIndexManager;
+    }
+
+    public void setMongoIndexManager(MongoIndexManager mongoIndexManager) {
+        this.mongoIndexManager = mongoIndexManager;
+    }
+
     @Override
     public void writeResource(NeutralRecord neutralRecord) {
         neutralRecordRepository.create(neutralRecord);
@@ -36,6 +46,14 @@ public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
 
     public void cleanupGroupedCollections() {
         neutralRecordRepository.deleteGroupedCollections();
+    }
+
+    /** ensureIndexes for all the collections configured
+     *
+     * @author tke
+     */
+    public void ensureIndex() {
+        mongoIndexManager.ensureIndex(neutralRecordRepository);
     }
 
 }

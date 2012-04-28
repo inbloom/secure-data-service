@@ -197,7 +197,7 @@ public class JobReportingProcessor implements Processor {
             if (JOB_STAGE_RESOURCE_ID.equals(externalResourceId)) {
                 errorFileName = JOB_STAGE_RESOURCE_ID + "_" + type + "-" + batchJobId + ".log";
             } else {
-                errorFileName = type + "." + externalResourceId + "-" + batchJobId + ".log";
+                errorFileName = type + "." + externalResourceId + "." + System.currentTimeMillis() + ".log";
             }
             writer = new PrintWriter(new FileWriter(landingZone.createFile(errorFileName)));
             externalFileResourceToErrorMap.put(externalResourceId, writer);
