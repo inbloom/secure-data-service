@@ -88,7 +88,7 @@ Then I should see following map of entry counts in the corresponding collections
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-3             | string               |
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Whack-a-mole               | string               |
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Underwater cruise          | string               |
-    And I should see "Processed 15273 records." in the resulting batch job file
+    And I should see "Processed 15271 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
