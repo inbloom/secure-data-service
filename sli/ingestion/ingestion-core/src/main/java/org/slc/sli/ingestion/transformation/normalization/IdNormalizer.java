@@ -122,13 +122,6 @@ public class IdNormalizer {
 
                 List<String> ids = resolveReferenceInternalIds(entity, tenantId, reference.getRef(), fieldPath,
                         errorReport);
-                System.err.println("\t entity="+entity);
-                System.err.println("\t fieldPath="+fieldPath);
-                System.err.println("\t getCollectionName="+reference.getRef().getCollectionName());
-                System.err.println("\t isOptional="+reference.getRef().isOptional());
-                System.err.println("\t getPath="+((List<List<Field>>)reference.getRef().getChoiceOfFields()).get(0).get(0).getPath());
-                System.err.println("\t getValueSource="+((List<FieldValue>)((List<List<Field>>)reference.getRef().getChoiceOfFields()).get(0).get(0).getValues()).get(0).getValueSource());
-                System.err.println("    ids.size()="+ids.size());
 
                 if ((ids == null || ids.size() == 0) && (reference.getRef().isOptional() || numRefInstances == 0)) {
                     continue;
@@ -233,7 +226,6 @@ public class IdNormalizer {
                                 String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig,
                                         refIndex);
                                 Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
-                                System.err.println("  entityValue="+entityValue);
                                 if (entityValue instanceof Collection) {
                                     Collection<?> entityValues = (Collection<?>) entityValue;
                                     filterValues.addAll(entityValues);
