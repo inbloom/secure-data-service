@@ -1,15 +1,5 @@
 package org.slc.sli.client;
 
-import com.google.gson.Gson;
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.util.GenericEntityEnhancer;
-import org.slc.sli.util.Constants;
-import org.slc.sli.util.SecurityUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,6 +7,18 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import com.google.gson.Gson;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.util.GenericEntityEnhancer;
+import org.slc.sli.util.Constants;
+import org.slc.sli.util.SecurityUtil;
 
 /**
  *
@@ -515,7 +517,7 @@ public class LiveAPIClient implements APIClient {
             List<GenericEntity> attendances = createEntitiesFromAPI(getApiUrl() + url, token, false);
             LOGGER.warn("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ API CALL for attendance: {}",
                     (System.nanoTime() - startTime) * 1.0e-9);
-            LOGGER.debug(attendances == null ? "No attendance" : attendances.toString());
+            LOGGER.debug(attendances.toString());
             return attendances;
         } catch (Exception e) {
             LOGGER.error("Couldn't retrieve attendance for:" + studentId, e);

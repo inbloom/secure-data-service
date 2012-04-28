@@ -1,19 +1,8 @@
 package org.slc.sli.unit.manager;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.slc.sli.entity.Config;
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.manager.EntityManager;
-import org.slc.sli.manager.PopulationManager;
-import org.slc.sli.manager.impl.PopulationManagerImpl;
-import org.slc.sli.util.Constants;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,9 +12,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
+import org.slc.sli.entity.Config;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.manager.EntityManager;
+import org.slc.sli.manager.PopulationManager;
+import org.slc.sli.manager.impl.PopulationManagerImpl;
+import org.slc.sli.util.Constants;
 
 /**
  *
@@ -170,11 +171,11 @@ public class PopulationManagerTest {
 
         // set up mock attendance data
         GenericEntity attend1 = new GenericEntity();
-        attend1.put(Constants.ATTR_ATTENDANCE_DATE, "2011-09-01");
-        attend1.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, "Tardy");
+        attend1.put("eventDate", "2011-09-01");
+        attend1.put("attendanceEventCategory", "Tardy");
         GenericEntity attend2 = new GenericEntity();
-        attend2.put(Constants.ATTR_ATTENDANCE_DATE, "2011-10-01");
-        attend2.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, "Excused Absence");
+        attend2.put("eventDate", "2011-10-01");
+        attend2.put("attendanceEventCategory", "Excused Absence");
 
         List<GenericEntity> attendList = new ArrayList<GenericEntity>();
         attendList.add(attend1);

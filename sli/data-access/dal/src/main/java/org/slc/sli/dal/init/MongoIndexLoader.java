@@ -1,6 +1,5 @@
 package org.slc.sli.dal.init;
 
-import org.slc.sli.common.constants.EntityNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -21,6 +20,9 @@ import org.springframework.stereotype.Component;
 public class MongoIndexLoader implements InitializingBean {
     private static final Logger LOG = LoggerFactory.getLogger(MongoIndexLoader.class);
     private static final Order ASCENDING = Order.ASCENDING;
+    private static final String ATTENDANCE_EVENT_COLLECTION = "attendance";
+    private static final String PARENT_COLLECTION = "parent";
+    private static final String STUDENT_PARENT_ASSOCIATION_COLLECTION = "studentParentAssociation";
     
     @Autowired(required = false)
     private MongoTemplate mongoTemplate;
@@ -28,35 +30,35 @@ public class MongoIndexLoader implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         if (this.mongoTemplate != null) {
+            
             try {
                 LOG.debug("Creating compound index on attendance collection");
-                IndexDefinition index = new Index().on("body.studentId", ASCENDING)
-                        .on("body.schoolId", ASCENDING)
-                        .on("metaData.tenantId", ASCENDING).unique();
-                mongoTemplate.ensureIndex(index, EntityNames.ATTENDANCE);
+                IndexDefinition index = new Index().on("body.eventDate", ASCENDING).on("body.studentId", ASCENDING)
+                        .on("body.attendanceEventCategory", ASCENDING).unique();
+                mongoTemplate.ensureIndex(index, ATTENDANCE_EVENT_COLLECTION);
                 LOG.debug("Successfully created compound index on attendance collection");
             } catch (Exception e) {
-                LOG.error("There was an error creating index on attendance collection");
+                LOG.warn("There was an error creating index on attendance collection");
             }
             
             try {
                 LOG.debug("Creating compound index on parent collection");
                 IndexDefinition index = new Index().on("body.parentUniqueStateId", ASCENDING)
                         .on("metaData.tenantId", ASCENDING).unique();
-                mongoTemplate.ensureIndex(index, EntityNames.PARENT);
+                mongoTemplate.ensureIndex(index, PARENT_COLLECTION);
                 LOG.debug("Successfully created compound index on parent collection");
             } catch (Exception e) {
-                LOG.error("There was an error creating index on parent collection");
+                LOG.warn("There was an error creating index on parent collection");
             }
             
             try {
                 LOG.debug("Creating compound index on student-parent association collection");
                 IndexDefinition index = new Index().on("body.studentId", ASCENDING).on("body.parentId", ASCENDING)
                         .on("metaData.tenantId", ASCENDING).unique();
-                mongoTemplate.ensureIndex(index, EntityNames.STUDENT_PARENT_ASSOCIATION);
+                mongoTemplate.ensureIndex(index, STUDENT_PARENT_ASSOCIATION_COLLECTION);
                 LOG.debug("Successfully created compound index on student-parent association collection");
             } catch (Exception e) {
-                LOG.error("There was an error creating index on student-parent association collection");
+                LOG.warn("There was an error creating index on student-parent association collection");
             }
         }
     }

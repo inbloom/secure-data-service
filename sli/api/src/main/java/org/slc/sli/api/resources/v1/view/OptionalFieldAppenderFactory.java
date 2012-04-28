@@ -1,13 +1,15 @@
 package org.slc.sli.api.resources.v1.view;
 
-import org.slc.sli.common.constants.ResourceNames;
-import org.slc.sli.common.constants.v1.ParameterConstants;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.HashMap;
-import java.util.Map;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.common.constants.v1.ParameterConstants;
 
 /**
  * Factory for returning the needed strategy to create the custom views
@@ -23,6 +25,9 @@ public class OptionalFieldAppenderFactory {
 
     @Autowired
     private OptionalFieldAppender studentAssessmentOptionalFieldAppender;
+
+    @Autowired
+    private OptionalFieldAppender studentAttendanceOptionalFieldAppender;
 
     @Autowired
     private OptionalFieldAppender studentAllAttendanceOptionalFieldAppender;
@@ -42,10 +47,9 @@ public class OptionalFieldAppenderFactory {
 
         generators.put(ResourceNames.SECTIONS + "_" + ParameterConstants.OPTIONAL_FIELD_ASSESSMENTS,
                 studentAssessmentOptionalFieldAppender);
+        generators.put(ResourceNames.SECTIONS + "_" + ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, studentAttendanceOptionalFieldAppender);
         generators.put(ResourceNames.SECTIONS + "_" + ParameterConstants.OPTIONAL_FIELD_GRADEBOOK, studentGradebookOptionalFieldAppender);
         generators.put(ResourceNames.SECTIONS + "_" + ParameterConstants.OPTIONAL_FIELD_TRANSCRIPT, studentTranscriptOptionalFieldAppender);
-        generators.put(ResourceNames.SECTIONS + "_" + ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, studentAllAttendanceOptionalFieldAppender);
-
 
         generators.put(ResourceNames.STUDENTS + "_" + ParameterConstants.OPTIONAL_FIELD_ASSESSMENTS, studentAssessmentOptionalFieldAppender);
         generators.put(ResourceNames.STUDENTS + "_" + ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, studentAllAttendanceOptionalFieldAppender);

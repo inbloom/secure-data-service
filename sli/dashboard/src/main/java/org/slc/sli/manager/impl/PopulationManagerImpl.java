@@ -1,20 +1,5 @@
 package org.slc.sli.manager.impl;
 
-import org.joda.time.DateTime;
-import org.joda.time.MutableDateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.slc.sli.config.ViewConfig;
-import org.slc.sli.entity.Config;
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.manager.EntityManager;
-import org.slc.sli.manager.PopulationManager;
-import org.slc.sli.util.Constants;
-import org.slc.sli.view.TimedLogic2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,6 +11,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+
+import org.joda.time.DateTime;
+import org.joda.time.MutableDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.slc.sli.config.ViewConfig;
+import org.slc.sli.entity.Config;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.manager.EntityManager;
+import org.slc.sli.manager.PopulationManager;
+import org.slc.sli.util.Constants;
+import org.slc.sli.view.TimedLogic2;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi entities/associations such
@@ -544,8 +545,7 @@ public class PopulationManagerImpl implements PopulationManager {
 
             @Override
             public int compare(GenericEntity att1, GenericEntity att2) {
-                return ((String) att2.get(Constants.ATTR_ATTENDANCE_DATE)).compareTo(
-                        (String) att1.get(Constants.ATTR_ATTENDANCE_DATE));
+                return ((String) att2.get("eventDate")).compareTo((String) att1.get("eventDate"));
             }
 
         });
@@ -556,7 +556,7 @@ public class PopulationManagerImpl implements PopulationManager {
         nf.setMaximumFractionDigits(0);
         int tardyCount = 0, eAbsenceCount = 0, uAbsenceCount = 0, totalCount = 0;
         for (GenericEntity entry : attendanceList) {
-            month = dtf.parseDateTime((String) entry.get(Constants.ATTR_ATTENDANCE_DATE)).toString(dtfMonth);
+            month = dtf.parseDateTime((String) entry.get("eventDate")).toString(dtfMonth);
             if (currentMonth == null) {
                 currentMonth = month;
             } else if (!currentMonth.equals(month)) {
@@ -576,7 +576,7 @@ public class PopulationManagerImpl implements PopulationManager {
                 tardyCount = 0;
                 totalCount = 0;
             }
-            String value = (String) entry.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
+            String value = (String) entry.get("attendanceEventCategory");
             if (value.contains(ATTENDANCE_TARDY)) {
                 tardyCount++;
             } else if (value.contains("Excused Absence")) {

@@ -62,7 +62,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
         | studentSectionGradebookEntry| 78    |
-        | attendance                  | 75    |
+        | attendance                  | 13650 |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
         | studentProgramAssociation   | 10    |
@@ -83,9 +83,6 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-1            | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-2            | string               |
-       | attendance                  | 75                  | body.schoolYearAttendance.schoolYear            | 2011-2012     | string     |
-       | attendance                  | 11                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         | string     |
-       | attendance                  | 75                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance | string     |
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-1             | string               |
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-2             | string               |
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-3             | string               |
@@ -176,7 +173,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
         | studentSectionGradebookEntry| 78    |
-        | attendance                  | 75    |
+        | attendance                  | 13650 |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
         | studentProgramAssociation   | 10    |
@@ -241,7 +238,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
         | studentSectionGradebookEntry| 78    |
-        | attendance                  | 75    |
+        | attendance                  | 13650 |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
         | studentProgramAssociation   | 10    |

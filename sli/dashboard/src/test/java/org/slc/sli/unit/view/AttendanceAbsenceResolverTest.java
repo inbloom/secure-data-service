@@ -1,17 +1,17 @@
 package org.slc.sli.unit.view;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.slc.sli.config.Field;
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.util.Constants;
-import org.slc.sli.view.AttendanceAbsenceResolver;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import org.slc.sli.config.Field;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.view.AttendanceAbsenceResolver;
 
 /**
  * Test for the AttendanceAbsenceResolverTest
@@ -100,13 +100,13 @@ public class AttendanceAbsenceResolverTest {
 
     private Map getValidAttendanceObject() {
         Map<String, String> attendance = new HashMap<String, String>();
-        attendance.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, "Excused Absence");
+        attendance.put("attendanceEventCategory", "Excused Absence");
         return attendance;
     }
 
     private Map getInvalidAttendanceObject() {
         Map<String, String> attendance = new HashMap<String, String>();
-        attendance.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, "Tardy");
+        attendance.put("attendanceEventCategory", "Tardy");
         return attendance;
     }
 }

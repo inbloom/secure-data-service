@@ -1,11 +1,5 @@
 package org.slc.sli.client;
 
-import com.google.gson.Gson;
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.util.Constants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,6 +9,14 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.google.gson.Gson;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
 
 /**
  *
@@ -329,8 +331,6 @@ public class MockAPIClient implements APIClient {
 
         } catch (IOException e) {
             log.error(e.getMessage());
-        } catch (NullPointerException e) {
-            log.error(e.getMessage());
         } finally {
             try {
                 if (reader != null) {
@@ -346,7 +346,7 @@ public class MockAPIClient implements APIClient {
 
     public String getFilename(String filename) {
         URL url = classLoader.getResource(filename);
-        return url == null ? null : url.getFile();
+        return url.getFile();
     }
 
     @Override
