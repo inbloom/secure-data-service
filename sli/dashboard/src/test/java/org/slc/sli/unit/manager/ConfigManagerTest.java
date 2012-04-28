@@ -94,7 +94,7 @@ public class ConfigManagerTest {
      */
     @Test
     public void testConfigFields() {
-        Config config = configManager.getComponentConfig(new EdOrgKey("1"), "gridSample");
+        Config config = configManager.getComponentConfig(null, new EdOrgKey("1"), "gridSample");
         Assert.assertEquals("gridSample", config.getId());
         Assert.assertEquals("attendance", config.getRoot());
         Assert.assertEquals(config.getName(), "Grid");
@@ -127,7 +127,7 @@ public class ConfigManagerTest {
     @Test
     public void testNonexistentConfig() {
         try {
-            configManager.getComponentConfig(new EdOrgKey("1"), "fakeConfigId");
+            configManager.getComponentConfig(null, new EdOrgKey("1"), "fakeConfigId");
         } catch (Throwable t) {
             Assert.assertEquals("Unable to read config for fakeConfigId, for path aa", t.getMessage());
         }

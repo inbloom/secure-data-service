@@ -8,6 +8,7 @@ import org.slc.sli.config.StudentFilter;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.entity.Config;
+import org.slc.sli.entity.CustomConfig;
 import org.slc.sli.entity.EdOrgKey;
 
 
@@ -30,16 +31,18 @@ public interface ConfigManager {
     /**
      * reads the educational organization hierarchy and return proper config file
      * 
-     * @param districtId - district ID of the user
+     * @param customConfig - custom configuration for the district
+     * @param userEdOrg - user educational organization proxy
      * @param componentId
      *            name of the profile
      * @return proper Config to be used for the dashbord
      */
-    public Config getComponentConfig(EdOrgKey userEdOrg, String componentId);    
+    public Config getComponentConfig(CustomConfig customConfig, EdOrgKey userEdOrg, String componentId);    
     /**
      * Get all available widget configs relevant for the user
-     * @param token - token of the user
+     * @param customConfig - custom configuration for the district
+     * @param userEdOrg - user educational organization proxy
      * @return collection of widget conigs
      */
-    public Collection<Config> getWidgetConfigs(EdOrgKey userEdOrg);
+    public Collection<Config> getWidgetConfigs(CustomConfig customConfig, EdOrgKey userEdOrg);
 }
