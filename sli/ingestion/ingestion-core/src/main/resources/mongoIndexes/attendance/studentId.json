@@ -1,0 +1,8 @@
+{
+    "collection": "attendance",
+    "indexFields":
+    [
+        {"name" : "metaData.tenantId" , "order" : "1"},
+        {"name" : "body.studentId" , "order" : "2"}
+    ]
+}
