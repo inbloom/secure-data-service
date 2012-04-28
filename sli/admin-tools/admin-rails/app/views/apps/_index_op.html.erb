@@ -19,8 +19,8 @@
 		<td><%= I18n.localize(Time.at(app.registration.request_date / 1000)) unless !app.registration.attributes.has_key? :request_date %></td>
 		<td><%= I18n.localize(Time.at(app.registration.approval_date / 1000)) unless !app.registration.attributes.has_key? :approval_date %></td>
                 <td><%= app.registration.status %></td>
-		<td><%= button_to "Y", {:action => "approve", :id => app.id}, {:disabled => app.registration.status != 'PENDING', :class => 'approve-button', } %></td>
-                <td><%= button_to 'X', {:action => "unregister", :id => app.id}, {:class => 'unregister-button', :confirm => 'Are you sure?'}%></td>
+		<td class="rowAction"><%= button_to "Y", {:action => "approve", :id => app.id}, {:disabled => app.registration.status != 'PENDING', :class => 'approve-button', } %></td>
+                <td class="rowAction"><%= button_to 'X', {:action => "unregister", :id => app.id}, {:class => 'unregister-button', :confirm => 'Are you sure you want to deny/unregister this application?'}%></td>
 		</tr>
 		<tr>
 			<td colspan="6"><%= render :partial => 'form', :locals => {:app => app} %></td>
