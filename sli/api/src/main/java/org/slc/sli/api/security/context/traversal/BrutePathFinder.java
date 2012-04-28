@@ -37,7 +37,7 @@ public class BrutePathFinder implements SecurityPathFinder {
         excludePath = new ArrayList<String>();
         
         nodeMap.put(EntityNames.TEACHER,
-                SecurityNodeBuilder.buildNode("teacher")
+                SecurityNodeBuilder.buildNode(EntityNames.TEACHER, EntityNames.STAFF)
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)
                         .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS)
                         .construct());
