@@ -163,7 +163,7 @@ h7 {
     border-right: 1px solid #CCCCCC;
     border-top: 0px solid #CCCCCC;
     line-height: 18px;
-    vertical-align: top;
+    vertical-align: middle;
     color: #999999;
     font-weight: 100;
     font-size:13px;
@@ -177,6 +177,7 @@ h7 {
 .ui-jqgrid .ui-jqgrid-htable th.end {
 	border-right: 0px solid #DDDDDD;
 	padding: 4px 5px;
+	vertical-align: middle;
 }
 
 th.ui-th-column div {
@@ -186,7 +187,7 @@ th.ui-th-column div {
     text-align: left;
 }
 .ui-jqgrid-bdiv {border-collapse: collapse;}
-.ui-widget-no-border .ui-jqgrid tr.jqgrow td {font-size:13px;color: #333333; padding: 4px 5px;border-top: 1px solid #DDDDDD;border-right-style:hidden;white-space: normal !important;}
+.ui-widget-no-border .ui-jqgrid tr.jqgrow td {font-size:13px;color: #333333; padding: 4px 5px;border-top: 1px solid #DDDDDD; text-align: center; border-right-style:hidden;white-space: normal !important;}
 .ui-widget-no-border .ui-jqgrid tr.jqgrow th { border: 0px none; padding: 4px 5px;}
 .ui-widget-no-border .ui-corner-all {border: 0px none;}
 .ui-widget-no-border .ui-widget-content a{ color: #000000; text-decoration: none; }

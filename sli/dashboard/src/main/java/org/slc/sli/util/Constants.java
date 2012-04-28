@@ -160,6 +160,9 @@ public final class Constants {
     public static final String ATTR_STUDENT_TRANSCRIPT_ASSOC = "courseTranscripts";
     public static final String ATTR_STUDENT_SECTION_ASSOC = "studentSectionAssociations";
     public static final String ATTR_INTERNAL_METADATA = "meta";
+    public static final String ATTR_GRADE_LEVEL_ASSESSED = "gradeLevelAssessed";
+    public static final String ATTR_STUDENT_GRADEBOOK_ENTRIES = "studentGradebookEntries";
+    public static final String ATTR_LETTER_GRADE_EARNED = "letterGradeEarned";
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
 
@@ -205,11 +208,8 @@ public final class Constants {
     public static final String EXTERNAL_ID = "externalId";
     
     // Grades for Sections Constants
-    public static final String SECTION = "section";
     public static final String SECTION_LETTER_GRADE = "letterGrade";
-    public static final String SECTION_HEADER = "header";
-    public static final Integer NUMBER_OF_SECTIONS = 2;
-
+    public static final String SECTION_COURSE = "courseTitle";
 
     /**
      * Contains the possible values for FRE participation

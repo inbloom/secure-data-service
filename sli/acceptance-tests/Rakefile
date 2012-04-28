@@ -1104,7 +1104,9 @@ task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
                          :dashboardSdsPopWidgetTests,
                          :dashboardSdsStudentProfileTests,
                          :dashboardSdsUserBasedViewsTests,
-                         :dashboardSdsAttendanceTests] do
+                         :dashboardSdsAttendanceTests,
+                         :dashboardStudentSearchTests,
+                         :dashboardSdsTranscriptPanelTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1156,6 +1158,11 @@ end
 desc "Run dashboard integrated Tests - Attendance Tests"
 task :dashboardSdsAttendanceTests do
   runTests("test/features/dashboard/dash/attendance_sds.feature")
+end
+
+desc "Run dashboard integrated Tests - Transcript History Panel"
+task :dashboardSdsTranscriptPanelTests do
+  runTests("test/features/dashboard/students/TranscriptHistoryPanel_sds.feature")
 end
 
 desc "Run dashboard integrated Tests - Simple Search Tests"

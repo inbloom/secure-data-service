@@ -127,6 +127,9 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
       	  useColSpanStyle: false, 
       	  groupHeaders:groupHeaders
       	});
+    	// not elegant, but couldn't figure out a better way to get to grouped headers
+    	var groupRow = $(jQuery(this)[0].grid.hDiv).find('.jqg-second-row-header th');
+    	$(groupRow[groupRow.length - 1].el).addClass('end');
     }
     jQuery(this).removeClass('.ui-widget-header');
     jQuery(this).addClass('.jqgrid-header');
@@ -158,84 +161,92 @@ DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
 
 DashboardUtil.Grid = {};
 DashboardUtil.Grid.Formatters = {
-		/* formatoptions : {1:{color:'green'}, 2:{color:'grey'},...} */
-		CutPoint : function(value, options, rowObject) {
-			if (!value && value != 0) {
-				return '';
-			}
-			var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);
-			var style;
-			for (var cutPoint in cutPoints) {
-				style = cutPoints[cutPoint].style;
-				if (value - cutPoint <= 0) {
-					break;
-			    }
-		    }
-			return "<span class='" + cutPoints[cutPoint].style + "'>" + value + "</span>";
-		},
-		CutPointReverse : function(value, options, rowObject) {
-			if (!value && value != 0) {
-				return '';
-			}
-			var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);
-			var style;
-			for (var cutPoint in cutPoints) {
-				if (value - cutPoint < 0) {
-					break;
-			    }
-				style = cutPoints[cutPoint].style;
-		    }
-			return "<span class='" + style + "'>" + value + "</span>";
-		},
-		PercentBar: function (value, options, rowObject) {
-		    if (value == null || value === "") {
-		      return "";
-		    }
+        /* formatoptions : {1:{color:'green'}, 2:{color:'grey'},...} */
+        CutPoint : function(value, options, rowObject) {
+            if (!value && value != 0) {
+                return '';
+            }
+            var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);
+            var style;
+            for (var cutPoint in cutPoints) {
+                style = cutPoints[cutPoint].style;
+                if (value - cutPoint <= 0) {
+                    break;
+                }
+            }
+            return "<span class='" + cutPoints[cutPoint].style + "'>" + value + "</span>";
+        },
+        CutPointReverse : function(value, options, rowObject) {
+            if (!value && value != 0) {
+                return '';
+            }
+            var cutPoints = DashboardUtil.sortObject(options.colModel.formatoptions.cutPoints, compareInt);
+            var style;
+            for (var cutPoint in cutPoints) {
+                if (value - cutPoint < 0) {
+                    break;
+                }
+                style = cutPoints[cutPoint].style;
+            }
+            return "<span class='" + style + "'>" + value + "</span>";
+        },
+        PercentBar: function (value, options, rowObject) {
+            if (value == null || value === "") {
+              return "";
+            }
 
-		    var color;
-		    var colorValue = value;
-		    var formatoptions = options.colModel.formatoptions;
-		    if (formatoptions && formatoptions.reverse == true) {
-		    	colorValue = 100 - value;
-		    }
-		    var low = 30, medium = 70;
-		    if (formatoptions && formatoptions.low) {
-		    	low = formatoptions.low;
-		    }
-		    if (formatoptions && formatoptions.medium) {
-		    	medium = formatoptions.medium;
-		    }
-		    
-		    if (colorValue < low) {
-		      color = "red";
-		    } else if (colorValue < medium) {
-		      color = "silver";
-		    } else {
-		      color = "green";
-		    }
+            var color;
+            var colorValue = value;
+            var formatoptions = options.colModel.formatoptions;
+            if (formatoptions && formatoptions.reverse == true) {
+                colorValue = 100 - value;
+            }
+            var low = 30, medium = 70;
+            if (formatoptions && formatoptions.low) {
+                low = formatoptions.low;
+            }
+            if (formatoptions && formatoptions.medium) {
+                medium = formatoptions.medium;
+            }
+            
+            if (colorValue < low) {
+              color = "red";
+            } else if (colorValue < medium) {
+              color = "silver";
+            } else {
+              color = "green";
+            }
 
-		    return "<span style='display: inline-block;height: 6px;-moz-border-radius: 3px;-webkit-border-radius: 3px;background:" + color + ";width:" + value * .9 + "%'></span>";
-		},
-		  
-		Lozenge: function(value, options, rowObject) {	
-			return DashboardUtil.renderLozenges(rowObject);
-		},
-		
-		FuelGaugeWithScore: function(value, options, rowObject) {
+            return "<span style='display: inline-block;height: 6px;-moz-border-radius: 3px;-webkit-border-radius: 3px;background:" + color + ";width:" + value * .9 + "%'></span>";
+        },
+          
+        Lozenge: function(value, options, rowObject) {    
+            return DashboardUtil.renderLozenges(rowObject);
+        },
+        
+        FuelGaugeWithScore: function(value, options, rowObject) {
 			var perfLevelClass = "";
 			var name = options.colModel.formatoptions.name;
 			var valueField = options.colModel.formatoptions.valueField;
 			
-			if (name == undefined || valueField == undefined ||  rowObject.assessments[name] == undefined || rowObject.assessments[name][valueField] == undefined ) {
+			var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
+			
+			if (!assessments || assessments == undefined) {
+				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+			}
+			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
+			
+			if (!score || score == undefined) {
 				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
 			}
 			
-			var score = rowObject.assessments[name][valueField];
-			var cutPoints = rowObject.assessments[name].assessments.assessmentPerformanceLevel;
+			var cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel;
 			var cutPointsArray = DashboardUtil.CutPoints.toArray(cutPoints);
 			var perfLevel = DashboardUtil.CutPoints.getLevelFromArray(cutPointsArray, score);
-			
-			var cutPointLevel = options.colModel.formatoptions.cutPoints[perfLevel];
+			var defaultCutPointsSettings = { 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}};
+			var cutPointsSettings = (options.colModel.formatoptions.cutPoints) ? options.colModel.formatoptions.cutPoints : defaultCutPointsSettings;
+					
+			var cutPointLevel = cutPointsSettings[perfLevel];
 			if (cutPointLevel != null && cutPointLevel != undefined) {
 				perfLevelClass = cutPointLevel.style;
 			}
@@ -255,14 +266,19 @@ DashboardUtil.Grid.Formatters = {
 			var name = options.colModel.formatoptions.name;
 			var valueField = options.colModel.formatoptions.valueField;
 			
-			if (name == undefined || valueField == undefined ||  rowObject.assessments[name] == undefined || rowObject.assessments[name][valueField] == undefined ) {
-				return "";
+			var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
+			if (!assessments || assessments == undefined) {
+				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+			}
+			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
+			
+			if (!score || score == undefined) {
+				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
 			}
 			
-			var score = rowObject.assessments[name][valueField];
 			var fieldName = options.colModel.formatoptions.fieldName;
-			var cutPoints = rowObject.assessments[name].assessments.assessmentPerformanceLevel;
-			
+			var cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel;
+
 			var cutPointsArray = options.colModel.formatoptions["cutPointsArray"];
 			if (cutPointsArray == null || cutPointsArray == undefined) {
 				cutPointsArray = DashboardUtil.CutPoints.toArray(cutPoints);
@@ -309,23 +325,52 @@ DashboardUtil.Grid.Formatters = {
 			return  returnValue;
 		},
 
-		TearDrop: function(value, options, rowObject) {
-			var style = DashboardUtil.teardrop.getStyle(value, null);
+        Grade: function(value, options, rowobject) {
+            var displayValue = "";
+            if(value === undefined || value === null) {
+                return displayValue;
+            }
 
-			return "<div class=\"" + style +  "\">" + value + "</div>";
-		},
-		
-		restLink : function(value, options, rowObject)
-		{
-		  var link = options.colModel.formatoptions.link;
-		  if(typeof link == 'string')
-		  {
-		    return '<a href="' + contextRootPath + '/' + link + rowObject.id+'">'+value+'</a>';
-		  }else{
-		    return value;
-		  }
-		}
+            if(value.gradeEarned !== null && value.gradeEarned !== undefined) {
+                var stringVersion = value.gradeEarned + "";
+                var isANumber = stringVersion.match(/^\d+$/);
+                if(!isANumber) {
+                    var teardropStyle = "<div class=\"" + 
+                        DashboardUtil.teardrop.getStyle(value.gradeEarned, null) +  
+                        "\">" + value.gradeEarned + "</div>";
+                    displayValue = displayValue + teardropStyle;
+                } else {
+                    displayValue = displayValue +  value.gradeEarned;
+                }
+            }
+            return displayValue;
+        },
 
+        TearDrop: function(value, options, rowObject) {
+            var displayValue = "";
+
+            for(var courseIndex in value){
+                var course = value[courseIndex];
+                if(course.letterGrade !== null && course.letterGrade !== undefined) {
+                    var teardropStyle = "<div class=\"" + 
+                        DashboardUtil.teardrop.getStyle(course.letterGrade, null) +  
+                        "\">" + course.letterGrade + "</div>";
+                    displayValue = displayValue + teardropStyle;
+                }
+            }
+            return displayValue; 
+        },
+
+        restLink : function(value, options, rowObject)
+        {
+          var link = options.colModel.formatoptions.link;
+          if(typeof link == 'string')
+          {
+            return '<a href="' + contextRootPath + '/' + link + rowObject.id+'">'+value+'</a>';
+          }else{
+            return value;
+          }
+        }
 };
 
 DashboardUtil.Grid.Sorters = {
@@ -340,7 +385,24 @@ DashboardUtil.Grid.Sorters = {
 				return i ? i : -1;
 			}
 			
-		}
+		},
+
+                LetterGrade: function(params) {
+                   return function(semesterGrades, rowObject) {
+                        var i = DashboardUtil.teardrop.GRADE_TREND_CODES[semesterGrades[0].letterGrade]; 
+                        return i ? i : -1;
+                   }
+                },
+
+                LettersAndNumbers: function(params) {
+                    return function(gradeDate, rowObject) {
+                        var i = DashboardUtil.teardrop.GRADE_TREND_CODES[gradeDate.gradeEarned]; 
+                        if(i === undefined || i === null) {
+                            i = gradeDate.gradeEarned;
+                        }
+                        return i ? i : -1;
+                   }
+               }
 }
 
 DashboardUtil.numbersFirstComparator = function(a,b){
@@ -648,4 +710,3 @@ DashboardUtil.teardrop = {
 };
 
 DashboardUtil.teardrop.init();
-

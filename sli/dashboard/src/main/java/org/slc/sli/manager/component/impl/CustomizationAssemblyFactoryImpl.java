@@ -22,6 +22,7 @@ import org.springframework.context.ApplicationContextAware;
 
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.Config.Item;
+import org.slc.sli.entity.Config.Type;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.ConfigManager;
@@ -73,12 +74,12 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     }
 
     protected Config getConfig(String componentId) {
-        return configManager.getComponentConfig(userEdOrgManager.getUserEdOrg(getTokenId()), componentId);
+        return configManager.getComponentConfig(userEdOrgManager.getCustomConfig(getTokenId()), userEdOrgManager.getUserEdOrg(getTokenId()), componentId);
     }
 
     @Override
     public Collection<Config> getWidgetConfigs() {
-        return configManager.getWidgetConfigs(userEdOrgManager.getUserEdOrg(getTokenId()));
+        return configManager.getWidgetConfigs(userEdOrgManager.getCustomConfig(getTokenId()), userEdOrgManager.getUserEdOrg(getTokenId()));
     }
 
     /**
@@ -185,6 +186,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             List<Config.Item> items = new ArrayList<Config.Item>();
             depth++;
             Config newConfig;
+            Collection<Config.Item> expandedItems;
             // get items, go through all of them and update config as need according to conditions and template substitutions
             for (Config.Item item : getUpdatedDynamicHeaderTemplate(config, entity)) {
                 if (checkCondition(config, item, entity)) {
@@ -192,7 +194,13 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
                     if (newConfig != null) {
                         item = (Item) item.cloneWithItems(newConfig.getItems());
                     }
-                    items.add(item);
+                    // if needs expansion, expand and add all columns, otherwise add the item
+                    expandedItems = getExpandedColumns(item, entity);
+                    if (expandedItems != null) {
+                        items.addAll(expandedItems);
+                    } else {
+                      items.add(item);
+                    }
                     if (config.getType().isLayoutItem()) {
                         model.addLayoutItem(newConfig);
                     }
@@ -234,6 +242,34 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             return newItems.toArray(new Config.Item[0]);
         }
         return config.getItems();
+    }
+
+    /**
+     * Dynamic column functionality which expands the columns by looking for an array in the entity that drives the expansion
+     * Expand the columns if root attribute is present
+     * @param config - config for field item
+     * @param entity - entity for the component
+     * @return expanded array
+     */
+    protected Collection<Config.Item> getExpandedColumns(Config.Item config, GenericEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        // if there is root for field, expand the columns
+        if (config.getType() == Type.FIELD && config.getRoot() != null) {
+            @SuppressWarnings("unchecked")
+            Collection<String> expandMapperList = entity.getList(config.getRoot());
+            if (expandMapperList == null) {
+                logger.error("Expand map is not available in the entity for config " + config);
+                return null;
+            }
+            List<Config.Item> expandedItems = new ArrayList<Config.Item>();
+            for (String lookupName : expandMapperList) {
+                expandedItems.add(config.cloneWithParams(lookupName, lookupName));
+            }
+            return expandedItems;
+        }
+        return null;
     }
 
     @Override

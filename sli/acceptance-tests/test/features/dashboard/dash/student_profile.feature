@@ -65,7 +65,7 @@ And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "0"
 #Display hide tabs based on grades
-And there are "8" Tabs
+#And there are "8" Tabs
 And Tab has a title named "Elementary School Overview"
 And Tab has a title named "Middle School Overview"
 And Tab has a title named "High School Overview"
