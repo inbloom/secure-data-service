@@ -70,10 +70,8 @@
     <bean id="studentTranscriptAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.StudentTranscriptAssociationCombiner" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     </bean>
-    
-    <bean id="attendanceTransformationStrategy" class="org.slc.sli.ingestion.transformation.AttendanceTransformer" scope="prototype">
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-    </bean>
+
+    <!-- attendance transform disabled <bean id="attendanceTransformationStrategy" class="org.slc.sli.ingestion.transformation.AttendanceTransformer" scope="prototype"> <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" /> </bean> -->
 
     <bean id="transformationFactory" class="org.slc.sli.ingestion.transformation.TransformationFactory">
         <property name="transformationStrategySuffix" value="TransformationStrategy" />
