@@ -13,21 +13,21 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #section assessment association data
-  id = 23                                       if human_readable_id == "ASSOCIATION COUNT"
-  id = 3                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 4                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
-  id = 4                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
-  id = 3                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
-  id = "df3e6d22-1c3f-460a-870a-49aba80bfb18"   if human_readable_id == "ASSOCIATION ID"
-  id = "1580e803-04ea-4720-8439-5f0f4834decd"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
-  id = "62819875-d666-4b34-98ae-f115cbf90217"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
+  id = 24                                       if human_readable_id == "ASSOCIATION COUNT"
+  id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
+  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
+  id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
+  id = "627f6922-983c-4616-874a-def76a87ba70"   if human_readable_id == "ASSOCIATION ID"
+  id = "627f6922-983c-4616-874a-def76a87ba70"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
+  id = "627f6922-983c-4616-874a-def76a87ba70"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
   id = "getSectionAssessmentAssociations"       if human_readable_id == "ASSOCIATION LINK NAME"
   id = "sectionAssessmentAssociation"           if human_readable_id == "ASSOCIATION TYPE"
   id = "sectionAssessmentAssociations"          if human_readable_id == "ASSOCIATION URI"
   
   #section related data
   id = "sectionId"                              if human_readable_id == "ENDPOINT1 FIELD"
-  id = "eb4d7e1b-7bed-890a-d574-cdb25a29fc2d"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
+  id = "8ed12459-eae5-49bc-8b6b-6ebe1a56384f"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
   id = "getSection"                             if human_readable_id == "ENDPOINT1 LINK NAME" 
   id = "getSections"                            if human_readable_id == "ENDPOINT1 RESOLUTION LINK NAME" 
   id = "section"                                if human_readable_id == "ENDPOINT1 TYPE" 
@@ -35,7 +35,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #assessment related data
   id = "assessmentId"                           if human_readable_id == "ENDPOINT2 FIELD"
-  id = "6a53f63e-deb8-443d-8138-fc5a7368239c"   if human_readable_id == "ENDPOINT2 ID"          or human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
+  id = "dd916592-7d7e-5d27-a87d-dfc7fcb757f6"   if human_readable_id == "ENDPOINT2 ID"          or human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
   id = "getAssessment"                          if human_readable_id == "ENDPOINT2 LINK NAME" 
   id = "getAssessments"                         if human_readable_id == "ENDPOINT2 RESOLUTION LINK NAME" 
   id = "assessment"                             if human_readable_id == "ENDPOINT2 TYPE" 
@@ -43,7 +43,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #update related field data
   id = "sectionId"                              if human_readable_id == "UPDATE FIELD"
-  id = "1e1cdb04-2094-46b7-8140-e3e481013480"   if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
+  id = "8ed12459-eae5-49bc-8b6b-6ebe1a56384f"   if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
   id = "67ce204b-9999-4a11-aaac-000000000005"   if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
   
   #general
