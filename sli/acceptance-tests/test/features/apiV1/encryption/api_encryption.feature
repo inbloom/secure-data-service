@@ -3,7 +3,7 @@ Feature: Test database encryption.
     I want to have create, read, update, and delete functionality for a student.
 
 Background: Logged in as a super-user and using the small data set
-    Given I am logged in using "demo" "demo1234" to realm "SLI"
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
       And format "application/vnd.slc+json"
 
 Scenario: Student data created via the API should be encrypted
@@ -62,43 +62,44 @@ Scenario: Sorting on PII across a hop should fail
     Given format "application/json"
         And parameter "sortBy" is "name.firstName"
         And parameter "sortOrder" is "descending"
-    When I navigate to GET "/<SCHOOL URI>/<Krypton Middle School ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
+    When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 400
-    When I navigate to GET "/<SCHOOL URI>/<Krypton Middle School ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
+    When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 400
     Given parameter "sortBy" is "studentUniqueStateId"
-    When I navigate to GET "/<SCHOOL URI>/<Krypton Middle School ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
+    When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 200
 
 Scenario: Can query PII fields by exact matching
     Given format "application/json"
         And student Rhonda Delagio exists
-        And Ronda Delagio is associated with "<Krypton Middle School ID>".
+        And Ronda Delagio is associated with "<South Daybreak Elementary ID>".
         And parameter "name.firstName" is "Rhonda"
-    When I navigate to GET "/<SCHOOL URI>/<Krypton Middle School ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
+        And parameter "limit" is "0"
+    When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 200
         And all students should have "name.firstName" equal to "Rhonda"
     Given parameter "name.firstName" is not "Rhonda"
-    When I navigate to GET "/<SCHOOL URI>/<Krypton Middle School ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
+    When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 200
         And no student should have "name.firstName" equal to "Rhonda"
 
 Scenario: Can not query PII fields by non-exact matching
     Given format "application/json"
         And student Rhonda Delagio exists
-        And Ronda Delagio is associated with "<Krypton Middle School ID>".
+        And Ronda Delagio is associated with "<South Daybreak Elementary ID>".
         And parameter "name.firstName" less than "Rhonda"
-    When I navigate to GET "/<SCHOOL URI>/<Krypton Middle School ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
+    When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 400
     Given parameter "name.firstName" greater than "Rhonda"
-    When I navigate to GET "/<SCHOOL URI>/<Krypton Middle School ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
+    When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 400
     Given parameter "name.firstName" greater than or equal to "Rhonda"
-    When I navigate to GET "/<SCHOOL URI>/<Krypton Middle School ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
+    When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 400
     Given parameter "name.firstName" less than or equal to "Rhonda"
-    When I navigate to GET "/<SCHOOL URI>/<Krypton Middle School ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
+    When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 400
     Given parameter "name.firstName" matches via regex "Rhonda"
-    When I navigate to GET "/<SCHOOL URI>/<Krypton Middle School ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
+    When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 400

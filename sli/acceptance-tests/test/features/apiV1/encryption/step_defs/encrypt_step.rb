@@ -22,7 +22,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "schools"                                if human_readable_id == "SCHOOL URI"
   id = "studentSchoolAssociations"              if human_readable_id == "STUDENT SCHOOL ASSOCIATION URI"
 
-  id = "d431ba09-c8ac-4139-beac-be28220633e6"   if human_readable_id == "Krypton Middle School ID"
+  id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"   if human_readable_id == "South Daybreak Elementary ID"
 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ENTITY ID"
 
@@ -184,7 +184,7 @@ Given /^Ronda Delagio is associated with "([^\"]*)"\.$/ do |school_id|
       "entryGradeLevel" : "First grade"
     }
   }
-  print record
+  puts record if ENV['DEBUG']
   @fields = JSON.parse(record)
   steps %Q{
     When I navigate to POST "/<STUDENT SCHOOL ASSOCIATION URI>"
@@ -192,6 +192,7 @@ Given /^Ronda Delagio is associated with "([^\"]*)"\.$/ do |school_id|
     Then I should receive an ID for the newly created association
   }
   @rhondaAssoc = @newId
+  puts @rhondaAssoc if ENV['DEBUG']
 end
 
 
