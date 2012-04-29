@@ -17,17 +17,17 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
   id = 3                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
-  id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
-  id = "c4d5d31b-001d-4573-b282-7e688a4676f9"   if human_readable_id == "ASSOCIATION ID"
-  id = "c4d5d31b-001d-4573-b282-7e688a4676f9"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
-  id = "c4d5d31b-001d-4573-b282-7e688a4676f9"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
+  id = 3                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
+  id = "3620e862-8858-4a96-92d4-f6ac1d703033"   if human_readable_id == "ASSOCIATION ID"
+  id = "3620e862-8858-4a96-92d4-f6ac1d703033"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
+  id = "3620e862-8858-4a96-92d4-f6ac1d703033"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
   id = "getStaffEducationOrgAssignmentAssociations" if human_readable_id == "ASSOCIATION LINK NAME"
   id = "staffEducationOrganizationAssociation"      if human_readable_id == "ASSOCIATION TYPE"
   id = "staffEducationOrgAssignmentAssociations"    if human_readable_id == "ASSOCIATION URI"
   
   #staff related data
   id = "staffReference"                         if human_readable_id == "ENDPOINT1 FIELD"
-  id = "85585b27-5368-4f10-a331-3abcaf3a3f4c"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
+  id = "87b82ed6-27d7-4af4-866f-be1693af549a"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
   id = "getStaff"                               if human_readable_id == "ENDPOINT1 LINK NAME" 
   id = "getStaff"                               if human_readable_id == "ENDPOINT1 RESOLUTION LINK NAME" 
   id = "staff"                                  if human_readable_id == "ENDPOINT1 TYPE" 
@@ -43,7 +43,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #update related field data
   id = "staffReference"                         if human_readable_id == "UPDATE FIELD"
-  id = "85585b27-5368-4f10-a331-3abcaf3a3f4c"   if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
+  id = "87b82ed6-27d7-4af4-866f-be1693af549a"   if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
   id = "269be4c9-a806-4051-a02d-15a7af3ffe3e"   if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
   
   #general
