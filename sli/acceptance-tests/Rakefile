@@ -432,6 +432,8 @@ task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
                                 :v1TeacherSectionAssociationTests,
                                 :v1StaffCohortAssociationTests,
                                 :v1StudentCohortAssociationTests] do
+  # Repair the damage that was done during the tests
+  Rake::Task["importSandboxData"].execute
 end
 
 desc "Run V1 XML Tests"
