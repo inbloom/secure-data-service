@@ -511,7 +511,7 @@ public class NeutralSchemaValidationTest {
     }
 
     private void addDummyEntity(String collection, String id) {
-        this.addDummyEntity (collection, id, collection);
+        this.addDummyEntity(collection, id, collection);
     }
 
     private void addDummyEntity(String type, String id, String collection) {

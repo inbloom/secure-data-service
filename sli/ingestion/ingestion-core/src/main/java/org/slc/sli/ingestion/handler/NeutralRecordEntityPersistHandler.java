@@ -85,10 +85,6 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
             entity.getBody().remove("collectionName");
         }
         
-        if (entity.getType().equals("school")) {
-            System.out.println();
-        }
-
         if (entity.getEntityId() != null) {
 
             if (!entityRepository.update(collectionName, entity)) {
@@ -274,10 +270,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
                 if (referencedCollection.contains("#")) {
                     referencedId = referencedCollection.substring(referencedCollection.indexOf("#") + 1);
                 }
-                if (entity.getType().equals("teacherSectionAssociation")) {
-                    System.out.println();
-                }
-
+                
                 filter.put("body." + referencedId, entity.getBody().get(referencedId).toString());
             }
         } else {

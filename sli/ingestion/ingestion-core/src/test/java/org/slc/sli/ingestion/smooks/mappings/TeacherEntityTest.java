@@ -131,8 +131,8 @@ public class TeacherEntityTest {
         when(e.getBody()).thenReturn(neutralRecord.getAttributes());
         when(e.getType()).thenReturn("teacher");
 
-        Map <String, Object> attributes = neutralRecord.getAttributes();
-        attributes.remove ("collectionName");
+        Map<String, Object> attributes = neutralRecord.getAttributes();
+        attributes.remove("collectionName");
         EntityTestUtils.mapValidation(attributes, "teacher", validator);
     }
 
