@@ -497,9 +497,7 @@ end
 desc "Run V1 Student Transcript Association Tests"
 task :v1StudentTranscriptAssociationTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
-  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
   setFixture("course", "course_fixture.json")
-  setFixture("course", "smallville_course_fixture.json", "test/data/smallville", false)
   setFixture("studentTranscriptAssociation", "studentTranscriptAssociation_fixture.json")
   runTests("test/features/apiV1/associations/studentTranscriptAssociation")
 end
