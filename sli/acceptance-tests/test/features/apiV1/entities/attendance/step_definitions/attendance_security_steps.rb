@@ -7,9 +7,9 @@ Transform /the student "([^"]*)"/ do |arg1|
   id
 end
 
-Transform /the specific attendance document "([^"]*)"/ do |arg1|
-  id = "530f0704-c240-4ed9-0a64-55c0308f91ee" if arg1 == "Marvin Miller Attendance events"
-  id = "9953166a-9722-447c-094a-bfcce701c2c9" if arg1 == "Delilah D. Sims Attendance events"
+Transform /the specific attendance event "([^"]*)"/ do |arg1|
+  id = "d807ec49-2178-4f00-aa40-05165f70dcc4" if arg1 == "Marvin Miller Attendance event"
+  id = "43259915-3ab8-4501-993f-0b0cbb1152c5" if arg1 == "Delilah D. Sims Attendance event"
   id
 end
 
@@ -64,7 +64,7 @@ Then /^I get a message that I am not authorized$/ do
   assert(@res.code == 403, "Response code not expected: expected 403 but received "+@res.code.to_s)
 end
 
-When /^I make an API call to get (the specific attendance document "[^"]*")$/ do |arg1|
+When /^I make an API call to get (the specific attendance event "[^"]*")$/ do |arg1|
   restHttpGet("/v1/attendances/"+arg1)
   assert(@res != nil, "Response from rest-client GET is nil")
 end

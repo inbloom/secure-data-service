@@ -771,6 +771,7 @@
 			<xs:enumeration value="Transitional Kindergarten" />
 			<xs:enumeration value="Twelfth grade" />
 			<xs:enumeration value="Ungraded" />
+			<xs:enumeration value="Not Available" />
 		</xs:restriction>
 	</xs:simpleType>
 

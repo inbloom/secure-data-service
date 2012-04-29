@@ -1,19 +1,17 @@
 package org.slc.sli.unit.view;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.slc.sli.config.Field;
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.util.Constants;
-import org.slc.sli.view.AttendanceRateResolver;
-
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
+import org.junit.Before;
+import org.junit.Test;
+import org.slc.sli.config.Field;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.view.AttendanceRateResolver;
 
 /**
  *
@@ -142,7 +140,7 @@ public class AttendanceRateResolverTest {
 
     private Map<String, String> getAttendanceObject(String type) {
         Map<String, String> attendance = new HashMap<String, String>();
-        attendance.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, type);
+        attendance.put("attendanceEventCategory", type);
         return attendance;
     }
 
