@@ -4180,7 +4180,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="disciplines" type="disciplineDescriptor"
+			<xs:element name="disciplines" type="disciplineDescriptorType"
 				maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Type of action or removal from the classroom
@@ -6961,6 +6961,29 @@
 		</xs:choice>
 	</xs:complexType>
 
+	<xs:complexType name="disciplineDescriptorType">
+		<xs:annotation>
+			<xs:documentation>Provides references for discipline descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="codeValue" type="codeValue">
+				<xs:annotation>
+					<xs:documentation>A code or abbreviation that is used to refer to the behavior discipline.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="shortDescription" type="shortDescription">
+				<xs:annotation>
+					<xs:documentation>A shortened description for the discipline.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" type="description">
+				<xs:annotation>
+					<xs:documentation>The description of the discipline.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	
 	<xs:complexType name="competencyLevelDescriptorType">
 		<xs:annotation>
 			<xs:documentation>Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>
