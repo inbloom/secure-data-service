@@ -619,10 +619,6 @@ task :v1SessionCourseAssociationTests => [:realmInit] do
   setFixture("session", "session_fixture.json")
   setFixture("course", "course_fixture.json")
   setFixture("sessionCourseAssociation", "sessionCourseAssociation_fixture.json")
-  #add smallville (no drop)
-  setFixture("session", "smallville_session_fixture.json", "test/data/smallville", false)
-  setFixture("course", "smallville_course_fixture.json", "test/data/smallville", false)
-  setFixture("sessionCourseAssociation", "smallville_session_course_association_fixture.json", "test/data/smallville", false)
   #run test
   runTests("test/features/apiV1/associations/sessionCourseAssociation")
 end
