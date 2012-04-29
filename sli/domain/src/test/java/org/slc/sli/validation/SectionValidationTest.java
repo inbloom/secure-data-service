@@ -38,7 +38,7 @@ public class SectionValidationTest {
     @Before
     public void init() {
         repo.clean();
-        repo.addEntity("school", "42", ValidationTestUtils.makeDummyEntity("school", "42"));
+        repo.addEntity("educationOrganization", "42", ValidationTestUtils.makeDummyEntity("educationOrganization", "42"));
         repo.addEntity("session", "MySessionId", ValidationTestUtils.makeDummyEntity("session", "MySessionId"));
         repo.addEntity("course", "MyCourseId", ValidationTestUtils.makeDummyEntity("course", "MyCourseId"));
         repo.addEntity("program", "program1", ValidationTestUtils.makeDummyEntity("program", "program1"));

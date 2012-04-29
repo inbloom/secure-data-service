@@ -38,7 +38,7 @@ public class TeacherEdOrgContextResolver implements EntityContextResolver {
         // find edOrgs directly referenced by schools
         List<String> edorgIds = new ArrayList<String>();
         for (String schoolId : schoolIds) {
-            Entity school = this.repository.findById(EntityNames.SCHOOL, schoolId);
+            Entity school = this.repository.findById(EntityNames.EDUCATION_ORGANIZATION, schoolId);
             if (school.getBody().get("parentEducationAgencyReference") != null) {
                 edorgIds.add(school.getBody().get("parentEducationAgencyReference").toString());
             }
