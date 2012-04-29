@@ -93,30 +93,30 @@ Examples:
 	Scenario Outline: Get All Entities
 	
     Given parameter "limit" is "0"
-    When I navigate to GET "/<EntityURI>"
+    When I navigate to GET "/v1/<EntityURI>"
     Then I should receive a return code of 200
      And I should receive a collection of "<EntityCount>" entities
      And each entity's "entityType" should be <EntityType>
 
 Examples:
 | EntityType                     | EntityURI               | EntityCount |
-| "assessment"                   | assessments             | 0 |
-| "attendance"                   | attendances             | 0 |
+| "assessment"                   | assessments             | 1 |
+| "attendance"                   | attendances             | 161 |
 | "cohort"                       | cohorts                 | 0 |
-| "course"                       | courses                 | 0 |
+| "course"                       | courses                 | 6 |
 | "disciplineAction"             | disciplineActions       | 0 |
 | "disciplineIncident"           | disciplineIncidents     | 0 |
-| "educationOrganization"        | educationOrganizations  | 0 |
-| "gradebookEntry"               | gradebookEntries        | 0 |
+| "educationOrganization"        | educationOrganizations  | 18 |
+| "gradebookEntry"               | gradebookEntries        | 3 |
 | "learningObjective"            | learningObjectives      | 0 |
 | "learningStandard"             | learningStandards       | 0 |
-| "parent"                       | parents                 | 0 |
-| "program"                      | programs                | 0 |
-| "school"                       | schools                 | 0 |
-| "section"                      | sections                | 0 |
-| "session"                      | sessions                | 0 |
-| "staff"                        | staff                   | 0 |
-| "student"                      | students                | 0 |
-| "studentAcademicRecord"        | studentAcademicRecords  | 0 |
-| "studentSectionGradebookEntry" | studentGradebookEntries | 0 |
-| "teacher"                      | teachers                | 0 |
+| "parent"                       | parents                 | 1 |
+| "program"                      | programs                | 1 |
+| "school"                       | schools                 | 4 |
+| "section"                      | sections                | 6 |
+| "session"                      | sessions                | 5 |
+| "staff"                        | staff                   | 1 |
+| "student"                      | students                | 80 |
+| "studentAcademicRecord"        | studentAcademicRecords  | 6 |
+| "studentSectionGradebookEntry" | studentGradebookEntries | 3 |
+| "teacher"                      | teachers                | 4 |
