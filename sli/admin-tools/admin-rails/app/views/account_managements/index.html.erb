@@ -1,8 +1,8 @@
-<p id="notice"><%= notice %></p>
+<p id="notice"><%= @notice %></p>
 
 <h1>User Account Managements</h1>
 <p>&nbsp;</p>
-<table id="Account Management Table">
+<table id="Account_Management_Table">
 	<tr>
 		<th>Vendor</th>
 		<th>Name</th>
@@ -15,19 +15,27 @@
 		<td><%= account_management.vendor%></td>
 		<td><%= account_management.name%></td>
 		<td><%= account_management.approvalDate%></td>
+		<% if account_management.status == "Approved"%>
 		<td id="approvedStatus"><%= account_management.status%></td>
+		<% elsif account_management.status == "Pending"%>
+		<td id="pendingStatus"><%= account_management.status%></td>
+		<% elsif account_management.status == "Rejected"%>
+		<td id="rejectedStatus"><%= account_management.status%></td>
+		<% elsif account_management.status == "Disabled"%>
+		<td id="disabledStatus"><%= account_management.status%></td>
+		<% end%>
 		<td><%=
-		form_for "account_managements" do |f|
+		form_for "" do |f|
 		%>
-		<%= f.submit "Approve",
+		<%= f.hidden_field "email", :value => account_management.email %>
+		<%= f.submit "Approve",:disabled => (account_management.status=="Approved"),
       :confirm => "Do you really want to approve this user account?'" %>
-		<%= f.submit "Reject",
+		<%= f.submit "Reject",:disabled => (account_management.status=="Rejected"),
       :confirm => "Do you really want to reject this user account?"%>
-      <%= f.submit "Disable",
+      <%= f.submit "Disable",:disabled => (account_management.status=="Disabled"),
       :confirm => "Do you really want to disable this user account?"%>
 		<% end %>
 	</tr>
 	<% end %>
 </table>
 <br />
-<%= link_to 'New Account management', new_account_management_path %> 
