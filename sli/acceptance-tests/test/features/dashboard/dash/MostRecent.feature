@@ -7,7 +7,7 @@ Background:
   Given I have an open web browser
   Given the server is in "live" mode
 
-Scenario: Displaying simple ISAT reading results for all students
+Scenario: Displaying simple ISAT reading and writing results for all students
     When I navigate to the Dashboard home page
     When I select "Illinois Sunset School District 4526" and click go
     When I login as "linda.kim" "linda.kim1234"
@@ -17,23 +17,5 @@ Scenario: Displaying simple ISAT reading results for all students
         And I select <section> "8th Grade English - Sec 6"
       And I select view "Middle School ELA View"
 	
-	Then I should see a table heading "ISAT Reading"
-	And I should see a field "SS" in this table
-	And I should see  "Matt Sollars" in student field
-	And I should see his/her ISAT Reading Scale Score is "195"
-	
-
-Scenario: Displaying most recent ISAT writing results for all students
-    When I navigate to the Dashboard home page
-    When I select "Illinois Sunset School District 4526" and click go
-    When I login as "linda.kim" "linda.kim1234"
-      When I select <edOrg> "Daybreak School District 4529"
-        And I select <school> "East Daybreak Junior High"
-        And I select <course> "8th Grade English"
-        And I select <section> "8th Grade English - Sec 6"
-      And I select view "Middle School ELA View"
-    
-    Then I should see a table heading "ISAT Writing (most recent)"
-	And I should see a field "SS" in this table
-	And I should see  "Matt Sollars" in student field
-	And I should see his/her ISAT Writing Scale Score is "1"
+     And the scale score for assessment "ISAT Reading" for student "Matt Sollars" is "195"
+     And the scale score for assessment "ISAT Writing" for student "Matt Sollars" is "1"
