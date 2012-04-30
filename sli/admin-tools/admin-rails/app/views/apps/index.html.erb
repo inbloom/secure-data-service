@@ -13,11 +13,12 @@
 			var set = null;
 			set = jQuery(this).closest("tr").next().find(':input:not(.read_only):disabled');
 			if(set.length == 0) {
+                                jQuery(this).closest("tr").next().slideUp()
 			jQuery(this).closest("tr").next().find(':input:not(.read_only):enabled').attr('disabled', true);
 			}
 			else {
 				set.removeAttr('disabled');
-				
+                                jQuery(this).closest("tr").next().slideDown()
 			}
 
 		});
@@ -25,8 +26,11 @@
 		        jQuery("#applications tr:not(.odd)").hide();
 		        jQuery("#applications tr:first-child").show();
 		        
-		        jQuery("#applications tr.odd").click(function(){
-		            jQuery(this).next("tr").slideToggle();
+		        jQuery("#applications tr.odd td").click(function(){
+                            if(jQuery(this).attr("class") != "rowAction") {
+                              //we give the tds contain action links/buttons a "rowAction" class so they won't cause a toggle
+		              jQuery(this).parent().next("tr").slideToggle();
+                            }
 		            // $(this).find(".arrow").toggleClass("up");
 		        });
 	});

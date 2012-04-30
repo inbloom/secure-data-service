@@ -35,25 +35,37 @@ When I entered the name "NewApp" into the field titled "Name"
 And I have entered data into the other required fields except for the shared secret and the app id which are read-only
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
-And the application is listed in the table on the top
-And a client ID is created for the new application that can be used to access SLI
+And the application "NewApp" is listed in the table on the top
+And the client ID and shared secret fields are Pending
+And the Registration Status field is Pending
 
 Scenario: View application details
-
 Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I get redirected to the IDP login page
 And I authenticate with username "developer" and password "developer1234"
 Then I am redirected to the Application Registration Tool page
+And application "NewApp" does not have an edit link
 When I click on the row of application named "NewApp" in the table
 Then the row expands
 And I see the details of "NewApp"
 And all the fields are read only 
 
+Scenario: SLC Operator denies application registration request
+Given I am a valid SLC Operator "operator" from the "SLI" hosted directory
+When I hit the Application Registration Tool URL
+And I get redirected to the IDP login page
+And I authenticate with username "operator" and password "operator1234"
+Then I am redirected to the Application Approval Tool page
+And the pending apps are on top
+And application "NewApp" is pending approval
+When I click on 'X' next to application "NewApp"
+And I get a dialog asking if I want to continue
+When I click 'Yes'
+Then application "NewApp" is not registered 
+And application "NewApp" is removed from the list
 
-#Won't work until we add an extra step for an operator to approve the application
-@wip
-Scenario: Edit application
+Scenario: Vendor edits denied application
 
 Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
@@ -68,7 +80,35 @@ When I clicked Save
 And I the field named "Image URL" still says "http://placekitten.com/100/100"
 And I the field named "Description" still says "Kittens"
 
-Scenario: Removing (Un-registering) Application
+Scenario: SLC Operator accepts application registration request
+
+Given I am a valid SLC Operator "operator" from the "SLI" hosted directory
+When I hit the Application Registration Tool URL
+And I get redirected to the IDP login page
+And I authenticate with username "operator" and password "operator1234"
+Then I am redirected to the Application Approval Tool page
+And I see all the applications registered on SLI
+And I see all the applications pending registration
+And the pending apps are on top
+When I click on 'Y' next to application "NewApp"
+Then application "NewApp" is registered
+And the 'Y' button is disabled for application "NewApp"
+
+Scenario: SLC Operator un-registers already-registered application
+Given I am a valid SLC Operator "operator" from the "SLI" hosted directory
+When I hit the Application Registration Tool URL
+And I get redirected to the IDP login page
+And I authenticate with username "operator" and password "operator1234"
+Then I am redirected to the Application Approval Tool page
+And application "NewApp" is registered
+When I click on 'X' next to application "NewApp"
+And I get a dialog asking if I want to continue
+When I click 'Yes'
+Then application "NewApp" is not registered 
+And application "NewApp" is removed from the list
+
+
+Scenario: Deleting Application
 
 Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
@@ -102,6 +142,7 @@ Scenario: App Developer registers an application in App Registration Tool in San
 		And I can see the client ID and shared secret
 		And the Registration Status field is Registered
 
+#Enable when email support is available. Additional "Pending" verification is in normal app registration step
 @wip
 Scenario: Vendor send registration request for an application in App Registration Tool in Production
 	Given I am a valid Vendor
@@ -132,4 +173,8 @@ Scenario: Vendor trying to edit application that is pending registration in prod
 	When I click on <application>
 	Then <application> expands
 		And all the fields are read only
+		
+
+
+
 

@@ -94,7 +94,6 @@ class AppsController < ApplicationController
     logger.debug{"Application is valid? #{@app.valid?}"}
     @app.is_admin = boolean_fix @app.is_admin
     @app.enabled = boolean_fix @app.enabled
-    @app.developer_info.license_acceptance = boolean_fix @app.developer_info.license_acceptance
 
     respond_to do |format|
       if @app.save
@@ -118,7 +117,6 @@ class AppsController < ApplicationController
 
     params[:app][:is_admin] = boolean_fix params[:app][:is_admin]
     params[:app][:enabled] = boolean_fix params[:app][:enabled]
-    params[:app][:developer_info][:license_acceptance] = boolean_fix params[:app][:developer_info][:license_acceptance]
     params[:app][:authorized_ed_orgs] = params[@app.name.gsub(" ", "_") + "_authorized_ed_orgs"]
     params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
 

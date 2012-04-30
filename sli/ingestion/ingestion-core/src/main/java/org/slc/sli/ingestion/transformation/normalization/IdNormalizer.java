@@ -89,7 +89,7 @@ public class IdNormalizer {
         if (entityConfig.getReferences() == null) {
             return;
         }
-
+        
         String resolvedReferences = "";
 
         try {
@@ -119,7 +119,7 @@ public class IdNormalizer {
                 }
 
                 String fieldPath = reference.getFieldPath();
-
+                
                 List<String> ids = resolveReferenceInternalIds(entity, tenantId, reference.getRef(), fieldPath,
                         errorReport);
 
@@ -268,9 +268,16 @@ public class IdNormalizer {
         // combine the queries with or (must be done this way because Query.or overrides itself)
         Query filter = new Query();
         filter.or(queryOrList.toArray(new Query[queryOrList.size()]));
-
+        
+        String collection = refConfig.getCollectionName();
+        if (collection.equals("school")) {
+            collection = "educationOrganization";
+        } else if (collection.equals("teacher")) {
+            collection = "staff";
+        }
+                
         @SuppressWarnings("deprecation")
-        Iterable<Entity> foundRecords = entityRepository.findByQuery(refConfig.getCollectionName(), filter, 0, 0);
+        Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
 
         List<String> ids = new ArrayList<String>();
 

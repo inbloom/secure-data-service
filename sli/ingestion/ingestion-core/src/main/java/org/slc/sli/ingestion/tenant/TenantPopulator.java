@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -103,10 +104,9 @@ public class TenantPopulator implements ResourceLoaderAware {
             serverVal = serverVal.replaceFirst(HOSTNAME_PLACEHOLDER, hostname);
             lz.setIngestionServer(serverVal);
 
-            //replace pathname field
             String pathVal = lz.getPath();
-            pathVal = pathVal.replaceFirst(PARENT_LZ_PATH_PLACEHOLDER, parentLandingZoneDir);
-            lz.setPath(pathVal);
+            pathVal = pathVal.replaceFirst(PARENT_LZ_PATH_PLACEHOLDER, Matcher.quoteReplacement(parentLandingZoneDir));
+            lz.setPath(new File(pathVal).getAbsolutePath());
         }
     }
 

@@ -107,7 +107,7 @@ public class ControlFileProcessor implements Processor {
             handleExceptions(exchange, batchJobId, exception);
         } finally {
             if (newJob != null) {
-                newJob.addCompletedStage(stage);
+                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
                 batchJobDAO.saveBatchJob(newJob);
             }
         }
@@ -118,7 +118,7 @@ public class ControlFileProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Exception:", exception);
         if (batchJobId != null) {
-            Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null, null, null, null,
+            Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
             batchJobDAO.saveError(error);
         }

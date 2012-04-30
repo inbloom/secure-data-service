@@ -9,14 +9,17 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
+import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.TransformationFactory;
 import org.slc.sli.ingestion.transformation.Transmogrifier;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Camel processor for transformation of data.
@@ -26,6 +29,8 @@ import org.slc.sli.ingestion.transformation.Transmogrifier;
  */
 @Component
 public class TransformationProcessor implements Processor {
+
+    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.TRANSFORMATION_PROCESSOR;
 
     private static final Logger LOG = LoggerFactory.getLogger(TransformationProcessor.class);
 
@@ -47,23 +52,28 @@ public class TransformationProcessor implements Processor {
 
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         if (batchJobId == null) {
-            exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-            LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+            handleNoBatchJobId(exchange);
+        } else {
+            processTransformations(exchange, batchJobId);
         }
-        NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+    }
 
-        Stage stage = new Stage();
-        stage.setStageName(BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
-        stage.startStage();
+    private void processTransformations(Exchange exchange, String batchJobId) {
+        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
-        performDataTransformations(newJob);
+        NewBatchJob newJob = null;
+        try {
+            newJob = batchJobDAO.findBatchJobById(batchJobId);
 
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
+            performDataTransformations(newJob);
 
-        stage.stopStage();
-        newJob.getStages().add(stage);
-        batchJobDAO.saveBatchJob(newJob);
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
+        } catch (Exception e) {
+            handleProcessingExceptions(exchange, batchJobId, e);
+        } finally {
+            BatchJobUtils.stopStageAndAddToJob(stage, newJob);
+            batchJobDAO.saveBatchJob(newJob);
+        }
     }
 
     /**
@@ -78,6 +88,23 @@ public class TransformationProcessor implements Processor {
 
         transmogrifier.executeTransformations();
 
+    }
+
+    private void handleNoBatchJobId(Exchange exchange) {
+        exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+    }
+
+    private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
+        exchange.getIn().setHeader("ErrorMessage", exception.toString());
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        LOG.error("Exception:", exception);
+        if (batchJobId != null) {
+            Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
+                    FaultType.TYPE_ERROR.getName(), null, exception.toString());
+            batchJobDAO.saveError(error);
+        }
     }
 
     public TransformationFactory getTransformationFactory() {

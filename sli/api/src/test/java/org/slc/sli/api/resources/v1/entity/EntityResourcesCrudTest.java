@@ -67,7 +67,8 @@ public class EntityResourcesCrudTest {
             "StudentCompetencyResource",
             "StudentCompetencyObjectiveResource",
             "CompetencyLevelDescriptorResource",
-            "CompetencyLevelDescriptorTypeResource" };
+            "CompetencyLevelDescriptorTypeResource",
+            "BellScheduleResource"};
 
     @Autowired
     EntityDefinitionStore entityDefs;
