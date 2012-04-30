@@ -155,9 +155,9 @@
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>Special Elective: Debate Clinic</LocalCourseCode>
+        <LocalCourseCode>Special Elective: DebateClinic</LocalCourseCode>
         <CourseCode IdentificationSystem="CSSC course code">
-          <ID>Special Elective: Debate Clinic</ID>
+          <ID>Special Elective: DebateClinic</ID>
         </CourseCode>
         <Term>First Trimester</Term>
         <SchoolYear>2011-2012</SchoolYear>
