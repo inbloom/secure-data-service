@@ -34,9 +34,9 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 @Component
 public class ZipFileProcessor implements Processor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ZipFileProcessor.class);
-
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.ZIP_FILE_PROCESSOR;
+
+    private static final Logger LOG = LoggerFactory.getLogger(ZipFileProcessor.class);
 
     @Autowired
     private ZipFileHandler zipFileHandler;
@@ -47,10 +47,10 @@ public class ZipFileProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        processUsingNewBatchJob(exchange);
+        processZipFile(exchange);
     }
 
-    private void processUsingNewBatchJob(Exchange exchange) throws Exception {
+    private void processZipFile(Exchange exchange) throws Exception {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = null;
@@ -70,7 +70,7 @@ public class ZipFileProcessor implements Processor {
 
             BatchJobUtils.writeErrorsWithDAO(batchJobId, zipFile.getName(), BATCH_JOB_STAGE, errorReport, batchJobDAO);
 
-            createResourceEntrtAndAddToJob(zipFile, newJob);
+            createResourceEntryAndAddToJob(zipFile, newJob);
 
             if (ctlFile != null) {
                 newJob.setSourceId(ctlFile.getParentFile().getCanonicalPath() + File.separator);
@@ -84,7 +84,7 @@ public class ZipFileProcessor implements Processor {
             handleProcessingException(exchange, batchJobId, exception);
         } finally {
             if (newJob != null) {
-                newJob.addCompletedStage(stage);
+                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
                 batchJobDAO.saveBatchJob(newJob);
             }
         }
@@ -94,6 +94,15 @@ public class ZipFileProcessor implements Processor {
         String batchJobId = NewBatchJob.createId(zipFile.getName());
         NewBatchJob newJob = new NewBatchJob(batchJobId);
         newJob.setStatus(BatchJobStatusType.RUNNING.getName());
+
+        // added so that errors are later logged to correct location in case process fails early
+        File parentFile = zipFile.getParentFile();
+        String topLevelSourceId = parentFile.getAbsolutePath();
+        if (topLevelSourceId.endsWith(".done")) {
+            topLevelSourceId = parentFile.getParentFile().getAbsolutePath();
+        }
+        newJob.setTopLevelSourceId(topLevelSourceId);
+
         return newJob;
     }
 
@@ -102,7 +111,7 @@ public class ZipFileProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Exception:", exception);
         if (batchJobId != null) {
-            Error error = Error.createIngestionError(batchJobId, BatchJobStageType.ZIP_FILE_PROCESSOR.getName(), null,
+            Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.ZIP_FILE_PROCESSOR.getName(),
                     null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
             batchJobDAO.saveError(error);
         }
@@ -122,7 +131,7 @@ public class ZipFileProcessor implements Processor {
         }
     }
 
-    private void createResourceEntrtAndAddToJob(File zipFile, NewBatchJob newJob) throws IOException {
+    private void createResourceEntryAndAddToJob(File zipFile, NewBatchJob newJob) throws IOException {
         ResourceEntry resourceName = new ResourceEntry();
         resourceName.setResourceName(zipFile.getCanonicalPath());
         resourceName.setResourceId(zipFile.getName());

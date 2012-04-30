@@ -6,14 +6,17 @@ import java.util.Random;
 import org.slc.sli.test.edfi.entities.*;
 
 public class ParentGenerator {
-	
-    AddressGenerator ag;
-    NameGenerator nameGenerator;
+
+    static AddressGenerator ag;
+    static NameGenerator nameGenerator;
+
+    public ParentGenerator() {
+            }
 
     public ParentGenerator(StateAbbreviationType state) {
     	this.setState(state);
     }
-    
+
     public void setState(StateAbbreviationType state) {
         try {
             ag = new AddressGenerator(state);
@@ -32,19 +35,27 @@ public class ParentGenerator {
     	return prt;
     }
 
-    public Parent generate(String parentId) {
+    private static void setAddresses(Parent Parent) {
+        Address address = AddressGenerator.generateLowFi();
+
+        Parent.getAddress().add(address);
+        Parent.getAddress().add(address);
+    }
+
+
+    public static Parent generate(String parentId, boolean isMale) {
         Parent p = new Parent();
         Random random = new Random();
-        
+
 		try {
 			nameGenerator = new NameGenerator();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
         p.setParentUniqueStateId(parentId);
-        p.setSex(random.nextBoolean() ? SexType.MALE : SexType.FEMALE);
+        p.setSex(isMale ? SexType.MALE : SexType.FEMALE);
 
         if (p.getSex().equals(SexType.MALE)) {
         	p.setName(nameGenerator.getMaleName());
@@ -55,11 +66,12 @@ public class ParentGenerator {
             p.getOtherName().add(nameGenerator.getFemaleOtherName());
             p.getOtherName().add(nameGenerator.getFemaleOtherName());
         }
-        
-        p.getAddress().add(ag.getRandomAddress());
-        if (random.nextBoolean())
-            p.getAddress().add(ag.getRandomAddress());
-       
+
+//        p.getAddress().add(ag.getRandomAddress());
+//
+//        if (random.nextBoolean())
+//            p.getAddress().add(ag.getRandomAddress());
+
         TelephoneGenerator telephonegen = new TelephoneGenerator();
     	try {
 			p.getTelephone().add(telephonegen.getTelephone());
@@ -68,14 +80,19 @@ public class ParentGenerator {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-    
+
     	ElectronicMail em = new ElectronicMail();
     	em.setEmailAddress("parent.test@gmail.com");
     	em.setEmailAddressType(ElectronicMailAddressType.HOME_PERSONAL);
     	p.getElectronicMail().add(em);
-   
+
         p.setLoginId("ParenttLoginID");
-        
+
         return p;
     }
+
+//    public static void main (String args[]) {
+//        ParentGenerator pg = new ParentGenerator();
+//        pg.generate("parentId1");
+//    }
 }

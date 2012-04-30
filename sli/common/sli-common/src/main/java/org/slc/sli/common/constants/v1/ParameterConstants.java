@@ -88,6 +88,7 @@ public class ParameterConstants {
     public static final String OPTIONAL_FIELD_ATTENDANCES = "attendances";
     public static final String OPTIONAL_FIELD_GRADEBOOK = "gradebook";
     public static final String OPTIONAL_FIELD_TRANSCRIPT = "transcript";
+    public static final String OPTIONAL_FIELD_GRADE_LEVEL = "gradeLevel";
 
     /**
      * Entity/Association IDs
@@ -111,6 +112,7 @@ public class ParameterConstants {
     public static final String STUDENT_COMPETENCY_OBJECTIVE_ID = "studentCompetencyObjectiveId";
     public static final String TEACHER_ID = "teacherId";
     public static final String STUDENT_GRADEBOOK_ENTRY_ID = "studentGradebookEntryId";
+    public static final String STUDENT_ACADEMIC_RECORD_ID = "studentAcademicRecordId";
     public static final String COHORT_ID = "cohortId";
     public static final String EDUCATION_ORGANIZATION_ID = "educationOrganizationId";
     public static final String ATTENDANCE_ID = "attendanceId";

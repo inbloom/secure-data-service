@@ -26,7 +26,7 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.tenant.TenantDA;
-import org.slc.sli.ingestion.tenant.TenantMongoDA;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -43,6 +43,9 @@ public class ControlFilePreProcessor implements Processor {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
+
+    @Autowired
+    private TenantDA tenantDA;
 
     @Value("${sli.ingestion.tenant.deriveTenants}")
     private boolean deriveTenantId;
@@ -80,9 +83,9 @@ public class ControlFilePreProcessor implements Processor {
             newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
             createResourceEntryAndAddToJob(controlFile, newBatchJob);
 
-            //determine whether to override the tenantId property with a LZ derived value
+            // determine whether to override the tenantId property with a LZ derived value
             if (deriveTenantId) {
-                //derive the tenantId property from the landing zone directory with a mongo lookup
+                // derive the tenantId property from the landing zone directory with a mongo lookup
                 setTenantId(controlFile, lzFile.getAbsolutePath());
             }
 
@@ -94,7 +97,7 @@ public class ControlFilePreProcessor implements Processor {
             handleExceptions(exchange, batchJobId, exception);
         } finally {
             if (newBatchJob != null) {
-                newBatchJob.addCompletedStage(stage);
+                BatchJobUtils.stopStageAndAddToJob(stage, newBatchJob);
                 batchJobDAO.saveBatchJob(newBatchJob);
             }
         }
@@ -105,7 +108,7 @@ public class ControlFilePreProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Exception:", exception);
         if (batchJobId != null) {
-            Error error = Error.createIngestionError(batchJobId, BATCH_JOB_STAGE.getName(), null, null, null, null,
+            Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
             batchJobDAO.saveError(error);
         }
@@ -152,10 +155,8 @@ public class ControlFilePreProcessor implements Processor {
      * Throws an IngestionException if a tenantId could not be resolved.
      */
     private void setTenantId(ControlFile cf, String lzPath) throws IngestionException {
-        TenantDA tenantDA = new TenantMongoDA();
-        // replacing windows-style paths with unix-style
-        lzPath = lzPath.replaceAll("\\\\", "/");
-        //TODO add user facing error report for no tenantId found
+        lzPath = new File(lzPath).getAbsolutePath();
+        // TODO add user facing error report for no tenantId found
         String tenantId = tenantDA.getTenantId(lzPath);
         if (tenantId != null) {
             cf.getConfigProperties().put("tenantId", tenantId);

@@ -5555,6 +5555,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000000</StudentUniqueStateId>
@@ -5592,6 +5593,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000000</StudentUniqueStateId>
@@ -5630,6 +5632,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000001</StudentUniqueStateId>
@@ -5667,6 +5670,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000001</StudentUniqueStateId>
@@ -5705,6 +5709,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000002</StudentUniqueStateId>
@@ -5742,6 +5747,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000002</StudentUniqueStateId>
@@ -5780,6 +5786,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000003</StudentUniqueStateId>
@@ -5817,6 +5824,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000003</StudentUniqueStateId>
@@ -5855,6 +5863,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000004</StudentUniqueStateId>
@@ -5892,6 +5901,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000004</StudentUniqueStateId>
@@ -5930,6 +5940,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000005</StudentUniqueStateId>
@@ -5967,6 +5978,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000005</StudentUniqueStateId>
@@ -6005,6 +6017,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000006</StudentUniqueStateId>
@@ -6042,6 +6055,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000006</StudentUniqueStateId>
@@ -6080,6 +6094,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000007</StudentUniqueStateId>
@@ -6117,6 +6132,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000007</StudentUniqueStateId>
@@ -6155,6 +6171,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000008</StudentUniqueStateId>
@@ -6192,6 +6209,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000008</StudentUniqueStateId>
@@ -6230,6 +6248,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000009</StudentUniqueStateId>
@@ -6267,6 +6286,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000009</StudentUniqueStateId>
@@ -6305,6 +6325,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000010</StudentUniqueStateId>
@@ -6342,6 +6363,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000010</StudentUniqueStateId>
@@ -6380,6 +6402,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000011</StudentUniqueStateId>
@@ -6417,6 +6440,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000011</StudentUniqueStateId>
@@ -6455,6 +6479,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000012</StudentUniqueStateId>
@@ -6492,6 +6517,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000012</StudentUniqueStateId>
@@ -6530,6 +6556,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000013</StudentUniqueStateId>
@@ -6567,6 +6594,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000013</StudentUniqueStateId>
@@ -6605,6 +6633,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000014</StudentUniqueStateId>
@@ -6642,6 +6671,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000014</StudentUniqueStateId>
@@ -6680,6 +6710,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000015</StudentUniqueStateId>
@@ -6717,6 +6748,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000015</StudentUniqueStateId>
@@ -6755,6 +6787,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>6</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.3</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000016</StudentUniqueStateId>
@@ -6897,6 +6930,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>6</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.3</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000016</StudentUniqueStateId>
@@ -7040,6 +7074,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000017</StudentUniqueStateId>
@@ -7077,6 +7112,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000017</StudentUniqueStateId>
@@ -7115,6 +7151,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000018</StudentUniqueStateId>
@@ -7152,6 +7189,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000018</StudentUniqueStateId>
@@ -7190,6 +7228,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000019</StudentUniqueStateId>
@@ -7227,6 +7266,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000019</StudentUniqueStateId>
@@ -7265,6 +7305,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000020</StudentUniqueStateId>
@@ -7302,6 +7343,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000020</StudentUniqueStateId>
@@ -7340,6 +7382,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000021</StudentUniqueStateId>
@@ -7377,6 +7420,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000021</StudentUniqueStateId>
@@ -7415,6 +7459,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000022</StudentUniqueStateId>
@@ -7452,6 +7497,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000022</StudentUniqueStateId>
@@ -7490,6 +7536,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000023</StudentUniqueStateId>
@@ -7527,6 +7574,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000023</StudentUniqueStateId>
@@ -7565,6 +7613,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000024</StudentUniqueStateId>
@@ -7602,6 +7651,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000024</StudentUniqueStateId>
@@ -7640,6 +7690,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000026</StudentUniqueStateId>
@@ -7677,6 +7728,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000026</StudentUniqueStateId>
@@ -7715,6 +7767,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000027</StudentUniqueStateId>
@@ -7752,6 +7805,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000027</StudentUniqueStateId>
@@ -7791,6 +7845,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -7828,6 +7883,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -7866,6 +7922,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000001</StudentUniqueStateId>
@@ -7903,6 +7960,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000001</StudentUniqueStateId>
@@ -7941,6 +7999,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000002</StudentUniqueStateId>
@@ -7978,6 +8037,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000002</StudentUniqueStateId>
@@ -8016,6 +8076,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000003</StudentUniqueStateId>
@@ -8053,6 +8114,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000003</StudentUniqueStateId>
@@ -8091,6 +8153,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -8128,6 +8191,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -8166,6 +8230,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -8203,6 +8268,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -8241,6 +8307,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000006</StudentUniqueStateId>
@@ -8278,6 +8345,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000006</StudentUniqueStateId>
@@ -8316,6 +8384,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -8353,6 +8422,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -8391,6 +8461,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -8428,6 +8499,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -8466,6 +8538,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -8503,6 +8576,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -8541,6 +8615,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000010</StudentUniqueStateId>
@@ -8578,6 +8653,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000010</StudentUniqueStateId>
@@ -8616,6 +8692,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -8653,6 +8730,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -8691,6 +8769,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000012</StudentUniqueStateId>
@@ -8728,6 +8807,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000012</StudentUniqueStateId>
@@ -8766,6 +8846,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000013</StudentUniqueStateId>
@@ -8803,6 +8884,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000013</StudentUniqueStateId>
@@ -8841,6 +8923,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000014</StudentUniqueStateId>
@@ -8878,6 +8961,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000014</StudentUniqueStateId>
@@ -8916,6 +9000,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -8953,6 +9038,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -8991,6 +9077,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>6</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -9133,6 +9220,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>6</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.4</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -9276,6 +9364,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -9313,6 +9402,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -9351,6 +9441,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -9388,6 +9479,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -9426,6 +9518,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -9463,6 +9556,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -9501,6 +9595,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000020</StudentUniqueStateId>
@@ -9538,6 +9633,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000020</StudentUniqueStateId>
@@ -9576,6 +9672,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -9613,6 +9710,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -9651,6 +9749,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -9688,6 +9787,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -9726,6 +9826,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -9763,6 +9864,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -9801,6 +9903,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000024</StudentUniqueStateId>
@@ -9838,6 +9941,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>5</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000024</StudentUniqueStateId>
@@ -9877,6 +9981,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>6</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>2.5</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -10018,6 +10123,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>6</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.6</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -10159,6 +10265,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>6</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -10300,6 +10407,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>6</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>2.8</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -10443,6 +10551,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>6</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000025</StudentUniqueStateId>
@@ -10584,6 +10693,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>6</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.4</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000025</StudentUniqueStateId>
@@ -10725,6 +10835,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>6</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>2.9</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000025</StudentUniqueStateId>
@@ -10866,6 +10977,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>6</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.1</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000025</StudentUniqueStateId>
@@ -11007,6 +11119,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>6</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.2</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000025</StudentUniqueStateId>
@@ -11148,6 +11261,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>6</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.3</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000025</StudentUniqueStateId>
@@ -11289,6 +11403,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>6</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.3</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000025</StudentUniqueStateId>
@@ -11431,6 +11546,7 @@
       <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
         <Credit>6</Credit>
       </CumulativeCreditsAttempted>
+      <CumulativeGradePointAverage>3.0</CumulativeGradePointAverage>
       <StudentReference>
         <StudentIdentity>
           <StudentUniqueStateId>800000025</StudentUniqueStateId>

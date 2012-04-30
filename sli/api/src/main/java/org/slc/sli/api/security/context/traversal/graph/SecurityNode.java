@@ -9,9 +9,17 @@ import java.util.Set;
 public class SecurityNode {
     Set<SecurityNodeConnection> connections;
     private String name;
+    private String type;
 
     public SecurityNode(String name) {
         this.name = name;
+        this.type = name;
+        this.connections = new HashSet<SecurityNodeConnection>();
+    }
+
+    public SecurityNode(String name, String type) {
+        this.name = name;
+        this.type = type;
         this.connections = new HashSet<SecurityNodeConnection>();
     }
 
@@ -56,5 +64,13 @@ public class SecurityNode {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

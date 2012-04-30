@@ -82,8 +82,8 @@ public class TeacherSchoolAssociationEntityTest {
         NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
 
         // mock repository will simulate "finding" the references
-        Mockito.when(mockRepository.exists("teacher", "333333332")).thenReturn(true);
-        Mockito.when(mockRepository.exists("school", "123456111")).thenReturn(true);
+        Mockito.when(mockRepository.exists("staff", "333333332")).thenReturn(true);
+        Mockito.when(mockRepository.exists("educationOrganization", "123456111")).thenReturn(true);
 
         EntityTestUtils.mapValidation(record.getAttributes(), "teacherSchoolAssociation", validator);
     }

@@ -105,7 +105,7 @@ public class StudentSchoolAssociationEntityTest {
         NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
 
         // mock repository will simulate "finding" the references
-        Mockito.when(mockRepository.exists("school", "990000001")).thenReturn(true);
+        Mockito.when(mockRepository.exists("educationOrganization", "990000001")).thenReturn(true);
         Mockito.when(mockRepository.exists("student", "900000001")).thenReturn(true);
 
         EntityTestUtils.mapValidation(record.getAttributes(), "studentSchoolAssociation", validator);

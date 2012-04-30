@@ -24,6 +24,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * JUnits for testing the BatchJobMongoDA class.
@@ -64,7 +65,7 @@ public class BatchJobMongoDATest {
     public void testFindBatchJobErrors() {
         List<Error> errors = new ArrayList<Error>();
         Error error = new Error(BATCHJOBID, BatchJobStageType.EDFI_PROCESSOR.getName(), "resourceid", "sourceIp",
-                "hostname", "recordId", "timestamp", FaultType.TYPE_ERROR.getName(), "errorType", "errorDetail");
+                "hostname", "recordId", BatchJobUtils.getCurrentTimeStamp(), FaultType.TYPE_ERROR.getName(), "errorType", "errorDetail");
         errors.add(error);
 
         when(mockMongoTemplate.find((Query) any(), eq(Error.class), eq("error"))).thenReturn(errors);
@@ -78,7 +79,6 @@ public class BatchJobMongoDATest {
         assertEquals(errorReturned.getSourceIp(), "sourceIp");
         assertEquals(errorReturned.getHostname(), "hostname");
         assertEquals(errorReturned.getRecordIdentifier(), "recordId");
-        assertEquals(errorReturned.getTimestamp(), "timestamp");
         assertEquals(errorReturned.getSeverity(), FaultType.TYPE_ERROR.getName());
         assertEquals(errorReturned.getErrorType(), "errorType");
         assertEquals(errorReturned.getErrorDetail(), "errorDetail");
