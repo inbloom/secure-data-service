@@ -32,21 +32,20 @@ public class SamlRequestDecoder {
     
     // private static final Logger LOG = LoggerFactory.getLogger(SamlRequestDecoder.class);
 
-    @Value("${sli.simpleIDP.cot}")
+    @Value("${sli.simple-idp.cot}")
     private String cotString;
     
     private Map<String, String> cot;
     
     @SuppressWarnings("unused")
     @PostConstruct
-    private void initialize(){
+    void initialize(){
         cot = new HashMap<String, String>();
         String[] trustedIssuers = cotString.split(",");
         for(String trustedIssuerPair : trustedIssuers){
             String[] trustedIssuer = trustedIssuerPair.split("=");
             cot.put(trustedIssuer[0], trustedIssuer[1]);
         }
-
     }
     /**
      * Holds saml request info
@@ -107,4 +106,10 @@ public class SamlRequestDecoder {
         
         return new SamlRequest(destination, id);
     }
+
+    public void setCotString(String cotString) {
+        this.cotString = cotString;
+    }
+    
+    
 }

@@ -25,6 +25,8 @@ public class SamlRequestDecoderTest {
                         "UTF8");
         
         SamlRequestDecoder decoder = new SamlRequestDecoder();
+        decoder.setCotString("https://devapp1.slidev.org=https://devopenam1.slidev.org:80/idp2/SSORedirect/metaAlias/idp");
+        decoder.initialize();
         SamlRequest request = decoder.decode(samlRequestBase64);
         assertEquals("https://devopenam1.slidev.org:80/idp2/SSORedirect/metaAlias/idp", request.getDestination());
         assertEquals("sli-22442e5f-b538-476f-8089-a041449c0dca", request.getId());
