@@ -242,8 +242,8 @@ Then I should see following map of entry counts in the corresponding collections
         | cohort                      | 3     |
         | staffCohortAssociation      | 3     |
         | studentCohortAssociation    | 9     |
-        | disciplineIncident          | 2     |
-        | disciplineAction            | 2     |
+        | disciplineIncident          | 4     |
+        | disciplineAction            | 3     |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 2                   | metaData.externalId      | 100000006                  | string               |
@@ -252,7 +252,7 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | 1000000111                 | string               |
        | educationOrganization       | 1                   | metaData.externalId      | NY-Parker                  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | NY                         | string               |
-    And I should see "Processed 137 records." in the resulting batch job file
+    And I should see "Processed 140 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 8" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 8" in the resulting batch job file
@@ -272,3 +272,6 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentEnrollment.xml records considered: 16" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 16" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml records considered: 3" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 3" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
