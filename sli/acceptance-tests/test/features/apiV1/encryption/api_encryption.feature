@@ -73,21 +73,21 @@ Scenario: Sorting on PII across a hop should fail
 Scenario: Can query PII fields by exact matching
     Given format "application/json"
         And student Rhonda Delagio exists
-        And Ronda Delagio is associated with "<South Daybreak Elementary ID>".
+	And Rhonda Delagio is associated with "<English Sec 6>"
         And parameter "name.firstName" is "Rhonda"
         And parameter "limit" is "0"
-    When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
+    When I navigate to GET "/<SECTION URI>/<English Sec 6>/<STUDENT SECTION ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 200
         And all students should have "name.firstName" equal to "Rhonda"
     Given parameter "name.firstName" is not "Rhonda"
-    When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
+    When I navigate to GET "/<SECTION URI>/<English Sec 6>/<STUDENT SECTION ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 200
         And no student should have "name.firstName" equal to "Rhonda"
 
 Scenario: Can not query PII fields by non-exact matching
     Given format "application/json"
         And student Rhonda Delagio exists
-        And Ronda Delagio is associated with "<South Daybreak Elementary ID>".
+	And Rhonda Delagio is associated with "<English Sec 6>"
         And parameter "name.firstName" less than "Rhonda"
     When I navigate to GET "/<SCHOOL URI>/<South Daybreak Elementary ID>/<STUDENT SCHOOL ASSOCIATION URI>/<STUDENT URI>"
     Then I should receive a return code of 400
