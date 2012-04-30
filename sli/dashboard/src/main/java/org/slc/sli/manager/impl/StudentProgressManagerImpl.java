@@ -10,7 +10,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.slf4j.Logger;
@@ -43,7 +45,8 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
     @SuppressWarnings("unchecked")
     public GenericEntity getTranscript(String token, Object studentIdObj, Config.Data config) {
 
-        Map<GenericEntity, List<GenericEntity>> transcripts = new HashMap<GenericEntity, List<GenericEntity>>();
+        SortedMap<GenericEntity, List<GenericEntity>> transcripts =
+                new TreeMap<GenericEntity, List<GenericEntity>>(new SessionComparator());
 
         String studentId = studentIdObj.toString();
         List<String> optionalFields = new LinkedList<String>();
@@ -88,6 +91,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
             term.put(Constants.ATTR_SCHOOL, getSchoolName(section, token));
             term.put(Constants.ATTR_SCHOOL_YEAR, getValue(session, Constants.ATTR_SCHOOL_YEAR));
             term.put(Constants.ATTR_CUMULATIVE_GPA, getGPA(session, studentId, token));
+            term.put("beginDate", getValue(session, "beginDate"));
 
             // This isn't a new term
             if (transcripts.containsKey(term)) {
@@ -454,4 +458,24 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         }
     }
 
+    public class SessionComparator implements Comparator<GenericEntity> {
+        @Override
+        public int compare(GenericEntity ge0, GenericEntity ge1) {
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+            if (ge0.getString("beginDate") != null && ge1.getString("beginDate") != null) {
+                try {
+                    Date date1 = formatter.parse(ge0.getString("beginDate"));
+                    Date date2 = formatter.parse(ge1.getString("beginDate"));
+
+                    return date2.compareTo(date1);
+
+                } catch (ParseException e) {
+                    return 0;
+                }
+            }
+
+            return 0;
+        }
+    }
 }
