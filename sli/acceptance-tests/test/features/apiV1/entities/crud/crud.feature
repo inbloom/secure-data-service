@@ -108,8 +108,8 @@ Examples:
 | "disciplineIncident"           | disciplineIncidents     | 0 |
 | "educationOrganization"        | educationOrganizations  | 18 |
 | "gradebookEntry"               | gradebookEntries        | 3 |
-| "learningObjective"            | learningObjectives      | 0 |
-| "learningStandard"             | learningStandards       | 0 |
+| "learningObjective"            | learningObjectives      | 6 |
+| "learningStandard"             | learningStandards       | 15 |
 | "parent"                       | parents                 | 1 |
 | "program"                      | programs                | 1 |
 | "school"                       | schools                 | 4 |

@@ -24,6 +24,9 @@ import org.slc.sli.domain.Repository;
 public class StaffCohortResolver implements EntityContextResolver {
 
     @Autowired
+    private ResolveCreatorsEntitiesHelper creatorResolverHelper;
+
+    @Autowired
     private AssociativeContextHelper helper;
 
     @Autowired
@@ -37,12 +40,6 @@ public class StaffCohortResolver implements EntityContextResolver {
     @SuppressWarnings("unchecked")
     @Override
     public List<String> findAccessible(Entity principal) {
-
-        // special privilege for demo user
-        if (principal.getBody().get("staffUniqueStateId").equals("demo")) {
-            info("Resolver override for demo user.");
-            return AllowAllEntityContextResolver.SUPER_LIST;
-        }
 
         NeutralQuery neutralQuery = new NeutralQuery();
 
@@ -68,6 +65,7 @@ public class StaffCohortResolver implements EntityContextResolver {
             }
         }
 
+        cohortIds.addAll(creatorResolverHelper.getAllowedForCreator(EntityNames.COHORT));
         return new ArrayList<String>(cohortIds);
     }
 }

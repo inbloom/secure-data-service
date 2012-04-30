@@ -90,28 +90,26 @@ $entityData = {
   },
   "disciplineAction" => {
     "disciplineActionIdentifier" => "Discipline act XXX",
-    "disciplines" => [{
-        "codeValue" => "Discp Act 3",
-        "shortDescription" => "Disciplinary Action 3",
-        "educationOrganizationId" => ["1d303c61-88d4-404a-ba13-d7c5cc324bc5"]
-    }],
+    "disciplines" => [[
+        {"codeValue" => "Discp Act 3"},
+        {"shortDescription" => "Disciplinary Action 3"},
+        {"description" => "Long disciplinary Action 3"}
+    ]],
     "disciplineDate" => "2012-01-28",
     "disciplineIncidentId" => ["0e26de79-22aa-5d67-9201-5113ad50a03b"],
     "studentId" => ["7a86a6a7-1f80-4581-b037-4a9328b9b650"],
     "responsibilitySchoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2",
-    "assignmentSchoolId" => "2058ddfb-b5c6-70c4-3bee-b43e9e93307d"
+    "assignmentSchoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2"
   },
   "disciplineIncident" => {
     "incidentIdentifier" => "Incident ID XXX",
     "incidentDate" => "2012-02-14", 
     "incidentTime" => "01:00:00", 
     "incidentLocation" => "On School",
-    "behaviors" => [{
-        "shortDescription" => "Behavior 012 description",
-        "codeValue" => "BEHAVIOR 012",
-        "behaviorCategory" => "School Code of Conduct",
-        "educationOrganizationId" => ["1d303c61-88d4-404a-ba13-d7c5cc324bc5"]
-    }],
+    "behaviors" => [[
+        {"shortDescription" => "Behavior 012 description"},
+        {"codeValue" => "BEHAVIOR 012"}
+    ]],
     "schoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2"
   },
   "educationOrganization" => {

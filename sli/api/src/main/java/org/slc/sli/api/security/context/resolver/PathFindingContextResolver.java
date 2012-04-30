@@ -73,10 +73,6 @@ public class PathFindingContextResolver implements EntityContextResolver {
      */
     @Override
     public List<String> findAccessible(Entity principal) {
-        /*if (principal.getBody().get("staffUniqueStateId").equals("demo")) {
-            info("Resolver override for demo user.");
-            return AllowAllEntityContextResolver.SUPER_LIST;
-        }*/
 
         List<SecurityNode> path = new ArrayList<SecurityNode>();
         path = pathFinder.getPreDefinedPath(fromEntity, toEntity);
