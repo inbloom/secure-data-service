@@ -47,8 +47,9 @@ public class StaffCohortResolver implements EntityContextResolver {
         referenceIds.add(principal.getEntityId());
 
         List<String> references = helper.findEntitiesContainingReference(EntityNames.STAFF_COHORT_ASSOCIATION, "staffId", referenceIds);
+        List<String> createdContext = creatorResolverHelper.getAllowedForCreator(EntityNames.COHORT); 
 
-        if (references.isEmpty()) {
+        if (references.isEmpty() && createdContext.isEmpty()) {
             return new ArrayList<String>();
         }
 
@@ -65,7 +66,7 @@ public class StaffCohortResolver implements EntityContextResolver {
             }
         }
 
-        cohortIds.addAll(creatorResolverHelper.getAllowedForCreator(EntityNames.COHORT));
+        cohortIds.addAll(createdContext);
         return new ArrayList<String>(cohortIds);
     }
 }

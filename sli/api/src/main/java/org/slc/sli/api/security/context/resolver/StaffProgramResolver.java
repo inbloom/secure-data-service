@@ -48,8 +48,9 @@ public class StaffProgramResolver implements EntityContextResolver {
         referenceIds.add(principal.getEntityId());
 
         List<String> references = helper.findEntitiesContainingReference(EntityNames.STAFF_PROGRAM_ASSOCIATION, "staffId", referenceIds);
+        List<String> createdContext = creatorResolverHelper.getAllowedForCreator(EntityNames.PROGRAM); 
 
-        if (references.isEmpty()) {
+        if (references.isEmpty() && createdContext.isEmpty()) {
             return new ArrayList<String>();
         }
 
@@ -66,7 +67,7 @@ public class StaffProgramResolver implements EntityContextResolver {
             }
         }
 
-        programIds.addAll(creatorResolverHelper.getAllowedForCreator(EntityNames.PROGRAM));
+        programIds.addAll(createdContext);
         return new ArrayList<String>(programIds);
     }
 }
