@@ -52,7 +52,16 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
             rr.execute(inputFile.getPath(), outputFile.getPath());
 
             // Move the expanded output file to the input file, and return it.
-            inputFile.delete();
+            int deleteCounter = 0;
+            while (!inputFile.delete()) {
+                if (deleteCounter > 5) {
+                    logError("Cannot delete " + inputFile.getName(), errorReport, log);
+                    return null;
+                }
+                deleteCounter++;
+                Thread.sleep(10000);
+            }
+
             if (!outputFile.renameTo(inputFile)) {
                 logError("Error renaming " + outputFile.getName() + " to " + inputFile.getName(), errorReport, log);
                 return null;
@@ -76,6 +85,11 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
             outputFile.delete();
             logError("Error writing expanded XML file " + inputFile.getName() + ": " + ie.getMessage(), errorReport,
                     log);
+            return null;
+        } catch (InterruptedException ie) {
+            // Delete the output file and report the error.
+            outputFile.delete();
+            logError("Error to delete " + inputFile.getName(), errorReport, log);
             return null;
         }
     }

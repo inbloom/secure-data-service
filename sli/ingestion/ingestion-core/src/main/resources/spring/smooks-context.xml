@@ -47,6 +47,7 @@
             </constructor-arg>
           </bean>
         </entry>
+        <!--
         <entry key="#{T(org.slc.sli.ingestion.FileType).XML_STUDENT}">
           <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
             <constructor-arg value="${smooks.config.all.xml}" />
@@ -57,6 +58,8 @@
             </constructor-arg>
           </bean>
         </entry>
+        -->
+
         <entry key="#{T(org.slc.sli.ingestion.FileType).XML_STAFF_ASSOCIATION}">
           <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
             <constructor-arg value="${smooks.config.all.xml}" />

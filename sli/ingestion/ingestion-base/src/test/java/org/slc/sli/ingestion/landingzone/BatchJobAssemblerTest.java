@@ -42,7 +42,7 @@ public class BatchJobAssemblerTest {
 
         // set up some valid entries
         ArrayList<IngestionFileEntry> entries = new ArrayList<IngestionFileEntry>();
-        entries.add(new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, "InterchangeStudent.xml", MD5
+        entries.add(new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, "InterchangeStudent.xml", MD5
                 .calculate("InterchangeStudent.xml", getLandingZone())));
         entries.add(new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ENROLLMENT,
                 "InterchangeEnrollment.xml", MD5.calculate("InterchangeEnrollment.xml", getLandingZone())));

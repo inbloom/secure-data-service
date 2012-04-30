@@ -26,9 +26,11 @@
         <entry key="StaffAssociation">
             <value>classpath:edfiXsd/Interchange-StaffAssociation.xsd</value>
         </entry>
+<!--
         <entry key="Student">
              <value>classpath:edfiXsd/Interchange-Student.xsd</value>
         </entry>
+-->
         <entry key="StudentAssessment">
             <value>classpath:edfiXsd/Interchange-StudentAssessment.xsd</value>
         </entry>
@@ -47,7 +49,7 @@
         <entry key="StudentGrades">
             <value>classpath:edfiXsd/Interchange-StudentGrade.xsd</value>
         </entry>
-        <entry key="Parent">
+        <entry key="StudentParent">
             <value>classpath:edfiXsd/Interchange-StudentParent.xsd</value>
         </entry>
         <entry key="StudentProgram">

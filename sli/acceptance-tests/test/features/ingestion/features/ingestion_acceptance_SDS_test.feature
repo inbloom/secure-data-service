@@ -138,6 +138,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentCohort.xml records ingested successfully: 15" in the resulting batch job file
     And I should see "InterchangeStudentCohort.xml records failed: 0" in the resulting batch job file
 
+
 @smoke @integration
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "IL-Sunset"
