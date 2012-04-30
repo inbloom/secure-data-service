@@ -67,13 +67,13 @@ public final class MongoIndexManager {
     private static final IndexDefinition createIndexDefinition(List<Map<String, String>> fields, int indexName) throws IOException {
         Index index = new Index();
 
-        String name = "";
+        // String name = "";
         for (Map<String, String> field : fields) {
-            name += field.get("name") + "_" + field.get("order") + "_";
+            // name += field.get("name") + "_" + field.get("order") + "_";
             index.on(field.get("name"), field.get("order").equals("1") ? Order.ASCENDING : Order.DESCENDING);
         }
 
-        index.named(name);
+        index.named(String.valueOf(indexName));
         return index;
     }
 
