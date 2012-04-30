@@ -10,7 +10,6 @@ Given I post "DisciplineAction1.zip" file as the payload of the ingestion job
      | collectionName              |
      | student                     |
      | staff                       |
-     | school                      |
      | educationOrganization       |
      | disciplineIncident          |
      | disciplineAction            |
@@ -18,8 +17,7 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
-     | educationOrganization       | 2     |
-     | school                      | 1     |
+     | educationOrganization       | 3     |
      | staff                       | 3     |
      | student                     | 72    |
      | disciplineIncident          | 2     |

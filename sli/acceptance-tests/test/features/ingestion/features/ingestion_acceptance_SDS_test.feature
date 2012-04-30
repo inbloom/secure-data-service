@@ -13,10 +13,8 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | studentSchoolAssociation    |
         | course                      |
         | educationOrganization       |
-        | school                      |
         | section                     |
         | studentSectionAssociation   |
-        | teacher                     |
         | staff                       |
         |staffEducationOrganizationAssociation|
         | teacherSchoolAssociation    |
@@ -46,12 +44,10 @@ Then I should see following map of entry counts in the corresponding collections
         | student                     | 78    |
         | studentSchoolAssociation    | 167   |
         | course                      | 89    |
-        | educationOrganization       | 3     |
-        | school                      | 4     |
+        | educationOrganization       | 7     |
         | section                     | 90    |
         | studentSectionAssociation   | 290   |
-        | teacher                     | 3     |
-        | staff                       | 11    |
+        | staff                       | 14    |
         | staffEducationOrganizationAssociation| 8|
         | teacherSchoolAssociation    | 3     |
         | teacherSectionAssociation   | 3     |
@@ -78,9 +74,9 @@ Then I should see following map of entry counts in the corresponding collections
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
        | student                     | 1                   | metaData.externalId      | 800000012                  | string               |
        | student                     | 1                   | metaData.externalId      | 900000024                  | string               |
-       | teacher                     | 1                   | metaData.externalId      | cgray                      | string               |
+       | staff                       | 1                   | metaData.externalId      | cgray                      | string               |
        | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom         | string               |
-       | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
+       | educationOrganization       | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-1            | string               |
@@ -160,12 +156,10 @@ Then I should see following map of entry counts in the corresponding collections
         | student                     | 80    |
         | studentSchoolAssociation    | 169   |
         | course                      | 90    |
-        | educationOrganization       | 3     |
-        | school                      | 4     |
+        | educationOrganization       | 7     |
         | section                     | 91    |
         | studentSectionAssociation   | 292   |
-        | teacher                     | 4     |
-        | staff                       | 17    |
+        | staff                       | 21    |
         | staffEducationOrganizationAssociation|11|
         | teacherSchoolAssociation    | 4     |
         | teacherSectionAssociation   | 4     |
@@ -189,9 +183,9 @@ Then I should see following map of entry counts in the corresponding collections
    And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 1000000000                 | string               |
-       | teacher                     | 1                   | metaData.externalId      | manthony                   | string               |
+       | staff                       | 1                   | metaData.externalId      | manthony                   | string               |
        | course                      | 1                   | metaData.externalId      | A.P. Calculus              | string               |
-       | school                      | 1                   | metaData.externalId      | Sunset Central High School | string               |
+       | educationOrganization       | 1                   | metaData.externalId      | Sunset Central High School | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-SUNSET                  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
     And I should see "Processed 23 records." in the resulting batch job file
@@ -226,12 +220,10 @@ Then I should see following map of entry counts in the corresponding collections
         | student                     | 88    |
         | studentSchoolAssociation    | 177   |
         | course                      | 98    |
-        | educationOrganization       | 6     |
-        | school                      | 8     |
+        | educationOrganization       | 14    |
         | section                     | 107   |
         | studentSectionAssociation   | 300   |
-        | teacher                     | 20    |
-        | staff                       | 38    |
+        | staff                       | 58    |
         | staffEducationOrganizationAssociation|20|
         | teacherSchoolAssociation    | 20    |
         | teacherSectionAssociation   | 20    |
@@ -257,7 +249,7 @@ Then I should see following map of entry counts in the corresponding collections
        | student                     | 2                   | metaData.externalId      | 100000006                  | string               |
        | staff                       | 1                   | metaData.externalId      | jcarlyle                   | string               |
        | section                     | 1                   | metaData.externalId      | Mason201-Sec1              | string               |
-       | school                      | 1                   | metaData.externalId      | 1000000111                 | string               |
+       | educationOrganization       | 1                   | metaData.externalId      | 1000000111                 | string               |
        | educationOrganization       | 1                   | metaData.externalId      | NY-Parker                  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | NY                         | string               |
     And I should see "Processed 137 records." in the resulting batch job file

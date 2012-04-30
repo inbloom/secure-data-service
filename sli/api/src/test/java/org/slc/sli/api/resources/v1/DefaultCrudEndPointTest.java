@@ -1,17 +1,15 @@
 package org.slc.sli.api.resources.v1;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +28,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -69,6 +69,9 @@ public class DefaultCrudEndPointTest {
 
     @Autowired
     private SecurityContextInjector injector;
+
+    @Autowired
+    private EntityDefinitionStore entityDefs;
 
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
@@ -318,6 +321,46 @@ public class DefaultCrudEndPointTest {
         DefaultCrudEndpoint.getTotalCount(mock, neutralQuery1);
 
         assertEquals(neutralQuery1, neutralQuery2);
+    }
+
+    @Test
+    public void testAddTypeCriteria() {
+        EntityDefinition def = entityDefs.lookupByResourceName(ResourceNames.TEACHERS);
+        NeutralQuery query = new NeutralQuery();
+
+        query = crudEndPoint.addTypeCriteria(def, query);
+
+        List<NeutralCriteria> criteriaList = query.getCriteria();
+        assertEquals("Should match", 1, criteriaList.size());
+
+        NeutralCriteria criteria = criteriaList.get(0);
+        assertEquals("Should match", "type", criteria.getKey());
+        assertEquals("Should match", NeutralCriteria.CRITERIA_IN, criteria.getOperator());
+        assertEquals("Should match", Arrays.asList(def.getType()), criteria.getValue());
+    }
+
+    @Test
+    public void testAddTypeCriteriaNoChange() {
+        EntityDefinition def = entityDefs.lookupByResourceName(ResourceNames.STAFF);
+        NeutralQuery query = new NeutralQuery();
+
+        query = crudEndPoint.addTypeCriteria(def, query);
+
+        List<NeutralCriteria> criteriaList = query.getCriteria();
+        assertEquals("Should match", 0, criteriaList.size());
+    }
+
+    @Test
+    public void testAddTypeCriteriaNullValues() {
+        EntityDefinition def = entityDefs.lookupByResourceName(ResourceNames.STAFF);
+        NeutralQuery query = null;
+
+        assertNull("Should be null", crudEndPoint.addTypeCriteria(null, null));
+
+        query = new NeutralQuery();
+        query = crudEndPoint.addTypeCriteria(null, query);
+        List<NeutralCriteria> criteriaList = query.getCriteria();
+        assertEquals("Should match", 0, criteriaList.size());
     }
 
     private String getIDList(String resource) {
