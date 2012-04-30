@@ -3,7 +3,7 @@ Feature: Test schema based validation on entities/associations
 
 
 Background: Logged in as a super-user and using the small data set
-	Given I am logged in using "demo" "demo1234" to realm "SLI"
+	Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
 
 Scenario: Post a valid base Student/School with bare minimum required data
 	Given format "application/json"
@@ -127,20 +127,20 @@ Scenario: Fail when posting a date in the wrong format
 
 Scenario: Passing blank object to a valid entity with PUT should fail with validation error (not patch the existing object)
 	Given format "application/json"
-    When I navigate to GET "/v1/students/<'Belle' ID>"
+    When I navigate to GET "/v1/students/<'Jones' ID>"
     Then I should receive a return code of 200   
     When I create a blank request body object
-      And I navigate to PUT "/v1/students/<'Belle' ID>"
+      And I navigate to PUT "/v1/students/<'Jones' ID>"
     Then I should receive a return code of 400
 
 Scenario: Given a known school object, perform a PUT with a base school object to confirm option attributes are gone (test non-patching)
 	Given format "application/json"
-    When I navigate to GET "/v1/schools/<'Apple Alternative Elementary School' ID>"
+    When I navigate to GET "/v1/schools/<'South Daybreak Elementary' ID>"
     Then I should receive a return code of 200
     When I create a valid base level school object
-      And I navigate to PUT "/v1/schools/<'Apple Alternative Elementary School' ID>"
+      And I navigate to PUT "/v1/schools/<'South Daybreak Elementary' ID>"
     Then I should receive a return code of 204
-    When I navigate to GET "/v1/schools/<'Apple Alternative Elementary School' ID>"
+    When I navigate to GET "/v1/schools/<'South Daybreak Elementary' ID>"
     Then I should receive a return code of 200
       And "nameOfInstitution" should be "school name"
       And "stateOrganizationId" should be "12345678"
