@@ -179,8 +179,15 @@ public class IdNormalizer {
         
         Map<String, String> tempFilter = new HashMap<String, String>();
         Query referenceQuery = new Query();
-        resolveSearchCriteria(entityRepository, pathCollection, tempFilter, (Map<?, ?>) searchCriteriaEntry.getValue(),
-                referenceQuery, tenantId, errorReport);
+        if (searchCriteriaEntry.getValue() instanceof String) {
+            Map<String, String> searchCriteriaEntryMap = new HashMap<String, String>();
+            searchCriteriaEntryMap.put((String) searchCriteriaEntry.getKey(), (String) searchCriteriaEntry.getValue());
+            resolveSearchCriteria(entityRepository, pathCollection, tempFilter, searchCriteriaEntryMap,
+                    referenceQuery, tenantId, errorReport);
+        } else {
+            resolveSearchCriteria(entityRepository, pathCollection, tempFilter, (Map<?, ?>) searchCriteriaEntry.getValue(),
+                    referenceQuery, tenantId, errorReport);
+        }
         
         if (tempFilter.isEmpty()) {
             

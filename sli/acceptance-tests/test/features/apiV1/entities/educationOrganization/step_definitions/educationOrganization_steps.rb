@@ -13,7 +13,7 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #staff data
-  id = 19                                      if human_readable_id == "ENTITY COUNT"
+  id = 60                                       if human_readable_id == "ENTITY COUNT"
   id = "4f0c9368-8488-7b01-0000-000059f9ba56"   if human_readable_id == "ENTITY ID"
   id = "d66fb6fd-691d-fde1-7f5f-efed78f7e1dc"   if human_readable_id == "ENTITY ID FOR UPDATE"
   id = "2d7583b1-f8ec-45c9-a6da-acc4e6fde458"   if human_readable_id == "ENTITY ID FOR DELETE"
