@@ -19,9 +19,11 @@ API_DB_NAME = PropLoader.getProps['api_database_name']
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   id = "students"                               if human_readable_id == "STUDENT URI"
+  id = "sections"                               if human_readable_id == "SECTION URI"
   id = "schools"                                if human_readable_id == "SCHOOL URI"
   id = "studentSchoolAssociations"              if human_readable_id == "STUDENT SCHOOL ASSOCIATION URI"
-
+  id = "studentSectionAssociations"             if human_readable_id == "STUDENT SECTION ASSOCIATION URI"
+  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e"   if human_readable_id == "English Sec 6"
   id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"   if human_readable_id == "South Daybreak Elementary ID"
 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ENTITY ID"
@@ -175,19 +177,19 @@ Given /^student Rhonda Delagio exists$/ do
   }
 end
 
-Given /^Ronda Delagio is associated with "([^\"]*)"\.$/ do |school_id|
+Given /^Rhonda Delagio is associated with "([^\"]*)"$/ do |section_id|
   @rhonda = @newId
   record = %Q{
     {
       "studentId" : "#{@rhonda}",
-      "schoolId" : "#{school_id}",
-      "entryGradeLevel" : "First grade"
+      "sectionId" : "#{section_id}",
+      "repeatIdentifier" : "Not repeated"
     }
   }
   puts record if ENV['DEBUG']
   @fields = JSON.parse(record)
   steps %Q{
-    When I navigate to POST "/<STUDENT SCHOOL ASSOCIATION URI>"
+    When I navigate to POST "/<STUDENT SECTION ASSOCIATION URI>"
     Then I should receive a return code of 201
     Then I should receive an ID for the newly created association
   }

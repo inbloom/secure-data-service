@@ -6781,7 +6781,6 @@
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
       <StudentAcademicRecordReference ref="SAR-800000015-2"/>
-      <StudentUniqueStateId>800000015</StudentUniqueStateId>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-800000016-1">

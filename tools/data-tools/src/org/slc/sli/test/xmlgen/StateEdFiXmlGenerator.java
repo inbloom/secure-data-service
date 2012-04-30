@@ -105,6 +105,7 @@ public class StateEdFiXmlGenerator {
         staffAssociation();
 
         //student();
+        studentParent();
 
        studentEnrollment();
 
@@ -120,7 +121,7 @@ public class StateEdFiXmlGenerator {
 
        studentAssessment();
 
-       studentParent();
+
 
     }
 
@@ -202,7 +203,7 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentParent, new PrintStream(xmlFilePath));
 
-        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "Parent", xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentParent", xmlFilePath);
 
     }
 

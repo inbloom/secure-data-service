@@ -122,7 +122,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
     }
 
     private String getResourceName(SecurityNode next, SecurityNodeConnection connection) {
-        return connection.getAssociationNode().length() != 0 ? connection.getAssociationNode() : next.getName();
+        return connection.getAssociationNode().length() != 0 ? connection.getAssociationNode() : next.getType();
     }
 
     /**
