@@ -20,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class LayoutController extends GenericLayoutController {
     private static final String TABBED_ONE_COL = "tabbed_one_col";
     private static final String LOS_ID = "listOfStudentsPage";
+    private static final String SEARCH_RESULTS = "search_results";
+    
     /**
      * Generic layout handler
      *
@@ -39,7 +41,7 @@ public class LayoutController extends GenericLayoutController {
     @RequestMapping(value = "/service/layout/studentSearchPage", method = RequestMethod.GET)
     public ModelAndView searchForStudent(String firstName, String lastName, HttpServletRequest request) {
        ModelMap model = getPopulatedModel("studentSearchPage", new String[]{firstName, lastName}, request);
-        return getModelView(TABBED_ONE_COL, model);        
+        return getModelView(SEARCH_RESULTS, model);        
     }    
     
 

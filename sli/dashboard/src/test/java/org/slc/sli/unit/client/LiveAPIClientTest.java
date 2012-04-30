@@ -133,7 +133,7 @@ public class LiveAPIClientTest {
         String url = client.getApiUrl() + "/v1/sessions/";
         when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn("[]");
         sessions = client.getSessionsByYear(null, null);
-        assertNull(sessions);
+        assertEquals(sessions.size(), 0);
 
         url = client.getApiUrl() + "/v1/sessions/?schoolYear=2011-2012";
         String json = "[{session: \"Yes\"}, {session: \"No\"}]";
