@@ -61,7 +61,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.STUDENT_SECTION_ASSOCIATIONS)
                         .addConnection(EntityNames.ASSESSMENT, "assessmentId", ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS)
                         .addConnection(EntityNames.ATTENDANCE, "studentId", "")
-                        .addConnection(EntityNames.DISCIPLINE_ACTION, "disciplineActionId", "")
+                        .addConnection(EntityNames.DISCIPLINE_ACTION, "studentId", "")
                         .addConnection(EntityNames.DISCIPLINE_INCIDENT, "disciplineIncidentId",
                                 ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
                         .addConnection(EntityNames.PARENT, "parentId", ResourceNames.STUDENT_PARENT_ASSOCIATIONS)
