@@ -73,10 +73,7 @@ public class Users {
         
         List<User> users = new ArrayList<User>();
         for (Entity e : repo.findAll("staff", query)) {
-            users.add(getUserFromEntity(e, "Staff"));
-        }
-        for (Entity e : repo.findAll("teacher", query)) {
-            users.add(getUserFromEntity(e, "Teacher"));
+            users.add(getUserFromEntity(e, e.getType()));
         }
         return users;
     }
@@ -87,19 +84,24 @@ public class Users {
         query.addCriteria(new NeutralCriteria("staffUniqueStateId", "=", id));
         
         Entity entity = repo.findOne("staff", query);
-        String type = "Staff";
-        if (entity == null) {
-            entity = repo.findOne("teacher", query);
-            type = "Teacher";
-        }
+        
         if (entity == null) {
             throw new RuntimeException("Unable to find user in tenant: " + tenant + " with id: " + id);
         }
-        return getUserFromEntity(entity, type);
+        
+        return getUserFromEntity(entity, entity.getType());
     }
     
     @SuppressWarnings("unchecked")
     private static User getUserFromEntity(Entity entity, String type) {
+        if (type != null) {
+            if (type.equals("staff")) {
+                type = "Staff";
+            } else if (type.equals("teacher")) {
+                type = "Teacher";
+            }
+        }
+        
         Map<String, Object> b = entity.getBody();
         Map<String, Object> name = (Map<String, Object>) b.get("name");
         return new User((String) name.get("firstName"), (String) name.get("lastSurname"),

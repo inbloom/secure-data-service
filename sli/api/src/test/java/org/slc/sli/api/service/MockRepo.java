@@ -143,6 +143,9 @@ public class MockRepo implements Repository<Entity> {
                 container = entity.getBody();
             } else if ("metaData".equals(path[0])) {
                 container = entity.getMetaData();
+            } else if ("type".equals(path[0])) {
+                container = new HashMap<String, Object>();
+                container.put("type", entity.getType());
             }
             for (int i = 1; i < path.length - 1; i++) {
                 Object sub = container.get(path[i]);

@@ -55,7 +55,9 @@ public class ApplicationAuthorizationValidator {
             return null;
         }
         List<String> apps = null;
+        List<String> results = null;
         for (Entity district : districts) {
+            LOGGER.debug("User is in district " + district.getEntityId());
 
             NeutralQuery query = new NeutralQuery();
             query.addCriteria(new NeutralCriteria("authId", "=", district.getEntityId()));
@@ -66,12 +68,25 @@ public class ApplicationAuthorizationValidator {
                 if (apps == null) {
                     apps = new ArrayList<String>();
                 }
+                if (results == null) {
+                    results = new ArrayList<String>();
+                }
+
+                NeutralQuery districtQuery = new NeutralQuery();
+                districtQuery.addCriteria(new NeutralCriteria("authorized_ed_orgs", "=", district.getEntityId()));
+                Iterable<Entity> districtAuthorizedApps = repo.findAll("application", districtQuery);
+
                 apps.addAll((List<String>) authorizedApps.getBody().get("appIds"));
+                for (Entity currentApp : districtAuthorizedApps) {
+                    if (apps.contains(currentApp.getEntityId())) {
+                        results.add(currentApp.getEntityId());
+                    }
+                }
             }
 
         }
 
-        return apps;
+        return results;
     }
 
     /**
@@ -107,9 +122,12 @@ public class ApplicationAuthorizationValidator {
                     warn("Could not find ed-org with ID {}", id);
                 } else {
                     List<String> category = (List<String>) entity.getBody().get("organizationCategories");
-                    if (category.contains("Local Education Agency")) {
-                        toReturn.add(entity);
+                    if (category != null) {
+                        if (category.contains("Local Education Agency")) {
+                            toReturn.add(entity);
+                        }
                     }
+                    
                 }
             }
 

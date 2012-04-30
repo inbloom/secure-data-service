@@ -60,10 +60,9 @@
 </div>
 
 <div class = "field">
-  <% district_hierarchy = get_district_hierarchy() %>
   <% check_box_name = h(app.name + "_authorized_ed_orgs[]").gsub(" ", "_") if app.name !=  nil%>
   <% check_box_name = "authorized_ed_orgs[]" if check_box_name == nil %>
-  <% district_hierarchy.keys.each do |district| %>
+  <% @district_hierarchy.keys.each do |district| %>
       <%=
           if app.authorized_ed_orgs != nil
               check_box_tag(check_box_name, district["id"], app.authorized_ed_orgs.include?(district["id"]))
@@ -73,7 +72,7 @@
       %>
 
          <%= district["name"] %>    <br />
-    <% district_hierarchy[district].each do |child_district| %>
+    <% @district_hierarchy[district].each do |child_district| %>
             &#160;&#160;
             <%=
                 if app.authorized_ed_orgs != nil
