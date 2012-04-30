@@ -37,11 +37,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
     @Override
     public boolean update(String collection, NeutralRecord neutralRecord) {
-//        Map<String, Object> body = neutralRecord.getAttributes();
-//        if (entityEncryption != null) {
-//            body = entityEncryption.encrypt(neutralRecord.getRecordType(), body);
-//        }
-        return update(neutralRecord.getRecordType(), neutralRecord, null); //body);
+        return update(neutralRecord.getRecordType(), neutralRecord, null);
     }
 
     @Override
