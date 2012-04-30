@@ -134,8 +134,7 @@ And the Assessment History for "ISAT Writing" has the following entries:
 #And I see a header on the page that has the text "Logout"
 #And I see a footer on the page that has the text "Copyright"
 
-
-@integration 
+@integration
 Scenario: View Mi-Ha Tran
 When I login as "rbraverman" "rbraverman1234"
 When I select ed org "Daybreak School District 4529"
@@ -313,3 +312,11 @@ And Student Enrollment History has the following entries:
 |<empty>|<empty>                |2 |2002-09-12 |Transfer from a school outside of the country                                         |<empty>      |2003-04-12     |Expelled or involuntarily withdrawn|
 #And I see a header on the page that has the text "Logout"
 #And I see a footer on the page that has the text "Copyright"
+When I click on "Assessment" Tab
+And Assessment History includes results for:
+|Test       |
+|AP English |
+And the Assessment History for "AP English" has the following entries:
+|Date         |Grade  |Assessment Name                     |Perf Level |
+|2011-05-01   |12     |English Literature and Composition  |3          |
+|2011-05-01   |12     |English Language and Composition    |2          |
