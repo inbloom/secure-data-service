@@ -11,6 +11,7 @@ import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public abstract T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
 
     public T create(T record, String collectionName) {
-//        template.ensureIndex(new Index("metaData.externalId", Order.ASCENDING), collectionName);  // NO!!!
+        // template.ensureIndex(new Index("metaData.externalId", Order.ASCENDING), collectionName);
+        // // NO!!!
         template.save(record, getComposedCollectionName(collectionName));
         LOG.debug(" create a record in collection {} with id {}", new Object[] {
                 getComposedCollectionName(collectionName), getRecordId(record) });
@@ -97,7 +99,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
         LOG.debug("find a record in collection {} with id {}", new Object[] {
                 getComposedCollectionName(collectionName), id });
         try {
-            return template.getCollection(getComposedCollectionName(collectionName)).getCount(new BasicDBObject("_id", databaseId)) != 0L;
+            return template.getCollection(getComposedCollectionName(collectionName)).getCount(
+                    new BasicDBObject("_id", databaseId)) != 0L;
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
             return false;
@@ -174,8 +177,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public abstract boolean update(String collection, T record);
 
     /**
-     * Updates the document inside of Mongo.  MongoTemplate will upsert the given document, however since we are specifying IDs in the DAL instead of letting
-     * Mongo create the document IDs, this method will check for the existence of a document ID before saving the document.
+     * Updates the document inside of Mongo. MongoTemplate will upsert the given document, however
+     * since we are specifying IDs in the DAL instead of letting
+     * Mongo create the document IDs, this method will check for the existence of a document ID
+     * before saving the document.
+     *
      * @param collection
      * @param record
      * @param body
@@ -184,7 +190,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public boolean update(String collection, T record, Map<String, Object> body) {
         Assert.notNull(record, "The given record must not be null!");
         String id = getRecordId(record);
-        if (id.equals("")) {
+        if (StringUtils.isEmpty(id)) {
             return false;
         }
 
@@ -318,9 +324,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public void ensureIndex(IndexDefinition index, String collection) {
         String collectionName = getComposedCollectionName(collection);
 
-        //Mongo indexes names(including collection name and namespace) are limited to 128 characters.
-        String nsName = (String) index.getIndexOptions().get("name") + collectionName + "." + template.getDb().getName();
-        //Verify the length of the name is ready
+        // Mongo indexes names(including collection name and namespace) are limited to 128
+        // characters.
+        String nsName = (String) index.getIndexOptions().get("name") + collectionName + "."
+                + template.getDb().getName();
+        // Verify the length of the name is ready
         if (nsName.length() >= 128) {
             LOG.error("ns and name exceeds 128 characters, failed to create index");
             return;
