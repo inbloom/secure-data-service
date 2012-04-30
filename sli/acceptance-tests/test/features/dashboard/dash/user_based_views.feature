@@ -9,7 +9,7 @@ Background:
 
 Scenario: Check user has multiple views available
   When I navigate to the Dashboard home page
-  When I select "Sunset School District 4526" and click go
+  When I select "Illinois Sunset School District 4526" and click go
   When I login as "cgray" "cgray1234"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
@@ -22,7 +22,7 @@ Scenario: Check user has multiple views available
 
 Scenario: Views are filtered based on student grades
   When I navigate to the Dashboard home page
-  When I select "Sunset School District 4526" and click go
+  When I select "Illinois Sunset School District 4526" and click go
   When I login as "cgray" "cgray1234"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
@@ -32,7 +32,7 @@ Scenario: Views are filtered based on student grades
 
 Scenario: Check changing view changes table headings
   When I navigate to the Dashboard home page
-  When I select "Sunset School District 4526" and click go
+  When I select "Illinois Sunset School District 4526" and click go
   When I login as "cgray" "cgray1234"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
@@ -48,7 +48,7 @@ Scenario: Check changing view changes table headings
     
 Scenario: Different users have different views defined
   When I navigate to the Dashboard home page
-  When I select "Sunset School District 4526" and click go
+  When I select "Illinois Sunset School District 4526" and click go
   When I login as "rbraverman" "rbraverman1234"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "South Daybreak Elementary"

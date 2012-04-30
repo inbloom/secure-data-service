@@ -7,7 +7,7 @@ Background:
 
 Scenario: Displaying gradebook entry data for all students - Linda Kim
     When I navigate to the Dashboard home page
-    And I select "Sunset School District 4526" and click go
+    And I select "Illinois Sunset School District 4526" and click go
     And I login as "linda.kim" "linda.kim1234"
     And I go to the old dashboard page
     When I select <edOrg> "Daybreak School District 4529"
@@ -32,7 +32,7 @@ Scenario: Displaying gradebook entry data for all students - Linda Kim
 
   Scenario: Displaying gradebook entry data for all students - Charles Gray
     When I navigate to the Dashboard home page
-    And I select "Sunset School District 4526" and click go
+    And I select "Illinois Sunset School District 4526" and click go
     And I login as "cgray" "cgray1234"
     And I go to the old dashboard page
     When I select <edOrg> "Daybreak School District 4529"

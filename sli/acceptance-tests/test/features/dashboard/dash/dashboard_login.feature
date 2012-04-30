@@ -12,7 +12,7 @@ When I access "/static/html/test.html"
 Then I can see "Static HTML page"
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
-When I select "Sunset School District 4526" and click go
+When I select "Illinois Sunset School District 4526" and click go
 When I login as "linda.kim" "linda.kim1234"
 Then I should be redirected to the Dashboard landing page
 #hitting denied URL
@@ -39,7 +39,7 @@ When I access "/static/html/test.html"
 Then I can see "Static HTML page"
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
-When I select "Sunset School District 4526" and click go
+When I select "Illinois Sunset School District 4526" and click go
 When I login as "mario.sanchez" "mario.sanchez"
 #TODO there is a bug in the code right now
 Then I am informed that "Invalid User"
