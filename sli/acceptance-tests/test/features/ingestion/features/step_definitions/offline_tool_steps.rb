@@ -6,6 +6,8 @@ require 'fileutils'
 # ENVIRONMENT CONFIGURATION
 ############################################################
 
+OFFLINE_TOOL_FLAG=false
+
 ############################################################
 # STEPS: GIVEN
 ############################################################
@@ -20,6 +22,8 @@ end
 
 #This is for handling zip file
 Given /^I post "([^"]*)" file as an input to offline validation tool$/ do |file_name|
+  OFFLINE_TOOL_FLAG=true
+
   path_name = file_name[0..-5]
 
   @pre_local_file_store_path = nil
@@ -76,7 +80,7 @@ Given /^I post "([^"]*)" control file as an input to offline validation tool$/ d
 
   # copy everything into a new directory (to avoid touching git tracked files)
   ctl_file_path = @local_file_store_path + File.dirname(file_name) + "/"
-  
+
   @pre_local_file_store_path = @local_file_store_path
   #changing local_file_store_path to the directory
   @local_file_store_path = @pre_local_file_store_path + File.dirname(file_name) + "/"
@@ -104,7 +108,7 @@ Given /^I post "([^"]*)" control file as an input to offline validation tool$/ d
   end
 
   @source_file_name = File.basename(file_name)
-  
+
 end
 
 ############################################################
@@ -113,7 +117,7 @@ end
 
 When /^I run offline validation command on input file$/ do
   @source_path = @local_file_store_path + @source_file_name
-  
+
   if (INGESTION_MODE == 'remote')
     #Run shell script
     puts "Will Execute sh: " + "java -jar #{@tool_path} #{@source_path}"
@@ -134,9 +138,9 @@ end
 ############################################################
 
 def checkForContentInLogFile(message, prefix)
-  
+
   if (INGESTION_MODE == 'remote')
-    
+
     #offline tool doesn't need remote service
     #the processing is the same as local for now
     @job_status_filename = ""
@@ -191,7 +195,7 @@ def checkForContentInLogFile(message, prefix)
 end
 
 Then /^I should see a log file in same directory$/ do
-  
+
   @log_file = ""
   if(INGESTION_MODE == 'remote')
     #offline tool doesn't need remote service
@@ -215,7 +219,7 @@ Then /^I should see a log file in same directory$/ do
     aFile = File.new(@local_file_store_path + "/" + @log_file, "r")
     assert(aFile != nil, "Log file " + @log_file + " dosen't exist")
     aFile.close()
-  end  
+  end
 end
 
 Then /^I should see "([^"]*)" in the resulting log file$/ do |message|
@@ -224,24 +228,25 @@ Then /^I should see "([^"]*)" in the resulting log file$/ do |message|
 end
 
 After do
-      
-  #deleting the log files
-  Dir.foreach(@local_file_store_path) do |file|
-    if /#{@source_file_name}.*.log$/.match file
-      puts "Deleting " + file
-      FileUtils.rm @local_file_store_path + "/" + file
-    end
-  end
-    
-  #Recovering local_file_store_path for future tests
-  if (@pre_local_file_store_path != nil)
-    @local_file_store_path = @pre_local_file_store_path
-    @pre_local_file_store_path = nil 
-  end 
-  
-  #cleaning up unzip files
-  if Dir.exist?(@local_file_store_path + "/" + "unzip")
-    FileUtils.rm_r @local_file_store_path + "/" + "unzip"
+  if OFFLINE_TOOL_FLAG == true
+	  #deleting the log files
+	  Dir.foreach(@local_file_store_path) do |file|
+	    if /#{@source_file_name}.*.log$/.match file
+	      puts "Deleting " + file
+	      FileUtils.rm @local_file_store_path + "/" + file
+	    end
+	  end
+
+	  #Recovering local_file_store_path for future tests
+	  if (@pre_local_file_store_path != nil)
+	    @local_file_store_path = @pre_local_file_store_path
+	    @pre_local_file_store_path = nil
+	  end
+
+	  #cleaning up unzip files
+	  if Dir.exist?(@local_file_store_path + "/" + "unzip")
+	    FileUtils.rm_r @local_file_store_path + "/" + "unzip"
+	  end
   end
 end
 ############################################################

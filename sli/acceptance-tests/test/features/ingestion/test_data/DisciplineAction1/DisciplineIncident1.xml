@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
+
+  <DisciplineIncident id="DI-10001">
+      <IncidentIdentifier>di-10001</IncidentIdentifier>
+      <IncidentDate>2011-02-01</IncidentDate>
+      <IncidentTime>15:23:02</IncidentTime>
+      <IncidentLocation>On School</IncidentLocation>
+      <ReporterDescription>Student</ReporterDescription>
+      <ReporterName>Gold Finger</ReporterName>
+      <Behaviors><CodeValue>BEH01</CodeValue></Behaviors>
+      <Weapons><Weapon>Club</Weapon></Weapons>
+      <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+      <SchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </SchoolReference>
+      <StaffReference>
+        <StaffIdentity>
+          <StaffUniqueStateId>cgray</StaffUniqueStateId>
+        </StaffIdentity>
+      </StaffReference>
+  </DisciplineIncident>
+
+  <DisciplineIncident id="DI-10002">
+      <IncidentIdentifier>di-10002</IncidentIdentifier>
+      <IncidentDate>2011-09-06</IncidentDate>
+      <IncidentTime>10:22:00</IncidentTime>
+      <IncidentLocation>On School</IncidentLocation>
+      <ReporterDescription>Staff</ReporterDescription>
+      <ReporterName>Charles Gray</ReporterName>
+      <Behaviors><CodeValue>BEH02</CodeValue></Behaviors>
+      <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+      <SchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </SchoolReference>
+      <StaffReference>
+        <StaffIdentity>
+          <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+        </StaffIdentity>
+      </StaffReference>
+  </DisciplineIncident>
+</InterchangeStudentDiscipline>

@@ -1,7 +1,5 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
-import static org.mockito.Mockito.mock;
-
 import java.util.Map;
 
 import org.junit.Assert;
@@ -90,9 +88,8 @@ public class StudentSectionAssociationTest {
         NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
 
         // mock repository will simulate "finding" the referenced educationOrganization
-        Entity returnEntity = mock(Entity.class);
-        Mockito.when(mockRepository.findById("section", "MT100")).thenReturn(returnEntity);
-        Mockito.when(mockRepository.findById("student", "111220001")).thenReturn(returnEntity);
+        Mockito.when(mockRepository.exists("section", "MT100")).thenReturn(true);
+        Mockito.when(mockRepository.exists("student", "111220001")).thenReturn(true);
 
         EntityTestUtils.mapValidation(record.getAttributes(), "studentSectionAssociation", validator);
     }

@@ -104,6 +104,7 @@
                 <value>${smooks.targetselector.xml.assessmentFamily}</value>
                 <value>${smooks.targetselector.xml.learningObjective}</value>
                 <value>InterchangeAssessmentMetadata/AssessmentPeriodDescriptor</value>
+                <value>InterchangeAssessmentMetadata/LearningStandard</value>
               </list>
             </constructor-arg>
           </bean>
@@ -173,6 +174,7 @@
               <constructor-arg>
                 <list>
                   <value>${smooks.targetselector.xml.disciplineIncident}</value>
+                  <value>${smooks.targetselector.xml.disciplineAction}</value>
                 </list>
               </constructor-arg>
             </bean>

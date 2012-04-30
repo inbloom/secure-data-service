@@ -6,13 +6,13 @@ class App < SessionResource
     string "vendor", "version", "behavior"
     boolean "is_admin", "license_acceptance", "enabled"
     time "created", "updated"
-    string "organization", "client_type", "scope", "developer_info"
+    string "organization", "developer_info"
+    string "authorized_ed_orgs"
   end
   
   class DeveloperInfo < SessionResource
     schema do
       string "organization"
-      boolean "license_acceptance"
     end
   end
 end

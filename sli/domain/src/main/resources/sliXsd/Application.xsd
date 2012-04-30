@@ -14,14 +14,6 @@
                 <xs:element name="name" type="xs:string" minOccurs="1" />
                 <xs:element name="description" type="xs:string"
                     minOccurs="1" />
-                <xs:element name="client_type" minOccurs="1">
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="PUBLIC" />
-                            <xs:enumeration value="CONFIDENTIAL" />
-                        </xs:restriction>
-                    </xs:simpleType>
-                </xs:element>
                 <xs:element name="behavior" minOccurs="1">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
@@ -30,8 +22,6 @@
                             <xs:enumeration value="Full Window App" />
                         </xs:restriction>
                     </xs:simpleType>
-                </xs:element>
-                <xs:element name="registered" minOccurs="1" type="xs:boolean">
                 </xs:element>
                 <xs:element name="redirect_uri" minOccurs="1">
                     <xs:simpleType>
@@ -92,21 +82,45 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
+          
 
                 <xs:element name="is_admin" type="xs:boolean" minOccurs="1" />
                 <xs:element name="enabled" type="xs:boolean" minOccurs="1" />
                 <xs:element name="developer_info" type="developer_info"
                     minOccurs="1" />
+                <xs:element name="registration" type="registration"
+                    minOccurs="0" />   
                 <xs:element name="endpoints" type="endpoint" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="authorized_ed_orgs" minOccurs="0">
+                    <xs:simpleType>
+                        <xs:list itemType="xs:string"/>
+                    </xs:simpleType>
+                </xs:element>
+                
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+    
+    <xs:complexType name="registration">
+        <xs:sequence>
+            <xs:element name="status" minOccurs="1">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="PENDING" />
+                        <xs:enumeration value="APPROVED" />
+                        <xs:enumeration value="DENIED" />
+                        <xs:enumeration value="UNREGISTERED" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="request_date" type="xs:long" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="approval_date" type="xs:long" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
 
     <xs:complexType name="developer_info">
         <xs:sequence>
             <xs:element name="organization" type="xs:string"
-                minOccurs="1" />
-            <xs:element name="license_acceptance" type="xs:boolean"
                 minOccurs="1" />
         </xs:sequence>
     </xs:complexType>
@@ -123,6 +137,8 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
+    
+    
 
 </xs:schema>
 

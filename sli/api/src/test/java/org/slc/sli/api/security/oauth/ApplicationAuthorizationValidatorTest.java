@@ -110,6 +110,11 @@ public class ApplicationAuthorizationValidatorTest {
         allowedApps.add("appId");
         appAuthEnt.getBody().put("appIds", allowedApps);
         Mockito.when(repo.findOne(Mockito.eq("applicationAuthorization"), Mockito.any(NeutralQuery.class))).thenReturn(appAuthEnt);
+        List<Entity> entities = new ArrayList<Entity>();
+        Entity mockEntity = Mockito.mock(Entity.class);
+        Mockito.when(mockEntity.getEntityId()).thenReturn("appId");
+        entities.add(mockEntity);
+        Mockito.when(repo.findAll(Mockito.eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
 
         assertTrue("Authorized app list should contain appId", validator.getAuthorizedApps(principal).contains("appId"));
     }

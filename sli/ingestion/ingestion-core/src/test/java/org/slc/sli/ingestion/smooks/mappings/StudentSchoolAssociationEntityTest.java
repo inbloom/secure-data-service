@@ -1,7 +1,5 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
-import static org.mockito.Mockito.mock;
-
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +61,7 @@ public class StudentSchoolAssociationEntityTest {
             + "   <EducationalPlan>Full Time Employment</EducationalPlan>"
             + " </EducationalPlans>"
             + "</StudentSchoolAssociation>" + "</InterchangeStudentEnrollment>";
-    
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -105,12 +103,11 @@ public class StudentSchoolAssociationEntityTest {
         String targetSelector = "InterchangeStudentEnrollment/StudentSchoolAssociation";
 
         NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
-        
+
         // mock repository will simulate "finding" the references
-        Entity returnEntity = mock(Entity.class);
-        Mockito.when(mockRepository.findById("school", "990000001")).thenReturn(returnEntity);
-        Mockito.when(mockRepository.findById("student", "900000001")).thenReturn(returnEntity);
-        
+        Mockito.when(mockRepository.exists("educationOrganization", "990000001")).thenReturn(true);
+        Mockito.when(mockRepository.exists("student", "900000001")).thenReturn(true);
+
         EntityTestUtils.mapValidation(record.getAttributes(), "studentSchoolAssociation", validator);
     }
 

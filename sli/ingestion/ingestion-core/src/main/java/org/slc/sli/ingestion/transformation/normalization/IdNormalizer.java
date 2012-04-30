@@ -80,12 +80,16 @@ public class IdNormalizer {
         }
     }
 
+    protected boolean isComplex(Entity entity, String field) {
+        return complexIdNormalizers.get(entity.getType() + ":" + field) == null ? false : true;
+    }
+
     public void resolveInternalIds(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
 
         if (entityConfig.getReferences() == null) {
             return;
         }
-
+        
         String resolvedReferences = "";
 
         try {
@@ -100,7 +104,8 @@ public class IdNormalizer {
                         for (Field field : fields) {
                             for (FieldValue fv : field.getValues()) {
                                 if (fv.getRef() == null) {
-                                    String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), reference.getRef(), refIndex);
+                                    String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(),
+                                            reference.getRef(), refIndex);
                                     Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
                                     if (entityValue != null) {
                                         if (!(entityValue instanceof Collection)) {
@@ -114,34 +119,34 @@ public class IdNormalizer {
                 }
 
                 String fieldPath = reference.getFieldPath();
+                
+                List<String> ids = resolveReferenceInternalIds(entity, tenantId, reference.getRef(), fieldPath,
+                        errorReport);
 
-                List<String> ids = resolveReferenceInternalIds(entity, tenantId, reference.getRef(), fieldPath, errorReport);
-
-                if (ids.size() == 0 && reference.getRef().isOptional()) {
-                    return;
+                if ((ids == null || ids.size() == 0) && (reference.getRef().isOptional() || numRefInstances == 0)) {
+                    continue;
                 }
 
                 if (ids.size() != numRefInstances) {
                     LOG.error("Error in number of resolved internal ids");
                     String errorMessage = "ERROR: Failed to resolve expected number of references" + "\n"
-                                        + "       Entity   " + entity.getType() + "\n";
+                            + "       Entity   " + entity.getType() + "\n";
 
                     if (resolvedReferences != null && !resolvedReferences.equals("")) {
-                        errorMessage += "     The failure can be identified with the following reference information: " + "\n"
-                                      + resolvedReferences;
+                        errorMessage += "     The failure can be identified with the following reference information: "
+                                + "\n" + resolvedReferences;
                     }
 
                     errorReport.error(errorMessage, this);
                 }
 
-
                 if (errorReport.hasErrors()) {
-                    return;
+                    continue;
                 }
 
-
                 if (reference.getRef().isRefList()) {
-                    //for lists of references set the properties on each element of the resolved ID list
+                    // for lists of references set the properties on each element of the resolved ID
+                    // list
                     for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
                         String indexedFieldPath = fieldPath + ".[" + Integer.toString(refIndex) + "]";
                         PropertyUtils.setProperty(entity, indexedFieldPath, ids.get(refIndex));
@@ -195,11 +200,11 @@ public class IdNormalizer {
 
         ArrayList<Query> queryOrList = new ArrayList<Query>();
 
-
         try {
             int numRefInstances = getNumRefInstances(entity, refConfig);
 
-            //if the reference is a list of references loop over all elements adding an 'or' query statement for each
+            // if the reference is a list of references loop over all elements adding an 'or' query
+            // statement for each
             for (List<Field> fields : refConfig.getChoiceOfFields()) {
 
                 for (int refIndex = 0; refIndex < numRefInstances; ++refIndex) {
@@ -207,35 +212,41 @@ public class IdNormalizer {
                     Query choice = new Query();
 
                     choice.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(
-                        tenantId));
+                            tenantId));
+                    int criteriaCount = 0;
 
                     for (Field field : fields) {
                         List<Object> filterValues = new ArrayList<Object>();
 
                         for (FieldValue fv : field.getValues()) {
                             if (fv.getRef() != null) {
-                                filterValues.addAll(resolveReferenceInternalIds(entity, tenantId, fv.getRef(), fieldPath,
-                                        proxyErrorReport));
+                                filterValues.addAll(resolveReferenceInternalIds(entity, tenantId, fv.getRef(),
+                                        fieldPath, proxyErrorReport));
                             } else {
-                                String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig, refIndex);
+                                String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig,
+                                        refIndex);
                                 Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
                                 if (entityValue instanceof Collection) {
                                     Collection<?> entityValues = (Collection<?>) entityValue;
                                     filterValues.addAll(entityValues);
-                                } else if (entityValue == null) {
+                                } else if (entityValue == null && isComplex(entity, fieldPath)) {
                                     NeutralQuery neutralQuery = new NeutralQuery();
                                     String tenantKey = METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey();
                                     neutralQuery.addCriteria(new NeutralCriteria(tenantKey, "=", tenantId, false));
                                     return this.resolveComplexInternalId(entity, fieldPath, neutralQuery);
-                                } else {
+                                } else if (entityValue != null) {
                                     filterValues.add(entityValue.toString());
                                 }
                             }
                         }
-                        choice.addCriteria(Criteria.where(field.getPath()).in(filterValues));
+                        if (filterValues.size() > 0) {
+                            choice.addCriteria(Criteria.where(field.getPath()).in(filterValues));
+                            criteriaCount++;
+                        }
                     }
-
-                    queryOrList.add(choice);
+                    if (criteriaCount > 0) {
+                        queryOrList.add(choice);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -250,12 +261,23 @@ public class IdNormalizer {
             return null;
         }
 
-        //combine the queries with or (must be done this way because Query.or overrides itself)
+        if (queryOrList.size() == 0) {
+            return null;
+        }
+
+        // combine the queries with or (must be done this way because Query.or overrides itself)
         Query filter = new Query();
         filter.or(queryOrList.toArray(new Query[queryOrList.size()]));
-
+        
+        String collection = refConfig.getCollectionName();
+        if (collection.equals("school")) {
+            collection = "educationOrganization";
+        } else if (collection.equals("teacher")) {
+            collection = "staff";
+        }
+                
         @SuppressWarnings("deprecation")
-        Iterable<Entity> foundRecords = entityRepository.findByQuery(refConfig.getCollectionName(), filter, 0, 0);
+        Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
 
         List<String> ids = new ArrayList<String>();
 
@@ -267,6 +289,7 @@ public class IdNormalizer {
 
         return ids;
     }
+
     /**
      * @return the entityRepository
      */
@@ -303,7 +326,7 @@ public class IdNormalizer {
         if (refConfig.isRefList()) {
             result = "";
             String refObjectPath = refConfig.getRefObjectPath();
-            //split the valueSource by .
+            // split the valueSource by .
             StringTokenizer tokenizer = new StringTokenizer(valueSource, ".");
             while (tokenizer.hasMoreTokens()) {
                 String token = tokenizer.nextToken();
@@ -320,4 +343,3 @@ public class IdNormalizer {
         return result;
     }
 }
-

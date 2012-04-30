@@ -9,6 +9,10 @@ Given /^I am a valid SLI Developer "([^"]*)" from the "([^"]*)" hosted directory
   # No code needed, done as configuration
 end
 
+Given /^I am a valid SLC Operator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
+  # No code needed, done as configuration
+end
+
 When /^I hit the Application Registration Tool URL$/ do
   @driver.get(PropLoader.getProps['admintools_server_url']+"/apps/")
 end
@@ -27,12 +31,105 @@ When /^I authenticate with username "([^"]*)" and password "([^"]*)"$/ do |arg1,
   end  
 end
 
+Then /^I am redirected to the Application Approval Tool page$/ do
+  assertWithWait("Failed to navigate to the Admintools App Registration Approval page")  {@driver.page_source.index("Application Registration Approval") != nil}
+end
+
 Then /^I am redirected to the Application Registration Tool page$/ do
   assertWithWait("Failed to navigate to the Admintools App Registration page")  {@driver.page_source.index("New Application") != nil}
 end
 
 Then /^I see all of the applications that are registered to SLI$/ do
   assertWithWait("Failed to find applications table") {@driver.find_element(:id, "applications")}
+end
+
+Then /^application "([^"]*)" does not have an edit link$/ do |app|
+  appsTable = @driver.find_element(:id, "applications")
+  edit = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/a[text()='Edit']")
+  assert(edit.length == 0, "Should not see an edit link")
+end
+
+Then /^I see all the applications registered on SLI$/ do
+  appsTable = @driver.find_element(:id, "applications")
+  trs = appsTable.find_elements(:xpath, ".//tr/td[text()='APPROVED']")
+  assert(trs.length > 10, "Should see a significant number of approved applications")
+end
+
+Then /^I see all the applications pending registration$/ do
+  appsTable = @driver.find_element(:id, "applications")
+  trs = appsTable.find_elements(:xpath, ".//tr/td[text()='PENDING']")
+  assert(trs.length == 1, "Should see a pending application")
+end
+
+Then /^application "([^"]*)" is pending approval$/ do |app|
+  appsTable = @driver.find_element(:id, "applications")
+  trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td[text()='PENDING']")
+  assert(trs.length > 0, "#{app} is pending")
+end
+
+Then /^the pending apps are on top$/ do
+  appsTable = @driver.find_element(:id, "applications")
+  tableHeadings = appsTable.find_elements(:xpath, ".//tr/th")
+  index = 0
+  tableHeadings.each do |arg|
+    index = tableHeadings.index(arg) + 1 if arg.text == "Status"    
+  end
+  trs = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Y']/../../../..")
+  assert(trs.length > 10, "Should see many applications")
+
+  last_status = nil
+  trs.each do |row|
+    td = row.find_element(:xpath, ".//td[#{index}]")
+    if last_status == nil
+      last_status = td.text
+      assert(last_status == 'PENDING', "First element should be PENDING, got #{last_status}")
+    end
+    if last_status == 'APPROVED'
+      assert(td.text != 'PENDING', "Once we find approved apps, we should no longer see any PENDING ones.")
+    end
+    last_status = td.text
+  end
+end
+
+
+When /^I click on 'Y' next to application "([^"]*)"$/ do |app|
+  appsTable = @driver.find_element(:id, "applications")
+  y_button  = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='Y']")[0]
+  assert(y_button != nil, "Found Y button")
+  y_button.click
+end
+
+When /^I click on 'X' next to application "([^"]*)"$/ do |app|
+  appsTable = @driver.find_element(:id, "applications")
+  y_button  = appsTable.find_elements(:xpath, ".//tr/td/form/div/input[@value='X']")[0]
+  assert(y_button != nil, "Found X button")
+  y_button.click
+end
+
+Then /^I get a dialog asking if I want to continue$/ do
+  @driver.switch_to.alert
+end
+
+Then /^application "([^"]*)" is registered$/ do |app|
+  appsTable = @driver.find_element(:id, "applications")
+  trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td[text()='APPROVED']")
+  assert(trs.length > 0, "No more pending applications")
+end
+
+Then /^application "([^"]*)" is not registered$/ do |app|
+	# no-op - in next step we verify it was removed from list
+end
+
+Then /^application "([^"]*)" is removed from the list$/ do |app|
+  appsTable = @driver.find_element(:id, "applications")
+  tds  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']")
+  assert(tds.length == 0, "#{app} isn't in list")
+end
+
+Then /^the 'Y' button is disabled for application "([^"]*)"$/ do |app|
+  appsTable = @driver.find_element(:id, "applications")
+  y_button  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']/../td/form/div/input[@value='Y']")[0]
+  assert(y_button.attribute("disabled") == 'true', "Y button is disabled")
 end
 
 Then /^those apps are sorted by the Last Update column$/ do
@@ -83,8 +180,6 @@ When /^I have entered data into the other required fields except for the shared 
   @driver.find_element(:name, 'app[version]').send_keys "0.9"
   @driver.find_element(:name, 'app[image_url]').send_keys "http://blah.com"
   @driver.find_element(:name, 'app[developer_info][organization]').send_keys "Cucumber"
-  @driver.find_element(:css, 'input[id="app_developer_info_license_acceptance"]').click
-  @driver.find_element(:css, 'input[id="app_client_type_public"]').click
   @driver.find_element(:css, 'input[id="app_enabled"]').click
   list = @driver.find_element(:css, 'input[disabled="disabled"]')
   assert(list, "Should have disabled fields.")
@@ -95,14 +190,30 @@ When /^I click on the button Submit$/ do
   @driver.find_element(:name, 'commit').click
 end
 
-Then /^the application is listed in the table on the top$/ do
+Then /^the application "([^"]*)" is listed in the table on the top$/ do |app|
   value = @driver.find_element(:id, 'notice').text
   assert(value =~ /successfully created/, "Should have valid flash message")
-  assertWithWait("Couldn't locate NewApp at the top of the page") {@driver.find_element(:xpath, "//tr[2]/td[text()='NewApp']")}
+  assertWithWait("Couldn't locate #{app} at the top of the page") {@driver.find_element(:xpath, "//tr[2]/td[text()='#{app}']")}
 end
 
 Then /^a client ID is created for the new application that can be used to access SLI$/ do
   assertWithWait("Should have located a client id") {@driver.find_element(:xpath, '//tr[3]').find_element(:name, 'app[client_id]')}
+end
+
+Then /^the client ID and shared secret fields are Pending$/ do
+  client_id = @driver.find_element(:xpath, '//tr[3]').find_element(:name, 'app[client_id]').attribute("value")
+  assert(client_id == 'Pending', "Expected 'Pending', got #{client_id}")
+end
+
+Then /^the Registration Status field is Pending$/ do
+  appsTable = @driver.find_element(:id, "applications")
+  tableHeadings = appsTable.find_elements(:xpath, ".//tr/th")
+  index = 0
+  tableHeadings.each do |arg|
+    index = tableHeadings.index(arg) + 1 if arg.text == "Status"
+  end
+  td = @driver.find_element(:xpath, "//tr[2]/td[#{index}]")
+  assert(td.text == 'PENDING', "Expected 'PENDING', got #{td.text}")
 end
 
 When /^I click on the row of application named "([^"]*)" in the table$/ do |arg1|
@@ -130,8 +241,6 @@ Then /^all the fields are read only$/ do
   assert(@driver.find_element(:name, 'app[version]').attribute("disabled"), "Version isn't disabled" )
   assert(@driver.find_element(:name, 'app[image_url]').attribute("disabled"), "Image URL isn't disabled" )
   assert(@driver.find_element(:name, 'app[developer_info][organization]').attribute("disabled"), "developer organization isn't disabled" )
-  assert(@driver.find_element(:css, 'input[id="app_developer_info_license_acceptance"]').attribute("disabled"), "license acceptance isn't disabled" )
-  assert(@driver.find_element(:css, 'input[id="app_client_type_public"]').attribute("disabled"), "client type isn't disabled" )
   assert(@driver.find_element(:css, 'input[id="app_enabled"]').attribute("disabled"), "app isn't disabled" )
 end
 
@@ -150,9 +259,9 @@ end
 
 Then /^every field except the shared secret and the app ID became editable$/ do
   @form = @driver.find_element(:id, "edit_app_#{@id}")
-  editible = @form.find_elements(:css, "input").count
-  uneditible = @form.find_elements(:css, "input[disabled='disabled']").count
-  assert(editible - uneditible == 19)
+  editable = @form.find_elements(:css, "input").count
+  uneditable = @form.find_elements(:css, "input[disabled='disabled']").count
+  assert(uneditable == 2, "Found #{uneditable} elements")
 end
 
 Then /^I have edited the field named "([^"]*)" to say "([^"]*)"$/ do |arg1, arg2|

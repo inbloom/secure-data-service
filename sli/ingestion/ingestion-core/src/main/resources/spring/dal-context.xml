@@ -66,11 +66,11 @@
     <property name="template" ref="neutralRecordMongoTemplate" />
     <property name="idConverter" ref="mongoIdConverter" />
     <property name="entityEncryption" ref="stagingEntityEncryption" />
+    <property name="mongoIndexManager" ref="mongoIndexManager"/>
   </bean>
 
   <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
     <property name="neutralRecordRepository" ref="neutralRecordRepository" />
-    <property name="mongoIndexManager" ref="mongoIndexManager"/>
   </bean>
 
   <context:component-scan base-package="org.slc.sli.ingestion.dal" />
@@ -92,5 +92,14 @@
   <bean id="batchJobMongoDA" class="org.slc.sli.ingestion.model.da.BatchJobMongoDA">
     <property name="batchJobMongoTemplate" ref="batchJobMongoTemplate" />
   </bean>
+
+  <mongo:db-factory id="mongoDbTenantFactory" dbname="${sli.mongodb.database}"
+    host="${sli.mongodb.host}" port="${sli.mongodb.port}" />
+
+  <bean id="tenantMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+    <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbTenantFactory" />
+  </bean>
+
+  <context:component-scan base-package="org.slc.sli.ingestion.tenant" />
 
 </beans>

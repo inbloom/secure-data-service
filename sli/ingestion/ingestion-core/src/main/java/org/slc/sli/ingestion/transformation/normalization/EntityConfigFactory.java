@@ -18,6 +18,7 @@ import org.springframework.core.io.ResourceLoader;
  */
 public class EntityConfigFactory implements ResourceLoaderAware {
     private static final String CONFIG_EXT = ".json";
+    private static final EntityConfig NOT_FOUND = null;
 
     private String searchPath;
     private ResourceLoader resourceLoader;
@@ -33,9 +34,11 @@ public class EntityConfigFactory implements ResourceLoaderAware {
                 if (config.exists()) {
                     configIs = config.getInputStream();
                     entityConfigurations.put(entityType, EntityConfig.parse(configIs));
+                } else {
+                    entityConfigurations.put(entityType, NOT_FOUND);
                 }
             } catch (IOException e) {
-                entityConfigurations.put(entityType, null);
+                entityConfigurations.put(entityType, NOT_FOUND);
             } finally {
                 IOUtils.closeQuietly(configIs);
             }

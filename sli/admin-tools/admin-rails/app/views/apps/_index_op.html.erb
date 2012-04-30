@@ -1,3 +1,4 @@
+<h1>Application Registration Approval</h1>
 <table id="applications">
 	<tr>
 		<th>Name</th>
@@ -7,16 +8,19 @@
 		<th>Approval Date</th>
 		<th>Status</th>
 		<th></th>
+		<th></th>
 	</tr>
-	<% @apps.each do |app| %>
+	<% @apps.select {|app| app.registration.status == 'PENDING' || app.registration.status == 'APPROVED'}
+            .sort{|a,b| b.registration.status <=> a.registration.status}.each do |app| %>
 		<tr id='<%= app.id %>'>
 	    	<td><%= app.name %></td>
 		<td><%= app.version %></td>
 		<td><%= app.developer_info.organization %></td>
-		<td><%= I18n.localize(Time.at(app.metaData.created / 1000)) unless !app.metaData.attributes.has_key? :created %></td>
-		<td><%= I18n.localize(Time.at(app.metaData.updated / 1000)) unless !app.metaData.attributes.has_key? :updated %></td>
-                <td>Pending</td>
-		<td><%= link_to_if !app.registered, 'Y', "#", :class=> 'edit-link' %> | <%= link_to 'X', app, :remote => true,  :confirm => "Are you sure?", :method => :delete %></td>
+		<td><%= I18n.localize(Time.at(app.registration.request_date / 1000)) unless !app.registration.attributes.has_key? :request_date %></td>
+		<td><%= I18n.localize(Time.at(app.registration.approval_date / 1000)) unless !app.registration.attributes.has_key? :approval_date %></td>
+                <td><%= app.registration.status %></td>
+		<td class="rowAction"><%= button_to "Y", {:action => "approve", :id => app.id}, {:disabled => app.registration.status != 'PENDING', :class => 'approve-button', } %></td>
+                <td class="rowAction"><%= button_to 'X', {:action => "unregister", :id => app.id}, {:class => 'unregister-button', :confirm => 'Are you sure you want to deny/unregister this application?'}%></td>
 		</tr>
 		<tr>
 			<td colspan="6"><%= render :partial => 'form', :locals => {:app => app} %></td>

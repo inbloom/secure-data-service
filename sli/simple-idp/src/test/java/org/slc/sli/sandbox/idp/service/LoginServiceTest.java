@@ -37,7 +37,7 @@ public class LoginServiceTest {
     public void testLogin() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, KeyException,
             TransformerException, MarshalException, XMLSignatureException {
         
-        login.setIssuerBase("http://local.slidev.org:8082/mock-idp");
+        login.setIssuerBase("http://local.slidev.org:8082/simple-idp");
         
         List<String> roles = Arrays.asList("role1", "role2");
         URI destUri = URI.create("destUri");
@@ -45,6 +45,7 @@ public class LoginServiceTest {
         Mockito.when(
                 samlComposer.componseResponse("destUri", "http://local.slidev.org:8082/mock-idp?tenant=TENANT",
                         "request_id", "unique_id", "unique_id", roles)).thenReturn("samlResponse");
+
         
         Request request = Mockito.mock(AuthRequests.Request.class);
         Mockito.when(request.getRequestId()).thenReturn("request_id");
@@ -57,5 +58,6 @@ public class LoginServiceTest {
         
         Mockito.verify(samlComposer).componseResponse("destUri", "http://local.slidev.org:8082/mock-idp?tenant=TENANT",
                 "request_id", "unique_id", "unique_id", roles);
+
     }
 }

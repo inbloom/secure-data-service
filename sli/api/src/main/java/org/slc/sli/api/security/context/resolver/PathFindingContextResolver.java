@@ -19,6 +19,7 @@ import org.slc.sli.api.security.context.traversal.BrutePathFinder;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 
 /**
  * Class to adapt our path finding technique to our context resolving system.
@@ -36,6 +37,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
 
     @Autowired
     private EntityDefinitionStore store;
+    
+    @Autowired
+    private Repository<Entity> repository;
 
     private String fromEntity;
     private String toEntity;
@@ -47,7 +51,6 @@ public class PathFindingContextResolver implements EntityContextResolver {
      */
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-
         this.fromEntity = fromEntityType;
         this.toEntity = toEntityType;
         if (pathFinder.isPathExcluded(fromEntityType, toEntityType)) {
@@ -64,11 +67,11 @@ public class PathFindingContextResolver implements EntityContextResolver {
      */
     @Override
     public List<String> findAccessible(Entity principal) {
-        if (principal.getBody().get("staffUniqueStateId").equals("demo")) {
+        if (principal != null && principal.getBody().get("staffUniqueStateId").equals("demo")) {
             info("Resolver override for demo user.");
             return AllowAllEntityContextResolver.SUPER_LIST;
         }
-
+        
         List<SecurityNode> path = new ArrayList<SecurityNode>();
         path = pathFinder.getPreDefinedPath(fromEntity, toEntity);
         if (path.size() == 0) {
@@ -114,7 +117,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
     }
 
     private String getResourceName(SecurityNode next, SecurityNodeConnection connection) {
-        return connection.getAssociationNode().length() != 0 ? connection.getAssociationNode() : next.getName();
+        return connection.getAssociationNode().length() != 0 ? connection.getAssociationNode() : next.getType();
     }
 
     /**
@@ -131,6 +134,10 @@ public class PathFindingContextResolver implements EntityContextResolver {
      */
     public void setHelper(AssociativeContextHelper helper) {
         this.helper = helper;
+    }
+    
+    public void setRepository(Repository<Entity> repo) {
+        this.repository = repo;
     }
 
 }

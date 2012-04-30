@@ -40,6 +40,40 @@ class AppsController < ApplicationController
     end
   end
 
+  def approve
+    @app = App.find(params[:id])
+    respond_to do |format|
+      reg = @app.attributes["registration"]
+      reg.status = "APPROVED"
+      if @app.update_attribute("registration", reg)
+        format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @app.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def unregister
+    @app = App.find(params[:id])
+    respond_to do |format|
+      reg = @app.attributes["registration"]
+      if reg.status == 'PENDING'
+        reg.status = 'DENIED'
+      else
+        reg.status = "UNREGISTERED"
+      end
+      if @app.update_attribute("registration", reg)
+        format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @app.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # # GET /apps/1/edit
   # def edit
   #   @app = App.find(params[:id])
@@ -53,11 +87,13 @@ class AppsController < ApplicationController
     #     end
     #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
     params[:app][:behavior] = params[:app_behavior]
+    params[:app][:authorized_ed_orgs] = params[:authorized_ed_orgs]
+    params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
+
     @app = App.new(params[:app])
     logger.debug{"Application is valid? #{@app.valid?}"}
     @app.is_admin = boolean_fix @app.is_admin
     @app.enabled = boolean_fix @app.enabled
-    @app.developer_info.license_acceptance = boolean_fix @app.developer_info.license_acceptance
 
     respond_to do |format|
       if @app.save
@@ -78,17 +114,19 @@ class AppsController < ApplicationController
   def update
     @app = App.find(params[:id])
     logger.debug {"App found (Update): #{@app.attributes}"}
+
     params[:app][:is_admin] = boolean_fix params[:app][:is_admin]
     params[:app][:enabled] = boolean_fix params[:app][:enabled]
-    params[:app][:developer_info][:license_acceptance] = boolean_fix params[:app][:developer_info][:license_acceptance]
-  
+    params[:app][:authorized_ed_orgs] = params[@app.name.gsub(" ", "_") + "_authorized_ed_orgs"]
+    params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
+
     #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
     params[:app][:behavior] = params[:app_behavior]
 
     respond_to do |format|
       if @app.update_attributes(params[:app])
-        format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
-        format.json { head :ok }
+          format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
+          format.json { head :ok }
       else
         format.html { render action: "edit" }
         format.json { render json: @app.errors, status: :unprocessable_entity }

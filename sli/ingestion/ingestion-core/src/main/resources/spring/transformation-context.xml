@@ -17,12 +17,12 @@
                 <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentTranscriptAssociation.xml" />
             </bean>
         </entry>
-	<entry key="program">
+		<entry key="program">
             <bean class="org.milyn.Smooks">
                 <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/program.xml" />
             </bean>
         </entry>
-	<entry key="studentProgramAssociation">
+		<entry key="studentProgramAssociation">
             <bean class="org.milyn.Smooks">
                 <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentProgramAssociation.xml" />
             </bean>
@@ -47,6 +47,16 @@
                 <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffCohortAssociation.xml" />
             </bean>
         </entry>
+        <entry key="disciplineIncident">
+            <bean class="org.milyn.Smooks">
+                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/disciplineIncident.xml" />
+            </bean>
+        </entry>
+        <entry key="disciplineAction">
+            <bean class="org.milyn.Smooks">
+                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/disciplineAction.xml" />
+            </bean>
+        </entry>
     </util:map>
 
     <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
@@ -65,10 +75,8 @@
     <bean id="studentTranscriptAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.StudentTranscriptAssociationCombiner" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     </bean>
-    
-    <bean id="attendanceTransformationStrategy" class="org.slc.sli.ingestion.transformation.AttendanceTransformer" scope="prototype">
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-    </bean>
+
+    <!-- attendance transform disabled <bean id="attendanceTransformationStrategy" class="org.slc.sli.ingestion.transformation.AttendanceTransformer" scope="prototype"> <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" /> </bean> -->
 
     <bean id="transformationFactory" class="org.slc.sli.ingestion.transformation.TransformationFactory">
         <property name="transformationStrategySuffix" value="TransformationStrategy" />
@@ -94,7 +102,7 @@
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
 		<property name="passThroughCollectionName" value="studentProgramAssociation" />
     </bean>
-
+ 	
 	<bean id="cohortTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
         <property name="passThroughCollectionName" value="cohort" />
@@ -110,6 +118,16 @@
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
 	<property name="passThroughCollectionName" value="studentCohortAssociation" />
     </bean>
+    
+	<bean id="disciplineIncidentTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
+        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+		<property name="passThroughCollectionName" value="disciplineIncident" />
+    </bean>
+    
+    <bean id="disciplineActionTransformationStrategy" 
+            class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
+        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+        <property name="passThroughCollectionName" value="disciplineAction" />
+    </bean>
 </beans>
-
 
