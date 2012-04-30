@@ -59,7 +59,17 @@ end
 
 Then /^I should see the sub table headers "([^"]*)"$/ do |headers|
   expectedRow = headers.split(";")
-  subHeaderLabels = @subGrids[@lastExpandedRow].find_element(:class, "ui-jqgrid-labels")
+  @subGrid = nil
+  @subGrids.each do |sg|
+    td = sg.find_element(:class, "tablediv")
+    if (td.attribute("id").include? "_#{@lastExpandedRow+1}")
+      if (td.find_element(:xpath, "div[contains(@id, '_#{@lastExpandedRow+1}_t')]") != nil)
+        @subGrid = sg
+        break
+      end
+    end
+  end
+  subHeaderLabels = @subGrid.find_element(:class, "ui-jqgrid-labels")
   subject = subHeaderLabels.find_element(:xpath, "th/div[contains(@id,'subject')]").text
   course = subHeaderLabels.find_element(:xpath, "th/div[contains(@id,'course')]").text
   grade = subHeaderLabels.find_element(:xpath, "th/div[contains(@id,'grade')]").text
@@ -77,7 +87,7 @@ Then /^I should find (\d+) expanded rows$/ do |count|
 end
 
 Then /^I should find (\d+) sub rows$/ do |count|
-  subTable = @subGrids[@lastExpandedRow].find_element(:class, "ui-jqgrid-bdiv")
+  subTable = @subGrid.find_element(:class, "ui-jqgrid-bdiv")
   @subRows = subTable.find_elements(:tag_name, "tr")
   assert(@subRows.size - 1 == convert(count), "Expected #{count}, received #{@subRows.size}")
 end
