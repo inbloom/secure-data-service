@@ -3,7 +3,7 @@ Feature: Acceptance Storied Data Ingestion Test
 Background: I have a landing zone route configured
 Given I am using local data store
 
-@smoke @integration
+@smoke @integration @IL-Daybreak
 Scenario: Post a zip file containing all data for Illinois Daybreak as a payload of the ingestion job: Clean Database
 Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
     And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
@@ -53,7 +53,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 3     |
         | session                     | 22    |
         | assessment                  | 5     |
-        | studentAssessmentAssociation| 116   |
+        | studentAssessmentAssociation| 141   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
@@ -88,7 +88,7 @@ Then I should see following map of entry counts in the corresponding collections
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Underwater cruise          | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-03-04                 | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-04-04                 | string               |
-    And I should see "Processed 15273 records." in the resulting batch job file
+    And I should see "Processed 15298 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -145,7 +145,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 4" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
 
-@smoke @integration
+@smoke @integration @IL-Sunset
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "IL-Sunset"
   And I post "StoriedDataSet_IL_Sunset.zip" file as the payload of the ingestion job
@@ -165,7 +165,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 4     |
         | session                     | 22    |
         | assessment                  | 5     |
-        | studentAssessmentAssociation| 116   |
+        | studentAssessmentAssociation| 141   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
@@ -209,7 +209,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 4" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
 
-@smoke @integration
+@smoke @integration @NY-NYC
 Scenario: Post a zip file containing all data for New York as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "NY-NYC"
   And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
@@ -229,7 +229,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 20    |
         | session                     | 26    |
         | assessment                  | 5     |
-        | studentAssessmentAssociation| 116   |
+        | studentAssessmentAssociation| 141   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
