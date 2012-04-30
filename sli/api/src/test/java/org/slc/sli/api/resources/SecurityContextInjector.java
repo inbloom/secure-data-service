@@ -56,8 +56,10 @@ public class SecurityContextInjector {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("admin-staff");
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        principal.setExternalId("developer");
         setSecurityContext(principal);
         
+
         Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.APP_CREATION, Right.APP_EDORG_SELECT };
         PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
