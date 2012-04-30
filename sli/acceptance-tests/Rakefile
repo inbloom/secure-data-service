@@ -946,8 +946,10 @@ desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
-  runTests("test/features/databrowser/databrowser_denial.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
+  setFixture("application", "application_denial_fixture.json")
+  runTests("test/features/databrowser/databrowser_denial.feature")
+  setFixture("application", "application_fixture.json") #Reset after we've tested app approval
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1091,7 +1093,10 @@ task :dashboardStudentContactInfoLiveTests do
 end
 
 desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
-task :localDashboardTests => [:realmInit,:importUnifiedData,:dashboardTests] do
+task :localDashboardTests do
+  Rake::Task["realmInitNoPeople"].invoke
+  Rake::Task["importUnifiedData"].invoke
+  Rake::Task["dashboardTests"].invoke
 end
 
 desc "Run Dashboard Tests against SDS"
