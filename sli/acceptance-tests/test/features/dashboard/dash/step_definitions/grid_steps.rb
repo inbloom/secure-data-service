@@ -60,6 +60,13 @@ def checkGridEntries(panel, table, mapping)
       table.headers.each do |header|
         if (mapping[header].kind_of?(Array))
           #example, fuel gauge tests or visualization
+           td = getTdBasedOnAttribute(tr,mapping[header][0])
+           value = row[header]
+           verifier = mapping[header][1].downcase
+           
+           if (verifier == "fuelgauge")
+            testFuelGauge(td, value)
+           end
         else
           value = getAttribute(tr, mapping[header])
           if (value == row[header] || (value.strip == "" && row[header]=="<empty>"))
