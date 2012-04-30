@@ -14,25 +14,25 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #school session association data
   id = 11                                       if human_readable_id == "ASSOCIATION COUNT"
-  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 6                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
+  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
-  id = 5                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
+  id = 3                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
   id = 2                                        if human_readable_id == "ASSOCIATION - MULTIPLE - ENDPOINT1 COUNT" 
-  id = 2                                        if human_readable_id == "ASSOCIATION - MULTIPLE - ENDPOINT2 COUNT"
-  id = "22f88217-4dc0-4113-a712-b6027c241606"   if human_readable_id == "ASSOCIATION ID - SINGLE"
-  id = "387f4818-b879-456a-acc7-5b4294c94549"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
-  id = "9aaa3307-fc54-484d-bf4d-1f459aa75ee0"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
-  id = "5b3ecdfc-5244-4309-8570-6e549a881659"   if human_readable_id == "ASSOCIATION ID - MULTIPLE" 
+  id = 1                                        if human_readable_id == "ASSOCIATION - MULTIPLE - ENDPOINT2 COUNT"
+  id = "9bf906cc-8fd5-11e1-86ec-0021701f543f"   if human_readable_id == "ASSOCIATION ID - SINGLE"
+  id = "9bf906cc-8fd5-11e1-86ec-0021701f543f"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
+  id = "9bf906cc-8fd5-11e1-86ec-0021701f543f"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
+  id = "9bfab47d-8fd5-11e1-86ec-0021701f543f"   if human_readable_id == "ASSOCIATION ID - MULTIPLE" 
   id = "getStaffProgramAssociations"            if human_readable_id == "ASSOCIATION LINK NAME"
   id = "staffProgramAssociation"                if human_readable_id == "ASSOCIATION TYPE"
   id = "staffProgramAssociations"               if human_readable_id == "ASSOCIATION URI"
   
   #staff related data
   id = "staffId"                                if human_readable_id == "ENDPOINT1 FIELD"
-  id = "f0e41d87-92d4-4850-9262-ed2f2723159b"   if human_readable_id == "ENDPOINT1 ID - SINGLE"
-  id = ["f0e41d87-92d4-4850-9262-ed2f2723159b"] if human_readable_id == "ENDPOINT1 FIELD - SINGLE - EXPECTED VALUE"
-  id = ["0a26de79-222a-4d67-9301-5113ad50d43d", "21e57d58-f775-4cc8-b759-d8d9d811b5b4"] if human_readable_id == "ENDPOINT1 FIELD - MULTIPLE - EXPECTED VALUE"
+  id = "85585b27-5368-4f10-a331-3abcaf3a3f4c"   if human_readable_id == "ENDPOINT1 ID - SINGLE"
+  id = ["85585b27-5368-4f10-a331-3abcaf3a3f4c"] if human_readable_id == "ENDPOINT1 FIELD - SINGLE - EXPECTED VALUE"
+  id = ["1b7b93b3-814a-4f30-86b9-bf19dd0064ff", "b4c2a73f-336d-4c47-9b47-2d24871eef96"] if human_readable_id == "ENDPOINT1 FIELD - MULTIPLE - EXPECTED VALUE"
   id = "getStaff"                               if human_readable_id == "ENDPOINT1 LINK NAME" 
   id = "getStaff"                               if human_readable_id == "ENDPOINT1 RESOLUTION LINK NAME" 
   id = "staff"                                  if human_readable_id == "ENDPOINT1 TYPE" 
@@ -40,9 +40,9 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #educationOrganization related data
   id = "programId"                              if human_readable_id == "ENDPOINT2 FIELD"
-  id = "e8d33606-d114-4ee4-878b-90ac7fc3df16"   if human_readable_id == "ENDPOINT2 ID - SINGLE"
-  id = ["e8d33606-d114-4ee4-878b-90ac7fc3df16"] if human_readable_id == "ENDPOINT2 FIELD - SINGLE - EXPECTED VALUE"
-  id = ["cb292c7d-3503-414a-92a2-dc76a1585d79", "e8d33606-d114-4ee4-878b-90ac7fc3df16"] if human_readable_id == "ENDPOINT2 FIELD - MULTIPLE - EXPECTED VALUE"
+  id = "9b8cafdc-8fd5-11e1-86ec-0021701f543f"   if human_readable_id == "ENDPOINT2 ID - SINGLE"
+  id = ["9b8cafdc-8fd5-11e1-86ec-0021701f543f"] if human_readable_id == "ENDPOINT2 FIELD - SINGLE - EXPECTED VALUE"
+  id = ["9b8c3aab-8fd5-11e1-86ec-0021701f543f", "9b8cafdc-8fd5-11e1-86ec-0021701f543f"] if human_readable_id == "ENDPOINT2 FIELD - MULTIPLE - EXPECTED VALUE"
   id = "getProgram"                             if human_readable_id == "ENDPOINT2 LINK NAME" 
   id = "getPrograms"                            if human_readable_id == "ENDPOINT2 RESOLUTION LINK NAME" 
   id = "program"                                if human_readable_id == "ENDPOINT2 TYPE" 
@@ -50,7 +50,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #update related field data
   id = "beginDate"                              if human_readable_id == "UPDATE FIELD"
-  id = "2012-01-01"                             if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
+  id = "2011-06-01"                             if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
   id = "2012-03-07"                             if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
   
   #general
