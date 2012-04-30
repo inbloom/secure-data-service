@@ -1,4 +1,6 @@
 SLIAdmin::Application.routes.draw do
+  resources :account_managements
+
   resources :district_authorizations
 
   resources :education_organizations

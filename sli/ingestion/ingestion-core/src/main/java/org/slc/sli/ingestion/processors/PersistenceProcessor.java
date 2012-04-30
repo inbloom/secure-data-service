@@ -175,6 +175,7 @@ public class PersistenceProcessor implements Processor {
                     numFailed += processTransformableNeutralRecord(neutralRecord, tenantId, encounteredStgCollections,
                             errorReportForNrFile);
                 } else {
+
                     numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, tenantId,
                             errorReportForNrFile);
                 }

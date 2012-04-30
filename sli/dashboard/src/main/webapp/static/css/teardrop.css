@@ -1,310 +1,109 @@
-.teardrop-darkgreen-notrend {
-    background-image:  url(../images/darkgreen-notrend.gif);
+.teardrop {
     background-repeat: no-repeat;
+    background-position: center;
     height: 18px;
-    width: 27px;
+    width: 90px;
     color: white;
     font-family: Arial, Helvica, sans-serif;
     font-size: 13px;
     font-weight: bold;
     padding-top: 1px;
     text-align: center;
+}
+
+
+.teardrop-darkgreen-notrend {
+    background-image:  url(../images/darkgreen-notrend.gif);
 }
 
 .teardrop-darkgreen-uptrend {
     background-image:  url(../images/darkgreen-uptrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-darkgreen-downtrend {
     background-image:  url(../images/darkgreen-downtrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-darkgreen-eventrend {
     background-image:  url(../images/darkgreen-eventrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-lightgreen-notrend {
     background-image:  url(../images/lightgreen-notrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-lightgreen-uptrend {
     background-image:  url(../images/lightgreen-uptrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-lightgreen-downtrend {
     background-image:  url(../images/lightgreen-downtrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-lightgreen-eventrend {
     background-image:  url(../images/lightgreen-eventrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-yellow-notrend {
     background-image:  url(../images/yellow-notrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-yellow-uptrend {
     background-image:  url(../images/yellow-uptrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-yellow-downtrend {
     background-image:  url(../images/yellow-downtrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-yellow-eventrend {
     background-image:  url(../images/yellow-eventrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 
 .teardrop-orange-notrend {
     background-image:  url(../images/orange-notrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 .teardrop-orange-uptrend {
     background-image:  url(../images/orange-uptrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 .teardrop-orange-downtrend {
     background-image:  url(../images/orange-downtrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
+
 .teardrop-orange-eventrend {
     background-image:  url(../images/orange-eventrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-red-notrend {
     background-image:  url(../images/red-notrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-red-uptrend {
     background-image:  url(../images/red-uptrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-red-downtrend {
     background-image:  url(../images/red-downtrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-red-eventrend {
     background-image:  url(../images/red-eventrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-grey-notrend {
     background-image:  url(../images/grey-notrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-grey-uptrend {
     background-image:  url(../images/grey-uptrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-grey-downtrend {
     background-image:  url(../images/grey-downtrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 
 .teardrop-grey-eventrend {
     background-image:  url(../images/grey-eventrend.gif);
-    background-repeat: no-repeat;
-    height: 18px;
-    width: 27px;
-    color: white;
-    font-family: Arial, Helvica, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    padding-top: 1px;
-    text-align: center;
 }
 

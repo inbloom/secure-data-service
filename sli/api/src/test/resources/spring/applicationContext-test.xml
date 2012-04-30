@@ -44,6 +44,8 @@
 
 	<context:annotation-config />
 
+    <bean id="roleInitializer" class="org.slc.sli.api.init.RoleInitializer" init-method="init"></bean>
+    
     <bean id="aggregateURLCreator" class="org.slc.sli.api.resources.url.AggregateURLCreator" scope="request">
 	</bean>
 	
