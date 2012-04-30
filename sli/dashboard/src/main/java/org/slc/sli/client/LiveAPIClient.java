@@ -14,6 +14,7 @@ import java.util.Set;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slc.sli.entity.CustomConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
 import org.slc.sli.util.Constants;
@@ -37,6 +38,7 @@ public class LiveAPIClient implements APIClient {
             .getLogger(LiveAPIClient.class);
     
     // base urls
+    private static final String STAFF_URL = "/v1/staff/";
     private static final String EDORGS_URL = "/v1/educationOrganizations/";
     private static final String SECTIONS_URL = "/v1/sections/";
     private static final String STUDENTS_URL = "/v1/students/";
@@ -49,6 +51,7 @@ public class LiveAPIClient implements APIClient {
     private static final String STUDENTS_NO_SLASH_URL = "/v1/students";
     
     // resources to append to base urls
+    private static final String STAFF_EDORG_ASSOC = "/staffEducationOrgAssignmentAssociations/educationOrganizations";
     private static final String ATTENDANCES = "/attendances";
     private static final String STUDENT_SECTION_ASSOC = "/studentSectionAssociations";
     private static final String TEACHER_SECTION_ASSOC = "/teacherSectionAssociations";
@@ -63,6 +66,9 @@ public class LiveAPIClient implements APIClient {
     private static final String SCHOOL_LINK = "getSchool";
     private static final String STUDENT_SCHOOL_ASSOCIATIONS_LINK = "getStudentSchoolAssociations";
     
+    // attributes
+    private static final String EDORG_SLI_ID_ATTRIBUTE = "edOrgSliId";
+
     private String apiUrl;
     
     private String portalHeaderUrl;
@@ -89,12 +95,32 @@ public class LiveAPIClient implements APIClient {
     }
     
     /**
+     * Get staff information (credentials, etc.)
+     */
+    @Override
+    public GenericEntity getStaffInfo(String token) {
+        String id = getId(token);
+        GenericEntity staffEntity = createEntityFromAPI(getApiUrl() + STAFF_URL + id, token);
+        List<GenericEntity> edOrgsList = createEntitiesFromAPI(getApiUrl() + STAFF_URL + id + STAFF_EDORG_ASSOC, token);
+        if ((edOrgsList != null) && (edOrgsList.size() > 0)) {
+            
+            // Processing only first EdOrg for now
+            GenericEntity edOrgEntity = edOrgsList.get(0);
+            if (edOrgEntity != null) {
+                String edOrgSliId = edOrgEntity.getId();
+                staffEntity.put(EDORG_SLI_ID_ATTRIBUTE, edOrgSliId);
+            }
+        }
+        return staffEntity;
+    }
+    
+    /**
      * Get educational organization custom data
      */
     @Override
-    public GenericEntity getEdOrgCustomData(String token, String id) {
-        return createEntityFromAPI(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA,
-                token);
+    public CustomConfig getEdOrgCustomData(String token, String id) {
+        return (CustomConfig) createEntityFromAPI(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token,
+                CustomConfig.class);
     }
     
     /**
@@ -102,10 +128,28 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public void putEdOrgCustomData(String token, String id, String customJson) {
-        restClient.putJsonRequestWHeaders(getApiUrl() + EDORGS_URL + id
-                + CUSTOM_DATA, token, customJson);
+        restClient.putJsonRequestWHeaders(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token, customJson);
     }
     
+    /**
+     * Creates a generic entity from an API call
+     * 
+     * @param url
+     * @param token
+     * @param entityClass
+     * @return the entity
+     */
+    @LogExecutionTime
+    public Object createEntityFromAPI(String url, String token, Class entityClass) {
+        LOGGER.info("Querying API: {}", url);
+        String response = restClient.makeJsonRequestWHeaders(url, token);
+        if (response == null) {
+            return null;
+        }
+        Object e = gson.fromJson(response, entityClass);
+        return e;
+    }
+
     /**
      * Get a list of schools for the user
      */
