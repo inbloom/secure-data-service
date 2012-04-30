@@ -587,6 +587,7 @@ task :v1StudentProgramAssociationTests => [:realmInit] do
   setFixture("educationOrganization", "educationOrganization_fixture.json")
   setFixture("student", "student_fixture.json")
   setFixture("program", "program_fixture.json")
+  setFixture("staffProgramAssociation", "staffProgramAssociation_fixture.json")
   setFixture("studentProgramAssociation", "studentProgramAssociation_fixture.json")
   runTests("test/features/apiV1/associations/studentProgramAssociation")
 end
