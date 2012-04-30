@@ -645,6 +645,7 @@ task :v1StudentCohortAssociationTests => [:realmInit] do
   #drop data, re add fixture data
   setFixture("student", "student_fixture.json")
   setFixture("cohort", "cohort_fixture.json")
+  setFixture("staffCohortAssociation", "staffCohortAssociation_fixture.json")
   setFixture("studentCohortAssociation", "studentCohortAssociation_fixture.json")
   #run test
   runTests("test/features/apiV1/associations/studentCohortAssociation")
