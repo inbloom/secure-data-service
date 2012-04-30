@@ -2,7 +2,8 @@
     "collection": "attendance",
     "indexFields":
     [
-        {"name" : "metaData.tenantId" , "order" : "1"},
-        {"name" : "body.studentId" , "order" : "2"}
+        {"name" : "body.eventDate" , "order" : "1"},
+        {"name" : "body.attendanceEventCategory" , "order" : "1"},
+        {"name" : "body.studentId" , "order" : "1"}
     ]
 }

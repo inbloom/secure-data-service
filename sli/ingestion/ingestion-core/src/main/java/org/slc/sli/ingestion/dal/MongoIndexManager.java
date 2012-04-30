@@ -73,7 +73,7 @@ public final class MongoIndexManager {
             index.on(field.get("name"), field.get("order").equals("1") ? Order.ASCENDING : Order.DESCENDING);
         }
 
-        index.named(Integer.toString(indexName));
+        index.named(name);
         return index;
     }
 

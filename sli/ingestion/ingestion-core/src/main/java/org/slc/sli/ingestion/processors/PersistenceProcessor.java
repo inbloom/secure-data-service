@@ -258,17 +258,16 @@ public class PersistenceProcessor implements Processor {
 
         Iterable<NeutralRecord> stagedNeutralRecords = Collections.emptyList();
 
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setLimit(0);
         if (neutralRecord.getRecordType().equals("studentTranscriptAssociation")) {
-
-            NeutralQuery neutralQuery = new NeutralQuery();
             String studentAcademicRecordId = (String) neutralRecord.getAttributes().remove("studentAcademicRecordId");
             neutralQuery.addCriteria(new NeutralCriteria("studentAcademicRecordId", "=", studentAcademicRecordId));
             stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAll(
                     neutralRecord.getRecordType() + "_transformed", neutralQuery);
         } else {
-
             stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAll(
-                    neutralRecord.getRecordType() + "_transformed");
+                    neutralRecord.getRecordType() + "_transformed", neutralQuery);
             encounteredStgCollections.add(neutralRecord.getRecordType());
         }
         return stagedNeutralRecords;
