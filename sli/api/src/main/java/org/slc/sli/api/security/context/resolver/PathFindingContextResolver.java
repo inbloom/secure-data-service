@@ -10,19 +10,15 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.BrutePathFinder;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 /**
@@ -38,6 +34,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
 
     @Autowired
     private AssociativeContextHelper helper;
+    
+    @Autowired
+    private ResolveCreatorsEntitiesHelper creatorResolverHelper;
 
     @Autowired
     private EntityDefinitionStore store;
@@ -118,18 +117,8 @@ public class PathFindingContextResolver implements EntityContextResolver {
         debug("We found {} ids", ids);
         
         //  Allow creator access
-        ids.addAll(getAllowedForCreator());
+        ids.addAll(creatorResolverHelper.getAllowedForCreator(toEntity));
         return new ArrayList<String>(ids);
-    }
-
-    private List<String> getAllowedForCreator() {
-        SLIPrincipal user = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userId = user.getEntity().getEntityId();
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("metaData.createdBy", NeutralCriteria.OPERATOR_EQUAL, userId, false));
-        nq.addCriteria(new NeutralCriteria("metaData.isOrphaned", NeutralCriteria.OPERATOR_EQUAL, "true", false));
-        List<String> createdIds = (List<String>) repo.findAllIds(toEntity, nq);
-        
-        return createdIds;
     }
 
     private boolean isAssociative(SecurityNode next, SecurityNodeConnection connection) {
@@ -159,5 +148,4 @@ public class PathFindingContextResolver implements EntityContextResolver {
     public void setRepository(Repository<Entity> repo) {
         this.repository = repo;
     }
-
 }
