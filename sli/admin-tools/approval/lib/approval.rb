@@ -2,14 +2,18 @@ require 'set'
 
 module ApprovalEngine
 	# define the possible states of the finite state machine (FSM)
-	SUBMITTED = 1
-	PENDING   = 2
-	REJECTED  = 3
-	APPROVED  = 4
-	DISABLED  = 5
+	STATE_SUBMITTED = "submitted"
+	STATE_PENDING   = "pending"
+	STATE_REJECTED  = "rejected"
+	STATE_APPROVED  = "approved"
+	STATE_DISABLED  = "disabled"
 
-	# gather all the valid states for easy lookup 
-	VALID_STATES = Set.new [SUBMITTED, PENDING, REJECTED, APPROVED, DISABLED]
+	# define all possible actions of the state machine 
+	ACTION_VERIFY_EMAIL = "verify_email"
+	ACTION_APPROVE      = "approve"
+	ACTION_REJECT       = "reject"
+	ACTION_DISABLE      = "disable"
+	ACTION_ENABLE       = "enable"
 
 	# Check whether a user with the given email address exists. 
 	# The email address serves as the unique userid. 
@@ -39,8 +43,7 @@ module ApprovalEngine
 	#     :password => "secret", 
 	#     :vendor => "Acme Inc."
 	# }
-	# 
-	#
+	# 	#
 	def add_user(user_info)
 	end
 
@@ -61,45 +64,34 @@ module ApprovalEngine
 	#
 	# state : Target state. Only retrieve user records for this state. 
 	#
+	# user_info = {
+	#     :first => "John",
+	#     :last => "Doe", 
+	#     :email => "jdoe@example.com",
+	#     :password => "secret", 
+	#     :vendor => "Acme Inc.",
+	#     :status => "pending",
+	#     :transitions => ["approve", "reject"], 
+	#     :updated => "datetime"
+	# }	#
 	def get_users(state=nil)
 	end 
 
-	# Approve a given user. This moves the user into the APPROVED state if permitted by
-	# the approval engine. 
+	# Update the status of a user. 
 	#
 	# Input parameter:
 	#
 	# email_address: Identifies a previosly added user that has verified their email address. 
-	# Thus is in state PENDING.
+	# transition:    A transition identifier previously returned by the "get_users" method. 
 	# 
-	def approve_user(email_address)
+	def change_user_status(email_address, transition)
 	end
 
-	# Reject a user. This moves a user to the REJECTED state. 
-	# Assumes that the user is in state PENDING. 
+	# Update the user information that was submitted via the add_user method. 
 	#
-	# Input parameter:
+	# Input parameter: A subset of the "user_info" submitted to the "add_user" method. 
 	# 
-	# email_address: Previously verified email address. 	
-	def reject_user(email_address)
-	end
-
-	# Disable a previously approved user. This moves a user to DISABLED state. 
-	# Assumes that the user is in state PENDING. 
-	#
-	# Input parameter:
-	# 
-	# email_address: Previously verified email address. 	
-	def disable_user(email_address)
-	end
-
-	# Enables a previously disabled user. This moves the user to the APPROVED state. 
-	# Assumes that the user is in DISABLED state. 
-	#
-	# Input parameters:
-	# 
-	# email_address: Previously verified email address. 	
-	def enable_user(email_address)
+	def update_user_info(user_info)
 	end
 
 	# Removes a user from the backend entirely.  
