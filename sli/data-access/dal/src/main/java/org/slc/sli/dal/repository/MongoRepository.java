@@ -173,6 +173,14 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     public abstract boolean update(String collection, T record);
 
+    /**
+     * Updates the document inside of Mongo.  MongoTemplate will upsert the given document, however since we are specifying IDs in the DAL instead of letting
+     * Mongo create the document IDs, this method will check for the existence of a document ID before saving the document.
+     * @param collection
+     * @param record
+     * @param body
+     * @return True if the document was saved
+     */
     public boolean update(String collection, T record, Map<String, Object> body) {
         Assert.notNull(record, "The given record must not be null!");
         String id = getRecordId(record);
@@ -180,16 +188,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
             return false;
         }
 
-        if (exists(collection, id)) {
-            template.save(record, collection);
+        template.save(record, collection);
 
-            return true;
-        }
-//        WriteResult result = template.updateFirst(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
-//                new Update().set("body", body), collection);
-//        LOG.debug("update a record in collection {} with id {}", new Object[] { collection, id });
-//        return result.getN() == 1;
-        return false;
+        return true;
+
     }
 
     @Override
