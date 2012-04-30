@@ -114,7 +114,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         
         newApp.put(CLIENT_ID, clientId);
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        newApp.put(CREATED_BY, principal.getName());
+        newApp.put(CREATED_BY, principal.getExternalId());
 
         Map<String, Object> registration = new HashMap<String, Object>();
         registration.put(STATUS, "PENDING");
@@ -151,7 +151,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             HttpHeaders headers, @Context final UriInfo uriInfo) {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (hasRight(Right.APP_CREATION)) {
-            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getName());
+            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId());
         } else {
             debug("ED-ORG of operator/admin {}", principal.getEdOrg());
             extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
@@ -178,7 +178,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         Response resp;
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (hasRight(Right.APP_CREATION)) {
-            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getName());
+            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId());
         } else {
             extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
                     principal.getEdOrg());
