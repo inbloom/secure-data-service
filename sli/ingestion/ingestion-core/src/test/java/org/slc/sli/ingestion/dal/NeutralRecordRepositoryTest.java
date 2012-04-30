@@ -19,10 +19,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -63,7 +64,6 @@ public class NeutralRecordRepositoryTest {
     }
 
     @Test
-    @Ignore
     public void testCRUDNeutralRecordRepository() {
 
         // create new student neutral record
@@ -129,6 +129,9 @@ public class NeutralRecordRepositoryTest {
         when(
                 mockedMongoTemplate.updateFirst(Mockito.any(Query.class), Mockito.any(Update.class),
                         Mockito.eq("student"))).thenReturn(goodResult);
+        DBCollection dbCollection = mock(DBCollection.class);
+        when(dbCollection.getCount(Mockito.any(BasicDBObject.class))).thenReturn(1L);
+        when(mockedMongoTemplate.getCollection("student")).thenReturn(dbCollection);
         assertTrue(repository.update("student", found));
         records = repository.findAll("student", neutralQuery1);
         assertNotNull(records);
@@ -153,6 +156,7 @@ public class NeutralRecordRepositoryTest {
         when(
                 mockedMongoTemplate.updateFirst(Mockito.any(Query.class), Mockito.any(Update.class),
                         Mockito.eq("student"))).thenReturn(badResult);
+        when(dbCollection.getCount(Mockito.any(BasicDBObject.class))).thenReturn(0L);
         assertFalse(repository.update("student", student2));
         when(
                 mockedMongoTemplate.findAndRemove(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class),
@@ -169,7 +173,6 @@ public class NeutralRecordRepositoryTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    @Ignore
     public void testSort() {
 
         // clean up the existing student data
@@ -312,7 +315,6 @@ public class NeutralRecordRepositoryTest {
     }
 
     @Test
-    @Ignore
     public void testFindIdsByQuery() {
         repository.deleteAll("student");
 
@@ -339,7 +341,6 @@ public class NeutralRecordRepositoryTest {
     }
 
     @Test
-    @Ignore
     public void testCollectionGrouping() {
         // create new student neutral record
         NeutralRecord body1 = buildTestStudentNeutralRecord();
