@@ -75,9 +75,6 @@ public class Users {
         for (Entity e : repo.findAll("staff", query)) {
             users.add(getUserFromEntity(e, "Staff"));
         }
-        for (Entity e : repo.findAll("teacher", query)) {
-            users.add(getUserFromEntity(e, "Teacher"));
-        }
         return users;
     }
     
@@ -87,13 +84,16 @@ public class Users {
         query.addCriteria(new NeutralCriteria("staffUniqueStateId", "=", id));
         
         Entity entity = repo.findOne("staff", query);
-        String type = "Staff";
-        if (entity == null) {
-            entity = repo.findOne("teacher", query);
-            type = "Teacher";
-        }
+        String type = entity.getType();
+        
         if (entity == null) {
             throw new RuntimeException("Unable to find user in tenant: " + tenant + " with id: " + id);
+        } else {
+            if (type.equals("staff")) {
+                type = "Staff";
+            } else if (type.equals("teacher")) {
+                type = "Teacher";
+            }
         }
         return getUserFromEntity(entity, type);
     }
