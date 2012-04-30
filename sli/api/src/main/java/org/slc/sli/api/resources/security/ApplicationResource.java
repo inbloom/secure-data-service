@@ -25,6 +25,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.common.constants.v1.ParameterConstants;
@@ -143,7 +144,17 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context
             HttpHeaders headers, @Context final UriInfo uriInfo) {
-        Response resp = super.readAll(offset, limit, headers, uriInfo);
+        Response resp;
+        if (hasRight(Right.APP_REGISTER)) {
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
+            extraCriteria = new NeutralCriteria("authorized_ed_orgs", NeutralCriteria.OPERATOR_EQUAL,
+                    principal.getEdOrg());
+            resp = super.readAll(offset, limit, headers, uriInfo);
+        } else {
+            resp = super.readAll(offset, limit, headers, uriInfo);
+        }
+
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }
