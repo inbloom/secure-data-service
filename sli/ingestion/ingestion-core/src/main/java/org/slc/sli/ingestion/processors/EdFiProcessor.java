@@ -53,6 +53,9 @@ public class EdFiProcessor implements Processor {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
+    @Autowired
+    private NeutralRecordMongoAccess neutralRecordMongoAccess;
+
     @Override
     @ExtractBatchJobIdToContext
     @Profiled
@@ -217,8 +220,7 @@ public class EdFiProcessor implements Processor {
     }
 
     private void setupStagingDatabase() {
-        NeutralRecordMongoAccess dbWriter = new NeutralRecordMongoAccess();
-        dbWriter.getRecordRepository().getMongoIndexManager().ensureAllIndexes(dbWriter.getRecordRepository());
+        neutralRecordMongoAccess.getRecordRepository().getMongoIndexManager().ensureAllIndexes(neutralRecordMongoAccess.getRecordRepository());
     }
 
 }
