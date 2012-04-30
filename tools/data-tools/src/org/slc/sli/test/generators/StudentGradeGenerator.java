@@ -67,6 +67,10 @@ public class StudentGradeGenerator {
 	private static ObjectFactory objectFactory = new ObjectFactory();
  	private static int idCount            = 0; 
  	
+ 	private static final int MAX_DAYS_ABSENT = 10;
+ 	private static final int MAX_DAYS_ATTENDANCE = 100;
+ 	private static final int MAX_DAYS_TARDY = 20;
+ 	
 	static {
     	DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
      	thisDay      = dateFormatter.format(new Date());
@@ -156,9 +160,9 @@ public class StudentGradeGenerator {
 		    reportCard.setGradingPeriodReference(gradingPeriodRef);
 		reportCard.setGPAGivenGradingPeriod(new BigDecimal(1));
 		reportCard.setGPACumulative(new BigDecimal(1));
-		reportCard.setNumberOfDaysAbsent(new BigDecimal(getRand()%10));
-		reportCard.setNumberOfDaysInAttendance(new BigDecimal(getRand()%100));
-		reportCard.setNumberOfDaysTardy(new Integer(getRand()%20));
+		reportCard.setNumberOfDaysAbsent(new BigDecimal(getRand()%MAX_DAYS_ABSENT));
+		reportCard.setNumberOfDaysInAttendance(new BigDecimal(getRand()%MAX_DAYS_ATTENDANCE));
+		reportCard.setNumberOfDaysTardy(new Integer(getRand()%MAX_DAYS_TARDY));
 		return reportCard;
 	}
 

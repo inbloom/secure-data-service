@@ -30,7 +30,7 @@ public class StudentGradeRelations {
     //    A ReportCard has StudentCompetencies
     //        A StudentCompetency has LearningObjective|StudentCompetencyObjective and CompetencyLevelDescriptor 
             
-    public static final int REPORT_CARDS                              = 1;  
+    public static final int REPORT_CARDS                              = 2;  
     
     public static final int LEARNING_OBJECTIVES_PER_REPORT            = 1;       
     public static final int STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT   = 1;
@@ -47,7 +47,7 @@ public class StudentGradeRelations {
     
     public static final Random RAND                                   = new Random();
     private static List<SectionMeta> SECTIONS                         = null;
-    
+    private static final int GRADING_PERIOD_START_YEAR                = 2005;
     public static void buildGradeBookEntriesMeta(){
         for(int i = 0; i < GRADEBOOK_ENTRIES; i++){
             GradeBookEntryMeta gbeMeta = new GradeBookEntryMeta();
@@ -55,8 +55,8 @@ public class StudentGradeRelations {
             
             
             GradingPeriodMeta gpMeta = new GradingPeriodMeta();
-            gpMeta.setBeginData(String.valueOf(2005 + i));
-            gpMeta.setEndDate(String.valueOf(2005 + i + 1));
+            gpMeta.setBeginData(String.valueOf(GRADING_PERIOD_START_YEAR + i));
+            gpMeta.setEndDate(String.valueOf(GRADING_PERIOD_START_YEAR + i + 1));
             gbeMeta.setGradingPeriod(gpMeta);
             
             List<String> gradeBookEntryObjectives = new ArrayList<String>();
@@ -79,8 +79,8 @@ public class StudentGradeRelations {
             
             
             GradingPeriodMeta gpMeta = new GradingPeriodMeta();
-            gpMeta.setBeginData(String.valueOf(2005 + i));
-            gpMeta.setEndDate(String.valueOf(2005 + i + 1));
+            gpMeta.setBeginData(String.valueOf(GRADING_PERIOD_START_YEAR + i));
+            gpMeta.setEndDate(String.valueOf(GRADING_PERIOD_START_YEAR + i + 1));
             rcMeta.setGradingPeriod(gpMeta);
             
             List<String> reportLearningObjectives = new ArrayList<String>();
@@ -92,7 +92,7 @@ public class StudentGradeRelations {
                 reportLearningObjectiveSections.add(getRandomSection());
             }
             rcMeta.setLearningObjectiveIds(reportLearningObjectives);
-            rcMeta.setLoSections(reportLearningObjectiveSections);
+            rcMeta.setLearningObjectiveSections(reportLearningObjectiveSections);
             
             List<String> reportStudentCompetencyObjectives = new ArrayList<String>();
             List<SectionMeta> reportStudentCompetencyObjectiveSections = new ArrayList<SectionMeta>();
@@ -103,7 +103,7 @@ public class StudentGradeRelations {
                 reportStudentCompetencyObjectiveSections.add(getRandomSection());
             }
             rcMeta.setStudentCompetencyIds(reportStudentCompetencyObjectives);
-            rcMeta.setScoSections(reportStudentCompetencyObjectiveSections);
+            rcMeta.setStudentCompetencyObjectiveSections(reportStudentCompetencyObjectiveSections);
         }
     }
     

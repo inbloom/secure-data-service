@@ -13,7 +13,11 @@ public class GradeBookEntryMeta {
         this.learningObjectiveIds = learningObjectiveIds;
     }
 
-    public String getId() {
+    public List<String> getLearningObjectiveIds() {
+		return learningObjectiveIds;
+	}
+
+	public String getId() {
         return id;
     }
 

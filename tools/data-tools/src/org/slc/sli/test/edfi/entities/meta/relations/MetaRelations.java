@@ -32,11 +32,14 @@ public final class MetaRelations {
     public static final int COURSES_PER_SCHOOL = 2;
     public static final int SESSIONS_PER_SCHOOL = 1;
     public static final int SECTIONS_PER_COURSE_SESSION = 2;
+    
     public static final int TEACHERS_PER_SCHOOL = 5;
     public static final int STUDENTS_PER_SCHOOL = 10;
     public static final int PROGRAMS_PER_SCHOOL = 2;
+    public static final int STAFF_PER_PROGRAM = 2;
     public static final int FREE_STANDING_COHORT_PER_SCHOOL = 4;
     public static final int FREE_STANDING_COHORT_SIZE = 4;
+    public static final int STAFF_PER_FREE_STANDING_COHORT = 2;
     public static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
     public static final int ASSESSMENTS_PER_STUDENT = 10;
     public static final int ATTENDANCE_PER_STUDENT_SECTION = 10;
@@ -573,14 +576,15 @@ public final class MetaRelations {
 
         // each program needs to be referenced by a StaffMeta
         for (ProgramMeta programMeta : programsForSchool.values()) {
-
-            // loop through the sections we have in this school and assign students to them
-            if (staffCounter >= staffMetas.length) {
-                staffCounter = 0;
-            }
-            String staffId = ((StaffMeta) staffMetas[staffCounter]).id;
-            programMeta.staffIds.add(staffId);
-            staffCounter++;
+        	for (int staffToAssign = 0; staffToAssign < STAFF_PER_PROGRAM; staffToAssign++) {
+        		// loop through the sections we have in this school and assign students to them
+        		if (staffCounter >= staffMetas.length) {
+        			staffCounter = 0;
+        		}
+        		String staffId = ((StaffMeta) staffMetas[staffCounter]).id;
+        		programMeta.staffIds.add(staffId);
+        		staffCounter++;
+        	}
         }
 
         // for each cohort in the program, add all the staff in it to the cohort too.
@@ -613,8 +617,10 @@ public final class MetaRelations {
                 cohortMeta.studentIds.add((String) studentIds[studentIdsIndx]);
                 studentIdsIndx = (studentIdsIndx + 1) % studentIds.length;
             }
-            cohortMeta.staffIds.add((String) staffIds[staffIdsIndx]);
-            staffIdsIndx = (staffIdsIndx + 1) % staffIds.length;
+            for (int staffToAssign = 0; staffToAssign < STAFF_PER_FREE_STANDING_COHORT; staffToAssign++) {
+            	cohortMeta.staffIds.add((String) staffIds[staffIdsIndx]);
+            	staffIdsIndx = (staffIdsIndx + 1) % staffIds.length;
+            }
         }
     }
 

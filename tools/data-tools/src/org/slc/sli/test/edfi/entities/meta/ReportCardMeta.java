@@ -7,8 +7,8 @@ public class ReportCardMeta {
     String id;
     List<String> studentCompetencyIds;
     List<String> learningObjectiveIds;
-    List<SectionMeta> loSections;
-    List<SectionMeta> scoSections;
+    List<SectionMeta> learningObjectiveSections;
+    List<SectionMeta> studentCompetencyObjectiveSections;
     int gradePerReportCard;
     GradingPeriodMeta gradingPeriod;
     
@@ -37,17 +37,20 @@ public class ReportCardMeta {
     public void setGradingPeriod(GradingPeriodMeta gradingPeriod) {
         this.gradingPeriod = gradingPeriod;
     }
-    public List<SectionMeta> getLoSections() {
-        return loSections;
-    }
-    public void setLoSections(List<SectionMeta> loSections) {
-        this.loSections = loSections;
-    }
-    public List<SectionMeta> getScoSections() {
-        return scoSections;
-    }
-    public void setScoSections(List<SectionMeta> scoSections) {
-        this.scoSections = scoSections;
-    }
+	public List<SectionMeta> getLearningObjectiveSections() {
+		return learningObjectiveSections;
+	}
+	public void setLearningObjectiveSections(
+			List<SectionMeta> learningObjectiveSections) {
+		this.learningObjectiveSections = learningObjectiveSections;
+	}
+	public List<SectionMeta> getStudentCompetencyObjectiveSections() {
+		return studentCompetencyObjectiveSections;
+	}
+	public void setStudentCompetencyObjectiveSections(
+			List<SectionMeta> studentCompetencyObjectiveSections) {
+		this.studentCompetencyObjectiveSections = studentCompetencyObjectiveSections;
+	}
+
         
 }

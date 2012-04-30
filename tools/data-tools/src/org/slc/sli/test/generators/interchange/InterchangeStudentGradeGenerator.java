@@ -134,28 +134,30 @@ public final class InterchangeStudentGradeGenerator {
        
     private static List<ComplexObjectType> addEntitiesToInterchange(List<ComplexObjectType> interchangeObjects){
         
+    	int studentCount = MetaRelations.STUDENT_MAP.size();
+    	
         generateStudentAcademicRecord(interchangeObjects,       MetaRelations.STUDENT_MAP,      MetaRelations.SESSION_MAP,              MetaRelations.SECTION_MAP, StudentGradeRelations.REPORT_CARD_META);
-        System.out.println("Finished StudentAcademicRecord");
+        System.out.println("Finished StudentAcademicRecord [" + studentCount + "] Records Generated");
         generateCourseTranscript(interchangeObjects,            MetaRelations.STUDENT_MAP,      MetaRelations.SESSION_MAP,              MetaRelations.COURSE_MAP, MetaRelations.COURSES_PER_STUDENT);
-        System.out.println("Finished CourseTranscript");
+        System.out.println("Finished CourseTranscript [" + studentCount * MetaRelations.COURSES_PER_STUDENT + "] Records Generated");
         generateReportCard(interchangeObjects,                  MetaRelations.STUDENT_MAP,      StudentGradeRelations.REPORT_CARD_META, MetaRelations.SECTION_MAP);
-        System.out.println("Finished ReportCard");
+        System.out.println("Finished ReportCard [" + studentCount * StudentGradeRelations.REPORT_CARDS + "] Records Generated");
         generateGrade(interchangeObjects,                       MetaRelations.STUDENT_MAP,      StudentGradeRelations.REPORT_CARD_META, MetaRelations.SECTION_MAP);
-        System.out.println("Finished Grade");
+        System.out.println("Finished Grade [" + studentCount * MetaRelations.COURSES_PER_STUDENT * MetaRelations.SECTIONS_PER_COURSE_SESSION +"] Records Generated");
         generateStudentCompetency(interchangeObjects,           MetaRelations.STUDENT_MAP,      StudentGradeRelations.REPORT_CARD_META, MetaRelations.SECTION_MAP);
-        System.out.println("Finished StudentCompetency");
+        System.out.println("Finished StudentCompetency [" + studentCount * StudentGradeRelations.REPORT_CARDS * (StudentGradeRelations.LEARNING_OBJECTIVES_PER_REPORT + StudentGradeRelations.STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT) + "] Records Generated");
         generateDiploma(interchangeObjects);
-        System.out.println("Finished Diploma");
+        System.out.println("Finished Diploma [O] Records Generated ");
         generateGradebookEntry(interchangeObjects,              StudentGradeRelations.GRADE_BOOK_ENTRY_METAS,                           MetaRelations.SECTION_MAP);
-        System.out.println("Finished GradebookEntry");
+        System.out.println("Finished GradebookEntry [" + StudentGradeRelations.GRADEBOOK_ENTRIES + "] Records Generated");
         generateStudentGradebookEntry(interchangeObjects,       MetaRelations.STUDENT_MAP,      StudentGradeRelations.GRADE_BOOK_ENTRY_METAS, MetaRelations.SECTION_MAP);
-        System.out.println("Finished StudentGradebookEntry");
+        System.out.println("Finished StudentGradebookEntry [" + studentCount * StudentGradeRelations.GRADEBOOK_ENTRIES + "] Records Generated");
         generateCompentencyLevelDescriptor(interchangeObjects,  StudentGradeRelations.competencyLevelDescriptors);
-        System.out.println("Finished CompentencyLevelDescriptor");
+        System.out.println("Finished CompentencyLevelDescriptor [" + StudentGradeRelations.COMPETENCY_LEVEL_DESCRIPTOR + "] Records Generated");
         generateLearningObjective(interchangeObjects,           StudentGradeRelations.REPORT_CARD_META);
-        System.out.println("Finished LearningObjective");
+        System.out.println("Finished LearningObjective [" + StudentGradeRelations.learningObjectives.size() + "] Records Generated");
         generateStudentCompentencyObjective(interchangeObjects, StudentGradeRelations.REPORT_CARD_META);
-        System.out.println("Finished StudentCompentencyObjective");
+        System.out.println("Finished StudentCompentencyObjective [" + StudentGradeRelations.studentCompetencyObjectives.size() + "] Records Generated");
         return interchangeObjects;
     }
 
@@ -328,7 +330,7 @@ public final class InterchangeStudentGradeGenerator {
                 String reportCardId  =reportCardMeta.getId();
                 
                 List<String> loIds   = reportCardMeta.getLearningObjectiveIds();
-                List<SectionMeta> loSections   = reportCardMeta.getLoSections();
+                List<SectionMeta> loSections   = reportCardMeta.getLearningObjectiveSections();
                 for(int i = 0 ; i < loIds.size(); i++){
 
                     String loId = loIds.get(i);
@@ -358,7 +360,7 @@ public final class InterchangeStudentGradeGenerator {
                 }
                                 
                 List<String> scIds   = reportCardMeta.getStudentCompetencyIds();
-                List<SectionMeta> scoSections   = reportCardMeta.getScoSections();
+                List<SectionMeta> scoSections   = reportCardMeta.getStudentCompetencyObjectiveSections();
                 for(int i = 0 ; i < scIds.size(); i++){
                     String scoId = scIds.get(i);
                     SectionMeta section = scoSections.get(i);
