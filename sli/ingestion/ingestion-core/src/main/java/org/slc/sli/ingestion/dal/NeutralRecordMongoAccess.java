@@ -31,7 +31,7 @@ public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
     }
 
     public static String removeUnsupportedChars(String data) {
-        return data.substring(data.length() - 51, data.length()).replace("-", "");
+        return data.substring(data.length() - 37, data.length()).replace("-", "");
     }
 
     public void cleanupGroupedCollections() {
