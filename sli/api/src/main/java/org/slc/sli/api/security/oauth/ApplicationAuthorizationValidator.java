@@ -121,9 +121,12 @@ public class ApplicationAuthorizationValidator {
                     warn("Could not find ed-org with ID {}", id);
                 } else {
                     List<String> category = (List<String>) entity.getBody().get("organizationCategories");
-                    if (category.contains("Local Education Agency")) {
-                        toReturn.add(entity);
+                    if (category != null) {
+                        if (category.contains("Local Education Agency")) {
+                            toReturn.add(entity);
+                        }
                     }
+                    
                 }
             }
 
