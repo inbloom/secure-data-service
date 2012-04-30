@@ -256,9 +256,9 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     public CustomConfig getCustomConfig(String token) {
         if (customConfig == null) {
             EdOrgKey edOrgKey = getUserEdOrg(token);
-            GenericEntity customEntity = getApiClient().getEdOrgCustomData(token, edOrgKey.getSliId());
+            CustomConfig customEntity = getApiClient().getEdOrgCustomData(token, edOrgKey.getSliId());
             if (customEntity != null) {
-                customConfig = new CustomConfig(customEntity);
+                customConfig = customEntity;
             }
         }
         return customConfig;

@@ -51,7 +51,7 @@
                         url:  contextRootPath + '/service/config/ajaxSave',
                         scope: this,
                         type: 'POST',
-                        data: "customConfigJSON=" + $('#jsonText').html(),
+                        data: "customConfigJSON=" + $('#jsonText').val(),
                         success: function(status){
                             if(status == "Success") {
                                 alert("Successfully saved the config. Please logout and log back in to see the changes.");

@@ -23,6 +23,8 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.slc.sli.client.LiveAPIClient;
 import org.slc.sli.client.RESTClient;
+import org.slc.sli.entity.Config;
+import org.slc.sli.entity.CustomConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.springframework.beans.factory.annotation.Value;
@@ -77,10 +79,10 @@ public class LiveAPIClientTest {
                 + "}";
         
         when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
-        GenericEntity customConfig = client.getEdOrgCustomData(token, id);
+        CustomConfig customConfig = client.getEdOrgCustomData(token, id);
         assertNotNull(customConfig);
         assertEquals(1, customConfig.size());
-        assertEquals("component_1", ((Map) customConfig.get("component_1")).get("id"));
+        assertEquals("component_1", ((Config) customConfig.get("component_1")).getId());
         
     }
     
@@ -103,10 +105,10 @@ public class LiveAPIClientTest {
         String customJson = restClientAnswer.getJson();
         
         when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(customJson);
-        GenericEntity customConfig = client.getEdOrgCustomData(token, id);
+        CustomConfig customConfig = client.getEdOrgCustomData(token, id);
         assertNotNull(customConfig);
         assertEquals(1, customConfig.size());
-        assertEquals("component_1", ((Map) customConfig.get("component_1")).get("id"));
+        assertEquals("component_1", ((Config) customConfig.get("component_1")).getId());
         
     }
     
