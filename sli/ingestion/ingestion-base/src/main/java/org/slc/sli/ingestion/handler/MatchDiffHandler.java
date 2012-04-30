@@ -3,14 +3,14 @@ package org.slc.sli.ingestion.handler;
 import java.io.File;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -21,9 +21,6 @@ import org.springframework.stereotype.Component;
 public class MatchDiffHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
 
     private static final Logger LOG = LoggerFactory.getLogger(MatchDiffHandler.class);
-
-    @Autowired
-    LocalFileSystemLandingZone lz;
 
     private File newRecordFile;
     private File currentRecordFile;
@@ -50,6 +47,7 @@ public class MatchDiffHandler extends AbstractIngestionHandler<IngestionFileEntr
     }
 
     void loadFiles(IngestionFileEntry fileEntry, ErrorReport errorReport) throws IOException {
+        LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone(new File(fileEntry.getTopLevelLandingZonePath()));
 
         // load new files from user
         newRecordFile = fileEntry.getNeutralRecordFile();

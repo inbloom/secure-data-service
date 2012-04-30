@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -35,11 +35,15 @@ import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.common.constants.ResourceConstants;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.common.constants.v1.PathConstants;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Prototype new api end points and versioning base class
@@ -71,6 +75,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
     @Autowired
     private OptionalFieldAppenderFactory factory;
+    
+    @Autowired
+    private Repository<Entity> repo;
 
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
@@ -434,8 +441,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      *            URI information including path and query parameters
      * @return requested information or error status
      */
-    @Override
-    public Response readAll(final String collectionName, final HttpHeaders headers, final UriInfo uriInfo) {
+    public Response readAll(final String collectionName, final HttpHeaders headers, final UriInfo uriInfo, final boolean returnAll) {
         return handle(collectionName, entityDefs, new ResourceLogic() {
             // v1/entity
             @Override
@@ -443,7 +449,20 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 // final/resulting information
                 List<EntityBody> results = new ArrayList<EntityBody>();
 
-                for (EntityBody entityBody : entityDef.getService().list(new ApiQuery(uriInfo))) {
+                Iterable<EntityBody> entityBodies = null;
+                if (returnAll) {
+                    entityBodies = SecurityUtil.sudoRun(new SecurityTask<Iterable<EntityBody>>() {
+
+                        @Override
+                        public Iterable<EntityBody> execute() {
+                            // TODO Auto-generated method stub
+                            return entityDef.getService().list(new ApiQuery(uriInfo));
+                        }
+                    });
+                } else {
+                    entityBodies = entityDef.getService().list(new ApiQuery(uriInfo));
+                }
+                for (EntityBody entityBody : entityBodies) {
                     // if links should be included then put them in the entity body
                     entityBody.put(ResourceConstants.LINKS,
                             ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
@@ -456,6 +475,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         pagingHeaderTotalCount, uriInfo).build();
             }
         });
+    }
+
+    public Response readAll(final String collectionName, final HttpHeaders headers, final UriInfo uriInfo) {
+        return this.readAll(collectionName, headers, uriInfo, false);
     }
 
     /**

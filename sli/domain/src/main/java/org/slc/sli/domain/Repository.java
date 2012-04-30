@@ -63,6 +63,8 @@ public interface Repository<T> {
      */
     public T findById(String collectionName, String id);
 
+    public boolean exists(String collectionName, String id);
+
     /**
      * Fetches first element from given query
      *
