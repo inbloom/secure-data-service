@@ -105,7 +105,9 @@ public class StateEdFiXmlGenerator {
        masterSchedule();
 
        staffAssociation();
-
+       
+       studentParent();
+       
        studentEnrollment();
 
        studentProgram();
@@ -122,8 +124,6 @@ public class StateEdFiXmlGenerator {
 
        studentGrade();
        
-       studentParent();
-
     }
 
     /**
