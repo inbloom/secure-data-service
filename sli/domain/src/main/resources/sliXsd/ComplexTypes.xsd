@@ -1284,7 +1284,7 @@
 					<xs:documentation>The school where the section is taught.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1487,17 +1487,15 @@
 	<xs:complexType name="school">
 		<xs:annotation>
 			<xs:documentation>This entity represents an educational organization
-				that includes staff
-				and students who participate in classes and
-				educational activity
-				groups.
+				that includes staff and students who participate in classes and
+				educational activity groups.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="educationOrganization">
 				<xs:sequence>
-					<xs:element maxOccurs="unbounded" name="gradesOffered"
-						type="gradeLevelType">
+					<xs:element maxOccurs="unbounded" name="gradesOffered" 
+								type="gradeLevelType">
 						<xs:annotation>
 							<xs:documentation>The grade levels served at the school.
 							</xs:documentation>
@@ -1594,7 +1592,7 @@
 						session.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1670,13 +1668,9 @@
 	<xs:complexType name="staff">
 		<xs:annotation>
 			<xs:documentation>This entity represents a person that is employed by
-				an LEA or other
-				educational unit engaged in student instruction.
-				These persons are
-				instructional-type staff members. In the data
-				model, a teacher
-				entity is a staff
-				member with additional properties.
+				an LEA or other educational unit engaged in student instruction.
+				These persons are instructional-type staff members. In the data
+				model, a teacher entity is a staff member with additional properties.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
@@ -2509,6 +2503,16 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="gradeLevel" type="gradeLevelType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Current grade level</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="schoolId" type="xs:string" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Current school</xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -3455,7 +3459,7 @@
 				<xs:annotation>
 					<xs:documentation>School enrolling the student.</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3909,13 +3913,9 @@
 	<xs:complexType name="teacher">
 		<xs:annotation>
 			<xs:documentation>This entity represents a person that is employed by
-				an LEA or other
-				educational unit engaged in student instruction.
-				These persons are
-				instructional-type staff members. In the data
-				model, a teacher
-				entity is a staff
-				member with additional properties.
+				an LEA or other educational unit engaged in student instruction.
+				These persons are instructional-type staff members. In the data
+				model, a teacher entity is a staff member with additional properties.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
@@ -3934,12 +3934,9 @@
 						type="xs:boolean">
 						<xs:annotation>
 							<xs:documentation>An indication of whether a teacher is
-								classified
-								as highly qualified for his/her assignment according
-								to state
-								definition. This attribute indicates the teacher is
-								highly
-								qualified for ALL sections being taught.
+								classified as highly qualified for his/her assignment according
+								to state definition. This attribute indicates the teacher is
+								highly qualified for ALL sections being taught.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
@@ -3961,7 +3958,7 @@
 					<xs:documentation>The teacher providing services to the school.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>teacher</sli:ReferenceType>
+						<sli:ReferenceType>staff</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3970,7 +3967,7 @@
 					<xs:documentation>The school where the teacher provides services.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4021,7 +4018,7 @@
 					<xs:documentation>The teacher assigned to the section.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>teacher</sli:ReferenceType>
+						<sli:ReferenceType>staff</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4170,7 +4167,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="disciplines" type="disciplineDescriptor"
+			<xs:element name="disciplines" type="disciplineDescriptorType"
 				maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Type of action or removal from the classroom
@@ -4262,7 +4259,7 @@
 						discipline.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4274,7 +4271,7 @@
 						discipline.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6486,7 +6483,7 @@
 					<xs:documentation>School where incident occurred
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6951,6 +6948,29 @@
 		</xs:choice>
 	</xs:complexType>
 
+	<xs:complexType name="disciplineDescriptorType">
+		<xs:annotation>
+			<xs:documentation>Provides references for discipline descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="codeValue" type="codeValue">
+				<xs:annotation>
+					<xs:documentation>A code or abbreviation that is used to refer to the behavior discipline.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="shortDescription" type="shortDescription">
+				<xs:annotation>
+					<xs:documentation>A shortened description for the discipline.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" type="description">
+				<xs:annotation>
+					<xs:documentation>The description of the discipline.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	
 	<xs:complexType name="competencyLevelDescriptorType">
 		<xs:annotation>
 			<xs:documentation>Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>

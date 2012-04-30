@@ -36,20 +36,29 @@ Then /^there is no lozenges for student "([^"]*)"$/ do |student_name|
   assert(lozenges.length == 0, "Student " + student_name + " has lozenges")
 end
 
-Then /^I check the student list for grade "([^"]*)" is mapped to "([^"]*)"$/ do |grade, classId|
-  studentTable = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
-  all_trs = studentTable.find_elements(:xpath,".//tr[contains(@class,'ui-widget-content')]")
-  searchText = ".//div[contains(@class,'" + classId + "')]"
-  i = 0
+Then /^the grades teardrop color widgets for "([^"]*)" are mapped correctly:$/ do |gradeColumns, table|
+  gradeColumnsArray = gradeColumns.split(';')
+  gradeMapping = Hash.new 
+  table.hashes.each do |row|
+    key = row['grade'].rstrip.lstrip
+    value = row['teardrop'].rstrip.lstrip
+    gradeMapping[key] = value
+  end
+  all_trs = getStudentGrid()
+   
   all_trs.each do |tr|
-    foundGrade = getStudentGrade(tr)
-    if (grade == foundGrade)
-      i += 1
-      tearDrop = tr.find_element(:xpath, searchText)
-      assert(tearDrop != nil, "Expected color" + classId)
+    gradeColumnsArray.each do |column|
+      foundGrade = getStudentAttribute(tr, column)
+      tdsWithGrade = getStudentAttributeTd(tr, column)
+      if (gradeMapping[foundGrade] == nil)
+          puts "Grade Mapping doesn't exist for grade: " + grade
+      else
+          searchText = ".//div[contains(@class,'" + gradeMapping[foundGrade] + "')]"
+          tearDrop = tdsWithGrade.find_element(:xpath, searchText)
+          assert(tearDrop != nil, "Expected color" + gradeMapping[foundGrade])
+      end
     end
   end 
-  puts i.to_s + " students have grade: " + grade
 end
 
 Then /^the fuel gauge for "([^"]*)" in "([^"]*)" is "([^"]*)"$/ do |studentName, assessment, score|
@@ -79,13 +88,6 @@ Then /^the fuel gauge for "([^"]*)" in "([^"]*)" is "([^"]*)"$/ do |studentName,
   
   assert(score == scoreValue, "Expected: " + score + " but found: " + scoreValue)
   
-  isCutPointValue = false
-  cutpoints.each do |cutpoint|
-    if (scoreValue == cutpoint)
-      isCutPointValue = true     
-    end  
-  end 
-  
   rects = td.find_elements(:tag_name,"rect")
   # use the 2nd rect
   filledPercentage = rects[1].attribute("width")
@@ -93,7 +95,7 @@ Then /^the fuel gauge for "([^"]*)" in "([^"]*)" is "([^"]*)"$/ do |studentName,
   index = 0
   
   cutpoints.each do |cutPoint|
-    if (cutPoint.to_i < score.to_i)
+    if (cutPoint.to_i <= score.to_i)
          index += 1
      else
       break;
@@ -112,30 +114,69 @@ Then /^the fuel gauge for "([^"]*)" in "([^"]*)" is "([^"]*)"$/ do |studentName,
     expectedMinPercentage = ((index-1).to_f/4)*100
   end
  
-  if (!isCutPointValue || index == 0)
-    puts "expected percentage range: " + expectedMinPercentage.to_s + " to " + expectedMaxPercentage.to_s + " Actual: " + filledPercentage
-    assert((expectedMinPercentage <= filledPercentage.to_f && expectedMaxPercentage >= filledPercentage.to_f), "Actual Fuel Gauge Percentage is not within range")
-  else
-    found = false
-    #ensure it's at at end of border
-    for i in (2..cutpoints.length-1)
-      xposition = rects[i].attribute("x")
-      if (xposition == filledPercentage)
-        puts "Score is at a cutpoint, percentage is: " + filledPercentage
-        found = true
-      end
+  puts "expected percentage range: " + expectedMinPercentage.to_s + " to " + expectedMaxPercentage.to_s + " Actual: " + filledPercentage
+  assert((expectedMinPercentage <= filledPercentage.to_f && expectedMaxPercentage >= filledPercentage.to_f), "Actual Fuel Gauge Percentage is not within range")
+end
+
+Then /^I click on "([^"]*)" header to sort a string column in "([^"]*)" order$/ do |columnName, order|
+  sortColumn(columnName, false, isAscendingOrder(order))
+end
+
+Then /^I click on "([^"]*)" header to sort an integer column in "([^"]*)" order$/ do |columnName, order|
+  sortColumn(columnName, true, isAscendingOrder(order))
+end
+
+def isAscendingOrder(order)
+  return (order.downcase == "ascending")
+end
+
+def sortColumn(columnName, isInt, isAscending)
+  hTable = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-htable")}
+  returnedName = getColumnLookupName(columnName)
+  searchText = ".//div[contains(@id,'" + returnedName + "')]"
+  column = hTable.find_element(:xpath, searchText)
+
+  all_trs = getStudentGrid()
+  
+  unsorted = []
+  all_trs.each do |tr|
+    value = getStudentAttribute(tr, returnedName)
+    if (isInt)
+      value = value.to_i
     end
-    assert(found, "Fuel Gauge Percentage seems to be wrong")
+    unsorted = unsorted + [value]
   end
+
+  #caveat:  there's a Bug on Student Column, it only happens on first load, and if Student is the first column to be sorted
+  column.click
+  if (!isAscending)
+    column.click
+    unsorted = unsorted.sort.reverse
+  else
+    unsorted = unsorted.sort   
+  end
+
+  all_trs = getStudentGrid()
+  i  = 0
+  all_trs.each do |tr|
+    value = getStudentAttribute(tr, returnedName)
+    assert(value == unsorted[i].to_s, "sort order is wrong")
+    i +=1
+  end     
 end
 
 ### This is all LOS code ########
 ## TODO: move this somewhere
+# This will return all the TRs of the student grid, 1 for each student
+def getStudentGrid()
+  studentTable = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
+  all_trs = studentTable.find_elements(:xpath,".//tr[contains(@class,'ui-widget-content')]")
+  return all_trs
+end
 
 # This will give the tr of the student in los
 def getStudentCell (student_name)
-  studentTable = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
-  all_trs = studentTable.find_elements(:xpath,".//tr[contains(@class,'ui-widget-content')]")
+  all_trs = getStudentGrid()
 
   studentCell = nil
   all_trs.each do |tr|
@@ -152,6 +193,13 @@ def getStudentAttributeTd(studentTr,attribute)
   searchText = "td[contains(@aria-describedby,'" + attribute + "')]"
   td = studentTr.find_element(:xpath, searchText)
   return td
+end
+
+def getStudentAttributeTds(studentTr,attribute)
+  assert(!studentTr.nil?, "Student Row is empty")
+  searchText = "td[contains(@aria-describedby,'" + attribute + "')]"
+  tds = studentTr.find_elements(:xpath, searchText)
+  return tds
 end
 
 def getStudentAttribute(studentTr, attribute)
@@ -177,13 +225,39 @@ def getStudentAttributes(studentTr, attribute)
 end
 #TODO call studentAttribute inside here
 def getStudentName(studentTr)
-  return getStudentAttribute(studentTr, "fullName")
+  return getStudentAttribute(studentTr, getStudentColumnName())
 end
 
 def getStudentProgramParticipation(studentTr)
-  return getStudentAttributes(studentTr, "programParticipation")
+  return getStudentAttributes(studentTr, getStudentProgramParticipationColumnName())
 end
 
-def getStudentGrade(studentTr)
-  return getStudentAttribute(studentTr, "grade")
+#returns an array of grades
+def getStudentGrades(studentTr)
+  return getStudentAttributes(studentTr, getGradeColumnName())
 end
+
+
+def getColumnLookupName(headerName)
+  headerName.downcase!
+  if (headerName == "student")
+    return getStudentColumnName()
+  elsif (headerName == "absence count")
+    return getAbsenceCountColumnName()
+  else
+    assert(true, "unknown header name: " + headerName)
+  end
+end
+
+def getStudentColumnName()
+  return "fullName"
+end
+
+def getStudentProgramParticipationColumnName()
+  return "programParticipation"
+end
+
+def getAbsenceCountColumnName()
+  return "absenceCount"
+end
+

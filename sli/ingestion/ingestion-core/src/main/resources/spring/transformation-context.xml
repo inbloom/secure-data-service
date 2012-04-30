@@ -52,6 +52,11 @@
                 <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/disciplineIncident.xml" />
             </bean>
         </entry>
+        <entry key="disciplineAction">
+            <bean class="org.milyn.Smooks">
+                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/disciplineAction.xml" />
+            </bean>
+        </entry>
     </util:map>
 
     <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
@@ -70,10 +75,8 @@
     <bean id="studentTranscriptAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.StudentTranscriptAssociationCombiner" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     </bean>
-    
-    <bean id="attendanceTransformationStrategy" class="org.slc.sli.ingestion.transformation.AttendanceTransformer" scope="prototype">
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-    </bean>
+
+    <!-- attendance transform disabled <bean id="attendanceTransformationStrategy" class="org.slc.sli.ingestion.transformation.AttendanceTransformer" scope="prototype"> <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" /> </bean> -->
 
     <bean id="transformationFactory" class="org.slc.sli.ingestion.transformation.TransformationFactory">
         <property name="transformationStrategySuffix" value="TransformationStrategy" />
@@ -119,6 +122,12 @@
 	<bean id="disciplineIncidentTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
 		<property name="passThroughCollectionName" value="disciplineIncident" />
+    </bean>
+    
+    <bean id="disciplineActionTransformationStrategy" 
+            class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
+        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+        <property name="passThroughCollectionName" value="disciplineAction" />
     </bean>
 </beans>
 

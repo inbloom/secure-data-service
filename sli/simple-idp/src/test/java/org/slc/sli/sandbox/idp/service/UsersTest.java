@@ -39,7 +39,7 @@ public class UsersTest {
         final Entity staffEntity = new Entity() {
             @Override
             public String getType() {
-                return null;
+                return "staff";
             }
             
             @Override
@@ -67,7 +67,7 @@ public class UsersTest {
         final Entity teacherEntity = new Entity() {
             @Override
             public String getType() {
-                return null;
+                return "teacher";
             }
             
             @Override
@@ -109,7 +109,7 @@ public class UsersTest {
                         assertEquals("TEST", criteria.getValue());
                         
                         if ("staff".equals(args[0])) {
-                            return Arrays.asList(staffEntity);
+                            return Arrays.asList(staffEntity, teacherEntity);
                         } else {
                             return Arrays.asList(teacherEntity);
                         }
@@ -151,7 +151,7 @@ public class UsersTest {
                         assertTrue("1".equals(criteria.getValue()) || "2".equals(criteria.getValue()));
                         if ("1".equals(criteria.getValue()) && "staff".equals(args[0])) {
                             return staffEntity;
-                        } else if ("2".equals(criteria.getValue()) && "teacher".equals(args[0])) {
+                        } else if ("2".equals(criteria.getValue()) && "staff".equals(args[0])) {
                             return teacherEntity;
                         } else {
                             return null;
