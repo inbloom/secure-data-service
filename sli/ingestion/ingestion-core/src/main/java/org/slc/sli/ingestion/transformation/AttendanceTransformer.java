@@ -35,7 +35,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(AttendanceTransformer.class);
     
     private Map<String, Map<Object, NeutralRecord>> collections;
-    private Map<String, Map<Object, NeutralRecord>> transformedCollections;
+    // private Map<String, Map<Object, NeutralRecord>> transformedCollections;
     
     @Autowired
     private Type1UUIDGeneratorStrategy uuidGenerator;
@@ -45,7 +45,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     public AttendanceTransformer() {
         collections = new HashMap<String, Map<Object, NeutralRecord>>();
-        transformedCollections = new HashMap<String, Map<Object, NeutralRecord>>();
+        // transformedCollections = new HashMap<String, Map<Object, NeutralRecord>>();
     }
 
     /**
@@ -56,7 +56,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     public void performTransformation() {
         loadData();
         transform();
-        persist();
+        // persist();
     }
 
     /**
@@ -80,7 +80,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     public void transform() {
         LOG.debug("Transforming daily attendance data");
-        HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
+        // HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
         Set<Pair<String, String>> studentSchoolPairs = new HashSet<Pair<String, String>>();
         
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get(EntityNames.STUDENT_SCHOOL_ASSOCIATION).entrySet()) {
@@ -104,10 +104,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 Map<Object, NeutralRecord> studentAttendance = getAttendanceEvents(studentId);
                 Map<Object, NeutralRecord> sessions = getSessions(studentId, schoolId);
                 
-                LOG.info("For student with id: {} in school: {}", studentId, schoolId);
-                LOG.info("  Found {} associated sessions.", sessions.size());
-                LOG.info("  Found {} attendance events.", studentAttendance.size());
-                
                 Map<String, Object> schoolYears = mapAttendanceIntoSchoolYears(studentAttendance, sessions);
                 
                 if (schoolYears.entrySet().size() > 0) {
@@ -123,14 +119,16 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                     }
                     attendanceAttributes.put("schoolYearAttendance", daily);
                     attendanceRecord.setAttributes(attendanceAttributes);
-                    newCollection.put(attendanceRecord.getRecordId(), attendanceRecord);
+                    getNeutralRecordMongoAccess().getRecordRepository().create(neutralRecord);
+                    // newCollection.put(attendanceRecord.getRecordId(), attendanceRecord);
                 } else {
-                     LOG.warn("  No daily attendance for student: {}", studentId);
+                     LOG.warn("  No daily attendance for student: {} in school: {}", studentId, schoolId);
                 }
             }
         }
-        transformedCollections.put(EntityNames.ATTENDANCE, newCollection);
-        LOG.info("Finished transforming daily attendance data for {} student-school associations.", newCollection.entrySet().size());
+        // transformedCollections.put(EntityNames.ATTENDANCE, newCollection);
+        // LOG.info("Finished transforming and persisting daily attendance data for {} student-school associations.", newCollection.entrySet().size());
+        LOG.info("Finished transforming and persisting daily attendance data.");
     }
     
     /**
@@ -140,24 +138,24 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private NeutralRecord createTransformedAttendanceRecord() {
         NeutralRecord record = new NeutralRecord();
         record.setRecordId(uuidGenerator.randomUUID().toString());
-        record.setRecordType(EntityNames.ATTENDANCE);
+        record.setRecordType(EntityNames.ATTENDANCE  + "_transformed");
         return record;
     }
 
     /**
      * Persists the transformed data into mongo.
      */
-    public void persist() {
-        LOG.info("Persisting transformed data into attendance_transformed staging collection.");        
-        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
-            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
-                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-                neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
-                getNeutralRecordMongoAccess().getRecordRepository().create(neutralRecord);
-            }
-        }
-        LOG.info("Finished persisting transformed data into attendance_transformed staging collection.");
-    }
+//    public void persist() {
+//        LOG.info("Persisting transformed data into attendance_transformed staging collection.");        
+//        for (Map.Entry<String, Map<Object, NeutralRecord>> collectionEntry : transformedCollections.entrySet()) {
+//            for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collectionEntry.getValue().entrySet()) {
+//                NeutralRecord neutralRecord = neutralRecordEntry.getValue();
+//                neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
+//                getNeutralRecordMongoAccess().getRecordRepository().create(neutralRecord);
+//            }
+//        }
+//        LOG.info("Finished persisting transformed data into attendance_transformed staging collection.");
+//    }
 
     /**
      * Returns all collection entities found in temp ingestion database
@@ -296,15 +294,15 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         }
         
         // if student attendance still has attendance events --> orphaned events
-        Iterator<Map.Entry<Object, NeutralRecord>> recordItr = studentAttendance.entrySet().iterator();
-        if (recordItr.hasNext()) {
-            int orphanedEvents = 0;
-            while (recordItr.hasNext()) {
-                recordItr.next();
-                orphanedEvents++;
-            }
-            LOG.warn("  {} attendance events still need to be mapped into a school year.", orphanedEvents);    
-        }
+        //Iterator<Map.Entry<Object, NeutralRecord>> recordItr = studentAttendance.entrySet().iterator();
+        //if (recordItr.hasNext()) {
+        //    int orphanedEvents = 0;
+        //    while (recordItr.hasNext()) {
+        //        recordItr.next();
+        //        orphanedEvents++;
+        //    }
+            // LOG.warn("  {} attendance events still need to be mapped into a school year.", orphanedEvents);    
+        //}
         return schoolYears;
     }
 }

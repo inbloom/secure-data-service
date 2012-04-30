@@ -2,8 +2,6 @@
     "collection": "attendance",
     "indexFields":
     [
-        {"name" : "body.eventDate" , "order" : "1"},
-        {"name" : "body.attendanceEventCategory" , "order" : "1"},
         {"name" : "body.studentId" , "order" : "1"}
     ]
 }
