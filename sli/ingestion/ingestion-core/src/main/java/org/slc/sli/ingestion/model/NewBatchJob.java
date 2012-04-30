@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.commons.lang.time.FastDateFormat;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -21,7 +20,6 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-
 
 /**
  * Model for ingestion jobs.
@@ -48,9 +46,6 @@ public final class NewBatchJob implements Job {
     private List<Stage> stages;
 
     private List<ResourceEntry> resourceEntries;
-
-    private static final String STR_TIMESTAMP_FORMAT = "yyyyMMdd hh:mm:ss.SSS";
-    private static final FastDateFormat FORMATTER = FastDateFormat.getInstance(STR_TIMESTAMP_FORMAT);
 
     // mongoTemplate requires this constructor.
     public NewBatchJob() {
@@ -232,22 +227,11 @@ public final class NewBatchJob implements Job {
     }
 
     /**
-     * Method to return commonly formatted time stamp for batch job stages and metrics
-     *
-     * @return timeStamp
-     */
-    public static String getCurrentTimeStamp() {
-        String timeStamp = FORMATTER.format(System.currentTimeMillis());
-        return timeStamp;
-    }
-
-    /**
-     * stops given stage and adds to this NewBatchJob instance
+     * adds stage to this NewBatchJob instance
      *
      * @param stage
      */
-    public void addCompletedStage(Stage stage) {
-        stage.stopStage();
+    public void addStage(Stage stage) {
         this.stages.add(stage);
     }
 
@@ -305,4 +289,5 @@ public final class NewBatchJob implements Job {
         // TODO Auto-generated method stub
         return null;
     }
+
 }

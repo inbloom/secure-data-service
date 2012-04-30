@@ -1,9 +1,11 @@
 package org.slc.sli.ingestion.model;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Model for the different stages of ingestion processing.
@@ -21,9 +23,9 @@ public class Stage {
 
     private String status;
 
-    private String startTimestamp;
+    private Date startTimestamp;
 
-    private String stopTimestamp;
+    private Date stopTimestamp;
 
     private List<Metrics> metrics;
 
@@ -32,7 +34,7 @@ public class Stage {
         this.metrics = new LinkedList<Metrics>();
     }
 
-    public Stage(String stageName, String status, String startTimestamp, String stopTimestamp, List<Metrics> metrics) {
+    public Stage(String stageName, String status, Date startTimestamp, Date stopTimestamp, List<Metrics> metrics) {
         this.stageName = stageName;
         this.status = status;
         this.startTimestamp = startTimestamp;
@@ -65,19 +67,19 @@ public class Stage {
         this.status = status;
     }
 
-    public String getStartTimestamp() {
+    public Date getStartTimestamp() {
         return startTimestamp;
     }
 
-    public void setStartTimestamp(String startTimestamp) {
+    public void setStartTimestamp(Date startTimestamp) {
         this.startTimestamp = startTimestamp;
     }
 
-    public String getStopTimestamp() {
+    public Date getStopTimestamp() {
         return stopTimestamp;
     }
 
-    public void setStopTimestamp(String stopTimestamp) {
+    public void setStopTimestamp(Date stopTimestamp) {
         this.stopTimestamp = stopTimestamp;
     }
 
@@ -92,7 +94,7 @@ public class Stage {
         this.metrics = metrics;
     }
 
-    public void update(String stageName, String status, String startTimestamp, String stopTimestamp) {
+    public void update(String stageName, String status, Date startTimestamp, Date stopTimestamp) {
         if (stageName != null) {
             this.stageName = stageName;
         }
@@ -109,12 +111,12 @@ public class Stage {
 
     public void startStage() {
         this.setStatus("running");
-        this.setStartTimestamp(NewBatchJob.getCurrentTimeStamp());
+        this.setStartTimestamp(BatchJobUtils.getCurrentTimeStamp());
     }
 
     public void stopStage() {
         this.setStatus("finished");
-        this.setStopTimestamp(NewBatchJob.getCurrentTimeStamp());
+        this.setStopTimestamp(BatchJobUtils.getCurrentTimeStamp());
     }
 
     public void addCompletedMetrics(Metrics metrics) {

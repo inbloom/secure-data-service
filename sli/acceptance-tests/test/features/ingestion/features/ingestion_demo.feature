@@ -12,10 +12,9 @@ Given I post "DemoData.zip" file as the payload of the ingestion job
         | studentSchoolAssociation    |
         | course                      |
         | educationOrganization       |
-        | school                      |
         | section                     |
         | studentSectionAssociation   |
-        | teacher                     |
+        | staff                       |
         | teacherSchoolAssociation    |
         | teacherSectionAssociation   |
         | session                     |
@@ -36,11 +35,10 @@ Then I should see following map of entry counts in the corresponding collections
         | student                     | 94    |
         | studentSchoolAssociation    | 123   |
         | course                      | 15    |
-        | educationOrganization       | 3     |
-        | school                      | 5     |
+        | educationOrganization       | 8     |
         | section                     | 25    |
         | studentSectionAssociation   | 210   |
-        | teacher                     | 4     |
+        | staff                       | 4     |
         | teacherSchoolAssociation    | 6     |
         | teacherSectionAssociation   | 20    |
         | session                     | 8     |
@@ -56,9 +54,9 @@ Then I should see following map of entry counts in the corresponding collections
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 530425896                  | string               |
        | student                     | 1                   | metaData.externalId      | 784204643                  | string               |
-       | teacher                     | 1                   | metaData.externalId      | cgray                      | string               |
+       | staff                       | 1                   | metaData.externalId      | cgray                      | string               |
        | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom         | string               |
-       | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
+       | educationOrganization       | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
     And I should see "Processed 971 records." in the resulting batch job file
@@ -104,11 +102,10 @@ Then I should see following map of entry counts in the corresponding collections
         | student                     | 94    |
         | studentSchoolAssociation    | 123   |
         | course                      | 15    |
-        | educationOrganization       | 3     |
-        | school                      | 5     |
+        | educationOrganization       | 8     |
         | section                     | 25    |
         | studentSectionAssociation   | 210   |
-        | teacher                     | 4     |
+        | staff                       | 4     |
         | teacherSchoolAssociation    | 6     |
         | teacherSectionAssociation   | 20    |
         | session                     | 8     |
@@ -124,9 +121,9 @@ Then I should see following map of entry counts in the corresponding collections
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 530425896                  | string               |
        | student                     | 1                   | metaData.externalId      | 784204643                  | string               |
-       | teacher                     | 1                   | metaData.externalId      | cgray                      | string               |
+       | staff                       | 1                   | metaData.externalId      | cgray                      | string               |
        | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom         | string               |
-       | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
+       | educationOrganization       | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
     And I should see "Processed 971 records." in the resulting batch job file

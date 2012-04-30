@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -97,7 +96,7 @@ public class StudentAssessmentCombinerTest {
                 oaCollection.distinct(eq("body." + StudentAssessmentCombiner.OBJECTIVE_ASSESSMENT_REFERENCE),
                         any(BasicDBObject.class))).thenReturn(
                 Arrays.asList(AssessmentCombinerTest.OBJ1_ID, AssessmentCombinerTest.OBJ2_ID));
-        Iterator<DBObject> sasCursor = Arrays.asList(buildSAObject("sa1"), buildSAObject("sa2")).iterator();
+        Iterable<DBObject> sasCursor = Arrays.asList(buildSAObject("sa1"), buildSAObject("sa2"));
         doReturn(sasCursor).when(saCombiner).getMatching(eq("studentAssessmentAssociation"), any(DBObject.class));
         when(
                 repository.findAll("studentObjectiveAssessment", new NeutralQuery(new NeutralCriteria(

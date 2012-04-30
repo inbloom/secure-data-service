@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+  <json:reader rootName="json" />
+
+  <jb:bean beanId="disciplineIncidents" class="java.util.ArrayList" createOnElement="#document">
+    <jb:wiring beanIdRef="disciplineIncident" />
+  </jb:bean>
+
+  <jb:bean beanId="disciplineIncident" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+    <jb:expression property="type">'disciplineIncident'</jb:expression>
+    <jb:wiring property="body" beanIdRef="disciplineIncidentBody" />
+  </jb:bean>
+
+  <jb:bean beanId="disciplineIncidentBody" class="java.util.HashMap" createOnElement="attributes">
+    <jb:value property="id" data="attributes id" />
+    <jb:value property="incidentIdentifier" data="attributes IncidentIdentifier" />
+    <jb:value property="incidentDate" data="attributes IncidentDate" />
+    <jb:value property="incidentTime" data="attributes IncidentTime" />
+    <jb:value property="incidentLocation" data="attributes IncidentLocation" />
+    <jb:value property="reporterDescription" data="attributes ReporterDescription" />
+    <jb:value property="reporterName" data="attributes ReporterName" />
+    <jb:wiring property="behaviors" beanIdRef="DisciplineIncident_BehaviorsArray" />
+    <jb:wiring property="secondaryBehaviors" beanIdRef="DisciplineIncident_SecondaryBehaviorsArray" />
+    <jb:wiring property="weapons" beanIdRef="DisciplineIncident_WeaponsArray" />
+    <jb:value property="reportedToLawEnforcement" data="attributes ReportedToLawEnforcement" decoder="Boolean" />
+    <jb:value property="caseNumber" data="attributes CaseNumber" />
+    <jb:value property="schoolId" data="attributes schoolId" />
+    <jb:value property="staffId" data="attributes staffId" />
+  </jb:bean>
+
+  <!-- DisciplineIncident supporting objects: Behaviors -->
+
+  <jb:bean beanId="DisciplineIncident_BehaviorsArray"
+    class="java.util.ArrayList"
+    createOnElement="attributes">
+    <jb:wiring beanIdRef="DisciplineIncident_Behaviors" />
+  </jb:bean>
+
+  <jb:bean beanId="DisciplineIncident_Behaviors" 
+  	class="java.util.ArrayList" 
+  	createOnElement="behaviors element">
+  	<jb:wiring beanIdRef="DisciplineIncident_Behaviors_CodeValue" />
+  	<jb:wiring beanIdRef="DisciplineIncident_Behaviors_ShortDescription" />
+  	<jb:wiring beanIdRef="DisciplineIncident_Behaviors_Description" />
+  </jb:bean>
+	
+  <jb:bean beanId="DisciplineIncident_Behaviors_CodeValue" 
+  	class="java.util.HashMap" 
+  	createOnElement="behaviors element element codeValue">
+    <jb:value property="codeValue" data="Behaviors element element CodeValue" />
+  </jb:bean>
+	
+  <jb:bean beanId="DisciplineIncident_Behaviors_ShortDescription" 
+  	class="java.util.HashMap" 
+  	createOnElement="behaviors element element shortDescription">
+    <jb:value property="shortDescription" data="Behaviors element element ShortDescription" />
+  </jb:bean>
+   
+  <jb:bean beanId="DisciplineIncident_Behaviors_Description" 
+  	class="java.util.HashMap" 
+  	createOnElement="behaviors element element description">
+    <jb:value property="description" data="Behaviors element element Description" />
+  </jb:bean>
+
+  <!-- DisciplineIncident supporting objects: SecondaryBehaviors -->
+
+  <jb:bean beanId="DisciplineIncident_SecondaryBehaviorsArray"
+    class="java.util.ArrayList"
+    createOnElement="attributes">
+    <jb:wiring beanIdRef="DisciplineIncident_SecondaryBehaviors" />
+  </jb:bean>
+
+  <jb:bean beanId="DisciplineIncident_SecondaryBehaviors" 
+  	class="java.util.HashMap" 
+  	createOnElement="secondaryBehaviors element">
+    <jb:value property="behaviorCategory" data="SecondaryBehaviors element BehaviorCategory" />
+    <jb:value property="secondaryBehavior" data="SecondaryBehaviors element SecondaryBehavior" />
+  </jb:bean>
+	
+  <!-- DisciplineIncident supporting objects: Weapons -->
+
+  <jb:bean beanId="DisciplineIncident_WeaponsArray"
+    class="java.util.ArrayList"
+    createOnElement="attributes">
+    <jb:value data="Weapons Weapon element" />
+  </jb:bean>
+
+</smooks-resource-list>

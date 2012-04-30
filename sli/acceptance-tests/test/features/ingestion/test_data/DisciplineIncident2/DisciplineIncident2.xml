@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
+
+  <DisciplineIncident>
+      <IncidentIdentifier>Bullying</IncidentIdentifier>
+      <IncidentDate>2011-02-01</IncidentDate>
+      <IncidentTime>23:59:02</IncidentTime>
+      <IncidentLocation>Off-School at other school district facility</IncidentLocation>
+      <ReporterDescription>Parent</ReporterDescription>
+      <ReporterName>Gold Finger</ReporterName>
+      <Behaviors>
+      	<CodeValue>BEH03</CodeValue>
+      </Behaviors>
+      <Weapons>
+      	<Weapon>Substance Used as Weapon</Weapon>
+      	<Weapon>Non-Illegal Knife</Weapon>
+      </Weapons>
+      <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+      <SchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </SchoolReference>
+      <StaffReference>
+        <StaffIdentity>
+          <StaffUniqueStateId>sbantu</StaffUniqueStateId>
+        </StaffIdentity>
+      </StaffReference>
+  </DisciplineIncident>
+
+  <DisciplineIncident>
+      <IncidentIdentifier>Hazing</IncidentIdentifier>
+      <IncidentDate>2010-09-06</IncidentDate>
+      <IncidentTime>00:05:00</IncidentTime>
+      <IncidentLocation>Online</IncidentLocation>
+      <ReporterDescription>Staff</ReporterDescription>
+      <ReporterName>Charles Gray</ReporterName>
+      <Behaviors>
+      	<CodeValue>BEH04</CodeValue>
+      </Behaviors>
+      <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+      <Weapons>
+      	<Weapon>Non-Illegal Knife</Weapon>
+      </Weapons>
+      <SchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </SchoolReference>
+      <StaffReference>
+        <StaffIdentity>
+          <StaffUniqueStateId>sbantu</StaffUniqueStateId>
+        </StaffIdentity>
+      </StaffReference>
+  </DisciplineIncident>
+
+</InterchangeStudentDiscipline>

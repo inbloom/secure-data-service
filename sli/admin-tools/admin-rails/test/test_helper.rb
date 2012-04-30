@@ -28,6 +28,7 @@ class ActiveSupport::TestCase
     @app_fixtures = load_fixture("apps")
     @appauth_fixtures = load_fixture("application_authorizations")
     @ed_org_fixtures = load_fixture("education_organization")
+    @account_managements_fixtures=load_fixture("account_managements")
     ActiveResource::HttpMock.respond_to do |mock|
       mock.get "/api/rest/admin/roles", {"Accept" => "application/json"}, [@role_fixtures["admin"], @role_fixtures["educator"]].to_json
       mock.get "/api/rest/admin/roles/0", {"Accept" => "application/json"}, @role_fixtures["admin"].to_json

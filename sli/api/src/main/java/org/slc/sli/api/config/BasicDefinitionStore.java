@@ -1,8 +1,10 @@
 package org.slc.sli.api.config;
 
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.Set;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Collection;
 import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
@@ -62,7 +64,13 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
     @Override
     public EntityDefinition lookupByEntityType(String entityType) {
-        return mapping.get(ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(entityType));
+        for (Map.Entry<String, EntityDefinition> e : mapping.entrySet()) {
+            if (e.getValue().getType().equals(entityType)) {
+                return e.getValue();
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -78,7 +86,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition assessment = factory.makeEntity(EntityNames.ASSESSMENT, ResourceNames.ASSESSMENTS)
                 .buildAndRegister(this);
         factory.makeEntity(EntityNames.ATTENDANCE, ResourceNames.ATTENDANCES).buildAndRegister(this);
-        factory.makeEntity(EntityNames.BELL_SCHEDULE, ResourceNames.BELL_SCHEDULES).buildAndRegister(this);
+        //factory.makeEntity(EntityNames.BELL_SCHEDULE, ResourceNames.BELL_SCHEDULES).buildAndRegister(this);
         EntityDefinition cohort = factory.makeEntity(EntityNames.COHORT, ResourceNames.COHORTS).buildAndRegister(this);
         EntityDefinition course = factory.makeEntity(EntityNames.COURSE, ResourceNames.COURSES).buildAndRegister(this);
         EntityDefinition disciplineIncident = factory.makeEntity(EntityNames.DISCIPLINE_INCIDENT,
@@ -88,7 +96,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 ResourceNames.EDUCATION_ORGANIZATIONS).buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADEBOOK_ENTRY, ResourceNames.GRADEBOOK_ENTRIES).buildAndRegister(this);
         EntityDefinition program = factory.makeEntity(EntityNames.PROGRAM, ResourceNames.PROGRAMS).buildAndRegister(this);
-        EntityDefinition school = factory.makeEntity(EntityNames.SCHOOL, ResourceNames.SCHOOLS).buildAndRegister(this);
+        EntityDefinition school = factory.makeEntity(EntityNames.SCHOOL, ResourceNames.SCHOOLS)
+                .storeAs(EntityNames.EDUCATION_ORGANIZATION).buildAndRegister(this);
         EntityDefinition section = factory.makeEntity(EntityNames.SECTION, ResourceNames.SECTIONS).buildAndRegister(
                 this);
         EntityDefinition session = factory.makeEntity(EntityNames.SESSION, ResourceNames.SESSIONS).buildAndRegister(
@@ -98,9 +107,10 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 this);
         factory.makeEntity(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY, ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES)
                 .buildAndRegister(this);
-        EntityDefinition teacher = factory.makeEntity(EntityNames.TEACHER, ResourceNames.TEACHERS).buildAndRegister(
-                this);
+        EntityDefinition teacher = factory.makeEntity(EntityNames.TEACHER, ResourceNames.TEACHERS)
+                .storeAs(EntityNames.STAFF).buildAndRegister(this);
         EntityDefinition parent = factory.makeEntity(EntityNames.PARENT, ResourceNames.PARENTS).buildAndRegister(this);
+        factory.makeEntity(EntityNames.STUDENT_ACADEMIC_RECORD, ResourceNames.STUDENT_ACADEMIC_RECORDS).buildAndRegister(this);
 
         factory.makeEntity(EntityNames.AGGREGATION, ResourceNames.AGGREGATIONS).buildAndRegister(this);
         factory.makeEntity(EntityNames.AGGREGATION_DEFINITION, ResourceNames.AGGREGATION_DEFINITIONS).buildAndRegister(
@@ -271,21 +281,25 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
             // loop for each reference field on the entity
             for (Entry<String, ReferenceSchema> fieldSchema : referringDefinition.getReferenceFields().entrySet()) {
                 ReferenceSchema schema = fieldSchema.getValue(); // access to the reference schema
-                String resource = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(schema.getResourceName());
-                EntityDefinition referencedEntity = this.mapping.get(resource);
-                LOG.debug(
-                        "* New reference: {}.{} -> {}._id",
-                        new Object[] { referringDefinition.getStoredCollectionName(), fieldSchema.getKey(),
-                                schema.getResourceName() });
-                // tell the referenced entity that some entity definition refers to it
+                Set<String> resources = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(schema.getResourceName());
 
-                if (referencedEntity != null) {
-                    referencedEntity.addReferencingEntity(referringDefinition);
-                    referencesLoaded++;
-                } else {
-                    LOG.warn("* Failed to add, null entity: {}.{} -> {}._id",
-                        new Object[] { referringDefinition.getStoredCollectionName(), fieldSchema.getKey(),
-                                schema.getResourceName() });
+                if (resources == null) continue;
+                for (String resource : resources) {
+                    EntityDefinition referencedEntity = this.mapping.get(resource);
+                    LOG.debug(
+                            "* New reference: {}.{} -> {}._id",
+                            new Object[] { referringDefinition.getStoredCollectionName(), fieldSchema.getKey(),
+                                    schema.getResourceName() });
+                    // tell the referenced entity that some entity definition refers to it
+
+                    if (referencedEntity != null) {
+                        referencedEntity.addReferencingEntity(referringDefinition);
+                        referencesLoaded++;
+                    } else {
+                        LOG.warn("* Failed to add, null entity: {}.{} -> {}._id",
+                            new Object[] { referringDefinition.getStoredCollectionName(), fieldSchema.getKey(),
+                                    schema.getResourceName() });
+                    }
                 }
             }
         }
@@ -297,7 +311,14 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     public void addDefinition(EntityDefinition defn) {
         LOG.debug("adding definition for {}", defn.getResourceName());
         defn.setSchema(repo.getSchema(defn.getStoredCollectionName()));
-        ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.put(defn.getType(), defn.getResourceName());
+
+        if (ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.containsKey(defn.getStoredCollectionName())) {
+            ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(defn.getStoredCollectionName()).add(defn.getResourceName());
+        } else {
+            Set<String> list = new HashSet<String>();
+            list.add(defn.getResourceName());
+            ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.put(defn.getStoredCollectionName(), list);
+        }
         this.mapping.put(defn.getResourceName(), defn);
     }
 }

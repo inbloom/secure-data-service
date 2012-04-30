@@ -15,6 +15,7 @@ import org.slc.sli.test.edfi.entities.InterchangeStudentCohort;
 import org.slc.sli.test.edfi.entities.InterchangeStudentDiscipline;
 import org.slc.sli.test.edfi.entities.InterchangeStudentEnrollment;
 import org.slc.sli.test.edfi.entities.InterchangeStudentGrade;
+import org.slc.sli.test.edfi.entities.InterchangeStudentParent;
 import org.slc.sli.test.edfi.entities.InterchangeStudentProgram;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.interchange.InterchangeAssessmentMetadataGenerator;
@@ -29,6 +30,7 @@ import org.slc.sli.test.generators.interchange.InterchangeStudentDisciplineGener
 import org.slc.sli.test.generators.interchange.InterchangeStudentEnrollmentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentGradeGenerator;
+import org.slc.sli.test.generators.interchange.InterchangeStudentParentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentProgramGenerator;
 import org.slc.sli.test.utils.DataUtils;
 import org.slc.sli.test.utils.JaxbUtils;
@@ -104,23 +106,23 @@ public class StateEdFiXmlGenerator {
 
         staffAssociation();
 
-        student();
+        //student();
 
-        studentEnrollment();
+       studentEnrollment();
 
-        studentProgram();
+       studentProgram();
 
-        studentCohort();
-        
-        studentDiscipline();
+       studentCohort();
 
-        studentAttendance();
+       studentDiscipline();
 
-        assessmentMetaData();
+       studentAttendance();
 
-        studentAssessment();
-        
-        studentGrade();
+       assessmentMetaData();
+
+       studentAssessment();
+       studentGrade();
+       studentParent();
 
     }
 
@@ -187,6 +189,25 @@ public class StateEdFiXmlGenerator {
 
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StaffAssociation", xmlFilePath);
     }
+
+    /**
+     * Generate InterchangeStudentParent data and use Jaxb to output the XML file.
+     *
+     * @throws Exception
+     */
+
+    private static void studentParent() throws Exception {
+
+        InterchangeStudentParent studentParent = InterchangeStudentParentGenerator.generate();
+
+        String xmlFilePath = rootOutputPath + "/InterchangeStudentParent.xml";
+
+        JaxbUtils.marshal(studentParent, new PrintStream(xmlFilePath));
+
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "Parent", xmlFilePath);
+
+    }
+
 
     /**
      * Generate InterchangeStudent data and use Jaxb to output the XML file.
@@ -337,4 +358,5 @@ public class StateEdFiXmlGenerator {
 
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentGrades", xmlFilePath);
     }
+
 }
