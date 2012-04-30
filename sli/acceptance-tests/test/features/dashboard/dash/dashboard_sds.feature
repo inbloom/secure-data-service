@@ -124,13 +124,13 @@ And Assessment History includes results for:
 |ISAT Reading |
 |ISAT Writing |
 And the Assessment History for "ISAT Reading" has the following entries:
-|Date         |Grade  |Assessment Name            |Scale score  |Other  |Percentile |Perf Level|
-|2011-10-01   |8      |Grade 8 2011 ISAT Reading  |195          |642    |53         |195|
-|2011-09-01   |8      |Grade 8 2011 ISAT Reading  |199          |655    |55         |195|
+|Date         |Grade  |Assessment Name            |Scale score  |Other  |Percentile |Perf Level |
+|2011-10-01   |8      |Grade 8 2011 ISAT Reading  |195          |642    |53         |195        |
+|2011-09-01   |8      |Grade 8 2011 ISAT Reading  |199          |655    |55         |199        |
 And the Assessment History for "ISAT Writing" has the following entries:
-|Date         |Grade  |Assessment Name            |Scale score  |
-|2011-10-01   |8      |Grade 8 2011 ISAT Writing  |1            |
-|2011-09-01   |8      |Grade 8 2011 ISAT Writing  |25           |
+|Date         |Grade  |Assessment Name            |Perf Level|Scale score|
+|2011-10-01   |8      |Grade 8 2011 ISAT Writing  |1         |1          |
+|2011-09-01   |8      |Grade 8 2011 ISAT Writing  |25        |25         |
 #And I see a header on the page that has the text "Logout"
 #And I see a footer on the page that has the text "Copyright"
 
