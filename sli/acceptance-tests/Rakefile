@@ -1093,7 +1093,10 @@ task :dashboardStudentContactInfoLiveTests do
 end
 
 desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
-task :localDashboardTests => [:realmInit,:importUnifiedData,:dashboardTests] do
+task :localDashboardTests do
+  Rake::Task["realmInitNoPeople"].invoke
+  Rake::Task["importUnifiedData"].invoke
+  Rake::Task["dashboardTests"].invoke
 end
 
 desc "Run Dashboard Tests against SDS"
