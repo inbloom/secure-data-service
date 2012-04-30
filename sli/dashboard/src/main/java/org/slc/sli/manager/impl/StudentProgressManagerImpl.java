@@ -87,6 +87,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
             term.put(Constants.ATTR_GRADE_LEVEL, getValue(courseTranscript, Constants.ATTR_GRADE_LEVEL_WHEN_TAKEN));
             term.put(Constants.ATTR_SCHOOL, getSchoolName(section, token));
             term.put(Constants.ATTR_SCHOOL_YEAR, getValue(session, Constants.ATTR_SCHOOL_YEAR));
+            term.put(Constants.ATTR_CUMULATIVE_GPA, getGPA(session, studentId, token));
 
             // This isn't a new term
             if (transcripts.containsKey(term)) {
@@ -113,6 +114,22 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         GenericEntity ret = new GenericEntity();
         ret.put(TRANSCRIPT_HISTORY, transcriptData);
         return ret;
+    }
+
+    private String getGPA(Map<String, Object> session, String studentId, String token) {
+        String sessionId = getValue(session, Constants.ATTR_ID);
+        Map<String, String> params = new HashMap<String, String>();
+
+        params.put(Constants.ATTR_SESSION_ID, sessionId);
+        params.put(Constants.ATTR_STUDENT_ID, studentId);
+
+        GenericEntity academicRecord = entityManager.getAcademicRecord(token, params);
+
+        String gpa = "";
+        if (academicRecord != null) {
+            gpa = academicRecord.get(Constants.ATTR_CUMULATIVE_GPA).toString();
+        }
+        return gpa;
     }
 
     private GenericEntity getCourseData(Map<String, Object> courseTranscript, Map<String, Object> course) {

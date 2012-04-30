@@ -129,4 +129,6 @@ public interface APIClient {
     public GenericEntity getSession(String token, String sessionId);
 
     public List<GenericEntity> getSessionsByYear(String token, String schoolYear);
+
+    public GenericEntity getAcademicRecord(String token, Map<String, String> params);
 }

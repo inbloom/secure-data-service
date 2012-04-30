@@ -45,7 +45,7 @@
                         colModel: [
                             {name:"subject",index:"subject",width:175,key:true},
                             {name:"course",index:"course",width:130},
-                            {name:"grade",index:"grade",width:75, align:"center"}
+                            {name:"grade",index:"grade",width:75}
                         ],
                         rowNum:1000,
                         sortname: 'num',
