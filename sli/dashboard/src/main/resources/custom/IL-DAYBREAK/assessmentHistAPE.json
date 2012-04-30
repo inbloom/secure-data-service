@@ -2,9 +2,9 @@
     id : "assessmentHistAPE",
     parentId: "assessmentHist",
     type : "GRID",
-    name : "Test History : AP English Language and Composition",
+    name : "Test History : AP English",
     data : {
         cacheKey: 'assessmentHistAPE',
-        params: { assessmentFamily: "AP.AP Eng.AP-Eng-and-Literature"}
+        params: { assessmentFamily: "AP.AP Eng"}
     }
 }

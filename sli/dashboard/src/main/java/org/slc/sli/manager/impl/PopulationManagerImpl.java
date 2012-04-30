@@ -830,6 +830,18 @@ public class PopulationManagerImpl implements PopulationManager {
         String[] nameList = (String[]) nameQuery;
         String firstName = nameList[0];
         String lastName = nameList[1];
+        GenericEntity studentSearch = new GenericEntity();
+        
+        if (((firstName == null) || (firstName.equals(""))) && ((lastName == null) || (lastName.equals("")))) {
+            studentSearch.put(Constants.ATTR_STUDENTS, new LinkedList<GenericEntity>());
+            studentSearch.put(Constants.ATTR_SEARCH_STRING, "");
+            studentSearch.put(Constants.ATTR_NUM_RESULTS, 0);
+            return studentSearch;
+        }
+        
+        String searchString = firstName + " " + lastName;
+        searchString = searchString.trim();
+        
         List<GenericEntity> students = entityManager.getStudentsFromSearch(token, firstName, lastName);
         
         List<GenericEntity> titleCaseStudents = entityManager.getStudentsFromSearch(token,
@@ -863,8 +875,10 @@ public class PopulationManagerImpl implements PopulationManager {
             enhancedStudents.add(student);
         }
         
-        GenericEntity studentSearch = new GenericEntity();
+        
         studentSearch.put(Constants.ATTR_STUDENTS, enhancedStudents);
+        studentSearch.put(Constants.ATTR_SEARCH_STRING, searchString);
+        studentSearch.put(Constants.ATTR_NUM_RESULTS, enhancedStudents.size());
         return studentSearch;
     }
     

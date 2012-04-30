@@ -16,8 +16,14 @@ Then /^the Assessment History for "([^"]*)" has the following entries:$/ do |tes
     "Scale score" => "Scale",
     "Other" => "Other",
     "Percentile" => "Percentile",
-    "Perf Level" => ["perfLevel", "fuelGauge"]
+    "Perf Level" => "perfLevel"
   }   
+  
+  #For ISAT tests, we need to test fuel gauge visualization
+  if (test.include? ("ISAT"))
+    mapping["Perf Level"] = ["perfLevel", "fuelGauge"]
+  end
+  
   checkGridEntries(panel, table, mapping)
 end
 
