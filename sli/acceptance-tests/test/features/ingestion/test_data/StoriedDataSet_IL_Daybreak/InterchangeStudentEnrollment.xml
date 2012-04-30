@@ -5292,11 +5292,8 @@
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
-<<<<<<< HEAD
 
   <!-- historical data for Matt Sollars - sections back through 3rd grade -->
-=======
->>>>>>> master
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -5379,7 +5376,6 @@
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>800000025</StudentUniqueStateId>
-<<<<<<< HEAD
       </StudentIdentity>
     </StudentReference>
     <SectionReference>
@@ -5472,8 +5468,6 @@
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>800000026</StudentUniqueStateId>
-=======
->>>>>>> master
       </StudentIdentity>
     </StudentReference>
     <SectionReference>
