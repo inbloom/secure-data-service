@@ -260,7 +260,7 @@ public class CourseGenerator {
     }
     
     
-    public CourseReferenceType getCourseReferenceType(Course course)
+    public static CourseReferenceType getCourseReferenceType(Course course)
     {
     	CourseReferenceType crt = new CourseReferenceType();
     	CourseIdentityType ci = new CourseIdentityType();
