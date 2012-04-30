@@ -44,6 +44,7 @@ public class LiveAPIClient implements APIClient {
     private static final String STUDENT_ASSMT_ASSOC_URL = "/v1/studentAssessmentAssociations/";
     private static final String STUDENT_SECTION_GRADEBOOK = "/v1/studentSectionGradebookEntries";
     private static final String STUDENTS_NO_SLASH_URL = "/v1/students";
+    private static final String STUDENT_ACADEMIC_RECORD_URL = "/v1/studentAcademicRecords";
 
 
     // resources to append to base urls
@@ -568,6 +569,22 @@ public class LiveAPIClient implements APIClient {
         }
     }
 
+    @Override
+    public GenericEntity getAcademicRecord(String token, Map<String, String> params) {
+        String url = getApiUrl() + STUDENT_ACADEMIC_RECORD_URL;
+        if (params != null || params.size() != 0) {
+            url += "?" + buildQueryString(params);
+        }
+
+        List<GenericEntity> entities = createEntitiesFromAPI(url, token);
+
+        if (entities == null || entities.size() == 0) {
+            return null;
+        }
+
+        return entities.get(0);
+    }
+
     /**
      * Returns the homeroom section for the student
      *
@@ -810,8 +827,10 @@ public class LiveAPIClient implements APIClient {
         url.append(getApiUrl());
         url.append("/v1/");
         url.append(type);
-        url.append("/");
-        url.append(id);
+        if (id != null) {
+            url.append("/");
+            url.append(id);
+        }
         // add the query string
         if (!params.isEmpty()) {
             url.append("?");
