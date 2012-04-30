@@ -38,7 +38,15 @@ DashboardProxy = {
 					  prx.data[componentId] = panel.data; 
 					  prx.config[componentId] = panel.viewConfig; 
 					  callback(panel);
-			      }});
+			      },
+			      error: $("body").ajaxError( function(event, request, settings) {
+			    	  if (request.responseText == "") {
+			    		  $(location).attr('href',$(location).attr('href'));
+			    	  } else {
+			    		  $(location).attr('href', contextRootPath + "/exception");
+			    	  }
+			      }),
+			});
 		},
 		getData: function(componentId) {
 			return this.data[componentId];
@@ -232,6 +240,10 @@ DashboardUtil.Grid.Formatters = {
 			var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
 			
 			if (!assessments || assessments == undefined) {
+
+				if (value == undefined || value == null) {
+					value = "!";
+				}
 				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
 			}
 			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
@@ -268,12 +280,12 @@ DashboardUtil.Grid.Formatters = {
 			
 			var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
 			if (!assessments || assessments == undefined) {
-				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+				return "" ;
 			}
 			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
 			
 			if (!score || score == undefined) {
-				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+				return "" ;
 			}
 			
 			var fieldName = options.colModel.formatoptions.fieldName;
@@ -387,22 +399,22 @@ DashboardUtil.Grid.Sorters = {
 			
 		},
 
-                LetterGrade: function(params) {
-                   return function(semesterGrades, rowObject) {
-                        var i = DashboardUtil.teardrop.GRADE_TREND_CODES[semesterGrades[0].letterGrade]; 
-                        return i ? i : -1;
-                   }
-                },
+        LetterGrade: function(params) {
+            return function(semesterGrades, rowObject) {
+                 var i = DashboardUtil.teardrop.GRADE_TREND_CODES[semesterGrades[0].letterGrade]; 
+                 return i ? i : -1;
+            }
+         },
 
-                LettersAndNumbers: function(params) {
-                    return function(gradeDate, rowObject) {
-                        var i = DashboardUtil.teardrop.GRADE_TREND_CODES[gradeDate.gradeEarned]; 
-                        if(i === undefined || i === null) {
-                            i = gradeDate.gradeEarned;
-                        }
-                        return i ? i : -1;
-                   }
-               }
+         LettersAndNumbers: function(params) {
+             return function(gradeDate, rowObject) {
+                 var i = DashboardUtil.teardrop.GRADE_TREND_CODES[gradeDate.gradeEarned]; 
+                 if(i === undefined || i === null) {
+                     i = gradeDate.gradeEarned;
+                 }
+                 return i ? i : -1;
+            }
+        }
 }
 
 DashboardUtil.numbersFirstComparator = function(a,b){
