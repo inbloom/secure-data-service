@@ -74,6 +74,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public static final String UUID = "uuid";
     public static final String LOCATION = "Location";
 
+    private static final String CREATED_BY = "created_by";
 
     public void setAutoRegister(boolean register) {
         this.autoRegister = register;
@@ -112,6 +113,8 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         }
         
         newApp.put(CLIENT_ID, clientId);
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        newApp.put(CREATED_BY, principal.getName());
 
         Map<String, Object> registration = new HashMap<String, Object>();
         registration.put(STATUS, "PENDING");
@@ -147,13 +150,14 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             @Context
             HttpHeaders headers, @Context final UriInfo uriInfo) {
         Response resp;
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (hasRight(Right.APP_REGISTER)) {
-            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
+
             extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
                     principal.getEdOrg());
             resp = super.readAll(offset, limit, headers, uriInfo);
         } else {
+            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getName());
             resp = super.readAll(offset, limit, headers, uriInfo);
         }
 
@@ -174,7 +178,17 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     @Path("{" + UUID + "}")
     public Response getApplication(@PathParam(UUID) String uuid,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        Response resp =  super.read(uuid, headers, uriInfo);
+        Response resp;
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (hasRight(Right.APP_REGISTER)) {
+            
+            extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
+                    principal.getEdOrg());
+            resp = super.read(uuid, headers, uriInfo);
+        } else {
+            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getName());
+            resp = super.read(uuid, headers, uriInfo);
+        }
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }
