@@ -300,10 +300,10 @@
     </EducationOrganizationReference>
   </Course>
   <Course>
-    <CourseTitle>Special Elective: Debate Clinic</CourseTitle>
+    <CourseTitle>Special Elective: DebateClinic</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Special Elective: Debate Clinic</ID>
+      <ID>Special Elective: DebateClinic</ID>
     </CourseCode>
     <SubjectArea>English Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
