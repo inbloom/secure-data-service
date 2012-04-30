@@ -51,6 +51,8 @@ import org.springframework.stereotype.Component;
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class ApplicationResource extends DefaultCrudEndpoint {
 
+    public static final String AUTHORIZED_ED_ORGS = "authorized_ed_orgs";
+
     @Autowired
     private EntityDefinitionStore store;
     
@@ -148,7 +150,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         if (hasRight(Right.APP_REGISTER)) {
             SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                     .getPrincipal();
-            extraCriteria = new NeutralCriteria("authorized_ed_orgs", NeutralCriteria.OPERATOR_EQUAL,
+            extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
                     principal.getEdOrg());
             resp = super.readAll(offset, limit, headers, uriInfo);
         } else {
