@@ -869,6 +869,7 @@ public class PopulationManagerImpl implements PopulationManager {
         List<List<Map<String, Object>>> perfLevelsDescs;
         String reportingMethod;
         // inline assessments, perf attributes and convert grade to gradelevel
+        // TODO: we have similar logic for LOS - should be refactored and reused if possible
         for (Map<String, Object> elem : assessements) {
             scoreResults = (List<Map<String, Object>>) elem.get(Constants.ATTR_SCORE_RESULTS);
             if (scoreResults != null) {

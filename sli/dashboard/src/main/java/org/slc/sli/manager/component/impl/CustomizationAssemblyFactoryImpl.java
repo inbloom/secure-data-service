@@ -256,7 +256,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             return null;
         }
         // if there is root for field, expand the columns
-        if (config.getType() == Type.FIELD && config.getRoot() != null) {
+        if (config.getType() == Type.EXPAND && config.getRoot() != null) {
             @SuppressWarnings("unchecked")
             Collection<String> expandMapperList = entity.getList(config.getRoot());
             if (expandMapperList == null) {
