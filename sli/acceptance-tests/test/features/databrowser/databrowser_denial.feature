@@ -1,4 +1,4 @@
-  Feature: Authentication to SLI through various IDP types
+  Feature: User being denied databrowser access 
 
   # These tests rely on fixture data to set which apps can be used or not.
 
