@@ -57,6 +57,7 @@ public class ApplicationAuthorizationValidator {
         List<String> apps = null;
         List<String> results = null;
         for (Entity district : districts) {
+            LOGGER.debug("User is in district " + district.getEntityId());
 
             NeutralQuery query = new NeutralQuery();
             query.addCriteria(new NeutralCriteria("authId", "=", district.getEntityId()));
