@@ -149,18 +149,15 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context
             HttpHeaders headers, @Context final UriInfo uriInfo) {
-        Response resp;
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (hasRight(Right.APP_REGISTER)) {
-
+        if (hasRight(Right.APP_CREATION)) {
+            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getName());
+        } else {
+            debug("ED-ORG of operator/admin {}", principal.getEdOrg());
             extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
                     principal.getEdOrg());
-            resp = super.readAll(offset, limit, headers, uriInfo);
-        } else {
-            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getName());
-            resp = super.readAll(offset, limit, headers, uriInfo);
         }
-
+        Response resp = super.readAll(offset, limit, headers, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }
@@ -180,15 +177,13 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         Response resp;
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (hasRight(Right.APP_REGISTER)) {
-            
+        if (hasRight(Right.APP_CREATION)) {
+            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getName());
+        } else {
             extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
                     principal.getEdOrg());
-            resp = super.read(uuid, headers, uriInfo);
-        } else {
-            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getName());
-            resp = super.read(uuid, headers, uriInfo);
         }
+        resp = super.read(uuid, headers, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }
