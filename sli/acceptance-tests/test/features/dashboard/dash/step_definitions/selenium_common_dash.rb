@@ -12,7 +12,11 @@ end
 Given /^the server is in "([^"]*)" mode$/ do |serverMode|
   @appPrefix = "dashboard_app_prefix_" + serverMode + "_mode"
   # Setting an explicit timeout for elements that may take a long time to load
-  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 180) 
+  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60) 
+end
+
+Then /^I click on the browser back button$/ do
+  @driver.navigate().back()
 end
 
 def localLogin (username, password)
@@ -150,7 +154,6 @@ def tableHeaderContains(desiredContent)
   until headerNames.length > 0 || retries == 0
     puts "No headers found.  Sleeping for #{retry_sleep}.  #{retries} retries remaining."
     retries -= 1
-    # Let's remove this... TODO
     sleep retry_sleep
     headerNames = @driver.find_elements(:tag_name, "th")
   end

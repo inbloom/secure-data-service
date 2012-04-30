@@ -175,6 +175,7 @@ public class PersistenceProcessor implements Processor {
                     numFailed += processTransformableNeutralRecord(neutralRecord, tenantId, encounteredStgCollections,
                             errorReportForNrFile);
                 } else {
+
                     numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, tenantId,
                             errorReportForNrFile);
                 }
@@ -257,16 +258,17 @@ public class PersistenceProcessor implements Processor {
 
         Iterable<NeutralRecord> stagedNeutralRecords = Collections.emptyList();
 
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setLimit(0);
         if (neutralRecord.getRecordType().equals("studentTranscriptAssociation")) {
+
+            NeutralQuery neutralQuery = new NeutralQuery();
             String studentAcademicRecordId = (String) neutralRecord.getAttributes().remove("studentAcademicRecordId");
             neutralQuery.addCriteria(new NeutralCriteria("studentAcademicRecordId", "=", studentAcademicRecordId));
             stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAll(
                     neutralRecord.getRecordType() + "_transformed", neutralQuery);
         } else {
+
             stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAll(
-                    neutralRecord.getRecordType() + "_transformed", neutralQuery);
+                    neutralRecord.getRecordType() + "_transformed");
             encounteredStgCollections.add(neutralRecord.getRecordType());
         }
         return stagedNeutralRecords;

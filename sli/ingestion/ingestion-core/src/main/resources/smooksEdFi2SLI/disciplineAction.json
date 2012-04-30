@@ -1,0 +1,109 @@
+{
+    "keyFields" : ["body.staffId","body.studentId","body.stateOrganizationId"],
+    "references" :
+    [
+    {
+        "fieldPath" : "body.staffId",
+        "ref" :
+        {
+            "collectionName" : "staff",
+            "isRefList" : true,
+            "refObjectPath" : "body.staffReference",
+            "choiceOfFields" :
+            [
+                [
+                    { 
+                        "path" : "body.staffUniqueStateId",
+                        "values" : 
+                        [{
+                            "valueSource" : "body.staffReference.staffIdentity.staffUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.studentId",
+        "ref" :
+        {
+            "collectionName" : "student",
+            "isRefList" : true,
+            "refObjectPath" : "body.studentReference",
+            "choiceOfFields" :
+            [
+                [
+                    { 
+                        "path" : "body.studentUniqueStateId",
+                        "values" : 
+                        [
+                            {"valueSource" : "body.studentReference.studentIdentity.studentUniqueStateId"}
+                        ]
+                    }
+                ]
+            ]
+        }
+    },
+    { 
+        "fieldPath" : "body.disciplineIncidentId",
+        "ref" :
+        {
+            "collectionName" : "disciplineIncident",
+            "isRefList" : true,
+            "refObjectPath" : "body.disciplineIncidentReference",
+            "choiceOfFields" :
+            [
+                [
+                    { 
+                        "path" : "body.incidentIdentifier",
+                        "values" : 
+                        [
+                            {"valueSource" : "body.disciplineIncidentReference.disciplineIncidentIdentity.incidentIdentifier"}
+                        ]
+                    }
+                ]
+            ]
+        }
+    },
+    { 
+        "fieldPath" : "body.responsibilitySchoolId",
+        "ref" :
+        {
+            "collectionName" : "school",
+            "choiceOfFields" :
+            [
+                [
+                    { 
+                        "path" : "body.stateOrganizationId",
+                        "values" : 
+                        [
+                            {"valueSource" : "body.responsibilitySchoolId.educationalOrgIdentity.stateOrganizationId"}
+                        ]
+                    }
+                ]
+            ]
+        }
+    },
+    { 
+        "fieldPath" : "body.assignmentSchoolId",
+        "ref" :
+        {
+            "collectionName" : "school",
+            "optional" : "true",
+            "choiceOfFields" :
+            [
+                [
+                    { 
+                        "path" : "body.stateOrganizationId",
+                        "values" : 
+                        [
+                            {"valueSource" : "body.assignmentSchoolId.educationalOrgIdentity.stateOrganizationId"}
+                        ]
+                    }
+                ]
+            ]
+        }
+    }
+    ]
+}
+

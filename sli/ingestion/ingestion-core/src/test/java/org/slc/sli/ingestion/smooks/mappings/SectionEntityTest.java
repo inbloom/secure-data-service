@@ -185,7 +185,7 @@ public class SectionEntityTest {
 
         Assert.assertEquals(4, neutralRecord.getLocalParentIds().size());
         Assert.assertNotNull(neutralRecord.getLocalParentIds().get("Course"));
-        Assert.assertNotNull(neutralRecord.getLocalParentIds().get("School"));
+        Assert.assertNotNull(neutralRecord.getLocalParentIds().get("educationOrganization#schoolId"));
         Assert.assertNotNull(neutralRecord.getLocalParentIds().get("Session"));
         Assert.assertNotNull(neutralRecord.getLocalParentIds().get("program#programReference"));
 
@@ -197,7 +197,7 @@ public class SectionEntityTest {
         when(repo.find("session", "223")).thenReturn(makeDummyEntity("session", "223"));
         when(repo.find("course", "ELA4")).thenReturn(makeDummyEntity("ELA4", "152901001"));*/
 
-        repo.addEntity("school", "StateOrganizationId1", makeDummyEntity("school", "StateOrganizationId1"));
+        repo.addEntity("educationOrganization", "StateOrganizationId1", makeDummyEntity("educationOrganization", "StateOrganizationId1"));
         repo.addEntity("session", "SessionName0", makeDummyEntity("session", "SessionName0"));
         repo.addEntity("course", "LocalCourseCode0", makeDummyEntity("course", "LocalCourseCode0"));
         repo.addEntity("program", "ProgramId0", makeDummyEntity("program", "ProgramId0"));

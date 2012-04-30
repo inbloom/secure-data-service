@@ -62,14 +62,12 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     public void loadData() {
         LOG.info("Loading data for attendance transformation.");
-
         List<String> collectionsToLoad = Arrays.asList(EntityNames.STUDENT_SCHOOL_ASSOCIATION);
         for (String collectionName : collectionsToLoad) {
             Map<Object, NeutralRecord> collection = getCollectionFromDb(collectionName);
             collections.put(collectionName, collection);
             LOG.info("{} is loaded into local storage.  Total Count = {}", collectionName, collection.size());
-        }
-        
+        }        
         LOG.info("Finished loading data for attendance transformation.");
     }
 
@@ -125,7 +123,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                     attendanceRecord.setAttributes(attendanceAttributes);
                     newCollection.put(attendanceRecord.getRecordId(), attendanceRecord);
                 // } else {
-                //    LOG.warn("  No daily attendance for student: {}", studentId);
+                //     LOG.warn("  No daily attendance for student: {}", studentId);
                 }
             }
         }
@@ -139,8 +137,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     private NeutralRecord createTransformedAttendanceRecord() {
         NeutralRecord record = new NeutralRecord();
-        Type1UUIDGeneratorStrategy uuidGenerator = new Type1UUIDGeneratorStrategy();
-        record.setRecordId(uuidGenerator.randomUUID().toString());
+        record.setRecordId(new Type1UUIDGeneratorStrategy().randomUUID().toString());
         record.setRecordType(EntityNames.ATTENDANCE);
         return record;
     }
@@ -292,7 +289,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             }
             if (events.size() > 0) {
                 schoolYears.put(schoolYear, events);
-            }    
+            }
+            LOG.info("  {} attendance events for session in school year: {}", events.size(), schoolYear);    
         }
         
         // if student attendance still has attendance events --> orphaned events
@@ -303,7 +301,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 recordItr.next();
                 orphanedEvents++;
             }
-            // LOG.warn("  {} attendance events still need to be mapped into a school year.", orphanedEvents);    
+            LOG.warn("  {} attendance events still need to be mapped into a school year.", orphanedEvents);    
         }
         return schoolYears;
     }

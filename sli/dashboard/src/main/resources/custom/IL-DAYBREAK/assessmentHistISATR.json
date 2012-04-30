@@ -1,0 +1,10 @@
+{
+    id : "assessmentHistISATR",
+    parentId: "assessmentHist",
+    type : "GRID",
+    name : "Test History : ISAT Reading",
+    data : {
+        cacheKey: 'assessmentHistISATR',
+        params: { assessmentFamily: "ISAT Reading"}
+    }
+}

@@ -88,6 +88,10 @@ public final class MongoIndexManager {
             repository.createCollection(collection);
         }
 
+       if (!collectionIndexes.containsKey(collection)) {
+        return;
+    }
+
        for (IndexDefinition index : collectionIndexes.get(collection)) {
 
            try {

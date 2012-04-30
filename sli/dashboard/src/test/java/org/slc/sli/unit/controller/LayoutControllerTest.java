@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.slc.sli.controller.GenericLayoutController;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.Config.Data;
+import org.slc.sli.entity.CustomConfig;
 import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.StudentProgramUtil;
@@ -119,6 +120,15 @@ public class LayoutControllerTest {
             @Override
             public GenericEntity getUserInstHierarchy(String token, Object key, Data config) {
                 return null;
+            }
+            
+            @Override
+            public CustomConfig getCustomConfig(String token) {
+                return null;
+            }
+            
+            @Override
+            public void putCustomConfig(String token, String customConfigJson) {
             }
         });
         layoutController.setCustomizedDataFactory(dataFactory);

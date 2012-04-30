@@ -10,7 +10,6 @@ def getTabIndex(tabName)
       url = tab["href"]
       i = url.index('#page') +1
       tabIndex = url[i, url.length-i]
-      puts tabName + " tab has a tab id of " + tabIndex
       return tabIndex
     end
   end
@@ -34,7 +33,6 @@ def getPanel(panelName, tabName)
   panelsInTab.each do |panel|
     panelHeader = panel.find_element(:class, "panel-header")
     if (panelHeader.text == panelName)
-      puts "Found Panel: " + panelName
       return panel
     end
   end
