@@ -577,6 +577,12 @@ When /^zip file is scp to ingestion landing zone$/ do
   scpFileToLandingZone @source_file_name
 end
 
+When /^zip file is scp to ingestion landing zone for "([^"]*)"$/ do |lz_key|
+  lz = @ingestion_lz_identifer_map[lz_key]
+  file = @file_lz_map[lz_key]
+  scpFileToParallelLandingZone(lz, file)
+end
+
 When /^zip files are scped to the ingestion landing zone$/ do
   scpFileToLandingZone @source_file_name1
   scpFileToLandingZone @source_file_name2
@@ -1009,7 +1015,7 @@ Then /^the jobs ran concurrently$/ do
       end
     }
   }
-  
+
   assert(latestStartTime < earliestStopTime, "Expected concurrent job runs, but one finished before another began.")
 end
 

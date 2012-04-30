@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
+    <DisciplineAction>
+        <DisciplineActionIdentifier>cap0-lea0-sch1-da2</DisciplineActionIdentifier>
+        <Disciplines>
+            <CodeValue>DISCIPLINE 001</CodeValue>
+            <ShortDescription>Discipline 001 description</ShortDescription>
+            <Description>Suspension from school for a week</Description>
+        </Disciplines>
+        <DisciplineDate>2011-05-04</DisciplineDate>
+        <DisciplineActionLength>74</DisciplineActionLength>
+        <ActualDisciplineActionLength>64</ActualDisciplineActionLength>
+        <DisciplineActionLengthDifferenceReason>Term Modified By Mutual Agreement</DisciplineActionLengthDifferenceReason>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>555685177</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>di-10003</IncidentIdentifier>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <ResponsibilitySchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ResponsibilitySchoolReference>
+        <AssignmentSchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </AssignmentSchoolReference>
+    </DisciplineAction>
+</InterchangeStudentDiscipline>

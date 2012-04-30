@@ -163,51 +163,92 @@
     <Behaviors><CodeValue>BEH02</CodeValue></Behaviors>
   </StudentDisciplineIncidentAssociation>
 
-  <DisciplineAction>
-    <DisciplineActionIdentifier>Disc Act 12/02/11</DisciplineActionIdentifier>
-    <Disciplines><CodeValue>DIS03</CodeValue></Disciplines>
-    <Disciplines><CodeValue>DIS04</CodeValue></Disciplines>
-    <DisciplineDate>2011-12-02</DisciplineDate>
-    <DisciplineActionLength>23</DisciplineActionLength>
-    <ActualDisciplineActionLength>23</ActualDisciplineActionLength>
-    <DisciplineActionLengthDifferenceReason>No Difference</DisciplineActionLengthDifferenceReason>
-    <StudentReference>
-       <StudentIdentity>
-          <StudentUniqueStateId>900000016</StudentUniqueStateId>
-       </StudentIdentity>
-    </StudentReference>
-    <StudentReference>
-       <StudentIdentity>
-         <StudentUniqueStateId>900000017</StudentUniqueStateId>
-       </StudentIdentity>
-    </StudentReference>
-    <DisciplineIncidentReference>
-        <DisciplineIncidentIdentity>
-            <IncidentIdentifier>Whack-a-mole</IncidentIdentifier>
-            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </DisciplineIncidentIdentity>
-    </DisciplineIncidentReference>
-    <DisciplineIncidentReference>
-        <DisciplineIncidentIdentity>
-            <IncidentIdentifier>Underwater cruise</IncidentIdentifier>
-            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </DisciplineIncidentIdentity>
-    </DisciplineIncidentReference>
-    <StaffReference>
-        <StaffIdentity>
-          <StaffUniqueStateId>cgray</StaffUniqueStateId>
-        </StaffIdentity>
-    </StaffReference>
-    <ResponsibilitySchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-    </ResponsibilitySchoolReference>
-    <AssignmentSchoolReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-        </EducationalOrgIdentity>
-    </AssignmentSchoolReference>
-  </DisciplineAction>
+    <DisciplineAction>
+        <DisciplineActionIdentifier>cap0-lea0-sch1-da0</DisciplineActionIdentifier>
+        <Disciplines>
+            <CodeValue>DISCIPLINE 001</CodeValue>
+            <ShortDescription>Discipline 001 description</ShortDescription>
+            <Description>Suspension from school for a week</Description>
+        </Disciplines>
+        <Disciplines>
+            <CodeValue>DISCIPLINE 002</CodeValue>
+            <ShortDescription>Discipline 002 description</ShortDescription>
+            <Description>Suspension from school for 5 days</Description>
+        </Disciplines>
+        <DisciplineDate>2011-03-04</DisciplineDate>
+        <DisciplineActionLength>74</DisciplineActionLength>
+        <ActualDisciplineActionLength>64</ActualDisciplineActionLength>
+        <DisciplineActionLengthDifferenceReason>Term Modified By Mutual Agreement</DisciplineActionLengthDifferenceReason>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>100000000</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>100000001</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>Whack-a-mole</IncidentIdentifier>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>msmith</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <ResponsibilitySchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ResponsibilitySchoolReference>
+        <AssignmentSchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </AssignmentSchoolReference>
+    </DisciplineAction>
+
+    <DisciplineAction>
+        <DisciplineActionIdentifier>cap0-lea0-sch1-da1</DisciplineActionIdentifier>
+        <Disciplines>
+            <CodeValue>DISCIPLINE 001</CodeValue>
+            <ShortDescription>Discipline 001 description</ShortDescription>
+            <Description>Suspension from school for a week</Description>
+        </Disciplines>
+        <DisciplineDate>2011-04-04</DisciplineDate>
+        <DisciplineActionLength>74</DisciplineActionLength>
+        <ActualDisciplineActionLength>64</ActualDisciplineActionLength>
+        <DisciplineActionLengthDifferenceReason>Term Modified By Mutual Agreement</DisciplineActionLengthDifferenceReason>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>100000002</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>Underwater cruise</IncidentIdentifier>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>ckoch</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <ResponsibilitySchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ResponsibilitySchoolReference>
+        <AssignmentSchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </AssignmentSchoolReference>
+    </DisciplineAction>
 
 </InterchangeStudentDiscipline>

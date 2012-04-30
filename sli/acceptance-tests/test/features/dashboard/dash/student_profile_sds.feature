@@ -19,8 +19,8 @@ When I select section "8th Grade English - Sec 6"
 And the following students have "ELL" lozenges: "Matt Sollars;Malcolm Costillo;Felipe Cianciolo"
 # Lozenges check on LOS
 Then there is no lozenges for student "Tomasa Cleaveland"
-And I see a header on the page that has the text "Logout"
-And I see a footer on the page that has the text "Copyright"
+#And I see a header on the page that has the text "Logout"
+#And I see a footer on the page that has the text "Copyright"
 And I click on student "Alton Maultsby"
 And I view its student profile
 And their name shown in profile is "Alton Maultsby Jr"
@@ -29,8 +29,8 @@ And their grade is "8"
 And the teacher is "!"
 And the class is "!"
 And the lozenges count is "1"
-And I see a header on the page that has the text "Logout"
-And I see a footer on the page that has the text "Copyright"
+#And I see a header on the page that has the text "Logout"
+#And I see a footer on the page that has the text "Copyright"
 #Display hide tabs based on grades
 And there are "7" Tabs
 And Tab has a title named "Middle School Overview"
@@ -43,8 +43,8 @@ And Tab has a title named "ELL"
 And Tab has a title named "Daybreak District"
 And in "Middle School Overview" tab, there are "2" Panels
 And in "Attendance and Discipline" tab, there are "1" Panels
-And in "Assessments" tab, there are "0" Panels
-And in "Grades and Credits" tab, there are "0" Panels
+And in "Assessments" tab, there are "2" Panels
+And in "Grades and Credits" tab, there are "1" Panels
 And in "Advanced Academics" tab, there are "0" Panels
 And in "ELL" tab, there are "0" Panels
 
@@ -72,6 +72,7 @@ When I select ed org "Sunset School District 4526"
 When I select school "Sunset Central High School"
 When I select course "A.P. Calculus"
 When I select section "A.P. Calculus Sec 201"
+Then I should only see one view named "Default View"
 And I click on student "Betty Davis"
 And I view its student profile
 And their grade is "!"

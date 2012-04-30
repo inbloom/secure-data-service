@@ -265,8 +265,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         if (associations.get(result.get("id")) != null) {
 
                             // direct self reference dont need to include association in reponse
-                            if (!endpointEntity.getResourceName().equals(entityDef.getResourceName()))
-                            result.put(resource1, associations.get(result.get("id")));
+                            if (!endpointEntity.getResourceName().equals(entityDef.getResourceName())) {
+								result.put(resource1, associations.get(result.get("id")));
+							}
                         }
 
                         result.put(ResourceConstants.LINKS, ResourceUtil.getLinks(entityDefs,
@@ -578,6 +579,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @return
      */
     protected List<EntityBody> appendOptionalFields(UriInfo info, List<EntityBody> entities, String baseEndpoint) {
+
+        if (factory == null) {
+            return entities;
+        }
+
         List<String> optionalFields = info.getQueryParameters(true).get(ParameterConstants.OPTIONAL_FIELDS);
 
         if (optionalFields != null) {

@@ -200,7 +200,8 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :i
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest, 
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, 
-                         :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest] do
+                         :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
+                         :ingestionDisciplineActionTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -264,7 +265,12 @@ task :ingestionDisciplineIncidentTest do
   runTests("test/features/ingestion/features/ingestion_disciplineIncident.feature")
 end
 
-desc "Run Ingestion Negative Tests"
+desc desc "Run Ingestion DisciplineAction Test"
+task :ingestionDisciplineActionTest do
+  runTests("test/features/ingestion/features/ingestion_disciplineAction.feature")
+end
+
+"Run Ingestion Negative Tests"
 task :ingestionNegativeTests do
   runTests("test/features/ingestion/features/negative_testing.feature")
 end
@@ -1104,7 +1110,9 @@ task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
                          :dashboardSdsPopWidgetTests,
                          :dashboardSdsStudentProfileTests,
                          :dashboardSdsUserBasedViewsTests,
-                         :dashboardSdsAttendanceTests] do
+                         :dashboardSdsAttendanceTests,
+                         :dashboardStudentSearchTests,
+                         :dashboardSdsTranscriptPanelTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1143,19 +1151,29 @@ task :dashboardSdsPopWidgetTests do
   runTests("test/features/dashboard/dash/population_widget_sds.feature")
 end
 
-desc "Run dashboard integrated Tests - Population Widget Tests"
+desc "Run dashboard integrated Tests - Student Profile Tests"
 task :dashboardSdsStudentProfileTests do
   runTests("test/features/dashboard/dash/student_profile_sds.feature")
 end
 
-desc "Run dashboard integrated Tests - Population Widget Tests"
+desc "Run dashboard integrated Tests - User Based Views Tests"
 task :dashboardSdsUserBasedViewsTests do
   runTests("test/features/dashboard/dash/user_based_views_sds.feature")
 end
 
-desc "Run dashboard integrated Tests - Population Widget Tests"
+desc "Run dashboard integrated Tests - Attendance Tests"
 task :dashboardSdsAttendanceTests do
   runTests("test/features/dashboard/dash/attendance_sds.feature")
+end
+
+desc "Run dashboard integrated Tests - Transcript History Panel"
+task :dashboardSdsTranscriptPanelTests do
+  runTests("test/features/dashboard/students/TranscriptHistoryPanel_sds.feature")
+end
+
+desc "Run dashboard integrated Tests - Simple Search Tests"
+task :dashboardStudentSearchTests do
+  runTests("test/features/dashboard/dash/student_search.feature")
 end
 
 desc "Run dashboard student gradebook entry tests"
