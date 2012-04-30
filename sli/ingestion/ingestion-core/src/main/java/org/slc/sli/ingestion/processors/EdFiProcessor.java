@@ -3,7 +3,6 @@ package org.slc.sli.ingestion.processors;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -19,7 +18,7 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
+import org.slc.sli.ingestion.handler.SmooksFileHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
@@ -47,7 +46,8 @@ public class EdFiProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(EdFiProcessor.class);
 
-    private Map<FileFormat, AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry>> fileHandlerMap;
+    @Autowired
+    private SmooksFileHandler smooksFileHandler;
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -118,12 +118,9 @@ public class EdFiProcessor implements Processor {
 
         if (fe.getFileType() != null) {
             FileFormat fileFormat = fe.getFileType().getFileFormat();
+            if (fileFormat == FileFormat.EDFI_XML) {
 
-            AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> fileHandler = fileHandlerMap
-                    .get(fileFormat);
-
-            if (fileHandler != null) {
-                fileHandler.handle(fe, errorReport, fileProcessStatus);
+                smooksFileHandler.handle(fe, errorReport, fileProcessStatus);
 
             } else {
                 throw new IllegalArgumentException("Unsupported file format: " + fe.getFileType().getFileFormat());
@@ -215,8 +212,4 @@ public class EdFiProcessor implements Processor {
         LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
-    public void setFileHandlerMap(
-            Map<FileFormat, AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry>> fileHandlerMap) {
-        this.fileHandlerMap = fileHandlerMap;
-    }
 }
