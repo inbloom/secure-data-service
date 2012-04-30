@@ -128,7 +128,8 @@ public class LiveAPIClient implements APIClient {
      */
     @Override
     public void putEdOrgCustomData(String token, String id, String customJson) {
-        restClient.putJsonRequestWHeaders(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token, customJson);
+        restClient.putJsonRequestWHeaders(getApiUrl() + EDORGS_URL + id
+                + CUSTOM_DATA, token, customJson);
     }
     
     /**
