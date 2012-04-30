@@ -98,15 +98,13 @@ public class StateEdFiXmlGenerator {
 
     private static void generateAndMarshalInterchanges() throws Exception {
 
-        edOrg();
+       edOrg();
 
-        edOrgCalendar();
+       edOrgCalendar();
 
-        masterSchedule();
+       masterSchedule();
 
-        staffAssociation();
-
-        //student();
+       staffAssociation();
 
        studentEnrollment();
 
@@ -121,7 +119,9 @@ public class StateEdFiXmlGenerator {
        assessmentMetaData();
 
        studentAssessment();
+
        studentGrade();
+       
        studentParent();
 
     }
@@ -204,7 +204,7 @@ public class StateEdFiXmlGenerator {
 
         JaxbUtils.marshal(studentParent, new PrintStream(xmlFilePath));
 
-        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "Parent", xmlFilePath);
+        DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentParent", xmlFilePath);
 
     }
 

@@ -359,10 +359,10 @@
     <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
     <LearningStandardReference>
       <LearningStandardIdentity>
-      </LearningStandardIdentity>
         <LearningStandardId>
           <IdentificationCode>LS-G3-5</IdentificationCode>
         </LearningStandardId>
+      </LearningStandardIdentity>
     </LearningStandardReference>
   </LearningObjective>
   <LearningObjective>
@@ -583,7 +583,6 @@
     <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
     <LearningStandardReference>
       <LearningStandardIdentity>
-        <LearningStandardId>LS-GK-2</LearningStandardId>
         <LearningStandardId>
           <IdentificationCode>LS-GK-2</IdentificationCode>
         </LearningStandardId>
