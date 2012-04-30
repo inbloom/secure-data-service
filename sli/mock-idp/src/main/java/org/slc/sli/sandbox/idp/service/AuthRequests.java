@@ -36,6 +36,9 @@ public class AuthRequests {
         public String getRequestId() {
             return saml.getId();
         }
+        public String getDestination() {
+            return saml.getDestination();
+        }
     }
     
     public Request processRequest(String encodedSamlRequest, String tenantName) {
@@ -43,7 +46,6 @@ public class AuthRequests {
             return null;
         }
         SamlRequest request = samlDecoder.decode(encodedSamlRequest);
-        // TODO ensure tenantName (from query param) matches what's on Destination.
         return new Request(tenantName, request);
     }
 }

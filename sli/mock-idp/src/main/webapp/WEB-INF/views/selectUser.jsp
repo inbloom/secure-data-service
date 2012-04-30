@@ -25,7 +25,7 @@
 </style>
 <link href="resources/bootstrap.css" rel="stylesheet">
 </head>
-<body>
+<body OnLoad="document.selectUser_form.userId.focus();">
 
 	<div class="container">
 
@@ -36,7 +36,7 @@
 		</div>
 
 		<div class='form-container'>
-			<form id="login_form" action="selectUser" method="post"
+			<form id="selectUser_form" name="selectUser_form" action="selectUser" method="post"
 				class="form-horizontal">
 				<fieldset>
 					<div class="control-group">

@@ -115,11 +115,11 @@ default:
         # (used in common and data-access)
         sli.wildcard.x509certificate.alias: wildcard
 
-        # (only used in mock-idp)
-        sli.mock-idp.issuer-base: http://local.slidev.org:8082/mock-idp
+        # (only used in SimpleIDP)
+        sli.simpleIDP.issuer-base: http://local.slidev.org:8082/mock-idp
 
-        # (only used in mock-idp)
-        sli.mock-idp.response-destination: http://local.slidev.org:8080/api/rest/saml/sso/post  
+        # (only used in SimpleIDP)
+        sli.simpleIDP.cot: http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
 
         # SLI Subdomain substituted by various services (used by SDK and dashboard) 
         sli.dev.subdomain: ci

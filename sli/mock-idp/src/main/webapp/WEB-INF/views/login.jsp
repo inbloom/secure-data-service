@@ -25,7 +25,7 @@
 </style>
 <link href="resources/bootstrap.css" rel="stylesheet">
 </head>
-<body>
+<body OnLoad="document.login_form.userId.focus();">
 
 	<div class="container">
 
@@ -37,8 +37,9 @@
 
 		<div class='form-container'>
 			<div><c:out value="${msg}"/></div>
-			<form id="login_form" action="login" method="post"
-				class="form-horizontal">
+			<form id="login_form" name="login_form" action="login" method="post" class="form-horizontal">
+				<input type="hidden" name="tenant" value="${tenant}"/>
+				<input type="hidden" name="SAMLRequest" value="${SAMLRequest}"/>
 				<fieldset>
 					<div class="control-group">
 						<label for="userId" class="control-label">UserId:</label>

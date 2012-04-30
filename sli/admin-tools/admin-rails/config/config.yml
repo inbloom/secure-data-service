@@ -3,32 +3,38 @@ development:
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
     redirect_uri: http://local.slidev.org:3000/callback
+    admin_realm: MockIDP Test Realm - SLI - Local
 test:
     api_base: https://devapp1.slidev.org/api/rest
+    admin_realm: Shared Learning Infrastructure
 deployment:
     api_base: https://nxbuild.slidev.org/api/rest
     client_id: BsgPgjFApl
     client_secret: 5Upgg8a5bfX5nA121IIFMDCGVAF6NtH2nAIch0BinjUAWtiH
     redirect_uri: https://devadmin1.slidev.org/callback
+    admin_realm: Shared Learning Infrastructure
 integration:
     api_base: https://testapi1.slidev.org/api/rest
     client_id: zl9FejUhnV
     client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
     redirect_uri: https://testadmin1.slidev.org/callback
+    admin_realm: Shared Learning Infrastructure
 acceptance-tests:
     api_base: https://nxbuild.slidev.org/api/rest
     client_id: zl9FejUhnV
     client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
     redirect_uri: https://nxbuild.slidev.org/admin/callback
+    admin_realm: Shared Learning Infrastructure
 nxbuild2:
     api_base: https://nxbuild2.slidev.org/api/rest
     client_id: zl9FejUhnV
     client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
     redirect_uri: https://nxbuild2.slidev.org/admin/callback
+    admin_realm: Shared Learning Infrastructure
 team:
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6
     client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
     redirect_uri: https://ci.slidev.org:2001/callback
-    
+    admin_realm: Shared Learning Infrastructure
 

@@ -1,10 +1,8 @@
 package org.slc.sli.sandbox.idp.service;
 
-import java.net.URI;
 import java.util.List;
 
 import org.slc.sli.sandbox.idp.saml.SamlResponseComposer;
-import org.slc.sli.sandbox.idp.saml.SliClient;
 import org.slc.sli.sandbox.idp.service.Users.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +24,6 @@ public class LoginService {
     @Autowired
     SamlResponseComposer samlComposer;
     
-    @Autowired
-    SliClient sliClient;
     
     /**
      * This is the base of the issuer that gets encoded in the SAMLResponse. It will have
@@ -35,7 +31,7 @@ public class LoginService {
      * in a realm document, otherwise the API will not be able to figure out which tenant this
      * request is for.
      */
-    @Value("${sli.mock-idp.issuer-base}")
+    @Value("${sli.simpleIDP.issuer-base}")
     private String issuerBase;
     
     /**
@@ -49,22 +45,44 @@ public class LoginService {
      *            information previously obtained from an incoming SAMLRequest
      * @return redirect URI sent back by the api in response to the SAMLResponse
      */
-    public URI login(User user, List<String> roles, AuthRequests.Request requestInfo) {
-        URI destination = sliClient.findDestination();
+    public SamlResponse login(User user, List<String> roles, AuthRequests.Request requestInfo) {
+        String destination = requestInfo.getDestination();
         
         LOG.info("Login for user: {} roles: {} inResponseTo: {} destination: {}", new Object[] { user.getUserId(), roles,
-                requestInfo.getRequestId(), destination.toString() });
+                requestInfo.getRequestId(), destination });
         
         String issuer = issuerBase + "?tenant=" + requestInfo.getTenant();
         
-        String encodedResponse = samlComposer.componseResponse(destination.toString(), issuer,
+        String encodedResponse = samlComposer.componseResponse(destination, issuer,
                 requestInfo.getRequestId(), user.getUserId(), user.getUserId(), roles);
         
-        URI redirectUri = sliClient.postResponse(destination, encodedResponse);
-        return redirectUri;
+        return new SamlResponse(destination, encodedResponse);
     }
     
     protected void setIssuerBase(String base) {
         this.issuerBase = base;
+    }
+    
+    
+    /**
+     * Holds saml response info
+     */
+    public static class SamlResponse {
+        private final String redirectUri;
+        private final String samlResponse;
+        
+        SamlResponse(String redirectUri, String samlResponse) {
+            this.redirectUri = redirectUri;
+            this.samlResponse = samlResponse;
+        }
+
+        public String getRedirectUri() {
+            return redirectUri;
+        }
+
+        public String getSamlResponse() {
+            return samlResponse;
+        }
+        
     }
 }

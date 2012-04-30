@@ -53,7 +53,7 @@ public class Users {
         }
     }
 
-    public User authenticate(String tenant, String userId, String password) {
+    public User authenticate(String tenant, String userId, String password) throws AuthenticationException {
         User user = new User(userId, tenant);
         
         CollectingAuthenticationErrorCallback errorCallback = new CollectingAuthenticationErrorCallback();
@@ -61,9 +61,10 @@ public class Users {
         filter.and(new EqualsFilter("objectclass", "person")).and(new EqualsFilter("uid", userId));
         boolean result = ldapTemplate.authenticate(DistinguishedName.EMPTY_PATH, filter.toString(), password, errorCallback);
         if (!result) {
-          //Exception error = errorCallback.getError();
-          return null;
+          Exception error = errorCallback.getError();
+          throw new AuthenticationException(error);
         }
+        
         user.addRole("SLC Operator");
         user.addRole("App Developer");
         return user;

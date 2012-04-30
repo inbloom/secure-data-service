@@ -48,10 +48,7 @@ public class LoginTest {
         Mockito.when(reqInfo.getRequestId()).thenReturn("req1234");
         Mockito.when(reqInfo.getTenant()).thenReturn("tenant");
         
-        HttpSession session = Mockito.mock(HttpSession.class);
-        Mockito.when(session.getAttribute(Login.REQUEST_INFO)).thenReturn(reqInfo);
-        
-        Mockito.when(service.login(user, roles, reqInfo)).thenReturn(URI.create("redirect"));
+       // Mockito.when(service.login(user, roles, reqInfo)).thenReturn(URI.create("redirect"));
         
         //View view = loginController.login("abc", roles, session);
         //assertEquals(RedirectView.class, view.getClass());

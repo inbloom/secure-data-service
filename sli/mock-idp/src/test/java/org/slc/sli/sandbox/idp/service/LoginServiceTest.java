@@ -18,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slc.sli.sandbox.idp.saml.SamlResponseComposer;
-import org.slc.sli.sandbox.idp.saml.SliClient;
 import org.slc.sli.sandbox.idp.service.AuthRequests.Request;
 import org.slc.sli.sandbox.idp.service.Users.User;
 
@@ -30,9 +29,6 @@ public class LoginServiceTest {
     
     @Mock
     SamlResponseComposer samlComposer;
-    
-    @Mock
-    SliClient sliClient;
     
     @InjectMocks
     LoginService login = new LoginService();
@@ -46,7 +42,6 @@ public class LoginServiceTest {
         List<String> roles = Arrays.asList("role1", "role2");
         URI destUri = URI.create("destUri");
         
-        Mockito.when(sliClient.findDestination()).thenReturn(destUri);
         Mockito.when(
                 samlComposer.componseResponse("destUri", "http://local.slidev.org:8082/mock-idp?tenant=TENANT",
                         "request_id", "unique_id", "unique_id", roles)).thenReturn("samlResponse");
@@ -60,9 +55,7 @@ public class LoginServiceTest {
         
         login.login(user, roles, request);
         
-        Mockito.verify(sliClient).findDestination();
         Mockito.verify(samlComposer).componseResponse("destUri", "http://local.slidev.org:8082/mock-idp?tenant=TENANT",
                 "request_id", "unique_id", "unique_id", roles);
-        Mockito.verify(sliClient).postResponse(destUri, "samlResponse");
     }
 }
