@@ -50,13 +50,6 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public NeutralRecord create(NeutralRecord neutralRecord) {
-
-        String collectionName = neutralRecord.getRecordType();
-        //Only create indexes when the collection is created.
-        if (!this.collectionExists(collectionName)) {
-            mongoIndexManager.ensureIndex(this, collectionName);
-        }
-
         return create(neutralRecord, neutralRecord.getRecordType());
     }
 

@@ -18,6 +18,7 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.handler.SmooksFileHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
@@ -84,6 +85,9 @@ public class EdFiProcessor implements Processor {
 
                 FileProcessStatus fileProcessStatus = new FileProcessStatus();
                 ErrorReport errorReport = fe.getErrorReport();
+
+                // prepare staging database
+                setupStagingDatabase();
 
                 // actually do the processing
                 processFileEntry(fe, errorReport, fileProcessStatus);
@@ -210,6 +214,11 @@ public class EdFiProcessor implements Processor {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+    }
+
+    private void setupStagingDatabase() {
+        NeutralRecordMongoAccess dbWriter = new NeutralRecordMongoAccess();
+        dbWriter.getRecordRepository().getMongoIndexManager().ensureAllIndexes(dbWriter.getRecordRepository());
     }
 
 }

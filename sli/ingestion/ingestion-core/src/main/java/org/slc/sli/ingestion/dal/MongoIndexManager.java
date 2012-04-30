@@ -3,6 +3,7 @@ package org.slc.sli.ingestion.dal;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -88,19 +89,35 @@ public final class MongoIndexManager {
             repository.createCollection(collection);
         }
 
-       if (!collectionIndexes.containsKey(collection)) {
-        return;
+        if (!collectionIndexes.containsKey(collection)) {
+            return;
+        }
+
+        for (IndexDefinition index : collectionIndexes.get(collection)) {
+
+            try {
+                repository.ensureIndex(index, collection);
+            } catch (Exception e) {
+                LOG.error("Failed to create mongo indexes, reason: {}", e.getMessage());
+            }
+        }
     }
 
-       for (IndexDefinition index : collectionIndexes.get(collection)) {
+    public void ensureAllIndexes(Repository<?> repository) {
+        Set<String> collectionNames = collectionIndexes.keySet();
+        Iterator<String> it = collectionNames.iterator();
+        String collectionName;
 
-           try {
-               repository.ensureIndex(index, collection);
-           } catch (Exception e) {
-               LOG.error("Failed to create mongo indexes, reason: {}", e.getMessage());
-           }
-       }
-   }
+        while (it.hasNext()) {
+            collectionName = it.next();
+            try {
+                repository.ensureIndex((IndexDefinition) collectionIndexes.get(collectionName), collectionName);
+            } catch (Exception e) {
+                LOG.error("Failed to create mongo indexes, reason: {}", e.getMessage());
+            }
+        }
+    }
+
 
     /**Set indexes for all the collections configured
      *
