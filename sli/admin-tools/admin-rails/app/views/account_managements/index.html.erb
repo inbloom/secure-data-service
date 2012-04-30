@@ -5,8 +5,8 @@
 <table id="Account_Management_Table">
 	<tr>
 		<th>Vendor</th>
-		<th>Name</th>
-		<th>Approval Date</th>
+		<th>User Name</th>
+		<th>Last Update</th>
 		<th>Status</th>
 		<th>Action</th>
 	</tr>
@@ -14,7 +14,7 @@
 	<tr>
 		<td><%= account_management.vendor%></td>
 		<td><%= account_management.name%></td>
-		<td><%= account_management.approvalDate%></td>
+		<td><%= account_management.lastUpdate%></td>
 		<% if account_management.status == "Approved"%>
 		<td id="approvedStatus"><%= account_management.status%></td>
 		<% elsif account_management.status == "Pending"%>
@@ -28,12 +28,14 @@
 		form_for "" do |f|
 		%>
 		<%= f.hidden_field "email", :value => account_management.email %>
-		<%= f.submit "Approve",:disabled => (account_management.status=="Approved"),
+		<%= f.submit "Approve",:disabled => (account_management.transitions.index("approve")==nil),
       :confirm => "Do you really want to approve this user account?'" %>
-		<%= f.submit "Reject",:disabled => (account_management.status=="Rejected"),
+		<%= f.submit "Reject",:disabled => (account_management.transitions.index("reject")==nil),
       :confirm => "Do you really want to reject this user account?"%>
-      <%= f.submit "Disable",:disabled => (account_management.status=="Disabled"),
+      <%= f.submit "Disable",:disabled => (account_management.transitions.index("disable")==nil),
       :confirm => "Do you really want to disable this user account?"%>
+      <%= f.submit "Enable",:disabled => (account_management.transitions.index("enable")==nil),
+      :confirm => "Do you really want to enable this user account?"%>
 		<% end %>
 	</tr>
 	<% end %>

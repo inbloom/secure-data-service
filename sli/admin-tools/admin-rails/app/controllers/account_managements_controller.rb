@@ -13,17 +13,21 @@ class AccountManagementsController < ApplicationController
         account_management.name="test name " +String(counter+1)
         account_management.vendor="test vendor "+String(counter+1)
         if counter%4==0
-          account_management.approvalDate="2012-01-01"
+          account_management.lastUpdate="2012-01-01"
           account_management.status="Approved"
+          account_management.transitions=["disable"]
         elsif counter%4==1
-          account_management.approvalDate=""
+          account_management.lastUpdate="2012-01-01"
           account_management.status="Pending"
+          account_management.transitions=["reject","approve"]
         elsif counter%4==2
-          account_management.approvalDate=""
+          account_management.lastUpdate="2012-01-01"
           account_management.status="Rejected"
+           account_management.transitions=[]
         else
-          account_management.approvalDate=""
+          account_management.lastUpdate="2012-01-01"
           account_management.status="Disabled"
+           account_management.transitions=["enable"]
         end
         account_management.email="test"+String(counter+1)+"@test.com"
         @account_managements[counter]=account_management
@@ -83,13 +87,20 @@ class AccountManagementsController < ApplicationController
           @account_managements.delete(account_management)
           if commit=="Approve"
           account_management.status="Approved"
-          account_management.approvalDate=Time.now.strftime("%Y-%m-%d")
+          account_management.lastUpdate=Time.now.strftime("%Y-%m-%d")
+          account_management.transitions=["disable"]
           elsif commit=="Reject"
             account_management.status="Rejected"
-          account_management.approvalDate=""
+          account_management.lastUpdate=Time.now.strftime("%Y-%m-%d")
+           account_management.transitions=[]
           elsif commit =="Disable"
             account_management.status="Disabled"
-          account_management.approvalDate=""
+          account_management.lastUpdate=Time.now.strftime("%Y-%m-%d")
+            account_management.transitions=["enable"]
+          elsif commit =="Enable"
+            account_management.status="Approved"
+          account_management.lastUpdate=Time.now.strftime("%Y-%m-%d")
+          account_management.transitions=["disable"]
           end
           @account_managements.push(account_management)
         end
@@ -150,7 +161,7 @@ class AccountManagementsController < ApplicationController
       disabled_account_managements.push(account_management)
       end
     end
-    account_managements=pending_account_managements.concat(approved_account_managements).concat(rejected_account_managements).concat(disabled_account_managements)
+    account_managements=pending_account_managements.concat(approved_account_managements).concat(disabled_account_managements).concat(rejected_account_managements)
   end
   
 end
