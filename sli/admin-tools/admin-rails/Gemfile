@@ -7,9 +7,9 @@ gem 'rails', '3.1.3'
 
 gem 'execjs'
 
-gem 'therubyracer'
-
 gem 'oauth2'
+
+gem 'approval', :path => '../approval'
 
 group :deployment, :integration do
   # Deploy with Capistrano

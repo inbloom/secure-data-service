@@ -4,6 +4,7 @@ class AccountManagementsController < ApplicationController
   # GET /account_managements.json
   def index
     #use global variable to avoid save data to database before connect to LDAP is implemented
+=begin
      @account_managements=$account_managements
     if @account_managements==nil
       counters = (0...20).to_a
@@ -33,13 +34,18 @@ class AccountManagementsController < ApplicationController
         @account_managements[counter]=account_management
       end
       end
+=end
+     @account_managements=get_all()
+      
 
     # sort the @account_managements based on status
    
     @account_managements=sort(@account_managements)
 
+=begin
     #update the global variable $account_managements
     $account_managements=@account_managements
+=end
     
     respond_to do |format|
       format.html # index.html.erb
@@ -80,8 +86,11 @@ class AccountManagementsController < ApplicationController
   def create
     commit = params["commit"]
     email = params["email"]
-    @account_managements=$account_managements
+    account=AccountManagement.change_user_status(email,commit.downcase)
+    @account_managements=get_all()
+    @notice='Account was successfully updated.'
     
+=begin    
       @account_managements.each do |account_management|
         if account_management.email==email
           @account_managements.delete(account_management)
@@ -107,7 +116,7 @@ class AccountManagementsController < ApplicationController
       end
       @notice='Account was successfully updated.'
       @account_managements=sort(@account_managements)
-    
+=end    
     respond_to do |format|
      
         format.html { render "index"}
@@ -151,17 +160,35 @@ class AccountManagementsController < ApplicationController
   def sort(account_managements)
      pending_account_managements,approved_account_managements,rejected_account_managements,disabled_account_managements=Array.new(),Array.new(),Array.new(),Array.new()
     account_managements.each do |account_management|
-      if account_management.status =="Pending"
+      if account_management.status =="Pending".downcase
       pending_account_managements.push(account_management)
-      elsif account_management.status =="Approved"
+      elsif account_management.status =="Approved".downcase
       approved_account_managements.push(account_management)
-      elsif account_management.status =="Rejected"
+      elsif account_management.status =="Rejected".downcase
       rejected_account_managements.push(account_management)
-      elsif account_management.status =="Disabled"
+      elsif account_management.status =="Disabled".downcase
       disabled_account_managements.push(account_management)
       end
     end
     account_managements=pending_account_managements.concat(approved_account_managements).concat(disabled_account_managements).concat(rejected_account_managements)
+  end
+  
+  def get_all()
+     account_managements=Array.new()
+      accounts=AccountManagement.get_users()
+      if accounts!=nil
+      accounts.each do |account|
+        account_management = AccountManagement.new()
+        account_management.name=account["first"]+" "+account["last"]
+        account_management.vendor=account["vendor"]
+        account_management.email=account["email"]
+        account_management.lastUpdated=account["updated"]
+        account_management.status=account["status"]
+        account_management.transitions=account["transitions"]
+        account_managements.push(account_management)
+      end
+      end
+      account_managements
   end
   
 end
