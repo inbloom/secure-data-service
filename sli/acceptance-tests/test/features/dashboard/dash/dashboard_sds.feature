@@ -110,13 +110,27 @@ And there are "1" phone numbers
 And the list of phone number includes "309-555-2449"
 And the phone number "309-555-2449" is of type "Home"
 And there are "0" addresses
-And there are "6" student enrollment history entries
-And Student Enrollment History includes " ;East Daybreak Junior High;8;2011-09-01; ; ; ; ;"
-And Student Enrollment History includes " ;East Daybreak Junior High;7;2010-09-01;Next year school; ;2011-05-11;End of school year"
-And Student Enrollment History includes " ;East Daybreak Junior High;6;2009-09-07;Transfer from a public school in the same local education agency; ;2010-05-11;End of school year"
-And Student Enrollment History includes " ; ;5;2008-09-05;Next year school; ;2009-05-11;End of school year"
-And Student Enrollment History includes " ; ;4;2007-09-12;Next year school; ;2008-05-10;End of school year"
-And Student Enrollment History includes " ; ;3;2006-09-11;Transfer from a private, religiously-affiliated school in a different state; ;2007-05-09;Student is in a different public school in the same local education agency"
+And Student Enrollment History has the following entries:
+|Year   |School                     |Gr|Entry Date |Entry Type                                                                 |Transfer |Withdraw Date|Withdraw Type      |
+|<empty>|East Daybreak Junior High  |8 |2011-09-01 |<empty>                                                                    |<empty>  |<empty>      |<empty>            |
+|<empty>|East Daybreak Junior High  |7 |2010-09-01 |Next year school                                                           |<empty>  |2011-05-11   |End of school year |
+|<empty>|East Daybreak Junior High  |6 |2009-09-07 |Transfer from a public school in the same local education agency           |<empty>  |2010-05-11   |End of school year |
+|<empty>|<empty>                    |5 |2008-09-05 |Next year school                                                           |<empty>  |2009-05-11   |End of school year |
+|<empty>|<empty>                    |4 |2007-09-12 |Next year school                                                           |<empty>  |2008-05-10   |End of school year |
+|<empty>|<empty>                    |3 |2006-09-11 |Transfer from a private, religiously-affiliated school in a different state|<empty>  |2007-05-09   |Student is in a different public school in the same local education agency|
+ When I click on "Assessment" Tab
+And Assessment History includes results for:
+|Test         |
+|ISAT Reading |
+|ISAT Writing |
+And the Assessment History for "ISAT Reading" has the following entries:
+|Date         |Grade  |Assessment Name            |Scale score  |Other  |Percentile |Perf Level|
+|2011-10-01   |8      |Grade 8 2011 ISAT Reading  |195          |642    |53         |195|
+|2011-09-01   |8      |Grade 8 2011 ISAT Reading  |199          |655    |55         |195|
+And the Assessment History for "ISAT Writing" has the following entries:
+|Date         |Grade  |Assessment Name            |Scale score  |
+|2011-10-01   |8      |Grade 8 2011 ISAT Writing  |1            |
+|2011-09-01   |8      |Grade 8 2011 ISAT Writing  |25           |
 #And I see a header on the page that has the text "Logout"
 #And I see a footer on the page that has the text "Copyright"
 
@@ -199,9 +213,10 @@ And the list of address includes
 Daybreak, IL 75229
 """
 And the order of the addressess is "34 Northshore Ave;82 N. Central Pkwy."
-And there are "2" student enrollment history entries
-And Student Enrollment History includes " ;South Daybreak Elementary;1;2011-09-05;Next year school; ; ; ;"
-And Student Enrollment History includes " ;South Daybreak Elementary;K;2010-09-03;Original entry into a United States school; ;2011-05-11;End of school year"
+And Student Enrollment History has the following entries:
+|Year      |School                     |Gr  |Entry Date |Entry Type                                 |Transfer |Withdraw Date  |Withdraw Type      |
+|<empty>   |South Daybreak Elementary  |1   |2011-09-05 |Next year school                           |<empty>  |<empty>        |<empty>            |
+|<empty>   |South Daybreak Elementary  |K   |2010-09-03 |Original entry into a United States school |<empty>  |2011-05-11     |End of school year |
 #And I see a header on the page that has the text "Logout"
 #And I see a footer on the page that has the text "Copyright"
 
@@ -285,15 +300,16 @@ And there are "1" phone numbers
 And the list of phone number includes "309-555-9372"
 And the phone number "309-555-9372" is of type "Other"
 And there are "0" addresses
-And there are "9" student enrollment history entries
-And Student Enrollment History includes " ;Daybreak Central High;11;2011-09-08;Next year school; ; ; ;"
-And Student Enrollment History includes " ;Daybreak Central High;10;2010-09-08;Next year school; ;2011-05-11;End of school year"
-And Student Enrollment History includes " ;Daybreak Central High;9;2009-09-08;Transfer from a public school in the same local education agency; ;2010-05-11;End of school year"
-And Student Enrollment History includes " ; ;8;2008-09-11;Transfer from a public school in the same local education agency; ;2009-05-08;Exited"
-And Student Enrollment History includes " ; ;7;2008-03-11;Transfer from a public school in the same local education agency; ;2008-05-08;End of school year"
-And Student Enrollment History includes " ; ;7;2007-09-14;Next year school; ;2008-02-12;Student is in a different public school in the same local education agency"
-And Student Enrollment History includes " ; ;6;2006-09-11;Next year school; ;2007-05-14;End of school year"
-And Student Enrollment History includes " ; ;5;2005-09-09;Transfer from a private, religiously-affiliated school in the same local education agency; ;2006-05-15;Exited"
-And Student Enrollment History includes " ; ;2;2002-09-12;Transfer from a school outside of the country; ;2003-04-12;Expelled or involuntarily withdrawn"
+And Student Enrollment History has the following entries:
+|Year   |School                 |Gr|Entry Date |Entry Type                                                                            |Transfer     |Withdraw Date  |Withdraw Type      |
+|<empty>|Daybreak Central High  |11|2011-09-08 |Next year school                                                                      |<empty>      |<empty>        |<empty>            |
+|<empty>|Daybreak Central High  |10|2010-09-08 |Next year school                                                                      |<empty>      |2011-05-11     |End of school year |
+|<empty>|Daybreak Central High  |9 |2009-09-08 |Transfer from a public school in the same local education agency                      |<empty>      |2010-05-11     |End of school year |
+|<empty>|<empty>                |8 |2008-09-11 |Transfer from a public school in the same local education agency                      |<empty>      |2009-05-08     |Exited             |
+|<empty>|<empty>                |7 |2007-09-14 |Next year school                                                                      |<empty>      |2008-02-12     |Student is in a different public school in the same local education agency|
+|<empty>|<empty>                |7 |2007-09-14 |Next year school                                                                      |<empty>      |2008-02-12     |Student is in a different public school in the same local education agency|
+|<empty>|<empty>                |6 |2006-09-11 |Next year school                                                                      |<empty>      |2007-05-14     |End of school year |
+|<empty>|<empty>                |5 |2005-09-09 |Transfer from a private, religiously-affiliated school in the same local education agency|<empty>   |2006-05-15     |Exited             |
+|<empty>|<empty>                |2 |2002-09-12 |Transfer from a school outside of the country                                         |<empty>      |2003-04-12     |Expelled or involuntarily withdrawn|
 #And I see a header on the page that has the text "Logout"
 #And I see a footer on the page that has the text "Copyright"
