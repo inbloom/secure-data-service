@@ -70,14 +70,6 @@ Scenario: Applying optional fields
   Then I should receive an XML document
   And I should receive a return code of 200
 
-  # attendances
-  Then I should find "<attendances>" under "<student>"
-  And I should find 74 "<attendances>" under "<student><attendances>"
-  And I should find 0 entries with "<eventDate>" including the string "2011"
-  And I should see "<entityType>" is "attendance" for the one at position 2
-  And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for the one at position 2
-  And I should see "<attendanceEventCategory>" is "Excused Absence" for the one at position 2
-
   # assessments
   Then I should find "<studentAssessments>" under "<student>"
   And I should see "<entityType>" is "studentAssessmentAssociation"
@@ -112,16 +104,6 @@ Scenario: Applying optional fields
   And I should find "<courses>" under "<student><transcript><studentSectionAssociations><sections>"
   And I should see "<entityType>" is "course"
 
-Scenario: Applying optional fields - attendances with year filter
-  Given optional field "attendances.1"
-  And parameter "limit" is "0"
-  When I navigate to GET "/v1/sections/<LINDA KIM SECTION ID>/studentSectionAssociations/students"
-  Then I should receive an XML document
-  And I should receive a return code of 200
-
-  Then I should find 161 "<attendances>" under "<student><attendances>"
-  And I should find 87 entries with "<eventDate>" including the string "2011"
-
 Scenario: Applying optional fields - single student view
   Given optional field "attendances"
   And optional field "assessments"
@@ -134,11 +116,10 @@ Scenario: Applying optional fields - single student view
 
   # attendances
   Then I should find "<attendances>" under "<student>"
-  And I should find 161 "<attendances>" under "<student><attendances>"
-  And I should find 87 entries with "<eventDate>" including the string "2011"
-  And I should see "<entityType>" is "attendance" for the one at position 2
-  And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for the one at position 2
-  And I should see "<attendanceEventCategory>" is "In Attendance" for the one at position 2
+  And I should find 181 "<attendances>" under "<student><attendances>"
+  And I should find 77 entries with "<date>" including the string "2011"
+  And I should see "<date>" is "2011-09-07" for the one at position 2
+  And I should see "<event>" is "In Attendance" for the one at position 2
 
   # assessments
   Then I should find "<studentAssessments>" under "<student>"

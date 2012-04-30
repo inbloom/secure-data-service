@@ -798,7 +798,8 @@ end
 
 desc "Run V1 Attendance Tests"
 task :v1AttendanceTests => [:realmInit] do
-  setFixture("student", "student_fixture.json")
+    setFixture("student", "student_fixture.json")
+    setFixture("school", "school_fixture.json")
   runFixtureAndTests("test/features/apiV1/entities/attendance/attendance.feature","attendance","attendance_fixture.json")
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/attendance/attendance_security.feature")
