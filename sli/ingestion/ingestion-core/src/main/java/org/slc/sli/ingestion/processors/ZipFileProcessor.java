@@ -94,6 +94,15 @@ public class ZipFileProcessor implements Processor {
         String batchJobId = NewBatchJob.createId(zipFile.getName());
         NewBatchJob newJob = new NewBatchJob(batchJobId);
         newJob.setStatus(BatchJobStatusType.RUNNING.getName());
+
+        // added so that errors are later logged to correct location in case process fails early
+        File parentFile = zipFile.getParentFile();
+        String topLevelSourceId = parentFile.getAbsolutePath();
+        if (topLevelSourceId.endsWith(".done")) {
+            topLevelSourceId = parentFile.getParentFile().getAbsolutePath();
+        }
+        newJob.setTopLevelSourceId(topLevelSourceId);
+
         return newJob;
     }
 

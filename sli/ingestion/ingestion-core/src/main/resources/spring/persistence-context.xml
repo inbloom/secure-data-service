@@ -62,6 +62,8 @@
     <value>staffCohortAssociation</value>
     <value>learningObjective</value>
     <value>learningStandard</value>
+    <value>disciplineIncident</value>
+    <value>disciplineAction</value>
   </util:set>
 
 </beans>

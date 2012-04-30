@@ -1,0 +1,42 @@
+{
+    "keyFields" : [ "body.incidentIdentifier", "body.schoolId"],
+	"references" :
+	[{
+        "fieldPath" : "body.staffId",
+        "ref" :
+        {
+	        "collectionName" : "staff",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "body.staffUniqueStateId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.StaffReference.StaffIdentity.StaffUniqueStateId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    {
+        "fieldPath" : "body.schoolId",
+        "ref" :
+        {
+	        "collectionName" : "school",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "body.stateOrganizationId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.SchoolReference.EducationalOrgIdentity.StateOrganizationId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    }]
+}

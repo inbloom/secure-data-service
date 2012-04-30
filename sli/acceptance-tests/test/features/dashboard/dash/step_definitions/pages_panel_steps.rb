@@ -39,7 +39,7 @@ def getTabId(tabTitle)
   tabs.each do |tab|
     title = tab.find_element(:tag_name, "a") 
     link = title.attribute("href")
-    if (title.text == tabTitle && link =~ /page-tab(\d+)/)
+    if (title.text == tabTitle && link =~ /page-tab(.*)/)
       found = true
       id = $1
     end

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
+    <DisciplineAction>
+        <DisciplineActionIdentifier>cap0-lea0-sch1-da0</DisciplineActionIdentifier>
+        <Disciplines>
+            <CodeValue>DISCIPLINE 001</CodeValue>
+            <ShortDescription>Discipline 001 description</ShortDescription>
+            <Description>Suspension from school for a week</Description>
+        </Disciplines>
+        <Disciplines>
+            <CodeValue>DISCIPLINE 002</CodeValue>
+            <ShortDescription>Discipline 002 description</ShortDescription>
+            <Description>Suspension from school for 5 days</Description>
+        </Disciplines>
+        <DisciplineDate>2011-03-04</DisciplineDate>
+        <DisciplineActionLength>74</DisciplineActionLength>
+        <ActualDisciplineActionLength>64</ActualDisciplineActionLength>
+        <DisciplineActionLengthDifferenceReason>Term Modified By Mutual Agreement</DisciplineActionLengthDifferenceReason>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>530425896</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>814202099</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>di-10001</IncidentIdentifier>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>cgray</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <ResponsibilitySchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ResponsibilitySchoolReference>
+        <AssignmentSchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </AssignmentSchoolReference>
+    </DisciplineAction>
+
+    <DisciplineAction>
+        <DisciplineActionIdentifier>cap0-lea0-sch1-da1</DisciplineActionIdentifier>
+        <Disciplines>
+            <CodeValue>DISCIPLINE 001</CodeValue>
+            <ShortDescription>Discipline 001 description</ShortDescription>
+            <Description>Suspension from school for a week</Description>
+        </Disciplines>
+        <DisciplineDate>2011-04-04</DisciplineDate>
+        <DisciplineActionLength>74</DisciplineActionLength>
+        <ActualDisciplineActionLength>64</ActualDisciplineActionLength>
+        <DisciplineActionLengthDifferenceReason>Term Modified By Mutual Agreement</DisciplineActionLengthDifferenceReason>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>178875887</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>di-10002</IncidentIdentifier>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <ResponsibilitySchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ResponsibilitySchoolReference>
+        <AssignmentSchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </AssignmentSchoolReference>
+    </DisciplineAction>
+</InterchangeStudentDiscipline>
