@@ -37,7 +37,8 @@ $collectionSet = ["student",
                   "parent",
                   "studentParentAssociation",
                   "attendance",
-                  "program"]
+                  "program",
+                  "studentAcademicRecord"]
 
 #######################################################################################################
 # Helper defs
@@ -1059,7 +1060,7 @@ end
 
 desc "Run Dashboard most recent result acceptance tests"
 task :MostRecentResultTests do
-    runTests("test/features/dashboard/assessments/MostRecent.feature")
+    runTests("test/features/dashboard/dash/MostRecent.feature")
 end
 
 desc "Run Dashboard highest ever result acceptance tests"
