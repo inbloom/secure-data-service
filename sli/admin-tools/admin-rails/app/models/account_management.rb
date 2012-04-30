@@ -1,5 +1,5 @@
 class AccountManagement
   
- attr_accessor :name,:vendor,:approvalDate,:status,:email
+ attr_accessor :name,:vendor,:lastUpdate,:status,:email,:transitions
 
 end
