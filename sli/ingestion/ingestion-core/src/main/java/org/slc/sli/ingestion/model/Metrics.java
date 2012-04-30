@@ -47,7 +47,7 @@ public class Metrics {
         this.stopTimestamp = stopTimestamp;
         this.recordCount = recordCount;
         this.errorCount = errorCount;
-        calcElapsedTime();
+
     }
 
     public static Metrics createAndStart(String resourceId) {
@@ -133,7 +133,7 @@ public class Metrics {
         }
         this.recordCount = recordCount;
         this.errorCount = errorCount;
-        calcElapsedTime();
+
     }
 
     public void startMetric() {
@@ -150,6 +150,9 @@ public class Metrics {
     }
 
     private void calcElapsedTime() {
-        elapsedTime = stopTimestamp.getTime() - startTimestamp.getTime();
+        if (stopTimestamp != null && startTimestamp != null) {
+            elapsedTime = stopTimestamp.getTime() - startTimestamp.getTime();
+        }
     }
+
 }
