@@ -166,6 +166,7 @@ public final class Constants {
     public static final String ATTR_LETTER_GRADE_EARNED = "letterGradeEarned";
     public static final String ATTR_CUMULATIVE_GPA = "cumulativeGradePointAverage";
     public static final String ATTR_STUDENT_ACADEMIC_RECORDS = "studentAcademicRecords";
+    public static final String ATTR_SESSION_BEGIN_DATE = "beginDate";
 
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";

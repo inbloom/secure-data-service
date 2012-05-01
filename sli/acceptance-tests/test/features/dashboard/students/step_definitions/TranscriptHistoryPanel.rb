@@ -51,7 +51,7 @@ Then /^I should see the table headers "([^"]*)"$/ do |headers|
   year = headerLabels.find_element(:xpath, "th/div[contains(@id,'schoolYear')]").text
   term = headerLabels.find_element(:xpath, "th/div[contains(@id,'term')]").text
   school = headerLabels.find_elements(:xpath, "th/div[contains(@id,'school')]")[1].text # index 0 is schoolYear...
-  gradeLevel = headerLabels.find_element(:xpath, "th/div[contains(@id,'gradeLevel')]").text
+  gradeLevel = headerLabels.find_element(:xpath, "th/div[contains(@id,'gradeLevelCode')]").text
   cumulativeGPA = headerLabels.find_element(:xpath, "th/div[contains(@id,'cumulativeGradePointAverage')]").text
   actualRow = [year, term, school, gradeLevel, cumulativeGPA]
   assert(expectedRow == actualRow, "Values do not match")
@@ -149,7 +149,7 @@ def getIndexFromRowData(rowsToCheck, rowData)
     schoolYear = rowsToCheck[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'schoolYear')]").text
     term = rowsToCheck[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'term')]").text
     school = rowsToCheck[rowIndex].find_elements(:xpath, "td[contains(@aria-describedby,'school')]")[1].text # index 0 is schoolYear...
-    gradeLevel = rowsToCheck[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'gradeLevel')]").text
+    gradeLevel = rowsToCheck[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'gradeLevelCode')]").text
     cumulativeGPA = rowsToCheck[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'cumulativeGradePointAverage')]").text
     actualRow = [schoolYear, term, school, gradeLevel, cumulativeGPA]
     if (expectedRow == actualRow)
