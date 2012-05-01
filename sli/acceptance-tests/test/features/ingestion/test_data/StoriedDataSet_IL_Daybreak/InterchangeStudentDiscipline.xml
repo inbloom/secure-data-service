@@ -16,7 +16,7 @@
   <BehaviorDescriptor>
       <CodeValue>BEH02</CodeValue>
       <ShortDescription>Tardiness</ShortDescription>
-      <Description>Chornic tardiness</Description>
+      <Description>Chronic tardiness</Description>
       <BehaviorCategory>School Violation</BehaviorCategory>
       <EducationOrganizationReference>
         <EducationalOrgIdentity>
