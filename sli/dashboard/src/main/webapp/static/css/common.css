@@ -496,6 +496,116 @@ th.ui-th-column div {
     opacity: 0.65;
 }
 
-/* Import of Teardrop styling */
-@import url("teardrop.css");
+.numericGradeColumn {
+    text-align: center;
+}
+
+.teardrop {
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 18px;
+    width: 90px;
+    color: white;
+    font-family: Arial, Helvica, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    padding-top: 1px;
+    text-align: center;
+}
+
+
+.teardrop-darkgreen-notrend {
+    background-image:  url(../images/darkgreen-notrend.gif);
+}
+
+.teardrop-darkgreen-uptrend {
+    background-image:  url(../images/darkgreen-uptrend.gif);
+}
+
+.teardrop-darkgreen-downtrend {
+    background-image:  url(../images/darkgreen-downtrend.gif);
+}
+
+.teardrop-darkgreen-eventrend {
+    background-image:  url(../images/darkgreen-eventrend.gif);
+}
+
+.teardrop-lightgreen-notrend {
+    background-image:  url(../images/lightgreen-notrend.gif);
+}
+
+.teardrop-lightgreen-uptrend {
+    background-image:  url(../images/lightgreen-uptrend.gif);
+}
+
+.teardrop-lightgreen-downtrend {
+    background-image:  url(../images/lightgreen-downtrend.gif);
+}
+
+.teardrop-lightgreen-eventrend {
+    background-image:  url(../images/lightgreen-eventrend.gif);
+}
+
+.teardrop-yellow-notrend {
+    background-image:  url(../images/yellow-notrend.gif);
+}
+
+.teardrop-yellow-uptrend {
+    background-image:  url(../images/yellow-uptrend.gif);
+}
+
+.teardrop-yellow-downtrend {
+    background-image:  url(../images/yellow-downtrend.gif);
+}
+
+.teardrop-yellow-eventrend {
+    background-image:  url(../images/yellow-eventrend.gif);
+}
+
+
+.teardrop-orange-notrend {
+    background-image:  url(../images/orange-notrend.gif);
+}
+.teardrop-orange-uptrend {
+    background-image:  url(../images/orange-uptrend.gif);
+}
+.teardrop-orange-downtrend {
+    background-image:  url(../images/orange-downtrend.gif);
+}
+
+.teardrop-orange-eventrend {
+    background-image:  url(../images/orange-eventrend.gif);
+}
+
+.teardrop-red-notrend {
+    background-image:  url(../images/red-notrend.gif);
+}
+
+.teardrop-red-uptrend {
+    background-image:  url(../images/red-uptrend.gif);
+}
+
+.teardrop-red-downtrend {
+    background-image:  url(../images/red-downtrend.gif);
+}
+
+.teardrop-red-eventrend {
+    background-image:  url(../images/red-eventrend.gif);
+}
+
+.teardrop-grey-notrend {
+    background-image:  url(../images/grey-notrend.gif);
+}
+
+.teardrop-grey-uptrend {
+    background-image:  url(../images/grey-uptrend.gif);
+}
+
+.teardrop-grey-downtrend {
+    background-image:  url(../images/grey-downtrend.gif);
+}
+
+.teardrop-grey-eventrend {
+    background-image:  url(../images/grey-eventrend.gif);
+}
 

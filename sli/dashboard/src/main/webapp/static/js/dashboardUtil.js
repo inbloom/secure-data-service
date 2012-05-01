@@ -338,24 +338,24 @@ DashboardUtil.Grid.Formatters = {
 		},
 
         Grade: function(value, options, rowobject) {
-            var displayValue = "";
+            var div = "<div class=\"";
+            var closeDiv = "\">";
+            var endDiv = "</div>";
+            var styleClass = "";
+            var innerHtml = "";
             if(value === undefined || value === null) {
-                return displayValue;
+                return div + styleClass + closeDiv + innerHtml + endDiv;
             }
 
             if(value.gradeEarned !== null && value.gradeEarned !== undefined) {
-                var stringVersion = value.gradeEarned + "";
-                var isANumber = stringVersion.match(/^\d+$/);
-                if(!isANumber) {
-                    var teardropStyle = "<div class=\"" + 
-                        DashboardUtil.teardrop.getStyle(value.gradeEarned, null) +  
-                        "\">" + value.gradeEarned + "</div>";
-                    displayValue = displayValue + teardropStyle;
+                innerHtml = value.gradeEarned;
+                if(isNaN(value.gradeEarned)) {
+                    styleClass = DashboardUtil.teardrop.getStyle(value.gradeEarned, null); 
                 } else {
-                    displayValue = displayValue +  value.gradeEarned;
+                    styleClass = "numericGradeColumn"; 
                 }
-            }
-            return displayValue;
+            } 
+            return div + styleClass + closeDiv + innerHtml + endDiv;
         },
 
         TearDrop: function(value, options, rowObject) {
@@ -386,28 +386,47 @@ DashboardUtil.Grid.Formatters = {
 };
 
 DashboardUtil.Grid.Sorters = {
-		Enum: function(params) {
-			var enumHash = {};
-			params.sortEnum.sort(DashboardUtil.numbersFirstComparator);
-			for (var i in params.sortEnum) {
-				enumHash[params.sortEnum[i]] = i;
-			}
-			return function(value, rowObject) {
-				var i = enumHash[value];
-				return i ? i : -1;
-			}
-			
-		},
+        Enum: function(params) {
+            var enumHash = {};
+            params.sortEnum.sort(DashboardUtil.numbersFirstComparator);
+            for (var i in params.sortEnum) {
+                enumHash[params.sortEnum[i]] = i;
+            }
+            return function(value, rowObject) {
+                var i = enumHash[value];
+                return i ? i : -1;
+            }
+        },
 
         LetterGrade: function(params) {
             return function(semesterGrades, rowObject) {
+                 if(semesterGrades === null || semesterGrades === undefined) {
+                     return -1;
+                 }
+                 if(semesterGrades[0] === null || semesterGrades[0] === undefined) {
+                     return -1;
+                 }
+                 if(semesterGrades[0].letterGrade === null || semesterGrades[0].letterGrade === undefined) {
+                     return -1;
+                 }
+
                  var i = DashboardUtil.teardrop.GRADE_TREND_CODES[semesterGrades[0].letterGrade]; 
+                 if(i === null || i === undefined) {
+                     return -1;
+                 }
                  return i ? i : -1;
             }
          },
 
          LettersAndNumbers: function(params) {
              return function(gradeDate, rowObject) {
+                 if(gradeDate === null || gradeDate === undefined) {
+                     return -1;
+                 }
+                 if(gradeDate.gradeEarned === null || gradeDate.gradeEarned === undefined) {
+                     return -1;
+                 }
+
                  var i = DashboardUtil.teardrop.GRADE_TREND_CODES[gradeDate.gradeEarned]; 
                  if(i === undefined || i === null) {
                      i = gradeDate.gradeEarned;
