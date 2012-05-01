@@ -38,7 +38,7 @@ module ApprovalEngine
 	@@storage = nil 
 
 	# initialize the storage 
-	def init_storage(storage)
+	def init(storage, is_sandbox)
 		@@storage = storage
 	end
 

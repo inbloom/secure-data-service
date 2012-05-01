@@ -17,6 +17,13 @@ class LDAPStorage
 	}
 
 	ENTITY_ATTR_MAPPING = LDAP_ATTR_MAPPING.invert
+	ALLOW_UPDATING = [
+		:first,
+		:last,
+		:password, 
+		:vendor,
+		:emailtoken
+	]
 
 	def initialize(host, port, base, username, password)
      	@people_base = "ou=people,#{base}"
@@ -119,6 +126,12 @@ class LDAPStorage
 	# updates the user_info except for the user status 
 	# user_info is the same input as for create_user 
 	def update_user_info(user_info)
+		user = read_user(user_info[:email])
+		if user
+			dn = get_DN(user[:email])
+									
+			@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[:status], user[:status])
+		end
 	end 
 
 	# deletes the user entirely 
