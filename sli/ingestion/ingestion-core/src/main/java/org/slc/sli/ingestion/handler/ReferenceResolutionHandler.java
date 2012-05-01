@@ -52,6 +52,10 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
             rr.execute(inputFile.getPath(), outputFile.getPath());
 
             // Move the expanded output file to the input file, and return it.
+
+            //InterchangeStudentAssessment.xml is not always deleted for relatively large files so
+            // as a temporary solution we attempt to delete it 5 times.
+            // defect DE312 has been opened to track the root cause
             int deleteCounter = 0;
             while (!inputFile.delete()) {
                 if (deleteCounter > 5) {

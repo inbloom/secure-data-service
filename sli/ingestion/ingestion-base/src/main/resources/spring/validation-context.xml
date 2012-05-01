@@ -26,11 +26,7 @@
         <entry key="StaffAssociation">
             <value>classpath:edfiXsd/Interchange-StaffAssociation.xsd</value>
         </entry>
-<!--
-        <entry key="Student">
-             <value>classpath:edfiXsd/Interchange-Student.xsd</value>
-        </entry>
--->
+
         <entry key="StudentAssessment">
             <value>classpath:edfiXsd/Interchange-StudentAssessment.xsd</value>
         </entry>
