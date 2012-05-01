@@ -936,7 +936,7 @@ task :apiSeleniumTests => [:adminToolsTests, :databrowserTests] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:realmInit,:accountApprovalTests] do
+task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools")
   Rake::Task["importSandboxData"].execute
