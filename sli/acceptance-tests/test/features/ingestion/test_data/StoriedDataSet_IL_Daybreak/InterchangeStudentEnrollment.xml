@@ -242,7 +242,7 @@
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
     <EntryType>Next year school</EntryType>
 	</StudentSchoolAssociation>
-  
+
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -256,10 +256,10 @@
     </SchoolReference>
     <EntryDate>2010-09-08</EntryDate>
     <EntryGradeLevel>Tenth grade</EntryGradeLevel>
-    <EntryType>Next year school</EntryType>	
+    <EntryType>Next year school</EntryType>
     <ExitWithdrawDate>2011-05-11</ExitWithdrawDate>
     <ExitWithdrawType>End of school year</ExitWithdrawType>
-  </StudentSchoolAssociation>  
+  </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -275,8 +275,8 @@
     <EntryGradeLevel>Ninth grade</EntryGradeLevel>
     <EntryType>Transfer from a public school in the same local education agency</EntryType>
     <ExitWithdrawDate>2010-05-11</ExitWithdrawDate>
-    <ExitWithdrawType>End of school year</ExitWithdrawType>	
-	</StudentSchoolAssociation>    
+    <ExitWithdrawType>End of school year</ExitWithdrawType>
+	</StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -292,8 +292,8 @@
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
     <EntryType>Transfer from a public school in the same local education agency</EntryType>
     <ExitWithdrawDate>2009-05-08</ExitWithdrawDate>
-    <ExitWithdrawType>Exited</ExitWithdrawType>	
-  </StudentSchoolAssociation>    
+    <ExitWithdrawType>Exited</ExitWithdrawType>
+  </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -307,9 +307,9 @@
     </SchoolReference>
     <EntryDate>2008-03-11</EntryDate>
     <EntryGradeLevel>Seventh grade</EntryGradeLevel>
-    <EntryType>Transfer from a public school in the same local education agency</EntryType>	
+    <EntryType>Transfer from a public school in the same local education agency</EntryType>
     <ExitWithdrawDate>2008-05-08</ExitWithdrawDate>
-    <ExitWithdrawType>End of school year</ExitWithdrawType>	
+    <ExitWithdrawType>End of school year</ExitWithdrawType>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -324,10 +324,10 @@
     </SchoolReference>
     <EntryDate>2007-09-14</EntryDate>
     <EntryGradeLevel>Seventh grade</EntryGradeLevel>
-    <EntryType>Next year school</EntryType>	
+    <EntryType>Next year school</EntryType>
     <ExitWithdrawDate>2008-02-12</ExitWithdrawDate>
-    <ExitWithdrawType>Student is in a different public school in the same local education agency</ExitWithdrawType>	
-  </StudentSchoolAssociation>    
+    <ExitWithdrawType>Student is in a different public school in the same local education agency</ExitWithdrawType>
+  </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -341,9 +341,9 @@
     </SchoolReference>
     <EntryDate>2006-09-11</EntryDate>
     <EntryGradeLevel>Sixth grade</EntryGradeLevel>
-    <EntryType>Next year school</EntryType>	
+    <EntryType>Next year school</EntryType>
     <ExitWithdrawDate>2007-05-14</ExitWithdrawDate>
-    <ExitWithdrawType>End of school year</ExitWithdrawType>	
+    <ExitWithdrawType>End of school year</ExitWithdrawType>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -358,10 +358,10 @@
     </SchoolReference>
     <EntryDate>2005-09-09</EntryDate>
     <EntryGradeLevel>Fifth grade</EntryGradeLevel>
+    <EntryType>Transfer from a private, religiously-affiliated school in the same local education agency</EntryType>
     <ExitWithdrawDate>2006-05-15</ExitWithdrawDate>
-    <ExitWithdrawType>Exited</ExitWithdrawType>	
-    <EntryType>Transfer from a private, religiously-affiliated school in the same local education agency</EntryType>	
-  </StudentSchoolAssociation>  
+    <ExitWithdrawType>Exited</ExitWithdrawType>
+  </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -375,9 +375,9 @@
     </SchoolReference>
     <EntryDate>2002-09-12</EntryDate>
     <EntryGradeLevel>Second grade</EntryGradeLevel>
-    <EntryType>Transfer from a school outside of the country</EntryType>	
+    <EntryType>Transfer from a school outside of the country</EntryType>
     <ExitWithdrawDate>2003-04-12</ExitWithdrawDate>
-    <ExitWithdrawType>Expelled or involuntarily withdrawn</ExitWithdrawType>	
+    <ExitWithdrawType>Expelled or involuntarily withdrawn</ExitWithdrawType>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -1210,9 +1210,9 @@
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
     <EntryGradeLevel>Seventh grade</EntryGradeLevel>
-    <EntryType>Next year school</EntryType>	
+    <EntryType>Next year school</EntryType>
     <ExitWithdrawDate>2011-05-11</ExitWithdrawDate>
-    <ExitWithdrawType>End of school year</ExitWithdrawType>	
+    <ExitWithdrawType>End of school year</ExitWithdrawType>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -1227,9 +1227,9 @@
     </SchoolReference>
     <EntryDate>2009-09-07</EntryDate>
     <EntryGradeLevel>Sixth grade</EntryGradeLevel>
-    <EntryType>Transfer from a public school in the same local education agency</EntryType>	
+    <EntryType>Transfer from a public school in the same local education agency</EntryType>
     <ExitWithdrawDate>2010-05-11</ExitWithdrawDate>
-    <ExitWithdrawType>End of school year</ExitWithdrawType>	
+    <ExitWithdrawType>End of school year</ExitWithdrawType>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -1244,10 +1244,10 @@
     </SchoolReference>
     <EntryDate>2008-09-05</EntryDate>
     <EntryGradeLevel>Fifth grade</EntryGradeLevel>
-    <EntryType>Next year school</EntryType>	
+    <EntryType>Next year school</EntryType>
     <ExitWithdrawDate>2009-05-11</ExitWithdrawDate>
-    <ExitWithdrawType>End of school year</ExitWithdrawType>	
-  </StudentSchoolAssociation>  
+    <ExitWithdrawType>End of school year</ExitWithdrawType>
+  </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -1261,10 +1261,10 @@
     </SchoolReference>
     <EntryDate>2007-09-12</EntryDate>
     <EntryGradeLevel>Fourth grade</EntryGradeLevel>
-    <EntryType>Next year school</EntryType>	
+    <EntryType>Next year school</EntryType>
     <ExitWithdrawDate>2008-05-10</ExitWithdrawDate>
-    <ExitWithdrawType>End of school year</ExitWithdrawType>	
-  </StudentSchoolAssociation>  
+    <ExitWithdrawType>End of school year</ExitWithdrawType>
+  </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -1278,9 +1278,9 @@
     </SchoolReference>
     <EntryDate>2006-09-11</EntryDate>
     <EntryGradeLevel>Third grade</EntryGradeLevel>
-    <EntryType>Transfer from a private, religiously-affiliated school in a different state</EntryType>	
+    <EntryType>Transfer from a private, religiously-affiliated school in a different state</EntryType>
     <ExitWithdrawDate>2007-05-09</ExitWithdrawDate>
-    <ExitWithdrawType>Student is in a different public school in the same local education agency</ExitWithdrawType>	
+    <ExitWithdrawType>Student is in a different public school in the same local education agency</ExitWithdrawType>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -1960,7 +1960,7 @@
     <EntryGradeLevel>Kindergarten</EntryGradeLevel>
     <EntryType>Original entry into a United States school</EntryType>
     <ExitWithdrawDate>2011-05-11</ExitWithdrawDate>
-    <ExitWithdrawType>End of school year</ExitWithdrawType>	
+    <ExitWithdrawType>End of school year</ExitWithdrawType>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -3381,7 +3381,7 @@
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
-  
+
   <!-- additional historical data for Carmen Ortiz - sections back through 8th grade -->
   <StudentSectionAssociation>
     <StudentReference>
@@ -4192,7 +4192,7 @@
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
-  
+
   <!-- historical data for linda.kim's 8th Grade English - Sec 6 class, Fall 2011 -->
   <!-- 7th grade English, Fall 2010 -->
   <StudentSectionAssociation>
@@ -4559,7 +4559,7 @@
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
-  
+
   <!-- historical data for linda.kim's 8th Grade English - Sec 6 class, Fall 2011 -->
   <!-- 7th grade Composition, Spring 2011 -->
   <StudentSectionAssociation>
@@ -5292,6 +5292,8 @@
       </SectionIdentity>
     </SectionReference>
   </StudentSectionAssociation>
+
+  <!-- historical data for Matt Sollars - sections back through 3rd grade -->
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -5374,6 +5376,98 @@
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade English - Sec 5</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>6th Grade English - Sec 4</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>7th Grade Math - Sec 2</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>6th Grade Math - Sec 1</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #33</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #9</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #25</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </StudentSectionAssociation>
+
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000026</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SectionReference>
