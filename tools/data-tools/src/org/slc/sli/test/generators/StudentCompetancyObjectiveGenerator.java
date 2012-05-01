@@ -11,12 +11,10 @@ import org.slc.sli.test.edfi.entities.StudentCompetencyObjectiveReferenceType;
 
 public class StudentCompetancyObjectiveGenerator {
 
-	private int scId = 0;
-	private ObjectFactory factory = new ObjectFactory();
-	public StudentCompetancyObjectiveGenerator() {
-	}
+	private static int scId = 0;
+	private static ObjectFactory factory = new ObjectFactory();
 
-	public StudentCompetencyObjective getStudentCompetencyObjective(String scoId, EducationalOrgReferenceType edOrgRef)
+	public static StudentCompetencyObjective getStudentCompetencyObjective(String scoId, EducationalOrgReferenceType edOrgRef)
 	{
 		scId++;
 		StudentCompetencyObjective sco = new StudentCompetencyObjective();
@@ -26,11 +24,11 @@ public class StudentCompetancyObjectiveGenerator {
 		sco.setDescription("Student Competancy Description " + scId);
 		sco.setObjective("Student Competency Objective " +  scId);
 		sco.setObjectiveGradeLevel(GradeLevelType.OTHER);
-		sco.setEducationOrganizationReference(edOrgRef);
+		if(edOrgRef != null)sco.setEducationOrganizationReference(edOrgRef);
 		return sco;
 	}
 	
-	public StudentCompetencyObjectiveReferenceType getStudentCompetencyObjectiveReferenceType(StudentCompetencyObjective sco)
+	public static StudentCompetencyObjectiveReferenceType getStudentCompetencyObjectiveReferenceType(StudentCompetencyObjective sco)
 	{
 		StudentCompetencyObjectiveReferenceType ref = new StudentCompetencyObjectiveReferenceType();
 		StudentCompetencyObjectiveIdentityType scoIdentity = new StudentCompetencyObjectiveIdentityType();
