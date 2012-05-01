@@ -65,8 +65,8 @@ public class Users {
           throw new AuthenticationException(error);
         }
         
-        user.addRole("SLC Operator");
-        user.addRole("App Developer");
+        user.addRole("SLI Administrator");
+        user.addRole("LEA Administrator");
         return user;
     }
 
