@@ -11,7 +11,8 @@ import com.google.gson.JsonSyntaxException;
 
 
 /**
- * 
+ * This validator validates the json String passed as the Custom Config
+ * null, "" are not valid json inputs, {} represents a default Custom Config and is acceptable.
  * @author svankina
  *
  */
