@@ -4,7 +4,7 @@ require 'net/ldap'
 class LDAPStorage 
 	# set the objectClasses 
 	OBJECT_CLASS = ["inetOrgPerson", "top"]
-	TARGET_TREE  = "ou=people,ou=DevTest,dc=slidev,dc=org"
+	#TARGET_TREE  = "ou=people,ou=DevTest,dc=slidev,dc=org"
 
 	LDAP_ATTR_MAPPING = {
 		:givenname            => :first,
@@ -19,9 +19,11 @@ class LDAPStorage
 	ENTITY_ATTR_MAPPING = LDAP_ATTR_MAPPING.invert
 
 	def initialize(host, port, base, username, password)
+     	@people_base = "ou=people,#{base}"
+     	@group_base  = "ou=groups,#{base}"
 		@ldap_conf = { :host => host,
 			:port => port,
-     		:base => base,
+     		:base => @people_base,
      		:auth => {
            		:method => :simple,
            		:username => username,
@@ -43,8 +45,8 @@ class LDAPStorage
 	#     :status  ... "submitted"
 	# }
 	def create_user(user_info)
-		cn = "#{user_info[:first]} #{user_info[:last]}"
-		dn = "cn=#{cn},#{TARGET_TREE}"
+		cn = user_info[:email]
+		dn = get_DN(user_info[:email])
 		puts "cn: #{cn}\ndn: #{dn}\npassword: #{user_info[:password]}"
 		puts user_info[:vendor]
 		attr = {
@@ -58,23 +60,28 @@ class LDAPStorage
 
 	# returns extended user_info
 	def read_user(email_address)
-		filter = Net::LDAP::Filter.eq( "uid", email_address)
-		return map_fields(@ldap.search(:filter => filter))[0]
+		filter = Net::LDAP::Filter.eq( "cn", email_address)
+		return map_fields(@ldap.search(:filter => filter), 1)[0]
 	end
 
 	# updates the user status from an extended user_info 
 	def update_status(user)
 		if user_exists?(user[:email])
-			
+			dn = get_DN(user[:email])
+			@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[:status], user[:status])
 		end
 	end
 
 	# enable login and update the status
 	def enable_update_status(user)
+		# add the user to the enabled group 
+
 	end
 
 	# disable login and update the status 
 	def disable_update_status(user)
+		# remove the user from the enabled group 
+		
 	end
 
 	# returns true if the user exists 
@@ -84,12 +91,15 @@ class LDAPStorage
 
 	# returns extended user_info for the given emailtoken (see create_user) or nil 
 	def read_user_emailtoken(emailtoken)
-
+		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:emailtoken].to_s, emailtoken)
+		return map_fields(@ldap.search(:filter => filter), 1)[0]		
 	end
 
 	# returns array of extended user_info for all users or all users with given status 
 	# use constants in approval.rb 
 	def read_users(status=nil)
+		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
+		return map_fields(@ldap.search(:filter => filter))		
 	end
 
 	# updates the user_info except for the user status 
@@ -99,11 +109,22 @@ class LDAPStorage
 
 	# deletes the user entirely 
 	def delete_user(email_address)
+		@ldap.delete(:dn => get_DN(email_address))
 	end 
 
+	# returns the LDAP DN
+	def get_DN(email_address)
+		return "cn=#{email_address},#{@base}"
+	end
+
 	# extract the user from the ldap record
-	def map_fields(search_result, max_recs)
-		return search_result.to_a()[0..(max_recs-1)].map do |entry|
+	def map_fields(search_result, max_recs=nil)
+		arr = search_result.to_a()
+		if !max_recs
+			max_recs = arr.length
+		end
+
+		return arr[0..(max_recs-1)].map do |entry|
 			user_rec = {}
 			LDAP_ATTR_MAPPING.each { |ldap_k, rec_k| user_rec[rec_k] = entry[ldap_k]}
 			user_rec
