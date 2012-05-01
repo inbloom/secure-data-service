@@ -111,7 +111,9 @@ public final class MongoIndexManager {
         while (it.hasNext()) {
             collectionName = it.next();
             try {
-                repository.ensureIndex((IndexDefinition) collectionIndexes.get(collectionName), collectionName);
+                for (IndexDefinition definition : collectionIndexes.get(collectionName)) {
+                    repository.ensureIndex(definition , collectionName);
+                }                
             } catch (Exception e) {
                 LOG.error("Failed to create mongo indexes, reason: {}", e.getMessage());
             }
