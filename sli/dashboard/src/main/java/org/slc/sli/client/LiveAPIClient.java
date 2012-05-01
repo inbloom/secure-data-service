@@ -1,5 +1,15 @@
 package org.slc.sli.client;
 
+import com.google.gson.Gson;
+import org.apache.commons.lang.StringUtils;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.util.GenericEntityEnhancer;
+import org.slc.sli.util.Constants;
+import org.slc.sli.util.ExecutionTimeLogger;
+import org.slc.sli.util.SecurityUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -10,18 +20,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.gson.Gson;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.util.GenericEntityEnhancer;
-import org.slc.sli.util.Constants;
-import org.slc.sli.util.ExecutionTimeLogger.LogExecutionTime;
-import org.slc.sli.util.SecurityUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 /**
  *
@@ -410,19 +408,21 @@ public class LiveAPIClient implements APIClient {
         // with X and S is associated with X.
         HashMap<String, HashSet<String>> schoolIDToCourseIDMap = new HashMap<String, HashSet<String>>();
 
-        for (int i = 0; i < sections.size(); i++) {
-            GenericEntity section = sections.get(i);
+		if (sections != null) {
+			for (int i = 0; i < sections.size(); i++) {
+				GenericEntity section = sections.get(i);
 
-            if (sectionIDToSchoolIDMap.containsKey(section.get(Constants.ATTR_ID))
-                    && sectionIDToCourseIDMap.containsKey(section.get(Constants.ATTR_ID))) {
-                String schoolId = sectionIDToSchoolIDMap.get(section.get(Constants.ATTR_ID));
-                String courseId = sectionIDToCourseIDMap.get(section.get(Constants.ATTR_ID));
-                if (!schoolIDToCourseIDMap.containsKey(schoolId)) {
-                    schoolIDToCourseIDMap.put(schoolId, new HashSet<String>());
-                }
-                schoolIDToCourseIDMap.get(schoolId).add(courseId);
-            }
-        }
+				if (sectionIDToSchoolIDMap.containsKey(section.get(Constants.ATTR_ID))
+						&& sectionIDToCourseIDMap.containsKey(section.get(Constants.ATTR_ID))) {
+					String schoolId = sectionIDToSchoolIDMap.get(section.get(Constants.ATTR_ID));
+					String courseId = sectionIDToCourseIDMap.get(section.get(Constants.ATTR_ID));
+					if (!schoolIDToCourseIDMap.containsKey(schoolId)) {
+						schoolIDToCourseIDMap.put(schoolId, new HashSet<String>());
+					}
+					schoolIDToCourseIDMap.get(schoolId).add(courseId);
+				}
+			}
+		}
 
         // now create the generic entity
         for (String schoolId : schoolIDToCourseIDMap.keySet()) {
@@ -451,25 +451,28 @@ public class LiveAPIClient implements APIClient {
 
         StringBuilder courseIds = new StringBuilder();
         // iterate each section
-        for (GenericEntity section : sections) {
-            // Get course using courseId reference in section
-            String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
+		
+		if (sections != null) {
+			for (GenericEntity section : sections) {
+				// Get course using courseId reference in section
+				String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
 
-            // search course which doesn't exist already
-            if (!courseMap.containsKey(courseId)) {
-                if (!courseIdTracker.contains(courseId)) {
-                    if (courseIds.length() != 0) {
-                        courseIds.append(",");
-                    }
-                    courseIds.append(courseId);
-                    courseIdTracker.add(courseId);
-                }
-                if (!sectionLookup.containsKey(courseId)) {
-                    sectionLookup.put(courseId, new HashSet<GenericEntity>());
-                }
-                sectionLookup.get(courseId).add(section);
-            }
-        }
+				// search course which doesn't exist already
+				if (!courseMap.containsKey(courseId)) {
+					if (!courseIdTracker.contains(courseId)) {
+						if (courseIds.length() != 0) {
+							courseIds.append(",");
+						}
+						courseIds.append(courseId);
+						courseIdTracker.add(courseId);
+					}
+					if (!sectionLookup.containsKey(courseId)) {
+						sectionLookup.put(courseId, new HashSet<GenericEntity>());
+					}
+					sectionLookup.get(courseId).add(section);
+				}
+			}
+		}
 
         // get Entites by given courseIds
         if (courseIds.length() != 0) {
@@ -509,24 +512,26 @@ public class LiveAPIClient implements APIClient {
         StringBuilder schoolIds = new StringBuilder();
 
         // iterate each section
-        for (GenericEntity section : sections) {
-            String schoolId = (String) section.get(Constants.ATTR_SCHOOL_ID);
+		if (sections != null) {
+			for (GenericEntity section : sections) {
+				String schoolId = (String) section.get(Constants.ATTR_SCHOOL_ID);
 
-            // search school which doesn't exist already
-            if (!schoolMap.containsKey(schoolId)) {
-                if (!schoolIdTracker.contains(schoolId)) {
-                    if (schoolIds.length() != 0) {
-                        schoolIds.append(",");
-                    }
-                    schoolIds.append(schoolId);
-                    schoolIdTracker.add(schoolId);
-                }
-                if (!sectionLookup.containsKey(schoolId)) {
-                    sectionLookup.put(schoolId, new HashSet<GenericEntity>());
-                }
-                sectionLookup.get(schoolId).add(section);
-            }
-        }
+				// search school which doesn't exist already
+				if (!schoolMap.containsKey(schoolId)) {
+					if (!schoolIdTracker.contains(schoolId)) {
+						if (schoolIds.length() != 0) {
+							schoolIds.append(",");
+						}
+						schoolIds.append(schoolId);
+						schoolIdTracker.add(schoolId);
+					}
+					if (!sectionLookup.containsKey(schoolId)) {
+						sectionLookup.put(schoolId, new HashSet<GenericEntity>());
+					}
+					sectionLookup.get(schoolId).add(section);
+				}
+			}
+		}
 
         // get Entites by given schoolIds
         if (schoolIds.length() != 0) {
@@ -654,11 +659,9 @@ public class LiveAPIClient implements APIClient {
      *
      * @param url
      * @param token
-     * @param fullEntities
-     *            TODO
      * @return the entity
      */
-    @LogExecutionTime
+    @ExecutionTimeLogger.LogExecutionTime
     public GenericEntity createEntityFromAPI(String url, String token) {
         LOGGER.info("Querying API: {}", url);
         String response = restClient.makeJsonRequestWHeaders(url, token);
@@ -681,7 +684,7 @@ public class LiveAPIClient implements APIClient {
      * @return entityList
      *         - the generic entity list
      */
-    @LogExecutionTime
+    @ExecutionTimeLogger.LogExecutionTime
     public List<GenericEntity> createEntitiesFromAPI(String url, String token) {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
 

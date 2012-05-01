@@ -128,7 +128,7 @@ end
 
 Then /^I should see "([^"]*)" is "([^"]*)" for the one at position (\d+)$/ do |key, value, pos|
   assert(@node[convert(pos)-1].elements["#{key}"] != nil,  "Cannot find element #{key}")
-  assert(@node[convert(pos)-1].elements["#{key}"].text == value, "Value does not match")
+  assert(@node[convert(pos)-1].elements["#{key}"].text == value, "Value does not match. expected #{value}, received #{@node[convert(pos)-1].elements["#{key}"].text}")
 end
 
 Then /^I should find (\d+) entries with "([^"]*)" including the string "([^"]*)"$/ do |count, key, value|

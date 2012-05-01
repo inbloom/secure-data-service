@@ -2,10 +2,18 @@ class AccountManagementsController < ApplicationController
   # GET /account_managements
   # GET /account_managements.json
   def index
-    @account_managements=get_all()
-    if @account_managements.length==0
-    @account_managements=get_mock_all()
+    reset=params["reset"]
+    if reset =="true"
+      reset()
     end
+    env=params["env"]
+    if env=="sandbox"
+      reset_sandbox()
+    end
+   # @account_managements=get_all()
+  #  if @account_managements.length==0
+    @account_managements=get_mock_all()
+   # end
 
     # sort the @account_managements based on status
     @account_managements=sort(@account_managements)
@@ -48,11 +56,11 @@ class AccountManagementsController < ApplicationController
   def create
     commit = params["commit"]
     email = params["email"]
-    account=AccountManagement.change_user_status(email,commit.downcase)
-    @account_managements=get_all()
-    if@account_managements.length==0
+   # account=AccountManagement.change_user_status(email,commit.downcase)
+   # @account_managements=get_all()
+   # if@account_managements.length==0
     @account_managements= update_mock(email,commit)
-    end
+  #  end
     @account_managements=sort(@account_managements)
     @notice='Account was successfully updated.'
 
@@ -128,13 +136,13 @@ class AccountManagementsController < ApplicationController
 
   def get_mock_all()
     account_managements=$account_managements
-    if account_managements==nil
+    if account_managements==nil||account_managements.length==0
       counters = (0...20).to_a
       account_managements=Array.new()
       counters.each do |counter|
         account_management = AccountManagement.new()
-        account_management.name="test name " +String(counter+1)
-        account_management.vendor="test vendor "+String(counter+1)
+        account_management.name="Loraine Plyler " +String(counter+1)
+        account_management.vendor="Macro Corp "+String(counter+1)
         if counter%4==0
           account_management.lastUpdate="2012-01-01"
           account_management.status="Approved"
@@ -152,7 +160,7 @@ class AccountManagementsController < ApplicationController
           account_management.status="Disabled"
           account_management.transitions=["enable"]
         end
-        account_management.email="test"+String(counter+1)+"@test.com"
+        account_management.email="Lplyer"+String(counter+1)+"@macrocorp.com"
         account_managements.push(account_management)
       end
     $account_managements=account_managements
@@ -187,6 +195,31 @@ class AccountManagementsController < ApplicationController
     end
     $account_managements=account_managements
     $account_managements
+  end
+  
+  def reset
+    if $account_managements!=nil
+      $account_managements.clear
+    end
+  end
+  
+  def reset_sandbox
+    if $account_managements!=nil
+      $account_managements.clear
+    end
+     counters = (0...20).to_a
+      account_managements=Array.new()
+      counters.each do |counter|
+        account_management = AccountManagement.new()
+        account_management.name="Loraine Plyler "+String(counter+1)
+        account_management.vendor="Macro Corp "+String(counter+1)
+          account_management.lastUpdate="2012-01-01"
+          account_management.status="Approved"
+          account_management.transitions=["disable"]
+        account_management.email="Lplyer"+String(counter+1)+"@macrocorp.com"
+        account_managements.push(account_management)
+      end
+    $account_managements=account_managements
   end
 
 end

@@ -1,9 +1,9 @@
 
-require 'approval'
+#require 'approval'
 
 class AccountManagement
   
  attr_accessor :name,:vendor,:lastUpdate,:status,:email,:transitions
- extend ApprovalEngine
+ #extend ApprovalEngine
 
 end

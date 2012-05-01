@@ -6,23 +6,11 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     And format "application/vnd.slc+json"
 
   Scenario: Applying optional fields - attendances, assessments, gradebook
-    Given optional field "attendances"
-    And optional field "assessments"
+    Given optional field "assessments"
     And optional field "gradebook"
     And parameter "limit" is "0"
     When I navigate to GET "/v1/sections/<SECTION ID>/studentSectionAssociations/students"
     Then I should receive a return code of 200
-
-    # Attendaces
-    And I should find "1" "attendances"
-    And I should find "74" "attendances" in it
-    And I should see the year "2011" in none of the attendance entries
-    And I should see the year "2012" in some of the attendance entries
-    When I look at the first one
-    Then I should see "eventDate" is "2012-03-14" in it
-    And I should see "attendanceEventType" is "Daily Attendance" in it
-    And I should see "entityType" is "attendance" in it
-    And I should see "studentId" is "<STUDENT_ID>" in it
 
     # Assessments
     And I should find "1" "studentAssessments"
@@ -87,13 +75,4 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     And I should find "1" "courseTranscripts" in it
     When I look at the first one
     And I should see "finalLetterGradeEarned" is "B" in it
-
-  Scenario: Applying optional fields - attendances with year filter
-    Given optional field "attendances.1"
-    When I navigate to GET "/v1/sections/<SECTION ID>/studentSectionAssociations/students"
-    Then I should receive a return code of 200
-
-    And I should find "1" "attendances"
-    And I should find "161" "attendances" in it
-    And I should see the year "2011" in some of the attendance entries
-    And I should see the year "2012" in some of the attendance entries
+    

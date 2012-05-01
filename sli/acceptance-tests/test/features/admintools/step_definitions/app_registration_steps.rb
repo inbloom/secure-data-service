@@ -181,6 +181,7 @@ When /^I have entered data into the other required fields except for the shared 
   @driver.find_element(:name, 'app[image_url]').send_keys "http://blah.com"
   @driver.find_element(:name, 'app[developer_info][organization]').send_keys "Cucumber"
   @driver.find_element(:css, 'input[id="app_enabled"]').click
+  @driver.find_element(:css, 'input:enabled[type="button"][value="Enable All"]').click
   list = @driver.find_element(:css, 'input[disabled="disabled"]')
   assert(list, "Should have disabled fields.")
   

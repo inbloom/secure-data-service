@@ -30,6 +30,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SecurityContextInjector {
+    public static final String ED_ORG_ID = "1111-1111-1111";
     private static final Logger   LOG              = LoggerFactory.getLogger(SecurityContextInjector.class);
     private static final String   DEFAULT_REALM_ID = "dc=slidev,dc=net";
 
@@ -55,8 +56,10 @@ public class SecurityContextInjector {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("admin-staff");
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        principal.setExternalId("developer");
         setSecurityContext(principal);
         
+
         Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.APP_CREATION, Right.APP_EDORG_SELECT };
         PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
@@ -74,6 +77,7 @@ public class SecurityContextInjector {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("admin-staff");
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        principal.setEdOrg(ED_ORG_ID);
         setSecurityContext(principal);
         
         Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.APP_REGISTER, Right.APP_EDORG_SELECT };
