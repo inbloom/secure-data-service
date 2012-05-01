@@ -247,13 +247,15 @@ public class ConfigManagerImpl implements ConfigManager {
      * It will throw an
      * exception.
      * 
+     * @param apiCustomConfig
+     *            custom configuration uploaded by admininistrator.
      * @param customPath
      *            abslute directory path where a config file exist.
      * @param componentId
      *            name of the profile
      * @return proper Config to be used for the dashboard
      */
-    private Config getConfigByPath(String customPath, String componentId) {
+    private Config getConfigByPath(CustomConfig apiCustomConfig, String customPath, String componentId) {
         Config driverConfig = null;
         try {
             // read custom Config
@@ -270,9 +272,11 @@ public class ConfigManagerImpl implements ConfigManager {
             f = new File(getDriverConfigLocation(driverId));
             driverConfig = loadConfig(f);
             if (customConfig != null) {
-                // get overwritten Config file with customConfig based on Driver
-                // config.
-                return driverConfig.overWrite(customConfig);
+                if ((apiCustomConfig == null) || (apiCustomConfig.size() <= 0)) {
+                    // get overwritten Config file with customConfig based on Driver
+                    // config.
+                    return driverConfig.overWrite(customConfig);
+                }
             }
             return driverConfig;
         } catch (Throwable t) {
@@ -301,7 +305,7 @@ public class ConfigManagerImpl implements ConfigManager {
                 return customComponentConfig;
             }
         }
-        return getConfigByPath(getCustomConfigPathForUserDomain(edOrgKey),
+        return getConfigByPath(customConfig, getCustomConfigPathForUserDomain(edOrgKey),
                 componentId);
     }
     

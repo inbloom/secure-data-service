@@ -67,6 +67,10 @@ public class DashboardConfigController extends GenericLayoutController {
         this.userEdOrgManager = userEdOrgManager;
     }
     
+    public UserEdOrgManager getUserEdOrgManager() {
+        return this.userEdOrgManager;
+    }
+    
     /**
      * Generic layout handler
      *
@@ -105,6 +109,9 @@ public class DashboardConfigController extends GenericLayoutController {
     
     @RequestMapping(value = CONFIG_SAVE_URL, method = RequestMethod.POST)
     @ResponseBody public String saveConfig(@RequestParam(required = true) String configString) {
+        
+        // Formalize JSON from more flexible GSON format used in Dashboard configuration files
+        configString = CustomConfig.formalizeJson(configString);
         
         CustomConfigString customConfigString = new CustomConfigString(configString);
         DataBinder binder = new DataBinder(customConfigString);
