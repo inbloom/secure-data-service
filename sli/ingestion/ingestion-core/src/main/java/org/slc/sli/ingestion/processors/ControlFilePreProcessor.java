@@ -26,7 +26,6 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.tenant.TenantDA;
-import org.slc.sli.ingestion.tenant.TenantMongoDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
@@ -44,6 +43,9 @@ public class ControlFilePreProcessor implements Processor {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
+
+    @Autowired
+    private TenantDA tenantDA;
 
     @Value("${sli.ingestion.tenant.deriveTenants}")
     private boolean deriveTenantId;
@@ -153,7 +155,6 @@ public class ControlFilePreProcessor implements Processor {
      * Throws an IngestionException if a tenantId could not be resolved.
      */
     private void setTenantId(ControlFile cf, String lzPath) throws IngestionException {
-        TenantDA tenantDA = new TenantMongoDA();
         lzPath = new File(lzPath).getAbsolutePath();
         // TODO add user facing error report for no tenantId found
         String tenantId = tenantDA.getTenantId(lzPath);

@@ -25,10 +25,6 @@
 		<%= dev.label :organization, "Vendor" %>
 		<%= dev.text_field :organization %>
 	</div>
-	<div class = "field">
-		<%= dev.label :license_acceptance, "License Accepted" %>
-		<%= dev.check_box :license_acceptance %>
-	</div>
 <% end %>
 
 <div class = "field">
@@ -52,12 +48,6 @@
 	<%= f.text_field :redirect_uri, :placeholder => 'https://' %>
 </div>
 <div class = "field">
-	<%= f.label :client_type, "Public" %>
-	<%= f.radio_button :client_type, :PUBLIC %>
-	<%= f.label :client_type, "Confidential" %>
-	<%= f.radio_button :client_type, :CONFIDENTIAL %>
-</div>
-<div class = "field">
 	<%= f.label :enabled, "Enabled" %>
 	<%= f.check_box :enabled %>
 </div>
@@ -70,10 +60,9 @@
 </div>
 
 <div class = "field">
-  <% district_hierarchy = get_district_hierarchy() %>
   <% check_box_name = h(app.name + "_authorized_ed_orgs[]").gsub(" ", "_") if app.name !=  nil%>
   <% check_box_name = "authorized_ed_orgs[]" if check_box_name == nil %>
-  <% district_hierarchy.keys.each do |district| %>
+  <% @district_hierarchy.keys.each do |district| %>
       <%=
           if app.authorized_ed_orgs != nil
               check_box_tag(check_box_name, district["id"], app.authorized_ed_orgs.include?(district["id"]))
@@ -83,7 +72,7 @@
       %>
 
          <%= district["name"] %>    <br />
-    <% district_hierarchy[district].each do |child_district| %>
+    <% @district_hierarchy[district].each do |child_district| %>
             &#160;&#160;
             <%=
                 if app.authorized_ed_orgs != nil

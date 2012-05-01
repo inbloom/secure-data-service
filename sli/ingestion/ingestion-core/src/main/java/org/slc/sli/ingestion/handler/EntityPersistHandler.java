@@ -59,16 +59,23 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      *             Validation Exception
      */
     private Entity persist(SimpleEntity entity) throws EntityValidationException {
+
+        String collectionName = entity.getType();
+        if ((String) entity.getBody().get("collectionName") != null) {
+            collectionName = (String) entity.getBody().get("collectionName");
+            entity.getBody().remove("collectionName");
+        }
+
         if (entity.getEntityId() != null) {
 
-            if (!entityRepository.update(entity.getType(), entity)) {
+            if (!entityRepository.update(collectionName, entity)) {
                 // TODO: exception should be replace with some logic.
                 throw new RuntimeException("Record was not updated properly.");
             }
 
             return entity;
         } else {
-            return entityRepository.create(entity.getType(), entity.getBody(), entity.getMetaData(), entity.getType());
+            return entityRepository.create(entity.getType(), entity.getBody(), entity.getMetaData(), collectionName);
         }
     }
 

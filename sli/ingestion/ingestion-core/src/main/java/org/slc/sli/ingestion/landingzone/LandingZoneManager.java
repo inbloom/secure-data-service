@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.tenant.TenantDA;
-import org.slc.sli.ingestion.tenant.TenantMongoDA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Mananges the landing zones to be monitored.
@@ -17,6 +17,9 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class LandingZoneManager {
+
+    @Autowired
+    private TenantDA tenantDA;
 
     private boolean multipleLandingZonesEnabled;
     private String singleLandingZoneDir;
@@ -46,7 +49,6 @@ public class LandingZoneManager {
             //get the ingestion server host name to use for obtaining landing zones
             localhostname = java.net.InetAddress.getLocalHost().getHostName();
 
-            TenantDA tenantDA = new TenantMongoDA();
             List<String> lzPaths = tenantDA.getLzPaths(localhostname);
             for (String lzPath : lzPaths) {
                 landingZoneList.add(new LocalFileSystemLandingZone(new File(lzPath)));

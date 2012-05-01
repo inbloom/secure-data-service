@@ -246,40 +246,6 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
   assert(@result == "true", "Some collections were not cleared successfully.")
 end
 
-Given /^I create collections and add index$/ do
-
-  @db   = @conn[INGESTION_DB_NAME]
-
-  @collection = @db["student"]
-  @collection.drop_indexes();
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-
-
-  @collection = @db["section"]
-  @collection.drop_indexes();
-  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
-  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([ ['body.courseId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-
-  @collection = @db["studentSectionAssociation"]
-  @collection.drop_indexes();
-  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
-  @collection.ensure_index([ ['body.sectionId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
-  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
-
-end
-
-def connectToDbAndIndex(db_host,db_name)
-
-  @conn = Mongo::Connection.new(db_host)
-  @db   = @conn[db_name]
-  ensureIndexes(@db)
-
-end
-
 def createIndexesOnDb(db_connection,db_name)
 
   @db = db_connection[db_name]
@@ -609,6 +575,12 @@ end
 
 When /^zip file is scp to ingestion landing zone$/ do
   scpFileToLandingZone @source_file_name
+end
+
+When /^zip file is scp to ingestion landing zone for "([^"]*)"$/ do |lz_key|
+  lz = @ingestion_lz_identifer_map[lz_key]
+  file = @file_lz_map[lz_key]
+  scpFileToParallelLandingZone(lz, file)
 end
 
 When /^zip files are scped to the ingestion landing zone$/ do
@@ -1043,7 +1015,7 @@ Then /^the jobs ran concurrently$/ do
       end
     }
   }
-  
+
   assert(latestStartTime < earliestStopTime, "Expected concurrent job runs, but one finished before another began.")
 end
 

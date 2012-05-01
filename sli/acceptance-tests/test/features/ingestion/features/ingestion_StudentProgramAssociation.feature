@@ -41,7 +41,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "StudentProgramAssociation1.xml records ingested successfully: 10" in the resulting batch job file
   And I should see "StudentProgramAssociation1.xml records failed: 0" in the resulting batch job file
 
-@wip
+
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "StudentProgramAssociation2.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone

@@ -1,0 +1,6 @@
+@tenantId=IL
+edfi-xml,EducationOrganization,School1.xml,c751e769db3c92038ef8baef9f66bcd6
+edfi-xml,StudentParent,InterchangeStudent.xml,7295461bcf9399759e929886eaa87354
+edfi-xml,StaffAssociation,Staff1.xml,07a16ae7bb27a04b392ce89eb1374bc7
+edfi-xml,StudentDiscipline,DisciplineIncident1.xml,cf72b3be9e3a0b5b0f6d0f0ae3747e27
+edfi-xml,StudentDiscipline,DisciplineAction1.xml,14aec4dafce9c7e9263e0a3f1ae8afcf

@@ -1,0 +1,13 @@
+account1:
+    vendor: "test vendor"
+    name: "test name"
+    approvalDate: "2012-01-01"
+    status: "Approved"
+    email: "test@test.com"
+  
+new_account:
+    vendor: "test vendor"
+    name: "test name"
+    commit: "Rejected"
+    email: "test@test.com"
+    
