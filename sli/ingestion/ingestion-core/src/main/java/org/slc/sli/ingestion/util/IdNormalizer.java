@@ -7,8 +7,11 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.text.WordUtils;
+import org.mortbay.log.Log;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -76,22 +79,20 @@ public class IdNormalizer {
      */
     public static String resolveInternalId(Repository<Entity> entityRepository, String collection, String tenantId,
             String externalId, ErrorReport errorReport) {
-        Map<String, String> filterFields = new HashMap<String, String>();
+        NeutralQuery nq = new NeutralQuery();
+        nq.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey(), "=", tenantId, false));
+        nq.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + EntityMetadataKey.EXTERNAL_ID.getKey(), "=", externalId, false));
+        nq.setIncludeFields("_id");
         
-        filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey(), tenantId);
-        filterFields.put(METADATA_BLOCK + "." + EntityMetadataKey.EXTERNAL_ID.getKey(), externalId);
-        
-        Iterable<Entity> found = entityRepository.findByPaths(collection, filterFields);
-        if (found == null || !found.iterator().hasNext()) {
-            errorReport.error(
-                    "Cannot find [" + collection + "] record using the following filter: " + filterFields.toString(),
-                    IdNormalizer.class);
+        Entity e = entityRepository.findOne(collection, nq);
+        Log.info("~Entity~ {}",e==null? "Not Found":e);
+        if (e == null) {
+            errorReport.error("Cannot find [" + collection + "] record using the following filter: " + nq, IdNormalizer.class);
             
             return null;
         }
         
-        return found.iterator().next().getEntityId();
-    }
+        return e.getEntityId();    }
     
     /**
      * Adds the criteria that searches within the same collection to the query
