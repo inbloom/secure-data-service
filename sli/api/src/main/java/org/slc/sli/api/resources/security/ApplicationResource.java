@@ -221,8 +221,13 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public Response deleteApplication(@PathParam(UUID) String uuid,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
-
-        return super.delete(uuid, headers, uriInfo);
+        if (hasRight(Right.APP_CREATION)) {
+            return super.delete(uuid, headers, uriInfo);
+        } else {
+            EntityBody body = new EntityBody();
+            body.put("message", "You cannot delete this application");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+        }
     }
 
     @SuppressWarnings("unchecked")

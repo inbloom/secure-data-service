@@ -121,23 +121,27 @@ When I click 'Yes'
 Then the application named "NewApp" is removed from the SLI
 
 
-@sandbox @wip
+@sandbox
 Scenario: App Developer logs-in to App Registration Tool in Sandbox (Vendor in Prod should see own apps respectively)
 	Given I am a valid App Developer
-	When I hit the App Registration Tool Sandbox 
-		And I am redirected to the hosted IDP
-		And I submit my username and password
-		And I click on Login
-	Then I am logged-in to the App Registration Tool
-		And I see the list of my registered applications only
+	When I hit the Application Registration Tool URL
+	And I get redirected to the IDP login page
+	And I authenticate with username "developer" and password "developer1234"
+	Then I am redirected to the Application Registration Tool page
+	Then I see the list of my registered applications only
 
-@sandbox @wip
+@sandbox
 Scenario: App Developer registers an application in App Registration Tool in Sandbox
 	Given I am a valid App Developer
-		And I am authenticated to the App Registration Tool in Sandbox
-		And I have clicked on New Application
-		And I have entered the application information
-	When I click Register
+	When I hit the Application Registration Tool URL
+		And I get redirected to the IDP login page
+		And I authenticate with username "developer" and password "developer1234"
+	Then I am redirected to the Application Registration Tool page
+		And I have clicked to the button New
+		And I am redirected to a new application page
+	When I entered the name "NewApp" into the field titled "Name"
+		And I have entered data into the other required fields except for the shared secret and the app id which are read-only
+	When I click on the button Submit
 	Then the application is registered
 		And I can see the client ID and shared secret
 		And the Registration Status field is Registered
