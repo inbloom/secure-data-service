@@ -104,16 +104,20 @@ public final class MongoIndexManager {
     }
 
     public void ensureAllIndexes(Repository<?> repository) {
+        LOG.info("ENSURING ALL INDEXES FOR A DB");
+
         Set<String> collectionNames = collectionIndexes.keySet();
         Iterator<String> it = collectionNames.iterator();
         String collectionName;
 
         while (it.hasNext()) {
             collectionName = it.next();
+            LOG.info("INDEXING COLLECTION " + collectionName);
             try {
                 for (IndexDefinition definition : collectionIndexes.get(collectionName)) {
+                    LOG.info("Adding Index on " + collectionName);
                     repository.ensureIndex(definition , collectionName);
-                }                
+                }
             } catch (Exception e) {
                 LOG.error("Failed to create mongo indexes, reason: {}", e.getMessage());
             }
