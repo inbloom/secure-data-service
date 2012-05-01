@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<InterchangeStudent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-Student.xsd">
+  
+    <Student>
+        <StudentUniqueStateId>900000016</StudentUniqueStateId>
+        <Name>
+            <FirstName>Carmen</FirstName>
+            <MiddleName>Daniella</MiddleName>
+            <LastSurname>Ortiz</LastSurname>
+        </Name>
+        <Sex>Female</Sex>
+        <BirthData>
+            <BirthDate>1996-01-22</BirthDate>
+        </BirthData>
+        <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>309-555-9372</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>c.ortiz@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+	<Student>
+		<StudentUniqueStateId>900000017</StudentUniqueStateId>
+		<Name>
+			<FirstName>Charla</FirstName>
+			<LastSurname>Priestly</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<BirthData>
+			<BirthDate>1996-04-03</BirthDate>
+		</BirthData>
+		<Address AddressType="Home">
+			<StreetNumberName>3768 Beacon Court</StreetNumberName>
+			<ApartmentRoomSuiteNumber>APT 5740</ApartmentRoomSuiteNumber>
+			<City>Chicago</City>
+			<StateAbbreviation>IL</StateAbbreviation>
+			<PostalCode>60735-0394</PostalCode>
+			<NameOfCounty>Cook</NameOfCounty>
+			<CountryCode>US</CountryCode>
+		</Address>
+		<Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>331-272-2393</TelephoneNumber>
+		</Telephone>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race/>
+		<EconomicDisadvantaged>true</EconomicDisadvantaged>
+		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+		<Section504Disabilities/>
+	</Student>
+	<Student>
+		<StudentUniqueStateId>900000018</StudentUniqueStateId>
+		<Name>
+			<FirstName>Ione</FirstName>
+			<LastSurname>Rudlong</LastSurname>
+		</Name>
+		<Sex>Female</Sex>
+		<BirthData>
+			<BirthDate>1995-06-18</BirthDate>
+		</BirthData>
+		<Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+			<TelephoneNumber>779-847-4186</TelephoneNumber>
+		</Telephone>
+		<Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>312-153-2237</TelephoneNumber>
+		</Telephone>
+		<Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+			<TelephoneNumber>847-132-1135</TelephoneNumber>
+		</Telephone>
+		<ElectronicMail EmailAddressType="Organization">
+			<EmailAddress>Ione.Rudlong@gmail.com</EmailAddress>
+		</ElectronicMail>
+		<ElectronicMail EmailAddressType="Other">
+			<EmailAddress>irudlong@gmail.com</EmailAddress>
+		</ElectronicMail>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race/>
+		<EconomicDisadvantaged>false</EconomicDisadvantaged>
+		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+		<Section504Disabilities/>
+	</Student>
+	<Student>
+		<StudentUniqueStateId>900000019</StudentUniqueStateId>
+		<Name>
+			<FirstName>Johnathan</FirstName>
+			<LastSurname>Tietje</LastSurname>
+		</Name>
+		<Sex>Male</Sex>
+		<BirthData>
+			<BirthDate>1994-03-14</BirthDate>
+		</BirthData>
+		<Address AddressType="Home">
+			<StreetNumberName>4177 14th Street</StreetNumberName>
+			<City>Chicago</City>
+			<StateAbbreviation>IL</StateAbbreviation>
+			<PostalCode>60016-2835</PostalCode>
+			<NameOfCounty>Cook</NameOfCounty>
+			<CountryCode>US</CountryCode>
+		</Address>
+		<Address AddressType="Other">
+			<StreetNumberName>6900 60th Place</StreetNumberName>
+			<ApartmentRoomSuiteNumber>APT 9336</ApartmentRoomSuiteNumber>
+			<City>New York</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>10082-4493</PostalCode>
+			<NameOfCounty>Bronx</NameOfCounty>
+			<CountryCode>US</CountryCode>
+		</Address>
+		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+			<TelephoneNumber>574-550-9523</TelephoneNumber>
+		</Telephone>
+		<Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>219-579-0930</TelephoneNumber>
+		</Telephone>
+		<Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+			<TelephoneNumber>773-189-6011</TelephoneNumber>
+		</Telephone>
+		<HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+		<Race/>
+		<EconomicDisadvantaged>false</EconomicDisadvantaged>
+		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+		<Section504Disabilities/>
+	</Student>
+
+</InterchangeStudent>

@@ -203,7 +203,7 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :i
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, 
                          :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
-                         :ingestionDisciplineActionTest] do
+                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -270,6 +270,11 @@ end
 desc desc "Run Ingestion DisciplineAction Test"
 task :ingestionDisciplineActionTest do
   runTests("test/features/ingestion/features/ingestion_disciplineAction.feature")
+end
+
+desc "Run Ingestion StudentDiciplineIncidentAssociation Test"
+task :ingestionStudentDisciplineIncidentAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_StudentDisciplineIncidentAssociation.feature")
 end
 
 "Run Ingestion Negative Tests"
