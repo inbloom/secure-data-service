@@ -11,10 +11,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.googlecode.ehcache.annotations.Cacheable;
 
+import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
@@ -34,13 +33,27 @@ import org.slc.sli.util.Constants;
  */
 public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgManager {
 
-    private static final String USER_SCHOOLS = "user.schools";
+    private static final String USER_SCHOOLS_CACHE = "user.schools";
+    private static final String USER_ED_ORG_CACHE = "user.district";
+    //TODO: config code does not belong here
+    private static final String USER_CONFIG_CACHE = "user.panel.config";
+
+    private class CacheValue<T> {
+        T value;
+
+        CacheValue(T value) {
+            this.value = value;
+        }
+
+        T get() {
+            return value;
+        }
+    }
+
     private CacheManager cacheManager;
-    private CustomConfig customConfig;
 
     public void setCacheManager(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
-        this.cacheManager.addCache(USER_SCHOOLS);
     }
 
 
@@ -59,9 +72,11 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      * @return District name
      */
     @Override
-    @Cacheable(cacheName = "user.district")
     public EdOrgKey getUserEdOrg(String token) {
-
+        EdOrgKey edOrgKey = getFromCache(USER_ED_ORG_CACHE, token);
+        if (edOrgKey != null) {
+            return edOrgKey;
+        }
         // get list of school
         List<GenericEntity> schools = getSchools(token);
 
@@ -77,8 +92,8 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                     .get(Constants.METADATA);
             if (metaData != null && !metaData.isEmpty()) {
                 if (metaData.containsKey(Constants.EXTERNAL_ID)) {
-                    EdOrgKey edOrgKey = new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString());
-                    edOrgKey.setSliId(parentEdOrg.getId());
+                    edOrgKey = new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString(), parentEdOrg.getId());
+                    putToCache(USER_ED_ORG_CACHE, token, edOrgKey);
                     return edOrgKey;
                 }
             }
@@ -93,14 +108,14 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      */
     private List<GenericEntity> getSchools(String token) {
 
-        List<GenericEntity> schools = getFromCache(USER_SCHOOLS, token);
+        List<GenericEntity> schools =  getFromCache(USER_SCHOOLS_CACHE, token);
 
         // otherwise, call the api
         if (schools == null) {
             schools = getApiClient().getSchools(token, null);
 
             // cache it
-            putToCache(USER_SCHOOLS, token, schools);
+            putToCache(USER_SCHOOLS_CACHE, token, schools);
         }
 
         return schools;
@@ -113,14 +128,22 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      * @return
      */
     @SuppressWarnings("unchecked")
-    private <T> T getFromCache(String cacheName, String token) {
+    private <T> CacheValue<T> getCacheValueFromCache(String cacheName, String token) {
         if (cacheManager != null) {
-            Element elem = cacheManager.getCache(cacheName).get(token);
-            if (elem != null) {
-                return (T) elem.getValue();
+            Cache cache = cacheManager.getCache(cacheName);
+            if (cache != null) {
+                Element elem = cache.get(token);
+                if (elem != null) {
+                    return new CacheValue<T>((T) elem.getValue());
+                }
             }
         }
         return null;
+    }
+
+    private <T> T getFromCache(String cacheName, String token) {
+        CacheValue<T> value = getCacheValueFromCache(cacheName, token);
+        return value == null ? null : value.get();
     }
 
     /**
@@ -131,7 +154,21 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      */
     private <T> void putToCache(String cacheName, String token, T value) {
         if (cacheManager != null) {
-            cacheManager.getCache(cacheName).put(new Element(token, value));
+            Cache cache = cacheManager.getCache(cacheName);
+            if (cache != null) {
+                cache.put(new Element(token, value));
+            }
+        }
+    }
+
+    /**
+     * remove object from cache
+     * @param cacheName
+     * @param token
+     */
+    private void removeFromCache(String cacheName, String token) {
+        if (cacheManager != null) {
+            cacheManager.getCache(cacheName).remove(token);
         }
     }
 
@@ -267,6 +304,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         return entity;
     }
 
+    //TODO: does not belong here!!! goes to CacheManager
     /**
      * Get the user's educational organization's custom configuration.
      *
@@ -276,14 +314,15 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      */
     @Override
     public CustomConfig getCustomConfig(String token) {
-        if (customConfig == null) {
-            EdOrgKey edOrgKey = getUserEdOrg(token);
-            CustomConfig customEntity = getApiClient().getEdOrgCustomData(token, edOrgKey.getSliId());
-            if (customEntity != null) {
-                customConfig = customEntity;
-            }
+        CacheValue<CustomConfig> value = getCacheValueFromCache(USER_CONFIG_CACHE, token);
+        CustomConfig config = null;
+        if (value == null) {
+          config = getApiClient().getEdOrgCustomData(token, getUserEdOrg(token).getSliId());
+          putToCache(USER_CONFIG_CACHE, token, config);
+        } else {
+            config = value.get();
         }
-        return customConfig;
+        return config;
     }
 
     /**
@@ -296,10 +335,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      */
     @Override
     public void putCustomConfig(String token, String customConfigJson) {
-        EdOrgKey edOrgKey = getUserEdOrg(token);
-        getApiClient().putEdOrgCustomData(token, edOrgKey.getSliId(), customConfigJson);
-        Gson gson = new GsonBuilder().create();
-        customConfig = gson.fromJson(customConfigJson, CustomConfig.class);
+        getApiClient().putEdOrgCustomData(token, getUserEdOrg(token).getSliId(), customConfigJson);
+        removeFromCache(USER_CONFIG_CACHE, token);
     }
-
 }
