@@ -2,6 +2,7 @@ package org.slc.sli.util;
 
 import org.slc.sli.entity.CustomConfigString;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.google.gson.JsonElement;
@@ -23,7 +24,7 @@ public class CustomConfigValidator implements Validator {
 
     @Override
     public void validate(Object customConfigString, Errors errors) {
-        //ValidationUtils.rejectIfEmptyOrWhitespace(errors, "configString", "Empty string is not allowed, use {} to represent an empty string");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "configString", "Empty string is not allowed, use {} to represent an empty string");
 
         try {
             JsonElement jsonElement = new JsonParser().parse(((CustomConfigString) customConfigString).getConfigString());
