@@ -31,7 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 
  * DashboardConfigController
- * TODO: Add Javadoc
+ * This controller handles the dashboard config pages which are only accessible by IT Admins of a District.
  *
  */
 @Controller
@@ -65,6 +65,10 @@ public class DashboardConfigController extends GenericLayoutController {
     @Autowired
     public void setUserEdOrgManager(UserEdOrgManager userEdOrgManager) {
         this.userEdOrgManager = userEdOrgManager;
+    }
+    
+    public UserEdOrgManager getUserEdOrgManager() {
+        return this.userEdOrgManager;
     }
     
     /**
@@ -105,6 +109,9 @@ public class DashboardConfigController extends GenericLayoutController {
     
     @RequestMapping(value = CONFIG_SAVE_URL, method = RequestMethod.POST)
     @ResponseBody public String saveConfig(@RequestParam(required = true) String configString) {
+        
+        // Formalize JSON from more flexible GSON format used in Dashboard configuration files
+        configString = CustomConfig.formalizeJson(configString);
         
         CustomConfigString customConfigString = new CustomConfigString(configString);
         DataBinder binder = new DataBinder(customConfigString);
