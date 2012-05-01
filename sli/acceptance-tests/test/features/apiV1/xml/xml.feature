@@ -70,14 +70,6 @@ Scenario: Applying optional fields
   Then I should receive an XML document
   And I should receive a return code of 200
 
-  # attendances
-  Then I should find "<attendances>" under "<student>"
-  And I should find 74 "<attendances>" under "<student><attendances>"
-  And I should find 0 entries with "<eventDate>" including the string "2011"
-  And I should see "<entityType>" is "attendance" for the one at position 2
-  And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for the one at position 2
-  And I should see "<attendanceEventCategory>" is "In Attendance" for the one at position 2
-
   # assessments
   Then I should find "<studentAssessments>" under "<student>"
   And I should see "<entityType>" is "studentAssessmentAssociation"
@@ -119,9 +111,9 @@ Scenario: Applying optional fields - attendances with year filter
   Then I should receive an XML document
   And I should receive a return code of 200
 
-  Then I should find 74 "<attendances>" under "<student><attendances>"
-  And I should find 0 entries with "<eventDate>" including the string "2011"
-  And I should find 74 entries with "<eventDate>" including the string "2012"
+  Then I should find 181 "<attendances>" under "<student><attendances>"
+  And I should find 77 entries with "<date>" including the string "2011"
+  And I should find 104 entries with "<date>" including the string "2012"
 
 Scenario: Applying optional fields - single student view
   Given optional field "attendances"
