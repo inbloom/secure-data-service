@@ -466,9 +466,14 @@ public class PopulationManagerImpl implements PopulationManager {
         SortedSet<GenericEntity> sortedList = new TreeSet<GenericEntity>(new Comparator<GenericEntity>() {
             @Override
             public int compare(GenericEntity a, GenericEntity b) {
-                Date dateA = (Date) a.get(Constants.ATTR_DATE_FULFILLED);
-                Date dateB = (Date) b.get(Constants.ATTR_DATE_FULFILLED);
-                return dateA.compareTo(dateB);
+                Object dateA = a.get(Constants.ATTR_DATE_FULFILLED);
+                Object dateB = b.get(Constants.ATTR_DATE_FULFILLED);
+                if (dateA == null) {
+                    return 1;
+                } else if (dateB == null) {
+                    return -1;
+                }
+                return ((Date) dateA).compareTo((Date) dateB);
             }
         });
         
@@ -507,10 +512,13 @@ public class PopulationManagerImpl implements PopulationManager {
                 }
                 
                 try {
-                    Date date = formatter.parse((String) currentGrade.get(Constants.ATTR_DATE_FULFILLED));
-                    gradeDate.put(Constants.ATTR_DATE_FULFILLED, date);
+                    Object dateString = currentGrade.get(Constants.ATTR_DATE_FULFILLED);
+                    if(dateString != null) {
+                        Date date = formatter.parse((String) dateString);
+                        gradeDate.put(Constants.ATTR_DATE_FULFILLED, date);
+                    }
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    log.error("Error parsing dates for a Current Section grade.");
                 }
                 gradeDate.put(Constants.ATTR_GRADE_EARNED, grade);
                 sortedList.add(gradeDate);

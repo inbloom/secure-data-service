@@ -36,6 +36,7 @@ import org.slc.sli.util.Constants;
 @PrepareForTest(EntityManager.class)
 public class PopulationManagerTest {
 
+    private static final String SECTION_ID = "fc4de89d-534e-4ae7-ae3c-b4a536e1a4ac";
     private PopulationManager manager;
     private EntityManager mockEntity;
 
@@ -233,7 +234,7 @@ public class PopulationManagerTest {
         PopulationManagerImpl pm = new PopulationManagerImpl();
         pm.applyAssessmentFilters(studentSummaries, config);
         //TODO - Pass "real" data, update createSomeStudentSummaries to use the same section ID that you pass here.
-        pm.enhanceListOfStudents(studentSummaries, "");
+        pm.enhanceListOfStudents(studentSummaries, SECTION_ID);
 
         // check for full name
         GenericEntity student = studentSummaries.get(0);
@@ -308,6 +309,13 @@ public class PopulationManagerTest {
         attendances.add(attendance2);
         
         
+        addRealTranscripts(student);
+        addRealGradeBookEntries(student);
+
+        return studentSummaries;
+    }
+
+    private void addRealTranscripts(Map<String, Object> student){
         //StudentTranscripts
         List<Map<String, Object>> studentTranscriptAssociations = new ArrayList<Map<String, Object>>();
         //7th Grade English Transcript
@@ -367,9 +375,9 @@ public class PopulationManagerTest {
         sectionAssoc = new LinkedHashMap<String, Object>();
         sectionAssoc.put("id", "db7836e8-97b4-4079-9971-63a741403e43");
         sectionAssoc.put("sections", sections);
-        sectionAssoc.put("sectionId", "fc4de89d-534e-4ae7-ae3c-b4a536e1a4ac");
+        sectionAssoc.put("sectionId", SECTION_ID);
         studentSectionAssociations.add(sectionAssoc);
-        //9th Grade English
+        //7th Grade Composition
         sessions = new LinkedHashMap<String, Object>();
         sessions.put("id", "bf67a1cb-c7df-40b2-bfa8-99a0691e8c09");
         sessions.put("schoolYear", "2010-2011");
@@ -396,10 +404,71 @@ public class PopulationManagerTest {
         transcripts.put("courseTranscripts", studentTranscriptAssociations);
         transcripts.put("studentSectionAssociations", studentSectionAssociations);
         student.put("transcript", transcripts);
+    }
+
+    private void addRealGradeBookEntries(Map<String, Object> student) {
+
+        //Letter Grade Passed
+        List<Map<String, Object>> gradeBookEntries = new ArrayList<Map<String, Object>>();
+        Map<String, Object> entry = new LinkedHashMap<String, Object>();
+        entry.put("id", "ad3ea581-9b27-4c38-97ee-480a44e1147e");
+        entry.put("gradebookEntryId", "6e42d32c-2be3-45de-97fe-894d4c065aa2");
+        entry.put("sectionId", "da5b4d1a-63a3-46d6-a4f1-396b3308af83");
+        entry.put("letterGradeEarned", "C");
+        entry.put("studentId", "0d563d12-3d0c-4601-adb6-2da746d78bd5");       
+        Map<String, Object> details = new LinkedHashMap<String, Object>();
+        details.put("id", "6e42d32c-2be3-45de-97fe-894d4c065aa2");
+        details.put("dateAssigned", "2011-09-29");//dateAssigned=2011-09-29,
+        entry.put("gradebookEntries", details);
+        entry.put("dateFulfilled", "2011-09-29");
+        gradeBookEntries.add(entry);
         
-
-
-        return studentSummaries;
+        //Numeric Grade Passed
+        entry = new LinkedHashMap<String, Object>();
+        entry.put("id", "63c71862-adf6-465f-846b-8effde9e764c");
+        entry.put("gradebookEntryId", "00f627d7-1ccd-4c63-a1b3-64e104ec73de");
+        entry.put("sectionId", "da5b4d1a-63a3-46d6-a4f1-396b3308af83");
+        entry.put("letterGradeEarned", null);
+        entry.put("numericGradeEarned", 73.0);
+        entry.put("studentId", "0d563d12-3d0c-4601-adb6-2da746d78bd5");
+        details = new LinkedHashMap<String, Object>();
+        details.put("id", "00f627d7-1ccd-4c63-a1b3-64e104ec73de");
+        details.put("dateAssigned", "2011-10-27");//dateAssigned=2011-09-29,
+        entry.put("gradebookEntries", details);
+        entry.put("dateFulfilled", "2011-10-27");
+        gradeBookEntries.add(entry);
+        
+        //No grade passed case
+        entry = new LinkedHashMap<String, Object>();
+        entry.put("id", "63c71862-adf6-465f-846b-8effde9e764d");
+        entry.put("gradebookEntryId", "00f627d7-1ccd-4c63-a1b3-64e104ec73df");
+        entry.put("sectionId", "da5b4d1a-63a3-46d6-a4f1-396b3308af83");
+        entry.put("letterGradeEarned", null);
+        entry.put("numericGradeEarned", null);
+        entry.put("studentId", "0d563d12-3d0c-4601-adb6-2da746d78bd5");
+        details = new LinkedHashMap<String, Object>();
+        details.put("id", "00f627d7-1ccd-4c63-a1b3-64e104ec73df");
+        details.put("dateAssigned", "2011-10-28");//dateAssigned=2011-09-29,
+        entry.put("gradebookEntries", details);
+        entry.put("dateFulfilled", "2011-10-28");
+        gradeBookEntries.add(entry);
+        
+        //Bad Date passed case
+        entry = new LinkedHashMap<String, Object>();
+        entry.put("id", "63c71862-adf6-465f-846b-8effde9e764g");
+        entry.put("gradebookEntryId", "00f627d7-1ccd-4c63-a1b3-64e104ec73dg");
+        entry.put("sectionId", "da5b4d1a-63a3-46d6-a4f1-396b3308af83");
+        entry.put("letterGradeEarned", "B");
+        entry.put("numericGradeEarned", null);
+        entry.put("studentId", "0d563d12-3d0c-4601-adb6-2da746d78bd5");
+        details = new LinkedHashMap<String, Object>();
+        details.put("id", "00f627d7-1ccd-4c63-a1b3-64e104ec73dg");
+        details.put("dateAssigned", "2011-10-28");//dateAssigned=2011-09-29,
+        entry.put("gradebookEntries", details);
+        entry.put("dateFulfilled", "dfafsadadsf");
+        gradeBookEntries.add(entry);
+        
+        student.put("studentGradebookEntries", gradeBookEntries);   
     }
 
 }
