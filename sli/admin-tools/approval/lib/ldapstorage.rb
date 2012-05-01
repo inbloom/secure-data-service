@@ -19,16 +19,17 @@ class LDAPStorage
 	ENTITY_ATTR_MAPPING = LDAP_ATTR_MAPPING.invert
 
 	def initialize(host, port, base, username, password)
+     	@people_base = "ou=people,#{base}"
+     	@group_base  = "ou=groups,#{base}"
 		@ldap_conf = { :host => host,
 			:port => port,
-     		:base => base,
+     		:base => @people_base,
      		:auth => {
            		:method => :simple,
            		:username => username,
            		:password => password
      		}
      	}
-     	@base = base
      	@ldap = Net::LDAP.new @ldap_conf
      	raise "Could not bind to ldap server." if !@ldap.bind 
 	end
@@ -73,10 +74,14 @@ class LDAPStorage
 
 	# enable login and update the status
 	def enable_update_status(user)
+		# add the user to the enabled group 
+
 	end
 
 	# disable login and update the status 
 	def disable_update_status(user)
+		# remove the user from the enabled group 
+		
 	end
 
 	# returns true if the user exists 
