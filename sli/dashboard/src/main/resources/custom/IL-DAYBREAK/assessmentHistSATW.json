@@ -1,0 +1,10 @@
+{
+    id : "assessmentHistSATW",
+    parentId: "assessmentHist",
+    type : "GRID",
+    name : "Test History : SAT Writing",
+    data : {
+        cacheKey: 'assessmentHistSATW',
+        params: { assessmentFamily: "SAT Writing"}
+    }
+}

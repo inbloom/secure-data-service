@@ -27,6 +27,16 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
     protected static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
 
+    private MongoIndexManager mongoIndexManager;
+
+    public MongoIndexManager getMongoIndexManager() {
+        return mongoIndexManager;
+    }
+
+    public void setMongoIndexManager(MongoIndexManager mongoIndexManager) {
+        this.mongoIndexManager = mongoIndexManager;
+    }
+
     @Override
     public boolean update(String collection, NeutralRecord neutralRecord) {
         return update(neutralRecord.getRecordType(), neutralRecord, null);

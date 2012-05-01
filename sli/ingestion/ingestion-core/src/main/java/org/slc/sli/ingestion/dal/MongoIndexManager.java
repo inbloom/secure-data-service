@@ -3,6 +3,7 @@ package org.slc.sli.ingestion.dal;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -67,13 +68,13 @@ public final class MongoIndexManager {
     private static final IndexDefinition createIndexDefinition(List<Map<String, String>> fields, int indexName) throws IOException {
         Index index = new Index();
 
-        String name = "";
+        // String name = "";
         for (Map<String, String> field : fields) {
-            name += field.get("name") + "_" + field.get("order") + "_";
+            // name += field.get("name") + "_" + field.get("order") + "_";
             index.on(field.get("name"), field.get("order").equals("1") ? Order.ASCENDING : Order.DESCENDING);
         }
 
-        index.named(Integer.toString(indexName));
+        index.named(String.valueOf(indexName));
         return index;
     }
 
@@ -88,15 +89,35 @@ public final class MongoIndexManager {
             repository.createCollection(collection);
         }
 
-       for (IndexDefinition index : collectionIndexes.get(collection)) {
+        if (!collectionIndexes.containsKey(collection)) {
+            return;
+        }
 
-           try {
-               repository.ensureIndex(index, collection);
-           } catch (Exception e) {
-               LOG.error("Failed to create mongo indexes, reason: {}", e.getMessage());
-           }
-       }
-   }
+        for (IndexDefinition index : collectionIndexes.get(collection)) {
+
+            try {
+                repository.ensureIndex(index, collection);
+            } catch (Exception e) {
+                LOG.error("Failed to create mongo indexes, reason: {}", e.getMessage());
+            }
+        }
+    }
+
+    public void ensureAllIndexes(Repository<?> repository) {
+        Set<String> collectionNames = collectionIndexes.keySet();
+        Iterator<String> it = collectionNames.iterator();
+        String collectionName;
+
+        while (it.hasNext()) {
+            collectionName = it.next();
+            try {
+                repository.ensureIndex((IndexDefinition) collectionIndexes.get(collectionName), collectionName);
+            } catch (Exception e) {
+                LOG.error("Failed to create mongo indexes, reason: {}", e.getMessage());
+            }
+        }
+    }
+
 
     /**Set indexes for all the collections configured
      *

@@ -13,6 +13,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -37,6 +38,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
     private Map<String, Map<Object, NeutralRecord>> collections;
     private Map<String, Map<Object, NeutralRecord>> transformedCollections;
+
+    @Autowired
+    private Type1UUIDGeneratorStrategy uuidGenerator;
 
     /**
      * Default constructor.
@@ -64,14 +68,12 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     public void loadData() {
         LOG.info("Loading data for attendance transformation.");
-
         List<String> collectionsToLoad = Arrays.asList(EntityNames.STUDENT_SCHOOL_ASSOCIATION);
         for (String collectionName : collectionsToLoad) {
             Map<Object, NeutralRecord> collection = getCollectionFromDb(collectionName);
             collections.put(collectionName, collection);
             LOG.info("{} is loaded into local storage.  Total Count = {}", collectionName, collection.size());
         }
-
         LOG.info("Finished loading data for attendance transformation.");
     }
 
@@ -79,10 +81,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      * Transforms attendance events from Ed-Fi model into SLI model.
      */
     public void transform() {
-
-        LOG.debug("Transforming daily attendance data");
+        LOG.debug("Transforming attendance data");
         HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
-
         Set<Pair<String, String>> studentSchoolPairs = new HashSet<Pair<String, String>>();
 
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get(
@@ -94,7 +94,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             String schoolId = (String) attributes.get("schoolId");
 
             if (studentSchoolPairs.contains(Pair.of(studentId, schoolId))) {
-                LOG.info("Already assembled attendance data for student: {} at school: {}", studentId, schoolId);
+                LOG.warn("Already assembled attendance data for student: {} at school: {}", studentId, schoolId);
             } else {
                 studentSchoolPairs.add(Pair.of(studentId, schoolId));
 
@@ -106,11 +106,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
                 Map<Object, NeutralRecord> studentAttendance = getAttendanceEvents(studentId);
                 Map<Object, NeutralRecord> sessions = getSessions(studentId, schoolId);
-
-                // LOG.info("For student with id: {} in school: {}", studentId, schoolId);
-                // LOG.info("  Found {} associated sessions.", sessions.size());
-                // LOG.info("  Found {} attendance events.", studentAttendance.size());
-
                 Map<String, Object> schoolYears = mapAttendanceIntoSchoolYears(studentAttendance, sessions);
 
                 if (schoolYears.entrySet().size() > 0) {
@@ -127,14 +122,14 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                     attendanceAttributes.put("schoolYearAttendance", daily);
                     attendanceRecord.setAttributes(attendanceAttributes);
                     newCollection.put(attendanceRecord.getRecordId(), attendanceRecord);
-                    // } else {
-                    // LOG.warn("  No daily attendance for student: {}", studentId);
+                } else {
+                    LOG.warn("  No daily attendance for student: {} in school: {}", studentId, schoolId);
                 }
             }
         }
         transformedCollections.put(EntityNames.ATTENDANCE, newCollection);
-        LOG.info("Finished transforming daily attendance data for {} student-school associations.", newCollection
-                .entrySet().size());
+        LOG.info("Finished transforming attendance data for {} student-school associations.", newCollection.entrySet()
+                .size());
     }
 
     /**
@@ -144,7 +139,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     private NeutralRecord createTransformedAttendanceRecord() {
         NeutralRecord record = new NeutralRecord();
-        Type1UUIDGeneratorStrategy uuidGenerator = new Type1UUIDGeneratorStrategy();
         record.setRecordId(uuidGenerator.randomUUID().toString());
         record.setRecordType(EntityNames.ATTENDANCE);
         return record;
@@ -317,16 +311,18 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         }
 
         // if student attendance still has attendance events --> orphaned events
-        Iterator<Map.Entry<Object, NeutralRecord>> recordItr = studentAttendance.entrySet().iterator();
-        if (recordItr.hasNext()) {
-            int orphanedEvents = 0;
-            while (recordItr.hasNext()) {
-                recordItr.next();
-                orphanedEvents++;
-            }
-            // LOG.warn("  {} attendance events still need to be mapped into a school year.",
-            // orphanedEvents);
-        }
+
+        // Iterator<Map.Entry<Object, NeutralRecord>> recordItr =
+        // studentAttendance.entrySet().iterator();
+        // if (recordItr.hasNext()) {
+        // int orphanedEvents = 0;
+        // while (recordItr.hasNext()) {
+        // recordItr.next();
+        // orphanedEvents++;
+        // }
+        // LOG.warn("  {} attendance events still need to be mapped into a school year.",
+        // orphanedEvents);
+        // }
         return schoolYears;
     }
 }

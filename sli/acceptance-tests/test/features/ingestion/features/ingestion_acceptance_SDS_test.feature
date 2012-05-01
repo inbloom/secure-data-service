@@ -13,10 +13,8 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | studentSchoolAssociation    |
         | course                      |
         | educationOrganization       |
-        | school                      |
         | section                     |
         | studentSectionAssociation   |
-        | teacher                     |
         | staff                       |
         |staffEducationOrganizationAssociation|
         | teacherSchoolAssociation    |
@@ -38,6 +36,7 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | studentCohortAssociation    |
         | learningStandard    |
         | disciplineIncident          |
+        | disciplineAction            |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
@@ -45,15 +44,13 @@ Then I should see following map of entry counts in the corresponding collections
         | student                     | 78    |
         | studentSchoolAssociation    | 167   |
         | course                      | 89    |
-        | educationOrganization       | 3     |
-        | school                      | 4     |
+        | educationOrganization       | 7     |
         | section                     | 90    |
         | studentSectionAssociation   | 290   |
-        | teacher                     | 3     |
-        | staff                       | 11    |
+        | staff                       | 14    |
         | staffEducationOrganizationAssociation| 8|
-        | teacherSchoolAssociation    | 4     |
-        | teacherSectionAssociation   | 4     |
+        | teacherSchoolAssociation    | 3     |
+        | teacherSectionAssociation   | 3     |
         | session                     | 22    |
         | assessment                  | 5     |
         | studentAssessmentAssociation| 116   |
@@ -71,26 +68,26 @@ Then I should see following map of entry counts in the corresponding collections
         | studentCohortAssociation    | 9     |
         | learningStandard            | 10    |
         | disciplineIncident          | 2     |
+        | disciplineAction            | 2     |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
        | student                     | 1                   | metaData.externalId      | 800000012                  | string               |
        | student                     | 1                   | metaData.externalId      | 900000024                  | string               |
-       | teacher                     | 1                   | metaData.externalId      | cgray                      | string               |
+       | staff                       | 1                   | metaData.externalId      | cgray                      | string               |
        | course                      | 1                   | metaData.externalId      | 1st Grade Homeroom         | string               |
-       | school                      | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
+       | educationOrganization       | 1                   | metaData.externalId      | South Daybreak Elementary  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-1            | string               |
        | program                     | 1                   | metaData.externalId      | ACC-TEST-PROG-2            | string               |
-       | attendance                  | 75                  | body.schoolYearAttendance.schoolYear            | 2011-2012     | string     |
-       | attendance                  | 11                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         | string     |
-       | attendance                  | 75                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance | string     |
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-1             | string               |
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-2             | string               |
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-3             | string               |
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Whack-a-mole               | string               |
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Underwater cruise          | string               |
+       | disciplineAction            | 1                   | body.disciplineDate      | 2011-03-04                 | string               |
+       | disciplineAction            | 1                   | body.disciplineDate      | 2011-04-04                 | string               |
     And I should see "Processed 15273 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
@@ -105,8 +102,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeMasterSchedule.xml records considered: 90" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 90" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 33" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 33" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered: 31" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 31" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records considered: 485" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 485" in the resulting batch job file
@@ -144,8 +141,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentCohort.xml records considered: 15" in the resulting batch job file
     And I should see "InterchangeStudentCohort.xml records ingested successfully: 15" in the resulting batch job file
     And I should see "InterchangeStudentCohort.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentDiscipline.xml records considered: 2" in the resulting batch job file
-    And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 2" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml records considered: 4" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 4" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
 
 @smoke @integration
@@ -159,15 +156,13 @@ Then I should see following map of entry counts in the corresponding collections
         | student                     | 80    |
         | studentSchoolAssociation    | 169   |
         | course                      | 90    |
-        | educationOrganization       | 3     |
-        | school                      | 4     |
+        | educationOrganization       | 7     |
         | section                     | 91    |
         | studentSectionAssociation   | 292   |
-        | teacher                     | 4     |
-        | staff                       | 17    |
+        | staff                       | 21    |
         | staffEducationOrganizationAssociation|11|
-        | teacherSchoolAssociation    | 5     |
-        | teacherSectionAssociation   | 5     |
+        | teacherSchoolAssociation    | 4     |
+        | teacherSectionAssociation   | 4     |
         | session                     | 22    |
         | assessment                  | 5     |
         | studentAssessmentAssociation| 116   |
@@ -184,12 +179,13 @@ Then I should see following map of entry counts in the corresponding collections
         | staffCohortAssociation      | 3     |
         | studentCohortAssociation    | 9     |
         | disciplineIncident          | 2     |
+        | disciplineAction            | 2     |
    And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 1000000000                 | string               |
-       | teacher                     | 1                   | metaData.externalId      | manthony                   | string               |
+       | staff                       | 1                   | metaData.externalId      | manthony                   | string               |
        | course                      | 1                   | metaData.externalId      | A.P. Calculus              | string               |
-       | school                      | 1                   | metaData.externalId      | Sunset Central High School | string               |
+       | educationOrganization       | 1                   | metaData.externalId      | Sunset Central High School | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-SUNSET                  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
     And I should see "Processed 23 records." in the resulting batch job file
@@ -224,15 +220,13 @@ Then I should see following map of entry counts in the corresponding collections
         | student                     | 88    |
         | studentSchoolAssociation    | 177   |
         | course                      | 98    |
-        | educationOrganization       | 6     |
-        | school                      | 8     |
+        | educationOrganization       | 14    |
         | section                     | 107   |
         | studentSectionAssociation   | 300   |
-        | teacher                     | 20    |
-        | staff                       | 38    |
+        | staff                       | 58    |
         | staffEducationOrganizationAssociation|20|
-        | teacherSchoolAssociation    | 21    |
-        | teacherSectionAssociation   | 21    |
+        | teacherSchoolAssociation    | 20    |
+        | teacherSectionAssociation   | 20    |
         | session                     | 26    |
         | assessment                  | 5     |
         | studentAssessmentAssociation| 116   |
@@ -241,7 +235,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
         | studentSectionGradebookEntry| 78    |
-        | attendance                  | 75    |
+        | attendance                  | 75 |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
         | studentProgramAssociation   | 10    |
@@ -249,12 +243,13 @@ Then I should see following map of entry counts in the corresponding collections
         | staffCohortAssociation      | 3     |
         | studentCohortAssociation    | 9     |
         | disciplineIncident          | 2     |
+        | disciplineAction            | 2     |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 2                   | metaData.externalId      | 100000006                  | string               |
        | staff                       | 1                   | metaData.externalId      | jcarlyle                   | string               |
        | section                     | 1                   | metaData.externalId      | Mason201-Sec1              | string               |
-       | school                      | 1                   | metaData.externalId      | 1000000111                 | string               |
+       | educationOrganization       | 1                   | metaData.externalId      | 1000000111                 | string               |
        | educationOrganization       | 1                   | metaData.externalId      | NY-Parker                  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | NY                         | string               |
     And I should see "Processed 137 records." in the resulting batch job file

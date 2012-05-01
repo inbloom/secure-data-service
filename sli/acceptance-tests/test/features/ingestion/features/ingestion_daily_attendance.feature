@@ -12,7 +12,6 @@ Given I post "DailyAttendance.zip" file as the payload of the ingestion job
      | studentSchoolAssociation    |
      | course                      |
      | educationOrganization       |
-     | school                      |
      | section                     |
      | session                     |
      | studentSectionAssociation   |
@@ -24,8 +23,7 @@ Then I should see following map of entry counts in the corresponding collections
      | student                     | 72    |
      | studentSchoolAssociation    | 106   |
      | course                      | 15    |
-     | educationOrganization       | 3     |
-     | school                      | 5     |
+     | educationOrganization       | 8     |
      | section                     | 25    |
      | session                     | 8     |
      | studentSectionAssociation   | 192   |
@@ -62,6 +60,7 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                  | 850                 | body.attendanceEventCategory  | Excused Absence |
      | attendance                  | 784                 | body.attendanceEventCategory  | Tardy           |
      | attendance                  | 72                  | body.schoolYearAttendance.attendanceEvent.date | 2012-07-09      |
+
    And I should see "Processed 72 records." in the resulting batch job file
    And I should not see an error log file created
    And I should see "StudentAttendanceAppend.xml records considered: 72" in the resulting batch job file
@@ -80,6 +79,7 @@ When zip file is scp to ingestion landing zone
   And I should see "StudentAttendanceDuplicate.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "StudentAttendanceDuplicate.xml records failed: 72" in the resulting batch job file
 
+@wip
 Scenario: Post a zip file containing attendance event interchange with non-existent student as a payload of the ingestion job: Populated Database
 Given I post "DailyAttendanceNoStudent.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone

@@ -4,7 +4,7 @@ require "selenium-webdriver"
 Then /^the count for id "([^"]*)" for student "([^"]*)" is "([^"]*)"$/ do |arg1, arg2, arg3|
   studentCell = getStudentCell(arg2)
   label = getStudentAttribute(studentCell,arg1)
-  assert(label == arg3, "Count: '" + label + "', Expected: '" + arg3 + "'")
+  assert(label == arg3, "Count : " + label + ", expected " + arg3)
   
 end
 

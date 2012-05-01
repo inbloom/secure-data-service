@@ -19,9 +19,7 @@ public class DateTimeUtil {
      * @return current UTC time
      */
     public static Date getNowInUTC() {
-
         return new DateTime(DateTimeZone.UTC).toDate();
-
     }
     
     /**

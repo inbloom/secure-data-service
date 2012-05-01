@@ -19,13 +19,6 @@ public class Type1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
 
     private TimeBasedGenerator generator = Generators.timeBasedGenerator(EthernetAddress.fromInterface());
 
-//    @PostConstruct
-//    public void init() {
-//
-//        EthernetAddress nic = EthernetAddress.fromInterface();
-//        generator = Generators.timeBasedGenerator(nic);
-//    }
-
     /**
      * Generate a type 1 random UUID.
      */

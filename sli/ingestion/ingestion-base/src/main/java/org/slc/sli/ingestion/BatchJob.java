@@ -90,9 +90,9 @@ public final class BatchJob implements Serializable, ErrorReportSupport, Job {
     @PutResultInContext(returnName = "ingestionBatchJobId")
     protected static String createId(String filename) {
         if (filename == null) {
-            return System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+            return UUID.randomUUID().toString();
         } else {
-            return filename + "-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+            return filename + "-" + UUID.randomUUID().toString();
         }
     }
 

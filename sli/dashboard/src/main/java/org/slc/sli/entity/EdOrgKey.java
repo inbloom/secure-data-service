@@ -10,7 +10,8 @@ import java.io.Serializable;
 public class EdOrgKey implements Serializable {
     private static final long serialVersionUID = -6946791865233296339L;
     private String districtId;
-
+    private String sliId;
+    
     public EdOrgKey(String districtId) {
         this.districtId = districtId;
     }
@@ -21,6 +22,26 @@ public class EdOrgKey implements Serializable {
      */
     public String getDistrictId() {
         return districtId;
+    }
+
+    /**
+     * Get the SLI id of the district
+     * 
+     * @return The SLI id
+     */
+    public String getSliId() {
+        return sliId;
+    }
+    
+    /**
+     * Set the SLI id of the district
+     * 
+     * @param sliId
+     *            - The SLI id to set
+     * @return
+     */
+    public void setSliId(String sliId) {
+        this.sliId = sliId;
     }
 
     @Override

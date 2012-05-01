@@ -1,12 +1,13 @@
 package org.slc.sli.api.resources.util;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Collection;
 import java.util.Map.Entry;
 
 import javax.ws.rs.core.MultivaluedMap;
@@ -256,18 +257,21 @@ public class ResourceUtil {
             for (String referenceGuid : entityBody.getId(referenceField.getKey())) {
                 // if a value (GUID) was stored there
                 if (referenceGuid != null) {
-                    String resourceName = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(referenceField.getValue()
+                    Set<String> resourceNames = ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.get(referenceField.getValue()
                             .getResourceName());
-                    String linkName = ResourceNames.SINGULAR_LINK_NAMES.get(resourceName);
-                    
-                    // handle learningObjective direct self reference link names
-                    if (defn.getResourceName().equals(resourceName)
-                            && resourceName.equals(ResourceNames.LEARNINGOBJECTIVES)) {
-                        linkName = "getParentLearningObjective";
-                    }
 
-                    links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
-                            PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
+                    for (String resourceName : resourceNames) {
+                        String linkName = ResourceNames.SINGULAR_LINK_NAMES.get(resourceName);
+
+                        // handle learningObjective direct self reference link names
+                        if (defn.getResourceName().equals(resourceName)
+                                && resourceName.equals(ResourceNames.LEARNINGOBJECTIVES)) {
+                            linkName = "getParentLearningObjective";
+                        }
+
+                        links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
+                                PathConstants.TEMP_MAP.get(resourceName), referenceGuid).toString()));
+                    }
                 }
             }
         }

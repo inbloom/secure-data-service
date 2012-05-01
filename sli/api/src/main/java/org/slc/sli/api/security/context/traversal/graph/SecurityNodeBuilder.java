@@ -10,11 +10,15 @@ public final class SecurityNodeBuilder {
     private SecurityNode node;
 
     public static SecurityNodeBuilder buildNode(String nodeName) {
-        return new SecurityNodeBuilder(nodeName);
+        return new SecurityNodeBuilder(nodeName, nodeName);
     }
 
-    private SecurityNodeBuilder(String name) {
-        node = new SecurityNode(name);
+    public static SecurityNodeBuilder buildNode(String nodeName, String nodeType) {
+        return new SecurityNodeBuilder(nodeName, nodeType);
+    }
+
+    private SecurityNodeBuilder(String name, String type) {
+        node = new SecurityNode(name, type);
     }
 
 

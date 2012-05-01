@@ -15,7 +15,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.slc.sli.client.MockAPIClient;
+import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.manager.impl.StudentProgressManagerImpl;
 import org.slc.sli.util.Constants;
 
 /**
@@ -24,7 +27,7 @@ import org.slc.sli.util.Constants;
  *
  */
 public class StudentProgressManagerTest {
-    private StudentProgressManager manager;
+    private StudentProgressManagerImpl manager;
     private EntityManager mockEntity;
     
     private static final String STUDENTID = "123456";
@@ -37,7 +40,7 @@ public class StudentProgressManagerTest {
 
     @Before
     public void setUp() throws Exception {
-        manager = new StudentProgressManager();
+        manager = new StudentProgressManagerImpl();
         mockEntity = mock(EntityManager.class);
         manager.setEntityManager(mockEntity);
 
@@ -205,14 +208,7 @@ public class StudentProgressManagerTest {
         assertEquals("First element should match", "2011-06-30", tests.last().getString("dateFulfilled"));
     }
 
-    @Test
-    public void testParseNumericGrade() {
-        assertEquals("Should match", 0.00, manager.parseNumericGrade(null), 0.1);
-        assertEquals("Should match", 77.7, manager.parseNumericGrade(new Double(77.7)), 0.1);
-        assertEquals("Should match", 0.0, manager.parseNumericGrade(new Double(0)), 0.1);
-        assertEquals("Should match", 0.0, manager.parseNumericGrade(new Integer(0)), 0.1);
-    }
-    
+
     private Map<String, Map<String, GenericEntity>> buildUnitTestDataMap() {
         Map<String, Map<String, GenericEntity>> data = new HashMap<String, Map<String, GenericEntity>>();
         
@@ -237,5 +233,47 @@ public class StudentProgressManagerTest {
         data.put(STUDENTID, map);
         
         return data;
+    }
+
+    @Test
+    public void testGetTranscript() {
+
+        String token = "1234";
+        String studentId = "STUDENT-1234";
+        Config.Data config = new Config.Data();
+        List<String> optionalFields = new ArrayList<String>();
+        optionalFields.add(Constants.ATTR_TRANSCRIPT);
+
+        when(mockEntity.getStudentWithOptionalFields(token, studentId, optionalFields)).
+                thenReturn(new MockAPIClient().getStudentWithOptionalFields(token, studentId, optionalFields));
+
+        GenericEntity actual = manager.getTranscript(token, studentId, config);
+
+        @SuppressWarnings("unchecked")
+        List<GenericEntity> transcriptHistory = (List<GenericEntity>) actual.get(StudentProgressManagerImpl.TRANSCRIPT_HISTORY);
+        assertEquals(2, transcriptHistory.size());
+        GenericEntity termOne = transcriptHistory.get(0);
+        GenericEntity termTwo = transcriptHistory.get(1);
+
+        assertEquals("Spring Semester", termOne.getString(Constants.ATTR_TERM));
+        assertEquals("Fall Semester", termTwo.getString(Constants.ATTR_TERM));
+
+        assertEquals("Seventh grade", termOne.getString(Constants.ATTR_GRADE_LEVEL));
+        assertEquals("Seventh grade", termTwo.getString(Constants.ATTR_GRADE_LEVEL));
+
+        @SuppressWarnings("unchecked")
+        List<GenericEntity> termOneCourses = (List<GenericEntity>) termOne.get(Constants.ATTR_COURSES);
+
+        assertEquals(1, termOneCourses.size());
+        assertEquals("85.0", termOneCourses.get(0).getString("grade"));
+        assertEquals("7th Grade Composition", termOneCourses.get(0).getString(StudentProgressManagerImpl.COURSE));
+
+        @SuppressWarnings("unchecked")
+        List<GenericEntity> termTwoCourses = (List<GenericEntity>) termTwo.get(Constants.ATTR_COURSES);
+
+        assertEquals(1, termTwoCourses.size());
+        assertEquals("87.0", termTwoCourses.get(0).getString(StudentProgressManagerImpl.GRADE));
+        assertEquals("7th Grade English", termTwoCourses.get(0).getString(StudentProgressManagerImpl.COURSE));
+
     }
 }

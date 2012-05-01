@@ -57,8 +57,6 @@ public class SliSmooksFactory {
             Visitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, batchJobId, fileWriter, errorReport,
                     fe);
 
-            nrMongoStagingWriter.ensureIndex();
-
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             for (String targetSelector : targetSelectorList) {
                 smooks.addVisitor(smooksEdFiVisitor, targetSelector);

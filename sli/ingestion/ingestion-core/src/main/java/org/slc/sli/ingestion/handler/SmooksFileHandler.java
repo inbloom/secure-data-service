@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Hashtable;
 
 import javax.xml.transform.stream.StreamSource;
@@ -89,8 +88,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             smooks.filterSource(new StreamSource(inputStream));
         } catch (SmooksException se) {
             LOG.error("smooks exception encountered converting " + ingestionFileEntry.getFile().getName() + " to "
-                    + neutralRecordOutFile.getName() + ": " + se.getMessage() + "\n"
-                    + Arrays.toString(se.getStackTrace()));
+                    + neutralRecordOutFile.getName() + ": " + se.getMessage() + "\n", se);
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
             IOUtils.closeQuietly(inputStream);

@@ -34,7 +34,7 @@ public class SchoolSessionAssociationTest {
     @Before
     public void init() {
         repo.clean();
-        repo.addEntity("school", "A school", makeDummyEntity("school", "A school"));
+        repo.addEntity("educationOrganization", "A school", makeDummyEntity("educationOrganization", "A school"));
         repo.addEntity("session", "A session", makeDummyEntity("session", "A session"));
     }
 
