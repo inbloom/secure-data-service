@@ -25,6 +25,7 @@ import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.manager.impl.PopulationManagerImpl;
 import org.slc.sli.util.Constants;
+import org.slc.sli.util.StudentSummaryBuilder;
 
 /**
  *
@@ -307,167 +308,10 @@ public class PopulationManagerTest {
         attendance2.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, "Tardy");
         attendances.add(attendance2);
         
-        
-        addRealTranscripts(student);
-        addRealGradeBookEntries(student);
+        StudentSummaryBuilder.addFullDetailTranscripts(student);
+        StudentSummaryBuilder.addRealGradeBookEntries(student);
 
         return studentSummaries;
-    }
-
-    private void addRealTranscripts(Map<String, Object> student) {
-        //StudentTranscripts
-        List<Map<String, Object>> studentTranscriptAssociations = new ArrayList<Map<String, Object>>();
-        //7th Grade English Transcript
-        Map<String, Object> studentTranscript = new LinkedHashMap<String, Object>();
-        studentTranscript.put("id", "dc41d13b-9f8c-486d-b720-6b3c8a761f06");
-        studentTranscript.put("finalLetterGradeEarned", "F");
-        studentTranscript.put("courseId", "5fac98fc-62a4-49d1-9417-11b0823a2e7a");
-        studentTranscriptAssociations.add(studentTranscript);
-        //8th Grade Composition Transcript
-        studentTranscript = new LinkedHashMap<String, Object>();
-        studentTranscript.put("id", "b66f4677-c250-4ad9-a318-cf77ccefc651");
-        studentTranscript.put("finalLetterGradeEarned", "D-");
-        studentTranscript.put("courseId", "9eb8fe49-a08a-4722-a6d4-fe1d2ec69ddd");
-        studentTranscriptAssociations.add(studentTranscript);
-        
-        //StudentSections
-        List<Map<String, Object>> studentSectionAssociations = new ArrayList<Map<String, Object>>();
-        //7th Grade Enlish Section 6       
-        Map<String, Object> sessions = new LinkedHashMap<String, Object>();
-        sessions.put("id", "432f3ed2-f413-4ed0-82f3-d2ba00c5b61a");
-        sessions.put("schoolYear", "2010-2011");
-        sessions.put("sessionName", "Fall 2010 East Daybreak Junior High");
-        sessions.put("term", "Fall Semester");
-        sessions.put("endDate", "2010-12-16");
-        sessions.put("beginDate", "2010-09-06");
-        Map<String, Object> courses = new LinkedHashMap<String, Object>();
-        courses.put("id", "5fac98fc-62a4-49d1-9417-11b0823a2e7a");
-        courses.put("subjectArea", "English Language and Literature");
-        courses.put("courseTitle", "7th Grade English");
-        Map<String, Object> sections = new LinkedHashMap<String, Object>();
-        sections.put("sessions", sessions);
-        sections.put("courses", courses);
-        sections.put("courseId", "5fac98fc-62a4-49d1-9417-11b0823a2e7a");
-        sections.put("sessionId", "432f3ed2-f413-4ed0-82f3-d2ba00c5b61a");
-        Map<String, Object> sectionAssoc = new LinkedHashMap<String, Object>();
-        sectionAssoc.put("id", "a38a9d24-26c8-4f56-9af8-bacac6fc445d");
-        sectionAssoc.put("sections", sections);
-        sectionAssoc.put("sectionId", "3bca9b7d-03b5-4bdd-8e5e-b225a78b9e4e");
-        studentSectionAssociations.add(sectionAssoc);
-        //8th Grade English
-        sessions = new LinkedHashMap<String, Object>();
-        sessions.put("id", "c689b232-b075-4bae-a579-8c7dc0f471cb");
-        sessions.put("schoolYear", "2011-2012");
-        sessions.put("sessionName", "Fall 2011 East Daybreak Junior High");
-        sessions.put("term", "Fall Semester");
-        sessions.put("endDate", "2011-12-16");
-        sessions.put("beginDate", "2011-09-06");
-        courses = new LinkedHashMap<String, Object>();
-        courses.put("id", "48e8e237-1039-455f-a5ee-d3cc188ceac8");
-        courses.put("subjectArea", "English Language and Literature");
-        courses.put("courseTitle", "8th Grade English");
-        sections = new LinkedHashMap<String, Object>();
-        sections.put("sessions", sessions);
-        sections.put("courses", courses);
-        sections.put("courseId", "48e8e237-1039-455f-a5ee-d3cc188ceac8");
-        sections.put("sessionId", "c689b232-b075-4bae-a579-8c7dc0f471cb");
-        sectionAssoc = new LinkedHashMap<String, Object>();
-        sectionAssoc.put("id", "db7836e8-97b4-4079-9971-63a741403e43");
-        sectionAssoc.put("sections", sections);
-        sectionAssoc.put("sectionId", SECTION_ID);
-        studentSectionAssociations.add(sectionAssoc);
-        //7th Grade Composition
-        sessions = new LinkedHashMap<String, Object>();
-        sessions.put("id", "bf67a1cb-c7df-40b2-bfa8-99a0691e8c09");
-        sessions.put("schoolYear", "2010-2011");
-        sessions.put("sessionName", "Spring 2011 East Daybreak Junior High");
-        sessions.put("term", "Spring Semester");
-        sessions.put("endDate", "2011-05-16");
-        sessions.put("beginDate", "2011-01-06");
-        courses = new LinkedHashMap<String, Object>();
-        courses.put("id", "9eb8fe49-a08a-4722-a6d4-fe1d2ec69ddd");
-        courses.put("subjectArea", "English Language and Literature");
-        courses.put("courseTitle", "7th Grade Composition");
-        sections = new LinkedHashMap<String, Object>();
-        sections.put("sessions", sessions);
-        sections.put("courses", courses);
-        sections.put("courseId", "9eb8fe49-a08a-4722-a6d4-fe1d2ec69ddd,");
-        sections.put("sessionId", "bf67a1cb-c7df-40b2-bfa8-99a0691e8c09");
-        sectionAssoc = new LinkedHashMap<String, Object>();
-        sectionAssoc.put("id", "d720837a-ee94-4add-bd4b-7d4176b38d05");
-        sectionAssoc.put("sections", sections);
-        sectionAssoc.put("sectionId", "bcdc582d-149d-449f-a06a-9a3181e6bb97");
-        studentSectionAssociations.add(sectionAssoc);
-        
-        Map<String, Object> transcripts = new LinkedHashMap<String, Object>();
-        transcripts.put("courseTranscripts", studentTranscriptAssociations);
-        transcripts.put("studentSectionAssociations", studentSectionAssociations);
-        student.put("transcript", transcripts);
-    }
-
-    private void addRealGradeBookEntries(Map<String, Object> student) {
-
-        //Letter Grade Passed
-        List<Map<String, Object>> gradeBookEntries = new ArrayList<Map<String, Object>>();
-        Map<String, Object> entry = new LinkedHashMap<String, Object>();
-        entry.put("id", "ad3ea581-9b27-4c38-97ee-480a44e1147e");
-        entry.put("gradebookEntryId", "6e42d32c-2be3-45de-97fe-894d4c065aa2");
-        entry.put("sectionId", "da5b4d1a-63a3-46d6-a4f1-396b3308af83");
-        entry.put("letterGradeEarned", "C");
-        entry.put("studentId", "0d563d12-3d0c-4601-adb6-2da746d78bd5");       
-        Map<String, Object> details = new LinkedHashMap<String, Object>();
-        details.put("id", "6e42d32c-2be3-45de-97fe-894d4c065aa2");
-        details.put("dateAssigned", "2011-09-29"); //dateAssigned=2011-09-29,
-        entry.put("gradebookEntries", details);
-        entry.put("dateFulfilled", "2011-09-29");
-        gradeBookEntries.add(entry);
-        
-        //Numeric Grade Passed
-        entry = new LinkedHashMap<String, Object>();
-        entry.put("id", "63c71862-adf6-465f-846b-8effde9e764c");
-        entry.put("gradebookEntryId", "00f627d7-1ccd-4c63-a1b3-64e104ec73de");
-        entry.put("sectionId", "da5b4d1a-63a3-46d6-a4f1-396b3308af83");
-        entry.put("letterGradeEarned", null);
-        entry.put("numericGradeEarned", 73.0);
-        entry.put("studentId", "0d563d12-3d0c-4601-adb6-2da746d78bd5");
-        details = new LinkedHashMap<String, Object>();
-        details.put("id", "00f627d7-1ccd-4c63-a1b3-64e104ec73de");
-        details.put("dateAssigned", "2011-10-27"); //dateAssigned=2011-09-29,
-        entry.put("gradebookEntries", details);
-        entry.put("dateFulfilled", "2011-10-27");
-        gradeBookEntries.add(entry);
-        
-        //No grade passed case
-        entry = new LinkedHashMap<String, Object>();
-        entry.put("id", "63c71862-adf6-465f-846b-8effde9e764d");
-        entry.put("gradebookEntryId", "00f627d7-1ccd-4c63-a1b3-64e104ec73df");
-        entry.put("sectionId", "da5b4d1a-63a3-46d6-a4f1-396b3308af83");
-        entry.put("letterGradeEarned", null);
-        entry.put("numericGradeEarned", null);
-        entry.put("studentId", "0d563d12-3d0c-4601-adb6-2da746d78bd5");
-        details = new LinkedHashMap<String, Object>();
-        details.put("id", "00f627d7-1ccd-4c63-a1b3-64e104ec73df");
-        details.put("dateAssigned", "2011-10-28"); //dateAssigned=2011-09-29,
-        entry.put("gradebookEntries", details);
-        entry.put("dateFulfilled", "2011-10-28");
-        gradeBookEntries.add(entry);
-        
-        //Bad Date passed case
-        entry = new LinkedHashMap<String, Object>();
-        entry.put("id", "63c71862-adf6-465f-846b-8effde9e764g");
-        entry.put("gradebookEntryId", "00f627d7-1ccd-4c63-a1b3-64e104ec73dg");
-        entry.put("sectionId", "da5b4d1a-63a3-46d6-a4f1-396b3308af83");
-        entry.put("letterGradeEarned", "B");
-        entry.put("numericGradeEarned", null);
-        entry.put("studentId", "0d563d12-3d0c-4601-adb6-2da746d78bd5");
-        details = new LinkedHashMap<String, Object>();
-        details.put("id", "00f627d7-1ccd-4c63-a1b3-64e104ec73dg");
-        details.put("dateAssigned", "2011-10-28"); //dateAssigned=2011-09-29,
-        entry.put("gradebookEntries", details);
-        entry.put("dateFulfilled", "dfafsadadsf");
-        gradeBookEntries.add(entry);
-        
-        student.put("studentGradebookEntries", gradeBookEntries);   
     }
 
 }
