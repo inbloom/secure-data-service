@@ -237,8 +237,8 @@ public class CustomizationAssemblyFactoryTest {
          * @return
          */
         @EntityMapping("testException")
-        public GenericEntity getTestException(String token, Object studentId, Config.Data config) {
-            throw new IllegalArgumentException("Something bad happened");
+        public GenericEntity getTestException(String token, Object studentId, Config.Data config) throws Exception {
+            throw new Exception("Something bad happened");
         }
     }
 

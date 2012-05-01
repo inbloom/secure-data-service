@@ -3,11 +3,6 @@ package org.slc.sli.api.security.oauth;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
@@ -16,6 +11,10 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Determines which applications a given user is authorized to use based on
@@ -55,7 +54,9 @@ public class ApplicationAuthorizationValidator {
             return null;
         }
         List<String> apps = null;
+        List<String> results = null;
         for (Entity district : districts) {
+            debug("User is in district " + district.getEntityId());
 
             NeutralQuery query = new NeutralQuery();
             query.addCriteria(new NeutralCriteria("authId", "=", district.getEntityId()));
@@ -66,12 +67,25 @@ public class ApplicationAuthorizationValidator {
                 if (apps == null) {
                     apps = new ArrayList<String>();
                 }
+                if (results == null) {
+                    results = new ArrayList<String>();
+                }
+
+                NeutralQuery districtQuery = new NeutralQuery();
+                districtQuery.addCriteria(new NeutralCriteria("authorized_ed_orgs", "=", district.getEntityId()));
+                Iterable<Entity> districtAuthorizedApps = repo.findAll("application", districtQuery);
+
                 apps.addAll((List<String>) authorizedApps.getBody().get("appIds"));
+                for (Entity currentApp : districtAuthorizedApps) {
+                    if (apps.contains(currentApp.getEntityId())) {
+                        results.add(currentApp.getEntityId());
+                    }
+                }
             }
 
         }
 
-        return apps;
+        return results;
     }
 
     /**
@@ -107,9 +121,12 @@ public class ApplicationAuthorizationValidator {
                     warn("Could not find ed-org with ID {}", id);
                 } else {
                     List<String> category = (List<String>) entity.getBody().get("organizationCategories");
-                    if (category.contains("Local Education Agency")) {
-                        toReturn.add(entity);
+                    if (category != null) {
+                        if (category.contains("Local Education Agency")) {
+                            toReturn.add(entity);
+                        }
                     }
+                    
                 }
             }
 

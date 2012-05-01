@@ -314,6 +314,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      */
     @Override
     public CustomConfig getCustomConfig(String token) {
+
         CacheValue<CustomConfig> value = getCacheValueFromCache(USER_CONFIG_CACHE, token);
         CustomConfig config = null;
         if (value == null) {

@@ -35,6 +35,21 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
+		
+        <dependency>
+            <groupId>org.slc.sli.client.sample</groupId>
+            <artifactId>sample</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+		
+        <dependency>
+            <groupId>org.slc.sli</groupId>
+            <artifactId>simple-idp</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+		
    </dependencies>
 
    <build>
@@ -64,21 +79,22 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 
                 <configuration>
                     <container>
-                        <containerId>jetty6x</containerId>
-                        <type>embedded</type>
-                        <log>target/jetty6x.log</log>
-                        <output>target/jetty6x.log</output>
+                        <containerId>tomcat7x</containerId>
+                        <type>Installed</type>
+                        <log>target/tomcat7x/logs/tomcat7x.log</log>
+                        <output>target/tomcat7x/logs/tomcat7x.log</output>
 
-                        <artifactInstaller>
-                          <groupId>org.eclipse.jetty</groupId>
-                          <artifactId>jetty-distribution</artifactId>
-                          <version>${maven.jetty.version}</version>
-                        </artifactInstaller>
-                    </container>
+						<zipUrlInstaller>
+						<url>http://mirrors.ibiblio.org/apache/tomcat/tomcat-7/v7.0.27/bin/apache-tomcat-7.0.27.zip</url>
+						<downloadDir>target/tomcat7x/downloads</downloadDir>
+						<extractDir>target/tomcat7x/extracts</extractDir>
+						</zipUrlInstaller>                    
+					</container>
 
                     <configuration>
                         <properties>
                             <cargo.logging>low</cargo.logging>
+							<cargo.jvmargs>${TOMCAT_OPTS}</cargo.jvmargs>
                         </properties>
                         <deployables>
                             <deployable>
@@ -108,6 +124,24 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                                 </properties>
                             </deployable>
 
+                            <deployable>
+                                <groupId>org.slc.sli</groupId>
+                                <artifactId>simple-idp</artifactId>
+                                <type>war</type>
+                                <properties>
+                                    <context>/simple-idp</context>
+                                </properties>
+                            </deployable>
+
+                           <deployable>
+                                <groupId>org.slc.sli.client.sample</groupId>
+                                <artifactId>sample</artifactId>
+                                <type>war</type>
+                                <properties>
+                                    <context>/sample</context>
+                                </properties>
+                            </deployable>
+							
                         </deployables>
                     </configuration>
                 </configuration>
@@ -130,9 +164,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <configuration>
                   <executable>bundle</executable>
                <arguments>
-                   <argument>exec</argument>
-                   <argument>rake</argument>
-                   <argument>ingestion_landing_zone=target/lz/inbound</argument>
+                  <argument>exec</argument>
+                  <argument>rake</argument>
+				  <argument>dashboard_server_address=http://local.slidev.org:8080/dashboard</argument>
+				  <argument>fullSuite</argument>
                </arguments>
             </configuration>
          </plugin>

@@ -31,34 +31,34 @@ And the fuel gauge for "Gerardo Saltazor" in "ISAT Reading.perfLevel" is "150"
 And the fuel gauge for "Gerardo Saltazor" in "ISAT Writing.perfLevel" is "15"
 And the fuel gauge for "Karrie Rudesill" in "ISAT Reading.perfLevel" is "181"
 And the fuel gauge for "Karrie Rudesill" in "ISAT Writing.perfLevel" is "11"
-And the count for id "attendances.absenceCount" for student "Matt Sollars" is "5"
+And the count for id "attendances.absenceCount" for student "Matt Sollars" is "4"
 And the class for id "attendances.absenceCount" for student "Matt Sollars" is "color-widget-green"
-And the count for id "attendances.attendanceRate" for student "Matt Sollars" is "97"
+And the count for id "attendances.attendanceRate" for student "Matt Sollars" is "95"
 And the class for id "attendances.attendanceRate" for student "Matt Sollars" is "color-widget-green"
 And the count for id "attendances.tardyCount" for student "Matt Sollars" is "0"
 And the class for id "attendances.tardyCount" for student "Matt Sollars" is "color-widget-darkgreen"
 And the count for id "attendances.tardyRate" for student "Matt Sollars" is "0"
 And the class for id "attendances.tardyRate" for student "Matt Sollars" is "color-widget-darkgreen"
 # AbsenceCount: 1 
-And the count for id "attendances.absenceCount" for student "Dominic Brisendine" is "1"
-And the class for id "attendances.absenceCount" for student "Dominic Brisendine" is "color-widget-green"
+And the count for id "attendances.absenceCount" for student "Dominic Brisendine" is "0"
+And the class for id "attendances.absenceCount" for student "Dominic Brisendine" is "color-widget-darkgreen"
 # AbsenceCount: more than 6 absence count
-And the count for id "attendances.absenceCount" for student "Alton Maultsby" is "10"
-And the class for id "attendances.absenceCount" for student "Alton Maultsby" is "color-widget-yellow"
+And the count for id "attendances.absenceCount" for student "Alton Maultsby" is "5"
+And the class for id "attendances.absenceCount" for student "Alton Maultsby" is "color-widget-green"
 # AbsenceCount: more than 11 absense count
-And the count for id "attendances.absenceCount" for student "Felipe Cianciolo" is "12"
-And the class for id "attendances.absenceCount" for student "Felipe Cianciolo" is "color-widget-red"
+And the count for id "attendances.absenceCount" for student "Felipe Cianciolo" is "6"
+And the class for id "attendances.absenceCount" for student "Felipe Cianciolo" is "color-widget-yellow"
 # AbsenceCount: less than 89% attendance rate
-And the count for id "attendances.attendanceRate" for student "Lashawn Taite" is "82"
+And the count for id "attendances.attendanceRate" for student "Lashawn Taite" is "86"
 And the class for id "attendances.attendanceRate" for student "Lashawn Taite" is "color-widget-red"
 # AbsenceRate: between 90-94%
-And the count for id "attendances.attendanceRate" for student "Rudy Bedoya" is "93"
-And the class for id "attendances.attendanceRate" for student "Rudy Bedoya" is "color-widget-yellow"
+And the count for id "attendances.attendanceRate" for student "Rudy Bedoya" is "95"
+And the class for id "attendances.attendanceRate" for student "Rudy Bedoya" is "color-widget-green"
 # AbsenceRate: between 95-98%
-And the count for id "attendances.attendanceRate" for student "Merry Mccanse" is "95"
-And the class for id "attendances.attendanceRate" for student "Merry Mccanse" is "color-widget-green"
+And the count for id "attendances.attendanceRate" for student "Merry Mccanse" is "93"
+And the class for id "attendances.attendanceRate" for student "Merry Mccanse" is "color-widget-yellow"
 # AbsenceRate: between 99 - 100%
-And the count for id "attendances.attendanceRate" for student "Dominic Brisendine" is "99"
+And the count for id "attendances.attendanceRate" for student "Dominic Brisendine" is "100"
 And the class for id "attendances.attendanceRate" for student "Dominic Brisendine" is "color-widget-darkgreen"
 # TODO:  all TardyCount and rates are 0"
 And the grades teardrop color widgets for "SpringSemester2010-2011;FallSemester2010-2011" are mapped correctly:
@@ -148,26 +148,26 @@ And the following students have "ELL" lozenges: "Malcolm Haehn;Dara Nemecek;Laur
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Proprietary Information"
 # Early Literacy View
-And the count for id "attendances.absenceCount" for student "Mi-Ha Tran" is "2"
+And the count for id "attendances.absenceCount" for student "Mi-Ha Tran" is "1"
 And the class for id "attendances.absenceCount" for student "Mi-Ha Tran" is "color-widget-green"
-And the count for id "attendances.tardyCount" for student "Mi-Ha Tran" is "2"
-And the class for id "attendances.tardyCount" for student "Mi-Ha Tran" is "color-widget-green"
+And the count for id "attendances.tardyCount" for student "Mi-Ha Tran" is "0"
+And the class for id "attendances.tardyCount" for student "Mi-Ha Tran" is "color-widget-darkgreen"
 # Absence Count: 0
 And the count for id "attendances.absenceCount" for student "Smouse Zhou" is "0"
 And the class for id "attendances.absenceCount" for student "Smouse Zhou" is "color-widget-darkgreen"
 # Absence Count: 6 - 10
-And the count for id "attendances.absenceCount" for student "Rudolph Sennett" is "6"
-And the class for id "attendances.absenceCount" for student "Rudolph Sennett" is "color-widget-yellow"
+And the count for id "attendances.absenceCount" for student "Rudolph Sennett" is "3"
+And the class for id "attendances.absenceCount" for student "Rudolph Sennett" is "color-widget-green"
 # TODO Absence Count:  > 11
 # Tardy Count: 0
 And the count for id "attendances.tardyCount" for student "Maria Werner" is "0"
 And the class for id "attendances.tardyCount" for student "Maria Werner" is "color-widget-darkgreen"
 # Tardy Count: 6-10
-And the count for id "attendances.tardyCount" for student "Rudolph Sennett" is "8"
-And the class for id "attendances.tardyCount" for student "Rudolph Sennett" is "color-widget-yellow"
+And the count for id "attendances.tardyCount" for student "Rudolph Sennett" is "4"
+And the class for id "attendances.tardyCount" for student "Rudolph Sennett" is "color-widget-green"
 # Tardy Count: > 11
-And the count for id "attendances.tardyCount" for student "Garry Kinsel" is "11"
-And the class for id "attendances.tardyCount" for student "Garry Kinsel" is "color-widget-red"
+And the count for id "attendances.tardyCount" for student "Garry Kinsel" is "7"
+And the class for id "attendances.tardyCount" for student "Garry Kinsel" is "color-widget-yellow"
 And I click on student "Mi-Ha Tran"
 And I view its student profile
 And their name shown in profile is "Mi-Ha Tran"
@@ -232,28 +232,28 @@ And the following students have "ELL" lozenges: "Randolph Vanhooser;Kelvin Zahm;
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Proprietary Information"
 Then I should only see one view named "College Ready ELA View"
-And the count for id "attendances.absenceCount" for student "Carmen Ortiz" is "5"
+And the count for id "attendances.absenceCount" for student "Carmen Ortiz" is "1"
 And the class for id "attendances.absenceCount" for student "Carmen Ortiz" is "color-widget-green"
-And the count for id "attendances.attendanceRate" for student "Carmen Ortiz" is "97"
-And the class for id "attendances.attendanceRate" for student "Carmen Ortiz" is "color-widget-green"
+And the count for id "attendances.attendanceRate" for student "Carmen Ortiz" is "99"
+And the class for id "attendances.attendanceRate" for student "Carmen Ortiz" is "color-widget-darkgreen"
 And the count for id "attendances.tardyCount" for student "Carmen Ortiz" is "0"
 And the class for id "attendances.tardyCount" for student "Carmen Ortiz" is "color-widget-darkgreen"
 And the count for id "attendances.tardyRate" for student "Carmen Ortiz" is "0"
 And the class for id "attendances.tardyRate" for student "Carmen Ortiz" is "color-widget-darkgreen"
 # Absence count: > 11
-And the count for id "attendances.absenceCount" for student "Geoffrey Pillard" is "18"
-And the class for id "attendances.absenceCount" for student "Geoffrey Pillard" is "color-widget-red"
+And the count for id "attendances.absenceCount" for student "Geoffrey Pillard" is "10"
+And the class for id "attendances.absenceCount" for student "Geoffrey Pillard" is "color-widget-yellow"
 # Absense count 1-5
-And the count for id "attendances.absenceCount" for student "Maya Cun" is "3"
+And the count for id "attendances.absenceCount" for student "Maya Cun" is "1"
 And the class for id "attendances.absenceCount" for student "Maya Cun" is "color-widget-green"
 # attendance rate 98-99
 And the count for id "attendances.attendanceRate" for student "Samatha Twining" is "99"
 And the class for id "attendances.attendanceRate" for student "Samatha Twining" is "color-widget-darkgreen"
 # Attendance rate 90-97
-And the count for id "attendances.attendanceRate" for student "Garry Mcconnaughy" is "92"
+And the count for id "attendances.attendanceRate" for student "Garry Mcconnaughy" is "93"
 And the class for id "attendances.attendanceRate" for student "Garry Mcconnaughy" is "color-widget-yellow"
 # Attendance rate < 90
-And the count for id "attendances.attendanceRate" for student "Oma Bevington" is "87"
+And the count for id "attendances.attendanceRate" for student "Oma Bevington" is "85"
 And the class for id "attendances.attendanceRate" for student "Oma Bevington" is "color-widget-red"
 And the grades teardrop color widgets for "SpringSemester2010-2011;FallSemester2010-2011" are mapped correctly:
  |grade|teardrop           |
