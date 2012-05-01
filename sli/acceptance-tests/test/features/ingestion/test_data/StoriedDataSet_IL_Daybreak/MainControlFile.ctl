@@ -23,4 +23,5 @@ edfi-xml,Attendance,InterchangeAttendance.xml,e655449007fbd944cb3523170f25d7c4
 edfi-xml,StudentGrades,InterchangeStudentGrade.xml,2cad50e3ca53a7bce6430d52b06c7b55
 edfi-xml,Parent,InterchangeStudentParent.xml,7572b554d92eae7e425184238470f8af
 edfi-xml,StudentCohort,InterchangeStudentCohort.xml,c6e6ab709ba6a92509eb960c06d2412b
-edfi-xml,StudentDiscipline,InterchangeStudentDiscipline.xml,b9c0897750853ccc5941e843f6d907d4
+edfi-xml,StudentDiscipline,InterchangeStudentDiscipline.xml,863c2a13328f58d4a4f51cfbdbb641a6
+

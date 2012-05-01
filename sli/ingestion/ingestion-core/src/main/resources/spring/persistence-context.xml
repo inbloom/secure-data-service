@@ -64,6 +64,7 @@
     <value>learningStandard</value>
     <value>disciplineIncident</value>
     <value>disciplineAction</value>
+    <value>studentDisciplineIncident</value>
   </util:set>
 
 </beans>

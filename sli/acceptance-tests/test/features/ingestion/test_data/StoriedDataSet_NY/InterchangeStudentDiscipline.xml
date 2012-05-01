@@ -5,7 +5,7 @@
   <BehaviorDescriptor>
       <CodeValue>BEH01</CodeValue>
       <ShortDescription>Disruption</ShortDescription>
-      <Description>Disruption of classroom order</Description>
+      <Description>Disruption in the classroom</Description>
       <BehaviorCategory>State Offense</BehaviorCategory>
       <EducationOrganizationReference>
         <EducationalOrgIdentity>
@@ -20,7 +20,7 @@
       <BehaviorCategory>School Violation</BehaviorCategory>
       <EducationOrganizationReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          <StateOrganizationId>NY</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
   </BehaviorDescriptor>
@@ -31,7 +31,7 @@
       <BehaviorCategory>School Code of Conduct</BehaviorCategory>
       <EducationOrganizationReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          <StateOrganizationId>NY</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
   </BehaviorDescriptor>
@@ -58,8 +58,8 @@
   </DisciplineDescriptor>
   <DisciplineDescriptor>
       <CodeValue>DIS03</CodeValue>
-      <ShortDescription>Detention 3 hrs</ShortDescription>
-      <Description>Student required to stay behind after school for 3hours</Description>
+      <ShortDescription>Two minutes hate</ShortDescription>
+      <Description>Student chastised by entire school during morning assembly for two minutes.</Description>
       <EducationOrganizationReference>
         <EducationalOrgIdentity>
           <StateOrganizationId>IL</StateOrganizationId>
@@ -68,8 +68,8 @@
   </DisciplineDescriptor>
   <DisciplineDescriptor>
       <CodeValue>DIS04</CodeValue>
-      <ShortDescription>Service</ShortDescription>
-      <Description>Student required to perform school service for 1 week</Description>
+      <ShortDescription>Room 101</ShortDescription>
+      <Description>Room 101</Description>
       <EducationOrganizationReference>
         <EducationalOrgIdentity>
           <StateOrganizationId>IL</StateOrganizationId>
@@ -77,7 +77,7 @@
       </EducationOrganizationReference>
   </DisciplineDescriptor>
 
-  <DisciplineIncident id="distruption">
+  <DisciplineIncident id="disruption">
       <IncidentIdentifier>Disruption</IncidentIdentifier>
       <IncidentDate>2011-02-01</IncidentDate>
       <IncidentTime>15:23:02</IncidentTime>
@@ -89,12 +89,12 @@
       <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
       <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          <StateOrganizationId>10000000121</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <StaffReference>
         <StaffIdentity>
-          <StaffUniqueStateId>sbantu</StaffUniqueStateId>
+          <StaffUniqueStateId>eengland</StaffUniqueStateId>
         </StaffIdentity>
       </StaffReference>
   </DisciplineIncident>
@@ -110,12 +110,12 @@
       <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
       <SchoolReference>
         <EducationalOrgIdentity>
-          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          <StateOrganizationId>10000000121</StateOrganizationId>
         </EducationalOrgIdentity>
       </SchoolReference>
       <StaffReference>
         <StaffIdentity>
-          <StaffUniqueStateId>sbantu</StaffUniqueStateId>
+          <StaffUniqueStateId>eengland</StaffUniqueStateId>
         </StaffIdentity>
       </StaffReference>
   </DisciplineIncident>
@@ -123,10 +123,10 @@
   <StudentDisciplineIncidentAssociation>
     <StudentReference>
        <StudentIdentity>
-         <StudentUniqueStateId>900000019</StudentUniqueStateId>
+         <StudentUniqueStateId>100000001</StudentUniqueStateId>
        </StudentIdentity>
     </StudentReference>
-    <DisciplineIncidentReference ref="distruption" />
+    <DisciplineIncidentReference ref="disruption" />
     <StudentParticipationCode>Witness</StudentParticipationCode>
     <Behaviors><CodeValue>BEH03</CodeValue></Behaviors>
   </StudentDisciplineIncidentAssociation>
@@ -134,20 +134,20 @@
   <StudentDisciplineIncidentAssociation>
     <StudentReference>
        <StudentIdentity>
-         <StudentUniqueStateId>900000018</StudentUniqueStateId>
+         <StudentUniqueStateId>100000002</StudentUniqueStateId>
        </StudentIdentity>
     </StudentReference>
-    <DisciplineIncidentReference ref="distruption" />
+    <DisciplineIncidentReference ref="disruption" />
     <StudentParticipationCode>Victim</StudentParticipationCode>
   </StudentDisciplineIncidentAssociation>
 
   <StudentDisciplineIncidentAssociation>
     <StudentReference>
        <StudentIdentity>
-          <StudentUniqueStateId>900000016</StudentUniqueStateId>
+          <StudentUniqueStateId>100000003</StudentUniqueStateId>
        </StudentIdentity>
     </StudentReference>
-    <DisciplineIncidentReference ref="distruption" />
+    <DisciplineIncidentReference ref="disruption" />
     <StudentParticipationCode>Perpetrator</StudentParticipationCode>
     <Behaviors><CodeValue>BEH01</CodeValue></Behaviors>
   </StudentDisciplineIncidentAssociation>
@@ -155,7 +155,7 @@
   <StudentDisciplineIncidentAssociation>
     <StudentReference>
        <StudentIdentity>
-          <StudentUniqueStateId>900000017</StudentUniqueStateId>
+          <StudentUniqueStateId>100000004</StudentUniqueStateId>
        </StudentIdentity>
     </StudentReference>
     <DisciplineIncidentReference ref="chronic-tardiness" />
@@ -163,92 +163,51 @@
     <Behaviors><CodeValue>BEH02</CodeValue></Behaviors>
   </StudentDisciplineIncidentAssociation>
 
-    <DisciplineAction>
-        <DisciplineActionIdentifier>cap0-lea0-sch1-da0</DisciplineActionIdentifier>
-        <Disciplines>
-            <CodeValue>DISCIPLINE 001</CodeValue>
-            <ShortDescription>Discipline 001 description</ShortDescription>
-            <Description>Suspension from school for a week</Description>
-        </Disciplines>
-        <Disciplines>
-            <CodeValue>DISCIPLINE 002</CodeValue>
-            <ShortDescription>Discipline 002 description</ShortDescription>
-            <Description>Suspension from school for 5 days</Description>
-        </Disciplines>
-        <DisciplineDate>2011-03-04</DisciplineDate>
-        <DisciplineActionLength>74</DisciplineActionLength>
-        <ActualDisciplineActionLength>64</ActualDisciplineActionLength>
-        <DisciplineActionLengthDifferenceReason>Term Modified By Mutual Agreement</DisciplineActionLengthDifferenceReason>
-        <StudentReference>
-            <StudentIdentity>
-                <StudentUniqueStateId>100000000</StudentUniqueStateId>
-            </StudentIdentity>
-        </StudentReference>
-        <StudentReference>
-            <StudentIdentity>
-                <StudentUniqueStateId>100000001</StudentUniqueStateId>
-            </StudentIdentity>
-        </StudentReference>
-        <DisciplineIncidentReference>
-            <DisciplineIncidentIdentity>
-                <IncidentIdentifier>Disruption</IncidentIdentifier>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-            </DisciplineIncidentIdentity>
-        </DisciplineIncidentReference>
-        <StaffReference>
-            <StaffIdentity>
-                <StaffUniqueStateId>msmith</StaffUniqueStateId>
-            </StaffIdentity>
-        </StaffReference>
-        <ResponsibilitySchoolReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </ResponsibilitySchoolReference>
-        <AssignmentSchoolReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </AssignmentSchoolReference>
-    </DisciplineAction>
-
-    <DisciplineAction>
-        <DisciplineActionIdentifier>cap0-lea0-sch1-da1</DisciplineActionIdentifier>
-        <Disciplines>
-            <CodeValue>DISCIPLINE 001</CodeValue>
-            <ShortDescription>Discipline 001 description</ShortDescription>
-            <Description>Suspension from school for a week</Description>
-        </Disciplines>
-        <DisciplineDate>2011-04-04</DisciplineDate>
-        <DisciplineActionLength>74</DisciplineActionLength>
-        <ActualDisciplineActionLength>64</ActualDisciplineActionLength>
-        <DisciplineActionLengthDifferenceReason>Term Modified By Mutual Agreement</DisciplineActionLengthDifferenceReason>
-        <StudentReference>
-            <StudentIdentity>
-                <StudentUniqueStateId>100000002</StudentUniqueStateId>
-            </StudentIdentity>
-        </StudentReference>
-        <DisciplineIncidentReference>
-            <DisciplineIncidentIdentity>
-                <IncidentIdentifier>Tardiness</IncidentIdentifier>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-            </DisciplineIncidentIdentity>
-        </DisciplineIncidentReference>
-        <StaffReference>
-            <StaffIdentity>
-                <StaffUniqueStateId>ckoch</StaffUniqueStateId>
-            </StaffIdentity>
-        </StaffReference>
-        <ResponsibilitySchoolReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </ResponsibilitySchoolReference>
-        <AssignmentSchoolReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </AssignmentSchoolReference>
-    </DisciplineAction>
+  <DisciplineAction>
+    <DisciplineActionIdentifier>Disc Act 12/02/11</DisciplineActionIdentifier>
+    <Disciplines><CodeValue>DIS03</CodeValue></Disciplines>
+    <Disciplines><CodeValue>DIS04</CodeValue></Disciplines>
+    <DisciplineDate>2011-12-02</DisciplineDate>
+    <DisciplineActionLength>23</DisciplineActionLength>
+    <ActualDisciplineActionLength>23</ActualDisciplineActionLength>
+    <DisciplineActionLengthDifferenceReason>No Difference</DisciplineActionLengthDifferenceReason>
+    <StudentReference>
+       <StudentIdentity>
+          <StudentUniqueStateId>100000003</StudentUniqueStateId>
+       </StudentIdentity>
+    </StudentReference>
+    <StudentReference>
+       <StudentIdentity>
+         <StudentUniqueStateId>100000004</StudentUniqueStateId>
+       </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+        <DisciplineIncidentIdentity>
+            <IncidentIdentifier>Disruption</IncidentIdentifier>
+            <StateOrganizationId>10000000121</StateOrganizationId>
+        </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <DisciplineIncidentReference>
+        <DisciplineIncidentIdentity>
+            <IncidentIdentifier>Tardiness</IncidentIdentifier>
+            <StateOrganizationId>10000000121</StateOrganizationId>
+        </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StaffReference>
+        <StaffIdentity>
+          <StaffUniqueStateId>eengland</StaffUniqueStateId>
+        </StaffIdentity>
+    </StaffReference>
+    <ResponsibilitySchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>10000000121</StateOrganizationId>
+        </EducationalOrgIdentity>
+    </ResponsibilitySchoolReference>
+    <AssignmentSchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>10000000121</StateOrganizationId>
+        </EducationalOrgIdentity>
+    </AssignmentSchoolReference>
+  </DisciplineAction>
 
 </InterchangeStudentDiscipline>
