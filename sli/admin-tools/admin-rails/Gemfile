@@ -9,7 +9,7 @@ gem 'execjs'
 
 gem 'oauth2'
 
-gem 'approval', :path => '../approval'
+#gem 'approval', :path => '../approval'
 
 group :deployment, :integration do
   # Deploy with Capistrano
