@@ -95,7 +95,7 @@ public class SmooksFileHandlerTest {
                 .getFile("fileLevelTestData/invalidXML/valueTypeNotMatchAttributeType/student.xml");
 
         // Create Ingestion File Entry
-        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT,
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
 
@@ -112,7 +112,7 @@ public class SmooksFileHandlerTest {
         File inputFile = IngestionTest.getFile("fileLevelTestData/invalidXML/malformedXML/student.xml");
 
         // Create Ingestion File Entry
-        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT,
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
                 inputFile.getName(), MD5.calculate(inputFile), lz.getLZId());
         inputFileEntry.setFile(inputFile);
         inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
@@ -131,7 +131,7 @@ public class SmooksFileHandlerTest {
         File inputFile = IngestionTest.getFile("fileLevelTestData/validXML/student.xml");
 
         // Create Ingestion File Entry
-        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT,
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
                 inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
         inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
@@ -150,7 +150,7 @@ public class SmooksFileHandlerTest {
         PrivateAccessor.setField(smooksFileHandler, "sliSmooksFactory", factory);
 
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Valid.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getAbsolutePath(), "", lz.getLZId());
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, xmlFile.getAbsolutePath(), "", lz.getLZId());
         ife.setFile(xmlFile);
         ErrorReport errorReport = Mockito.mock(ErrorReport.class);
 
