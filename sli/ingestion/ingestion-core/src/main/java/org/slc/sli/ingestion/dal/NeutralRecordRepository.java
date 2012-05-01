@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.dal;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -8,6 +9,7 @@ import com.mongodb.DBCollection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.util.Assert;
 
@@ -76,6 +78,14 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return getCollection(toStagingCollectionName(collectionName, jobId));
     }
 
+    public boolean collectionExistsForJob(String collectionName, String jobId) {
+        return collectionExists(toStagingCollectionName(collectionName, jobId));
+    }
+
+    public void createCollectionForJob(String collectionName, String jobId) {
+        createCollection(toStagingCollectionName(collectionName, jobId));
+    }
+
     public Set<String> getCollectionNamesForJob(String batchJobId) {
         Set<String> collectionNamesForJob = new HashSet<String>();
 
@@ -109,6 +119,32 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         }
     }
 
+    public void ensureIndexesForJob(String batchJobId) {
+        LOG.info("ENSURING ALL INDEXES FOR A DB");
+
+        Set<String> collectionNames = mongoIndexManager.getCollectionIndexes().keySet();
+        Iterator<String> it = collectionNames.iterator();
+        String collectionName;
+
+        while (it.hasNext()) {
+            collectionName = it.next();
+            LOG.info("INDEXING COLLECTION " + collectionName + " = " + toStagingCollectionName(collectionName, batchJobId));
+
+            if (!collectionExistsForJob(collectionName, batchJobId)) {
+                createCollectionForJob(collectionName, batchJobId);
+            }
+
+            try {
+                for (IndexDefinition definition : mongoIndexManager.getCollectionIndexes().get(collectionName)) {
+                    LOG.info("Adding Index on " + collectionName);
+                    ensureIndex(definition, toStagingCollectionName(collectionName, batchJobId));
+                }
+            } catch (Exception e) {
+                LOG.error("Failed to create mongo indexes, reason: {}", e.getMessage());
+            }
+        }
+    }
+
     @Override
     protected String getRecordId(NeutralRecord neutralRecord) {
         return neutralRecord.getRecordId();
@@ -124,7 +160,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     private static String toMongoCleanId(String id) {
-        return id.substring(id.length() - 51, id.length()).replace("-", "");
+        return id.substring(id.length() - 37, id.length()).replace("-", "");
     }
 
 }
