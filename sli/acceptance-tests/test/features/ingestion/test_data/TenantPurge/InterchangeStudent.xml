@@ -1,4 +1,4 @@
-<InterchangeStudent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-Student.xsd">  <Student>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">  <Student>
     <StudentUniqueStateId>530425896</StudentUniqueStateId>
     <Name>
       <FirstName>Rhonda</FirstName>
@@ -36,4 +36,4 @@
     <BirthData>
       <BirthDate>2002-03-25</BirthDate>
     </BirthData>
-  </Student>  </InterchangeStudent>
+  </Student>  </InterchangeStudentParent>
