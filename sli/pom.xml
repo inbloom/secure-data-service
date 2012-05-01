@@ -1032,6 +1032,12 @@
 	<repositories>
 
         <repository>
+          <id>repo1</id>
+          <name>Maven2 repo1 repository</name>
+          <url>http://repo1.maven.org/maven2</url>
+        </repository>
+	
+        <repository>
           <id>repository.jboss.org-public</id>
           <name>JBoss.org Maven repository</name>
           <url>https://repository.jboss.org/nexus/content/groups/public</url>
