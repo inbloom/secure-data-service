@@ -4,17 +4,25 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.slc.sli.client.APIClient;
 import org.slc.sli.entity.CustomConfig;
+import org.slc.sli.entity.CustomConfigString;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.UserEdOrgManager;
+import org.slc.sli.util.CustomConfigValidator;
 import org.slc.sli.util.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.DataBinder;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +52,11 @@ public class DashboardConfigController extends GenericLayoutController {
         return apiClient;
     }
 
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(new CustomConfigValidator());
+    }
+    
     @Autowired
     public void setUserEdOrgManager(UserEdOrgManager userEdOrgManager) {
         this.userEdOrgManager = userEdOrgManager;
@@ -55,16 +68,20 @@ public class DashboardConfigController extends GenericLayoutController {
      * @param id
      * @param request
      * @return
+     * @throws IllegalAccessException 
      */
     @RequestMapping(value = CONFIG_URL, method = RequestMethod.GET)
-    public ModelAndView getConfig(HttpServletRequest request) {
+    public ModelAndView getConfig(HttpServletRequest request) throws IllegalAccessException {
         ModelMap model = new ModelMap();
         
         String token = SecurityUtil.getToken();
         GenericEntity staffEntity = getApiClient().getStaffInfo(token);
-        String edOrgSliId = (String) staffEntity.get("edOrgSliId");
+        
         boolean isAdmin = isAdmin(staffEntity);
         if (isAdmin) {
+        	
+        	String edOrgSliId = (String) staffEntity.get("edOrgSliId");
+            
             CustomConfig customConfig = getApiClient().getEdOrgCustomData(token, edOrgSliId);
             if (customConfig != null) {
                 model.addAttribute("configJSON", customConfig.toJson());
@@ -77,27 +94,40 @@ public class DashboardConfigController extends GenericLayoutController {
             return new ModelAndView(DASHBOARD_CONFIG_FTL, model);
         } else {
             
-            // TODO - Redirect to exception page for unauthorized Admin page access
-            return null;
+            throw new IllegalAccessException("Access Denied");
         }
     }
     
     @RequestMapping(value = CONFIG_SAVE_URL, method = RequestMethod.POST)
-    @ResponseBody public String saveConfig(@RequestParam(required = true) String customConfigJSON, HttpServletRequest request) {
+    @ResponseBody public String saveConfig(@RequestParam(required=true) String configString) {
         
+    	CustomConfigString customConfigString = new CustomConfigString(configString);
+    	DataBinder binder = new DataBinder(customConfigString);
+    	binder.setValidator(new CustomConfigValidator());
+
+    	// bind to the target object
+    	//binder.bind(propertyValues);
+
+    	// validate the target object
+    	binder.validate();
+
+    	// get BindingResult that includes any validation errors
+    	BindingResult results = binder.getBindingResult();
+    	if (results.hasErrors()) {
+    		return "Invalid Input";
+    	}
+    	
         String token = SecurityUtil.getToken();
         GenericEntity staffEntity = getApiClient().getStaffInfo(token);
         String edOrgSliId = (String) staffEntity.get("edOrgSliId");
+        
+       
         boolean isAdmin = isAdmin(staffEntity);
         if (isAdmin) {
-            if ((customConfigJSON != null) && (customConfigJSON.length() > 0)) {
-                getApiClient().putEdOrgCustomData(token, edOrgSliId, customConfigJSON);
-            }
-            return "Success";
+        	getApiClient().putEdOrgCustomData(token, edOrgSliId, configString);
+        	return "Success";
         } else {
-            
-            // TODO - Redirect to exception page for unauthorized Admin page access
-            return null;
+        	return "Permission Denied";
         }
     }
 
