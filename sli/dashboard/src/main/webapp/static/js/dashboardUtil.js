@@ -359,18 +359,27 @@ DashboardUtil.Grid.Formatters = {
         },
 
         TearDrop: function(value, options, rowObject) {
-            var displayValue = "";
+            var div = "<div class=\"";
+            var closeDiv = "\">";
+            var endDiv = "</div>";
+            var styleClass = "";
+            var innerHtml = "";
+            var divs = "";
+            if(value === undefined || value === null) {
+                return divs;
+            }
 
             for(var courseIndex in value){
+                innerHtml = "";
+                styleClass = "";
                 var course = value[courseIndex];
                 if(course.letterGrade !== null && course.letterGrade !== undefined) {
-                    var teardropStyle = "<div class=\"" + 
-                        DashboardUtil.teardrop.getStyle(course.letterGrade, null) +  
-                        "\">" + course.letterGrade + "</div>";
-                    displayValue = displayValue + teardropStyle;
+                    innerHtml = course.letterGrade;
+                    styleClass = DashboardUtil.teardrop.getStyle(course.letterGrade, null)
+                    divs = divs + div + styleClass + closeDiv + innerHtml + endDiv;
                 }
             }
-            return displayValue; 
+            return divs;
         },
 
         restLink : function(value, options, rowObject)
