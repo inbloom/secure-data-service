@@ -160,7 +160,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     private static String toMongoCleanId(String id) {
-        return id.substring(id.length() - 51, id.length()).replace("-", "");
+        return id.substring(id.length() - 37, id.length()).replace("-", "");
     }
 
 }
