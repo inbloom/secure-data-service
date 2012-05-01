@@ -143,15 +143,15 @@ class AccountManagementsController < ApplicationController
         account_management = AccountManagement.new()
         account_management.name="Loraine Plyler " +String(counter+1)
         account_management.vendor="Macro Corp "+String(counter+1)
-        if counter%4==0
-          account_management.lastUpdate="2012-01-01"
-          account_management.status="Approved"
-          account_management.transitions=["disable"]
-        elsif counter%4==1
+        if counter<=4
           account_management.lastUpdate="2012-01-01"
           account_management.status="Pending"
           account_management.transitions=["reject","approve"]
-        elsif counter%4==2
+        elsif counter<=9
+          account_management.lastUpdate="2012-01-01"
+          account_management.status="Approved"
+          account_management.transitions=["disable"]
+        elsif counter<=14
           account_management.lastUpdate="2012-01-01"
           account_management.status="Rejected"
           account_management.transitions=[]

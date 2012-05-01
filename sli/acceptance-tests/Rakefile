@@ -139,6 +139,17 @@ task :appInit do
   setFixture("userSession", "oauth_authentication_tokens.json")
 end
 
+# Run a whole series of acceptance tests
+desc "Run API, Ingestion, Dashboard, SDK, and SimpleIDP acceptance tests"
+task :fullSuite => [:production, :apiSandboxTests, :simpleIDPAuthTests, :dashboardTests, :JavaSDKTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
@@ -936,7 +947,7 @@ task :apiSeleniumTests => [:adminToolsTests, :databrowserTests] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:realmInit] do
+task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools")
   Rake::Task["importSandboxData"].execute
@@ -1233,6 +1244,11 @@ task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest] do
   else
     raise "Tests have failed"
   end
+end
+
+desc "Run Account Approval acceptance tests"
+task :accountApprovalInterfaceTests => [:realmInitNoPeople] do
+    runTests("test/features/apiV1/end_user_stories/sandbox/AccountApproval/prod_sandbox_AccountApproval_Inteface.feature")
 end
 
 desc "Run JavaSDK sampleApp acceptance tests"
