@@ -55,8 +55,8 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSchoolAssociation    | 3     |
         | teacherSectionAssociation   | 3     |
         | session                     | 22    |
-        | assessment                  | 5     |
-        | studentAssessmentAssociation| 116   |
+        | assessment                  | 7     |
+        | studentAssessmentAssociation| 166   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
@@ -88,7 +88,7 @@ Then I should see following map of entry counts in the corresponding collections
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-3             | string               |
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Whack-a-mole               | string               |
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Underwater cruise          | string               |
-    And I should see "Processed 15271 records." in the resulting batch job file
+    And I should see "Processed 15323 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -166,8 +166,8 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSchoolAssociation    | 4     |
         | teacherSectionAssociation   | 4     |
         | session                     | 22    |
-        | assessment                  | 5     |
-        | studentAssessmentAssociation| 116   |
+        | assessment                  | 7     |
+        | studentAssessmentAssociation| 166   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
@@ -231,8 +231,8 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSchoolAssociation    | 20    |
         | teacherSectionAssociation   | 20    |
         | session                     | 26    |
-        | assessment                  | 5     |
-        | studentAssessmentAssociation| 116   |
+        | assessment                  | 7     |
+        | studentAssessmentAssociation| 166   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
