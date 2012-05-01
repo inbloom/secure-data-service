@@ -23,16 +23,16 @@ And I do not teach the student "Delilah D. Sims"
 When I make an API call to get the student "Delilah D. Sims"'s attendance events list
 Then I get a message that I am not authorized
 
-Scenario: Authorized user accessing a specific attendance event of a student
+Scenario: Authorized user accessing a specific school year attendance events of a student
 Given I am user "linda.kim" in IDP "IL"
 And I am assigned the Educator role in my IDP
 And I teach the student "Marvin Miller"
-When I make an API call to get the specific attendance event "Marvin Miller Attendance event"
+When I make an API call to get the specific attendance document "Marvin Miller Attendance events"
 Then I should receive a JSON object of the attendance event
 
 Scenario: Unauthorized user accessing a specific attendance event of a student
 Given I am user "linda.kim" in IDP "IL"
 And I am assigned the Educator role in my IDP
 And I do not teach the student "Delilah D. Sims"
-When I make an API call to get the specific attendance event "Delilah D. Sims Attendance event"
+When I make an API call to get the specific attendance document "Delilah D. Sims Attendance events"
 Then I get a message that I am not authorized

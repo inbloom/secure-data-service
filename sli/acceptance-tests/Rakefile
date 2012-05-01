@@ -37,7 +37,8 @@ $collectionSet = ["student",
                   "parent",
                   "studentParentAssociation",
                   "attendance",
-                  "program"]
+                  "program",
+                  "studentAcademicRecord"]
 
 #######################################################################################################
 # Helper defs
@@ -117,6 +118,10 @@ task :default => :production
 # Task that initializes the realm fixture.  Should only be done once
 task :realmInit => [:appInit, :peopleInit] do
   setFixture("realm", "realm_fixture.json")
+end
+
+task :appDenialInit do
+  setFixture("application", "application_denial_fixture.json")
 end
 
 task :realmInitNoPeople => [:appInit] do
@@ -821,9 +826,7 @@ task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
-  setFixture("application", "application_denial_fixture.json")
-  runTests("test/features/databrowser/databrowser_denial.feature")
-  setFixture("application", "application_fixture.json") #Reset after we've tested app approval
+  runFixtureAndTests("test/features/databrowser/databrowser_denial.feature", "application", "application_denial_fixture.json")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -831,7 +834,6 @@ task :databrowserTests => [:realmInit] do
     raise "Tests have failed"
   end
 end
-
 
 desc "Run IDP Authentication Selenium Tests"
 task :idpAuthTests => [:realmInit] do
@@ -933,7 +935,7 @@ end
 
 desc "Run Dashboard most recent result acceptance tests"
 task :MostRecentResultTests do
-    runTests("test/features/dashboard/assessments/MostRecent.feature")
+    runTests("test/features/dashboard/dash/MostRecent.feature")
 end
 
 desc "Run Dashboard highest ever result acceptance tests"

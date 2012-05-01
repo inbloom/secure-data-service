@@ -135,11 +135,10 @@ Scenario: Applying optional fields - single student view
 
   # attendances
   Then I should find "<attendances>" under "<student>"
-  And I should find 161 "<attendances>" under "<student><attendances>"
-  And I should find 87 entries with "<eventDate>" including the string "2011"
-  And I should see "<entityType>" is "attendance" for the one at position 2
-  And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for the one at position 2
-  And I should see "<attendanceEventCategory>" is "In Attendance" for the one at position 2
+  And I should find 181 "<attendances>" under "<student><attendances>"
+  And I should find 77 entries with "<date>" including the string "2011"
+  And I should see "<date>" is "2011-09-07" for the one at position 2
+  And I should see "<event>" is "In Attendance" for the one at position 2
 
   # assessments
   Then I should find "<studentAssessments>" under "<student>"
