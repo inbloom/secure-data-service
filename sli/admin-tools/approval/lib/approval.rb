@@ -1,5 +1,7 @@
 require 'set'
 require 'digest'
+require 'ldapstorage'
+
 #equire 'approval/storage'
 
 module ApprovalEngine

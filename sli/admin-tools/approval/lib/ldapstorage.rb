@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'net/ldap'
 
 class LDAPStorage 
