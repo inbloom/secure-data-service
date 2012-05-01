@@ -102,11 +102,11 @@ Examples:
 | EntityType                     | EntityURI               | EntityCount |
 | "assessment"                   | assessments             | 1 |
 | "attendance"                   | attendances             | 161 |
-| "cohort"                       | cohorts                 | 0 |
+| "cohort"                       | cohorts                 | 3 |
 | "course"                       | courses                 | 6 |
 | "disciplineAction"             | disciplineActions       | 0 |
 | "disciplineIncident"           | disciplineIncidents     | 0 |
-| "educationOrganization"        | educationOrganizations  | 18 |
+| "educationOrganization"        | educationOrganizations  | 59 |
 | "gradebookEntry"               | gradebookEntries        | 3 |
 | "learningObjective"            | learningObjectives      | 6 |
 | "learningStandard"             | learningStandards       | 15 |
@@ -115,7 +115,7 @@ Examples:
 | "school"                       | schools                 | 4 |
 | "section"                      | sections                | 6 |
 | "session"                      | sessions                | 5 |
-| "staff"                        | staff                   | 1 |
+| "staff"                        | staff                   | 11 |
 | "student"                      | students                | 80 |
 | "studentAcademicRecord"        | studentAcademicRecords  | 6 |
 | "studentSectionGradebookEntry" | studentGradebookEntries | 3 |
