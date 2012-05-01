@@ -139,6 +139,17 @@ task :appInit do
   setFixture("userSession", "oauth_authentication_tokens.json")
 end
 
+# Run a whole series of acceptance tests
+desc "Run API, Ingestion, Dashboard, SDK, and SimpleIDP acceptance tests"
+task :fullSuite => [:production, :apiSandboxTests, :simpleIDPAuthTests, :dashboardTests, :JavaSDKTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
@@ -203,7 +214,7 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :i
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, 
                          :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
-                         :ingestionDisciplineActionTest] do
+                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -270,6 +281,11 @@ end
 desc desc "Run Ingestion DisciplineAction Test"
 task :ingestionDisciplineActionTest do
   runTests("test/features/ingestion/features/ingestion_disciplineAction.feature")
+end
+
+desc "Run Ingestion StudentDiciplineIncidentAssociation Test"
+task :ingestionStudentDisciplineIncidentAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_StudentDisciplineIncidentAssociation.feature")
 end
 
 "Run Ingestion Negative Tests"
@@ -803,7 +819,8 @@ end
 
 desc "Run V1 Attendance Tests"
 task :v1AttendanceTests => [:realmInit] do
-  setFixture("student", "student_fixture.json")
+    setFixture("student", "student_fixture.json")
+    setFixture("educationOrganization", "educationOrganization_fixture.json")
   runFixtureAndTests("test/features/apiV1/entities/attendance/attendance.feature","attendance","attendance_fixture.json")
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/attendance/attendance_security.feature")
@@ -962,9 +979,7 @@ task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
-  Rake::Task["appDenialInit"].execute
-  runTests("test/features/databrowser/databrowser_denial.feature")
-  Rake::Task["realmInit"].execute
+  runFixtureAndTests("test/features/databrowser/databrowser_denial.feature", "application", "application_denial_fixture.json")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

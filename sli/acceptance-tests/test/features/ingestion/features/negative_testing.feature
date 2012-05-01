@@ -165,7 +165,7 @@ Scenario: Post a zip file where the the edfi input has no records
   And I should see "student.xml records considered: 0" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "student.xml records failed: 0" in the resulting batch job file
-  
+
 #should ingest into Mongo with whitespace/returns trimmed from strings
 Scenario: Post a zip file where the the edfi input has attributes/strings/enums with whitespace and returns
   Given I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
@@ -186,7 +186,7 @@ Scenario: Post a zip file where the the edfi input has attributes/strings/enums 
   And I should see "student.xml records considered: 1" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "student.xml records failed: 0" in the resulting batch job file
-  
+
 Scenario: Post a zip file and then post it against and make sure the updated date changes but created stays the same
   Given I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:

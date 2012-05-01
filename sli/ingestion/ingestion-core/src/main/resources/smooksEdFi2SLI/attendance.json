@@ -1,0 +1,40 @@
+{
+    "keyFields" : ["body.schoolId", "body.studentId"],
+	"references" :
+	[{
+        "fieldPath" : "body.schoolId","ref" :
+        {
+	        "collectionName" : "school",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.schoolId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    { 
+        "fieldPath" : "body.studentId","ref" :
+        {
+	        "collectionName" : "student",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.studentId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    }]
+}

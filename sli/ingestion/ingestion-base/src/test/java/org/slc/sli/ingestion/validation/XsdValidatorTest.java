@@ -34,7 +34,7 @@ public class XsdValidatorTest {
     @Test
     public void testValidXml() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Valid.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getAbsolutePath(), "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
         Assert.assertTrue(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
     }
@@ -42,7 +42,7 @@ public class XsdValidatorTest {
     @Test
     public void testInValidXml() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-InValid.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, xmlFile.getAbsolutePath(), "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
         FaultsReport faultsReport = new FaultsReport();
         xsdValidator.isValid(ife, faultsReport);
@@ -51,7 +51,7 @@ public class XsdValidatorTest {
 
     @Test
     public void testXmlNotExists() {
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT, "XsdValidation/NoFile.xml", "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, "XsdValidation/NoFile.xml", "");
         //ife.setFile(xmlFile.getFile());
         Assert.assertFalse(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
     }
@@ -66,31 +66,28 @@ public class XsdValidatorTest {
         Assert.assertNotNull(resources.get("HSGeneratedStudentTranscript"));
         Assert.assertNotNull(resources.get("MasterSchedule"));
         Assert.assertNotNull(resources.get("StaffAssociation"));
-        Assert.assertNotNull(resources.get("Student"));
         Assert.assertNotNull(resources.get("StudentAssessment"));
         Assert.assertNotNull(resources.get("Attendance"));
         Assert.assertNotNull(resources.get("StudentCohort"));
         Assert.assertNotNull(resources.get("StudentDiscipline"));
         Assert.assertNotNull(resources.get("StudentEnrollment"));
         Assert.assertNotNull(resources.get("StudentGrades"));
-        Assert.assertNotNull(resources.get("Parent"));
+        Assert.assertNotNull(resources.get("StudentParent"));
         Assert.assertNotNull(resources.get("StudentProgram"));
         Assert.assertNotNull(resources.get("StudentCohort"));
-
         Assert.assertTrue(resources.get("AssessmentMetadata").exists());
         Assert.assertTrue(resources.get("EducationOrganization").exists());
         Assert.assertTrue(resources.get("EducationOrgCalendar").exists());
         Assert.assertTrue(resources.get("HSGeneratedStudentTranscript").exists());
         Assert.assertTrue(resources.get("MasterSchedule").exists());
         Assert.assertTrue(resources.get("StaffAssociation").exists());
-        Assert.assertTrue(resources.get("Student").exists());
         Assert.assertTrue(resources.get("StudentAssessment").exists());
         Assert.assertTrue(resources.get("Attendance").exists());
         Assert.assertTrue(resources.get("StudentCohort").exists());
         Assert.assertTrue(resources.get("StudentDiscipline").exists());
         Assert.assertTrue(resources.get("StudentEnrollment").exists());
         Assert.assertTrue(resources.get("StudentGrades").exists());
-        Assert.assertTrue(resources.get("Parent").exists());
+        Assert.assertTrue(resources.get("StudentParent").exists());
         Assert.assertTrue(resources.get("StudentProgram").exists());
         Assert.assertTrue(resources.get("StudentCohort").exists());
     }
