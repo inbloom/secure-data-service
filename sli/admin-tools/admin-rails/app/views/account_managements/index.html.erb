@@ -13,28 +13,28 @@
 	<% @account_managements.each do |account_management| %>
 	<tr>
 		<td><%= account_management.vendor%></td>
-		<td><%= account_management.name%></td>
+		<td id="<%= 'username.'+account_management.name%>"><%= account_management.name%></td>
 		<td><%= account_management.lastUpdate%></td>
 		<% if account_management.status == "Approved"%>
-		<td id="approvedStatus"><%= account_management.status%></td>
+		<td id="<%='status.'+account_management.name%>" class="account_management_table_approvedStatus"><%= account_management.status%></td>
 		<% elsif account_management.status == "Pending"%>
-		<td id="pendingStatus"><%= account_management.status%></td>
+		<td id="<%='status.'+account_management.name%>" class="account_management_table_pendingStatus"><%= account_management.status%></td>
 		<% elsif account_management.status == "Rejected"%>
-		<td id="rejectedStatus"><%= account_management.status%></td>
+		<td id="<%='status.'+account_management.name%>" class="account_management_table_rejectedStatus"><%= account_management.status%></td>
 		<% elsif account_management.status == "Disabled"%>
-		<td id="disabledStatus"><%= account_management.status%></td>
+		<td id="<%='status.'+account_management.name%>" class="account_management_table_disabledStatus"><%= account_management.status%></td>
 		<% end%>
 		<td><%=
 		form_for "" do |f|
 		%>
 		<%= f.hidden_field "email", :value => account_management.email %>
-		<%= f.submit "Approve",:disabled => (account_management.transitions.index("approve")==nil),
+		<%= f.submit "Approve",:id=> "approve_button_"+account_management.name,:disabled => (account_management.transitions.index("approve")==nil),
       :confirm => "Do you really want to approve this user account?'" %>
-		<%= f.submit "Reject",:disabled => (account_management.transitions.index("reject")==nil),
+		<%= f.submit "Reject",:id=> "reject_button_"+account_management.name,:disabled => (account_management.transitions.index("reject")==nil),
       :confirm => "Do you really want to reject this user account?"%>
-      <%= f.submit "Disable",:disabled => (account_management.transitions.index("disable")==nil),
+      <%= f.submit "Disable",:id=> "disable_button_"+account_management.name,:disabled => (account_management.transitions.index("disable")==nil),
       :confirm => "Do you really want to disable this user account?"%>
-      <%= f.submit "Enable",:disabled => (account_management.transitions.index("enable")==nil),
+      <%= f.submit "Enable",:id=> "enable_button_"+account_management.name,:disabled => (account_management.transitions.index("enable")==nil),
       :confirm => "Do you really want to enable this user account?"%>
 		<% end %>
 	</tr>
