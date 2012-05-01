@@ -63,10 +63,10 @@ pending_users.each do |e|
 	puts e[:email]
 end
 
-# found_user = true 
-# ldap.delete_user(jd_email)
-# found_user = ldap.read_user_emailtoken("nothing")
-# if !found_user
-# 	puts "Did not find delete user."
-# end
-# ldap.delete_user(td_email)
+found_user = true 
+ldap.delete_user(jd_email)
+found_user = ldap.read_user_emailtoken("nothing")
+if !found_user
+	puts "Did not find delete user."
+end
+ldap.delete_user(td_email)

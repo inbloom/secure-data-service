@@ -21,6 +21,8 @@ class LDAPStorage
 	def initialize(host, port, base, username, password)
      	@people_base = "ou=people,#{base}"
      	@group_base  = "ou=groups,#{base}"
+     	puts "People base:#{@people_base}"
+     	puts "Group  base:#{@group_base}"
 		@ldap_conf = { :host => host,
 			:port => port,
      		:base => @people_base,
@@ -54,8 +56,20 @@ class LDAPStorage
 			:objectclass => OBJECT_CLASS,
 		}
 
+		puts "----"
+		puts "#{ENTITY_ATTR_MAPPING.keys().sort}"
+		puts "#{user_info.keys().sort}"
+		if ENTITY_ATTR_MAPPING.keys().sort != user_info.keys().sort
+		 	raise "The following attributes #{ENTITY_ATTR_MAPPING.keys} need to be set" 
+		end
+
 		LDAP_ATTR_MAPPING.each { |ldap_k, rec_k| attr[ldap_k] = user_info[rec_k] }
-		return @ldap.add(:dn => dn, :attributes => attr)
+		if !(@ldap.add(:dn => dn, :attributes => attr))
+			if user_exists?(user_info[:email])
+				raise "User #{user_info[:email]} already exists."
+			end
+			raise "Unable to create user in LDAP: #{user_info}"
+		end
 	end
 
 	# returns extended user_info
@@ -81,7 +95,7 @@ class LDAPStorage
 	# disable login and update the status 
 	def disable_update_status(user)
 		# remove the user from the enabled group 
-		
+
 	end
 
 	# returns true if the user exists 
@@ -114,7 +128,7 @@ class LDAPStorage
 
 	# returns the LDAP DN
 	def get_DN(email_address)
-		return "cn=#{email_address},#{@base}"
+		return "cn=#{email_address},#{@people_base}"
 	end
 
 	# extract the user from the ldap record
