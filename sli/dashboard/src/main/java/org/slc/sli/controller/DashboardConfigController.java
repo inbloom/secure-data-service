@@ -31,7 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 
  * DashboardConfigController
- * TODO: Add Javadoc
+ * This controller handles the dashboard config pages which are only accessible by IT Admins of a District.
  *
  */
 @Controller

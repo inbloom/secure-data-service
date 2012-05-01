@@ -23,13 +23,18 @@
                 margin:10px;
             }
             
-            .selector select {
-                width:85%;
-                height:80%;
+            .selector #saveButton {
+                width:150px; 
+                height:40px; 
+                font-size:13px;
+                margin:10px;
+                margin-top:50px;"
             }
             
+            
+            
             .display {
-                width:85%;
+                width:75%;
                 height:80%;
                 float:right;
                 padding:10px;
@@ -37,8 +42,8 @@
             }
             
             .display textarea {
-                width:85%;
-                height:200px;
+                width:90%;
+                height:400px;
                 padding:10px;
                 margin:10px;
             }
@@ -76,14 +81,14 @@
     </head>
     <body>
         <div id="fileSelector" class="selector">
-            <button id="saveButton" value="Save Config" style="width:150px; height:40px; font-size:13px;margin:10px;margin-top:50px;">  Save Config </Button>
+            <button id="saveButton" value="Save Config" >  Save Config </Button>
         </div>
         <div id="fileDisplay" class="display">
             
             <#if configJSON != "error">
                 <h4> In order to modify the current connfig for your Ed. Org., please replace the current config in the text area below with the updated config and click the "Save Config" button</h3>
     
-                <textarea id="jsonText" class="foo" width="100%">${configJSON}</textarea>
+                <textarea id="jsonText" class="foo" >${configJSON}</textarea>
             </#if>
         </div> <br>
         
