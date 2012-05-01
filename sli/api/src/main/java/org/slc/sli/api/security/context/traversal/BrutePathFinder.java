@@ -62,7 +62,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.ASSESSMENT, "assessmentId", ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS)
                         .addConnection(EntityNames.ATTENDANCE, "studentId", "")
                         .addConnection(EntityNames.DISCIPLINE_ACTION, "studentId", "")
-                        .addConnection(EntityNames.DISCIPLINE_INCIDENT, "incidentId",
+                        .addConnection(EntityNames.DISCIPLINE_INCIDENT, "disciplineIncidentId",
                                 ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
                         .addConnection(EntityNames.PARENT, "parentId", ResourceNames.STUDENT_PARENT_ASSOCIATIONS)
                         .construct());
@@ -99,6 +99,8 @@ public class BrutePathFinder implements SecurityPathFinder {
         excludePath.add(EntityNames.TEACHER + EntityNames.PROGRAM);
         excludePath.add(EntityNames.STAFF + EntityNames.COHORT);
         excludePath.add(EntityNames.STAFF + EntityNames.PROGRAM);
+        excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_INCIDENT);
+        excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_ACTION);
 
         nodeMap.put(EntityNames.STAFF,
                 SecurityNodeBuilder.buildNode(EntityNames.STAFF)

@@ -44,7 +44,6 @@ Then I should see following map of entry counts in the corresponding collections
         | collectionName              | count |
         | student                     | 78    |
         | studentSchoolAssociation    | 167   |
-        | course                      | 95    |
         | educationOrganization       | 7     |
         | section                     | 97    |
         | studentSectionAssociation   | 297   |
@@ -53,8 +52,13 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSchoolAssociation    | 3     |
         | teacherSectionAssociation   | 10    |
         | session                     | 22    |
+<<<<<<< HEAD
         | assessment                  | 19    |
         | studentAssessmentAssociation| 178   |
+=======
+        | assessment                  | 5     |
+        | studentAssessmentAssociation| 141   |
+>>>>>>> 4fdfdeca14aeaa723275f7bb56a7db6c236bd64f
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
@@ -93,7 +97,11 @@ Then I should see following map of entry counts in the corresponding collections
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Underwater cruise          | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-03-04                 | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-04-04                 | string               |
+<<<<<<< HEAD
     And I should see "Processed 15380 records." in the resulting batch job file
+=======
+    And I should see "Processed 15298 records." in the resulting batch job file
+>>>>>>> 4fdfdeca14aeaa723275f7bb56a7db6c236bd64f
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -187,8 +195,13 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSchoolAssociation    | 4     |
         | teacherSectionAssociation   | 11    |
         | session                     | 22    |
+<<<<<<< HEAD
         | assessment                  | 19    |
         | studentAssessmentAssociation| 178   |
+=======
+        | assessment                  | 5     |
+        | studentAssessmentAssociation| 141   |
+>>>>>>> 4fdfdeca14aeaa723275f7bb56a7db6c236bd64f
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
@@ -251,8 +264,13 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSchoolAssociation    | 20    |
         | teacherSectionAssociation   | 27    |
         | session                     | 26    |
+<<<<<<< HEAD
         | assessment                  | 19    |
         | studentAssessmentAssociation| 178   |
+=======
+        | assessment                  | 5     |
+        | studentAssessmentAssociation| 141   |
+>>>>>>> 4fdfdeca14aeaa723275f7bb56a7db6c236bd64f
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |

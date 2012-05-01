@@ -408,19 +408,21 @@ public class LiveAPIClient implements APIClient {
         // with X and S is associated with X.
         HashMap<String, HashSet<String>> schoolIDToCourseIDMap = new HashMap<String, HashSet<String>>();
 
-        for (int i = 0; i < sections.size(); i++) {
-            GenericEntity section = sections.get(i);
+		if (sections != null) {
+			for (int i = 0; i < sections.size(); i++) {
+				GenericEntity section = sections.get(i);
 
-            if (sectionIDToSchoolIDMap.containsKey(section.get(Constants.ATTR_ID))
-                    && sectionIDToCourseIDMap.containsKey(section.get(Constants.ATTR_ID))) {
-                String schoolId = sectionIDToSchoolIDMap.get(section.get(Constants.ATTR_ID));
-                String courseId = sectionIDToCourseIDMap.get(section.get(Constants.ATTR_ID));
-                if (!schoolIDToCourseIDMap.containsKey(schoolId)) {
-                    schoolIDToCourseIDMap.put(schoolId, new HashSet<String>());
-                }
-                schoolIDToCourseIDMap.get(schoolId).add(courseId);
-            }
-        }
+				if (sectionIDToSchoolIDMap.containsKey(section.get(Constants.ATTR_ID))
+						&& sectionIDToCourseIDMap.containsKey(section.get(Constants.ATTR_ID))) {
+					String schoolId = sectionIDToSchoolIDMap.get(section.get(Constants.ATTR_ID));
+					String courseId = sectionIDToCourseIDMap.get(section.get(Constants.ATTR_ID));
+					if (!schoolIDToCourseIDMap.containsKey(schoolId)) {
+						schoolIDToCourseIDMap.put(schoolId, new HashSet<String>());
+					}
+					schoolIDToCourseIDMap.get(schoolId).add(courseId);
+				}
+			}
+		}
 
         // now create the generic entity
         for (String schoolId : schoolIDToCourseIDMap.keySet()) {
@@ -449,25 +451,28 @@ public class LiveAPIClient implements APIClient {
 
         StringBuilder courseIds = new StringBuilder();
         // iterate each section
-        for (GenericEntity section : sections) {
-            // Get course using courseId reference in section
-            String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
+		
+		if (sections != null) {
+			for (GenericEntity section : sections) {
+				// Get course using courseId reference in section
+				String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
 
-            // search course which doesn't exist already
-            if (!courseMap.containsKey(courseId)) {
-                if (!courseIdTracker.contains(courseId)) {
-                    if (courseIds.length() != 0) {
-                        courseIds.append(",");
-                    }
-                    courseIds.append(courseId);
-                    courseIdTracker.add(courseId);
-                }
-                if (!sectionLookup.containsKey(courseId)) {
-                    sectionLookup.put(courseId, new HashSet<GenericEntity>());
-                }
-                sectionLookup.get(courseId).add(section);
-            }
-        }
+				// search course which doesn't exist already
+				if (!courseMap.containsKey(courseId)) {
+					if (!courseIdTracker.contains(courseId)) {
+						if (courseIds.length() != 0) {
+							courseIds.append(",");
+						}
+						courseIds.append(courseId);
+						courseIdTracker.add(courseId);
+					}
+					if (!sectionLookup.containsKey(courseId)) {
+						sectionLookup.put(courseId, new HashSet<GenericEntity>());
+					}
+					sectionLookup.get(courseId).add(section);
+				}
+			}
+		}
 
         // get Entites by given courseIds
         if (courseIds.length() != 0) {
@@ -507,24 +512,26 @@ public class LiveAPIClient implements APIClient {
         StringBuilder schoolIds = new StringBuilder();
 
         // iterate each section
-        for (GenericEntity section : sections) {
-            String schoolId = (String) section.get(Constants.ATTR_SCHOOL_ID);
+		if (sections != null) {
+			for (GenericEntity section : sections) {
+				String schoolId = (String) section.get(Constants.ATTR_SCHOOL_ID);
 
-            // search school which doesn't exist already
-            if (!schoolMap.containsKey(schoolId)) {
-                if (!schoolIdTracker.contains(schoolId)) {
-                    if (schoolIds.length() != 0) {
-                        schoolIds.append(",");
-                    }
-                    schoolIds.append(schoolId);
-                    schoolIdTracker.add(schoolId);
-                }
-                if (!sectionLookup.containsKey(schoolId)) {
-                    sectionLookup.put(schoolId, new HashSet<GenericEntity>());
-                }
-                sectionLookup.get(schoolId).add(section);
-            }
-        }
+				// search school which doesn't exist already
+				if (!schoolMap.containsKey(schoolId)) {
+					if (!schoolIdTracker.contains(schoolId)) {
+						if (schoolIds.length() != 0) {
+							schoolIds.append(",");
+						}
+						schoolIds.append(schoolId);
+						schoolIdTracker.add(schoolId);
+					}
+					if (!sectionLookup.containsKey(schoolId)) {
+						sectionLookup.put(schoolId, new HashSet<GenericEntity>());
+					}
+					sectionLookup.get(schoolId).add(section);
+				}
+			}
+		}
 
         // get Entites by given schoolIds
         if (schoolIds.length() != 0) {
