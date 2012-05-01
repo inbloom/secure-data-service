@@ -14,7 +14,7 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #general
-  id = $newEntityUri                            if human_readable_id == "NEWLY CREATED ENTITY URI"
+  id = $newEntityId                             if human_readable_id == "NEWLY CREATED ENTITY URI"
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
 
   #return the translated value
@@ -245,12 +245,9 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
 end
 
 Then /^I should receive a new entity URI$/ do
-  headers = @res.raw_headers
-  assert(headers != nil, "Headers are nil")
-  assert(headers['location'] != nil, "There is no location link from the previous request")
-  s = URI(headers['location'][0])
-  $newEntityUri = s.path[10..-1]
-  assert($newEntityUri != nil, "After POST, URI is nil")
+  step "I should receive an ID for the newly created entity"
+  $newEntityId = @newId
+  assert($newEntityId != nil, "After POST, URI is nil")
 end
 
 Then /^the tenant ID of the entity should be "([^"]*)"$/ do |arg1|

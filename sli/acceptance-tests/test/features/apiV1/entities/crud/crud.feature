@@ -9,26 +9,26 @@ Background: Nothing yet
 	Scenario Outline: CRUD operations on an entity
 		# Create
 	   Given a valid entity json document for a <EntityType>
-	    When I navigate to POST "/<EntityURI>"
+	    When I navigate to POST "/v1/<EntityURI>"
 	    Then I should receive a return code of 201
 	     And I should receive a new entity URI
 		# Read
-	    When I navigate to GET "/<NEWLY CREATED ENTITY URI>"
+	    When I navigate to GET "/<EntityURI>/<NEWLY CREATED ENTITY URI>"
 	    Then I should receive a return code of 200
 	     And the response should contain the appropriate fields and values
 	     And "entityType" should be <EntityType>
-	     And I should receive a link named "self" with URI "/<NEWLY CREATED ENTITY URI>"
+	     And I should receive a link named "self" with URI "/<EntityURI>/<NEWLY CREATED ENTITY URI>"
 	     And the tenant ID of the entity should be "IL"
 		# Update 
 	    When I set the <UpdateField> to <UpdatedValue>
-	     And I navigate to PUT "/<NEWLY CREATED ENTITY URI>"
+	     And I navigate to PUT "/<EntityURI>/<NEWLY CREATED ENTITY URI>"
 	    Then I should receive a return code of 204
-	     And I navigate to GET "/<NEWLY CREATED ENTITY URI>"
+	     And I navigate to GET "/<EntityURI>/<NEWLY CREATED ENTITY URI>"
 	     And <UpdateField> should be <UpdatedValue>
 		# Delete
-	    When I navigate to DELETE "/<NEWLY CREATED ENTITY URI>"
+	    When I navigate to DELETE "/<EntityURI>/<NEWLY CREATED ENTITY URI>"
 	    Then I should receive a return code of 204
-	     And I navigate to GET "/<NEWLY CREATED ENTITY URI>"
+	     And I navigate to GET "/<EntityURI>/<NEWLY CREATED ENTITY URI>"
 	     And I should receive a return code of 404
 
 Examples:
@@ -108,8 +108,8 @@ Examples:
 | "disciplineIncident"           | disciplineIncidents     | 1 |
 | "educationOrganization"        | educationOrganizations  | 59 |
 | "gradebookEntry"               | gradebookEntries        | 3 |
-| "learningObjective"            | learningObjectives      | 6 |
-| "learningStandard"             | learningStandards       | 15 |
+| "learningObjective"            | learningObjectives      | 7 |
+| "learningStandard"             | learningStandards       | 16 |
 | "parent"                       | parents                 | 1 |
 | "program"                      | programs                | 1 |
 | "school"                       | schools                 | 4 |
