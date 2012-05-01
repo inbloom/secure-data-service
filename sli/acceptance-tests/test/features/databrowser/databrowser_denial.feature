@@ -1,8 +1,7 @@
-@wip
-  Feature: Authentication to SLI through various IDP types
+  Feature: User being denied databrowser access 
 
   # These tests rely on fixture data to set which apps can be used or not.
-
+  @wip
 	Scenario: Authenticated user (Educator) tries to access a resource through DB within a district that denied Data Browser 
   #This scenario can be run with the regular sandbox data
       Given I have an open web browser
