@@ -303,7 +303,10 @@ public class PersistenceProcessor implements Processor {
 
             int indexOfTransformed = collectionName.indexOf("_transformed");
             if (indexOfTransformed != -1) {
-                collections.add(collectionName.substring(0, indexOfTransformed));
+                if (neutralRecordMongoAccess.getRecordRepository().count(collectionName, new NeutralQuery()) > 0) {
+                    LOG.info("FOUND TRANSFORMED COLLECTION WITH MORE THEN 0 RECORD = " + collectionName);
+                    collections.add(collectionName.substring(0, indexOfTransformed));
+                }
             }
         }
         return collections;

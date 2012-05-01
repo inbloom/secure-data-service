@@ -31,37 +31,36 @@ public class FileSplitHandler {
     
     private XMLEventFactory eventFactory = XMLEventFactory.newInstance();
     
-    public void split(File file) throws XMLStreamException, IOException {
+    public void split(File file,String outPath) throws XMLStreamException, IOException {
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
         XMLEventReader reader = inputFactory.createXMLEventReader(new FileReader(file));
         XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
-        XMLEventWriter writer = outputFactory.createXMLEventWriter(new FileWriter("/var/files/out" + ".xml"));
+        XMLEventWriter writer=null;
         
         int counter = 0;
         int startEventCounter = 0;
         
         XMLEvent event;
-        XMLEvent parent = null;
+        StartElement parent = null;
         try {
             
             while (!(event = reader.nextEvent()).isEndDocument()) {
                 if (event.isStartElement()) {
                     startEventCounter++;
                     if (startEventCounter == 1) {
-                        parent = event;
+                        parent = event.asStartElement();
+                        writer = outputFactory.createXMLEventWriter(new FileWriter(outPath+parent.getName().getLocalPart() + (counter / SPLIT_AT) + ".xml"));
                         writer.add(parent);
                         continue;
                     }
                     
-                    StartElement element = event.asStartElement();
-//                    System.out.println(element.getName());
                     writeToFile(reader, event, writer);
                     counter++;
                     
                     if (counter % SPLIT_AT == 0) {
                         writer.add(eventFactory.createEndElement(parent.asStartElement().getName(), null));
                         writer.close();
-                        writer = outputFactory.createXMLEventWriter(new FileWriter("/var/files/out/_"+parent.asStartElement().getName().getLocalPart() + (counter / SPLIT_AT) + ".xml"));
+                        writer = outputFactory.createXMLEventWriter(new FileWriter(outPath+parent.getName().getLocalPart() + (counter / SPLIT_AT) + ".xml"));
                         writer.add(parent);
                     }
                 }

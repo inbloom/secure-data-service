@@ -90,7 +90,7 @@ public class EdFiProcessor implements Processor {
                 ErrorReport errorReport = fe.getErrorReport();
 
                 // prepare staging database
-                setupStagingDatabase();
+                setupStagingDatabase(batchJobId);
 
                 // actually do the processing
                 processFileEntry(fe, errorReport, fileProcessStatus);
@@ -204,8 +204,8 @@ public class EdFiProcessor implements Processor {
         LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
-    private void setupStagingDatabase() {
-        neutralRecordMongoAccess.getRecordRepository().getMongoIndexManager().ensureAllIndexes(neutralRecordMongoAccess.getRecordRepository());
+    private void setupStagingDatabase(String batchJobId) {
+        neutralRecordMongoAccess.getRecordRepository().ensureIndexesForJob(batchJobId);
     }
 
 }
