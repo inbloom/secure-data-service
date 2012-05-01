@@ -274,7 +274,10 @@ public class ConfigManagerImpl implements ConfigManager {
     }
 
     protected String getCustomConfigPathForUserDomain(EdOrgKey edOrgKey) {
-        return edOrgKey.getDistrictId();
+        if (edOrgKey != null) {
+			return edOrgKey.getDistrictId();
+		}
+		return null;
     }
 
     @Override

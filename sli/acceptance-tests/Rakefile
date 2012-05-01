@@ -37,7 +37,8 @@ $collectionSet = ["student",
                   "parent",
                   "studentParentAssociation",
                   "attendance",
-                  "program"]
+                  "program",
+                  "studentAcademicRecord"]
 
 #######################################################################################################
 # Helper defs
@@ -119,6 +120,10 @@ task :realmInit => [:appInit, :peopleInit] do
   setFixture("realm", "realm_fixture.json")
 end
 
+task :appDenialInit do
+  setFixture("application", "application_denial_fixture.json")
+end
+
 task :realmInitNoPeople => [:appInit] do
   setFixture("realm", "realm_fixture.json")
 end
@@ -132,6 +137,17 @@ task :appInit do
   setFixture("application", "application_fixture.json")
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
   setFixture("userSession", "oauth_authentication_tokens.json")
+end
+
+# Run a whole series of acceptance tests
+desc "Run API, Ingestion, Dashboard, SDK, and SimpleIDP acceptance tests"
+task :fullSuite => [:production, :apiSandboxTests, :simpleIDPAuthTests, :dashboardTests, :JavaSDKTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 # This task will be used for end-to-end integration tests but currently just run all
@@ -798,7 +814,8 @@ end
 
 desc "Run V1 Attendance Tests"
 task :v1AttendanceTests => [:realmInit] do
-  setFixture("student", "student_fixture.json")
+    setFixture("student", "student_fixture.json")
+    setFixture("school", "school_fixture.json")
   runFixtureAndTests("test/features/apiV1/entities/attendance/attendance.feature","attendance","attendance_fixture.json")
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/attendance/attendance_security.feature")
@@ -947,9 +964,7 @@ task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
-  setFixture("application", "application_denial_fixture.json")
-  runTests("test/features/databrowser/databrowser_denial.feature")
-  setFixture("application", "application_fixture.json") #Reset after we've tested app approval
+  runFixtureAndTests("test/features/databrowser/databrowser_denial.feature", "application", "application_denial_fixture.json")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -957,7 +972,6 @@ task :databrowserTests => [:realmInit] do
     raise "Tests have failed"
   end
 end
-
 
 desc "Run IDP Authentication Selenium Tests"
 task :idpAuthTests => [:realmInit] do
@@ -1059,7 +1073,7 @@ end
 
 desc "Run Dashboard most recent result acceptance tests"
 task :MostRecentResultTests do
-    runTests("test/features/dashboard/assessments/MostRecent.feature")
+    runTests("test/features/dashboard/dash/MostRecent.feature")
 end
 
 desc "Run Dashboard highest ever result acceptance tests"
