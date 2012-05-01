@@ -63,29 +63,25 @@ module ApprovalEngine
 		user[status] = target[transition]
 		case [status, target[transition]]
 			when [STATE_PENDING, STATE_APPROVED]
-				enable_update_status(user)
+				@@storage.enable_update_status(user)
 			when [STATE_PENDING, STATE_REJECTED]
-				update_status(user)
+				@@storage.update_status(user)
 			when [STATE_REJECTED, STATE_APPROVED]
-				enable_update_status(user)
+				@@storage.enable_update_status(user)
 			when [STATE_APPROVED, STATE_DISABLED]
-				disable_update_status(user)
+				@@storage.disable_update_status(user)
 			when [STATE_DISABLED, STATE_APPROVED]
-				enable_update_status(user)
+				@@storage.enable_update_status(user)
 			else
 				raise "Unknow state transition #{status} => #{target[transition]}."
 			end
-
-		user[F_STATUS] = target[transition]
-		@@storage.update_status(user)
 	end
 
 
 	# Check whether a user with the given email address exists. 
 	# The email address serves as the unique userid. 
 	def self.user_exists?(email_address)
-		return true
-	#	@@storage.user_exists?(email_address)
+		@@storage.user_exists?(email_address)
 	end
 
 	# Add all relevant information for a new user to the backend. 
@@ -129,7 +125,7 @@ module ApprovalEngine
 	# and included in a click through link that the user received in an email (as a query parameter).
 	#
 	def ApprovalEngine.verify_email(email_hash)
-		user = @@storage.read_user_byhash(email_hash)
+		user = @@storage.read_user_emailtoken(emailtoken)
 		raise "Could not find user for email id #{email_hash}." if !user
 
 		user[F_STATUS] = STATE_PENDING
