@@ -175,6 +175,7 @@
                 <list>
                   <value>${smooks.targetselector.xml.disciplineIncident}</value>
                   <value>${smooks.targetselector.xml.disciplineAction}</value>
+                  <value>${smooks.targetselector.xml.student.disciplineIncident}</value>
                 </list>
               </constructor-arg>
             </bean>
