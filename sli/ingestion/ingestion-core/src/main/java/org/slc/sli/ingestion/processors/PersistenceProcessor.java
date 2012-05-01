@@ -22,7 +22,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
@@ -59,6 +59,13 @@ public class PersistenceProcessor implements Processor {
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PERSISTENCE_PROCESSOR;
 
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
+
+    private static final FileType[] INTERCHANGE_DEPENDENCY_ORDER = { FileType.XML_STUDENT,
+            FileType.XML_EDUCATION_ORGANIZATION, FileType.XML_EDUCATION_ORG_CALENDAR, FileType.XML_MASTER_SCHEDULE,
+            FileType.XML_STAFF_ASSOCIATION, FileType.XML_STUDENT_ENROLLMENT, FileType.XML_ASSESSMENT_METADATA,
+            FileType.XML_STUDENT_ASSESSMENT, FileType.XML_STUDENT_ATTENDANCE, FileType.XML_STUDENT_GRADES,
+            FileType.XML_STUDENT_PARENT_ASSOCIATION, FileType.XML_STUDENT_PROGRAM, FileType.XML_STUDENT_COHORT,
+            FileType.XML_STUDENT_DISCIPLINE };
 
     @Autowired
     SmooksEdFi2SLITransformer transformer;
@@ -108,27 +115,15 @@ public class PersistenceProcessor implements Processor {
 
             transformedCollections = getTransformedCollectionNames(newJob);
 
-            for (ResourceEntry resource : newJob.getResourceEntries()) {
+            for (FileType fileType : INTERCHANGE_DEPENDENCY_ORDER) {
 
-                if (FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resource.getResourceFormat())) {
+                List<ResourceEntry> resourceEntryList = newJob.getNeutralRecordResourceForType(fileType);
+                for (ResourceEntry resourceEntry : resourceEntryList) {
 
-                    Metrics metrics = Metrics.createAndStart(resource.getResourceId());
-                    stage.getMetrics().add(metrics);
-
-                    if (resource.getResourceName() != null) {
-                        try {
-
-                            processNeutralRecordsFile(new File(resource.getResourceName()), newJob, metrics);
-                        } catch (IOException e) {
-                            Error error = Error.createIngestionError(batchJobId, resource.getResourceId(),
-                                    BATCH_JOB_STAGE.getName(), null, null, null, FaultType.TYPE_ERROR.getName(),
-                                    "Exception", e.getMessage());
-                            batchJobDAO.saveError(error);
-                        }
-                    }
-                    metrics.stopMetric();
+                    processAndMeasureResource(resourceEntry, newJob, stage);
                 }
             }
+
             exchange.getIn().setHeader("IngestionMessageType", MessageType.DONE.name());
 
         } catch (Exception exception) {
@@ -141,6 +136,24 @@ public class PersistenceProcessor implements Processor {
                 batchJobDAO.saveBatchJob(newJob);
             }
         }
+    }
+
+    private void processAndMeasureResource(ResourceEntry resource, NewBatchJob newJob, Stage stage) {
+        Metrics metrics = Metrics.createAndStart(resource.getResourceId());
+        stage.getMetrics().add(metrics);
+
+        if (resource.getResourceName() != null) {
+            try {
+
+                processNeutralRecordsFile(new File(resource.getResourceName()), newJob, metrics);
+            } catch (IOException e) {
+                Error error = Error.createIngestionError(newJob.getId(), resource.getResourceId(),
+                        BATCH_JOB_STAGE.getName(), null, null, null, FaultType.TYPE_ERROR.getName(), "Exception",
+                        e.getMessage());
+                batchJobDAO.saveError(error);
+            }
+        }
+        metrics.stopMetric();
     }
 
     private void processNeutralRecordsFile(File neutralRecordsFile, Job job, Metrics metrics) throws IOException {
