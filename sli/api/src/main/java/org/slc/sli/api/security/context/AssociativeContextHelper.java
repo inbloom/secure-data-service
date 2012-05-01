@@ -5,14 +5,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Resolves Context based permissions.
@@ -101,15 +102,23 @@ public class AssociativeContextHelper {
      */
     public List<String> findEntitiesContainingReference(String collectionName, String referenceLocation, List<String> referenceIds) {
         Iterable<Entity> entities = getReferenceEntities(collectionName, referenceLocation, referenceIds);
-        
+
         List<String> foundIds = new ArrayList<String>();
         for (Entity e : entities) {
             foundIds.add(e.getEntityId());
         }
         return foundIds;
     }
-    
-    private Iterable<Entity> getReferenceEntities(String collectionName, String referenceLocation,
+
+    /**
+     * Searches a collection to find entities that contain a reference form a list
+     *
+     * @param collectionName    collection to query
+     * @param referenceLocation location of the reference in the collection (eg "body.referenceId")
+     * @param referenceIds      reference values to query
+     * @return entities containing a referenceId at the referenceLocation
+     */
+    public Iterable<Entity> getReferenceEntities(String collectionName, String referenceLocation,
             List<String> referenceIds) {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria(referenceLocation, "in", referenceIds));
@@ -118,10 +127,10 @@ public class AssociativeContextHelper {
         Iterable<Entity> entities = repository.findAll(collectionName, neutralQuery);
         return entities;
     }
-    
+
     /**
      * Searches an associative collection to return a list of referenced Ids.
-     * 
+     *
      * @param collectionName
      *            collection to Query
      * @param referenceLocation
