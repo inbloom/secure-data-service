@@ -42,7 +42,12 @@ dn = "cn=Charles Gray,ou=people,ou=DevTest,dc=slidev,dc=org"
 attr = {
   :cn => "Charles Gray",
   :objectclass => ["top", "person"],
-  :sn => "new"
+  :sn => "Gray", 
+  # :gn => "Charles", 
+  # :mail => "charles@example.com",
+  # :uid  => "charles@example.com", 
+  :userPassword => "something", 
+  :uid => "charles@example.com"
 }
 
 # dn = Net::LDAP::DN.new (
@@ -51,7 +56,7 @@ attr = {
 #   :sn => "new",
 #   :uid => "x4732")
 
-# Net::LDAP.open(ldap_conf) do |myldap|
-#   puts myldap.add(:dn => dn, :attributes => attr)
-# end
+Net::LDAP.open(ldap_conf) do |myldap|
+  puts myldap.add(:dn => dn, :attributes => attr)
+end
 

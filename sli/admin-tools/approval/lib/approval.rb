@@ -1,4 +1,5 @@
 require 'set'
+require 'approval/storage'
 
 module ApprovalEngine
 	# define the possible states of the finite state machine (FSM)
@@ -15,9 +16,75 @@ module ApprovalEngine
 	ACTION_DISABLE      = "disable"
 	ACTION_ENABLE       = "enable"
 
+	# define the FSM 
+	# for each state we define a set of transitions. Each transition has 
+	# a tuple associated with it: 
+	#  - target state : the next state
+	#  - function     : a Proc that nees to be executed to get to the target state 
+	# 
+	FSM = {
+		STATE_SUBMITTED => {ACTION_VERIFY_EMAIL => STATE_PENDING},
+		STATE_PENDING   => {ACTION_APPROVE => STATE_APPROVED, 
+			                ACTION_REJECT] => STATE_REJECTED },
+		STATE_REJECTED  => {ACTION_APPROVE => STATE_APPROVED },
+		STATE_APPROVED  => {ACTION_DISABLE => STATE_DISABLED }, 
+		STATE_DISABLED  => {ACTION_ENABLE  => STATE_APPROVED }
+	}
+
+	## backend storage 
+	@@storage = nil 
+
+	# initialize the storage 
+	def init_storage(storage)
+		@@storage = storage
+	end
+
+	# Update the status of a user. 
+	#
+	# Input parameter:
+	#
+	# email_address: Identifies a previosly added user that has verified their email address. 
+	# transition:    A transition identifier previously returned by the "get_users" method. 
+	# 
+	def self.change_user_status(email_address, transition)
+		user = @@storage.read_user(email_address)
+		status = user[F_STATUS]
+		target = FSM[status]
+
+		# make sure this is not a transition to verify an eamil address. 
+		raise "Cannot transition directly from state #{status}" if status==STATE_SUBMITTED
+
+		if (!target) || (!target.key?(transition))
+			raise "Current status '#{user[F_STATUS]}' does not allow transition '#{transition}'."
+		end
+
+		# set the new user status 
+		user[status] = target[transition]
+		case [status, target[transition]]
+			when [STATE_PENDING, STATE_APPROVED]
+				enable_update_status(user)
+			when [STATE_PENDING, STATE_REJECTED]
+				update_status(user)
+			when [STATE_REJECTED, STATE_APPROVED]
+				enable_update_status(user)
+			when [STATE_APPROVED, STATE_DISABLED]
+				disable_update_status(user)
+			when [STATE_DISABLED, STATE_APPROVED]
+				enable_update_status(user)
+			else
+				raise "Unknow state transition #{status} => #{target[transition]}."
+			end
+		end
+
+		user[F_STATUS] = target[transition]
+		@@storage.update_status(user)
+	end
+
+
 	# Check whether a user with the given email address exists. 
 	# The email address serves as the unique userid. 
-	def user_exists?(email_address)
+	def self.user_exists?(email_address)
+		@@storage.user_exists?(email_address)
 	end
 
 	# Add all relevant information for a new user to the backend. 
@@ -44,7 +111,8 @@ module ApprovalEngine
 	#     :vendor => "Acme Inc."
 	# }
 	# 	#
-	def add_user(user_info)
+	def self.add_disabled_user(user_info)
+		@@storage.create_user(user_info)
 	end
 
 	# Verify the email address against the backend. 
@@ -54,7 +122,12 @@ module ApprovalEngine
 	# email_hash : The email hash that was previously returned by the add_user 
 	# and included in a click through link that the user received in an email (as a query parameter).
 	#
-	def verify_email(email_hash)
+	def self.verify_email(email_hash)
+		user = @@storage.read_user_byhash(email_hash)
+		raise "Could not find user for email id #{email_hash}." if !user
+
+		user[F_STATUS] = STATE_PENDING
+		update_status(user)
 	end
 
 	# Returns a list of users and their states. If a target state is provided
@@ -74,24 +147,15 @@ module ApprovalEngine
 	#     :transitions => ["approve", "reject"], 
 	#     :updated => "datetime"
 	# }	#
-	def get_users(state=nil)
-	end 
+	def self.get_users(status=nil)
 
-	# Update the status of a user. 
-	#
-	# Input parameter:
-	#
-	# email_address: Identifies a previosly added user that has verified their email address. 
-	# transition:    A transition identifier previously returned by the "get_users" method. 
-	# 
-	def change_user_status(email_address, transition)
-	end
+	end 
 
 	# Update the user information that was submitted via the add_user method. 
 	#
 	# Input parameter: A subset of the "user_info" submitted to the "add_user" method. 
 	# 
-	def update_user_info(user_info)
+	def self.update_user_info(user_info)
 	end
 
 	# Removes a user from the backend entirely.  
@@ -99,6 +163,6 @@ module ApprovalEngine
 	# Input parameters:
 	# 
 	# email_address: Previously added email_address identifying a user. 
-	def remove_user(email_address)
+	def self.remove_user(email_address)
 	end
 end
