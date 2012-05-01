@@ -3,7 +3,7 @@ development:
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
     redirect_uri: http://local.slidev.org:3000/callback
-    admin_realm: MockIDP Test Realm - SLI - Local
+    admin_realm: SimpleIDP SLI - Local
 test:
     api_base: https://devapp1.slidev.org/api/rest
     admin_realm: Shared Learning Infrastructure
