@@ -51,7 +51,7 @@ Then /^the grades teardrop color widgets for "([^"]*)" are mapped correctly:$/ d
       foundGrade = getAttribute(tr, column)
       tdsWithGrade = getTdBasedOnAttribute(tr, column)
       if (gradeMapping[foundGrade] == nil)
-          puts "Grade Mapping doesn't exist for grade: " + grade
+          puts "Grade Mapping doesn't exist for grade: " + foundGrade
       else
           searchText = ".//div[contains(@class,'" + gradeMapping[foundGrade] + "')]"
           tearDrop = tdsWithGrade.find_element(:xpath, searchText)
