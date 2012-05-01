@@ -111,7 +111,7 @@ Examples:
 | "learningObjective"            | learningObjectives      | 7 |
 | "learningStandard"             | learningStandards       | 16 |
 | "parent"                       | parents                 | 1 |
-| "program"                      | programs                | 1 |
+| "program"                      | programs                | 2 |
 | "school"                       | schools                 | 4 |
 | "section"                      | sections                | 6 |
 | "session"                      | sessions                | 5 |
