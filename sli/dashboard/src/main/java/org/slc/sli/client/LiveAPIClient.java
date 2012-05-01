@@ -1,5 +1,15 @@
 package org.slc.sli.client;
 
+import com.google.gson.Gson;
+import org.apache.commons.lang.StringUtils;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.util.GenericEntityEnhancer;
+import org.slc.sli.util.Constants;
+import org.slc.sli.util.ExecutionTimeLogger;
+import org.slc.sli.util.SecurityUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -10,18 +20,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.gson.Gson;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.util.GenericEntityEnhancer;
-import org.slc.sli.util.Constants;
-import org.slc.sli.util.ExecutionTimeLogger.LogExecutionTime;
-import org.slc.sli.util.SecurityUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 /**
  *
@@ -661,11 +659,9 @@ public class LiveAPIClient implements APIClient {
      *
      * @param url
      * @param token
-     * @param fullEntities
-     *            TODO
      * @return the entity
      */
-    @LogExecutionTime
+    @ExecutionTimeLogger.LogExecutionTime
     public GenericEntity createEntityFromAPI(String url, String token) {
         LOGGER.info("Querying API: {}", url);
         String response = restClient.makeJsonRequestWHeaders(url, token);
@@ -688,7 +684,7 @@ public class LiveAPIClient implements APIClient {
      * @return entityList
      *         - the generic entity list
      */
-    @LogExecutionTime
+    @ExecutionTimeLogger.LogExecutionTime
     public List<GenericEntity> createEntitiesFromAPI(String url, String token) {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
 

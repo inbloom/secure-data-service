@@ -269,9 +269,9 @@
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>Special Elective:Debate Clinic</LocalCourseCode>
+        <LocalCourseCode>Special Elective: Debate Clinic</LocalCourseCode>
         <CourseCode IdentificationSystem="CSSC course code">
-          <ID>Special Elective:Debate Clinic</ID>
+          <ID>Special Elective: Debate Clinic</ID>
         </CourseCode>
         <Term>First Trimester</Term>
         <SchoolYear>2011-2012</SchoolYear>
@@ -1304,7 +1304,7 @@
     </SessionReference>
   </Section>
 
-  <!-- these sections are for Matt Sollars historical data, grade 6 and 7 at middle school, grades 3 - 5 at elementary school.
+  <!-- these sections are for Matt Sollars historical data, grade 6 and 7 at middle school, grades 3 - 5 at elementary school. 
        Note that there is only a single section for his 3rd grade transcript.
        Note that sections for 7th Grade English and 7th Grade Composition have already been defined. -->
   <Section>
@@ -1755,7 +1755,7 @@
       </SessionIdentity>
     </SessionReference>
   </Section>
-
+  
   <Section>
     <UniqueSectionCode>ELA 6A - Sec 5f09</UniqueSectionCode>
     <SequenceOfCourse>3</SequenceOfCourse>
@@ -2596,7 +2596,7 @@
       </SessionIdentity>
     </SessionReference>
   </Section>
-
+  
   <Section>
     <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>

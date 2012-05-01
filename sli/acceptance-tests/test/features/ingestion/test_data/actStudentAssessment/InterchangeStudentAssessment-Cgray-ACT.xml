@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd"> 
+
+   <StudentAssessment id="saa_188"> 
+      <AdministrationDate>2011-05-01</AdministrationDate> 
+      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
+      <SerialNumber>2</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ScoreResults AssessmentReportingMethod="Scale score">
+          <Result>81</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>900000000</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+                     <ID>ACT</ID> 
+                </AssessmentIdentificationCode> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <StudentObjectiveAssessment> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>18</Result> 
+       </ScoreResults> 
+       <StudentTestAssessmentReference ref="saa_188"/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-English</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
+   </StudentObjectiveAssessment> 
+
+   <StudentObjectiveAssessment> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>10</Result> 
+       </ScoreResults> 
+       <StudentTestAssessmentReference ref="saa_188"/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-English-Usage</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
+   </StudentObjectiveAssessment> 
+
+   <StudentObjectiveAssessment> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>8</Result> 
+       </ScoreResults> 
+       <StudentTestAssessmentReference ref="saa_188"/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-English-Rhetorical</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
+   </StudentObjectiveAssessment> 
+
+   <StudentObjectiveAssessment> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>30</Result> 
+       </ScoreResults> 
+       <StudentTestAssessmentReference ref="saa_188"/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-Mathematics</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
+   </StudentObjectiveAssessment> 
+
+   <StudentObjectiveAssessment> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>9</Result> 
+       </ScoreResults> 
+       <StudentTestAssessmentReference ref="saa_188"/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-Math-Pre-Algebra</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
+   </StudentObjectiveAssessment> 
+
+   <StudentObjectiveAssessment> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>7</Result> 
+       </ScoreResults> 
+       <StudentTestAssessmentReference ref="saa_188"/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-Math-Algebra</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
+   </StudentObjectiveAssessment> 
+
+   <StudentObjectiveAssessment> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>14</Result> 
+       </ScoreResults> 
+       <StudentTestAssessmentReference ref="saa_188"/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-Math-Plane-Geometry</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
+   </StudentObjectiveAssessment> 
+
+   <StudentObjectiveAssessment> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>23</Result> 
+       </ScoreResults> 
+       <StudentTestAssessmentReference ref="saa_188"/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-Reading</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
+   </StudentObjectiveAssessment> 
+
+   <StudentObjectiveAssessment> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>11</Result> 
+       </ScoreResults> 
+       <StudentTestAssessmentReference ref="saa_188"/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-Reading-SocialStudies</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
+   </StudentObjectiveAssessment> 
+
+   <StudentObjectiveAssessment> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>12</Result> 
+       </ScoreResults> 
+       <StudentTestAssessmentReference ref="saa_188"/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-Reading-Arts</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
+   </StudentObjectiveAssessment> 
+
+   <StudentObjectiveAssessment> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>4</Result> 
+       </ScoreResults> 
+       <StudentTestAssessmentReference ref="saa_188"/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-Science</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
+   </StudentObjectiveAssessment> 
+
+   <StudentObjectiveAssessment> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>6</Result> 
+       </ScoreResults> 
+       <StudentTestAssessmentReference ref="saa_188"/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-Writing</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
+   </StudentObjectiveAssessment> 
+
+   
+</InterchangeStudentAssessment> 

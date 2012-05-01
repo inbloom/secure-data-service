@@ -64,7 +64,7 @@ public class InterchangeStudentGrade {
         @XmlElement(name = "StudentAcademicRecord", type = StudentAcademicRecord.class),
         @XmlElement(name = "LearningObjective", type = LearningObjective.class),
         @XmlElement(name = "StudentCompetency", type = StudentCompetency.class),
-        @XmlElement(name = "StudentCompentencyObjective", type = StudentCompetencyObjective.class),
+        @XmlElement(name = "StudentCompetencyObjective", type = StudentCompetencyObjective.class),
         @XmlElement(name = "ReportCard", type = ReportCard.class)
     })
     protected List<ComplexObjectType> studentAcademicRecordOrCourseTranscriptOrReportCard;

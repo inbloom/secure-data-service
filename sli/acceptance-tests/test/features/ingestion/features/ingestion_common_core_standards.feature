@@ -4,7 +4,7 @@ Background: I have a landing zone route configured
 Given I am using local data store
   And I am using preconfigured Ingestion Landing Zone
 
-@wip
+
 Scenario: Post a zip file containing all configured Learning Objective interchanges as a payload of the ingestion job: Clean Database
 Given I post "CommonCoreStandards/grade12English.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
@@ -32,7 +32,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Grade_12_English_CCS_RI_11_12.xml records failed: 0" in the resulting batch job file
 
 
-@wip
+
 Scenario: Post a zip file containing all configured High School Math CCS interchanges as a payload of the ingestion job: Clean Database
 Given I post "CommonCoreStandards/grade12Math.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:

@@ -391,10 +391,10 @@
     </EducationOrganizationReference>
   </Course>
   <Course>
-    <CourseTitle>Special Elective:Debate Clinic</CourseTitle>
+    <CourseTitle>Special Elective: Debate Clinic</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="CSSC course code">
-      <ID>Special Elective:Debate Clinic</ID>
+      <ID>Special Elective: Debate Clinic</ID>
     </CourseCode>
     <SubjectArea>English Language and Literature</SubjectArea>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
@@ -529,7 +529,7 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </Course>
-
+  
   <!-- courses used for report cards for Carmen Ortiz -->
   <Course>
     <CourseTitle>Algebra II</CourseTitle>
