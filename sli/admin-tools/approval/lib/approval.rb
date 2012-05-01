@@ -1,5 +1,5 @@
 require 'set'
-require 'approval/storage'
+#equire 'approval/storage'
 
 module ApprovalEngine
 	# define the possible states of the finite state machine (FSM)
@@ -25,7 +25,7 @@ module ApprovalEngine
 	FSM = {
 		STATE_SUBMITTED => {ACTION_VERIFY_EMAIL => STATE_PENDING},
 		STATE_PENDING   => {ACTION_APPROVE => STATE_APPROVED, 
-			                ACTION_REJECT] => STATE_REJECTED },
+			                ACTION_REJECT => STATE_REJECTED },
 		STATE_REJECTED  => {ACTION_APPROVE => STATE_APPROVED },
 		STATE_APPROVED  => {ACTION_DISABLE => STATE_DISABLED }, 
 		STATE_DISABLED  => {ACTION_ENABLE  => STATE_APPROVED }
@@ -46,7 +46,7 @@ module ApprovalEngine
 	# email_address: Identifies a previosly added user that has verified their email address. 
 	# transition:    A transition identifier previously returned by the "get_users" method. 
 	# 
-	def self.change_user_status(email_address, transition)
+	def ApprovalEngine.change_user_status(email_address, transition)
 		user = @@storage.read_user(email_address)
 		status = user[F_STATUS]
 		target = FSM[status]
@@ -74,7 +74,6 @@ module ApprovalEngine
 			else
 				raise "Unknow state transition #{status} => #{target[transition]}."
 			end
-		end
 
 		user[F_STATUS] = target[transition]
 		@@storage.update_status(user)
@@ -84,7 +83,8 @@ module ApprovalEngine
 	# Check whether a user with the given email address exists. 
 	# The email address serves as the unique userid. 
 	def self.user_exists?(email_address)
-		@@storage.user_exists?(email_address)
+		return true
+	#	@@storage.user_exists?(email_address)
 	end
 
 	# Add all relevant information for a new user to the backend. 
@@ -111,8 +111,9 @@ module ApprovalEngine
 	#     :vendor => "Acme Inc."
 	# }
 	# 	#
-	def self.add_disabled_user(user_info)
-		@@storage.create_user(user_info)
+	def ApprovalEngine.add_disabled_user(user_info)
+		user = @@storage.create_user(user_info)
+		return user["F_EMAIL_TOKEN"]
 	end
 
 	# Verify the email address against the backend. 
@@ -122,7 +123,7 @@ module ApprovalEngine
 	# email_hash : The email hash that was previously returned by the add_user 
 	# and included in a click through link that the user received in an email (as a query parameter).
 	#
-	def self.verify_email(email_hash)
+	def ApprovalEngine.verify_email(email_hash)
 		user = @@storage.read_user_byhash(email_hash)
 		raise "Could not find user for email id #{email_hash}." if !user
 
@@ -147,7 +148,7 @@ module ApprovalEngine
 	#     :transitions => ["approve", "reject"], 
 	#     :updated => "datetime"
 	# }	#
-	def self.get_users(status=nil)
+	def ApprovalEngine.get_users(status=nil)
 
 	end 
 
@@ -155,7 +156,7 @@ module ApprovalEngine
 	#
 	# Input parameter: A subset of the "user_info" submitted to the "add_user" method. 
 	# 
-	def self.update_user_info(user_info)
+	def ApprovalEngine.update_user_info(user_info)
 	end
 
 	# Removes a user from the backend entirely.  
@@ -163,6 +164,6 @@ module ApprovalEngine
 	# Input parameters:
 	# 
 	# email_address: Previously added email_address identifying a user. 
-	def self.remove_user(email_address)
+	def ApprovalEngine.remove_user(email_address)
 	end
 end

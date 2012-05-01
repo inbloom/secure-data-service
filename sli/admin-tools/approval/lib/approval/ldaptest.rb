@@ -19,6 +19,9 @@ ldap = Net::LDAP.new ldap_conf
 # #ldap.auth "devldapuser", "Y;Gtf@w{"
 # ldap.auth "cn=DevLDAP User, ou=People,dc=slidev,dc=org"
 
+# adding a record 
+
+
 
 if ldap.bind
   puts "Authentication successfull."
