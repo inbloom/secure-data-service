@@ -1,6 +1,6 @@
 require './ldapstorage'
 
-ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=people,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 jd_email = "jdoe@example.com"
 jd_emailtoken = "0102030405060708090A0B0C0D0E0F"
 user_info = {
