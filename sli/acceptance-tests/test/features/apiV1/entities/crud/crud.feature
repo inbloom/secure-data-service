@@ -104,8 +104,8 @@ Examples:
 | "attendance"                   | attendances             | 1 |
 | "cohort"                       | cohorts                 | 3 |
 | "course"                       | courses                 | 6 |
-| "disciplineAction"             | disciplineActions       | 0 |
-| "disciplineIncident"           | disciplineIncidents     | 0 |
+| "disciplineAction"             | disciplineActions       | 1 |
+| "disciplineIncident"           | disciplineIncidents     | 1 |
 | "educationOrganization"        | educationOrganizations  | 59 |
 | "gradebookEntry"               | gradebookEntries        | 3 |
 | "learningObjective"            | learningObjectives      | 6 |

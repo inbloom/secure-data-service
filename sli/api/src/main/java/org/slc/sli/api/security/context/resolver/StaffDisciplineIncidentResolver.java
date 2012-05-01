@@ -21,6 +21,9 @@ import org.slc.sli.domain.Entity;
 @Component
 public class StaffDisciplineIncidentResolver implements EntityContextResolver {
 
+	@Autowired
+    private ResolveCreatorsEntitiesHelper creatorResolverHelper;
+
     @Autowired
     private AssociativeContextHelper helper;
 
@@ -34,12 +37,6 @@ public class StaffDisciplineIncidentResolver implements EntityContextResolver {
     @Override
     public List<String> findAccessible(Entity principal) {
 
-        // special privilege for demo user
-        if (principal.getBody().get("staffUniqueStateId").equals("demo")) {
-            info("Resolver override for demo user.");
-            return AllowAllEntityContextResolver.SUPER_LIST;
-        }
-
         // find the discipline actions this user has access to
         List<String> referenceIds = new ArrayList<String>();
         referenceIds.add(principal.getEntityId());
@@ -52,6 +49,7 @@ public class StaffDisciplineIncidentResolver implements EntityContextResolver {
         	disciplineIncidentIds.addAll(ids);
         }
 
+        disciplineIncidentIds.addAll(creatorResolverHelper.getAllowedForCreator(EntityNames.DISCIPLINE_INCIDENT));
         return new ArrayList<String>(disciplineIncidentIds);
     }
 }

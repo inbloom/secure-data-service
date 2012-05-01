@@ -412,10 +412,16 @@ task :apiV1EntityTests do
   runTests("test/features/apiV1/entities/crud")
 end
 
-task :apiV1EntitySecurityTests => [:v1ProgramSecurityTests,
-                                   :v1ParentSecurityTests,
-                                   :v1AttendanceSecurityTests,
-                                   :v1CohortSecurityTests] do
+task :apiV1EntitySecurityTests do
+  # Import the data once, none of these tests edit the data
+  Rake::Task["importSandboxData"].execute
+  
+  Rake::Task["v1ProgramSecurityTests"].execute
+  Rake::Task["v1ParentSecurityTests"].execute
+  Rake::Task["v1AttendanceSecurityTests"].execute
+  Rake::Task["v1CohortSecurityTests"].execute
+  Rake::Task["v1DisciplineActionSecurityTests"].execute
+  Rake::Task["v1DisciplineIncidentSecurityTests"].execute
 end
 
 task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
@@ -458,29 +464,32 @@ end
 
 desc "Run V1 Program Security Tests"
 task :v1ProgramSecurityTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/program/program_security.feature")
 end
 
-desc "Run V1 Discipline Incident Tests"
-task :v1DisciplineIncidentTests => [:realmInit] do
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
-  setFixture("disciplineIncident", "disciplineIncident_fixture.json")
-  runTests("test/features/apiV1/entities/disciplineIncident")
+desc "Run V1 Discipline Incident Security Tests"
+task :v1DisciplineIncidentSecurityTests => [:realmInit] do
+  runTests("test/features/apiV1/entities/disciplineIncident/disciplineIncident_security.feature")
 end
 
-desc "Run V1 Discipline Action Tests"
-task :v1DisciplineActionTests => [:realmInit] do
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
-  setFixture("student", "student_fixture.json")
-  setFixture("student", "smallville_student_fixture.json", "test/data/smallville", false)
-  setFixture("staff", "staff_fixture.json")
-  setFixture("staff", "smallville_staff_fixture.json", "test/data/smallville", false)
-  setFixture("disciplineIncident", "disciplineIncident_fixture.json")
-  setFixture("disciplineAction", "disciplineAction_fixture.json")
-  runTests("test/features/apiV1/entities/disciplineAction")
+desc "Run V1 Discipline Action Secuity Tests"
+task :v1DisciplineActionSecurityTests => [:realmInit] do
+  runTests("test/features/apiV1/entities/disciplineAction/disciplineAction_security.feature")
+end
+
+desc "Run V1 Parent Security Tests"
+task :v1ParentSecurityTests => [:realmInit] do
+  runTests("test/features/apiV1/entities/parent/parent_security.feature")
+end
+
+desc "Run V1 Attendance Security Tests"
+task :v1AttendanceSecurityTests => [:realmInit] do
+  runTests("test/features/apiV1/entities/attendance/attendance_security.feature")
+end
+
+desc "Run V1 Cohort Security Tests"
+task :v1CohortSecurityTests => [:realmInit] do
+  runTests("test/features/apiV1/entities/cohort/cohort_security.feature")
 end
 
 desc "Run V1 Student Discipline Incident Association Tests"
@@ -675,24 +684,6 @@ desc "Run V1 Common Core Standards reference traversal Tests"
 task :v1CCSTests => [:realmInit] do
   setFixture("learningStandard", "learningStandard_fixture.json")
   runFixtureAndTests("test/features/apiV1/end_user_stories/commonCoreStandards/API/api_ccs.feature","learningObjective","learningObjective_fixture.json")
-end
-
-desc "Run V1 Parent Security Tests"
-task :v1ParentSecurityTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/parent/parent_security.feature")
-end
-
-desc "Run V1 Attendance Security Tests"
-task :v1AttendanceSecurityTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/attendance/attendance_security.feature")
-end
-
-desc "Run V1 Cohort Security Tests"
-task :v1CohortSecurityTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/cohort/cohort_security.feature")
 end
 
 desc "Run V1 Home URI Tests"
