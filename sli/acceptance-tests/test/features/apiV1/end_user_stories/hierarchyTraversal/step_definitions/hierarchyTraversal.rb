@@ -52,12 +52,13 @@ end
 
 Then /^the "name" should be "([^\"]*)" "([^\"]*)" "([^\"]*)"$/ do |first_name, middle_name, last_name|
   assert(@result["name"] != nil, "Name is nil")
+  expected_middle_name = ""
   expected_first_name = @result["name"]["firstName"]
-  expected_middle_name = @result["name"]["middleName"]
+  expected_middle_name = @result["name"]["middleName"] unless middle_name == ""
   expected_last_name = @result["name"]["lastSurname"]
   assert(expected_first_name == first_name, "Unexpected first name. Input: #{first_name} Expected: #{expected_first_name}")
-  assert(expected_middle_name == middle_name, "Unexpected first name. Input: #{middle_name} Expected: #{expected_middle_name}")
-  assert(expected_last_name == last_name, "Unexpected first name. Input: #{last_name} Expected: #{expected_last_name}")
+  assert(expected_middle_name == middle_name, "Unexpected middle name. Input: #{middle_name} Expected: #{expected_middle_name}")
+  assert(expected_last_name == last_name, "Unexpected last name. Input: #{last_name} Expected: #{expected_last_name}")
 end
 
 Then /^a "([^"]*)" should be "([^"]*)"$/ do |key, value|
