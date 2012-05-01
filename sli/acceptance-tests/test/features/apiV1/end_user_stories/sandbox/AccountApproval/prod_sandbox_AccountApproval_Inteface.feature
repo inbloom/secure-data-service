@@ -1,48 +1,61 @@
-@wip
 Feature: SLC operator approves/disables production accounts or disables sandbox accounts using the account approval application
 
-Background: SLC Operator is logged into the Account Approval Tool
+Background: 
+Given I have an open web browser
+And I am authenticated to SLI IDP as user "demo" with pass "changeit"
 
 Scenario: As a slc operator I want to see a list of all the accounts and their correct status
-Given there an accounts in requests pending in the system
-When I login the the tool
-Then I see a table with headings of "Vendor" and "User Name" and "Approval Date" and "Status" and "Action"
+Given there are accounts in requests pending in the system
+When I hit the Admin Application Account Approval page
+Then I see a table with headings of "Vendor" and "User Name" and "Last Update" and "Status" and "Action"
 And on the next line there is vendor name in the "Vendor" column
 And User Name in the "User Name" column
-And the "Approval Date" is empty
-And the "Status" is "Pending"
-And the "Action" column has 3 button "Approve", "Reject" and "Disable"
+And last update date in the "Last Updated" column
+And status in the "Status" column
+And the "Action" column has 4 buttons "Approve", "Reject", "Disable", and "Enable"
 
 Scenario: As a slc operator I approve pending production account request by clicking the approve button
 Given there is a production account request for vendor "Macro Corp" 
-And first name "Loraine" and last name "Plyler" 
-And login name "Lplyer@macrocorp.com" pending in the account request queue
+When I hit the Admin Application Account Approval page
+Then I see one account with name "Loraine Plyler 1"
+And his account status is "Pending"
 When I click the "Approve" button
-And the account is shown as "Accepted" and status is updated in the database
+ And I am asked "Do you really want to approve this user account?"
+ When I click on Ok
+Then his account status changed to "Approved"
 
 Scenario: As a slc operator I reject pending production account request by clicking the reject button
-Given there is a production account request for vendor "Macro Corp" 
-And first name "Loraine" and last name "Plyler" 
-And login name "Lplyer@macrocorp.com" pending in the account request queue
+Given there is a production account request for vendor "Macro Corp"
+When I hit the Admin Application Account Approval page
+Then I see one account with name "Loraine Plyler 2"
+And his account status is "Pending"
 When I click the "Reject" button
-And the account is shown as "Rejected" and status is updated in the database
+And I am asked "Do you really want to reject this user account?"
+ When I click on Ok
+Then his account status changed to "Rejected"
 
 Scenario: As a slc operator I disable an approved production account by clicking the reject button
-Given there is an approved production account  for vendor "Macro Corp" 
-And first name "Loraine" and last name "Plyler" 
-And login name "Lplyer@macrocorp.com" 
-When I click the "Disabled" button
-And the account is shown as "Disabled" and the status is updated in the database
+Given there is a production account request for vendor "Macro Corp"
+When I hit the Admin Application Account Approval page
+Then I see one account with name "Loraine Plyler 6"
+And his account status is "Approved"
+When I click the "Disable" button
+And I am asked "Do you really want to disable this user account?"
+ When I click on Ok
+Then his account status changed to "Disabled"
 
 Scenario: As a slc operator an sandbox accounts are automatically approved 
 Given there is an pending sandbox account  for vendor "Macro Corp" 
-And first name "Loraine" and last name "Plyler" 
-And login name "Lplyer@macrocorp.com"  
-And the account is shown as "Accepted" and the status is updated in the database
+When I hit the Admin Application Account Approval page
+Then I see one account with name "Loraine Plyler 1"
+And his account status is "Approved"
 
 Scenario: As a slc operator I disable an approved sandbox account by clicking the reject button
 Given there is an approved sandbox account  for vendor "Macro Corp" 
-And first name "Loraine" and last name "Plyler" 
-And login name "Lplyer@macrocorp.com" 
-When I click the "Disable" button 
-And the account is shown as "Disabled" and the status is updated in the database
+When I hit the Admin Application Account Approval page
+Then I see one account with name "Loraine Plyler 1"
+And his account status is "Approved"
+When I click the "Disable" button
+And I am asked "Do you really want to disable this user account?"
+ When I click on Ok
+Then his account status changed to "Disabled"
