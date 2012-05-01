@@ -14,13 +14,10 @@ Feature: As an SLI application, I want to be able to view more student data in a
 
   # Attendaces
     And I should find "1" "attendances"
-    And I should find "161" "attendances" in it
+    And I should find "181" "attendances" in it
     When I look at the first one
-    Then I should see "eventDate" is "2012-02-02" in it
-    And I should see "attendanceEventType" is "Daily Attendance" in it
-    And I should see "attendanceEventCategory" is "In Attendance" in it
-    And I should see "entityType" is "attendance" in it
-    And I should see "studentId" is "<STUDENT_ID>" in it
+    Then I should see "date" is "2011-09-06" in it
+    And I should see "event" is "In Attendance" in it
 
   # Assessments
     And I should find "1" "studentAssessments"

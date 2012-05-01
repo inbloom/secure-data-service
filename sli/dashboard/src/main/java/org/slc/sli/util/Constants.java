@@ -150,7 +150,8 @@ public final class Constants {
     public static final String ATTR_OPTIONAL_FIELDS = "optionalFields";
     public static final String ATTR_GRADEBOOK_VIEW = "gradebookView";
     public static final String ATTR_STUDENT_SECTION_GRADEBOOK = "studentGradebookEntries";
-    public static final String ATTR_ATTENDANCE_EVENT_CATEGORY = "attendanceEventCategory";
+    public static final String ATTR_ATTENDANCE_DATE = "date";
+    public static final String ATTR_ATTENDANCE_EVENT_CATEGORY = "event";
     public static final String ATTR_ABSENCE_COUNT = "absenceCount";
     public static final String ATTR_TARDY_COUNT = "tardyCount";
     public static final String ATTR_ATTENDANCE_RATE = "attendanceRate";
