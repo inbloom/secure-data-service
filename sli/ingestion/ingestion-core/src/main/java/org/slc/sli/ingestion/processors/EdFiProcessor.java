@@ -96,7 +96,7 @@ public class EdFiProcessor implements Processor {
                     metrics.setErrorCount(errorCount);
                 }
 
-                ResourceEntry resource = createResourceForOutputFile(fe, fileProcessStatus);
+                ResourceEntry resource = BatchJobUtils.createResourceForOutputFile(fe, fileProcessStatus);
                 newJob.getResourceEntries().add(resource);
 
                 metrics.stopMetric();
@@ -145,21 +145,6 @@ public class EdFiProcessor implements Processor {
             batchJobDAO.saveError(error);
         }
         return errorCount;
-    }
-
-    private ResourceEntry createResourceForOutputFile(IngestionFileEntry fe, FileProcessStatus fileProcessStatus) {
-        ResourceEntry resource = new ResourceEntry();
-        String rId = fileProcessStatus.getOutputFileName();
-        if (rId == null) {
-            rId = "Empty_" + (fe.getFileName());
-        }
-        resource.setResourceId(rId);
-        resource.setResourceName(fileProcessStatus.getOutputFilePath());
-        resource.setResourceFormat(FileFormat.NEUTRALRECORD.getCode());
-        resource.setResourceType(fe.getFileType().getName());
-        resource.setRecordCount((int) fileProcessStatus.getTotalRecordCount());
-        resource.setExternallyUploadedResourceId(fe.getFileName());
-        return resource;
     }
 
     private List<IngestionFileEntry> extractFileEntryList(String batchJobId, NewBatchJob newJob) {
