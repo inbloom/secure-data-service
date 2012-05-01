@@ -16,7 +16,6 @@ import org.milyn.Smooks;
 import org.milyn.SmooksException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.Fault;
@@ -47,7 +46,6 @@ public class SmooksCallable implements Callable<Boolean> {
 
     private static final Logger LOG = LoggerFactory.getLogger(SmooksCallable.class);
 
-    @Autowired
     private SliSmooksFactory sliSmooksFactory;
 
     private final NewBatchJob newBatchJob;
@@ -55,11 +53,13 @@ public class SmooksCallable implements Callable<Boolean> {
     private final Stage stage;
     private final BatchJobDAO batchJobDAO;
 
-    public SmooksCallable(NewBatchJob newBatchJob, IngestionFileEntry fe, Stage stage, BatchJobDAO batchJobDAO) {
+    public SmooksCallable(NewBatchJob newBatchJob, IngestionFileEntry fe, Stage stage, BatchJobDAO batchJobDAO,
+            SliSmooksFactory sliSmooksFactory) {
         this.newBatchJob = newBatchJob;
         this.fe = fe;
         this.stage = stage;
         this.batchJobDAO = batchJobDAO;
+        this.sliSmooksFactory = sliSmooksFactory;
     }
 
     @Override
@@ -68,8 +68,9 @@ public class SmooksCallable implements Callable<Boolean> {
     }
 
     public boolean runSmooksFuture() {
+        LOG.info("Starting SmooksCallable for: " + fe.getFileName());
         Metrics metrics = Metrics.createAndStart(fe.getFileName());
-        stage.getMetrics().add(metrics);
+        stage.addMetrics(metrics);
 
         FileProcessStatus fileProcessStatus = new FileProcessStatus();
         ErrorReport errorReport = fe.getErrorReport();
@@ -83,10 +84,11 @@ public class SmooksCallable implements Callable<Boolean> {
         metrics.setErrorCount(errorCount);
 
         ResourceEntry resource = BatchJobUtils.createResourceForOutputFile(fe, fileProcessStatus);
-        newBatchJob.getResourceEntries().add(resource);
+        newBatchJob.addResourceEntry(resource);
 
         metrics.stopMetric();
 
+        LOG.info("Finished SmooksCallable for: " + fe.getFileName());
         return (errorCount > 0);
     }
 

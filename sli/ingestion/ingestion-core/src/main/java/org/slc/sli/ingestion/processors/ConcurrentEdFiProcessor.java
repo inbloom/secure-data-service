@@ -28,6 +28,7 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.service.IngestionExecutor;
+import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksCallable;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
@@ -48,6 +49,9 @@ public class ConcurrentEdFiProcessor implements Processor {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
+
+    @Autowired
+    private SliSmooksFactory sliSmooksFactory;
 
     @Override
     @ExtractBatchJobIdToContext
@@ -96,7 +100,7 @@ public class ConcurrentEdFiProcessor implements Processor {
 
         for (IngestionFileEntry fe : fileEntryList) {
 
-            Callable<Boolean> smooksCallable = new SmooksCallable(newJob, fe, stage, batchJobDAO);
+            Callable<Boolean> smooksCallable = new SmooksCallable(newJob, fe, stage, batchJobDAO, sliSmooksFactory);
 
             FutureTask<Boolean> smooksFutureTask = IngestionExecutor.execute(smooksCallable);
 
