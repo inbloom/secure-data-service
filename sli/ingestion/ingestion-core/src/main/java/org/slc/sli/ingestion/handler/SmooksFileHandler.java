@@ -15,6 +15,8 @@ import org.milyn.Smooks;
 import org.milyn.SmooksException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.FileProcessStatus;
@@ -31,10 +33,12 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  * @author dduran
  *
  */
+@Component
 public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
 
     private static final Logger LOG = LoggerFactory.getLogger(SmooksFileHandler.class);
 
+    @Autowired
     private SliSmooksFactory sliSmooksFactory;
 
     @Override
@@ -58,7 +62,8 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
     void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) throws IOException, SAXException {
-        LandingZone landingZone = new LocalFileSystemLandingZone(new File(ingestionFileEntry.getTopLevelLandingZonePath()));
+        LandingZone landingZone = new LocalFileSystemLandingZone(new File(
+                ingestionFileEntry.getTopLevelLandingZonePath()));
         String lzDirectory = "";
         if (landingZone != null && landingZone.getLZId() != null) {
             lzDirectory = landingZone.getLZId();
@@ -102,15 +107,11 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         }
     }
 
-    private File createTempFile(String lzDirectory) throws IOException {
+    private static File createTempFile(String lzDirectory) throws IOException {
         File landingZone = new File(lzDirectory);
         File outputFile = landingZone.exists() ? File.createTempFile("neutralRecord_", ".tmp", landingZone) : File
                 .createTempFile("neutralRecord_", ".tmp");
         return outputFile;
-    }
-
-    public void setSliSmooksFactory(SliSmooksFactory sliSmooksFactory) {
-        this.sliSmooksFactory = sliSmooksFactory;
     }
 
 }

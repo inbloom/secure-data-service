@@ -83,9 +83,7 @@
     <contextScan></contextScan>
   </camelContext>
 
-  <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
-    <property name="sliSmooksFactory" ref="sliSmooksFactory" />
-  </bean>
+  <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
 
   <bean id="landingZoneManager" class="org.slc.sli.ingestion.landingzone.LandingZoneManager">
     <property name="singleLandingZoneDir" value="${landingzone.inbounddir}" />
@@ -114,8 +112,7 @@
   </bean>
 
 
-  <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor">
-  </bean>
+  <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor" />
 
   <bean id="entityPersistHandler" class="org.slc.sli.ingestion.handler.EntityPersistHandler">
     <property name="entityRepository" ref="mongoEntityRepository" />
