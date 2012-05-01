@@ -5,6 +5,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class used for adding test data to a student.
+ * 
+ * @author dwalker
+ *
+ */
 public class StudentSummaryBuilder {
     
     // Section Ids
