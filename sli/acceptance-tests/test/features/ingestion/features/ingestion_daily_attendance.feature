@@ -80,7 +80,6 @@ When zip file is scp to ingestion landing zone
   And I should see "StudentAttendanceDuplicate.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "StudentAttendanceDuplicate.xml records failed: 72" in the resulting batch job file
 
-@wip
 Scenario: Post a zip file containing attendance event interchange with non-existent student as a payload of the ingestion job: Populated Database
 Given I post "DailyAttendanceNoStudent.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
