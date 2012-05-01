@@ -33,7 +33,7 @@ Background: Nothing yet
     | schools                     | school                     | 4               |
     | students                    | student                    | 80              |
     | studentSectionAssociations  | studentSectionAssociation  | 309             |
-    | courseOfferings             | sessionCourseAssociation   | 5               |
+    | courseOfferings             | sessionCourseAssociation   | 6               |
 
 @wip
 Scenario: Getting response from POST - Create (school)
