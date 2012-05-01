@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.performance.Profiled;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -212,7 +213,14 @@ public class PersistenceProcessor implements Processor {
                     for (SimpleEntity xformedEntity : xformedEntities) {
 
                         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForNrFile);
-                        entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
+                        if (xformedEntity.getType().equals("schoolSessionAssociation")) {
+                            SimpleEntity session = (SimpleEntity) xformedEntity.getBody().remove("session");
+
+                            Entity mongoSession = entityPersistHandler.handle(session, errorReportForNrEntity);
+                            xformedEntity.getBody().put("sessionId", mongoSession.getEntityId());
+                        }
+                       entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
+
 
                         if (errorReportForNrEntity.hasErrors()) {
                             numFailed++;
@@ -261,6 +269,9 @@ public class PersistenceProcessor implements Processor {
             neutralQuery.addCriteria(new NeutralCriteria("studentAcademicRecordId", "=", studentAcademicRecordId));
             stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAll(
                     neutralRecord.getRecordType() + "_transformed", neutralQuery);
+        } else if (neutralRecord.getRecordType().equals("session")) {
+            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAll("session");
+            encounteredStgCollections.add("session");
         } else {
 
             stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAll(
@@ -288,6 +299,7 @@ public class PersistenceProcessor implements Processor {
                 collections.add(collectionName.substring(0, collectionName.length() - "_transformed".length()));
             }
         }
+        collections.add("session");
         return collections;
     }
 

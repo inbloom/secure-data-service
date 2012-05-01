@@ -30,6 +30,8 @@ public class ReferenceConstructor extends DefaultHandler {
     private String currentReferenceId;
     private String topElementName;
 
+    private int sameNameCount = 0;
+
     public ReferenceConstructor() {
         tempVal = new StringBuffer();
         topElementName = "";
@@ -80,10 +82,15 @@ public class ReferenceConstructor extends DefaultHandler {
         }
 
         // Check if top-level element is a reference.
-        if (qName.equals(topElementName) && qName.endsWith("Reference") && (attributes.getValue("id") != null)) {
+        if (qName.equals(topElementName) && (qName.endsWith("Reference") || qName.equals("GradingPeriod")) && (attributes.getValue("id") != null)) {
             currentReferenceXMLString = new String();
             currentReferenceId = attributes.getValue("id");
             isInsideReferenceEntity = true;
+
+        }
+
+        if (qName.equals("GradingPeriod")) {
+            sameNameCount++;
         }
 
         // If in reference, add element to reference body.
@@ -153,9 +160,14 @@ public class ReferenceConstructor extends DefaultHandler {
 //            }
             tempVal.append("\n\t");
             currentReferenceXMLString += "</" + qName + ">";
-            if (qName.endsWith("Reference")) {
+            if (qName.endsWith("Reference") || (qName.equals("GradingPeriod"))) {
+
+                if (sameNameCount == 1) {
                 referenceObjects.put(currentReferenceId, currentReferenceXMLString);
                 isInsideReferenceEntity = false;
+
+                }
+                sameNameCount--;
             }
         }
         startCharacters = true;

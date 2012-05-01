@@ -106,6 +106,22 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     public void matchEntity(SimpleEntity entity, ErrorReport errorReport) {
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
 
+        if (entity.getType().equals("schoolSessionAssociation")) {
+            List<String> ids = idNormalizer.resolveReferenceInternalIds((Entity) entity, (String) entity.getMetaData().get("tenantId"), entityConfig.getReferences().get(0).getRef(), "", errorReport);
+            SimpleEntity session = (SimpleEntity) entity.getBody().get("session");
+            if (ids != null  && ids.size() > 0) {
+                Entity matchSSA = entityRepository.findById(entity.getType(), ids.get(0));
+                entity.setEntityId(matchSSA.getEntityId());
+                entity.getMetaData().putAll(matchSSA.getMetaData());
+
+                Entity matchSession = entityRepository.findById("session", (String) matchSSA.getBody().get("sessionId"));
+                session.setEntityId(matchSession.getEntityId());
+                session.getMetaData().putAll((matchSession.getMetaData()));
+            } else {
+                session.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()));
+            }
+            entity.getBody().put("session", session);
+        } else {
 
         Query query = createEntityLookupQuery(entity, entityConfig, errorReport);
 
@@ -123,6 +139,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             Entity matched = match.iterator().next();
             entity.setEntityId(matched.getEntityId());
             entity.getMetaData().putAll(matched.getMetaData());
+        }
         }
     }
 

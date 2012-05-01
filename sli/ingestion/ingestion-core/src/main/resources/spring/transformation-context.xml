@@ -57,6 +57,11 @@
                 <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/disciplineAction.xml" />
             </bean>
         </entry>
+        <entry key="session">
+            <bean class="org.milyn.Smooks">
+                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/session.xml" />
+            </bean>
+        </entry>
     </util:map>
 
     <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
@@ -91,8 +96,8 @@
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
         <property name="passThroughCollectionName" value="program" />
     </bean>
-    
-    <bean id="staffProgramAssociationTransformationStrategy" 
+
+    <bean id="staffProgramAssociationTransformationStrategy"
             class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
         <property name="passThroughCollectionName" value="staffProgramAssociation" />
@@ -102,13 +107,13 @@
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
 		<property name="passThroughCollectionName" value="studentProgramAssociation" />
     </bean>
- 	
+
 	<bean id="cohortTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
         <property name="passThroughCollectionName" value="cohort" />
     </bean>
-    
-    <bean id="staffCohortAssociationTransformationStrategy" 
+
+    <bean id="staffCohortAssociationTransformationStrategy"
             class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
         <property name="passThroughCollectionName" value="staffCohortAssociation" />
@@ -118,13 +123,13 @@
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
 	<property name="passThroughCollectionName" value="studentCohortAssociation" />
     </bean>
-    
+
 	<bean id="disciplineIncidentTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
 		<property name="passThroughCollectionName" value="disciplineIncident" />
     </bean>
-    
-    <bean id="disciplineActionTransformationStrategy" 
+
+    <bean id="disciplineActionTransformationStrategy"
             class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
         <property name="passThroughCollectionName" value="disciplineAction" />
