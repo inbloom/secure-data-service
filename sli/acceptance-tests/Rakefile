@@ -1088,7 +1088,8 @@ task :dashboardLoginTests do
 end
 
 desc "Run Dashboard Assessment tests"
-task :dashboardAssessmentTests => [:MostRecentResultTests,:HighestEverResultTests, :PerformanceLevels ] do
+task :dashboardAssessmentTests do
+    runTests("test/features/dashboard/dash/assessments.feature")
 end
 
 desc "Run Dashboard most recent result acceptance tests"
