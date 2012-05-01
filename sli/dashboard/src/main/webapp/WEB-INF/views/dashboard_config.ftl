@@ -51,12 +51,14 @@
                         url:  contextRootPath + '/service/config/ajaxSave',
                         scope: this,
                         type: 'POST',
-                        data: "customConfigJSON=" + $('#jsonText').html(),
+                        data: "customConfigString=" + $('#jsonText').val(),
                         success: function(status){
                             if(status == "Success") {
                                 alert("Successfully saved the config. Please logout and log back in to see the changes.");
-                            } else {
-                                alert("Unable to save the config. Please try again");
+                            } else if(status == "Permission Denied") {
+                                alert("Permission Denied, You are not allowed to do this opertaion.");
+                            } else if(status == "Invalid Input") {
+                                alert("The input should be a valid JSON string");
                             }
                         },
                         error: $("body").ajaxError( function(event, request, settings) {

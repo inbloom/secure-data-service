@@ -12,6 +12,7 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 
+import org.slc.sli.entity.CustomConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.slf4j.Logger;
@@ -46,11 +47,21 @@ public class MockAPIClient implements APIClient {
     
     /**
      * 
+     * Mock API client does not support new Staff API call.
+     * 
+     */
+    @Override
+    public GenericEntity getStaffInfo(String token) {
+        return null;
+    }
+    
+    /**
+     * 
      * Mock API client does not support custom data API calls.
      * 
      */
     @Override
-    public GenericEntity getEdOrgCustomData(String token, String id) {
+    public CustomConfig getEdOrgCustomData(String token, String id) {
         return null;
     }
     
