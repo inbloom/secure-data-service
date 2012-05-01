@@ -118,7 +118,6 @@ Scenario: Applying optional fields - single student view
   # attendances
   Then I should find "<attendances>" under "/"
   And I should find 181 "<attendances>" under "<attendances><attendances>"
-  And I should find 77 entries with "<eventDate>" including the string "2011"
   And I should see "<date>" is "2011-09-07" for the one at position 2
   And I should see "<event>" is "In Attendance" for the one at position 2
 
