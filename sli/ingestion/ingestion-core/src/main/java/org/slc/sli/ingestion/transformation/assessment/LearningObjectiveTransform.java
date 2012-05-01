@@ -122,7 +122,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
         for (NeutralRecord nr : allLearningObjectives) {
             nr.setRecordType(nr.getRecordType() + "_transformed");
-            getNeutralRecordMongoAccess().getRecordRepository().create(nr);
+            getNeutralRecordMongoAccess().getRecordRepository().createForJob(nr, getJob().getId());
         }
     }
 

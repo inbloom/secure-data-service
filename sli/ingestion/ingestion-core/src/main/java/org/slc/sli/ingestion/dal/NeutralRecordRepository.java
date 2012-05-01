@@ -1,16 +1,18 @@
 package org.slc.sli.ingestion.dal;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.DBCollection;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.util.Assert;
 
-import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.dal.repository.MongoRepository;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 
 /**
@@ -21,21 +23,18 @@ import org.slc.sli.ingestion.NeutralRecord;
  *
  */
 public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
-    protected static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
+    // public class NeutralRecordRepository {
 
-    private EntityEncryption entityEncryption;
+    protected static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
 
     @Override
     public boolean update(String collection, NeutralRecord neutralRecord) {
-//        Map<String, Object> body = neutralRecord.getAttributes();
-//        if (entityEncryption != null) {
-//            body = entityEncryption.encrypt(neutralRecord.getRecordType(), body);
-//        }
-        return update(neutralRecord.getRecordType(), neutralRecord, null); //body);
+        return update(neutralRecord.getRecordType(), neutralRecord, null);
     }
 
     @Override
-    public NeutralRecord create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
+    public NeutralRecord create(String type, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
         NeutralRecord neutralRecord = new NeutralRecord();
         neutralRecord.setLocalId(metaData.get("externalId"));
@@ -43,8 +42,61 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return create(neutralRecord, collectionName);
     }
 
-    public NeutralRecord create(NeutralRecord neutralRecord) {
-        return create(neutralRecord, neutralRecord.getRecordType());
+    public NeutralRecord createForJob(NeutralRecord neutralRecord, String jobId) {
+        return create(neutralRecord, toStagingCollectionName(neutralRecord.getRecordType(), jobId));
+    }
+
+    public Iterable<NeutralRecord> findAllForJob(String collectionName, String jobId, NeutralQuery neutralQuery) {
+        return findAll(toStagingCollectionName(collectionName, jobId), neutralQuery);
+    }
+
+    public Iterable<NeutralRecord> findByQueryForJob(String collectionName, Query query, String jobId, int skip, int max) {
+        return findByQuery(toStagingCollectionName(collectionName, jobId), query, skip, max);
+    }
+
+    public Iterable<NeutralRecord> findByPathsForJob(String collectionName, Map<String, String> paths, String jobId) {
+        return findByPaths(toStagingCollectionName(collectionName, jobId), paths);
+    }
+
+    public NeutralRecord findOneForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
+        return findOne(toStagingCollectionName(collectionName, jobId), neutralQuery);
+    }
+
+    public DBCollection getCollectionForJob(String collectionName, String jobId) {
+        return getCollection(toStagingCollectionName(collectionName, jobId));
+    }
+
+    public Set<String> getCollectionNamesForJob(String batchJobId) {
+        Set<String> collectionNamesForJob = new HashSet<String>();
+
+        if (batchJobId != null) {
+            String jobIdPattern = "_" + toMongoCleanId(batchJobId);
+
+            Set<String> allCollectionNames = getTemplate().getCollectionNames();
+            for (String currentCollection : allCollectionNames) {
+
+                int jobPatternIndex = currentCollection.indexOf(jobIdPattern);
+                if (jobPatternIndex != -1) {
+                    collectionNamesForJob.add(currentCollection.substring(0, jobPatternIndex));
+                }
+            }
+        }
+        return collectionNamesForJob;
+    }
+
+    public void deleteCollectionsForJob(String batchJobId) {
+        if (batchJobId != null) {
+            String jobIdPattern = "_" + toMongoCleanId(batchJobId);
+
+            Set<String> allCollectionNames = getTemplate().getCollectionNames();
+            for (String currentCollection : allCollectionNames) {
+
+                int jobPatternIndex = currentCollection.indexOf(jobIdPattern);
+                if (jobPatternIndex != -1) {
+                    getTemplate().dropCollection(currentCollection);
+                }
+            }
+        }
     }
 
     @Override
@@ -52,61 +104,17 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return neutralRecord.getRecordId();
     }
 
-    public Set<String> getCollectionNames() {
-        if (isCollectionGrouping()) {
-            Set<String> collectionSet = getTemplate().getCollectionNames();
-            Iterator<String> iter = collectionSet.iterator();
-
-            Set<String> currentCollections = new HashSet<String>();
-            String currentCollection;
-
-            while (iter.hasNext()) {
-                currentCollection = iter.next();
-
-                if (currentCollection.endsWith(getCollectionGroupingIdentifier())) {
-                    currentCollections.add(currentCollection.replace("_" + getCollectionGroupingIdentifier(), ""));
-                }
-            }
-
-            return currentCollections;
-        }
-
-        return getTemplate().getCollectionNames();
-    }
-
-    public void deleteGroupedCollections() {
-        if (isCollectionGrouping()) {
-            Set<String> collectionSet = getTemplate().getCollectionNames();
-            Iterator<String> iter = collectionSet.iterator();
-
-            String currentCollection;
-
-            while (iter.hasNext()) {
-                currentCollection = iter.next();
-
-                if (currentCollection.endsWith(getCollectionGroupingIdentifier())) {
-                    getTemplate().dropCollection(currentCollection);
-                }
-            }
-        }
-    }
-
-    public void registerBatchId(String batchJobId) {
-        setCollectionGrouping(true);
-        setCollectionGroupingIdentifier(batchJobId);
-    }
-
-    public String getBatchJobId() {
-        return getCollectionGroupingIdentifier();
-    }
-
     @Override
     protected Class<NeutralRecord> getRecordClass() {
         return NeutralRecord.class;
     }
 
-    public void setEntityEncryption(EntityEncryption entityEncryption) {
-        this.entityEncryption = entityEncryption;
+    private static String toStagingCollectionName(String collectionName, String jobId) {
+        return collectionName + "_" + toMongoCleanId(jobId);
+    }
+
+    private static String toMongoCleanId(String id) {
+        return id.substring(id.length() - 51, id.length()).replace("-", "");
     }
 
 }

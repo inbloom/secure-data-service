@@ -51,7 +51,8 @@ public class LearningObjectiveTransformTest {
 
     @Test
     public void testPerform() {
-        Mockito.when(job.getId()).thenReturn("JOB_ID");
+        String jobId = "JOB_ID";
+        Mockito.when(job.getId()).thenReturn(jobId);
         Mockito.when(mongoAccess.getRecordRepository()).thenReturn(repo);
 
         NeutralRecord root = createNeutralRecord("root", "csn-0");
@@ -66,14 +67,15 @@ public class LearningObjectiveTransformTest {
 
         transform.perform(job);
 
-        Mockito.verify(repo).create(root);
-        Mockito.verify(repo).create(child1);
-        Mockito.verify(repo).create(child2);
-        Mockito.verify(repo).create(grandChild1);
+        Mockito.verify(repo).createForJob(root, jobId);
+        Mockito.verify(repo).createForJob(child1, jobId);
+        Mockito.verify(repo).createForJob(child2, jobId);
+        Mockito.verify(repo).createForJob(grandChild1, jobId);
 
         Assert.assertEquals("root", child1.getLocalParentIds().get(LearningObjectiveTransform.LOCAL_ID_OBJECTIVE_ID));
         Assert.assertEquals("root", child2.getLocalParentIds().get(LearningObjectiveTransform.LOCAL_ID_OBJECTIVE_ID));
-        Assert.assertEquals("child1", grandChild1.getLocalParentIds().get(LearningObjectiveTransform.LOCAL_ID_OBJECTIVE_ID));
+        Assert.assertEquals("child1",
+                grandChild1.getLocalParentIds().get(LearningObjectiveTransform.LOCAL_ID_OBJECTIVE_ID));
 
         Assert.assertEquals(transformCollection, root.getRecordType());
         Assert.assertEquals(transformCollection, child1.getRecordType());
