@@ -1,4 +1,5 @@
 require 'set'
+require 'digest'
 #equire 'approval/storage'
 
 module ApprovalEngine
@@ -112,8 +113,12 @@ module ApprovalEngine
 	# }
 	# 	#
 	def ApprovalEngine.add_disabled_user(user_info)
-		user = @@storage.create_user(user_info)
-		return user["F_EMAIL_TOKEN"]
+		new_user_info = user_info.clone 
+		new_user_info[:emailtoken] = Digest::MD5.hexdigest(user_info[:email]+user_info[:first]+user_info[:last])
+		new_user_info[:updated]    = 10
+		new_user_info[:status]     = "pending"
+		@@storage.create_user(new_user_info)
+		return new_user_info[:emailtoken]
 	end
 
 	# Verify the email address against the backend. 

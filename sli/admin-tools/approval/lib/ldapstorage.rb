@@ -1,8 +1,27 @@
+require 'net/ldap'
 
 class LDAPStorage 
-	def initialize(host, port, base, username, password)
-	end
+	# set the objectClasses 
+	OBJECT_CLASS = ["inetOrgPerson", "top"]
+	TARGET_TREE  = "ou=people,ou=DevTest,dc=slidev,dc=org"
 
+	def initialize(host, port, base, username, password)
+		@ldap_conf = { :host => host,
+			:port => port,
+     		:base => base,
+     		:auth => {
+           		:method => :simple,
+           		:username => username,
+           		:password => password
+     		}
+     	}
+     	@ldap = Net::LDAP.new ldap_conf
+     	if ldap.bind
+     		puts "Authentication successfull."
+		else
+			puts "Authentication failed."
+		end
+	end
 
 	# user_info = {
 	#     :first => "John",
@@ -10,14 +29,25 @@ class LDAPStorage
 	#     :email => "jdoe@example.com",
 	#     :password => "secret", 
 	#     :vendor => "Acme Inc."
+	#     :emailtoken ... hash string 
+	#     :updated ... datetime
+	#     :status  ... "submitted"
 	# }
-	#
-	# returns user_info with additional fields:
-	#   :emailtoken ... hash string 
-	#   :updated ... datetime
-	#   :status  ... "submitted"
-	#
 	def create_user(user_info)
+		cn = "#{user_info[:first]} #{user_info[:last]}"
+		dn = "cn=#{cn},#{TARGET_TREE}"
+		attr = {
+			:cn => cn,
+			:objectclass => OBJECT_CLASS,
+			:gn => user_info[:first]
+			:sn => user_info[:last]
+			:uid  => user_info[:email]
+			:userpassword => user_info[:password]
+			:organizationname => user_info[:vendor]
+			:seealso => user_info[:emailtoken]
+			:destinationindicator => user_info[:status]
+		}
+		result = ldap.add(:dn => dn, :attributes => attr)
 	end
 
 	# returns extended user_info
