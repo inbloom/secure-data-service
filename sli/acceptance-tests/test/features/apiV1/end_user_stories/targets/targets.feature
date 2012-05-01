@@ -11,8 +11,9 @@ Scenario: Check targets resolution after reading an assessment by ID
           And I should receive a link named "getStudents" with URI "/<ASSESSMENT URI>/<SAT ID>/<STUDENT ASSESSMENT ASSOC URI>/<STUDENT URI>"
       When I navigate to GET "/<ASSESSMENT URI>/<SAT ID>/<STUDENT ASSESSMENT ASSOC URI>/<STUDENT URI>"
       Then I should receive a return code of 200
-        And I should have a list of 1 "student" entities
+        And I should have a list of 2 "student" entities
         And I should have an entity with ID "<Marvin ID>"
+        And I should have an entity with ID "<Matt Sollars ID>"
 
 Scenario: Check targets resolution after reading a teacher by ID
    When I navigate to GET "/<TEACHER URI>/<Braverman ID>"
