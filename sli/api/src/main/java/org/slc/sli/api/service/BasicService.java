@@ -93,11 +93,29 @@ public class BasicService implements EntityService {
             return 0;
         }
         
-        if (allowed.size() > 0) {
-            neutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
+        Set<String> ids = new HashSet<String>();
+        List<NeutralCriteria> criterias = neutralQuery.getCriteria();
+        for (NeutralCriteria criteria : criterias) {
+            if (criteria.getKey().equals("_id")) {
+                @SuppressWarnings("unchecked")
+                List<String> idList = (List<String>) criteria.getValue();
+                ids.addAll(idList);
+            }
+        }
+        NeutralQuery localNeutralQuery = new NeutralQuery();
+        
+        if (allowed.size() < 0) {   //super list
+            localNeutralQuery = neutralQuery;
+        } else if (!ids.isEmpty()) {
+            Set<String> allowedSet = new HashSet<String>(allowed);
+            ids.retainAll(allowedSet);
+            List<String> finalIds = new ArrayList<String>(ids);
+            localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", finalIds));
+        } else {
+            localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
         }
         
-        return repo.count(this.collectionName, neutralQuery);
+        return repo.count(this.collectionName, localNeutralQuery);
     }
     
     /**

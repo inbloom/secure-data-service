@@ -289,7 +289,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                             .entity(new ErrorResponse(errorStatus.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
                                     "Entity not found: " + key + "=" + value)).build();
                 } else {
-                    long pagingHeaderTotalCount = repo.count(resolutionResourceName, endpointNeutralQuery);
+                    long pagingHeaderTotalCount = getTotalCount(endpointEntity.getService(), endpointNeutralQuery);
                     return addPagingHeaders(Response.ok(new EntityResponse(endpointEntity.getStoredCollectionName(),
                             finalResults)), pagingHeaderTotalCount, uriInfo).build();
                 }
