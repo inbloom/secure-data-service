@@ -104,6 +104,24 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return collectionNamesForJob;
     }
 
+    public Set<String> getCollectionFullNamesForJob(String batchJobId) {
+        Set<String> collectionNamesForJob = new HashSet<String>();
+
+        if (batchJobId != null) {
+            String jobIdPattern = "_" + toMongoCleanId(batchJobId);
+
+            Set<String> allCollectionNames = getTemplate().getCollectionNames();
+            for (String currentCollection : allCollectionNames) {
+
+                int jobPatternIndex = currentCollection.indexOf(jobIdPattern);
+                if (jobPatternIndex != -1) {
+                    collectionNamesForJob.add(currentCollection);
+                }
+            }
+        }
+        return collectionNamesForJob;
+    }
+
     public void deleteCollectionsForJob(String batchJobId) {
         if (batchJobId != null) {
             String jobIdPattern = "_" + toMongoCleanId(batchJobId);
@@ -128,7 +146,8 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
         while (it.hasNext()) {
             collectionName = it.next();
-            LOG.info("INDEXING COLLECTION " + collectionName + " = " + toStagingCollectionName(collectionName, batchJobId));
+            LOG.info("INDEXING COLLECTION " + collectionName + " = "
+                    + toStagingCollectionName(collectionName, batchJobId));
 
             if (!collectionExistsForJob(collectionName, batchJobId)) {
                 createCollectionForJob(collectionName, batchJobId);

@@ -295,7 +295,7 @@ public class PersistenceProcessor implements Processor {
     private Collection<String> getTransformedCollectionNames(Job job) {
         HashSet<String> collections = new HashSet<String>();
 
-        Iterable<String> data = neutralRecordMongoAccess.getRecordRepository().getCollectionNamesForJob(job.getId());
+        Iterable<String> data = neutralRecordMongoAccess.getRecordRepository().getCollectionFullNamesForJob(job.getId());
         Iterator<String> iter = data.iterator();
 
         while (iter.hasNext()) {
