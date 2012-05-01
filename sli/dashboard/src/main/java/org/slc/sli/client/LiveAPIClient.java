@@ -272,7 +272,7 @@ public class LiveAPIClient implements APIClient {
             List<GenericEntity> returnedEdOrgsFromAPI = getEntities(token,
                     Constants.ATTR_ED_ORGS,
                     parentEducationAgencyReferences.toString(),
-                    Collections.<String, String> emptyMap());
+                    Collections.<String, String>emptyMap());
             if (returnedEdOrgsFromAPI != null) {
                 return returnedEdOrgsFromAPI;
             }
@@ -566,7 +566,7 @@ public class LiveAPIClient implements APIClient {
             // get course Entity
             List<GenericEntity> courses = getEntities(token,
                     Constants.ATTR_COURSES, courseIds.toString(),
-                    Collections.<String, String> emptyMap());
+                    Collections.<String, String>emptyMap());
             
             // update courseMap with courseId. "id" for this entity
             for (GenericEntity course : courses) {
@@ -630,7 +630,7 @@ public class LiveAPIClient implements APIClient {
             // get school Entity
             List<GenericEntity> schools = getEntities(token,
                     Constants.ATTR_SCHOOLS, schoolIds.toString(),
-                    Collections.<String, String> emptyMap());
+                    Collections.<String, String>emptyMap());
             
             // update courseMap with courseId. "id" for this entity
             for (GenericEntity school : schools) {

@@ -315,7 +315,7 @@ public class PopulationManagerTest {
         return studentSummaries;
     }
 
-    private void addRealTranscripts(Map<String, Object> student){
+    private void addRealTranscripts(Map<String, Object> student) {
         //StudentTranscripts
         List<Map<String, Object>> studentTranscriptAssociations = new ArrayList<Map<String, Object>>();
         //7th Grade English Transcript
@@ -418,7 +418,7 @@ public class PopulationManagerTest {
         entry.put("studentId", "0d563d12-3d0c-4601-adb6-2da746d78bd5");       
         Map<String, Object> details = new LinkedHashMap<String, Object>();
         details.put("id", "6e42d32c-2be3-45de-97fe-894d4c065aa2");
-        details.put("dateAssigned", "2011-09-29");//dateAssigned=2011-09-29,
+        details.put("dateAssigned", "2011-09-29"); //dateAssigned=2011-09-29,
         entry.put("gradebookEntries", details);
         entry.put("dateFulfilled", "2011-09-29");
         gradeBookEntries.add(entry);
@@ -433,7 +433,7 @@ public class PopulationManagerTest {
         entry.put("studentId", "0d563d12-3d0c-4601-adb6-2da746d78bd5");
         details = new LinkedHashMap<String, Object>();
         details.put("id", "00f627d7-1ccd-4c63-a1b3-64e104ec73de");
-        details.put("dateAssigned", "2011-10-27");//dateAssigned=2011-09-29,
+        details.put("dateAssigned", "2011-10-27"); //dateAssigned=2011-09-29,
         entry.put("gradebookEntries", details);
         entry.put("dateFulfilled", "2011-10-27");
         gradeBookEntries.add(entry);
@@ -448,7 +448,7 @@ public class PopulationManagerTest {
         entry.put("studentId", "0d563d12-3d0c-4601-adb6-2da746d78bd5");
         details = new LinkedHashMap<String, Object>();
         details.put("id", "00f627d7-1ccd-4c63-a1b3-64e104ec73df");
-        details.put("dateAssigned", "2011-10-28");//dateAssigned=2011-09-29,
+        details.put("dateAssigned", "2011-10-28"); //dateAssigned=2011-09-29,
         entry.put("gradebookEntries", details);
         entry.put("dateFulfilled", "2011-10-28");
         gradeBookEntries.add(entry);
@@ -463,7 +463,7 @@ public class PopulationManagerTest {
         entry.put("studentId", "0d563d12-3d0c-4601-adb6-2da746d78bd5");
         details = new LinkedHashMap<String, Object>();
         details.put("id", "00f627d7-1ccd-4c63-a1b3-64e104ec73dg");
-        details.put("dateAssigned", "2011-10-28");//dateAssigned=2011-09-29,
+        details.put("dateAssigned", "2011-10-28"); //dateAssigned=2011-09-29,
         entry.put("gradebookEntries", details);
         entry.put("dateFulfilled", "dfafsadadsf");
         gradeBookEntries.add(entry);

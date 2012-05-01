@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.slc.sli.client.APIClient;
 import org.slc.sli.entity.CustomConfig;
@@ -22,17 +21,23 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+
+/**
+ * 
+ * DashboardConfigController
+ * TODO: Add Javadoc
+ *
+ */
 @Controller
 public class DashboardConfigController extends GenericLayoutController {
-	private static final Logger LOG = LoggerFactory.getLogger(DashboardConfigController.class);
-	private static final String DASHBOARD_CONFIG_FTL = "dashboard_config";
+    private static final Logger LOG = LoggerFactory.getLogger(DashboardConfigController.class);
+    private static final String DASHBOARD_CONFIG_FTL = "dashboard_config";
     private static final String CONFIG_URL = "/service/config";
     private static final String CONFIG_SAVE_URL = "/service/config/ajaxSave";
     private static final String CREDENTIALS_CODE_FOR_IT_ADMIN = "IT Admin";
@@ -79,8 +84,8 @@ public class DashboardConfigController extends GenericLayoutController {
         
         boolean isAdmin = isAdmin(staffEntity);
         if (isAdmin) {
-        	
-        	String edOrgSliId = (String) staffEntity.get("edOrgSliId");
+
+            String edOrgSliId = (String) staffEntity.get("edOrgSliId");
             
             CustomConfig customConfig = getApiClient().getEdOrgCustomData(token, edOrgSliId);
             if (customConfig != null) {
@@ -99,24 +104,24 @@ public class DashboardConfigController extends GenericLayoutController {
     }
     
     @RequestMapping(value = CONFIG_SAVE_URL, method = RequestMethod.POST)
-    @ResponseBody public String saveConfig(@RequestParam(required=true) String configString) {
+    @ResponseBody public String saveConfig(@RequestParam(required = true) String configString) {
         
-    	CustomConfigString customConfigString = new CustomConfigString(configString);
-    	DataBinder binder = new DataBinder(customConfigString);
-    	binder.setValidator(new CustomConfigValidator());
+        CustomConfigString customConfigString = new CustomConfigString(configString);
+        DataBinder binder = new DataBinder(customConfigString);
+        binder.setValidator(new CustomConfigValidator());
+        
+        // bind to the target object
+        //binder.bind(propertyValues);
+        
+        // validate the target object
+        binder.validate();
+        
+        // get BindingResult that includes any validation errors
+        BindingResult results = binder.getBindingResult();
+        if (results.hasErrors()) {
+            return "Invalid Input";
+        }
 
-    	// bind to the target object
-    	//binder.bind(propertyValues);
-
-    	// validate the target object
-    	binder.validate();
-
-    	// get BindingResult that includes any validation errors
-    	BindingResult results = binder.getBindingResult();
-    	if (results.hasErrors()) {
-    		return "Invalid Input";
-    	}
-    	
         String token = SecurityUtil.getToken();
         GenericEntity staffEntity = getApiClient().getStaffInfo(token);
         String edOrgSliId = (String) staffEntity.get("edOrgSliId");
@@ -124,10 +129,10 @@ public class DashboardConfigController extends GenericLayoutController {
        
         boolean isAdmin = isAdmin(staffEntity);
         if (isAdmin) {
-        	getApiClient().putEdOrgCustomData(token, edOrgSliId, configString);
-        	return "Success";
+            getApiClient().putEdOrgCustomData(token, edOrgSliId, configString);
+            return "Success";
         } else {
-        	return "Permission Denied";
+            return "Permission Denied";
         }
     }
 

@@ -513,7 +513,7 @@ public class PopulationManagerImpl implements PopulationManager {
                 
                 try {
                     Object dateString = currentGrade.get(Constants.ATTR_DATE_FULFILLED);
-                    if(dateString != null) {
+                    if (dateString != null) {
                         Date date = formatter.parse((String) dateString);
                         gradeDate.put(Constants.ATTR_DATE_FULFILLED, date);
                     }

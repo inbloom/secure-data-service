@@ -35,7 +35,7 @@ public class DashboardExceptionResolver extends SimpleMappingExceptionResolver {
             stackTrace = stackTrace.replaceAll("\n", "<br>");
             stackTrace = stackTrace.replaceAll("\t", "&nbsp; &nbsp; &nbsp; &nbsp;");
             if (mv == null) {
-            	mv = new ModelAndView();
+                mv = new ModelAndView();
             }
             mv.addObject("debugEnabled", true);
             mv.addObject("errorMessage", ex.getMessage());
