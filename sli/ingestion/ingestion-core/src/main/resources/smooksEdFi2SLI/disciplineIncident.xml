@@ -19,7 +19,6 @@
   </jb:bean>
 
   <jb:bean beanId="disciplineIncidentBody" class="java.util.HashMap" createOnElement="attributes">
-    <jb:value property="id" data="attributes id" />
     <jb:value property="incidentIdentifier" data="attributes IncidentIdentifier" />
     <jb:value property="incidentDate" data="attributes IncidentDate" />
     <jb:value property="incidentTime" data="attributes IncidentTime" />

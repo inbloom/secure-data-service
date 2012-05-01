@@ -37,6 +37,7 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | learningStandard    |
         | disciplineIncident          |
         | disciplineAction            |
+		| studentDisciplineIncidentAssociation|
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
@@ -69,6 +70,7 @@ Then I should see following map of entry counts in the corresponding collections
         | learningStandard            | 10    |
         | disciplineIncident          | 2     |
         | disciplineAction            | 2     |
+		| studentDisciplineIncidentAssociation| 4|
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
@@ -91,7 +93,7 @@ Then I should see following map of entry counts in the corresponding collections
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Underwater cruise          | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-03-04                 | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-04-04                 | string               |
-    And I should see "Processed 15298 records." in the resulting batch job file
+    And I should see "Processed 15302 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -144,8 +146,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentCohort.xml records considered: 15" in the resulting batch job file
     And I should see "InterchangeStudentCohort.xml records ingested successfully: 15" in the resulting batch job file
     And I should see "InterchangeStudentCohort.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentDiscipline.xml records considered: 4" in the resulting batch job file
-    And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 4" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml records considered: 8" in the resulting batch job file
+    And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
 
 @smoke @integration @IL-Sunset
@@ -183,6 +185,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentCohortAssociation    | 9     |
         | disciplineIncident          | 2     |
         | disciplineAction            | 2     |
+		| studentDisciplineIncidentAssociation| 4|
    And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 1000000000                 | string               |
@@ -247,6 +250,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentCohortAssociation    | 9     |
         | disciplineIncident          | 2     |
         | disciplineAction            | 2     |
+		| studentDisciplineIncidentAssociation| 4|
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 2                   | metaData.externalId      | 100000006                  | string               |
