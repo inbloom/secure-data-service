@@ -127,7 +127,7 @@ public class JobReportingProcessorTest {
 
         assertTrue(br.readLine().contains("jobId: " + BATCHJOBID));
         assertTrue(br.readLine().contains(
-                "[file] " + RESOURCEID + " (" + FileFormat.EDFI_XML.getCode() + "/" + FileType.XML_STUDENT.getName()
+                "[file] " + RESOURCEID + " (" + FileFormat.EDFI_XML.getCode() + "/" + FileType.XML_STUDENT_PARENT_ASSOCIATION.getName()
                         + ")"));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records considered: " + RECORDS_CONSIDERED));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records ingested successfully: " + RECORDS_PASSED));
@@ -170,7 +170,7 @@ public class JobReportingProcessorTest {
         re.setResourceId(RESOURCEID);
         re.setExternallyUploadedResourceId(RESOURCEID);
         re.setResourceName(TEMP_DIR + RESOURCEID);
-        re.update(FileFormat.EDFI_XML.getCode(), FileType.XML_STUDENT.getName(), "123456789", RECORDS_CONSIDERED,
+        re.update(FileFormat.EDFI_XML.getCode(), FileType.XML_STUDENT_PARENT_ASSOCIATION.getName(), "123456789", RECORDS_CONSIDERED,
                 RECORDS_FAILED);
         resourceEntries.add(re);
         return resourceEntries;
