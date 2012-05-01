@@ -20,17 +20,7 @@ public class CustomConfig extends LinkedHashMap<String, Config> {
     public CustomConfig() {
         super();
     }
-    
-    public CustomConfig(GenericEntity entity) {
-        super();
-        for (String key : entity.keySet()) {
-            Object value = entity.get(key);
-            if (value instanceof Config) {
-                this.put(key, (Config) value);
-            }
-        }
-    }
-    
+
     /**
      * Get the JSON representation of the CustomConfig.
      * 
