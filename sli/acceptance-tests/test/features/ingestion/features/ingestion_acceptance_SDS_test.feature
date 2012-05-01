@@ -91,8 +91,8 @@ Then I should see following map of entry counts in the corresponding collections
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-1             | string               |
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-2             | string               |
        | cohort                      | 1                   | metaData.externalId      | ACC-TEST-COH-3             | string               |
-       | disciplineIncident          | 1                   | body.incidentIdentifier  | Whack-a-mole               | string               |
-       | disciplineIncident          | 1                   | body.incidentIdentifier  | Underwater cruise          | string               |
+       | disciplineIncident          | 1                   | body.incidentIdentifier  | Tardiness                  | string               |
+       | disciplineIncident          | 1                   | body.incidentIdentifier  | Disruption                 | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-03-04                 | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-04-04                 | string               |
     And I should see "Processed 15384 records." in the resulting batch job file
