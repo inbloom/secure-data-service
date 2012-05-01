@@ -401,7 +401,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1EndUserStoryCustomEntityTests,
                      :v1StudentOptionalFieldsTests,
                      :v1SingleStudentViewTests,
-                     :v1XMLTests] do
+                     :v1XMLTests,
+                     :accountApprovalTests] do
   displayFailureReport()
 end
 
@@ -896,6 +897,11 @@ end
 desc "Run V1 Simple CRUD Test"
 task :v1SimpleCrudTests do
   runTests("test/features/apiV1/entities/crud_rc")
+end
+
+desc "Run Account Approval Tests"
+task :accountApprovalTests do
+  runTests("test/features/apiV1/end_user_stories/sandbox/AccountApproval/prod_sandbox_AccountApproval.feature")
 end
 
 ############################################################
