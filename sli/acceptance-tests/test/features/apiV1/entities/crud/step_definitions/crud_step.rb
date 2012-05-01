@@ -27,8 +27,8 @@ end
 
 $entityData = {
   "attendance" => {
-    "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085",
-    "schoolId" => "4cb03fa0-81ad-46e2-6505-09ab31af377e",
+    "studentId" => "1563ec1d-924d-4c02-8099-3a0e314ef1d4",
+    "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
     "schoolYearAttendance" => [{
       "schoolYear" => "2011-2012",
       "attendanceEvent" => [{

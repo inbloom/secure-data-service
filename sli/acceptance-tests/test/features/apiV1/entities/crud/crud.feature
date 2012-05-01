@@ -34,7 +34,7 @@ Background: Nothing yet
 Examples:
 | EntityType                     | EntityURI               | UpdateField              | UpdatedValue                                 |
 | "assessment"                   | assessments             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
-| "attendance"                   | attendances             | "schoolYearAttendance"   | "[]"                                         |
+| "attendance"                   | attendances             | "studentId"              | "274f4c71-1984-4607-8c6f-0a91db2d240a"       |
 | "cohort"                       | cohorts                 | "cohortDescription"      | "frisbee golf team"                          |
 | "course"                       | courses                 | "courseDescription"      | "Advanced Linguistic Studies"                |
 | "disciplineAction"             | disciplineActions       | "disciplineDate"         | "2012-03-18"                                 |
@@ -101,7 +101,7 @@ Examples:
 Examples:
 | EntityType                     | EntityURI               | EntityCount |
 | "assessment"                   | assessments             | 1 |
-| "attendance"                   | attendances             | 161 |
+| "attendance"                   | attendances             | 1 |
 | "cohort"                       | cohorts                 | 3 |
 | "course"                       | courses                 | 6 |
 | "disciplineAction"             | disciplineActions       | 0 |
