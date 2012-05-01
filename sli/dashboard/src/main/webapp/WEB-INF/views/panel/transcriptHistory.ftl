@@ -15,14 +15,14 @@
             {
                 subGridRowExpanded: function(subgrid_id, row_id) {
                     var select_by_row = function(data, row) {
-                        var gradeLevel = row["gradeLevel"];
+                        var gradeLevel = row["gradeLevelCode"];
                         var schoolYear = row["schoolYear"];
                         var term = row["term"];
                         var school = row["school"];
 
                         for (var i in data) {
                             var elem = data[i];
-                            if (elem["gradeLevel"] == gradeLevel &&
+                            if (elem["gradeLevelCode"] == gradeLevel &&
                                     elem["school"] == school &&
                                     elem["term"] == term &&
                                     elem["schoolYear"] == schoolYear) return elem["courses"];

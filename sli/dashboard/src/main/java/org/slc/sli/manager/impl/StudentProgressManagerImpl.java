@@ -15,6 +15,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.slc.sli.entity.util.GenericEntityEnhancer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +92,9 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
             term.put(Constants.ATTR_SCHOOL, getSchoolName(section, token));
             term.put(Constants.ATTR_SCHOOL_YEAR, getValue(session, Constants.ATTR_SCHOOL_YEAR));
             term.put(Constants.ATTR_CUMULATIVE_GPA, getGPA(session, studentId, token));
-            term.put("beginDate", getValue(session, "beginDate"));
+            term.put(Constants.ATTR_SESSION_BEGIN_DATE, getValue(session, Constants.ATTR_SESSION_BEGIN_DATE));
+
+            GenericEntityEnhancer.convertGradeLevel(term, Constants.ATTR_GRADE_LEVEL);
 
             // This isn't a new term
             if (transcripts.containsKey(term)) {
@@ -459,14 +462,15 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
     }
 
     public class SessionComparator implements Comparator<GenericEntity> {
+
         @Override
         public int compare(GenericEntity ge0, GenericEntity ge1) {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-            if (ge0.getString("beginDate") != null && ge1.getString("beginDate") != null) {
+            if (ge0.getString(Constants.ATTR_SESSION_BEGIN_DATE) != null && ge1.getString(Constants.ATTR_SESSION_BEGIN_DATE) != null) {
                 try {
-                    Date date1 = formatter.parse(ge0.getString("beginDate"));
-                    Date date2 = formatter.parse(ge1.getString("beginDate"));
+                    Date date1 = formatter.parse(ge0.getString(Constants.ATTR_SESSION_BEGIN_DATE));
+                    Date date2 = formatter.parse(ge1.getString(Constants.ATTR_SESSION_BEGIN_DATE));
 
                     return date2.compareTo(date1);
 
