@@ -236,7 +236,7 @@ def processZipWithFolder(file_name)
   new_ctl_file.close
   FileUtils.mv zip_dir + ctl_template + "-tmp", zip_dir + ctl_template
 
-  runShellCommand("cd #{zip_dir} && zip -r #{@local_file_store_path}#{file_name} *.*")
+  runShellCommand("cd #{zip_dir} && zip -r #{@local_file_store_path}#{file_name} *")
   FileUtils.rm_r zip_dir
 
   return file_name
