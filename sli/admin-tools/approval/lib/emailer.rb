@@ -15,8 +15,7 @@ require 'net/smtp'
 #email = Email.new email_conf
 #email.send_approval_email('devldapuser@slidev.org', 'TestFN', 'TestLN')
 
-class Email
-
+class Emailer
   DefaultHost = "127.0.0.1"
   DefaultPort = 25
   DefaultSenderName = "Anonymous"
@@ -42,6 +41,5 @@ class Email
       smtp.send_message message, @sender_email_addr, email_addr
     end
   end
-
 end
 
