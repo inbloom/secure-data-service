@@ -1,4 +1,4 @@
-package org.slc.sli.controller;
+package org.slc.sli.web.controller;
 
 import java.io.IOException;
 import java.util.List;
