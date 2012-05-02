@@ -20,7 +20,7 @@
 <http create-session="never" auto-config="false" use-expressions="true" entry-point-ref="entryPoint">
 
     <intercept-url pattern="/static/**" filters="none"/>    
-    <intercept-url pattern="/" access="hasRole('Educator')"/>
+    <intercept-url pattern="/" access="hasAnyRole('Educator', 'IT Administrator')"/>
     <intercept-url pattern="/studentlist" access="hasAnyRole('Educator', 'IT Administrator')"/>
     <intercept-url pattern="/studentlistcontent" access="hasAnyRole('Educator', 'IT Administrator')"/>
     <intercept-url pattern="/service/**" access="hasAnyRole('Educator', 'IT Administrator')"/>
