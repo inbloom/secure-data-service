@@ -30,7 +30,7 @@ Background: Nothing yet
   Examples:
     | ENTITY URI                  | ENTITY TYPE                | ENTITY COUNT    |
     | assessments                 | assessment                 | 1               |
-    | schools                     | school                     | 4               |
+    | schools                     | school                     | 5               |
     | students                    | student                    | 80              |
     | studentSectionAssociations  | studentSectionAssociation  | 309             |
     | courseOfferings             | sessionCourseAssociation   | 6               |

@@ -112,7 +112,7 @@ Examples:
 | "learningStandard"             | learningStandards       | 14 |
 | "parent"                       | parents                 | 1 |
 | "program"                      | programs                | 2 |
-| "school"                       | schools                 | 4 |
+| "school"                       | schools                 | 5 |
 | "section"                      | sections                | 6 |
 | "session"                      | sessions                | 5 |
 | "staff"                        | staff                   | 11 |
