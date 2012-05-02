@@ -3,7 +3,6 @@ package org.slc.sli.ingestion.service;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MongoQueueService implements QueueService {
 
-    @Autowired
+    //@Autowired
     /** I feel like there's something amiss here, can we just use Repository? */
    // private MongoTemplate batchJobMongoTemplate;
 
