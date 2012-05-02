@@ -1,0 +1,30 @@
+.panel-content {
+    margin-left: 0;
+    padding: 5px;
+    font-size: 13px;
+}
+.panel-container {
+    padding-left: 2%;
+    position:relative;
+}
+.panel-container .panel-item {
+    float:left;
+    top:0;
+    right:0;
+}
+
+.panel-left {
+	float: left;
+	top: 0;
+	right: 0;
+	width: 20%;
+	
+}
+
+.panel-right {
+    float: left;
+    top: 0;
+    right: 0;
+    width: 60%;
+    padding-left: 5%;
+}

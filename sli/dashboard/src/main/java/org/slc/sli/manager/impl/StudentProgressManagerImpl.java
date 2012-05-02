@@ -10,9 +10,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.slc.sli.entity.util.GenericEntityEnhancer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +46,8 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
     @SuppressWarnings("unchecked")
     public GenericEntity getTranscript(String token, Object studentIdObj, Config.Data config) {
 
-        Map<GenericEntity, List<GenericEntity>> transcripts = new HashMap<GenericEntity, List<GenericEntity>>();
+        SortedMap<GenericEntity, List<GenericEntity>> transcripts =
+                new TreeMap<GenericEntity, List<GenericEntity>>(new SessionComparator());
 
         String studentId = studentIdObj.toString();
         List<String> optionalFields = new LinkedList<String>();
@@ -87,6 +91,10 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
             term.put(Constants.ATTR_GRADE_LEVEL, getValue(courseTranscript, Constants.ATTR_GRADE_LEVEL_WHEN_TAKEN));
             term.put(Constants.ATTR_SCHOOL, getSchoolName(section, token));
             term.put(Constants.ATTR_SCHOOL_YEAR, getValue(session, Constants.ATTR_SCHOOL_YEAR));
+            term.put(Constants.ATTR_CUMULATIVE_GPA, getGPA(session, studentId, token));
+            term.put(Constants.ATTR_SESSION_BEGIN_DATE, getValue(session, Constants.ATTR_SESSION_BEGIN_DATE));
+
+            GenericEntityEnhancer.convertGradeLevel(term, Constants.ATTR_GRADE_LEVEL);
 
             // This isn't a new term
             if (transcripts.containsKey(term)) {
@@ -113,6 +121,22 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         GenericEntity ret = new GenericEntity();
         ret.put(TRANSCRIPT_HISTORY, transcriptData);
         return ret;
+    }
+
+    private String getGPA(Map<String, Object> session, String studentId, String token) {
+        String sessionId = getValue(session, Constants.ATTR_ID);
+        Map<String, String> params = new HashMap<String, String>();
+
+        params.put(Constants.ATTR_SESSION_ID, sessionId);
+        params.put(Constants.ATTR_STUDENT_ID, studentId);
+
+        GenericEntity academicRecord = entityManager.getAcademicRecord(token, params);
+
+        String gpa = "";
+        if (academicRecord != null) {
+            gpa = academicRecord.get(Constants.ATTR_CUMULATIVE_GPA).toString();
+        }
+        return gpa;
     }
 
     private GenericEntity getCourseData(Map<String, Object> courseTranscript, Map<String, Object> course) {
@@ -437,4 +461,25 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
         }
     }
 
+    public class SessionComparator implements Comparator<GenericEntity> {
+
+        @Override
+        public int compare(GenericEntity ge0, GenericEntity ge1) {
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+            if (ge0.getString(Constants.ATTR_SESSION_BEGIN_DATE) != null && ge1.getString(Constants.ATTR_SESSION_BEGIN_DATE) != null) {
+                try {
+                    Date date1 = formatter.parse(ge0.getString(Constants.ATTR_SESSION_BEGIN_DATE));
+                    Date date2 = formatter.parse(ge1.getString(Constants.ATTR_SESSION_BEGIN_DATE));
+
+                    return date2.compareTo(date1);
+
+                } catch (ParseException e) {
+                    return 0;
+                }
+            }
+
+            return 0;
+        }
+    }
 }
