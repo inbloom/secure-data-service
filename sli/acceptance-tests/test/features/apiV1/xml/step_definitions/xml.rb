@@ -99,7 +99,7 @@ end
 
 When /^I change the name to "([^"]*)"$/ do |newName|
   @result = <<-eos
-<educationOrganization>   
+<school>   
     <schoolCategories>
         <schoolCategories>Elementary School</schoolCategories>
     </schoolCategories>
@@ -130,7 +130,7 @@ When /^I change the name to "([^"]*)"$/ do |newName|
         </telephone>
     </telephone>
     <nameOfInstitution>#{newName}</nameOfInstitution>
-</educationOrganization>
+</school>
 eos
 end
 
