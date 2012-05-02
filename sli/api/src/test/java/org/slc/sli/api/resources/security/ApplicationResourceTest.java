@@ -142,6 +142,7 @@ public class ApplicationResourceTest {
         Response resp = resource.createApplication(app, headers, uriInfo);
         assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
     }
+    
 
     @Test
     public void testBadCreate2() {   //include client_id in POST
@@ -224,11 +225,15 @@ public class ApplicationResourceTest {
     @Test
     public void testGoodGetAsOperator() {
         EntityBody toGet = getNewApp();
-        
+
         // Mock repo can't do real queries for arrays.
-        toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, SecurityContextInjector.ED_ORG_ID);
+
         Response created = resource.createApplication(toGet, headers, uriInfo);
         assertEquals(STATUS_CREATED, created.getStatus());
+        toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, SecurityContextInjector.ED_ORG_ID);
+        String uuid = parseIdFromLocation(created);
+        created = resource.update(uuid, toGet, headers, uriInfo);
+        assertEquals(STATUS_NO_CONTENT, created.getStatus());
         SecurityContextHolder.clearContext();
         injector.setOperatorContext();
         Response resp = resource.getApplications(0, 50, headers, uriInfo);
@@ -239,25 +244,59 @@ public class ApplicationResourceTest {
     }
     
     @Test
-    public void testEmptyGetAsOperator() {
+    public void testGoodGetAsDeveloper() {
         EntityBody toGet = getNewApp();
         // Mock repo can't do real queries for arrays.
-        toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, "3333-3333-3333");
+        
+        Response created = resource.createApplication(toGet, headers, uriInfo);
+        String uuid = parseIdFromLocation(created);
+        assertEquals(STATUS_CREATED, created.getStatus());
+        Response resp = resource.getApplications(0, 50, headers, uriInfo);
+        assertEquals(STATUS_FOUND, resp.getStatus());
+        EntityResponse entityResponse = (EntityResponse) resp.getEntity();
+        List<EntityBody> bodies = (List) entityResponse.getEntity();
+        assertTrue(bodies.size() == 1);
+        assertTrue(bodies.get(0).get("id").equals(uuid));
+    }
+    
+    @Test
+    public void testEmptyGetAsAdmin() {
+        EntityBody toGet = getNewApp();
+        // Mock repo can't do real queries for arrays.
         Response created = resource.createApplication(toGet, headers, uriInfo);
         assertEquals(STATUS_CREATED, created.getStatus());
+        toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, "3333-3333-3333");
         String uuid = parseIdFromLocation(created);
+        created = resource.update(uuid, toGet, headers, uriInfo);
+        assertEquals(STATUS_NO_CONTENT, created.getStatus());
         SecurityContextHolder.clearContext();
-        injector.setOperatorContext();
+        injector.setAdminContextWithElevatedRights();
         Response resp = resource.getApplications(0, 50, headers, uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
         EntityResponse entityResponse = (EntityResponse) resp.getEntity();
         List<EntityBody> bodies = (List) entityResponse.getEntity();
         assertTrue(bodies.size() == 0);
-        for (EntityBody body : bodies) {
-            assertFalse(!body.get("id").equals(uuid));
-        }
     }
-
+    
+    @Test
+    public void testGoodGetAsAdmin() {
+        EntityBody toGet = getNewApp();
+        // Mock repo can't do real queries for arrays.
+        Response created = resource.createApplication(toGet, headers, uriInfo);
+        assertEquals(STATUS_CREATED, created.getStatus());
+        toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, SecurityContextInjector.ED_ORG_ID);
+        String uuid = parseIdFromLocation(created);
+        created = resource.update(uuid, toGet, headers, uriInfo);
+        assertEquals(STATUS_NO_CONTENT, created.getStatus());
+        SecurityContextHolder.clearContext();
+        injector.setAdminContextWithElevatedRights();
+        Response resp = resource.getApplications(0, 50, headers, uriInfo);
+        assertEquals(STATUS_FOUND, resp.getStatus());
+        EntityResponse entityResponse = (EntityResponse) resp.getEntity();
+        List<EntityBody> bodies = (List) entityResponse.getEntity();
+        assertTrue(bodies.size() == 1);
+    }
+    
     @Test
     public void testBadGet() {
         String uuid = "9999999999";
