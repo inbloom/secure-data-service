@@ -31,33 +31,38 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
             return false;
         }
 
-        boolean hasValidFiles = false;
+        boolean isValid = true;
         for (IngestionFileEntry entry : entries) {
-            File file = item.getLandingZone().getFile(entry.getFileName());
 
-            if (file == null) {
-                fail(callback, getFailureMessage("SL_ERR_MSG3", entry.getFileName()));
+            if (hasPathInName(entry.getFileName())) {
+                fail(callback, getFailureMessage("SL_ERR_MSG14", entry.getFileName()));
+                isValid = false;
             } else {
-                entry.setFile(file);
 
-                if (!isValid(new FileEntryDescriptor(entry, item.getLandingZone()), callback)) {
-                    // remove the file from the entry since it did not pass the validation
-                    entry.setFile(null);
+                File file = item.getLandingZone().getFile(entry.getFileName());
+                if (file == null) {
+                    fail(callback, getFailureMessage("SL_ERR_MSG3", entry.getFileName()));
+                    isValid = false;
                 } else {
-                    hasValidFiles = true;
+                    entry.setFile(file);
+
+                    if (!isValid(new FileEntryDescriptor(entry, item.getLandingZone()), callback)) {
+                        // remove the file from the entry since it did not pass the validation
+                        entry.setFile(null);
+                        isValid = false;
+                    }
                 }
             }
         }
-
         // If all the entries failed and we haven't logged an error yet
         // then this is a case of 'no valid files in control file'
         // (i.e., SL_ERR_MSG8)
-        if (!hasValidFiles && !callback.hasErrors()) {
+        if (!isValid && !callback.hasErrors()) {
             fail(callback, getFailureMessage("SL_ERR_MSG8"));
             return false;
         }
 
-        return true;
+        return isValid;
     }
 
     protected boolean isValid(FileEntryDescriptor item, ErrorReport callback) {
@@ -68,6 +73,10 @@ public class ControlFileValidator extends SimpleValidatorSpring<ControlFileDescr
         }
 
         return true;
+    }
+
+    private static boolean hasPathInName(String fileName) {
+        return (fileName.contains(File.separator) || fileName.contains("/"));
     }
 
     public List<IngestionFileValidator> getIngestionFileValidators() {

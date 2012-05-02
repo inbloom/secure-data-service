@@ -97,7 +97,7 @@ public class ApplicationResourceTest {
         injector.setDeveloperContext();
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
-
+        resource.setAutoRegister(false);
         headers = mock(HttpHeaders.class);
         when(headers.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(headers.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
@@ -106,7 +106,7 @@ public class ApplicationResourceTest {
     @After
     public void tearDown() throws Exception {
         SecurityContextHolder.clearContext();
-        resource.setAutoRegister(false);
+
         repo.deleteAll("application");
     }
 

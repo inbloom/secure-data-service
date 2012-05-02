@@ -164,6 +164,15 @@ public final class Constants {
     public static final String ATTR_GRADE_LEVEL_ASSESSED = "gradeLevelAssessed";
     public static final String ATTR_STUDENT_GRADEBOOK_ENTRIES = "studentGradebookEntries";
     public static final String ATTR_LETTER_GRADE_EARNED = "letterGradeEarned";
+
+    public static final String ATTR_CUMULATIVE_GPA = "cumulativeGradePointAverage";
+    public static final String ATTR_STUDENT_ACADEMIC_RECORDS = "studentAcademicRecords";
+    public static final String ATTR_SESSION_BEGIN_DATE = "beginDate";
+
+    public static final String ATTR_GRADE_EARNED = "gradeEarned";
+    public static final String ATTR_SEARCH_STRING = "searchString";
+    public static final String ATTR_NUM_RESULTS = "numResults";    
+
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
 

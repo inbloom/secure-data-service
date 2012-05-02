@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
-<InterchangeStudent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../sli/common/domain/src/main/resources/edfiXsd/Interchange-Student.xsd">
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
 	<Student>
 		<StudentUniqueStateId>100000001</StudentUniqueStateId>
 		<Name>
@@ -323,4 +323,4 @@
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
 		<Section504Disabilities/>
 	</Student>
-</InterchangeStudent>
+</InterchangeStudentParent>

@@ -1,0 +1,43 @@
+{
+    "keyFields" : ["body.studentId","body.disciplineIncidentId"],
+    "references" :
+    [{
+        "fieldPath" : "body.studentId",
+        "ref" :
+        {
+	        "collectionName" : "student",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    { 
+        "fieldPath" : "body.disciplineIncidentId",
+        "ref" :
+        {
+            "collectionName" : "disciplineIncident",
+            "choiceOfFields" :
+            [
+                [
+                    { 
+                        "path" : "body.incidentIdentifier",
+                        "values" : 
+                        [
+                            {"valueSource" : "body.refIncidentIdentifier"}
+                        ]
+                    }
+                ]
+            ]
+        }
+    }]
+}
+
