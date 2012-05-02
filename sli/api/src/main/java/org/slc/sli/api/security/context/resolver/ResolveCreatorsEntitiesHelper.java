@@ -1,5 +1,7 @@
 package org.slc.sli.api.security.context.resolver;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -35,8 +38,14 @@ public class ResolveCreatorsEntitiesHelper {
     	if (toEntity == null) {
     		toEntity = toEntityIn;
     	}
-
-        SLIPrincipal user = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	
+    	//would be null early in the oauth process before we've fully created an Authentication for the user
+    	if (auth == null) {
+    	    return new ArrayList<String>();
+    	}
+        SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
         String userId = user.getEntity().getEntityId();
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("metaData.createdBy", NeutralCriteria.OPERATOR_EQUAL, userId, false));
         nq.addCriteria(new NeutralCriteria("metaData.isOrphaned", NeutralCriteria.OPERATOR_EQUAL, "true", false));
