@@ -36,9 +36,9 @@ public class UserEdOrgManagerImplTest {
             
             private String customConfigJson = "{}";
             
-            public GenericEntity getEdOrgCustomData(String token, String id) {
+            public CustomConfig getEdOrgCustomData(String token, String id) {
                 Gson gson = new GsonBuilder().create();
-                GenericEntity customConfig = gson.fromJson(customConfigJson, GenericEntity.class);
+                CustomConfig customConfig = gson.fromJson(customConfigJson, CustomConfig.class);
                 return customConfig;
             }
             

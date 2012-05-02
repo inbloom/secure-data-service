@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.CommandResult;
@@ -42,6 +43,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     private IdConverter idConverter;
 
+    private Map<String, Boolean> collectionExists = new ConcurrentHashMap<String, Boolean>();
+
     @Autowired
     private MongoQueryConverter queryConverter;
 
@@ -72,9 +75,15 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     public T create(T record, String collectionName) {
 //        template.ensureIndex(new Index("metaData.externalId", Order.ASCENDING), collectionName);  // NO!!!
-        template.save(record, getComposedCollectionName(collectionName));
+        String collection = getComposedCollectionName(collectionName);
+        template.save(record, collection);
         LOG.debug(" create a record in collection {} with id {}", new Object[] {
-                getComposedCollectionName(collectionName), getRecordId(record) });
+                collection, getRecordId(record) });
+
+        if (!collectionExists.containsKey(collection)) {
+            collectionExists.put(collection, Boolean.TRUE);
+        }
+
         return record;
     }
 
@@ -303,13 +312,24 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
+    /**The existing collections have been cached
+     * to avoid unnecessary DB queries.
+     *
+     */
     public boolean collectionExists(String collection) {
-        return template.collectionExists(getComposedCollectionName(collection));
+        return collectionExists.containsKey(getComposedCollectionName(collection));
     }
 
     @Override
+    /**
+     * This function assumes the collection does not exists
+     *
+     * @author tke
+     */
     public void createCollection(String collection) {
-        template.createCollection(getComposedCollectionName(collection));
+        String collectionName = getComposedCollectionName(collection);
+        template.createCollection(collectionName);
+        collectionExists.put(collectionName, Boolean.TRUE);
     }
 
     @Override

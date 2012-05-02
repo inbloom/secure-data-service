@@ -17,6 +17,31 @@ Transform /^<(.+)>$/ do |template|
   id
 end
 
+Transform /^<(.+)><(.+)>$/ do |template1,template2|
+  id = template1 + "/" + template2
+  id
+end
+
+Transform /^<(.+)><(.+)><(.+)>$/ do |template1,template2,template3|
+  id = template1 + "/" + template2 + "/" + template3
+  id
+end
+
+Transform /^<(.+)><(.+)><(.+)><(.+)>$/ do |template1,template2,template3,template4|
+  id = template1 + "/" + template2 + "/" + template3 + "/" + template4
+  id
+end
+
+Transform /^<(.+)><(.+)><(.+)><(.+)><(.+)>$/ do |template1,template2,template3,template4,template5|
+  id = template1 + "/" + template2 + "/" + template3 + "/" + template4 + "/" + template5
+  id
+end
+
+Transform /^<(.+)><(.+)><(.+)><(.+)><(.+)><(.+)>$/ do |template1,template2,template3,template4,template5,template6|
+  id = template1 + "/" + template2 + "/" + template3 + "/" + template4 + "/" + template5 + "/" + template6
+  id
+end
+
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
@@ -33,23 +58,38 @@ end
 
 Given /^a valid XML document for a new school entity$/ do
   @result = <<-eos
-<school>
-    <schoolCategories>Elementary School</schoolCategories>
-    <gradesOffered>Fifth grade</gradesOffered>
-    <gradesOffered>Fourth grade</gradesOffered>
-    <gradesOffered>Sixth grade</gradesOffered>
-    <organizationCategories>School</organizationCategories>
-    <address>
-        <addressType>Physical</addressType>
-        <streetNumberName>123 Main Street</streetNumberName>
-        <city>Lebanon</city>
-        <stateAbbreviation>KS</stateAbbreviation>
-        <postalCode>66952</postalCode>
-        <nameOfCounty>Smith County</nameOfCounty>
-    </address>
-    <stateOrganizationId>152901001</stateOrganizationId>
-    <nameOfInstitution>CRUD Test Elementary School</nameOfInstitution>
-</school>
+  <school>        
+        <schoolCategories>
+            <schoolCategories>Elementary School</schoolCategories>
+        </schoolCategories>
+        <gradesOffered>
+            <gradesOffered>Third grade</gradesOffered>
+            <gradesOffered>Fifth grade</gradesOffered>
+            <gradesOffered>Fourth grade</gradesOffered>
+            <gradesOffered>Sixth grade</gradesOffered>
+        </gradesOffered>
+        <organizationCategories>
+            <organizationCategories>School</organizationCategories>
+        </organizationCategories>
+        <address>
+            <address>
+                <addressType>Physical</addressType>
+                <streetNumberName>123 Main Street</streetNumberName>
+                <city>Lebanon</city>
+                <stateAbbreviation>KS</stateAbbreviation>
+                <postalCode>66952</postalCode>
+                <nameOfCounty>Smith County</nameOfCounty>
+            </address>
+        </address>        
+        <stateOrganizationId>152901001</stateOrganizationId>
+        <telephone>
+            <telephone>
+                <institutionTelephoneNumberType>Main</institutionTelephoneNumberType>
+                <telephoneNumber>(785) 667-6006</telephoneNumber>
+            </telephone>
+        </telephone>
+        <nameOfInstitution>Apple Alternative Elementary School</nameOfInstitution>
+    </school>
 eos
 end
 
@@ -59,25 +99,35 @@ end
 
 When /^I change the name to "([^"]*)"$/ do |newName|
   @result = <<-eos
-<school>
-    <schoolCategories>Elementary School</schoolCategories>
-    <gradesOffered>Third grade</gradesOffered>
-    <gradesOffered>Fifth grade</gradesOffered>
-    <gradesOffered>Fourth grade</gradesOffered>
-    <gradesOffered>Sixth grade</gradesOffered>
-    <organizationCategories>School</organizationCategories>
+<school>   
+    <schoolCategories>
+        <schoolCategories>Elementary School</schoolCategories>
+    </schoolCategories>
+    <gradesOffered>
+        <gradesOffered>Third grade</gradesOffered>
+        <gradesOffered>Fifth grade</gradesOffered>
+        <gradesOffered>Fourth grade</gradesOffered>
+        <gradesOffered>Sixth grade</gradesOffered>
+    </gradesOffered>
+    <organizationCategories>
+        <organizationCategories>School</organizationCategories>
+    </organizationCategories>
     <address>
-        <addressType>Physical</addressType>
-        <streetNumberName>123 Main Street</streetNumberName>
-        <city>Lebanon</city>
-        <stateAbbreviation>KS</stateAbbreviation>
-        <postalCode>66952</postalCode>
-        <nameOfCounty>Smith County</nameOfCounty>
-    </address>
+        <address>
+            <addressType>Physical</addressType>
+            <streetNumberName>123 Main Street</streetNumberName>
+            <city>Lebanon</city>
+            <stateAbbreviation>KS</stateAbbreviation>
+            <postalCode>66952</postalCode>
+            <nameOfCounty>Smith County</nameOfCounty>
+        </address>
+    </address>    
     <stateOrganizationId>152901001</stateOrganizationId>
     <telephone>
-        <institutionTelephoneNumberType>Main</institutionTelephoneNumberType>
-        <telephoneNumber>(785) 667-6006</telephoneNumber>
+        <telephone>
+            <institutionTelephoneNumberType>Main</institutionTelephoneNumberType>
+            <telephoneNumber>(785) 667-6006</telephoneNumber>
+        </telephone>
     </telephone>
     <nameOfInstitution>#{newName}</nameOfInstitution>
 </school>
@@ -94,11 +144,8 @@ Then /^I should receive an XML document$/ do
 end
 
 Then /^I should see "([^\"]*)" is "([^\"]*)"$/ do |key, value|
-  if !defined? @node
-    @node = @result.elements[1]
-  end
-  assert(@node.elements["#{key}"] != nil, "Cannot find element #{key}")
-  assert(@node.elements["#{key}"].text == value, "Value does not match")
+  assert(@result.elements["#{key}"] != nil, "Cannot find element #{key}")
+  assert(@result.elements["#{key}"].text == value, "Value does not match")
 end
 
 Then /^I should see each entity's "([^\"]*)" is "([^\"]*)"$/ do |key, value|

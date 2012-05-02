@@ -5381,19 +5381,6 @@
     <SectionReference>
       <SectionIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <UniqueSectionCode>7th Grade English - Sec 5</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </StudentSectionAssociation>
-  <StudentSectionAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>800000025</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <SectionReference>
-      <SectionIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         <UniqueSectionCode>6th Grade English - Sec 4</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
@@ -5467,7 +5454,7 @@
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>800000026</StudentUniqueStateId>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <SectionReference>
