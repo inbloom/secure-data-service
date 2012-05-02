@@ -16,15 +16,21 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName              | count |
      | assessment                  | 1     |
    And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter                                                        | searchValue                                      |
-     | assessment                  | 1                   | body.assessment.objectiveAssessment.assessmentItem.identificationCode  | AssessmentItem-2 |
-     | assessment                  | 1                   | body.assessment.objectiveAssessment.assessmentItem.identificationCode  | AssessmentItem-1 |
-     | assessment                  | 1                   | body.assessment.objectiveAssessment.assessmentItem.learningStandardReference.learningStandardId  | G.SRT.2 |
-     | assessment                  | 3                   | body.assessment.objectiveAssessment.assessmentItem.learningStandardReference.learningStandardId  | Reading: Informational Text |
+     | collectionName              | expectedRecordCount | searchParameter                                                                          | searchValue      |
+     | assessment                  | 1                   | body.objectiveAssessment.0.assessmentItem.0.identificationCode                           | AssessmentItem-2 |     
+     | assessment                  | 1                   | body.objectiveAssessment.1.assessmentItem.0.identificationCode                           | AssessmentItem-2 |
+     | assessment                  | 1                   | body.objectiveAssessment.1.assessmentItem.1.identificationCode                           | AssessmentItem-3 |
+     | assessment                  | 1                   | body.objectiveAssessment.2.assessmentItem.0.identificationCode                           | AssessmentItem-1 |     
+     | assessment                  | 1                   | body.assessmentItem.0.identificationCode                                                 | AssessmentItem-3 |
+     | assessment                  | 1                   | body.assessmentItem.1.identificationCode                                                 | AssessmentItem-4 |    
+     | assessment                  | 1                   | body.objectiveAssessment.0.assessmentItem.0.learningStandardReference.learningStandardId | G-C.4 |
+     | assessment                  | 1                   | body.objectiveAssessment.0.assessmentItem.1.learningStandardReference.learningStandardId | G.SRT.2 |
+     | assessment                  | 1                   | body.assessmentItem.0.learningStandardReference.learningStandardId                       | G.SRT.5 |
+     | assessment                  | 1                   | body.assessmentItem.1.learningStandardReference.learningStandardId                       | G.SRT.6 |     
  
-  And I should see "Processed 16 records." in the resulting batch job file
+  And I should see "Processed 18 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "actAssessmentCCSMapping.xml records considered: 16" in the resulting batch job file
-  And I should see "actAssessmentCCSMapping.xml records ingested successfully: 16" in the resulting batch job file
+  And I should see "actAssessmentCCSMapping.xml records considered: 18" in the resulting batch job file
+  And I should see "actAssessmentCCSMapping.xml records ingested successfully: 18" in the resulting batch job file
   And I should see "actAssessmentCCSMapping.xml records failed: 0" in the resulting batch job file
   
