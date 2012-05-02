@@ -35,6 +35,7 @@ import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
+import org.slc.sli.manager.ApiClientManager;
 import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.util.Constants;
@@ -49,10 +50,12 @@ import org.slc.sli.view.TimedLogic2;
  * @author Robert Bloh rbloh@wgen.net
  *
  */
-public class PopulationManagerImpl implements PopulationManager {
+public class PopulationManagerImpl extends ApiClientManager implements PopulationManager {
 
     private static final String ATTENDANCE_TARDY = "Tardy";
     private static final String ATTENDANCE_ABSENCE = "Absence";
+
+    private static final String STUDENT_CACHE = "user.student";
 
     private static Logger log = LoggerFactory.getLogger(PopulationManagerImpl.class);
 
@@ -727,7 +730,12 @@ public class PopulationManagerImpl implements PopulationManager {
     @Override
     public GenericEntity getStudent(String token, Object studentId, Config.Data config) {
         String key = (String) studentId;
-        return entityManager.getStudentForCSIPanel(token, key);
+        GenericEntity student = getFromCache(STUDENT_CACHE, token, key);
+        if (student == null) {
+            student = entityManager.getStudentForCSIPanel(token, key);
+            putToCache(STUDENT_CACHE, token, key, student);
+        }
+        return student;
     }
 
     /*
@@ -764,8 +772,10 @@ public class PopulationManagerImpl implements PopulationManager {
         NumberFormat nf = NumberFormat.getNumberInstance();
         nf.setMaximumFractionDigits(0);
         int tardyCount = 0, eAbsenceCount = 0, uAbsenceCount = 0, totalCount = 0;
+        String date;
         for (GenericEntity entry : attendanceList) {
-            month = dtf.parseDateTime((String) entry.get(Constants.ATTR_ATTENDANCE_DATE)).toString(dtfMonth);
+            date = (String) entry.get(Constants.ATTR_ATTENDANCE_DATE);
+            month = (date == null) ? null : dtf.parseDateTime(date).toString(dtfMonth);
             if (currentMonth == null) {
                 currentMonth = month;
             } else if (!currentMonth.equals(month)) {
@@ -786,12 +796,14 @@ public class PopulationManagerImpl implements PopulationManager {
                 totalCount = 0;
             }
             String value = (String) entry.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
-            if (value.contains(ATTENDANCE_TARDY)) {
-                tardyCount++;
-            } else if (value.contains("Excused Absence")) {
-                eAbsenceCount++;
-            } else if (value.contains("Unexcused Absence")) {
-                uAbsenceCount++;
+            if (value != null) {
+                if (value.contains(ATTENDANCE_TARDY)) {
+                    tardyCount++;
+                } else if (value.contains("Excused Absence")) {
+                    eAbsenceCount++;
+                } else if (value.contains("Unexcused Absence")) {
+                    uAbsenceCount++;
+                }
             }
             totalCount++;
         }

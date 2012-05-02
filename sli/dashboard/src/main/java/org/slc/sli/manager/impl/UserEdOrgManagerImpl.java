@@ -13,10 +13,6 @@ import java.util.Vector;
 
 import com.googlecode.ehcache.annotations.Cacheable;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-
 import org.slc.sli.entity.Config.Data;
 import org.slc.sli.entity.CustomConfig;
 import org.slc.sli.entity.EdOrgKey;
@@ -37,24 +33,6 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     private static final String USER_ED_ORG_CACHE = "user.district";
     //TODO: config code does not belong here
     private static final String USER_CONFIG_CACHE = "user.panel.config";
-
-    private class CacheValue<T> {
-        T value;
-
-        CacheValue(T value) {
-            this.value = value;
-        }
-
-        T get() {
-            return value;
-        }
-    }
-
-    private CacheManager cacheManager;
-
-    public void setCacheManager(CacheManager cacheManager) {
-        this.cacheManager = cacheManager;
-    }
 
 
     private GenericEntity getParentEducationalOrganization(String token, GenericEntity edOrgOrSchool) {
@@ -121,56 +99,6 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         return schools;
     }
 
-    /**
-     * Add object to cache by user token if cacheManager is configured
-     * @param cacheName - cache name
-     * @param token - user token
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    private <T> CacheValue<T> getCacheValueFromCache(String cacheName, String token) {
-        if (cacheManager != null) {
-            Cache cache = cacheManager.getCache(cacheName);
-            if (cache != null) {
-                Element elem = cache.get(token);
-                if (elem != null) {
-                    return new CacheValue<T>((T) elem.getValue());
-                }
-            }
-        }
-        return null;
-    }
-
-    private <T> T getFromCache(String cacheName, String token) {
-        CacheValue<T> value = getCacheValueFromCache(cacheName, token);
-        return value == null ? null : value.get();
-    }
-
-    /**
-     * Put cached object by user token if cacheManager is configured
-     * @param cacheName - cache name
-     * @param token - user token
-     * @param value - value to cache
-     */
-    private <T> void putToCache(String cacheName, String token, T value) {
-        if (cacheManager != null) {
-            Cache cache = cacheManager.getCache(cacheName);
-            if (cache != null) {
-                cache.put(new Element(token, value));
-            }
-        }
-    }
-
-    /**
-     * remove object from cache
-     * @param cacheName
-     * @param token
-     */
-    private void removeFromCache(String cacheName, String token) {
-        if (cacheManager != null) {
-            cacheManager.getCache(cacheName).remove(token);
-        }
-    }
 
     /**
      * Returns the institutional hierarchy visible to the user with the given
@@ -318,8 +246,8 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         CacheValue<CustomConfig> value = getCacheValueFromCache(USER_CONFIG_CACHE, token);
         CustomConfig config = null;
         if (value == null) {
-          config = getApiClient().getEdOrgCustomData(token, getUserEdOrg(token).getSliId());
-          putToCache(USER_CONFIG_CACHE, token, config);
+            config = getApiClient().getEdOrgCustomData(token, getUserEdOrg(token).getSliId());
+            putToCache(USER_CONFIG_CACHE, token, config);
         } else {
             config = value.get();
         }
