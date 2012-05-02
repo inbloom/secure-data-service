@@ -41,7 +41,7 @@ public class ZipFileValidatorTest {
     @Test
     public void noControlFile() throws FileNotFoundException {
 
-        file = IngestionTest.getFile("zip/NocontrolFile.zip");
+        file = IngestionTest.getFile("zip/NoControlFile.zip");
         boolean isValid = zipFileValidator.isValid(file, errorReport);
         Assert.assertFalse(isValid);
         Assert.assertEquals("ERROR: No manifest file found in .zip archive " + file.getName() + ". Please resubmit.", errorReport.getFaults().get(0).toString());

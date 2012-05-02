@@ -42,7 +42,7 @@ public class ControlFileValidatorTest {
     private File xmlFile;
     private ControlFileValidator cfv;
     private final String fileName = "Test.xml";
-    private final String path = "c\\test\\";
+    private final String path = String.format("%1$shome%1$slandingzone%1$stest%1$s", File.separator);
 
     @Before
     public void setup() {
