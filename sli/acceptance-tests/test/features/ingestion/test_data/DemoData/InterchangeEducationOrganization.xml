@@ -307,7 +307,7 @@
   </Course>
 
   <School>
-    <StateOrganizationId>255901001</StateOrganizationId>
+    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
      <EducationOrgIdentificationCode IdentificationSystem="School">
           <ID>South Daybreak Elementary</ID>
      </EducationOrgIdentificationCode>
@@ -353,7 +353,7 @@
     </LocalEducationAgencyReference>
   </School>
   <School>
-    <StateOrganizationId>255901107</StateOrganizationId>
+    <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
      <EducationOrgIdentificationCode IdentificationSystem="School">
           <ID>East Daybreak Junior High</ID>
      </EducationOrgIdentificationCode>
@@ -491,7 +491,7 @@
     </LocalEducationAgencyReference>
   </School>
   <School>
-    <StateOrganizationId>255901044</StateOrganizationId>
+    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
      <EducationOrgIdentificationCode IdentificationSystem="School">
           <ID>Daybreak Central High</ID>
      </EducationOrgIdentificationCode>

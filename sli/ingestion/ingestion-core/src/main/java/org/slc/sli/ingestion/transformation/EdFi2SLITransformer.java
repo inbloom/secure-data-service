@@ -117,8 +117,10 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 Entity matchSession = entityRepository.findById("session", (String) matchSSA.getBody().get("sessionId"));
                 session.setEntityId(matchSession.getEntityId());
                 session.getMetaData().putAll((matchSession.getMetaData()));
+                session.getMetaData().put(EntityMetadataKey.EXTERNAL_ID.getKey(), session.getBody().get("sessionName"));
             } else {
                 session.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), entity.getMetaData().get(EntityMetadataKey.TENANT_ID.getKey()));
+                session.getMetaData().put(EntityMetadataKey.EXTERNAL_ID.getKey(), session.getBody().get("sessionName"));
             }
             entity.getBody().put("session", session);
         } else {
