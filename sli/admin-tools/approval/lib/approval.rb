@@ -54,14 +54,14 @@ module ApprovalEngine
 	# 
 	def ApprovalEngine.change_user_status(email_address, transition)
 		user = @@storage.read_user(email_address)
-		status = user[F_STATUS]
+		status = user[:status]
 		target = FSM[status]
 
 		# make sure this is not a transition to verify an eamil address. 
 		raise "Cannot transition directly from state #{status}" if status==STATE_SUBMITTED
 
 		if (!target) || (!target.key?(transition))
-			raise "Current status '#{user[F_STATUS]}' does not allow transition '#{transition}'."
+			raise "Current status '#{user[:status]}' does not allow transition '#{transition}'."
 		end
 
 		# set the new user status 
@@ -137,7 +137,7 @@ module ApprovalEngine
 		user = @@storage.read_user_emailtoken(emailtoken)
 		raise "Could not find user for email id #{email_hash}." if !user
 
-		user[F_STATUS] = STATE_PENDING
+		user[:status] = STATE_PENDING
 		@@storage.update_status(user)
 	end
 

@@ -28,8 +28,6 @@ class LDAPStorage
 	def initialize(host, port, base, username, password)
      	@people_base = "ou=people,#{base}"
      	@group_base  = "ou=groups,#{base}"
-     	puts "People base:#{@people_base}"
-     	puts "Group  base:#{@group_base}"
 		@ldap_conf = { :host => host,
 			:port => port,
      		:base => @people_base,
@@ -56,16 +54,16 @@ class LDAPStorage
 	def create_user(user_info)
 		cn = user_info[:email]
 		dn = get_DN(user_info[:email])
-		puts "cn: #{cn}\ndn: #{dn}\npassword: #{user_info[:password]}"
-		puts user_info[:vendor]
+		#puts "cn: #{cn}\ndn: #{dn}\npassword: #{user_info[:password]}"
+		#puts user_info[:vendor]
 		attr = {
 			:cn => cn,
 			:objectclass => OBJECT_CLASS,
 		}
 
-		puts "----"
-		puts "#{ENTITY_ATTR_MAPPING.keys().sort}"
-		puts "#{user_info.keys().sort}"
+		#puts "----"
+		#puts "#{ENTITY_ATTR_MAPPING.keys().sort}"
+		#puts "#{user_info.keys().sort}"
 		if ENTITY_ATTR_MAPPING.keys().sort != user_info.keys().sort
 		 	raise "The following attributes #{ENTITY_ATTR_MAPPING.keys} need to be set" 
 		end
