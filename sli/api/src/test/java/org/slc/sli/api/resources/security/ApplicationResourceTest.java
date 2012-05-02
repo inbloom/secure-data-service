@@ -214,10 +214,7 @@ public class ApplicationResourceTest {
 
     @Test
     public void testGoodGet() {
-        EntityBody toGet = getNewApp();
-        Response created = resource.createApplication(toGet, headers, uriInfo);
-        assertEquals(STATUS_CREATED, created.getStatus());
-        String uuid = parseIdFromLocation(created);
+        String uuid = createApp();
         Response resp = resource.getApplication(uuid, headers, uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
     }
@@ -333,6 +330,23 @@ public class ApplicationResourceTest {
         app.put("description", "coolest app ever.");
         assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
 
+    }
+    
+    @Test
+    public void testSandboxAutoAuthorize() throws Exception {
+        resource.setAutoRegister(true);
+        String uuid = createApp();
+        EntityBody app = getNewApp();
+        app.put(ApplicationResource.AUTHORIZED_ED_ORGS, "12341234");
+        Response updated = resource.update(uuid, app, headers, uriInfo);
+        assertEquals(STATUS_NO_CONTENT, updated.getStatus());
+    }
+    
+    private String createApp() {
+        EntityBody app = getNewApp();
+        Response created = resource.createApplication(app, headers, uriInfo);
+        assertEquals(STATUS_CREATED, created.getStatus());
+        return parseIdFromLocation(created);
     }
     
     @Test
