@@ -40,7 +40,7 @@ public class JacksonXMLMsgBodyReader implements MessageBodyReader<EntityBody> {
                                    InputStream entityStream) throws IOException, WebApplicationException {
         EntityBody body = null;
 
-        if (entityStream != null && entityStream.available() != 0) {
+        if (entityStream != null) {
             XmlMapper xmlMapper = new XmlMapper();
             xmlMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
             xmlMapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
