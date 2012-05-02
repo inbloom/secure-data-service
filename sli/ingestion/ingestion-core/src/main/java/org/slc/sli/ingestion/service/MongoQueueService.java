@@ -6,9 +6,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
-
 /**
  * Simple queue service that uses Mongo to store the queued work items.
  * @author smelody
@@ -18,18 +15,21 @@ import org.slc.sli.domain.Repository;
 public class MongoQueueService implements QueueService {
 
     @Autowired
-    private Repository<Entity> repo;
+    /** I feel like there's something amiss here, can we just use Repository? */
+   // private MongoTemplate batchJobMongoTemplate;
 
     private String COLLECTION_NAME = "ingestionJobQueue";
 
     @Override
     public void postItem(Map<Object, Object> item) {
-        // TODO Auto-generated method stub
+
 
     }
 
     @Override
     public Map<Object, Object> reserveItem() {
+       // Mongo mongo = batchJobMongoTemplate.getMongo();
+
         // TODO Auto-generated method stub
         return null;
     }
