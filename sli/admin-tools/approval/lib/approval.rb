@@ -36,10 +36,13 @@ module ApprovalEngine
 
 	## backend storage 
 	@@storage = nil 
+	@@is_sandbox = false 
 
 	# initialize the storage 
-	def init(storage, is_sandbox)
+	def ApprovalEngine.init(storage, is_sandbox)
 		@@storage = storage
+		@@is_sandbox = is_sandbox
+		@@email_secret = (0...32).map{rand(256).chr}.join
 	end
 
 	# Update the status of a user. 
@@ -77,12 +80,17 @@ module ApprovalEngine
 			else
 				raise "Unknow state transition #{status} => #{target[transition]}."
 			end
+
+		# if this is a sandbox and the new status is pending then move to status approved
+		if @@is_sandbox && (user[status] == STATE_PENDING)
+			change_user_status(email_address, ACTION_APPROVE)
+		end
 	end
 
 
 	# Check whether a user with the given email address exists. 
 	# The email address serves as the unique userid. 
-	def self.user_exists?(email_address)
+	def ApprovalEngine.user_exists?(email_address)
 		@@storage.user_exists?(email_address)
 	end
 
@@ -112,9 +120,8 @@ module ApprovalEngine
 	# 	#
 	def ApprovalEngine.add_disabled_user(user_info)
 		new_user_info = user_info.clone 
-		new_user_info[:emailtoken] = Digest::MD5.hexdigest(user_info[:email]+user_info[:first]+user_info[:last])
-		new_user_info[:updated]    = 10
-		new_user_info[:status]     = "pending"
+		new_user_info[:emailtoken] = Digest::MD5.hexdigest(@@email_secret+user_info[:email]+user_info[:first]+user_info[:last])
+		new_user_info[:status]     = STATE_SUBMITTED
 		@@storage.create_user(new_user_info)
 		return new_user_info[:emailtoken]
 	end
@@ -126,12 +133,12 @@ module ApprovalEngine
 	# email_hash : The email hash that was previously returned by the add_user 
 	# and included in a click through link that the user received in an email (as a query parameter).
 	#
-	def ApprovalEngine.verify_email(email_hash)
+	def ApprovalEngine.verify_email(emailtoken)
 		user = @@storage.read_user_emailtoken(emailtoken)
 		raise "Could not find user for email id #{email_hash}." if !user
 
 		user[F_STATUS] = STATE_PENDING
-		update_status(user)
+		@@storage.update_status(user)
 	end
 
 	# Returns a list of users and their states. If a target state is provided
@@ -149,10 +156,9 @@ module ApprovalEngine
 	#     :vendor => "Acme Inc.",
 	#     :status => "pending",
 	#     :transitions => ["approve", "reject"], 
-	#     :updated => "datetime"
 	# }	#
 	def ApprovalEngine.get_users(status=nil)
-
+		return @@storage.read_users(status)
 	end 
 
 	# Update the user information that was submitted via the add_user method. 
@@ -160,6 +166,7 @@ module ApprovalEngine
 	# Input parameter: A subset of the "user_info" submitted to the "add_user" method. 
 	# 
 	def ApprovalEngine.update_user_info(user_info)
+		@@storage.update_user_info(user_info)
 	end
 
 	# Removes a user from the backend entirely.  
@@ -168,5 +175,6 @@ module ApprovalEngine
 	# 
 	# email_address: Previously added email_address identifying a user. 
 	def ApprovalEngine.remove_user(email_address)
+		@@storage.delete_user(email_address)
 	end
 end
