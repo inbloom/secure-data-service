@@ -12,17 +12,17 @@ require_relative '../../../utils/api_utils.rb'
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
-  #school session association data
-  id = 11                                       if human_readable_id == "ASSOCIATION COUNT"
-  id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
-  id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
+  #staff program association data
+  id = 12                                       if human_readable_id == "ASSOCIATION COUNT"
+  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
+  id = 3                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 2                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
   id = 3                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
   id = 2                                        if human_readable_id == "ASSOCIATION - MULTIPLE - ENDPOINT1 COUNT" 
-  id = 1                                        if human_readable_id == "ASSOCIATION - MULTIPLE - ENDPOINT2 COUNT"
-  id = "9bf906cc-8fd5-11e1-86ec-0021701f543f"   if human_readable_id == "ASSOCIATION ID - SINGLE"
-  id = "9bf906cc-8fd5-11e1-86ec-0021701f543f"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
-  id = "9bf906cc-8fd5-11e1-86ec-0021701f543f"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
+  id = 2                                        if human_readable_id == "ASSOCIATION - MULTIPLE - ENDPOINT2 COUNT"
+  id = "9d19301f-54c7-48ae-b1c3-0ec1bd11fcec"   if human_readable_id == "ASSOCIATION ID - SINGLE"
+  id = "9d19301f-54c7-48ae-b1c3-0ec1bd11fcec"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
+  id = "9d19301f-54c7-48ae-b1c3-0ec1bd11fcec"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
   id = "9bfab47d-8fd5-11e1-86ec-0021701f543f"   if human_readable_id == "ASSOCIATION ID - MULTIPLE" 
   id = "getStaffProgramAssociations"            if human_readable_id == "ASSOCIATION LINK NAME"
   id = "staffProgramAssociation"                if human_readable_id == "ASSOCIATION TYPE"
@@ -38,7 +38,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "staff"                                  if human_readable_id == "ENDPOINT1 TYPE" 
   id = "staff"                                  if human_readable_id == "ENDPOINT1 URI" 
   
-  #educationOrganization related data
+  #program related data
   id = "programId"                              if human_readable_id == "ENDPOINT2 FIELD"
   id = "9b8cafdc-8fd5-11e1-86ec-0021701f543f"   if human_readable_id == "ENDPOINT2 ID - SINGLE"
   id = ["9b8cafdc-8fd5-11e1-86ec-0021701f543f"] if human_readable_id == "ENDPOINT2 FIELD - SINGLE - EXPECTED VALUE"

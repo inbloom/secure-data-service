@@ -13,7 +13,7 @@ Transform /^<(.+)>$/ do |template|
   id = "706ee3be-0dae-4e98-9525-f564e05aa388" if template == "LINDA KIM SECTION ID"
   id = "74cf790e-84c4-4322-84b8-fca7206f1085" if template == "MARVIN MILLER STUDENT ID"
   id = @newId                                 if template == "NEWLY CREATED ENTITY ID"
-  id = "eb3b8c35-f582-df23-e406-6947249a19f2"  if template == "SCHOOL ENTITY TO BE UPDATED"
+  id = "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"  if template == "SCHOOL ENTITY TO BE UPDATED"
   id
 end
 
@@ -129,6 +129,7 @@ When /^I change the name to "([^"]*)"$/ do |newName|
             <telephoneNumber>(785) 667-6006</telephoneNumber>
         </telephone>
     </telephone>
+    <parentEducationAgencyReference>b2c6e292-37b0-4148-bf75-c98a2fcc905f</parentEducationAgencyReference>
     <nameOfInstitution>#{newName}</nameOfInstitution>
 </school>
 eos

@@ -52,7 +52,7 @@ Scenario: Getting response from POST - Create (school)
 
 Scenario: Getting response from PUT - Update (school)
   When I navigate to GET "/v1/schools/<SCHOOL ENTITY TO BE UPDATED>"
-  Then I should see "<nameOfInstitution>" is "Apple Alternative Elementary School"
+  Then I should see "<nameOfInstitution>" is "Sunset Central High School"
   When I change the name to "Updated School Name"
   And I PUT the entity to "/v1/schools/<SCHOOL ENTITY TO BE UPDATED>"
   Then I should receive a return code of 204
@@ -104,17 +104,6 @@ Scenario: Applying optional fields
   And I should see "<entityType>" is "session"
   And I should find "<courses>" under "<student><transcript><studentSectionAssociations><sections>"
   And I should see "<entityType>" is "course"
-
-Scenario: Applying optional fields - attendances with year filter
-  Given optional field "attendances.1"
-  And parameter "limit" is "0"
-  When I navigate to GET "/v1/sections/<LINDA KIM SECTION ID>/studentSectionAssociations/students"
-  Then I should receive an XML document
-  And I should receive a return code of 200
-
-  Then I should find 181 "<attendances>" under "<student><attendances>"
-  And I should find 77 entries with "<date>" including the string "2011"
-  And I should find 104 entries with "<date>" including the string "2012"
 
 Scenario: Applying optional fields - single student view
   Given optional field "attendances"
