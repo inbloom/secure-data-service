@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.entity.CustomConfig;
 import org.slc.sli.entity.GenericEntity;
 
 /**
@@ -15,7 +16,9 @@ import org.slc.sli.entity.GenericEntity;
  */
 public interface APIClient {
 
-    public GenericEntity getEdOrgCustomData(String token, String id);
+    public GenericEntity getStaffInfo(String token);
+    
+    public CustomConfig getEdOrgCustomData(String token, String id);
     
     public void putEdOrgCustomData(String token, String id, String customJson);
     

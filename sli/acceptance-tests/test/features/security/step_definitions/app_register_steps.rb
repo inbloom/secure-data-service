@@ -59,7 +59,7 @@ When /^an operator approves the "([^"]*)" application$/ do |arg1|
 end
 
 
-Then /^I should no longer be able to get that application's data'$/ do
+Then /^I should no longer be able to get that application's data$/ do
   @format = "application/json"
   restHttpGet("/apps/#{@newId}")
   
@@ -164,3 +164,4 @@ When /^I navigate to PUT "([^"]*)" to update an application to "([^"]*)"$/ do |a
 
   assert(@res != nil, "Response from PUT operation was null")
 end
+

@@ -158,15 +158,8 @@ h7 {
 /** JQGrid overrides */
 .ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column-header {
     background: url("../images/ui-bg_glass_65_ffffff_1x400.png") repeat-x scroll 50% 50% #FFFFFF;
-    border-bottom: 1px solid #CCCCCC;
-    border-left: 0 solid #CCCCCC;
-    border-right: 1px solid #CCCCCC;
-    border-top: 0px solid #CCCCCC;
-    line-height: 18px;
-    vertical-align: middle;
-    color: #999999;
-    font-weight: 100;
-    font-size:13px;
+    border-bottom: 1px solid #CCCCCC; border-left: 0 solid #CCCCCC; border-right: 1px solid #CCCCCC; border-top: 0px solid #CCCCCC;
+    line-height: 18px;vertical-align: middle;color: #999999;font-weight: 100;font-size:13px;
 }
 
 .ui-jqgrid .ui-jqgrid-htable  {
@@ -175,23 +168,19 @@ h7 {
 }
 
 .ui-jqgrid .ui-jqgrid-htable th.end {
-	border-right: 0px solid #DDDDDD;
-	padding: 4px 5px;
-	vertical-align: middle;
+	border-right: 0px solid #DDDDDD;padding: 4px 5px;vertical-align: middle;
 }
 
 th.ui-th-column div {
-    white-space: normal !important;
-    height: auto !important;
-    padding: 4px 5px;
-    text-align: left;
+    white-space: normal !important;height: auto !important;padding: 4px 5px;text-align: left;
 }
 .ui-jqgrid-bdiv {border-collapse: collapse;}
-.ui-widget-no-border .ui-jqgrid tr.jqgrow td {font-size:13px;color: #333333; padding: 4px 5px;border-top: 1px solid #DDDDDD; text-align: center; border-right-style:hidden;white-space: normal !important;}
+.ui-widget-no-border .ui-jqgrid tr.jqgrow td {font-size:13px;color: #333333; padding: 4px 5px;border-top: 1px solid #DDDDDD; border-right-style:hidden;white-space: normal !important;}
 .ui-widget-no-border .ui-jqgrid tr.jqgrow th { border: 0px none; padding: 4px 5px;}
 .ui-widget-no-border .ui-corner-all {border: 0px none;}
 .ui-widget-no-border .ui-widget-content a{ color: #000000; text-decoration: none; }
 .ui-widget-no-border .ui-state-hover a,.ui-widget-no-border  .ui-state-hover a:hover{ color: #000000; text-decoration: underline; }
+.ui-widget-no-border .ui-state-hover,.ui-widget-no-border  .ui-widget-content .ui-state-hover,.ui-widget-no-border  .ui-widget-header .ui-state-hover,.ui-widget-no-border  .ui-state-focus,.ui-widget-no-border  .ui-widget-content .ui-state-focus,.ui-widget-no-border  .ui-widget-header .ui-state-focus { border: 1px solid transparent; background: #000000 url(../images/ui-bg_glass_75_f2f2f2_1x400.png) 100% 100% repeat-x; font-weight: normal; color: #212121; }
 
 /* Custom */
 /* Contact Info panel related */
@@ -507,6 +496,116 @@ th.ui-th-column div {
     opacity: 0.65;
 }
 
-/* Import of Teardrop styling */
-@import url("teardrop.css");
+.numericGradeColumn {
+    text-align: center;
+}
+
+.teardrop {
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 18px;
+    width: 90px;
+    color: white;
+    font-family: Arial, Helvica, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    padding-top: 1px;
+    text-align: center;
+}
+
+
+.teardrop-darkgreen-notrend {
+    background-image:  url(../images/darkgreen-notrend.gif);
+}
+
+.teardrop-darkgreen-uptrend {
+    background-image:  url(../images/darkgreen-uptrend.gif);
+}
+
+.teardrop-darkgreen-downtrend {
+    background-image:  url(../images/darkgreen-downtrend.gif);
+}
+
+.teardrop-darkgreen-eventrend {
+    background-image:  url(../images/darkgreen-eventrend.gif);
+}
+
+.teardrop-lightgreen-notrend {
+    background-image:  url(../images/lightgreen-notrend.gif);
+}
+
+.teardrop-lightgreen-uptrend {
+    background-image:  url(../images/lightgreen-uptrend.gif);
+}
+
+.teardrop-lightgreen-downtrend {
+    background-image:  url(../images/lightgreen-downtrend.gif);
+}
+
+.teardrop-lightgreen-eventrend {
+    background-image:  url(../images/lightgreen-eventrend.gif);
+}
+
+.teardrop-yellow-notrend {
+    background-image:  url(../images/yellow-notrend.gif);
+}
+
+.teardrop-yellow-uptrend {
+    background-image:  url(../images/yellow-uptrend.gif);
+}
+
+.teardrop-yellow-downtrend {
+    background-image:  url(../images/yellow-downtrend.gif);
+}
+
+.teardrop-yellow-eventrend {
+    background-image:  url(../images/yellow-eventrend.gif);
+}
+
+
+.teardrop-orange-notrend {
+    background-image:  url(../images/orange-notrend.gif);
+}
+.teardrop-orange-uptrend {
+    background-image:  url(../images/orange-uptrend.gif);
+}
+.teardrop-orange-downtrend {
+    background-image:  url(../images/orange-downtrend.gif);
+}
+
+.teardrop-orange-eventrend {
+    background-image:  url(../images/orange-eventrend.gif);
+}
+
+.teardrop-red-notrend {
+    background-image:  url(../images/red-notrend.gif);
+}
+
+.teardrop-red-uptrend {
+    background-image:  url(../images/red-uptrend.gif);
+}
+
+.teardrop-red-downtrend {
+    background-image:  url(../images/red-downtrend.gif);
+}
+
+.teardrop-red-eventrend {
+    background-image:  url(../images/red-eventrend.gif);
+}
+
+.teardrop-grey-notrend {
+    background-image:  url(../images/grey-notrend.gif);
+}
+
+.teardrop-grey-uptrend {
+    background-image:  url(../images/grey-uptrend.gif);
+}
+
+.teardrop-grey-downtrend {
+    background-image:  url(../images/grey-downtrend.gif);
+}
+
+.teardrop-grey-eventrend {
+    background-image:  url(../images/grey-eventrend.gif);
+}
 

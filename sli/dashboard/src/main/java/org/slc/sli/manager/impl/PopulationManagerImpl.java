@@ -1,22 +1,5 @@
 package org.slc.sli.manager.impl;
 
-import org.apache.commons.lang.WordUtils;
-import org.joda.time.DateTime;
-import org.joda.time.MutableDateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.slc.sli.config.ViewConfig;
-import org.slc.sli.entity.Config;
-import org.slc.sli.entity.GenericEntity;
-import org.slc.sli.entity.util.GenericEntityEnhancer;
-import org.slc.sli.manager.EntityManager;
-import org.slc.sli.manager.PopulationManager;
-import org.slc.sli.util.Constants;
-import org.slc.sli.view.TimedLogic2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -38,6 +21,24 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import org.apache.commons.lang.WordUtils;
+import org.joda.time.DateTime;
+import org.joda.time.MutableDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.slc.sli.config.ViewConfig;
+import org.slc.sli.entity.Config;
+import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.entity.util.GenericEntityEnhancer;
+import org.slc.sli.manager.EntityManager;
+import org.slc.sli.manager.PopulationManager;
+import org.slc.sli.util.Constants;
+import org.slc.sli.view.TimedLogic2;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi
@@ -329,7 +330,7 @@ public class PopulationManagerImpl implements PopulationManager {
 
     /**
      * Extracts grades from transcriptAssociationRecord based on sections in the
-     * passed. For each section where a transcript with final letter grade
+     * past. For each section where a transcript with final letter grade
      * exist, the grade is added to the list of grades for the semester.
      *
      * @param student
@@ -351,12 +352,10 @@ public class PopulationManagerImpl implements PopulationManager {
             for (Map<String, Object> assoc : stuTransAssocs) {
                 if (courseId.equalsIgnoreCase((String) assoc.get(Constants.ATTR_COURSE_ID))) {
                     String finalLetterGrade = (String) assoc.get(Constants.ATTR_FINAL_LETTER_GRADE);
-                    String term = (String) ((Map) section.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_TERM);
-                    String year = (String) ((Map) section.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_SCHOOL_YEAR);
                     String courseTitle = (String) ((Map) section.get(Constants.ATTR_COURSES))
                             .get(Constants.ATTR_COURSE_TITLE);
                     if (finalLetterGrade != null) {
-                        String semesterString = term.replaceAll(" ", "") + year.replaceAll(" ", "");
+                        String semesterString = buildSemesterYearString(section);
                         Map<String, Object> grade = new LinkedHashMap<String, Object>();
                         grade.put(Constants.SECTION_LETTER_GRADE, finalLetterGrade);
                         grade.put(Constants.SECTION_COURSE, courseTitle);
@@ -389,6 +388,12 @@ public class PopulationManagerImpl implements PopulationManager {
                 return;
             }
 
+            /*
+             * For each student section association, we have to determine if it is in the same
+             * subject area as the sectionid passed.  If it is then we add it to our List.
+             * Once we have a list of sections. We can grab all of the semester grades
+             * for those sections whose subject area intersect.
+             */
             List<Map<String, Object>> stuSectAssocs = (List<Map<String, Object>>) transcripts
                     .get(Constants.ATTR_STUDENT_SECTION_ASSOC);
             String subjectArea = getSubjectArea(stuSectAssocs, sectionId);
@@ -408,27 +413,44 @@ public class PopulationManagerImpl implements PopulationManager {
                     (List<Map<String, Object>>) transcripts.get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC));
 
         } catch (ClassCastException ex) {
-            ex.printStackTrace();
+            log.error("Error occured processing Final Grades", ex);
             Map<String, Object> grade = new LinkedHashMap<String, Object>();
             student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
         } catch (NullPointerException ex) {
-            ex.printStackTrace();
+            log.error("Error occured processing Final Grades", ex);
             Map<String, Object> grade = new LinkedHashMap<String, Object>();
             student.put(Constants.ATTR_SCORE_RESULTS, grade.put(Constants.ATTR_FINAL_LETTER_GRADE, "?"));
         }
     }
 
+    /**
+     * Returns the term and the year as a string for a given student Section association.
+     * @param stuSectAssocs
+     * @param sectionId
+     * @return
+     */
     private String getSemesterYear(List<Map<String, Object>> stuSectAssocs, String sectionId) {
         String semesterString = null;
         for (Map<String, Object> assoc : stuSectAssocs) {
             if (((String) assoc.get(Constants.ATTR_SECTION_ID)).equalsIgnoreCase(sectionId)) {
                 Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
-                String term = (String) ((Map) sections.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_TERM);
-                String year = (String) ((Map) sections.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_SCHOOL_YEAR);
-                semesterString = term.replaceAll(" ", "") + year.replaceAll(" ", "");
+                semesterString = buildSemesterYearString(sections);
                 break;
             }
         }
+        return semesterString;
+    }
+
+    /**
+     * Extracts the semester+Year from the section passed.
+     * @param sections
+     * @return  (e.g. FallSemester2010-2011 )
+     */
+    private String buildSemesterYearString(Map<String, Object> section) {
+        String semesterString = null;
+        String term = (String) ((Map) section.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_TERM);
+        String year = (String) ((Map) section.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_SCHOOL_YEAR);
+        semesterString = term.replaceAll(" ", "") + year.replaceAll(" ", "");
         return semesterString;
     }
 
@@ -444,9 +466,14 @@ public class PopulationManagerImpl implements PopulationManager {
         SortedSet<GenericEntity> sortedList = new TreeSet<GenericEntity>(new Comparator<GenericEntity>() {
             @Override
             public int compare(GenericEntity a, GenericEntity b) {
-                Date dateA = (Date) a.get(Constants.ATTR_DATE_FULFILLED);
-                Date dateB = (Date) b.get(Constants.ATTR_DATE_FULFILLED);
-                return dateA.compareTo(dateB);
+                Object dateA = a.get(Constants.ATTR_DATE_FULFILLED);
+                Object dateB = b.get(Constants.ATTR_DATE_FULFILLED);
+                if (dateA == null) {
+                    return 1;
+                } else if (dateB == null) {
+                    return -1;
+                }
+                return ((Date) dateA).compareTo((Date) dateB);
             }
         });
 
@@ -485,12 +512,15 @@ public class PopulationManagerImpl implements PopulationManager {
                 }
 
                 try {
-                    Date date = formatter.parse((String) currentGrade.get(Constants.ATTR_DATE_FULFILLED));
-                    gradeDate.put(Constants.ATTR_DATE_FULFILLED, date);
+                    Object dateString = currentGrade.get(Constants.ATTR_DATE_FULFILLED);
+                    if (dateString != null) {
+                        Date date = formatter.parse((String) dateString);
+                        gradeDate.put(Constants.ATTR_DATE_FULFILLED, date);
+                    }
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    log.error("Error parsing dates for a Current Section grade.");
                 }
-                gradeDate.put("gradeEarned", grade);
+                gradeDate.put(Constants.ATTR_GRADE_EARNED, grade);
                 sortedList.add(gradeDate);
             }
             int count = 0;
@@ -499,9 +529,9 @@ public class PopulationManagerImpl implements PopulationManager {
             }
 
         } catch (ClassCastException ex) {
-            ex.printStackTrace();
+            log.error("Error occured processing Gradebook Entries", ex);
         } catch (NullPointerException ex) {
-            ex.printStackTrace();
+            log.error("Error occured processing Gradebook Entries", ex);
         }
 
     }
@@ -809,6 +839,18 @@ public class PopulationManagerImpl implements PopulationManager {
         String[] nameList = (String[]) nameQuery;
         String firstName = nameList[0];
         String lastName = nameList[1];
+        GenericEntity studentSearch = new GenericEntity();
+
+        if (((firstName == null) || (firstName.equals(""))) && ((lastName == null) || (lastName.equals("")))) {
+            studentSearch.put(Constants.ATTR_STUDENTS, new LinkedList<GenericEntity>());
+            studentSearch.put(Constants.ATTR_SEARCH_STRING, "");
+            studentSearch.put(Constants.ATTR_NUM_RESULTS, 0);
+            return studentSearch;
+        }
+
+        String searchString = firstName + " " + lastName;
+        searchString = searchString.trim();
+
         List<GenericEntity> students = entityManager.getStudentsFromSearch(token, firstName, lastName);
 
         List<GenericEntity> titleCaseStudents = entityManager.getStudentsFromSearch(token,
@@ -842,8 +884,9 @@ public class PopulationManagerImpl implements PopulationManager {
             enhancedStudents.add(student);
         }
 
-        GenericEntity studentSearch = new GenericEntity();
         studentSearch.put(Constants.ATTR_STUDENTS, enhancedStudents);
+        studentSearch.put(Constants.ATTR_SEARCH_STRING, searchString);
+        studentSearch.put(Constants.ATTR_NUM_RESULTS, enhancedStudents.size());
         return studentSearch;
     }
 
@@ -869,6 +912,7 @@ public class PopulationManagerImpl implements PopulationManager {
         List<List<Map<String, Object>>> perfLevelsDescs;
         String reportingMethod;
         // inline assessments, perf attributes and convert grade to gradelevel
+        // TODO: we have similar logic for LOS - should be refactored and reused if possible
         for (Map<String, Object> elem : assessements) {
             scoreResults = (List<Map<String, Object>>) elem.get(Constants.ATTR_SCORE_RESULTS);
             if (scoreResults != null) {

@@ -25,4 +25,9 @@
         timeToIdleSeconds="600" timeToLiveSeconds="600"
         memoryStoreEvictionPolicy="LRU" />
         
+    <cache name="user.panel.config" eternal="false"
+        maxElementsInMemory="100" overflowToDisk="false" diskPersistent="false"
+        timeToIdleSeconds="600" timeToLiveSeconds="600"
+        memoryStoreEvictionPolicy="LRU" />
+        
 </ehcache>
