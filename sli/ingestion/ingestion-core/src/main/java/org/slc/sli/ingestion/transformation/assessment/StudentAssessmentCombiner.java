@@ -93,7 +93,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     protected Iterable<DBObject> getMatching(String collectionName, DBObject query) {
         DBCollection studentAssessments = getNeutralRecordMongoAccess().getRecordRepository().getCollectionForJob(
                 collectionName, getJob().getId());
-        return new MongoIterable(studentAssessments, query);
+        return new MongoIterable(studentAssessments, query, 1000);
     }
 
     private BasicDBObject getJobQuery() {
