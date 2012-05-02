@@ -107,6 +107,9 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             body.put("message", "You are not authorized to create new applications.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
+        // Destroy the ed-orgs
+        newApp.put(AUTHORIZED_ED_ORGS, new ArrayList<String>());
+
         String clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
         while (isDuplicateToken(clientId)) {
             clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
@@ -152,7 +155,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (hasRight(Right.APP_CREATION)) {
             extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId());
-        } else {
+        } else if (!hasRight(Right.APP_REGISTER)) {
             debug("ED-ORG of operator/admin {}", principal.getEdOrg());
             extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
                     principal.getEdOrg());
@@ -179,7 +182,8 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (hasRight(Right.APP_CREATION)) {
             extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId());
-        } else {
+        } else if (!hasRight(Right.APP_REGISTER)) {
+            debug("ED-ORG of operator/admin {}", principal.getEdOrg());
             extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
                     principal.getEdOrg());
         }
