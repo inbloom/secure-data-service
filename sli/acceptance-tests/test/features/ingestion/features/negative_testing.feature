@@ -218,3 +218,38 @@ When zip file is scp to ingestion landing zone
     And I should see "INFO  Processed 0 records." in the resulting batch job file
 
 
+Scenario: Post a Zip File containing a control file with directory pathnames
+  Given I post "DirPathnameInCtlFile.zip" file as the payload of the ingestion job
+  And the following collections are empty in datastore:
+        | collectionName                          |
+        | session                                 |
+        | student                                 |
+  When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 10 seconds for ingestion to complete
+  And a batch job log has been created
+Then I should see following map of entry counts in the corresponding collections:
+        | collectionName                          | count     |
+        | session                                 | 0         |
+        | student                                 | 0         |
+
+Then I should see "File ./InterchangeEducationOrganization.xml: File name contains path." in the resulting error log file
+  And I should see "Processed 0 records." in the resulting batch job file
+
+
+Scenario: Post a Zip File containing a control file and a subfolder with XML files
+  Given I post "ZipContainsSubfolder.zip" zip file with folder as the payload of the ingestion job
+  And the following collections are empty in datastore:
+        | collectionName                          |
+        | session                                 |
+        | student                                 |
+  When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 10 seconds for ingestion to complete
+  And a batch job log has been created
+Then I should see following map of entry counts in the corresponding collections:
+        | collectionName                          | count     |
+        | session                                 | 0         |
+        | student                                 | 0         |
+
+Then I should see ".zip archive ZipContainsSubfolder.zip contains a directory." in the resulting error log file
+  And I should see "Processed 0 records." in the resulting batch job file
+
