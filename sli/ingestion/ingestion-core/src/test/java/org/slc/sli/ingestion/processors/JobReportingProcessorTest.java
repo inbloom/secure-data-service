@@ -104,11 +104,11 @@ public class JobReportingProcessorTest {
                 mockedStages, mockedResourceEntries);
         mockedJob.setSourceId(TEMP_DIR);
 
-        List<Error> fakeErrorList = createFakeErrorList();
+        Iterable<Error> fakeErrorIterable = createFakeErrorIterable();
 
         // set mocked BatchJobMongoDA in jobReportingProcessor
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(BATCHJOBID))).thenReturn(mockedJob);
-        Mockito.when(mockedBatchJobDAO.findBatchJobErrors(Matchers.eq(BATCHJOBID))).thenReturn(fakeErrorList);
+        Mockito.when(mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.anyInt())).thenReturn(fakeErrorIterable);
 
         // create exchange
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
@@ -176,7 +176,7 @@ public class JobReportingProcessorTest {
         return resourceEntries;
     }
 
-    private List<Error> createFakeErrorList() {
+    private Iterable<Error> createFakeErrorIterable() {
         List<Error> errors = new LinkedList<Error>();
         Error error = new Error(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), RESOURCEID,
                 "10.81.1.27", "testhost", RECORDID, BatchJobUtils.getCurrentTimeStamp(), FaultType.TYPE_ERROR.getName(),

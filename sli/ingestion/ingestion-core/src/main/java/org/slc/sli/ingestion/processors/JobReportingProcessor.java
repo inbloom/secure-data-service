@@ -49,6 +49,8 @@ public class JobReportingProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(JobReportingProcessor.class);
 
+    private static final int ERRORS_DEFAULT_RESULT_LIMIT = 100;
+
     @Autowired
     private BatchJobDAO batchJobDAO;
 
@@ -137,10 +139,10 @@ public class JobReportingProcessor implements Processor {
         Map<String, PrintWriter> resourceToWarningMap = new HashMap<String, PrintWriter>();
 
         try {
-            List<Error> errors = batchJobDAO.findBatchJobErrors(job.getId());
+//            List<Error> errors = batchJobDAO.findBatchJobErrors(job.getId());
+            Iterable<Error> errors = batchJobDAO.getBatchJobErrors(job.getId(), ERRORS_DEFAULT_RESULT_LIMIT);
             LandingZone landingZone = new LocalFileSystemLandingZone(new File(job.getTopLevelSourceId()));
             for (Error error : errors) {
-
                 String externalResourceId = getExternalResourceId(error.getResourceId(), job);
 
                 PrintWriter errorWriter = null;
