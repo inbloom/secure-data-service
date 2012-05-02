@@ -66,8 +66,3 @@ class MemoryStorage
 	end 
 end
 
-
-# usage 
-require 'approval'
-storage = LDAPStorage.new("ldap.slidev.org", 389, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-

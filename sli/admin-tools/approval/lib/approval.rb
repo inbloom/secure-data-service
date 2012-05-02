@@ -1,6 +1,7 @@
 require 'set'
 require 'digest'
 require 'ldapstorage'
+require 'emailer'
 
 #equire 'approval/storage'
 
@@ -35,12 +36,15 @@ module ApprovalEngine
 	}
 
 	## backend storage 
-	@@storage = nil 
-	@@is_sandbox = false 
+	@@storage      = nil 
+	@@emailer      = nil 
+	@@is_sandbox   = false 
+	@@email_secret = ""
 
 	# initialize the storage 
-	def ApprovalEngine.init(storage, is_sandbox)
+	def ApprovalEngine.init(storage, emailer, is_sandbox)
 		@@storage = storage
+		@@emailer = emailer 
 		@@is_sandbox = is_sandbox
 		@@email_secret = (0...32).map{rand(256).chr}.join
 	end
