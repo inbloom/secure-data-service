@@ -32,7 +32,7 @@ public class AttendanceAbsenceResolver implements AggregateResolver {
         // TODO: This should be a lot more generic.
         Map<String, Object> attendanceBody = (Map<String, Object>) student.get(Constants.ATTR_STUDENT_ATTENDANCES);
         List<Map<String, Object>> attendances = null;
-        if( attendanceBody != null ) {
+        if (attendanceBody != null) {
             attendances = (List<Map<String, Object>>) attendanceBody.get(Constants.ATTR_STUDENT_ATTENDANCES);
         }
         int count = 0;
