@@ -214,7 +214,7 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :i
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, 
                          :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
-                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest] do
+                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionCommonCoreTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
