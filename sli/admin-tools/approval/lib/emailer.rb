@@ -10,7 +10,7 @@ require 'net/smtp'
 #  :sender_name => 'Test Sender',
 #  :sender_email_addr => 'devldapuser@slidev.org',
 #}
-#email = Email.new email_conf
+#email = Emailer.new email_conf
 #email.send_approval_email('devldapuser@slidev.org', 'TestFN', 'TestLN')
 
 class Emailer
@@ -18,6 +18,10 @@ class Emailer
   DefaultPort = 25
   DefaultSenderName = "Anonymous"
   DefaultSenderEmailAddr = "none@none"
+  DefaultSubject = "Your account has been approved."
+  DefaultContent = "Your SLI sandbox account has been approved.\n" <<
+    "\n\nPlease log into the control panel to get started.\n" <<
+    "\n\nhttp://controlpanel.example.com/login\n\n"
 
   def initialize(args = {})
     @host = args[:host] || DefaultHost
@@ -26,19 +30,15 @@ class Emailer
     @sender_email_addr = args[:sender_email_addr] || DefaultSenderEmailAddr
   end
   
-  def send_approval_email(email_addr, first, last)
-    subject = "Your account has been approved."
-    content = "Your SLI sandbox account has been approved.\n"
-    content << "\n\nPlease log into the control panel to get started.\n"
-    content << "\n\nhtpp://controlpanel.example.com/login\n\n"
+  def send_approval_email(email_addr, first, last, subject = DefaultSubject, 
+    content = DefaultContent)
 
     message = "From: #@sender_name <#@sender_email_addr>\n" +
       "To: #{first} #{last} <#{email_addr}>\n" +
-      "Subject: #subject\n\n#content"
+      "Subject: #{subject}\n\n#{content}"
 
     Net::SMTP.start(@host, @port) do |smtp|
       smtp.send_message message, @sender_email_addr, email_addr
     end
   end
 end
-
