@@ -460,7 +460,12 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
             return 0;
         }
     }
-
+    
+    /**
+     * Compare two GenericEntities by the Session
+     * @author jshort
+     *
+     */
     public class SessionComparator implements Comparator<GenericEntity> {
 
         @Override
