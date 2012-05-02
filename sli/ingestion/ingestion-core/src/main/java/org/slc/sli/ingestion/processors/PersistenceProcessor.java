@@ -11,11 +11,6 @@ import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -45,6 +40,10 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Ingestion Persistence Processor.
@@ -172,7 +171,6 @@ public class PersistenceProcessor implements Processor {
                     numFailed += processTransformableNeutralRecord(neutralRecord, tenantId, encounteredStgCollections,
                             errorReportForNrFile);
                 } else {
-
                     numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, tenantId,
                             errorReportForNrFile);
                 }
@@ -262,9 +260,9 @@ public class PersistenceProcessor implements Processor {
 
         Iterable<NeutralRecord> stagedNeutralRecords = Collections.emptyList();
 
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.setLimit(0);
         if (neutralRecord.getRecordType().equals("studentTranscriptAssociation")) {
-
-            NeutralQuery neutralQuery = new NeutralQuery();
             String studentAcademicRecordId = (String) neutralRecord.getAttributes().remove("studentAcademicRecordId");
             neutralQuery.addCriteria(new NeutralCriteria("studentAcademicRecordId", "=", studentAcademicRecordId));
             stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAll(
@@ -273,9 +271,8 @@ public class PersistenceProcessor implements Processor {
             stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAll("session");
             encounteredStgCollections.add("session");
         } else {
-
             stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAll(
-                    neutralRecord.getRecordType() + "_transformed");
+                    neutralRecord.getRecordType() + "_transformed", neutralQuery);
             encounteredStgCollections.add(neutralRecord.getRecordType());
         }
         return stagedNeutralRecords;

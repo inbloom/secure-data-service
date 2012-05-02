@@ -37,7 +37,8 @@ $collectionSet = ["student",
                   "parent",
                   "studentParentAssociation",
                   "attendance",
-                  "program"]
+                  "program",
+                  "studentAcademicRecord"]
 
 #######################################################################################################
 # Helper defs
@@ -68,6 +69,9 @@ end
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
   #turn true/false into command line option
   dropOption = (dropExistingCollection) ? "--drop":""
+  
+  sh "#{MONGO_BIN}mongo #{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
+  
   sh "#{MONGO_BIN}mongoimport #{dropOption} -d #{DB_NAME} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
     #allow for user to pass block to run the test for each running of setFixture
     if(success && block_given?)
@@ -119,6 +123,10 @@ task :realmInit => [:appInit, :peopleInit] do
   setFixture("realm", "realm_fixture.json")
 end
 
+task :appDenialInit do
+  setFixture("application", "application_denial_fixture.json")
+end
+
 task :realmInitNoPeople => [:appInit] do
   setFixture("realm", "realm_fixture.json")
 end
@@ -132,6 +140,17 @@ task :appInit do
   setFixture("application", "application_fixture.json")
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
   setFixture("userSession", "oauth_authentication_tokens.json")
+end
+
+# Run a whole series of acceptance tests
+desc "Run API, Ingestion, Dashboard, SDK, and SimpleIDP acceptance tests"
+task :fullSuite => [:production, :apiSandboxTests, :simpleIDPAuthTests, :dashboardTests, :JavaSDKTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 # This task will be used for end-to-end integration tests but currently just run all
@@ -198,7 +217,7 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :i
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, 
                          :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
-                         :ingestionDisciplineActionTest] do
+                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, :ingestionCommonCoreTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -265,6 +284,11 @@ end
 desc desc "Run Ingestion DisciplineAction Test"
 task :ingestionDisciplineActionTest do
   runTests("test/features/ingestion/features/ingestion_disciplineAction.feature")
+end
+
+desc "Run Ingestion StudentDiciplineIncidentAssociation Test"
+task :ingestionStudentDisciplineIncidentAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_StudentDisciplineIncidentAssociation.feature")
 end
 
 "Run Ingestion Negative Tests"
@@ -346,6 +370,11 @@ end
 desc "Run Ingestion Database Performance Tests"
 task :ingestionMongoDBPerformanceTest do
   runTests("test/features/ingestion/features/ingestion_mongo_performance.feature")
+end
+
+desc "Run Ingestion Index Tests"
+task :ingestionIndexTest do
+ runTests("test/features/ingestion/features/index_testing.feature")
 end
 
 ############################################################
@@ -798,7 +827,8 @@ end
 
 desc "Run V1 Attendance Tests"
 task :v1AttendanceTests => [:realmInit] do
-  setFixture("student", "student_fixture.json")
+    setFixture("student", "student_fixture.json")
+    setFixture("educationOrganization", "educationOrganization_fixture.json")
   runFixtureAndTests("test/features/apiV1/entities/attendance/attendance.feature","attendance","attendance_fixture.json")
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/attendance/attendance_security.feature")
@@ -912,6 +942,16 @@ task :apiSandboxTests do
   Rake::Task["securityTests"].invoke
 end
 
+desc "Run all sandbox tests"
+task :sandboxTests => [:apiSandboxTests, :adminSandboxTests] do
+  # displayFailureReport()
+  # if $SUCCESS
+  #   puts "Completed All Tests"
+  # else
+  #   raise "Tests have failed"
+  # end
+end
+
 ############################################################
 # API Selenium tests start
 # NOTE: Do not add these tests to the production run yet!
@@ -947,9 +987,7 @@ task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
-  setFixture("application", "application_denial_fixture.json")
-  runTests("test/features/databrowser/databrowser_denial.feature")
-  setFixture("application", "application_fixture.json") #Reset after we've tested app approval
+  runFixtureAndTests("test/features/databrowser/databrowser_denial.feature", "application", "application_denial_fixture.json")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -957,7 +995,6 @@ task :databrowserTests => [:realmInit] do
     raise "Tests have failed"
   end
 end
-
 
 desc "Run IDP Authentication Selenium Tests"
 task :idpAuthTests => [:realmInit] do
@@ -1054,12 +1091,13 @@ task :dashboardLoginTests do
 end
 
 desc "Run Dashboard Assessment tests"
-task :dashboardAssessmentTests => [:MostRecentResultTests,:HighestEverResultTests, :PerformanceLevels ] do
+task :dashboardAssessmentTests do
+    runTests("test/features/dashboard/dash/assessments.feature")
 end
 
 desc "Run Dashboard most recent result acceptance tests"
 task :MostRecentResultTests do
-    runTests("test/features/dashboard/assessments/MostRecent.feature")
+    runTests("test/features/dashboard/dash/MostRecent.feature")
 end
 
 desc "Run Dashboard highest ever result acceptance tests"

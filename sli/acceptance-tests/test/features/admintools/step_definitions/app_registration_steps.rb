@@ -181,6 +181,7 @@ When /^I have entered data into the other required fields except for the shared 
   @driver.find_element(:name, 'app[image_url]').send_keys "http://blah.com"
   @driver.find_element(:name, 'app[developer_info][organization]').send_keys "Cucumber"
   @driver.find_element(:css, 'input[id="app_enabled"]').click
+  @driver.find_element(:css, 'input:enabled[type="button"][value="Enable All"]').click
   list = @driver.find_element(:css, 'input[disabled="disabled"]')
   assert(list, "Should have disabled fields.")
   
@@ -306,5 +307,36 @@ end
 
 Then /^the previously generated client ID can no longer be used to access SLI$/ do
   pending # express the regexp above with the code you wish you had
+end
+
+Given /^I am a valid App Developer$/ do
+  #Nothing
+end
+
+Then /^I see the list of my registered applications only$/ do
+  appsTable = @driver.find_element(:id, "applications")
+  trs = appsTable.find_elements(:xpath, ".//tr/td[text()='APPROVED']")
+  assert(trs.length > 0, "Should see at least one of my apps")
+end
+
+Then /^the application is registered$/ do
+  appsTable = @driver.find_element(:id, "applications")
+  trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='NewApp']/../td[text()='APPROVED']")
+  assert(trs.length > 0, "No more pending applications")
+end
+
+Then /^I can see the client ID and shared secret$/ do
+  appsTable = @driver.find_element(:id, "applications")
+  app  = appsTable.find_element(:xpath, "//tr/td[text()='NewApp']/..")
+  id = app.attribute('id')
+  form = @driver.find_element(:id, "edit_app_#{id}")
+  assert("Client ID should be visible", form.find_element(:name, 'app[client_id]').attribute('value') != "Pending")
+  assert("Client Secret should be visible", form.find_element(:name, 'app[client_secret]').attribute('value') != "Pending")
+end
+
+Then /^the Registration Status field is Registered$/ do
+  appsTable = @driver.find_element(:id, "applications")
+  trs  = appsTable.find_elements(:xpath, ".//tr/td[text()='NewApp']/../td[text()='APPROVED']")
+  assert(trs.length > 0, "No more pending applications")
 end
 

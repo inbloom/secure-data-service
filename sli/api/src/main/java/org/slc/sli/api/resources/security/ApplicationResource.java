@@ -25,6 +25,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.common.constants.v1.ParameterConstants;
@@ -50,6 +51,8 @@ import org.springframework.stereotype.Component;
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class ApplicationResource extends DefaultCrudEndpoint {
 
+    public static final String AUTHORIZED_ED_ORGS = "authorized_ed_orgs";
+
     @Autowired
     private EntityDefinitionStore store;
     
@@ -71,6 +74,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public static final String UUID = "uuid";
     public static final String LOCATION = "Location";
 
+    private static final String CREATED_BY = "created_by";
 
     public void setAutoRegister(boolean register) {
         this.autoRegister = register;
@@ -109,6 +113,8 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         }
         
         newApp.put(CLIENT_ID, clientId);
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        newApp.put(CREATED_BY, principal.getExternalId());
 
         Map<String, Object> registration = new HashMap<String, Object>();
         registration.put(STATUS, "PENDING");
@@ -143,6 +149,14 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context
             HttpHeaders headers, @Context final UriInfo uriInfo) {
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (hasRight(Right.APP_CREATION)) {
+            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId());
+        } else {
+            debug("ED-ORG of operator/admin {}", principal.getEdOrg());
+            extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
+                    principal.getEdOrg());
+        }
         Response resp = super.readAll(offset, limit, headers, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
         return resp;
@@ -161,7 +175,15 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     @Path("{" + UUID + "}")
     public Response getApplication(@PathParam(UUID) String uuid,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        Response resp =  super.read(uuid, headers, uriInfo);
+        Response resp;
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (hasRight(Right.APP_CREATION)) {
+            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId());
+        } else {
+            extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
+                    principal.getEdOrg());
+        }
+        resp = super.read(uuid, headers, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }
@@ -199,8 +221,13 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public Response deleteApplication(@PathParam(UUID) String uuid,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
-
-        return super.delete(uuid, headers, uriInfo);
+        if (hasRight(Right.APP_CREATION)) {
+            return super.delete(uuid, headers, uriInfo);
+        } else {
+            EntityBody body = new EntityBody();
+            body.put("message", "You cannot delete this application");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+        }
     }
 
     @SuppressWarnings("unchecked")

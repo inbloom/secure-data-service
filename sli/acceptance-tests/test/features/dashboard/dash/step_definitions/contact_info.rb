@@ -1,53 +1,10 @@
-# Given a tabname, find the tab ID index to know which tab to read from
-def getTabIndex(tabName)
-  allTabs = @driver.find_element(:id, "tabs")
-  links = allTabs.find_elements(:tag_name, "a")
-  found = nil
-  tabIndex = nil
-  links.each do |tab|
-    if (tab.text.include? tabName)
-      found = tab
-      url = tab["href"]
-      i = url.index('#page') +1
-      tabIndex = url[i, url.length-i]
-      return tabIndex
-    end
-  end
-  assert(found != nil, "Tab was not found")
-end
-
-# checks whether panel name is the expected name
-def checkPanelNameExists(tabName, panelName)
-  found = false;
-  if tabName.attribute("innerHTML").to_s.lstrip.rstrip.include?(panelName)
-    found = true;
-  end
-  assert(found == true, "Panel Name is not found: " + panelName)
-end
-
-def getPanel(panelName, tabName)
-  tabIndex = getTabIndex(tabName)
-  overviewTab = @driver.find_element(:id, tabIndex)
-  panelsInTab = overviewTab.find_elements(:class, "panel")
-  
-  panelsInTab.each do |panel|
-    panelHeader = panel.find_element(:class, "panel-header")
-    if (panelHeader.text == panelName)
-      return panel
-    end
-  end
-  assert(false, "Panel name: " + panelName + " is not found in tab: " + tabName)
-end
-
 #This is only for contact information panel
 Given /^I look at the panel "([^"]*)"$/ do |panelName|
   tabIndex = getTabIndex("Overview")
   
   overviewTab = @driver.find_element(:id, tabIndex)
-  checkPanelNameExists(overviewTab, panelName)
-  
   # contact info is in the first panel
-  panel = getPanel(panelName, "Overview")
+  panel = getPanel("Overview", panelName)
   #the first table is the student's contact info
   contactSections = panel.find_element(:xpath, "//div[@class='tabular']/table/tbody")
   

@@ -36,9 +36,11 @@ import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -67,6 +69,9 @@ public class ApplicationResourceTest {
 
     @Autowired
     private SecurityContextInjector injector;
+    
+    @Autowired
+    private MockRepo repo;
 
     UriInfo uriInfo = null;
     HttpHeaders headers = null;
@@ -86,7 +91,7 @@ public class ApplicationResourceTest {
         injector.setDeveloperContext();
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
-
+        resource.setAutoRegister(false);
         headers = mock(HttpHeaders.class);
         when(headers.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(headers.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
@@ -95,7 +100,8 @@ public class ApplicationResourceTest {
     @After
     public void tearDown() throws Exception {
         SecurityContextHolder.clearContext();
-        resource.setAutoRegister(false);
+
+        repo.deleteAll("application");
     }
 
     @Test
@@ -213,6 +219,43 @@ public class ApplicationResourceTest {
         String uuid = parseIdFromLocation(created);
         Response resp = resource.getApplication(uuid, headers, uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
+    }
+    
+    @Test
+    public void testGoodGetAsOperator() {
+        EntityBody toGet = getNewApp();
+        
+        // Mock repo can't do real queries for arrays.
+        toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, SecurityContextInjector.ED_ORG_ID);
+        Response created = resource.createApplication(toGet, headers, uriInfo);
+        assertEquals(STATUS_CREATED, created.getStatus());
+        SecurityContextHolder.clearContext();
+        injector.setOperatorContext();
+        Response resp = resource.getApplications(0, 50, headers, uriInfo);
+        assertEquals(STATUS_FOUND, resp.getStatus());
+        EntityResponse entityResponse = (EntityResponse) resp.getEntity();
+        List<EntityBody> bodies = (List) entityResponse.getEntity();
+        assertTrue(bodies.size() >= 1);
+    }
+    
+    @Test
+    public void testEmptyGetAsOperator() {
+        EntityBody toGet = getNewApp();
+        // Mock repo can't do real queries for arrays.
+        toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, "3333-3333-3333");
+        Response created = resource.createApplication(toGet, headers, uriInfo);
+        assertEquals(STATUS_CREATED, created.getStatus());
+        String uuid = parseIdFromLocation(created);
+        SecurityContextHolder.clearContext();
+        injector.setOperatorContext();
+        Response resp = resource.getApplications(0, 50, headers, uriInfo);
+        assertEquals(STATUS_FOUND, resp.getStatus());
+        EntityResponse entityResponse = (EntityResponse) resp.getEntity();
+        List<EntityBody> bodies = (List) entityResponse.getEntity();
+        assertTrue(bodies.size() == 0);
+        for (EntityBody body : bodies) {
+            assertFalse(!body.get("id").equals(uuid));
+        }
     }
 
     @Test

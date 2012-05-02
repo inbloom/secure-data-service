@@ -5,6 +5,6 @@
     name : "Test History : DIBELS Next",
     data : {
         cacheKey: 'assessmentHistDIBELS',
-        params: { assessmentFamily: "DIBELS Next"}
+        params: { assessmentFamily: "DIBELS Next.DIBELS Next Grade 1"}
     }
 }
