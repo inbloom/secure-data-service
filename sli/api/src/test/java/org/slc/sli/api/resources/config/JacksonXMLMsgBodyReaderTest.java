@@ -47,14 +47,11 @@ public class JacksonXMLMsgBodyReaderTest {
         assertTrue("Should be empty", body.isEmpty());
     }
 
-    @Test
+    @Test(expected = IOException.class)
     public void testEmptyEntityStream() throws IOException {
         String xmlString = "";
         ByteArrayInputStream xmlStream = new ByteArrayInputStream(xmlString.getBytes());
 
         EntityBody body = reader.readFrom(EntityBody.class, null, null, null, null, xmlStream);
-
-        assertNotNull("Should not be null", body);
-        assertTrue("Should be empty", body.isEmpty());
     }
 }

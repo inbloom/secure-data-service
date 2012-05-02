@@ -3,19 +3,24 @@ package org.slc.sli.entity;
 import java.io.Serializable;
 
 /**
- * Represents a simplified EdOrg path selection to be used to determine configs 
+ * Represents a simplified EdOrg path selection to be used to determine configs
  * and some other application related logic.
- * 
+ *
  */
 public class EdOrgKey implements Serializable {
     private static final long serialVersionUID = -6946791865233296339L;
     private String districtId;
     private String sliId;
-    
+
     public EdOrgKey(String districtId) {
-        this.districtId = districtId;
+        this(districtId, null);
     }
-    
+
+    public EdOrgKey(String districtId, String sliId) {
+        this.districtId = districtId;
+        this.sliId = sliId;
+    }
+
     /**
      * Get the id of the district
      * @return
@@ -26,22 +31,11 @@ public class EdOrgKey implements Serializable {
 
     /**
      * Get the SLI id of the district
-     * 
+     *
      * @return The SLI id
      */
     public String getSliId() {
         return sliId;
-    }
-    
-    /**
-     * Set the SLI id of the district
-     * 
-     * @param sliId
-     *            - The SLI id to set
-     * @return
-     */
-    public void setSliId(String sliId) {
-        this.sliId = sliId;
     }
 
     @Override
@@ -52,18 +46,23 @@ public class EdOrgKey implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         EdOrgKey other = (EdOrgKey) obj;
         if (districtId == null) {
-            if (other.districtId != null)
+            if (other.districtId != null) {
                 return false;
-        } else if (!districtId.equals(other.districtId))
+            }
+        } else if (!districtId.equals(other.districtId)) {
             return false;
+        }
         return true;
     }
 }

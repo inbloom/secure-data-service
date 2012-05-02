@@ -214,7 +214,7 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :i
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, 
                          :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
-                         :ingestionDisciplineActionTest] do
+                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -281,6 +281,11 @@ end
 desc desc "Run Ingestion DisciplineAction Test"
 task :ingestionDisciplineActionTest do
   runTests("test/features/ingestion/features/ingestion_disciplineAction.feature")
+end
+
+desc "Run Ingestion StudentDiciplineIncidentAssociation Test"
+task :ingestionStudentDisciplineIncidentAssociationTest do
+  runTests("test/features/ingestion/features/ingestion_StudentDisciplineIncidentAssociation.feature")
 end
 
 "Run Ingestion Negative Tests"
@@ -362,6 +367,11 @@ end
 desc "Run Ingestion Database Performance Tests"
 task :ingestionMongoDBPerformanceTest do
   runTests("test/features/ingestion/features/ingestion_mongo_performance.feature")
+end
+
+desc "Run Ingestion Index Tests"
+task :ingestionIndexTest do
+ runTests("test/features/ingestion/features/index_testing.feature")
 end
 
 ############################################################
@@ -816,7 +826,7 @@ end
 desc "Run V1 Attendance Tests"
 task :v1AttendanceTests => [:realmInit] do
     setFixture("student", "student_fixture.json")
-    setFixture("school", "school_fixture.json")
+    setFixture("educationOrganization", "educationOrganization_fixture.json")
   runFixtureAndTests("test/features/apiV1/entities/attendance/attendance.feature","attendance","attendance_fixture.json")
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/attendance/attendance_security.feature")
@@ -933,6 +943,16 @@ desc "Run Sandbox API tests"
 task :apiSandboxTests do
   @tags = ["~@wip", "@sandbox"]
   Rake::Task["securityTests"].invoke
+end
+
+desc "Run all sandbox tests"
+task :sandboxTests => [:apiSandboxTests, :adminSandboxTests] do
+  # displayFailureReport()
+  # if $SUCCESS
+  #   puts "Completed All Tests"
+  # else
+  #   raise "Tests have failed"
+  # end
 end
 
 ############################################################
@@ -1074,7 +1094,8 @@ task :dashboardLoginTests do
 end
 
 desc "Run Dashboard Assessment tests"
-task :dashboardAssessmentTests => [:MostRecentResultTests,:HighestEverResultTests, :PerformanceLevels ] do
+task :dashboardAssessmentTests do
+    runTests("test/features/dashboard/dash/assessments.feature")
 end
 
 desc "Run Dashboard most recent result acceptance tests"
