@@ -39,7 +39,7 @@ import org.slc.sli.manager.ApiClientManager;
 import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.util.Constants;
-import org.slc.sli.view.TimedLogic2;
+import org.slc.sli.util.TimedLogic;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi
@@ -573,7 +573,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                     String timeSlotStr = assmtFilters.get(assmtFamily);
                     if (timeSlotStr != null) {
 
-                        TimedLogic2.TimeSlot timeSlot = TimedLogic2.TimeSlot.valueOf(timeSlotStr);
+                        TimedLogic.TimeSlot timeSlot = TimedLogic.TimeSlot.valueOf(timeSlotStr);
 
                         // Apply filter. Add result to student summary.
                         Map assmt = applyAssessmentFilter(assmtResults, assmtFamily, timeSlot);
@@ -615,7 +615,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      * @return
      */
     private Map applyAssessmentFilter(List<Map<String, Object>> assmtResults, String assmtFamily,
-                                      TimedLogic2.TimeSlot timeSlot) {
+                                      TimedLogic.TimeSlot timeSlot) {
         // filter by assmt family name
         List<Map<String, Object>> studentAssessmentFiltered = filterAssessmentByFamily(assmtResults, assmtFamily);
 
@@ -632,14 +632,14 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         switch (timeSlot) {
 
             case MOST_RECENT_RESULT:
-                chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
+                chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
                 break;
 
             case HIGHEST_EVER:
                 if (!objAssmtCode.equals("")) {
-                    chosenAssessment = TimedLogic2.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
+                    chosenAssessment = TimedLogic.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
                 } else {
-                    chosenAssessment = TimedLogic2.getHighestEverAssessment(studentAssessmentFiltered);
+                    chosenAssessment = TimedLogic.getHighestEverAssessment(studentAssessmentFiltered);
                 }
                 break;
 
@@ -659,14 +659,14 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 * assessmentIds.add(assessmentId); } }
                 */
 
-                chosenAssessment = TimedLogic2.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
+                chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
                 break;
 
             default:
 
                 // Decide whether to throw runtime exception here. Should timed
                 // logic default @@@
-                chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
+                chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
                 break;
         }
 
