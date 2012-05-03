@@ -7,6 +7,6 @@ package org.slc.sli.ingestion.queue;
  *
  */
 public class ItemKeys {
-    public final static String STATE = "state";
+    public static final String STATE = "state";
 
 }
