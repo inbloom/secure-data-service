@@ -128,6 +128,15 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 //TODO: provide an improved error page
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, ex.getMessage());
                 return;
+            } catch (Exception ex) {
+                // This will happen if the request to getAccessToken results in an OAuth error, such
+                // as
+                // if the user isn't authorized to use the client.
+                
+                // TODO: provide an improved error page
+                session.setAttribute(OAUTH_TOKEN, "");
+                response.sendRedirect("/dashboard/exception");
+                return;
             }
             session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
             Object entryUrl = session.getAttribute(ENTRY_URL);
