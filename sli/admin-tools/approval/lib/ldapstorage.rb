@@ -25,6 +25,13 @@ class LDAPStorage
 		:emailtoken
 	]
 
+	ROLE_SUPER_ADMIN = "SLI Administrator"
+	ROLE_DEVELOPER   = "SLI Developer"
+	ROLES = [
+		ROLE_SUPER_ADMIN,
+		ROLE_DEVELOPER
+	]
+
 	def initialize(host, port, base, username, password)
      	@people_base = "ou=people,#{base}"
      	@group_base  = "ou=groups,#{base}"
@@ -92,7 +99,8 @@ class LDAPStorage
 	end
 
 	# enable login and update the status
-	def enable_update_status(user)
+	# This means the user is added to the LDAP group that corresponds to the given role
+	def enable_update_status(user, role)
 		# add the user to the enabled group 
 
 	end
