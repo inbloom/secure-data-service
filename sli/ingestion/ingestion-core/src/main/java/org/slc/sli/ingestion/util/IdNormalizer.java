@@ -7,7 +7,8 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.text.WordUtils;
-import org.mortbay.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -26,6 +27,8 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 public class IdNormalizer {
 
     private static final String METADATA_BLOCK = "metaData";
+
+    private static final Logger LOG = LoggerFactory.getLogger( IdNormalizer.class );
 
     /**
      * Resolve references defined by external IDs (from clients) with internal IDs from SLI data
@@ -88,7 +91,7 @@ public class IdNormalizer {
         nq.setIncludeFields("_id");
 
         Entity e = entityRepository.findOne(collection, nq);
-        Log.info("~Entity~ {}", e == null ? "Not Found" : e);
+        LOG.info("~Entity~ {}", e == null ? "Not Found" : e);
         if (e == null) {
             errorReport.error("Cannot find [" + collection + "] record using the following filter: " + nq,
                     IdNormalizer.class);
