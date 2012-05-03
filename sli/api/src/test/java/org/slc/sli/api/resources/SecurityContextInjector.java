@@ -88,6 +88,25 @@ public class SecurityContextInjector {
         LOG.debug("elevating rights to {}", rights.toString());
         SecurityContextHolder.getContext().setAuthentication(token);
     }
+    
+    public void setRealmAdminContext() {
+        String user = "realmadmin";
+        String fullName = "Realm Administrator";
+        List<String> roles = Arrays.asList(RoleInitializer.REALM_ADMINISTRATOR);
+
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("admin-staff");
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        setSecurityContext(principal);
+        
+        Right[] rights = new Right[] { Right.READ_GENERAL, Right.REALM_EDIT, Right.ADMIN_ACCESS};
+        PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
+                .getAuthentication().getCredentials(), Arrays.asList(rights));
+        SecurityContextHolder.getContext().setAuthentication(token);
+
+    }
+
 
     public void setAdminContextWithElevatedRights() {
         setAdminContext();

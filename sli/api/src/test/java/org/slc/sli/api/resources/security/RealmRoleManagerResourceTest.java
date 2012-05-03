@@ -9,6 +9,8 @@ import static org.mockito.Mockito.when;
 
 import javax.ws.rs.core.Response;
 
+import junit.framework.Assert;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,7 +50,7 @@ public class RealmRoleManagerResourceTest {
     @Before
     public void setUp() throws Exception {
 
-        injector.setAdminContext();
+        injector.setRealmAdminContext();
 
         mapping = new EntityBody();
         mapping.put("id", "123567324");
@@ -78,7 +80,7 @@ public class RealmRoleManagerResourceTest {
             assertTrue(true);
         }
         Response res = resource.updateClientRole("1234", mapping);
-        assertTrue(res.getStatus() == 204);
+        Assert.assertEquals(204, res.getStatus());
     }
 
     @Test
