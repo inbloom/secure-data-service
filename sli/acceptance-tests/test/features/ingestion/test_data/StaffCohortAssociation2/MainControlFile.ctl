@@ -1,3 +1,4 @@
-edfi-xml,StudentCohort,Cohort2.xml,cff826227951016278a132a9e7a384f6
-edfi-xml,StaffAssociation,Staff2.xml,07a16ae7bb27a04b392ce89eb1374bc7
-edfi-xml,StudentCohort,StaffCohortAssociation2.xml,5550d44aef2ee20bcdaccf5fcb457dca
+edfi-xml,StudentCohort,Cohort2.xml,6325e38b21bb1e70c8b627753a7fd0fb
+edfi-xml,StaffAssociation,Staff2.xml,a472a8a49cbbbf7c01e85016dae4649f
+edfi-xml,StudentCohort,StaffCohortAssociation2.xml,92be8a26d371337fd73c5cd3cbb1b186
+

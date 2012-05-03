@@ -28,4 +28,8 @@ public class EntityResponse extends HashMap<String, Object> {
             this.entityCollectionName = ENTITY;
         }
     }
+
+    public String getEntityCollectionName() {
+        return this.entityCollectionName;
+    }
 }

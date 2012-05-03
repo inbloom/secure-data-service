@@ -10,6 +10,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.OauthSessionManager;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.ClientRoleResolver;
+import org.slc.sli.api.security.roles.Role;
+import org.slc.sli.api.security.roles.RoleRightAccess;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -21,18 +29,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.security.OauthSessionManager;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.resolve.ClientRoleResolver;
-import org.slc.sli.api.security.roles.Role;
-import org.slc.sli.api.security.roles.RoleRightAccess;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 
 /**
  * System resource class for security session context.
@@ -53,15 +49,8 @@ public class SecuritySessionResource {
     @Autowired
     private OauthSessionManager sessionManager;
 
-    @Autowired
-    private Repository<Entity> repo;
-
     @Value("${sli.security.noSession.landing.url}")
     private String realmPage;
-
-
-    @Autowired
-    private ContextResolverStore contextResolverStore;
 
     /**
      * Method processing HTTP GET requests to the logout resource, and producing "application/json" MIME media

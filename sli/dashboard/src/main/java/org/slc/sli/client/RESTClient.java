@@ -121,6 +121,7 @@ public class RESTClient {
             
             HttpHeaders headers = new HttpHeaders();
             headers.add("Authorization", "Bearer " + token);
+            headers.add("Content-Type", "application/json");
             HttpEntity requestEntity = new HttpEntity(entity, headers);
             logger.debug("Updating API at: {}", url);
             try {

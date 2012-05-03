@@ -25,9 +25,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import com.sun.jersey.api.uri.UriBuilderImpl;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -50,6 +47,9 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import com.sun.jersey.api.uri.UriBuilderImpl;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
  *
@@ -91,7 +91,7 @@ public class ApplicationResourceTest {
         injector.setDeveloperContext();
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
-
+        resource.setAutoRegister(false);
         headers = mock(HttpHeaders.class);
         when(headers.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(headers.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
@@ -100,10 +100,11 @@ public class ApplicationResourceTest {
     @After
     public void tearDown() throws Exception {
         SecurityContextHolder.clearContext();
-        resource.setAutoRegister(false);
+
         repo.deleteAll("application");
     }
 
+    @SuppressWarnings("rawtypes")
     @Test
     public void testGoodCreate() {
         EntityBody app = getNewApp();
@@ -142,6 +143,7 @@ public class ApplicationResourceTest {
         Response resp = resource.createApplication(app, headers, uriInfo);
         assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
     }
+    
 
     @Test
     public void testBadCreate2() {   //include client_id in POST
@@ -203,6 +205,7 @@ public class ApplicationResourceTest {
     public void testBadDelete() {
         String uuid = "9999999999";
         try {
+            @SuppressWarnings("unused")
             Response resp = resource.deleteApplication(uuid, headers, uriInfo);
         } catch (EntityNotFoundException e) {
             assertTrue(true);
@@ -213,10 +216,7 @@ public class ApplicationResourceTest {
 
     @Test
     public void testGoodGet() {
-        EntityBody toGet = getNewApp();
-        Response created = resource.createApplication(toGet, headers, uriInfo);
-        assertEquals(STATUS_CREATED, created.getStatus());
-        String uuid = parseIdFromLocation(created);
+        String uuid = createApp();
         Response resp = resource.getApplication(uuid, headers, uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
     }
@@ -224,11 +224,15 @@ public class ApplicationResourceTest {
     @Test
     public void testGoodGetAsOperator() {
         EntityBody toGet = getNewApp();
-        
+
         // Mock repo can't do real queries for arrays.
-        toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, SecurityContextInjector.ED_ORG_ID);
+
         Response created = resource.createApplication(toGet, headers, uriInfo);
         assertEquals(STATUS_CREATED, created.getStatus());
+        toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, SecurityContextInjector.ED_ORG_ID);
+        String uuid = parseIdFromLocation(created);
+        created = resource.update(uuid, toGet, headers, uriInfo);
+        assertEquals(STATUS_NO_CONTENT, created.getStatus());
         SecurityContextHolder.clearContext();
         injector.setOperatorContext();
         Response resp = resource.getApplications(0, 50, headers, uriInfo);
@@ -239,25 +243,59 @@ public class ApplicationResourceTest {
     }
     
     @Test
-    public void testEmptyGetAsOperator() {
+    public void testGoodGetAsDeveloper() {
         EntityBody toGet = getNewApp();
         // Mock repo can't do real queries for arrays.
-        toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, "3333-3333-3333");
+        
+        Response created = resource.createApplication(toGet, headers, uriInfo);
+        String uuid = parseIdFromLocation(created);
+        assertEquals(STATUS_CREATED, created.getStatus());
+        Response resp = resource.getApplications(0, 50, headers, uriInfo);
+        assertEquals(STATUS_FOUND, resp.getStatus());
+        EntityResponse entityResponse = (EntityResponse) resp.getEntity();
+        List<EntityBody> bodies = (List) entityResponse.getEntity();
+        assertTrue(bodies.size() == 1);
+        assertTrue(bodies.get(0).get("id").equals(uuid));
+    }
+    
+    @Test
+    public void testEmptyGetAsAdmin() {
+        EntityBody toGet = getNewApp();
+        // Mock repo can't do real queries for arrays.
         Response created = resource.createApplication(toGet, headers, uriInfo);
         assertEquals(STATUS_CREATED, created.getStatus());
+        toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, "3333-3333-3333");
         String uuid = parseIdFromLocation(created);
+        created = resource.update(uuid, toGet, headers, uriInfo);
+        assertEquals(STATUS_NO_CONTENT, created.getStatus());
         SecurityContextHolder.clearContext();
-        injector.setOperatorContext();
+        injector.setAdminContextWithElevatedRights();
         Response resp = resource.getApplications(0, 50, headers, uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
         EntityResponse entityResponse = (EntityResponse) resp.getEntity();
         List<EntityBody> bodies = (List) entityResponse.getEntity();
         assertTrue(bodies.size() == 0);
-        for (EntityBody body : bodies) {
-            assertFalse(!body.get("id").equals(uuid));
-        }
     }
-
+    
+    @Test
+    public void testGoodGetAsAdmin() {
+        EntityBody toGet = getNewApp();
+        // Mock repo can't do real queries for arrays.
+        Response created = resource.createApplication(toGet, headers, uriInfo);
+        assertEquals(STATUS_CREATED, created.getStatus());
+        toGet.put(ApplicationResource.AUTHORIZED_ED_ORGS, SecurityContextInjector.ED_ORG_ID);
+        String uuid = parseIdFromLocation(created);
+        created = resource.update(uuid, toGet, headers, uriInfo);
+        assertEquals(STATUS_NO_CONTENT, created.getStatus());
+        SecurityContextHolder.clearContext();
+        injector.setAdminContextWithElevatedRights();
+        Response resp = resource.getApplications(0, 50, headers, uriInfo);
+        assertEquals(STATUS_FOUND, resp.getStatus());
+        EntityResponse entityResponse = (EntityResponse) resp.getEntity();
+        List<EntityBody> bodies = (List) entityResponse.getEntity();
+        assertTrue(bodies.size() == 1);
+    }
+    
     @Test
     public void testBadGet() {
         String uuid = "9999999999";
@@ -297,6 +335,23 @@ public class ApplicationResourceTest {
     }
     
     @Test
+    public void testSandboxAutoAuthorize() throws Exception {
+        resource.setAutoRegister(true);
+        String uuid = createApp();
+        EntityBody app = getNewApp();
+        app.put(ApplicationResource.AUTHORIZED_ED_ORGS, "12341234");
+        Response updated = resource.update(uuid, app, headers, uriInfo);
+        assertEquals(STATUS_NO_CONTENT, updated.getStatus());
+    }
+    
+    private String createApp() {
+        EntityBody app = getNewApp();
+        Response created = resource.createApplication(app, headers, uriInfo);
+        assertEquals(STATUS_CREATED, created.getStatus());
+        return parseIdFromLocation(created);
+    }
+    
+    @Test
     public void testUpdateRegistrationAsDeveloper() {
         EntityBody app = getNewApp();
         Response created = resource.createApplication(app, headers, uriInfo);
@@ -316,6 +371,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdateApprovalDate() {
         EntityBody app = getNewApp();
@@ -327,6 +383,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdateRequestDate() {
         EntityBody app = getNewApp();
@@ -338,6 +395,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdateRegistrationAsOperator() {
         EntityBody app = getNewApp();
@@ -353,6 +411,7 @@ public class ApplicationResourceTest {
         
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdateAppAsOperator() {
         EntityBody app = getNewApp();
@@ -367,6 +426,7 @@ public class ApplicationResourceTest {
         
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void denyApplication() {
         // Create - Deny
@@ -381,6 +441,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void approveApplication() {
         //Create - Approve
@@ -397,6 +458,7 @@ public class ApplicationResourceTest {
         assertTrue("approval date set", reg.containsKey(APPROVAL_DATE));
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private Map getRegistrationDataForApp(String uuid) {
         Response resp = resource.getApplication(uuid, headers, uriInfo);
         Map data = (Map) resp.getEntity();
@@ -405,6 +467,7 @@ public class ApplicationResourceTest {
         return toReturn;
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void unregisterApplication() {
         //Create - Approve - Unregister
@@ -428,6 +491,7 @@ public class ApplicationResourceTest {
         assertFalse("request date not set", reg.containsKey(REQUEST_DATE));
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void resubmitDeniedApplication() {
         //Create - Deny - Dev Update
@@ -452,6 +516,7 @@ public class ApplicationResourceTest {
         assertTrue("request date set", reg.containsKey(REQUEST_DATE));
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void unregisterDeniedApplication() {
         //Create - Deny - Unregister

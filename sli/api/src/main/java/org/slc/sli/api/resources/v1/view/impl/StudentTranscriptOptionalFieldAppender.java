@@ -65,6 +65,9 @@ public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppe
                 //get the section for the student
                 EntityBody sectionForStudent = optionalFieldAppenderHelper.getEntityFromList(sections, "id", sectionId);
 
+                if (sectionForStudent == null)
+                    continue;
+                
                 //get the session for the section
                 EntityBody sessionForSection = optionalFieldAppenderHelper.getEntityFromList(sessions, "id",
                         (String) sectionForStudent.get(ParameterConstants.SESSION_ID));

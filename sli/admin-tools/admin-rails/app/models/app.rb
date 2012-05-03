@@ -8,11 +8,18 @@ class App < SessionResource
     time "created", "updated"
     string "organization", "developer_info"
     string "authorized_ed_orgs"
+
   end
   
   class DeveloperInfo < SessionResource
     schema do
       string "organization"
+    end
+  end
+
+  class Registration < SessionResource
+    schema do
+      string "status"
     end
   end
 end

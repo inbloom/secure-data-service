@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
@@ -52,7 +53,9 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         Map<LearningObjectiveId, NeutralRecord> learningObjectiveIdMap = new HashMap<LearningObjectiveId, NeutralRecord>();
 
         List<NeutralRecord> allLearningObjectives = new ArrayList<NeutralRecord>();
-        Iterable<NeutralRecord> learningObjectives = repo.findAll(LEARNING_OBJ_COLLECTION);
+        NeutralQuery query = new NeutralQuery();
+        query.setLimit(0);
+        Iterable<NeutralRecord> learningObjectives = repo.findAll(LEARNING_OBJ_COLLECTION, query);
         for (NeutralRecord lo : learningObjectives) {
             Map<String, Object> attributes = lo.getAttributes();
             String objectiveId = getByPath(LO_ID_CODE_PATH, attributes);

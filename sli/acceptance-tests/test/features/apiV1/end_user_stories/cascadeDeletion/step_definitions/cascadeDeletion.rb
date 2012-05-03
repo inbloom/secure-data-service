@@ -16,10 +16,10 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
   value = "sectionAssessmentAssociations"        if human_readable_text == "SECTION ASSESSMENT ASSOCIATION URI"
   
   #IDs
-  value = "b5f684d4-9a12-40c3-a59e-0c0d1b971a1e" if human_readable_text == "ASSESSMENT ID"
-  value = "eb3b8c35-f582-df23-e406-6947249a19f2" if human_readable_text == "SCHOOL ID"
-  value = "1e1cdb04-2094-46b7-8140-e3e481013480" if human_readable_text == "SECTION ID"
-  value = "1580e803-04ea-4720-8439-5f0f4834decd" if human_readable_text == "SECTION ASSESSMENT ASSOCIATION ID"
+  value = "dd916592-7d7e-5d27-a87d-dfc7fcb757f6" if human_readable_text == "ASSESSMENT ID"
+  value = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb" if human_readable_text == "SCHOOL ID"
+  value = "8ed12459-eae5-49bc-8b6b-6ebe1a56384f" if human_readable_text == "SECTION ID"
+  value = "627f6922-983c-4616-874a-def76a87ba70" if human_readable_text == "SECTION ASSESSMENT ASSOCIATION ID"
   
   #return this
   value

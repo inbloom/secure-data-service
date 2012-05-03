@@ -6,10 +6,8 @@ require_relative '../../entities/common.rb'
 # transform <Place Holder Id>
 Transform /^<(.+)>$/ do |template|
   id = template
-  id = "714c1304-8a04-4e23-b043-4ad80eb60992" if template == "'Alfonso' ID"
-  id = "eb3b8c35-f582-df23-e406-6947249a19f2" if template == "'Apple Alternative Elementary School' ID"
-  id = "d431ba09-c8ac-4139-beac-be28220633e6" if template == "'Krypton Middle School' ID"
-  id = "4f0c9368-8488-7b01-0000-000059f9ba56" if template == "'Gotham City School District ed-org' ID"
+  id = "9d970849-0116-499d-b8f3-2255aeb69552" if template == "'Dawn Elementary School' ID"
+  id = "b1bd3db6-d020-4651-b1b8-a8dba688d9e1" if template == "'Illinois State Ed-org' ID"
   id
 end
 

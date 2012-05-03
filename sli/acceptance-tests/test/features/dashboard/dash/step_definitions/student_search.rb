@@ -20,32 +20,15 @@ When /^I enter nothing into either field of student search$/ do
 end
 
 Then /^the search results include:$/ do |table|
-  table.hashes.each do |row|
-    student = row['Student']
-    grade = row['Grade']
-    school = row['School']
-    
-    #caveat:  if the class has duplicate student names
-    tr = getStudentCell(student)
-    actualStudentName = getStudentName(tr)
-    actualStudentCurrentSchool = getStudentAttribute(tr, getCurrentSchoolColumnName())
-    actualStudentGradeLevel = getStudentAttribute(tr, getGradeLevelColumnName())
-    
-    assert(actualStudentName == student, "Expected Student Name: " + student + " Actual Name: " + actualStudentName)
-    assert(actualStudentCurrentSchool == school, "Expected School: " + school + " Actual Name: " + actualStudentCurrentSchool)
-    assert(actualStudentGradeLevel == grade, "Expected Grade: " + grade + " Actual Name: " + actualStudentGradeLevel)
-  end
+  mapping = {
+    "Student" => "fullName",
+    "Grade" => "gradeLevel",
+    "School" => "currentSchoolName"
+  }
+  checkGridEntries(@driver, table, mapping)
 end
 
 When /^I send the enter key$/ do
   # This only sends the enter key to the last name text box
   @driver.find_element(:name, "lastName").send_keys(:enter)
-end
-
-def getGradeLevelColumnName()
-  return "gradeLevel"
-end
-
-def getCurrentSchoolColumnName()
-  return "currentSchoolName"
 end
