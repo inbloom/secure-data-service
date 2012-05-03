@@ -504,7 +504,7 @@
 		<LoginId>a</LoginId>
 	</Staff>
 	<!--Association commented out until EdOrg/School reference defect fixed-->
-	<!--StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>mgonzales</StaffUniqueStateId>
@@ -519,7 +519,7 @@
 		<PositionTitle>Principal</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation-->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Amy Kopel IT Support (IT Administrator) South Daybreak Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>akopel</StaffUniqueStateId>
@@ -568,7 +568,7 @@
 		<LoginId>a</LoginId>
 	</Staff>
 	<!--Association commented out until EdOrg/School reference defect fixed-->
-	<!--StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>akopel</StaffUniqueStateId>
@@ -583,7 +583,7 @@
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation-->
+	</StaffEducationOrgAssignmentAssociation>
 	<!-- Mary Smith Researcher (Aggregate Viewer) South Daybreak Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>msmith</StaffUniqueStateId>
@@ -632,7 +632,7 @@
 		<LoginId>a</LoginId>
 	</Staff>
 	<!--Association commented out until EdOrg/School reference defect fixed-->
-	<!--StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>msmith</StaffUniqueStateId>
@@ -647,7 +647,7 @@
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation-->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Dr. Christopher Koch state superintendent (Leader) Illinois State Education Board-->
 	<Staff>
 		<StaffUniqueStateId>ckoch</StaffUniqueStateId>
