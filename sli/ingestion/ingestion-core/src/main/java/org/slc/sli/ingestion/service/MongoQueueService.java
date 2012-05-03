@@ -17,7 +17,7 @@ public class MongoQueueService implements QueueService {
     /** I feel like there's something amiss here, can we just use Repository? */
    // private MongoTemplate batchJobMongoTemplate;
 
-    private String COLLECTION_NAME = "ingestionJobQueue";
+    private static final String COLLECTION_NAME = "ingestionJobQueue";
 
     @Override
     public void postItem(Map<Object, Object> item) {

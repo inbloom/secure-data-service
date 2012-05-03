@@ -92,7 +92,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     private void configureRoutePerLandingZone(String workItemQueueUri, LocalFileSystemLandingZone lz) {
         String inboundDir = lz.getDirectory().getAbsolutePath();
-        log.info( "Configuring route for landing zone: {} ", inboundDir );
+        log.info("Configuring route for landing zone: {} ", inboundDir);
         // routeId: ctlFilePoller
         from(
                 "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension() + "$"

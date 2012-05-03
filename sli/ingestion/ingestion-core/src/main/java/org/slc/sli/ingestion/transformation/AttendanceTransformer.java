@@ -27,8 +27,8 @@ import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of
- * attendance events} mappings and
- * stores in the appropriate student-school or student-section associations.
+ * attendance events} mappings and stores in the appropriate student-school or student-section
+ * associations.
  *
  * @author shalka
  */
@@ -68,12 +68,14 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     public void loadData() {
         LOG.info("Loading data for attendance transformation.");
+
         List<String> collectionsToLoad = Arrays.asList(EntityNames.STUDENT_SCHOOL_ASSOCIATION);
         for (String collectionName : collectionsToLoad) {
             Map<Object, NeutralRecord> collection = getCollectionFromDb(collectionName);
             collections.put(collectionName, collection);
             LOG.info("{} is loaded into local storage.  Total Count = {}", collectionName, collection.size());
         }
+
         LOG.info("Finished loading data for attendance transformation.");
     }
 
@@ -112,6 +114,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                     List<Map<String, Object>> daily = new ArrayList<Map<String, Object>>();
                     for (Map.Entry<String, Object> entry : schoolYears.entrySet()) {
                         String schoolYear = entry.getKey();
+
                         @SuppressWarnings("unchecked")
                         List<Map<String, Object>> events = (List<Map<String, Object>>) entry.getValue();
                         Map<String, Object> attendance = new HashMap<String, Object>();
@@ -229,7 +232,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 String sectionId = (String) associationAttributes.get("sectionId");
                 sectionIds.add(sectionId);
             }
-
             NeutralQuery sectionQuery = new NeutralQuery();
             sectionQuery.setLimit(0);
             sectionQuery.addCriteria(new NeutralCriteria("schoolId", "=", schoolId));

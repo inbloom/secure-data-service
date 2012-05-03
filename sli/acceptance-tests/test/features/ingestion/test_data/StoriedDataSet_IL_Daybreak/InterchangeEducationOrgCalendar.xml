@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd ">
-  
+
   <Session>
     <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
     <SchoolYear>2010-2011</SchoolYear>
@@ -277,6 +277,7 @@
       </GradingPeriodIdentity>
     </GradingPeriodReference>
   </Session>
+
   <Session>
     <SessionName>Spring 2010 East Daybreak Junior High</SessionName>
     <SchoolYear>2009-2010</SchoolYear>

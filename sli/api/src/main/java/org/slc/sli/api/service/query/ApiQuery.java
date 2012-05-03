@@ -8,25 +8,33 @@ import org.slc.sli.domain.NeutralQuery;
 /**
  * Converts a String into a database independent NeutralQuery object.
  * The API uses URIs to provide a place for query input.
- * 
+ *
  * @author kmyers
  *
  */
 public class ApiQuery extends NeutralQuery {
-    
+
     private static final UriInfoToNeutralQueryConverter QUERY_CONVERTER = new UriInfoToNeutralQueryConverter();
-    
+
+    public static final int API_QUERY_DEFAULT_LIMIT = 50;
+
     /**
      * Constructor. Reads the query portion of the URI into a neutral query (this).
-     * 
+     *
      * @param uriInfo
      */
     public ApiQuery(UriInfo uriInfo) {
+        super(API_QUERY_DEFAULT_LIMIT);
         if (uriInfo != null) {
             ApiQuery.QUERY_CONVERTER.convert(this, uriInfo);
         }
     }
-    
+
+    public ApiQuery() {
+        this(null);
+    }
+
+    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
 
@@ -34,34 +42,34 @@ public class ApiQuery extends NeutralQuery {
         stringBuffer.append(super.offset);
         stringBuffer.append("&limit=");
         stringBuffer.append(super.limit);
-        
+
         if (super.includeFields != null) {
             stringBuffer.append("&includeFields=");
             stringBuffer.append(super.includeFields);
         }
-        
+
         if (super.excludeFields != null) {
             stringBuffer.append("&excludeFields=");
             stringBuffer.append(super.excludeFields);
         }
-        
+
         if (super.sortBy != null) {
             stringBuffer.append("&sortBy=");
             stringBuffer.append(super.sortBy);
         }
-        
+
         if (super.sortOrder != null) {
             stringBuffer.append("&sortOrder=");
             stringBuffer.append(super.sortOrder);
         }
-        
+
         for (NeutralCriteria neutralCriteria : super.queryCriteria) {
             stringBuffer.append("&");
             stringBuffer.append(neutralCriteria.getKey());
             stringBuffer.append(neutralCriteria.getOperator());
             stringBuffer.append(neutralCriteria.getValue());
         }
-        
+
         return stringBuffer.toString();
     }
 }

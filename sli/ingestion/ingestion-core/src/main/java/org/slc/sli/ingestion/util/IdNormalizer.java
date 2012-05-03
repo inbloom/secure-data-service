@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.text.WordUtils;
-import org.mortbay.log.Log;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -88,7 +87,6 @@ public class IdNormalizer {
         nq.setIncludeFields("_id");
 
         Entity e = entityRepository.findOne(collection, nq);
-        Log.info("~Entity~ {}", e == null ? "Not Found" : e);
         if (e == null) {
             errorReport.error("Cannot find [" + collection + "] record using the following filter: " + nq,
                     IdNormalizer.class);
