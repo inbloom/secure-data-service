@@ -40,9 +40,7 @@ When /^I POST a new realm$/ do
 end
 
 Then /^I should receive a new ID for my new realm$/ do
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-  assert(result["id"] != nil, "No ID was returned for created object")
+  assert(@res.raw_headers["location"] != nil, "No ID was returned for created object")
 end
 
 When /^I GET a list of realms$/ do
