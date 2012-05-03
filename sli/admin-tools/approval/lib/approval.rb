@@ -165,7 +165,7 @@ module ApprovalEngine
 	def ApprovalEngine.get_users(status=nil)
 
 		return @@storage.read_users(status).map do |user| 
-			user[:transitions] = FSM[user[:status]]
+			user[:transitions] = FSM[user[:status]].keys
 			user
 		end
 	end 
