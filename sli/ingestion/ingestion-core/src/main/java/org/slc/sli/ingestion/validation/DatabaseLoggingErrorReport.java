@@ -20,10 +20,9 @@ public class DatabaseLoggingErrorReport implements Serializable, ErrorReport {
     private final String batchJobId;
     private final BatchJobStageType stage;
     private final String resourceId;
+    private final BatchJobDAO batchJobDAO;
 
-    private boolean hasErrors;
-
-    private BatchJobDAO batchJobDAO;
+    private volatile boolean hasErrors;
 
     public DatabaseLoggingErrorReport(String batchJobId, BatchJobStageType stageType, String resourceId,
             BatchJobDAO batchJobDAO) {

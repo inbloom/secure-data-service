@@ -19,16 +19,16 @@ Transform /^<([^"]*)>$/ do |val|
   when "ASSOCIATION COUNT FOR ENDPOINT 2" then 3
   when "RESOLUTION COUNT FOR ENDPOINT 1" then 1
   when "RESOLUTION COUNT FOR ENDPOINT 2" then 3
-  when "ASSOCIATION ID" then "4cfe2c95-09d5-4ba7-a09c-c7aabb8902c3"
-  when "ASSOCIATION ID FOR UPDATE" then "530acadc-f4b2-4dd4-a087-5700e9890548"
-  when "ASSOCIATION ID FOR DELETE" then "88cadff8-d0fb-4a82-ab0a-594c74024c77"
+  when "ASSOCIATION ID" then "b40c5b02-8fd5-11e1-86ec-0021701f543f"
+  when "ASSOCIATION ID FOR UPDATE" then "b40c5b02-8fd5-11e1-86ec-0021701f543f"
+  when "ASSOCIATION ID FOR DELETE" then "b40c5b02-8fd5-11e1-86ec-0021701f543f"
   when "ASSOCIATION LINK NAME" then "getStudentCohortAssociations"
   when "ASSOCIATION TYPE" then "studentCohortAssociation"
   when "ASSOCIATION URI" then "studentCohortAssociations"
 
     #student related data
   when "ENDPOINT1 FIELD" then "studentId"
-  when "ENDPOINT1 ID", "ENDPOINT1 FIELD EXPECTED VALUE" then "714c1304-8a04-4e23-b043-4ad80eb60992"
+  when "ENDPOINT1 ID", "ENDPOINT1 FIELD EXPECTED VALUE" then "41df2791-b33c-4b10-8de6-a24963bbd3dd"
   when "ENDPOINT1 LINK NAME" then "getStudent"
   when "ENDPOINT1 RESOLUTION LINK NAME" then "getStudents"
   when "ENDPOINT1 TYPE" then "student"
@@ -36,7 +36,7 @@ Transform /^<([^"]*)>$/ do |val|
 
     #cohort related data
   when "ENDPOINT2 FIELD" then "cohortId"
-  when "ENDPOINT2 ID", "ENDPOINT2 FIELD EXPECTED VALUE" then "7e9915ed-ea6f-4e6b-b8b0-aeae20a25826"
+  when "ENDPOINT2 ID", "ENDPOINT2 FIELD EXPECTED VALUE" then "b408635d-8fd5-11e1-86ec-0021701f543f"
   when "ENDPOINT2 LINK NAME" then "getCohort"
   when "ENDPOINT2 RESOLUTION LINK NAME" then "getCohorts"
   when "ENDPOINT2 TYPE" then "cohort"
@@ -44,7 +44,7 @@ Transform /^<([^"]*)>$/ do |val|
 
     #update related field data
   when "UPDATE FIELD" then "beginDate"
-  when "UPDATE FIELD EXPECTED VALUE" then "2012-01-15"
+  when "UPDATE FIELD EXPECTED VALUE" then "2011-05-01"
   when "UPDATE FIELD NEW VALID VALUE" then "2012-03-07"
 
     #general

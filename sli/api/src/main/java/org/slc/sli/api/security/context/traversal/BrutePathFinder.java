@@ -116,6 +116,11 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .construct());
 
         prePath.put(
+                EntityNames.STAFF + EntityNames.STAFF,
+                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
+                        nodeMap.get(EntityNames.STAFF)));
+
+        prePath.put(
                 EntityNames.TEACHER + EntityNames.TEACHER,
                 Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SCHOOL),
                         nodeMap.get(EntityNames.TEACHER)));

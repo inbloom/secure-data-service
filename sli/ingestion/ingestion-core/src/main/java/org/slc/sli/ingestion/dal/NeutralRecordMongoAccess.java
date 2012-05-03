@@ -14,8 +14,8 @@ public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
     private NeutralRecordRepository neutralRecordRepository;
 
     @Override
-    public void writeResource(NeutralRecord neutralRecord) {
-        neutralRecordRepository.create(neutralRecord);
+    public void writeResource(NeutralRecord neutralRecord, String jobId) {
+        neutralRecordRepository.createForJob(neutralRecord, jobId);
     }
 
     public NeutralRecordRepository getRecordRepository() {
@@ -24,18 +24,6 @@ public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
 
     public void setNeutralRecordRepository(NeutralRecordRepository neutralRecordRepository) {
         this.neutralRecordRepository = neutralRecordRepository;
-    }
-
-    public void registerBatchId(String batchJobId) {
-        neutralRecordRepository.registerBatchId(removeUnsupportedChars(batchJobId));
-    }
-
-    public static String removeUnsupportedChars(String data) {
-        return data.substring(data.length() - 51, data.length()).replace("-", "");
-    }
-
-    public void cleanupGroupedCollections() {
-        neutralRecordRepository.deleteGroupedCollections();
     }
 
 }

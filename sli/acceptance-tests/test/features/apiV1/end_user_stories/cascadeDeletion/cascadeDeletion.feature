@@ -2,7 +2,7 @@ Feature: As an SLI application, I want to be able to delete an entity and trigge
     This means any entity referencing the deleted entity should also be deleted
 
 Background:
-    Given I am logged in using "demo" "demo1234" to realm "SLI"
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     Given format "application/vnd.slc+json"
 
 Scenario: Delete a school and confirm deletion of related entities, associations, and their cascading entities and associations

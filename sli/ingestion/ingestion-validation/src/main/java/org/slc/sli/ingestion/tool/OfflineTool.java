@@ -58,7 +58,7 @@ public class OfflineTool {
         Date date = new Date();
         Timestamp time = new Timestamp(date.getTime());
 
-        String logFilePath = file.getParentFile() + File.separator + file.getName() + "-" + time.getTime() + ".log";
+        String logFilePath = file.getAbsoluteFile().getParent() + File.separator + file.getName() + "-" + time.getTime() + ".log";
         LoggerUtil.logToFile(logFilePath);
 
         controller.doValidation(file);

@@ -19,6 +19,10 @@ Then /^I check the Districts$/ do
   @driver.find_element(:css, 'input:enabled[type="button"][value="Enable All"]').click
 end
 
+Then /^I uncheck the Districts$/ do
+  @driver.find_element(:css, 'input:enabled[type="button"][value="Disable All"]').click
+end
+
 When /^I click on Save$/ do
   @driver.find_element(:css, 'input:enabled[type="submit"]').click
 end
@@ -41,12 +45,29 @@ Then /^I am redirected to the Application Registration Approval Tool page$/ do
 end
 
 Then /^I see the newly enabled application$/ do
-  check_app("Testing App")
+  assert("App should exist", get_app)
+end
+
+Then /^I see the newly enabled application is approved$/ do
+  test_app = get_app
+  assert("App should be approved", !test_app.find_element(:xpath, "//td[text()='Approved']").nil?)
+end
+
+Then /^I don't see the newly disabled application$/ do
+  begin
+    get_app
+    fail("Shouldn't see app")
+  rescue
+    assert("Should not find the app", true)
+  end
 end
 
 private
+def get_app(name="Testing App")
+  @driver.find_element(:xpath, "//tr/td[text()='#{name}']/..")
+end
 def check_app(arg1)
-  @test_app = @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']/..")
+  @test_app = get_app(arg1)
   total_count = @test_app.find_elements(:css, "input:checked[type='checkbox']").count
   district_count = total_count - 1
   assert("All districts should be enabled.", total_count == district_count)

@@ -2,6 +2,7 @@ package org.slc.sli.ingestion.model;
 
 import java.util.Date;
 
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -14,6 +15,7 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 @Document
 public final class Error {
 
+    @Indexed
     private String batchJobId;
 
     private String stageName;
