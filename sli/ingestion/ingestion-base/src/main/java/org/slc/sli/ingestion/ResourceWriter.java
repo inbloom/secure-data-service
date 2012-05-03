@@ -8,6 +8,6 @@ package org.slc.sli.ingestion;
  */
 public interface ResourceWriter<T> {
 
-    void writeResource(T t);
+    void writeResource(T t, String jobId);
 
 }

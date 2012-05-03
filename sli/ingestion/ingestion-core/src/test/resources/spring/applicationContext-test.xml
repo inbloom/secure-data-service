@@ -20,8 +20,8 @@
         <value>file:${sli.conf}</value>
         <value>classpath:ingestion.properties</value>
 
-        <!--  Override with test properties -->
-      <value>file:${sli.test.conf}</value>
+        <!-- Override with test properties -->
+        <value>file:${sli.test.conf}</value>
       </list>
     </property>
   </bean>
@@ -83,9 +83,7 @@
     <contextScan></contextScan>
   </camelContext>
 
-  <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
-    <property name="sliSmooksFactory" ref="sliSmooksFactory" />
-  </bean>
+  <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
 
   <bean id="landingZoneManager" class="org.slc.sli.ingestion.landingzone.LandingZoneManager">
     <property name="singleLandingZoneDir" value="${landingzone.inbounddir}" />
@@ -96,7 +94,7 @@
 
   <bean id="tenantPopulator" class="org.slc.sli.ingestion.tenant.TenantPopulator">
     <property name="parentLandingZoneDir" value="${landingzone.inbounddir}" />
-    <property name="tenantRecordResourcePaths" >
+    <property name="tenantRecordResourcePaths">
       <list>
         <value>classpath:tenants/tenant_IL.json</value>
         <value>classpath:tenants/tenant_NY.json</value>
@@ -104,38 +102,17 @@
     </property>
   </bean>
 
-  <bean id="xmlFileHandler" parent="smooksFileHandler">
-  </bean>
-
   <bean id="referenceResolutionHandler" class="org.slc.sli.ingestion.handler.ReferenceResolutionHandler">
-      <property name="preValidators" >
-        <util:list value-type="org.slc.sli.ingestion.validation.Validator">
-            <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
-            <ref bean="xsdValidator"/>
-        </util:list>
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
     </property>
   </bean>
 
-    <bean id="csvFileHandler" parent="smooksFileHandler">
-        <property name="preValidators">
-            <util:list value-type="org.slc.sli.ingestion.validation.Validator">
-                <bean class="org.slc.sli.ingestion.landingzone.validation.CsvFileValidator" />
-            </util:list>
-        </property>
-    </bean>
 
-  <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor">
-    <property name="fileHandlerMap">
-      <map>
-        <entry key="#{T(org.slc.sli.ingestion.FileFormat).CSV}">
-          <ref bean="csvFileHandler" />
-        </entry>
-        <entry key="#{T(org.slc.sli.ingestion.FileFormat).EDFI_XML}">
-          <ref bean="xmlFileHandler" />
-        </entry>
-      </map>
-    </property>
-  </bean>
+  <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor" />
 
   <bean id="entityPersistHandler" class="org.slc.sli.ingestion.handler.EntityPersistHandler">
     <property name="entityRepository" ref="mongoEntityRepository" />

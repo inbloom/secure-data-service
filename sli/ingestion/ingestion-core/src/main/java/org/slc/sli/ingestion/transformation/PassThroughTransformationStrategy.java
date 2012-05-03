@@ -53,7 +53,7 @@ public class PassThroughTransformationStrategy extends AbstractTransformationStr
 
         loadCollectionFromDb(passThroughCollectionName);
         LOG.info("{} is loaded into local storage.  Total Count = {}", passThroughCollectionName, collection.size());
-     }
+    }
 
     private void transform() {
         LOG.info("Transforming data: No transformation, straight pass-through");
@@ -67,7 +67,7 @@ public class PassThroughTransformationStrategy extends AbstractTransformationStr
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
 
-            getNeutralRecordMongoAccess().getRecordRepository().create(neutralRecord);
+            getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
         }
     }
 
@@ -80,8 +80,8 @@ public class PassThroughTransformationStrategy extends AbstractTransformationStr
         Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
 
         @SuppressWarnings("deprecation")
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQuery(collectionName,
-                new Query(jobIdCriteria), 0, 0);
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
+                collectionName, new Query(jobIdCriteria), getJob().getId(), 0, 0);
 
         NeutralRecord tempNr;
 
@@ -100,7 +100,8 @@ public class PassThroughTransformationStrategy extends AbstractTransformationStr
     }
 
     /**
-     * @param passThroughCollectionName the passThroughCollectionName to set
+     * @param passThroughCollectionName
+     *            the passThroughCollectionName to set
      */
     public void setPassThroughCollectionName(String passThroughCollectionName) {
         this.passThroughCollectionName = passThroughCollectionName;
