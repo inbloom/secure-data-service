@@ -3,6 +3,7 @@ Feature: SLC operator approves/disables production accounts or disables sandbox 
 
 Background: None
 
+@test
 Scenario: As a slc operator I approve pending production account request
 Given a production account request for vendor "Macro Corp" 
 And first name "Loraine" and last name "Plyler" 
