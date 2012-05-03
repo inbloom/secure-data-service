@@ -32,11 +32,11 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                  | 86    |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                 | searchValue   |
-     | attendance                  | 86                  | body.schoolYearAttendance.schoolYear            | 2011-2012     | 
-     | attendance                  | 83                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         | 
-     | attendance                  | 86                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance |  
+     | attendance                  | 86                  | body.schoolYearAttendance.schoolYear            | 2011-2012     |
+     | attendance                  | 83                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         |
+     | attendance                  | 86                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance |
      | attendance                  | 0                   | body.schoolYearAttendance.attendanceEvent.date  | 2011-09-01    |
-     | attendance                  | 86                  | body.schoolYearAttendance.attendanceEvent.date  | 2011-11-10    |     
+     | attendance                  | 86                  | body.schoolYearAttendance.attendanceEvent.date  | 2011-11-10    |
 
   And I should see "Processed 16472 records." in the resulting batch job file
   And I should not see an error log file created
