@@ -41,10 +41,10 @@ ldap.search(:filter => filter ) do |entry|
 end
 
 
-dn = "cn=Charles Gray,ou=people,ou=DevTest,dc=slidev,dc=org"
+dn = "cn=XXX Gray,ou=people,ou=DevTest,dc=slidev,dc=org"
 attr = {
-  :cn => "Charles Gray",
-  :objectclass => ["top", "person"],
+  :cn => "XXX Gray",
+  :objectclass => ["top", "inetOrgPerson"],
   :sn => "Gray", 
   # :gn => "Charles", 
   # :mail => "charles@example.com",
@@ -60,6 +60,33 @@ attr = {
 #   :uid => "x4732")
 
 Net::LDAP.open(ldap_conf) do |myldap|
-  puts myldap.add(:dn => dn, :attributes => attr)
+  if !myldap.add(:dn => dn, :attributes => attr)
+    puts "ERROR ADDING: #{myldap.get_operation_result.message}"
+  else 
+    puts "Success !"
+  end
 end
+puts "After"
+abc_group = "cn=abc,ou=groups,ou=DevTest,dc=slidev,dc=org"
+efg_group = "cn=efg,ou=groups,ou=DevTest,dc=slidev,dc=org"
+
+result = ldap.search(:base => "ou=groups,ou=DevTest,dc=slidev,dc=org", :filter => Net::LDAP::Filter.eq( "cn", "abc")).to_a()
+puts "Group result search: #{result}"
+group_exists = !result.empty?
+puts "Group exists: #{group_exists}"
+
+if !group_exists
+  member_attrib = {
+    :cn => "abc",
+    :objectclass => ["groupOfNames", "top"],
+    :member => dn
+  }
+  puts "Adding group: #{ldap.add(:dn => abc_group, :attributes => member_attrib)}"
+else
+  puts "Adding member: #{ldap.modify(:dn => abc_group, :operations => [[:add, "member", dn]])}"  
+end 
+
+# if !ldap.modify(:dn => abc_group, :operations => [[:add, "member", dn]])
+#   puts "ERROR: #{ldap.get_operation_result.message}"
+# end
 
