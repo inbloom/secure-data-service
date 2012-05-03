@@ -14,5 +14,5 @@ public enum MessageType {
     DONE,
     MERGE_REQUEST,
     DATA_TRANSFORMATION,
-    DATA_MODEL_TRANSFORMATION;
+    DATA_MODEL_TRANSFORMATION, XML_FILE_SPLIT; // XML file has been split
 }
