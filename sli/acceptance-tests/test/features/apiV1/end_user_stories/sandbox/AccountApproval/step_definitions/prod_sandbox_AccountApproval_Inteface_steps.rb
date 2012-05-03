@@ -5,6 +5,7 @@ require_relative '../../../../../utils/selenium_common.rb'
 
 
 
+
 Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
   url =PropLoader.getProps['admintools_server_url']+"/account_managements"
   @driver.get url
@@ -18,8 +19,22 @@ Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do
   end
 end
 
+Given /^LDAP server has been setup and running$/ do
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+end
+
 Given /^there are accounts in requests pending in the system$/ do
-  @account_approval_env="production"
+  clear_all()
+  user_info = {
+      :first => "Loraine",
+      :last => "Plyler", 
+       :email => "jdoe"+String(rand(4))+"@example.com",
+       :password => "secret", 
+       :emailtoken => "token",
+       :vendor => "Macro Corp",
+       :status => "pending"
+   }
+  @ldap.create_user(user_info)
 end
 
 
@@ -82,8 +97,18 @@ Then /^the "([^"]*)" column has (\d+) buttons "([^"]*)", "([^"]*)", "([^"]*)", a
  assert(enable_buttons.length>0,"didnt find #{enable_button} in action column")
 end
 
-Given /^there is a production account request for vendor "([^"]*)"$/ do |arg1|
-  @account_approval_env="production"
+Given /^there is a "([^"]*)" production account request for vendor "([^"]*)"$/ do |status,vendor|
+  clear_all()
+  user_info = {
+      :first => "Loraine",
+      :last => "Plyler", 
+       :email => "jdoe"+String(rand(4))+"@example.com",
+       :password => "secret", 
+       :emailtoken => "token",
+       :vendor => vendor,
+       :status => status
+   }
+  @ldap.create_user(user_info)
 end
 
 Then /^I see one account with name "([^"]*)"$/ do |user_name|
@@ -124,5 +149,14 @@ end
 
 Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |arg1|
   @account_approval_env="sandbox"
+end
+
+def clear_all
+  users=@ldap.read_users()
+  if users.length>0
+  users.each do |user|
+  @ldap.delete_user(user[:email])
+  end
+  end
 end
 
