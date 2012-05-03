@@ -242,8 +242,7 @@ public class AuthController {
 
         LOG.debug("redirecting to: {}", endpoint);
 
-        String redirectUrl = endpoint.contains("?") ? 
-                endpoint + "&SAMLRequest=" + tuple.getRight() : endpoint + "?SAMLRequest=" + tuple.getRight();
+        String redirectUrl = endpoint.contains("?") ? endpoint + "&SAMLRequest=" + tuple.getRight() : endpoint + "?SAMLRequest=" + tuple.getRight();
 
         return "redirect:" + redirectUrl;
     }

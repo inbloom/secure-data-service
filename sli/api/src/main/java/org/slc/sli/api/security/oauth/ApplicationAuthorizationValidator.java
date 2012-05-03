@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
