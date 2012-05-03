@@ -3,11 +3,8 @@ package org.slc.sli.manager.impl;
 import java.io.File;
 import java.io.FileReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.google.gson.GsonBuilder;
@@ -16,11 +13,6 @@ import com.googlecode.ehcache.annotations.Cacheable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.config.ConfigPersistor;
-import org.slc.sli.config.LozengeConfig;
-import org.slc.sli.config.StudentFilter;
-import org.slc.sli.config.ViewConfig;
-import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.Config.Type;
 import org.slc.sli.entity.CustomConfig;
@@ -42,7 +34,6 @@ import org.slc.sli.util.DashboardException;
 public class ConfigManagerImpl implements ConfigManager {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-    private ConfigPersistor persistor;
 
     private String driverConfigLocation;
     private String userConfigLocation;
@@ -50,123 +41,6 @@ public class ConfigManagerImpl implements ConfigManager {
     public ConfigManagerImpl() {
     }
 
-    /**
-     * Get the view configuration set for a user
-     *
-     * @param userId
-     * @return ViewConfigSet
-     */
-    @Override
-    public ViewConfigSet getConfigSet(String userId) {
-
-        // get view configs for user's hierarchy (state, district, etc)
-        // TODO: call ConfigPersistor with entity ids, not user id
-        ViewConfigSet userViewConfigSet = null;
-        try {
-            userViewConfigSet = persistor.getConfigSet(userId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        // TODO: merge into one view config set for the user
-
-        return userViewConfigSet;
-    }
-
-    /**
-     * Get the configuration for one particular view, for a user
-     *
-     * @param userId
-     * @param viewName
-     * @return ViewConfig
-     */
-    @Override
-    public ViewConfig getConfig(String userId, String viewName) {
-
-        ViewConfigSet config = getConfigSet(userId);
-
-        if (config == null) {
-            return null;
-        }
-
-        // loop through, find right config
-        for (ViewConfig view : config.getViewConfig()) {
-            if (view.getName().equals(viewName)) {
-                return view;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Get the configuration for one particular view, for a user
-     *
-     * @param userId
-     * @param viewName
-     * @return ViewConfig
-     */
-    @Override
-    public List<LozengeConfig> getLozengeConfig(String userId) {
-
-        // get lozenge configs for user's hierarchy (state, district, etc)
-        // TODO: call ConfigPersistor with entity ids, not user id
-        LozengeConfig[] userLozengeConfig = null;
-        try {
-            userLozengeConfig = persistor.getLozengeConfig(userId);
-        } catch (Exception e) {
-            return null;
-        }
-        return Arrays.asList(userLozengeConfig);
-    }
-
-    /**
-     * Get the configuration for one particular view, for a user
-     *
-     * @param userId
-     * @param viewName
-     * @return StudentFilter list
-     */
-    @Override
-    public List<StudentFilter> getStudentFilterConfig(String userId) {
-
-        // get student filter configs for user's hierarchy (state, district,
-        // etc)
-        StudentFilter[] userStudentFilterConfig = null;
-        try {
-            userStudentFilterConfig = persistor.getStudentFilterConfig(userId);
-        } catch (Exception e) {
-            return null;
-        }
-        return Arrays.asList(userStudentFilterConfig);
-    }
-
-    /**
-     * Get the configuration for one particular view, for a user
-     *
-     * @param userId
-     * @param type
-     *            - e.g. studentList, studentProfile, etc.
-     * @return List<ViewConfig>
-     */
-    @Override
-    public List<ViewConfig> getConfigsWithType(String userId, String type) {
-
-        ViewConfigSet config = getConfigSet(userId);
-        List<ViewConfig> viewConfigs = null;
-
-        if (config != null && config.getViewConfig() != null) {
-            viewConfigs = new ArrayList<ViewConfig>();
-
-            // loop through, find right type configs
-            for (ViewConfig view : config.getViewConfig()) {
-                if (view.getType().equals(type)) {
-                    viewConfigs.add(view);
-                }
-            }
-        }
-        return viewConfigs;
-    }
 
     /**
      * this method should be called by Spring Framework
@@ -310,9 +184,6 @@ public class ConfigManagerImpl implements ConfigManager {
                 componentId);
     }
 
-    public void setConfigPersistor(ConfigPersistor configPersistor) {
-        this.persistor = configPersistor;
-    }
 
     @Override
     @Cacheable(cacheName = "user.config.widget")

@@ -1,4 +1,4 @@
-package org.slc.sli.view;
+package org.slc.sli.util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +13,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.util.Constants;
 
 /**
  * A static class for views in SLI dashboard to perform "timed" business logics
@@ -21,9 +20,9 @@ import org.slc.sli.util.Constants;
  * @author syau
  *
  */
-public class TimedLogic2 {
+public class TimedLogic {
 
-    private static Logger logger = LoggerFactory.getLogger(TimedLogic2.class);
+    private static Logger logger = LoggerFactory.getLogger(TimedLogic.class);
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**

@@ -31,7 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
@@ -39,7 +38,7 @@ import org.slc.sli.manager.ApiClientManager;
 import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.util.Constants;
-import org.slc.sli.view.TimedLogic2;
+import org.slc.sli.util.TimedLogic;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi
@@ -106,7 +105,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     * java.lang.String)
     */
     @Override
-    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig,
+    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds,
                                                    String sessionId, String sectionId) {
 
         long startTime = System.nanoTime();
@@ -118,17 +117,6 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         return studentSummaries;
     }
 
-    public List<GenericEntity> getStudentGradeBookEntries(String token, List<String> studentIds, ViewConfig viewConfig,
-                                                          String sessionId, String sectionId) {
-
-        long startTime = System.nanoTime();
-        // Initialize student summaries
-
-        List<GenericEntity> studentSummaries = entityManager.getStudentsWithGradebookEntries(token, sectionId);
-        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for student section view: {}", (System.nanoTime() - startTime) * 1.0e-9);
-
-        return studentSummaries;
-    }
 
     /*
     * (non-Javadoc)
@@ -141,7 +129,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
 
         // get student summary data
-        List<GenericEntity> studentSummaries = getStudentSummaries(token, null, null, null, (String) sectionId);
+        List<GenericEntity> studentSummaries = getStudentSummaries(token, null, null, (String) sectionId);
 
         // apply assmt filters and flatten assmt data structure for easy
         // fetching
@@ -579,7 +567,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                     String timeSlotStr = assmtFilters.get(assmtFamily);
                     if (timeSlotStr != null) {
 
-                        TimedLogic2.TimeSlot timeSlot = TimedLogic2.TimeSlot.valueOf(timeSlotStr);
+                        TimedLogic.TimeSlot timeSlot = TimedLogic.TimeSlot.valueOf(timeSlotStr);
 
                         // Apply filter. Add result to student summary.
                         Map assmt = applyAssessmentFilter(assmtResults, assmtFamily, timeSlot);
@@ -621,7 +609,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      * @return
      */
     private Map applyAssessmentFilter(List<Map<String, Object>> assmtResults, String assmtFamily,
-                                      TimedLogic2.TimeSlot timeSlot) {
+                                      TimedLogic.TimeSlot timeSlot) {
         // filter by assmt family name
         List<Map<String, Object>> studentAssessmentFiltered = filterAssessmentByFamily(assmtResults, assmtFamily);
 
@@ -638,14 +626,14 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         switch (timeSlot) {
 
             case MOST_RECENT_RESULT:
-                chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
+                chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
                 break;
 
             case HIGHEST_EVER:
                 if (!objAssmtCode.equals("")) {
-                    chosenAssessment = TimedLogic2.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
+                    chosenAssessment = TimedLogic.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
                 } else {
-                    chosenAssessment = TimedLogic2.getHighestEverAssessment(studentAssessmentFiltered);
+                    chosenAssessment = TimedLogic.getHighestEverAssessment(studentAssessmentFiltered);
                 }
                 break;
 
@@ -665,14 +653,14 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 * assessmentIds.add(assessmentId); } }
                 */
 
-                chosenAssessment = TimedLogic2.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
+                chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
                 break;
 
             default:
 
                 // Decide whether to throw runtime exception here. Should timed
                 // logic default @@@
-                chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
+                chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
                 break;
         }
 
@@ -687,22 +675,6 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         return list;
     }
 
-    /**
-     * Get a list of assessment results for one student, filtered by assessment
-     * name
-     *
-     * @param username
-     * @param studentId
-     * @param config
-     * @return
-     */
-    private List<GenericEntity> getStudentAssessments(String username, String studentId, ViewConfig config) {
-
-        // get all assessments for student
-        List<GenericEntity> assmts = entityManager.getStudentAssessments(username, studentId);
-
-        return assmts;
-    }
 
     /*
     * (non-Javadoc)
