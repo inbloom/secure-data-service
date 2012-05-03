@@ -2,6 +2,7 @@ package org.slc.sli.ingestion.processors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.queues.MessageType;
 
@@ -10,6 +11,7 @@ import org.slc.sli.ingestion.queues.MessageType;
  * @author smelody
  *
  */
+@Component
 public class XmlSplitterProcessor  implements Processor {
 
 
