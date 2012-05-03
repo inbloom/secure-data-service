@@ -6,8 +6,8 @@ require_relative '../../../utils/sli_utils.rb'
 Transform /^<(.+)>$/ do |template|
   id = template
   id = @newId.to_s                            if template == "'Previous School' ID"
-  id = "51db306f-2393-405b-b587-5fac7605e4b3" if template == "'Belle' ID"
-  id = "eb3b8c35-f582-df23-e406-6947249a19f2" if template == "'Apple Alternative Elementary School' ID"
+  id = "737dd4c1-86bd-4892-b9e0-0f24f76210be" if template == "'Jones' ID"
+  id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb" if template == "'South Daybreak Elementary' ID"
   id = "706ee3be-0dae-4e98-9525-f564e05aa388" if template == "'Valid Section' ID"
   id = "thisisaninvalididsoitshouldreturn404" if template == "'Invalid Section' ID"
   id
@@ -49,7 +49,14 @@ Given /^I create a valid base level student object$/ do
 end
 
 Given /^I create a valid base level school object$/ do
+  if defined? @result
+    oldParentId = @result["parentEducationAgencyReference"]
+  end
   @result = CreateEntityHash.createBaseSchool()
+
+  if defined? oldParentId
+    @result["parentEducationAgencyReference"] = oldParentId
+  end
 end
 
 Given /^I create a blank json object$/ do
@@ -176,6 +183,7 @@ Then /^there should be no other contents in the response body other than links$/
   @result.delete('organizationCategories')
   @result.delete('schoolCategories')
   @result.delete('metaData')
+  @result.delete('parentEducationAgencyReference')
   assert(@result == {}, "The response body still contains data that was previously there but *not* in the PUT data")
 end
 

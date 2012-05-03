@@ -28,7 +28,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
  *
  */
 @Document
-public final class NewBatchJob implements Job {
+public class NewBatchJob implements Job {
 
     @Id
     private String id;
@@ -95,9 +95,9 @@ public final class NewBatchJob implements Job {
     @PutResultInContext(returnName = "ingestionBatchJobId")
     public static String createId(String filename) {
         if (filename == null) {
-            return System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+            return UUID.randomUUID().toString();
         } else {
-            return filename + "-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+            return filename + "-" + UUID.randomUUID().toString();
         }
     }
 
@@ -190,6 +190,13 @@ public final class NewBatchJob implements Job {
         return resourceEntries;
     }
 
+    public synchronized void addResourceEntry(ResourceEntry resourceEntry) {
+        if (this.resourceEntries == null) {
+            this.resourceEntries = new LinkedList<ResourceEntry>();
+        }
+        this.resourceEntries.add(resourceEntry);
+    }
+
     /**
      * Method to return the ResourceEntry for a given resourceId
      * returns null if no matching entry is found
@@ -208,6 +215,20 @@ public final class NewBatchJob implements Job {
         }
 
         return null;
+    }
+
+    public List<ResourceEntry> getNeutralRecordResourceForType(FileType fileType) {
+        List<ResourceEntry> nrResourcesForType = new ArrayList<ResourceEntry>();
+
+        if (fileType != null) {
+            for (ResourceEntry entry : this.getResourceEntries()) {
+                if (FileFormat.NEUTRALRECORD.getCode().equals(entry.getResourceFormat())
+                        && fileType.getName().equals(entry.getResourceType())) {
+                    nrResourcesForType.add(entry);
+                }
+            }
+        }
+        return nrResourcesForType;
     }
 
     /**

@@ -27,6 +27,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private String externalId;
     private String adminRealm;
     private String edOrg;
+    private String tenantId;
     private List<String> roles;
     private List<String> sliRoles;
     
@@ -127,6 +128,22 @@ public class SLIPrincipal implements Principal, Serializable {
     @Override
     public String toString() {
         return this.externalId + "@" + this.realm;
+    }
+    
+    /**
+     * Sets the tenant id of the sli principal.
+     * @param newTenantId new tenant id.
+     */
+    public void setTenantId(String newTenantId) {
+        this.tenantId = newTenantId;
+    }
+    
+    /**
+     * Gets the tenant id of the sli principal.
+     * @return tenant id.
+     */
+    public String getTenantId() {
+        return tenantId;
     }
     
     public Map<String, Object> toMap() throws Exception {

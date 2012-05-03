@@ -36,6 +36,7 @@ import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -318,7 +319,9 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     private OAuth2Authentication createAnonymousAuth() {
         String time = Long.toString(System.currentTimeMillis());
-        return new OAuth2Authentication(new ClientToken("UNKNOWN", "UNKNOWN", new HashSet<String>()), new AnonymousAuthenticationToken(time, time, Arrays.<GrantedAuthority>asList(Right.ANONYMOUS_ACCESS)));
+        SLIPrincipal anon = new SLIPrincipal(time);
+        anon.setEntity(new MongoEntity("user", "-133", new HashMap<String, Object>(), new HashMap<String, Object>()));
+        return new OAuth2Authentication(new ClientToken("UNKNOWN", "UNKNOWN", new HashSet<String>()), new AnonymousAuthenticationToken(time, anon , Arrays.<GrantedAuthority>asList(Right.ANONYMOUS_ACCESS)));
     }
 
     private Entity findEntityForAccessToken(String token) {
