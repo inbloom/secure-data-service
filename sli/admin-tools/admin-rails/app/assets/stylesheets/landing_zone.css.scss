@@ -2,17 +2,21 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-div.block{
+div{
   overflow:hidden;
 }
 
-div.block label{
+label{
   float:left;
   text-align:left;
-  width:260px;
+  width:300px;
 }
 
-div.block input{
+input{
   display:block;
   float:left;
+}
+
+div.edOrgIdSelect input{
+  margin-left:10px;
 }
