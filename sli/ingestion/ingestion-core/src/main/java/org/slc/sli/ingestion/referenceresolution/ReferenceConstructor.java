@@ -80,10 +80,11 @@ public class ReferenceConstructor extends DefaultHandler {
         }
 
         // Check if top-level element is a reference.
-        if (qName.equals(topElementName) && qName.endsWith("Reference") && (attributes.getValue("id") != null)) {
+        if (qName.equals(topElementName) && (qName.endsWith("Reference")) && (attributes.getValue("id") != null)) {
             currentReferenceXMLString = new String();
             currentReferenceId = attributes.getValue("id");
             isInsideReferenceEntity = true;
+
         }
 
         // If in reference, add element to reference body.
@@ -154,8 +155,10 @@ public class ReferenceConstructor extends DefaultHandler {
             tempVal.append("\n\t");
             currentReferenceXMLString += "</" + qName + ">";
             if (qName.endsWith("Reference")) {
+
                 referenceObjects.put(currentReferenceId, currentReferenceXMLString);
                 isInsideReferenceEntity = false;
+
             }
         }
         startCharacters = true;
