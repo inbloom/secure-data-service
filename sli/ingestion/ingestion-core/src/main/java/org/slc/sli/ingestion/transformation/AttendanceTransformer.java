@@ -167,7 +167,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private Map<Object, NeutralRecord> getCollectionFromDb(String collectionName) {
         Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
 
-        @SuppressWarnings("deprecation")
         Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
                 collectionName, new Query(jobIdCriteria), getJob().getId(), 0, 0);
 
@@ -309,20 +308,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 schoolYears.put(schoolYear, events);
             }
         }
-
-        // if student attendance still has attendance events --> orphaned events
-
-        // Iterator<Map.Entry<Object, NeutralRecord>> recordItr =
-        // studentAttendance.entrySet().iterator();
-        // if (recordItr.hasNext()) {
-        // int orphanedEvents = 0;
-        // while (recordItr.hasNext()) {
-        // recordItr.next();
-        // orphanedEvents++;
-        // }
-        // LOG.warn("  {} attendance events still need to be mapped into a school year.",
-        // orphanedEvents);
-        // }
         return schoolYears;
     }
 }
