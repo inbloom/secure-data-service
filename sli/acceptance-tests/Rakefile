@@ -119,7 +119,7 @@ end
 task :default => :production
 
 # Task that initializes the realm fixture.  Should only be done once
-task :realmInit => [:appInit, :peopleInit] do
+task :realmInit => [:appInit] do
   setFixture("realm", "realm_fixture.json")
 end
 
@@ -127,12 +127,7 @@ task :appDenialInit do
   setFixture("application", "application_denial_fixture.json")
 end
 
-task :realmInitNoPeople => [:appInit] do
-  setFixture("realm", "realm_fixture.json")
-end
-
-task :peopleInit do
-  setFixture("staff", "staff_fixture.json")
+task :realmInitNoPeople => [:realmInit] do
 end
 
 # Task that initializes the application registration fixture
@@ -431,7 +426,7 @@ task :apiV1Tests => [:apiV1EntityTests,
 end
 
 
-task :apiV1EntityTests do
+task :apiV1EntityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud")
 end
