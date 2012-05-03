@@ -76,7 +76,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
         private int resultLimit = ERROR_QUERY_DEFAULT_LIMIT;
 
         public ErrorIterable(String jobId, int queryResultLimit) {
-            super();
             this.jobId = jobId;
             this.resultLimit = queryResultLimit;
         }
@@ -151,6 +150,10 @@ public class BatchJobMongoDA implements BatchJobDAO {
             }
 
             @Override
+            /**
+             * set the skip and limit for the internal cursor to get the result
+             * in chunks of up to 'limit' size
+             */
             public DBCursor prepare(DBCursor cursor) {
 
                 DBCursor cursorToUse = cursor;

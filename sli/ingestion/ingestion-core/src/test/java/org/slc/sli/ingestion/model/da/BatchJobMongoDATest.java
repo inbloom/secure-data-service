@@ -46,7 +46,8 @@ public class BatchJobMongoDATest {
 
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
     private static final String BATCHJOBID = "controlfile.ctl-2345342-2342334234";
-    private static final int RESULTLIMIT = 1;
+    private static final int RESULTLIMIT = 3;
+    private static final int START_INDEX = 0;
 
     @InjectMocks
     @Autowired
@@ -98,25 +99,60 @@ public class BatchJobMongoDATest {
         assertEquals(errorReturned.getErrorDetail(), "errorDetail");
     }
 
+    /**
+     * Test when the last result chunk falls on the limit boundary
+     */
     @Test
-    public void testGetBatchJobErrors() {
+    public void testGetBatchJobErrorsLimitAlignedResults() {
 
-        int errorIndex = 0;
+        int errorIndex = START_INDEX;
         List<Error> errorsReturnedFirst = createErrorsFromIndex(errorIndex, RESULTLIMIT);
         errorIndex += errorsReturnedFirst.size();
         List<Error> errorsReturnedSecond = createErrorsFromIndex(errorIndex, RESULTLIMIT);
-        errorIndex += errorsReturnedFirst.size();
+        errorIndex += errorsReturnedSecond.size();
 
         when(mockMongoTemplate.find((Query) any(), eq(Error.class), Matchers.isA(CursorPreparer.class), eq(BATCHJOB_ERROR_COLLECTION)))
         .thenReturn(errorsReturnedFirst)     // return the first time this method call is matched
         .thenReturn(errorsReturnedSecond)    // return the second time this method call is matched
-        .thenReturn(Collections.<Error>emptyList()); // return the last time this method call is matched
+        .thenReturn(Collections.<Error>emptyList()); // return the last time this method call is matched - should NOT be called
         when(mockMongoTemplate.getCollection(eq(BATCHJOB_ERROR_COLLECTION))).thenReturn(mockedCollection);
         when(mockedCollection.count(Matchers.isA(DBObject.class))).thenReturn((long) errorIndex);
 
         Iterable<Error> errorIterable = mockBatchJobMongoDA.getBatchJobErrors(BATCHJOBID, RESULTLIMIT);
 
-        int iterationCount = 0;
+        int iterationCount = START_INDEX;
+
+        for (Error error : errorIterable) {
+            assertOnErrorIterableValues(error, iterationCount);
+            iterationCount++;
+        }
+
+        // check we use the prepared cursor to query the db twice
+        verify(mockMongoTemplate, times(2)).find((Query) any(), eq(Error.class), Matchers.isA(CursorPreparer.class), eq(BATCHJOB_ERROR_COLLECTION));
+    }
+
+    /**
+     * Test when the last result chunk does NOT fall on the limit boundary
+     */
+    @Test
+    public void testGetBatchJobErrors() {
+
+        int errorIndex = START_INDEX;
+        List<Error> errorsReturnedFirst = createErrorsFromIndex(errorIndex, RESULTLIMIT);
+        errorIndex += errorsReturnedFirst.size();
+        List<Error> errorsReturnedSecond = createErrorsFromIndex(errorIndex, RESULTLIMIT - 1);
+        errorIndex += errorsReturnedSecond.size();
+
+        when(mockMongoTemplate.find((Query) any(), eq(Error.class), Matchers.isA(CursorPreparer.class), eq(BATCHJOB_ERROR_COLLECTION)))
+        .thenReturn(errorsReturnedFirst)     // return the first time this method call is matched
+        .thenReturn(errorsReturnedSecond)    // return the second time this method call is matched
+        .thenReturn(Collections.<Error>emptyList()); // return the last time this method call is matched - should NOT be called
+        when(mockMongoTemplate.getCollection(eq(BATCHJOB_ERROR_COLLECTION))).thenReturn(mockedCollection);
+        when(mockedCollection.count(Matchers.isA(DBObject.class))).thenReturn((long) errorIndex);
+
+        Iterable<Error> errorIterable = mockBatchJobMongoDA.getBatchJobErrors(BATCHJOBID, RESULTLIMIT);
+
+        int iterationCount = START_INDEX;
 
         for (Error error : errorIterable) {
             assertOnErrorIterableValues(error, iterationCount);
