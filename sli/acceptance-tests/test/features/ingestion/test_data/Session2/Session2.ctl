@@ -1,2 +1,1 @@
-edfi-xml,EducationOrganization,InterchangeEducationOrganization.xml,81183c6f0ac633bcda64ddd90695f0b4
-edfi-xml,EducationOrgCalendar,Session2.xml,2cf909f59759243f43576dd1a1c52aeb
+edfi-xml,EducationOrgCalendar,Session2.xml,3d8ac70c5c1099556a782a15f1b4f327

@@ -141,7 +141,7 @@ public class ReferenceResolver extends DefaultHandler {
         }
 
         // Expand XML references.
-        if ((qName.equals(topElementName)) && isValidEntity && (qName.endsWith("Reference"))
+        if ((qName.equals(topElementName)) && isValidEntity && qName.endsWith("Reference")
                 && (attributes.getValue("id") != null)) {
             // Reference top-level element.
             isValidEntity = false;
@@ -218,7 +218,7 @@ public class ReferenceResolver extends DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         // Write element to output file.
-        if (!isValidEntity && (qName.endsWith("Reference"))) {
+        if (!isValidEntity && qName.endsWith("Reference")) {
             isValidEntity = true;
         } else if (isValidEntity || qName.startsWith("Interchange")) {
             currentXMLString += tempVal.toString();

@@ -60,7 +60,6 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
             return true;
         }
 
-
         //UN: This check is to ensure that any zipping utility which does not pack a directory entry
         //    is verified by checking for a filename with '/'. Example: Windows Zipping Tool.
         if (zipEntry.getName().contains("/")) {

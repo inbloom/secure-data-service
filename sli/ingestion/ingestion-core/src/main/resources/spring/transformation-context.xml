@@ -61,10 +61,10 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/disciplineAction.xml" />
       </bean>
     </entry>
-        <entry key="session">
-            <bean class="org.milyn.Smooks">
-                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/session.xml" />
-            </bean>
+    <entry key="attendance">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/attendance.xml" />
+      </bean>
     </entry>
     <entry key="studentDisciplineIncidentAssociation">
       <bean class="org.milyn.Smooks">
