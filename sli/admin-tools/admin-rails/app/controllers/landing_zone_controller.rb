@@ -1,12 +1,19 @@
 class LandingZoneController < ApplicationController
+  
+  rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
+  
   def provision
-    ed_org = params[:ed_org]
-    ed_org = params[:custom_ed_org] if ed_org == 'custom'
-    logger.fatal "XXXX  #{ed_org}"
-    redirect_to '/'
+    ed_org_id = params[:ed_org]
+    ed_org_id = params[:custom_ed_org] if ed_org_id == 'custom'
+    result = LandingZone.provision ed_org_id
+    if (result)
+      render_400
+    else
+      
+    end
   end
 
   def index
-    @edOrgs = ["High-Level Ed-Org from Sample Dataset 1", "High-Level Ed-Org from Sample Dataset 2"]
+    @edOrgs = LandingZone.possible_edorgs
   end
 end
