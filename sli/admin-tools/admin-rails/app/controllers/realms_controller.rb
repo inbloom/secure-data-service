@@ -43,20 +43,21 @@ class RealmsController < ApplicationController
    def update
      @realm = Realm.find(params[:id])
 
-     @realm.mappings = params[:mappings] if params[:mappings] != nil;
+     params[:realm][:mappings] = params[:mappings] if params[:mappings] != nil;
      respond_to do |format|
        success = false
        errorMsg = ""
 
        begin
-         success =  @realm.save()
+         success =  @realm.update_attributes(params[:realm])
        rescue ActiveResource::BadRequest => error
          errorMsg = error.response.body
          logger.debug("Error: #{errorMsg}")
        end
 
-       if success && params[:mappings] != nil
-         format.json { render json: @realm }
+       if success
+         format.html { redirect_to realm_editors_path, notice: 'Realm was successfully updated.' }
+         format.json { render json: @realm, status: :created, location: @realm }
        else
          format.json { render json: errorMsg, status: :unprocessable_entity }
        end
