@@ -330,8 +330,8 @@ dev:
     ingestion:
         <<: *INGESTION-DEFAULT
         # dev/ingestion/ingestion_conf.properties
-        landingzone.inbounddir: C:/lz/
-        logging.path: C:/lz/logs/
+        landingzone.inbounddir: /home/ingestion/lz/inbound
+        logging.path: /home/ingestion/logs
         # dev/ingestion/queue.properties
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
@@ -568,8 +568,8 @@ local:
     ingestion:
         <<: *INGESTION-DEFAULT
         # local/ingestion/ingestion_conf.properties
-        landingzone.inbounddir: C:/lz/
-        logging.path: C:/lz/logs/
+        landingzone.inbounddir: target/ingestion/lz/inbound
+        logging.path: target/ingestion/logs
         # local/ingestion/queue.properties
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
