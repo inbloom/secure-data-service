@@ -19,7 +19,7 @@ import org.slc.sli.domain.Entity;
 @Component
 public class StaffDisciplineActionResolver implements EntityContextResolver {
 
-	@Autowired
+    @Autowired
     private ResolveCreatorsEntitiesHelper creatorResolverHelper;
 
     @Autowired

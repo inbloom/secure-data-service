@@ -7,12 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.domain.Entity;
@@ -20,6 +14,11 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.EntityValidationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Implementation of AssociationService.
@@ -29,15 +28,15 @@ import org.slc.sli.validation.EntityValidationException;
 @Component("basicAssociationService")
 public class BasicAssocService extends BasicService implements AssociationService {
     private static final Logger LOG = LoggerFactory.getLogger(BasicAssocService.class);
-    
+
     private final EntityDefinition sourceDefn;
     private final EntityDefinition targetDefn;
     private final String sourceKey;
     private final String targetKey;
-    
+
     @Autowired
     private Repository<Entity> repo;
-    
+
     public BasicAssocService(final String collectionName, final List<Treatment> treatments, final EntityDefinition sourceDefn, final String sourceKey, final EntityDefinition targetDefn, final String targetKey) {
         super(collectionName, treatments);
         this.sourceDefn = sourceDefn;
@@ -45,7 +44,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
         this.sourceKey = sourceKey;
         this.targetKey = targetKey;
     }
-    
+
     @Override
     public Iterable<String> getAssociationsFor(final String id, final NeutralQuery neutralQuery) {
         List<String> results = new ArrayList<String>();
@@ -53,54 +52,54 @@ public class BasicAssocService extends BasicService implements AssociationServic
         results.addAll(getAssociationsList(targetDefn, id, targetKey, neutralQuery));
         return results;
     }
-    
+
     @Override
     public Iterable<String> getAssociationsWith(final String id, final NeutralQuery neutralQuery) {
         return getAssociations(sourceDefn, id, sourceKey, neutralQuery);
     }
-    
+
     @Override
     public Iterable<String> getAssociationsTo(final String id, final NeutralQuery neutralQuery) {
         return getAssociations(targetDefn, id, targetKey, neutralQuery);
     }
-    
+
     @Override
     public EntityIdList getAssociatedEntitiesWith(final String id, final NeutralQuery neutralQuery) {
         return getAssociatedEntities(sourceDefn, id, sourceKey, targetKey, neutralQuery);
     }
-    
+
     @Override
     public EntityIdList getAssociatedEntitiesTo(final String id, final NeutralQuery neutralQuery) {
         return getAssociatedEntities(targetDefn, id, targetKey, sourceKey, neutralQuery);
     }
-    
+
     @Override
     public String create(final EntityBody content) {
-        
+
         // Create the association
         String id = super.create(content);
 
         String sourceCollection = this.sourceDefn.getStoredCollectionName();
         String targetCollection = this.targetDefn.getStoredCollectionName();
-        
+
         List<String> srcId = getIds(content, this.sourceKey);
         List<String> targetId = getIds(content, this.targetKey);
-        
+
         Iterable<Entity> sourceEntities = repo.findAll(sourceCollection, new NeutralQuery(new NeutralCriteria("_id", "=", srcId, false)));
         Iterable<Entity> targetEntities = repo.findAll(sourceCollection, new NeutralQuery(new NeutralCriteria("_id", "=", targetId, false)));
-        
+
         for (Entity sourceEntity : sourceEntities) {
             for (Entity targetEntity : targetEntities) {
                 // If both entities are orphaned, don't allow linking
                 if (sourceEntity != null && targetEntity != null && "true".equals(sourceEntity.getMetaData().get("isOrphaned")) && "true".equals(targetEntity.getMetaData().get("isOrphaned"))) {
-                	LOG.warn("Link two orphaned entities, ids {} & {}", sourceEntity.getEntityId(), targetEntity.getEntityId());
-                	//throw new IllegalArgumentException("Cannot link two orphaned entities");
+                    LOG.warn("Link two orphaned entities, ids {} & {}", sourceEntity.getEntityId(), targetEntity.getEntityId());
+                    //throw new IllegalArgumentException("Cannot link two orphaned entities");
                 }
-                
+
                 // Unorphan
                 targetEntity.getMetaData().remove("isOrphaned");
                 sourceEntity.getMetaData().remove("isOrphaned");
-                
+
                 try {
                     repo.update(sourceCollection, sourceEntity);
                     repo.update(targetCollection, targetEntity);
@@ -115,32 +114,32 @@ public class BasicAssocService extends BasicService implements AssociationServic
     @SuppressWarnings("unchecked")
     private List<String> getIds(EntityBody content, String key) {
         List<String> foundIds = new ArrayList<String>();
-        
+
         Object ids = content.get(key);
         if (ids instanceof List) {
             foundIds.addAll((Collection<? extends String>) ids);
         } else if (ids instanceof String) {
             foundIds.add((String) ids);
         }
-        
+
         return foundIds;
     }
-    
+
     @Override
     public long countAssociationsWith(final String id, NeutralQuery neutralQuery) {
         return countAssociationsTo(id, neutralQuery) + countAssociationsFor(id, neutralQuery);
     }
-    
+
     @Override
     public long countAssociationsTo(final String id, NeutralQuery neutralQuery) {
         return getAssociationCount(targetDefn, id, targetKey, neutralQuery);
     }
-    
+
     @Override
     public long countAssociationsFor(final String id, NeutralQuery neutralQuery) {
         return getAssociationCount(sourceDefn, id, sourceKey, neutralQuery);
     }
-    
+
     /**
      * Get associations to the entity of the given type and id, where id is keyed off of key
      * 
@@ -162,7 +161,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
         // LOG.debug("Getting assocations with {} from {} through {}", new Object[] { id, start, numResults });
         return getAssociationsList(type, id, key, neutralQuery);
     }
-    
+
     private List<String> getAssociationsList(final EntityDefinition type, final String id, final String key, final NeutralQuery neutralQuery) {
         List<String> results = new ArrayList<String>();
         Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, neutralQuery);
@@ -171,7 +170,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
         }
         return results;
     }
-    
+
     /**
      * Get associations to the entity of the given type and id, where id is keyed off of key
      * 
@@ -192,7 +191,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
     private EntityIdList getAssociatedEntities(final EntityDefinition type, final String id, final String key, final String otherEntityKey, final NeutralQuery neutralQuery) {
         // LOG.debug("Getting assocated entities with {} from {} through {}", new Object[] { id, start, numResults });
         EntityDefinition otherEntityDefn = type == sourceDefn ? targetDefn : sourceDefn;
-        
+
         Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, new NeutralQuery());
         // there can be multiple association objects pointing to the same associated entity, and we
         // need the number of unique ones for the totalCount
@@ -208,10 +207,10 @@ public class BasicAssocService extends BasicService implements AssociationServic
                 LOG.error("Association had bad value of key {}: {}", new Object[] { otherEntityKey, other });
             }
         }
-        
+
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
-        
+
         final Iterable<String> results = getRepo().findAllIds(otherEntityDefn.getStoredCollectionName(), localNeutralQuery);
         final long totalCount = associatedEntityIdSet.size();
         return new EntityIdList() {
@@ -219,14 +218,14 @@ public class BasicAssocService extends BasicService implements AssociationServic
             public Iterator<String> iterator() {
                 return results.iterator();
             }
-            
+
             @Override
             public long getTotalCount() {
                 return totalCount;
             }
         };
     }
-    
+
     /**
      * Gets the actual association objects (and not just the ids
      * 
@@ -249,18 +248,18 @@ public class BasicAssocService extends BasicService implements AssociationServic
         if (existingEntity == null) {
             throw new EntityNotFoundException(id);
         }
-        
+
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery.addCriteria(new NeutralCriteria(key, "=", id));
-        
+
         return getRepo().findAll(getCollectionName(), localNeutralQuery);
     }
-    
+
     private long getAssociationCount(final EntityDefinition type, final String id, final String key, final NeutralQuery neutralQuery) {
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery.addCriteria(new NeutralCriteria(key, "=", id));
-        
+
         return getRepo().count(getCollectionName(), localNeutralQuery);
     }
-    
+
 }
