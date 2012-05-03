@@ -1,3 +1,18 @@
 // Place all the styles related to the landing_zone controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+div.block{
+  overflow:hidden;
+}
+
+div.block label{
+  float:left;
+  text-align:left;
+  width:260px;
+}
+
+div.block input{
+  display:block;
+  float:left;
+}

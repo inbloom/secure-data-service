@@ -3,13 +3,18 @@
 	<%= form_tag("provision") %>
 		<span>
 			<% @edOrgs.each do |org| %>
-				<%= radio_button_tag 'ed_org', org %>
-				<label for="ed_org_<%= org.gsub(/\s/, '_') %>"><%= org %></label>
+				<div class="block">
+					<%= radio_button_tag 'ed_org', org %>
+					<label for="ed_org_<%= org.gsub(/\s/, '_') %>"><%= org %></label>
+				</div>
 			<% end %>
 		</span>
-		<input id="custom" name="ed_org" type="radio" value="custom" /> <label for="custom">Custom High-Level Ed-Org</label>
+		<div class="block">
+                  <input id="custom" name="ed_org" type="radio" value="custom" /> 
+		  <label for="custom">Custom High-Level Ed-Org</label>
+		</div>
 		
-		<input id="custom_ed_org" name="custom_ed_org" type="text" value="my_custom_edorg" disabled="true" />
+		<input id="custom_ed_org" name="custom_ed_org" type="text" value="Ed Org Name" disabled="true" />
 		<input name="commit" type="submit" value="Provision" />
 		<input name="cancel" type="submit" value="Cancel" />
 	</form>
