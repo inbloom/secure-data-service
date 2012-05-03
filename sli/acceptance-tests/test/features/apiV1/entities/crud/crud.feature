@@ -110,7 +110,7 @@ Examples:
 | "gradebookEntry"               | gradebookEntries        | 3 |
 | "learningObjective"            | learningObjectives      | 5 |
 | "learningStandard"             | learningStandards       | 14 |
-| "parent"                       | parents                 | 1 |
+| "parent"                       | parents                 | 2 |
 | "program"                      | programs                | 2 |
 | "school"                       | schools                 | 5 |
 | "section"                      | sections                | 6 |
