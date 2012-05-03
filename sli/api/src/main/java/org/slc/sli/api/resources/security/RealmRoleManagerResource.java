@@ -94,7 +94,7 @@ public class RealmRoleManagerResource {
         if (!SecurityUtil.hasRight(Right.REALM_EDIT)) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to update realms.");
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
+            return Response.status(Status.FORBIDDEN).entity(body).build();
         }
         if (service.update(realmId, updatedRealm)) {
             return Response.status(Status.NO_CONTENT).build();
@@ -111,7 +111,7 @@ public class RealmRoleManagerResource {
         } else {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to delete realms.");
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
+            return Response.status(Status.FORBIDDEN).entity(body).build();
         }
     }
     
@@ -121,7 +121,7 @@ public class RealmRoleManagerResource {
         if (!SecurityUtil.hasRight(Right.REALM_EDIT)) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to create realms.");
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
+            return Response.status(Status.FORBIDDEN).entity(body).build();
         }
         
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) newRealm.get("mappings");
