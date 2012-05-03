@@ -1203,6 +1203,11 @@ task :dashboardStudentSearchTests do
   runTests("test/features/dashboard/dash/student_search.feature")
 end
 
+desc "Run dashboard integrated Tests - Upload Config"
+task :dashboardSdsUploadConfigTests do
+  runTests("test/features/dashboard/dash/upload_config_sds.feature")
+end
+
 desc "Run dashboard student gradebook entry tests"
 task :dashboardStudentGradebookEntryTests do
   runTests("test/features/dashboard/students/StudentGradebookEntry.feature")
