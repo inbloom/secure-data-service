@@ -28,7 +28,7 @@ Given /^there are accounts in requests pending in the system$/ do
   user_info = {
       :first => "Loraine",
       :last => "Plyler", 
-       :email => "jdoe"+String(rand(4))+"@example.com",
+       :email => "jdoe@example.com",
        :password => "secret", 
        :emailtoken => "token",
        :vendor => "Macro Corp",
@@ -39,12 +39,7 @@ end
 
 
 When /^I hit the Admin Application Account Approval page$/ do
-  url = PropLoader.getProps['admintools_server_url']
-  if @account_approval_env == "sandbox"
-    url = url + "/account_managements?env=sandbox"
-  else
-    url = url +"/account_managements?reset=true"
-  end
+  url = PropLoader.getProps['admintools_server_url']+"/account_managements"
   @driver.get url
   begin
     @driver.switch_to.alert.accept
@@ -127,10 +122,7 @@ When /^I click the "([^"]*)" button$/ do |button_name|
 end
 
 When /^I am asked "([^"]*)"$/ do |arg1|
-  begin
-        @driver.switch_to.alert
-      rescue
-      end
+     # do nothing
 end
 
 When /^I click on Ok$/ do
@@ -143,9 +135,6 @@ Then /^his account status changed to "([^"]*)"$/ do |arg1|
 end
 
 
-Given /^there is an pending sandbox account  for vendor "([^"]*)"$/ do |arg1|
- @account_approval_env="sandbox"
-end
 
 Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |arg1|
   @account_approval_env="sandbox"

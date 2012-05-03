@@ -17,12 +17,26 @@ class AccountManagementsController < ApplicationController
   def create
     commit = params["commit"]
     email = params["email"]
-    AccountManagement.change_user_status(email,commit.downcase)
+    
+   
+    # may need to figure out better way to handle exception
+    begin  
+      AccountManagement.change_user_status(email,commit.downcase)
+    rescue Exception => e
+      @notice=e.message
+    ensure 
+    end
+    
     @account_managements=get_all()
     @account_managements=sort(@account_managements)
 
     # may need to figure out how to send error message if the status change failed
-    @notice='Account was successfully updated.'
+    if @notice==nil
+    @notice="Account was successfully updated."
+    else
+    @notice=@notice+"\n"+"Account was successfully updated."
+    end
+    
 
     respond_to do |format|
 
