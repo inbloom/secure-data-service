@@ -1,4 +1,6 @@
 SLIAdmin::Application.routes.draw do
+  resources :realm_editors
+
   resources :account_managements
   resources :application_authorizations
 
@@ -20,6 +22,7 @@ SLIAdmin::Application.routes.draw do
     resources :roles
     resources :sessions
     resources :apps
+    resources :realms
     match '/apps/approve', :to => 'apps#approve'
     match '/apps/unregister', :to => 'apps#unregister'
 

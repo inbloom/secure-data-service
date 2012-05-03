@@ -104,7 +104,7 @@ public class RealmRoleManagerResource {
     
     @POST
     @SuppressWarnings("unchecked")
-    public Response createRealm(EntityBody newRealm) {
+    public Response createRealm(EntityBody newRealm, @Context final UriInfo uriInfo) {
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) newRealm.get("mappings");
         if (mappings != null) {
             Response validateResponse = validateMappings(mappings);
@@ -115,12 +115,9 @@ public class RealmRoleManagerResource {
         }
         
         String id = service.create(newRealm);
-        if (id != null) {
-            service.create(newRealm);
-        }
-        EntityBody resObj = new EntityBody();
-        resObj.put("id", id);
-        return Response.status(Status.CREATED).entity(resObj).build();
+        String uri = uriToString(uriInfo) + "/" + id;
+
+        return Response.status(Status.CREATED).header("Location", uri).build();
     }
     
     @GET
@@ -162,7 +159,9 @@ public class RealmRoleManagerResource {
         HashMap<String, String> res = new HashMap<String, String>();
         
         List<Map<String, Object>> roles = mappings.get("role");
-        
+        if (roles == null) {
+            roles = new ArrayList<Map<String, Object>>();
+        }
         Set<String> clientRoles = new HashSet<String>();
         for (Map<String, Object> role : roles) {
             String sliRoleName = (String) role.get("sliRoleName");
@@ -189,4 +188,8 @@ public class RealmRoleManagerResource {
         return null;
     }
     
+    private static String uriToString(UriInfo uri) {
+        return uri.getBaseUri() + uri.getPath().replaceAll("/$", "");
+    }
+
 }

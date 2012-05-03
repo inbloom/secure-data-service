@@ -43,7 +43,7 @@ class RealmsController < ApplicationController
    def update
      @realm = Realm.find(params[:id])
 
-     @realm.mappings = params[:mappings];
+     @realm.mappings = params[:mappings] if params[:mappings] != nil;
      respond_to do |format|
        success = false
        errorMsg = ""
@@ -52,6 +52,7 @@ class RealmsController < ApplicationController
          success =  @realm.save()
        rescue ActiveResource::BadRequest => error
          errorMsg = error.response.body
+         logger.debug("Error: #{errorMsg}")
        end
 
        if success && params[:mappings] != nil
@@ -62,6 +63,40 @@ class RealmsController < ApplicationController
 	
      end
    end
+
+   # POST /roles
+  # POST /roles.json
+  def create
+     logger.debug("Creating a new realm")
+     @realm = Realm.new(params[:realm])
+     @realm.saml = {} if @realm.saml == nil
+     @realm.mappings = {} if @realm.mappings == nil
+     @realm.admin = false
+     logger.debug{"Creating realm #{@realm}"}
+
+     respond_to do |format|
+       if @realm.save
+         format.html { redirect_to realm_editors_path, notice: 'Realm was successfully created.' }
+         format.json { render json: @realm, status: :created, location: @realm }
+       else
+         format.html { render action: "new" }
+         format.json { render json: @realm.errors, status: :unprocessable_entity }
+       end
+       puts("Responded")
+     end
+  end
+
+  # DELETE /realms/1
+  # DELETE /realms/1.json
+  def destroy
+    @realm = Realm.find(params[:id])
+    @realm.destroy
+
+    respond_to do |format|
+      format.html { redirect_to realm_editors_url }
+      format.json { head :ok }
+    end
+  end
 
 private
 
