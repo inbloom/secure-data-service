@@ -1,0 +1,25 @@
+<h1>Provision Landing-Zone</h1>
+<div>
+	<%= form_tag("provision") %>
+		<% if not @edOrgs.empty? %>
+			<% @edOrgs.each do |org| %>
+				<div class="block">
+					<%= radio_button_tag 'ed_org', org %>
+					<label for="ed_org_<%= org.gsub(/\s/, '_') %>"><%= org %></label>
+				</div>
+			<% end %>
+			<div class="block">
+	                  <input id="custom" name="ed_org" type="radio" value="custom" /> 
+			  <label for="custom">Custom High-Level Ed-Org</label>
+			</div>
+		<% else %>
+			<input id="custom" type="hidden" name="ed_org" value="custom">
+		<% end %>
+		<div class="edOrgIdSelect">
+			<input id="custom_ed_org" name="custom_ed_org" type="text" value="State Organization Id" disabled="true"/>
+			<label for="custom_ed_org">State organization Id of Ed Org</label>
+		</div>
+		<input name="commit" type="submit" value="Provision" />
+		<input name="cancel" type="submit" value="Cancel" />
+	</form>
+</div>
