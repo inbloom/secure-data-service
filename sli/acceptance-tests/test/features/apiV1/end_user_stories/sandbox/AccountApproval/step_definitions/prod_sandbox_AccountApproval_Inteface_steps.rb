@@ -25,6 +25,7 @@ end
 
 Given /^there are accounts in requests pending in the system$/ do
   clear_all()
+  sleep(1)
   user_info = {
       :first => "Loraine",
       :last => "Plyler", 
@@ -35,6 +36,7 @@ Given /^there are accounts in requests pending in the system$/ do
        :status => "pending"
    }
   @ldap.create_user(user_info)
+  sleep(1)
 end
 
 
@@ -94,6 +96,7 @@ end
 
 Given /^there is a "([^"]*)" production account request for vendor "([^"]*)"$/ do |status,vendor|
   clear_all()
+  sleep(1)
   user_info = {
       :first => "Loraine",
       :last => "Plyler", 
@@ -104,6 +107,7 @@ Given /^there is a "([^"]*)" production account request for vendor "([^"]*)"$/ d
        :status => status
    }
   @ldap.create_user(user_info)
+  sleep(1)
 end
 
 Then /^I see one account with name "([^"]*)"$/ do |user_name|

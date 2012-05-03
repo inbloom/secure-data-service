@@ -23,7 +23,7 @@ class AccountManagementsController < ApplicationController
     begin  
       AccountManagement.change_user_status(email,commit.downcase)
     rescue Exception => e
-      @notice=e.message
+      @error_notice=e.message
     ensure 
     end
     
@@ -31,11 +31,7 @@ class AccountManagementsController < ApplicationController
     @account_managements=sort(@account_managements)
 
     # may need to figure out how to send error message if the status change failed
-    if @notice==nil
     @notice="Account was successfully updated."
-    else
-    @notice=@notice+"\n"+"Account was successfully updated."
-    end
     
 
     respond_to do |format|
