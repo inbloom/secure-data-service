@@ -104,8 +104,8 @@
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
         <property name="passThroughCollectionName" value="program" />
     </bean>
-
-    <bean id="staffProgramAssociationTransformationStrategy"
+    
+    <bean id="staffProgramAssociationTransformationStrategy" 
             class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
         <property name="passThroughCollectionName" value="staffProgramAssociation" />
@@ -115,13 +115,13 @@
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
 		<property name="passThroughCollectionName" value="studentProgramAssociation" />
     </bean>
-
+ 	
 	<bean id="cohortTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
         <property name="passThroughCollectionName" value="cohort" />
     </bean>
-
-    <bean id="staffCohortAssociationTransformationStrategy"
+    
+    <bean id="staffCohortAssociationTransformationStrategy" 
             class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
         <property name="passThroughCollectionName" value="staffCohortAssociation" />
@@ -131,13 +131,13 @@
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
 	<property name="passThroughCollectionName" value="studentCohortAssociation" />
     </bean>
-
+    
 	<bean id="disciplineIncidentTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
 		<property name="passThroughCollectionName" value="disciplineIncident" />
     </bean>
-
-    <bean id="disciplineActionTransformationStrategy"
+    
+    <bean id="disciplineActionTransformationStrategy" 
             class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
         <property name="passThroughCollectionName" value="disciplineAction" />
