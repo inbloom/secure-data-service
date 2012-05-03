@@ -15,19 +15,19 @@
 		<td class="vendor"><%= account_management.vendor%></td>
 		<td class="user_name" id="<%= 'username.'+account_management.name%>"><%= account_management.name%></td>
 		<td class="last_update"><%= account_management.lastUpdate%></td>
-		<% if account_management.status == "Approved"%>
+		<% if account_management.status.downcase == "approved"%>
 		<td id="<%='status.'+account_management.name%>" class="account_management_table_approvedStatus"><%= account_management.status%></td>
-		<% elsif account_management.status == "Pending"%>
+		<% elsif account_management.status.downcase == "pending"%>
 		<td id="<%='status.'+account_management.name%>" class="account_management_table_pendingStatus"><%= account_management.status%></td>
-		<% elsif account_management.status == "Rejected"%>
+		<% elsif account_management.status.downcase == "rejected"%>
 		<td id="<%='status.'+account_management.name%>" class="account_management_table_rejectedStatus"><%= account_management.status%></td>
-		<% elsif account_management.status == "Disabled"%>
+		<% elsif account_management.status.downcase == "disabled"%>
 		<td id="<%='status.'+account_management.name%>" class="account_management_table_disabledStatus"><%= account_management.status%></td>
 		<% end%>
 		<td><%=
 		form_for "" do |f|
 		%>
-		<%= f.hidden_field "email", :value => account_management.email %>
+		<%= f.hidden_field "email", :name=>"email", :value => account_management.email %>
 		<%= f.submit "Approve",:id=> "approve_button_"+account_management.name,:disabled => (account_management.transitions.index("approve")==nil),
       :confirm => "Do you really want to approve this user account?" %>
 		<%= f.submit "Reject",:id=> "reject_button_"+account_management.name,:disabled => (account_management.transitions.index("reject")==nil),
