@@ -396,11 +396,17 @@ public class PopulationManagerImpl implements PopulationManager {
              */
             List<Map<String, Object>> stuSectAssocs = (List<Map<String, Object>>) transcripts
                     .get(Constants.ATTR_STUDENT_SECTION_ASSOC);
+            if(stuSectAssocs == null) {
+                return;
+            }
+            
             String subjectArea = getSubjectArea(stuSectAssocs, sectionId);
             List<Map<String, Object>> interSections = new ArrayList<Map<String, Object>>();
-
             for (Map<String, Object> assoc : stuSectAssocs) {
                 Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
+                if(sections == null){
+                    continue;
+                }
                 // This case will catch if the subjectArea is null
                 if (subjectArea == null
                         || subjectArea.equalsIgnoreCase((String) ((Map) sections.get(Constants.ATTR_COURSES))
