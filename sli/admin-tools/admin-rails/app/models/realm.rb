@@ -5,7 +5,7 @@ class Realm < SessionResource
   schema do
     string "uniqueIdentifier", "name"
     string "saml", "mappings"
-    string "idp"
+    string "id", "redirectEndpoint", "idp"
   end
 
   class IDP < SessionResource

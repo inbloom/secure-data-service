@@ -65,10 +65,6 @@ class RealmsControllerTest < ActionController::TestCase
      # puts mappings.inspect
    end
 
-   test "bad update - no mapping data" do
-     put :update, {id: 1, format: 'json'}
-     assert_response 422
-   end
 
   # 
   # test "should destroy realm" do

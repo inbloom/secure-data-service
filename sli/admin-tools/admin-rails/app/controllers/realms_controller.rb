@@ -43,7 +43,8 @@ class RealmsController < ApplicationController
    def update
      @realm = Realm.find(params[:id])
 
-     params[:realm][:mappings] = params[:mappings] if params[:mappings] != nil;
+     params[:realm] = {} if params[:realm] == nil
+     params[:realm][:mappings] = params[:mappings] if params[:mappings] != nil
      respond_to do |format|
        success = false
        errorMsg = ""
