@@ -58,11 +58,26 @@ Then /^I paste Valid json config into the text box$/ do
               items: [
                 {name: \"My Student\", width: 150, field: \"name.fullName\", formatter:restLink, params: {link:'service/layout/studentProfile/', target:\"_self\"}},
                 {name: \"\", width: 60, field: \"programParticipation\", formatter: Lozenge},
-                {name: \"Absence Count\", field: \"attendances.absenceCount\", width:100, sorter: 'int', formatter: CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style:'color-widget-red'}}}},
-                {name: \"Tardy Count\", field: \"attendances.tardyCount\", width:100, sorter: 'int', formatter: CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style:'color-widget-yellow'}, 11:{style:'color-widget-red'}}}}
+                {name: \"Absence Count For Testing\", field: \"attendances.absenceCount\", width:100, sorter: 'int', formatter: CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style:'color-widget-red'}}}},
+                {name: \"Tardy Count For Testing\", field: \"attendances.tardyCount\", width:100, sorter: 'int', formatter: CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style:'color-widget-yellow'}, 11:{style:'color-widget-red'}}}}
               ]
               }
             ] 
+          }
+          ,
+          \"studentProfile\" :
+          {
+            id : \"studentProfile\",
+            type: \"LAYOUT\",
+            data :{
+              entity: \"student\",
+              cacheKey: \"student\"
+            }, 
+            items: [
+              {id : \"csi\", name: \"Student Info\", type: \"PANEL\"},
+              {id: \"tab8\", name: \"Overview\",  type : \"TAB\", condition: {field: \"gradeLevel\", value: [\"Fourth Grade\", \"Fifth Grade\", \"Sixth Grade\", \"Seventh Grade\", \"Eighth grade\", \"Other\", \"Ungraded\", \"Not Available\"]}, items: [{id : \"contactInfo\", type: \"PANEL\"}, {id : \"enrollmentHist\", name: \"Student Enrollment Panel\", type: \"GRID\"}]},
+              {id: \"tab1\", name: \"ELL\", type : \"TAB\", condition: {field: \"limitedEnglishProficiency\", value: [\"Limited\"]}, items: []}
+            ]
           }
         }"
   
