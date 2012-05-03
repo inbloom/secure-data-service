@@ -1,6 +1,7 @@
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,8 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.validation.EntityValidationException;
 
 /**
  * Implementation of AssociationService.
@@ -31,8 +35,10 @@ public class BasicAssocService extends BasicService implements AssociationServic
     private final String sourceKey;
     private final String targetKey;
     
-    public BasicAssocService(final String collectionName, final List<Treatment> treatments, final EntityDefinition sourceDefn,
-            final String sourceKey, final EntityDefinition targetDefn, final String targetKey) {
+    @Autowired
+    private Repository<Entity> repo;
+    
+    public BasicAssocService(final String collectionName, final List<Treatment> treatments, final EntityDefinition sourceDefn, final String sourceKey, final EntityDefinition targetDefn, final String targetKey) {
         super(collectionName, treatments);
         this.sourceDefn = sourceDefn;
         this.targetDefn = targetDefn;
@@ -71,8 +77,53 @@ public class BasicAssocService extends BasicService implements AssociationServic
     @Override
     public String create(final EntityBody content) {
         
-        //validateAssociationContent(content);
-        return super.create(content);
+        // Create the association
+        String id = super.create(content);
+
+        String sourceCollection = this.sourceDefn.getStoredCollectionName();
+        String targetCollection = this.targetDefn.getStoredCollectionName();
+        
+        List<String> srcId = getIds(content, this.sourceKey);
+        List<String> targetId = getIds(content, this.targetKey);
+        
+        Iterable<Entity> sourceEntities = repo.findAll(sourceCollection, new NeutralQuery(new NeutralCriteria("_id", "=", srcId, false)));
+        Iterable<Entity> targetEntities = repo.findAll(sourceCollection, new NeutralQuery(new NeutralCriteria("_id", "=", targetId, false)));
+        
+        for (Entity sourceEntity : sourceEntities) {
+            for (Entity targetEntity : targetEntities) {
+                // If both entities are orphaned, don't allow linking
+                if (sourceEntity != null && targetEntity != null && "true".equals(sourceEntity.getMetaData().get("isOrphaned")) && "true".equals(targetEntity.getMetaData().get("isOrphaned"))) {
+                	LOG.warn("Link two orphaned entities, ids {} & {}", sourceEntity.getEntityId(), targetEntity.getEntityId());
+                	//throw new IllegalArgumentException("Cannot link two orphaned entities");
+                }
+                
+                // Unorphan
+                targetEntity.getMetaData().remove("isOrphaned");
+                sourceEntity.getMetaData().remove("isOrphaned");
+                
+                try {
+                    repo.update(sourceCollection, sourceEntity);
+                    repo.update(targetCollection, targetEntity);
+                } catch (EntityValidationException e) {
+                    LOG.error("Invariant violation.  Read entity couldn't be updated", e);
+                }
+            }
+        }
+        return id;
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<String> getIds(EntityBody content, String key) {
+        List<String> foundIds = new ArrayList<String>();
+        
+        Object ids = content.get(key);
+        if (ids instanceof List) {
+            foundIds.addAll((Collection<? extends String>) ids);
+        } else if (ids instanceof String) {
+            foundIds.add((String) ids);
+        }
+        
+        return foundIds;
     }
     
     @Override
@@ -108,7 +159,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
      * @return
      */
     private Iterable<String> getAssociations(final EntityDefinition type, final String id, final String key, final NeutralQuery neutralQuery) {
-        //LOG.debug("Getting assocations with {} from {} through {}", new Object[] { id, start, numResults });
+        // LOG.debug("Getting assocations with {} from {} through {}", new Object[] { id, start, numResults });
         return getAssociationsList(type, id, key, neutralQuery);
     }
     
@@ -138,9 +189,8 @@ public class BasicAssocService extends BasicService implements AssociationServic
      *            the query string to filter returned collection results
      * @return
      */
-    private EntityIdList getAssociatedEntities(final EntityDefinition type, final String id, final String key, final String otherEntityKey,
-            final NeutralQuery neutralQuery) {
-        //LOG.debug("Getting assocated entities with {} from {} through {}", new Object[] { id, start, numResults });
+    private EntityIdList getAssociatedEntities(final EntityDefinition type, final String id, final String key, final String otherEntityKey, final NeutralQuery neutralQuery) {
+        // LOG.debug("Getting assocated entities with {} from {} through {}", new Object[] { id, start, numResults });
         EntityDefinition otherEntityDefn = type == sourceDefn ? targetDefn : sourceDefn;
         
         Iterable<Entity> entityObjects = getAssociationObjects(type, id, key, new NeutralQuery());
@@ -212,4 +262,5 @@ public class BasicAssocService extends BasicService implements AssociationServic
         
         return getRepo().count(getCollectionName(), localNeutralQuery);
     }
+    
 }

@@ -34,6 +34,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
 
     @Autowired
     private AssociativeContextHelper helper;
+    
+    @Autowired
+    private ResolveCreatorsEntitiesHelper creatorResolverHelper;
 
     @Autowired
     private EntityDefinitionStore store;
@@ -41,6 +44,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
     @Autowired
     private Repository<Entity> repository;
 
+    @Autowired
+    private Repository<Entity> repo;
+    
     private String fromEntity;
     private String toEntity;
 
@@ -67,11 +73,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
      */
     @Override
     public List<String> findAccessible(Entity principal) {
-        if (principal != null && principal.getBody().get("staffUniqueStateId").equals("demo")) {
-            info("Resolver override for demo user.");
-            return AllowAllEntityContextResolver.SUPER_LIST;
-        }
-        
+
         List<SecurityNode> path = new ArrayList<SecurityNode>();
         path = pathFinder.getPreDefinedPath(fromEntity, toEntity);
         if (path.size() == 0) {
@@ -109,6 +111,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
             current = path.get(i);
         }
         debug("We found {} ids", ids);
+        
+        //  Allow creator access
+        ids.addAll(creatorResolverHelper.getAllowedForCreator(toEntity));
         return new ArrayList<String>(ids);
     }
 
@@ -139,5 +144,4 @@ public class PathFindingContextResolver implements EntityContextResolver {
     public void setRepository(Repository<Entity> repo) {
         this.repository = repo;
     }
-
 }

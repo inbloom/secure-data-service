@@ -18,6 +18,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.api.config.AssociationDefinition;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -43,7 +49,10 @@ import org.slc.sli.domain.Repository;
         DirtiesContextTestExecutionListener.class })
 public class PathFindingContextResolverTest {
     
-    @Autowired 
+    @Autowired
+    private SecurityContextInjector injector;
+    
+    @Autowired
     private PathFindingContextResolver resolver;
     
     private AssociativeContextHelper mockHelper;
@@ -75,13 +84,15 @@ public class PathFindingContextResolverTest {
     }
     
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testFindTeacherToSections() throws Exception {
+        injector.setDemoContext();
         Entity mockEntity = Mockito.mock(Entity.class);
         when(mockEntity.getEntityId()).thenReturn("1");
 
         //override for demo user
-        Map mockBody = new HashMap();
+        Map<String, Object> mockBody = new HashMap<String, Object>();
         mockBody.put("staffUniqueStateId", "mock");
         when(mockEntity.getBody()).thenReturn(mockBody);
 
@@ -109,12 +120,14 @@ public class PathFindingContextResolverTest {
         
     }
     
+    @SuppressWarnings("unchecked")
     @Test
     public void testFindTeacherToStudent() throws Exception {
+        injector.setDemoContext();
         Entity mockEntity = Mockito.mock(Entity.class);
 
         //override for demo user
-        Map mockBody = new HashMap();
+        Map<String, Object> mockBody = new HashMap<String, Object>();
         mockBody.put("staffUniqueStateId", "mock");
         when(mockEntity.getBody()).thenReturn(mockBody);
 
@@ -138,12 +151,14 @@ public class PathFindingContextResolverTest {
         
     }
     
+    @SuppressWarnings("unchecked")
     @Test
     public void testFindTeacherToTeacher() throws Exception {
+        injector.setDemoContext();
         Entity mockEntity = Mockito.mock(Entity.class);
 
         //override for demo user
-        Map mockBody = new HashMap();
+        Map<String, Object> mockBody = new HashMap<String, Object>();
         mockBody.put("staffUniqueStateId", "mock");
         when(mockEntity.getBody()).thenReturn(mockBody);
 

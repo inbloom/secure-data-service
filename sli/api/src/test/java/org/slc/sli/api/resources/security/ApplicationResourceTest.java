@@ -51,6 +51,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+
 /**
  *
  * @author pwolf
@@ -104,6 +110,7 @@ public class ApplicationResourceTest {
         repo.deleteAll("application");
     }
 
+    @SuppressWarnings("rawtypes")
     @Test
     public void testGoodCreate() {
         EntityBody app = getNewApp();
@@ -204,6 +211,7 @@ public class ApplicationResourceTest {
     public void testBadDelete() {
         String uuid = "9999999999";
         try {
+            @SuppressWarnings("unused")
             Response resp = resource.deleteApplication(uuid, headers, uriInfo);
         } catch (EntityNotFoundException e) {
             assertTrue(true);
@@ -355,6 +363,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdateApprovalDate() {
         EntityBody app = getNewApp();
@@ -366,6 +375,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdateRequestDate() {
         EntityBody app = getNewApp();
@@ -377,6 +387,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_BAD_REQUEST, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdateRegistrationAsOperator() {
         EntityBody app = getNewApp();
@@ -392,6 +403,7 @@ public class ApplicationResourceTest {
         
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdateAppAsOperator() {
         EntityBody app = getNewApp();
@@ -406,6 +418,7 @@ public class ApplicationResourceTest {
         
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void denyApplication() {
         // Create - Deny
@@ -420,6 +433,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_NO_CONTENT, resource.updateApplication(uuid, app, headers, uriInfo).getStatus());
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void approveApplication() {
         //Create - Approve
@@ -436,6 +450,7 @@ public class ApplicationResourceTest {
         assertTrue("approval date set", reg.containsKey(APPROVAL_DATE));
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private Map getRegistrationDataForApp(String uuid) {
         Response resp = resource.getApplication(uuid, headers, uriInfo);
         Map data = (Map) resp.getEntity();
@@ -444,6 +459,7 @@ public class ApplicationResourceTest {
         return toReturn;
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void unregisterApplication() {
         //Create - Approve - Unregister
@@ -467,6 +483,7 @@ public class ApplicationResourceTest {
         assertFalse("request date not set", reg.containsKey(REQUEST_DATE));
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void resubmitDeniedApplication() {
         //Create - Deny - Dev Update
@@ -491,6 +508,7 @@ public class ApplicationResourceTest {
         assertTrue("request date set", reg.containsKey(REQUEST_DATE));
     }
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void unregisterDeniedApplication() {
         //Create - Deny - Unregister

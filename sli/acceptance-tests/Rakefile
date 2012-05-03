@@ -119,7 +119,7 @@ end
 task :default => :production
 
 # Task that initializes the realm fixture.  Should only be done once
-task :realmInit => [:appInit, :peopleInit] do
+task :realmInit => [:appInit] do
   setFixture("realm", "realm_fixture.json")
 end
 
@@ -127,12 +127,7 @@ task :appDenialInit do
   setFixture("application", "application_denial_fixture.json")
 end
 
-task :realmInitNoPeople => [:appInit] do
-  setFixture("realm", "realm_fixture.json")
-end
-
-task :peopleInit do
-  setFixture("staff", "staff_fixture.json")
+task :realmInitNoPeople => [:realmInit] do
 end
 
 # Task that initializes the application registration fixture
@@ -217,7 +212,7 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :i
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, 
                          :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
-                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, :ingestionCommonCoreTest] do
+                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -410,6 +405,7 @@ end
 ############################################################
 desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:apiV1EntityTests,
+                     :apiV1EntitySecurityTests,
                      :apiV1AssociationTests,
                      :v1homeUriTests,
                      :v1ValidationTests,
@@ -429,30 +425,22 @@ task :apiV1Tests => [:apiV1EntityTests,
   displayFailureReport()
 end
 
-task :apiV1EntityTests => [:v1AssessmentTests,
-                           :v1LearningStandardTests,
-                           :v1LearningObjectiveTests,
-                           :v1CCSTests,
-                           :v1AttendanceTests,
-                           :v1CourseTests,
-                           :v1EducationOrganizationTests,
-                           :v1GradebookEntryTests,
-                           :v1ParentTests,
-                           :v1ParentSecurityTests,
-                           :v1SchoolTests,
-                           :v1SectionTests,
-                           :v1SessionTests,
-                           :v1StaffTests,
-                           :v1StudentTests,
-                           :v1StudentSectionGradebookEntryTests,
-                           :v1ProgramTests,
-                           :v1ProgramSecurityTests,
-                           :v1DisciplineIncidentTests,
-                           :v1DisciplineActionTests,
-                           :v1TeacherTests,
-                           :v1CohortTests,
-                           :v1CohortSecurityTests,
-                           :v1StudentAcademicRecordTests] do
+
+task :apiV1EntityTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/crud")
+end
+
+task :apiV1EntitySecurityTests do
+  # Import the data once, none of these tests edit the data
+  Rake::Task["importSandboxData"].execute
+  
+  Rake::Task["v1ProgramSecurityTests"].execute
+  Rake::Task["v1ParentSecurityTests"].execute
+  Rake::Task["v1AttendanceSecurityTests"].execute
+  Rake::Task["v1CohortSecurityTests"].execute
+  Rake::Task["v1DisciplineActionSecurityTests"].execute
+  Rake::Task["v1DisciplineIncidentSecurityTests"].execute
 end
 
 task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
@@ -471,15 +459,8 @@ task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
                                 :v1TeacherSectionAssociationTests,
                                 :v1StaffCohortAssociationTests,
                                 :v1StudentCohortAssociationTests] do
-end
-
-desc "Run V1 Student Academic Record Tests"
-task :v1StudentAcademicRecordTests => [:realmInit] do
-  setFixture("student", "student_fixture.json")
-  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
-  setFixture("session", "session_fixture.json")
-  setFixture("session", "smallville_sessions_fixture.json", "test/data/smallville", false)
-  runFixtureAndTests("test/features/apiV1/entities/studentAcademicRecord", "studentAcademicRecord", "studentAcademicRecord_fixture.json")
+  # Repair the damage that was done during the tests
+  Rake::Task["importSandboxData"].execute
 end
 
 desc "Run V1 XML Tests"
@@ -500,55 +481,34 @@ task :v1XMLTests => [:realmInit] do
   runTests("test/features/apiV1/xml/xml.feature")
 end
 
-desc "Run V1 Student Section Gradebook Entry Tests"
-task :v1StudentSectionGradebookEntryTests => [:realmInit] do
-  setFixture("student", "student_fixture.json")
-  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
-  setFixture("section", "section_fixture.json")
-  setFixture("section", "smallville_sections_fixture.json", "test/data/smallville", false)
-  setFixture("gradebookEntry", "gradebookEntry_fixture.json")
-  setFixture("studentSectionGradebookEntry", "studentSectionGradebookEntry_fixture.json")
-  runTests("test/features/apiV1/entities/studentSectionGradebookEntry")
-end
-
-desc "Run V1 Gradebook Entry Tests"
-task :v1GradebookEntryTests => [:realmInit] do
-  setFixture("section", "section_fixture.json")
-  setFixture("section", "smallville_sections_fixture.json", "test/data/smallville", false)
-  runFixtureAndTests("test/features/apiV1/entities/gradebookEntry", "gradebookEntry", "gradebookEntry_fixture.json")
-end
-
-desc "Run V1 program Tests"
-task :v1ProgramTests => [:realmInit] do
-  setFixture("program", "program_fixture.json")
-  runTests("test/features/apiV1/entities/program")
-end
-
 desc "Run V1 Program Security Tests"
 task :v1ProgramSecurityTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/program/program_security.feature")
 end
 
-desc "Run V1 Discipline Incident Tests"
-task :v1DisciplineIncidentTests => [:realmInit] do
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
-  setFixture("disciplineIncident", "disciplineIncident_fixture.json")
-  runTests("test/features/apiV1/entities/disciplineIncident")
+desc "Run V1 Discipline Incident Security Tests"
+task :v1DisciplineIncidentSecurityTests => [:realmInit] do
+  runTests("test/features/apiV1/entities/disciplineIncident/disciplineIncident_security.feature")
 end
 
-desc "Run V1 Discipline Action Tests"
-task :v1DisciplineActionTests => [:realmInit] do
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
-  setFixture("student", "student_fixture.json")
-  setFixture("student", "smallville_student_fixture.json", "test/data/smallville", false)
-  setFixture("staff", "staff_fixture.json")
-  setFixture("staff", "smallville_staff_fixture.json", "test/data/smallville", false)
-  setFixture("disciplineIncident", "disciplineIncident_fixture.json")
-  setFixture("disciplineAction", "disciplineAction_fixture.json")
-  runTests("test/features/apiV1/entities/disciplineAction")
+desc "Run V1 Discipline Action Secuity Tests"
+task :v1DisciplineActionSecurityTests => [:realmInit] do
+  runTests("test/features/apiV1/entities/disciplineAction/disciplineAction_security.feature")
+end
+
+desc "Run V1 Parent Security Tests"
+task :v1ParentSecurityTests => [:realmInit] do
+  runTests("test/features/apiV1/entities/parent/parent_security.feature")
+end
+
+desc "Run V1 Attendance Security Tests"
+task :v1AttendanceSecurityTests => [:realmInit] do
+  runTests("test/features/apiV1/entities/attendance/attendance_security.feature")
+end
+
+desc "Run V1 Cohort Security Tests"
+task :v1CohortSecurityTests => [:realmInit] do
+  runTests("test/features/apiV1/entities/cohort/cohort_security.feature")
 end
 
 desc "Run V1 Student Discipline Incident Association Tests"
@@ -588,9 +548,7 @@ end
 desc "Run V1 Student Transcript Association Tests"
 task :v1StudentTranscriptAssociationTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
-  setFixture("student", "smallville_students_fixture.json", "test/data/smallville", false)
   setFixture("course", "course_fixture.json")
-  setFixture("course", "smallville_course_fixture.json", "test/data/smallville", false)
   setFixture("studentTranscriptAssociation", "studentTranscriptAssociation_fixture.json")
   runTests("test/features/apiV1/associations/studentTranscriptAssociation")
 end
@@ -680,6 +638,7 @@ task :v1StudentProgramAssociationTests => [:realmInit] do
   setFixture("educationOrganization", "educationOrganization_fixture.json")
   setFixture("student", "student_fixture.json")
   setFixture("program", "program_fixture.json")
+  setFixture("staffProgramAssociation", "staffProgramAssociation_fixture.json")
   setFixture("studentProgramAssociation", "studentProgramAssociation_fixture.json")
   runTests("test/features/apiV1/associations/studentProgramAssociation")
 end
@@ -718,10 +677,6 @@ task :v1SessionCourseAssociationTests => [:realmInit] do
   setFixture("session", "session_fixture.json")
   setFixture("course", "course_fixture.json")
   setFixture("sessionCourseAssociation", "sessionCourseAssociation_fixture.json")
-  #add smallville (no drop)
-  setFixture("session", "smallville_session_fixture.json", "test/data/smallville", false)
-  setFixture("course", "smallville_course_fixture.json", "test/data/smallville", false)
-  setFixture("sessionCourseAssociation", "smallville_session_course_association_fixture.json", "test/data/smallville", false)
   #run test
   runTests("test/features/apiV1/associations/sessionCourseAssociation")
 end
@@ -739,111 +694,15 @@ end
 desc "Run V1 Student Cohort Association Tests"
 task :v1StudentCohortAssociationTests => [:realmInit] do
   #drop data, re add fixture data
-  setFixture("student", "student_fixture.json")
-  setFixture("cohort", "cohort_fixture.json")
-  setFixture("studentCohortAssociation", "studentCohortAssociation_fixture.json")
+  Rake::Task["importSandboxData"].execute
   #run test
   runTests("test/features/apiV1/associations/studentCohortAssociation")
-end
-
-desc "Run V1 Education Organization Tests"
-task :v1EducationOrganizationTests => [:realmInit] do
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("educationOrganization", "smallville_edOrg_fixture.json", "test/data/smallville", false)
-  runTests("test/features/apiV1/entities/educationOrganization")
-end
-
-desc "Run V1 Staff Tests"
-task :v1StaffTests => [:realmInit] do
-  runFixtureAndTests("test/features/apiV1/entities/staff", "staff", "staff_fixture.json")
-end
-
-desc "Run V1 Section Tests"
-task :v1SectionTests => [:realmInit] do
-  setFixture("educationOrganization", "educationOrganization_fixture.json")
-  setFixture("session", "session_fixture.json")
-  setFixture("course", "course_fixture.json")
-  runFixtureAndTests("test/features/apiV1/entities/section", "section", "section_fixture.json")
-end
-
-desc "Run V1 Course Tests"
-task :v1CourseTests => [:realmInit] do
-  runFixtureAndTests("test/features/apiV1/entities/course", "course", "course_fixture.json")
-end
-
-desc "Run V1 Session Tests"
-task :v1SessionTests => [:realmInit] do
-  runFixtureAndTests("test/features/apiV1/entities/session", "session", "session_fixture.json")
-end
-
-desc "Run V1 School Tests"
-task :v1SchoolTests => [:realmInit] do
-  runFixtureAndTests("test/features/apiV1/entities/school", "educationOrganization", "educationOrganization_fixture.json")
-end
-
-desc "Run V1 Student Tests"
-task :v1StudentTests => [:realmInit] do
-  runFixtureAndTests("test/features/apiV1/entities/student", "student", "student_fixture.json")
-end
-
-desc "Run V1 Teacher Tests"
-task :v1TeacherTests => [:realmInit] do
-  runFixtureAndTests("test/features/apiV1/entities/teacher", "staff", "staff_fixture.json")
-end
-
-desc "Run V1 Assessment Tests"
-task :v1AssessmentTests => [:realmInit] do
-  runFixtureAndTests("test/features/apiV1/entities/assessment","assessment","assessment_fixture.json")
-end
-
-desc "Run V1 LearningObjective Tests"
-task :v1LearningObjectiveTests => [:realmInit] do
-  setFixture("learningStandard", "learningStandard_fixture.json")
-  runFixtureAndTests("test/features/apiV1/entities/learningObjective","learningObjective","learningObjective_fixture.json")
 end
 
 desc "Run V1 Common Core Standards reference traversal Tests"
 task :v1CCSTests => [:realmInit] do
   setFixture("learningStandard", "learningStandard_fixture.json")
   runFixtureAndTests("test/features/apiV1/end_user_stories/commonCoreStandards/API/api_ccs.feature","learningObjective","learningObjective_fixture.json")
-end
-
-desc "Run V1 LearningStandard Tests"
-task :v1LearningStandardTests => [:realmInit] do
-  runFixtureAndTests("test/features/apiV1/entities/learningStandard","learningStandard","learningStandard_fixture.json")
-end
-
-desc "Run V1 Parent Tests"
-task :v1ParentTests => [:realmInit] do
-  setFixture("student", "student_fixture.json")
-  runFixtureAndTests("test/features/apiV1/entities/parent/parent_crud.feature","parent","parent_fixture.json")
-end
-
-desc "Run V1 Parent Security Tests"
-task :v1ParentSecurityTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/parent/parent_security.feature")
-end
-
-desc "Run V1 Attendance Tests"
-task :v1AttendanceTests => [:realmInit] do
-    setFixture("student", "student_fixture.json")
-    setFixture("educationOrganization", "educationOrganization_fixture.json")
-  runFixtureAndTests("test/features/apiV1/entities/attendance/attendance.feature","attendance","attendance_fixture.json")
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/attendance/attendance_security.feature")
-end
-
-desc "Run V1 Cohort Tests"
-task :v1CohortTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runFixtureAndTests("test/features/apiV1/entities/cohort","cohort","cohort_fixture.json")
-end
-
-desc "Run V1 Cohort Security Tests"
-task :v1CohortSecurityTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/cohort/cohort_security.feature")
 end
 
 desc "Run V1 Home URI Tests"
@@ -1348,7 +1207,9 @@ task :importSandboxData do
     "studentCohortAssociation" => "studentCohortAssociation_fixture.json",
     "staffProgramAssociation" => "staffProgramAssociation_fixture.json",
     "studentProgramAssociation" => "studentProgramAssociation_fixture.json",
-    "studentAcademicRecord" => "studentAcademicRecord_fixture.json"
+    "studentAcademicRecord" => "studentAcademicRecord_fixture.json",
+    "learningStandard" => "learningStandard_fixture.json",
+    "learningObjective" => "learningObjective_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 
