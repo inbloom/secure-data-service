@@ -44,9 +44,9 @@ public class StaffDisciplineIncidentResolver implements EntityContextResolver {
 
         // extract the discipline incident ids from the discipline actions
         Set<String> disciplineIncidentIds = new HashSet<String>();
-        for(Entity disciplineAction : disciplineActions) {
-        	Collection<String> ids = (Collection<String>) disciplineAction.getBody().get("disciplineIncidentId");
-        	disciplineIncidentIds.addAll(ids);
+        for (Entity disciplineAction : disciplineActions) {
+            Collection<String> ids = (Collection<String>) disciplineAction.getBody().get("disciplineIncidentId");
+            disciplineIncidentIds.addAll(ids);
         }
 
         disciplineIncidentIds.addAll(creatorResolverHelper.getAllowedForCreator(EntityNames.DISCIPLINE_INCIDENT));
