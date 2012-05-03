@@ -1,0 +1,24 @@
+<h1>Provision Landing-Zone</h1>
+<div>
+	<form id='lz_provision' method="post" action="landing_zone/provision">
+		<span><input id="s1" name="ed_org" type="radio" value="s1" SELECTED /> <label for="s1">High-Level Ed-Org from Sample Dataset 1</label></span>
+		<input id="s2" name="ed_org" type="radio" value="s2" /> <label for="s2">High-Level Ed-Org from Sample Dataset 2</label>
+		<input id="custom" name="ed_org" type="radio" value="custom" /> <label for="custom">Custom High-Level Ed-Org</label>
+		
+		<input id="custom_ed_org" name="custom_ed_org" type="text" value="my_custom_edorg" disabled="true" />
+		<input name="commit" type="submit" value="Provision" />
+		<input name="cancel" type="submit" value="Cancel" />
+	</form>
+</div>
+
+<script type="application/javascript">
+$("#s1").click(function () {
+ $("#custom_ed_org").attr("disabled", "disabled");
+});
+$("#s2").click(function () {
+ $("#custom_ed_org").attr("disabled", "disabled");
+});
+$("#custom").click(function () {
+  $("#custom_ed_org").removeAttr("disabled");
+});
+</script>
