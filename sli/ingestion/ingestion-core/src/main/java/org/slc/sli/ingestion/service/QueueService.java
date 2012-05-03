@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 @Component
 public interface QueueService {
 
-    public void postItem(Map<Object, Object> item);
+    public void postItem(Map<String, Object> item);
 
-    public Map<Object, Object> reserveItem();
+    public Map<String, Object> reserveItem();
 
     /**
      * Fetch the work items that the worker with the given ID has reserved.
@@ -24,8 +24,18 @@ public interface QueueService {
      * @param id
      * @return
      */
-    public List<Map<Object, Object>> fetchItems(String workerId);
+    public List<Map<String, Object>> fetchItems(String workerId);
 
     public void purgeExpiredItems();
+
+    /** Returns the number of items in the queue, regardless of state */
+    public long count();
+
+    /**
+     * Removes all entries in the queue.
+     *
+     * @return
+     */
+    public int clear();
 
 }
