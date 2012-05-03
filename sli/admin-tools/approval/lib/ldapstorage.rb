@@ -25,12 +25,16 @@ class LDAPStorage
 		:emailtoken
 	]
 
-	ROLE_SUPER_ADMIN = "SLI Administrator"
-	ROLE_DEVELOPER   = "SLI Developer"
-	ROLES = [
-		ROLE_SUPER_ADMIN,
-		ROLE_DEVELOPER
-	]
+	# ROLE_SUPER_ADMIN = "SLI Administrator"
+	# ROLE_DEVELOPER   = "SLI Developer"
+	# ROLES = [
+	# 	ROLE_SUPER_ADMIN,
+	# 	ROLE_DEVELOPER
+	# ]
+
+	# SEC_AUTH_REALM  = "sandboxAuthRealm"
+	# SEC_ADMIN_REALM = "sandboxAdminRealm"
+	# SEC_EDORG       = "sandboxEdOrg"
 
 	def initialize(host, port, base, username, password)
      	@people_base = "ou=people,#{base}"
@@ -100,15 +104,19 @@ class LDAPStorage
 
 	# enable login and update the status
 	# This means the user is added to the LDAP group that corresponds to the given role
-	def enable_update_status(user, role)
+	def enable_update_status(user)
 		# add the user to the enabled group 
-
+		# XXX: this is still missing the auth information that should go into LDAP
+		#
+		update_status(user)
 	end
 
 	# disable login and update the status 
 	def disable_update_status(user)
 		# remove the user from the enabled group 
-
+		# XXX: this is still missing the auth information that should go into LDAP
+		#
+		update_status(user)
 	end
 
 	# returns true if the user exists 
