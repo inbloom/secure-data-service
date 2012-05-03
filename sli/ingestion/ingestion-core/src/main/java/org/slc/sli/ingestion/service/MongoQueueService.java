@@ -53,7 +53,7 @@ public class MongoQueueService implements QueueService {
     @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> reserveItem() {
-        // Mongo mongo = batchJobMongoTemplate.getMongo();
+
         DBCollection coll = db.getCollection(COLLECTION_NAME);
 
         BasicDBObject query = new BasicDBObject();
