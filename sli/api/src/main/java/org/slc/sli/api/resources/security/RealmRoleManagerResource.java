@@ -34,7 +34,9 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Realm role mapping API. Allows full CRUD on realm objects. Primarily intended to allow
@@ -89,6 +91,11 @@ public class RealmRoleManagerResource {
                 return validateResponse;
             }
         }
+        if (!SecurityUtil.hasRight(Right.REALM_EDIT)) {
+            EntityBody body = new EntityBody();
+            body.put("response", "You are not authorized to update realms.");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+        }
         if (service.update(realmId, updatedRealm)) {
             return Response.status(Status.NO_CONTENT).build();
         }
@@ -98,13 +105,25 @@ public class RealmRoleManagerResource {
     @DELETE
     @Path("{realmId}")
     public Response deleteRealm(@PathParam("realmId") String realmId) {
-        service.delete(realmId);
-        return Response.status(Status.NO_CONTENT).build();
+        if (SecurityUtil.hasRight(Right.REALM_EDIT)) {
+            service.delete(realmId);
+            return Response.status(Status.NO_CONTENT).build();
+        } else {
+            EntityBody body = new EntityBody();
+            body.put("response", "You are not authorized to delete realms.");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+        }
     }
     
     @POST
     @SuppressWarnings("unchecked")
     public Response createRealm(EntityBody newRealm, @Context final UriInfo uriInfo) {
+        if (!SecurityUtil.hasRight(Right.REALM_EDIT)) {
+            EntityBody body = new EntityBody();
+            body.put("response", "You are not authorized to create realms.");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+        }
+        
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) newRealm.get("mappings");
         if (mappings != null) {
             Response validateResponse = validateMappings(mappings);
@@ -191,5 +210,6 @@ public class RealmRoleManagerResource {
     private static String uriToString(UriInfo uri) {
         return uri.getBaseUri() + uri.getPath().replaceAll("/$", "");
     }
+    
 
 }

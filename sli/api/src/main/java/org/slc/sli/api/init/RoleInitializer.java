@@ -31,6 +31,7 @@ public class RoleInitializer {
     public static final String  LEA_ADMINISTRATOR = "LEA Administrator";
     public static final String APP_DEVELOPER = "Application Developer";
     public static final String SLC_OPERATOR = "SLC Operator";
+    public static final String REALM_ADMINISTRATOR = "Realm Administrator";
     
     private static final Logger LOG               = LoggerFactory.getLogger(RoleInitializer.class);
     public static final String  ROLES             = "roles";
@@ -60,6 +61,7 @@ public class RoleInitializer {
         boolean hasLEAAdmin = false;
         boolean hasAppDeveloper = false;
         boolean hasSLCOperator = false;
+        boolean hasRealmAdmin = false;
         
         for (Entity entity : subset) {
             Map<String, Object> body = entity.getBody();
@@ -79,6 +81,8 @@ public class RoleInitializer {
                 hasAppDeveloper = true;
             } else if (body.get("name").equals(SLC_OPERATOR)) {
                 hasSLCOperator = true;
+            } else if (body.get("name").equals(REALM_ADMINISTRATOR)) {
+                hasRealmAdmin = true;
             }
         }
         if (!hasAggregate) {
@@ -105,12 +109,20 @@ public class RoleInitializer {
         if (!hasSLCOperator) {
             createdRoles.add(buildSLCOperator());
         }
+        if (!hasRealmAdmin) {
+            createdRoles.add(buildRealmAdmin());
+        }
         
         for (Role body : createdRoles) {
             repository.create(ROLES, body.getRoleAsEntityBody());
         }
         return createdRoles.size();
         
+    }
+    
+    private Role buildRealmAdmin() {
+        LOG.info("Building Realm Administrator default role.");
+        return RoleBuilder.makeRole(REALM_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.REALM_EDIT}).build();
     }
     
     private Role buildAggregate() {
