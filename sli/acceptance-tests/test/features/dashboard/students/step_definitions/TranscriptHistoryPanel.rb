@@ -51,15 +51,25 @@ Then /^I should see the table headers "([^"]*)"$/ do |headers|
   year = headerLabels.find_element(:xpath, "th/div[contains(@id,'schoolYear')]").text
   term = headerLabels.find_element(:xpath, "th/div[contains(@id,'term')]").text
   school = headerLabels.find_elements(:xpath, "th/div[contains(@id,'school')]")[1].text # index 0 is schoolYear...
-  gradeLevel = headerLabels.find_element(:xpath, "th/div[contains(@id,'gradeLevel')]").text
-  cumulativeGPA = headerLabels.find_element(:xpath, "th/div[contains(@id,'cumulativeGPA')]").text
+  gradeLevel = headerLabels.find_element(:xpath, "th/div[contains(@id,'gradeLevelCode')]").text
+  cumulativeGPA = headerLabels.find_element(:xpath, "th/div[contains(@id,'cumulativeGradePointAverage')]").text
   actualRow = [year, term, school, gradeLevel, cumulativeGPA]
   assert(expectedRow == actualRow, "Values do not match")
 end
 
 Then /^I should see the sub table headers "([^"]*)"$/ do |headers|
   expectedRow = headers.split(";")
-  subHeaderLabels = @subGrids[@lastExpandedRow].find_element(:class, "ui-jqgrid-labels")
+  @subGrid = nil
+  @subGrids.each do |sg|
+    td = sg.find_element(:class, "tablediv")
+    if (td.attribute("id").include? "_#{@lastExpandedRow+1}")
+      if (td.find_element(:xpath, "div[contains(@id, '_#{@lastExpandedRow+1}_t')]") != nil)
+        @subGrid = sg
+        break
+      end
+    end
+  end
+  subHeaderLabels = @subGrid.find_element(:class, "ui-jqgrid-labels")
   subject = subHeaderLabels.find_element(:xpath, "th/div[contains(@id,'subject')]").text
   course = subHeaderLabels.find_element(:xpath, "th/div[contains(@id,'course')]").text
   grade = subHeaderLabels.find_element(:xpath, "th/div[contains(@id,'grade')]").text
@@ -77,7 +87,7 @@ Then /^I should find (\d+) expanded rows$/ do |count|
 end
 
 Then /^I should find (\d+) sub rows$/ do |count|
-  subTable = @subGrids[@lastExpandedRow].find_element(:class, "ui-jqgrid-bdiv")
+  subTable = @subGrid.find_element(:class, "ui-jqgrid-bdiv")
   @subRows = subTable.find_elements(:tag_name, "tr")
   assert(@subRows.size - 1 == convert(count), "Expected #{count}, received #{@subRows.size}")
 end
@@ -139,8 +149,8 @@ def getIndexFromRowData(rowsToCheck, rowData)
     schoolYear = rowsToCheck[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'schoolYear')]").text
     term = rowsToCheck[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'term')]").text
     school = rowsToCheck[rowIndex].find_elements(:xpath, "td[contains(@aria-describedby,'school')]")[1].text # index 0 is schoolYear...
-    gradeLevel = rowsToCheck[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'gradeLevel')]").text
-    cumulativeGPA = rowsToCheck[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'cumulativeGPA')]").text
+    gradeLevel = rowsToCheck[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'gradeLevelCode')]").text
+    cumulativeGPA = rowsToCheck[rowIndex].find_element(:xpath, "td[contains(@aria-describedby,'cumulativeGradePointAverage')]").text
     actualRow = [schoolYear, term, school, gradeLevel, cumulativeGPA]
     if (expectedRow == actualRow)
       found = true

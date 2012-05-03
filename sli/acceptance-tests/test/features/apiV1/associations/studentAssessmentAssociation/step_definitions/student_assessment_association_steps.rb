@@ -13,21 +13,21 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #student assessment association data
-  id = 335                                      if human_readable_id == "ASSOCIATION COUNT"
+  id = 337                                      if human_readable_id == "ASSOCIATION COUNT"
   id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 22                                       if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 2                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
-  id = "1e0ddefb-6b61-4f7d-b8c3-33bb5676115a"   if human_readable_id == "ASSOCIATION ID"
-  id = "c8672d3b-0953-4ad7-a1b5-d5395bc0150a"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
-  id = "e473d7ea-fd97-4e78-9997-a80be89614cf"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
+  id = "e85b5aa7-465a-6dd3-8ffb-d02461ed79f8"   if human_readable_id == "ASSOCIATION ID"
+  id = "e85b5aa7-465a-6dd3-8ffb-d02461ed79f8"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
+  id = "e85b5aa7-465a-6dd3-8ffb-d02461ed79f8"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
   id = "getStudentAssessments"			        if human_readable_id == "ASSOCIATION LINK NAME"
   id = "studentAssessmentAssociation"           if human_readable_id == "ASSOCIATION TYPE"
   id = "studentAssessments"			            if human_readable_id == "ASSOCIATION URI"
   
   #student related data
   id = "studentId"                              if human_readable_id == "ENDPOINT1 FIELD"
-  id = "7afddec3-89ec-402c-8fe6-cced79ae3ef5"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
+  id = "74cf790e-84c4-4322-84b8-fca7206f1085"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
   id = "getStudent"                             if human_readable_id == "ENDPOINT1 LINK NAME" 
   id = "getStudents"                            if human_readable_id == "ENDPOINT1 RESOLUTION LINK NAME" 
   id = "student"                                if human_readable_id == "ENDPOINT1 TYPE" 
@@ -35,7 +35,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #assessment related data
   id = "assessmentId"                           if human_readable_id == "ENDPOINT2 FIELD"
-  id = "6a53f63e-deb8-443d-8138-fc5a7368239c"   if human_readable_id == "ENDPOINT2 ID"          or human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
+  id = "dd916592-7d7e-5d27-a87d-dfc7fcb757f6"   if human_readable_id == "ENDPOINT2 ID"          or human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
   id = "getAssessment"                          if human_readable_id == "ENDPOINT2 LINK NAME" 
   id = "getAssessments"                         if human_readable_id == "ENDPOINT2 RESOLUTION LINK NAME" 
   id = "assessment"                             if human_readable_id == "ENDPOINT2 TYPE" 

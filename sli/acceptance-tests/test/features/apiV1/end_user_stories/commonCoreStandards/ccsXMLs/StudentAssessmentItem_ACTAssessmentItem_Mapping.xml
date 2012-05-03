@@ -30,57 +30,45 @@
       </AssessmentReference> 
    </StudentAssessment> 
    
-   <StudentObjectiveAssessment id="SOA_ACT_English_1">
-        <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>28</Result> 
-        </ScoreResults>
-        <StudentTestAssessmentReference ref="saa_1"/>
-        <ObjectiveAsssessmentReference>
-            <ObjectiveAssessmentIdentity>
-                <ObjectiveAssessmentIdentificationCode>ACT-English</ObjectiveAssessmentIdentificationCode>
-            </ObjectiveAssessmentIdentity>
-        </ObjectiveAsssessmentReference>
-   </StudentObjectiveAssessment>
-   
-   <StudentObjectiveAssessment id="SOA_ACT_English_Usage_1">
-        <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>14</Result> 
-        </ScoreResults>
-        <StudentTestAssessmentReference ref="saa_1"/>
-        <ObjectiveAsssessmentReference>
-            <ObjectiveAssessmentIdentity>
-                <ObjectiveAssessmentIdentificationCode>ACT-English-Usage</ObjectiveAssessmentIdentificationCode>
-            </ObjectiveAssessmentIdentity>
-        </ObjectiveAsssessmentReference>
-   </StudentObjectiveAssessment>
-   
-   <StudentObjectiveAssessment id="SOA_ACT_English_Rhetorical_1">
-        <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>14</Result> 
-        </ScoreResults>
-        <StudentTestAssessmentReference ref="saa_1"/>
-        <ObjectiveAsssessmentReference>
-            <ObjectiveAssessmentIdentity>
-                <ObjectiveAssessmentIdentificationCode>ACT-English-Rhetorical</ObjectiveAssessmentIdentificationCode>
-            </ObjectiveAssessmentIdentity>
-        </ObjectiveAsssessmentReference>
+   <StudentObjectiveAssessment id="SOA_ACT-Math-Pre-Algebral_1"> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>9</Result> 
+       </ScoreResults> 
+       <StudentTestAssessmentReference ref="saa_188"/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-Math-Pre-Algebra</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
+   </StudentObjectiveAssessment> 
+
+   <StudentObjectiveAssessment id="SOA_ACT-Math-Plane-Geometry_1"> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>14</Result> 
+       </ScoreResults> 
+       <StudentTestAssessmentReference ref="saa_188"/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-Math-Plane-Geometry</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
    </StudentObjectiveAssessment>
    
    <StudentAssessmentItem id="SAI_1">
    		<StudentObjectiveAssessmentReference ref="SOA_ACT-Math-Pre-Algebral_1"/>
    		<AssessmentItemResult>True</AssessmentItemResult>
    		<AssessmentResponse>False</AssessmentResponse>
-   		<RawScoreResult>0</RawScoreResult>
+   		<RawScoreResult>5</RawScoreResult>
    		<AssessmentItemReference>
    			<AssessmentItemIdentity>
-   				<AssessmentItemIdentificationCode>AssessmentItem-1</AssessmentItemIdentificationCode>
+   				<AssessmentItemIdentificationCode>AssessmentItem-2</AssessmentItemIdentificationCode>
    			</AssessmentItemIdentity>
    		</AssessmentItemReference>
    </StudentAssessmentItem>
    
    
    <StudentAssessmentItem id="SAI_2">
-   		<StudentObjectiveAssessmentReference ref="SOA_ACT-Math-Pre-Algebral_1"/>
+   		<StudentObjectiveAssessmentReference ref="SOA_ACT-Math-Plane-Geometry_1"/>
    		<AssessmentItemResult>False</AssessmentItemResult>
    		<AssessmentResponse>False</AssessmentResponse>
    		<RawScoreResult>5</RawScoreResult>
@@ -99,7 +87,32 @@
    		<RawScoreResult>5</RawScoreResult>
    		<AssessmentItemReference>
    			<AssessmentItemIdentity>
-   				<AssessmentItemIdentificationCode>AssessmentItem-2</AssessmentItemIdentificationCode>
+   				<AssessmentItemIdentificationCode>AssessmentItem-3</AssessmentItemIdentificationCode>
+   			</AssessmentItemIdentity>
+   		</AssessmentItemReference>
+   </StudentAssessmentItem>
+   
+   
+   <StudentAssessmentItem id="SAI_4">
+   		<StudentAssessmentReference ref="saa_1"/>
+   		<AssessmentItemResult>False</AssessmentItemResult>
+   		<AssessmentResponse>True</AssessmentResponse>
+   		<RawScoreResult>5</RawScoreResult>
+   		<AssessmentItemReference>
+   			<AssessmentItemIdentity>
+   				<AssessmentItemIdentificationCode>AssessmentItem-4</AssessmentItemIdentificationCode>
+   			</AssessmentItemIdentity>
+   		</AssessmentItemReference>
+   </StudentAssessmentItem>
+   
+   <StudentAssessmentItem id="SAI_5">
+   		<StudentAssessmentReference ref="saa_1"/>
+   		<AssessmentItemResult>True</AssessmentItemResult>
+   		<AssessmentResponse>True</AssessmentResponse>
+   		<RawScoreResult>5</RawScoreResult>
+   		<AssessmentItemReference>
+   			<AssessmentItemIdentity>
+   				<AssessmentItemIdentificationCode>AssessmentItem-3</AssessmentItemIdentificationCode>
    			</AssessmentItemIdentity>
    		</AssessmentItemReference>
    </StudentAssessmentItem>

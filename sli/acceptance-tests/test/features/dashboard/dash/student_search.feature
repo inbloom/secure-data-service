@@ -64,7 +64,7 @@ When I enter "Tran" into the "lastName" search box
 And I click the search button
 Then "0" results are returned
 
-@integration @wip
+@integration 
 Scenario:  Empty Search
 When I login as "linda.kim" "linda.kim1234"
 When I enter nothing into either field of student search

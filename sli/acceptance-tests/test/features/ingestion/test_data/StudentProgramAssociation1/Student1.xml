@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<InterchangeStudent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-Student.xsd">
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
 
   	<!--  Rebecca Braverman's 1st graders -->
     <Student>
@@ -3048,4 +3048,4 @@
         <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
         <Section504Disabilities/>
     </Student>
-</InterchangeStudent>
+</InterchangeStudentParent>
