@@ -35,7 +35,7 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap = new HashMap<String, SecurityNode>();
         prePath = new HashMap<String, List<SecurityNode>>();
         excludePath = new ArrayList<String>();
-        
+
         nodeMap.put(EntityNames.TEACHER,
                 SecurityNodeBuilder.buildNode(EntityNames.TEACHER, EntityNames.STAFF)
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)
@@ -62,7 +62,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.ASSESSMENT, "assessmentId", ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS)
                         .addConnection(EntityNames.ATTENDANCE, "studentId", "")
                         .addConnection(EntityNames.DISCIPLINE_ACTION, "studentId", "")
-                        .addConnection(EntityNames.DISCIPLINE_INCIDENT, "incidentId",
+                        .addConnection(EntityNames.DISCIPLINE_INCIDENT, "disciplineIncidentId",
                                 ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
                         .addConnection(EntityNames.PARENT, "parentId", ResourceNames.STUDENT_PARENT_ASSOCIATIONS)
                         .construct());
@@ -99,6 +99,8 @@ public class BrutePathFinder implements SecurityPathFinder {
         excludePath.add(EntityNames.TEACHER + EntityNames.PROGRAM);
         excludePath.add(EntityNames.STAFF + EntityNames.COHORT);
         excludePath.add(EntityNames.STAFF + EntityNames.PROGRAM);
+        excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_INCIDENT);
+        excludePath.add(EntityNames.STAFF + EntityNames.DISCIPLINE_ACTION);
 
         nodeMap.put(EntityNames.STAFF,
                 SecurityNodeBuilder.buildNode(EntityNames.STAFF)
@@ -112,6 +114,11 @@ public class BrutePathFinder implements SecurityPathFinder {
                         .addConnection(EntityNames.SCHOOL, "parentEducationAgencyReference", "")
                         .addConnection(EntityNames.PROGRAM, "programReference", "") //TODO: fix XSD
                         .construct());
+
+        prePath.put(
+                EntityNames.STAFF + EntityNames.STAFF,
+                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
+                        nodeMap.get(EntityNames.STAFF)));
 
         prePath.put(
                 EntityNames.TEACHER + EntityNames.TEACHER,
@@ -132,7 +139,7 @@ public class BrutePathFinder implements SecurityPathFinder {
                 Arrays.asList(nodeMap.get(EntityNames.TEACHER), nodeMap.get(EntityNames.SECTION),
                         nodeMap.get(EntityNames.STUDENT), nodeMap.get(EntityNames.SECTION),
                         nodeMap.get(EntityNames.SESSION)));
-        
+
     }
 
     @Override
@@ -197,6 +204,6 @@ public class BrutePathFinder implements SecurityPathFinder {
     public boolean isPathExcluded(String from, String to) {
         return excludePath.contains(from + to);
     }
-    
+
 
 }

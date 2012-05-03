@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
@@ -63,7 +64,8 @@ public class LearningObjectiveTransformTest {
         addChild(root, "child2", "csn-2");
         addChild(child1, "grandChild1", null);
         List<NeutralRecord> nrList = Arrays.asList(root, child1, child2, grandChild1);
-        Mockito.when(repo.findAll("learningObjective")).thenReturn(nrList);
+        Mockito.when(repo.findAllForJob(Mockito.anyString(), Mockito.eq(jobId), Mockito.any(NeutralQuery.class)))
+                .thenReturn(nrList);
 
         transform.perform(job);
 

@@ -38,7 +38,15 @@ DashboardProxy = {
 					  prx.data[componentId] = panel.data; 
 					  prx.config[componentId] = panel.viewConfig; 
 					  callback(panel);
-			      }});
+			      },
+			      error: $("body").ajaxError( function(event, request, settings) {
+			    	  if (request.responseText == "") {
+			    		  $(location).attr('href',$(location).attr('href'));
+			    	  } else {
+			    		  $(location).attr('href', contextRootPath + "/exception");
+			    	  }
+			      }),
+			});
 		},
 		getData: function(componentId) {
 			return this.data[componentId];
@@ -231,7 +239,15 @@ DashboardUtil.Grid.Formatters = {
 			
 			var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
 			
+			if (value == undefined || value == null) {
+				"<span class='fuelGauge-perfLevel'>!</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
+			}
+			
 			if (!assessments || assessments == undefined) {
+
+				if (value == undefined || value == null) {
+					value = "!";
+				}
 				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
 			}
 			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
@@ -268,12 +284,12 @@ DashboardUtil.Grid.Formatters = {
 			
 			var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
 			if (!assessments || assessments == undefined) {
-				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+				return "" ;
 			}
 			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
 			
-			if (!score || score == undefined) {
-				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+			if (!score || score == undefined || value == undefined || value == null) {
+				score = 0;
 			}
 			
 			var fieldName = options.colModel.formatoptions.fieldName;
@@ -326,39 +342,48 @@ DashboardUtil.Grid.Formatters = {
 		},
 
         Grade: function(value, options, rowobject) {
-            var displayValue = "";
+            var div = "<div class=\"";
+            var closeDiv = "\">";
+            var endDiv = "</div>";
+            var styleClass = "";
+            var innerHtml = "";
             if(value === undefined || value === null) {
-                return displayValue;
+                return div + styleClass + closeDiv + innerHtml + endDiv;
             }
 
             if(value.gradeEarned !== null && value.gradeEarned !== undefined) {
-                var stringVersion = value.gradeEarned + "";
-                var isANumber = stringVersion.match(/^\d+$/);
-                if(!isANumber) {
-                    var teardropStyle = "<div class=\"" + 
-                        DashboardUtil.teardrop.getStyle(value.gradeEarned, null) +  
-                        "\">" + value.gradeEarned + "</div>";
-                    displayValue = displayValue + teardropStyle;
+                innerHtml = value.gradeEarned;
+                if(isNaN(value.gradeEarned)) {
+                    styleClass = DashboardUtil.teardrop.getStyle(value.gradeEarned, null); 
                 } else {
-                    displayValue = displayValue +  value.gradeEarned;
+                    styleClass = "numericGradeColumn"; 
                 }
-            }
-            return displayValue;
+            } 
+            return div + styleClass + closeDiv + innerHtml + endDiv;
         },
 
         TearDrop: function(value, options, rowObject) {
-            var displayValue = "";
+            var div = "<div class=\"";
+            var closeDiv = "\">";
+            var endDiv = "</div>";
+            var styleClass = "";
+            var innerHtml = "";
+            var divs = "";
+            if(value === undefined || value === null) {
+                return divs;
+            }
 
             for(var courseIndex in value){
+                innerHtml = "";
+                styleClass = "";
                 var course = value[courseIndex];
                 if(course.letterGrade !== null && course.letterGrade !== undefined) {
-                    var teardropStyle = "<div class=\"" + 
-                        DashboardUtil.teardrop.getStyle(course.letterGrade, null) +  
-                        "\">" + course.letterGrade + "</div>";
-                    displayValue = displayValue + teardropStyle;
+                    innerHtml = course.letterGrade;
+                    styleClass = DashboardUtil.teardrop.getStyle(course.letterGrade, null)
+                    divs = divs + div + styleClass + closeDiv + innerHtml + endDiv;
                 }
             }
-            return displayValue; 
+            return divs;
         },
 
         restLink : function(value, options, rowObject)
@@ -374,35 +399,54 @@ DashboardUtil.Grid.Formatters = {
 };
 
 DashboardUtil.Grid.Sorters = {
-		Enum: function(params) {
-			var enumHash = {};
-			params.sortEnum.sort(DashboardUtil.numbersFirstComparator);
-			for (var i in params.sortEnum) {
-				enumHash[params.sortEnum[i]] = i;
-			}
-			return function(value, rowObject) {
-				var i = enumHash[value];
-				return i ? i : -1;
-			}
-			
-		},
+        Enum: function(params) {
+            var enumHash = {};
+            params.sortEnum.sort(DashboardUtil.numbersFirstComparator);
+            for (var i in params.sortEnum) {
+                enumHash[params.sortEnum[i]] = i;
+            }
+            return function(value, rowObject) {
+                var i = enumHash[value];
+                return i ? i : -1;
+            }
+        },
 
-                LetterGrade: function(params) {
-                   return function(semesterGrades, rowObject) {
-                        var i = DashboardUtil.teardrop.GRADE_TREND_CODES[semesterGrades[0].letterGrade]; 
-                        return i ? i : -1;
-                   }
-                },
+        LetterGrade: function(params) {
+            return function(semesterGrades, rowObject) {
+                 if(semesterGrades === null || semesterGrades === undefined) {
+                     return -1;
+                 }
+                 if(semesterGrades[0] === null || semesterGrades[0] === undefined) {
+                     return -1;
+                 }
+                 if(semesterGrades[0].letterGrade === null || semesterGrades[0].letterGrade === undefined) {
+                     return -1;
+                 }
 
-                LettersAndNumbers: function(params) {
-                    return function(gradeDate, rowObject) {
-                        var i = DashboardUtil.teardrop.GRADE_TREND_CODES[gradeDate.gradeEarned]; 
-                        if(i === undefined || i === null) {
-                            i = gradeDate.gradeEarned;
-                        }
-                        return i ? i : -1;
-                   }
-               }
+                 var i = DashboardUtil.teardrop.GRADE_TREND_CODES[semesterGrades[0].letterGrade]; 
+                 if(i === null || i === undefined) {
+                     return -1;
+                 }
+                 return i ? i : -1;
+            }
+         },
+
+         LettersAndNumbers: function(params) {
+             return function(gradeDate, rowObject) {
+                 if(gradeDate === null || gradeDate === undefined) {
+                     return -1;
+                 }
+                 if(gradeDate.gradeEarned === null || gradeDate.gradeEarned === undefined) {
+                     return -1;
+                 }
+
+                 var i = DashboardUtil.teardrop.GRADE_TREND_CODES[gradeDate.gradeEarned]; 
+                 if(i === undefined || i === null) {
+                     i = gradeDate.gradeEarned;
+                 }
+                 return i ? i : -1;
+            }
+        }
 }
 
 DashboardUtil.numbersFirstComparator = function(a,b){

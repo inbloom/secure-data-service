@@ -20,34 +20,38 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * Custom JAXB Context Resolver that will generate XML
+ * Custom Context Resolver that will generate XML for objects
+ * other than entities
  *
  * */
 @SuppressWarnings("rawtypes")
 @Provider
 @Component
 @Produces({ MediaType.APPLICATION_XML, HypermediaType.VENDOR_SLC_XML })
-public class JacksonXMLMsgBodyWriter implements MessageBodyWriter {
+public class ObjectXMLWriter implements MessageBodyWriter {
 
     @Override
     public boolean isWriteable(Class type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-        return true;
+        if (type.getName().equals("org.slc.sli.api.representation.Home")
+                || type.getName().equals("org.slc.sli.api.representation.ErrorResponse")) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override
-    public long getSize(Object object, Class type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+    public long getSize(Object o, Class type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return -1;
     }
 
     @Override
-    public void writeTo(Object object, Class type, Type genericType, Annotation[] annotations, MediaType mediaType,
-            MultivaluedMap httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
-
+    public void writeTo(Object o, Class type, Type genericType, Annotation[] annotations, MediaType mediaType,
+                        MultivaluedMap httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
         xmlMapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
         xmlMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
-        xmlMapper.writeValue(entityStream, object);
+        xmlMapper.writeValue(entityStream, o);
     }
-
 }

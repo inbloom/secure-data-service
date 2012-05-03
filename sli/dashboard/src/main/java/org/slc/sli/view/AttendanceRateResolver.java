@@ -1,13 +1,13 @@
 package org.slc.sli.view;
 
-import java.util.List;
-import java.util.Map;
-
 import org.slc.sli.config.Field;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -20,7 +20,6 @@ public class AttendanceRateResolver implements AggregateRatioResolver {
 
     private GenericEntity student;
 
-    public static final String CATEGORY = "attendanceEventCategory";
     private static final String ATTENDANCE_RATE = "ATTENDANCE.AttendanceRate";
     private static final String TARDY_RATE = "ATTENDANCE.TardyRate";
 
@@ -69,7 +68,7 @@ public class AttendanceRateResolver implements AggregateRatioResolver {
     private int getAttendanceCount(List<Map<String, Object>> attendances) {
         int count = attendances.size();
         for (Map attendance : attendances) {
-            String value = (String) attendance.get(CATEGORY);
+            String value = (String) attendance.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
             if (value.contains("Absence")) {
                 count--;
             }
@@ -80,7 +79,7 @@ public class AttendanceRateResolver implements AggregateRatioResolver {
     private int getTardyCount(List<Map<String, Object>> attendances) {
         int count = 0;
         for (Map attendance : attendances) {
-            String value = (String) attendance.get(CATEGORY);
+            String value = (String) attendance.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
             if (value.contains("Tardy")) {
                 count++;
             }

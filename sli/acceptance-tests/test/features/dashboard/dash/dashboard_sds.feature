@@ -10,8 +10,8 @@ When I select "Illinois Sunset School District 4526" and click go
 @integration 
 Scenario: View Matt Sollars
 When I login as "linda.kim" "linda.kim1234"
-#And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Copyright"
+And I see a header on the page that has the text "Logout"
+And I see a footer on the page that has the text "Proprietary Information"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
@@ -23,42 +23,42 @@ Then I should only see one view named "Middle School ELA View"
 And the list includes: "Matt Sollars"
 And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
 And there is no lozenges for student "Lettie Hose"
-And the fuel gauge for "Matt Sollars" in "ISAT Reading.perfLevel" is "195"
+And the fuel gauge for "Matt Sollars" in "ISAT Reading.perfLevel" is "199"
 And the fuel gauge for "Matt Sollars" in "ISAT Writing.perfLevel" is "1"
 And the fuel gauge for "Oralia Merryweather" in "ISAT Reading.perfLevel" is "205"
 And the fuel gauge for "Oralia Merryweather" in "ISAT Writing.perfLevel" is "32"
-And the fuel gauge for "Gerardo Saltazor" in "ISAT Reading.perfLevel" is "150"
+And the fuel gauge for "Gerardo Saltazor" in "ISAT Reading.perfLevel" is "309"
 And the fuel gauge for "Gerardo Saltazor" in "ISAT Writing.perfLevel" is "15"
 And the fuel gauge for "Karrie Rudesill" in "ISAT Reading.perfLevel" is "181"
 And the fuel gauge for "Karrie Rudesill" in "ISAT Writing.perfLevel" is "11"
-And the count for id "attendances.absenceCount" for student "Matt Sollars" is "5"
+And the count for id "attendances.absenceCount" for student "Matt Sollars" is "4"
 And the class for id "attendances.absenceCount" for student "Matt Sollars" is "color-widget-green"
-And the count for id "attendances.attendanceRate" for student "Matt Sollars" is "97"
+And the count for id "attendances.attendanceRate" for student "Matt Sollars" is "95"
 And the class for id "attendances.attendanceRate" for student "Matt Sollars" is "color-widget-green"
 And the count for id "attendances.tardyCount" for student "Matt Sollars" is "0"
 And the class for id "attendances.tardyCount" for student "Matt Sollars" is "color-widget-darkgreen"
 And the count for id "attendances.tardyRate" for student "Matt Sollars" is "0"
 And the class for id "attendances.tardyRate" for student "Matt Sollars" is "color-widget-darkgreen"
 # AbsenceCount: 1 
-And the count for id "attendances.absenceCount" for student "Dominic Brisendine" is "1"
-And the class for id "attendances.absenceCount" for student "Dominic Brisendine" is "color-widget-green"
+And the count for id "attendances.absenceCount" for student "Dominic Brisendine" is "0"
+And the class for id "attendances.absenceCount" for student "Dominic Brisendine" is "color-widget-darkgreen"
 # AbsenceCount: more than 6 absence count
-And the count for id "attendances.absenceCount" for student "Alton Maultsby" is "10"
-And the class for id "attendances.absenceCount" for student "Alton Maultsby" is "color-widget-yellow"
+And the count for id "attendances.absenceCount" for student "Alton Maultsby" is "5"
+And the class for id "attendances.absenceCount" for student "Alton Maultsby" is "color-widget-green"
 # AbsenceCount: more than 11 absense count
-And the count for id "attendances.absenceCount" for student "Felipe Cianciolo" is "12"
-And the class for id "attendances.absenceCount" for student "Felipe Cianciolo" is "color-widget-red"
+And the count for id "attendances.absenceCount" for student "Felipe Cianciolo" is "6"
+And the class for id "attendances.absenceCount" for student "Felipe Cianciolo" is "color-widget-yellow"
 # AbsenceCount: less than 89% attendance rate
-And the count for id "attendances.attendanceRate" for student "Lashawn Taite" is "82"
+And the count for id "attendances.attendanceRate" for student "Lashawn Taite" is "86"
 And the class for id "attendances.attendanceRate" for student "Lashawn Taite" is "color-widget-red"
 # AbsenceRate: between 90-94%
-And the count for id "attendances.attendanceRate" for student "Rudy Bedoya" is "93"
-And the class for id "attendances.attendanceRate" for student "Rudy Bedoya" is "color-widget-yellow"
+And the count for id "attendances.attendanceRate" for student "Rudy Bedoya" is "95"
+And the class for id "attendances.attendanceRate" for student "Rudy Bedoya" is "color-widget-green"
 # AbsenceRate: between 95-98%
-And the count for id "attendances.attendanceRate" for student "Merry Mccanse" is "95"
-And the class for id "attendances.attendanceRate" for student "Merry Mccanse" is "color-widget-green"
+And the count for id "attendances.attendanceRate" for student "Merry Mccanse" is "93"
+And the class for id "attendances.attendanceRate" for student "Merry Mccanse" is "color-widget-yellow"
 # AbsenceRate: between 99 - 100%
-And the count for id "attendances.attendanceRate" for student "Dominic Brisendine" is "99"
+And the count for id "attendances.attendanceRate" for student "Dominic Brisendine" is "100"
 And the class for id "attendances.attendanceRate" for student "Dominic Brisendine" is "color-widget-darkgreen"
 # TODO:  all TardyCount and rates are 0"
 And the grades teardrop color widgets for "SpringSemester2010-2011;FallSemester2010-2011" are mapped correctly:
@@ -79,8 +79,8 @@ And the grades teardrop color widgets for "SpringSemester2010-2011;FallSemester2
  |F-   |teardrop-red       |
  |F    |teardrop-red       |
 And I click on student "Matt Sollars"
-#And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Copyright"
+And I see a header on the page that has the text "Logout"
+And I see a footer on the page that has the text "Proprietary Information"
 And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
 And their id shown in proflie is "800000025"
@@ -110,18 +110,31 @@ And there are "1" phone numbers
 And the list of phone number includes "309-555-2449"
 And the phone number "309-555-2449" is of type "Home"
 And there are "0" addresses
-And there are "6" student enrollment history entries
-And Student Enrollment History includes " ;East Daybreak Junior High;8;2011-09-01; ; ; ; ;"
-And Student Enrollment History includes " ;East Daybreak Junior High;7;2010-09-01;Next year school; ;2011-05-11;End of school year"
-And Student Enrollment History includes " ;East Daybreak Junior High;6;2009-09-07;Transfer from a public school in the same local education agency; ;2010-05-11;End of school year"
-And Student Enrollment History includes " ; ;5;2008-09-05;Next year school; ;2009-05-11;End of school year"
-And Student Enrollment History includes " ; ;4;2007-09-12;Next year school; ;2008-05-10;End of school year"
-And Student Enrollment History includes " ; ;3;2006-09-11;Transfer from a private, religiously-affiliated school in a different state; ;2007-05-09;Student is in a different public school in the same local education agency"
+And Student Enrollment History has the following entries:
+|Year   |School                     |Gr|Entry Date |Entry Type                                                                 |Transfer |Withdraw Date|Withdraw Type      |
+|<empty>|East Daybreak Junior High  |8 |2011-09-01 |<empty>                                                                    |<empty>  |<empty>      |<empty>            |
+|<empty>|East Daybreak Junior High  |7 |2010-09-01 |Next year school                                                           |<empty>  |2011-05-11   |End of school year |
+|<empty>|East Daybreak Junior High  |6 |2009-09-07 |Transfer from a public school in the same local education agency           |<empty>  |2010-05-11   |End of school year |
+|<empty>|<empty>                    |5 |2008-09-05 |Next year school                                                           |<empty>  |2009-05-11   |End of school year |
+|<empty>|<empty>                    |4 |2007-09-12 |Next year school                                                           |<empty>  |2008-05-10   |End of school year |
+|<empty>|<empty>                    |3 |2006-09-11 |Transfer from a private, religiously-affiliated school in a different state|<empty>  |2007-05-09   |Student is in a different public school in the same local education agency|
+ When I click on "Assessment" Tab
+And Assessment History includes results for:
+|Test         |
+|ISAT Reading |
+|ISAT Writing |
+And the Assessment History for "ISAT Reading" has the following entries:
+|Date         |Grade  |Assessment Name            |Scale score  |Other  |Percentile |Perf Level |
+|2011-10-01   |8      |Grade 8 2011 ISAT Reading  |195          |642    |53         |195        |
+|2011-09-01   |8      |Grade 8 2011 ISAT Reading  |199          |655    |55         |199        |
+And the Assessment History for "ISAT Writing" has the following entries:
+|Date         |Grade  |Assessment Name            |Perf Level|Scale score|
+|2011-10-01   |8      |Grade 8 2011 ISAT Writing  |1         |1          |
+|2011-09-01   |8      |Grade 8 2011 ISAT Writing  |25        |25         |
 #And I see a header on the page that has the text "Logout"
 #And I see a footer on the page that has the text "Copyright"
 
-
-@integration 
+@integration
 Scenario: View Mi-Ha Tran
 When I login as "rbraverman" "rbraverman1234"
 When I select ed org "Daybreak School District 4529"
@@ -132,29 +145,29 @@ Then I see a list of 25 students
 Then I should only see one view named "Early Literacy View"
 And the list includes: "Mi-Ha Tran"
 And the following students have "ELL" lozenges: "Malcolm Haehn;Dara Nemecek;Lauretta Seip"
-#And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Copyright"
+And I see a header on the page that has the text "Logout"
+And I see a footer on the page that has the text "Proprietary Information"
 # Early Literacy View
-And the count for id "attendances.absenceCount" for student "Mi-Ha Tran" is "2"
+And the count for id "attendances.absenceCount" for student "Mi-Ha Tran" is "1"
 And the class for id "attendances.absenceCount" for student "Mi-Ha Tran" is "color-widget-green"
-And the count for id "attendances.tardyCount" for student "Mi-Ha Tran" is "2"
-And the class for id "attendances.tardyCount" for student "Mi-Ha Tran" is "color-widget-green"
+And the count for id "attendances.tardyCount" for student "Mi-Ha Tran" is "0"
+And the class for id "attendances.tardyCount" for student "Mi-Ha Tran" is "color-widget-darkgreen"
 # Absence Count: 0
 And the count for id "attendances.absenceCount" for student "Smouse Zhou" is "0"
 And the class for id "attendances.absenceCount" for student "Smouse Zhou" is "color-widget-darkgreen"
 # Absence Count: 6 - 10
-And the count for id "attendances.absenceCount" for student "Rudolph Sennett" is "6"
-And the class for id "attendances.absenceCount" for student "Rudolph Sennett" is "color-widget-yellow"
+And the count for id "attendances.absenceCount" for student "Rudolph Sennett" is "3"
+And the class for id "attendances.absenceCount" for student "Rudolph Sennett" is "color-widget-green"
 # TODO Absence Count:  > 11
 # Tardy Count: 0
 And the count for id "attendances.tardyCount" for student "Maria Werner" is "0"
 And the class for id "attendances.tardyCount" for student "Maria Werner" is "color-widget-darkgreen"
 # Tardy Count: 6-10
-And the count for id "attendances.tardyCount" for student "Rudolph Sennett" is "8"
-And the class for id "attendances.tardyCount" for student "Rudolph Sennett" is "color-widget-yellow"
+And the count for id "attendances.tardyCount" for student "Rudolph Sennett" is "4"
+And the class for id "attendances.tardyCount" for student "Rudolph Sennett" is "color-widget-green"
 # Tardy Count: > 11
-And the count for id "attendances.tardyCount" for student "Garry Kinsel" is "11"
-And the class for id "attendances.tardyCount" for student "Garry Kinsel" is "color-widget-red"
+And the count for id "attendances.tardyCount" for student "Garry Kinsel" is "7"
+And the class for id "attendances.tardyCount" for student "Garry Kinsel" is "color-widget-yellow"
 And I click on student "Mi-Ha Tran"
 And I view its student profile
 And their name shown in profile is "Mi-Ha Tran"
@@ -199,11 +212,12 @@ And the list of address includes
 Daybreak, IL 75229
 """
 And the order of the addressess is "34 Northshore Ave;82 N. Central Pkwy."
-And there are "2" student enrollment history entries
-And Student Enrollment History includes " ;South Daybreak Elementary;1;2011-09-05;Next year school; ; ; ;"
-And Student Enrollment History includes " ;South Daybreak Elementary;K;2010-09-03;Original entry into a United States school; ;2011-05-11;End of school year"
-#And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Copyright"
+And Student Enrollment History has the following entries:
+|Year      |School                     |Gr  |Entry Date |Entry Type                                 |Transfer |Withdraw Date  |Withdraw Type      |
+|<empty>   |South Daybreak Elementary  |1   |2011-09-05 |Next year school                           |<empty>  |<empty>        |<empty>            |
+|<empty>   |South Daybreak Elementary  |K   |2010-09-03 |Original entry into a United States school |<empty>  |2011-05-11     |End of school year |
+And I see a header on the page that has the text "Logout"
+And I see a footer on the page that has the text "Proprietary Information"
 
 @integration
 Scenario: View Carmen Ortiz
@@ -215,31 +229,31 @@ And I select section "Sec 145"
 Then I see a list of 25 students
 And the list includes: "Carmen Ortiz"
 And the following students have "ELL" lozenges: "Randolph Vanhooser;Kelvin Zahm;Johnathan Zenz"
-#And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Copyright"
+And I see a header on the page that has the text "Logout"
+And I see a footer on the page that has the text "Proprietary Information"
 Then I should only see one view named "College Ready ELA View"
-And the count for id "attendances.absenceCount" for student "Carmen Ortiz" is "5"
+And the count for id "attendances.absenceCount" for student "Carmen Ortiz" is "1"
 And the class for id "attendances.absenceCount" for student "Carmen Ortiz" is "color-widget-green"
-And the count for id "attendances.attendanceRate" for student "Carmen Ortiz" is "97"
-And the class for id "attendances.attendanceRate" for student "Carmen Ortiz" is "color-widget-green"
+And the count for id "attendances.attendanceRate" for student "Carmen Ortiz" is "99"
+And the class for id "attendances.attendanceRate" for student "Carmen Ortiz" is "color-widget-darkgreen"
 And the count for id "attendances.tardyCount" for student "Carmen Ortiz" is "0"
 And the class for id "attendances.tardyCount" for student "Carmen Ortiz" is "color-widget-darkgreen"
 And the count for id "attendances.tardyRate" for student "Carmen Ortiz" is "0"
 And the class for id "attendances.tardyRate" for student "Carmen Ortiz" is "color-widget-darkgreen"
 # Absence count: > 11
-And the count for id "attendances.absenceCount" for student "Geoffrey Pillard" is "18"
-And the class for id "attendances.absenceCount" for student "Geoffrey Pillard" is "color-widget-red"
+And the count for id "attendances.absenceCount" for student "Geoffrey Pillard" is "10"
+And the class for id "attendances.absenceCount" for student "Geoffrey Pillard" is "color-widget-yellow"
 # Absense count 1-5
-And the count for id "attendances.absenceCount" for student "Maya Cun" is "3"
+And the count for id "attendances.absenceCount" for student "Maya Cun" is "1"
 And the class for id "attendances.absenceCount" for student "Maya Cun" is "color-widget-green"
 # attendance rate 98-99
 And the count for id "attendances.attendanceRate" for student "Samatha Twining" is "99"
 And the class for id "attendances.attendanceRate" for student "Samatha Twining" is "color-widget-darkgreen"
 # Attendance rate 90-97
-And the count for id "attendances.attendanceRate" for student "Garry Mcconnaughy" is "92"
+And the count for id "attendances.attendanceRate" for student "Garry Mcconnaughy" is "93"
 And the class for id "attendances.attendanceRate" for student "Garry Mcconnaughy" is "color-widget-yellow"
 # Attendance rate < 90
-And the count for id "attendances.attendanceRate" for student "Oma Bevington" is "87"
+And the count for id "attendances.attendanceRate" for student "Oma Bevington" is "85"
 And the class for id "attendances.attendanceRate" for student "Oma Bevington" is "color-widget-red"
 And the grades teardrop color widgets for "SpringSemester2010-2011;FallSemester2010-2011" are mapped correctly:
  |grade|teardrop           |
@@ -285,15 +299,24 @@ And there are "1" phone numbers
 And the list of phone number includes "309-555-9372"
 And the phone number "309-555-9372" is of type "Other"
 And there are "0" addresses
-And there are "9" student enrollment history entries
-And Student Enrollment History includes " ;Daybreak Central High;11;2011-09-08;Next year school; ; ; ;"
-And Student Enrollment History includes " ;Daybreak Central High;10;2010-09-08;Next year school; ;2011-05-11;End of school year"
-And Student Enrollment History includes " ;Daybreak Central High;9;2009-09-08;Transfer from a public school in the same local education agency; ;2010-05-11;End of school year"
-And Student Enrollment History includes " ; ;8;2008-09-11;Transfer from a public school in the same local education agency; ;2009-05-08;Exited"
-And Student Enrollment History includes " ; ;7;2008-03-11;Transfer from a public school in the same local education agency; ;2008-05-08;End of school year"
-And Student Enrollment History includes " ; ;7;2007-09-14;Next year school; ;2008-02-12;Student is in a different public school in the same local education agency"
-And Student Enrollment History includes " ; ;6;2006-09-11;Next year school; ;2007-05-14;End of school year"
-And Student Enrollment History includes " ; ;5;2005-09-09;Transfer from a private, religiously-affiliated school in the same local education agency; ;2006-05-15;Exited"
-And Student Enrollment History includes " ; ;2;2002-09-12;Transfer from a school outside of the country; ;2003-04-12;Expelled or involuntarily withdrawn"
-#And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Copyright"
+And Student Enrollment History has the following entries:
+|Year   |School                 |Gr|Entry Date |Entry Type                                                                            |Transfer     |Withdraw Date  |Withdraw Type      |
+|<empty>|Daybreak Central High  |11|2011-09-08 |Next year school                                                                      |<empty>      |<empty>        |<empty>            |
+|<empty>|Daybreak Central High  |10|2010-09-08 |Next year school                                                                      |<empty>      |2011-05-11     |End of school year |
+|<empty>|Daybreak Central High  |9 |2009-09-08 |Transfer from a public school in the same local education agency                      |<empty>      |2010-05-11     |End of school year |
+|<empty>|<empty>                |8 |2008-09-11 |Transfer from a public school in the same local education agency                      |<empty>      |2009-05-08     |Exited             |
+|<empty>|<empty>                |7 |2007-09-14 |Next year school                                                                      |<empty>      |2008-02-12     |Student is in a different public school in the same local education agency|
+|<empty>|<empty>                |7 |2007-09-14 |Next year school                                                                      |<empty>      |2008-02-12     |Student is in a different public school in the same local education agency|
+|<empty>|<empty>                |6 |2006-09-11 |Next year school                                                                      |<empty>      |2007-05-14     |End of school year |
+|<empty>|<empty>                |5 |2005-09-09 |Transfer from a private, religiously-affiliated school in the same local education agency|<empty>   |2006-05-15     |Exited             |
+|<empty>|<empty>                |2 |2002-09-12 |Transfer from a school outside of the country                                         |<empty>      |2003-04-12     |Expelled or involuntarily withdrawn|
+And I see a header on the page that has the text "Logout"
+And I see a footer on the page that has the text "Proprietary Information"
+When I click on "Assessment" Tab
+And Assessment History includes results for:
+|Test       |
+|AP English |
+And the Assessment History for "AP English" has the following entries:
+|Date         |Grade  |Assessment Name                     |Perf Level |
+|2011-05-01   |12     |English Literature and Composition  |3          |
+|2011-05-01   |12     |English Language and Composition    |2          |

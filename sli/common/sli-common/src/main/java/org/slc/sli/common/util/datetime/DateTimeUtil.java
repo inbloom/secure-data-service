@@ -21,7 +21,7 @@ public class DateTimeUtil {
     public static Date getNowInUTC() {
         return new DateTime(DateTimeZone.UTC).toDate();
     }
-    
+
     /**
      * Parses a date presently stored in the format yyyy-MM-dd and returns the corresponding DateTime object.
      *
@@ -37,7 +37,7 @@ public class DateTimeUtil {
         DateTime date = new DateTime().withDate(year, month, day);
         return date;
     }
-    
+
     /**
      * Determines if the 1st date is before or equal to the 2nd date (comparing only year, month, day).
      *

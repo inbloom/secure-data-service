@@ -12,6 +12,7 @@ Given I post "DailyAttendance.zip" file as the payload of the ingestion job
      | studentSchoolAssociation    |
      | course                      |
      | educationOrganization       |
+     | school                      |
      | section                     |
      | session                     |
      | studentSectionAssociation   |
@@ -20,26 +21,27 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
-     | student                     | 72    |
-     | studentSchoolAssociation    | 106   |
+     | student                     | 94    |
+     | studentSchoolAssociation    | 123   |
      | course                      | 15    |
      | educationOrganization       | 8     |
+     | school                      | 0     |
      | section                     | 25    |
      | session                     | 8     |
-     | studentSectionAssociation   | 192   |
+     | studentSectionAssociation   | 210   |
      | attendance                  | 86    |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                 | searchValue   |
-     | attendance                  | 86                  | body.schoolYearAttendance.schoolYear            | 2011-2012     | 
-     | attendance                  | 83                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         | 
-     | attendance                  | 86                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance |  
+     | attendance                  | 86                  | body.schoolYearAttendance.schoolYear            | 2011-2012     |
+     | attendance                  | 83                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         |
+     | attendance                  | 86                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance |
      | attendance                  | 0                   | body.schoolYearAttendance.attendanceEvent.date  | 2011-09-01    |
-     | attendance                  | 86                  | body.schoolYearAttendance.attendanceEvent.date  | 2011-11-10    |     
+     | attendance                  | 86                  | body.schoolYearAttendance.attendanceEvent.date  | 2011-11-10    |
 
-  And I should see "Processed 16450 records." in the resulting batch job file
-#  And I should not see an error log file created
-  And I should see "InterchangeStudent.xml records considered: 72" in the resulting batch job file
-  And I should see "InterchangeStudent.xml records ingested successfully: 72" in the resulting batch job file
+  And I should see "Processed 16472 records." in the resulting batch job file
+  And I should not see an error log file created
+  And I should see "InterchangeStudent.xml records considered: 94" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records ingested successfully: 94" in the resulting batch job file
   And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
   And I should see "StudentAttendanceEvents.xml records considered: 15984" in the resulting batch job file
   And I should see "StudentAttendanceEvents.xml records ingested successfully: 15984" in the resulting batch job file
@@ -60,7 +62,6 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                  | 850                 | body.attendanceEventCategory  | Excused Absence |
      | attendance                  | 784                 | body.attendanceEventCategory  | Tardy           |
      | attendance                  | 72                  | body.schoolYearAttendance.attendanceEvent.date | 2012-07-09      |
-
    And I should see "Processed 72 records." in the resulting batch job file
    And I should not see an error log file created
    And I should see "StudentAttendanceAppend.xml records considered: 72" in the resulting batch job file
@@ -79,7 +80,6 @@ When zip file is scp to ingestion landing zone
   And I should see "StudentAttendanceDuplicate.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "StudentAttendanceDuplicate.xml records failed: 72" in the resulting batch job file
 
-@wip
 Scenario: Post a zip file containing attendance event interchange with non-existent student as a payload of the ingestion job: Populated Database
 Given I post "DailyAttendanceNoStudent.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone

@@ -11,16 +11,42 @@ require_relative '../../../../utils/sli_utils.rb'
 # transform <Place Holder Id>
 Transform /^<.+>$/ do |template|
   id = template
-  id = "a936f73f-7751-412d-922f-87ad78fd6bd1" if template == "<'Ms. Jones' ID>"
-  id = "2899a720-4186-4598-9874-edde0e2541db" if template == "<'John Doe' ID>"
-  id = "9e6d1d73-a408-41a1-877a-718b897a17c5" if template == "<'Sean Deer' ID>"
-  id = "54c6546e-7998-4c6b-ad5c-b8d72496bf78" if template == "<'Suzy Queue' ID>"
-  id = "a63ee073-cd6c-4aa4-a124-fa6a1b4dfc7c" if template == "<'Mary Line' ID>"
-  id = "51db306f-4fa5-405b-b587-5fac7605e4b3" if template == "<'Dong Steve' ID>"
-  id = "7b2e6133-4224-4890-ac02-73962eb09645" if template == "<'ISAT MATH' ID>"
+  id = "67ed9078-431a-465e-adf7-c720d08ef512" if template == "<'Linda Kim' ID>"
+  id = "0636ffd6-ad7d-4401-8de9-40538cf696c8" if template == "<'Preston Muchow' ID>"
+  id = "f7094bd8-46fc-4204-9fa2-a383fb71bdf6" if template == "<'Mayme Borc' ID>"
+  id = "6bfbdd9a-441a-490a-9f83-716785b61829" if template == "<'Malcolm Costillo' ID>"
+  id = "891faebe-bc84-4e0c-b7f3-195637cd981e" if template == "<'Tomasa Cleaveland' ID>"
+  id = "ffee781b-22b1-4015-81ff-3289ceb2c113" if template == "<'Merry Mccanse' ID>"
+  id = "5dd72fa0-98fe-4017-ab32-0bd33dc03a81" if template == "<'Samantha Scorzelli' ID>"
+  id = "5738d251-dd0b-4734-9ea6-417ac9320a15" if template == "<'Matt Sollars' ID>"
+  id = "32932b97-d466-4d3c-9ebe-d58af010a87c" if template == "<'Dominic Brisendine' ID>"
+  id = "6f60028a-f57a-4c3d-895f-e34a63abc175" if template == "<'Lashawn Taite' ID>"
+  id = "4f81fd4c-c7c5-403e-af91-6a2a91f3ad04" if template == "<'Oralia Merryweather' ID>"
+  id = "766519bf-31f2-4140-97ec-295297bc045e" if template == "<'Dominic Bavinon' ID>"
+  id = "e13b1a7a-81d6-474c-b751-a6af054dbd6a" if template == "<'Rudy Bedoya' ID>"
+  id = "a17bd536-7502-4a4d-9d1f-538792b86795" if template == "<'Verda Herriman' ID>"
+  id = "7062c584-e229-4763-bf40-aec36bf112e7" if template == "<'Alton Maultsby' ID>"
+  id = "b1312b46-0a6b-4c6d-b73a-8cd7981e260e" if template == "<'Felipe Cianciolo' ID>"
+  id = "e0c2e40a-a472-4e78-9736-5ed0cbc16018" if template == "<'Lyn Consla' ID>"
+  id = "7ac04245-d931-447c-b8b2-aeef63fa3a4e" if template == "<'Felipe Wierzbicki' ID>"
+  id = "5714e819-0323-4281-b8d6-83604d3e95e8" if template == "<'Gerardo Giaquinto' ID>"
+  id = "2ec521f4-38e9-4982-8300-8df4eed2fc52" if template == "<'Holloran Franz' ID>"
+  id = "f11f341c-709b-4c8e-9b08-da9ff89ec0a9" if template == "<'Oralia Simmer' ID>"
+  id = "e62933f0-4226-4895-8fe3-aaffd5556032" if template == "<'Lettie Hose' ID>"
+  id = "903ea314-8212-4e9f-92b7-a18a25059804" if template == "<'Gerardo Saltazor' ID>"
+  id = "0fb8e0b4-8f84-48a4-b3f0-9ba7b0513dba" if template == "<'Lashawn Aldama' ID>"
+  id = "37edd9ae-3ac2-4bba-a8d8-be57461cd6de" if template == "<'Alton Ausiello' ID>"
+  id = "1d3e77f6-5f07-47c2-8086-b5aa6f4d703e" if template == "<'Marco Daughenbaugh' ID>"
+  id = "dbecaa89-29e6-41e1-8099-f80e29baf48e" if template == "<'Karrie Rudesill' ID>"
+  id = "414106a9-6156-47e3-a477-4bd4dda7e21a" if template == "<'Damon Iskra' ID>"
+  id = "e2d8ba15-953c-4cf7-a593-dbb419014901" if template == "<'Gerardo Rounsaville' ID>"
+  id = "dd916592-7d7e-5d27-a87d-dfc7fcb757f6" if template == "<'SAT READING' ID>"
   id = "5b0253d3-eb53-4c81-9e65-2f1f8347facc" if template == "<'French period 5' ID>"
-  id = "17a8658c-6fcb-4ece-99d1-b2dea1afd987" if template == "<'Algebra II period 3' ID>"
-  id = "945e4af7-106d-40d7-b549-74d84ef1047e" if template == "<'Algebra II period 1' ID>"
+  id = "706ee3be-0dae-4e98-9525-f564e05aa388" if template == "<'8th Grade English - Sec 5' ID>"
+  id = "ceffbb26-1327-4313-9cfc-1c3afd38122e" if template == "<'8th Grade English - Sec 6' ID>"
+
+
+
 
   id
 end
@@ -46,8 +72,8 @@ When /^I navigate to "([^"]*)" with URI "([^"]*)"$/ do |rel,href|
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-When /^I navigate to "([^"]*)" with URI "(\/v1\/teachers\/<[^>]*>)\/teacherSectionAssociations\/sections" and filter by sectionName is "([^"]*)" and classPeriod is "([^"]*)"$/ do |rel, href, sectionName,classPeriod|
-  queryParams = "sectionName="+sectionName+"&classPeriod="+classPeriod
+When /^I navigate to "([^"]*)" with URI "(\/v1\/teachers\/<[^>]*>)\/teacherSectionAssociations\/sections" and filter by uniqueSectionCode is "([^"]*)"$/ do |rel, href, sectionCode|
+  queryParams = "uniqueSectionCode="+sectionCode
   uri = href+"/teacherSectionAssociations/sections?"+URI.escape(queryParams,Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
   restHttpGet(uri)
   assert(@res != nil, "Response from rest-client GET is nil")

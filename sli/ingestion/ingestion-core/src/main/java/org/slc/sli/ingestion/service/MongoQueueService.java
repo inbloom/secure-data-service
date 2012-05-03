@@ -27,12 +27,15 @@ import org.slc.sli.ingestion.queue.ItemValues;
 @Component
 public class MongoQueueService implements QueueService {
 
-    /** Injecting the templates to get access to the DB.  Spring data 1.0.0 M 4 has no support for findAndModify */
+    /**
+     * Injecting the templates to get access to the DB. Spring data 1.0.0 M 4 has no support for
+     * findAndModify
+     */
     @Autowired
     private MongoTemplate batchJobMongoTemplate;
 
+    private static final String COLLECTION_NAME = "ingestionJobQueue";
     private DB db;
-    private String COLLECTION_NAME = "ingestionJobQueue";
 
     @PostConstruct
     public void init() {
@@ -66,7 +69,7 @@ public class MongoQueueService implements QueueService {
         update.put(ItemKeys.STATE, ItemValues.WORKING);
 
         updateAction.put("$set", update);
-        DBObject sortOrder = null;// new BasicDBObject(ItemKeys.EXPIRY);
+        DBObject sortOrder = null; // new BasicDBObject(ItemKeys.EXPIRY);
         DBObject fields = null;
         DBObject result = coll.findAndModify(query, fields, sortOrder, false, updateAction, true, false);
 

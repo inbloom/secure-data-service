@@ -423,7 +423,7 @@ public class DataForASchool {
         // parent
         ParentGenerator pg = new ParentGenerator(StateAbbreviationType.NY);
         for (String parentId : parents) {
-            Parent parent = pg.generate(parentId);
+            Parent parent = pg.generate(parentId, random.nextBoolean());
             list.add(parent);
         }
 

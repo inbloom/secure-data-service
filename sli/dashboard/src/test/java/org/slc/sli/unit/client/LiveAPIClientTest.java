@@ -1,7 +1,6 @@
 package org.slc.sli.unit.client;
 
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -23,6 +22,8 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.slc.sli.client.LiveAPIClient;
 import org.slc.sli.client.RESTClient;
+import org.slc.sli.entity.Config;
+import org.slc.sli.entity.CustomConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.springframework.beans.factory.annotation.Value;
@@ -77,10 +78,10 @@ public class LiveAPIClientTest {
                 + "}";
         
         when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
-        GenericEntity customConfig = client.getEdOrgCustomData(token, id);
+        CustomConfig customConfig = client.getEdOrgCustomData(token, id);
         assertNotNull(customConfig);
         assertEquals(1, customConfig.size());
-        assertEquals("component_1", ((Map) customConfig.get("component_1")).get("id"));
+        assertEquals("component_1", ((Config) customConfig.get("component_1")).getId());
         
     }
     
@@ -103,10 +104,10 @@ public class LiveAPIClientTest {
         String customJson = restClientAnswer.getJson();
         
         when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(customJson);
-        GenericEntity customConfig = client.getEdOrgCustomData(token, id);
+        CustomConfig customConfig = client.getEdOrgCustomData(token, id);
         assertNotNull(customConfig);
         assertEquals(1, customConfig.size());
-        assertEquals("component_1", ((Map) customConfig.get("component_1")).get("id"));
+        assertEquals("component_1", ((Config) customConfig.get("component_1")).getId());
         
     }
     
@@ -131,7 +132,7 @@ public class LiveAPIClientTest {
         String url = client.getApiUrl() + "/v1/sessions/";
         when(mockRest.makeJsonRequestWHeaders(url, null)).thenReturn("[]");
         sessions = client.getSessionsByYear(null, null);
-        assertNull(sessions);
+        assertEquals(sessions.size(), 0);
 
         url = client.getApiUrl() + "/v1/sessions/?schoolYear=2011-2012";
         String json = "[{session: \"Yes\"}, {session: \"No\"}]";

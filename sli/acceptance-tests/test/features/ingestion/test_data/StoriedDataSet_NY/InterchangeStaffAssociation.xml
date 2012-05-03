@@ -788,7 +788,7 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-<!--	<StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>kmelendez</StaffUniqueStateId>
@@ -803,7 +803,7 @@
 		<PositionTitle>Principal</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-</StaffEducationOrgAssignmentAssociation>-->
+</StaffEducationOrgAssignmentAssociation>
 	<!--Al Gibbs IT Support (IT Administrator) Dawn Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>agibbs</StaffUniqueStateId>
@@ -851,7 +851,7 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-<!--	<StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>agibbs</StaffUniqueStateId>
@@ -866,7 +866,7 @@
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation> -->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Chandra Harrison Researcher (Aggregate Viewer) Dawn Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>charrison</StaffUniqueStateId>
@@ -914,7 +914,7 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-<!--	<StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>charrison</StaffUniqueStateId>
@@ -929,7 +929,7 @@
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation> -->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Jane Barrera state superintendent (Leader) New York State Education System-->
 	<Staff>
 		<StaffUniqueStateId>jbarrera</StaffUniqueStateId>
@@ -2051,7 +2051,7 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-<!--	<StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>dschoonmaker</StaffUniqueStateId>
@@ -2066,5 +2066,5 @@
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation> -->	
+	</StaffEducationOrgAssignmentAssociation> 
 </InterchangeStaffAssociation>
