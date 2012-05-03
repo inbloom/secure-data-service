@@ -21,8 +21,6 @@
 
     <intercept-url pattern="/static/**" filters="none"/>    
     <intercept-url pattern="/" access="hasAnyRole('Educator', 'IT Administrator')"/>
-    <intercept-url pattern="/studentlist" access="hasAnyRole('Educator', 'IT Administrator')"/>
-    <intercept-url pattern="/studentlistcontent" access="hasAnyRole('Educator', 'IT Administrator')"/>
     <intercept-url pattern="/service/**" access="hasAnyRole('Educator', 'IT Administrator')"/>
     <intercept-url pattern="/studentprofile" access="hasAnyRole('Educator', 'IT Administrator')"/>
     <intercept-url pattern="/exception" access="permitAll"/>
