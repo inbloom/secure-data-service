@@ -1,4 +1,3 @@
-@wip
 Feature: Display Higest score for assessment contents
 
 As a SEA/LEA user, I want to be able to select different views in my dashboard
@@ -73,15 +72,16 @@ Scenario: Calculating most highest ever for an assessment
 #USE :  "assessmentFamilyHierarchy" is  "SAT"
 
 Scenario: Calculating most highest ever for an objective assessment 
-  Given I am authenticated to SLI as "cgray" "cgray"
-  When I go to "/studentlist"
-  When I select <edOrg> "Daybreak School District 4529"
-    And I select <school> "Daybreak Central High"
-    And I select <course> "American Literature"
-    And I select <section> "Sec 145"
-   And I select <viewSelector> "IL_9-12"
-  And the view configuration file set "field.value" is "SAT.Scale score.SAT-Reading"
-  And the view configuration file set "field.timeslot" is "HIGHEST_EVER"
+    When I navigate to the Dashboard home page
+    When I select "Sunset School District 4526" and click go
+    When I login as "cgray" "cgray1234"
+      When I select <edOrg> "Daybreak School District 4529"
+        And I select <school> "Daybreak Central High"
+        And I select <course> "American Literature"
+        And I select <section> "Sec 145"
+      And I select view "College Ready ELA View"
+    Then the table includes header "Reading"
+      And I should see a table heading "Tardy Count"
   
     Then I should see a table heading "Reading Test Scores (Highest)"
 	And I should see a field "SAT" for ScaleScore in this table

@@ -29,10 +29,8 @@ import org.slc.sli.domain.QueryParseException;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ApiQueryTest {
 
-
     private UriInfo uriInfo;
     private static final String URI_STRING = "http://localhost:8080/api/v1/sections";
-
 
     @Before
     public void setup() {
@@ -124,7 +122,6 @@ public class ApiQueryTest {
         new ApiQuery(uriInfo);
     }
 
-
     @Test(expected = QueryParseException.class)
     public void testQueryStringMissingKey() {
         try {
@@ -163,5 +160,21 @@ public class ApiQueryTest {
 
         new ApiQuery(uriInfo);
     }
-}
 
+    @Test
+    public void testDefaultLimit() {
+        assertTrue(new ApiQuery(null).getLimit() == ApiQuery.API_QUERY_DEFAULT_LIMIT);
+    }
+
+    @Test
+    public void testDefaultConstructor() {
+        ApiQuery apiQuery = new ApiQuery();
+        assertEquals(0, apiQuery.getCriteria().size());
+        assertEquals(50, apiQuery.getLimit());
+        assertEquals(0, apiQuery.getOffset());
+        assertEquals(null, apiQuery.getIncludeFields());
+        assertEquals(null, apiQuery.getExcludeFields());
+        assertEquals(null, apiQuery.getSortBy());
+        assertEquals(null, apiQuery.getSortOrder());
+    }
+}

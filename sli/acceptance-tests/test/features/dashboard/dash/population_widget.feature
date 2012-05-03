@@ -33,7 +33,7 @@ And I should have a selectable view named "Middle School ELA View"
 And I should have a selectable view named "College Ready ELA View"
 #User based views - views have different headers
 When I select view "Middle School ELA View"
-Then I should see a table heading "ISAT Writing (most recent)"
+Then I should see a table heading "ISAT Writing"
  #Then I see a list of 26 students
 #Client filter tests
 And I should have a dropdown selector named "filterSelect"

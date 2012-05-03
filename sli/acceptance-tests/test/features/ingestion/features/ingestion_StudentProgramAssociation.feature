@@ -32,12 +32,15 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Program1.xml records considered: 6" in the resulting batch job file
   And I should see "Program1.xml records ingested successfully: 6" in the resulting batch job file
   And I should see "Program1.xml records failed: 0" in the resulting batch job file
+
   And I should see "Student1.xml records considered: 78" in the resulting batch job file
   And I should see "Student1.xml records ingested successfully: 78" in the resulting batch job file
   And I should see "Student1.xml records failed: 0" in the resulting batch job file
+
   And I should see "StudentProgramAssociation1.xml records considered: 10" in the resulting batch job file
   And I should see "StudentProgramAssociation1.xml records ingested successfully: 10" in the resulting batch job file
   And I should see "StudentProgramAssociation1.xml records failed: 0" in the resulting batch job file
+
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "StudentProgramAssociation2.zip" file as the payload of the ingestion job

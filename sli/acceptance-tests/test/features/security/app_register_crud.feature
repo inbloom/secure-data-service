@@ -17,7 +17,7 @@ Scenario: CRUD operations on Applications
      Then I should receive a return code of 204
 	When I navigate to DELETE "/apps/<New App ID>"
 	Then I should receive a return code of 204
-     And I should no longer be able to get that application's data'
+     And I should no longer be able to get that application's data
 
 Scenario: Deny creation when specifying invalid fields
 
@@ -70,7 +70,6 @@ Scenario: CRUD operations on Applications In Sandbox as a Developer
 	When I navigate to DELETE "/apps/<New App ID>"
 	Then I should receive a return code of 204
      And I should no longer be able to get that application's data
-
 @wip
 Scenario: CRUD operations on Applications In production as an Operator
 	Given I am logged in using "operator" "operator1234" to realm "SLI"

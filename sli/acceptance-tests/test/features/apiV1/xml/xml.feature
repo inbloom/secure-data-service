@@ -35,7 +35,7 @@ Background: Nothing yet
     | studentSectionAssociations  | studentSectionAssociation  | 309             |
     | courseOfferings             | sessionCourseAssociation   | 4               |
 
-@wip
+
 Scenario: Getting response from POST - Create (school)
   Given a valid XML document for a new school entity
   When I POST the entity to "/v1/schools"
@@ -43,13 +43,13 @@ Scenario: Getting response from POST - Create (school)
   And I should receive an ID for the newly created entity
   When I navigate to GET "/v1/schools/<NEWLY CREATED ENTITY ID>"
   Then I should receive a return code of 200
-  And I should see "<nameOfInstitution>" is "CRUD Test Elementary School"
-  And I should see "<organizationCategories>" is "School"
-  And I should find "<address>" under "<school>"
-  And I should see "<streetNumberName>" is "123 Main Street"
+  And I should see "<nameOfInstitution>" is "Apple Alternative Elementary School"
+  And I should see "<organizationCategories><organizationCategories>" is "School"
+  And I should find "<address><address>" under "/"
+  And I should see "<address><address><streetNumberName>" is "123 Main Street"
 #  And I should find 3 "<gradesOffered>" under "<school>"
 
-@wip
+
 Scenario: Getting response from PUT - Update (school)
   When I navigate to GET "/v1/schools/<SCHOOL ENTITY TO BE UPDATED>"
   Then I should see "<nameOfInstitution>" is "Apple Alternative Elementary School"
@@ -59,7 +59,8 @@ Scenario: Getting response from PUT - Update (school)
   When I navigate to GET "/v1/schools/<SCHOOL ENTITY TO BE UPDATED>"
   Then I should receive an XML document
   Then I should see "<nameOfInstitution>" is "Updated School Name"
-
+  
+@wip
 Scenario: Applying optional fields
   Given optional field "attendances"
   And optional field "assessments"
@@ -115,42 +116,40 @@ Scenario: Applying optional fields - single student view
   And I should receive a return code of 200
 
   # attendances
-  Then I should find "<attendances>" under "<student>"
-  And I should find 181 "<attendances>" under "<student><attendances>"
-  And I should find 77 entries with "<date>" including the string "2011"
+  Then I should find "<attendances>" under "/"
+  And I should find 181 "<attendances>" under "<attendances><attendances>"
   And I should see "<date>" is "2011-09-07" for the one at position 2
   And I should see "<event>" is "In Attendance" for the one at position 2
 
   # assessments
-  Then I should find "<studentAssessments>" under "<student>"
-  And I should see "<entityType>" is "studentAssessmentAssociation"
-  And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>"
-  And I should find "<assessments>" under "<student><studentAssessments>"
-  And I should see "<entityType>" is "assessment"
-  And I should see "<gradeLevelAssessed>" is "Twelfth grade"
-  And I should find 3 "<studentObjectiveAssessments>" under "<student><studentAssessments>"
-  And I should find 2 "<scoreResults>" under "<student><studentAssessments><studentObjectiveAssessments>"
+  Then I should find "<studentAssessments>" under "/"
+  And I should see "<studentAssessments><studentAssessments><entityType>" is "studentAssessmentAssociation"
+  And I should see "<studentAssessments><studentAssessments><studentId>" is "<MARVIN MILLER STUDENT ID>"
+  And I should see "<studentAssessments><studentAssessments><assessments><entityType>" is "assessment"
+  And I should see "<studentAssessments><studentAssessments><assessments><gradeLevelAssessed>" is "Twelfth grade"
+  And I should find 3 "<studentObjectiveAssessments><studentObjectiveAssessments>" under "<studentAssessments><studentAssessments>"
+  And I should find 2 "<scoreResults><scoreResults>" under "<studentAssessments><studentAssessments><studentObjectiveAssessments><studentObjectiveAssessments>"
   And I should see "<result>" is "80" for the one at position 2
 
   # gradebook
-  Then I should find 3 "<studentGradebookEntries>" under "<student>"
+  Then I should find 3 "<studentGradebookEntries>" under "<studentGradebookEntries>"
   And I should see "<entityType>" is "studentSectionGradebookEntry" for the one at position 1
   And I should see "<letterGradeEarned>" is "A" for the one at position 1
   And I should see "<dateFulfilled>" is "2012-01-31" for the one at position 1
-  And I should find 1 "<gradebookEntries>" under "<student><studentGradebookEntries>"
+  And I should find 1 "<gradebookEntries>" under "<studentGradebookEntries><studentGradebookEntries>"
   And I should see "<entityType>" is "gradebookEntry" for the one at position 1
   And I should see "<dateAssigned>" is "2012-01-31" for the one at position 1
 
   # transcript
-  Then I should find "<transcript>" under "<student>"
-  And I should find "<courseTranscripts>" under "<student><transcript>"
-  And I should see "<entityType>" is "studentTranscriptAssociation"
-  And I should see "<finalLetterGradeEarned>" is "B"
-  And I should find 2 "<studentSectionAssociations>" under "<student><transcript>"
+  Then I should find "<transcript>" under "/"
+  And I should find "<courseTranscripts>" under "<transcript>"
+  And I should see "<transcript><courseTranscripts><courseTranscripts><entityType>" is "studentTranscriptAssociation"
+  And I should see "<transcript><courseTranscripts><courseTranscripts><finalLetterGradeEarned>" is "B"
+  And I should find 2 "<studentSectionAssociations><studentSectionAssociations>" under "<transcript>"
   And I should see "<entityType>" is "studentSectionAssociation" for the one at position 1
-  And I should find "<sections>" under "<student><transcript><studentSectionAssociations>"
-  And I should see "<entityType>" is "section"
-  And I should find "<sessions>" under "<student><transcript><studentSectionAssociations><sections>"
-  And I should see "<entityType>" is "session"
-  And I should find "<courses>" under "<student><transcript><studentSectionAssociations><sections>"
-  And I should see "<entityType>" is "course"
+  And I should find "<sections>" under "<transcript><studentSectionAssociations><studentSectionAssociations>"
+  And I should see "<transcript><studentSectionAssociations><studentSectionAssociations><sections><entityType>" is "section"
+  And I should find "<sessions>" under "<transcript><studentSectionAssociations><studentSectionAssociations><sections>"
+  And I should see "<transcript><studentSectionAssociations><studentSectionAssociations><sections><sessions><entityType>" is "session"
+  And I should find "<courses>" under "<transcript><studentSectionAssociations><studentSectionAssociations><sections>"
+  And I should see "<transcript><studentSectionAssociations><studentSectionAssociations><sections><courses><entityType>" is "course"
