@@ -2,13 +2,13 @@ require 'test_helper'
 
 class LandingZoneControllerTest < ActionController::TestCase
   test "should get provision" do
-    get :provision
-    assert_response :success
+    post :provision
+    assert_response :redirect, @response.body
   end
 
   test "should get index" do
     get :index
-    assert_response :success
+    assert_response :success, @response.body
   end
 
 end
