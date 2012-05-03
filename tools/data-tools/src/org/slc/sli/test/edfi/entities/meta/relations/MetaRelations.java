@@ -25,16 +25,15 @@ import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 public final class MetaRelations {
 
     // knobs to control number of entities to create
-    public static final int TOTAL_SEAS = 2;
-    public static final int LEAS_PER_SEA =5;
+	public static final int TOTAL_SEAS = 1;
+    public static final int LEAS_PER_SEA =2;
     public static final int STAFF_PER_SEA = 3;
     public static final int SCHOOLS_PER_LEA = 2;
     public static final int COURSES_PER_SCHOOL = 2;
     public static final int SESSIONS_PER_SCHOOL = 1;
     public static final int SECTIONS_PER_COURSE_SESSION = 2;
-    
-    public static final int TEACHERS_PER_SCHOOL = 5;
-    public static final int STUDENTS_PER_SCHOOL = 10;
+    public static final int TEACHERS_PER_SCHOOL = 2;
+    public static final int STUDENTS_PER_SCHOOL = 4;
     public static final int PROGRAMS_PER_SCHOOL = 2;
     public static final int STAFF_PER_PROGRAM = 2;
     public static final int FREE_STANDING_COHORT_PER_SCHOOL = 4;
@@ -45,11 +44,12 @@ public final class MetaRelations {
     public static final int ATTENDANCE_PER_STUDENT_SECTION = 10;
     public static final int DISCPLINE_ACTIONS_PER_SCHOOL = 2;
     public static final int DISCPLINE_INCIDENTS_PER_SCHOOL = 5;
-
     public static final int INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = 10;
     public static final int NUM_STAFF_PER_DISCIPLINE_ACTION = 2;
     public static final int COURSES_PER_STUDENT = 2;
-    // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
+
+
+     //publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
     // TODO: do we need maps? maybe just use Collections?
     public static final Map<String, SeaMeta> SEA_MAP = new TreeMap<String, SeaMeta>();
     public static final Map<String, LeaMeta> LEA_MAP = new TreeMap<String, LeaMeta>();
@@ -256,7 +256,7 @@ public final class MetaRelations {
 
         for (int idNum = 0; idNum < STUDENTS_PER_SCHOOL; idNum++) {
 
-            StudentMeta studentMeta = new StudentMeta("student" + idNum, schoolMeta);
+            StudentMeta studentMeta = new StudentMeta("stu" + idNum, schoolMeta);
 
             // it's useful to return the objects created JUST for this school
             // add to both maps here to avoid loop in map.putAll if we merged maps later
@@ -266,24 +266,26 @@ public final class MetaRelations {
             boolean hasBoth = random.nextBoolean();
 
             if(hasBoth == false) {
-                ParentMeta fatherMeta = new ParentMeta(studentMeta.id + "-far" + counter, true );
+                ParentMeta fatherMeta = new ParentMeta(studentMeta.id + "-dad" + counter, true );
                 PARENT_MAP.put(fatherMeta.id, fatherMeta);
-                StudentParentAssociationMeta studentFatherMeta = new StudentParentAssociationMeta ("stuParAss" + counter ,studentMeta, fatherMeta);
-                STUDENT_PARENT_MAP.put( schoolMeta.id + counter + "2", studentFatherMeta);
+                StudentParentAssociationMeta studentFatherMeta = new StudentParentAssociationMeta ("sPA" + counter ,studentMeta, fatherMeta);
+                STUDENT_PARENT_MAP.put( studentMeta.id + schoolMeta.id + counter + "1", studentFatherMeta);
             }
+
             else {
                 ParentMeta fatherMeta = new ParentMeta(studentMeta.id + "-dad" + counter, true );
                 PARENT_MAP.put(fatherMeta.id, fatherMeta);
                 ParentMeta motherMeta = new ParentMeta(studentMeta.id + "-mom" + counter, false );
                 PARENT_MAP.put(motherMeta.id, motherMeta);
-                StudentParentAssociationMeta studentMotherMeta = new StudentParentAssociationMeta ("stuParAss" + counter ,studentMeta, motherMeta);
-                STUDENT_PARENT_MAP.put( schoolMeta.id + counter + "1", studentMotherMeta);
-                StudentParentAssociationMeta studentFatherMeta = new StudentParentAssociationMeta ("stuParAss" + counter ,studentMeta, fatherMeta);
-                STUDENT_PARENT_MAP.put( schoolMeta.id + counter + "2", studentFatherMeta);
+                StudentParentAssociationMeta studentMotherMeta = new StudentParentAssociationMeta ("sPA" + counter ,studentMeta, motherMeta);
+                STUDENT_PARENT_MAP.put(studentMeta.id + schoolMeta.id + counter + "1", studentMotherMeta);
+                StudentParentAssociationMeta studentFatherMeta = new StudentParentAssociationMeta ("sPA" + counter ,studentMeta, fatherMeta);
+                STUDENT_PARENT_MAP.put(studentMeta.id + schoolMeta.id + counter + "2", studentFatherMeta);
              }
 
             counter ++;
         }
+
         return studentsInSchoolMap;
     }
 
@@ -660,7 +662,7 @@ public final class MetaRelations {
         int staffIndx = 0;
         Object[] studentMetas = studentsForSchool.values().toArray();
         int studentIndx = 0;
-        
+
         // assign a student to each discipline incident.
         for (DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentsForSchool.values()) {
             StudentMeta studentMeta = (StudentMeta) studentMetas[studentIndx];
