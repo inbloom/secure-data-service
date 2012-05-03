@@ -11,8 +11,8 @@ ${headerString}
 </button>
 </form>
 
-   <h10>
+   <div class="banner-label">
      DASHBOARD
-   </h10>
+   </div>
 
 </div>
