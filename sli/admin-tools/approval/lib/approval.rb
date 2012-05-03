@@ -69,10 +69,11 @@ module ApprovalEngine
 		end
 
 		# set the new user status 
-		user[status] = target[transition]
+		user[:status] = target[transition]
 		case [status, target[transition]]
 			when [STATE_PENDING, STATE_APPROVED]
 				@@storage.enable_update_status(user)
+				@@emailer.send_approval_email(user[:email], user[:first], user[:last])
 			when [STATE_PENDING, STATE_REJECTED]
 				@@storage.update_status(user)
 			when [STATE_REJECTED, STATE_APPROVED]
@@ -86,7 +87,7 @@ module ApprovalEngine
 			end
 
 		# if this is a sandbox and the new status is pending then move to status approved
-		if @@is_sandbox && (user[status] == STATE_PENDING)
+		if @@is_sandbox && (user[:status] == STATE_PENDING)
 			change_user_status(email_address, ACTION_APPROVE)
 		end
 	end
@@ -162,7 +163,11 @@ module ApprovalEngine
 	#     :transitions => ["approve", "reject"], 
 	# }	#
 	def ApprovalEngine.get_users(status=nil)
-		return @@storage.read_users(status)
+
+		return @@storage.read_users(status).map do |user| 
+			user[:transitions] = FSM[user[:status]]
+			user
+		end
 	end 
 
 	# Update the user information that was submitted via the add_user method. 

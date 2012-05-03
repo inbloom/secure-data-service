@@ -155,7 +155,9 @@ class LDAPStorage
 
 		return arr[0..(max_recs-1)].map do |entry|
 			user_rec = {}
-			LDAP_ATTR_MAPPING.each { |ldap_k, rec_k| user_rec[rec_k] = entry[ldap_k]}
+			LDAP_ATTR_MAPPING.each do |ldap_k, rec_k| 
+				user_rec[rec_k] = entry[ldap_k].is_a?(Array) ?  entry[ldap_k][0] : entry[ldap_k]
+			end
 			user_rec
 		end
 	end

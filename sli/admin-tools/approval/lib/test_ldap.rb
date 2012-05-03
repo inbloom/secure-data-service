@@ -26,10 +26,10 @@ ldap.create_user(td_user_info)
 
 puts "DN: #{found_user}"
 found_user.each do |attribute, values|
-	puts "   attr:#{attribute}:"
-	values.each do |value|
-		puts "      --->#{value}"
-	end
+	puts "   attr:#{attribute}: #{values}"
+	# values.each do |value|
+	# 	puts "      --->#{value}"
+	# end
 end
 
 any_email = "anything@example.com" 
