@@ -164,7 +164,7 @@ module ApprovalEngine
 	# }	#
 	def ApprovalEngine.get_users(status=nil)
 
-		return @@storage.read_users(status) map begin |user| 
+		return @@storage.read_users(status).map do |user| 
 			user[:transitions] = FSM[user[:status]]
 			user
 		end
