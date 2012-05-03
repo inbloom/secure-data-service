@@ -42,6 +42,7 @@
     
     <bean id="populationManager" class="org.slc.sli.manager.impl.PopulationManagerImpl">
         <property name="entityManager" ref="entityManager"/>
+        <property name="cacheManager" ref="cacheManager"/>
     </bean>
 
     <bean id="portalWSManager" class="org.slc.sli.manager.impl.PortalWSManagerImpl">

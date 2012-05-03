@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.slc.sli.controller.GenericLayoutController;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.Config.Data;
 import org.slc.sli.entity.CustomConfig;
@@ -26,6 +25,7 @@ import org.slc.sli.entity.util.StudentProgramUtil;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl;
+import org.slc.sli.web.controller.GenericLayoutController;
 
 /**
  * Tesing layout controller
