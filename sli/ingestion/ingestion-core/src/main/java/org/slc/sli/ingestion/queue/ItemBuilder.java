@@ -22,10 +22,10 @@ public class ItemBuilder {
    private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
     public Map<String, Object> buildNewItem() {
-        Map<String,Object> map = new HashMap<String,Object>();
+        Map<String, Object> map = new HashMap<String, Object>();
 
-        map.put( "_id", uuidGeneratorStrategy.randomUUID() );
-        map.put( ItemKeys.STATE, ItemValues.UNCLAIMED);
+        map.put("_id", uuidGeneratorStrategy.randomUUID());
+        map.put(ItemKeys.STATE, ItemValues.UNCLAIMED);
 
         return map;
     }

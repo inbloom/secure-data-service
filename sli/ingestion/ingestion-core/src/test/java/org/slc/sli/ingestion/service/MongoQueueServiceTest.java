@@ -16,6 +16,11 @@ import org.slc.sli.ingestion.queue.ItemBuilder;
 import org.slc.sli.ingestion.queue.ItemKeys;
 import org.slc.sli.ingestion.queue.ItemValues;
 
+/**
+*
+* @author jshort
+*
+*/
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class MongoQueueServiceTest {
@@ -45,6 +50,6 @@ public class MongoQueueServiceTest {
 
         assertNotNull(fetched);
 
-        assertEquals( ItemValues.WORKING, fetched.get( ItemKeys.STATE) );
+        assertEquals(ItemValues.WORKING, fetched.get(ItemKeys.STATE));
     }
 }

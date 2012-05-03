@@ -1,7 +1,9 @@
 
 Feature: SLC operator approves/disables production accounts or disables sandbox accounts
 
-Background: None
+Background: 
+  Given I have a "mock" SMTP/Email server configured
+  #Given I have a "live" SMTP/Email server configured
 
 @test
 Scenario: As a slc operator I approve pending production account request
