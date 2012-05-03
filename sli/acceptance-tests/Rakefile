@@ -1139,7 +1139,8 @@ task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
                          :dashboardSdsUserBasedViewsTests,
                          :dashboardSdsAttendanceTests,
                          :dashboardStudentSearchTests,
-                         :dashboardSdsTranscriptPanelTests] do
+                         :dashboardSdsTranscriptPanelTests,
+                         :dashboardSdsUploadConfigTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

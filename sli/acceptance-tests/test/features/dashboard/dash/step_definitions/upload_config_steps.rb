@@ -19,10 +19,6 @@ When /^click Save$/ do
   end
 end
 
-Then /^I should be shown a success message\.$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
 When /^I paste Invalid json config into the text box$/ do
   invalid = "{
           \"listOfStudents\" :
@@ -100,7 +96,6 @@ end
 Then /^I reset custom config$/ do
   putTextForConfigUpload("{}")
 end
-
 
 def putTextForConfigUpload(uploadText)
   textBoxId = "jsonText"
