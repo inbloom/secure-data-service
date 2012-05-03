@@ -44,7 +44,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
     private final FileUtils fileUtils;
 
-    private static final Set<String> IGNORE_TYPES = new HashSet<String>(Arrays.asList("learningStandard"));
+    private static final Set<String> IGNORE_TYPES = new HashSet<String>(Arrays.asList("learningStandard",
+            "learningObjective"));
 
     @Autowired
     public AssessmentCombiner(FileUtils fileUtils) {
@@ -78,7 +79,9 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     public void transform() {
         LOG.debug("Transforming data: Injecting assessmentFamilies into assessment");
 
-        ObjectiveAssessmentBuilder objAssmtBuilder = new ObjectiveAssessmentBuilder(getNeutralRecordMongoAccess(), getJob().getId());
+        ObjectiveAssessmentBuilder objAssmtBuilder = new ObjectiveAssessmentBuilder(getNeutralRecordMongoAccess(),
+                getJob().getId());
+
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("assessment").entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
 

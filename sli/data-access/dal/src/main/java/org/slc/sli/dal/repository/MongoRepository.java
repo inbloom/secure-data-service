@@ -68,10 +68,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public abstract T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
 
     public T create(T record, String collectionName) {
-        // template.ensureIndex(new Index("metaData.externalId", Order.ASCENDING), collectionName);
-        // // NO!!!
         template.save(record, collectionName);
         LOG.debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
+
         return record;
     }
 
@@ -265,11 +264,21 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
+    /**The existing collections have been cached
+     * to avoid unnecessary DB queries.
+     *
+     */
     public boolean collectionExists(String collection) {
+
         return template.collectionExists(collection);
     }
 
     @Override
+    /**
+     * This function assumes the collection does not exists
+     *
+     * @author tke
+     */
     public void createCollection(String collection) {
         template.createCollection(collection);
     }

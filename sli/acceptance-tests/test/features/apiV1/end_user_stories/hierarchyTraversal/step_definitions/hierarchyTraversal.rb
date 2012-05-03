@@ -8,21 +8,18 @@ require_relative '../../../utils/api_utils.rb'
 
 
 Transform /^<([^>]*)>$/ do |human_readable_id|
-  guid = "67ce204b-9999-4a11-aabe-000000000000" if human_readable_id == "'KANSAS STATE (EDORG)' ID"
-  guid = "67ce204b-9999-4a11-aaca-000000000000" if human_readable_id == "'KANSAS STATE-SMALLVILLE DISTRICT (EDORG-EDORG)' ID"
-  guid = "1d303c61-88d4-404a-ba13-d7c5cc324bc5" if human_readable_id == "'SMALLVILLE DISTRICT (EDORG)' ID"
-  guid = "1cb629df-c482-4748-874a-425dd2007577" if human_readable_id == "'SMALLVILLE DISTRICT-DEREK SMALLS HIGH SCHOOL (EDORG-SCHOOL)' ID"
-  guid = "67ce204b-9999-4a11-aaab-000000000008" if human_readable_id == "'DEREK SMALLS HIGH SCHOOL (SCHOOL)' ID"
-  guid = "67ce204b-9999-4a11-aacd-000000000000" if human_readable_id == "'SPRING 2011 @ DEREK SMALLS HIGH SCHOOL (SCHOOL-SESSION)' ID"
-  guid = "67ce204b-9999-4a11-aacb-000000000000" if human_readable_id == "'SPRING 2011 (SESSION)' ID"
-  guid = "67ce204b-9999-4a11-aace-000000000004" if human_readable_id == "'MATH 1 DURING SPRING 2011 (SESSION-COURSE)' ID"
-  guid = "67ce204b-9999-4a11-aacc-000000000004" if human_readable_id == "'MATH 1 (COURSE)' ID"
-  guid = "67ce204b-9999-4a11-aacf-000000000008" if human_readable_id == "'MATH 1 SECTION 1 (COURSE-SECTION)' ID"
-  guid = "67ce204b-9999-4a11-aaac-000000000008" if human_readable_id == "'MATH 1 (SECTION)' ID"
-  guid = "67ce204b-9999-4a11-aabd-000000000008" if human_readable_id == "'TEACHER OF SECTION 1 (TEACHER-SECTION)' ID"
-  guid = "67ce204b-9999-4a11-aabc-000000000038" if human_readable_id == "'OTIS OBAMA (TEACHER)' ID"
-  guid = "67ce204b-9999-4a11-aaae-000000000120" if human_readable_id == "'SCOTTY PIERSON IN MATH 1 (STUDENT-SECTION)' ID"
-  guid = "67ce204b-9999-4a11-aaaf-000000001184" if human_readable_id == "'SCOTTY PIERSON (STUDENT)' ID"
+  guid = "b1bd3db6-d020-4651-b1b8-a8dba688d9e1" if human_readable_id == "'STATE EDUCATION ORGANIZATION' ID"
+  guid = "bd086bae-ee82-4cf2-baf9-221a9407ea07" if human_readable_id == "'LOCAL EDUCATION ORGANIZATION' ID"
+  guid = "92d6d5a0-852c-45f4-907a-912752831772" if human_readable_id == "'SCHOOL' ID"
+  guid = "87770f3e-93c6-11e1-adcc-101f74582c4c" if human_readable_id == "'SCHOOL-SESSION-ASSOCIATION' ID"
+  guid = "c549e272-9a7b-4c02-aff7-b105ed76c904" if human_readable_id == "'SESSION' ID"
+  guid = "c5b80f7d-93c5-11e1-adcc-101f74582c4c" if human_readable_id == "'SESSION-COURSE-ASSOCIATION' ID"
+  guid = "5841cf31-16a6-4b4d-abe1-3909d86b4fc3" if human_readable_id == "'COURSE' ID"
+  guid = "15ab6363-5509-470c-8b59-4f289c224107" if human_readable_id == "'SECTION' ID"
+  guid = "32b86a2a-e55c-4689-aedf-4b676f3da3fc" if human_readable_id == "'TEACHER-SECTION-ASSOCIATION' ID"
+  guid = "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b" if human_readable_id == "'TEACHER' ID"
+  guid = "76ac366b-ee0d-4db9-b820-ac5bc83e53ac" if human_readable_id == "'STUDENT-SECTION' ID"
+  guid = "0f0d9bac-0081-4900-af7c-d17915e02378" if human_readable_id == "'STUDENT' ID"
   guid
 end
 
@@ -55,12 +52,13 @@ end
 
 Then /^the "name" should be "([^\"]*)" "([^\"]*)" "([^\"]*)"$/ do |first_name, middle_name, last_name|
   assert(@result["name"] != nil, "Name is nil")
+  expected_middle_name = ""
   expected_first_name = @result["name"]["firstName"]
-  expected_middle_name = @result["name"]["middleName"]
+  expected_middle_name = @result["name"]["middleName"] unless middle_name == ""
   expected_last_name = @result["name"]["lastSurname"]
   assert(expected_first_name == first_name, "Unexpected first name. Input: #{first_name} Expected: #{expected_first_name}")
-  assert(expected_middle_name == middle_name, "Unexpected first name. Input: #{middle_name} Expected: #{expected_middle_name}")
-  assert(expected_last_name == last_name, "Unexpected first name. Input: #{last_name} Expected: #{expected_last_name}")
+  assert(expected_middle_name == middle_name, "Unexpected middle name. Input: #{middle_name} Expected: #{expected_middle_name}")
+  assert(expected_last_name == last_name, "Unexpected last name. Input: #{last_name} Expected: #{expected_last_name}")
 end
 
 Then /^a "([^"]*)" should be "([^"]*)"$/ do |key, value|

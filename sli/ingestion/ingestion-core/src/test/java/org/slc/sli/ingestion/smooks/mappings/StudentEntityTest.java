@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -39,9 +38,9 @@ public class StudentEntityTest {
     public void testValidStudent() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
 
-        String targetSelector = "InterchangeStudent/Student";
+        String targetSelector = "InterchangeStudentParent/Student";
 
-        String testData = "<InterchangeStudent xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-Student.xsd\">"
+        String testData = "<InterchangeStudentParent xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StudentParent.xsd\">"
                 + "<Student>"
                 + "<StudentUniqueStateId>231101422</StudentUniqueStateId>"
                 + "<StudentIdentificationCode IdentificationSystem=\"District\" AssigningOrganizationCode=\"OrgCode\">"
@@ -145,7 +144,7 @@ public class StudentEntityTest {
                 + "    <DesignatedBy>School</DesignatedBy>"
                 + "</StudentIndicators>"
                 + "<LoginId>aStudent</LoginId>"
-                + "</Student></InterchangeStudent>";
+                + "</Student></InterchangeStudentParent>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 testData);
@@ -205,9 +204,9 @@ public class StudentEntityTest {
 
         String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
 
-        String targetSelector = "InterchangeStudent/Student";
+        String targetSelector = "InterchangeStudentParent/Student";
 
-        String edfiStudentXml = "<InterchangeStudent xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-Student.xsd\">"
+        String edfiStudentXml = "<InterchangeStudentParent xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StudentParent.xsd\">"
                 + "<Student>"
                 + "<StudentUniqueStateId>231101422</StudentUniqueStateId>"
                 + "<StudentIdentificationCode IdentificationSystem=\"District\" AssigningOrganizationCode=\"OrgCode\">"
@@ -311,7 +310,7 @@ public class StudentEntityTest {
                 + "    <DesignatedBy>School</DesignatedBy>"
                 + "</StudentIndicators>"
                 + "<LoginId>aStudent</LoginId>"
-                + "</Student></InterchangeStudent>";
+                + "</Student></InterchangeStudentParent>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
                 targetSelector, edfiStudentXml);

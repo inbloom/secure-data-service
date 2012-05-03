@@ -16,7 +16,10 @@ public interface BatchJobDAO {
 
     NewBatchJob findBatchJobById(String batchJobId);
 
+    @Deprecated
     List<Error> findBatchJobErrors(String batchJobId);
+
+    public Iterable<Error> getBatchJobErrors(String jobId, int limit);
 
     void saveError(Error error);
 }

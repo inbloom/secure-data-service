@@ -156,6 +156,11 @@ public class MockRepo implements Repository<Entity> {
                 }
             }
         }
+        
+        if (container == null) {
+            return null;
+        }
+        
         return container.get(path[path.length - 1]);
     }
 
@@ -172,7 +177,6 @@ public class MockRepo implements Repository<Entity> {
 
             Map<String, Entity> results2 = new LinkedHashMap<String, Entity>();
 
-            //
             if (criteria.getOperator().equals("=")) {
                 for (Entry<String, Entity> idAndEntity : results.entrySet()) {
                     Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(),

@@ -27,8 +27,8 @@ import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of
- * attendance events} mappings and
- * stores in the appropriate student-school or student-section associations.
+ * attendance events} mappings and stores in the appropriate student-school or student-section
+ * associations.
  *
  * @author shalka
  */
@@ -68,12 +68,14 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     public void loadData() {
         LOG.info("Loading data for attendance transformation.");
+
         List<String> collectionsToLoad = Arrays.asList(EntityNames.STUDENT_SCHOOL_ASSOCIATION);
         for (String collectionName : collectionsToLoad) {
             Map<Object, NeutralRecord> collection = getCollectionFromDb(collectionName);
             collections.put(collectionName, collection);
             LOG.info("{} is loaded into local storage.  Total Count = {}", collectionName, collection.size());
         }
+
         LOG.info("Finished loading data for attendance transformation.");
     }
 
@@ -106,12 +108,18 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
                 Map<Object, NeutralRecord> studentAttendance = getAttendanceEvents(studentId);
                 Map<Object, NeutralRecord> sessions = getSessions(studentId, schoolId);
+
+                LOG.info("For student with id: {} in school: {}", studentId, schoolId);
+                LOG.info("  Found {} associated sessions.", sessions.size());
+                LOG.info("  Found {} attendance events.", studentAttendance.size());
+
                 Map<String, Object> schoolYears = mapAttendanceIntoSchoolYears(studentAttendance, sessions);
 
                 if (schoolYears.entrySet().size() > 0) {
                     List<Map<String, Object>> daily = new ArrayList<Map<String, Object>>();
                     for (Map.Entry<String, Object> entry : schoolYears.entrySet()) {
                         String schoolYear = entry.getKey();
+
                         @SuppressWarnings("unchecked")
                         List<Map<String, Object>> events = (List<Map<String, Object>>) entry.getValue();
                         Map<String, Object> attendance = new HashMap<String, Object>();
@@ -193,6 +201,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         NeutralQuery query = new NeutralQuery();
         query.setLimit(0);
         query.addCriteria(new NeutralCriteria("studentId", "=", studentId));
+
         Iterable<NeutralRecord> records = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
                 EntityNames.ATTENDANCE, getJob().getId(), query);
 
@@ -218,6 +227,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         NeutralQuery query = new NeutralQuery();
         query.setLimit(0);
         query.addCriteria(new NeutralCriteria("studentId", "=", studentId));
+
         Iterable<NeutralRecord> associations = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
                 EntityNames.STUDENT_SECTION_ASSOCIATION, getJob().getId(), query);
 
@@ -248,6 +258,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
                 NeutralQuery sessionQuery = new NeutralQuery();
                 sessionQuery.addCriteria(new NeutralCriteria("sessionName", "=", sessionIds));
+
                 Iterable<NeutralRecord> sessions = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
                         EntityNames.SESSION, getJob().getId(), sessionQuery);
 

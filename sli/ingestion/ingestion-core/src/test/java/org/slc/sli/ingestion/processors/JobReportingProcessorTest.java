@@ -104,11 +104,11 @@ public class JobReportingProcessorTest {
                 mockedStages, mockedResourceEntries);
         mockedJob.setSourceId(TEMP_DIR);
 
-        List<Error> fakeErrorList = createFakeErrorList();
+        Iterable<Error> fakeErrorIterable = createFakeErrorIterable();
 
         // set mocked BatchJobMongoDA in jobReportingProcessor
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(BATCHJOBID))).thenReturn(mockedJob);
-        Mockito.when(mockedBatchJobDAO.findBatchJobErrors(Matchers.eq(BATCHJOBID))).thenReturn(fakeErrorList);
+        Mockito.when(mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.anyInt())).thenReturn(fakeErrorIterable);
 
         // create exchange
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
@@ -127,7 +127,7 @@ public class JobReportingProcessorTest {
 
         assertTrue(br.readLine().contains("jobId: " + BATCHJOBID));
         assertTrue(br.readLine().contains(
-                "[file] " + RESOURCEID + " (" + FileFormat.EDFI_XML.getCode() + "/" + FileType.XML_STUDENT.getName()
+                "[file] " + RESOURCEID + " (" + FileFormat.EDFI_XML.getCode() + "/" + FileType.XML_STUDENT_PARENT_ASSOCIATION.getName()
                         + ")"));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records considered: " + RECORDS_CONSIDERED));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records ingested successfully: " + RECORDS_PASSED));
@@ -170,13 +170,13 @@ public class JobReportingProcessorTest {
         re.setResourceId(RESOURCEID);
         re.setExternallyUploadedResourceId(RESOURCEID);
         re.setResourceName(TEMP_DIR + RESOURCEID);
-        re.update(FileFormat.EDFI_XML.getCode(), FileType.XML_STUDENT.getName(), "123456789", RECORDS_CONSIDERED,
+        re.update(FileFormat.EDFI_XML.getCode(), FileType.XML_STUDENT_PARENT_ASSOCIATION.getName(), "123456789", RECORDS_CONSIDERED,
                 RECORDS_FAILED);
         resourceEntries.add(re);
         return resourceEntries;
     }
 
-    private List<Error> createFakeErrorList() {
+    private Iterable<Error> createFakeErrorIterable() {
         List<Error> errors = new LinkedList<Error>();
         Error error = new Error(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), RESOURCEID,
                 "10.81.1.27", "testhost", RECORDID, BatchJobUtils.getCurrentTimeStamp(), FaultType.TYPE_ERROR.getName(),

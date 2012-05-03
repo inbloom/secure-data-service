@@ -280,9 +280,9 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<!--This is how we associate the assessment item and the objective assessment 
-				locally within the assessment. <xs:element name="id" type="xs:ID"> <xs:annotation> 
-				<xs:documentation>Uniquely identifies this assessment item within the assessment.</xs:documentation> 
+			<!--This is how we associate the assessment item and the objective assessment
+				locally within the assessment. <xs:element name="id" type="xs:ID"> <xs:annotation>
+				<xs:documentation>Uniquely identifies this assessment item within the assessment.</xs:documentation>
 				</xs:annotation> </xs:element> -->
 			<xs:element name="identificationCode" type="identificationCode">
 				<xs:annotation>
@@ -1494,7 +1494,7 @@
 		<xs:complexContent>
 			<xs:extension base="educationOrganization">
 				<xs:sequence>
-					<xs:element maxOccurs="unbounded" name="gradesOffered" 
+					<xs:element maxOccurs="unbounded" name="gradesOffered"
 								type="gradeLevelType">
 						<xs:annotation>
 							<xs:documentation>The grade levels served at the school.
@@ -4526,12 +4526,12 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<!-- <xs:complexType name="raceType"> <xs:annotation> <xs:documentation>The 
-		general racial category which most clearly reflects the individual's recognition 
-		of his or her community or with which the individual most identifies. </xs:documentation> 
-		</xs:annotation> <xs:sequence> <xs:element name="racialCategory" type="raceItemType" 
-		minOccurs="0" maxOccurs="unbounded"> <xs:annotation> <xs:documentation>Zero 
-		or more racial categories associated with the student or staff. </xs:documentation> 
+	<!-- <xs:complexType name="raceType"> <xs:annotation> <xs:documentation>The
+		general racial category which most clearly reflects the individual's recognition
+		of his or her community or with which the individual most identifies. </xs:documentation>
+		</xs:annotation> <xs:sequence> <xs:element name="racialCategory" type="raceItemType"
+		minOccurs="0" maxOccurs="unbounded"> <xs:annotation> <xs:documentation>Zero
+		or more racial categories associated with the student or staff. </xs:documentation>
 		</xs:annotation> </xs:element> </xs:sequence> </xs:complexType> -->
 
 	<xs:complexType name="accountabilityRating">
@@ -6899,7 +6899,7 @@
 			</xs:element>
 		</xs:choice>
 	</xs:complexType>
-	
+
 	<xs:complexType name="competencyLevelDescriptorType">
 		<xs:annotation>
 			<xs:documentation>Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>

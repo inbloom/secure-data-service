@@ -13,21 +13,21 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #student transcript (course) association data
-  id = 10                                       if human_readable_id == "ASSOCIATION COUNT"
-  id = 3                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
-  id = 3                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
-  id = 2                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
-  id = "09eced61-edd9-4826-a7bc-137ffecda877"   if human_readable_id == "ASSOCIATION ID"
-  id = "310755a4-3473-4649-8a89-dbbb1ae86388"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
-  id = "3b86eab4-1779-4fed-b38f-27b7dba5d41b"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
+  id = 11                                       if human_readable_id == "ASSOCIATION COUNT"
+  id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
+  id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
+  id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
+  id = "f11a2a30-d4fd-4400-ae18-353c00d581a2"   if human_readable_id == "ASSOCIATION ID"
+  id = "f11a2a30-d4fd-4400-ae18-353c00d581a2"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
+  id = "f11a2a30-d4fd-4400-ae18-353c00d581a2"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
   id = "getCourseTranscripts"			  		if human_readable_id == "ASSOCIATION LINK NAME"
   id = "studentTranscriptAssociation"			if human_readable_id == "ASSOCIATION TYPE"
   id = "courseTranscripts"			     		if human_readable_id == "ASSOCIATION URI"
   
   #student related data
   id = "studentId"                         		if human_readable_id == "ENDPOINT1 FIELD"
-  id = "e1af7127-743a-4437-ab15-5b0dacd1bde0"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
+  id = "74cf790e-84c4-4322-84b8-fca7206f1085"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
   id = "getStudent"                             if human_readable_id == "ENDPOINT1 LINK NAME" 
   id = "getStudents"                            if human_readable_id == "ENDPOINT1 RESOLUTION LINK NAME" 
   id = "student"                                if human_readable_id == "ENDPOINT1 TYPE" 
@@ -35,7 +35,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #course related data
   id = "courseId"         						if human_readable_id == "ENDPOINT2 FIELD"
-  id = "53777181-3519-4111-9210-529350429899"   if human_readable_id == "ENDPOINT2 ID"          or human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
+  id = "f917478f-a6f2-4f78-ad9d-bf5972b5567b"   if human_readable_id == "ENDPOINT2 ID"          or human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
   id = "getCourse"               				if human_readable_id == "ENDPOINT2 LINK NAME" 
   id = "getCourses"              				if human_readable_id == "ENDPOINT2 RESOLUTION LINK NAME" 
   id = "course"                  				if human_readable_id == "ENDPOINT2 TYPE" 
@@ -43,8 +43,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #update related field data
   id = "studentId"                         		if human_readable_id == "UPDATE FIELD"
-  id = "e1af7127-743a-4437-ab15-5b0dacd1bde0"   if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
-  id = "289c933b-ca69-448c-9afd-2c5879b7d221"   if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
+  id = "74cf790e-84c4-4322-84b8-fca7206f1085"   if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
+  id = "27fea52e-94ab-462c-b80f-7e868f6919d7"   if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"

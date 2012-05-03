@@ -18,9 +18,9 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  *
  */
 public class ZipFileHandler extends AbstractIngestionHandler<File, File> implements MessageSourceAware {
-     private static final Logger LOG = LoggerFactory.getLogger(ZipFileHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ZipFileHandler.class);
 
-     private MessageSource messageSource;
+    private MessageSource messageSource;
 
     File doHandling(File zipFile, ErrorReport errorReport) {
         return doHandling(zipFile, errorReport, null);
@@ -37,7 +37,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
         } catch (IOException ex) {
 
             String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG4", zipFile.getName());
-            LOG.error( message, ex );
+            LOG.error(message, ex);
             errorReport.error(message, this);
         }
 
@@ -48,6 +48,5 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
-
 
 }

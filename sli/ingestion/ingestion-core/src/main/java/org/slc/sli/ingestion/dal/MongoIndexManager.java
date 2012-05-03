@@ -15,7 +15,8 @@ import org.springframework.data.mongodb.core.query.Order;
 
 import org.slc.sli.domain.Repository;
 
-/** Mongo indexes manager, which loads the indexes from the json configuration file.
+/**
+ * Mongo indexes manager, which loads the indexes from the json configuration file.
  *
  * @author tke
  *
@@ -57,19 +58,21 @@ public final class MongoIndexManager {
         }
     }
 
-    /**Create index definition from buffered reader
+    /**
+     * Create index definition from buffered reader
      *
-     * @param fields : the fields read from the config files
-     * @param indexName: the name of the index.
+     * @param fields
+     *            : the fields read from the config files
+     * @param indexName
+     *            : the name of the index.
      * @return
      * @throws IOException
      */
-    private static final IndexDefinition createIndexDefinition(List<Map<String, String>> fields, int indexName) throws IOException {
+    private static final IndexDefinition createIndexDefinition(List<Map<String, String>> fields, int indexName)
+            throws IOException {
         Index index = new Index();
 
-        // String name = "";
         for (Map<String, String> field : fields) {
-            // name += field.get("name") + "_" + field.get("order") + "_";
             index.on(field.get("name"), field.get("order").equals("1") ? Order.ASCENDING : Order.DESCENDING);
         }
 
@@ -77,12 +80,15 @@ public final class MongoIndexManager {
         return index;
     }
 
-    /**Set indexes for one collection
-    *
-    * @param template : mongo template to set the index
-    * @param collection: the collection to be ensureIndex'ed
-    * @param batchJobId
-    */
+    /**
+     * Set indexes for one collection
+     *
+     * @param template
+     *            : mongo template to set the index
+     * @param collection
+     *            : the collection to be ensureIndex'ed
+     * @param batchJobId
+     */
     public void ensureIndex(Repository<?> repository, String collection) {
         if (!repository.collectionExists(collection)) {
             repository.createCollection(collection);
@@ -102,10 +108,11 @@ public final class MongoIndexManager {
         }
     }
 
-
-    /**Set indexes for all the collections configured
+    /**
+     * Set indexes for all the collections configured
      *
-     * @param template : mongo template to set the index
+     * @param template
+     *            : mongo template to set the index
      */
     public void ensureIndex(Repository<?> repository) {
         Set<String> collections = collectionIndexes.keySet();

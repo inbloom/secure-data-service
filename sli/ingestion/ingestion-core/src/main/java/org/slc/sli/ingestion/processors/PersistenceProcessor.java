@@ -22,7 +22,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
@@ -59,13 +59,6 @@ public class PersistenceProcessor implements Processor {
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PERSISTENCE_PROCESSOR;
 
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
-
-    private static final FileType[] INTERCHANGE_DEPENDENCY_ORDER = { FileType.XML_STUDENT,
-            FileType.XML_EDUCATION_ORGANIZATION, FileType.XML_EDUCATION_ORG_CALENDAR, FileType.XML_MASTER_SCHEDULE,
-            FileType.XML_STAFF_ASSOCIATION, FileType.XML_STUDENT_ENROLLMENT, FileType.XML_ASSESSMENT_METADATA,
-            FileType.XML_STUDENT_ASSESSMENT, FileType.XML_STUDENT_ATTENDANCE, FileType.XML_STUDENT_GRADES,
-            FileType.XML_STUDENT_PARENT_ASSOCIATION, FileType.XML_STUDENT_PROGRAM, FileType.XML_STUDENT_COHORT,
-            FileType.XML_STUDENT_DISCIPLINE };
 
     @Autowired
     SmooksEdFi2SLITransformer transformer;
@@ -115,12 +108,10 @@ public class PersistenceProcessor implements Processor {
 
             transformedCollections = getTransformedCollectionNames(newJob);
 
-            for (FileType fileType : INTERCHANGE_DEPENDENCY_ORDER) {
+            for (ResourceEntry resource : newJob.getResourceEntries()) {
+                if (FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resource.getResourceFormat())) {
 
-                List<ResourceEntry> resourceEntryList = newJob.getNeutralRecordResourceForType(fileType);
-                for (ResourceEntry resourceEntry : resourceEntryList) {
-
-                    processAndMeasureResource(resourceEntry, newJob, stage);
+                    processAndMeasureResource(resource, newJob, stage);
                 }
             }
 
@@ -295,7 +286,8 @@ public class PersistenceProcessor implements Processor {
     private Collection<String> getTransformedCollectionNames(Job job) {
         HashSet<String> collections = new HashSet<String>();
 
-        Iterable<String> data = neutralRecordMongoAccess.getRecordRepository().getCollectionFullNamesForJob(job.getId());
+        Iterable<String> data = neutralRecordMongoAccess.getRecordRepository()
+                .getCollectionFullNamesForJob(job.getId());
         Iterator<String> iter = data.iterator();
 
         while (iter.hasNext()) {

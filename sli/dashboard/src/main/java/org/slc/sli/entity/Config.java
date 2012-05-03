@@ -21,7 +21,7 @@ public class Config implements Cloneable {
      *
      */
     public enum Type {
-        LAYOUT(true), PANEL(true), GRID(true), TAB(false), WIDGET(true), FIELD(false);
+        LAYOUT(true), PANEL(true), GRID(true), TAB(false), WIDGET(true), FIELD(false), EXPAND(false);
 
         private boolean hasOwnConfig;
 

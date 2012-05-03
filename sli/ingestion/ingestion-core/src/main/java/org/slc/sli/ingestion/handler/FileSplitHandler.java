@@ -21,49 +21,53 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Splits files
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 public class FileSplitHandler {
     public static final Logger LOG = LoggerFactory.getLogger(FileSplitHandler.class);
     private static final int SPLIT_AT = 10000;
-    
+
     private XMLEventFactory eventFactory = XMLEventFactory.newInstance();
-    
-    public void split(File file,String outPath) throws XMLStreamException, IOException {
+
+    public void split(File file, String outPath) throws XMLStreamException, IOException {
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
         XMLEventReader reader = inputFactory.createXMLEventReader(new FileReader(file));
         XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
-        XMLEventWriter writer=null;
-        
+        XMLEventWriter writer = null;
+
         int counter = 0;
         int startEventCounter = 0;
-        
+
         XMLEvent event;
         StartElement parent = null;
         try {
-            
-            while (!(event = reader.nextEvent()).isEndDocument()) {
+
+            event = reader.nextEvent();
+            while (!event.isEndDocument()) {
                 if (event.isStartElement()) {
                     startEventCounter++;
                     if (startEventCounter == 1) {
                         parent = event.asStartElement();
-                        writer = outputFactory.createXMLEventWriter(new FileWriter(outPath+parent.getName().getLocalPart() + (counter / SPLIT_AT) + ".xml"));
+                        writer = outputFactory.createXMLEventWriter(new FileWriter(outPath
+                                + parent.getName().getLocalPart() + (counter / SPLIT_AT) + ".xml"));
                         writer.add(parent);
                         continue;
                     }
-                    
+
                     writeToFile(reader, event, writer);
                     counter++;
-                    
+
                     if (counter % SPLIT_AT == 0) {
                         writer.add(eventFactory.createEndElement(parent.asStartElement().getName(), null));
                         writer.close();
-                        writer = outputFactory.createXMLEventWriter(new FileWriter(outPath+parent.getName().getLocalPart() + (counter / SPLIT_AT) + ".xml"));
+                        writer = outputFactory.createXMLEventWriter(new FileWriter(outPath
+                                + parent.getName().getLocalPart() + (counter / SPLIT_AT) + ".xml"));
                         writer.add(parent);
                     }
                 }
+                event = reader.nextEvent();
             }
         } catch (XMLStreamException e) {
             throw e;
@@ -72,11 +76,12 @@ public class FileSplitHandler {
             reader.close();
             writer.close();
         }
-        
-        //System.out.println("Total: "+counter);
+
+        // System.out.println("Total: "+counter);
     }
-    
-    private void writeToFile(XMLEventReader reader, XMLEvent startEvent, XMLEventWriter writer) throws XMLStreamException, IOException {
+
+    private void writeToFile(XMLEventReader reader, XMLEvent startEvent, XMLEventWriter writer)
+            throws XMLStreamException, IOException {
         StartElement element = startEvent.asStartElement();
         QName name = element.getName();
         writer.add(element);

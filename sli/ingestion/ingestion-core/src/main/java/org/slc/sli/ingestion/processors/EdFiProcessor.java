@@ -71,7 +71,7 @@ public class EdFiProcessor implements Processor {
         }
     }
 
-    private void processEdFi(Exchange exchange, String batchJobId) {
+    private synchronized void processEdFi(Exchange exchange, String batchJobId) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         NewBatchJob newJob = null;
