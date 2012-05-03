@@ -87,7 +87,7 @@ public class AuthController {
      */
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "authorize", method = RequestMethod.GET)
-    public String listRealms(@RequestParam(value = "redirect_uri", required = false) final String redirectUri, @RequestParam(value = "RealmName", required = false) final String realmName,
+    public String listRealms(@RequestParam(value = "redirect_uri", required = false) final String redirectUri, @RequestParam(value = "Realm", required = false) final String realmUniqueId,
             @RequestParam(value = "client_id", required = true) final String clientId, @RequestParam(value = "state", required = false) final String state, @CookieValue(value = "_tla", required = false) final String sessionId,
             final HttpServletResponse res, final Model model) throws IOException {
 
@@ -112,8 +112,8 @@ public class AuthController {
                 for (String realmId : realmList) {
                     EntityBody node = getRealmEntityService().get(realmId);
                     map.put(node.get("id").toString(), node.get("name").toString());
-                    if (realmName != null && realmName.length() > 0) {
-                        if (realmName.equals(node.get("name"))) {
+                    if (realmUniqueId != null && realmUniqueId.length() > 0) {
+                        if (realmUniqueId.equals(node.get("uniqueIdentifier"))) {
                             try {
                                 return ssoInit(node.get("id").toString(), sessionId, redirectUri, clientId, state, res, model);
                             } catch (IOException e) {
