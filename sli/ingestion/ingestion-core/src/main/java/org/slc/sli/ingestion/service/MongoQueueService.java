@@ -32,7 +32,6 @@ public class MongoQueueService implements QueueService {
     private MongoTemplate batchJobMongoTemplate;
 
     private DB db;
-
     private String COLLECTION_NAME = "ingestionJobQueue";
 
     @PostConstruct
