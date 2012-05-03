@@ -20,13 +20,8 @@
     
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
     
-    <bean id="configPersistor" class="org.slc.sli.config.ConfigPersistor">
-        <property name="apiClient" ref="apiClientRef"/>
-        <property name="entityManager" ref="entityManager"/>
-    </bean>
     <!-- managers -->
     <bean id="configManager" class="org.slc.sli.manager.impl.ConfigManagerImpl">
-        <property name="configPersistor" ref="configPersistor"/>
         <property name="driverConfigLocation" value="${panel.config.driver.dir}"/>
         <property name="userConfigLocation" value="${panel.config.custom.dir}"/>
     </bean>

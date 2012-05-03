@@ -31,7 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
@@ -106,7 +105,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     * java.lang.String)
     */
     @Override
-    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig,
+    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds,
                                                    String sessionId, String sectionId) {
 
         long startTime = System.nanoTime();
@@ -118,17 +117,6 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         return studentSummaries;
     }
 
-    public List<GenericEntity> getStudentGradeBookEntries(String token, List<String> studentIds, ViewConfig viewConfig,
-                                                          String sessionId, String sectionId) {
-
-        long startTime = System.nanoTime();
-        // Initialize student summaries
-
-        List<GenericEntity> studentSummaries = entityManager.getStudentsWithGradebookEntries(token, sectionId);
-        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for student section view: {}", (System.nanoTime() - startTime) * 1.0e-9);
-
-        return studentSummaries;
-    }
 
     /*
     * (non-Javadoc)
@@ -141,7 +129,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
 
         // get student summary data
-        List<GenericEntity> studentSummaries = getStudentSummaries(token, null, null, null, (String) sectionId);
+        List<GenericEntity> studentSummaries = getStudentSummaries(token, null, null, (String) sectionId);
 
         // apply assmt filters and flatten assmt data structure for easy
         // fetching
@@ -681,22 +669,6 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         return list;
     }
 
-    /**
-     * Get a list of assessment results for one student, filtered by assessment
-     * name
-     *
-     * @param username
-     * @param studentId
-     * @param config
-     * @return
-     */
-    private List<GenericEntity> getStudentAssessments(String username, String studentId, ViewConfig config) {
-
-        // get all assessments for student
-        List<GenericEntity> assmts = entityManager.getStudentAssessments(username, studentId);
-
-        return assmts;
-    }
 
     /*
     * (non-Javadoc)
