@@ -10,8 +10,9 @@ ${headerString}
 <input type="image" src="${CONTEXT_ROOT_PATH}/static/images/glyphicons_027_search.png" height = "13px" alt="Search" />
 </button>
 </form>
-   <h1>
-     SLI Dashboard
-   </h1>
+
+   <h10>
+     DASHBOARD
+   </h10>
 
 </div>
