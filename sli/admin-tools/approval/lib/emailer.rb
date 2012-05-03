@@ -7,11 +7,11 @@ require 'net/smtp'
 #email_conf = {
 #  :host => 'mon.slidev.org',
 #  :port => 25,
-#  :sender_name => 'Test Sender',
-#  :sender_email_addr => 'devldapuser@slidev.org',
+#  :sender_name => 'Administrator',
+#  :sender_email_addr => 'admin@slidev.org',
 #}
 #email = Emailer.new email_conf
-#email.send_approval_email('devldapuser@slidev.org', 'TestFN', 'TestLN')
+#email.send_approval_email('joechung@slidev.org', 'Joe', 'Chung')
 
 class Emailer
   DefaultHost = "127.0.0.1"

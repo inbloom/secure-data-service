@@ -13,21 +13,21 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #school session association data
-  id = 13                                       if human_readable_id == "ASSOCIATION COUNT"
-  id = 4                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 5                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
-  id = 3                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
-  id = 4                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
-  id = "67ce204b-9999-4a11-aacd-000000000000"   if human_readable_id == "ASSOCIATION ID"
-  id = "67ce204b-9999-4a11-aacd-000000000001"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
-  id = "67ce204b-9999-4a11-aacd-000000000002"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
+  id = 15                                       if human_readable_id == "ASSOCIATION COUNT"
+  id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
+  id = 1                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
+  id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
+  id = "7a1f5ae5-ee79-f9e5-eca8-10c32f390a8c"   if human_readable_id == "ASSOCIATION ID"
+  id = "7a1f5ae5-ee79-f9e5-eca8-10c32f390a8c"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
+  id = "7a1f5ae5-ee79-f9e5-eca8-10c32f390a8c"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
   id = "getSchoolSessionAssociations"           if human_readable_id == "ASSOCIATION LINK NAME"
   id = "schoolSessionAssociation"               if human_readable_id == "ASSOCIATION TYPE"
   id = "schoolSessionAssociations"              if human_readable_id == "ASSOCIATION URI"
   
   #school related data
   id = "schoolId"                               if human_readable_id == "ENDPOINT1 FIELD"
-  id = "67ce204b-9999-4a11-aaab-000000000008"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
+  id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
   id = "getSchool"                              if human_readable_id == "ENDPOINT1 LINK NAME" 
   id = "getSchools"                             if human_readable_id == "ENDPOINT1 RESOLUTION LINK NAME" 
   id = "school"                                 if human_readable_id == "ENDPOINT1 TYPE" 
@@ -35,7 +35,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #session related data
   id = "sessionId"                              if human_readable_id == "ENDPOINT2 FIELD"
-  id = "67ce204b-9999-4a11-aacb-000000000000"   if human_readable_id == "ENDPOINT2 ID"          or human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
+  id = "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92"   if human_readable_id == "ENDPOINT2 ID"          or human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
   id = "getSession"                             if human_readable_id == "ENDPOINT2 LINK NAME" 
   id = "getSessions"                            if human_readable_id == "ENDPOINT2 RESOLUTION LINK NAME" 
   id = "session"                                if human_readable_id == "ENDPOINT2 TYPE" 
@@ -43,7 +43,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #update related field data
   id = "sessionId"                              if human_readable_id == "UPDATE FIELD"
-  id = "67ce204b-9999-4a11-aacb-000000000000"   if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
+  id = "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92"   if human_readable_id == "UPDATE FIELD EXPECTED VALUE" 
   id = "67ce204b-9999-4a11-aacb-000000000001"   if human_readable_id == "UPDATE FIELD NEW VALID VALUE" 
   
   #general
