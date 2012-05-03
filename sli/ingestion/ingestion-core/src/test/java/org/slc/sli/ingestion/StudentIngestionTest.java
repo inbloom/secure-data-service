@@ -282,33 +282,33 @@ public class StudentIngestionTest {
             Iterator<Entity> students = (repository.findAll(studentEntityType, neutralQuery)).iterator();
 
             if (students.hasNext()) {
-				verifyStudent(index, students.next());
-			}
+                verifyStudent(index, students.next());
+            }
         }
-
+        
     }
-
+    
     public static void verifyStudent(int studentId, Entity student) {
-
+        
         assertNotNull(student);
         assertEquals("" + studentId, student.getBody().get("studentUniqueStateId"));
         assertEquals("firstName" + "_" + studentId, student.getBody().get("firstName"));
         assertEquals("lastSurname" + "_" + studentId, student.getBody().get("lastSurname"));
-
+        
     }
-
+    
     public static String calculateTestDate(int studentId) {
         String testDate = "";
-
+        
         int yearId = studentId % 10000;
         testDate = "" + yearId;
         if (yearId < 10) {
-			testDate = "000" + testDate;
-		} else if (yearId < 100) {
-			testDate = "00" + testDate;
-		} else if (yearId < 1000) {
-			testDate = "0" + testDate;
-		}
+            testDate = "000" + testDate;
+        } else if (yearId < 100) {
+            testDate = "00" + testDate;
+        } else if (yearId < 1000) {
+            testDate = "0" + testDate;
+        }
 
         testDate = testDate + "-01-01";
         return testDate;

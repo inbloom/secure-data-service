@@ -126,10 +126,10 @@ class LDAPStorage
 	def update_user_info(user_info)
 		curr_user_info = read_user(user_info[:email])
 		if curr_user_info
-			dn = get_DN(user[:email])
+			dn = get_DN(user_info[:email])
 			ALLOW_UPDATING.each do |attribute|
 				if user_info && (curr_user_info[attribute] != user_info[attribute])
-					@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[:status], user[:status])
+					@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[:status], user_info[:status])
 				end
 			end
 									

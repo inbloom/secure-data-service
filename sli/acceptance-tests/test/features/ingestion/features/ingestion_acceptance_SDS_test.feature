@@ -34,7 +34,8 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | cohort                      |
         | staffCohortAssociation      |
         | studentCohortAssociation    |
-        | learningStandard    |
+        | learningStandard            |
+        | learningObjective           |
         | disciplineIncident          |
         | disciplineAction            |
 		| studentDisciplineIncidentAssociation|
@@ -68,7 +69,8 @@ Then I should see following map of entry counts in the corresponding collections
         | cohort                      | 3     |
         | staffCohortAssociation      | 3     |
         | studentCohortAssociation    | 9     |
-        | learningStandard            | 10    |
+        | learningStandard            | 26    |
+        | learningObjective           | 4     |
         | disciplineIncident          | 2     |
         | disciplineAction            | 2     |
 		| studentDisciplineIncidentAssociation| 4|
@@ -95,7 +97,7 @@ Then I should see following map of entry counts in the corresponding collections
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Disruption                 | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-03-04                 | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-04-04                 | string               |
-    And I should see "Processed 15378 records." in the resulting batch job file
+    And I should see "Processed 15398 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -127,12 +129,12 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeAssessmentMetadata-ACT.xml records considered: 1" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 1" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ACT.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-Learning.xml records considered: 10" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-Learning.xml records ingested successfully: 10" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-Learning.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records considered: 12" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records ingested successfully: 12" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records considered: 30" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records ingested successfully: 30" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CommonCore.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Lkim6thgrade.xml records considered: 2" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Lkim6thgrade.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Lkim6thgrade.xml records failed: 0" in the resulting batch job file
