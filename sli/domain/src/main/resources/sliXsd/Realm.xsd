@@ -16,7 +16,7 @@
             <xs:element name="name" type="xs:string" minOccurs="1" />
             <xs:element name="mappings" type="roleMap" minOccurs="1" />
             <xs:element name="metadata" type="metadataType" minOccurs="0"/>
-            <xs:element name="uniqueIdentifier" type="xs:string" minOccurs="1" />
+            <xs:element name="uniqueIdentifier" type="xs:string" minOccurs="0" />
             
          </xs:sequence>
       </xs:complexType>
