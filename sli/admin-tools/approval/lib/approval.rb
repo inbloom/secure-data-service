@@ -56,24 +56,28 @@ module ApprovalEngine
 	# email_address: Identifies a previosly added user that has verified their email address. 
 	# transition:    A transition identifier previously returned by the "get_users" method. 
 	# 
-	def ApprovalEngine.change_user_status(email_address, transition)
+	def ApprovalEngine.change_user_status(email_address, transition, email_verified=false)
 		user = @@storage.read_user(email_address)
 		status = user[:status]
 		target = FSM[status]
-
-		# make sure this is not a transition to verify an eamil address. 
-		raise "Cannot transition directly from state #{status}" if status==STATE_SUBMITTED
 
 		if (!target) || (!target.key?(transition))
 			raise "Current status '#{user[:status]}' does not allow transition '#{transition}'."
 		end
 
+		# make sure that the email is verified if this is transitioning: submitted->pending
+		if (status==STATE_SUBMITTED) && !email_verified
+			raise "Cannot transition directly from state #{status}" 
+		end
+
 		# set the new user status 
 		user[:status] = target[transition]
 		case [status, target[transition]]
+			when [STATE_SUBMITTED, STATE_PENDING]
+				@@storage.update_status(user)
 			when [STATE_PENDING, STATE_APPROVED]
 				@@storage.enable_update_status(user)
-				@@emailer.send_approval_email(user[:email], user[:first], user[:last])
+			    @@emailer.send_approval_email(user[:email], user[:first], user[:last])
 			when [STATE_PENDING, STATE_REJECTED]
 				@@storage.update_status(user)
 			when [STATE_REJECTED, STATE_APPROVED]
@@ -90,6 +94,21 @@ module ApprovalEngine
 		if @@is_sandbox && (user[:status] == STATE_PENDING)
 			change_user_status(email_address, ACTION_APPROVE)
 		end
+	end
+
+	# Verify the email address against the backend. 
+	# 
+	# Input Parameter:
+	# 
+	# email_hash : The email hash that was previously returned by the add_user 
+	# and included in a click through link that the user received in an email (as a query parameter).
+	#
+	def ApprovalEngine.verify_email(emailtoken)
+		user = @@storage.read_user_emailtoken(emailtoken)
+		raise "Could not find user for email id #{email_hash}." if !user
+
+		# update to pending state 
+		change_user_status(user[:email], ACTION_VERIFY_EMAIL, true)
 	end
 
 
@@ -129,21 +148,6 @@ module ApprovalEngine
 		new_user_info[:status]     = STATE_SUBMITTED
 		@@storage.create_user(new_user_info)
 		return new_user_info[:emailtoken]
-	end
-
-	# Verify the email address against the backend. 
-	# 
-	# Input Parameter:
-	# 
-	# email_hash : The email hash that was previously returned by the add_user 
-	# and included in a click through link that the user received in an email (as a query parameter).
-	#
-	def ApprovalEngine.verify_email(emailtoken)
-		user = @@storage.read_user_emailtoken(emailtoken)
-		raise "Could not find user for email id #{email_hash}." if !user
-
-		user[:status] = STATE_PENDING
-		@@storage.update_status(user)
 	end
 
 	# Returns a list of users and their states. If a target state is provided
