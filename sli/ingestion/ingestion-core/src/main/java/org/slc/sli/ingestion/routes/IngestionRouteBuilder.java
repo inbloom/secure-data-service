@@ -161,6 +161,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // Maestro route is creating work items that can be distributed to pit nodes.
 
+
         from(workItemQueueUri).routeId(WORK_ITEM_ROUTE).choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
