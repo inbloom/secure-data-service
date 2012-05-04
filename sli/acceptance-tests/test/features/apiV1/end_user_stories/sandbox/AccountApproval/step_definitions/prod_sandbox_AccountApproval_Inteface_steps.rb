@@ -95,19 +95,7 @@ Then /^the "([^"]*)" column has (\d+) buttons "([^"]*)", "([^"]*)", "([^"]*)", a
 end
 
 Given /^there is a "([^"]*)" production account request for vendor "([^"]*)"$/ do |status,vendor|
-  clear_all()
-  sleep(1)
-  user_info = {
-      :first => "Loraine",
-      :last => "Plyler", 
-       :email => "jdoe"+String(rand(4))+"@example.com",
-       :password => "secret", 
-       :emailtoken => "token",
-       :vendor => vendor,
-       :status => status
-   }
-  @ldap.create_user(user_info)
-  sleep(1)
+  create_account(status, vendor)
 end
 
 Then /^I see one account with name "([^"]*)"$/ do |user_name|
@@ -144,12 +132,28 @@ Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |arg1|
   @account_approval_env="sandbox"
 end
 
+def create_account(vendor, status)
+  clear_all()
+  sleep(1)
+  user_info = {
+      :first => "Loraine",
+      :last => "Plyler", 
+       :email => "jdoe"+String(rand(4))+"@example.com",
+       :password => "secret", 
+       :emailtoken => "token",
+       :vendor => vendor,
+       :status => status
+   }
+  @ldap.create_user(user_info)
+  sleep(1)
+end
+
 def clear_all
   users=@ldap.read_users()
   if users.length>0
-  users.each do |user|
-  @ldap.delete_user(user[:email])
-  end
+    users.each do |user|
+      @ldap.delete_user(user[:email])
+    end
   end
 end
 
