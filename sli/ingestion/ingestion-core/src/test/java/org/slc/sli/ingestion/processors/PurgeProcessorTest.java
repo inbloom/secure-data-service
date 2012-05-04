@@ -21,6 +21,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
@@ -52,10 +53,13 @@ public class PurgeProcessorTest {
     @Test
     public void testNoTenantId() throws Exception {
 
+        WorkNote mockWorkNote = Mockito.mock(WorkNote.class);
+        Mockito.when(mockWorkNote.getBatchJobId()).thenReturn(BATCHJOBID);
+
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
         Mockito.when(ex.getIn()).thenReturn(message);
-        Mockito.when(message.getHeader("BatchJobId", String.class)).thenReturn(BATCHJOBID);
+        Mockito.when(message.getBody(WorkNote.class)).thenReturn(mockWorkNote);
 
         NewBatchJob job = new NewBatchJob();
         Mockito.when(mockBatchJobDAO.findBatchJobById(BATCHJOBID)).thenReturn(job);
@@ -70,10 +74,13 @@ public class PurgeProcessorTest {
     @Test
     public void testPurging() throws Exception {
 
+        WorkNote mockWorkNote = Mockito.mock(WorkNote.class);
+        Mockito.when(mockWorkNote.getBatchJobId()).thenReturn(BATCHJOBID);
+
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
         Mockito.when(ex.getIn()).thenReturn(message);
-        Mockito.when(message.getHeader("BatchJobId", String.class)).thenReturn(BATCHJOBID);
+        Mockito.when(message.getBody(WorkNote.class)).thenReturn(mockWorkNote);
 
         NewBatchJob job = new NewBatchJob();
         job.setProperty("tenantId", "SLI");
@@ -93,10 +100,13 @@ public class PurgeProcessorTest {
     @Test
     public void testPurgingSystemCollections() throws Exception {
 
+        WorkNote mockWorkNote = Mockito.mock(WorkNote.class);
+        Mockito.when(mockWorkNote.getBatchJobId()).thenReturn(BATCHJOBID);
+
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
         Mockito.when(ex.getIn()).thenReturn(message);
-        Mockito.when(message.getHeader("BatchJobId", String.class)).thenReturn(BATCHJOBID);
+        Mockito.when(message.getBody(WorkNote.class)).thenReturn(mockWorkNote);
 
         NewBatchJob job = new NewBatchJob();
         job.setProperty("tenantId", "SLI");
