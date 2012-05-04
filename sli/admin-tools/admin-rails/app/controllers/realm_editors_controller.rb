@@ -1,3 +1,5 @@
+include GeneralRealmHelper
+
 class RealmEditorsController < ApplicationController
   rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
   rescue_from ActiveResource::ResourceNotFound, :with => :render_404
