@@ -89,7 +89,7 @@ public class IdNormalizer {
         if (entityConfig.getReferences() == null) {
             return;
         }
-        
+
         String resolvedReferences = "";
 
         try {
@@ -119,7 +119,7 @@ public class IdNormalizer {
                 }
 
                 String fieldPath = reference.getFieldPath();
-                
+
                 List<String> ids = resolveReferenceInternalIds(entity, tenantId, reference.getRef(), fieldPath,
                         errorReport);
 
@@ -193,7 +193,7 @@ public class IdNormalizer {
         return ids.get(0);
     }
 
-    private List<String> resolveReferenceInternalIds(Entity entity, String tenantId, Ref refConfig, String fieldPath,
+    public List<String> resolveReferenceInternalIds(Entity entity, String tenantId, Ref refConfig, String fieldPath,
             ErrorReport errorReport) {
 
         ProxyErrorReport proxyErrorReport = new ProxyErrorReport(errorReport);
@@ -222,6 +222,9 @@ public class IdNormalizer {
                             if (fv.getRef() != null) {
                                 filterValues.addAll(resolveReferenceInternalIds(entity, tenantId, fv.getRef(),
                                         fieldPath, proxyErrorReport));
+                                if (filterValues.isEmpty()) {
+                                    return new ArrayList<String>();
+                                }
                             } else {
                                 String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig,
                                         refIndex);
@@ -268,14 +271,14 @@ public class IdNormalizer {
         // combine the queries with or (must be done this way because Query.or overrides itself)
         Query filter = new Query();
         filter.or(queryOrList.toArray(new Query[queryOrList.size()]));
-        
+
         String collection = refConfig.getCollectionName();
         if (collection.equals("school")) {
             collection = "educationOrganization";
         } else if (collection.equals("teacher")) {
             collection = "staff";
         }
-                
+
         @SuppressWarnings("deprecation")
         Iterable<Entity> foundRecords = entityRepository.findByQuery(collection, filter, 0, 0);
 

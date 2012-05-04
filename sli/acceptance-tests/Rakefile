@@ -69,9 +69,9 @@ end
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
   #turn true/false into command line option
   dropOption = (dropExistingCollection) ? "--drop":""
-  
+
   sh "#{MONGO_BIN}mongo #{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
-  
+
   sh "#{MONGO_BIN}mongoimport #{dropOption} -d #{DB_NAME} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
     #allow for user to pass block to run the test for each running of setFixture
     if(success && block_given?)
@@ -208,9 +208,9 @@ end
 ############################################################
 desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
-                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest, 
+                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, 
+                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
                          :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest] do
   displayFailureReport()
@@ -372,6 +372,11 @@ task :ingestionIndexTest do
  runTests("test/features/ingestion/features/index_testing.feature")
 end
 
+desc "Run Ingestion Parallel Job Tests"
+task :ingestionParallelTests do
+ runTests("test/features/ingestion/features/ingestion_acceptance_parallel_test.feature")
+end
+
 ############################################################
 # Ingestion Offline Tool tests start
 ############################################################
@@ -435,7 +440,7 @@ end
 task :apiV1EntitySecurityTests do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
-  
+
   Rake::Task["v1ProgramSecurityTests"].execute
   Rake::Task["v1ParentSecurityTests"].execute
   Rake::Task["v1AttendanceSecurityTests"].execute
@@ -1095,7 +1100,7 @@ task :integrationTests => [:realmInitNoPeople] do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
-  Rake::Task["dashboardSdsTests"].invoke  
+  Rake::Task["dashboardSdsTests"].invoke
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

@@ -1,12 +1,36 @@
 testdir = File.dirname(__FILE__)
 $LOAD_PATH << testdir + "/../lib"
 require 'approval'
+require 'test/unit'
 
 class MockEmailer 
 	def send_approval_email(email_address, first, last)
-		puts "MockEmailer: Sent Email to #{first} #{last} with email address: #{email_address}"
+		@last_call = [email_address, first, last]
 	end
 end
+
+class TestApprovalEngine < Test::Unit::TestCase
+
+	def setup
+	end
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 #mock_emailer = Emailer.new(:host => 'mon.slidev.org', :sender_name => 'Test Sender', :sender_email_addr => 'devldapuser@slidev.org')
