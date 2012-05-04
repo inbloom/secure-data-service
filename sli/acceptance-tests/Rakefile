@@ -120,7 +120,7 @@ task :default => :production
 
 # Task that initializes the realm fixture.  Should only be done once
 task :realmInit => [:appInit] do
-  setFixture("realm", "realm_fixture.json")
+  setFixture("realm", "realm_fixture.json", "test/data", false)
 end
 
 task :appDenialInit do
@@ -132,7 +132,7 @@ end
 
 # Task that initializes the application registration fixture
 task :appInit do
-  setFixture("application", "application_fixture.json")
+  setFixture("application", "application_fixture.json", "test/data", true)
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
   setFixture("userSession", "oauth_authentication_tokens.json")
 end
