@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
   
   def callback
     #TODO: disable redirects to other domains
-    redirect_to session[:oauth].entry_url unless session[:oauth].entry_url.include? '/callback'
+    redirect_to session[:entry_url] unless session[:entry_url].include? '/callback'
     return
     if params[:state]
       redirectUrl = CGI::unescape(params[:state])
@@ -73,7 +73,7 @@ class ApplicationController < ActionController::Base
     oauth = session[:oauth]
     if oauth.nil?
       oauth = OauthHelper::Oauth.new()
-      oauth.entry_url = current_url
+      session[:entry_url] = current_url
       session[:oauth] = oauth 
     end
     if oauth.enabled?
