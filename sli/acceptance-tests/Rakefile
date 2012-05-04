@@ -810,7 +810,7 @@ end
 desc "Run Sandbox API tests"
 task :apiSandboxTests do
   @tags = ["~@wip", "@sandbox"]
-  #Rake::Task["securityTests"].invoke
+  Rake::Task["securityTests"].invoke
 end
 
 desc "Run all sandbox tests"
