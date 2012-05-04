@@ -8,7 +8,6 @@ Before do
 end
 
 After do |scenario|
-  puts "in after hook, yay"
   @rumbster.stop if @rumbster
 end
 
@@ -18,12 +17,14 @@ Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
   test_port = 2525
   
   if live_or_mock == "live"
+    @live == true
     @email_conf = {
       :host => 'mon.slidev.org',
       :sender_name => email_name,
       :sender_email_addr => sender_email_address
     }
   else
+    @live = false
     @rumbster = Rumbster.new(test_port)
     @message_observer = MailMessageObserver.new
     @rumbster.add_observer @message_observer
@@ -51,10 +52,14 @@ Given /^first name "([^"]*)" and last name "([^"]*)"$/ do |arg1, arg2|
   @userinfo[:last]  = arg2
 end
 
-Given /^login name "([^"]*)" pending in the account request queue$/ do |arg1|
+Given /^login name "([^"]*)" ([^"]*) in the account request queue$/ do |arg1, status|
   intializaApprovalEngineAndLDAP()
+  if @live
+    @userinfo[:email] = "devldapuser@slidev.org"
+  else
+    @userinfo[:email] = arg1
+  end
   
-  @userinfo[:email] = "devldapuser@slidev.org"
   @userinfo[:password] = "1234"
   @userinfo[:emailtoken] = "qwerty"
   
@@ -63,54 +68,56 @@ Given /^login name "([^"]*)" pending in the account request queue$/ do |arg1|
   ApprovalEngine.add_disabled_user(@userinfo)
   
   # set status manually to pending to test Approval Engine transitions
-  @userinfo[:status] = "pending"
+  @userinfo[:status] = status
   @ldap.update_user_info(@userinfo)
   
-  assert(@ldap.read_user(@userinfo[:email])[:status] == "pending", "User #{arg1} is not in pending state")
+  assert(@ldap.read_user(@userinfo[:email])[:status] == status, "User #{arg1} is not in #{status} state")
   
 end
 
 When /^I approve the account request$/ do
   ApprovalEngine.change_user_status(@userinfo[:email], "approve")
-  
-  email = @message_observer.messages.first
-  assert(email != nil, "email was not received")
-  assert(email.to[0] == @userinfo[:email], "email address was incorrect")
-  assert(email.subject == "Your account has been approved.", "email did not have correct subject")
-  
   assert(@ldap.read_user(@userinfo[:email])[:status] == "approved", "User #{@userinfo[:email]} is not in pending state")
 end
 
 Then /^a new account is created in production LDAP with login name "([^"]*)" and the role is "([^"]*)"$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+  arg1 = "devldapuser@slidev.org" if @live
+  assert(@ldap.read_user(@userinfo[:email])[:email] == arg1, "User #{@userinfo[:email]} is not created in LDAP")
+  #assert(@ldap.read_user(@userinfo[:email])[:role] == arg2, "User #{@userinfo[:email]} is does not have role #{arg2}")
 end
 
 Then /^an email is sent to the requestor with a link to the application registration tool$/ do
-  pending # express the regexp above with the code you wish you had
+  if @live
+  else
+    assert(@message_observer.messages.size == 1, "Number of messages is not equal to 1")
+    email = @message_observer.messages.first
+    assert(email != nil, "email was not received")
+    assert(email.to[0] == @userinfo[:email], "email address was incorrect")
+    assert(email.subject == "Your account has been approved.", "email did not have correct subject")
+  end
+  
 end
 
 When /^I reject the account request$/ do
-  pending # express the regexp above with the code you wish you had
+  ApprovalEngine.change_user_status(@userinfo[:email], "reject")
+  assert(@ldap.read_user(@userinfo[:email])[:status] == "rejected", "User #{@userinfo[:email]} is in rejected state")
 end
 
-Then /^a no account exists in production LDAP with login name "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^an account exists in production LDAP with login name "([^"]*)"$/ do |arg1|
+  assert(ApprovalEngine.user_exists?(@userinfo[:email]), "User does not exist in LDAP")
 end
 
-Given /^an approved production account for vendor "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^state is "([^"]*)"$/ do |arg1|
+  assert(@ldap.read_user(@userinfo[:email])[:status] == "rejected", "User #{@userinfo[:email]} is in rejected state")
 end
 
-Given /^login name "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
-end
 
 When /^I disable the account$/ do
-  pending # express the regexp above with the code you wish you had
+  ApprovalEngine.change_user_status(@userinfo[:email], "disable")
 end
 
 Then /^production LDAP account with login name "([^"]*)" is set as inactive$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  assert(@ldap.read_user(@userinfo[:email])[:status] == "disabled", "User #{@userinfo[:email]} is not in disabled state")
 end
 
 Given /^I submit a request for a a sandbox account request for vendor "([^"]*)"$/ do |arg1|

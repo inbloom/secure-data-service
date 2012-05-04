@@ -134,8 +134,8 @@ public class ParameterConstants {
     public static final String COURSE_TRANSCRIPT_ID = "courseTranscriptId";
     public static final String STUDENT_PARENT_ASSOCIATION_ID = "studentParentAssociationId";
     public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID = "studentDisciplineIncidentAssociationId";
-    public static final String STAFF_PROGRAM_ASSOCIATION_ID = "staffProgramAssociatonId";
-    public static final String STUDENT_PROGRAM_ASSOCIATION_ID = "studentProgramAssociaitonId";
+    public static final String STAFF_PROGRAM_ASSOCIATION_ID = "staffProgramAssociationId";
+    public static final String STUDENT_PROGRAM_ASSOCIATION_ID = "studentProgramAssociationId";
     public static final String STUDENT_COHORT_ASSOCIATION_ID = "studentCohortAssociationId";
     public static final String STAFF_COHORT_ASSOCIATION_ID = "staffCohortAssociationId";
 }

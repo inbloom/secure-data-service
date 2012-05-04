@@ -1,4 +1,6 @@
 class AccountManagementsController < ApplicationController
+  
+  before_filter :check_slc_operator
   # GET /account_managements
   # GET /account_managements.json
   def index
@@ -7,6 +9,9 @@ class AccountManagementsController < ApplicationController
     @account_managements=sort(@account_managements)
 
     respond_to do |format|
+  #    if @forbidden == true
+   #   format.html { render :file=> "#{Rails.root}/public/403.html" }  
+   #   end
       format.html # index.html.erb
       format.json { render json: @account_managements }
     end
@@ -15,6 +20,7 @@ class AccountManagementsController < ApplicationController
   # POST /account_managements
   # POST /account_managements.json
   def create
+   
     commit = params["commit"]
     email = params["email"]
     
@@ -23,7 +29,7 @@ class AccountManagementsController < ApplicationController
     begin  
       AccountManagement.change_user_status(email,commit.downcase)
     rescue Exception => e
-      @notice=e.message
+      @error_notice=e.message
     ensure 
     end
     
@@ -31,16 +37,12 @@ class AccountManagementsController < ApplicationController
     @account_managements=sort(@account_managements)
 
     # may need to figure out how to send error message if the status change failed
-    if @notice==nil
     @notice="Account was successfully updated."
-    else
-    @notice=@notice+"\n"+"Account was successfully updated."
-    end
     
 
     respond_to do |format|
-
-      format.html { render "index"}
+      
+        format.html { render "index"}
     #format.json { head :ok }
 
     end
@@ -81,6 +83,17 @@ class AccountManagementsController < ApplicationController
     end
     account_managements
   end
+  
+  def check_slc_operator
+    if $check_slc==nil || $check_slc == true
+    check = Check.get("")
+    roles = check["sliRoles"] 
+    if roles.include?("SLC Operator")==false
+     render :file=> "#{Rails.root}/public/403.html"
+    end
+    end
+  end
+  
   
   #mock test data for interface testing only
 =begin

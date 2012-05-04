@@ -1,4 +1,8 @@
 SLIAdmin::Application.routes.draw do
+  post "landing_zone/provision", :to => 'landing_zone#provision'
+  get "landing_zone/provision", :to => 'landing_zone#success'
+  get "landing_zone", :to => 'landing_zone#index'
+
   resources :account_managements
   resources :application_authorizations
 

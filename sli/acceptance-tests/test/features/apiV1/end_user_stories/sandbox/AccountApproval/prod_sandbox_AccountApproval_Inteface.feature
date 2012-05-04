@@ -3,7 +3,7 @@ Feature: SLC operator approves/disables production accounts or disables sandbox 
 Background: 
 Given I have an open web browser
 And LDAP server has been setup and running
-And I am authenticated to SLI IDP as user "demo" with pass "changeit"
+And I am authenticated to SLI IDP as user "operator" with pass "operator1234"
 
 Scenario: As a slc operator I want to see a list of all the accounts and their correct status
 Given there are accounts in requests pending in the system
