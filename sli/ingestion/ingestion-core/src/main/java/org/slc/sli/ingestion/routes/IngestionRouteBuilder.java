@@ -220,14 +220,14 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                     .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
                     .process(edFiProcessor)
-                    .to(workItemQueueUri);
+                    .to("direct:transform");
 
     }
 
     /** I think this will need to go and use a seda queue for developer testing. */
     private void configureSingleNodeRoute(String workItemQueueUri) {
 
-        from(workItemQueueUri)
+        from("direct:transform")
             .routeId("SINGLE_NODE_ROUTE")
             .choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
