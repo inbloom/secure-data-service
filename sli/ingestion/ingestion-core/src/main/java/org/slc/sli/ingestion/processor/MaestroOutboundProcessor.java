@@ -2,11 +2,6 @@ package org.slc.sli.ingestion.processor;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
@@ -16,40 +11,39 @@ import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Creates music sheets of work items that can be distributed to pit nodes.
  *
  * @author smelody
- *
+ * @author shalka
  */
 @Component
 public class MaestroOutboundProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.MAESTRO_MUSIC_SHEET_CREATION;
-
-    private static final Logger LOG = LoggerFactory.getLogger(EdFiProcessor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MaestroOutboundProcessor.class);
 
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
     @Autowired
     private BatchJobDAO batchJobDAO;
-
+        
     @Override
     @ExtractBatchJobIdToContext
     @Profiled
     public void process(Exchange exchange) throws Exception {
-
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         if (batchJobId == null) {
-
             handleNoBatchJobIdInExchange(exchange);
         } else {
-
             handleMusicSheetCreation(exchange, batchJobId);
         }
     }
@@ -61,11 +55,19 @@ public class MaestroOutboundProcessor implements Processor {
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
             boolean hasErrors = false;
-
-            //TODO - create music based on db collections
+            
+            long attendanceCount = neutralRecordMongoAccess.getRecordRepository().getCollection("attendance").count();
+            long assessmentCount = neutralRecordMongoAccess.getRecordRepository().getCollection("studentAssessmentAssociation").count();
+            long studentSchoolCount = neutralRecordMongoAccess.getRecordRepository().getCollection("studentSchoolAssociation").count();
+            long studentSectionCount = neutralRecordMongoAccess.getRecordRepository().getCollection("studentSectionAssociation").count();
+            long studentDisciplineCount = neutralRecordMongoAccess.getRecordRepository().getCollection("studentDisciplineIncidentAssociation").count();
+            LOG.warn("iii - Found attendances: {}", attendanceCount);
+            LOG.warn("iii - Found assessments: {}", assessmentCount);
+            LOG.warn("iii - Found student school associations: {}", studentSchoolCount);
+            LOG.warn("iii - Found student section associations: {}", studentSectionCount);
+            LOG.warn("iii - Found student discipline associations: {}", studentDisciplineCount);
 
             setExchangeHeaders(exchange, hasErrors);
-
         } catch (Exception exception) {
             handleProcessingExceptions(exchange, batchJobId, exception);
         } finally {
@@ -75,7 +77,7 @@ public class MaestroOutboundProcessor implements Processor {
             }
         }
     }
-
+    
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
@@ -102,5 +104,4 @@ public class MaestroOutboundProcessor implements Processor {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.DATA_TRANSFORMATION.name());
         }
     }
-
 }
