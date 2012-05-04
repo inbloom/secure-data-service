@@ -34,7 +34,9 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "developer_SLI" => "26c4b55b-5fa8-4287-af3d-98e7b5f98232",
                 "operator_SLI" => "a8cf184b-9c7e-4253-9f45-ed4e9f4f596c",
                 "bigbro_SLI" => "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85",
-                "realmadmin_SLI" => "d9af321c-5fa8-4287-af3d-98e7b5f9d999",
+                "sunsetrealmadmin_SLI" => "d9af321c-5fa8-4287-af3d-98e7b5f9d999",
+                "fakerealmadmin_SLI" => "aa391d1c-99a8-4287-af3d-481516234242",
+                "anotherfakerealmadmin_SLI" => "910bcfad-5fa8-4287-af3d-98e7b5f9e786", 
                 "badadmin_IL" => "5cf7a5d4-57a1-c100-8b13-b5f95131ac85",
                 "sampleUser_SLI" => "e88cb5c1-771d-46ac-a207-e88cb7c1771d",
                 "demo_IL" => "e88cb5c1-771d-46ac-a2c7-2d58d7f12196",
@@ -296,6 +298,7 @@ module DataProvider
        "idp" => {"id" => "http://path.to.nowhere", "redirectEndpoint" => "http://path.to.nowhere/somewhere/else"},
        "saml" => {"field" => []},
        "name" => "a_new_realm",
+       "edOrg" => "fakeedor-97b0-4148-bf75-123e98fa7e44",
        "mappings"=> {"role"=>[{"sliRoleName"=>"Educator","clientRoleName"=>["Math teacher","Sci Teacher","Enforcer of Conformity"]},{"sliRoleName"=>"Leader","clientRoleName"=>["Fearless Leader","Imperator","First Consul"]}]}
     }
   end

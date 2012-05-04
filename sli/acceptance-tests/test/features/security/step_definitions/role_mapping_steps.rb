@@ -90,7 +90,7 @@ When /^I add a mapping between non-existent role "([^"]*)" and custom role "([^"
         
   dataFormatted = prepareData("application/json", data)
   
-  restHttpPut("/realm/" + arg1, dataFormatted, "application/json")
+  restHttpPut("/realm/" + arg3, dataFormatted, "application/json")
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
