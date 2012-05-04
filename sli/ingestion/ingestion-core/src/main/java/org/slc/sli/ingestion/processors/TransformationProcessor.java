@@ -68,7 +68,7 @@ public class TransformationProcessor implements Processor {
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
 
-            performDataTransformations(null, newJob);
+            performDataTransformations(workNote, newJob);
 
             exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
         } catch (Exception e) {
