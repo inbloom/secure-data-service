@@ -54,7 +54,16 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "mjohnson_IL" => "29da4ea2-40e1-466a-8f2c-ea357d4f096c",
                 "sbantu_IL" => "79abdc40-dcd8-4412-b5db-32f63befcc90",
                 "jstevenson_IL" => "9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd",
-                "jjackson_IL" => "b7cbbc75-23bf-4005-a545-8a110eefa063" }
+                "jjackson_IL" => "b7cbbc75-23bf-4005-a545-8a110eefa063",
+                "kmelendez_NY" => "d93ef071-39ff-4e41-9619-f8f43d22b4bf",
+                "agibbs_NY" => "1dc64dcb-354e-4ab6-be54-e8401caa06a6",
+                "charrison_NY" => "8fbd7332-1af4-4524-ae6d-f28ddf600798",
+                "mgonzales_IL" => "10229764-a6a0-4367-9862-fd18781c9638",
+                "akopel_IL" => "438e472e-a888-46d1-8087-0195f4e37089",
+                "msmith_IL" => "5679153f-f1cc-44bd-9bfa-a21a41cd020c",
+                "racosta_IL" => "3f165e8d-bb42-4b62-8a2d-92f98dcd6ffc",
+                "agillespie_IL" => "ba09eeb3-a50a-4278-b363-22074168421d",
+                "wgoodman_IL" => "8c950c56-74f3-4e5d-a02c-d09497fddb1d" }
 
 def assert(bool, message = 'assertion failure')
   raise message unless bool
