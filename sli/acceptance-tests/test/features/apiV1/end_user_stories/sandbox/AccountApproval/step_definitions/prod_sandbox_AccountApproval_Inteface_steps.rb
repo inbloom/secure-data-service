@@ -144,7 +144,7 @@ Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
   sleep(1)
 end
 
-def create_account(vendor, status)
+def create_account(status, vendor)
   clear_all()
   sleep(1)
   user_info = {

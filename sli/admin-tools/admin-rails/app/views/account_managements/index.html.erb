@@ -11,6 +11,7 @@
 		<th id="status">Status</th>
 		<th id="action">Action</th>
 	</tr>
+	<% if @account_managements!=nil and @account_managements.length>0%>
 	<% @account_managements.each do |account_management| %>
 	<tr>
 		<td class="vendor"><%= account_management.vendor%></td>
@@ -39,6 +40,7 @@
       :confirm => "Do you really want to enable this user account?"%>
 		<% end %>
 	</tr>
+	<% end %>
 	<% end %>
 </table>
 <br />

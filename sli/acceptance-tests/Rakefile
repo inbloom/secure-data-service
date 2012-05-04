@@ -1146,6 +1146,13 @@ task :accountApprovalInterfaceTests => [:realmInitNoPeople] do
     runTests("test/features/apiV1/end_user_stories/sandbox/AccountApproval/prod_sandbox_AccountApproval_Inteface.feature")
 end
 
+desc "Run Account Approval Sandbox acceptance tests"
+task :accountApprovalSandboxTests do
+  @tags = ["~@wip", "@sandbox"]
+  Rake::Task["accountApprovalInterfaceTests"].invoke
+  Rake::Task["accountApprovalTests"].invoke
+end
+
 desc "Run JavaSDK sampleApp acceptance tests"
 task :JavaSDKSampleAppTest => [:importUnifiedData, :realmInitNoPeople] do
     runTests("test/features/apiV1/end_user_stories/sandbox/JavaSDK/sampleApp/sampleApp.feature")
