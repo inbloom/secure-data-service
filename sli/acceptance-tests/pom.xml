@@ -154,22 +154,35 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 
             <executions>
                <execution>
-                        <id>run tests</id>
-                        <phase>integration-test</phase>
+                  <id>install gems</id>
+                  <phase>integration-test</phase>
                   <goals>
                      <goal>exec</goal>
                   </goals>
+                   <configuration>
+                       <executable>bundle</executable>
+                       <arguments>
+                           <argument>install</argument>
+                       </arguments>
+                   </configuration>
                </execution>
+                <execution>
+                    <id>run tests</id>
+                    <phase>integration-test</phase>
+                    <goals>
+                        <goal>exec</goal>
+                    </goals>
+                    <configuration>
+                        <executable>bundle</executable>
+                        <arguments>
+                            <argument>exec</argument>
+                            <argument>rake</argument>
+                            <argument>fullSuite</argument>
+                            <argument>dashboard_server_address=http://local.slidev.org:8080/dashboard</argument>
+                        </arguments>
+                    </configuration>
+                </execution>
             </executions>
-            <configuration>
-                  <executable>bundle</executable>
-               <arguments>
-                  <argument>exec</argument>
-                  <argument>rake</argument>
-				  <argument>dashboard_server_address=http://local.slidev.org:8080/dashboard</argument>
-				  <argument>fullSuite</argument>
-               </arguments>
-            </configuration>
          </plugin>
 
       </plugins>
