@@ -18,12 +18,12 @@
 			<input id="custom" type="hidden" name="ed_org" value="custom">
 		<% end %>
 		<div class="edOrgIdSelect">
-			<%= text_field_tag "custom_ed_org", nil, :placeholder => "State Organization Id", :disabled => (not @edOrgs.empty?) %>
+			<%= text_field_tag "custom_ed_org", nil, :placeholder => "State Organization Id"  %>
 			<label for="custom_ed_org">State organization Id of Ed Org</label>
 		</div>
 		<div class="provisionButtons">
 			<input name="cancel" type="submit" value="Cancel" id="cancelButton"/>
-			<input name="commit" type="submit" value="Provision" id="provisionButton" disabled="true"/>
+			<input name="commit" type="submit" value="Provision" id="provisionButton"/>
 		</div>
 	</form>
 </div>
