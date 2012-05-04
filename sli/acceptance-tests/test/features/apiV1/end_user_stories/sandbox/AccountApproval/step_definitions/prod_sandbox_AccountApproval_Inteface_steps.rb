@@ -130,18 +130,32 @@ When /^I am asked "([^"]*)"$/ do |arg1|
 end
 
 When /^I click on Ok$/ do
+  sleep(5)
   @driver.switch_to.alert.accept
 end
 
 Then /^his account status changed to "([^"]*)"$/ do |arg1|
   status=@driver.find_element(:id,"status."+@user_name)
   assert(status.text==arg1,"user account status is not #{arg1}")
+  sleep(5)
 end
 
 
 
-Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |arg1|
-  @account_approval_env="sandbox"
+Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
+ clear_all()
+  sleep(1)
+  user_info = {
+      :first => "Loraine",
+      :last => "Plyler", 
+       :email => "jdoe"+String(rand(4))+"@example.com",
+       :password => "secret", 
+       :emailtoken => "token",
+       :vendor => vendor,
+       :status => "approved"
+   }
+  @ldap.create_user(user_info)
+  sleep(1)
 end
 
 def clear_all
