@@ -91,7 +91,7 @@ class RealmsController < ApplicationController
     @realm.destroy
 
     respond_to do |format|
-      format.html { redirect_to realm_editors_url }
+      format.html { redirect_to realm_editors_url, notice: "Realm was successfully deleted." }
       format.json { head :ok }
     end
   end
