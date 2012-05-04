@@ -1,3 +1,4 @@
+<% @title="Provision Landing Zone" %>
 <h1>Provision Landing-Zone</h1>
 <div>
 	<%= form_tag( url_for(:controller => 'landing_zone', :action => 'provision')) %>
@@ -16,10 +17,12 @@
 			<input id="custom" type="hidden" name="ed_org" value="custom">
 		<% end %>
 		<div class="edOrgIdSelect">
-			<input id="custom_ed_org" name="custom_ed_org" type="text" value="State Organization Id" disabled="true"/>
+			<%= text_field_tag "custom_ed_org", nil, :placeholder => "State Organization Id", :disabled => (not @edOrgs.empty?) %>
 			<label for="custom_ed_org">State organization Id of Ed Org</label>
 		</div>
-		<input name="commit" type="submit" value="Provision" />
-		<input name="cancel" type="submit" value="Cancel" />
+		<div class="buttons">
+			<input name="commit" type="submit" value="Provision" />
+			<input name="cancel" type="submit" value="Cancel" />
+		</div>
 	</form>
 </div>
