@@ -16,16 +16,30 @@ import org.slc.sli.security.SLIPrincipal;
  */
 public class SecurityUtil {
 
-    private static final String ADMIN_KEY = "IT Administrator";
-
     public static UserDetails getPrincipal() {
         return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
+    /**
+     * find if a user is IT Administrator or Leader
+     * @return
+     */
+    public static boolean isPowerUser() {
+        Collection<GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        for (GrantedAuthority authority : authorities) {
+            if (authority.getAuthority().equals(Constants.ROLE_IT_ADMINISTRATOR)) {
+                return true;
+            }
+            else if (authority.getAuthority().equals(Constants.ROLE_LEADER)) {
+                return true;
+            }
+        }
+        return false;
+    }
     public static boolean isAdmin() {
         Collection<GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         for (GrantedAuthority authority : authorities) {
-            if (authority.getAuthority().equals(ADMIN_KEY)) {
+            if (authority.getAuthority().equals(Constants.ROLE_IT_ADMINISTRATOR)) {
                 return true;
             }
             

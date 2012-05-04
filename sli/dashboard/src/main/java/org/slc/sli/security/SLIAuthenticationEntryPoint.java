@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -56,6 +57,8 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     
     private static final String OAUTH_TOKEN = "OAUTH_TOKEN";
     private static final String ENTRY_URL = "ENTRY_URL";
+    private static final String DASHBOARD_COOKIE = "SLI_DASHBOARD_COOKIE";
+    private static final String DASHBOARD_COOKIE_DOMAIN = ".slidev.org";
     
     private RESTClient restClient;
     
@@ -105,13 +108,26 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
+        HttpSession session = request.getSession();
+        
+        //If there is no oauth credential, and the user has a dashboard cookie, add cookie value as oauth session attribute.
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie c: cookies) {
+                if (c.getName().equals(DASHBOARD_COOKIE)) {
+                    if (session.getAttribute(OAUTH_TOKEN) == null) {
+                        session.setAttribute(OAUTH_TOKEN, c.getValue());
+                    }
+                }
+            }
+        }
+
         SliApi.setBaseUrl(apiUrl);
         LOG.debug("Client ID is {}, clientSecret is {}, callbackUrl is {}", new Object[] { clientId, clientSecret,
                 callbackUrl });
         OAuthService service = new ServiceBuilder().provider(SliApi.class).apiKey(clientId).apiSecret(clientSecret)
                 .callback(callbackUrl).build();
         
-        HttpSession session = request.getSession();
         Object token = session.getAttribute(OAUTH_TOKEN);
         LOG.debug(
                 "Oauth token in session - {} and access code - {} and request URL is {}",
@@ -145,6 +161,9 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         } else {
             LOG.debug("Using access token {}", token);
             addAuthentication((String) token);
+            Cookie cookie = new Cookie(DASHBOARD_COOKIE, (String) token);
+            cookie.setDomain(DASHBOARD_COOKIE_DOMAIN);
+            response.addCookie(cookie);
             response.sendRedirect(request.getRequestURI());
         }
     }
