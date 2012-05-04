@@ -16,6 +16,11 @@ public interface BatchJobDAO {
 
     NewBatchJob findBatchJobById(String batchJobId);
 
+    /**
+     * Why is this deprecated?
+     * @param batchJobId
+     * @return
+     */
     @Deprecated
     List<Error> findBatchJobErrors(String batchJobId);
 
