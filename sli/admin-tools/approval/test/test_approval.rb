@@ -29,7 +29,7 @@ class TestApprovalEngine < Test::Unit::TestCase
 		@td_user[:email] = @td_email
 	end
 
-	def common(is_sandbox)
+	def regular_workflow(is_sandbox)
 		@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 		@mock_emailer = MockEmailer.new
 
@@ -38,21 +38,21 @@ class TestApprovalEngine < Test::Unit::TestCase
 			@ldap.remove_user_group(@jd_email, g)
 		end
 		@ldap.get_user_groups(@td_email).each do |g|
-			@ldap.remove_user_group(@jd_email, g)
+			@ldap.remove_user_group(@td_email, g)
 		end
 
 		ApprovalEngine.remove_user(@jd_email)
 		ApprovalEngine.remove_user(@td_email)
 
-		ApprovalEngine.add_disabled_user(@td_user)
-		emailtoken = ApprovalEngine.add_disabled_user(@jd_user)
+		td_emailtoken = ApprovalEngine.add_disabled_user(@td_user)
+		jd_emailtoken = ApprovalEngine.add_disabled_user(@jd_user)
 		assert(ApprovalEngine.user_exists?(@jd_email))
 		user = @ldap.read_user(@jd_email)
 		assert(user)
 		assert(user[:email] == @jd_email)
 		assert(user[:status] == ApprovalEngine::STATE_SUBMITTED)
 
-		ApprovalEngine.verify_email(emailtoken)
+		ApprovalEngine.verify_email(jd_emailtoken)
 		if !is_sandbox
 			assert(@ldap.read_user(@jd_email)[:status] == ApprovalEngine::STATE_PENDING)
 			ApprovalEngine.change_user_status(@jd_email, ApprovalEngine::ACTION_APPROVE)
@@ -66,6 +66,14 @@ class TestApprovalEngine < Test::Unit::TestCase
 			assert(@ldap.get_user_groups(@jd_email).sort == ApprovalEngine::PRODUCTION_ROLES.sort)
 		end 
 
+		# move the other user to rejected state 
+		if !is_sandbox
+			ApprovalEngine.verify_email(td_emailtoken)
+			ApprovalEngine.change_user_status(@td_email, ApprovalEngine::ACTION_REJECT)
+			assert(@ldap.read_user(@td_email)[:status] == ApprovalEngine::STATE_REJECTED)
+			roles = ApprovalEngine.get_roles(@td_email) 
+			assert(roles == [], "Expected empty roles but got #{roles}")
+		end 
 
 		ApprovalEngine.remove_user(@jd_email)
 		assert(!ApprovalEngine.user_exists?(@jd_email))
@@ -77,10 +85,10 @@ class TestApprovalEngine < Test::Unit::TestCase
 	
 
 	def test_production
-		common(true)
+		regular_workflow(true)
 	end
 
 	def test_sandbox
-		common(false)
+		regular_workflow(false)
 	end
 end

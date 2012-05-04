@@ -125,7 +125,7 @@ module ApprovalEngine
 	#
 	def ApprovalEngine.verify_email(emailtoken)
 		user = @@storage.read_user_emailtoken(emailtoken)
-		raise "Could not find user for email id #{email_hash}." if !user
+		raise "Could not find user for email id #{emailtoken}." if !user
 
 		# update to pending state 
 		change_user_status(user[:email], ACTION_VERIFY_EMAIL, true)
@@ -187,7 +187,7 @@ module ApprovalEngine
 	#     :transitions => ["approve", "reject"], 
 	# }	#
 	def ApprovalEngine.get_users(status=nil)
-		return @@storage.read_users(status).map do |user| 
+		return @@storage.read_users(status).select {|u| !!u[:status] }.map do |user| 
 			user[:transitions] = FSM[user[:status]].keys
 			user
 		end
