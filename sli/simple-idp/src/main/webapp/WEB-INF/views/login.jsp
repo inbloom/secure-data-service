@@ -38,7 +38,7 @@
 		<div class='form-container'>
 			<div><c:out value="${msg}"/></div>
 			<form id="login_form" name="login_form" action="login" method="post" class="form-horizontal">
-				<input type="hidden" name="tenant" value="${tenant}"/>
+				<input type="hidden" name="realm" value="${realm}"/>
 				<input type="hidden" name="SAMLRequest" value="${SAMLRequest}"/>
 				<fieldset>
 					<div class="control-group">

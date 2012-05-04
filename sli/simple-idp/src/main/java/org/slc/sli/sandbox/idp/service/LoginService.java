@@ -1,6 +1,7 @@
 package org.slc.sli.sandbox.idp.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slc.sli.sandbox.idp.saml.SamlResponseComposer;
 import org.slf4j.Logger;
@@ -43,16 +44,16 @@ public class LoginService {
      *            information previously obtained from an incoming SAMLRequest
      * @return redirect URI sent back by the api in response to the SAMLResponse
      */
-    public SamlResponse login(String userId, List<String> roles, AuthRequests.Request requestInfo) {
+    public SamlResponse login(String userId, List<String> roles, Map<String,String> attributes, AuthRequests.Request requestInfo) {
         String destination = requestInfo.getDestination();
         
         LOG.info("Login for user: {} roles: {} inResponseTo: {} destination: {}", new Object[] { userId, roles,
                 requestInfo.getRequestId(), destination });
         
-        String issuer = issuerBase + "?tenant=" + requestInfo.getTenant();
+        String issuer = issuerBase + "?realm=" + requestInfo.getRealm();
         
         String encodedResponse = samlComposer.componseResponse(destination, issuer, requestInfo.getRequestId(), userId,
-                userId, roles);
+                attributes, roles);
         
         return new SamlResponse(destination, encodedResponse);
     }
@@ -68,7 +69,7 @@ public class LoginService {
         private final String redirectUri;
         private final String samlResponse;
         
-        SamlResponse(String redirectUri, String samlResponse) {
+        public SamlResponse(String redirectUri, String samlResponse) {
             this.redirectUri = redirectUri;
             this.samlResponse = samlResponse;
         }

@@ -1,11 +1,12 @@
 package org.slc.sli.sandbox.idp.service;
 
-import java.net.URI;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.crypto.MarshalException;
 import javax.xml.crypto.dsig.XMLSignatureException;
@@ -19,7 +20,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slc.sli.sandbox.idp.saml.SamlResponseComposer;
 import org.slc.sli.sandbox.idp.service.AuthRequests.Request;
-import org.slc.sli.sandbox.idp.service.Users.User;
+import org.slc.sli.sandbox.idp.service.UserService.User;
 
 /**
  * Unit tests
@@ -40,24 +41,24 @@ public class LoginServiceTest {
         login.setIssuerBase("http://local.slidev.org:8082/simple-idp");
         
         List<String> roles = Arrays.asList("role1", "role2");
-        URI destUri = URI.create("destUri");
         
+        Map<String, String> attributes = new HashMap<String, String>();
         Mockito.when(
-                samlComposer.componseResponse("destUri", "http://local.slidev.org:8082/mock-idp?tenant=TENANT",
-                        "request_id", "unique_id", "unique_id", roles)).thenReturn("samlResponse");
-
+                samlComposer.componseResponse("destUri", "http://local.slidev.org:8082/simple-idp?realm=realm",
+                        "request_id", "unique_id", attributes, roles)).thenReturn("samlResponse");
         
         Request request = Mockito.mock(AuthRequests.Request.class);
         Mockito.when(request.getRequestId()).thenReturn("request_id");
-        Mockito.when(request.getTenant()).thenReturn("TENANT");
+        Mockito.when(request.getRealm()).thenReturn("realm");
+        Mockito.when(request.getDestination()).thenReturn("destUri");
         
         User user = Mockito.mock(User.class);
         Mockito.when(user.getUserId()).thenReturn("unique_id");
         
-        login.login(user, roles, request);
+        login.login("unique_id", roles, attributes, request);
         
-//        Mockito.verify(samlComposer).componseResponse("destUri", "http://local.slidev.org:8082/mock-idp?tenant=TENANT",
- //               "request_id", "unique_id", "unique_id", roles);
-
+        Mockito.verify(samlComposer).componseResponse("destUri", "http://local.slidev.org:8082/simple-idp?realm=realm",
+                "request_id", "unique_id", attributes, roles);
+        
     }
 }

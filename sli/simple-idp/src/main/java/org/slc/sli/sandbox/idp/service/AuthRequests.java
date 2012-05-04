@@ -2,6 +2,8 @@ package org.slc.sli.sandbox.idp.service;
 
 import org.slc.sli.sandbox.idp.saml.SamlRequestDecoder;
 import org.slc.sli.sandbox.idp.saml.SamlRequestDecoder.SamlRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthRequests {
     
+    private static final Logger LOG = LoggerFactory.getLogger(AuthRequests.class);
+    
     @Autowired
     SamlRequestDecoder samlDecoder;
     
@@ -21,31 +25,38 @@ public class AuthRequests {
      * Holds information from the initial request that's eventually needed to complete login.
      */
     public static class Request {
-        private final String tenant;
+        private final String realm;
         private final SamlRequest saml;
         
-        Request(String tenant, SamlRequest saml) {
-            this.tenant = tenant;
+        Request(String realm, SamlRequest saml) {
+            this.realm = realm;
             this.saml = saml;
         }
         
-        public String getTenant() {
-            return tenant;
+        public String getRealm() {
+            return realm;
         }
         
         public String getRequestId() {
             return saml.getId();
         }
         public String getDestination() {
-            return saml.getDestination();
+            return saml.getSpDestination();
         }
     }
     
-    public Request processRequest(String encodedSamlRequest, String tenantName) {
+    public Request processRequest(String encodedSamlRequest, String realm) {
         if (encodedSamlRequest == null) {
             return null;
         }
         SamlRequest request = samlDecoder.decode(encodedSamlRequest);
-        return new Request(tenantName, request);
+        String destination = request.getIdpDestination();
+        int index = destination.indexOf("realm=");
+        String destinationRealm = destination.substring(index+6);
+        if(!realm.equals(destinationRealm)){
+            LOG.error("Destination realm <" + destinationRealm + "> does not match URL parameter <"+realm+"> with destination attribute: " + destination);
+            throw new IllegalArgumentException("Destination realm does not match URL");
+        }
+        return new Request(realm, request);
     }
 }

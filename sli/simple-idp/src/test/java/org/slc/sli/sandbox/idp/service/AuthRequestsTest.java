@@ -22,23 +22,35 @@ public class AuthRequestsTest {
     SamlRequestDecoder samlDecoder;
     
     @InjectMocks
-    AuthRequests service = new AuthRequests();
+    AuthRequests authService = new AuthRequests();
     
     @Test
-    public void test() {
+    public void testHappy() {
         SamlRequest request = Mockito.mock(SamlRequest.class);
         Mockito.when(request.getId()).thenReturn("id");
-        Mockito.when(request.getDestination()).thenReturn("destination");
+        Mockito.when(request.getIdpDestination()).thenReturn("http://destination/sp?realm=myrealm");
+        
         Mockito.when(samlDecoder.decode("samlRequest")).thenReturn(request);
         
-        Request processed = service.processRequest("samlRequest", "tenant");
+        Request processed = authService.processRequest("samlRequest", "myrealm");
         
         Mockito.verify(samlDecoder).decode("samlRequest");
         
         assertEquals("id", processed.getRequestId());
-        assertEquals("tenant", processed.getTenant());
+        assertEquals("myrealm", processed.getRealm());
         
-        assertEquals(null, service.processRequest(null, null));
+        assertEquals(null, authService.processRequest(null, null));
     }
     
+    @Test(expected = IllegalArgumentException.class)
+    public void testRealmMismatch() {
+        SamlRequest request = Mockito.mock(SamlRequest.class);
+        Mockito.when(request.getId()).thenReturn("id");
+        Mockito.when(request.getIdpDestination()).thenReturn("http://destination/sp?realm=fakeRealm");
+        
+        Mockito.when(samlDecoder.decode("samlRequest")).thenReturn(request);
+        
+        authService.processRequest("samlRequest", "realm");
+        
+    }
 }

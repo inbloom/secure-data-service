@@ -123,11 +123,9 @@ default:
 
         # (only used in SimpleIDP)
         sli.simple-idp.issuer-base: http://local.slidev.org:8082/simple-idp
-
-        # (only used in SimpleIDP)
         sli.simple-idp.cot: http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
-
-
+        sli.simple-idp.sandboxImpersonationEnabled: false
+        
         # SLI Subdomain substituted by various services (used by SDK and dashboard)
         sli.dev.subdomain: ci
 
@@ -752,8 +750,8 @@ team:
         log.path: /storage/logs
         sli.simple-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/simple-idp
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
-
-
+        sli.simple-idp.cot: http://${sli.dev.subdomain}.slidev.org=http://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
+        sli.simple-idp.sandboxImpersonationEnabled: false
 
 bloomington:
     ingestion:

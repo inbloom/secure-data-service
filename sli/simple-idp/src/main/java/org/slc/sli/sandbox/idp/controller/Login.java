@@ -6,10 +6,11 @@ import org.slc.sli.sandbox.idp.service.AuthRequests;
 import org.slc.sli.sandbox.idp.service.AuthenticationException;
 import org.slc.sli.sandbox.idp.service.LoginService;
 import org.slc.sli.sandbox.idp.service.LoginService.SamlResponse;
-import org.slc.sli.sandbox.idp.service.Roles;
-import org.slc.sli.sandbox.idp.service.Users;
-import org.slc.sli.sandbox.idp.service.Users.User;
+import org.slc.sli.sandbox.idp.service.RoleService;
+import org.slc.sli.sandbox.idp.service.UserService;
+import org.slc.sli.sandbox.idp.service.UserService.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,38 +30,45 @@ public class Login {
     LoginService service;
     
     @Autowired
-    Roles roleService;
+    RoleService roleService;
     
     @Autowired
-    Users userService;
+    UserService userService;
     
     @Autowired
     AuthRequests authRequestService;
     
+    @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
+    private boolean isSandboxImpersonationEnabled;
+    
+    void setSandboxImpersonationEnabled(boolean isSandboxImpersonationEnabled) {
+        this.isSandboxImpersonationEnabled = isSandboxImpersonationEnabled;
+    }
+
     /**
      * Loads required data and redirects to the login page view.
      * 
      * @throws IOException
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView form(@RequestParam(value = "SAMLRequest", required = false) String encodedSamlRequest,
-            @RequestParam("tenant") String tenant) throws IOException {
+    public ModelAndView form(@RequestParam("SAMLRequest") String encodedSamlRequest,
+            @RequestParam("realm") String realm) {
         ModelAndView mav = new ModelAndView("login");
-        authRequestService.processRequest(encodedSamlRequest, tenant);
+        authRequestService.processRequest(encodedSamlRequest, realm);
         mav.addObject("SAMLRequest", encodedSamlRequest);
-        mav.addObject("tenant", tenant);
+        mav.addObject("realm", realm);
         return mav;
     }
     
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Object login(@RequestParam("userId") String userId, @RequestParam("password") String password,
-            @RequestParam(value = "SAMLRequest", required = false) String encodedSamlRequest,
-            @RequestParam("tenant") String tenant) {
+            @RequestParam("SAMLRequest") String encodedSamlRequest,
+            @RequestParam("realm") String realm) {
         
-        AuthRequests.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, tenant);
+        AuthRequests.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
         User user;
         try {
-            user = userService.authenticate(tenant, userId, password);
+            user = userService.authenticate(realm, userId, password);
         } catch (AuthenticationException e) {
             ModelAndView mav = new ModelAndView("login");
             mav.addObject("msg", "Invalid userId or password");
@@ -68,8 +76,8 @@ public class Login {
             return mav;
         }
         
-        if (tenant.equals("SLI")) {
-            SamlResponse samlResponse = service.login(userId, user.getRoles(), requestInfo);
+        if (realm.equals("SLI") || !isSandboxImpersonationEnabled) {
+            SamlResponse samlResponse = service.login(userId, user.getRoles(), user.getAttributes(), requestInfo);
             ModelAndView mav = new ModelAndView("post");
             mav.addObject("samlResponse", samlResponse);
             return mav;
@@ -77,7 +85,7 @@ public class Login {
             ModelAndView mav = new ModelAndView("selectUser");
             mav.addObject("SAMLRequest", encodedSamlRequest);
             mav.addObject("roles", roleService.getAvailableRoles());
-            mav.addObject("tenant", tenant);
+            mav.addObject("realm", realm);
             return mav;
         }
         

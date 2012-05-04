@@ -51,16 +51,20 @@ public class SamlRequestDecoder {
      * Holds saml request info
      */
     public static class SamlRequest {
-        private final String destination;
+        private final String spDestination;
         private final String id;
+        private final String idpDestination;
         
-        SamlRequest(String destination, String id) {
-            this.destination = destination;
+        SamlRequest(String spDestination, String idpDestination, String id) {
+            this.spDestination = spDestination;
+            this.idpDestination = idpDestination;
             this.id = id;
         }
-        
-        public String getDestination() {
-            return destination;
+        public String getIdpDestination(){
+            return idpDestination;
+        }
+        public String getSpDestination() {
+            return spDestination;
         }
         
         public String getId() {
@@ -87,6 +91,7 @@ public class SamlRequestDecoder {
         }
         Element element = doc.getDocumentElement();
         String id = element.getAttribute("ID");
+        String simpleIDPDestination = element.getAttribute("Destination");
         NodeList nodes = element.getElementsByTagName("saml:Issuer");
         String issuer = null;
         if (nodes.getLength() > 0) {
@@ -99,12 +104,12 @@ public class SamlRequestDecoder {
         if (id == null) {
             throw new IllegalArgumentException("No ID attribute on AuthnRequest.");
         }
-        String destination = cot.get(issuer);
-        if (destination == null) {
+        String responseDestination = cot.get(issuer);
+        if (responseDestination == null) {
             throw new IllegalArgumentException("Issuer of AuthnRequest is unknown.");
         }
         
-        return new SamlRequest(destination, id);
+        return new SamlRequest(responseDestination, simpleIDPDestination, id);
     }
 
     public void setCotString(String cotString) {

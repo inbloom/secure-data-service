@@ -2,11 +2,11 @@ package org.slc.sli.sandbox.idp.controller;
 
 import static org.junit.Assert.assertEquals;
 
-import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,12 +14,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slc.sli.sandbox.idp.service.AuthRequests.Request;
+import org.slc.sli.sandbox.idp.controller.Login;
+import org.slc.sli.sandbox.idp.service.AuthRequests;
+import org.slc.sli.sandbox.idp.service.AuthenticationException;
 import org.slc.sli.sandbox.idp.service.LoginService;
-import org.slc.sli.sandbox.idp.service.Users;
-import org.slc.sli.sandbox.idp.service.Users.User;
-import org.springframework.web.servlet.View;
-import org.springframework.web.servlet.view.RedirectView;
+import org.slc.sli.sandbox.idp.service.RoleService;
+import org.slc.sli.sandbox.idp.service.UserService;
+import org.slc.sli.sandbox.idp.service.AuthRequests.Request;
+import org.slc.sli.sandbox.idp.service.LoginService.SamlResponse;
+import org.slc.sli.sandbox.idp.service.UserService.User;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Unit tests
@@ -28,33 +32,116 @@ import org.springframework.web.servlet.view.RedirectView;
 public class LoginTest {
     
     @Mock
-    LoginService service;
+    AuthRequests authRequestService;
     
     @Mock
-    Users users;
+    LoginService loginService;
+    
+    @Mock
+    UserService userService;
+    
+    @Mock 
+    RoleService roleService;
     
     @InjectMocks
     Login loginController = new Login();
     
     @Test
-    public void testLogin() {
-        List<String> roles = Arrays.asList("role1", "role2");
-        
-        User user = Mockito.mock(User.class);
-        Mockito.when(user.getUserId()).thenReturn("abc");
-        //Mockito.when(users.getUser("tenant", "abc")).thenReturn(user);
-        
+    public void testLoginSetup() {
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRequestId()).thenReturn("req1234");
-        Mockito.when(reqInfo.getTenant()).thenReturn("tenant");
+        Mockito.when(reqInfo.getRealm()).thenReturn("realm");
+        Mockito.when(authRequestService.processRequest("SAMLRequest","realm")).thenReturn(reqInfo);
         
-       // Mockito.when(service.login(user, roles, reqInfo)).thenReturn(URI.create("redirect"));
         
-        //View view = loginController.login("abc", roles, session);
-        //assertEquals(RedirectView.class, view.getClass());
-        //assertEquals("redirect", ((RedirectView) view).getUrl());
+        ModelAndView mov = loginController.form("SAMLRequest", "realm");
+        assertEquals("SAMLRequest", mov.getModel().get("SAMLRequest"));
+        assertEquals("realm", mov.getModel().get("realm"));
+        assertEquals("login", mov.getViewName());
+    }
+    
+    
+    @Test
+    public void testAdminLogin() throws AuthenticationException {
+        Request reqInfo = Mockito.mock(Request.class);
+        Mockito.when(reqInfo.getRealm()).thenReturn("SLI");
+        Mockito.when(authRequestService.processRequest("SAMLRequest","SLI")).thenReturn(reqInfo);
         
-        //Mockito.verify(users).getUser("tenant", "abc");
-        //Mockito.verify(service).login(user, roles, reqInfo);
+        @SuppressWarnings("unchecked")
+        Map<String, String> attributes = Mockito.mock(HashMap.class);
+        Mockito.when(attributes.get("userName")).thenReturn("Test Name");
+        
+        List<String> roles = Arrays.asList("role1", "role2");
+        
+        UserService.User user = new User("userId", roles, attributes);
+        
+        Mockito.when(userService.authenticate("SLI", "userId", "password")).thenReturn(user);
+        
+        SamlResponse samlResponse = new SamlResponse("redirect_uri", "SAMLResponse");
+        Mockito.when(loginService.login("userId", roles, attributes, reqInfo)).thenReturn(samlResponse);
+        
+        Object response = loginController.login("userId", "password", "SAMLRequest", "SLI");
+        
+        assertEquals("org.springframework.web.servlet.ModelAndView", response.getClass().getName());
+        ModelAndView mov = (ModelAndView) response;
+        assertEquals("SAMLResponse", ((SamlResponse)mov.getModel().get("samlResponse")).getSamlResponse());
+        assertEquals("post", mov.getViewName());
+        
+    }
+    
+    @Test
+    public void testNormalLogin() throws AuthenticationException {
+        Request reqInfo = Mockito.mock(Request.class);
+        Mockito.when(reqInfo.getRealm()).thenReturn("realm");
+        Mockito.when(authRequestService.processRequest("SAMLRequest","realm")).thenReturn(reqInfo);
+        
+        @SuppressWarnings("unchecked")
+        Map<String, String> attributes = Mockito.mock(HashMap.class);
+        Mockito.when(attributes.get("userName")).thenReturn("Test Name");
+        
+        List<String> roles = Arrays.asList("role1", "role2");
+        
+        UserService.User user = new User("userId", roles, attributes);
+        
+        Mockito.when(userService.authenticate("realm", "userId", "password")).thenReturn(user);
+        
+        SamlResponse samlResponse = new SamlResponse("redirect_uri", "SAMLResponse");
+        Mockito.when(loginService.login("userId", roles, attributes, reqInfo)).thenReturn(samlResponse);
+        
+        Object response = loginController.login("userId", "password", "SAMLRequest", "realm");
+        
+        assertEquals("org.springframework.web.servlet.ModelAndView", response.getClass().getName());
+        ModelAndView mov = (ModelAndView) response;
+        assertEquals("SAMLResponse", ((SamlResponse)mov.getModel().get("samlResponse")).getSamlResponse());
+        assertEquals("post", mov.getViewName());  
+    }
+    
+    @Test
+    public void testImpersonationLogin() throws AuthenticationException {
+        loginController.setSandboxImpersonationEnabled(true);
+        Request reqInfo = Mockito.mock(Request.class);
+        Mockito.when(reqInfo.getRealm()).thenReturn("realm");
+        Mockito.when(authRequestService.processRequest("SAMLRequest","realm")).thenReturn(reqInfo);
+        
+        @SuppressWarnings("unchecked")
+        Map<String, String> attributes = Mockito.mock(HashMap.class);
+        Mockito.when(attributes.get("userName")).thenReturn("Test Name");
+        
+        List<String> roles = Arrays.asList("role1", "role2");
+        UserService.User user = new User("userId", roles, attributes);
+        
+        Mockito.when(userService.authenticate("realm", "userId", "password")).thenReturn(user);
+        List<RoleService.Role> defaultRoles = new ArrayList<RoleService.Role>();
+        defaultRoles.add(new RoleService.Role("roleName"));
+        Mockito.when(roleService.getAvailableRoles()).thenReturn(defaultRoles);
+        
+        Object response = loginController.login("userId", "password", "SAMLRequest", "realm");
+        
+        assertEquals("org.springframework.web.servlet.ModelAndView", response.getClass().getName());
+        ModelAndView mov = (ModelAndView) response;
+        assertEquals("SAMLRequest", mov.getModel().get("SAMLRequest"));
+        assertEquals("selectUser", mov.getViewName());
+        assertEquals("realm", mov.getModel().get("realm"));
+        assertEquals(defaultRoles, mov.getModel().get("roles"));
     }
 }
