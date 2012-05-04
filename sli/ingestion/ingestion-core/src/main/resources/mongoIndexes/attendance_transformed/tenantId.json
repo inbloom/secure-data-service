@@ -3,6 +3,7 @@
     "indexFields":
     [
         {"name" : "metaData.tenantId", "order" : "1"},
-        {"name" : "body.studentId", "order" : "1"}
+        {"name" : "body.studentId", "order" : "1"},
+        {"name" : "body.schoolId", "order" : "1"}
     ]
 }

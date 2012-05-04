@@ -1,0 +1,22 @@
+// Place all the styles related to the landing_zone controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+div{
+  overflow:hidden;
+}
+
+label{
+  float:left;
+  text-align:left;
+  width:300px;
+}
+
+input{
+  display:block;
+  float:left;
+}
+
+div.edOrgIdSelect input{
+  margin-left:10px;
+}

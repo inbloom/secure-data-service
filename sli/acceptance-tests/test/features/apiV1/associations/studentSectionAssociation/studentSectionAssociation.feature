@@ -3,7 +3,7 @@ This means I want to be able to perform CRUD on all associations.
 and verify that the correct links are made available.
   
 Background: Nothing yet
-    Given I am logged in using "demo" "demo1234" to realm "SLI"
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
       And format "application/vnd.slc+json"
 
 Scenario: Create a valid association
@@ -89,12 +89,6 @@ Scenario: Update association
      And I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID FOR UPDATE>"
      And "<UPDATE FIELD>" should be "<UPDATE FIELD NEW VALID VALUE>"
 
-Scenario: Delete association
-    When I navigate to DELETE "/<ASSOCIATION URI>/<ASSOCIATION ID FOR DELETE>"
-    Then I should receive a return code of 204
-     And I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID FOR DELETE>"
-     And I should receive a return code of 404
-
 Scenario: Non-happy path: Attempt to create association with invalid reference for endpoint1
    Given a valid association json document for a "<ASSOCIATION TYPE>"
     When I set the "<ENDPOINT1 FIELD>" to "<INVALID REFERENCE>"
@@ -134,3 +128,9 @@ Scenario: Non-happy path: Attempt to update endpoint2 to an invalid reference
 Scenario: Non-happy path: Attempt to delete a non-existing association
     When I navigate to DELETE "/<ASSOCIATION URI>/<INVALID REFERENCE>"
     Then I should receive a return code of 404
+
+Scenario: Delete association
+    When I navigate to DELETE "/<ASSOCIATION URI>/<ASSOCIATION ID FOR DELETE>"
+    Then I should receive a return code of 204
+     And I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID FOR DELETE>"
+     And I should receive a return code of 404

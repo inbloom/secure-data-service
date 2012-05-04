@@ -19,12 +19,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -44,6 +38,11 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Prototype new api end points and versioning base class
@@ -61,6 +60,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @QueryParam(ParameterConstants.INCLUDE_CUSTOM)
     @DefaultValue(ParameterConstants.DEFAULT_INCLUDE_CUSTOM)
     protected String includeCustomEntityStr;
+    
+    /* Critera you can override in sublcass */
+    protected NeutralCriteria extraCriteria;
 
     /* The maximum number of values allowed in a comma separated string */
     public static final int MAX_MULTIPLE_UUIDS = 100;
@@ -184,7 +186,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                                     "Entity not found: " + key + "=" + value)).build();
                 } else {
                     long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
-                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getStoredCollectionName(),
+                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(),
                             results)), pagingHeaderTotalCount, uriInfo).build();
                 }
             }
@@ -288,7 +290,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                                     "Entity not found: " + key + "=" + value)).build();
                 } else {
                     long pagingHeaderTotalCount = getTotalCount(endpointEntity.getService(), endpointNeutralQuery);
-                    return addPagingHeaders(Response.ok(new EntityResponse(endpointEntity.getStoredCollectionName(),
+                    return addPagingHeaders(Response.ok(new EntityResponse(endpointEntity.getType(),
                             finalResults)), pagingHeaderTotalCount, uriInfo).build();
                 }
             }
@@ -368,11 +370,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                             .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
                                     "Entity not found: " + resourceName + "=" + idList)).build();
                 } else if (finalResults.size() == 1) {
-                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getStoredCollectionName(),
+                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(),
                             finalResults.get(0))), 1, uriInfo).build();
                 } else {
                     long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
-                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getStoredCollectionName(),
+                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(),
                             finalResults)), pagingHeaderTotalCount, uriInfo).build();
                 }
             }
@@ -454,6 +456,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 List<EntityBody> results = new ArrayList<EntityBody>();
 
                 Iterable<EntityBody> entityBodies = null;
+                NeutralQuery query = new ApiQuery(uriInfo);
+                query = addTypeCriteria(entityDef, query);
+                if (extraCriteria != null) {
+                    query.addCriteria(extraCriteria);
+                }
                 if (returnAll) {
                     entityBodies = SecurityUtil.sudoRun(new SecurityTask<Iterable<EntityBody>>() {
 
@@ -461,13 +468,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         public Iterable<EntityBody> execute() {
                             NeutralQuery query = new ApiQuery(uriInfo);
                             query = addTypeCriteria(entityDef, query);
+                            if (extraCriteria != null) {
+                                query.addCriteria(extraCriteria);
+                            }
                             // TODO Auto-generated method stub
                             return entityDef.getService().list(query);
                         }
                     });
                 } else {
-                    NeutralQuery query = new ApiQuery(uriInfo);
-                    query = addTypeCriteria(entityDef, query);
                     entityBodies = entityDef.getService().list(query);
                 }
                 for (EntityBody entityBody : entityBodies) {
@@ -479,8 +487,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                  results.add(entityBody);
                 }
 
-                long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), new ApiQuery(uriInfo));
-                return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getStoredCollectionName(), results)),
+                long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), query);
+                return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), results)),
                         pagingHeaderTotalCount, uriInfo).build();
             }
         });

@@ -150,7 +150,8 @@ public final class Constants {
     public static final String ATTR_OPTIONAL_FIELDS = "optionalFields";
     public static final String ATTR_GRADEBOOK_VIEW = "gradebookView";
     public static final String ATTR_STUDENT_SECTION_GRADEBOOK = "studentGradebookEntries";
-    public static final String ATTR_ATTENDANCE_EVENT_CATEGORY = "attendanceEventCategory";
+    public static final String ATTR_ATTENDANCE_DATE = "date";
+    public static final String ATTR_ATTENDANCE_EVENT_CATEGORY = "event";
     public static final String ATTR_ABSENCE_COUNT = "absenceCount";
     public static final String ATTR_TARDY_COUNT = "tardyCount";
     public static final String ATTR_ATTENDANCE_RATE = "attendanceRate";
@@ -163,6 +164,15 @@ public final class Constants {
     public static final String ATTR_GRADE_LEVEL_ASSESSED = "gradeLevelAssessed";
     public static final String ATTR_STUDENT_GRADEBOOK_ENTRIES = "studentGradebookEntries";
     public static final String ATTR_LETTER_GRADE_EARNED = "letterGradeEarned";
+
+    public static final String ATTR_CUMULATIVE_GPA = "cumulativeGradePointAverage";
+    public static final String ATTR_STUDENT_ACADEMIC_RECORDS = "studentAcademicRecords";
+    public static final String ATTR_SESSION_BEGIN_DATE = "beginDate";
+
+    public static final String ATTR_GRADE_EARNED = "gradeEarned";
+    public static final String ATTR_SEARCH_STRING = "searchString";
+    public static final String ATTR_NUM_RESULTS = "numResults";    
+
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
 

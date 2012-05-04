@@ -3,6 +3,7 @@ package org.slc.sli.api.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -92,11 +93,29 @@ public class BasicService implements EntityService {
             return 0;
         }
         
-        if (allowed.size() > 0) {
-            neutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
+        Set<String> ids = new HashSet<String>();
+        List<NeutralCriteria> criterias = neutralQuery.getCriteria();
+        for (NeutralCriteria criteria : criterias) {
+            if (criteria.getKey().equals("_id")) {
+                @SuppressWarnings("unchecked")
+                List<String> idList = (List<String>) criteria.getValue();
+                ids.addAll(idList);
+            }
+        }
+        NeutralQuery localNeutralQuery = new NeutralQuery();
+        
+        if (allowed.size() < 0) {   //super list
+            localNeutralQuery = neutralQuery;
+        } else if (!ids.isEmpty()) {
+            Set<String> allowedSet = new HashSet<String>(allowed);
+            ids.retainAll(allowedSet);
+            List<String> finalIds = new ArrayList<String>(ids);
+            localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", finalIds));
+        } else {
+            localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", allowed));
         }
         
-        return repo.count(this.collectionName, neutralQuery);
+        return repo.count(this.collectionName, localNeutralQuery);
     }
     
     /**
@@ -149,7 +168,7 @@ public class BasicService implements EntityService {
         
         checkRights(determineWriteAccess(content, ""));
         
-        return repo.create(defn.getType(), sanitizeEntityBody(content), collectionName).getEntityId();
+        return repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName).getEntityId();
     }
     
     @Override
@@ -316,11 +335,11 @@ public class BasicService implements EntityService {
                     ids.addAll(idList);
                 }
             }
-
+            
             if (!ids.isEmpty()) {
                 Set<String> allowedSet = new HashSet<String>(allowed);
                 ids.retainAll(allowedSet);
-
+                
                 List<String> finalIds = new ArrayList<String>(ids);
                 localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", finalIds));
             } else {
@@ -363,8 +382,7 @@ public class BasicService implements EntityService {
         
         String clientId = getClientId();
         
-        LOG.debug("Reading custom entity: entity={}, entityId={}, clientId={}", new String[] {
-                this.getEntityDefinition().getType(), id, clientId });
+        LOG.debug("Reading custom entity: entity={}, entityId={}, clientId={}", new String[] { this.getEntityDefinition().getType(), id, clientId });
         
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
@@ -401,8 +419,7 @@ public class BasicService implements EntityService {
         
         boolean deleted = getRepo().delete(CUSTOM_ENTITY_COLLECTION, entity.getEntityId());
         
-        LOG.debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new String[] {
-                this.getEntityDefinition().getType(), id, clientId, "" + deleted });
+        LOG.debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new String[] { this.getEntityDefinition().getType(), id, clientId, String.valueOf(deleted) });
     }
     
     /**
@@ -422,22 +439,19 @@ public class BasicService implements EntityService {
         Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
         
         if (entity != null && entity.getBody().equals(customEntity)) {
-            LOG.debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}",
-                    new String[] { this.getEntityDefinition().getType(), id, clientId });
+            LOG.debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}", new String[] { this.getEntityDefinition().getType(), id, clientId });
             return;
         }
         
         EntityBody clonedEntity = new EntityBody(customEntity);
         
         if (entity != null) {
-            LOG.debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new String[] {
-                    this.getEntityDefinition().getType(), id, clientId });
+            LOG.debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new String[] { this.getEntityDefinition().getType(), id, clientId });
             entity.getBody().clear();
             entity.getBody().putAll(clonedEntity);
             getRepo().update(CUSTOM_ENTITY_COLLECTION, entity);
         } else {
-            LOG.debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new String[] {
-                    this.getEntityDefinition().getType(), id, clientId });
+            LOG.debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new String[] { this.getEntityDefinition().getType(), id, clientId });
             EntityBody metaData = new EntityBody();
             metaData.put(CUSTOM_ENTITY_CLIENT_ID, clientId);
             metaData.put(CUSTOM_ENTITY_ENTITY_ID, id);
@@ -461,9 +475,9 @@ public class BasicService implements EntityService {
      */
     private EntityBody makeEntityBody(Entity entity) {
         EntityBody toReturn = new EntityBody(entity.getBody());
-
+        
         toReturn.put(METADATA, entity.getMetaData());
-
+        
         for (Treatment treatment : treatments) {
             toReturn = treatment.toExposed(toReturn, defn, entity.getEntityId());
         }
@@ -513,8 +527,7 @@ public class BasicService implements EntityService {
                         deleteAttachedCustomEntities(idToBeDeleted);
                     }
                 } catch (AccessDeniedException ade) {
-                    LOG.debug("No {} have {}={}", new Object[] { referencingEntity.getResourceName(), referenceField,
-                            sourceId });
+                    LOG.debug("No {} have {}={}", new Object[] { referencingEntity.getResourceName(), referenceField, sourceId });
                 }
             }
         }
@@ -586,8 +599,7 @@ public class BasicService implements EntityService {
             throw new InsufficientAuthenticationException("Login Required");
         }
         
-        if (auth instanceof OAuth2Authentication
-                && ((OAuth2Authentication) auth).getUserAuthentication() instanceof AnonymousAuthenticationToken) {
+        if (auth instanceof OAuth2Authentication && ((OAuth2Authentication) auth).getUserAuthentication() instanceof AnonymousAuthenticationToken) {
             throw new InsufficientAuthenticationException("Login Required");
         }
         
@@ -690,7 +702,20 @@ public class BasicService implements EntityService {
         
         return toReturn;
     }
-    
+
+    /**
+     * Creates the metaData HashMap to be added to the entity created in mongo.
+     * @return Map containing important metadata for the created entity.
+     */
+    private Map<String, Object> createMetadata() {
+        Map<String, Object> metadata = new HashMap<String, Object>();
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        metadata.put("isOrphaned", "true");
+        metadata.put("createdBy", principal.getEntity().getEntityId());
+        metadata.put("tenantId", principal.getTenantId());
+        return metadata;
+    }
+
     /**
      * Set the entity definition for this service.
      * There is a circular dependency between BasicService and EntityDefinition, so they both can't

@@ -30,20 +30,20 @@ Examples:
 	|"llogan"    |"llogan1234"    |"IL" |"Leader"  |"IL-Sunset"  |"Dale Reiss"|
 	|"jcarlyle"  |"jcarlyle1234"  |"NY" |"IT Admin"|"NY-Parker"  |"Teachers in Dawn Elementary"|
 	|"jstevenson"|"jstevenson1234"|"IL" |"IT Admin"|"IL-Daybreak"|"Students in AP Calculus Sec 201"|
-@wip
+
 Scenario Outline: IT Administrator trying to edit data for own district
 
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "IT Administrator"
 And my "district" is <District>
 When I try to update the data for <Data> in my "district" from the API
-Then I should receive a return code of 205
+Then I should receive a return code of 204
 And the data should be updated
 Examples:
 	|Username|Password|Realm|District|Data|
 	|"mhahn"     |"mhahn1234"     |"NY" |"NY-Dusk"    |"Malcolm Haehn NY"|
 	|"jstevenson"|"jstevenson1234"|"IL" |"IL-Daybreak"|"Matt Sollars"|
-@wip
+
 Scenario Outline: IT Administrator trying to edit data for other district
 
 Given I am logged in using <Username> <Password> to realm <Realm>
@@ -51,7 +51,6 @@ And I have a Role attribute that equals "IT Administrator"
 And my "district" is <District>
 When I try to update the data for <Data> in another "district" from the API
 Then I should receive a return code of 403
-And the data should not have changed
 Examples:
 	|Username  |Password      |Realm|District   |Data|
 	|"jcarlyle"|"jcarlyle1234"|"NY" |"NY-Parker"|"Malcolm Haehn NY"|

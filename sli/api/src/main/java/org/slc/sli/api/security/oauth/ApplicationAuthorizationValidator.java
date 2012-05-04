@@ -3,19 +3,17 @@ package org.slc.sli.api.security.oauth;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Determines which applications a given user is authorized to use based on
@@ -57,7 +55,7 @@ public class ApplicationAuthorizationValidator {
         List<String> apps = null;
         List<String> results = null;
         for (Entity district : districts) {
-            LOGGER.debug("User is in district " + district.getEntityId());
+            debug("User is in district " + district.getEntityId());
 
             NeutralQuery query = new NeutralQuery();
             query.addCriteria(new NeutralCriteria("authId", "=", district.getEntityId()));
@@ -112,10 +110,10 @@ public class ApplicationAuthorizationValidator {
                 edOrgs = contextResolverStore.findResolver(EntityNames.STAFF, EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
             }
 
-            //Need to clean this up when we remove the demo user 'hack'
+            /*//Need to clean this up when we remove the demo user 'hack'
             if (edOrgs == AllowAllEntityContextResolver.SUPER_LIST) {
                 return null;
-            }
+            }*/
             for (String id : edOrgs) {
                 Entity entity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
                 if (entity == null) {

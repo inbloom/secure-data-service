@@ -62,6 +62,9 @@
 <div class = "field">
   <% check_box_name = h(app.name + "_authorized_ed_orgs[]").gsub(" ", "_") if app.name !=  nil%>
   <% check_box_name = "authorized_ed_orgs[]" if check_box_name == nil %>
+  <% isNew = @district_hierarchy == nil %>
+  <% isPending = client_field_value(app, :client_id) == "Pending"%>
+  <% @district_hierarchy = {} if isNew or isPending %>
   <% @district_hierarchy.keys.each do |district| %>
       <%=
           if app.authorized_ed_orgs != nil
@@ -84,8 +87,8 @@
             <%= child_district["name"] %> <br />
     <% end %>
   <% end %>
-  <%= button_to_function("Enable All", 'changeCheck("' + check_box_name + '", 1)') %>
-  <%= button_to_function("Disable All", 'changeCheck("' + check_box_name + '", 0)') %>
+  <%= button_to_function("Enable All", 'changeCheck("' + check_box_name + '", 1)')  if !isNew and !isPending%>
+  <%= button_to_function("Disable All", 'changeCheck("' + check_box_name + '", 0)')  if !isNew and !isPending%>
 
 </div>
 <div class = "actions">
