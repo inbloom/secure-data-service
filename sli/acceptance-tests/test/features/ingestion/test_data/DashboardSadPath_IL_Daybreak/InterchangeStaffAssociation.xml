@@ -230,6 +230,201 @@
             <AcademicSubject>Mathematics</AcademicSubject>
         </AcademicSubjects>
     </TeacherSchoolAssociation>
+    <!-- jdoe -->
+    <Teacher>
+        <StaffUniqueStateId>jdoe</StaffUniqueStateId>
+        <StaffIdentificationCode IdentificationSystem="Canadian SIN" AssigningOrganizationCode="a">
+            <ID>a</ID>
+        </StaffIdentificationCode>
+        <Name Verification="Drivers license">
+            <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+            <FirstName>John</FirstName>
+            <LastSurname>Doe</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthDate>1975-06-29</BirthDate>
+        <Address AddressType="Mailing">
+            <StreetNumberName>123 Smith Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>12345</PostalCode>
+            <BeginDate>1967-08-13</BeginDate>
+            <EndDate>1967-08-13</EndDate>
+        </Address>
+        <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>a</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>dummy@fake.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+        <Race>
+            <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+        </Race>
+        <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+        <YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
+        <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+        <LoginId>a</LoginId>
+        <TeacherUniqueStateId>a</TeacherUniqueStateId>
+        <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+    </Teacher>
+    <TeacherSchoolAssociation>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>jdoe</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <ProgramAssignment>Regular Education</ProgramAssignment>
+        <InstructionalGradeLevels>
+            <GradeLevel>First grade</GradeLevel>
+        </InstructionalGradeLevels>
+        <AcademicSubjects>
+            <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+            <AcademicSubject>English Language and Literature</AcademicSubject>
+        </AcademicSubjects>
+    </TeacherSchoolAssociation>
+    <!-- Tbear -->
+    <Teacher>
+        <StaffUniqueStateId>tbear</StaffUniqueStateId>
+        <StaffIdentificationCode IdentificationSystem="Canadian SIN" AssigningOrganizationCode="a">
+            <ID>a</ID>
+        </StaffIdentificationCode>
+        <Name Verification="Drivers license">
+            <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+            <FirstName>T</FirstName>
+            <LastSurname>Bear</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthDate>1975-06-29</BirthDate>
+        <Address AddressType="Mailing">
+            <StreetNumberName>123 Smith Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>12345</PostalCode>
+            <BeginDate>1967-08-13</BeginDate>
+            <EndDate>1967-08-13</EndDate>
+        </Address>
+        <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>a</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>dummy@fake.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+        <Race>
+            <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+        </Race>
+        <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+        <YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
+        <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+        <LoginId>a</LoginId>
+        <TeacherUniqueStateId>a</TeacherUniqueStateId>
+        <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+    </Teacher>
+    <TeacherSchoolAssociation>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>tbear</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <ProgramAssignment>Regular Education</ProgramAssignment>
+        <InstructionalGradeLevels>
+            <GradeLevel>Sixth grade</GradeLevel>
+            <GradeLevel>Seventh grade</GradeLevel>
+            <GradeLevel>Eighth grade</GradeLevel>
+            <GradeLevel>Ninth grade</GradeLevel>
+        </InstructionalGradeLevels>
+        <AcademicSubjects>
+            <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+            <AcademicSubject>English Language and Literature</AcademicSubject>
+            <AcademicSubject>Mathematics</AcademicSubject>
+        </AcademicSubjects>
+    </TeacherSchoolAssociation>
+    <TeacherSectionAssociation>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>tbear</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SectionReference>
+            <SectionIdentity>
+                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <ClassroomPosition>Assistant Teacher</ClassroomPosition>
+    </TeacherSectionAssociation>
+   <!-- ejane -->
+    <Teacher>
+        <StaffUniqueStateId>ejane</StaffUniqueStateId>
+        <StaffIdentificationCode IdentificationSystem="Canadian SIN" AssigningOrganizationCode="a">
+            <ID>a</ID>
+        </StaffIdentificationCode>
+        <Name Verification="Drivers license">
+            <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+            <FirstName>E</FirstName>
+            <LastSurname>Jane</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthDate>1975-06-29</BirthDate>
+        <Address AddressType="Mailing">
+            <StreetNumberName>123 Smith Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>12345</PostalCode>
+            <BeginDate>1967-08-13</BeginDate>
+            <EndDate>1967-08-13</EndDate>
+        </Address>
+        <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>a</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>dummy@fake.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+        <Race>
+            <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+        </Race>
+        <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+        <YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
+        <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+        <LoginId>a</LoginId>
+        <TeacherUniqueStateId>a</TeacherUniqueStateId>
+        <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+    </Teacher>
+    <TeacherSchoolAssociation>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>ejane</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <ProgramAssignment>Regular Education</ProgramAssignment>
+        <InstructionalGradeLevels>
+            <GradeLevel>First grade</GradeLevel>
+        </InstructionalGradeLevels>
+        <AcademicSubjects>
+            <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+            <AcademicSubject>English Language and Literature</AcademicSubject>
+        </AcademicSubjects>
+    </TeacherSchoolAssociation>
 	<!-- Johnny Admin -->
 	<Staff>
 		<StaffUniqueStateId>demo</StaffUniqueStateId>
