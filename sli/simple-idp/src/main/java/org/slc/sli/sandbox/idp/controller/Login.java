@@ -69,7 +69,7 @@ public class Login {
         }
         
         if (tenant.equals("SLI")) {
-            SamlResponse samlResponse = service.login(user, user.getRoles(), requestInfo);
+            SamlResponse samlResponse = service.login(userId, user.getRoles(), requestInfo);
             ModelAndView mav = new ModelAndView("post");
             mav.addObject("samlResponse", samlResponse);
             return mav;

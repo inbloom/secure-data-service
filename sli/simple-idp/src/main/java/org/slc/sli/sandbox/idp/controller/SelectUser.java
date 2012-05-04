@@ -6,7 +6,6 @@ import org.slc.sli.sandbox.idp.service.AuthRequests;
 import org.slc.sli.sandbox.idp.service.LoginService;
 import org.slc.sli.sandbox.idp.service.LoginService.SamlResponse;
 import org.slc.sli.sandbox.idp.service.Users;
-import org.slc.sli.sandbox.idp.service.Users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +34,8 @@ public class SelectUser {
             @RequestParam("tenant") String tenant) {
         
         AuthRequests.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, tenant);
-        User user = userService.getUser(tenant, userId);
         
-        SamlResponse samlResponse = service.login(user, roles, requestInfo);
+        SamlResponse samlResponse = service.login(userId, roles, requestInfo);
         ModelAndView mav = new ModelAndView("post");
         mav.addObject("samlResponse", samlResponse);
         return mav;

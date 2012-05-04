@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ldap.core.ContextMapper;
+import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.CollectingAuthenticationErrorCallback;
@@ -26,53 +28,76 @@ public class Users {
      */
     public static class User {
         String userId;
-        String type; //Staff or Teacher
         List<String> roles;
+        String name;
         
-        private User(String userId, String tenant) {
+        User() {
+            roles = new ArrayList<String>();
+        }
+        
+        private User(String userId) {
             this.userId = userId;
             roles = new ArrayList<String>();
         }
-
-        private User(String userId, String tenant, String type) {
-            this.userId = userId;
-            this.type = type;
-            roles = new ArrayList<String>();
+        
+        public String getName() {
+            return name;
         }
-       
         
         public String getUserId() {
             return userId;
         }
-
-        public void addRole(String role){
-            roles.add(role);
-        }
+        
         public List<String> getRoles() {
             return roles;
         }
     }
-
+    
     public User authenticate(String tenant, String userId, String password) throws AuthenticationException {
-        User user = new User(userId, tenant);
-        
         CollectingAuthenticationErrorCallback errorCallback = new CollectingAuthenticationErrorCallback();
         AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", "person")).and(new EqualsFilter("uid", userId));
-        boolean result = ldapTemplate.authenticate(DistinguishedName.EMPTY_PATH, filter.toString(), password, errorCallback);
+        boolean result = ldapTemplate.authenticate(DistinguishedName.EMPTY_PATH, filter.toString(), password,
+                errorCallback);
         if (!result) {
-          Exception error = errorCallback.getError();
-          throw new AuthenticationException(error);
+            Exception error = errorCallback.getError();
+            throw new AuthenticationException(error);
         }
         
-        user.addRole("SLI Administrator");
-        user.addRole("LEA Administrator");
+        User user = (User) ldapTemplate.searchForObject(DistinguishedName.EMPTY_PATH, filter.toString(),
+                new PersonContextMapper());
+        user.userId = userId;
+        
+        // group retrieval
+        filter = new AndFilter();
+        filter.and(new EqualsFilter("objectclass", "posixGroup")).and(new EqualsFilter("memberuid", userId));
+        @SuppressWarnings("unchecked")
+        List<String> groups = (List<String>) ldapTemplate.search(DistinguishedName.EMPTY_PATH, filter.toString(),
+                new GroupContextMapper());
+        user.roles = groups;
         return user;
     }
-
     
-    public User getUser(String tenant, String userId) {
-        return new User(userId, tenant);
+    public User getUser(String userId) {
+        return new User(userId);
     }
-
+    
+    static class PersonContextMapper implements ContextMapper {
+        public Object mapFromContext(Object ctx) {
+            DirContextAdapter context = (DirContextAdapter) ctx;
+            User user = new User();
+            user.name = context.getStringAttribute("cn");
+            return user;
+        }
+    }
+    
+    static class GroupContextMapper implements ContextMapper {
+        @Override
+        public Object mapFromContext(Object ctx) {
+            DirContextAdapter context = (DirContextAdapter) ctx;
+            String group = context.getStringAttribute("cn");
+            return group;
+        }
+        
+    }
 }

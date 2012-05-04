@@ -3,7 +3,6 @@ package org.slc.sli.sandbox.idp.service;
 import java.util.List;
 
 import org.slc.sli.sandbox.idp.saml.SamlResponseComposer;
-import org.slc.sli.sandbox.idp.service.Users.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ public class LoginService {
     
     @Autowired
     SamlResponseComposer samlComposer;
-    
     
     /**
      * This is the base of the issuer that gets encoded in the SAMLResponse. It will have
@@ -45,16 +43,16 @@ public class LoginService {
      *            information previously obtained from an incoming SAMLRequest
      * @return redirect URI sent back by the api in response to the SAMLResponse
      */
-    public SamlResponse login(User user, List<String> roles, AuthRequests.Request requestInfo) {
+    public SamlResponse login(String userId, List<String> roles, AuthRequests.Request requestInfo) {
         String destination = requestInfo.getDestination();
         
-        LOG.info("Login for user: {} roles: {} inResponseTo: {} destination: {}", new Object[] { user.getUserId(), roles,
+        LOG.info("Login for user: {} roles: {} inResponseTo: {} destination: {}", new Object[] { userId, roles,
                 requestInfo.getRequestId(), destination });
         
         String issuer = issuerBase + "?tenant=" + requestInfo.getTenant();
         
-        String encodedResponse = samlComposer.componseResponse(destination, issuer,
-                requestInfo.getRequestId(), user.getUserId(), user.getUserId(), roles);
+        String encodedResponse = samlComposer.componseResponse(destination, issuer, requestInfo.getRequestId(), userId,
+                userId, roles);
         
         return new SamlResponse(destination, encodedResponse);
     }
@@ -62,7 +60,6 @@ public class LoginService {
     protected void setIssuerBase(String base) {
         this.issuerBase = base;
     }
-    
     
     /**
      * Holds saml response info
@@ -75,11 +72,11 @@ public class LoginService {
             this.redirectUri = redirectUri;
             this.samlResponse = samlResponse;
         }
-
+        
         public String getRedirectUri() {
             return redirectUri;
         }
-
+        
         public String getSamlResponse() {
             return samlResponse;
         }
