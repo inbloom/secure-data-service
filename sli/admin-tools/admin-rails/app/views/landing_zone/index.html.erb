@@ -1,0 +1,28 @@
+<% @title="Provision Landing Zone" %>
+<h1>Provision Landing-Zone</h1>
+<div>
+	<%= form_tag( url_for(:controller => 'landing_zone', :action => 'provision')) %>
+		<% if not @edOrgs.empty? %>
+			<% @edOrgs.each do |org| %>
+				<div class="block">
+					<%= radio_button_tag 'ed_org', org %>
+					<label for="ed_org_<%= org.gsub(/\s/, '_') %>"><%= org %></label>
+				</div>
+			<% end %>
+			<div class="block">
+	                  <input id="custom" name="ed_org" type="radio" value="custom" /> 
+			  <label for="custom">Custom High-Level Ed-Org</label>
+			</div>
+		<% else %>
+			<input id="custom" type="hidden" name="ed_org" value="custom">
+		<% end %>
+		<div class="edOrgIdSelect">
+			<%= text_field_tag "custom_ed_org", nil, :placeholder => "State Organization Id", :disabled => (not @edOrgs.empty?) %>
+			<label for="custom_ed_org">State organization Id of Ed Org</label>
+		</div>
+		<div class="buttons">
+			<input name="commit" type="submit" value="Provision" />
+			<input name="cancel" type="submit" value="Cancel" />
+		</div>
+	</form>
+</div>

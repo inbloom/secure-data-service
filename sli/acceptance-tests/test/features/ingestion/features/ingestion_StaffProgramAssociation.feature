@@ -31,12 +31,9 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Program1.xml records considered: 3" in the resulting batch job file
   And I should see "Program1.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "Program1.xml records failed: 0" in the resulting batch job file
-  And I should see "Staff1.xml records considered: 3" in the resulting batch job file
-  And I should see "Staff1.xml records ingested successfully: 3" in the resulting batch job file
+  And I should see "Staff1.xml records considered: 6" in the resulting batch job file
+  And I should see "Staff1.xml records ingested successfully: 6" in the resulting batch job file
   And I should see "Staff1.xml records failed: 0" in the resulting batch job file
-  And I should see "StaffProgramAssociation1.xml records considered: 3" in the resulting batch job file
-  And I should see "StaffProgramAssociation1.xml records ingested successfully: 3" in the resulting batch job file
-  And I should see "StaffProgramAssociation1.xml records failed: 0" in the resulting batch job file
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "StaffProgramAssociation2.zip" file as the payload of the ingestion job
@@ -61,9 +58,6 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Program2.xml records considered: 3" in the resulting batch job file
   And I should see "Program2.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "Program2.xml records failed: 0" in the resulting batch job file
-  And I should see "Staff2.xml records considered: 3" in the resulting batch job file
-  And I should see "Staff2.xml records ingested successfully: 3" in the resulting batch job file
+  And I should see "Staff2.xml records considered: 7" in the resulting batch job file
+  And I should see "Staff2.xml records ingested successfully: 7" in the resulting batch job file
   And I should see "Staff2.xml records failed: 0" in the resulting batch job file
-  And I should see "StaffProgramAssociation2.xml records considered: 4" in the resulting batch job file
-  And I should see "StaffProgramAssociation2.xml records ingested successfully: 4" in the resulting batch job file
-  And I should see "StaffProgramAssociation2.xml records failed: 0" in the resulting batch job file

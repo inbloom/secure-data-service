@@ -47,19 +47,21 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
         LOG.info("Loading data for transformation.");
 
         this.loadCollectionFromDb("studentTranscriptAssociation");
-        LOG.info("StudentTranscriptAssociation is loaded into local storage.  Total Count = " + collections.get("studentTranscriptAssociation").size());
-     }
+        LOG.info("StudentTranscriptAssociation is loaded into local storage.  Total Count = "
+                + collections.get("studentTranscriptAssociation").size());
+    }
 
     public void transform() {
         LOG.debug("Transforming data: Injecting studentAcademicRecords into studentTranscriptAssociation");
 
         HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
-        
-        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("studentTranscriptAssociation").entrySet()) {
+
+        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collections.get("studentTranscriptAssociation")
+                .entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
 
             Map<String, Object> attrs = neutralRecord.getAttributes();
-            
+
             if (attrs.get("creditsAttempted") == null) {
                 attrs.remove("creditsAttempted");
             }
@@ -77,8 +79,8 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
         Map<String, String> paths = new HashMap<String, String>();
         paths.put("body.studentAcademicRecordId", key);
 
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPaths(
-                "studentAcademicRecord", paths);
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
+                "studentAcademicRecord", paths, getJob().getId());
 
         ArrayList<Map<String, Object>> tempIdentificationCodes;
         Map<String, Object> tempMap;
@@ -102,13 +104,13 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
                 NeutralRecord neutralRecord = neutralRecordEntry.getValue();
                 neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
 
-                getNeutralRecordMongoAccess().getRecordRepository().create(neutralRecord);
+                getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
             }
         }
     }
 
     /**
-     * Load a collection from the database 
+     * Load a collection from the database
      *
      * @param collectionName
      */
@@ -116,8 +118,8 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
 
         Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
 
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQuery(collectionName,
-                new Query(jobIdCriteria), 0, 0);
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
+                collectionName, new Query(jobIdCriteria), getJob().getId(), 0, 0);
 
         Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
         NeutralRecord tempNr;
