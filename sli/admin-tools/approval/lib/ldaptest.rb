@@ -86,6 +86,10 @@ else
   puts "Adding member: #{ldap.modify(:dn => abc_group, :operations => [[:add, "member", dn]])}"  
 end 
 
+result = ldap.search(:base => "ou=groups,ou=DevTest,dc=slidev,dc=org", :filter => Net::LDAP::Filter.eq( "cn", "abc")).to_a()
+puts "FOUND: #{result}"
+puts "\n\nFound user at index: #{result[0][:member].index(dn)}"
+
 # if !ldap.modify(:dn => abc_group, :operations => [[:add, "member", dn]])
 #   puts "ERROR: #{ldap.get_operation_result.message}"
 # end

@@ -1,9 +1,16 @@
-$LOAD_PATH << '.'
+testdir = File.dirname(__FILE__)
+$LOAD_PATH << testdir + "/../lib"
 require 'approval'
 
-ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-emailer = Emailer.new(:host => 'mon.slidev.org', :sender_name => 'Test Sender', :sender_email_addr => 'devldapuser@slidev.org')
+class MockEmailer 
+	def send_approval_email(email_address, first, last)
+		puts "MockEmailer: Sent Email to #{first} #{last} with email address: #{email_address}"
+	end
+end
 
+ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+#mock_emailer = Emailer.new(:host => 'mon.slidev.org', :sender_name => 'Test Sender', :sender_email_addr => 'devldapuser@slidev.org')
+mock_emailer = MockEmailer.new
 
 jd_email = "jdoe@example.com"
 jd_emailtoken = "0102030405060708090A0B0C0D0E0F"
@@ -17,8 +24,7 @@ user_info = {
 	:status     => "submitted"	
 }
 
-
-ApprovalEngine.init(ldap, emailer, false)
+ApprovalEngine.init(ldap, mock_emailer, false)
 puts "Before adding user."
 emailtoken = ApprovalEngine.add_disabled_user(user_info)
 puts "Added user."
@@ -30,3 +36,18 @@ ApprovalEngine.change_user_status(jd_email, ApprovalEngine::ACTION_APPROVE)
 
 users = ApprovalEngine.get_users
 puts "#{users}"
+
+ApprovalEngine.remove_user(jd_email)
+
+
+ApprovalEngine.init(ldap, mock_emailer, true)
+emailtoken = ApprovalEngine.add_disabled_user(user_info)
+puts "Added user."
+ApprovalEngine.verify_email(emailtoken)
+puts "Approved Email"
+
+users = ApprovalEngine.get_users
+users.each do |u| 
+	puts "#{u[:first]} #{u[:last]} : #{u[:status]}"
+end 
+
