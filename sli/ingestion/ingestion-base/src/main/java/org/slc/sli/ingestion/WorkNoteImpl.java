@@ -8,8 +8,8 @@ package org.slc.sli.ingestion;
 public class WorkNoteImpl implements WorkNote {
     private String batchJobId;
     private String collection;
-    private int rangeMinimum;
-    private int rangeMaximum;
+    private long rangeMinimum;
+    private long rangeMaximum;
 
     /**
      * Default constructor for the WorkOrder class.
@@ -19,7 +19,7 @@ public class WorkNoteImpl implements WorkNote {
      * @param minimum
      * @param maximum
      */
-    public WorkNoteImpl(String batchJobId, String collection, int minimum, int maximum) {
+    public WorkNoteImpl(String batchJobId, String collection, long minimum, long maximum) {
         this.setBatchJobId(batchJobId);
         this.setCollection(collection);
         this.setRangeMinimum(minimum);
@@ -74,7 +74,7 @@ public class WorkNoteImpl implements WorkNote {
      * @return minimum index value.
      */
     @Override
-    public int getRangeMinimum() {
+    public long getRangeMinimum() {
         return rangeMinimum;
     }
 
@@ -85,7 +85,7 @@ public class WorkNoteImpl implements WorkNote {
      *            minimum index value.
      */
     @Override
-    public void setRangeMinimum(int rangeMinimum) {
+    public void setRangeMinimum(long rangeMinimum) {
         this.rangeMinimum = rangeMinimum;
     }
 
@@ -95,7 +95,7 @@ public class WorkNoteImpl implements WorkNote {
      * @return maximum index value.
      */
     @Override
-    public int getRangeMaximum() {
+    public long getRangeMaximum() {
         return rangeMaximum;
     }
 
@@ -106,7 +106,7 @@ public class WorkNoteImpl implements WorkNote {
      *            maximum index value.
      */
     @Override
-    public void setRangeMaximum(int rangeMaximum) {
+    public void setRangeMaximum(long rangeMaximum) {
         this.rangeMaximum = rangeMaximum;
     }
 }

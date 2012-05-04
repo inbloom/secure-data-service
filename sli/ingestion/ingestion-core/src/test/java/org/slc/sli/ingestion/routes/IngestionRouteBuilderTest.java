@@ -117,4 +117,11 @@ public class IngestionRouteBuilderTest extends CamelSpringTestSupport {
         mockStopEndpoint.assertIsSatisfied();
     }
 
+
+    @Test
+    public void testRequestResponse() {
+
+
+    }
+
 }
