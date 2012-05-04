@@ -108,6 +108,18 @@ default:
         # (only used in dashboard)
         panel.data.use.cache: true
 
+    realm: &REALM-DEFAULT
+        bootstrap.admin.realm.name: Shared Learning Infrastructure
+        bootstrap.admin.realm.tenantId: SLI	
+        bootstrap.admin.realm.redirectEndpoint: https://devapp1.slidev.org:443/sp/SSORedirect/metaAlias/idp
+
+    app: &APPS-DEFAULT
+        bootstrap.app.keys: admin,portal
+        bootstrap.app.admin.template: applications/admin.json
+        bootstrap.app.admin.url: https://testadmin1.slidev.org
+        bootstrap.app.admin.client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
+        bootstrap.app.admin.client_id: zl9FejUhnV
+
     misc: &MISC-DEFAULT
         # keystore password (used in common and data-access)
         sli.encryption.keyStorePass: changeit
@@ -581,6 +593,15 @@ local:
     dashboard:
         <<: *DASHBOARD-DEFAULT
 
+    realm:
+        <<: *REALM-DEFAULT
+
+    apps:
+        <<: *APPS-DEFAULT
+        bootstrap.app.admin.url: http://local.slidev.org:3000
+        bootstrap.app.admin.client_id: Eg6eseKRzN
+        bootstrap.app.admin.client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
+
     misc:
         <<: *MISC-DEFAULT
 
@@ -744,6 +765,16 @@ team:
         #specify "driver" and "custom" directory name for a user domain based configuration
         panel.config.driver.dir: config
         panel.config.custom.dir: custom
+
+    realm:
+        <<: *REALM-DEFAULT
+
+    apps:
+        <<: *APPS-DEFAULT
+        bootstrap.app.admin.url: https://${sli.dev.subdomain}.slidev.org:2001
+        bootstrap.app.admin.client_id: OY6Nnukmn6
+        bootstrap.app.admin.client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
+
 
     misc: &MISC-TEAM
         <<: *MISC-DEFAULT
@@ -1055,6 +1086,10 @@ sandbox:
         <<: *INGESTION-TEAM
     data-access:
         <<: *DATA-ACCESS-TEAM
+    realm:
+        <<: *REALM-DEFAULT
+    apps:
+        <<: *APPS-DEFAULT
     misc:
         <<: *MISC-TEAM
 
