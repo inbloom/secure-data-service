@@ -27,6 +27,13 @@ end
 ###############################################################################
 
 $entityData = {
+  "userAccount" => {
+    "userName" => "bob3@bob.com",
+    "firstName" => "Bob",
+    "lastName" => "Roberts",
+    "validated" => "false",
+    "environment" => "Sandbox"
+  },
   "attendance" => {
     "studentId" => "1563ec1d-924d-4c02-8099-3a0e314ef1d4",
     "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",

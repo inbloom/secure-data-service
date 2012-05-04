@@ -1214,7 +1214,8 @@ task :importSandboxData do
     "studentProgramAssociation" => "studentProgramAssociation_fixture.json",
     "studentAcademicRecord" => "studentAcademicRecord_fixture.json",
     "learningStandard" => "learningStandard_fixture.json",
-    "learningObjective" => "learningObjective_fixture.json"
+    "learningObjective" => "learningObjective_fixture.json",
+    "userAccount" => "userAccount_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 

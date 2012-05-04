@@ -8,6 +8,58 @@
 
 	<!-- This file contains the complex types for the SLI database schema representation. -->
 
+    <xs:complexType name="userAccount">
+        <xs:annotation>
+            <xs:documentation>
+                This entity represents a developer's user account.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="userName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        The user's login ID.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="firstName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        The user's first name.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lastName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        The user's last name.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="environment" type="environmentType">
+                <xs:annotation>
+                    <xs:documentation>
+                        The environment the user account could access.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="validated" type="xs:boolean" >
+                <xs:annotation>
+                    <xs:documentation>Indicator of whether the user
+                    has validated his or her account.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="vendor" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        The user's vendor/company ID (if applicable).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
 	<xs:complexType name="assessment">
 		<xs:annotation>
 			<xs:documentation>

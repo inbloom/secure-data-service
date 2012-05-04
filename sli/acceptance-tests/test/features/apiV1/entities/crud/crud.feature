@@ -54,6 +54,7 @@ Examples:
 | "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "67ce204b-9999-4a11-aacb-000000000003"       |
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
+| "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
 
     Scenario Outline: CRUD operations on invalid entities
     Given entity URI <Entity Resource URI>
@@ -91,6 +92,7 @@ Examples:
 | "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "67ce204b-9999-4a11-aacb-000000000003"       |
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
+| "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
 
     Scenario Outline: Get All Entities
     Given entity URI <Entity Resource URI>
@@ -122,3 +124,4 @@ Examples:
 | "studentAcademicRecord"        | "studentAcademicRecords"  | 7 |
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | 4 |
 | "teacher"                      | "teachers"                | 4 |
+| "userAccount"                  | "userAccounts"            | 2 |
