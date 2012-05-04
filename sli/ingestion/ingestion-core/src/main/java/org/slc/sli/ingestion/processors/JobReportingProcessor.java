@@ -23,6 +23,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.model.Error;
@@ -57,17 +58,19 @@ public class JobReportingProcessor implements Processor {
     @Override
     public void process(Exchange exchange) {
 
-        String batchJobId = getBatchJobId(exchange);
-        if (batchJobId != null) {
-            processJobReporting(batchJobId);
-        } else {
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+
+        if (workNote == null || workNote.getBatchJobId() == null) {
             missingBatchJobIdError(exchange);
+        } else {
+            processJobReporting(workNote);
         }
     }
 
-    private void processJobReporting(String batchJobId) {
+    private void processJobReporting(WorkNote workNote) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
+        String batchJobId = workNote.getBatchJobId();
         NewBatchJob job = null;
         try {
             job = batchJobDAO.findBatchJobById(batchJobId);

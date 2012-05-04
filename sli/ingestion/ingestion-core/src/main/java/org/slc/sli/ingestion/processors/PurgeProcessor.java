@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -151,7 +152,13 @@ public class PurgeProcessor implements Processor {
     }
 
     private String getBatchJobId(Exchange exchange) {
-        return exchange.getIn().getHeader("BatchJobId", String.class);
+        String batchJobId = null;
+
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        if (workNote != null) {
+            batchJobId = workNote.getBatchJobId();
+        }
+        return batchJobId;
     }
 
     private void missingBatchJobIdError(Exchange exchange) {
