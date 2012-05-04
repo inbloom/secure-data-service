@@ -103,27 +103,7 @@ Then /^a new account is created in ([^"]*) LDAP with login name "([^"]*)" and th
 end
 
 Then /^an email is sent to the requestor with a link to the application registration tool$/ do
-  if @mode
-    defaultUser = 'devldapuser'
-    defaultPassword = 'Y;Gtf@w{'
-    imap = Net::IMAP.new('mon.slidev.org', 993, true, nil, false)
-    imap.authenticate('LOGIN', defaultUser, defaultPassword)
-    imap.examine('INBOX')
-    
-    ids = imap.search(["FROM", @email_name])
-    content = imap.fetch(ids[-1], "BODY[TEXT]")[0].attr["BODY[TEXT]"]
-    subject = imap.fetch(ids[-1], "BODY[HEADER.FIELDS (SUBJECT)]")[0].attr["BODY[HEADER.FIELDS (SUBJECT)]"]
-    found = true if content != nil
-    imap.disconnect
-    assert(found, "Email was not found on SMTP server")
-    assert(subject.include?("Your account has been approved."), "Subject in email is not correct")
-  else
-    assert(@message_observer.messages.size == 1, "Number of messages is not equal to 1")
-    email = @message_observer.messages.first
-    assert(email != nil, "email was not received")
-    assert(email.to[0] == @userinfo[:email], "email address was incorrect")
-    assert(email.subject == "Your account has been approved.", "email did not have correct subject")
-  end
+  verifyEmail
 end
 
 When /^I reject the account request$/ do
@@ -164,6 +144,19 @@ end
 
 def verifyEmail
   if @mode
+    defaultUser = 'devldapuser'
+    defaultPassword = 'Y;Gtf@w{'
+    imap = Net::IMAP.new('mon.slidev.org', 993, true, nil, false)
+    imap.authenticate('LOGIN', defaultUser, defaultPassword)
+    imap.examine('INBOX')
+    
+    ids = imap.search(["FROM", @email_name])
+    content = imap.fetch(ids[-1], "BODY[TEXT]")[0].attr["BODY[TEXT]"]
+    subject = imap.fetch(ids[-1], "BODY[HEADER.FIELDS (SUBJECT)]")[0].attr["BODY[HEADER.FIELDS (SUBJECT)]"]
+    found = true if content != nil
+    imap.disconnect
+    assert(found, "Email was not found on SMTP server")
+    assert(subject.include?("Your account has been approved."), "Subject in email is not correct")
   else
     assert(@message_observer.messages.size == 1, "Number of messages is #{@message_observer.messages.size} but should be 1")
     email = @message_observer.messages.first
