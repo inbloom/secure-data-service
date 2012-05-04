@@ -1,4 +1,7 @@
 class RealmEditorsController < ApplicationController
+  rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
+  rescue_from ActiveResource::ResourceNotFound, :with => :render_404
+
   # GET /realm_editors
   # GET /realm_editors.json
   def index
