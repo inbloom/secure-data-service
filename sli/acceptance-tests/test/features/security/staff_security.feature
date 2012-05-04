@@ -24,7 +24,6 @@ Scenario: Teacher accesses Leader in same school
 	Then I get a response
 	And the response does not includes the protected fields
 
-@wip
 Scenario: Teacher accesses themselves and sees their restricted fields
 	Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
 		And my role is Educator
