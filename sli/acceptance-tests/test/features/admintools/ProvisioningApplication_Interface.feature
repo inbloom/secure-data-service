@@ -12,7 +12,7 @@ Then I can only enter a custom high-level ed-org
 When I click the Provision button
 Then I get the success message
 
-
+@sandbox
 Scenario: As a developer I can define a High Level Ed-Org and Provision my Landing Zone on sandbox
 Given there is a sandbox account in ldap for vendor "Macro Corp"
 And I have an open web browser
