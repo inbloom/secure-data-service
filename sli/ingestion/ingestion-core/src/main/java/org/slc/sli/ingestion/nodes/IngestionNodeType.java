@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion.routes;
+package org.slc.sli.ingestion.nodes;
 
 /**
  * We view ingestion as a symphony, with a maestro conducting work and worker nodes in the pit (orchestra).
