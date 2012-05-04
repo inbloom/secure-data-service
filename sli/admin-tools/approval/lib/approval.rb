@@ -35,20 +35,22 @@ module ApprovalEngine
 		STATE_DISABLED  => {ACTION_ENABLE  => STATE_APPROVED }
 	}
 
-	# Roles 
-	ROLE_SUPER_ADMIN = "Super_Admin"
-	ROLE_DEVELOPER   = "Developer"
-	ROLES = [
-		ROLE_SUPER_ADMIN,
-		ROLE_DEVELOPER
+	# Roles to set in sandbox mode 
+	SANDBOX_ROLES = [
+		"Super_Admin"
 	]
-	DEFAULT_ROLE = ROLE_SUPER_ADMIN
+
+	# Roles to set in production mode 
+	PRODUCTION_ROLES = [
+		"Vendor_Admin"
+	]
 
 	## backend storage 
 	@@storage      = nil 
 	@@emailer      = nil 
 	@@is_sandbox   = false 
 	@@email_secret = ""
+	@@roles        = [] 
 
 	# initialize the storage 
 	def ApprovalEngine.init(storage, emailer, is_sandbox)
@@ -56,6 +58,7 @@ module ApprovalEngine
 		@@emailer = emailer 
 		@@is_sandbox = is_sandbox
 		@@email_secret = (0...32).map{rand(256).chr}.join
+		@@roles = is_sandbox ? SANDBOX_ROLES : PRODUCTION_ROLES
 	end
 
 	# Update the status of a user. 
@@ -85,21 +88,24 @@ module ApprovalEngine
 			when [STATE_SUBMITTED, STATE_PENDING]
 				@@storage.update_status(user)
 			when [STATE_PENDING, STATE_APPROVED]
+				# update the status, set the roles and send an email 
 				@@storage.update_status(user)
-				##@@storage.add_user_group(user, DEFAULT_ROLE)
+				set_roles(user[:email])
 			    @@emailer.send_approval_email(user[:email], user[:first], user[:last])
 			when [STATE_PENDING, STATE_REJECTED]
+				# upate the status and clear the roles 
 				@@storage.update_status(user)
-				##@@storage.remove_user_group(user, DEFAULT_ROLE)
+				clear_roles(user[:email])
 			when [STATE_REJECTED, STATE_APPROVED]
+				# update the status and set the roles
 				@@storage.update_status(user)
-				##@@storage.add_user_group(user, DEFAULT_ROLE)
+				set_roles(user[:email])
 			when [STATE_APPROVED, STATE_DISABLED]
 				@@storage.update_status(user)
-				##@@storage.remove_user_group(user, DEFAULT_ROLE)
+				clear_roles(user[:email])
 			when [STATE_DISABLED, STATE_APPROVED]
 				@@storage.update_status(user)
-				##@@storage.add_user_group(user, DEFAULT_ROLE)
+				set_roles(user[:email])
 			else
 				raise "Unknow state transition #{status} => #{target[transition]}."
 			end
@@ -181,7 +187,6 @@ module ApprovalEngine
 	#     :transitions => ["approve", "reject"], 
 	# }	#
 	def ApprovalEngine.get_users(status=nil)
-
 		return @@storage.read_users(status).map do |user| 
 			user[:transitions] = FSM[user[:status]].keys
 			user
@@ -203,9 +208,23 @@ module ApprovalEngine
 	# email_address: Previously added email_address identifying a user. 
 	def ApprovalEngine.remove_user(email_address)
 		user = @@storage.read_user(email_address)
-		# ROLES.each do |role| 
-		# 	@@storage.remove_user_group(user, role)
-		# end
+		clear_roles(email_address)
 		@@storage.delete_user(email_address)
+	end
+
+	def ApprovalEngine.clear_roles(email_address)		
+		@@roles.each do |role| 
+		 	@@storage.remove_user_group(email_address, role)
+		end
+	end
+
+	def ApprovalEngine.set_roles(email_address)
+		@@roles.each do |role| 
+		 	@@storage.add_user_group(email_address, role)
+		end
+	end 
+
+	def ApprovalEngine.get_roles(email_address)
+		@@storage.get_user_groups(email_address)
 	end
 end

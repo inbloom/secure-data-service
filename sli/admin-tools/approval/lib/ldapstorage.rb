@@ -143,9 +143,9 @@ class LDAPStorage
 
 	def get_user_groups(email_address)
 		user_dn = get_DN(email_address)
-		filter = Net::LDAP::Filter.eq( "member", user_dn)
+		filter = Net::LDAP::Filter.eq( :member, user_dn)
 		@ldap.search(:base => @group_base, :filter => filter).to_a().map do |group|
-			group[:cn]
+			group[:cn][0]
 		end
 	end
 
