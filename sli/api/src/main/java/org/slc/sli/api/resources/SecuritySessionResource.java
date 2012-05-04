@@ -117,7 +117,6 @@ public class SecuritySessionResource {
 
         if (isAuthenticated(SecurityContextHolder.getContext())) {
             sessionDetails.put("authenticated", true);
-            sessionDetails.put("sessionId", SecurityContextHolder.getContext().getAuthentication().getCredentials());
 
             SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             sessionDetails.put("user_id", principal.getId());
