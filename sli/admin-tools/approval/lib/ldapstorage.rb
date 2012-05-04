@@ -2,9 +2,12 @@ require 'rubygems'
 require 'net/ldap'
 
 class LDAPStorage 
-	# set the objectClasses 
+	# set the objectClasses for user objects
 	OBJECT_CLASS = ["inetOrgPerson", "top"]
-	#TARGET_TREE  = "ou=people,ou=DevTest,dc=slidev,dc=org"
+
+	# group object classes 
+	GROUP_OBJECT_CLASSES = ["groupOfNames", "top"]
+	GROUP_MEMBER_ATTRIBUTE = :member
 
 	LDAP_ATTR_MAPPING = {
 		:givenname            => :first,
@@ -23,13 +26,6 @@ class LDAPStorage
 		:password, 
 		:vendor,
 		:emailtoken
-	]
-
-	ROLE_SUPER_ADMIN = "SLI Administrator"
-	ROLE_DEVELOPER   = "SLI Developer"
-	ROLES = [
-		ROLE_SUPER_ADMIN,
-		ROLE_DEVELOPER
 	]
 
 	# SEC_AUTH_REALM  = "sandboxAuthRealm"
@@ -104,21 +100,69 @@ class LDAPStorage
 
 	# enable login and update the status
 	# This means the user is added to the LDAP group that corresponds to the given role
-	def enable_update_status(user)
-		# add the user to the enabled group 
-		# XXX: this is still missing the auth information that should go into LDAP
-		#
-		# add_group(user, ROLE_DEVELOPER)
-		update_status(user)
+	def add_user_group(email_address, group_id)
+		user_dn  = get_DN(email_address)
+		group_dn = get_group_DN(group_id)
+
+		filter = Net::LDAP::Filter.eq( "cn", group_id)
+		group_found = @ldap.search(:base => @group_base, :filter => filter).to_a()[0]
+		if !group_found
+  			member_attrib = {
+    			:cn => group_id,
+    			:objectclass => GROUP_OBJECT_CLASSES,
+    			:member => user_dn
+  			}
+  			if !@ldap.add(:dn => group_dn, :attributes => member_attrib)
+	  			op = @ldap.get_operation_result
+  				raise "Could not add role. LDAP(code=#{op.code}): #{op.message}" 
+	  		end
+	  	else
+	  		if !group_found[:member].index(user_dn)
+		  		if !@ldap.modify(:dn => group_dn, :operations => [[:add, GROUP_MEMBER_ATTRIBUTE, user_dn]])
+		  			op = @ldap.get_operation_result
+	  				raise "Could not add user to group. LDAP(code=#{op.code}): #{op.message}" 
+		  		end
+		  	end
+	  	end
 	end
 
 	# disable login and update the status 
-	def disable_update_status(user)
-		# remove the user from the enabled group 
-		# XXX: this is still missing the auth information that should go into LDAP
-		#
-		# remove_group(user, ROLE_DEVELOPER)
-		update_status(user)
+	def remove_user_group(email_address, group_id)
+		user_dn = get_DN(email_address)
+		group_dn = get_group_DN(group_id)
+
+		filter = Net::LDAP::Filter.eq( "cn", group_id)
+		group_found = @ldap.search(:base => @group_base, :filter => filter).to_a()[0]
+		puts "FOUND #{group_found}"
+
+		if group_found
+			puts "user_dn: #{user_dn}"
+			puts "members #{group_found[:member]}"
+			removed = group_found[:member].delete(user_dn)
+			puts "REMOVED #{removed}"
+			if removed
+				puts "NEW VAL: #{group_found[:member]}"
+				result = if group_found[:member].empty? 
+							puts "Removing group entity !: #{group_dn}"
+							@ldap.delete(:dn => group_dn)
+						else 
+							puts "Removing attribute !" 
+				    		@ldap.replace_attribute(group_dn, GROUP_MEMBER_ATTRIBUTE, group_found[:member])
+				    	end 
+				if !result
+		  			op = @ldap.get_operation_result
+	  				raise "Could not remove from group. LDAP(code=#{op.code}): #{op.message}" 
+	  			end
+			end
+		end
+	end
+
+	def get_user_groups(email_address)
+		user_dn = get_DN(email_address)
+		filter = Net::LDAP::Filter.eq( "member", user_dn)
+		@ldap.search(:base => @group_base, :filter => filter).to_a().map do |group|
+			group[:cn]
+		end
 	end
 
 	# returns true if the user exists 
@@ -183,44 +227,6 @@ class LDAPStorage
 			user_rec
 		end
 	end
-
-	# def user_add_group(user, group_id)
-	# 	user_dn  = get_DN(user[:email])
-	# 	group_dn = get_group_DN(group_id)
-
-	# 	filter = Net::LDAP::Filter.eq( "cn", group_id)
-	# 	group_found = @ldap.search(:base => @group_base, :filter => filter).to_a()[0]
-	# 	if !group_found
- #  			member_attrib = {
- #    			:cn => group_id,
- #    			:objectclass => ["groupOfNames", "top"],
- #    			:member => user_dn
- #  			}
- #  			if !@ldap.add(:dn => group_dn, :attributes => member_attrib)
-	#   			op = @ldap.get_operation_result
- #  				raise "Could not add role. LDAP(code=#{op.code}): #{op.message}" 
-	#   		end
-	#   	else
-	#   		if !group_found[:member].index(user_dn)
-	# 	  		if !@ldap.modify(:dn => group_dn, :operations => [[:add, GROUP_MEMBER_FIELD, user_dn]])
-	# 	  			op = @ldap.get_operation_result
-	#   				raise "Could not add user to group. LDAP(code=#{op.code}): #{op.message}" 
-	# 	  		end
-	# 	  	end
-	#   	end
-	# end
-
-	# def user_delete_group(user, group_id)
-	# 	user_dn = get_DN(user[:email])
-	# 	group_dn = get_group_DN(group_id)
-	# 	group_found = @ldap.search(:base => @group_base, :filter => filter).to_a()[0]
-	# 	if group_found
-	# 		removed = group_found[:member].delete(user_dn)
-	# 		if removed:
-	# 			@ldap.replace_attribute
-	# 		end
-	# 	end
-	# end
 end
 
 # usage 
