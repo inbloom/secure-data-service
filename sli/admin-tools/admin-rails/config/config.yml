@@ -1,4 +1,5 @@
 development:
+    is_sandbox: true
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
