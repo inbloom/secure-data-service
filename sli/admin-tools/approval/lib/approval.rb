@@ -86,20 +86,20 @@ module ApprovalEngine
 				@@storage.update_status(user)
 			when [STATE_PENDING, STATE_APPROVED]
 				@@storage.update_status(user)
-				@@storage.add_user_group(user, DEFAULT_ROLE)
+				##@@storage.add_user_group(user, DEFAULT_ROLE)
 			    @@emailer.send_approval_email(user[:email], user[:first], user[:last])
 			when [STATE_PENDING, STATE_REJECTED]
 				@@storage.update_status(user)
-				@@storage.remove_user_group(user, DEFAULT_ROLE)
+				##@@storage.remove_user_group(user, DEFAULT_ROLE)
 			when [STATE_REJECTED, STATE_APPROVED]
 				@@storage.update_status(user)
-				@@storage.add_user_group(user, DEFAULT_ROLE)
+				##@@storage.add_user_group(user, DEFAULT_ROLE)
 			when [STATE_APPROVED, STATE_DISABLED]
 				@@storage.update_status(user)
-				@@storage.remove_user_group(user, DEFAULT_ROLE)
+				##@@storage.remove_user_group(user, DEFAULT_ROLE)
 			when [STATE_DISABLED, STATE_APPROVED]
 				@@storage.update_status(user)
-				@@storage.add_user_group(user, DEFAULT_ROLE)
+				##@@storage.add_user_group(user, DEFAULT_ROLE)
 			else
 				raise "Unknow state transition #{status} => #{target[transition]}."
 			end
@@ -203,9 +203,9 @@ module ApprovalEngine
 	# email_address: Previously added email_address identifying a user. 
 	def ApprovalEngine.remove_user(email_address)
 		user = @@storage.read_user(email_address)
-		ROLES.each do |role| 
-			@@storage.remove_user_group(user, role)
-		end
+		# ROLES.each do |role| 
+		# 	@@storage.remove_user_group(user, role)
+		# end
 		@@storage.delete_user(email_address)
 	end
 end
