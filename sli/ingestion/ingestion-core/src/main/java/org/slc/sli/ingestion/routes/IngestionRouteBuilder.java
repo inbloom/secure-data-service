@@ -55,10 +55,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     private XmlFileProcessor xmlFileProcessor;
 
-
     @Autowired
     private XmlSplitterProcessor splitterProcessor;
-
 
     @Autowired
     JobReportingProcessor jobReportingProcessor;
@@ -81,16 +79,24 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.nodeType}")
     private String ingestionNodeType;
 
+    @Value("${sli.ingestion.queue.maestroPit.queueURI")
+    private String symphonyQueue;
+
+    private String symphonyQueueUri;
 
     @Override
     public void configure() throws Exception {
 
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
 
-        if ("master".equals(ingestionNodeType)) {
-            buildMasterRoutes(workItemQueueUri);
-        } else {
 
+        if (IngestionNodeType.MAESTRO.equals(ingestionNodeType)) {
+            buildMaestroRoutes(workItemQueueUri);
+        } else if (IngestionNodeType.PIT.equals(ingestionNodeType)) {
+            buildPitRoutes(workItemQueueUri);
+        }
+
+        else {
 
             if (loadDefaultTenants) {
                 // populate the tenant collection with a default set of tenants
@@ -107,27 +113,42 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     }
 
     /**
-     * Builds routes for a master node that is responsible for polling the landing zone, splitting
-     * the files, and packaging the files as sub-jobs for consumption on internal landing zones.
+     * Pit routes should:
+     * 1. Take an external work item that the maestro posted from a JMS endpoint
+     * 2. Transform and persist the items in the sheet music
+     * 3. Posts a message back to the queue saying "I'm done, here's what I did"
+     *
+     * Don't delete items from staging! Maestro will do this!
+     *
      * @param workItemQueueUri
      */
-    private void buildMasterRoutes(String workItemQueueUri) {
+    private void buildPitRoutes(String workItemQueueUri) {
 
-        // TODO - don't we need both internal and external Landing zone locations?
+    }
+
+    /**
+     * The maestro routes should:
+     * 1. Process the inbound file until persisting to the staging DB
+     * 2. Create notes that can be posted to the symphony queue
+     * 3. Wait for pit nodes to be done
+     * 4. Aggregate pit node job status into final status
+     *
+     * @param workItemQueueUri
+     */
+    private void buildMaestroRoutes(String workItemQueueUri) {
+
+        // TODO - This code is not correct :)
+
         for (LocalFileSystemLandingZone lz : landingZoneManager.getLandingZones()) {
             configureRoutePerLandingZone(workItemQueueUri, lz);
         }
 
-        // I'm trying to route the xml file processor -> splitter
-        // This shouldn't got back to the work queue, it should be to an internal LZ per file
-        // We need some type of "stop" here.
+        // Maestro route is creating work items that can be distributed to pit nodes.
 
-        from(workItemQueueUri)
-                .routeId("workItemRoute")
-                .choice()
+        from(workItemQueueUri).routeId("workItemRoute").choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
-                .process( splitterProcessor ).to(workItemQueueUri);
+                .process(splitterProcessor).to(workItemQueueUri);
 
     }
 
