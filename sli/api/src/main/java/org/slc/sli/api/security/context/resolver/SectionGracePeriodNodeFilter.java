@@ -100,7 +100,7 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
         if (entities == null) return ids;
 
         for (Entity entity : entities) {
-            if (idKey.equals("_id")) {
+            if (idKey.equals(ID)) {
                 ids.add(entity.getEntityId());
             } else {
                 if (entity.getBody().containsKey(idKey)) {
