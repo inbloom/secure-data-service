@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.landingzone.LandingZoneManager;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.nodes.IngestionNodeType;
+import org.slc.sli.ingestion.nodes.NodeInfo;
 import org.slc.sli.ingestion.processor.MaestroOutboundProcessor;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
@@ -82,8 +84,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.tenant.loadDefaultTenants}")
     private boolean loadDefaultTenants;
 
-    @Value("${sli.ingestion.nodeType}")
-    private String ingestionNodeType;
+    @Autowired
+    private NodeInfo nodeInfo;
 
     @Value("${sli.ingestion.queue.maestroPit.queueURI")
     private String symphonyQueue;
@@ -97,9 +99,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         symphonyQueueUri = symphonyQueue + "?concurrentConsumers=" + concurrentConsumers;
 
-        if (IngestionNodeType.MAESTRO.equals(ingestionNodeType)) {
+        if (IngestionNodeType.MAESTRO.equals(nodeInfo.getNodeType())) {
             buildMaestroRoutes(workItemQueueUri);
-        } else if (IngestionNodeType.PIT.equals(ingestionNodeType)) {
+        } else if (IngestionNodeType.PIT.equals(nodeInfo.getNodeType())) {
             buildPitRoutes(workItemQueueUri);
             configureCommonRoute(workItemQueueUri);
         }
