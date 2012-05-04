@@ -275,7 +275,7 @@ public class PersistenceProcessor implements Processor {
             stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
                     neutralRecord.getRecordType() + "_transformed", job.getId(), neutralQuery);
         } else if (neutralRecord.getRecordType().equals("session")) {
-            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAll("session");
+            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob("session", job.getId(), neutralQuery);
             encounteredStgCollections.add("session");
         } else {
 
@@ -312,6 +312,7 @@ public class PersistenceProcessor implements Processor {
                 }
             }
         }
+        collections.add("session");
         return collections;
     }
 
