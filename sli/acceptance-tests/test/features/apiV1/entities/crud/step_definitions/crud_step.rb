@@ -14,7 +14,8 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #general
-  id = @newId                                   if human_readable_id == "NEWLY CREATED ENTITY URI"
+  id = @entityUri                               if human_readable_id == "ENTITY URI"
+  id = @newId                                   if human_readable_id == "NEWLY CREATED ENTITY ID"
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
 
   #return the translated value
@@ -239,6 +240,11 @@ $entityData = {
     }
   }
 }
+
+Given /^entity URI "([^"]*)"$/ do |arg1|
+  @entityUri = arg1
+end
+
 
 Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   @fields = $entityData[arg1]
