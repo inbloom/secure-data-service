@@ -1,6 +1,7 @@
 <% @title="Provision Landing Zone" %>
-<h1>Provision Landing-Zone</h1>
 <div class="provision">
+	<h1>Provision Landing-Zone</h1>
+	<p>This will create the directory where the data will be imported from.</p>
 	<%= form_tag( url_for(:controller => 'landing_zone', :action => 'provision')) %>
 		<% if not @edOrgs.empty? %>
 			<% @edOrgs.each do |org| %>
