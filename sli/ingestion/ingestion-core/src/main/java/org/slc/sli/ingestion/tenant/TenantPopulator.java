@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -29,6 +30,9 @@ public class TenantPopulator implements ResourceLoaderAware {
     private ResourceLoader resourceLoader;
 
     private String parentLandingZoneDir;
+    
+    @Autowired
+    private TenantMongoDA tenantDA;
 
     private List<String> tenantRecordResourcePaths;
 
@@ -41,7 +45,6 @@ public class TenantPopulator implements ResourceLoaderAware {
      */
     public void populateDefaultTenants() {
         try {
-            TenantDA tenantDA = new TenantMongoDA();
             String hostName = InetAddress.getLocalHost().getHostName();
             List<TenantRecord> tenants = constructTenantCollection(hostName);
             tenantDA.dropTenants();
@@ -160,5 +163,6 @@ public class TenantPopulator implements ResourceLoaderAware {
     public void setTenantRecordResourcePaths(List<String> tenantRecordResourcePaths) {
         this.tenantRecordResourcePaths = tenantRecordResourcePaths;
     }
+
 
 }
