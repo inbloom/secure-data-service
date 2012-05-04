@@ -34,8 +34,6 @@ import org.slc.sli.ingestion.tenant.TenantPopulator;
 @Component
 public class IngestionRouteBuilder extends SpringRouteBuilder {
 
-    private static final String WORK_ITEM_ROUTE = "workItemRoute";
-
     @Autowired
     ZipFileProcessor zipFileProcessor;
 
@@ -220,20 +218,20 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                     .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
                     .process(edFiProcessor)
-                    .to("direct:transform");
+                    .to("direct:postExtract");
 
     }
 
     /** I think this will need to go and use a seda queue for developer testing. */
     private void configureSingleNodeRoute(String workItemQueueUri) {
 
-        from("direct:transform")
+        from("direct:postExtract")
             .routeId("SINGLE_NODE_ROUTE")
             .choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                     .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Data transformation.")
                     .process(transformationProcessor)
-                    .to(workItemQueueUri)
+                    .to("direct:postExtract")
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
                     .to("direct:persist")
