@@ -11,6 +11,7 @@ Then I get the data containing <Data> returned in json format
 Examples:
 	|Username  |Password      |Realm|Role      |State|Data|
 	|"jbarrera"|"jbarrera1234"|"NY" |"Leader"  |"NY" |"Students in Parker Elementary"|
+	|"jbarrera"|"jbarrera1234"|"NY" |"Leader"  |"NY" |"Staff"|
 	|"ckoch"   |"ckoch1234"   |"IL" |"Leader"  |"IL" |"Teachers in South Daybreak Elementary"|
 	|"jpratt"  |"jpratt1234"  |"NY" |"IT Admin"|"NY" |"Malcolm Haehn NY"|
 	|"rrogers" |"rrogers1234" |"IL" |"IT Admin"|"IL" |"Linda Kim"|
