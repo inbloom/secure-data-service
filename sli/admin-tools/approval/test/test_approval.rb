@@ -40,14 +40,17 @@ puts "#{users}"
 ApprovalEngine.remove_user(jd_email)
 
 
-ApprovalEngine.init(ldap, mock_emailer, true)
-emailtoken = ApprovalEngine.add_disabled_user(user_info)
-puts "Added user."
-ApprovalEngine.verify_email(emailtoken)
-puts "Approved Email"
+# ApprovalEngine.init(ldap, mock_emailer, true)
+# emailtoken = ApprovalEngine.add_disabled_user(user_info)
+# puts "Added user."
+# ApprovalEngine.verify_email(emailtoken)
+# puts "Approved Email"
 
-users = ApprovalEngine.get_users
-users.each do |u| 
-	puts "#{u[:first]} #{u[:last]} : #{u[:status]}"
-end 
+# users = ApprovalEngine.get_users
+# users.each do |u| 
+# 	puts "#{u[:first]} #{u[:last]} (#{u[:email]}) : #{u[:status]}"
+# end 
+
+# ApprovalEngine.remove_user(jd_email)
+
 

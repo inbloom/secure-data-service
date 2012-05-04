@@ -35,6 +35,15 @@ module ApprovalEngine
 		STATE_DISABLED  => {ACTION_ENABLE  => STATE_APPROVED }
 	}
 
+	# Roles 
+	ROLE_SUPER_ADMIN = "Super_Admin"
+	ROLE_DEVELOPER   = "Developer"
+	ROLES = [
+		ROLE_SUPER_ADMIN,
+		ROLE_DEVELOPER
+	]
+	DEFAULT_ROLE = ROLE_SUPER_ADMIN
+
 	## backend storage 
 	@@storage      = nil 
 	@@emailer      = nil 
@@ -76,16 +85,21 @@ module ApprovalEngine
 			when [STATE_SUBMITTED, STATE_PENDING]
 				@@storage.update_status(user)
 			when [STATE_PENDING, STATE_APPROVED]
-				@@storage.enable_update_status(user)
+				@@storage.update_status(user)
+				@@storage.add_user_group(user, DEFAULT_ROLE)
 			    @@emailer.send_approval_email(user[:email], user[:first], user[:last])
 			when [STATE_PENDING, STATE_REJECTED]
 				@@storage.update_status(user)
+				@@storage.remove_user_group(user, DEFAULT_ROLE)
 			when [STATE_REJECTED, STATE_APPROVED]
-				@@storage.enable_update_status(user)
+				@@storage.update_status(user)
+				@@storage.add_user_group(user, DEFAULT_ROLE)
 			when [STATE_APPROVED, STATE_DISABLED]
-				@@storage.disable_update_status(user)
+				@@storage.update_status(user)
+				@@storage.remove_user_group(user, DEFAULT_ROLE)
 			when [STATE_DISABLED, STATE_APPROVED]
-				@@storage.enable_update_status(user)
+				@@storage.update_status(user)
+				@@storage.add_user_group(user, DEFAULT_ROLE)
 			else
 				raise "Unknow state transition #{status} => #{target[transition]}."
 			end
@@ -188,6 +202,10 @@ module ApprovalEngine
 	# 
 	# email_address: Previously added email_address identifying a user. 
 	def ApprovalEngine.remove_user(email_address)
+		user = @@storage.read_user(email_address)
+		ROLES.each do |role| 
+			@@storage.remove_user_group(user, role)
+		end
 		@@storage.delete_user(email_address)
 	end
 end
