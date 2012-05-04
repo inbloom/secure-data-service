@@ -1,4 +1,5 @@
 include ActiveSupport::Rescuable
+include GeneralRealmHelper
 
 class RealmsController < ApplicationController
 
@@ -8,14 +9,9 @@ class RealmsController < ApplicationController
   # GET /realms
   # GET /realms.json
   def index
-    #figure out the realm this user has access to
     userRealm = get_user_realm
-    realmToRedirectTo = nil
-    realms = Realm.all
-    logger.debug {"User Realm: #{userRealm}"}
-    realms.each do |realm|
-        realmToRedirectTo = realm if realm.id.eql? userRealm
-    end
+    realmToRedirectTo = GeneralRealmHelper.get_realm_to_redirect_to(userRealm)
+    logger.debug("Redirecting to #{realmToRedirectTo}")
     if realmToRedirectTo.nil?
       render_404
     else
@@ -74,6 +70,7 @@ class RealmsController < ApplicationController
      @realm.saml = {} if @realm.saml == nil
      @realm.mappings = {} if @realm.mappings == nil
      @realm.admin = false
+     @realm.edOrg = session[:edOrg]
      logger.debug{"Creating realm #{@realm}"}
 
      respond_to do |format|
@@ -84,7 +81,6 @@ class RealmsController < ApplicationController
          format.html { render action: "new" }
          format.json { render json: @realm.errors, status: :unprocessable_entity }
        end
-       puts("Responded")
      end
   end
 
@@ -112,11 +108,8 @@ private
     toReturn
   end
 
-  #TODO:  current we're just checking the realm the user authenticated to,
-  # but ultimately we need to get that somewhere else since the user will
-  # always be authenticated to the SLI realm
   def get_user_realm
-    return session[:adminRealm]
+    return session[:edOrg]
   end
 
 end

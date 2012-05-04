@@ -13,7 +13,6 @@
 
 <% @realms.each do |realm| %>
   <tr>
-    <!--<td><%= link_to 'Show', realm_editor_path(realm) %></td>-->
     <td><%= link_to realm.name, edit_realm_editor_path(realm) %></td>
     <td><%= link_to 'Destroy', realm, confirm: 'Are you sure?', method: :delete %></td>
   </tr>

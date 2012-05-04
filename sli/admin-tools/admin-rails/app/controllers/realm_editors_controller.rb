@@ -2,11 +2,16 @@ class RealmEditorsController < ApplicationController
   # GET /realm_editors
   # GET /realm_editors.json
   def index
-    @realms = Realm.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @realms }
+    userRealm = session[:edOrg]
+    Check.get("")
+    realmToRedirectTo = GeneralRealmHelper.get_realm_to_redirect_to(userRealm)
+    logger.debug("Redirecting to #{realmToRedirectTo}")
+    if realmToRedirectTo.nil? and session[:roles].member?("Realm Administrator")
+      redirect_to new_realm_editor_path
+    elsif realmToRedirectTo.nil?
+      render_404
+    else
+      redirect_to edit_realm_editor_path(realmToRedirectTo)
     end
   end
 
