@@ -122,7 +122,7 @@ public class RoleInitializer {
     
     private Role buildRealmAdmin() {
         LOG.info("Building Realm Administrator default role.");
-        return RoleBuilder.makeRole(REALM_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.REALM_EDIT}).build();
+        return RoleBuilder.makeRole(REALM_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.WRITE_GENERAL_REALM, Right.WRITE_ROLE_MAPPING}).build();
     }
     
     private Role buildAggregate() {
