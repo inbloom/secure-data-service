@@ -1,7 +1,10 @@
 class LandingZone
   
   def self.possible_edorgs
-    ["High-Level Ed-Org from Sample Dataset 1", "High-Level Ed-Org from Sample Dataset 2"]
+    edOrgs = []
+    edOrgs << EducationOrganization.new(:stateUniqueId => 'sample-dataset-1-ed-org', :nameOfInstitution => "High-Level Ed-Org from Sample Dataset 1")
+    edOrgs << EducationOrganization.new(:stateUniqueId => 'sample-dataset-2-ed-org', :nameOfInstitution => "High-Level Ed-Org from Sample Dataset 2")
+    return edOrgs
   end
   
   def self.provision(edorg_id)

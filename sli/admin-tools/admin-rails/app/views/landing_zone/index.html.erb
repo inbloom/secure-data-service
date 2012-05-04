@@ -5,8 +5,8 @@
 		<% if not @edOrgs.empty? %>
 			<% @edOrgs.each do |org| %>
 				<div class="block">
-					<%= radio_button_tag 'ed_org', org %>
-					<label for="ed_org_<%= org.gsub(/\s/, '_') %>"><%= org %></label>
+					<%= radio_button_tag 'ed_org', org.stateUniqueId %>
+					<label for="ed_org_<%= org.stateUniqueId %>"><%= org.nameOfInstitution %></label>
 				</div>
 			<% end %>
 			<div class="block">
