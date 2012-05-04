@@ -1,6 +1,5 @@
 package org.slc.sli.ingestion.model;
 
-
 import java.util.Date;
 
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -27,6 +26,9 @@ public class Metrics {
 
     private long errorCount;
 
+    /** The elapsed time, in miliseconds. */
+    private long elapsedTime;
+
     // mongoTemplate requires this constructor.
     public Metrics() {
     }
@@ -45,6 +47,7 @@ public class Metrics {
         this.stopTimestamp = stopTimestamp;
         this.recordCount = recordCount;
         this.errorCount = errorCount;
+
     }
 
     public static Metrics createAndStart(String resourceId) {
@@ -111,8 +114,8 @@ public class Metrics {
         this.errorCount = errorCount;
     }
 
-    public void update(String resourceId, String sourceIp, String hostname, Date startTimestamp,
-            Date stopTimestamp, long recordCount, long errorCount) {
+    public void update(String resourceId, String sourceIp, String hostname, Date startTimestamp, Date stopTimestamp,
+            long recordCount, long errorCount) {
         if (resourceId != null) {
             this.resourceId = resourceId;
         }
@@ -130,6 +133,7 @@ public class Metrics {
         }
         this.recordCount = recordCount;
         this.errorCount = errorCount;
+
     }
 
     public void startMetric() {
@@ -138,5 +142,17 @@ public class Metrics {
 
     public void stopMetric() {
         this.setStopTimestamp(BatchJobUtils.getCurrentTimeStamp());
+        calcElapsedTime();
     }
+
+    public long getElapsedTime() {
+        return elapsedTime;
+    }
+
+    private void calcElapsedTime() {
+        if (stopTimestamp != null && startTimestamp != null) {
+            elapsedTime = stopTimestamp.getTime() - startTimestamp.getTime();
+        }
+    }
+
 }

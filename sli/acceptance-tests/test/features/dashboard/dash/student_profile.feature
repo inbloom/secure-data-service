@@ -42,10 +42,11 @@ And Tab has a title named "ELL"
 #Check the District tab
 And Tab has a title named "Daybreak District"
 #Check Enrollment
-And Student Enrollment History includes " ;East Daybreak Junior High;8;2012-01-01; ; ; ; ;"
-And Student Enrollment History includes " ; ;8;2012-01-01; ; ;2012-01-02; ;"
-And Student Enrollment History includes " ; ;8;2012-01-01; ; ;2012-01-02; ;"
-
+And Student Enrollment History has the following entries:
+|Year   |School                     |Gr|Entry Date |Entry Type     |Transfer |Withdraw Date|Withdraw Type    |
+|<empty>|East Daybreak Junior High  |8 |2012-01-01 |<empty>        |<empty>  |<empty>      |<empty>          |
+|<empty>|<empty>                    |8 |2012-01-01 |<empty>        |<empty>  |2012-01-02   |<empty>          |
+|<empty>|<empty>                    |8 |2012-01-01 |<empty>        |<empty>  |2012-01-02   |<empty>          |
 
 Scenario: Student with no grade level
 Given the server is in "live" mode
@@ -72,12 +73,8 @@ And Tab has a title named "High School Overview"
 #Check the District tab
 And Tab has a title named "Daybreak District"
 #Check Enrollment
-And Student Enrollment History includes " ;East Daybreak Junior High;8;2012-01-01; ; ;2012-01-02; ;"
-And Student Enrollment History includes " ; ;8;2012-01-01; ; ;2012-01-02; ;"
-	
-@wip
-Scenario: View a student with other name
-Given I am authenticated to SLI as "lkim" password "lkim"
-When I click on the Dashboard page
-
+And Student Enrollment History has the following entries:
+|Year   |School                     |Gr|Entry Date |Entry Type     |Transfer |Withdraw Date|Withdraw Type    |
+|<empty>|East Daybreak Junior High  |8 |2012-01-01 |<empty>        |<empty>  |2012-01-02   |<empty>          |
+|<empty>|<empty>                    |8 |2012-01-01 |<empty>        |<empty>  |2012-01-02   |<empty>          |
 	

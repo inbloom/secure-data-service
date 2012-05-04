@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.util.Assert;
 
-import org.slc.sli.common.util.threadutil.ThreadLocalStorage;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -36,9 +35,7 @@ import org.slc.sli.domain.Repository;
 public abstract class MongoRepository<T> implements Repository<T> {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
 
-    private ThreadLocalStorage threadStore = new ThreadLocalStorage("" + UUID.randomUUID().toString());
-
-    protected MongoTemplate template;
+    private MongoTemplate template;
 
     private IdConverter idConverter;
 
@@ -71,20 +68,18 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public abstract T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
 
     public T create(T record, String collectionName) {
-//        template.ensureIndex(new Index("metaData.externalId", Order.ASCENDING), collectionName);  // NO!!!
-        template.save(record, getComposedCollectionName(collectionName));
-        LOG.debug(" create a record in collection {} with id {}", new Object[] {
-                getComposedCollectionName(collectionName), getRecordId(record) });
+        template.save(record, collectionName);
+        LOG.debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
+
         return record;
     }
 
     @Override
     public T findById(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
-        LOG.debug("find a record in collection {} with id {}", new Object[] {
-                getComposedCollectionName(collectionName), id });
+        LOG.debug("find a record in collection {} with id {}", new Object[] { collectionName, id });
         try {
-            return template.findById(databaseId, getRecordClass(), getComposedCollectionName(collectionName));
+            return template.findById(databaseId, getRecordClass(), collectionName);
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
             return null;
@@ -94,10 +89,9 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     public boolean exists(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
-        LOG.debug("find a record in collection {} with id {}", new Object[] {
-                getComposedCollectionName(collectionName), id });
+        LOG.debug("find a record in collection {} with id {}", new Object[] { collectionName, id });
         try {
-            return template.getCollection(getComposedCollectionName(collectionName)).getCount(new BasicDBObject("_id", databaseId)) != 0L;
+            return template.getCollection(collectionName).getCount(new BasicDBObject("_id", databaseId)) != 0L;
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
             return false;
@@ -108,10 +102,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public T findOne(String collectionName, NeutralQuery neutralQuery) {
 
         // convert the neutral query into a mongo query
-        Query mongoQuery = this.queryConverter.convert(getComposedCollectionName(collectionName), neutralQuery);
+        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         // find and return an entity
-        return template.findOne(mongoQuery, getRecordClass(), getComposedCollectionName(collectionName));
+        return template.findOne(mongoQuery, getRecordClass(), collectionName);
     }
 
     @Override
@@ -123,10 +117,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public Iterable<T> findAll(String collectionName, NeutralQuery neutralQuery) {
 
         // convert the neutral query into a mongo query
-        Query mongoQuery = this.queryConverter.convert(getComposedCollectionName(collectionName), neutralQuery);
+        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         // find and return an instance
-        return template.find(mongoQuery, getRecordClass(), getComposedCollectionName(collectionName));
+        return template.find(mongoQuery, getRecordClass(), collectionName);
     }
 
     @Override
@@ -145,51 +139,54 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public Iterable<T> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
-        Query mongoQuery = this.queryConverter.convert(getComposedCollectionName(collectionName), neutralQuery);
+        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
 
         for (Map.Entry<String, String> field : paths.entrySet()) {
             mongoQuery.addCriteria(Criteria.where(field.getKey()).is(field.getValue()));
         }
 
         // find and return an entity
-        return template.find(mongoQuery, getRecordClass(), getComposedCollectionName(collectionName));
+        return template.find(mongoQuery, getRecordClass(), collectionName);
     }
 
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
-        DBCollection collection = template.getCollection(getComposedCollectionName(collectionName));
+        DBCollection collection = template.getCollection(collectionName);
         if (collection == null) {
             return 0;
         }
-        return collection.count(this.queryConverter.convert(getComposedCollectionName(collectionName), neutralQuery)
-                .getQueryObject());
+        return collection.count(this.queryConverter.convert(collectionName, neutralQuery).getQueryObject());
     }
 
     @Override
     public DBCollection getCollection(String collectionName) {
-        return template.getCollection(getComposedCollectionName(collectionName));
+        return template.getCollection(collectionName);
     }
 
     @Override
     public abstract boolean update(String collection, T record);
 
+    /**
+     * Updates the document inside of Mongo. MongoTemplate will upsert the given document, however
+     * since we are specifying IDs in the DAL instead of letting
+     * Mongo create the document IDs, this method will check for the existence of a document ID
+     * before saving the document.
+     *
+     * @param collection
+     * @param record
+     * @param body
+     * @return True if the document was saved
+     */
     public boolean update(String collection, T record, Map<String, Object> body) {
         Assert.notNull(record, "The given record must not be null!");
         String id = getRecordId(record);
-        if (id.equals("")) {
+        if (StringUtils.isEmpty(id)) {
             return false;
         }
 
-        if (exists(collection, id)) {
-            template.save(record, collection);
+        template.save(record, collection);
 
-            return true;
-        }
-//        WriteResult result = template.updateFirst(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
-//                new Update().set("body", body), collection);
-//        LOG.debug("update a record in collection {} with id {}", new Object[] { collection, id });
-//        return result.getN() == 1;
-        return false;
+        return true;
     }
 
     @Override
@@ -203,9 +200,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
             return false;
         }
         T deleted = template.findAndRemove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
-                getRecordClass(), getComposedCollectionName(collectionName));
-        LOG.debug("delete a entity in collection {} with id {}", new Object[] {
-                getComposedCollectionName(collectionName), id });
+                getRecordClass(), collectionName);
+        LOG.debug("delete a entity in collection {} with id {}", new Object[] { collectionName, id });
         return deleted != null;
     }
 
@@ -214,7 +210,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         for (T t : this.findAll(collectionName)) {
             this.delete(collectionName, getRecordId(t));
         }
-        LOG.debug("delete all objects in collection {}", getComposedCollectionName(collectionName));
+        LOG.debug("delete all objects in collection {}", collectionName);
     }
 
     protected void logResults(String collectioName, List<T> results) {
@@ -224,41 +220,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
             LOG.debug("find objects in collection {} with total numbers is {}",
                     new Object[] { collectioName, results.size() });
         }
-    }
-
-    /**
-     * returns collection name with a append of collectionGroupingIdentifier (if
-     * collectionGroupingFlag is set to true)
-     *
-     * @param collectionName
-     * @return
-     */
-    protected String getComposedCollectionName(String collectionName) {
-        if (isCollectionGrouping()) {
-            return collectionName + "_" + getCollectionGroupingIdentifier();
-        }
-
-        return collectionName;
-    }
-
-    public boolean isCollectionGrouping() {
-        if (threadStore.get("collectionGroupingFlag") != null) {
-            return (Boolean) threadStore.get("collectionGroupingFlag");
-        }
-
-        return false;
-    }
-
-    public void setCollectionGrouping(boolean collectionGrouping) {
-        threadStore.put("collectionGroupingFlag", collectionGrouping);
-    }
-
-    public String getCollectionGroupingIdentifier() {
-        return (String) threadStore.get("collectionGroupingIdentifier");
-    }
-
-    public void setCollectionGroupingIdentifier(String collectionGroupingIdentifier) {
-        threadStore.put("collectionGroupingIdentifier", collectionGroupingIdentifier);
     }
 
     protected abstract String getRecordId(T record);
@@ -275,8 +236,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Deprecated
     protected Iterable<T> findByQuery(String collectionName, Query query) {
-        List<T> results = template.find(query, getRecordClass(), getComposedCollectionName(collectionName));
-        logResults(getComposedCollectionName(collectionName), results);
+        List<T> results = template.find(query, getRecordClass(), collectionName);
+        logResults(collectionName, results);
         return results;
     }
 
@@ -303,27 +264,37 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
+    /**The existing collections have been cached
+     * to avoid unnecessary DB queries.
+     *
+     */
     public boolean collectionExists(String collection) {
-        return template.collectionExists(getComposedCollectionName(collection));
+
+        return template.collectionExists(collection);
     }
 
     @Override
+    /**
+     * This function assumes the collection does not exists
+     *
+     * @author tke
+     */
     public void createCollection(String collection) {
-        template.createCollection(getComposedCollectionName(collection));
+        template.createCollection(collection);
     }
 
     @Override
     public void ensureIndex(IndexDefinition index, String collection) {
-        String collectionName = getComposedCollectionName(collection);
 
-        //Mongo indexes names(including collection name and namespace) are limited to 128 characters.
-        String nsName = (String) index.getIndexOptions().get("name") + collectionName + "." + template.getDb().getName();
-        //Verify the length of the name is ready
+        // Mongo indexes names(including collection name and namespace) are limited to 128
+        // characters.
+        String nsName = (String) index.getIndexOptions().get("name") + collection + "." + template.getDb().getName();
+        // Verify the length of the name is ready
         if (nsName.length() >= 128) {
             LOG.error("ns and name exceeds 128 characters, failed to create index");
             return;
         }
-        template.ensureIndex(index, collectionName);
+        template.ensureIndex(index, collection);
 
     }
 }

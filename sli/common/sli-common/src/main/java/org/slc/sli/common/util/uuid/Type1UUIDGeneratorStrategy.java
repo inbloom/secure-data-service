@@ -2,13 +2,11 @@ package org.slc.sli.common.util.uuid;
 
 import java.util.UUID;
 
-import javax.annotation.PostConstruct;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.uuid.EthernetAddress;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedGenerator;
-
-import org.springframework.stereotype.Component;
 
 /**
  * Generates Type 1 (time-based) UUIDs.
@@ -19,18 +17,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class Type1UUIDGeneratorStrategy implements UUIDGeneratorStrategy {
 
-    private TimeBasedGenerator generator;
+    private TimeBasedGenerator generator = Generators.timeBasedGenerator(EthernetAddress.fromInterface());
 
-    @PostConstruct
-    public void init() {
-
-        EthernetAddress nic = EthernetAddress.fromInterface();
-        generator = Generators.timeBasedGenerator(nic);
-    }
-
+    /**
+     * Generate a type 1 random UUID.
+     */
     @Override
     public UUID randomUUID() {
-
         return generator.generate();
     }
 

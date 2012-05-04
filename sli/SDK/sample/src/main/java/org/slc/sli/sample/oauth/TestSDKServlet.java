@@ -179,7 +179,7 @@ public class TestSDKServlet extends HttpServlet {
                             .build());
             if (collection != null && collection.size() > 0) {
                 String firstName = ((Map<String, String>) (collection.get(0).getData().get("name"))).get("firstName");
-                if (firstName.equals("Stephen")) {
+                if (firstName.equals("Mark")) {
                     testResult = "succeed";
                 } else {
                     testResult = "failed";

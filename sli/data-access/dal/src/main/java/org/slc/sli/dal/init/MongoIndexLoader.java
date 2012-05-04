@@ -2,7 +2,6 @@ package org.slc.sli.dal.init;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component
-public class MongoIndexLoader implements InitializingBean {
+public class MongoIndexLoader {
     private static final Logger LOG = LoggerFactory.getLogger(MongoIndexLoader.class);
     private static final Order ASCENDING = Order.ASCENDING;
     private static final String ATTENDANCE_EVENT_COLLECTION = "attendance";
@@ -27,7 +26,6 @@ public class MongoIndexLoader implements InitializingBean {
     @Autowired(required = false)
     private MongoTemplate mongoTemplate;
     
-    @Override
     public void afterPropertiesSet() throws Exception {
         if (this.mongoTemplate != null) {
             

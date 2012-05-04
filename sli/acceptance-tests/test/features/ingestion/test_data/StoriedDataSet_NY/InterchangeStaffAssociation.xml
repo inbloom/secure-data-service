@@ -788,7 +788,7 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-<!--	<StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>kmelendez</StaffUniqueStateId>
@@ -803,7 +803,7 @@
 		<PositionTitle>Principal</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-</StaffEducationOrgAssignmentAssociation>-->
+</StaffEducationOrgAssignmentAssociation>
 	<!--Al Gibbs IT Support (IT Administrator) Dawn Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>agibbs</StaffUniqueStateId>
@@ -851,7 +851,7 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-<!--	<StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>agibbs</StaffUniqueStateId>
@@ -866,7 +866,7 @@
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation> -->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Chandra Harrison Researcher (Aggregate Viewer) Dawn Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>charrison</StaffUniqueStateId>
@@ -914,7 +914,7 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-<!--	<StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>charrison</StaffUniqueStateId>
@@ -929,7 +929,7 @@
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation> -->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Jane Barrera state superintendent (Leader) New York State Education System-->
 	<Staff>
 		<StaffUniqueStateId>jbarrera</StaffUniqueStateId>
@@ -1545,7 +1545,7 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-<!--	<StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>mgonsalves</StaffUniqueStateId>
@@ -1560,7 +1560,7 @@
 		<PositionTitle>Principal</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation> -->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Luis Neff IT Support (IT Administrator) Dusk High School-->
 	<Staff>
 		<StaffUniqueStateId>lneff</StaffUniqueStateId>
@@ -1608,7 +1608,7 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-<!--	<StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>lneff</StaffUniqueStateId>
@@ -1623,7 +1623,7 @@
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation> -->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Carolyn Earl Researcher (Aggregate Viewer) Dusk High School-->
 	<Staff>
 		<StaffUniqueStateId>cearl</StaffUniqueStateId>
@@ -1671,7 +1671,7 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-	<!--<StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>cearl</StaffUniqueStateId>
@@ -1686,7 +1686,7 @@
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation>-->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Robyn Maye principal (Leader) Parker High School-->
 	<Staff>
 		<StaffUniqueStateId>rmaye</StaffUniqueStateId>
@@ -1735,7 +1735,7 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-<!--	<StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>rmaye</StaffUniqueStateId>
@@ -1750,7 +1750,7 @@
 		<PositionTitle>Principal</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation> -->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Lorraine Bonnett IT Support (IT Administrator) Parker High School-->
 	<Staff>
 		<StaffUniqueStateId>lbonnett</StaffUniqueStateId>
@@ -1798,7 +1798,7 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-<!--	<StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>lbonnett</StaffUniqueStateId>
@@ -1813,7 +1813,7 @@
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation> -->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Bruce Callison Researcher (Aggregate Viewer) Parker High School-->
 	<Staff>
 		<StaffUniqueStateId>bcallison</StaffUniqueStateId>
@@ -1861,7 +1861,7 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-<!--	<StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>bcallison</StaffUniqueStateId>
@@ -1876,7 +1876,7 @@
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation> -->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Shawn Brooke principal (Leader) Parker Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>sbrooke</StaffUniqueStateId>
@@ -1925,7 +1925,7 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-<!--	<StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>sbrooke</StaffUniqueStateId>
@@ -1940,7 +1940,7 @@
 		<PositionTitle>Principal</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation> -->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Jennie Brewer IT Support (IT Administrator) Parker Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>jbrewer</StaffUniqueStateId>
@@ -1988,7 +1988,7 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-<!--	<StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>jbrewer</StaffUniqueStateId>
@@ -2003,7 +2003,7 @@
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation> -->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Daniel Schoonmaker Researcher (Aggregate Viewer) Parker Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>dschoonmaker</StaffUniqueStateId>
@@ -2051,7 +2051,7 @@
 		</Credentials>
 		<LoginId>a</LoginId>
 	</Staff>
-<!--	<StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>dschoonmaker</StaffUniqueStateId>
@@ -2066,5 +2066,5 @@
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation> -->	
+	</StaffEducationOrgAssignmentAssociation> 
 </InterchangeStaffAssociation>

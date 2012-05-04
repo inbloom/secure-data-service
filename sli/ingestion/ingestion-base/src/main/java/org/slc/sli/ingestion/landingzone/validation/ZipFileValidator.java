@@ -32,16 +32,41 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
 
         Enumeration<?> entries = zf.entries();
 
+        boolean isValid = false;
         while (entries.hasMoreElements()) {
 
             ZipEntry ze = (ZipEntry) entries.nextElement();
 
-            if (ze.getName().endsWith(".ctl"))
-                return true;
+            if (isDirectory(ze)) {
+                fail(callback, getFailureMessage("SL_ERR_MSG15", zipFile.getName()));
+                return false;
+            }
+
+            if (ze.getName().endsWith(".ctl")) {
+                isValid = true;
+            }
         }
 
         // no manifest (.ctl file) found in the zip file
-        fail(callback, getFailureMessage("SL_ERR_MSG5", zipFile.getName()));
+        if (!isValid) {
+            fail(callback, getFailureMessage("SL_ERR_MSG5", zipFile.getName()));
+        }
+        return isValid;
+    }
+
+    private static boolean isDirectory(ZipEntry zipEntry) {
+
+        if (zipEntry.isDirectory()) {
+            return true;
+        }
+
+
+        //UN: This check is to ensure that any zipping utility which does not pack a directory entry
+        //    is verified by checking for a filename with '/'. Example: Windows Zipping Tool.
+        if (zipEntry.getName().contains("/")) {
+            return true;
+        }
+
         return false;
     }
 }

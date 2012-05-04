@@ -1,133 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:util="http://www.springframework.org/schema/util"
-    xsi:schemaLocation="
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <util:map id="smooksConfigs" key-type="java.lang.String" value-type="org.milyn.Smooks">
-        <entry key="assessment">
+  <util:map id="smooksConfigs" key-type="java.lang.String" value-type="org.milyn.Smooks">
+    <entry key="assessment">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/assessment.xml" />
+      </bean>
+    </entry>
+    <entry key="studentTranscriptAssociation">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentTranscriptAssociation.xml" />
+      </bean>
+    </entry>
+    <entry key="program">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/program.xml" />
+      </bean>
+    </entry>
+    <entry key="studentProgramAssociation">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentProgramAssociation.xml" />
+      </bean>
+    </entry>
+    <entry key="staffProgramAssociation">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffProgramAssociation.xml" />
+      </bean>
+    </entry>
+    <entry key="attendance">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/attendance.xml" />
+      </bean>
+    </entry>
+    <entry key="cohort">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/cohort.xml" />
+      </bean>
+    </entry>
+    <entry key="studentCohortAssociation">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentCohortAssociation.xml" />
+      </bean>
+    </entry>
+    <entry key="staffCohortAssociation">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffCohortAssociation.xml" />
+      </bean>
+    </entry>
+    <entry key="disciplineIncident">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/disciplineIncident.xml" />
+      </bean>
+    </entry>
+    <entry key="disciplineAction">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/disciplineAction.xml" />
+      </bean>
+    </entry>
+        <entry key="session">
             <bean class="org.milyn.Smooks">
-                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/assessment.xml" />
+                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/session.xml" />
             </bean>
-        </entry>
-        <entry key="studentTranscriptAssociation">
-            <bean class="org.milyn.Smooks">
-                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentTranscriptAssociation.xml" />
-            </bean>
-        </entry>
-		<entry key="program">
-            <bean class="org.milyn.Smooks">
-                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/program.xml" />
-            </bean>
-        </entry>
-		<entry key="studentProgramAssociation">
-            <bean class="org.milyn.Smooks">
-                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentProgramAssociation.xml" />
-            </bean>
-        </entry>
-        <entry key="staffProgramAssociation">
-            <bean class="org.milyn.Smooks">
-                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffProgramAssociation.xml" />
-            </bean>
-        </entry>
-	<entry key="cohort">
-            <bean class="org.milyn.Smooks">
-                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/cohort.xml" />
-            </bean>
-        </entry>
-	<entry key="studentCohortAssociation">
-            <bean class="org.milyn.Smooks">
-                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentCohortAssociation.xml" />
-            </bean>
-        </entry>
-        <entry key="staffCohortAssociation">
-            <bean class="org.milyn.Smooks">
-                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffCohortAssociation.xml" />
-            </bean>
-        </entry>
-        <entry key="disciplineIncident">
-            <bean class="org.milyn.Smooks">
-                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/disciplineIncident.xml" />
-            </bean>
-        </entry>
-        <entry key="disciplineAction">
-            <bean class="org.milyn.Smooks">
-                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/disciplineAction.xml" />
-            </bean>
-        </entry>
-    </util:map>
+    </entry>
+    <entry key="studentDisciplineIncidentAssociation">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentDisciplineIncidentAssociation.xml" />
+      </bean>
+    </entry>
+  </util:map>
 
-    <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
-        <property name="entityConfigurations" ref="entityConfigurationsFactory" />
-        <property name="idNormalizer" ref="idNormalizer" />
-        <property name="entityRepository" ref="mongoEntityRepository" />
-    </bean>
+  <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
+    <property name="entityConfigurations" ref="entityConfigurationsFactory" />
+    <property name="idNormalizer" ref="idNormalizer" />
+    <property name="entityRepository" ref="mongoEntityRepository" />
+  </bean>
 
-    <bean id="smooksEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer" parent="abstractEdFi2SLITransformer">
-        <property name="smooksConfigs" ref="smooksConfigs" />
-    </bean>
+  <bean id="smooksEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer"
+    parent="abstractEdFi2SLITransformer">
+    <property name="smooksConfigs" ref="smooksConfigs" />
+  </bean>
 
-    <bean id="stagingRepository" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
-    </bean>
+  <bean id="stagingRepository" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
+  </bean>
 
-    <bean id="studentTranscriptAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.StudentTranscriptAssociationCombiner" scope="prototype">
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-    </bean>
+  <bean id="studentTranscriptAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.StudentTranscriptAssociationCombiner"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+  </bean>
 
-    <!-- attendance transform disabled <bean id="attendanceTransformationStrategy" class="org.slc.sli.ingestion.transformation.AttendanceTransformer" scope="prototype"> <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" /> </bean> -->
+  <bean id="transformationFactory" class="org.slc.sli.ingestion.transformation.TransformationFactory">
+    <property name="transformationStrategySuffix" value="TransformationStrategy" />
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+  </bean>
 
-    <bean id="transformationFactory" class="org.slc.sli.ingestion.transformation.TransformationFactory">
-        <property name="transformationStrategySuffix" value="TransformationStrategy" />
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-    </bean>
+  <bean id="entityConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory">
+    <property name="searchPath" value="classpath:smooksEdFi2SLI/" />
+  </bean>
 
-    <bean id="entityConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory">
-        <property name="searchPath" value="classpath:smooksEdFi2SLI/" />
-    </bean>
+  <bean id="programTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="program" />
+  </bean>
 
-	<bean id="programTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-        <property name="passThroughCollectionName" value="program" />
-    </bean>
-    
-    <bean id="staffProgramAssociationTransformationStrategy" 
-            class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-        <property name="passThroughCollectionName" value="staffProgramAssociation" />
-    </bean>
+  <bean id="staffProgramAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="staffProgramAssociation" />
+  </bean>
 
-	<bean id="studentProgramAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-		<property name="passThroughCollectionName" value="studentProgramAssociation" />
-    </bean>
- 	
-	<bean id="cohortTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-        <property name="passThroughCollectionName" value="cohort" />
-    </bean>
-    
-    <bean id="staffCohortAssociationTransformationStrategy" 
-            class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-        <property name="passThroughCollectionName" value="staffCohortAssociation" />
-    </bean>
+  <bean id="studentProgramAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="studentProgramAssociation" />
+  </bean>
 
-    <bean id="studentCohortAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-	<property name="passThroughCollectionName" value="studentCohortAssociation" />
-    </bean>
-    
-	<bean id="disciplineIncidentTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-		<property name="passThroughCollectionName" value="disciplineIncident" />
-    </bean>
-    
-    <bean id="disciplineActionTransformationStrategy" 
-            class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy" scope="prototype">
-        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-        <property name="passThroughCollectionName" value="disciplineAction" />
-    </bean>
+  <bean id="cohortTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="cohort" />
+  </bean>
+
+  <bean id="staffCohortAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="staffCohortAssociation" />
+  </bean>
+
+  <bean id="studentCohortAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="studentCohortAssociation" />
+  </bean>
+
+  <bean id="disciplineIncidentTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="disciplineIncident" />
+  </bean>
+
+  <bean id="disciplineActionTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="disciplineAction" />
+  </bean>
+
+  <bean id="studentDisciplineIncidentAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.StudentDisciplineIncidentAssociationTransformer"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+  </bean>
 </beans>
 

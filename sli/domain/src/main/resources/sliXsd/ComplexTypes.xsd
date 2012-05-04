@@ -280,9 +280,9 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<!--This is how we associate the assessment item and the objective assessment 
-				locally within the assessment. <xs:element name="id" type="xs:ID"> <xs:annotation> 
-				<xs:documentation>Uniquely identifies this assessment item within the assessment.</xs:documentation> 
+			<!--This is how we associate the assessment item and the objective assessment
+				locally within the assessment. <xs:element name="id" type="xs:ID"> <xs:annotation>
+				<xs:documentation>Uniquely identifies this assessment item within the assessment.</xs:documentation>
 				</xs:annotation> </xs:element> -->
 			<xs:element name="identificationCode" type="identificationCode">
 				<xs:annotation>
@@ -1494,7 +1494,7 @@
 		<xs:complexContent>
 			<xs:extension base="educationOrganization">
 				<xs:sequence>
-					<xs:element maxOccurs="unbounded" name="gradesOffered" 
+					<xs:element maxOccurs="unbounded" name="gradesOffered"
 								type="gradeLevelType">
 						<xs:annotation>
 							<xs:documentation>The grade levels served at the school.
@@ -3567,22 +3567,6 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="dailyAttendance" type="dailyAttendanceType"
-				minOccurs="0" maxOccurs="1">
-				<xs:annotation>
-					<xs:documentation>
-						Daily attendance for the student at the school.
-						Attendance is
-						partitioned by school year.
-						School years must be
-						unique per school year attendance.
-					</xs:documentation>
-				</xs:annotation>
-				<xs:unique name="uniqueSchoolYears">
-					<xs:selector xpath="schoolYearAttendance" />
-					<xs:field xpath="@schoolYear" />
-				</xs:unique>
-			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -4542,12 +4526,12 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<!-- <xs:complexType name="raceType"> <xs:annotation> <xs:documentation>The 
-		general racial category which most clearly reflects the individual's recognition 
-		of his or her community or with which the individual most identifies. </xs:documentation> 
-		</xs:annotation> <xs:sequence> <xs:element name="racialCategory" type="raceItemType" 
-		minOccurs="0" maxOccurs="unbounded"> <xs:annotation> <xs:documentation>Zero 
-		or more racial categories associated with the student or staff. </xs:documentation> 
+	<!-- <xs:complexType name="raceType"> <xs:annotation> <xs:documentation>The
+		general racial category which most clearly reflects the individual's recognition
+		of his or her community or with which the individual most identifies. </xs:documentation>
+		</xs:annotation> <xs:sequence> <xs:element name="racialCategory" type="raceItemType"
+		minOccurs="0" maxOccurs="unbounded"> <xs:annotation> <xs:documentation>Zero
+		or more racial categories associated with the student or staff. </xs:documentation>
 		</xs:annotation> </xs:element> </xs:sequence> </xs:complexType> -->
 
 	<xs:complexType name="accountabilityRating">
@@ -6115,62 +6099,10 @@
 	<xs:complexType name="attendance">
 		<xs:annotation>
 			<xs:documentation>
-				This event entity represents the recording of
-				whether a student is in
-				daily attendance. This should be used to
-				model irregularities.
+				Daily attendance for the student at the school. Attendance is partitioned by school year. School years must be unique per school year attendance.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="eventDate" type="xs:date">
-				<xs:annotation>
-					<xs:documentation>Date for this attendance event.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="attendanceEventType" type="attendanceEventType">
-				<xs:annotation>
-					<xs:documentation>
-						A code describing the type of the attendance
-						event (e.g., daily
-						attendance, section attendance, etc.).
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="attendanceEventCategory" type="attendanceEventCategoryType">
-				<xs:annotation>
-					<xs:documentation>
-						A code describing the attendance event, such
-						as
-						"Unexcused absence," "Excused absence,"
-						or "Tardy."
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="attendanceEventReason"
-				type="attendanceEventReason">
-				<xs:annotation>
-					<xs:documentation>
-						The reported reason for a student's absence.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="educationalEnvironment"
-				type="educationalEnvironmentType">
-				<xs:annotation>
-					<xs:documentation>
-						The setting in which a child receives
-						education
-						and relate services.
-						This attribute is only used if it
-						differs from
-						the Educational Environment
-						of the section. This is only used in
-						the AttendanceEvent if different from
-						the associated Section.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="studentId" type="reference">
 				<xs:annotation>
 					<xs:documentation>
@@ -6181,6 +6113,17 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="schoolId" type="reference">
+              <xs:annotation>
+                <xs:documentation>
+                  The school associated with this attendance.
+                </xs:documentation>
+                <xs:appinfo>
+                  <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="schoolYearAttendance" type="schoolYearAttendanceType" minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -6199,8 +6142,7 @@
 		<xs:sequence>
 			<xs:element name="date" type="xs:date" />
 			<xs:element name="event" type="attendanceEventCategoryType" />
-			<xs:element name="reason" type="attendanceEventReason"
-				minOccurs="0" />
+			<xs:element name="reason" type="attendanceEventReason" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -6795,28 +6737,15 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="dailyAttendanceType">
-		<xs:annotation>
-			<xs:documentation>Daily attendance by school year.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="schoolYearAttendance" type="schoolYearAttendanceType"
-				minOccurs="0" maxOccurs="unbounded" />
-		</xs:sequence>
-	</xs:complexType>
-
 	<xs:complexType name="schoolYearAttendanceType">
 		<xs:annotation>
 			<xs:documentation>Attendance for a school year.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="attendanceEvent" minOccurs="0"
-				maxOccurs="unbounded" type="attendanceEvent" />
+            <xs:element name="schoolYear" type="schoolYearType" />
+			<xs:element name="attendanceEvent" minOccurs="0" maxOccurs="unbounded" type="attendanceEvent" />
 		</xs:sequence>
-		<xs:attribute name="schoolYear" type="schoolYearType"
-			use="required" />
 	</xs:complexType>
 
 	<xs:complexType name="reportCard">
@@ -6970,7 +6899,7 @@
 			</xs:element>
 		</xs:choice>
 	</xs:complexType>
-	
+
 	<xs:complexType name="competencyLevelDescriptorType">
 		<xs:annotation>
 			<xs:documentation>Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>

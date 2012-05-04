@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
+
+  <DisciplineIncident id="whack-a-mole">
+      <IncidentIdentifier>Whack-a-mole</IncidentIdentifier>
+      <IncidentDate>2011-02-01</IncidentDate>
+      <IncidentTime>15:23:02</IncidentTime>
+      <IncidentLocation>On School</IncidentLocation>
+      <ReporterDescription>Student</ReporterDescription>
+      <ReporterName>Gold Finger</ReporterName>
+      <Behaviors><CodeValue>BEH01</CodeValue></Behaviors>
+      <Weapons><Weapon>Club</Weapon></Weapons>
+      <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+      <SchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </SchoolReference>
+      <StaffReference>
+        <StaffIdentity>
+          <StaffUniqueStateId>sbantu</StaffUniqueStateId>
+        </StaffIdentity>
+      </StaffReference>
+  </DisciplineIncident>
+
+  <DisciplineIncident id="splashing">
+      <IncidentIdentifier>Underwater cruise</IncidentIdentifier>
+      <IncidentDate>2011-09-06</IncidentDate>
+      <IncidentTime>10:22:00</IncidentTime>
+      <IncidentLocation>On School</IncidentLocation>
+      <ReporterDescription>Staff</ReporterDescription>
+      <ReporterName>Charles Gray</ReporterName>
+      <Behaviors><CodeValue>BEH02</CodeValue></Behaviors>
+      <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+      <SchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </SchoolReference>
+      <StaffReference>
+        <StaffIdentity>
+          <StaffUniqueStateId>sbantu</StaffUniqueStateId>
+        </StaffIdentity>
+      </StaffReference>
+  </DisciplineIncident>
+
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+       <StudentIdentity>
+         <StudentUniqueStateId>900000019</StudentUniqueStateId>
+       </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference ref="whack-a-mole" />
+    <StudentParticipationCode>Witness</StudentParticipationCode>
+    <Behaviors><CodeValue>BEH03</CodeValue></Behaviors>
+  </StudentDisciplineIncidentAssociation>
+
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+       <StudentIdentity>
+         <StudentUniqueStateId>900000018</StudentUniqueStateId>
+       </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference ref="whack-a-mole" />
+    <StudentParticipationCode>Victim</StudentParticipationCode>
+  </StudentDisciplineIncidentAssociation>
+
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+       <StudentIdentity>
+          <StudentUniqueStateId>900000016</StudentUniqueStateId>
+       </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference ref="whack-a-mole" />
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors><CodeValue>BEH01</CodeValue></Behaviors>
+  </StudentDisciplineIncidentAssociation>
+
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+       <StudentIdentity>
+          <StudentUniqueStateId>900000017</StudentUniqueStateId>
+       </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference ref="splashing" />
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors><CodeValue>BEH02</CodeValue></Behaviors>
+  </StudentDisciplineIncidentAssociation>
+
+</InterchangeStudentDiscipline>
