@@ -7,11 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
@@ -44,6 +43,8 @@ public class BrutePathFinder implements SecurityPathFinder {
                 SecurityNodeBuilder.buildNode(EntityNames.TEACHER, EntityNames.STAFF)
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)
                         .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS, sectionGracePeriodNodeFilter)
+                        .addConnection(EntityNames.EDUCATION_ORGANIZATION, "educationOrganizationReference",
+                                ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, edorgFilter)
                         .construct());
         nodeMap.put(
                 EntityNames.SCHOOL,

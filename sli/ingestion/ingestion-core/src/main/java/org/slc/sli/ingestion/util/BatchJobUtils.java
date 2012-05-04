@@ -13,8 +13,12 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
@@ -76,6 +80,21 @@ public class BatchJobUtils {
     public static void stopStageAndAddToJob(Stage stage, NewBatchJob job) {
         stage.stopStage();
         job.addStage(stage);
+    }
+
+    public static ResourceEntry createResourceForOutputFile(IngestionFileEntry fe, FileProcessStatus fileProcessStatus) {
+        ResourceEntry resource = new ResourceEntry();
+        String rId = fileProcessStatus.getOutputFileName();
+        if (rId == null) {
+            rId = "Empty_" + (fe.getFileName());
+        }
+        resource.setResourceId(rId);
+        resource.setResourceName(fileProcessStatus.getOutputFilePath());
+        resource.setResourceFormat(FileFormat.NEUTRALRECORD.getCode());
+        resource.setResourceType(fe.getFileType().getName());
+        resource.setRecordCount((int) fileProcessStatus.getTotalRecordCount());
+        resource.setExternallyUploadedResourceId(fe.getFileName());
+        return resource;
     }
 
 }
