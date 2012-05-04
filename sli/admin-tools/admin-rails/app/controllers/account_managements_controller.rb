@@ -88,7 +88,7 @@ class AccountManagementsController < ApplicationController
     if $check_slc==nil || $check_slc == true
     check = Check.get("")
     roles = check["sliRoles"] 
-    if roles.include?("SLC Operator")==false
+    if roles == nil || roles.include?("SLC Operator")==false
      render :file=> "#{Rails.root}/public/403.html"
     end
     end

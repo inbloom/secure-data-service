@@ -29,7 +29,7 @@ Given /^there are accounts in requests pending in the system$/ do
   user_info = {
       :first => "Loraine",
       :last => "Plyler", 
-       :email => "jdoe@example.com",
+       :email => "devldapuser@slidev.org",
        :password => "secret", 
        :emailtoken => "token",
        :vendor => "Macro Corp",
@@ -100,7 +100,7 @@ Given /^there is a "([^"]*)" production account request for vendor "([^"]*)"$/ d
   user_info = {
       :first => "Loraine",
       :last => "Plyler", 
-       :email => "jdoe"+String(rand(4))+"@example.com",
+       :email => "devldapuser@slidev.org",
        :password => "secret", 
        :emailtoken => "token",
        :vendor => vendor,
@@ -140,8 +140,20 @@ end
 
 
 
-Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |arg1|
-  @account_approval_env="sandbox"
+Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
+ clear_all()
+  sleep(1)
+  user_info = {
+      :first => "Loraine",
+      :last => "Plyler", 
+       :email => "devldapuser@slidev.org",
+       :password => "secret", 
+       :emailtoken => "token",
+       :vendor => vendor,
+       :status => "approved"
+   }
+  @ldap.create_user(user_info)
+  sleep(1)
 end
 
 def clear_all
