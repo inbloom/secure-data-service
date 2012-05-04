@@ -101,58 +101,35 @@ When /^I try to access the (data for "[^"]*") in another "[^"]*" from the API$/ 
   restHttpGet(dataPath)
 end
 
-When /^I try to update the (data for "[^"]*") in another "[^"]*" from the API$/ do |dataPath|
-  @format = "application/json"
-  @path = dataPath
-  
-  objType = dataPath.split('/')[0]
-  field_to_update = case objType
-                    when "students" then "studentUniqueStateId"
-                    when "staff" then "staffUniqueStateId"
-                    when "schools" then "nameOfInstitution"
-                    when "sections" then "uniqueSectionCode"
-                    when "teachers" then "staffUniqueStateId"
-                    end
-  restHttpGet(@path)
-  @originalObj = JSON.parse(@res.body)
-  assert(@originalObj != nil, "Could not get the existing JSON body")
-  @updatedObj = @originalObj.clone
-  @updatedObj[field_to_update] = "UpdatedData#{rand(10).to_s}"
-  restHttpPost(dataPath, @updatedObj)
+When /^I try to update the data for "([^"]*)" in another "[^"]*" from the API$/ do |dataPath|
+  step "I try to update the data for \"#{dataPath}\" in my \"level\" from the API"
 end
 
 Then /^the data should be updated$/ do
   restHttpGet(@path)
   current = JSON.parse(@res.body)
   assert(current != nil, "Could not get the JSON object for #{@path}")
-  assert(current == @updatedObj, "Unsuccesful update to #{@path}")
+  assert(current["name"]["firstName"] == "Updated" , "Unsuccesful update to #{@path}")
+  assert(current["name"]["lastSurname"] == "Name#{@randomKey.to_s}" , "Unsuccesful update to #{@path}")
 end
 
-Then /^the data should not have changed$/ do
-  restHttpGet(@path)
-  current = JSON.parse(@res.body)
-  assert(current != nil, "Could not get the JSON object for #{@path}")
-  assert(current == @originalObj, "The data should not have updated")
-end
-
-When /^I try to update the (data for "[^"]*") in my "([^"]*)" from the API$/ do |dataPath, level|
+When /^I try to update the (data for "[^"]*") in my "[^"]*" from the API$/ do |dataPath|
   @format = "application/json"
   @path = dataPath
-  
-  objType = dataPath.split('/')[0]
-  field_to_update = case objType
-                    when "students" then "studentUniqueStateId"
-                    when "staff" then "staffUniqueStateId"
-                    when "schools" then "nameOfInstitution"
-                    when "sections" then "uniqueSectionCode"
-                    when "teachers" then "staffUniqueStateId"
-                    end
-  restHttpGet(@path)
-  @originalObj = JSON.parse(@res.body)
-  assert(@originalObj != nil, "Could not get the existing JSON body")
-  @updatedObj = @originalObj.clone
-  @updatedObj[field_to_update] = "UpdatedData#{rand(10).to_s}"
-  restHttpPost(dataPath, @updatedObj)
+  @randomKey = rand(100)
+  @studentObj = {
+    "birthData" => {
+      "birthDate" => "1994-04-04"
+    },
+    "sex" => "Male",
+    "studentUniqueStateId" => "123456",
+    "economicDisadvantaged" => false,
+    "name" => {
+      "firstName" => "Updated",
+      "lastSurname" => "Name#{@randomKey.to_s}"
+    }
+  }
+  restHttpPut(dataPath, @studentObj.to_json)
 end
 
 Given /^my "([^"]*)" is "([^"]*)"$/ do |level, name|
