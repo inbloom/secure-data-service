@@ -980,9 +980,10 @@ public class LiveAPIClient implements APIClient {
             return new LinkedList<GenericEntity>();
         }
 
-        // Retrieve the student school associations from the furst link with
+        // Retrieve the student school associations from the first link with
         // STUDENT_SCHOOL_ASSOCIATIONS_LINK
-        String url = urls.get(0);
+        // sorted by entryDate
+        String url = this.sortBy(urls.get(0), "entryDate", "descending");
         List<GenericEntity> studentSchoolAssociations = createEntitiesFromAPI(
                 url, token);
 
@@ -1177,4 +1178,28 @@ public class LiveAPIClient implements APIClient {
 
         return createEntitiesFromAPI(url, token);
     }
+
+    /**
+     * Return a url with the sortBy parameter
+     * @param url
+     * @param sortBy
+     * @return
+     */
+    @Override
+    public String sortBy(String url, String sortBy) {
+        return url + "?sortBy=" + sortBy;
+    };
+
+    /**
+     * Return a url with the sortBy and sortOrder parameter
+     * @param url
+     * @param sortBy
+     * @param sortOrder
+     *          "descending" or "ascending"
+     * @return
+     */
+    @Override
+    public String sortBy(String url, String sortBy, String sortOrder) {
+        return url + "?sortBy=" + sortBy + "&sortOrder=" + sortOrder;
+    };
 }
