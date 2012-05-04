@@ -61,16 +61,11 @@ class LDAPStorage
 	def create_user(user_info)
 		cn = user_info[:email]
 		dn = get_DN(user_info[:email])
-		#puts "cn: #{cn}\ndn: #{dn}\npassword: #{user_info[:password]}"
-		#puts user_info[:vendor]
 		attr = {
 			:cn => cn,
 			:objectclass => OBJECT_CLASS,
 		}
 
-		#puts "----"
-		#puts "#{ENTITY_ATTR_MAPPING.keys().sort}"
-		#puts "#{user_info.keys().sort}"
 		if ENTITY_ATTR_MAPPING.keys().sort != user_info.keys().sort
 		 	raise "The following attributes #{ENTITY_ATTR_MAPPING.keys} need to be set" 
 		end
@@ -133,26 +128,15 @@ class LDAPStorage
 
 		filter = Net::LDAP::Filter.eq( "cn", group_id)
 		group_found = @ldap.search(:base => @group_base, :filter => filter).to_a()[0]
-		puts "FOUND #{group_found}"
 
 		if group_found
-			puts "user_dn: #{user_dn}"
-			puts "members #{group_found[:member]}"
 			removed = group_found[:member].delete(user_dn)
-			puts "REMOVED #{removed}"
 			if removed
-				puts "NEW VAL: #{group_found[:member]}"
-				result = if group_found[:member].empty? 
-							puts "Removing group entity !: #{group_dn}"
-							@ldap.delete(:dn => group_dn)
-						else 
-							puts "Removing attribute !" 
-				    		@ldap.replace_attribute(group_dn, GROUP_MEMBER_ATTRIBUTE, group_found[:member])
-				    	end 
-				if !result
-		  			op = @ldap.get_operation_result
-	  				raise "Could not remove from group. LDAP(code=#{op.code}): #{op.message}" 
-	  			end
+				if group_found[:member].empty? 
+					@ldap.delete(:dn => group_dn)
+				else 
+					@ldap.replace_attribute(group_dn, GROUP_MEMBER_ATTRIBUTE, group_found[:member])
+				end 
 			end
 		end
 	end
