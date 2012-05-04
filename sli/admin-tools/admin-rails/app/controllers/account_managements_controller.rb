@@ -4,9 +4,13 @@ class AccountManagementsController < ApplicationController
   # GET /account_managements
   # GET /account_managements.json
   def index
+    begin
     @account_managements=get_all()
-
+    
     @account_managements=sort(@account_managements)
+    rescue
+    ensure
+    end
 
     respond_to do |format|
   #    if @forbidden == true
