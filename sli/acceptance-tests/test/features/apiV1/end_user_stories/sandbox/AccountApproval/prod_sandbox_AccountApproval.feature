@@ -2,8 +2,8 @@
 Feature: SLC operator approves/disables production accounts or disables sandbox accounts
 
 Background: 
-  Given I have a "mock" SMTP/Email server configured
-  #Given I have a "live" SMTP/Email server configured
+  #Given I have a "mock" SMTP/Email server configured
+  Given I have a "live" SMTP/Email server configured
 
 Scenario: As a slc operator I approve pending production account request
 Given a production account request for vendor "Macro Corp" 
@@ -31,7 +31,7 @@ Then production LDAP account with login name "Lplyer@macrocorp.com" is set as in
 Scenario: As a developer my request for sandbox account is instantly accepted
 Given a sandbox account request for vendor "Macro Corp" 
 And first name "Loraine" and last name "Plyler" 
-And login name "Lplyer@macrocorp.com" submitted in the account request queue
+And login name "Lplyer@macrocorp.com" approved in the account request queue
 Then a new account is created in sandbox LDAP with login name "Lplyer@macrocorp.com" and the role is "Super_Admin"
 And an email is sent to the requestor with a link to provision sandbox and a link for sandbox application registration tool
 

@@ -45,20 +45,20 @@ And I am asked "Do you really want to disable this user account?"
  When I click on Ok
 Then his account status changed to "disabled"
 
-@wip
-Scenario: As a slc operator an sandbox accounts are automatically approved 
-Given there is an pending sandbox account  for vendor "Macro Corp" 
-When I hit the Admin Application Account Approval page
-Then I see one account with name "Loraine Plyler 1"
-And his account status is "Approved"
 
-@wip
+Scenario: As a slc operator an sandbox accounts are automatically approved 
+Given there is an approved sandbox account  for vendor "Macro Corp" 
+When I hit the Admin Application Account Approval page
+Then I see one account with name "Loraine Plyler"
+And his account status is "approved"
+
+
 Scenario: As a slc operator I disable an approved sandbox account by clicking the reject button
 Given there is an approved sandbox account  for vendor "Macro Corp" 
 When I hit the Admin Application Account Approval page
-Then I see one account with name "Loraine Plyler 1"
-And his account status is "Approved"
+Then I see one account with name "Loraine Plyler"
+And his account status is "approved"
 When I click the "Disable" button
 And I am asked "Do you really want to disable this user account?"
  When I click on Ok
-Then his account status changed to "Disabled"
+Then his account status changed to "disabled"
