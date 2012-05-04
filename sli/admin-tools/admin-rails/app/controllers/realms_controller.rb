@@ -38,7 +38,6 @@ class RealmsController < ApplicationController
   # # PUT /realms/1
    def update
      @realm = Realm.find(params[:id])
-
      params[:realm] = {} if params[:realm] == nil
      params[:realm][:mappings] = params[:mappings] if params[:mappings] != nil
      respond_to do |format|
