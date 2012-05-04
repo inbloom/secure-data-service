@@ -4,6 +4,11 @@ class LandingZoneController < ApplicationController
   rescue_from ProvisioningError, :with => :handle_error
   
   def provision
+    if (params[:cancel] == "Cancel")
+      redirect_to "/"
+      return
+    end
+    
     ed_org_id = params[:ed_org]
     ed_org_id = params[:custom_ed_org] if ed_org_id == 'custom'
     if (ed_org_id == nil || ed_org_id.gsub(/\s/, '').length == 0)
@@ -14,6 +19,7 @@ class LandingZoneController < ApplicationController
   end
 
   def index
+    session = Check.get("")
     @edOrgs = LandingZone.possible_edorgs
   end
   
