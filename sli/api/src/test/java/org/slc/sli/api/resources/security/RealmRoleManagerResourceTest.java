@@ -7,6 +7,8 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.HashMap;
+
 import javax.ws.rs.core.Response;
 
 import junit.framework.Assert;
@@ -55,6 +57,8 @@ public class RealmRoleManagerResourceTest {
         mapping = new EntityBody();
         mapping.put("id", "123567324");
         mapping.put("realm_name", "Waffles");
+        mapping.put("edOrg", "fake-ed-org");
+        mapping.put("mappings", new HashMap<String, String>());
 
         service = mock(EntityService.class);
 

@@ -94,6 +94,7 @@ public class SecurityContextInjector {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("admin-staff");
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        principal.setEdOrg("fake-ed-org");
         setSecurityContext(principal);
         
         Right[] rights = new Right[] { Right.READ_GENERAL, Right.WRITE_GENERAL_REALM, Right.WRITE_ROLE_MAPPING, Right.ADMIN_ACCESS};
