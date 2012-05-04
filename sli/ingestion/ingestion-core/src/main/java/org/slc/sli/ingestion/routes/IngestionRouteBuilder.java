@@ -89,6 +89,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
 
+        symphonyQueueUri = symphonyQueue + "?concurrentConsumers=" + concurrentConsumers;
 
         if (IngestionNodeType.MAESTRO.equals(ingestionNodeType)) {
             buildMaestroRoutes(workItemQueueUri);
