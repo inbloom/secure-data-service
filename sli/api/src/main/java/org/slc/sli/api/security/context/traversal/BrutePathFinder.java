@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.slc.sli.api.security.context.resolver.SectionGracePeriodNodeFilter;
+import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +32,9 @@ public class BrutePathFinder implements SecurityPathFinder {
     @Autowired
     private EdOrgToChildEdOrgNodeFilter edorgFilter;
 
+    @Autowired
+    private NodeFilter sectionGracePeriodNodeFilter;
+
     @PostConstruct
     public void init() {
         nodeMap = new HashMap<String, SecurityNode>();
@@ -39,7 +44,7 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap.put(EntityNames.TEACHER,
                 SecurityNodeBuilder.buildNode(EntityNames.TEACHER, EntityNames.STAFF)
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)
-                        .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS)
+                        .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS, sectionGracePeriodNodeFilter)
                         .construct());
         nodeMap.put(
                 EntityNames.SCHOOL,
