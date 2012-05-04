@@ -5,7 +5,7 @@
   
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:application-context.xml,classpath:application-security.xml,classpath:application-security-${server.mode}.xml</param-value>
+        <param-value>classpath:application-context.xml,classpath:application-security.xml</param-value>
     </context-param>
     
     

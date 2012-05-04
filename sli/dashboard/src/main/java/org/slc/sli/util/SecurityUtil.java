@@ -37,12 +37,12 @@ public class SecurityUtil {
         return false;
     }
     public static boolean isAdmin() {
-        Collection<GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         for (GrantedAuthority authority : authorities) {
             if (authority.getAuthority().equals(Constants.ROLE_IT_ADMINISTRATOR)) {
                 return true;
             }
-            
+
         }
         return false;
     }

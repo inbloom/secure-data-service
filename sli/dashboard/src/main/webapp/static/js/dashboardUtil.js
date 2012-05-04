@@ -647,6 +647,10 @@ DashboardUtil.getPageUrl = function(componentId, queryString) {
 	return contextRootPath + '/service/layout/' + componentId + ((queryString) ? ('?' + queryString) : '');
 };
 
+DashboardUtil.goToUrl = function(componentId, queryString) {
+	window.location = DashboardUtil.getPageUrl(componentId, queryString);
+};
+
 DashboardUtil.checkCondition = function(data, condition) {
     if(condition == undefined) {
         return false;
