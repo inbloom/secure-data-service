@@ -810,17 +810,17 @@ end
 desc "Run Sandbox API tests"
 task :apiSandboxTests do
   @tags = ["~@wip", "@sandbox"]
-  Rake::Task["securityTests"].invoke
+  #Rake::Task["securityTests"].invoke
 end
 
 desc "Run all sandbox tests"
 task :sandboxTests => [:apiSandboxTests, :adminSandboxTests] do
-  # displayFailureReport()
-  # if $SUCCESS
-  #   puts "Completed All Tests"
-  # else
-  #   raise "Tests have failed"
-  # end
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 ############################################################

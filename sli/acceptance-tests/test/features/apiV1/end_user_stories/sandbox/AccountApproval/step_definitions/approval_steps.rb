@@ -99,7 +99,7 @@ end
 Then /^a new account is created in ([^"]*) LDAP with login name "([^"]*)" and the role is "([^"]*)"$/ do |environment, login_name, role|
   login_name = "devldapuser@slidev.org" if @mode
   assert(@ldap.read_user(@userinfo[:email])[:email] == login_name, "User #{@userinfo[:email]} is not created in LDAP")
-  #assert(@ldap.read_user(@userinfo[:email])[:role] == role, "User #{@userinfo[:email]} is does not have role #{role}")
+  assert(@ldap.get_user_groups(@userinfo[:email])[0] == role, "User #{@userinfo[:email]} is does not have role #{role}")
 end
 
 Then /^an email is sent to the requestor with a link to the application registration tool$/ do
@@ -113,7 +113,7 @@ end
 
 Then /^an account exists in production LDAP with login name "([^"]*)"$/ do |login_name|
   assert(ApprovalEngine.user_exists?(@userinfo[:email]), "User " << @userinfo[:email] << " does not exist in LDAP")
-  assert(ApprovalEngine.user_exists?(login_name), "User " << login_name << " does not exist in LDAP")
+  #assert(ApprovalEngine.user_exists?(login_name), "User " << login_name << " does not exist in LDAP")
 end
 
 Then /^state is "([^"]*)"$/ do |state|
