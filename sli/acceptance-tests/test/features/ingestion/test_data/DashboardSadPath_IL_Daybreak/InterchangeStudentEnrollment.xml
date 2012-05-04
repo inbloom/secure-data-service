@@ -255,6 +255,8 @@
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+    <ExitWithdrawDate>2011-10-10</ExitWithdrawDate>
+    <ExitWithdrawType>Died or is permanently incapacitated</ExitWithdrawType>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -399,6 +401,8 @@
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
     <EntryGradeLevel>Seventh grade</EntryGradeLevel>
+    <ExitWithdrawDate>2010-10-10</ExitWithdrawDate>
+    <ExitWithdrawType>Withdrawn due to illness</ExitWithdrawType>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
