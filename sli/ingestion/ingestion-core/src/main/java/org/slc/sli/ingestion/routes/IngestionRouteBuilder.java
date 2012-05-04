@@ -144,7 +144,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             configureRoutePerLandingZone(workItemQueueUri, lz);
         }
 
-        // Maestro route is creating work items that can be distributed to pit nodes.
+        // Maestro route is creating work notes that can be distributed to pit nodes.
 
         from(workItemQueueUri).routeId("workItemRoute").choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
