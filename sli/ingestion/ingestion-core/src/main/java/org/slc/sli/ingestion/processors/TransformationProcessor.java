@@ -11,6 +11,7 @@ import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.Job;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -50,22 +51,24 @@ public class TransformationProcessor implements Processor {
     @Profiled
     public void process(Exchange exchange) {
 
-        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
-        if (batchJobId == null) {
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+
+        if (workNote == null || workNote.getBatchJobId() == null) {
             handleNoBatchJobId(exchange);
         } else {
-            processTransformations(exchange, batchJobId);
+            processTransformations(workNote, exchange);
         }
     }
 
-    private void processTransformations(Exchange exchange, String batchJobId) {
+    private void processTransformations(WorkNote workNote, Exchange exchange) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
+        String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
 
-            performDataTransformations(newJob);
+            performDataTransformations(null, newJob);
 
             exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
         } catch (Exception e) {
@@ -78,13 +81,13 @@ public class TransformationProcessor implements Processor {
 
     /**
      * Invokes transformations strategies
-     *
+     * @param workNote TODO
      * @param job
      */
-    void performDataTransformations(Job job) {
+    void performDataTransformations(WorkNote workNote, Job job) {
         LOG.info("performing data transformation BatchJob: {}", job);
 
-        Transmogrifier transmogrifier = transformationFactory.createTransmogrifier(job);
+        Transmogrifier transmogrifier = transformationFactory.createTransmogrifier(workNote, job);
 
         transmogrifier.executeTransformations();
 

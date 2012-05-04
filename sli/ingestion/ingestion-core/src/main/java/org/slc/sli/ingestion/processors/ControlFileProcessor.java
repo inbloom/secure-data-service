@@ -14,6 +14,8 @@ import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.WorkNoteImpl;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
@@ -103,6 +105,8 @@ public class ControlFileProcessor implements Processor {
 
             setExchangeHeaders(exchange, newJob, errorReport);
 
+            setExchangeBody(exchange, batchJobId);
+
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
         } finally {
@@ -133,6 +137,11 @@ public class ControlFileProcessor implements Processor {
         } else {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
         }
+    }
+
+    private void setExchangeBody(Exchange exchange, String batchJobId) {
+        WorkNote workNote = new WorkNoteImpl(batchJobId, null, 0, 0);
+        exchange.getIn().setBody(workNote, WorkNote.class);
     }
 
     private void createAndAddResourceEntries(NewBatchJob newJob, ControlFile cf) {
