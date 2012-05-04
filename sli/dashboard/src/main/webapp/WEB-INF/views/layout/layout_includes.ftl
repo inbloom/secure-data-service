@@ -63,3 +63,4 @@
   var contextRootPath = '${CONTEXT_ROOT_PATH}';
 </script>
 <#include "layout_header.ftl">
+<#include "../panel/studentSearch.ftl">

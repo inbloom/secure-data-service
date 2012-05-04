@@ -10,20 +10,8 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
 >
-    <mvc:annotation-driven />
-    <context:component-scan base-package="org.slc.sli.web.controller"/>
-
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-        <property name="webBindingInitializer">
-        <!-- Configures Spring MVC DataBinder instances -->
-            <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
-                <property name="validator" ref="validator" />
-            </bean>
-        </property>
-    </bean>
- 
-    <!-- Creates the JSR-303 Validator -->
-    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+    <mvc:annotation-driven validator="validator" />
+    <context:component-scan base-package="org.slc.sli.web"/>
     
     <!-- freemarker config -->
     <bean  id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
@@ -49,7 +37,19 @@
 			    
 			    <!-- Example usage of Exception Page -->
 			    <prop key="java.lang.IllegalArgumentException">exceptionPage</prop>
+			    <prop key="org.springframework.validation.BindException">exceptionPage</prop>
 		    </props>
 	    </property>
 	</bean>
+	<!-- Creates the JSR-303 Validator -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+    <mvc:interceptors>
+        <bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+            <property name="cacheSeconds" value="0"/>
+            <property name="useExpiresHeader" value="true"/>
+            <property name="useCacheControlHeader" value="true"/>
+            <property name="useCacheControlNoStore" value="true"/>
+        </bean>
+</mvc:interceptors>
 </beans>
