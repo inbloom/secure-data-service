@@ -208,16 +208,19 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                     .to("direct:assembledJobs")
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.PURGE.name()))
-                    .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Performing Purge Operation.").process(purgeProcessor)
+                    .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Performing Purge Operation.")
+                    .process(purgeProcessor)
                     .to("direct:stop")
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
                     .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing xml file.")
-                    .process(xmlFileProcessor).to(workItemQueueUri)
+                    .process(xmlFileProcessor)
+                    .to(workItemQueueUri)
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                     .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
-                    .process(edFiProcessor).to(workItemQueueUri);
+                    .process(edFiProcessor)
+                    .to(workItemQueueUri);
 
     }
 
@@ -229,11 +232,16 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             .choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                     .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Data transformation.")
-                    .process(transformationProcessor).to(workItemQueueUri)
+                    .process(transformationProcessor)
+                    .to(workItemQueueUri)
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
-                    .to("direct:persist").when(header("IngestionMessageType").isEqualTo(MessageType.ERROR.name()))
-                    .log("Error: ${header.ErrorMessage}").to("direct:stop").otherwise().to("direct:stop");
+                    .to("direct:persist")
+                    .when(header("IngestionMessageType").isEqualTo(MessageType.ERROR.name()))
+                        .log("Error: ${header.ErrorMessage}")
+                        .to("direct:stop")
+                    .otherwise()
+                        .to("direct:stop");
 
         // routeId: jobDispatch
         from("direct:assembledJobs")
@@ -254,7 +262,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             .process(jobReportingProcessor);
 
         // end of routing
-        from("direct:stop").routeId("stop").wireTap("direct:jobReporting")
+        from("direct:stop")
+            .routeId("stop")
+            .wireTap("direct:jobReporting")
             .log("end of job: " + header("jobId").toString())
             .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - File processed.")
             .stop();
@@ -267,9 +277,15 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from("direct:persist")
             .routeId("persistencePipeline")
             .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Persisiting data for file.")
-            .log("persist: jobId: " + header("jobId").toString()).choice().when(header("dry-run").isEqualTo(true))
-            .log("job has errors or dry-run specified; data will not be published").to("direct:stop").otherwise()
-            .log("publishing data now!").process(persistenceProcessor).to("direct:stop");
+            .log("persist: jobId: " + header("jobId").toString())
+            .choice()
+                .when(header("dry-run").isEqualTo(true))
+                    .log("job has errors or dry-run specified; data will not be published")
+                    .to("direct:stop")
+                .otherwise()
+                    .log("publishing data now!")
+                    .process(persistenceProcessor)
+                    .to("direct:stop");
     }
 
 }
