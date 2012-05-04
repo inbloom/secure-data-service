@@ -369,6 +369,11 @@ task :ingestionMongoDBPerformanceTest do
   runTests("test/features/ingestion/features/ingestion_mongo_performance.feature")
 end
 
+desc "Run Ingestion for Dashboard Sad Path Tests"
+task :ingestionDashboardSadPathTest do
+  runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
+end
+
 ############################################################
 # Ingestion Offline Tool tests start
 ############################################################
