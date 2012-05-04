@@ -70,7 +70,7 @@ Scenario: CRUD operations on Applications In Sandbox as a Developer
 	When I navigate to DELETE "/apps/<New App ID>"
 	Then I should receive a return code of 204
      And I should no longer be able to get that application's data
-@wip
+
 Scenario: CRUD operations on Applications In production as an Operator
 	Given I am logged in using "operator" "operator1234" to realm "SLI"
 	When I navigate to POST "/apps"
@@ -78,7 +78,7 @@ Scenario: CRUD operations on Applications In production as an Operator
 	When I navigate to GET "/apps/"
 	 Then I should receive a return code of 200
      And I should only see "PENDING" and "APPROVED" applications
-    When I navigate to PUT "/apps/<Testing App>" to update an application to "APPROVED"
+    When I navigate to PUT "/apps/<Testing App>" to update an application to "UNREGISTERED"
      Then I should receive a return code of 204
     When I navigate to PUT "/apps/<Testing App>" to update an application's name
      Then I should receive a return code of 400

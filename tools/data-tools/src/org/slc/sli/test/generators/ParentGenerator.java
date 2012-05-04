@@ -47,30 +47,12 @@ public class ParentGenerator {
         Parent p = new Parent();
         Random random = new Random();
 
-		try {
-			nameGenerator = new NameGenerator();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
         p.setParentUniqueStateId(parentId);
         p.setSex(isMale ? SexType.MALE : SexType.FEMALE);
 
-        if (p.getSex().equals(SexType.MALE)) {
-        	p.setName(nameGenerator.getMaleName());
-            p.getOtherName().add(nameGenerator.getMaleOtherName());
-            p.getOtherName().add(nameGenerator.getMaleOtherName());
-        } else {
-        	p.setName(nameGenerator.getFemaleName());
-            p.getOtherName().add(nameGenerator.getFemaleOtherName());
-            p.getOtherName().add(nameGenerator.getFemaleOtherName());
-        }
+        p.setName(getFastName());
+        p.getOtherName().add(getFastOtherName());
 
-//        p.getAddress().add(ag.getRandomAddress());
-//
-//        if (random.nextBoolean())
-//            p.getAddress().add(ag.getRandomAddress());
 
         TelephoneGenerator telephonegen = new TelephoneGenerator();
     	try {
@@ -91,8 +73,32 @@ public class ParentGenerator {
         return p;
     }
 
-//    public static void main (String args[]) {
-//        ParentGenerator pg = new ParentGenerator();
-//        pg.generate("parentId1");
-//    }
+
+    public static Name getFastName() {
+        Name name = new Name();
+
+        name.setFirstName("firstName");
+        name.setMiddleName("middleName");
+        name.setLastSurname("lastName");
+        name.setGenerationCodeSuffix(GenerationCodeSuffixType.SR);
+        name.setMaidenName("maidenName");
+        name.setPersonalTitlePrefix(PersonalTitlePrefixType.SR);
+        name.setVerification(PersonalInformationVerificationType.DRIVERS_LICENSE);
+
+        return name;
+    }
+
+    public static OtherName getFastOtherName() {
+        OtherName otherName = new OtherName();
+
+        otherName.setFirstName("firstName");
+        otherName.setMiddleName("middleName");
+        otherName.setLastSurname("lastName");
+        otherName.setGenerationCodeSuffix(GenerationCodeSuffixType.VI);
+        otherName.setPersonalTitlePrefix(PersonalTitlePrefixType.DR);
+        otherName.setOtherNameType(OtherNameType.ALIAS);
+
+        return otherName;
+    }
+
 }

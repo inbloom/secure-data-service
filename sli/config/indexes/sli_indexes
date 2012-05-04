@@ -27,14 +27,25 @@ db["teacherSectionAssociation"].ensureIndex({"body.teacherId":1, "metaData.tenan
 
 db["teacher"].ensureIndex({"metaData.tenantId":1,"body.staffUniqueStateId":1});
 db["staff"].ensureIndex({"metaData.tenantId":1,"body.staffUniqueStateId":1});
+db["staff"].ensureIndex({"_id":1,"type":1});
+db["educationOrganization"].ensureIndex({"_id":1,"type":1});
 db["application"].ensureIndex({"body.client_id":1});
 db["application"].ensureIndex({"body.client_secret":1,"body.client_id":1});
+db["application"].ensureIndex({"body.authorized_ed_orgs":1});
 db["applicationAuthorization"].ensureIndex({"body.authId":1,"body.authType":1});
 db["realm"].ensureIndex({"body.idp.id":1});
 db["userSession"].ensureIndex({"body.appSession.code.expiration":1,"body.appSession.clientId":1,"body.appSession.verified":1,"body.appSession.code.value":1}, {"name":"codeExpiration_clientId_verified_codeValue"});
 db["userSession"].ensureIndex({"body.appSession.samlId":1});
+db["userSession"].ensureIndex({"body.principal.externalId":1});
 db["userSession"].ensureIndex({"body.expiration":1,"body.hardLogout":1,"body.appSession.token":1});
 db["session"].ensureIndex({"_id":1,"body.schoolYear":1});
+db["studentParentAssociation"].ensureIndex({"_id":1,"body.studentId":1});
+db["teacherSectionAssociation"].ensureIndex({"_id":1,"body.teacherId":1});
+db["teacherSectionAssociation"].ensureIndex({"_id":1,"body.sectionId":1});
+db["userSession"].ensureIndex({"body.appSession.token":1});
+db["educationOrganization"].ensureIndex({"_id":1,"type":1,"body.parentEducationAgencyReference":1});
+db["educationOrganization"].ensureIndex({"body.parentEducationAgencyReference":1,"type":1});
+db["userSession"].ensureIndex({"body.appSession.code.expiration":1,"body.appSession.clientId":1,"body.appSession.verified":1,"body.appSession.code.value":1});
 
 db["studentTranscriptAssociation"].ensureIndex({"body.courseId":1});
 db["studentTranscriptAssociation"].ensureIndex({"body.studentId":1});

@@ -14,21 +14,21 @@ Transform /^<([^"]*)>$/ do |val|
 
   case val
     #student parent association data
-  when "ASSOCIATION COUNT" then 6
+  when "ASSOCIATION COUNT" then 7
   when "ASSOCIATION COUNT FOR ENDPOINT 1" then 1
-  when "ASSOCIATION COUNT FOR ENDPOINT 2" then 1
+  when "ASSOCIATION COUNT FOR ENDPOINT 2" then 2
   when "RESOLUTION COUNT FOR ENDPOINT 1" then 1
-  when "RESOLUTION COUNT FOR ENDPOINT 2" then 1
-  when "ASSOCIATION ID" then "0e26de6c-225b-9f67-8621-5113ad50a03b"
-  when "ASSOCIATION ID FOR UPDATE" then "0e26de6c-225b-9f67-8e23-5113ad50a03b"
-  when "ASSOCIATION ID FOR DELETE" then "0e26de6c-225b-9f67-8621-5113ad50a03b"
+  when "RESOLUTION COUNT FOR ENDPOINT 2" then 2
+  when "ASSOCIATION ID" then "0e26de6c-225b-9f67-9625-5113ad50a03b"
+  when "ASSOCIATION ID FOR UPDATE" then "0e26de6c-225b-9f67-9625-5113ad50a03b"
+  when "ASSOCIATION ID FOR DELETE" then "0e26de6c-225b-9f67-9625-5113ad50a03b"
   when "ASSOCIATION LINK NAME" then "getStudentDisciplineIncidentAssociations"
   when "ASSOCIATION TYPE" then "studentDisciplineIncidentAssociation"
   when "ASSOCIATION URI" then "studentDisciplineIncidentAssociations"
     
     #student related data
   when "ENDPOINT1 FIELD" then "studentId"
-  when "ENDPOINT1 ID", "ENDPOINT1 FIELD EXPECTED VALUE" then "714c1304-8a04-4e23-b043-4ad80eb60992"
+  when "ENDPOINT1 ID", "ENDPOINT1 FIELD EXPECTED VALUE" then "0fb8e0b4-8f84-48a4-b3f0-9ba7b0513dba"
   when "ENDPOINT1 LINK NAME" then "getStudent"
   when "ENDPOINT1 RESOLUTION LINK NAME" then "getStudents"
   when "ENDPOINT1 TYPE" then "student"
@@ -36,7 +36,7 @@ Transform /^<([^"]*)>$/ do |val|
 
     #discipline incident related data
   when "ENDPOINT2 FIELD" then "disciplineIncidentId"
-  when "ENDPOINT2 ID", "ENDPOINT2 FIELD EXPECTED VALUE" then "0e26de79-226a-5d67-9201-5113ad50a03b"
+  when "ENDPOINT2 ID", "ENDPOINT2 FIELD EXPECTED VALUE" then "0e26de79-222a-5e67-9201-5113ad50a03b"
   when "ENDPOINT2 LINK NAME" then "getDisciplineIncident"
   when "ENDPOINT2 RESOLUTION LINK NAME" then "getDisciplineIncidents"
   when "ENDPOINT2 TYPE" then "disciplineIncident"
@@ -44,7 +44,7 @@ Transform /^<([^"]*)>$/ do |val|
 
     #update related field data
   when "UPDATE FIELD" then "studentId"
-  when "UPDATE FIELD EXPECTED VALUE" then "e0e99028-6360-4247-ae48-d3bb3ecb606a"
+  when "UPDATE FIELD EXPECTED VALUE" then "0fb8e0b4-8f84-48a4-b3f0-9ba7b0513dba"
   when "UPDATE FIELD NEW VALID VALUE" then "e1af7127-743a-4437-ab15-5b0dacd1bde0"
 
     #general

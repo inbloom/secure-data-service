@@ -10,10 +10,19 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 
-import com.sun.jersey.core.util.Base64;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.representation.OAuthAccessExceptionHandler;
+import org.slc.sli.api.security.OauthSessionManager;
+import org.slc.sli.api.security.saml.SamlHelper;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,17 +40,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.representation.OAuthAccessExceptionHandler;
-import org.slc.sli.api.security.OauthSessionManager;
-import org.slc.sli.api.security.saml.SamlHelper;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
+import com.sun.jersey.core.util.Base64;
 
 /**
  * Controller for Discovery Service
@@ -87,8 +86,11 @@ public class AuthController {
      */
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "authorize", method = RequestMethod.GET)
-    public String listRealms(@RequestParam(value = "redirect_uri", required = false) final String redirectUri, @RequestParam(value = "Realm", required = false) final String realmUniqueId,
-            @RequestParam(value = "client_id", required = true) final String clientId, @RequestParam(value = "state", required = false) final String state, @CookieValue(value = "_tla", required = false) final String sessionId,
+    public String listRealms(@RequestParam(value = "redirect_uri", required = false) final String redirectUri,
+            @RequestParam(value = "Realm", required = false) final String realmUniqueId,
+            @RequestParam(value = "client_id", required = true) final String clientId, 
+            @RequestParam(value = "state", required = false) final String state, 
+            @CookieValue(value = "_tla", required = false) final String sessionId,
             final HttpServletResponse res, final Model model) throws IOException {
 
         if (sessionId != null) {
@@ -147,8 +149,12 @@ public class AuthController {
     }
 
     @RequestMapping(value = "token", method = { RequestMethod.POST, RequestMethod.GET })
-    public ResponseEntity<String> getAccessToken(@RequestParam("code") String authorizationCode, @RequestParam("redirect_uri") String redirectUri, @RequestHeader(value = "Authorization", required = false) String authz,
-            @RequestParam("client_id") String clientId, @RequestParam("client_secret") String clientSecret, Model model) throws BadCredentialsException {
+    public ResponseEntity<String> getAccessToken(@RequestParam("code") String authorizationCode, 
+            @RequestParam("redirect_uri") String redirectUri,
+            @RequestHeader(value = "Authorization", required = false) String authz,
+            @RequestParam("client_id") String clientId, 
+            @RequestParam("client_secret") String clientSecret, 
+            Model model) throws BadCredentialsException {
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("code", authorizationCode);
         parameters.put("redirect_uri", redirectUri);
@@ -195,8 +201,11 @@ public class AuthController {
      * @throws IOException
      */
     @RequestMapping(value = "sso", method = { RequestMethod.GET, RequestMethod.POST })
-    public String ssoInit(@RequestParam(value = "realmId", required = true) final String realmIndex, @RequestParam(value = "sessionId", required = false) final String sessionId,
-            @RequestParam(value = "redirect_uri", required = false) String redirectUri, @RequestParam(value = "clientId", required = true) final String clientId, @RequestParam(value = "state", required = false) final String state,
+    public String ssoInit(@RequestParam(value = "realmId", required = true) final String realmIndex, 
+            @RequestParam(value = "sessionId", required = false) final String sessionId,
+            @RequestParam(value = "redirect_uri", required = false) String redirectUri, 
+            @RequestParam(value = "clientId", required = true) final String clientId, 
+            @RequestParam(value = "state", required = false) final String state,
             HttpServletResponse res, Model model) throws IOException {
 
         String realmId = getRealmId(sessionId);

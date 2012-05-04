@@ -3,7 +3,7 @@ This means I want to be able to perform CRUD on all associations.
 and verify that the correct links are made available.
   
 Background: Nothing yet
-    Given I am logged in using "demo" "demo1234" to realm "SLI"
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
       And format "application/vnd.slc+json"
 
 Scenario: Create a valid association
