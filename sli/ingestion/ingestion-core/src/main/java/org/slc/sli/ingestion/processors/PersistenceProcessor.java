@@ -29,6 +29,7 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.Translator;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
 import org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler;
@@ -90,18 +91,19 @@ public class PersistenceProcessor implements Processor {
     @Profiled
     public void process(Exchange exchange) {
 
-        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
-        if (batchJobId == null) {
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+
+        if (workNote == null || workNote.getBatchJobId() == null) {
             handleNoBatchJobIdInExchange(exchange);
         } else {
-
-            processPersistence(exchange, batchJobId);
+            processPersistence(workNote, exchange);
         }
     }
 
-    private void processPersistence(Exchange exchange, String batchJobId) {
+    private void processPersistence(WorkNote workNote, Exchange exchange) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
+        String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
@@ -241,7 +243,8 @@ public class PersistenceProcessor implements Processor {
         return numFailed;
     }
 
-    private void persistSessionAndSchoolSessionAssociation(SimpleEntity xformedEntity, ErrorReport errorReportForNrEntity) {
+    private void persistSessionAndSchoolSessionAssociation(SimpleEntity xformedEntity,
+            ErrorReport errorReportForNrEntity) {
         SimpleEntity session = (SimpleEntity) xformedEntity.getBody().remove("session");
 
         Entity mongoSession = entityPersistHandler.handle(session, errorReportForNrEntity);
@@ -287,7 +290,8 @@ public class PersistenceProcessor implements Processor {
             stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
                     neutralRecord.getRecordType() + "_transformed", job.getId(), neutralQuery);
         } else if (neutralRecord.getRecordType().equals("session")) {
-            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob("session", job.getId(), neutralQuery);
+            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob("session", job.getId(),
+                    neutralQuery);
             encounteredStgCollections.add("session");
         } else {
 

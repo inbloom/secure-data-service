@@ -30,6 +30,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
@@ -106,13 +107,17 @@ public class JobReportingProcessorTest {
 
         Iterable<Error> fakeErrorIterable = createFakeErrorIterable();
 
+        // mock the WorkNote
+        WorkNote mockWorkNote = Mockito.mock(WorkNote.class);
+        Mockito.when(mockWorkNote.getBatchJobId()).thenReturn(BATCHJOBID);
+
         // set mocked BatchJobMongoDA in jobReportingProcessor
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(BATCHJOBID))).thenReturn(mockedJob);
         Mockito.when(mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.anyInt())).thenReturn(fakeErrorIterable);
 
         // create exchange
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
-        exchange.getIn().setHeader("BatchJobId", BATCHJOBID);
+        exchange.getIn().setBody(mockWorkNote, WorkNote.class);
 
         LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone();
         tmpLz.setDirectory(tmpDir);

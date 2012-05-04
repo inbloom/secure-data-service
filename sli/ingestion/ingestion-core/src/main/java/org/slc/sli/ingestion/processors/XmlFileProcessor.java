@@ -14,6 +14,7 @@ import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.handler.ReferenceResolutionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
@@ -45,19 +46,19 @@ public class XmlFileProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        String batchJobId = getBatchJobId(exchange);
-        if (batchJobId != null) {
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
-            processXmlFile(exchange, batchJobId);
-        } else {
-
+        if (workNote == null || workNote.getBatchJobId() == null) {
             missingBatchJobIdError(exchange);
+        } else {
+            processXmlFile(workNote, exchange);
         }
     }
 
-    private void processXmlFile(Exchange exchange, String batchJobId) {
+    private void processXmlFile(WorkNote workNote, Exchange exchange) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
+        String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
