@@ -42,7 +42,7 @@ public interface WorkNote {
      *
      * @return minimum index value.
      */
-    int getRangeMinimum();
+    long getRangeMinimum();
 
     /**
      * Sets the minimum value of the index [inclusive] to perform work on.
@@ -50,14 +50,14 @@ public interface WorkNote {
      * @param rangeMinimum
      *            minimum index value.
      */
-    void setRangeMinimum(int rangeMinimum);
+    void setRangeMinimum(long rangeMinimum);
 
     /**
      * Gets the maximum value of the index [inclusive] to perform work on.
      *
      * @return maximum index value.
      */
-    int getRangeMaximum();
+    long getRangeMaximum();
 
     /**
      * Sets the maximum value of the index [inclusive] to perform work on.
@@ -65,5 +65,5 @@ public interface WorkNote {
      * @param rangeMaximum
      *            maximum index value.
      */
-    void setRangeMaximum(int rangeMaximum);
+    void setRangeMaximum(long rangeMaximum);
 }
