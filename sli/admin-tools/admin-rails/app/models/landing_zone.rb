@@ -16,9 +16,26 @@ class LandingZone
                                   :city => 'TEMPORARY_PLACEHOLDER', 
                                   :stateAbbreviation => 'TX', 
                                   :postalCode => 'TEMPORARY_PLACEHOLDER'})
-    saved = edOrg.save()
+    # TODO:  implement how to save this in the db
+    Rails.logger.warn "Provisioning logic not implemented yet!"
+    # saved = edOrg.save()
+    saved = false
     Rails.logger.info "Provisioning Request: #{edorg_id}, successful? #{saved}"
-    return saved
+    
+    if (saved == false)
+      raise ProvisioningError.new "Could not provision landing zone"
+    end
   end
   
+end
+
+class ProvisioningError < StandardError
+  
+  def initialize(message)
+    @message = message
+  end
+  
+  def to_s
+    @message
+  end
 end
