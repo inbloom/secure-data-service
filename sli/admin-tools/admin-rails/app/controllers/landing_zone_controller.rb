@@ -6,7 +6,11 @@ class LandingZoneController < ApplicationController
   def provision
     ed_org_id = params[:ed_org]
     ed_org_id = params[:custom_ed_org] if ed_org_id == 'custom'
-    LandingZone.provision ed_org_id
+    if (ed_org_id == nil || ed_org_id.gsub(/\s/, '').length == 0)
+      redirect_to :action => 'index', :controller => 'landing_zone'
+    else
+      LandingZone.provision ed_org_id
+    end
   end
 
   def index
