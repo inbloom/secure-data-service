@@ -216,14 +216,16 @@ public class PersistenceProcessor implements Processor {
                     for (SimpleEntity xformedEntity : xformedEntities) {
 
                         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForNrFile);
+
                         if (xformedEntity.getType().equals("schoolSessionAssociation")) {
-                            SimpleEntity session = (SimpleEntity) xformedEntity.getBody().remove("session");
 
-                            Entity mongoSession = entityPersistHandler.handle(session, errorReportForNrEntity);
-                            xformedEntity.getBody().put("sessionId", mongoSession.getEntityId());
+                            persistSessionAndSchoolSessionAssociation(xformedEntity, errorReportForNrEntity);
+
+                        } else {
+
+                            entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
+
                         }
-                       entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
-
 
                         if (errorReportForNrEntity.hasErrors()) {
                             numFailed++;
@@ -237,6 +239,16 @@ public class PersistenceProcessor implements Processor {
 
         }
         return numFailed;
+    }
+
+    private void persistSessionAndSchoolSessionAssociation(SimpleEntity xformedEntity, ErrorReport errorReportForNrEntity) {
+        SimpleEntity session = (SimpleEntity) xformedEntity.getBody().remove("session");
+
+        Entity mongoSession = entityPersistHandler.handle(session, errorReportForNrEntity);
+        xformedEntity.getBody().put("sessionId", mongoSession.getEntityId());
+
+        entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
+
     }
 
     private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId,
