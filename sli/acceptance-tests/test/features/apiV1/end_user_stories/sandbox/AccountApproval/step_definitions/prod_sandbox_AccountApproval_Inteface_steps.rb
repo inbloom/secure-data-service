@@ -29,7 +29,7 @@ Given /^there are accounts in requests pending in the system$/ do
   user_info = {
       :first => "Loraine",
       :last => "Plyler", 
-       :email => "jdoe@example.com",
+       :email => "devldapuser@slidev.org",
        :password => "secret", 
        :emailtoken => "token",
        :vendor => "Macro Corp",
@@ -100,7 +100,7 @@ Given /^there is a "([^"]*)" production account request for vendor "([^"]*)"$/ d
   user_info = {
       :first => "Loraine",
       :last => "Plyler", 
-       :email => "jdoe"+String(rand(4))+"@example.com",
+       :email => "devldapuser@slidev.org",
        :password => "secret", 
        :emailtoken => "token",
        :vendor => vendor,
@@ -130,14 +130,12 @@ When /^I am asked "([^"]*)"$/ do |arg1|
 end
 
 When /^I click on Ok$/ do
-  sleep(5)
   @driver.switch_to.alert.accept
 end
 
 Then /^his account status changed to "([^"]*)"$/ do |arg1|
   status=@driver.find_element(:id,"status."+@user_name)
   assert(status.text==arg1,"user account status is not #{arg1}")
-  sleep(5)
 end
 
 
@@ -148,7 +146,7 @@ Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
   user_info = {
       :first => "Loraine",
       :last => "Plyler", 
-       :email => "jdoe"+String(rand(4))+"@example.com",
+       :email => "devldapuser@slidev.org",
        :password => "secret", 
        :emailtoken => "token",
        :vendor => vendor,

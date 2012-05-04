@@ -10,7 +10,7 @@ development:
     ldap_pass: Y;Gtf@w{
     is_sandbox: false
     email_host: mon.slidev.org
-    email_port: 25
+    email_port: 3000
 development_sb:
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
@@ -23,7 +23,7 @@ development_sb:
     ldap_pass: Y;Gtf@w{
     is_sandbox: true
     email_host: mon.slidev.org
-    email_port: 25
+    email_port: 3000
 test:
     api_base: https://devapp1.slidev.org/api/rest
     ldap_host: ldap.slidev.org
@@ -33,7 +33,7 @@ test:
     ldap_pass: Y;Gtf@w{
     is_sandbox: false
     email_host: mon.slidev.org
-    email_port: 25
+    email_port: 3000
 deployment:
     api_base: https://nxbuild.slidev.org/api/rest
     client_id: BsgPgjFApl
@@ -46,7 +46,7 @@ deployment:
     ldap_pass: Y;Gtf@w{
     is_sandbox: false
     email_host: mon.slidev.org
-    email_port: 25
+    email_port: 3000
 integration:
     api_base: https://testapi1.slidev.org/api/rest
     client_id: zl9FejUhnV
@@ -68,7 +68,7 @@ acceptance-tests:
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
     email_host: mon.slidev.org
-    email_port: 25
+    email_port: 3000
 nxbuild2:
     api_base: https://nxbuild2.slidev.org/api/rest
     client_id: zl9FejUhnV
@@ -90,7 +90,7 @@ team:
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
     email_host: mon.slidev.org
-    email_port: 25
+    email_port: 3000
     is_sandbox: false
 team_sb:
     api_base: https://ci.slidev.org/api/rest
@@ -103,7 +103,7 @@ team_sb:
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
     email_host: mon.slidev.org
-    email_port: 25
+    email_port: 3000
     is_sandbox: true
     
 
