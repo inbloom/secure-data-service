@@ -9,15 +9,16 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.landingzone.LandingZoneManager;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.processor.MaestroOutboundProcessor;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
+import org.slc.sli.ingestion.processors.PitInboundProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.XmlFileProcessor;
-import org.slc.sli.ingestion.processors.XmlSplitterProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
@@ -30,6 +31,8 @@ import org.slc.sli.ingestion.tenant.TenantPopulator;
  */
 @Component
 public class IngestionRouteBuilder extends SpringRouteBuilder {
+
+    private static final String WORK_ITEM_ROUTE = "workItemRoute";
 
     @Autowired
     ZipFileProcessor zipFileProcessor;
@@ -56,7 +59,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private XmlFileProcessor xmlFileProcessor;
 
     @Autowired
-    private XmlSplitterProcessor splitterProcessor;
+    private MaestroOutboundProcessor maestroOutputProcessor;
+
+    @Autowired
+    private PitInboundProcessor pitInboundProcessor;
 
     @Autowired
     JobReportingProcessor jobReportingProcessor;
@@ -95,6 +101,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             buildMaestroRoutes(workItemQueueUri);
         } else if (IngestionNodeType.PIT.equals(ingestionNodeType)) {
             buildPitRoutes(workItemQueueUri);
+            configureCommonRoute(workItemQueueUri);
         }
 
         else {
@@ -105,6 +112,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             }
 
             configureCommonRoute(workItemQueueUri);
+            configureSingleNodeRoute(workItemQueueUri);
 
             // configure ctlFilePoller and zipFilePoller per landing zone
             for (LocalFileSystemLandingZone lz : landingZoneManager.getLandingZones()) {
@@ -125,6 +133,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
      */
     private void buildPitRoutes(String workItemQueueUri) {
 
+        from( symphonyQueueUri ).routeId( WORK_ITEM_ROUTE )
+        .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Inbound request for pit to play.")
+        .process( pitInboundProcessor ).to( workItemQueueUri );
     }
 
     /**
@@ -138,18 +149,22 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
      */
     private void buildMaestroRoutes(String workItemQueueUri) {
 
-        // TODO - This code is not correct :)
+
 
         for (LocalFileSystemLandingZone lz : landingZoneManager.getLandingZones()) {
             configureRoutePerLandingZone(workItemQueueUri, lz);
         }
 
+        // Copy and paste - yikes.
+        configureCommonRoute( workItemQueueUri);
+
+
         // Maestro route is creating work items that can be distributed to pit nodes.
 
-        from(workItemQueueUri).routeId("workItemRoute").choice()
+        from(workItemQueueUri).routeId(WORK_ITEM_ROUTE).choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
-                .process(splitterProcessor).to(workItemQueueUri);
+                .process( maestroOutputProcessor ).to(symphonyQueueUri );
 
     }
 
@@ -179,7 +194,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: workItemRoute -> main ingestion route: ctlFileProcessor -> xmlFileProcessor ->
         // edFiProcessor -> persistenceProcessor
         from(workItemQueueUri)
-                .routeId("workItemRoute")
+                .routeId(WORK_ITEM_ROUTE)
                 .choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.BATCH_REQUEST.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing control file.")
@@ -194,8 +209,15 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .process(xmlFileProcessor).to(workItemQueueUri)
                 .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
-                .process(edFiProcessor).to(workItemQueueUri)
-                .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
+                .process(edFiProcessor).to(workItemQueueUri);
+
+    }
+
+    /** I think this will need to go and use a seda queue for developer testing. */
+    private void configureSingleNodeRoute( String workItemQueueUri) {
+
+        from(workItemQueueUri).routeId(WORK_ITEM_ROUTE)
+        .choice().when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Data transformation.")
                 .process(transformationProcessor).to(workItemQueueUri)
                 .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
@@ -208,13 +230,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Dispatching jobs for file.")
                 .choice().when(header("hasErrors").isEqualTo(true)).to("direct:stop").otherwise().to(workItemQueueUri);
 
-        // routeId: persistencePipeline
-        from("direct:persist")
-                .routeId("persistencePipeline")
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Persisiting data for file.")
-                .log("persist: jobId: " + header("jobId").toString()).choice().when(header("dry-run").isEqualTo(true))
-                .log("job has errors or dry-run specified; data will not be published").to("direct:stop").otherwise()
-                .log("publishing data now!").process(persistenceProcessor).to("direct:stop");
+
+        configurePersistenceRoute();
 
         // routeId: jobReporting
         from("direct:jobReporting")
@@ -226,6 +243,18 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         from("direct:stop").routeId("stop").wireTap("direct:jobReporting")
                 .log("end of job: " + header("jobId").toString())
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - File processed.").stop();
+    }
+
+    private void configurePersistenceRoute() {
+
+        // routeId: persistencePipeline
+
+        from("direct:persist")
+                .routeId("persistencePipeline")
+                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Persisiting data for file.")
+                .log("persist: jobId: " + header("jobId").toString()).choice().when(header("dry-run").isEqualTo(true))
+                .log("job has errors or dry-run specified; data will not be published").to("direct:stop").otherwise()
+                .log("publishing data now!").process(persistenceProcessor).to("direct:stop");
     }
 
 }

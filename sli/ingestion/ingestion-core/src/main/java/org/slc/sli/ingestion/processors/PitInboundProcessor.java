@@ -2,6 +2,7 @@ package org.slc.sli.ingestion.processors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.springframework.stereotype.Component;
 
 /**
  * Processes messages for Pit nodes.
@@ -9,7 +10,8 @@ import org.apache.camel.Processor;
  * @author smelody
  *
  */
-public class PitProcessor implements Processor {
+@Component
+public class PitInboundProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
