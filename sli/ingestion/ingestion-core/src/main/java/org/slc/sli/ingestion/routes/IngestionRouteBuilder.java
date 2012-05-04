@@ -133,9 +133,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
      */
     private void buildPitRoutes(String workItemQueueUri) {
 
-        from( symphonyQueueUri ).routeId( WORK_ITEM_ROUTE )
+        from(symphonyQueueUri).routeId(WORK_ITEM_ROUTE)
         .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Inbound request for pit to play.")
-        .process( pitInboundProcessor ).to( workItemQueueUri );
+        .process(pitInboundProcessor).to(workItemQueueUri);
     }
 
     /**
@@ -156,16 +156,15 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         }
 
         // Copy and paste - yikes.
-        configureCommonRoute( workItemQueueUri);
+        configureCommonRoute(workItemQueueUri);
 
 
         // Maestro route is creating work items that can be distributed to pit nodes.
 
-
         from(workItemQueueUri).routeId(WORK_ITEM_ROUTE).choice()
-                .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
-                .process( maestroOutputProcessor ).to(symphonyQueueUri );
+            .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_STAGED.name()))
+            .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Maestor Creating Music Sheets.")
+            .process(maestroOutputProcessor).to(symphonyQueueUri);
 
     }
 
@@ -215,7 +214,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     }
 
     /** I think this will need to go and use a seda queue for developer testing. */
-    private void configureSingleNodeRoute( String workItemQueueUri) {
+    private void configureSingleNodeRoute(String workItemQueueUri) {
 
         from(workItemQueueUri).routeId(WORK_ITEM_ROUTE)
         .choice().when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))

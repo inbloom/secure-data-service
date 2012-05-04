@@ -16,7 +16,8 @@ public enum BatchJobStageType {
     EDFI_PROCESSOR("EdFiProcessor"),
     TRANSFORMATION_PROCESSOR("TransformationProcessor"),
     PERSISTENCE_PROCESSOR("PersistenceProcessor"),
-    JOB_REPORTING_PROCESSOR("JobReportingProcessor");
+    JOB_REPORTING_PROCESSOR("JobReportingProcessor"),
+    MAESTRO_MUSIC_SHEET_CREATION("MaestroOutboundProcessor");
 
     private final String name;
 
