@@ -1,6 +1,7 @@
 require 'approval'
 require 'rumbster'
 require 'message_observers'
+require 'net/imap'
 require_relative '../../../../../utils/sli_utils.rb'
 
 Before do 
@@ -13,18 +14,19 @@ end
 
 Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
   sender_email_address = "admin@SLC.org"
-  email_name = "SLC Admin"
+  @email_name = "SLC Admin"
   test_port = 2525
   
   if live_or_mock == "live"
-    @live == true
+    @mode = true
     @email_conf = {
       :host => 'mon.slidev.org',
-      :sender_name => email_name,
+      :port => 3000,
+      :sender_name => @email_name,
       :sender_email_addr => sender_email_address
     }
   else
-    @live = false
+    @mode = false
     @rumbster = Rumbster.new(test_port)
     @message_observer = MailMessageObserver.new
     @rumbster.add_observer @message_observer
@@ -32,7 +34,7 @@ Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
     @email_conf = {
       :host => '127.0.0.1',
       :port => test_port,
-      :sender_name => email_name,
+      :sender_name => @email_name,
       :sender_email_addr => sender_email_address
     }
   end
@@ -54,7 +56,7 @@ end
 
 Given /^login name "([^"]*)" ([^"]*) in the account request queue$/ do |arg1, status|
   intializaApprovalEngineAndLDAP()
-  if @live
+  if @mode
     @userinfo[:email] = "devldapuser@slidev.org"
   else
     @userinfo[:email] = arg1
@@ -76,18 +78,32 @@ Given /^login name "([^"]*)" ([^"]*) in the account request queue$/ do |arg1, st
 end
 
 When /^I approve the account request$/ do
+  @time = Time.now.getutc
   ApprovalEngine.change_user_status(@userinfo[:email], "approve")
   assert(@ldap.read_user(@userinfo[:email])[:status] == "approved", "User #{@userinfo[:email]} is not in pending state")
 end
 
 Then /^a new account is created in production LDAP with login name "([^"]*)" and the role is "([^"]*)"$/ do |arg1, arg2|
-  arg1 = "devldapuser@slidev.org" if @live
+  arg1 = "devldapuser@slidev.org" if @mode
   assert(@ldap.read_user(@userinfo[:email])[:email] == arg1, "User #{@userinfo[:email]} is not created in LDAP")
   #assert(@ldap.read_user(@userinfo[:email])[:role] == arg2, "User #{@userinfo[:email]} is does not have role #{arg2}")
 end
 
 Then /^an email is sent to the requestor with a link to the application registration tool$/ do
-  if @live
+  if @mode
+    defaultUser = 'devldapuser'
+    defaultPassword = 'Y;Gtf@w{'
+    imap = Net::IMAP.new('mon.slidev.org', 993, true, nil, false)
+    imap.authenticate('LOGIN', defaultUser, defaultPassword)
+    imap.examine('INBOX')
+    
+    ids = imap.search(["FROM", @email_name])
+    content = imap.fetch(ids[-1], "BODY[TEXT]")[0].attr["BODY[TEXT]"]
+    subject = imap.fetch(ids[-1], "BODY[HEADER.FIELDS (SUBJECT)]")[0].attr["BODY[HEADER.FIELDS (SUBJECT)]"]
+    found = true if content != nil
+    imap.disconnect
+    assert(found, "Email was not found on SMTP server")
+    assert(subject.include?("Your account has been approved."), "Subject in email is not correct")
   else
     assert(@message_observer.messages.size == 1, "Number of messages is not equal to 1")
     email = @message_observer.messages.first
