@@ -87,7 +87,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     private NodeInfo nodeInfo;
 
-    @Value("${sli.ingestion.queue.maestroPit.queueURI")
+    @Value("${sli.ingestion.queue.maestroPit.queueURI}")
     private String symphonyQueue;
 
     private String symphonyQueueUri;
@@ -104,9 +104,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         } else if (IngestionNodeType.PIT.equals(nodeInfo.getNodeType())) {
             buildPitRoutes(workItemQueueUri);
             configureCommonRoute(workItemQueueUri);
-        }
-
-        else {
+        } else {
 
             if (loadDefaultTenants) {
                 // populate the tenant collection with a default set of tenants
