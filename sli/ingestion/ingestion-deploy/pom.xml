@@ -11,7 +11,7 @@
 
 
 	<artifactId>ingestion-deploy</artifactId>
-	<version>${parent.version}</version>
+	<version>${project.parent.version} </version>
 
 	<packaging>war</packaging>
 
