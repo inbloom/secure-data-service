@@ -439,15 +439,17 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Returns the term and the year as a string for a given student Section association.
+     * 
      * @param stuSectAssocs
      * @param sectionId
      * @return
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private String getSemesterYear(List<Map<String, Object>> stuSectAssocs, String sectionId) {
         String semesterString = null;
         for (Map<String, Object> assoc : stuSectAssocs) {
             if (((String) assoc.get(Constants.ATTR_SECTION_ID)).equalsIgnoreCase(sectionId)) {
-                Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
+                Map<String, Object> sections = (Map) assoc.get(Constants.ATTR_SECTIONS);
                 semesterString = buildSemesterYearString(sections);
                 break;
             }
@@ -457,14 +459,28 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Extracts the semester+Year from the section passed.
+     * 
      * @param sections
-     * @return  (e.g. FallSemester2010-2011 )
+     * @return (e.g. FallSemester2010-2011 )
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private String buildSemesterYearString(Map<String, Object> section) {
         String semesterString = null;
-        String term = (String) ((Map) section.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_TERM);
-        String year = (String) ((Map) section.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_SCHOOL_YEAR);
-        semesterString = term.replaceAll(" ", "") + year.replaceAll(" ", "");
+        if (section == null) {
+            return semesterString;
+        }
+        
+        Map<String, Object> sessions = (Map) section.get(Constants.ATTR_SESSIONS);
+        if (sessions == null) {
+            return semesterString;
+        }
+        
+        String term = (String) sessions.get(Constants.ATTR_TERM);
+        String year = (String) sessions.get(Constants.ATTR_SCHOOL_YEAR);
+        if (term != null && year != null) {
+            semesterString = term.replaceAll(" ", "") + year.replaceAll(" ", "");
+        }
+        
         return semesterString;
     }
 
@@ -474,7 +490,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      * @param student
      * @param sectionId
      */
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings("unchecked")
     private void addCurrentSemesterGrades(GenericEntity student, String sectionId) {
         // Sort the grades
         SortedSet<GenericEntity> sortedList = new TreeSet<GenericEntity>(new Comparator<GenericEntity>() {

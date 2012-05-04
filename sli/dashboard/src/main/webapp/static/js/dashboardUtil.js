@@ -233,113 +233,113 @@ DashboardUtil.Grid.Formatters = {
         },
         
         FuelGaugeWithScore: function(value, options, rowObject) {
-			var perfLevelClass = "";
-			var name = options.colModel.formatoptions.name;
-			var valueField = options.colModel.formatoptions.valueField;
-			
-			var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
-			
-			if (value == undefined || value == null) {
-				"<span class='fuelGauge-perfLevel'>!</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
-			}
-			
-			if (!assessments || assessments == undefined) {
+            var perfLevelClass = "";
+            var name = options.colModel.formatoptions.name;
+            var valueField = options.colModel.formatoptions.valueField;
+            
+            var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
+            
+            if (value == undefined || value == null) {
+                "<span class='fuelGauge-perfLevel'>!</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
+            }
+            
+            if (!assessments || assessments == undefined) {
 
-				if (value == undefined || value == null) {
-					value = "!";
-				}
-				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
-			}
-			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
-			
-			if (!score || score == undefined) {
-				return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
-			}
-			
-			var cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel;
-			var cutPointsArray = DashboardUtil.CutPoints.toArray(cutPoints);
-			var perfLevel = DashboardUtil.CutPoints.getLevelFromArray(cutPointsArray, score);
-			var defaultCutPointsSettings = { 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}};
-			var cutPointsSettings = (options.colModel.formatoptions.cutPoints) ? options.colModel.formatoptions.cutPoints : defaultCutPointsSettings;
-					
-			var cutPointLevel = cutPointsSettings[perfLevel];
-			if (cutPointLevel != null && cutPointLevel != undefined) {
-				perfLevelClass = cutPointLevel.style;
-			}
-			
-			var width = options.colModel.width;
-			if (width != null &&  width != undefined) {
-				options.colModel.formatoptions["fuelGaugeWidth"] = Math.round(width * 3/400) * 100;
-			}
-			options.colModel.formatoptions["cutPointsArray"] = cutPointsArray;
-			options.colModel.formatoptions["perfLevel"] = perfLevel;
-			options.colModel.formatoptions["perfLevelClass"] = perfLevelClass;
-			
-			return "<span class='" + perfLevelClass + " fuelGauge-perfLevel'>" + value + "</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
-		},
-		
-		FuelGauge: function(value, options, rowObject) {
-			var name = options.colModel.formatoptions.name;
-			var valueField = options.colModel.formatoptions.valueField;
-			
-			var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
-			if (!assessments || assessments == undefined) {
-				return "" ;
-			}
-			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
-			
-			if (!score || score == undefined || value == undefined || value == null) {
-				score = 0;
-			}
-			
-			var fieldName = options.colModel.formatoptions.fieldName;
-			var cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel;
+                if (value == undefined || value == null) {
+                    value = "!";
+                }
+                return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+            }
+            var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
+            
+            if (!score || score == undefined) {
+                return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+            }
+            
+            var cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel;
+            var cutPointsArray = DashboardUtil.CutPoints.toArray(cutPoints);
+            var perfLevel = DashboardUtil.CutPoints.getLevelFromArray(cutPointsArray, score);
+            var defaultCutPointsSettings = { 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}};
+            var cutPointsSettings = (options.colModel.formatoptions.cutPoints) ? options.colModel.formatoptions.cutPoints : defaultCutPointsSettings;
+                    
+            var cutPointLevel = cutPointsSettings[perfLevel];
+            if (cutPointLevel != null && cutPointLevel != undefined) {
+                perfLevelClass = cutPointLevel.style;
+            }
+            
+            var width = options.colModel.width;
+            if (width != null &&  width != undefined) {
+                options.colModel.formatoptions["fuelGaugeWidth"] = Math.round(width * 3/400) * 100;
+            }
+            options.colModel.formatoptions["cutPointsArray"] = cutPointsArray;
+            options.colModel.formatoptions["perfLevel"] = perfLevel;
+            options.colModel.formatoptions["perfLevelClass"] = perfLevelClass;
+            
+            return "<span class='" + perfLevelClass + " fuelGauge-perfLevel'>" + value + "</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
+        },
+        
+        FuelGauge: function(value, options, rowObject) {
+            var name = options.colModel.formatoptions.name;
+            var valueField = options.colModel.formatoptions.valueField;
+            
+            var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
+            if (!assessments || assessments == undefined) {
+                return "" ;
+            }
+            var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
+            
+            if (!score || score == undefined || value == undefined || value == null) {
+                score = 0;
+            }
+            
+            var fieldName = options.colModel.formatoptions.fieldName;
+            var cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel;
 
-			var cutPointsArray = options.colModel.formatoptions["cutPointsArray"];
-			if (cutPointsArray == null || cutPointsArray == undefined) {
-				cutPointsArray = DashboardUtil.CutPoints.toArray(cutPoints);
-			}
-			
-			var perfLevel = options.colModel.formatoptions["perfLevel"];
-			if (perfLevel == null || perfLevel == undefined ) {
-				perfLevel = DashboardUtil.CutPoints.getLevelFromArray(cutPointsArray, score);
-			}
-			
-			var perfLevelClass = options.colModel.formatoptions["perfLevelClass"];
-			if (perfLevelClass == null || perfLevelClass == undefined) {
-				var cutPointLevel = options.colModel.formatoptions.cutPoints[perfLevel];
-				if (cutPointLevel != null && cutPointLevel != undefined) {
-					perfLevelClass = cutPointLevel.style;
-				} else {
-					perfLevelClass = "";
-				}
-			}
-			
-			var divId = fieldName + counter();
-			var returnValue = "<div id='" + divId + "' class='fuelGauge " + perfLevelClass + "' >";
-			returnValue += "<script>";
-			returnValue += "var cutPoints = new Array(" + DashboardUtil.CutPoints.getArrayToString(cutPointsArray) + ");";
-			returnValue += "var fuelGauge = new FuelGaugeWidget ('" + divId + "', " + score + ", cutPoints);";
-			
-			var width = options.colModel.formatoptions["fuelGaugeWidth"];
-			if (width == null || width == undefined) {
-				width = options.colModel.width;
-				if (width != null && width != undefined) {
-					width = Math.round(width * 9 / 100) * 10;
-				} else {
-					width = 0;
-				}
-			}
-			
-			var height = Math.sqrt(width);
-			height -= height % 1;//removing the decimals.
-			
-			returnValue += "fuelGauge.setSize('" + width + "', '" + height + "');"
-			returnValue += "fuelGauge.create();";
-			returnValue += "</script>";
-			returnValue += "</div>";
-			return  returnValue;
-		},
+            var cutPointsArray = options.colModel.formatoptions["cutPointsArray"];
+            if (cutPointsArray == null || cutPointsArray == undefined) {
+                cutPointsArray = DashboardUtil.CutPoints.toArray(cutPoints);
+            }
+            
+            var perfLevel = options.colModel.formatoptions["perfLevel"];
+            if (perfLevel == null || perfLevel == undefined ) {
+                perfLevel = DashboardUtil.CutPoints.getLevelFromArray(cutPointsArray, score);
+            }
+            
+            var perfLevelClass = options.colModel.formatoptions["perfLevelClass"];
+            if (perfLevelClass == null || perfLevelClass == undefined) {
+                var cutPointLevel = options.colModel.formatoptions.cutPoints[perfLevel];
+                if (cutPointLevel != null && cutPointLevel != undefined) {
+                    perfLevelClass = cutPointLevel.style;
+                } else {
+                    perfLevelClass = "";
+                }
+            }
+            
+            var divId = fieldName + counter();
+            var returnValue = "<div id='" + divId + "' class='fuelGauge " + perfLevelClass + "' >";
+            returnValue += "<script>";
+            returnValue += "var cutPoints = new Array(" + DashboardUtil.CutPoints.getArrayToString(cutPointsArray) + ");";
+            returnValue += "var fuelGauge = new FuelGaugeWidget ('" + divId + "', " + score + ", cutPoints);";
+            
+            var width = options.colModel.formatoptions["fuelGaugeWidth"];
+            if (width == null || width == undefined) {
+                width = options.colModel.width;
+                if (width != null && width != undefined) {
+                    width = Math.round(width * 9 / 100) * 10;
+                } else {
+                    width = 0;
+                }
+            }
+            
+            var height = Math.sqrt(width);
+            height -= height % 1;//removing the decimals.
+            
+            returnValue += "fuelGauge.setSize('" + width + "', '" + height + "');"
+            returnValue += "fuelGauge.create();";
+            returnValue += "</script>";
+            returnValue += "</div>";
+            return  returnValue;
+        },
 
         Grade: function(value, options, rowobject) {
             var div = "<div class=\"";
