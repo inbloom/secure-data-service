@@ -300,7 +300,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Grabs the subject area from the data based on the section ID.
-     *
+     * 
      * @param stuSectAssocs
      * @param sectionId
      * @return
@@ -315,19 +315,26 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 break;
             }
         }
-
+        
         return subjectArea;
     }
     
+    /**
+     * Grabs the Subject Area from a section.
+     * 
+     * @param sections
+     * @return
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private String getSubjectArea(Map<String, Object> sections) {
         String subjectArea = null;
         
-        if(sections == null){
+        if (sections == null) {
             return subjectArea;
         }
         
         Map<String, Object> courses = (Map) sections.get(Constants.ATTR_COURSES);
-        if(courses == null) {
+        if (courses == null) {
             return subjectArea;
         }
         
@@ -386,7 +393,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      *
      * @param student
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked" })
     private void addFinalGrades(GenericEntity student, String sectionId) {
         try {
             Map<String, Object> transcripts = (Map<String, Object>) student.get(Constants.ATTR_TRANSCRIPT);
@@ -396,13 +403,13 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
             /*
              * For each student section association, we have to determine if it is in the same
-             * subject area as the sectionid passed.  If it is then we add it to our List.
+             * subject area as the sectionid passed. If it is then we add it to our List.
              * Once we have a list of sections. We can grab all of the semester grades
              * for those sections whose subject area intersect.
              */
             List<Map<String, Object>> stuSectAssocs = (List<Map<String, Object>>) transcripts
                     .get(Constants.ATTR_STUDENT_SECTION_ASSOC);
-            if(stuSectAssocs == null) {
+            if (stuSectAssocs == null) {
                 return;
             }
             
