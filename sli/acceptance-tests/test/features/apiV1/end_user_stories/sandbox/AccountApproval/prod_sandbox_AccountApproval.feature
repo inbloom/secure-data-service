@@ -5,7 +5,6 @@ Background:
   Given I have a "mock" SMTP/Email server configured
   #Given I have a "live" SMTP/Email server configured
 
-@test
 Scenario: As a slc operator I approve pending production account request
 Given a production account request for vendor "Macro Corp" 
 And first name "Loraine" and last name "Plyler" 
@@ -19,12 +18,13 @@ Given a production account request for vendor "Macro Corp"
 And first name "Loraine" and last name "Plyler" 
 And login name "Lplyer@macrocorp.com" pending in the account request queue
 When I reject the account request
-Then a no account exists in production LDAP with login name "Lplyer@macrocorp.com"
+Then an account exists in production LDAP with login name "Lplyer@macrocorp.com"
+And state is "rejected"
 
 Scenario: As a slc operator I disable an approved production account
-Given an approved production account for vendor "Macro Corp" 
+Given a production account request for vendor "Macro Corp" 
 And first name "Loraine" and last name "Plyler" 
-And login name "Lplyer@macrocorp.com" 
+And login name "Lplyer@macrocorp.com" approved in the account request queue
 When I disable the account 
 Then production LDAP account with login name "Lplyer@macrocorp.com" is set as inactive
 
