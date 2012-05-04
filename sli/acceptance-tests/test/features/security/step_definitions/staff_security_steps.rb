@@ -23,7 +23,6 @@ end
 
 Then /^the response does not includes the protected fields$/ do
   @staff.each do |staff|
-    puts staff
     assert("Shouldn't see fields like BirthDay", !staff.has_key?("birthDate"))
   end
 end
@@ -41,10 +40,11 @@ Then /^the response includes the protected fields$/ do
   end
 end
 
-When /^I make an API call to access myself$/ do
-  pending # express the regexp above with the code you wish you had
+Then /^I should see my restricted information$/ do
+  assert("Should see their own birthday", @staff.has_key?("birthDate"))
 end
 
-Then /^I see my restricted fields$/ do
-  pending # express the regexp above with the code you wish you had
+When /^I make an API call to access myself$/ do
+  restHttpGet("/v1/teachers/67ed9078-431a-465e-adf7-c720d08ef512", @format)
+  @staff = JSON.parse(@res.body)
 end
