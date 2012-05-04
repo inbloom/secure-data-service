@@ -60,11 +60,22 @@ class TestApprovalEngine < Test::Unit::TestCase
 		assert(@ldap.read_user(@jd_email)[:status] == ApprovalEngine::STATE_APPROVED)
 
 		if is_sandbox
-			groups = @ldap.get_user_groups(@jd_email)
 			assert(@ldap.get_user_groups(@jd_email).sort == ApprovalEngine::SANDBOX_ROLES.sort)
 		else 
 			assert(@ldap.get_user_groups(@jd_email).sort == ApprovalEngine::PRODUCTION_ROLES.sort)
 		end 
+
+		ApprovalEngine.change_user_status(@jd_email, ApprovalEngine::ACTION_DISABLE)
+		assert(@ldap.read_user(@jd_email)[:status] == ApprovalEngine::STATE_DISABLED)
+		assert(ApprovalEngine.get_roles(@jd_email) == [])
+		ApprovalEngine.change_user_status(@jd_email, ApprovalEngine::ACTION_ENABLE)
+		assert(@ldap.read_user(@jd_email)[:status] == ApprovalEngine::STATE_APPROVED)
+
+		if is_sandbox
+			assert(ApprovalEngine.get_roles(@jd_email).sort == ApprovalEngine::SANDBOX_ROLES.sort)
+		else
+			assert(ApprovalEngine.get_roles(@jd_email).sort == ApprovalEngine::PRODUCTION_ROLES.sort)
+		end
 
 		# move the other user to rejected state 
 		if !is_sandbox

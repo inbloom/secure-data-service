@@ -45,7 +45,7 @@ class LDAPStorage
      		}
      	}
      	@ldap = Net::LDAP.new @ldap_conf
-     	raise "Could not bind to ldap server." if !@ldap.bind 
+     	raise ldap_ex("Could not bind to ldap server.") if !@ldap.bind 
 	end
 
 	# user_info = {
@@ -72,10 +72,7 @@ class LDAPStorage
 
 		LDAP_ATTR_MAPPING.each { |ldap_k, rec_k| attr[ldap_k] = user_info[rec_k] }
 		if !(@ldap.add(:dn => dn, :attributes => attr))
-			if user_exists?(user_info[:email])
-				raise "User #{user_info[:email]} already exists."
-			end
-			raise "Unable to create user in LDAP: #{user_info}"
+			raise ldap_ex("Unable to create user in LDAP: #{user_info}.")
 		end
 	end
 
@@ -89,7 +86,9 @@ class LDAPStorage
 	def update_status(user)
 		if user_exists?(user[:email])
 			dn = get_DN(user[:email])
-			@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[:status], user[:status])
+			if !@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[:status], user[:status])
+				raise ldap_ex("Could not update user status for user #{user[:email]}")
+			end
 		end
 	end
 
@@ -108,14 +107,12 @@ class LDAPStorage
     			:member => user_dn
   			}
   			if !@ldap.add(:dn => group_dn, :attributes => member_attrib)
-	  			op = @ldap.get_operation_result
-  				raise "Could not add role. LDAP(code=#{op.code}): #{op.message}" 
+  				raise ldap_ex("Could not add #{email_address} to group #{group_id}.")
 	  		end
 	  	else
 	  		if !group_found[:member].index(user_dn)
 		  		if !@ldap.modify(:dn => group_dn, :operations => [[:add, GROUP_MEMBER_ATTRIBUTE, user_dn]])
-		  			op = @ldap.get_operation_result
-	  				raise "Could not add user to group. LDAP(code=#{op.code}): #{op.message}" 
+	  				raise ldap_ex("Could not add #{email_address} to group #{group_id}.")
 		  		end
 		  	end
 	  	end
@@ -210,6 +207,11 @@ class LDAPStorage
 			end
 			user_rec
 		end
+	end
+
+	def ldap_ex(msg)
+		op = @ldap.get_operation_result
+		"#{msg} (#{op.code}) #{op.message}"
 	end
 end
 
