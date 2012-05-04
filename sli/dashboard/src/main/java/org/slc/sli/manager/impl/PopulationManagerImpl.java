@@ -310,13 +310,28 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         String subjectArea = null;
         for (Map<String, Object> assoc : stuSectAssocs) {
             if (sectionId.equalsIgnoreCase((String) assoc.get(Constants.ATTR_SECTION_ID))) {
-                Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
-                subjectArea = (String) ((Map) sections.get(Constants.ATTR_COURSES)).get(Constants.ATTR_SUBJECTAREA);
+                Map<String, Object> sections = (Map) assoc.get(Constants.ATTR_SECTIONS);
+                subjectArea = getSubjectArea(sections);
                 break;
             }
         }
 
         return subjectArea;
+    }
+    
+    private String getSubjectArea(Map<String, Object> sections) {
+        String subjectArea = null;
+        
+        if(sections == null){
+            return subjectArea;
+        }
+        
+        Map<String, Object> courses = (Map) sections.get(Constants.ATTR_COURSES);
+        if(courses == null) {
+            return subjectArea;
+        }
+        
+        return (String) courses.get(Constants.ATTR_SUBJECTAREA);
     }
 
     /**
@@ -395,13 +410,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             List<Map<String, Object>> interSections = new ArrayList<Map<String, Object>>();
             for (Map<String, Object> assoc : stuSectAssocs) {
                 Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
-                if(sections == null){
-                    continue;
-                }
                 // This case will catch if the subjectArea is null
-                if (subjectArea == null
-                        || subjectArea.equalsIgnoreCase((String) ((Map) sections.get(Constants.ATTR_COURSES))
-                        .get(Constants.ATTR_SUBJECTAREA))) {
+                if (subjectArea == null || subjectArea.equalsIgnoreCase(getSubjectArea(sections))) {
                     interSections.add(sections);
                 }
             }
