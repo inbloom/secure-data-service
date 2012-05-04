@@ -66,6 +66,15 @@ default:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+
+        # Symphony (maestro + pit) queue config
+        sli.ingestion.queue.maestroPit.host:
+        sli.ingestion.queue.maestroPit.port:
+        sli.ingestion.queue.maestroPit.queueURI: seda:IngestionSymphony
+        sli.ingestion.queue.maestroPit.concurrentConsumers: 4
+        sli.ingestion.queue.maestroPit.keystore:
+        sli.ingestion.queue.maestroPit.keystorePassword:
+
         sli.ingestion.nodeType: worker
         sli.ingestion.tenant.deriveTenants: true
         sli.ingestion.tenant.loadDefaultTenants: true
@@ -190,6 +199,17 @@ acceptance-tests:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
+
+
+        # TODO - need maestroPit queue config
+        # Symphony (maestro + pit) queue config
+        sli.ingestion.queue.maestroPit.host: devmq1.slidev.org
+        sli.ingestion.queue.maestroPit.port: 5445
+        sli.ingestion.queue.maestroPit.queueURI: jms-hornetq:IngestionSymphony
+        sli.ingestion.queue.maestroPit.concurrentConsumers: 4
+        sli.ingestion.queue.maestroPit.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.maestroPit.keystorePassword: Y0d@kn0ws
+
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
