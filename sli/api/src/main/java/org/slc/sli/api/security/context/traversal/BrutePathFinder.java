@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.slc.sli.api.security.context.resolver.SectionGracePeriodNodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
