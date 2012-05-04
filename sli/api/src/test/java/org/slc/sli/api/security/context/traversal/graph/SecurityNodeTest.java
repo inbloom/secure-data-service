@@ -3,7 +3,7 @@ package org.slc.sli.api.security.context.traversal.graph;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-import java.util.Set;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -28,7 +28,7 @@ public class SecurityNodeTest {
 
     @Test
     public void testGetConnections() throws Exception {
-        Set<SecurityNodeConnection> connections = node.getConnections();
+        List<SecurityNodeConnection> connections = node.getConnections();
         assertTrue(connections.size() == 1);
 
     }
