@@ -25,5 +25,4 @@ mkdir -p target/logs
 mongod --logpath target/logs/mongod.log &
 mvn integration-test
 mongo admin
-db.showdownServer()
-exit
+db.shutdownServer()
