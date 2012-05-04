@@ -327,15 +327,13 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private String getSubjectArea(Map<String, Object> sections) {
-        String subjectArea = null;
-        
         if (sections == null) {
-            return subjectArea;
+            return null;
         }
         
         Map<String, Object> courses = (Map) sections.get(Constants.ATTR_COURSES);
         if (courses == null) {
-            return subjectArea;
+            return null;
         }
         
         return (String) courses.get(Constants.ATTR_SUBJECTAREA);

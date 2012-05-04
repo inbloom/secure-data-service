@@ -8,6 +8,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,6 +29,9 @@ import org.slc.sli.entity.CustomConfig;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -299,6 +304,50 @@ public class LiveAPIClientTest {
             }
 
         };
+        SecurityContextHolder.getContext().setAuthentication(new Authentication() {
+            @Override
+            public String getName() {
+                // TODO Auto-generated method stub
+                return null;
+            }
+            
+            @Override
+            public void setAuthenticated(boolean isAuthenticated)
+                    throws IllegalArgumentException {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public boolean isAuthenticated() {
+                // TODO Auto-generated method stub
+                return false;
+            }
+            
+            @Override
+            public Object getPrincipal() {
+                // TODO Auto-generated method stub
+                return null;
+            }
+            
+            @Override
+            public Object getDetails() {
+                // TODO Auto-generated method stub
+                return null;
+            }
+            
+            @Override
+            public Object getCredentials() {
+                // TODO Auto-generated method stub
+                return null;
+            }
+            
+            @Override
+            public Collection<GrantedAuthority> getAuthorities() {
+                // TODO Auto-generated method stub
+                return Collections.emptyList();
+            }
+        });
         String token = "fakeToken";
         String[] ids = {"1", "2"};
 

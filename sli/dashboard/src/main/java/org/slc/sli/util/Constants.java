@@ -214,6 +214,11 @@ public final class Constants {
     // Grades for Sections Constants
     public static final String SECTION_LETTER_GRADE = "letterGrade";
     public static final String SECTION_COURSE = "courseTitle";
+    
+    //Roles
+    public static final String ROLE_IT_ADMINISTRATOR = "IT Administrator";
+    public static final String ROLE_EDUCATOR = "Educator";
+    public static final String ROLE_LEADER = "Leader";
 
     /**
      * Contains the possible values for FRE participation
