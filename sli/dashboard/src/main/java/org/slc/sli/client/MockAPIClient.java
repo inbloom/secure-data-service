@@ -454,4 +454,27 @@ public class MockAPIClient implements APIClient {
         return null;
     }
 
+    /**
+     * Return a url with the sortBy parameter
+     * @param url
+     * @param sortBy
+     * @return
+     */
+    @Override
+    public String sortBy(String url, String sortBy) {
+        return url + "?sortBy=" + sortBy;
+    };
+
+    /**
+     * Return a url with the sortBy and sortOrder parameter
+     * @param url
+     * @param sortBy
+     * @param sortOrder
+     *          "descending" or "ascending"
+     * @return
+     */
+    @Override
+    public String sortBy(String url, String sortBy, String sortOrder) {
+        return url + "?sortBy=" + sortBy + "&sortOrder=" + sortOrder;
+    };
 }
