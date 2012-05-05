@@ -2,9 +2,9 @@ package org.slc.sli.sandbox.idp.controller;
 
 import java.util.List;
 
-import org.slc.sli.sandbox.idp.service.AuthRequests;
-import org.slc.sli.sandbox.idp.service.LoginService;
-import org.slc.sli.sandbox.idp.service.LoginService.SamlResponse;
+import org.slc.sli.sandbox.idp.service.AuthRequestService;
+import org.slc.sli.sandbox.idp.service.SamlAssertionService;
+import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,21 +19,21 @@ import org.springframework.web.servlet.ModelAndView;
 public class SelectUser {
     
     @Autowired
-    LoginService loginService;
+    SamlAssertionService samlService;
     
     @Autowired
-    AuthRequests authRequestService;
+    AuthRequestService authRequestService;
     
     @RequestMapping(value = "/selectUser", method = RequestMethod.POST)
     public ModelAndView login(@RequestParam("userId") String userId,
             @RequestParam("selected_roles") List<String> roles, @RequestParam("SAMLRequest") String encodedSamlRequest,
             @RequestParam("realm") String realm) {
         
-        AuthRequests.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
+        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
         
-        SamlResponse samlResponse = loginService.login(userId, roles, null, requestInfo);
+        SamlAssertion samlAssertion = samlService.buildAssertion(userId, roles, null, requestInfo);
         ModelAndView mav = new ModelAndView("post");
-        mav.addObject("samlResponse", samlResponse);
+        mav.addObject("samlAssertion", samlAssertion);
         return mav;
         
     }

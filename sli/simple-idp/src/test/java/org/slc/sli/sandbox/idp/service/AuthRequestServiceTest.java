@@ -10,19 +10,19 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slc.sli.sandbox.idp.saml.SamlRequestDecoder;
 import org.slc.sli.sandbox.idp.saml.SamlRequestDecoder.SamlRequest;
-import org.slc.sli.sandbox.idp.service.AuthRequests.Request;
+import org.slc.sli.sandbox.idp.service.AuthRequestService.Request;
 
 /**
  * Unit tests
  */
 @RunWith(MockitoJUnitRunner.class)
-public class AuthRequestsTest {
+public class AuthRequestServiceTest {
     
     @Mock
     SamlRequestDecoder samlDecoder;
     
     @InjectMocks
-    AuthRequests authService = new AuthRequests();
+    AuthRequestService authService = new AuthRequestService();
     
     @Test
     public void testHappy() {

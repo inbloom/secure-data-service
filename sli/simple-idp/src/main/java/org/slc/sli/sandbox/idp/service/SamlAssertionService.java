@@ -11,15 +11,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * Handles building
+ * Handles building SAML Response
  * 
  * @author Ryan Farris <rfarris@wgen.net>
  * 
  */
 @Component
-public class LoginService {
+public class SamlAssertionService {
     
-    private static final Logger LOG = LoggerFactory.getLogger(LoginService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SamlAssertionService.class);
     
     @Autowired
     SamlResponseComposer samlComposer;
@@ -34,21 +34,23 @@ public class LoginService {
     private String issuerBase;
     
     /**
-     * Submits identity assertion to the API based upon the user's choices.
+     * Creates the identity assertion SAML Response to send to the API 
      * 
-     * @param user
-     *            selected user
+     * @param userId
+     *            userId to send back in saml assertion
      * @param roles
      *            selected roles
+     * @param attributes
+     *            map of user attributes to send back in saml assertion
      * @param requestInfo
      *            information previously obtained from an incoming SAMLRequest
      * @return redirect URI sent back by the api in response to the SAMLResponse
      */
-    public SamlResponse login(String userId, List<String> roles, Map<String, String> attributes,
-            AuthRequests.Request requestInfo) {
+    public SamlAssertion buildAssertion(String userId, List<String> roles, Map<String, String> attributes,
+            AuthRequestService.Request requestInfo) {
         String destination = requestInfo.getDestination();
         
-        LOG.info("Login for user: {} roles: {} inResponseTo: {} destination: {}", new Object[] { userId, roles,
+        LOG.info("Building SAML assertion for user: {} roles: {} attributes: {} inResponseTo: {} destination: {}", new Object[] { userId, roles, attributes,
                 requestInfo.getRequestId(), destination });
         
         String issuer = issuerBase + "?realm=" + requestInfo.getRealm();
@@ -56,7 +58,7 @@ public class LoginService {
         String encodedResponse = samlComposer.componseResponse(destination, issuer, requestInfo.getRequestId(), userId,
                 attributes, roles);
         
-        return new SamlResponse(destination, encodedResponse);
+        return new SamlAssertion(destination, encodedResponse);
     }
     
     protected void setIssuerBase(String base) {
@@ -66,11 +68,11 @@ public class LoginService {
     /**
      * Holds saml response info
      */
-    public static class SamlResponse {
+    public static class SamlAssertion {
         private final String redirectUri;
         private final String samlResponse;
         
-        public SamlResponse(String redirectUri, String samlResponse) {
+        public SamlAssertion(String redirectUri, String samlResponse) {
             this.redirectUri = redirectUri;
             this.samlResponse = samlResponse;
         }

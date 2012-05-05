@@ -11,10 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slc.sli.sandbox.idp.service.AuthRequests;
-import org.slc.sli.sandbox.idp.service.AuthRequests.Request;
-import org.slc.sli.sandbox.idp.service.LoginService;
-import org.slc.sli.sandbox.idp.service.LoginService.SamlResponse;
+import org.slc.sli.sandbox.idp.service.AuthRequestService;
+import org.slc.sli.sandbox.idp.service.AuthRequestService.Request;
+import org.slc.sli.sandbox.idp.service.SamlAssertionService;
+import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -24,10 +24,10 @@ import org.springframework.web.servlet.ModelAndView;
 public class SelectUserTest {
     
     @Mock
-    AuthRequests authRequestService;
+    AuthRequestService authRequestService;
     
     @Mock
-    LoginService loginService;
+    SamlAssertionService loginService;
     
     @InjectMocks
     SelectUser selectUser = new SelectUser();
@@ -41,12 +41,12 @@ public class SelectUserTest {
         List<String> roles = new ArrayList<String>();
         roles.add("myrole");
         
-        SamlResponse samlResponse = new SamlResponse("redirect_uri", "SAMLResponse");
-        Mockito.when(loginService.login("userId", roles, null, reqInfo)).thenReturn(samlResponse);
+        SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
+        Mockito.when(loginService.buildAssertion("userId", roles, null, reqInfo)).thenReturn(samlResponse);
         
         ModelAndView mov = selectUser.login("userId", roles, "SAMLRequest", "realm");
-        assertEquals("SAMLResponse", ((SamlResponse) mov.getModel().get("samlResponse")).getSamlResponse());
-        assertEquals("redirect_uri", ((SamlResponse) mov.getModel().get("samlResponse")).getRedirectUri());
+        assertEquals("SAMLResponse", ((SamlAssertion) mov.getModel().get("samlAssertion")).getSamlResponse());
+        assertEquals("redirect_uri", ((SamlAssertion) mov.getModel().get("samlAssertion")).getRedirectUri());
         assertEquals("post", mov.getViewName());
     }
 }

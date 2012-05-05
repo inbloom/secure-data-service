@@ -8,15 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Service that decodes SAMLRequests prior to login form being displayed.
+ * Service that decodes SAMLRequests 
  * 
  * @author Ryan Farris <rfarris@wgen.net>
  * 
  */
 @Component
-public class AuthRequests {
+public class AuthRequestService {
     
-    private static final Logger LOG = LoggerFactory.getLogger(AuthRequests.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AuthRequestService.class);
     
     @Autowired
     SamlRequestDecoder samlDecoder;

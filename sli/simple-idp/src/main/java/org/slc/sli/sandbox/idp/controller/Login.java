@@ -2,10 +2,10 @@ package org.slc.sli.sandbox.idp.controller;
 
 import java.io.IOException;
 
-import org.slc.sli.sandbox.idp.service.AuthRequests;
+import org.slc.sli.sandbox.idp.service.AuthRequestService;
 import org.slc.sli.sandbox.idp.service.AuthenticationException;
-import org.slc.sli.sandbox.idp.service.LoginService;
-import org.slc.sli.sandbox.idp.service.LoginService.SamlResponse;
+import org.slc.sli.sandbox.idp.service.SamlAssertionService;
+import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
 import org.slc.sli.sandbox.idp.service.RoleService;
 import org.slc.sli.sandbox.idp.service.UserService;
 import org.slc.sli.sandbox.idp.service.UserService.User;
@@ -27,7 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class Login {
     
     @Autowired
-    LoginService service;
+    SamlAssertionService samlService;
     
     @Autowired
     RoleService roleService;
@@ -36,7 +36,7 @@ public class Login {
     UserService userService;
     
     @Autowired
-    AuthRequests authRequestService;
+    AuthRequestService authRequestService;
     
     @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
     private boolean isSandboxImpersonationEnabled;
@@ -63,7 +63,7 @@ public class Login {
     public Object login(@RequestParam("userId") String userId, @RequestParam("password") String password,
             @RequestParam("SAMLRequest") String encodedSamlRequest, @RequestParam("realm") String realm) {
         
-        AuthRequests.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
+        AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
         User user;
         try {
             user = userService.authenticate(realm, userId, password);
@@ -74,10 +74,10 @@ public class Login {
             return mav;
         }
         
-        if (realm.equals("SLI") || !isSandboxImpersonationEnabled) {
-            SamlResponse samlResponse = service.login(userId, user.getRoles(), user.getAttributes(), requestInfo);
+        if (realm.equals("SLIAdmin") || !isSandboxImpersonationEnabled) {
+            SamlAssertion samlAssertion = samlService.buildAssertion(userId, user.getRoles(), user.getAttributes(), requestInfo);
             ModelAndView mav = new ModelAndView("post");
-            mav.addObject("samlResponse", samlResponse);
+            mav.addObject("samlAssertion", samlAssertion);
             return mav;
         } else {
             ModelAndView mav = new ModelAndView("selectUser");
