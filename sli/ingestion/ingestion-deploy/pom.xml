@@ -73,7 +73,7 @@
 					<url>${tomcat.url}</url>
 					<username>${tomcat.username}</username>
 					<password>${tomcat.password}</password>
-					<path>ingestion-service</path>
+					<path>/ingestion-service</path>
 					<warFile>${project.build.directory}/ingestion-service.war</warFile>
 
 				</configuration>
