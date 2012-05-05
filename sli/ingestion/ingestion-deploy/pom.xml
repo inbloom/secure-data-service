@@ -75,7 +75,7 @@
 					<password>${tomcat.password}</password>
 					<path>/ingestion-service</path>
 					<warFile>${project.build.directory}/ingestion-service.war</warFile>
-
+                    <update>true></update>
 				</configuration>
 			</plugin>
 
