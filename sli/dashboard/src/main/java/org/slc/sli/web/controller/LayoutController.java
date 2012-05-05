@@ -58,8 +58,8 @@ public class LayoutController extends GenericLayoutController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView handleLos(HttpServletRequest request) {
-        return handle(LOS_ID, null, request);
+    @RequestMapping(value = "/{id:[a-f0-9-]+}", method = RequestMethod.GET)
+    public ModelAndView handleLos(@PathVariable SafeUUID id, HttpServletRequest request) {
+        return handle(LOS_ID, id, request);
     }
 }

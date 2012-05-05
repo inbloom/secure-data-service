@@ -13,6 +13,7 @@ import java.util.Vector;
 
 import com.googlecode.ehcache.annotations.Cacheable;
 
+import org.slc.sli.entity.Config;
 import org.slc.sli.entity.Config.Data;
 import org.slc.sli.entity.CustomConfig;
 import org.slc.sli.entity.EdOrgKey;
@@ -252,13 +253,32 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements
      * Override from UserEdOrgManager.
      * Signature is pre-defined by the architect.
      */
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public GenericEntity getUserInstHierarchy(String token, Object key,
             Data config) {
         List<GenericEntity> entities = getUserInstHierarchy(token);
         GenericEntity entity = new GenericEntity();
         // Dashboard expects return one GenericEntity.
         entity.put("root", entities);
+        if (key != null) {
+        	//TODO: a better way of searching should be implemented.
+        	for (GenericEntity org : entities) {
+        		HashSet schools = ((HashSet)org.get("schools"));
+        		for(Object school : schools) {
+        			for(Object course : ((GenericEntity)school).getList("courses")) {
+        				for(Object section : ((GenericEntity)course).getList("sections")) {
+            				if (((GenericEntity)section).getId().equals((String)key)) {
+            					GenericEntity selectedOrg = new GenericEntity();
+            					selectedOrg.put("name", org.get("name"));
+            					selectedOrg.put("section", section);
+            					entity.put("selectedPopulation", selectedOrg);
+            				}
+            			}
+        			}
+        		}
+        	}
+        }
         return entity;
     }
     

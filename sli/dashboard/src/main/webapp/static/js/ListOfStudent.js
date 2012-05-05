@@ -2,24 +2,12 @@ var listOfStudents = 'listOfStudents';
 
 function getStudentListData() 
   {
-      var edorgSelect = document.getElementById("edOrgSelect");
-      var schoolSelect = document.getElementById("schoolSelect");
-      var courseSelect = document.getElementById("courseSelect");
-      var selectionSelect = document.getElementById("sectionSelect");
-      var edorgIndex = edorgSelect.options[edorgSelect.selectedIndex].value;
-      var schoolIndex = schoolSelect.options[schoolSelect.selectedIndex].value;
-      var courseIndex = courseSelect.options[courseSelect.selectedIndex].value;
-      var selectionIndex = selectionSelect.options[selectionSelect.selectedIndex].value;
-      var sections = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections;
-      DashboardProxy.load(
-    	  listOfStudents,
-          sections[selectionIndex].id,
-          function(panel) {
-              populateView(panel.viewConfig);
-              populateFilter();
-              printStudentList();
-          });
-          
+	  var edorgIndex = $("#edOrgSelect").val();
+      var schoolIndex = $("#schoolSelect").val();
+      var courseIndex = $("#courseSelect").val();
+      var selectionIndex = $("#sectionSelect").val();
+      
+      location.href = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections[selectionIndex].id;
   }
   
   function populateView(panelConfig) 
@@ -61,7 +49,7 @@ function getStudentListData()
       var panelConfig = DashboardProxy.getConfig(listOfStudents);
       var options={};
       var viewSelect=document.getElementById("viewSelect");
-      var viewIndex=viewSelect.options[viewSelect.selectedIndex].value;      
+      var viewIndex=0//viewSelect.options[viewSelect.selectedIndex].value;      
       if(viewIndex != -1) {
 	      jQuery.extend(options, panelConfig, {items:panelConfig.items[viewIndex].items});
 	      
@@ -93,9 +81,14 @@ function populateInstHierarchy(){
     }
     y += "</select>";
     document.getElementById("edorgDiv").innerHTML = y;
+    
+    if(instHierarchy.length == 1) {
+    	$("#edOrgSelect").val(0);
+    	populateSchoolMenu();
+    }
 }
 
-function populateSchoolMenu(){
+function populateSchoolMenu(id){
     var edorgSelect = document.getElementById("edOrgSelect");
     var edorgIndex = edorgSelect.options[edorgSelect.selectedIndex].value;
     var y = '';
@@ -107,20 +100,29 @@ function populateSchoolMenu(){
         y = "<select id='schoolSelect' onChange='clearStudentList();populateCourseMenu()'>";
         y += "<option value='-1'></option>"   ;
         var i = 0;
-        for(i = 0;i<temp.length;i++){
+        for(i = 0;i<temp.length;i++) {
+        	if (id != undefined && id != null && temp[i] == id ) {
+        		index = i
+        	}
             y += "<option value='" +i +"'>"+ temp[i].nameOfInstitution + "</option>";
         }
         y += "</select>";
     }
     document.getElementById("schoolDiv").innerHTML = y;
+    
+    if (instHierarchy[edorgIndex].schools.length == 1) {
+    	$("#schoolSelect").val(0);
+    	populateCourseMenu();
+    } 
 }
 
-function populateCourseMenu(){
+function populateCourseMenu(id){
     var edorgSelect = document.getElementById("edOrgSelect");
     var edorgIndex = edorgSelect.options[edorgSelect.selectedIndex].value;
     var schoolSelect = document.getElementById("schoolSelect");
     var schoolIndex = schoolSelect.options[schoolSelect.selectedIndex].value;
     var y = '';
+
     document.getElementById("sectionDiv").innerHTML = '';
     if( schoolIndex > -1) {
         var temp = instHierarchy[edorgIndex].schools[schoolIndex].courses;
@@ -129,10 +131,18 @@ function populateCourseMenu(){
         y += "<option value='-1'></option>";
         var j = 0;
         for(j = 0;j < temp.length;j++){
+        	if (id != undefined && id != null && temp[j].id == id) {
+        		index = j;
+        	}
             y += "<option value='" +j +"'>"+ temp[j].courseTitle + "</option>";
         }
     }
     document.getElementById("courseDiv").innerHTML = y;
+    
+    if (instHierarchy[edorgIndex].schools[schoolIndex].courses.length == 1) {
+    	$("#courseSelect").val(0);
+    	populateSectionMenu();
+    }
 }
 
 function populateSectionMenu(){
@@ -143,17 +153,25 @@ function populateSectionMenu(){
     var schoolIndex = schoolSelect.options[schoolSelect.selectedIndex].value;
     var courseIndex = courseSelect.options[courseSelect.selectedIndex].value;
     var y = '';
+
     if( courseIndex > -1) {
         var temp = instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections;
+        
         y = "<select id='sectionSelect' onChange='clearStudentList();getStudentListData()'>";
         y += "<option value='-1'></option>";
         var i = 0;
         for(;i < temp.length;i++){
-            y += "<option value='" +i +"'>"+ temp[i].sectionName + "</option>";
+        	y += "<option value='" +i +"'>"+ temp[i].sectionName + "</option>";
         }
         y += "</select>";
     }
     document.getElementById("sectionDiv").innerHTML = y;
+    
+    /* Commenting out as there is no go button hence, no auto selection for section
+    if (instHierarchy[edorgIndex].schools[schoolIndex].courses[courseIndex].sections.length == 1) {
+    	$("#sectionSelect").val(0);
+    	getStudentListData();
+    }*/
 }
 
 function populateFilter() {
