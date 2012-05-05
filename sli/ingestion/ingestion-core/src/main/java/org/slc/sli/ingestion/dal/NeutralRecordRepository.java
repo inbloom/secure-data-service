@@ -97,7 +97,11 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
 
                 int jobPatternIndex = currentCollection.indexOf(jobIdPattern);
                 if (jobPatternIndex != -1) {
-                    collectionNamesForJob.add(currentCollection.substring(0, jobPatternIndex));
+                    // creating indexes seems to create the collections.
+                    // only add collections with count > 0
+                    if (this.count(currentCollection, new NeutralQuery()) > 0) {
+                        collectionNamesForJob.add(currentCollection.substring(0, jobPatternIndex));
+                    }
                 }
             }
         }
