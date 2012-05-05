@@ -44,7 +44,8 @@ public class LoginService {
      *            information previously obtained from an incoming SAMLRequest
      * @return redirect URI sent back by the api in response to the SAMLResponse
      */
-    public SamlResponse login(String userId, List<String> roles, Map<String,String> attributes, AuthRequests.Request requestInfo) {
+    public SamlResponse login(String userId, List<String> roles, Map<String, String> attributes,
+            AuthRequests.Request requestInfo) {
         String destination = requestInfo.getDestination();
         
         LOG.info("Login for user: {} roles: {} inResponseTo: {} destination: {}", new Object[] { userId, roles,

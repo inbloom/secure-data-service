@@ -44,15 +44,14 @@ public class Login {
     void setSandboxImpersonationEnabled(boolean isSandboxImpersonationEnabled) {
         this.isSandboxImpersonationEnabled = isSandboxImpersonationEnabled;
     }
-
+    
     /**
      * Loads required data and redirects to the login page view.
      * 
      * @throws IOException
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView form(@RequestParam("SAMLRequest") String encodedSamlRequest,
-            @RequestParam("realm") String realm) {
+    public ModelAndView form(@RequestParam("SAMLRequest") String encodedSamlRequest, @RequestParam("realm") String realm) {
         ModelAndView mav = new ModelAndView("login");
         authRequestService.processRequest(encodedSamlRequest, realm);
         mav.addObject("SAMLRequest", encodedSamlRequest);
@@ -62,8 +61,7 @@ public class Login {
     
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Object login(@RequestParam("userId") String userId, @RequestParam("password") String password,
-            @RequestParam("SAMLRequest") String encodedSamlRequest,
-            @RequestParam("realm") String realm) {
+            @RequestParam("SAMLRequest") String encodedSamlRequest, @RequestParam("realm") String realm) {
         
         AuthRequests.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
         User user;

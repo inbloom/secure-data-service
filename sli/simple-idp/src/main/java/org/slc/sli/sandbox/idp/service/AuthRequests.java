@@ -40,6 +40,7 @@ public class AuthRequests {
         public String getRequestId() {
             return saml.getId();
         }
+        
         public String getDestination() {
             return saml.getSpDestination();
         }
@@ -52,9 +53,10 @@ public class AuthRequests {
         SamlRequest request = samlDecoder.decode(encodedSamlRequest);
         String destination = request.getIdpDestination();
         int index = destination.indexOf("realm=");
-        String destinationRealm = destination.substring(index+6);
-        if(!realm.equals(destinationRealm)){
-            LOG.error("Destination realm <" + destinationRealm + "> does not match URL parameter <"+realm+"> with destination attribute: " + destination);
+        String destinationRealm = destination.substring(index + 6);
+        if (!realm.equals(destinationRealm)) {
+            LOG.error("Destination realm <" + destinationRealm + "> does not match URL parameter <" + realm
+                    + "> with destination attribute: " + destination);
             throw new IllegalArgumentException("Destination realm does not match URL");
         }
         return new Request(realm, request);

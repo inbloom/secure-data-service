@@ -46,8 +46,8 @@ public class SamlResponseComposer {
     private static final String ATTRIBUTE_VALUE_TEMPLATE = "<saml:AttributeValue xmlns:xs='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:type='xs:string'>__VALUE__</saml:AttributeValue>";
     private static final String ATTRIBUTE_NAME_END_TEMPLATE = "</saml:Attribute>";
     
-    public String componseResponse(String destination, String issuer, String requestId, String userId, Map<String, String> attributes, 
-            List<String> roles) {
+    public String componseResponse(String destination, String issuer, String requestId, String userId,
+            Map<String, String> attributes, List<String> roles) {
         
         String unsignedResponse = createUnsignedResponse(destination, issuer, requestId, userId, attributes, roles);
         byte[] signedResponse = signResponse(unsignedResponse);
@@ -55,7 +55,7 @@ public class SamlResponseComposer {
     }
     
     private String createUnsignedResponse(String destination, String issuer, String requestId, String userId,
-            Map<String,String> attributes, List<String> roles) {
+            Map<String, String> attributes, List<String> roles) {
         String template;
         try {
             template = IOUtils.toString(this.getClass().getResourceAsStream("/samlResponseTemplate.xml"));
@@ -70,17 +70,15 @@ public class SamlResponseComposer {
         template = template.replace("__DESTINATION__", destination);
         template = template.replace("__ISSUER__", issuer);
         
-        
-        
         StringBuilder buf = new StringBuilder();
         addAttribute(buf, "userId", userId);
-        if(attributes!=null){
-            for(Map.Entry<String, String> attr : attributes.entrySet()){
-                addAttribute(buf, attr.getKey(), attr.getValue());        
+        if (attributes != null) {
+            for (Map.Entry<String, String> attr : attributes.entrySet()) {
+                addAttribute(buf, attr.getKey(), attr.getValue());
             }
         }
         
-        if(roles != null && !roles.isEmpty()){
+        if (roles != null && !roles.isEmpty()) {
             buf.append(ATTRIBUTE_NAME_BEGIN_TEMPLATE.replace("__NAME__", "roles"));
             for (String role : roles) {
                 buf.append(ATTRIBUTE_VALUE_TEMPLATE.replace("__VALUE__", role));
@@ -97,7 +95,7 @@ public class SamlResponseComposer {
         buf.append(ATTRIBUTE_VALUE_TEMPLATE.replace("__VALUE__", value));
         buf.append(ATTRIBUTE_NAME_END_TEMPLATE);
     }
-
+    
     private byte[] signResponse(String template) {
         try {
             InputSource stringSource = new InputSource();

@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
 public class SamlRequestDecoder {
     
     // private static final Logger LOG = LoggerFactory.getLogger(SamlRequestDecoder.class);
-
+    
     @Value("${sli.simple-idp.cot}")
     private String cotString;
     
@@ -39,14 +39,15 @@ public class SamlRequestDecoder {
     
     @SuppressWarnings("unused")
     @PostConstruct
-    void initialize(){
+    void initialize() {
         cot = new HashMap<String, String>();
         String[] trustedIssuers = cotString.split(",");
-        for(String trustedIssuerPair : trustedIssuers){
+        for (String trustedIssuerPair : trustedIssuers) {
             String[] trustedIssuer = trustedIssuerPair.split("=");
             cot.put(trustedIssuer[0], trustedIssuer[1]);
         }
     }
+    
     /**
      * Holds saml request info
      */
@@ -60,9 +61,11 @@ public class SamlRequestDecoder {
             this.idpDestination = idpDestination;
             this.id = id;
         }
-        public String getIdpDestination(){
+        
+        public String getIdpDestination() {
             return idpDestination;
         }
+        
         public String getSpDestination() {
             return spDestination;
         }
@@ -111,10 +114,9 @@ public class SamlRequestDecoder {
         
         return new SamlRequest(responseDestination, simpleIDPDestination, id);
     }
-
+    
     public void setCotString(String cotString) {
         this.cotString = cotString;
     }
-    
     
 }

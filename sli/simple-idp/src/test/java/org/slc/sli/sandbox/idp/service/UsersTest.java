@@ -44,24 +44,21 @@ public class UsersTest {
     public void testAuthenticate() throws AuthenticationException {
         DistinguishedName dn = new DistinguishedName("ou=SLI");
         Mockito.when(
-                ldapTemplate.authenticate(Mockito.eq(dn),
-                        Mockito.eq("(&(objectclass=person)(uid=testuser))"), Mockito.eq("testuser1234"),
-                        Mockito.any(AuthenticationErrorCallback.class))).thenReturn(true);
+                ldapTemplate.authenticate(Mockito.eq(dn), Mockito.eq("(&(objectclass=person)(uid=testuser))"),
+                        Mockito.eq("testuser1234"), Mockito.any(AuthenticationErrorCallback.class))).thenReturn(true);
         User mockUser = new User();
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("userName", "Test User");
         mockUser.attributes = attributes;
         mockUser.userId = "testuser";
         Mockito.when(
-                ldapTemplate.searchForObject(Mockito.eq(dn),
-                        Mockito.eq("(&(objectclass=person)(uid=testuser))"), Mockito.any(ContextMapper.class)))
-                .thenReturn(mockUser);
+                ldapTemplate.searchForObject(Mockito.eq(dn), Mockito.eq("(&(objectclass=person)(uid=testuser))"),
+                        Mockito.any(ContextMapper.class))).thenReturn(mockUser);
         List<String> mockGroups = new ArrayList<String>();
         mockGroups.add("TestGroup1");
         mockGroups.add("TestGroup2");
         Mockito.when(
-                ldapTemplate.search(Mockito.eq(dn),
-                        Mockito.eq("(&(objectclass=posixGroup)(memberuid=testuser))"),
+                ldapTemplate.search(Mockito.eq(dn), Mockito.eq("(&(objectclass=posixGroup)(memberuid=testuser))"),
                         Mockito.any(GroupContextMapper.class))).thenReturn(mockGroups);
         
         UserService.User user = userService.authenticate("SLI", "testuser", "testuser1234");
@@ -74,11 +71,18 @@ public class UsersTest {
     
     @Test
     public void testAttributeExtraction() {
+        String desc = "Realm=myRealmId\nTenant=myTenantId\nEdOrg=myEdorgId\nAdminRealm=myAdminRealmId\n";
         PersonContextMapper mapper = new PersonContextMapper();
         DirContextAdapter context = Mockito.mock(DirContextAdapter.class);
         Mockito.when(context.getStringAttribute("cn")).thenReturn("Full Name");
-        Mockito.when(context.getStringAttribute("description")).thenReturn("tenant=tenantId");
-        Object obj = mapper.mapFromContext(context);
+        Mockito.when(context.getStringAttribute("description")).thenReturn(desc);
+        User user = (User) mapper.mapFromContext(context);
+        
+        assertEquals("Full Name", user.getAttributes().get("userName"));
+        assertEquals("myTenantId", user.getAttributes().get("Tenant"));
+        assertEquals("myRealmId", user.getAttributes().get("Realm"));
+        assertEquals("myEdorgId", user.getAttributes().get("EdOrg"));
+        assertEquals("myAdminRealmId", user.getAttributes().get("AdminRealm"));
         
     }
     

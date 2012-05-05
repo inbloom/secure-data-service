@@ -31,6 +31,10 @@ public class UserService {
     // @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
     private boolean isSandboxImpersonationEnabled = false;
     
+    public void setSandboxImpersonationEnabled(boolean isSandboxImpersonationEnabled) {
+        this.isSandboxImpersonationEnabled = isSandboxImpersonationEnabled;
+    }
+    
     /**
      * Holds user information
      */
@@ -65,14 +69,19 @@ public class UserService {
         CollectingAuthenticationErrorCallback errorCallback = new CollectingAuthenticationErrorCallback();
         AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", "person")).and(new EqualsFilter("uid", userId));
-        DistinguishedName dn = new DistinguishedName("ou="+realm);
-        boolean result = ldapTemplate.authenticate(dn, filter.toString(), password,
-                errorCallback);
+        String ou;
+        if (isSandboxImpersonationEnabled) {
+            ou = "SLIAdmin";
+        } else {
+            ou = realm;
+        }
+        DistinguishedName dn = new DistinguishedName("ou=" + ou);
+        boolean result = ldapTemplate.authenticate(dn, filter.toString(), password, errorCallback);
         if (!result) {
             Exception error = errorCallback.getError();
-            if(error==null){
+            if (error == null) {
                 LOG.error("SimpleIDP Authentication Eception");
-            }else{
+            } else {
                 LOG.error("SimpleIDP Authentication Exception", error);
             }
             throw new AuthenticationException(error);
@@ -81,16 +90,15 @@ public class UserService {
         User user = (User) ldapTemplate.searchForObject(dn, filter.toString(), new PersonContextMapper());
         user.userId = userId;
         
-        String usersRealm = user.attributes.get("sandbox.realm");
-        if (isSandboxImpersonationEnabled && !realm.equals("SLI") && !realm.equals(usersRealm)) {
+        String usersRealm = user.attributes.get("SandboxRealm");
+        if (isSandboxImpersonationEnabled && !realm.equals("SLIAdmin") && !realm.equals(usersRealm)) {
             throw new AuthenticationException(
                     "Requested authentication realm does not match authenticated users realm.");
         }
         filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", "posixGroup")).and(new EqualsFilter("memberuid", userId));
         @SuppressWarnings("unchecked")
-        List<String> groups = (List<String>) ldapTemplate.search(dn, filter.toString(),
-                new GroupContextMapper());
+        List<String> groups = (List<String>) ldapTemplate.search(dn, filter.toString(), new GroupContextMapper());
         user.roles = groups;
         return user;
     }
@@ -101,15 +109,14 @@ public class UserService {
             User user = new User();
             Map<String, String> attributes = new HashMap<String, String>();
             attributes.put("userName", context.getStringAttribute("cn"));
-            // String raw = context.getStringAttribute("description");
-            // if(raw==null || raw.length()==0){
-            // throw new IllegalArgumentException("Invalid attribute definition for user");
-            // }
-            // String[] rows = raw.split("\n");
-            // for(String row : rows){
-            // String[] pair = row.split("=");
-            // attributes.put(pair[0], pair[1]);
-            // }
+            String raw = context.getStringAttribute("description");
+            if (raw != null && raw.length() > 0) {
+                String[] rows = raw.split("\n");
+                for (String row : rows) {
+                    String[] pair = row.split("=");
+                    attributes.put(pair[0].trim(), pair[1].trim());
+                }
+            }
             user.attributes = attributes;
             return user;
         }

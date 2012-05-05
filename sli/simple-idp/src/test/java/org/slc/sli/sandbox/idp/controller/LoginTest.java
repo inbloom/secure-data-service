@@ -14,14 +14,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slc.sli.sandbox.idp.controller.Login;
 import org.slc.sli.sandbox.idp.service.AuthRequests;
+import org.slc.sli.sandbox.idp.service.AuthRequests.Request;
 import org.slc.sli.sandbox.idp.service.AuthenticationException;
 import org.slc.sli.sandbox.idp.service.LoginService;
+import org.slc.sli.sandbox.idp.service.LoginService.SamlResponse;
 import org.slc.sli.sandbox.idp.service.RoleService;
 import org.slc.sli.sandbox.idp.service.UserService;
-import org.slc.sli.sandbox.idp.service.AuthRequests.Request;
-import org.slc.sli.sandbox.idp.service.LoginService.SamlResponse;
 import org.slc.sli.sandbox.idp.service.UserService.User;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -40,7 +39,7 @@ public class LoginTest {
     @Mock
     UserService userService;
     
-    @Mock 
+    @Mock
     RoleService roleService;
     
     @InjectMocks
@@ -51,8 +50,7 @@ public class LoginTest {
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRequestId()).thenReturn("req1234");
         Mockito.when(reqInfo.getRealm()).thenReturn("realm");
-        Mockito.when(authRequestService.processRequest("SAMLRequest","realm")).thenReturn(reqInfo);
-        
+        Mockito.when(authRequestService.processRequest("SAMLRequest", "realm")).thenReturn(reqInfo);
         
         ModelAndView mov = loginController.form("SAMLRequest", "realm");
         assertEquals("SAMLRequest", mov.getModel().get("SAMLRequest"));
@@ -60,12 +58,11 @@ public class LoginTest {
         assertEquals("login", mov.getViewName());
     }
     
-    
     @Test
     public void testAdminLogin() throws AuthenticationException {
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRealm()).thenReturn("SLI");
-        Mockito.when(authRequestService.processRequest("SAMLRequest","SLI")).thenReturn(reqInfo);
+        Mockito.when(authRequestService.processRequest("SAMLRequest", "SLI")).thenReturn(reqInfo);
         
         @SuppressWarnings("unchecked")
         Map<String, String> attributes = Mockito.mock(HashMap.class);
@@ -84,7 +81,7 @@ public class LoginTest {
         
         assertEquals("org.springframework.web.servlet.ModelAndView", response.getClass().getName());
         ModelAndView mov = (ModelAndView) response;
-        assertEquals("SAMLResponse", ((SamlResponse)mov.getModel().get("samlResponse")).getSamlResponse());
+        assertEquals("SAMLResponse", ((SamlResponse) mov.getModel().get("samlResponse")).getSamlResponse());
         assertEquals("post", mov.getViewName());
         
     }
@@ -93,7 +90,7 @@ public class LoginTest {
     public void testNormalLogin() throws AuthenticationException {
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRealm()).thenReturn("realm");
-        Mockito.when(authRequestService.processRequest("SAMLRequest","realm")).thenReturn(reqInfo);
+        Mockito.when(authRequestService.processRequest("SAMLRequest", "realm")).thenReturn(reqInfo);
         
         @SuppressWarnings("unchecked")
         Map<String, String> attributes = Mockito.mock(HashMap.class);
@@ -112,8 +109,8 @@ public class LoginTest {
         
         assertEquals("org.springframework.web.servlet.ModelAndView", response.getClass().getName());
         ModelAndView mov = (ModelAndView) response;
-        assertEquals("SAMLResponse", ((SamlResponse)mov.getModel().get("samlResponse")).getSamlResponse());
-        assertEquals("post", mov.getViewName());  
+        assertEquals("SAMLResponse", ((SamlResponse) mov.getModel().get("samlResponse")).getSamlResponse());
+        assertEquals("post", mov.getViewName());
     }
     
     @Test
@@ -121,7 +118,7 @@ public class LoginTest {
         loginController.setSandboxImpersonationEnabled(true);
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRealm()).thenReturn("realm");
-        Mockito.when(authRequestService.processRequest("SAMLRequest","realm")).thenReturn(reqInfo);
+        Mockito.when(authRequestService.processRequest("SAMLRequest", "realm")).thenReturn(reqInfo);
         
         @SuppressWarnings("unchecked")
         Map<String, String> attributes = Mockito.mock(HashMap.class);

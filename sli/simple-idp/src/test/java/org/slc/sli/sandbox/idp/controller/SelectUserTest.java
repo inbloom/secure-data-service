@@ -45,8 +45,8 @@ public class SelectUserTest {
         Mockito.when(loginService.login("userId", roles, null, reqInfo)).thenReturn(samlResponse);
         
         ModelAndView mov = selectUser.login("userId", roles, "SAMLRequest", "realm");
-        assertEquals("SAMLResponse", ((SamlResponse)mov.getModel().get("samlResponse")).getSamlResponse());
-        assertEquals("redirect_uri", ((SamlResponse)mov.getModel().get("samlResponse")).getRedirectUri());
+        assertEquals("SAMLResponse", ((SamlResponse) mov.getModel().get("samlResponse")).getSamlResponse());
+        assertEquals("redirect_uri", ((SamlResponse) mov.getModel().get("samlResponse")).getRedirectUri());
         assertEquals("post", mov.getViewName());
     }
 }

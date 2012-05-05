@@ -26,8 +26,7 @@ public class SelectUser {
     
     @RequestMapping(value = "/selectUser", method = RequestMethod.POST)
     public ModelAndView login(@RequestParam("userId") String userId,
-            @RequestParam("selected_roles") List<String> roles,
-            @RequestParam("SAMLRequest") String encodedSamlRequest,
+            @RequestParam("selected_roles") List<String> roles, @RequestParam("SAMLRequest") String encodedSamlRequest,
             @RequestParam("realm") String realm) {
         
         AuthRequests.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
