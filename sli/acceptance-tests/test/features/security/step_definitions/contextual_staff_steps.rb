@@ -4,6 +4,7 @@ require_relative '../../utils/common_stepdefs.rb'
 
 Transform /^data for "([^"]*)"$/ do |path|
   id = "/v1/schools/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb" if path == "South Daybreak Elementary"
+  id = "/v1/staff" if path == "Staff"
   id = "/v1/teachers/67ed9078-431a-465e-adf7-c720d08ef512" if path == "Linda Kim"
   id = "/v1/teachers/edce823c-ee28-4840-ae3d-74d9e9976dc5" if path == "Mark Anthony"
   id = "/v1/teachers/a060273b-3e65-4e5f-b5d1-45226f584c5d" if path == "Dale Reiss"
@@ -68,6 +69,15 @@ Transform /^data containing "([^"]*)"$/ do |path|
         "92d6d5a0-852c-45f4-907a-912752831772"] if path == "Schools in Daybreak District"
   id = ["5b03de1f-9cf0-409b-ae35-edeed11161ab",
         "46c2e439-f800-4aaf-901c-8cf3299658cc"] if path == "Schools in Parker District"
+  id = ["84d87dd4-174b-4c02-af95-9f11d45031b6",
+        "b7842226-0a86-4306-ab31-f76645b62625",
+        "c5b29c29-62e6-4210-8712-d49581a27bf2",
+        "05baccbe-5f35-491f-ae9e-0758943c0343",
+        "d2d35368-114d-4120-b0bf-616219787677",
+        "381da5d9-cb00-4158-a10d-c6438d760e67",
+        "4acc9259-a6c4-4a63-9e63-969e39c99a73",
+        "56012673-eda3-4d95-bf78-7524b91d8a93",
+        "f8e8c093-721d-44c9-8edb-a26fdaaec91f"] if path == "Staff"
   id
 end
 

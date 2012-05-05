@@ -1,7 +1,11 @@
 class LandingZone
   
   def self.possible_edorgs
-    ["High-Level Ed-Org from Sample Dataset 1", "High-Level Ed-Org from Sample Dataset 2"]
+    if APP_CONFIG["is_sandbox"]
+      ["High-Level Ed-Org from Sample Dataset 1", "High-Level Ed-Org from Sample Dataset 2"]
+    else
+      []
+    end
   end
   
   def self.provision(edorg_id)
