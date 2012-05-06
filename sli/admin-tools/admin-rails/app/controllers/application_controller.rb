@@ -56,7 +56,8 @@ class ApplicationController < ActionController::Base
         check = Check.get("")
         session[:full_name] ||= check["full_name"]   
         session[:adminRealm] = check["adminRealm"]
-        session[:roles] = check["sliRoles"] 
+        session[:roles] = check["sliRoles"]
+        session[:edOrg] = check["edOrg"]
       else
         logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
         redirect_to oauth.authorize_url + "&RealmName=" + CGI::escape(@admin_realm) + "&state=" + CGI::escape(form_authenticity_token)

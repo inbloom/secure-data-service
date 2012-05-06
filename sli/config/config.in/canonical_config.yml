@@ -10,6 +10,9 @@ default:
 
         # Security SAML (only used in api)
         sli.security.sp.issuerName: http://local.slidev.org:8080
+        
+        # Security grace period for viewing sections (only use in api)
+        sli.security.gracePeriod: -1
 
         # Trusted Certificate Authority Store (used in common)
         sli.trust.certificates: ../common/common-util/trust/trustedCertificates
