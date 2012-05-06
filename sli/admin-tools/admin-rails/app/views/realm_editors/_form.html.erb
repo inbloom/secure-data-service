@@ -1,0 +1,41 @@
+<%= form_for(@realm) do |f| %>
+  <% if @realm.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@realm.errors.count, "error") %> prohibited this realm_editor from being saved:</h2>
+
+      <ul>
+      <% @realm.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+    <div class = "field">
+       	<%= f.label :name, "Display Name" %>
+   	    <%= f.text_field :name %>
+    </div>
+
+    <%= f.fields_for :idp, @realm.idp do |idp| %>
+        <div class = "field">
+        		<%= idp.label :id, "ID URL" %>
+        		<%= idp.text_field :id %>
+        </div>
+
+        <div class = "field">
+          <%= idp.label :redirectEndpoint, "Redirect Endpoint" %>
+          <%= idp.text_field :redirectEndpoint %>
+        </div>
+    <% end %>
+
+    <div class = "field">
+        <%= f.label :uniqueIdentifier, "Unique Identifier" %>
+       	<%= f.text_field :uniqueIdentifier %>
+    </div>
+
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
