@@ -6,9 +6,8 @@ class RealmEditorsControllerTest < ActionController::TestCase
   #end
 
   test "should get index" do
-    puts("The realm fixtures are #{@realm_fixtures['one'].inspect}")
     get :index
-    assert_response :success
+    assert_response 404
   end
 
   test "should get new" do

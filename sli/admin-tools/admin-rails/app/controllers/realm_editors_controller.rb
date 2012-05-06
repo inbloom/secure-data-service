@@ -11,7 +11,7 @@ class RealmEditorsController < ApplicationController
     Check.get("")
     realmToRedirectTo = GeneralRealmHelper.get_realm_to_redirect_to(userRealm)
     logger.debug("Redirecting to #{realmToRedirectTo}")
-    if realmToRedirectTo.nil? and session[:roles].member?("Realm Administrator")
+    if realmToRedirectTo.nil? and session[:roles] != nil and session[:roles].member?("Realm Administrator")
       redirect_to new_realm_editor_path, notice: notice
     elsif realmToRedirectTo.nil?
       render_404
