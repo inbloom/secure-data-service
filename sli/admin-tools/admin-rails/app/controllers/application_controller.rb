@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
   end
 
   def initialize()
+    super()
     @admin_realm = "#{APP_CONFIG['admin_realm']}"
     logger.debug {"admin_realm #{@admin_realm}"}
   end
