@@ -144,7 +144,7 @@ Examples:
  Scenario Outline: Try to save incorrect values for roles
  
 Given I have an open web browser
-And I am authenticated to SLI IDP
+And I am authenticated to SLI IDP as user "realmadmin" with pass "realmadmin1234"
 And I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the role <Role> radio button
 And I enter <Bad Text> in the text field
