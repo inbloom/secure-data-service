@@ -35,7 +35,7 @@ public class TenantPopulator implements ResourceLoaderAware {
     private ResourceLoader resourceLoader;
 
     private String parentLandingZoneDir;
-
+    
     private List<String> tenantRecordResourcePaths;
 
     private static final String HOSTNAME_PLACEHOLDER = "<hostname>";
@@ -215,5 +215,6 @@ public class TenantPopulator implements ResourceLoaderAware {
     public void setTenantRecordResourcePaths(List<String> tenantRecordResourcePaths) {
         this.tenantRecordResourcePaths = tenantRecordResourcePaths;
     }
+
 
 }

@@ -1,7 +1,5 @@
 package org.slc.sli.api.resources.tenant;
 
-import java.util.Collection;
-
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -20,8 +18,6 @@ import javax.ws.rs.core.UriInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -54,7 +50,6 @@ public class TenantResource extends DefaultCrudEndpoint {
 
     private EntityService service;
 
-    //TODO: validate LandingZone data lengths, etc?
     public static final String RESOURCE_NAME = "tenant";
     public static final String TENANT_ID = "tenantId";
     public static final String LZ_EDUCATION_ORGANIZATION = "educationOrganization";
@@ -140,7 +135,6 @@ public class TenantResource extends DefaultCrudEndpoint {
         return super.delete(tenantId, headers, uriInfo);
     }
 
-    @SuppressWarnings("unchecked")
     @PUT
     @Path("{" + TENANT_ID + "}")
     public Response updateTenant(@PathParam(TENANT_ID) String tenantId, EntityBody tenant,
