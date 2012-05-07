@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
     logger.error {"Exception on server, clearing your session."}
     SessionResource.access_token = nil
   end
-
+  
   def callback
     #TODO: disable redirects to other domains
     redirect_to session[:entry_url] unless session[:entry_url].include? '/callback'
@@ -49,9 +49,12 @@ class ApplicationController < ActionController::Base
         check = Check.get("")
         session[:full_name] ||= check["full_name"]   
         session[:adminRealm] = check["adminRealm"]
-        session[:roles] = check["sliRoles"] 
+        session[:roles] = check["sliRoles"]
+        session[:edOrg] = check["edOrg"]
       else
-        redirect_to oauth.authorize_url + "&RealmName=Shared%20Learning%20Infrastructure&state=" + CGI::escape(form_authenticity_token)
+        admin_realm = "#{APP_CONFIG['admin_realm']}"
+        logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
+        redirect_to oauth.authorize_url + "&Realm=" + CGI::escape(@admin_realm) + "&state=" + CGI::escape(form_authenticity_token)
       end
     else
       logger.info { "OAuth disabled."}

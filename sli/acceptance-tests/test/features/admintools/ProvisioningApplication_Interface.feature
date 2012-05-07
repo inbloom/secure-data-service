@@ -9,7 +9,8 @@ And I have an open web browser
 And I am authenticated to SLI IDP as user "developer" with pass "developer1234"
 When I go to the provisioning application
 Then I can only enter a custom high-level ed-org
-When I click the Provision button
+When I set the custom high-level ed-org to "Test Ed Org"
+And I click the Provision button
 Then I get the success message
 
 @sandbox
@@ -19,5 +20,6 @@ And I have an open web browser
 And I am authenticated to SLI IDP as user "developer" with pass "developer1234"
 When I go to the provisioning application
 Then I can select between the the high level ed-org of the sample data sets or enter a custom high-level ed-org
-When I click the Provision button
+When I select the first sample data set
+And I click the Provision button
 Then I get the success message
