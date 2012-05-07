@@ -8,9 +8,9 @@ import java.util.Set;
 
 /**
  * Conducts the ingestion job
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 public enum EdfiEntity {
     SELF("self",Collections.<EdfiEntity>emptyList()),
@@ -27,7 +27,7 @@ public enum EdfiEntity {
     STUDENT ("student",Collections.<EdfiEntity>emptyList()),
     TEACHER ("teacher",Collections.<EdfiEntity>emptyList()),
 
-    
+
     ACADEMIC_WEEK ("academicWeek",Arrays.asList (EdfiEntity.CALENDAR_DATE)),
     GRADING_PERIOD ("gradingPeriod",Arrays.asList (CALENDAR_DATE)),
     LEARNING_OBJECTIVE ("learningObjective",Arrays.asList (LEARNING_STANDARD,SELF)),
@@ -53,7 +53,7 @@ public enum EdfiEntity {
     STUDENT_SCHOOL_ASSOCIATION ("studentSchoolAssociation",Arrays.asList (STUDENT,SCHOOL,GRADUATION_PLAN)),
     TEACHER_SCHOOL_ASSOCIATION ("teacherSchoolAssociation",Arrays.asList (TEACHER,SCHOOL)),
 
-    
+
     COURSE_OFFERING ("courseOffering",Arrays.asList (SCHOOL,SESSION,COURSE)),
     DISCIPLINE_ACTION ("disciplineAction",Arrays.asList (STUDENT,DISCIPLINE_INCIDENT,STAFF,SCHOOL)),
     STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION ("studentDisciplineIncidentAssociation",Arrays.asList (STUDENT,DISCIPLINE_INCIDENT)),
@@ -65,19 +65,19 @@ public enum EdfiEntity {
     ATTENDANCE_EVENT ("attendanceEvent",Arrays.asList (STUDENT,SECTION)),
     TEACHER_SECTION_ASSOCIATION ("teacherSectionAssociation",Arrays.asList (TEACHER,SECTION)),
     STUDENT_COMPETENCY ("studentCompetency",Arrays.asList (LEARNING_OBJECTIVE,STUDENT_COMPETENCY_OBJECTIVE,STUDENT_SECTION_ASSOCIATION)),
-    
+
     GRADE ("grade",Arrays.asList (GRADING_PERIOD,STUDENT_SECTION_ASSOCIATION)),
     REPORT_CARD ("reportCard",Arrays.asList (GRADE,STUDENT_COMPETENCY,STUDENT,GRADING_PERIOD)),
     STUDENT_ASSESSMENT ("studentAssessment",Arrays.asList (STUDENT,ASSESSMENT)),
 
     STUDENT_ACADEMIC_RECORD ("studentAcademicRecord",Arrays.asList (STUDENT,SESSION,REPORT_CARD,DIPLOMA)),
     STUDENT_OBJECTIVE_ASSESSMENT ("studentObjectiveAssessment",Arrays.asList (OBJECTIVE_ASSESSMENT,STUDENT_ASSESSMENT)),
-    
+
     COURSE_TRANSCRIPT ("courseTranscript",Arrays.asList (STUDENT_ACADEMIC_RECORD,STATE_EDUCATION_AGENCY,EDUCATION_SERVICE_CENTER,LOCAL_EDUCATION_AGENCY,SCHOOL)),
     DISCIPLINE_DESCRIPTOR ("disciplineDescriptor",Arrays.asList (STATE_EDUCATION_AGENCY,EDUCATION_SERVICE_CENTER,LOCAL_EDUCATION_AGENCY,SCHOOL)),
     FEEDER_SCHOOL_ASSOCIATION ("feederSchoolAssociation",Arrays.asList (STATE_EDUCATION_AGENCY,EDUCATION_SERVICE_CENTER,LOCAL_EDUCATION_AGENCY,SCHOOL)),
     OPEN_STAFF_POSITION ("openStaffPosition",Arrays.asList (STATE_EDUCATION_AGENCY,EDUCATION_SERVICE_CENTER,LOCAL_EDUCATION_AGENCY,SCHOOL)),
-    
+
     BELL_SCHEDULE ("bellSchedule",Collections.<EdfiEntity>emptyList()),
     COMPETENCY_LEVEL_DESCRIPTOR ("competencyLevelDescriptor",Collections.<EdfiEntity>emptyList()),
     CREDENTIAL_FIELD_DESCRIPTOR ("credentialFieldDescriptor",Collections.<EdfiEntity>emptyList()),
@@ -87,7 +87,7 @@ public enum EdfiEntity {
     GRADEBOOK_ENTRY ("gradebookEntry",Arrays.asList (LEARNING_OBJECTIVE,LEARNING_STANDARD,SECTION,GRADING_PERIOD)),
     LEAVE_EVENT ("leaveEvent",Arrays.asList (STAFF)),
     MEETING_TIME ("meetingTime",Arrays.asList (CLASS_PERIOD)),
- 
+
     RESTRAINT_EVENT ("restraintEvent",Arrays.asList (STUDENT,SCHOOL,PROGRAM)),
     STAFF_COHORT_ASSOCIATION ("StaffCohortAssociation",Arrays.asList (STAFF,COHORT)),
     STUDENT_COHORT_ASSOCIATION ("StudentCohortAssociation",Arrays.asList (STUDENT,COHORT)),
@@ -99,16 +99,16 @@ public enum EdfiEntity {
     STUDENT_SPECIAL_ED_PROGRAM_ASSOCIATION ("studentSpecialEdProgramAssociation",Arrays.asList (STUDENT,PROGRAM,STATE_EDUCATION_AGENCY,EDUCATION_SERVICE_CENTER,LOCAL_EDUCATION_AGENCY,SCHOOL)),
     STUDENT_TITLE_PART_A_PROGRAM_ASSOCIATION ("studentTitlePartAProgramAssociation",Arrays.asList (STUDENT,PROGRAM,STATE_EDUCATION_AGENCY,EDUCATION_SERVICE_CENTER,LOCAL_EDUCATION_AGENCY,SCHOOL));
 
-    
+
     /**
      * Removes entities which have parent entities in the same set
-     * 
+     *
      * @param impure set of edfi entities to purify
      * @return purifed set which only contains entities which have no dependencies in the provided set
      */
     public static Set<EdfiEntity> cleanse(Set<EdfiEntity> impure) {
         Set<EdfiEntity> pure = EnumSet.copyOf(impure);
-        
+
         for(EdfiEntity outer:impure) {
             for(EdfiEntity inner:impure) {
                 if(outer.getNeededEntities().contains(inner)) {
@@ -117,25 +117,34 @@ public enum EdfiEntity {
                 }
             }
         }
-        
+
         return pure;
     }
-    
+
     //*************************************************************************************
     private final String entityName;
     private final List<EdfiEntity> neededEntities;
-    
+
     private EdfiEntity(String entityName, List<EdfiEntity> needs) {
         this.entityName = entityName;
         this.neededEntities = needs;
     }
-    
+
     public String getEntityName() {
         return entityName;
     }
-    
+
     public List<EdfiEntity> getNeededEntities() {
         return neededEntities;
     }
-    
+
+    public static EdfiEntity fromEntityName(String entityName) {
+        for (EdfiEntity edfiEntity : values()) {
+            if (edfiEntity.entityName.equals(entityName)) {
+                return edfiEntity;
+            }
+        }
+        return null;
+    }
+
 }
