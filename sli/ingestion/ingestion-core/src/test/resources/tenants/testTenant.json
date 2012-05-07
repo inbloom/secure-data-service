@@ -1,0 +1,10 @@
+{ 
+	"landingZone" : [ 
+		{ 
+			"district" : "DISTRICT" ,
+			"path" : "test_path",
+			"desc" : "Landing zone for test_district."
+		}
+	] , 
+	"tenantId" : "TENANT"
+}
