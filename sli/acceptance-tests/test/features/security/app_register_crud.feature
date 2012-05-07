@@ -55,7 +55,7 @@ Scenario Outline: Deny update when user updating read-only auto-generated field
 	| "client_id"     |
 	| "client_secret" |
 
-@sandbox 
+@sandbox @wip
 Scenario: CRUD operations on Applications In Sandbox as a Developer
 	Given I am logged in using "developer" "developer1234" to realm "SLI"
 	When I navigate to POST "/apps"
