@@ -14,28 +14,28 @@
 
     <div class = "field">
        	<%= f.label :name, "Display Name" %>
-   	    <%= f.text_field :name %>
+   	    <%= f.text_field :name, :size => 50 %>
     </div>
 
     <%= f.fields_for :idp, @realm.idp do |idp| %>
         <div class = "field">
-        		<%= idp.label :id, "ID URL" %>
-        		<%= idp.text_field :id %>
+        		<%= idp.label :id, "IDP URL (URL that identifies the federated IDP)" %>
+        		<%= idp.text_field :id, :size => 50 %>
         </div>
 
         <div class = "field">
-          <%= idp.label :redirectEndpoint, "Redirect Endpoint" %>
-          <%= idp.text_field :redirectEndpoint %>
+          <%= idp.label :redirectEndpoint, "Redirect Endpoint (URL where authentication requests are sent)" %>
+          <%= idp.text_field :redirectEndpoint, :size => 50 %>
         </div>
     <% end %>
 
     <div class = "field">
-        <%= f.label :uniqueIdentifier, "Unique Identifier" %>
-       	<%= f.text_field :uniqueIdentifier %>
+        <%= f.label :uniqueIdentifier, "Realm Identifier (Used for skipping the realm selection)" %>
+       	<%= f.text_field :uniqueIdentifier, :size => 50 %>
     </div>
 
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :value => "Save" %>
   </div>
 <% end %>
