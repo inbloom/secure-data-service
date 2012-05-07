@@ -1,7 +1,7 @@
 require_relative '../../utils/sli_utils.rb'
 
 Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
-  id = arg1+"4fa3fe8be4b00b3987bec777" if arg2 == "Testing Tenant"
+  id = arg1+"4fa3fe8be4b00b3987bec778" if arg2 == "Testing Tenant"
   id = arg1+@newId       if arg2 == "New Tenant ID"
   id
 end
@@ -15,14 +15,14 @@ When /^I POST a new tenant$/ do |arg1|
           "ingestionServer" => "ingServIL",
           "path" => "/home/ingestion/lz/inbound/IL-STATE-SUNSET",
           "desc" => "Sunset district landing zone",
-          "username" => "jwashington"
+          "userNames" => [ "jwashington", "jstevenson" ]
         },
         { 
           "educationOrganization" => "Daybreak",
           "ingestionServer" => "ingServIL",
           "path" => "/home/ingestion/lz/inbound/IL-STATE-DAYBREAK",
           "desc" => "Daybreak district landing zone",
-          "username" => "jstevenson"
+          "userNames" => [ "jstevenson" ]
         }
       ],
       "tenantId" => "IL"
@@ -41,7 +41,7 @@ When /^I rePOST the new tenant$/ do
           "ingestionServer" => "ingServIL",
           "path" => "/home/ingestion/lz/inbound/IL-STATE-TWILIGHT",
           "desc" => "Twilight district landing zone",
-          "username" => "jwashington"
+          "userNames" => [ "rrogers" ]
         }
       ],
       "tenantId" => "IL"
