@@ -39,6 +39,7 @@ import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.TimedLogic;
+import org.slc.sli.web.util.SafeUUID;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi
@@ -128,15 +129,21 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     @Override
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
 
+        String id = null;
+        if(sectionId instanceof SafeUUID) {
+            id = ((SafeUUID) sectionId).getId();
+        } else {
+            id = (String) sectionId;
+        }
         // get student summary data
-        List<GenericEntity> studentSummaries = getStudentSummaries(token, null, null, (String) sectionId);
+        List<GenericEntity> studentSummaries = getStudentSummaries(token, null, null, id);
 
         // apply assmt filters and flatten assmt data structure for easy
         // fetching
         applyAssessmentFilters(studentSummaries, config);
 
         // data enhancements
-        enhanceListOfStudents(studentSummaries, (String) sectionId);
+        enhanceListOfStudents(studentSummaries, id);
 
         GenericEntity result = new GenericEntity();
         result.put(Constants.ATTR_STUDENTS, studentSummaries);
