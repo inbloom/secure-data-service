@@ -12,6 +12,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +48,9 @@ public class TenantResource extends DefaultCrudEndpoint {
 
     private EntityService service;
 
-    private static final int TENANT_ID_LENGTH = 10; // TODO: Find true max length
-    private static final int EDORG_ID_LENGTH = 48; // TODO: Find true max length
-    private static final int USERNAME_LENGTH = 24; // TODO: Find true max length
+    private static final int TENANT_ID_LENGTH = 10; //TODO: Find true max length
+    private static final int EDORG_ID_LENGTH = 48; //TODO: Find true max length
+    private static final int USERNAME_LENGTH = 24; //TODO: Find true max length
     public static final String RESOURCE_NAME = "tenant";
     public static final String TENANT_ID = "tenantId";
     public static final String EDORG_ID = "educationOrganizationId";
@@ -69,15 +70,16 @@ public class TenantResource extends DefaultCrudEndpoint {
 
     @POST
     public Response createTenant(EntityBody newApp, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-    	/*
+
         if (newApp.containsKey(TENANT_ID)
-                || newApp.containsKey(CLIENT_ID)
-                || newApp.containsKey("id")) {
+                && newApp.containsKey(EDORG_ID)
+                && newApp.containsKey(USERNAME)) {
             EntityBody body = new EntityBody();
             body.put("message", "Auto-generated attribute (id|client_secret|client_id) specified in POST.  "
                     + "Remove attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
+        /*
         if (!hasRight(Right.APP_CREATION)) {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized to create new applications.");
