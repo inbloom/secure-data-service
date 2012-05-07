@@ -18,12 +18,44 @@
 			<input id="custom" type="hidden" name="ed_org" value="custom">
 		<% end %>
 		<div class="edOrgIdSelect">
-			<%= text_field_tag "custom_ed_org", nil, :placeholder => "State Organization Id", :disabled => (not @edOrgs.empty?) %>
+			<%= text_field_tag "custom_ed_org", nil, :placeholder => "State Organization Id"  %>
 			<label for="custom_ed_org">State organization Id of Ed Org</label>
 		</div>
 		<div class="provisionButtons">
-			<input name="commit" type="submit" value="Provision" />
-			<input name="cancel" type="submit" value="Cancel" />
+			<input name="cancel" type="submit" value="Cancel" id="cancelButton"/>
+			<input name="commit" type="submit" value="Provision" id="provisionButton"/>
 		</div>
 	</form>
+</div>
+<div class="sidebar">
+<script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'search',
+  search: 'education technology',
+  interval: 30000,
+  title: 'Whats going on',
+  subject: 'In education and technology?',
+  width: 250,
+  height: 300,
+  theme: {
+    shell: {
+      background: '#8ec1da',
+      color: '#ffffff'
+    },
+    tweets: {
+      background: '#ffffff',
+      color: '#444444',
+      links: '#1985b5'
+    }
+  },
+  features: {
+    scrollbar: false,
+    loop: true,
+    live: true,
+    behavior: 'default'
+  }
+}).render().start();
+</script>
 </div>
