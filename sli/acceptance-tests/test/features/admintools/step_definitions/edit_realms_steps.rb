@@ -1,5 +1,5 @@
 When /^I hit the realm editing URL$/ do
-  @url = PropLoader.getProps['admintools_server_url'] + "/realm_editors"
+  @url = PropLoader.getProps['admintools_server_url'] + "/realm_managements"
   @driver.get @url
 end
 
