@@ -16,7 +16,6 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +23,6 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
-import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.v1.ParameterConstants;
 import org.slc.sli.domain.enums.Right;
@@ -44,12 +42,6 @@ public class TenantResource extends DefaultCrudEndpoint {
     @Autowired
     private EntityDefinitionStore store;
 
-    @Autowired
-    @Value("${sli.landingzone.mountDir}")
-    private boolean mountDir;
-
-    private EntityService service;
-
     public static final String RESOURCE_NAME = "tenant";
     public static final String TENANT_ID = "tenantId";
     public static final String LZ_EDUCATION_ORGANIZATION = "educationOrganization";
@@ -59,15 +51,11 @@ public class TenantResource extends DefaultCrudEndpoint {
     public static final String LZ_DESC = "desc";
     //TODO: validate LandingZone data lengths, etc?
 
-    public void setMountDir(boolean mountDir) {
-        this.mountDir = mountDir;
-    }
-
     @Autowired
     public TenantResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, RESOURCE_NAME);
         store = entityDefs;
-        service = store.lookupByResourceName(RESOURCE_NAME).getService();
+        store.lookupByResourceName(RESOURCE_NAME).getService();
     }
 
     @POST
