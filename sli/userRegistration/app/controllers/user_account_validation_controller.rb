@@ -48,7 +48,6 @@ class UserAccountValidationController < ApplicationController
       format.html # show.html.erb
       format.json { render json: @validation_result }
     end
-    puts "4"
   end
   
     
