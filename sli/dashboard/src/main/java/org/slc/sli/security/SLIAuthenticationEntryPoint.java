@@ -137,6 +137,18 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             Token accessToken = null;
             try {
                 accessToken = service.getAccessToken(null, verifier);
+                
+                // Testing
+                throw new Exception("Testing...");
+/*                
+                session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
+                Object entryUrl = session.getAttribute(ENTRY_URL);
+                if (entryUrl != null) {
+                    response.sendRedirect(session.getAttribute(ENTRY_URL).toString());
+                } else {
+                    response.sendRedirect(request.getRequestURI());
+                }
+*/                
             } catch (OAuthException ex) {
                 LOG.error("Authentication exception: {}", new Object[] { ex.getMessage() });
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, ex.getMessage());
@@ -145,13 +157,6 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 LOG.error("Authentication exception: {}", new Object[] { ex.getMessage() });
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
                 return;
-            }
-            session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
-            Object entryUrl = session.getAttribute(ENTRY_URL);
-            if (entryUrl != null) {
-                response.sendRedirect(session.getAttribute(ENTRY_URL).toString());
-            } else {
-                response.sendRedirect(request.getRequestURI());
             }
         } else if (session.getAttribute(OAUTH_TOKEN) == null) {
             session.setAttribute(ENTRY_URL, request.getRequestURL());
