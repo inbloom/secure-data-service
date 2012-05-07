@@ -34,7 +34,7 @@ public class PanelController {
     @ResponseBody public GenericEntity handle(
             @PathVariable final String componentId, @PathVariable final SafeUUID id, final HttpServletRequest request) {
         // is it a hack
-        ModelAndViewConfig mac = customizationAssemblyFactory.getModelAndViewConfig(componentId, id, true);
+        ModelAndViewConfig mac = customizationAssemblyFactory.getModelAndViewConfig(componentId, id.getId(), true);
         GenericEntity ge = new GenericEntity();
         ge.put(Constants.MM_KEY_DATA, mac.getData().get(componentId));
         ge.put(Constants.MM_KEY_VIEW_CONFIG, mac.getComponentViewConfigMap().get(componentId));
