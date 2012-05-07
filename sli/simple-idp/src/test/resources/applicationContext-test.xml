@@ -9,9 +9,11 @@
       class="org.springframework.ldap.core.LdapTemplate">
       <constructor-arg ref="contextSource" />
    </bean>
-     <bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+   <bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
       <property name="url" value="ldap://ldap.slidev.org:389" />
       <property name="base" value="dc=slidev,dc=org" />
    </bean>
    <bean class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" />
+   
+   <bean class="org.slc.sli.sandbox.idp.service.UserService"/>
 </beans>

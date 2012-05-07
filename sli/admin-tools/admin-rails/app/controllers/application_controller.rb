@@ -22,6 +22,11 @@ class ApplicationController < ActionController::Base
     SessionResource.access_token = nil
   end
 
+  def initialize()
+    super()
+    @admin_realm = "#{APP_CONFIG['admin_realm']}"
+    logger.debug {"admin_realm #{@admin_realm}"}
+  end
   def callback
     #TODO: disable redirects to other domains
     redirect_to session[:oauth].entry_url unless session[:oauth].entry_url.include? '/callback'
@@ -55,7 +60,7 @@ class ApplicationController < ActionController::Base
         session[:edOrg] = check["edOrg"]
       else
         logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
-        redirect_to oauth.authorize_url + "&Realm=Shared%20Learning%20Infrastructure&state=" + CGI::escape(form_authenticity_token)
+        redirect_to oauth.authorize_url + "&Realm=" + CGI::escape(@admin_realm) + "&state=" + CGI::escape(form_authenticity_token)
       end
     else
       logger.info { "OAuth disabled."}
