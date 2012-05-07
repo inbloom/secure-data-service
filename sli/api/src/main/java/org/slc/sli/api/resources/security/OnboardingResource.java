@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -18,14 +17,12 @@ import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ResourceConstants;
@@ -44,12 +41,13 @@ import org.slc.sli.domain.enums.Right;
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class OnboardingResource {
 
-    @Autowired
+	@Autowired
     private EntityDefinitionStore store;
 
     @Autowired
     Repository<Entity> repo;
 
+    private static final String STATE_EDUCATION_AGENCY = "State Education Agency";
 	private static final String STATE_EDORG_ID = "stateOrganizationId";
 	private static final String EDORG_INSTITUTION_NAME = "nameOfInstitution";
 	private static final String ADDRESSES = "address";
@@ -67,8 +65,8 @@ public class OnboardingResource {
     /**
      * Provision a landing zone for the provide educational organization.
      *
-     * @QueryParameter stateOrganizationId -- the unique identifier for this ed org
-     * @QueryParameter tenantId -- the tenant ID for this edorg.
+     * @QueryParam stateOrganizationId -- the unique identifier for this ed org
+     * @QueryParam tenantId -- the tenant ID for this edorg.
      */
     @POST
     @Path("Provision")
@@ -77,19 +75,6 @@ public class OnboardingResource {
     	@QueryParam(ResourceConstants.ENTITY_METADATA_TENANT_ID) String tenantId,
     	@Context final UriInfo uriInfo) {
 
-    	// TODO -- do all provisioning here.
-        return Response.status(Status.SERVICE_UNAVAILABLE).build();
-    }
-
-	/**
-	 * Create an EdOrg if it does not exists.
-	 */
-    // @TODO -- this will become a method and not a resource.  The top level 'Provision' resource will call
-    //    	into this.
-    @POST
-	@Path("EdOrg/{" + STATE_EDORG_ID + "}")
-    public Response createEdOrg(@PathParam(STATE_EDORG_ID) String orgId, @Context final UriInfo uriInfo) {
-
     	// Ensure the user is an admin.
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
             EntityBody body = new EntityBody();
@@ -97,12 +82,41 @@ public class OnboardingResource {
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
 
+        String edOrgId = "";
+        Response r = createEdOrg(orgId, tenantId, edOrgId);
+
+    	if (Status.fromStatusCode(r.getStatus()) != Status.CREATED) {
+    		return r;
+    	}
+
+    	// Plug in additional provisioning steps here.
+
+        return r;
+    }
+
+	/**
+	 * Create an EdOrg if it does not exists.
+	 *
+	 * @param orgId The State Educational Organization identifier.
+	 * @param tenantId The EdOrg tenant identifier.
+	 * @param unique identifier for the new EdOrg entity (out)
+	 * @return Response of the request as an HTTP Response.
+	 */
+    public Response createEdOrg(final String orgId, final String tenantId, String uuid) {
+
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria(STATE_EDORG_ID, "=", orgId));
+
+        if (repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query) != null) {
+	        return Response.status(Status.CONFLICT).build();
+		}
+
 	    EntityBody body = new EntityBody();
 		body.put(STATE_EDORG_ID, orgId);
 		body.put(EDORG_INSTITUTION_NAME, orgId);
 
 		List<String> categories = new ArrayList<String>();
-		categories.add("State Education Agency");
+		categories.add(STATE_EDUCATION_AGENCY);
 		body.put(CATEGORIES, categories);
 
 		List<Map<String, String>> addresses = new ArrayList<Map<String, String>>();
@@ -115,20 +129,15 @@ public class OnboardingResource {
 
 		body.put(ADDRESSES, addresses);
 
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria(STATE_EDORG_ID, "=", orgId));
-
-        // Look up the user's tenantID
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Map<String, Object> meta = new HashMap<String, Object>();
-        meta.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, principal.getTenantId());
-
-
-		if (repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query) != null) {
-	        return Response.status(Status.CONFLICT).entity(orgId).build();
-		}
+		Map<String, Object> meta = new HashMap<String, Object>();
+        meta.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, tenantId);
 
 		Entity e = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
-        return Response.status(Status.CREATED).entity(e).build();
+		if (e == null) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+
+		uuid = e.getEntityId();
+		return Response.status(Status.CREATED).build();
     }
 }

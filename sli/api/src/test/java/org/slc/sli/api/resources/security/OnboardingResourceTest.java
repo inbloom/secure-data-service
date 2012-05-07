@@ -70,19 +70,19 @@ public class OnboardingResourceTest {
     }
 
 	@Test
-	public void testCreateEdOrg() {
-       	Response res = resource.createEdOrg("TestOrg", null);
+	public void testProvision() {
+       	Response res = resource.provision("TestOrg", "12345", null);
         assertTrue(Status.fromStatusCode(res.getStatus()) == Status.CREATED);
 
         // Attempt to create the same edorg.
-       	res = resource.createEdOrg("TestOrg", null);
+       	res = resource.provision("TestOrg", "12345", null);
         assertTrue(Status.fromStatusCode(res.getStatus()) == Status.CONFLICT);
 	}
 
 	@Test
 	public void testNotAuthorized() {
         injector.setEducatorContext();
-       	Response res = resource.createEdOrg("TestOrg-NotAuthorized", null);
+       	Response res = resource.provision("TestOrg-NotAuthorized", "12345", null);
         assertTrue(Status.fromStatusCode(res.getStatus()) == Status.FORBIDDEN);
 
 	}
