@@ -12,7 +12,7 @@ When I select "Illinois Sunset School District 4526" and click go
 Scenario: Invalid User Login
 When I login as "linda.kim" "linda.kim1234"
 When I enter the Configuration Area
-Then I am informed that "SLI Exception Message"
+Then I am informed that "Exception occurred"
 
 @integration
 Scenario: Upload valid config file
