@@ -1,0 +1,21 @@
+<h1>Listing eulas</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @eulas.each do |eula| %>
+  <tr>
+    <td><%= link_to 'Show', eula %></td>
+    <td><%= link_to 'Edit', edit_eula_path(eula) %></td>
+    <td><%= link_to 'Destroy', eula, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Eula', new_eula_path %>
