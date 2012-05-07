@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * Returns available role information
  */
 @Component
-public class Roles {
+public class RoleService {
     
     /**
      * Holds role information.
@@ -18,7 +18,7 @@ public class Roles {
     public static class Role {
         String name;
         
-        Role(String name) {
+        public Role(String name) {
             this.name = name;
         }
         

@@ -53,6 +53,7 @@
 	<xs:element name="studentTranscriptAssociation" type="studentTranscriptAssociation" />
 	<xs:element name="teacher" type="teacher" />
 	<xs:element name="teacherSchoolAssociation" type="teacherSchoolAssociation" />
-	<xs:element name="teacherSectionAssociation" type="teacherSectionAssociation" />
+    <xs:element name="teacherSectionAssociation" type="teacherSectionAssociation" />
+    <xs:element name="userAccount" type="userAccount" />
 
 </xs:schema>
