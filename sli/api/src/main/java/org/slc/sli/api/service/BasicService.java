@@ -129,7 +129,7 @@ public class BasicService implements EntityService {
      * @return the body of the entity
      */
     @Override
-	public Iterable<String> listIds(NeutralQuery neutralQuery) {
+    public Iterable<String> listIds(NeutralQuery neutralQuery) {
         checkRights(Right.READ_GENERAL);
 
         List<String> allowed = findAccessible();
@@ -586,9 +586,9 @@ public class BasicService implements EntityService {
         }
 
         if (PUBLIC_COLLECTIONS.contains(collectionName)) {
-        	if (Right.READ_GENERAL.equals(neededRight)) {
-        		neededRight = Right.AGGREGATE_READ;
-        	}
+            if (Right.READ_GENERAL.equals(neededRight)) {
+                neededRight = Right.AGGREGATE_READ;
+            }
         }
 
         Collection<GrantedAuthority> auths = getAuths();
@@ -621,13 +621,13 @@ public class BasicService implements EntityService {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal == null) {
-			throw new AccessDeniedException("Principal cannot be found");
-		}
+            throw new AccessDeniedException("Principal cannot be found");
+        }
 
         Entity entity = principal.getEntity();
         String type = (entity != null ? entity.getType() : null);   // null for super admins because
-                                                                  // they don't contain mongo
-                                                                  // entries
+        // they don't contain mongo
+        // entries
 
         if (getAuths().contains(Right.FULL_ACCESS)) {  //Super admin
             return AllowAllEntityContextResolver.SUPER_LIST;
@@ -665,9 +665,9 @@ public class BasicService implements EntityService {
                     }
 
                     if (PUBLIC_COLLECTIONS.contains(collectionName)) {
-                    	if (Right.READ_GENERAL.equals(neededRight)) {
-                    		neededRight = Right.AGGREGATE_READ;
-                    	}
+                        if (Right.READ_GENERAL.equals(neededRight)) {
+                            neededRight = Right.AGGREGATE_READ;
+                        }
                     }
 
                     LOG.debug("Field {} requires {}", fieldPath, neededRight);
