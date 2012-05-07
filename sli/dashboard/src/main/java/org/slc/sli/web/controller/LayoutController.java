@@ -1,14 +1,15 @@
 package org.slc.sli.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import org.slc.sli.web.util.SafeUUID;
 
 /**
  * Layout controller for all types of requests.
@@ -20,30 +21,22 @@ import org.springframework.web.servlet.ModelAndView;
 public class LayoutController extends GenericLayoutController {
     private static final String TABBED_ONE_COL = "tabbed_one_col";
     private static final String LOS_ID = "listOfStudentsPage";
-    private static final String SEARCH_RESULTS = "search_results";
-    
+
+
     /**
-     * Generic layout handler
-     *
+     * Generic layout component that takes component id and uid of the data entity
+     * @param componentId
      * @param id
      * @param request
      * @return
      */
-    @RequestMapping(value = "/service/layout/{componentId}/{id}", method = RequestMethod.GET)
-    public ModelAndView handleWithId(@PathVariable String componentId, @PathVariable String id, HttpServletRequest request) {
+    // The path variable validation for id is simplified since spring doesn't seem to support exact length regex
+    @RequestMapping(value = "/service/layout/{componentId:[a-zA-Z0-9]+}/{id:[a-f0-9-]+}", method = RequestMethod.GET)
+    public ModelAndView handleWithId(
+            @PathVariable String componentId, @PathVariable SafeUUID id, HttpServletRequest request
+    ) {
         return handle(componentId, id, request);
     }
-    
-    
-    /**
-     * Controller for student search 
-    */ 
-    @RequestMapping(value = "/service/layout/studentSearchPage", method = RequestMethod.GET)
-    public ModelAndView searchForStudent(String firstName, String lastName, HttpServletRequest request) {
-       ModelMap model = getPopulatedModel("studentSearchPage", new String[]{firstName, lastName}, request);
-        return getModelView(SEARCH_RESULTS, model);        
-    }    
-    
 
     /**
      * Generic layout handler
@@ -52,9 +45,11 @@ public class LayoutController extends GenericLayoutController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/service/layout/{componentId}", method = RequestMethod.GET)
-    public ModelAndView handle(@PathVariable String componentId, @RequestParam(required = false) String id, HttpServletRequest request) {
-        return getModelView(TABBED_ONE_COL, getPopulatedModel(componentId, id, request));
+    @RequestMapping(value = "/service/layout/{componentId:[a-zA-Z0-9]+}", method = RequestMethod.GET)
+    public ModelAndView handle(
+            @PathVariable String componentId, @Valid SafeUUID id, HttpServletRequest request
+    ) {
+        return getModelView(TABBED_ONE_COL, getPopulatedModel(componentId, id == null ? null : id.getId(), request));
     }
 
     /**
