@@ -1,3 +1,6 @@
+
+require 'rest-client'
+
 class UserAccountValidationController < ApplicationController
   
   # success message
@@ -20,6 +23,17 @@ class UserAccountValidationController < ApplicationController
   # GET /user_account_registrations/validate/1
   # GET /user_account_registrations/validate/1.json
   def show
+    
+    url = "http://localhost:8080/api/rest/v1/userAccounts/" + params[:id]
+    urlHeader = {:accept => "application/json"}
+    #headers.store(:Authorization, "bearer "+sessionId)
+    puts "1 url: #{url}"
+    puts "2 headers: #{headers}"
+    
+    @res = RestClient.get(url, urlHeader){|response, request, result| response }
+    
+    puts "3 @res: #{@res}"
+    
     result = 0
     
     if result == 0 
@@ -34,5 +48,8 @@ class UserAccountValidationController < ApplicationController
       format.html # show.html.erb
       format.json { render json: @validation_result }
     end
+    puts "4"
   end
+  
+    
 end
