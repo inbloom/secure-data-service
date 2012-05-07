@@ -1,6 +1,6 @@
-${headerString}
+<#if headerString??>${headerString}</#if>
 
-
+<#if CONTEXT_ROOT_PATH??>
 <div id="banner">
 <form class="student-search-form" action="${CONTEXT_ROOT_PATH}/service/layout/studentSearchPage" method="get" float="right">
 
@@ -15,3 +15,4 @@ ${headerString}
    </h1>
 
 </div>
+</#if>

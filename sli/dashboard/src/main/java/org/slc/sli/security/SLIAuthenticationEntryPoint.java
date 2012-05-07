@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.exceptions.OAuthException;
 import org.scribe.model.Token;
@@ -25,10 +29,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 /**
  * Spring interceptor for calls that don't have a session
@@ -122,20 +122,12 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             try {
                 accessToken = service.getAccessToken(null, verifier);
             } catch (OAuthException ex) {
-                //This will happen if the request to getAccessToken results in an OAuth error, such as
-                //if the user isn't authorized to use the client.
-                
-                //TODO: provide an improved error page
+                LOG.error("Authentication exception: {}", new Object[] { ex.getMessage() });
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, ex.getMessage());
                 return;
             } catch (Exception ex) {
-                // This will happen if the request to getAccessToken results in an OAuth error, such
-                // as
-                // if the user isn't authorized to use the client.
-                
-                // TODO: provide an improved error page
-                session.setAttribute(OAUTH_TOKEN, "");
-                response.sendRedirect("/dashboard/exception");
+                LOG.error("Authentication exception: {}", new Object[] { ex.getMessage() });
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
                 return;
             }
             session.setAttribute(OAUTH_TOKEN, accessToken.getToken());

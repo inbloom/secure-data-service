@@ -111,7 +111,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     @Override
     @Cacheable(cacheName = "user.hierarchy")
     public List<GenericEntity> getUserInstHierarchy(String token) {
-
+        
         // Find all the schools first.
         List<GenericEntity> schools = getSchools(token);
         if (schools == null) {

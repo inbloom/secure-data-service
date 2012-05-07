@@ -167,6 +167,11 @@ public final class Constants {
     public static final String ATTR_GRADE_EARNED = "gradeEarned";
     public static final String ATTR_SEARCH_STRING = "searchString";
     public static final String ATTR_NUM_RESULTS = "numResults";    
+    public static final String ATTR_ERROR_HEADING = "errorHeading";    
+    public static final String ATTR_ERROR_CONTENT = "errorContent";    
+    public static final String ATTR_ERROR_DETAILS_ENABLED = "debugEnabled";    
+    public static final String ATTR_ERROR_DETAILS = "errorDetails";    
+
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
 
@@ -206,6 +211,7 @@ public final class Constants {
     public static final String TYPE_EMAIL_OTHER = "Other";
 
     public static final String CONTEXT_ROOT_PATH = "CONTEXT_ROOT_PATH";
+    public static final String CONTEXT_PREVIOUS_PATH = "CONTEXT_PREVIOUS_PATH";
 
     // extra elements added by API
     public static final String METADATA = "metaData";
