@@ -54,8 +54,6 @@ public class DashboardExceptionResolver extends SimpleMappingExceptionResolver {
                 mv.getModelMap().addAttribute(Constants.ATTR_ERROR_CONTENT, ex.getMessage());
                 
                 // If debug is enabled, then provide developer exception stack trace
-//                stackTrace = stackTrace.replaceAll("\n", "<br>");
-//                stackTrace = stackTrace.replaceAll("\t", "&nbsp; &nbsp; &nbsp; &nbsp;");
                 mv.getModelMap().addAttribute(Constants.ATTR_ERROR_DETAILS_ENABLED, true);
                 mv.getModelMap().addAttribute(Constants.ATTR_ERROR_DETAILS, stackTrace);
             }
