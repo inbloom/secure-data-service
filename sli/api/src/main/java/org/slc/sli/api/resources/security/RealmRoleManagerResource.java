@@ -79,7 +79,7 @@ public class RealmRoleManagerResource {
     @Consumes("application/json")
     public Response updateClientRole(@PathParam("realmId") String realmId, EntityBody updatedRealm) {
         if (!SecurityUtil.hasRight(Right.CRUD_REALM_ROLES)) {
-            return forbidden_response();
+            return forbiddenResponse();
         }
 
         if (updatedRealm == null) {
@@ -113,7 +113,7 @@ public class RealmRoleManagerResource {
         return Response.status(Status.BAD_REQUEST).build();
     }
 
-    private Response forbidden_response() {
+    private Response forbiddenResponse() {
         EntityBody body = new EntityBody();
         body.put("response", "You are not authorized to update realms.");
         return Response.status(Status.FORBIDDEN).entity(body).build();
@@ -123,7 +123,7 @@ public class RealmRoleManagerResource {
     @Path("{realmId}")
     public Response deleteRealm(@PathParam("realmId") String realmId) {
         if (!SecurityUtil.hasRight(Right.CRUD_REALM_ROLES)) {
-            return forbidden_response();
+            return forbiddenResponse();
         }
         service.delete(realmId);
         return Response.status(Status.NO_CONTENT).build();
@@ -133,7 +133,7 @@ public class RealmRoleManagerResource {
     @SuppressWarnings("unchecked")
     public Response createRealm(EntityBody newRealm, @Context final UriInfo uriInfo) {
         if (!SecurityUtil.hasRight(Right.CRUD_REALM_ROLES)) {
-            return forbidden_response();
+            return forbiddenResponse();
         }
 
         if (!canEditCurrentRealm(newRealm)) {
@@ -161,7 +161,7 @@ public class RealmRoleManagerResource {
     @Path("{realmId}")
     public Response getMappings(@PathParam("realmId") String realmId) {
         if (!SecurityUtil.hasRight(Right.CRUD_REALM_ROLES)) {
-            return forbidden_response();
+            return forbiddenResponse();
         }
         EntityBody result = service.get(realmId);
         if (result != null && result.get("mappings") == null) {
@@ -173,7 +173,7 @@ public class RealmRoleManagerResource {
     @GET
     public Response getRealms(@QueryParam("realm") @DefaultValue("") String realm, @Context UriInfo info) {
         if (!SecurityUtil.hasRight(Right.CRUD_REALM_ROLES)) {
-            return forbidden_response();
+            return forbiddenResponse();
         }
 
         NeutralQuery neutralQuery = new NeutralQuery();
@@ -184,7 +184,11 @@ public class RealmRoleManagerResource {
         List<EntityBody> result = new ArrayList<EntityBody>();
         Iterable<String> realmList = service.listIds(neutralQuery);
         for (String id : realmList) {
-            EntityBody curEntity = getMappings(id);
+            EntityBody curEntity = service.get(id);
+            if (curEntity != null && curEntity.get("mappings") == null) {
+                curEntity.put("mappings", new HashMap<String, List<String>>());
+            }
+
             if (realm.length() == 0) {
                 curEntity.remove("mappings");
                 curEntity.put("link", info.getBaseUri() + info.getPath().replaceAll("/$", "") + "/" + id);
