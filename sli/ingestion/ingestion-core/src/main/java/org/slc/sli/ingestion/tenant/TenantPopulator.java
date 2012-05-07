@@ -36,9 +36,6 @@ public class TenantPopulator implements ResourceLoaderAware {
 
     private String parentLandingZoneDir;
     
-    @Autowired
-    private TenantMongoDA tenantDA;
-
     private List<String> tenantRecordResourcePaths;
 
     private static final String HOSTNAME_PLACEHOLDER = "<hostname>";
