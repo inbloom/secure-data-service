@@ -162,12 +162,6 @@
             <version>1.0.2</version>
         </dependency>
 
-        <dependency>
-        	<groupId>com.sun</groupId>
-        	<artifactId>tools</artifactId>
-        	<version>1.5</version>
-        	<scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <build>
