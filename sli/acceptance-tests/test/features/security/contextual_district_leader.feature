@@ -55,14 +55,14 @@ Examples:
 	|Username  |Password      |Realm|District   |Data|
 	|"jcarlyle"|"jcarlyle1234"|"NY" |"NY-Parker"|"Malcolm Haehn NY"|
 	|"mhahn"   |"mhahn1234"   |"NY" |"NY-Dusk"  |"Matt Sollars"|
-
+@wip
 Scenario Outline: Aggregate Viewer getting their available district data
 
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "Aggregate Viewer"
 And my "district" is <District>
 When I try to access the data for <Data> in my "district" from the API
-Then I should get a response which includes the data containing <Data> returned in json format
+Then I get the data containing <Data> returned in json format
 Examples:
 	|Username  |Password      |Realm|District     |Data|
 	|"jjackson"|"jjackson1234"|"IL" |"IL-Daybreak"|"Schools in Daybreak District"|
