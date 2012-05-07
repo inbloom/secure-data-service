@@ -71,6 +71,7 @@ public class Login {
             ModelAndView mav = new ModelAndView("login");
             mav.addObject("msg", "Invalid userId or password");
             mav.addObject("SAMLRequest", encodedSamlRequest);
+            mav.addObject("realm", realm);
             return mav;
         }
 
