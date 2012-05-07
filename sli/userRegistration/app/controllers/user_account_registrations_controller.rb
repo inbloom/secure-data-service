@@ -2,7 +2,19 @@ class UserAccountRegistrationsController < ApplicationController
   # GET /user_account_registrations
   # GET /user_account_registrations.json
   def index
-    @user_account_registrations = UserAccountRegistration
+    @user_account_registrations = $user_account_registrations
+    if @user_account_registrations==nil
+        counters = (0...20).to_a
+              @user_account_registrations=Array.new()
+              counters.each do |counter|
+                user_account = UserAccountRegistration.new()
+                user_account.firstName="test first name " +String(counter+1)
+                user_account.lastName="test last name " +String(counter+1)
+                user_account.vendor="test vendor "+String(counter+1)
+                user_account.email="test"+String(counter+1)+"@test.com"
+                @user_account_registrations[counter]=user_account
+              end
+    end
 
     respond_to do |format|
       format.html # index.html.erb
