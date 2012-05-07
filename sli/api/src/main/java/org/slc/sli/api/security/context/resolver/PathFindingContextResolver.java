@@ -9,9 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
@@ -20,6 +17,8 @@ import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Class to adapt our path finding technique to our context resolving system.
@@ -34,6 +33,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
 
     @Autowired
     private AssociativeContextHelper helper;
+    
+    @Autowired
+    private ResolveCreatorsEntitiesHelper creatorResolverHelper;
 
     @Autowired
     private EntityDefinitionStore store;
@@ -41,6 +43,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
     @Autowired
     private Repository<Entity> repository;
 
+    @Autowired
+    private Repository<Entity> repo;
+    
     private String fromEntity;
     private String toEntity;
 
@@ -67,11 +72,7 @@ public class PathFindingContextResolver implements EntityContextResolver {
      */
     @Override
     public List<String> findAccessible(Entity principal) {
-        if (principal != null && principal.getBody().get("staffUniqueStateId").equals("demo")) {
-            info("Resolver override for demo user.");
-            return AllowAllEntityContextResolver.SUPER_LIST;
-        }
-        
+
         List<SecurityNode> path = new ArrayList<SecurityNode>();
         path = pathFinder.getPreDefinedPath(fromEntity, toEntity);
         if (path.size() == 0) {
@@ -88,7 +89,12 @@ public class PathFindingContextResolver implements EntityContextResolver {
             debug("Getting Ids From {}", repoName);
             if (isAssociative(next, connection)) {
                 AssociationDefinition ad = (AssociationDefinition) store.lookupByResourceName(repoName);
-                List<String> keys = helper.getAssocKeys(current.getName(), ad);
+                List<String> keys = new ArrayList<String>();
+                try {
+                    keys = helper.getAssocKeys(current.getName(), ad);
+                } catch (IllegalArgumentException e) {
+                    keys = helper.getAssocKeys(current.getType(), ad);
+                }
                 idSet = helper.findEntitiesContainingReference(ad.getStoredCollectionName(), keys.get(0),
                         connection.getFieldName(), new ArrayList<String>(ids));
             } else if (!isAssociative(next, connection) && connection.getAssociationNode().length() != 0) {
@@ -109,6 +115,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
             current = path.get(i);
         }
         debug("We found {} ids", ids);
+        
+        //  Allow creator access
+        ids.addAll(creatorResolverHelper.getAllowedForCreator(toEntity));
         return new ArrayList<String>(ids);
     }
 
@@ -139,5 +148,4 @@ public class PathFindingContextResolver implements EntityContextResolver {
     public void setRepository(Repository<Entity> repo) {
         this.repository = repo;
     }
-
 }

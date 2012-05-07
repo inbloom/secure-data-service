@@ -1,4 +1,9 @@
 SLIAdmin::Application.routes.draw do
+  resources :realm_editors
+  post "landing_zone/provision", :to => 'landing_zone#provision'
+  get "landing_zone/provision", :to => 'landing_zone#success'
+  get "landing_zone", :to => 'landing_zone#index'
+
   resources :account_managements
   resources :application_authorizations
 
@@ -20,6 +25,7 @@ SLIAdmin::Application.routes.draw do
     resources :roles
     resources :sessions
     resources :apps
+    resources :realms
     match '/apps/approve', :to => 'apps#approve'
     match '/apps/unregister', :to => 'apps#unregister'
 

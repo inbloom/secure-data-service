@@ -10,7 +10,7 @@ Scenario: Post an empty zip file should fail
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 10 seconds for ingestion to complete
+  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
   And I should see "File student.xml: Empty file" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
@@ -24,7 +24,7 @@ Scenario: Post a zip file where the first record has an incorrect enum for an at
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 10 seconds for ingestion to complete
+  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
   And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "     Error      ENUMERATION_MISMATCH" in the resulting error log file
@@ -44,7 +44,7 @@ Scenario: Post a zip file where the first record has a bad attribute should fail
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 10 seconds for ingestion to complete
+  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
   And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "     Error      REQUIRED_FIELD_MISSING" in the resulting error log file
@@ -65,7 +65,7 @@ Scenario: Post a zip file where the second record has a bad attribute should fai
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 10 seconds for ingestion to complete
+  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
   And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "     Error      REQUIRED_FIELD_MISSING" in the resulting error log file
@@ -87,7 +87,7 @@ Scenario: Post a zip file where the first record has an undefined attribute shou
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 10 seconds for ingestion to complete
+  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
   And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "     Error      REQUIRED_FIELD_MISSING" in the resulting error log file
@@ -108,7 +108,7 @@ Scenario: Post a zip file where the first record has a missing attribute should 
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 10 seconds for ingestion to complete
+  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
   And I should see "ERROR: There has been a data validation error when saving an entity" in the resulting error log file
   And I should see "       Error      REQUIRED_FIELD_MISSING" in the resulting error log file
@@ -129,7 +129,7 @@ Scenario: Post a zip file where the the edfi input is malformed XML
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 10 seconds for ingestion to complete
+  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
 #	And I should see "Input file was malformed" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
@@ -146,7 +146,7 @@ Scenario: Post a zip file where the the edfi input is missing a declaration line
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 10 seconds for ingestion to complete
+  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
 #	And I should see "Input file is missing declaration line" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
@@ -158,7 +158,7 @@ Scenario: Post a zip file where the the edfi input has no records
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 10 seconds for ingestion to complete
+  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
   And I should see "Processed 0 records." in the resulting batch job file
   And I should see "All records processed successfully." in the resulting batch job file
@@ -173,7 +173,7 @@ Scenario: Post a zip file where the the edfi input has attributes/strings/enums 
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 10 seconds for ingestion to complete
+  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
   And I find a(n) "student" record where "metaData.externalId" is equal to "100000000"
   And verify the following data in that document:
@@ -193,14 +193,14 @@ Scenario: Post a zip file and then post it against and make sure the updated dat
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 10 seconds for ingestion to complete
+  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
   And I find a(n) "student" record where "metaData.externalId" is equal to "100000000"
   And verify that "metaData.created" is equal to "metaData.updated"
   Given I am using preconfigured Ingestion Landing Zone
   And I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 10 seconds for ingestion to complete
+  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
   And I find a(n) "student" record where "metaData.externalId" is equal to "100000000"
   And verify that "metaData.created" is unequal to "metaData.updated"
@@ -225,7 +225,7 @@ Scenario: Post a Zip File containing a control file with directory pathnames
         | session                                 |
         | student                                 |
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 10 seconds for ingestion to complete
+  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName                          | count     |
@@ -243,7 +243,7 @@ Scenario: Post a Zip File containing a control file and a subfolder with XML fil
         | session                                 |
         | student                                 |
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 10 seconds for ingestion to complete
+  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName                          | count     |

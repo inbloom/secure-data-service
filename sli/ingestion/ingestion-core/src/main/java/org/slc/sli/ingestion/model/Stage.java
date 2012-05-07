@@ -90,6 +90,13 @@ public class Stage {
         return metrics;
     }
 
+    public synchronized void addMetrics(Metrics metrics) {
+        if (this.metrics == null) {
+            this.metrics = new LinkedList<Metrics>();
+        }
+        this.metrics.add(metrics);
+    }
+
     public void setMetrics(List<Metrics> metrics) {
         this.metrics = metrics;
     }

@@ -280,9 +280,9 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<!--This is how we associate the assessment item and the objective assessment 
-				locally within the assessment. <xs:element name="id" type="xs:ID"> <xs:annotation> 
-				<xs:documentation>Uniquely identifies this assessment item within the assessment.</xs:documentation> 
+			<!--This is how we associate the assessment item and the objective assessment
+				locally within the assessment. <xs:element name="id" type="xs:ID"> <xs:annotation>
+				<xs:documentation>Uniquely identifies this assessment item within the assessment.</xs:documentation>
 				</xs:annotation> </xs:element> -->
 			<xs:element name="identificationCode" type="identificationCode">
 				<xs:annotation>
@@ -424,6 +424,10 @@
 				(e.g., sick leave, personal time, vacation,
 				etc.).
 			</xs:documentation>
+			<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="eventDate" type="xs:date">
@@ -1494,7 +1498,7 @@
 		<xs:complexContent>
 			<xs:extension base="educationOrganization">
 				<xs:sequence>
-					<xs:element maxOccurs="unbounded" name="gradesOffered" 
+					<xs:element maxOccurs="unbounded" name="gradesOffered"
 								type="gradeLevelType">
 						<xs:annotation>
 							<xs:documentation>The grade levels served at the school.
@@ -2014,6 +2018,10 @@
 						to a
 						staff by a state education agency.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="staffIdentificationCode" type="staffIdentificationCode"
@@ -2026,6 +2034,10 @@
 						or
 						entity.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="name" type="name">
@@ -2046,7 +2058,12 @@
 			<xs:element name="sex" type="sexType">
 				<xs:annotation>
 					<xs:documentation>A person's gender.</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
+				
 			</xs:element>
 			<xs:element name="birthDate" type="xs:date" minOccurs="0">
 				<xs:annotation>
@@ -2054,6 +2071,10 @@
 						was
 						born.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="address" type="address" minOccurs="0"
@@ -2062,6 +2083,10 @@
 					<xs:documentation>The set of elements that describes an address,
 						including the street address, city, state, and ZIP code.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="telephone" type="telephone" minOccurs="0"
@@ -2098,6 +2123,10 @@
 						or
 						Latino."
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="oldEthnicity" type="oldEthnicityType"
@@ -2110,6 +2139,10 @@
 						-
 						Hispanic 5 - White, not of Hispanic origin
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="race" type="raceItemType" minOccurs="0"
@@ -2123,6 +2156,10 @@
 						each
 						individual can specify all appropriate races.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="highestLevelOfEducationCompleted" type="levelOfEducationType">
@@ -2132,6 +2169,10 @@
 						received (e.g., the highest grade in school completed or its
 						equivalent or the highest degree received).
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="yearsOfPriorProfessionalExperience"
@@ -2143,6 +2184,10 @@
 						more
 						education institutions.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="yearsOfPriorTeachingExperience" type="xs:int"
@@ -2153,6 +2198,10 @@
 						previously held a teaching position in one or more education
 						institutions.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="credentials" type="credential"
@@ -2170,6 +2219,10 @@
 						access
 						control interface.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -3912,6 +3965,10 @@
 								uniquely
 								identifies this teacher.
 							</xs:documentation>
+							<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 					<xs:element minOccurs="0" name="highlyQualifiedTeacher"
@@ -3922,6 +3979,10 @@
 								to state definition. This attribute indicates the teacher is
 								highly qualified for ALL sections being taught.
 							</xs:documentation>
+							<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -4526,12 +4587,12 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<!-- <xs:complexType name="raceType"> <xs:annotation> <xs:documentation>The 
-		general racial category which most clearly reflects the individual's recognition 
-		of his or her community or with which the individual most identifies. </xs:documentation> 
-		</xs:annotation> <xs:sequence> <xs:element name="racialCategory" type="raceItemType" 
-		minOccurs="0" maxOccurs="unbounded"> <xs:annotation> <xs:documentation>Zero 
-		or more racial categories associated with the student or staff. </xs:documentation> 
+	<!-- <xs:complexType name="raceType"> <xs:annotation> <xs:documentation>The
+		general racial category which most clearly reflects the individual's recognition
+		of his or her community or with which the individual most identifies. </xs:documentation>
+		</xs:annotation> <xs:sequence> <xs:element name="racialCategory" type="raceItemType"
+		minOccurs="0" maxOccurs="unbounded"> <xs:annotation> <xs:documentation>Zero
+		or more racial categories associated with the student or staff. </xs:documentation>
 		</xs:annotation> </xs:element> </xs:sequence> </xs:complexType> -->
 
 	<xs:complexType name="accountabilityRating">
@@ -5351,6 +5412,10 @@
 						Voluntary
 						separation Involuntary separation Mutual agreement Other
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="separationReason" type="separationReasonType"
@@ -5363,6 +5428,10 @@
 						Family/personal
 						relocation Change of assignment
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -6095,43 +6164,56 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-  
-    <xs:complexType name="attendance">
-        <xs:annotation>
-          <xs:documentation>
-              Daily attendance for the student at the school. Attendance is partitioned by school year. School years must be unique per school year attendance.
-          </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="studentId" type="reference" minOccurs="1" maxOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>
-                        The student associated with this attendance.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>student</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
+
+	<xs:complexType name="attendance">
+		<xs:annotation>
+			<xs:documentation>
+				Daily attendance for the student at the school. Attendance is partitioned by school year. School years must be unique per school year attendance.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="studentId" type="reference">
+				<xs:annotation>
+					<xs:documentation>
+						The student associated with this attendance.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>student</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+            <xs:element name="schoolId" type="reference">
+              <xs:annotation>
+                <xs:documentation>
+                  The school associated with this attendance.
+                </xs:documentation>
+                <xs:appinfo>
+                  <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                </xs:appinfo>
+              </xs:annotation>
             </xs:element>
-            <xs:element name="schoolId" type="reference" minOccurs="1" maxOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>
-                        The school associated with this attendance.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>educationOrganization</sli:ReferenceType>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="schoolYearAttendance" type="schoolYearAttendanceType" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>
-                        Transformed attendance events, keyed by school year.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
+            <xs:element name="schoolYearAttendance" type="schoolYearAttendanceType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="attendanceEvent">
+		<xs:annotation>
+			<xs:documentation>A record of attendance.
+				date: Date for this
+				attendance event.
+				event: The occurred attendance event, such as
+				"Unexcused absence,"
+				"Excused absence," or "Tardy."
+				reason: The
+				reported reason for the event, such as a reason for absence.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="date" type="xs:date" />
+			<xs:element name="event" type="attendanceEventCategoryType" />
+			<xs:element name="reason" type="attendanceEventReason" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
 
 	<xs:complexType name="bellSchedule">
 		<xs:annotation>
@@ -6731,32 +6813,9 @@
 		</xs:annotation>
 		<xs:sequence>
             <xs:element name="schoolYear" type="schoolYearType" />
-            <xs:element name="attendanceEvent" minOccurs="0" maxOccurs="unbounded" type="attendanceEvent"/>
-        </xs:sequence>
-        <xs:unique name="uniqueSchoolYears">
-            <xs:selector xpath="schoolYearAttendance"/>
-            <xs:field xpath="schoolYear"/>
-        </xs:unique>
-    </xs:complexType>
-  
-    <xs:complexType name="attendanceEvent">
-        <xs:annotation>
-            <xs:documentation>A record of attendance.
-            date: Date for this
-            attendance event.
-            event: The occurred attendance event, such as
-            "Unexcused absence,"
-            "Excused absence," or "Tardy."
-            reason: The
-            reported reason for the event, such as a reason for absence.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="date" type="xs:date" />
-            <xs:element name="event" type="attendanceEventCategoryType" />
-            <xs:element name="reason" type="attendanceEventReason" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
+			<xs:element name="attendanceEvent" minOccurs="0" maxOccurs="unbounded" type="attendanceEvent" />
+		</xs:sequence>
+	</xs:complexType>
 
 	<xs:complexType name="reportCard">
 		<xs:annotation>
@@ -6909,7 +6968,7 @@
 			</xs:element>
 		</xs:choice>
 	</xs:complexType>
-	
+
 	<xs:complexType name="competencyLevelDescriptorType">
 		<xs:annotation>
 			<xs:documentation>Provides references for competency level descriptors during interchange. Use XML IDREF to reference a course record that is included in the interchange.  To lookup where already loaded specify either CodeValue OR Description.</xs:documentation>

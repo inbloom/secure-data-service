@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -111,10 +110,10 @@ public class ApplicationAuthorizationValidator {
                 edOrgs = contextResolverStore.findResolver(EntityNames.STAFF, EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
             }
 
-            //Need to clean this up when we remove the demo user 'hack'
+            /*//Need to clean this up when we remove the demo user 'hack'
             if (edOrgs == AllowAllEntityContextResolver.SUPER_LIST) {
                 return null;
-            }
+            }*/
             for (String id : edOrgs) {
                 Entity entity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
                 if (entity == null) {
