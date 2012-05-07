@@ -24,7 +24,7 @@ class UserAccountValidationController < ApplicationController
   # GET /user_account_registrations/validate/1.json
   def show
     
-    url = "http://localhost:8080/api/rest/v1/userAccounts/" + params[:id]
+    url = "http://localhost:8080/api/rest/v1/schools/" + params[:id]
     urlHeader = {:accept => "application/json"}
     #headers.store(:Authorization, "bearer "+sessionId)
     puts "1 url: #{url}"
