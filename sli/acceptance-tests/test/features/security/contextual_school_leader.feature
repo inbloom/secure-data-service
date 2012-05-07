@@ -55,19 +55,18 @@ Examples:
 	|Username|Password    |Realm|School                     |Data|
 	|"agibbs"|"agibbs1234"|"NY" |"Dawn Elementary"          |"Brandon Suzuki"|
 	|"akopel"|"akopel1234"|"IL" |"South Daybreak Elementary"|"Malcolm Haehn NY"|
-@wip
+
 Scenario Outline: Aggregate Viewer getting their available school data
 
 Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals "Aggregate Viewer"
 And my "school" is <School>
 When I try to access the data for <Data> in my "school" from the API
-Then I get the data containing <Data> returned in json format
+Then I should get a response which includes the data containing <Data> returned in json format
 Examples:
-	|Username  |Password      |Realm|School     |Data|
-	|"jjackson"|"jjackson1234"|"IL" |"IL-Daybreak"|"Schools in Daybreak District"|
-	|"rlindsey"|"rlindsey1234"|"NY" |"NY-Dusk"    |"Schools in Dusk District"|
-	|"jjackson"|"jjackson1234"|"IL" |"IL-Daybreak"|"South Daybreak Elementary"|
+	|Username   |Password       |Realm|School                     |Data|
+	|"charrison"|"charrison1234"|"NY" |"Dawn Elementary"          |"Dawn Elementary"          |
+	|"msmith"   |"msmith1234"   |"IL" |"South Daybreak Elementary"|"South Daybreak Elementary"|
 
 Scenario Outline: Aggregate Viewer trying to access non-school info data
 
