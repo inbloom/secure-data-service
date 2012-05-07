@@ -2,11 +2,11 @@ package org.slc.sli.util;
 
 import java.util.Collection;
 
+import org.slc.sli.security.SLIPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import org.slc.sli.security.SLIPrincipal;
 
 /**
  * Class, which allows user to access security context
@@ -17,7 +17,16 @@ import org.slc.sli.security.SLIPrincipal;
 public class SecurityUtil {
 
     public static UserDetails getPrincipal() {
-        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if ((authentication != null) && (authentication.getPrincipal() instanceof UserDetails)) {
+            return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        } else {
+            // Allow exception handling to cover authentication issues
+            SLIPrincipal principal = new SLIPrincipal();
+            principal.setName("");
+            principal.setId("");
+            return principal;
+        }
     }
 
     /**
@@ -29,8 +38,7 @@ public class SecurityUtil {
         for (GrantedAuthority authority : authorities) {
             if (authority.getAuthority().equals(Constants.ROLE_IT_ADMINISTRATOR)) {
                 return true;
-            }
-            else if (authority.getAuthority().equals(Constants.ROLE_LEADER)) {
+            } else if (authority.getAuthority().equals(Constants.ROLE_LEADER)) {
                 return true;
             }
         }

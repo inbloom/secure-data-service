@@ -1,1 +1,1 @@
-${footerString}
+<#if footerString??>${footerString}</#if>
