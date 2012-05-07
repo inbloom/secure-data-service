@@ -607,9 +607,11 @@ public class Resource {
             public Response run(EntityDefinition entityDef) {
                 EntityBody copy = new EntityBody(newEntityBody);
                 copy.remove(ResourceConstants.LINKS);
-                LOG.debug("updating entity {}", copy);
+//                DE260: The log below is possibly a security hole!
+//                LOG.debug("updating entity {}", copy);
                 entityDef.getService().update(id, copy);
-                LOG.debug("updating entity {}", copy);
+//                DE260: The log below is possibly a security hole!
+//                LOG.debug("updating entity {}", copy);
                 return Response.status(Status.NO_CONTENT).build();
             }
         });
