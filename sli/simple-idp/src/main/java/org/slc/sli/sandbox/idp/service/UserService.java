@@ -23,19 +23,46 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class UserService {
-    
+    private static final String SLI_ADMIN_REALM = "SLIAdmin";
+            
     private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
     
     @Autowired
     LdapTemplate ldapTemplate;
     
+    @Value("${sli.simple-idp.userSearchAttribute}")
+    private String userSearchAttribute;
+    
+    @Value("${sli.simple-idp.userObjectClass}")
+    private String userObjectClass;
+    
+    @Value("${sli.simple-idp.groupSearchAttribute}")
+    private String groupSearchAttribute;
+    
+    @Value("${sli.simple-idp.groupObjectClass}")
+    private String groupObjectClass;
+    
     @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
     private boolean isSandboxImpersonationEnabled = false;
+    
+    public UserService() {}
+    
+    UserService(String userSearchAttribute, String userObjectClass, String groupSearchAttribute, String groupObjectClass){
+        this.userSearchAttribute = userSearchAttribute;
+        this.userObjectClass = userObjectClass;
+        this.groupSearchAttribute = groupSearchAttribute;
+        this.groupObjectClass = groupObjectClass;
+    }
+    
     
     public void setSandboxImpersonationEnabled(boolean isSandboxImpersonationEnabled) {
         this.isSandboxImpersonationEnabled = isSandboxImpersonationEnabled;
     }
-    
+
+    public String getSLIAdminRealmName(){
+        return SLI_ADMIN_REALM;
+    }
+
     /**
      * Holds user information
      */
@@ -69,10 +96,10 @@ public class UserService {
     public User authenticate(String realm, String userId, String password) throws AuthenticationException {
         CollectingAuthenticationErrorCallback errorCallback = new CollectingAuthenticationErrorCallback();
         AndFilter filter = new AndFilter();
-        filter.and(new EqualsFilter("objectclass", "person")).and(new EqualsFilter("uid", userId));
+        filter.and(new EqualsFilter("objectclass", userObjectClass)).and(new EqualsFilter(userSearchAttribute, userId));
         String ou;
         if (isSandboxImpersonationEnabled) {
-            ou = "SLIAdmin";
+            ou = SLI_ADMIN_REALM;
         } else {
             ou = realm;
         }
@@ -92,12 +119,12 @@ public class UserService {
         user.userId = userId;
         
         String usersRealm = user.attributes.get("SandboxRealm");
-        if (isSandboxImpersonationEnabled && !realm.equals("SLIAdmin") && !realm.equals(usersRealm)) {
+        if (isSandboxImpersonationEnabled && !realm.equals(SLI_ADMIN_REALM) && !realm.equals(usersRealm)) {
             throw new AuthenticationException(
                     "Requested authentication realm does not match authenticated users realm.");
         }
         filter = new AndFilter();
-        filter.and(new EqualsFilter("objectclass", "posixGroup")).and(new EqualsFilter("memberuid", userId));
+        filter.and(new EqualsFilter("objectclass", groupObjectClass)).and(new EqualsFilter(groupSearchAttribute, userId));
         @SuppressWarnings("unchecked")
         List<String> groups = (List<String>) ldapTemplate.search(dn, filter.toString(), new GroupContextMapper());
         user.roles = groups;

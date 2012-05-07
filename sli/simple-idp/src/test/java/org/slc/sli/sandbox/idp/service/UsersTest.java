@@ -33,7 +33,7 @@ public class UsersTest {
     LdapTemplate ldapTemplate = null;
     
     @InjectMocks
-    UserService userService = new UserService();
+    UserService userService = new UserService("uid", "person", "memberuid", "posixGroup");
     
     @Before
     public void setup() {

@@ -73,7 +73,7 @@ public class Login {
             mav.addObject("SAMLRequest", encodedSamlRequest);
             return mav;
         }
-        
+
         if (realm.equals("SLIAdmin") || !isSandboxImpersonationEnabled) {
             SamlAssertion samlAssertion = samlService.buildAssertion(userId, user.getRoles(), user.getAttributes(), requestInfo);
             ModelAndView mav = new ModelAndView("post");

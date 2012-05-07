@@ -141,6 +141,10 @@ default:
         # (only used in SimpleIDP)
         sli.simple-idp.issuer-base: http://local.slidev.org:8082/simple-idp
         sli.simple-idp.cot: http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
+        sli.simple-idp.userSearchAttribute: uid
+        sli.simple-idp.userObjectClass: person
+        sli.simple-idp.groupSearchAttribute: memberuid
+        sli.simple-idp.groupObjectClass: posixGroup
         sli.simple-idp.sandboxImpersonationEnabled: false
         
         # SLI Subdomain substituted by various services (used by SDK and dashboard)
