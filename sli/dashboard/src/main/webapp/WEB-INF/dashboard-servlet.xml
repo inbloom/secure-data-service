@@ -18,7 +18,7 @@
         <property name="templateLoaderPath" value="/WEB-INF/views/"/>
          <property name="freemarkerSettings">
     	 	<props>
-                <prop key="template_exception_handler">html_debug</prop>
+                <prop key="template_exception_handler">rethrow</prop>
 			</props>
 		</property>
     </bean>
