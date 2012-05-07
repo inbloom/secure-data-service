@@ -32,7 +32,7 @@ public class DataController {
     @RequestMapping(value = "/service/data/{componentId:[a-zA-Z0-9]+}", method = RequestMethod.GET)
     @ResponseBody public GenericEntity handle(
             @PathVariable final String componentId, @Valid final SafeUUID id, final HttpServletRequest request) {
-        return customizationAssemblyFactory.getDataComponent(componentId, id);
+        return customizationAssemblyFactory.getDataComponent(componentId, id.getId());
     }
 
     @Autowired
