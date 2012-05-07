@@ -43,7 +43,7 @@
 			<textarea>${errorDetails}</textarea>
 		<#else>
 			<#if CONTEXT_PREVIOUS_PATH?? && CONTEXT_ROOT_PATH??>
-				<p>You can revisit the <a href="${CONTEXT_PREVIOUS_PATH}/">previous page</a> or return <a href="${CONTEXT_ROOT_PATH}/"> home</a>.</p>
+				<p>You can revisit the <a href="${CONTEXT_PREVIOUS_PATH}">previous page</a> or return <a href="${CONTEXT_ROOT_PATH}/"> home</a>.</p>
 				<p>To report the problem, click on your name.</p>
 			<#else>
 				<p>You can revisit the previous page or return home</a>.</p>
