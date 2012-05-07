@@ -37,7 +37,7 @@ import org.slc.sli.domain.enums.Right;
  */
 @Component
 @Scope("request")
-@Path("/onboarding")
+@Path("/provision")
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class OnboardingResource {
 
@@ -69,7 +69,6 @@ public class OnboardingResource {
      * @QueryParam tenantId -- the tenant ID for this edorg.
      */
     @POST
-    @Path("Provision")
     public Response provision(
     	@QueryParam(STATE_EDORG_ID) String orgId,
     	@QueryParam(ResourceConstants.ENTITY_METADATA_TENANT_ID) String tenantId,
