@@ -125,6 +125,11 @@ public class ApplicationInitializer {
     }
 
     private String replaceVar(String template, String key, String value) {
-        return template.replaceAll("\\$\\{" + key + "\\}", value);
+        try {
+            return template.replaceAll("\\$\\{" + key + "\\}", value);
+        } catch (IllegalArgumentException ex) {
+            debug("Could not swap {} with {}", key, value);
+        }
+        return template;
     }
 }
