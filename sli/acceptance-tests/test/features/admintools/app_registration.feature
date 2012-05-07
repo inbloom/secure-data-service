@@ -130,7 +130,7 @@ Scenario: App Developer logs-in to App Registration Tool in Sandbox (Vendor in P
 	Then I am redirected to the Application Registration Tool page
 	Then I see the list of my registered applications only
 
-@sandbox
+@sandbox @wip
 Scenario: App Developer registers an application in App Registration Tool in Sandbox
 	Given I am a valid App Developer
 	When I hit the Application Registration Tool URL
