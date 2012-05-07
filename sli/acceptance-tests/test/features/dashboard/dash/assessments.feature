@@ -17,5 +17,8 @@ Scenario: Displaying simple ISAT reading and writing results for all students
         And I select <section> "8th Grade English - Sec 6"
       And I select view "Middle School ELA View"
 	
-     And the scale score for assessment "ISAT Reading" for student "Matt Sollars" is "320"
+	 #Most recent reading
+     And the scale score for assessment "ISAT Reading" for student "Matt Sollars" is "350"
+     #Highest ever writing 
      And the scale score for assessment "ISAT Writing" for student "Matt Sollars" is "220"
+     

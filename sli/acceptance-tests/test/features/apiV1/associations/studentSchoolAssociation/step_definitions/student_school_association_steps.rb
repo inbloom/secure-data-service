@@ -13,21 +13,21 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #student school association data
-  id = 2532                                       if human_readable_id == "ASSOCIATION COUNT"
-  id = 4                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 3                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
-  id = 3                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
-  id = 2                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
-  id = "122a340e-e237-4766-98e3-4d2d67786572"   if human_readable_id == "ASSOCIATION ID"
-  id = "122a340e-e237-4766-98e3-4d2d67786572"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
-  id = "122a340e-e237-4766-98e3-4d2d67786572"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
+  id = 2532                                     if human_readable_id == "ASSOCIATION COUNT"
+  id = 59                                       if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
+  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 27                                       if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
+  id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
+  id = "e7e0e926-874e-4d05-9177-9776d44c5fb5"   if human_readable_id == "ASSOCIATION ID"
+  id = "e7e0e926-874e-4d05-9177-9776d44c5fb5"   if human_readable_id == "ASSOCIATION ID FOR UPDATE"
+  id = "e7e0e926-874e-4d05-9177-9776d44c5fb5"   if human_readable_id == "ASSOCIATION ID FOR DELETE"
   id = "getStudentSchoolAssociations"           if human_readable_id == "ASSOCIATION LINK NAME"
   id = "studentSchoolAssociation"               if human_readable_id == "ASSOCIATION TYPE"
   id = "studentSchoolAssociations"              if human_readable_id == "ASSOCIATION URI"
   
   #school related data
   id = "schoolId"                               if human_readable_id == "ENDPOINT1 FIELD"
-  id = "eb3b8c35-f582-df23-e406-6947249a19f2"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
+  id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"   if human_readable_id == "ENDPOINT1 ID"          or human_readable_id == "ENDPOINT1 FIELD EXPECTED VALUE"
   id = "getSchool"                              if human_readable_id == "ENDPOINT1 LINK NAME" 
   id = "getSchools"                             if human_readable_id == "ENDPOINT1 RESOLUTION LINK NAME" 
   id = "school"                                 if human_readable_id == "ENDPOINT1 TYPE" 
@@ -35,7 +35,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #student related data
   id = "studentId"                              if human_readable_id == "ENDPOINT2 FIELD"
-  id = "714c1304-8a04-4e23-b043-4ad80eb60992"   if human_readable_id == "ENDPOINT2 ID"          or human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
+  id = "11d13fde-371c-4b58-b0b0-a6e2d955a947"   if human_readable_id == "ENDPOINT2 ID"          or human_readable_id == "ENDPOINT2 FIELD EXPECTED VALUE"
   id = "getStudent"                             if human_readable_id == "ENDPOINT2 LINK NAME" 
   id = "getStudents"                            if human_readable_id == "ENDPOINT2 RESOLUTION LINK NAME" 
   id = "student"                                if human_readable_id == "ENDPOINT2 TYPE" 

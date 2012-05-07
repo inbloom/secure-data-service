@@ -276,7 +276,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             DateTime sessionEnd = DateTimeUtil.parseDateTime((String) sessionAttributes.get("endDate"));
             
             List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
-            for (Iterator<Map.Entry<Object, NeutralRecord>> recordItr = studentAttendance.entrySet().iterator(); recordItr.hasNext(); ) {
+            for (Iterator<Map.Entry<Object, NeutralRecord>> recordItr = studentAttendance.entrySet().iterator(); recordItr.hasNext();) {
                 Map.Entry<Object, NeutralRecord> record = recordItr.next();
                 NeutralRecord eventRecord = record.getValue();
                 Map<String, Object> eventAttributes = eventRecord.getAttributes();

@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -85,8 +86,16 @@ public class ListSchema extends NeutralSchema {
         if (String.class.isInstance(value)) {
             return Arrays.asList(((String) value).split(","));
         } else if (Map.class.isInstance(value)) {
+            Map<String, Object> values = (Map<String, Object>) value;
             List<Object> list = new ArrayList<Object>();
-            list.add(value);
+
+            for (Map.Entry<String, Object> e : values.entrySet()) {
+                if (e.getValue() == null) {
+                    list.add(StringUtils.EMPTY);
+                } else {
+                    list.add(e.getValue());
+                }
+            }
 
             return list;
         }

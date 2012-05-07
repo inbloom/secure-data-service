@@ -14,12 +14,12 @@ Transform /^<([^"]*)>$/ do |val|
 
   case val
     #student parent association data
-  when "ASSOCIATION COUNT" then 133
-  when "ASSOCIATION COUNT FOR ENDPOINT 1" then 2
+  when "ASSOCIATION COUNT" then 134
+  when "ASSOCIATION COUNT FOR ENDPOINT 1" then 1
   when "ASSOCIATION COUNT FOR ENDPOINT 2" then 1
-  when "RESOLUTION COUNT FOR ENDPOINT 1" then 2
+  when "RESOLUTION COUNT FOR ENDPOINT 1" then 1
   when "RESOLUTION COUNT FOR ENDPOINT 2" then 1
-  when "ASSOCIATION ID" then "3722a00a-b6d3-4003-84c7-71cbad22dbae"
+  when "ASSOCIATION ID" then "dd69083f-a053-4819-a3cd-a162cdc627d7"
   when "ASSOCIATION ID FOR UPDATE" then "65fc0e76-e8ac-46fc-b7a7-04df5fbd08b4"
   when "ASSOCIATION ID FOR DELETE" then "678db2c8-25dc-4ee2-89aa-e1d1bdfdbcb2"
   when "ASSOCIATION LINK NAME" then "getStudentParentAssociations"
@@ -28,7 +28,7 @@ Transform /^<([^"]*)>$/ do |val|
     
     #student related data
   when "ENDPOINT1 FIELD" then "studentId"
-  when "ENDPOINT1 ID", "ENDPOINT1 FIELD EXPECTED VALUE" then "fe7719d2-7e7d-457f-843f-76734db99388"
+  when "ENDPOINT1 ID", "ENDPOINT1 FIELD EXPECTED VALUE" then "74cf790e-84c4-4322-84b8-fca7206f1085"
   when "ENDPOINT1 LINK NAME" then "getStudent"
   when "ENDPOINT1 RESOLUTION LINK NAME" then "getStudents"
   when "ENDPOINT1 TYPE" then "student"
@@ -36,7 +36,7 @@ Transform /^<([^"]*)>$/ do |val|
 
     #parent related data
   when "ENDPOINT2 FIELD" then "parentId"
-  when "ENDPOINT2 ID", "ENDPOINT2 FIELD EXPECTED VALUE" then "0e950fce-4e47-4000-836d-c5f566fe2d74"
+  when "ENDPOINT2 ID", "ENDPOINT2 FIELD EXPECTED VALUE" then "eb4d7e1b-7bed-890a-cddf-cdb25a29fc2d"
   when "ENDPOINT2 LINK NAME" then "getParent"
   when "ENDPOINT2 RESOLUTION LINK NAME" then "getParents"
   when "ENDPOINT2 TYPE" then "parent"

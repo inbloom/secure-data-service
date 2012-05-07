@@ -4,11 +4,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
+import org.slc.sli.api.representation.ErrorResponse;
 import org.slc.sli.api.representation.Home;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -18,49 +20,23 @@ import static org.junit.Assert.assertTrue;
  * @author srupasinghe
  *
  */
-public class JacksonXMLMsgBodyWriterTest {
-    private JacksonXMLMsgBodyWriter writer;
+public class ObjectXMLWriterTest {
+    private ObjectXMLWriter writer;
 
     @Before
     public void setup() {
-        writer = new JacksonXMLMsgBodyWriter();
+        writer = new ObjectXMLWriter();
     }
 
-    @Test
-    public void testEntityBody() throws IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        EntityBody body = new EntityBody();
-
-        body.put("id", "1234");
-        body.put("name", "test name");
-
-        EntityResponse response = new EntityResponse("TestEntity", body);
-        writer.writeTo(response, null, null, null, null, null, out);
-
-        assertNotNull("Should not be null", out);
-
-        String value = new String(out.toByteArray());
-        assertTrue("Should match", value.startsWith("<EntityResponse"));
-        assertTrue("Should match", value.indexOf("<TestEntity>") > 0);
-        assertTrue("Should match", value.indexOf("<id>") > 0);
-        assertTrue("Should match", value.indexOf("<name>") > 0);
-    }
-
-    @Test
+    @Test(expected = IOException.class)
     public void testEntityNullCollection() throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         EntityBody body = new EntityBody();
         body.put("id", "1234");
         body.put("name", "test name");
 
-        EntityResponse response = new EntityResponse(null, body);
+        Home response = new Home(null, body);
         writer.writeTo(response, null, null, null, null, null, out);
-
-        assertNotNull("Should not be null", out);
-
-        String value = new String(out.toByteArray());
-        assertTrue("Should match", value.startsWith("<EntityResponse"));
-        assertTrue("Should match", value.indexOf("<Entity>") > 0);
     }
 
     @Test
@@ -91,5 +67,12 @@ public class JacksonXMLMsgBodyWriterTest {
 
         Home response = new Home("TestEntity", body);
         writer.writeTo(response, null, null, null, null, null, null);
+    }
+
+    @Test
+    public void testIsWritable() {
+        assertTrue(writer.isWriteable(ErrorResponse.class, null, null, null));
+        assertTrue(writer.isWriteable(Home.class, null, null, null));
+        assertFalse(writer.isWriteable(EntityResponse.class, null, null, null));
     }
 }
