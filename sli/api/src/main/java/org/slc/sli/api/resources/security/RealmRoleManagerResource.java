@@ -101,12 +101,7 @@ public class RealmRoleManagerResource {
                 return validateResponse;
             }
         }
-        Map<String, List<Map<String, Object>>> oldMappings = (Map<String, List<Map<String, Object>>>) oldRealm.get("mappings");
-        if (!oldMappings.equals(mappings)) {
-            EntityBody body = new EntityBody();
-            body.put("response", "You are not authorized to update role mappings.");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
-        }
+
         if (service.update(realmId, updatedRealm)) {
             return Response.status(Status.NO_CONTENT).build();
         }
