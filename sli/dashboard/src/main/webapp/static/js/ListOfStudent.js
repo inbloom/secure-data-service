@@ -88,7 +88,7 @@ function populateInstHierarchy(){
     }
 }
 
-function populateSchoolMenu(id){
+function populateSchoolMenu(){
     var edorgSelect = document.getElementById("edOrgSelect");
     var edorgIndex = edorgSelect.options[edorgSelect.selectedIndex].value;
     var y = '';
@@ -101,10 +101,7 @@ function populateSchoolMenu(id){
         y += "<option value='-1'></option>"   ;
         var i = 0;
         for(i = 0;i<temp.length;i++) {
-        	if (id != undefined && id != null && temp[i] == id ) {
-        		index = i
-        	}
-            y += "<option value='" +i +"'>"+ temp[i].nameOfInstitution + "</option>";
+        	y += "<option value='" +i +"'>"+ temp[i].nameOfInstitution + "</option>";
         }
         y += "</select>";
     }
@@ -116,7 +113,7 @@ function populateSchoolMenu(id){
     } 
 }
 
-function populateCourseMenu(id){
+function populateCourseMenu(){
     var edorgSelect = document.getElementById("edOrgSelect");
     var edorgIndex = edorgSelect.options[edorgSelect.selectedIndex].value;
     var schoolSelect = document.getElementById("schoolSelect");
@@ -131,10 +128,7 @@ function populateCourseMenu(id){
         y += "<option value='-1'></option>";
         var j = 0;
         for(j = 0;j < temp.length;j++){
-        	if (id != undefined && id != null && temp[j].id == id) {
-        		index = j;
-        	}
-            y += "<option value='" +j +"'>"+ temp[j].courseTitle + "</option>";
+        	y += "<option value='" +j +"'>"+ temp[j].courseTitle + "</option>";
         }
     }
     document.getElementById("courseDiv").innerHTML = y;
