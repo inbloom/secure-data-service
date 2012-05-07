@@ -76,7 +76,8 @@ public class ApplicationAuthorizationValidator {
 
                 apps.addAll((List<String>) authorizedApps.getBody().get("appIds"));
                 for (Entity currentApp : districtAuthorizedApps) {
-                    if (apps.contains(currentApp.getEntityId())) {
+                    if (currentApp.getBody().containsKey("bootstrap") //auto-allow district to see bootstrap apps
+                            || apps.contains(currentApp.getEntityId())) {
                         results.add(currentApp.getEntityId());
                     }
                 }
