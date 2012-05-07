@@ -32,6 +32,7 @@ default:
         # Used to bootstrap the admin realm
         bootstrap.admin.realm.name: Shared Learning Infrastructure
         bootstrap.admin.realm.tenantId: SLI	
+        bootstrap.admin.realm.idpId: https://devapp1.slidev.org:443/sp
         bootstrap.admin.realm.redirectEndpoint: https://devapp1.slidev.org:443/sp/SSORedirect/metaAlias/idp
 
 

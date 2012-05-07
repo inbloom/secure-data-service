@@ -120,7 +120,11 @@ task :default => :production
 
 # Task that initializes the realm fixture.  Should only be done once
 task :realmInit => [:appInit] do
+  #Preserve the bootstrap realm
+  sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c realm -q \"{\\\"body.uniqueIdentifier\\\": \\\"Shared Learning Infrastructure\\\"}\" -h #{DB_HOST}  -o test/data/temp_realm.json"
+  setFixture("realm", "temp_realm.json", "test/data", true)
   setFixture("realm", "realm_fixture.json", "test/data", false)
+  sh "rm -f test/data/temp_realm.json"
 end
 
 task :appDenialInit do
@@ -132,7 +136,11 @@ end
 
 # Task that initializes the application registration fixture
 task :appInit do
-  setFixture("application", "application_fixture.json", "test/data", true)
+  #Preserve the bootstrap apps
+  sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c application -q \"{\\\"body.bootstrap\\\": true}\" -h #{DB_HOST}  -o test/data/temp_apps.json"
+  setFixture("application", "application_fixture.json")
+  setFixture("application", "temp_apps.json", "test/data", false)
+  sh "rm -f test/data/temp_apps.json"
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
   setFixture("userSession", "oauth_authentication_tokens.json")
 end

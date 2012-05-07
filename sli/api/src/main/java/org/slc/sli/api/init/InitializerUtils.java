@@ -4,6 +4,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 
+ *
+ */
 public class InitializerUtils {
     
     /**
@@ -38,9 +42,9 @@ public class InitializerUtils {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected static long quickHash(List list) {
         long hash = 0;
-        for (Object o: list) {
+        for (Object o : list) {
             if (o instanceof Map) {
-                hash += quickHash((Map)o);
+                hash += quickHash((Map) o);
             } else if (o instanceof List) {
                 hash += quickHash((List) o);
             } else {
