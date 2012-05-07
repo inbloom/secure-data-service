@@ -74,7 +74,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
+        String workItemQueueUri = getWorkItemQueueUri();
 
         if (loadDefaultTenants) {
             //populate the tenant collection with a default set of tenants
@@ -88,7 +88,13 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             configureRoutePerLandingZone(workItemQueueUri, lz);
         }
     }
-
+    
+    /**
+     * Access the workItemQueueUri.
+     */
+    public String getWorkItemQueueUri() {
+        return workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
+    }
 
     private void configureRoutePerLandingZone(String workItemQueueUri, LocalFileSystemLandingZone lz) {
         String inboundDir = lz.getDirectory().getAbsolutePath();
