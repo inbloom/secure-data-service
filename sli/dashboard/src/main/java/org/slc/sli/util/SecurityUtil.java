@@ -38,8 +38,7 @@ public class SecurityUtil {
         for (GrantedAuthority authority : authorities) {
             if (authority.getAuthority().equals(Constants.ROLE_IT_ADMINISTRATOR)) {
                 return true;
-            }
-            else if (authority.getAuthority().equals(Constants.ROLE_LEADER)) {
+            } else if (authority.getAuthority().equals(Constants.ROLE_LEADER)) {
                 return true;
             }
         }

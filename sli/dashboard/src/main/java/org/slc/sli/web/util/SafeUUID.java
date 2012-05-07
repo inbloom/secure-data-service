@@ -15,7 +15,7 @@ public class SafeUUID {
     @Pattern(regexp = "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
     String uuid;
 
-    public SafeUUID( ) {
+    public SafeUUID() {
     }
 
     public SafeUUID(String id) {
