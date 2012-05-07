@@ -2,15 +2,10 @@ package org.slc.sli.ingestion.referenceresolution;
 
 import java.io.File;
 
-public class ExtendedReferenceResolver extends AbstractReferenceResolver {
+public class ExtendedReferenceResolver implements ReferenceResolutionStrategy {
 	@Override
-	public void resolveReference() {
+	public void resolveReference(String referenceName, String referenceId, String enclosingEntityName, File xmlFile, String interchangeName) {
 		// TODO Auto-generated method stub
-
 	}
 
-	public void resolveExtendedReference(String referenceName, String referenceId, String enclosingEntityName, File xmlFile, String interchangeName ) {
-		// TODO Auto-generated method stub
-
-	}
 }
