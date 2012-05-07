@@ -8,10 +8,54 @@ end
 
 When /^I POST a new tenant$/ do |arg1|
   @format = "application/json"
-  dataObj = DataProvider.getValidTenantData()
+  dataObj =  {
+      "landingZone" => [ 
+        { 
+          "educationOrganization" => "Sunset",
+          "ingestionServer" => "ingServIL",
+          "path" => "/home/ingestion/lz/inbound/IL-STATE-SUNSET",
+          "desc" => "Sunset district landing zone",
+          "username" => "jwashington"
+        },
+        { 
+          "educationOrganization" => "Daybreak",
+          "ingestionServer" => "ingServIL",
+          "path" => "/home/ingestion/lz/inbound/IL-STATE-DAYBREAK",
+          "desc" => "Daybreak district landing zone",
+          "username" => "jstevenson"
+        }
+      ],
+      "tenantId" => "IL"
+  }
   data = prepareData("application/json", dataObj)
   restHttpPost(arg1, data)
   assert(@res != nil, "Response from POST operation was null")
+end
+
+When /^I rePOST the new tenant$/ do
+  @format = "application/json"
+  dataObj = {
+      "landingZone" => [ 
+        { 
+          "educationOrganization" => "Twilight",
+          "ingestionServer" => "ingServIL",
+          "path" => "/home/ingestion/lz/inbound/IL-STATE-TWILIGHT",
+          "desc" => "Twilight district landing zone",
+          "username" => "jwashington"
+        }
+      ],
+      "tenantId" => "IL"
+  }
+  data = prepareData("application/json", dataObj)
+  restHttpPost(arg1, data)
+  assert(@res != nil, "Response from POST operation was null")
+end
+
+And /^I should receive the new tenant id$/ do
+  s = headers['location'][0]
+  newNewId = s[s.rindex('/')+1..-1]
+  assert(@newNewId != nil, "After POST, tenant ID is nil")
+  assert(@newId == newNewId, "POSTing to tenant collection with same tenant Id does not result in the same guid")
 end
 
 Then /^I should receive the data for the specified tenant entry$/ do
@@ -23,20 +67,22 @@ end
 
 When /^I navigate to PUT "([^"]*)"$/ do |arg1|
   @format = "application/json"
-  dataObj = DataProvider.getValidTenantData()
-  dataObj["landingZone"]  = [ 
+  dataObj = {
+      "landingZone" => [ 
         { 
-          "district" => "Daybreak",
+          "educationOrganization" => "Daybreak",
           "ingestionServer" => "ingServIL",
           "path" => "/home/ingestion/lz/inbound/IL-STATE-DAYBREAK",
-          "desc" => "Daybreak district landing zone"
+          "desc" => "Daybreak district landing zone",
+          "username" => "rrogers"
         }
-  ]
+      ],
+      "tenantId" => "IL"
+  }
   data = prepareData("application/json", dataObj)
   restHttpPut(arg1, data)
   assert(@res != nil, "Response from PUT operation was null")
 end
-
 
 Then /^I should no longer be able to get that tenant's data$/ do
   @format = "application/json"

@@ -330,26 +330,6 @@ module DataProvider
     }
   end
 
-  def self.getValidTenantData()
-    return {
-      "landingZone" => [ 
-        { 
-          "educationOrganization" => "Sunset",
-          "ingestionServer" => "ingServIL",
-          "path" => "/home/ingestion/lz/inbound/IL-STATE-SUNSET",
-          "desc" => "Sunset district landing zone"
-        },
-        { 
-          "educationOrganization" => "Daybreak",
-          "ingestionServer" => "ingServIL",
-          "path" => "/home/ingestion/lz/inbound/IL-STATE-DAYBREAK",
-          "desc" => "Daybreak district landing zone"
-        }
-      ],
-      "tenantId" => "IL"
-    }
-  end
-
 end
 
 module CreateEntityHash
