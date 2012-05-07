@@ -31,9 +31,9 @@ When /^I go to the provisioning application$/ do
 end
 
 Then /^I can only enter a custom high\-level ed\-org$/ do
-  assertWithWait("Sample data choice exists") {@driver.find_elements(:id, SAMPLE_DATA_SET1_CHOICE).empty? }
-  assertWithWait("Sample data choice exists") {@driver.find_elements(:id, SAMPLE_DATA_SET2_CHOICE).empty? }
   assertWithWait("Custom data choice does not exist") {@driver.find_element(:id, CUSTOM_DATA_SET_CHOICE) != nil}
+  assert(@driver.find_elements(:id, SAMPLE_DATA_SET1_CHOICE).empty?, "Sample data choices exist on production")
+  assert(@driver.find_elements(:id, SAMPLE_DATA_SET2_CHOICE).empty?, "Sample data choices exist on production")
 end
 
 When /^I set the custom high\-level ed\-org to "([^"]*)"$/ do |arg1|
