@@ -142,7 +142,8 @@ public class BasicQueryConverter implements QueryConverter {
             }
 
         } catch (RuntimeException e) {
-            LOG.error("error parsing query String {} {}", e.getMessage(), queryString);
+//            DE260: The log below is possibly a security hole!
+//            LOG.error("error parsing query String {} {}", e.getMessage(), queryString);
             throw new QueryParseException(e.getMessage(), queryString);
         }
 
