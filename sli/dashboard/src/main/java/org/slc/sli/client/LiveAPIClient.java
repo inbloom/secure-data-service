@@ -50,6 +50,7 @@ public class LiveAPIClient implements APIClient {
     private static final String STUDENT_ASSMT_ASSOC_URL = "/v1/studentAssessmentAssociations/";
     private static final String STUDENT_SECTION_GRADEBOOK = "/v1/studentSectionGradebookEntries";
     private static final String STUDENTS_NO_SLASH_URL = "/v1/students";
+    private static final String STUDENT_ACADEMIC_RECORD_URL = "/v1/studentAcademicRecords";
 
     // resources to append to base urls
     private static final String STAFF_EDORG_ASSOC = "/staffEducationOrgAssignmentAssociations/educationOrganizations";
@@ -272,7 +273,7 @@ public class LiveAPIClient implements APIClient {
         // entities.
         if (parentEducationAgencyReferences.length() != 0) {
             List<GenericEntity> returnedEdOrgsFromAPI = getEntities(token, Constants.ATTR_ED_ORGS,
-                    parentEducationAgencyReferences.toString(), Collections.<String, String> emptyMap());
+                    parentEducationAgencyReferences.toString(), Collections.<String, String>emptyMap());
             if (returnedEdOrgsFromAPI != null) {
                 return returnedEdOrgsFromAPI;
             }
@@ -501,7 +502,6 @@ public class LiveAPIClient implements APIClient {
         if (sections != null) {
             for (int i = 0; i < sections.size(); i++) {
                 GenericEntity section = sections.get(i);
-
                 if (sectionIDToSchoolIDMap.containsKey(section.get(Constants.ATTR_ID))
                         && sectionIDToCourseIDMap.containsKey(section.get(Constants.ATTR_ID))) {
                     String schoolId = sectionIDToSchoolIDMap.get(section.get(Constants.ATTR_ID));
@@ -546,7 +546,6 @@ public class LiveAPIClient implements APIClient {
             for (GenericEntity section : sections) {
                 // Get course using courseId reference in section
                 String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
-
                 // search course which doesn't exist already
                 if (!courseMap.containsKey(courseId)) {
                     if (!courseIdTracker.contains(courseId)) {
@@ -568,7 +567,7 @@ public class LiveAPIClient implements APIClient {
         if (courseIds.length() != 0) {
             // get course Entity
             List<GenericEntity> courses = getEntities(token, Constants.ATTR_COURSES, courseIds.toString(),
-                    Collections.<String, String> emptyMap());
+                    Collections.<String, String>emptyMap());
 
             // update courseMap with courseId. "id" for this entity
             for (GenericEntity course : courses) {
@@ -606,7 +605,6 @@ public class LiveAPIClient implements APIClient {
         if (sections != null) {
             for (GenericEntity section : sections) {
                 String schoolId = (String) section.get(Constants.ATTR_SCHOOL_ID);
-
                 // search school which doesn't exist already
                 if (!schoolMap.containsKey(schoolId)) {
                     if (!schoolIdTracker.contains(schoolId)) {
@@ -628,7 +626,7 @@ public class LiveAPIClient implements APIClient {
         if (schoolIds.length() != 0) {
             // get school Entity
             List<GenericEntity> schools = getEntities(token, Constants.ATTR_SCHOOLS, schoolIds.toString(),
-                    Collections.<String, String> emptyMap());
+                    Collections.<String, String>emptyMap());
 
             // update courseMap with courseId. "id" for this entity
             for (GenericEntity school : schools) {
@@ -657,6 +655,22 @@ public class LiveAPIClient implements APIClient {
             LOGGER.error(e.toString());
             return new ArrayList<GenericEntity>();
         }
+    }
+
+    @Override
+    public GenericEntity getAcademicRecord(String token, Map<String, String> params) {
+        String url = getApiUrl() + STUDENT_ACADEMIC_RECORD_URL;
+        if (params != null || params.size() != 0) {
+            url += "?" + buildQueryString(params);
+        }
+
+        List<GenericEntity> entities = createEntitiesFromAPI(url, token);
+
+        if (entities == null || entities.size() == 0) {
+            return null;
+        }
+
+        return entities.get(0);
     }
 
     /**
@@ -908,8 +922,10 @@ public class LiveAPIClient implements APIClient {
         url.append(getApiUrl());
         url.append("/v1/");
         url.append(type);
-        url.append("/");
-        url.append(id);
+        if (id != null) {
+            url.append("/");
+            url.append(id);
+        }
         // add the query string
         if (!params.isEmpty()) {
             url.append("?");

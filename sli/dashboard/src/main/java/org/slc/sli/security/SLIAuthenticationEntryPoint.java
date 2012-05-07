@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.exceptions.OAuthException;
 import org.scribe.model.Token;
@@ -26,10 +30,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 /**
  * Spring interceptor for calls that don't have a session
@@ -55,9 +55,10 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Value("${api.server.url}")
     private String apiUrl;
     
-    private static final String OAUTH_TOKEN = "OAUTH_TOKEN";
+    public static final String OAUTH_TOKEN = "OAUTH_TOKEN";
+    public static final String DASHBOARD_COOKIE = "SLI_DASHBOARD_COOKIE";
     private static final String ENTRY_URL = "ENTRY_URL";
-    private static final String DASHBOARD_COOKIE = "SLI_DASHBOARD_COOKIE";
+    
     private static final String DASHBOARD_COOKIE_DOMAIN = ".slidev.org";
     
     private RESTClient restClient;
@@ -113,10 +114,16 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         //If there is no oauth credential, and the user has a dashboard cookie, add cookie value as oauth session attribute.
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
-            for (Cookie c: cookies) {
+            for (Cookie c : cookies) {
                 if (c.getName().equals(DASHBOARD_COOKIE)) {
                     if (session.getAttribute(OAUTH_TOKEN) == null) {
+                        JsonObject json = restClient.sessionCheck(c.getValue());
+                        
+                        if (!json.get("authenticated").getAsBoolean()) {
+                            c.setMaxAge(0);
+                        } else {
                         session.setAttribute(OAUTH_TOKEN, c.getValue());
+                        }
                     }
                 }
             }
@@ -137,20 +144,22 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             Token accessToken = null;
             try {
                 accessToken = service.getAccessToken(null, verifier);
-            } catch (OAuthException ex) {
-                //This will happen if the request to getAccessToken results in an OAuth error, such as
-                //if the user isn't authorized to use the client.
                 
-                //TODO: provide an improved error page
+                session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
+                Object entryUrl = session.getAttribute(ENTRY_URL);
+                if (entryUrl != null) {
+                    response.sendRedirect(session.getAttribute(ENTRY_URL).toString());
+                } else {
+                    response.sendRedirect(request.getRequestURI());
+                }                
+            } catch (OAuthException ex) {
+                LOG.error("Authentication exception: {}", new Object[] { ex.getMessage() });
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, ex.getMessage());
                 return;
-            }
-            session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
-            Object entryUrl = session.getAttribute(ENTRY_URL);
-            if (entryUrl != null) {
-                response.sendRedirect(session.getAttribute(ENTRY_URL).toString());
-            } else {
-                response.sendRedirect(request.getRequestURI());
+            } catch (Exception ex) {
+                LOG.error("Authentication exception: {}", new Object[] { ex.getMessage() });
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+                return;
             }
         } else if (session.getAttribute(OAUTH_TOKEN) == null) {
             session.setAttribute(ENTRY_URL, request.getRequestURL());

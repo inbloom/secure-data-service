@@ -1,7 +1,7 @@
 require_relative '../../utils/sli_utils.rb'
 
 Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
-  id = arg1+"deb9a9d2-771d-40a1-bb9c-7f93b44e51df" if arg2 == "Testing App"
+  id = arg1+"d0b2ded4-89a9-db4a-8f80-aaece6fda529" if arg2 == "Testing App"
   id = arg1+@newId       if arg2 == "New App ID"
   #id = step_arg if id == nil
   id
@@ -153,13 +153,11 @@ end
 
 When /^I navigate to PUT "([^"]*)" to update an application to "([^"]*)"$/ do |arg1, arg2|
   @format = "application/json"
-  dataObj = DataProvider.getValidAppData()
-  dataObj["description"] = "New and Improved"
-  dataObj["client_secret"] = @client_secret
-  dataObj["client_id"] = @client_id
-  dataObj["registration"]["status"] = arg2
-  data = prepareData("application/json", dataObj)
-
+  restHttpGet(arg1)
+  app = JSON.parse(@res.body)
+  app["registration"]["status"] = arg2
+  data = prepareData("application/json", app)
+  puts arg1
   restHttpPut(arg1, data)
 
   assert(@res != nil, "Response from PUT operation was null")

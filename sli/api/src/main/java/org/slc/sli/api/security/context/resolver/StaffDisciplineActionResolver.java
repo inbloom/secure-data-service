@@ -20,6 +20,9 @@ import org.slc.sli.domain.Entity;
 public class StaffDisciplineActionResolver implements EntityContextResolver {
 
     @Autowired
+    private ResolveCreatorsEntitiesHelper creatorResolverHelper;
+
+    @Autowired
     private AssociativeContextHelper helper;
 
     @Override
@@ -31,17 +34,12 @@ public class StaffDisciplineActionResolver implements EntityContextResolver {
     @Override
     public List<String> findAccessible(Entity principal) {
 
-        // special privilege for demo user
-        if (principal.getBody().get("staffUniqueStateId").equals("demo")) {
-            info("Resolver override for demo user.");
-            return AllowAllEntityContextResolver.SUPER_LIST;
-        }
-
         List<String> referenceIds = new ArrayList<String>();
         referenceIds.add(principal.getEntityId());
 
         List<String> references = helper.findEntitiesContainingReference(EntityNames.DISCIPLINE_ACTION, "staffId", referenceIds);
 
+        references.addAll(creatorResolverHelper.getAllowedForCreator(EntityNames.DISCIPLINE_ACTION));
         return references;
     }
 }

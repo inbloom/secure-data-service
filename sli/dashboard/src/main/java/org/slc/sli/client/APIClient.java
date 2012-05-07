@@ -150,4 +150,5 @@ public interface APIClient {
      */
     public String sortBy(String url, String sortBy, String sortOrder);
 
+    public GenericEntity getAcademicRecord(String token, Map<String, String> params);
 }

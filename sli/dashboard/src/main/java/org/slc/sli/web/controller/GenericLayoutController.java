@@ -73,8 +73,8 @@ public abstract class GenericLayoutController {
 
     protected void setContextPath(ModelMap model, HttpServletRequest request) {
         model.addAttribute(Constants.CONTEXT_ROOT_PATH,  request.getContextPath());
+        model.addAttribute(Constants.CONTEXT_PREVIOUS_PATH,  "javascript:history.go(-1)");
     }
-
 
     // TODO: refactor so the below params can be removed
     public void populateModelLegacyItems(ModelMap model) {
