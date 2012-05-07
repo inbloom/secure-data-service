@@ -109,9 +109,9 @@ public enum EdfiEntity {
     public static Set<EdfiEntity> cleanse(Set<EdfiEntity> impure) {
         Set<EdfiEntity> pure = EnumSet.copyOf(impure);
         
-        for(EdfiEntity outer:impure) {
-            for(EdfiEntity inner:impure) {
-                if(outer.getNeededEntities().contains(inner)) {
+        for (EdfiEntity outer : impure) {
+            for (EdfiEntity inner : impure) {
+                if (outer.getNeededEntities().contains(inner)) {
                     pure.remove(outer);
                     break;
                 }
