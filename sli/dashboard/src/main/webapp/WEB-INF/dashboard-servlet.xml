@@ -33,11 +33,11 @@
     <bean class="org.slc.sli.util.DashboardExceptionResolver">
         <property name="exceptionMappings">
 		    <props>
-			    <prop key="java.lang.RuntimeException">exceptionPage</prop>
+			    <prop key="java.lang.RuntimeException">error</prop>
 			    
 			    <!-- Example usage of Exception Page -->
-			    <prop key="java.lang.IllegalArgumentException">exceptionPage</prop>
-			    <prop key="org.springframework.validation.BindException">exceptionPage</prop>
+			    <prop key="java.lang.IllegalArgumentException">error</prop>
+			    <prop key="org.springframework.validation.BindException">error</prop>
 		    </props>
 	    </property>
 	</bean>
