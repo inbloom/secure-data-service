@@ -1,6 +1,7 @@
 UserRegistration::Application.routes.draw do
   resources :user_account_registrations
   resources :user_account_validation
+  resources :eulas
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
