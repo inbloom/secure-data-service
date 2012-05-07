@@ -18,14 +18,28 @@ class LDAPStorage
 		:displayname          => :emailtoken,
 		:destinationindicator => :status
 	}
-
 	ENTITY_ATTR_MAPPING = LDAP_ATTR_MAPPING.invert
+
+	# READ-ONLY FIELDS 
+	RO_LDAP_ATTR_MAPPING = {
+		:createTimestamp => :created, 
+    	:modifyTimestamp => :upated
+	}
+
+	# List of fields to fetch from LDAP for user 
+	COMBINED_LDAP_ATTR_MAPPING = LDAP_ATTR_MAPPING.merge(RO_LDAP_ATTR_MAPPING)
+
 	ALLOW_UPDATING = [
 		:first,
 		:last,
 		:password, 
 		:vendor,
 		:emailtoken
+	]
+
+	LDAP_DATETIME_FIELDS = Set.new [
+		:createTimestamp, 
+		:modifyTimestamp
 	]
 
 	# SEC_AUTH_REALM  = "sandboxAuthRealm"
@@ -154,14 +168,14 @@ class LDAPStorage
 	# returns extended user_info for the given emailtoken (see create_user) or nil 
 	def read_user_emailtoken(emailtoken)
 		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:emailtoken].to_s, emailtoken)
-		return map_fields(@ldap.search(:filter => filter), 1)[0]		
+		return search_map_user_fields(filter, 1)[0]		
 	end
 
 	# returns array of extended user_info for all users or all users with given status 
 	# use constants in approval.rb 
 	def read_users(status=nil)
 		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
-		return map_fields(@ldap.search(:filter => filter))		
+		return search_map_user_fields(filter)
 	end
 
 	# updates the user_info except for the user status 
@@ -194,15 +208,16 @@ class LDAPStorage
 	end
 
 	# extract the user from the ldap record
-	def map_fields(search_result, max_recs=nil)
-		arr = search_result.to_a()
+	def search_map_user_fields(filter, max_recs=nil)
+		attributes = COMBINED_LDAP_ATTR_MAPPING.keys
+		arr = @ldap.search(:filter => filter, :attributes => attributes).to_a()
 		if !max_recs
 			max_recs = arr.length
 		end
 
 		return arr[0..(max_recs-1)].map do |entry|
 			user_rec = {}
-			LDAP_ATTR_MAPPING.each do |ldap_k, rec_k| 
+			COMBINED_LDAP_ATTR_MAPPING.each do |ldap_k, rec_k| 
 				user_rec[rec_k] = entry[ldap_k].is_a?(Array) ?  entry[ldap_k][0] : entry[ldap_k]
 			end
 			user_rec
