@@ -35,6 +35,9 @@ public class TenantPopulator implements ResourceLoaderAware {
     private ResourceLoader resourceLoader;
 
     private String parentLandingZoneDir;
+    
+    @Autowired
+    private TenantMongoDA tenantDA;
 
     private List<String> tenantRecordResourcePaths;
 
@@ -215,5 +218,6 @@ public class TenantPopulator implements ResourceLoaderAware {
     public void setTenantRecordResourcePaths(List<String> tenantRecordResourcePaths) {
         this.tenantRecordResourcePaths = tenantRecordResourcePaths;
     }
+
 
 }

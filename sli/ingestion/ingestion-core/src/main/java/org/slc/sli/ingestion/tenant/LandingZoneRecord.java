@@ -1,5 +1,6 @@
 package org.slc.sli.ingestion.tenant;
 
+
 /**
  * Container class for landing zone data inside tenants
  * 
@@ -7,7 +8,6 @@ package org.slc.sli.ingestion.tenant;
  */
 public class LandingZoneRecord {
     private String educationOrganization;
-    private String ingestionServer;
     private String path;
     private String userName;
     private String desc;

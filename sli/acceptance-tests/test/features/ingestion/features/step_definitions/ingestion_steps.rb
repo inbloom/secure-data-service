@@ -29,11 +29,12 @@ Before do
 
   @ingestion_lz_identifer_map = {}
   @tenantColl.find.each do |row|
-    @tenantId = row['tenantId']
-    @landingZones = row['landingZone'].to_a
+    @body = row['body']
+    @tenantId = @body['tenantId']
+    @landingZones = @body['landingZone'].to_a
     @landingZones.each do |lz|
-      if lz['district'] == nil
-        puts 'No district for landing zone, skipping. Tenant id = ' + @tenantId
+      if lz['educationOrganization'] == nil
+        puts 'No educationOrganization for landing zone, skipping. Tenant id = ' + @tenantId
         next
       end
       if lz['path'] == nil
@@ -41,14 +42,14 @@ Before do
         next
       end
 
-      district = lz['district']
+      educationOrganization = lz['educationOrganization']
       path = lz['path']
 
       if path.rindex('/') != (path.length - 1)
         path = path+ '/'
       end
 
-      identifier = @tenantId + '-' + district
+      identifier = @tenantId + '-' + educationOrganization
       puts identifier + " -> " + path
       @ingestion_lz_identifer_map[identifier] = path
     end
