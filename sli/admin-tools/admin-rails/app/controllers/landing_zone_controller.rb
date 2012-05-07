@@ -4,7 +4,6 @@ class LandingZoneController < ApplicationController
   rescue_from ProvisioningError, :with => :handle_error
   
   def provision
-    # TODO check the user has the correct role to be doing this.
     if (params[:cancel] == "Cancel")
       redirect_to "/"
       return
@@ -20,7 +19,6 @@ class LandingZoneController < ApplicationController
   end
 
   def index
-    # TODO check the user has the correct role to be doing this.
     @edOrgs = LandingZone.possible_edorgs
   end
   
