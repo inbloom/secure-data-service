@@ -334,13 +334,13 @@ module DataProvider
     return {
       "landingZone" => [ 
         { 
-          "district" => "Sunset",
+          "educationOrganization" => "Sunset",
           "ingestionServer" => "ingServIL",
           "path" => "/home/ingestion/lz/inbound/IL-STATE-SUNSET",
-          "desc" => "Sunset district, IL landing zone"
+          "desc" => "Sunset district landing zone"
         },
         { 
-          "district" => "Daybreak",
+          "educationOrganization" => "Daybreak",
           "ingestionServer" => "ingServIL",
           "path" => "/home/ingestion/lz/inbound/IL-STATE-DAYBREAK",
           "desc" => "Daybreak district landing zone"
