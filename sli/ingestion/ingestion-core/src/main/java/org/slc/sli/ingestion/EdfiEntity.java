@@ -2,7 +2,9 @@ package org.slc.sli.ingestion;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Conducts the ingestion job
@@ -97,6 +99,28 @@ public enum EdfiEntity {
     STUDENT_SPECIAL_ED_PROGRAM_ASSOCIATION ("studentSpecialEdProgramAssociation",Arrays.asList (STUDENT,PROGRAM,STATE_EDUCATION_AGENCY,EDUCATION_SERVICE_CENTER,LOCAL_EDUCATION_AGENCY,SCHOOL)),
     STUDENT_TITLE_PART_A_PROGRAM_ASSOCIATION ("studentTitlePartAProgramAssociation",Arrays.asList (STUDENT,PROGRAM,STATE_EDUCATION_AGENCY,EDUCATION_SERVICE_CENTER,LOCAL_EDUCATION_AGENCY,SCHOOL));
 
+    
+    /**
+     * Removes entities which have parent entities in the same set
+     * 
+     * @param impure set of edfi entities to purify
+     * @return purifed set which only contains entities which have no dependencies in the provided set
+     */
+    public static Set<EdfiEntity> cleanse(Set<EdfiEntity> impure) {
+        Set<EdfiEntity> pure = EnumSet.copyOf(impure);
+        
+        for(EdfiEntity outer:impure) {
+            for(EdfiEntity inner:impure) {
+                if(outer.getNeededEntities().contains(inner)) {
+                    pure.remove(outer);
+                    break;
+                }
+            }
+        }
+        
+        return pure;
+    }
+    
     //*************************************************************************************
     private final String entityName;
     private final List<EdfiEntity> neededEntities;
