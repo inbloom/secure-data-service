@@ -1,3 +1,8 @@
+PATH
+  remote: ../admin-tools/approval
+  specs:
+    approval (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -107,6 +112,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  approval!
   coffee-rails (~> 3.2.1)
   jquery-rails
   rails (= 3.2.3)
