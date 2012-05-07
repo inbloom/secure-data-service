@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
@@ -54,7 +55,7 @@ public class OnboardingResourceTest {
 
     @Before
     public void setUp() throws Exception {
-        injector.setAdminContext();
+        injector.setDeveloperContext();
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
         headers = mock(HttpHeaders.class);
@@ -71,10 +72,18 @@ public class OnboardingResourceTest {
 	@Test
 	public void testCreateEdOrg() {
        	Response res = resource.createEdOrg("TestOrg", null);
-        assertTrue(res.getStatus() == 201);
+        assertTrue(Status.fromStatusCode(res.getStatus()) == Status.CREATED);
 
         // Attempt to create the same edorg.
        	res = resource.createEdOrg("TestOrg", null);
-        assertTrue(res.getStatus() != 201);
+        assertTrue(Status.fromStatusCode(res.getStatus()) == Status.CONFLICT);
+	}
+
+	@Test
+	public void testNotAuthorized() {
+        injector.setEducatorContext();
+       	Response res = resource.createEdOrg("TestOrg-NotAuthorized", null);
+        assertTrue(Status.fromStatusCode(res.getStatus()) == Status.FORBIDDEN);
+
 	}
 }
