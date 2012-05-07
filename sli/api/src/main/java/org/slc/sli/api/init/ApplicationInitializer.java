@@ -1,5 +1,6 @@
 package org.slc.sli.api.init;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -15,6 +16,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import com.mongodb.util.JSON;
@@ -40,8 +42,7 @@ public class ApplicationInitializer {
     @PostConstruct
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void init() {
-        //not yet ready to enable
-        /*try {
+        try {
             FileInputStream fis = new FileInputStream(propsFile);
             Properties props = new Properties();
             props.load(fis);
@@ -62,9 +63,10 @@ public class ApplicationInitializer {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }*/
+        }
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private void writeApplicationToMongo(Map appData) {
         Entity app = findExistingApp(appData);
         if (app == null) {
@@ -88,6 +90,7 @@ public class ApplicationInitializer {
      * @param appData
      * @return the app entity, or null if not found
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     Entity findExistingApp(Map appData) {
         //first try to find it by client_id
         Entity app = repository.findOne(APP_RESOURCE, new NeutralQuery(
@@ -101,6 +104,7 @@ public class ApplicationInitializer {
         return app;
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     Map loadJsonFile(InputStream is, String appKey, Properties props) throws IOException {
         StringWriter writer = new StringWriter();
         IOUtils.copy(is, writer);
