@@ -13,6 +13,7 @@ import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.util.Constants;
+import org.slc.sli.web.util.SafeUUID;
 
 
 /**
@@ -29,9 +30,9 @@ public class PanelController {
      * Controller for list of students
      *
      */
-    @RequestMapping(value = "/service/component/{componentId}/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/service/component/{componentId:[a-zA-Z0-9]+}/{id:[a-f0-9-]+}", method = RequestMethod.GET)
     @ResponseBody public GenericEntity handle(
-            @PathVariable final String componentId, @PathVariable final String id, final HttpServletRequest request) {
+            @PathVariable final String componentId, @PathVariable final SafeUUID id, final HttpServletRequest request) {
         // is it a hack
         ModelAndViewConfig mac = customizationAssemblyFactory.getModelAndViewConfig(componentId, id, true);
         GenericEntity ge = new GenericEntity();

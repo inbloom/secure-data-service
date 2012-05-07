@@ -186,7 +186,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                                     "Entity not found: " + key + "=" + value)).build();
                 } else {
                     long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
-                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getStoredCollectionName(),
+                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(),
                             results)), pagingHeaderTotalCount, uriInfo).build();
                 }
             }
@@ -290,7 +290,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                                     "Entity not found: " + key + "=" + value)).build();
                 } else {
                     long pagingHeaderTotalCount = getTotalCount(endpointEntity.getService(), endpointNeutralQuery);
-                    return addPagingHeaders(Response.ok(new EntityResponse(endpointEntity.getStoredCollectionName(),
+                    return addPagingHeaders(Response.ok(new EntityResponse(endpointEntity.getType(),
                             finalResults)), pagingHeaderTotalCount, uriInfo).build();
                 }
             }
@@ -370,11 +370,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                             .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND.getReasonPhrase(),
                                     "Entity not found: " + resourceName + "=" + idList)).build();
                 } else if (finalResults.size() == 1) {
-                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getStoredCollectionName(),
+                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(),
                             finalResults.get(0))), 1, uriInfo).build();
                 } else {
                     long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
-                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getStoredCollectionName(),
+                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(),
                             finalResults)), pagingHeaderTotalCount, uriInfo).build();
                 }
             }
@@ -488,7 +488,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 }
 
                 long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), query);
-                return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getStoredCollectionName(), results)),
+                return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), results)),
                         pagingHeaderTotalCount, uriInfo).build();
             }
         });
