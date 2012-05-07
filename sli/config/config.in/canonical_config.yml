@@ -10,6 +10,9 @@ default:
 
         # Security SAML (only used in api)
         sli.security.sp.issuerName: http://local.slidev.org:8080
+        
+        # Security grace period for viewing sections (only use in api)
+        sli.security.gracePeriod: 2000
 
         # Trusted Certificate Authority Store (used in common)
         sli.trust.certificates: ../common/common-util/trust/trustedCertificates
@@ -134,12 +137,11 @@ default:
         # (used in common and data-access)
         sli.wildcard.x509certificate.alias: wildcard
 
-        # (only used in simple-idp)
+        # (only used in SimpleIDP)
         sli.simple-idp.issuer-base: http://local.slidev.org:8082/simple-idp
-
-        # (only used in simple-idp)
-        sli.simple-idp.response-destination: http://local.slidev.org:8080/api/rest/saml/sso/post
-
+        sli.simple-idp.cot: http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
+        sli.simple-idp.sandboxImpersonationEnabled: false
+        
         # SLI Subdomain substituted by various services (used by SDK and dashboard)
         sli.dev.subdomain: ci
 
@@ -776,8 +778,8 @@ team:
         log.path: /storage/logs
         sli.simple-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/simple-idp
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
-
-
+        sli.simple-idp.cot: http://${sli.dev.subdomain}.slidev.org=http://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
+        sli.simple-idp.sandboxImpersonationEnabled: false
 
 bloomington:
     ingestion:
