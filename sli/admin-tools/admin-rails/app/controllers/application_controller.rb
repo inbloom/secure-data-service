@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
       else
         admin_realm = "#{APP_CONFIG['admin_realm']}"
         logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
-        redirect_to oauth.authorize_url + "&Realm=" + CGI::escape(@admin_realm) + "&state=" + CGI::escape(form_authenticity_token)
+        redirect_to oauth.authorize_url + "&Realm=" + CGI::escape(admin_realm) + "&state=" + CGI::escape(form_authenticity_token)
       end
     else
       logger.info { "OAuth disabled."}
