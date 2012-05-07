@@ -899,6 +899,18 @@ end
 ############################################################
 
 ############################################################
+# Onboarding tests start
+############################################################
+desc "Run Onboarding Tests"
+task :onboardingTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/onboarding")
+end
+############################################################
+# Onboarding tests end
+############################################################
+
+############################################################
 # Dashboard tests start
 ############################################################
 desc "Run Dashboard Tests"
@@ -1214,7 +1226,8 @@ task :importSandboxData do
     "studentProgramAssociation" => "studentProgramAssociation_fixture.json",
     "studentAcademicRecord" => "studentAcademicRecord_fixture.json",
     "learningStandard" => "learningStandard_fixture.json",
-    "learningObjective" => "learningObjective_fixture.json"
+    "learningObjective" => "learningObjective_fixture.json",
+    "tenant" => "tenant_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 

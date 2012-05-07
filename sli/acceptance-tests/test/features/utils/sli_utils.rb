@@ -329,6 +329,27 @@ module DataProvider
       "authorized_ed_orgs" => []
     }
   end
+
+  def self.getValidTenantData()
+    return {
+      "landingZone" => [ 
+        { 
+          "district" => "Sunset",
+          "ingestionServer" => "ingServIL",
+          "path" => "/home/ingestion/lz/inbound/IL-STATE-SUNSET",
+          "desc" => "Sunset district, IL landing zone"
+        },
+        { 
+          "district" => "Daybreak",
+          "ingestionServer" => "ingServIL",
+          "path" => "/home/ingestion/lz/inbound/IL-STATE-DAYBREAK",
+          "desc" => "Daybreak district landing zone"
+        }
+      ],
+      "tenantId" => "IL"
+    }
+  end
+
 end
 
 module CreateEntityHash
