@@ -1,20 +1,17 @@
 package org.slc.sli.unit.entity;
 
-import java.io.File;
-import java.io.FileReader;
 
 import junit.framework.Assert;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slc.sli.entity.Config;
 import org.slc.sli.entity.CustomConfig;
 import org.springframework.test.context.ContextConfiguration;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 /**
