@@ -1,6 +1,5 @@
 package org.slc.sli.api.init;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -16,7 +15,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import com.mongodb.util.JSON;
@@ -74,8 +72,8 @@ public class ApplicationInitializer {
             repository.create(APP_RESOURCE, appData);
         } else {
             //check if we need to update it
-            long oldAppHash = InitializerUtils.quickHash(app.getBody());
-            long newAppHash = InitializerUtils.quickHash(appData);
+            long oldAppHash = InitializerUtils.checksum(app.getBody());
+            long newAppHash = InitializerUtils.checksum(appData);
             if (oldAppHash != newAppHash) {
                 info("Updating bootstrap application data for {}", appData.get("name"));
                 app.getBody().clear();

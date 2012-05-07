@@ -38,10 +38,10 @@ public class RealmInitializer {
     @Autowired
     private Repository<Entity> repository;
     
-    private static final String REALM_RESOURCE = "realm";
+    protected static final String REALM_RESOURCE = "realm";
     
     //This is what we use to look up the existing admin realm.  If this changes, we might end up with extra realms
-    private static final String ADMIN_REALM_ID = "Shared Learning Infrastructure";
+    protected static final String ADMIN_REALM_ID = "Shared Learning Infrastructure";
     
     @PostConstruct
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -68,8 +68,8 @@ public class RealmInitializer {
     private void updateRealmIfNecessary(Entity realm) {
         Map oldBody = realm.getBody();
         Map newBody = createAdminRealmBody();
-        long oldHash = InitializerUtils.quickHash(oldBody);
-        long newHash = InitializerUtils.quickHash(newBody);
+        long oldHash = InitializerUtils.checksum(oldBody);
+        long newHash = InitializerUtils.checksum(newBody);
         if (oldHash != newHash) {
             realm.getBody().clear();
             realm.getBody().putAll(newBody);
@@ -78,7 +78,7 @@ public class RealmInitializer {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private Map createAdminRealmBody() {
+    protected Map createAdminRealmBody() {
         Map body = new HashMap();
         body.put("name", realmName);
         body.put("uniqueIdentifier", ADMIN_REALM_ID);
@@ -152,7 +152,8 @@ public class RealmInitializer {
      * @return the admin realm entity, or null if not found
      */
     private Entity findAdminRealm() {
-        Entity realm = repository.findOne(REALM_RESOURCE, new NeutralQuery(new NeutralCriteria("uniqueIdentifier", NeutralCriteria.OPERATOR_EQUAL, ADMIN_REALM_ID)));
+        Entity realm = repository.findOne(REALM_RESOURCE, new NeutralQuery(
+                new NeutralCriteria("uniqueIdentifier", NeutralCriteria.OPERATOR_EQUAL, ADMIN_REALM_ID)));
         return realm;
     }
 

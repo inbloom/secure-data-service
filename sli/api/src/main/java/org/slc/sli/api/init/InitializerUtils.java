@@ -14,7 +14,7 @@ public class InitializerUtils {
      * This is a fairly simple way of checking whether some arbitrary data has changed.
      * It sums up the hash value of every key and value in the map.
      * 
-     * If the resulting hashes aren't the same, it's guaranteed that something has changed.
+     * If the resulting checksum aren't the same, it's guaranteed that something has changed.
      * 
      * The one limitation is that it won't recognize structural changes
      * e.g.
@@ -23,30 +23,30 @@ public class InitializerUtils {
      * @return
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected static long quickHash(Map map) {
+    protected static long checksum(Map map) {
         long hash = 0;
         for (Iterator<Map.Entry> i = map.entrySet().iterator(); i.hasNext();) {
             Map.Entry entry = i.next();
             hash += entry.getKey().hashCode();
             if (entry.getValue() instanceof Map) {
-                hash += quickHash((Map) entry.getValue());
+                hash += checksum((Map) entry.getValue());
             } else if (entry.getValue() instanceof List) {
-                hash += quickHash((List) entry.getValue());
+                hash += checksum((List) entry.getValue());
             } else {
-                hash += entry.getValue().hashCode();
+                hash += entry.getValue() != null ? entry.getValue().hashCode() : -1;
             }
         }
         return hash;
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected static long quickHash(List list) {
+    protected static long checksum(List list) {
         long hash = 0;
         for (Object o : list) {
             if (o instanceof Map) {
-                hash += quickHash((Map) o);
+                hash += checksum((Map) o);
             } else if (o instanceof List) {
-                hash += quickHash((List) o);
+                hash += checksum((List) o);
             } else {
                 hash += o.hashCode();
             }
