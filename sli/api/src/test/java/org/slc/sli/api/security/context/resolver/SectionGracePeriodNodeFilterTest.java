@@ -66,9 +66,12 @@ public class SectionGracePeriodNodeFilterTest {
         calendar.set(2012, 4, 3);
 
         assertEquals("Should match", "2012-02-03", nodeFilter.getFilterDate("90", calendar));
-        assertEquals("Should match", StringUtils.EMPTY, nodeFilter.getFilterDate("", calendar));
-        assertEquals("Should match", StringUtils.EMPTY, nodeFilter.getFilterDate(null, calendar));
-        assertEquals("Should match", StringUtils.EMPTY, nodeFilter.getFilterDate("-1", calendar));
+        calendar.clear();
+        calendar.set(2012, 4, 3);
+        assertEquals("Should match", "2012-05-03", nodeFilter.getFilterDate("", calendar));
+        calendar.clear();
+        calendar.set(2012, 1, 3);
+        assertEquals("Should match", "2012-02-03", nodeFilter.getFilterDate(null, calendar));
     }
 
     @Test
