@@ -30,7 +30,7 @@ import org.slc.sli.common.constants.v1.ParameterConstants;
  *
  * Provides CRUD operations on registered application through the /apps path.
  *
- * @author rpark
+ * @author
  */
 @Component
 @Scope("request")
