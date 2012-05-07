@@ -42,7 +42,8 @@ public class UsersTest {
     
     @Test
     public void testAuthenticate() throws AuthenticationException {
-        DistinguishedName dn = new DistinguishedName("ou=SLI");
+        userService.setSandboxImpersonationEnabled(false);
+        DistinguishedName dn = new DistinguishedName("ou=SLIAdmin");
         Mockito.when(
                 ldapTemplate.authenticate(Mockito.eq(dn), Mockito.eq("(&(objectclass=person)(uid=testuser))"),
                         Mockito.eq("testuser1234"), Mockito.any(AuthenticationErrorCallback.class))).thenReturn(true);
@@ -61,7 +62,7 @@ public class UsersTest {
                 ldapTemplate.search(Mockito.eq(dn), Mockito.eq("(&(objectclass=posixGroup)(memberuid=testuser))"),
                         Mockito.any(GroupContextMapper.class))).thenReturn(mockGroups);
         
-        UserService.User user = userService.authenticate("SLI", "testuser", "testuser1234");
+        UserService.User user = userService.authenticate("SLIAdmin", "testuser", "testuser1234");
         assertEquals("testuser", user.getUserId());
         assertEquals("Test User", user.getAttributes().get("userName"));
         assertEquals(2, user.getRoles().size());
@@ -70,7 +71,38 @@ public class UsersTest {
     }
     
     @Test
+    public void testSandboxAuthenticate() throws AuthenticationException {
+        userService.setSandboxImpersonationEnabled(true);
+        DistinguishedName dn = new DistinguishedName("ou=SLIAdmin");
+        Mockito.when(
+                ldapTemplate.authenticate(Mockito.eq(dn), Mockito.eq("(&(objectclass=person)(uid=testuser))"),
+                        Mockito.eq("testuser1234"), Mockito.any(AuthenticationErrorCallback.class))).thenReturn(true);
+        User mockUser = new User();
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put("userName", "Test User");
+        attributes.put("SandboxRealm", "myrealm");
+        mockUser.attributes = attributes;
+        mockUser.userId = "testuser";
+        Mockito.when(
+                ldapTemplate.searchForObject(Mockito.eq(dn), Mockito.eq("(&(objectclass=person)(uid=testuser))"),
+                        Mockito.any(ContextMapper.class))).thenReturn(mockUser);
+        List<String> mockGroups = new ArrayList<String>();
+        mockGroups.add("TestGroup1");
+        mockGroups.add("TestGroup2");
+        Mockito.when(
+                ldapTemplate.search(Mockito.eq(dn), Mockito.eq("(&(objectclass=posixGroup)(memberuid=testuser))"),
+                        Mockito.any(GroupContextMapper.class))).thenReturn(mockGroups);
+        
+        UserService.User user = userService.authenticate("myrealm", "testuser", "testuser1234");
+        assertEquals("testuser", user.getUserId());
+        assertEquals("Test User", user.getAttributes().get("userName"));
+        assertEquals(2, user.getRoles().size());
+        assertEquals("TestGroup1", user.getRoles().get(0));
+        assertEquals("TestGroup2", user.getRoles().get(1));
+    }
+    @Test
     public void testAttributeExtraction() {
+        userService.setSandboxImpersonationEnabled(false);
         String desc = "Realm=myRealmId\nTenant=myTenantId\nEdOrg=myEdorgId\nAdminRealm=myAdminRealmId\n";
         PersonContextMapper mapper = new PersonContextMapper();
         DirContextAdapter context = Mockito.mock(DirContextAdapter.class);

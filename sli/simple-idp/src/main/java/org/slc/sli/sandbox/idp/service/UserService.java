@@ -7,6 +7,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DistinguishedName;
@@ -28,7 +29,7 @@ public class UserService {
     @Autowired
     LdapTemplate ldapTemplate;
     
-    // @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
+    @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
     private boolean isSandboxImpersonationEnabled = false;
     
     public void setSandboxImpersonationEnabled(boolean isSandboxImpersonationEnabled) {

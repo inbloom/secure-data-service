@@ -47,6 +47,7 @@ public class LoginTest {
     
     @Test
     public void testLoginSetup() {
+        loginController.setSandboxImpersonationEnabled(false);
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRequestId()).thenReturn("req1234");
         Mockito.when(reqInfo.getRealm()).thenReturn("realm");
@@ -60,6 +61,7 @@ public class LoginTest {
     
     @Test
     public void testAdminLogin() throws AuthenticationException {
+        loginController.setSandboxImpersonationEnabled(false);
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRealm()).thenReturn("SLIAdmin");
         Mockito.when(authRequestService.processRequest("SAMLRequest", "SLIAdmin")).thenReturn(reqInfo);
@@ -88,6 +90,7 @@ public class LoginTest {
     
     @Test
     public void testNormalLogin() throws AuthenticationException {
+        loginController.setSandboxImpersonationEnabled(false);
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRealm()).thenReturn("realm");
         Mockito.when(authRequestService.processRequest("SAMLRequest", "realm")).thenReturn(reqInfo);
