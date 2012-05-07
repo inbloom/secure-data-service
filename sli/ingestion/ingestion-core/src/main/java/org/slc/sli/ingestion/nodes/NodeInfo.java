@@ -2,6 +2,10 @@ package org.slc.sli.ingestion.nodes;
 
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +18,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class NodeInfo {
 
+    private static final Logger LOG = LoggerFactory.getLogger( NodeInfo.class );
+
     private UUID uuid;
 
     @Value("${sli.ingestion.nodeType}")
@@ -22,6 +28,14 @@ public class NodeInfo {
 
     public NodeInfo() {
         uuid = UUID.randomUUID();
+    }
+
+    @PostConstruct
+    public void init() {
+
+        LOG.info( "Starting node with uuid: {} and node type: ", uuid, ingestionNodeType );
+
+
     }
 
     /**
