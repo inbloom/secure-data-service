@@ -93,8 +93,21 @@ class LDAPStorage
 	# returns extended user_info
 	def read_user(email_address)
 		filter = Net::LDAP::Filter.eq( "cn", email_address)
-		return map_fields(@ldap.search(:filter => filter), 1)[0]
+		return search_map_user_fields(filter, 1)[0]
 	end
+
+	# returns extended user_info for the given emailtoken (see create_user) or nil 
+	def read_user_emailtoken(emailtoken)
+		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:emailtoken].to_s, emailtoken)
+		return search_map_user_fields(filter, 1)[0]		
+	end
+
+	# returns array of extended user_info for all users or all users with given status 
+	# use constants in approval.rb 
+	def read_users(status=nil)
+		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
+		return search_map_user_fields(filter)
+	end	
 
 	# updates the user status from an extended user_info 
 	def update_status(user)
@@ -165,19 +178,6 @@ class LDAPStorage
 		!!read_user(email_address)
 	end
 
-	# returns extended user_info for the given emailtoken (see create_user) or nil 
-	def read_user_emailtoken(emailtoken)
-		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:emailtoken].to_s, emailtoken)
-		return search_map_user_fields(filter, 1)[0]		
-	end
-
-	# returns array of extended user_info for all users or all users with given status 
-	# use constants in approval.rb 
-	def read_users(status=nil)
-		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
-		return search_map_user_fields(filter)
-	end
-
 	# updates the user_info except for the user status 
 	# user_info is the same input as for create_user 
 	def update_user_info(user_info)
@@ -197,6 +197,11 @@ class LDAPStorage
 	def delete_user(email_address)
 		@ldap.delete(:dn => get_DN(email_address))
 	end 
+
+	#############################################################################
+	# PRIVATE methods
+	#############################################################################
+	private
 
 	# returns the LDAP DN
 	def get_DN(email_address)
