@@ -25,7 +25,7 @@ public class TenantMongoDA implements TenantDA {
 	public static final String LANDING_ZONE = "landingZone";
 	public static final String TENANT_COLLECTION = "tenant";
 	public static final String TENANT_TYPE = "tenant";
-	public static final String EDUCATION_ORGANIZATION_ID = "educationOrganizationId";
+	public static final String EDUCATION_ORGANIZATION = "educationOrganization";
 	public static final String DESC = "desc";
 	
 	private Repository<Entity> entityRepository;
@@ -59,7 +59,7 @@ public class TenantMongoDA implements TenantDA {
         if( tenant.getLandingZone() != null ){
         	for( LandingZoneRecord landingZoneRecord : tenant.getLandingZone()){
         		Map<String,String> landingZone = new HashMap<String, String>();
-        		landingZone.put(EDUCATION_ORGANIZATION_ID, landingZoneRecord.getEducationOrganizationId());
+        		landingZone.put(EDUCATION_ORGANIZATION, landingZoneRecord.getEducationOrganization());
         		landingZone.put(INGESTION_SERVER, landingZoneRecord.getIngestionServer());
         		landingZone.put(PATH, landingZoneRecord.getPath());
         		landingZone.put(DESC, landingZoneRecord.getDesc());

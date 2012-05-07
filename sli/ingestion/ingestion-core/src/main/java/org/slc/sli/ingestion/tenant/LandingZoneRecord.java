@@ -8,19 +8,19 @@ package org.slc.sli.ingestion.tenant;
  */
 public class LandingZoneRecord {
 	
-	private String educationOrganizationId;
+	private String educationOrganization;
     private String server;
     private String ingestionServer;
     private String path;
     private String userName;
     private String desc;
 
-    public String getEducationOrganizationId() {
-        return educationOrganizationId;
+    public String getEducationOrganization() {
+        return educationOrganization;
     }
         
-    public void setEducationOrganizationId(String district) {
-        this.educationOrganizationId = district;
+    public void setEducationOrganization(String district) {
+        this.educationOrganization = district;
     }
     
     public String getServer() {

@@ -163,7 +163,7 @@ public class TenantMongoDATest {
 				if( false == StringUtils.equals(lzRecord.getDesc(), lzMap.get(TenantMongoDA.DESC))) {
 					return false;
 				}
-				if( false == StringUtils.equals(lzRecord.getEducationOrganizationId(), lzMap.get(TenantMongoDA.EDUCATION_ORGANIZATION_ID))) {
+				if( false == StringUtils.equals(lzRecord.getEducationOrganization(), lzMap.get(TenantMongoDA.EDUCATION_ORGANIZATION))) {
 					return false;
 				}
 				if( false == StringUtils.equals(lzRecord.getIngestionServer(), lzMap.get(TenantMongoDA.INGESTION_SERVER))) {
@@ -189,13 +189,13 @@ public class TenantMongoDATest {
         lz1.setIngestionServer(ingestionServerName);
         lz1.setPath(lzPath1);
         lz1.setDesc("desc");
-        lz1.setEducationOrganizationId("org");
+        lz1.setEducationOrganization("org");
         
         LandingZoneRecord lz2 = new LandingZoneRecord();
         lz2.setIngestionServer(ingestionServerName);
         lz2.setPath(lzPath2);
         lz2.setDesc("desc");
-        lz2.setEducationOrganizationId("org");
+        lz2.setEducationOrganization("org");
         
         lzList.add(lz1);
         lzList.add(lz2);

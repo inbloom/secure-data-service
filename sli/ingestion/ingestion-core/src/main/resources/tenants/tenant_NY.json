@@ -2,7 +2,7 @@
 { 
 	"landingZone" : [ 
 		{ 
-			"educationOrganizationId" : "NYC" , 
+			"educationOrganization" : "NYC" , 
 			"ingestionServer" : "<hostname>" , 
 			"path" : "<lzpath>/NY-STATE-NYC" , 
 			"desc" : "Landing zone for NY"
