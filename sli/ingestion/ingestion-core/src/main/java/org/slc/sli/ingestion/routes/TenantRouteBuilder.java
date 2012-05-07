@@ -30,10 +30,10 @@ public class TenantRouteBuilder extends RouteBuilder {
     
     public TenantRouteBuilder(TenantRecord tenant, String workItemQueueUri, 
             ZipFileProcessor zipFileProcessor, ControlFilePreProcessor controlFilePreProcessor) {
+        
         landingZones = tenant.getLandingZone();
         this.zipFileProcessor = zipFileProcessor;
         this.controlFilePreProcessor = controlFilePreProcessor;
-        
         this.workItemQueueUri = workItemQueueUri;
     }
     

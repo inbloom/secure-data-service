@@ -1,7 +1,7 @@
 { 
 	"landingZone" : [ 
 		{ 
-			"district" : "DISTRICT" ,
+			"educationOrganization" : "ED_ORG" ,
 			"path" : "test_path",
 			"desc" : "Landing zone for test_district."
 		}

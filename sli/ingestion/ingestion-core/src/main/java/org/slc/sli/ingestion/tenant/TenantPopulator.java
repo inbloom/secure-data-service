@@ -47,7 +47,7 @@ public class TenantPopulator implements ResourceLoaderAware {
      * @param tenantRecord, the record to add to the collection.
      * @param deriveIngestionFields, whether to derive ingestion-specific fields.
      */
-    public void addTenant(TenantRecord tenantRecord, boolean deriveIngestionFields) {
+    public boolean addTenant(TenantRecord tenantRecord, boolean deriveIngestionFields) {
         try {
             String hostname = getHostname();
             
@@ -58,7 +58,9 @@ public class TenantPopulator implements ResourceLoaderAware {
             
         } catch (Exception e) {
             log.error("Exception adding tenant " + tenantRecord + " :", e);
+            return false;
         }
+        return true;
     }
     
     /**
@@ -150,7 +152,7 @@ public class TenantPopulator implements ResourceLoaderAware {
            lz.setIngestionServer(hostname);
            
            //override path field
-           String pathVal = parentLandingZoneDir + "/" + tenant.getTenantId() + "-" + lz.getDistrict();
+           String pathVal = parentLandingZoneDir + "/" + tenant.getTenantId() + "-" + lz.getEducationOrganization();
            lz.setPath(new File(pathVal).getAbsolutePath());
        }
    }

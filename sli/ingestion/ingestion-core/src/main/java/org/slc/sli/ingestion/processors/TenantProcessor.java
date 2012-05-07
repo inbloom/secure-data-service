@@ -46,12 +46,19 @@ public class TenantProcessor implements Processor {
             TenantRecord tenant = TenantRecord.parse(tenantJson);
             
             //add the tenantRecord to the tenant collection
-            tenantPopulator.addTenant(tenant, true);
+            if (!tenantPopulator.addTenant(tenant, true)) {
+                LOG.error("Failed to add tenant to tenant collection");
+                return;
+            }
             
             addTenantRoutes(tenant);
             
+            //set body and headers for response message
+            exchange.getIn().setBody(tenant.toString());
+            exchange.getIn().setHeader("TENANT_STATUS", "SUCCESS");
+            
         } catch (Exception e) {
-            exchange.getIn().setHeader("ErrorMessage", "Failed to add tenant.");
+            exchange.getIn().setHeader("TENANT_STATUS", "FAILED");
             LOG.error("Exception encountered adding tenant", e);
         }
     }
