@@ -1,5 +1,5 @@
 class LandingZoneController < ApplicationController
-  
+  before_filter :check_roles
   rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
   rescue_from ProvisioningError, :with => :handle_error
   
@@ -26,5 +26,12 @@ class LandingZoneController < ApplicationController
   
   def handle_error
     render :status => 500, :text => "An error occured when provisioning the landing zone"
+  end
+  
+  def check_roles
+    unless session[:roles].include? "LEA Administrator"
+      logger.warn "Rejecting user #{session[:full_name]} due to insufficient privilages: roles: #{session[:roles]}"
+      render_403
+    end
   end
 end
