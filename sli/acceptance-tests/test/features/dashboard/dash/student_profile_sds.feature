@@ -20,7 +20,7 @@ And the following students have "ELL" lozenges: "Matt Sollars;Malcolm Costillo;F
 # Lozenges check on LOS
 Then there is no lozenges for student "Tomasa Cleaveland"
 And I see a header on the page that has the text "Logout"
-And I see a footer on the page that has the text "Proprietary Information"
+#And I see a footer on the page that has the text "Proprietary Information"
 And I click on student "Alton Maultsby"
 And I view its student profile
 And their name shown in profile is "Alton Maultsby Jr"
@@ -30,7 +30,7 @@ And the teacher is "!"
 And the class is "!"
 And the lozenges count is "1"
 And I see a header on the page that has the text "Logout"
-And I see a footer on the page that has the text "Proprietary Information"
+#And I see a footer on the page that has the text "Proprietary Information"
 #Display hide tabs based on grades
 And there are "7" Tabs
 And Tab has a title named "Middle School Overview"
