@@ -407,7 +407,7 @@ DashboardUtil.Grid.Sorters = {
             }
             return function(value, rowObject) {
                 var i = enumHash[value];
-                return i ? i : -1;
+                return i ? parseInt(i) : -1;
             }
         },
 

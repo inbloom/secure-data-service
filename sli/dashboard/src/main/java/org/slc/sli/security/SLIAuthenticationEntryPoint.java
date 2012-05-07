@@ -55,9 +55,10 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Value("${api.server.url}")
     private String apiUrl;
     
-    private static final String OAUTH_TOKEN = "OAUTH_TOKEN";
+    public static final String OAUTH_TOKEN = "OAUTH_TOKEN";
+    public static final String DASHBOARD_COOKIE = "SLI_DASHBOARD_COOKIE";
     private static final String ENTRY_URL = "ENTRY_URL";
-    private static final String DASHBOARD_COOKIE = "SLI_DASHBOARD_COOKIE";
+    
     private static final String DASHBOARD_COOKIE_DOMAIN = ".slidev.org";
     
     private RESTClient restClient;
@@ -116,7 +117,13 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             for (Cookie c : cookies) {
                 if (c.getName().equals(DASHBOARD_COOKIE)) {
                     if (session.getAttribute(OAUTH_TOKEN) == null) {
+                        JsonObject json = restClient.sessionCheck(c.getValue());
+                        
+                        if (!json.get("authenticated").getAsBoolean()) {
+                            c.setMaxAge(0);
+                        } else {
                         session.setAttribute(OAUTH_TOKEN, c.getValue());
+                        }
                     }
                 }
             }
