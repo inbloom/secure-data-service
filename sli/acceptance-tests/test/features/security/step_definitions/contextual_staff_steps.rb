@@ -4,6 +4,7 @@ require_relative '../../utils/common_stepdefs.rb'
 
 Transform /^data for "([^"]*)"$/ do |path|
   id = "/v1/schools/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb" if path == "South Daybreak Elementary"
+  id = "/v1/schools/9d970849-0116-499d-b8f3-2255aeb69552" if path == "Dawn Elementary"
   id = "/v1/staff" if path == "Staff"
   id = "/v1/teachers/67ed9078-431a-465e-adf7-c720d08ef512" if path == "Linda Kim"
   id = "/v1/teachers/bcfcc33f-f4a6-488f-baee-b92fbd062e8d" if path == "Rebecca Braverman"
@@ -21,11 +22,13 @@ Transform /^data for "([^"]*)"$/ do |path|
   id = "/v1/schools/46c2e439-f800-4aaf-901c-8cf3299658cc/teacherSchoolAssociations/teachers" if path == "Teachers in Parker Elementary"
   id = "/v1/schools?parentEducationAgencyReference=bd086bae-ee82-4cf2-baf9-221a9407ea07" if path == "Schools in Daybreak District"
   id = "/v1/schools?parentEducationAgencyReference=29b95c04-3d70-4b3a-8341-27d544a39974" if path == "Schools in Parker District"
+  id = "/v1/schools?parentEducationAgencyReference=c72ea8f9-ec17-4db7-9958-65002f45da62" if path == "Schools in Dusk District"
   id
 end
 
 Transform /^data containing "([^"]*)"$/ do |path|
   id = ["a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"] if path == "South Daybreak Elementary"
+  id = ["9d970849-0116-499d-b8f3-2255aeb69552"] if path == "Dawn Elementary"
   id = ["67ed9078-431a-465e-adf7-c720d08ef512"] if path == "Linda Kim"
   id = ["bcfcc33f-f4a6-488f-baee-b92fbd062e8d"] if path == "Rebecca Braverman"
   id = ["edce823c-ee28-4840-ae3d-74d9e9976dc5"] if path == "Mark Anthony"
@@ -83,6 +86,8 @@ Transform /^data containing "([^"]*)"$/ do |path|
         "92d6d5a0-852c-45f4-907a-912752831772"] if path == "Schools in Daybreak District"
   id = ["5b03de1f-9cf0-409b-ae35-edeed11161ab",
         "46c2e439-f800-4aaf-901c-8cf3299658cc"] if path == "Schools in Parker District"
+  id = ["c9929e15-f907-4473-a948-6f9aa302647d",
+        "9d970849-0116-499d-b8f3-2255aeb69552"] if path == "Schools in Dusk District"
   id = ["84d87dd4-174b-4c02-af95-9f11d45031b6",
         "b7842226-0a86-4306-ab31-f76645b62625",
         "c5b29c29-62e6-4210-8712-d49581a27bf2",
@@ -118,6 +123,23 @@ Then /^I get the (data containing "[^"]*") returned in json format$/ do |idArray
     assert(idArray[0] == result["id"], "ID returned in json was not expected: ID="+result["id"])
   end
 
+end
+
+Then /^I should get a response which includes the (data containing "[^"]*") returned in json format$/ do |idArray|
+  assert(@res != nil, "Did not receive a response from the API")
+  assert(@res.code == 200, "Received a #{@res.code.to_s} response from the request, expected 200")
+  result = JSON.parse(@res.body)
+  assert(result != nil)
+  
+  if result.class == Array 
+    numMatches = 0
+    result.each {|jsonObj| 
+      numMatches += 1 if idArray.include?(jsonObj["id"])
+    }
+    assert(numMatches == idArray.length, "Did not find all matches: found "+numMatches.to_s+" but expected "+idArray.length.to_s+" maches")
+  else
+    assert(idArray[0] == result["id"], "ID returned in json was not expected: ID="+result["id"])
+  end
 end
 
 When /^I try to access the (data for "[^"]*") in another "[^"]*" from the API$/ do |dataPath|
