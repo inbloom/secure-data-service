@@ -15,8 +15,6 @@ import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
-import org.slc.sli.ingestion.routes.IngestionRouteBuilder;
-
 /**
  * Populates the tenant database collection with default tenant collections.
  *
@@ -24,7 +22,7 @@ import org.slc.sli.ingestion.routes.IngestionRouteBuilder;
  */
 public class TenantPopulator implements ResourceLoaderAware {
 
-    Logger log = LoggerFactory.getLogger(IngestionRouteBuilder.class);
+    Logger log = LoggerFactory.getLogger(TenantPopulator.class);
 
     private ResourceLoader resourceLoader;
 
