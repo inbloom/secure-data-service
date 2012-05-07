@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentAssessment xsi:schemaLocation="http://ed-fi.org/0100 C:/Projects/TSDS/trunk/src/Etl/EdFi.Etl.EdFi/Ed-Fi/Interchange-StudentAssessment.xsd" xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<StudentReference id="STU-0">
+	<StudentIdentity>
+		<StudentUniqueStateId>0</StudentUniqueStateId>
+		<Name>
+			<FirstName>Keisha</FirstName>
+			<LastSurname>Ho</LastSurname>
+		</Name>
+		<BirthDate>1994-08-02</BirthDate>
+		<Sex>Female</Sex>
+	</StudentIdentity>
+</StudentReference>
+<StudentReference id="STU-1">
+	<StudentIdentity>
+		<StudentUniqueStateId>1</StudentUniqueStateId>
+		<Name>
+			<FirstName>Keisha</FirstName>
+			<LastSurname>Ho</LastSurname>
+		</Name>
+		<BirthDate>1994-08-02</BirthDate>
+		<Sex>Female</Sex>
+	</StudentIdentity>
+</StudentReference>
+<StudentAssessment>
+	<AdministrationDate>2010-12-01</AdministrationDate>
+	<SerialNumber>0</SerialNumber>
+	<AdministrationLanguage>English</AdministrationLanguage>
+	<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+	<RetestIndicator>Primary Administration</RetestIndicator>
+	<ScoreResults AssessmentReportingMethod="Raw score">
+		<Result>0</Result>
+	</ScoreResults>
+	<StudentReference ref="STU-1"/>
+	<AssessmentReference ref="TA-ACT-9"/>
+</StudentAssessment>
+<StudentAssessment>
+	<AdministrationDate>2010-12-01</AdministrationDate>
+	<SerialNumber>0</SerialNumber>
+	<AdministrationLanguage>English</AdministrationLanguage>
+	<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+	<RetestIndicator>Primary Administration</RetestIndicator>
+	<ScoreResults AssessmentReportingMethod="Raw score">
+		<Result>0</Result>
+	</ScoreResults>
+	<StudentReference ref="STU-1"/>
+	<AssessmentReference ref="TA-ACT-4"/>
+</StudentAssessment>
+</InterchangeStudentAssessment>

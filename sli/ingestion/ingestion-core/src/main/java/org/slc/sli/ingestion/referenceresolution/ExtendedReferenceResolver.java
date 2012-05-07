@@ -21,7 +21,7 @@ import javax.xml.stream.events.XMLEvent;
  * @author tshewchuk
  *
  */
-public class ExtendedReferenceResolver {
+public class ExtendedReferenceResolver implements ReferenceResolutionStrategy {
 
     private class ConfigurationManager {
         Map<String, Object> getReferenceTemplate(String interchangeName, String callingEntityName, String referenceName) {
@@ -32,23 +32,24 @@ public class ExtendedReferenceResolver {
     /**
      * Main method of the extended reference resolver.
      *
-     * @param interchangeName
-     *            Interchange containing reference/target pair.
-     * @param xmlFile
-     *            Input XML file to be parsed.
-     * @param callingEntityName
-     *            Entity containing simple reference.
      * @param referenceName
      *            Simple reference to be expanded to an extended reference.
      * @param referenceId
      *            Simple reference ID to target entity.
+     * @param enclosingEntityName
+     *            Entity containing simple reference.
+     * @param xmlFile
+     *            Input XML file to be parsed.
+     * @param interchangeName
+     *            Interchange containing reference/target pair.
      *
      * @return String
      *         Extended reference XML text body, or null, if unresolved.
      *
      */
-    public String execute(String interchangeName, File xmlFile, String callingEntityName, String referenceName,
-            String referenceId) {
+    @Override
+    public String resolveReference(String referenceName, String referenceId, String enclosingEntityName, File xmlFile,
+            String interchangeName) {
         // Create an extended reference to replace the simple reference.
         String referenceBody = null;
         String entityBody = null;
@@ -81,7 +82,7 @@ public class ExtendedReferenceResolver {
             if (entityBody != null) {
                 // Get the extended reference template from the Configuration Manager.
                 Map<String, Object> template = configurationManager.getReferenceTemplate(interchangeName,
-                        callingEntityName, referenceName);
+                        enclosingEntityName, referenceName);
 
                 // Construct the extended reference body from the template.
                 referenceBody = convert(entityBody, template);
