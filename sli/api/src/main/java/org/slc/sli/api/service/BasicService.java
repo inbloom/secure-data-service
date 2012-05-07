@@ -139,6 +139,7 @@ public class BasicService implements EntityService {
         }
 
         if (allowed.size() > 0) {
+<<<<<<< HEAD
             Set<Object> binIds = new HashSet<Object>();
             for (String id : allowed) {
                 binIds.add(idConverter.toDatabaseId(id));
@@ -154,6 +155,10 @@ public class BasicService implements EntityService {
 
             return results;
 
+=======
+            return allowed;
+            
+>>>>>>> Removing bad dead code
         } else { // super list logic --> only true when using DefaultEntityContextResolver
             List<String> results = new ArrayList<String>();
             Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
