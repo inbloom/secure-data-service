@@ -163,7 +163,7 @@ public class RoleInitializer {
     
     private Role buildLEAAdmin() {
         LOG.info("Building LEA Administrator default role.");
-        return RoleBuilder.makeRole(LEA_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS }).setAdmin(true).build();
+        return RoleBuilder.makeRole(LEA_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ }).setAdmin(true).build();
     }
     
     public void setRepository(Repository repo) {
