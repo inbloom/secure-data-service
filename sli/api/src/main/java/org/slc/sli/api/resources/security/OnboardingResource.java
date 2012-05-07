@@ -9,7 +9,6 @@ import javax.annotation.PostConstruct;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -41,21 +40,21 @@ import org.slc.sli.domain.enums.Right;
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class OnboardingResource {
 
-	@Autowired
+    @Autowired
     private EntityDefinitionStore store;
 
     @Autowired
     Repository<Entity> repo;
 
-    private static final String STATE_EDUCATION_AGENCY = "State Education Agency";
-	private static final String STATE_EDORG_ID = "stateOrganizationId";
-	private static final String EDORG_INSTITUTION_NAME = "nameOfInstitution";
-	private static final String ADDRESSES = "address";
-	private static final String ADDRESS_STREET = "streetNumberName";
-	private static final String ADDRESS_CITY = "city";
-	private static final String ADDRESS_STATE_ABRV = "stateAbbreviation";
-	private static final String ADDRESS_POSTAL_CODE = "postalCode";
-	private static final String CATEGORIES = "organizationCategories";  // 'State Education Agency'
+    public static final String STATE_EDUCATION_AGENCY = "State Education Agency";
+    public static final String STATE_EDORG_ID = "stateOrganizationId";
+    public static final String EDORG_INSTITUTION_NAME = "nameOfInstitution";
+    public static final String ADDRESSES = "address";
+    public static final String ADDRESS_STREET = "streetNumberName";
+    public static final String ADDRESS_CITY = "city";
+    public static final String ADDRESS_STATE_ABRV = "stateAbbreviation";
+    public static final String ADDRESS_POSTAL_CODE = "postalCode";
+    public static final String CATEGORIES = "organizationCategories";  // 'State Education Agency'
 
     @PostConstruct
     public void init() {
@@ -69,12 +68,11 @@ public class OnboardingResource {
      * @QueryParam tenantId -- the tenant ID for this edorg.
      */
     @POST
-    public Response provision(
-    	@QueryParam(STATE_EDORG_ID) String orgId,
-    	@QueryParam(ResourceConstants.ENTITY_METADATA_TENANT_ID) String tenantId,
-    	@Context final UriInfo uriInfo) {
+    public Response provision(Map<String, String> reqBody, @Context final UriInfo uriInfo) {
+        String orgId = reqBody.get(STATE_EDORG_ID);
+        String tenantId = reqBody.get(ResourceConstants.ENTITY_METADATA_TENANT_ID);
 
-    	// Ensure the user is an admin.
+        // Ensure the user is an admin.
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to provision a landing zone.");
@@ -84,59 +82,62 @@ public class OnboardingResource {
         String edOrgId = "";
         Response r = createEdOrg(orgId, tenantId, edOrgId);
 
-    	if (Status.fromStatusCode(r.getStatus()) != Status.CREATED) {
-    		return r;
-    	}
+        if (Status.fromStatusCode(r.getStatus()) != Status.CREATED) {
+            return r;
+        }
 
-    	// Plug in additional provisioning steps here.
+        // Plug in additional provisioning steps here.
 
         return r;
     }
 
-	/**
-	 * Create an EdOrg if it does not exists.
-	 *
-	 * @param orgId The State Educational Organization identifier.
-	 * @param tenantId The EdOrg tenant identifier.
-	 * @param unique identifier for the new EdOrg entity (out)
-	 * @return Response of the request as an HTTP Response.
-	 */
+    /**
+     * Create an EdOrg if it does not exists.
+     *
+     * @param orgId
+     *            The State Educational Organization identifier.
+     * @param tenantId
+     *            The EdOrg tenant identifier.
+     * @param unique
+     *            identifier for the new EdOrg entity (out)
+     * @return Response of the request as an HTTP Response.
+     */
     public Response createEdOrg(final String orgId, final String tenantId, String uuid) {
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(STATE_EDORG_ID, "=", orgId));
 
         if (repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query) != null) {
-	        return Response.status(Status.CONFLICT).build();
-		}
+            return Response.status(Status.CONFLICT).build();
+        }
 
-	    EntityBody body = new EntityBody();
-		body.put(STATE_EDORG_ID, orgId);
-		body.put(EDORG_INSTITUTION_NAME, orgId);
+        EntityBody body = new EntityBody();
+        body.put(STATE_EDORG_ID, orgId);
+        body.put(EDORG_INSTITUTION_NAME, orgId);
 
-		List<String> categories = new ArrayList<String>();
-		categories.add(STATE_EDUCATION_AGENCY);
-		body.put(CATEGORIES, categories);
+        List<String> categories = new ArrayList<String>();
+        categories.add(STATE_EDUCATION_AGENCY);
+        body.put(CATEGORIES, categories);
 
-		List<Map<String, String>> addresses = new ArrayList<Map<String, String>>();
-		Map<String, String> address = new HashMap<String, String>();
-		address.put(ADDRESS_STREET, "unknown");
-		address.put(ADDRESS_CITY, "unknown");
-		address.put(ADDRESS_STATE_ABRV, "NC");
-		address.put(ADDRESS_POSTAL_CODE, "27713");
-		addresses.add(address);
+        List<Map<String, String>> addresses = new ArrayList<Map<String, String>>();
+        Map<String, String> address = new HashMap<String, String>();
+        address.put(ADDRESS_STREET, "unknown");
+        address.put(ADDRESS_CITY, "unknown");
+        address.put(ADDRESS_STATE_ABRV, "NC");
+        address.put(ADDRESS_POSTAL_CODE, "27713");
+        addresses.add(address);
 
-		body.put(ADDRESSES, addresses);
+        body.put(ADDRESSES, addresses);
 
-		Map<String, Object> meta = new HashMap<String, Object>();
+        Map<String, Object> meta = new HashMap<String, Object>();
         meta.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, tenantId);
 
-		Entity e = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
-		if (e == null) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-		}
+        Entity e = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
+        if (e == null) {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        }
 
-		uuid = e.getEntityId();
-		return Response.status(Status.CREATED).build();
+        uuid = e.getEntityId();
+        return Response.status(Status.CREATED).build();
     }
 }

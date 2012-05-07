@@ -5,7 +5,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -32,20 +34,27 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.ResourceConstants;
 
+/**
+ * JUnit for Onboarding Resource
+ *
+ * @author nbrown
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class,
-    DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class })
+@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class })
 @DirtiesContext
 public class OnboardingResourceTest {
 
-	@Autowired
-	private SecurityContextInjector injector;
+    @Autowired
+    private SecurityContextInjector injector;
 
-	@Autowired
-	@InjectMocks private OnboardingResource resource;
+    @Autowired
+    @InjectMocks
+    private OnboardingResource resource;
 
     @Autowired
     private MockRepo repo;
@@ -69,21 +78,27 @@ public class OnboardingResourceTest {
         repo.deleteAll("educationalOrganization");
     }
 
-	@Test
-	public void testProvision() {
-       	Response res = resource.provision("TestOrg", "12345", null);
+    @Test
+    public void testProvision() {
+        Map<String, String> requestBody = new HashMap<String, String>();
+        requestBody.put(OnboardingResource.STATE_EDORG_ID, "TestOrg");
+        requestBody.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, "12345");
+        Response res = resource.provision(requestBody, null);
         assertTrue(Status.fromStatusCode(res.getStatus()) == Status.CREATED);
 
         // Attempt to create the same edorg.
-       	res = resource.provision("TestOrg", "12345", null);
+        res = resource.provision(requestBody, null);
         assertTrue(Status.fromStatusCode(res.getStatus()) == Status.CONFLICT);
-	}
+    }
 
-	@Test
-	public void testNotAuthorized() {
+    @Test
+    public void testNotAuthorized() {
         injector.setEducatorContext();
-       	Response res = resource.provision("TestOrg-NotAuthorized", "12345", null);
+        Map<String, String> requestBody = new HashMap<String, String>();
+        requestBody.put(OnboardingResource.STATE_EDORG_ID, "TestOrg-NotAuthorized");
+        requestBody.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, "12345");
+        Response res = resource.provision(requestBody, null);
         assertTrue(Status.fromStatusCode(res.getStatus()) == Status.FORBIDDEN);
 
-	}
+    }
 }
