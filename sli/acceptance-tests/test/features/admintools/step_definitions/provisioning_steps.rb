@@ -5,8 +5,8 @@ require_relative "../../utils/sli_utils.rb"
 require_relative "../../utils/selenium_common.rb"
 require "date"
 
-SAMPLE_DATA_SET1_CHOICE = "ed_org_High-Level_Ed-Org_from_Sample_Dataset_1"
-SAMPLE_DATA_SET2_CHOICE = "ed_org_High-Level_Ed-Org_from_Sample_Dataset_2"
+SAMPLE_DATA_SET1_CHOICE = "ed_org_sample-dataset-1-ed-org"
+SAMPLE_DATA_SET2_CHOICE = "ed_org_sample-dataset-2-ed-org"
 CUSTOM_DATA_SET_CHOICE = "custom"
 
 Given /^there is a production account in ldap for vendor "([^"]*)"$/ do |vendor|
