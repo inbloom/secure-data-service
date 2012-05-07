@@ -58,7 +58,7 @@ public class SecurityContextInjector {
         setSecurityContext(principal);
         
 
-        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.APP_CREATION, Right.APP_EDORG_SELECT };
+        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.APP_CREATION };
         PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
@@ -77,7 +77,7 @@ public class SecurityContextInjector {
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         setSecurityContext(principal);
         
-        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.APP_EDORG_SELECT };
+        Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE };
         PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
