@@ -72,6 +72,7 @@ default:
 
         sli.ingestion.tenant.deriveTenants: true
         sli.ingestion.tenant.loadDefaultTenants: true
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard: &DASHBOARD-DEFAULT
 
@@ -192,6 +193,7 @@ acceptance-tests:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -261,6 +263,7 @@ ci:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -341,6 +344,7 @@ dev:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -424,6 +428,7 @@ devjuggernauts:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -505,6 +510,7 @@ devapp1:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     misc:
         <<: *MISC-DEFAULT
@@ -579,6 +585,7 @@ local:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -649,6 +656,7 @@ nxbuild2:
         sli.ingestion.queue.workItem.port:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -729,6 +737,7 @@ team:
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
 
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT
@@ -772,6 +781,7 @@ bloomington:
         # bloomington/ingestion/test.properties
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 normal:
     ingestion:
         <<: *INGESTION-DEFAULT
@@ -788,6 +798,7 @@ normal:
         # normal/ingestion/test.properties
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 perf:
     data-access:
         <<: *DATA-ACCESS-DEFAULT
@@ -829,6 +840,7 @@ perf:
         # perf/ingestion/test.properties
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 
 test-acceptance-tests:
@@ -852,6 +864,7 @@ test-acceptance-tests:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
         # Test specific properties
         sli.test.prop: ci DAL Context Test Property
@@ -882,6 +895,7 @@ test-ci:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 test-dev:
     test:
@@ -908,6 +922,7 @@ test-dev:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 
 test-devapp1:
@@ -934,6 +949,7 @@ test-devapp1:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 
 test-local:
@@ -960,6 +976,7 @@ test-local:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 
 test-nxbuild2:
@@ -990,6 +1007,7 @@ test-nxbuild2:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 test-team:
     test:
@@ -1018,6 +1036,7 @@ test-team:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 test-bloomington:
     ingestion:
@@ -1027,6 +1046,7 @@ test-bloomington:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 test-normal:
     ingestion:
@@ -1037,6 +1057,7 @@ test-normal:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 test-perf:
     ingestion:
@@ -1046,6 +1067,7 @@ test-perf:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 sandbox:
     api:
