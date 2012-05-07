@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'net/ldap'
+require 'date'
 
 ldap_conf = { :host => "ldap.slidev.org",
      :port => 389,

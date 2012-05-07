@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'net/ldap'
+require 'date'
 
 class LDAPStorage 
 	# set the objectClasses for user objects
@@ -23,7 +24,7 @@ class LDAPStorage
 	# READ-ONLY FIELDS 
 	RO_LDAP_ATTR_MAPPING = {
 		:createTimestamp => :created, 
-    	:modifyTimestamp => :upated
+    	:modifyTimestamp => :updated
 	}
 
 	# List of fields to fetch from LDAP for user 
@@ -223,7 +224,8 @@ class LDAPStorage
 		return arr[0..(max_recs-1)].map do |entry|
 			user_rec = {}
 			COMBINED_LDAP_ATTR_MAPPING.each do |ldap_k, rec_k| 
-				user_rec[rec_k] = entry[ldap_k].is_a?(Array) ?  entry[ldap_k][0] : entry[ldap_k]
+				attr_val = entry[ldap_k].is_a?(Array) ?  entry[ldap_k][0] : entry[ldap_k]
+				user_rec[rec_k] = LDAP_DATETIME_FIELDS.include?(ldap_k) ? DateTime.iso8601(attr_val) : attr_val
 			end
 			user_rec
 		end
