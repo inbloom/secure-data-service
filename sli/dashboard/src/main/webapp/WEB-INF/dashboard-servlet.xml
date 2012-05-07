@@ -51,5 +51,8 @@
             <property name="useCacheControlHeader" value="true"/>
             <property name="useCacheControlNoStore" value="true"/>
         </bean>
+        <bean id="sessionCheckInterceptor" class = "org.slc.sli.web.interceptor.SessionCheckInterceptor">
+            <property name="restClient" ref="restClient" />
+        </bean>
 </mvc:interceptors>
 </beans>
