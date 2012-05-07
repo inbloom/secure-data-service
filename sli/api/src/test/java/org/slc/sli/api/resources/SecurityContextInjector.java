@@ -1,9 +1,5 @@
 package org.slc.sli.api.resources;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-
 import org.mockito.Mockito;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -19,6 +15,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Simple class for injecting a security context for unit tests.
@@ -97,7 +97,7 @@ public class SecurityContextInjector {
         principal.setEdOrg("fake-ed-org");
         setSecurityContext(principal);
         
-        Right[] rights = new Right[] { Right.READ_GENERAL, Right.WRITE_GENERAL_REALM, Right.WRITE_ROLE_MAPPING, Right.ADMIN_ACCESS};
+        Right[] rights = new Right[] { Right.READ_GENERAL, Right.CRUD_REALM_ROLES, Right.ADMIN_ACCESS};
         PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));

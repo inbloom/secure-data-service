@@ -20,8 +20,13 @@ public enum Right implements GrantedAuthority {
     APP_REGISTER,
     APP_EDORG_SELECT,
     APP_CREATION,
-    WRITE_GENERAL_REALM,
-    WRITE_ROLE_MAPPING;
+
+    CRUD_REALM_ROLES,
+    ROLE_CRUD,
+    SLC_APP_APPROVE,
+    EDORG_APP_AUTHZ,
+    DEV_APP_ENABLE,
+    DEV_APP_CREATE;
 
     @Override
     public String getAuthority() {

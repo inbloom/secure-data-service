@@ -1,11 +1,5 @@
 package org.slc.sli.api.init;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.PostConstruct;
-
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleBuilder;
 import org.slc.sli.domain.Entity;
@@ -15,6 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A simple initializing bean to initialize our Mongo instance with default roles.
@@ -122,7 +121,7 @@ public class RoleInitializer {
     
     private Role buildRealmAdmin() {
         LOG.info("Building Realm Administrator default role.");
-        return RoleBuilder.makeRole(REALM_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.WRITE_GENERAL_REALM, Right.WRITE_ROLE_MAPPING}).build();
+        return RoleBuilder.makeRole(REALM_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM_ROLES}).build();
     }
     
     private Role buildAggregate() {
