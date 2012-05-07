@@ -277,8 +277,9 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements
                 USER_CONFIG_CACHE, token);
         CustomConfig config = null;
         if (value == null) {
-            config = getApiClient().getEdOrgCustomData(token,
-                    getUserEdOrg(token).getSliId());
+            EdOrgKey edOrgKey = getUserEdOrg(token);
+            String sliId = edOrgKey.getSliId();
+            config = getApiClient().getEdOrgCustomData(token, sliId);
             putToCache(USER_CONFIG_CACHE, token, config);
         } else {
             config = value.get();
