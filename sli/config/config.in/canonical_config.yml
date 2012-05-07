@@ -779,7 +779,7 @@ team:
         log.path: /storage/logs
         sli.simple-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/simple-idp
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
-        sli.simple-idp.cot: http://${sli.dev.subdomain}.slidev.org=http://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
+        sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: false
 
 bloomington:
