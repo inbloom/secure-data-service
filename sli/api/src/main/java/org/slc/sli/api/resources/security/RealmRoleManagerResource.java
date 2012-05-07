@@ -34,7 +34,9 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Realm role mapping API. Allows full CRUD on realm objects. Primarily intended to allow
@@ -82,12 +84,31 @@ public class RealmRoleManagerResource {
         if (updatedRealm == null) {
             throw new EntityNotFoundException("Entity was null");
         }
+        if (!SecurityUtil.hasRight(Right.WRITE_GENERAL_REALM)) {
+            EntityBody body = new EntityBody();
+            body.put("response", "You are not authorized to update realms.");
+            return Response.status(Status.FORBIDDEN).entity(body).build();
+        }
+        EntityBody oldRealm = service.get(realmId);
+        
+        if (!canEditCurrentRealm(updatedRealm) || (oldRealm.get("edOrg") != null && !oldRealm.get("edOrg").equals(SecurityUtil.getEdOrg()))) {
+            EntityBody body = new EntityBody();
+            body.put("response", "You are not authorized to update this realm.");
+            return Response.status(Status.FORBIDDEN).entity(body).build();
+        }
+        
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) updatedRealm.get("mappings");
         if (mappings != null) {
             Response validateResponse = validateMappings(mappings);
             if (validateResponse != null) {
                 return validateResponse;
             }
+        }
+        Map<String, List<Map<String, Object>>> oldMappings = (Map<String, List<Map<String, Object>>>) oldRealm.get("mappings");
+        if (!oldMappings.equals(mappings) && !SecurityUtil.hasRight(Right.WRITE_ROLE_MAPPING)) {
+            EntityBody body = new EntityBody();
+            body.put("response", "You are not authorized to update role mappings.");
+            return Response.status(Status.FORBIDDEN).entity(body).build();
         }
         if (service.update(realmId, updatedRealm)) {
             return Response.status(Status.NO_CONTENT).build();
@@ -98,13 +119,31 @@ public class RealmRoleManagerResource {
     @DELETE
     @Path("{realmId}")
     public Response deleteRealm(@PathParam("realmId") String realmId) {
-        service.delete(realmId);
-        return Response.status(Status.NO_CONTENT).build();
+        if (SecurityUtil.hasRight(Right.WRITE_GENERAL_REALM) && SecurityUtil.hasRight(Right.WRITE_ROLE_MAPPING)) {
+            service.delete(realmId);
+            return Response.status(Status.NO_CONTENT).build();
+        } else {
+            EntityBody body = new EntityBody();
+            body.put("response", "You are not authorized to delete realms.");
+            return Response.status(Status.FORBIDDEN).entity(body).build();
+        }
     }
     
     @POST
     @SuppressWarnings("unchecked")
-    public Response createRealm(EntityBody newRealm) {
+    public Response createRealm(EntityBody newRealm, @Context final UriInfo uriInfo) {
+        if (!SecurityUtil.hasRight(Right.WRITE_GENERAL_REALM) && SecurityUtil.hasRight(Right.WRITE_ROLE_MAPPING)) {
+            EntityBody body = new EntityBody();
+            body.put("response", "You are not authorized to create realms.");
+            return Response.status(Status.FORBIDDEN).entity(body).build();
+        }
+        
+        if (!canEditCurrentRealm(newRealm)) {
+            EntityBody body = new EntityBody();
+            body.put("response", "You are not authorized to create a realm for another ed org");
+            return Response.status(Status.FORBIDDEN).entity(body).build();
+        }
+        
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) newRealm.get("mappings");
         if (mappings != null) {
             Response validateResponse = validateMappings(mappings);
@@ -115,12 +154,9 @@ public class RealmRoleManagerResource {
         }
         
         String id = service.create(newRealm);
-        if (id != null) {
-            service.create(newRealm);
-        }
-        EntityBody resObj = new EntityBody();
-        resObj.put("id", id);
-        return Response.status(Status.CREATED).entity(resObj).build();
+        String uri = uriToString(uriInfo) + "/" + id;
+
+        return Response.status(Status.CREATED).header("Location", uri).build();
     }
     
     @GET
@@ -162,7 +198,9 @@ public class RealmRoleManagerResource {
         HashMap<String, String> res = new HashMap<String, String>();
         
         List<Map<String, Object>> roles = mappings.get("role");
-        
+        if (roles == null) {
+            roles = new ArrayList<Map<String, Object>>();
+        }
         Set<String> clientRoles = new HashSet<String>();
         for (Map<String, Object> role : roles) {
             String sliRoleName = (String) role.get("sliRoleName");
@@ -189,4 +227,15 @@ public class RealmRoleManagerResource {
         return null;
     }
     
+    private static String uriToString(UriInfo uri) {
+        return uri.getBaseUri() + uri.getPath().replaceAll("/$", "");
+    }
+    
+    private boolean canEditCurrentRealm(EntityBody realm) {
+        String edOrg = SecurityUtil.getEdOrg();
+        return !(edOrg == null || !edOrg.equals(realm.get("edOrg")));
+
+    }
+    
+
 }
