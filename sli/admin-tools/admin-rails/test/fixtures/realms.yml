@@ -10,8 +10,10 @@ one:
     regionId: http://slidev.org
     idp:
       id: http://slidev.org
+      redirectEndpoint: http://slidev.org/endpoint
     realm: "dc=slidev,dc=org"
     mappings: {"Educator": ["teacher", "ta"]}
+
 # column: value
 #
 two:
@@ -19,7 +21,8 @@ two:
     name: Tardis
     regionId: http://timelords.com 
     idp: 
-      id: http://timelords.com 
+      id: http://timelords.com
+      redirectEndpoint: http://timelords.com/gallifrey
     realm: "dc=timelors,dc=org"
     mappings: {"Educator": ["Educator"], "Leader": ["Leader"]}
 #  column: value
