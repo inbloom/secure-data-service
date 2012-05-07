@@ -17,7 +17,6 @@ public enum Right implements GrantedAuthority {
     AGGREGATE_WRITE,
     ADMIN_ACCESS,
     FULL_ACCESS,
-    APP_REGISTER,
     APP_EDORG_SELECT,
     APP_CREATION,
 

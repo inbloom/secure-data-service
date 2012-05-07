@@ -158,7 +158,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (hasRight(Right.APP_CREATION)) {
             extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId());
-        } else if (!hasRight(Right.APP_REGISTER)) {
+        } else if (!hasRight(Right.SLC_APP_APPROVE)) {
             debug("ED-ORG of operator/admin {}", principal.getEdOrg());
             extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
                     principal.getEdOrg());
@@ -185,7 +185,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (hasRight(Right.APP_CREATION)) {
             extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId());
-        } else if (!hasRight(Right.APP_REGISTER)) {
+        } else if (!hasRight(Right.SLC_APP_APPROVE)) {
             debug("ED-ORG of operator/admin {}", principal.getEdOrg());
             extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
                     principal.getEdOrg());
@@ -237,6 +237,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         }
     }
 
+    //TODO app creation and app approval should be broken into separate endpoints.
     @SuppressWarnings("unchecked")
     @PUT
     @Path("{" + UUID + "}")
@@ -282,7 +283,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         changedKeys.remove("metaData");
         
         //Operator - can only change registration status
-        if (hasRight(Right.APP_REGISTER)) {
+        if (hasRight(Right.SLC_APP_APPROVE)) {
             if (changedKeys.size() > 0) {
                 EntityBody body = new EntityBody();
                 body.put("message", "You are not authorized to alter applications.");

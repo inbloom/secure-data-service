@@ -132,7 +132,7 @@ public class RoleInitializer {
     private Role buildSLCOperator() {
         LOG.info("Building SLC Operator role.");
         return RoleBuilder.makeRole(SLC_OPERATOR)
-                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.APP_REGISTER, Right.APP_EDORG_SELECT, Right.READ_GENERAL }).build();
+                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.APP_EDORG_SELECT, Right.READ_GENERAL }).build();
     }
 
     private Role buildAppDeveloper() {
