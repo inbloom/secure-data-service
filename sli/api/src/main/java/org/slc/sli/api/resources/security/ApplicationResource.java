@@ -107,6 +107,9 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             body.put("message", "You are not authorized to create new applications.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
+        // Destroy the ed-orgs
+        newApp.put(AUTHORIZED_ED_ORGS, new ArrayList<String>());
+
         String clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
         while (isDuplicateToken(clientId)) {
             clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
@@ -152,7 +155,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (hasRight(Right.APP_CREATION)) {
             extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId());
-        } else {
+        } else if (!hasRight(Right.APP_REGISTER)) {
             debug("ED-ORG of operator/admin {}", principal.getEdOrg());
             extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
                     principal.getEdOrg());
@@ -179,7 +182,8 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (hasRight(Right.APP_CREATION)) {
             extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId());
-        } else {
+        } else if (!hasRight(Right.APP_REGISTER)) {
+            debug("ED-ORG of operator/admin {}", principal.getEdOrg());
             extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
                     principal.getEdOrg());
         }
@@ -221,8 +225,13 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public Response deleteApplication(@PathParam(UUID) String uuid,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
-
-        return super.delete(uuid, headers, uriInfo);
+        if (hasRight(Right.APP_CREATION)) {
+            return super.delete(uuid, headers, uriInfo);
+        } else {
+            EntityBody body = new EntityBody();
+            body.put("message", "You cannot delete this application");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -313,6 +322,13 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 newReg.put(STATUS, "PENDING");
                 newReg.put(REQUEST_DATE, System.currentTimeMillis());
             }
+            
+            if (autoRegister && app.containsKey(AUTHORIZED_ED_ORGS)) {
+                // Auto-approve whatever districts are selected.
+                List<String> edOrgs = (List) app.get(AUTHORIZED_ED_ORGS);
+                service = store.lookupByResourceName(ApplicationAuthorizationResource.RESOURCE_NAME).getService();
+                iterateEdOrgs(uuid, edOrgs);
+            }
         } else {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized to update application.");
@@ -320,6 +336,28 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         }
         
         return super.update(uuid, app, headers, uriInfo);
+    }
+
+    private void iterateEdOrgs(String uuid, List<String> edOrgs) {
+        for (String edOrg : edOrgs) {
+            NeutralQuery query = new NeutralQuery();
+            query.addCriteria(new NeutralCriteria("authId", NeutralCriteria.OPERATOR_EQUAL, edOrg));
+            Iterable<EntityBody> auths = service.list(query);
+            long count = service.count(query);
+            if (count == 0) {
+                warn("No application authorization exists. Nothing to do");
+            }
+            updateAuthorization(uuid, auths);
+        }
+    }
+
+    private void updateAuthorization(String uuid, Iterable<EntityBody> auths) {
+        for (EntityBody auth : auths) {
+            List<String> appsIds = (List) auth.get("appIds");
+            appsIds.add(uuid);
+            auth.put("appIds", appsIds);
+            service.update((String) auth.get("id"), auth);
+        }
     }
 
     /**

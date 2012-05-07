@@ -123,7 +123,7 @@
 		<LoginId>racosta</LoginId>
 	</Staff>
 	<!--Association commented out until EdOrg/School reference defect fixed-->
-	<!--StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>racosta</StaffUniqueStateId>
@@ -138,7 +138,7 @@
 		<PositionTitle>Principal</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation-->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Adriana Gillespie IT Support (IT Administrator) Sunset Central High School-->
 	<Staff>
 		<StaffUniqueStateId>agillespie</StaffUniqueStateId>
@@ -187,7 +187,7 @@
 		<LoginId>agillespie</LoginId>
 	</Staff>
 	<!--Association commented out until EdOrg/School reference defect fixed-->
-	<!--StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>agillespie</StaffUniqueStateId>
@@ -202,7 +202,7 @@
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation-->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Winnie Goodman Researcher (Aggregate Viewer) Sunset Central High School-->
 	<Staff>
 		<StaffUniqueStateId>wgoodman</StaffUniqueStateId>
@@ -251,7 +251,7 @@
 		<LoginId>wgoodman</LoginId>
 	</Staff>
 	<!--Association commented out until EdOrg/School reference defect fixed-->
-	<!--StaffEducationOrgAssignmentAssociation>
+	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>wgoodman</StaffUniqueStateId>
@@ -266,7 +266,7 @@
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>1967-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation-->
+	</StaffEducationOrgAssignmentAssociation>
 	<!--Dr. Liza Logan, District Superintendent (Leader) Sunset School District 4526-->
 	<Staff>
 		<StaffUniqueStateId>llogan</StaffUniqueStateId>

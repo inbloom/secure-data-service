@@ -67,6 +67,8 @@ When zip file is scp to ingestion landing zone
   And I should see "StudentParentData.xml records ingested successfully: 4" in the resulting batch job file
   And I should see "StudentParentData.xml records failed: 0" in the resulting batch job file
 
+
+
 Scenario: Post a zip file containing student parent interchange with non-existent student as a payload of the ingestion job: Populated Database
 Given I post "ParentsNoStudent.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone

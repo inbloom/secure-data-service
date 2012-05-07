@@ -7,18 +7,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Class for building objective assessments
- * 
+ *
  * @author nbrown
- * 
+ *
  */
 public class ObjectiveAssessmentBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(ObjectiveAssessmentBuilder.class);
@@ -26,28 +27,30 @@ public class ObjectiveAssessmentBuilder {
     public static final String BY_IDENTIFICATION_CDOE = "identificationCode";
     public static final String BY_ID = "id";
     private final NeutralRecordMongoAccess mongoAccess;
-    
-    public ObjectiveAssessmentBuilder(NeutralRecordMongoAccess mongoAccess) {
+    private final String jobId;
+
+    public ObjectiveAssessmentBuilder(NeutralRecordMongoAccess mongoAccess, String jobId) {
         super();
         this.mongoAccess = mongoAccess;
+        this.jobId = jobId;
     }
-    
+
     public Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, String by) {
         Set<String> parentObjs = Collections.emptySet();
         return getObjectiveAssessment(objectiveAssessmentRef, parentObjs, by);
     }
-    
+
     private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, Set<String> parentObjs, String by) {
         LOG.debug("Looking up objective assessment {}", objectiveAssessmentRef);
-        NeutralRecord objectiveAssessmentRecord = mongoAccess.getRecordRepository().findOne("objectiveAssessment",
-                new NeutralQuery(new NeutralCriteria(by, "=", objectiveAssessmentRef)));
+        NeutralRecord objectiveAssessmentRecord = mongoAccess.getRecordRepository().findOneForJob(
+                "objectiveAssessment", new NeutralQuery(new NeutralCriteria(by, "=", objectiveAssessmentRef)), jobId);
         if (objectiveAssessmentRecord == null) {
             return null;
         }
         Map<String, Object> objectiveAssessment = objectiveAssessmentRecord.getAttributes();
-        
+
         objectiveAssessment.remove("id");
-        
+
         List<?> subObjectiveRefs = (List<?>) objectiveAssessment.get(SUB_OBJECTIVE_REFS);
         if (subObjectiveRefs != null && !subObjectiveRefs.isEmpty()) {
             Set<String> newParents = new HashSet<String>(parentObjs);
@@ -72,9 +75,9 @@ public class ObjectiveAssessmentBuilder {
             objectiveAssessment.put("objectiveAssessments", subObjectives);
         }
         objectiveAssessment.remove(SUB_OBJECTIVE_REFS);
-        
+
         return objectiveAssessment;
-        
+
     }
-    
+
 }

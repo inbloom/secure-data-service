@@ -14,6 +14,10 @@
 
   <name>Ingestion Validation</name>
 
+  <properties>
+    <maven.assembly.version>2.2-beta-5</maven.assembly.version>
+  </properties>
+
   <dependencies>
 
     <dependency>
@@ -92,6 +96,28 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>${maven.assembly.version}</version>
+        <configuration>
+        <finalName>OfflineValidationTool</finalName>
+        <descriptors>
+          <descriptor>${project.parent.basedir}/ingestion-validation/assembly/zip.xml</descriptor>
+        </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+           </goals>
+          </execution>
+        </executions>
+</plugin>
+
     </plugins>
 
   </build>

@@ -10,6 +10,9 @@ default:
 
         # Security SAML (only used in api)
         sli.security.sp.issuerName: http://local.slidev.org:8080
+        
+        # Security grace period for viewing sections (only use in api)
+        sli.security.gracePeriod: 2000
 
         # Trusted Certificate Authority Store (used in common)
         sli.trust.certificates: ../common/common-util/trust/trustedCertificates
@@ -82,10 +85,10 @@ default:
         security.server.url: http://local.slidev.org:8080/
 
         # Only used in dashboard
-        portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
+        portal.footer.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer
 
         # Only used in dashboard
-        portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
+        portal.header.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header
 
         # Only used in dashboard
         log.level: warn
@@ -121,12 +124,11 @@ default:
         # (used in common and data-access)
         sli.wildcard.x509certificate.alias: wildcard
 
-        # (only used in simple-idp)
+        # (only used in SimpleIDP)
         sli.simple-idp.issuer-base: http://local.slidev.org:8082/simple-idp
-
-        # (only used in simple-idp)
-        sli.simple-idp.response-destination: http://local.slidev.org:8080/api/rest/saml/sso/post
-
+        sli.simple-idp.cot: http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
+        sli.simple-idp.sandboxImpersonationEnabled: false
+        
         # SLI Subdomain substituted by various services (used by SDK and dashboard)
         sli.dev.subdomain: ci
 
@@ -265,8 +267,8 @@ ci:
         api.client: apiClient
         api.server.url: https://testapi1.slidev.org/
         security.server.url: https://testapi1.slidev.org/
-        portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
-        portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
+        portal.footer.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: warn
         oauth.client.id: jlEb45f55i
         oauth.client.secret: GjkljHiogHiodgiovbJat3U848J8934479p234r89y234r89
@@ -345,8 +347,8 @@ dev:
         api.client: apiClient
         api.server.url: https://devjuggernauts.slidev.org/
         security.server.url: https://devjuggernauts.slidev.org/
-        portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
-        portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
+        portal.footer.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: debug
         oauth.client.id: K2e7Dwhq5J
         oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
@@ -428,8 +430,8 @@ devjuggernauts:
         api.client: apiClient
         api.server.url: https://devjuggernauts.slidev.org/
         security.server.url: https://devjuggernauts.slidev.org/
-        portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
-        portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
+        portal.footer.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: debug
         oauth.client.id: ke9Dgpo3uI
         oauth.client.secret: 3jgkd3dg3dnbmdmJDKnwpKogJj93dHjd08HdaqP9jgdUwbDi
@@ -653,8 +655,8 @@ nxbuild2:
         api.client: apiClient
         api.server.url: https://nxbuild2.slidev.org/
         security.server.url: https://nxbuild2.slidev.org/
-        portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
-        portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
+        portal.footer.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: warn
         oauth.client.id: 6TW4tHwcWG
         oauth.client.secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
@@ -733,8 +735,8 @@ team:
         api.client: apiClient
         api.server.url: https://${sli.dev.subdomain}.slidev.org/
         security.server.url: https://${sli.dev.subdomain}.slidev.org/
-        portal.footer.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer?token=
-        portal.header.url: https://devlr1.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header?token=
+        portal.footer.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: warn
         oauth.client.id: 6TW4tHwcWG
         oauth.client.secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
@@ -751,8 +753,8 @@ team:
         log.path: /storage/logs
         sli.simple-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/simple-idp
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
-
-
+        sli.simple-idp.cot: http://${sli.dev.subdomain}.slidev.org=http://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
+        sli.simple-idp.sandboxImpersonationEnabled: false
 
 bloomington:
     ingestion:

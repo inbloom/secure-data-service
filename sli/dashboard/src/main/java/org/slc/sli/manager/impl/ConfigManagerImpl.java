@@ -22,17 +22,19 @@ import org.slc.sli.config.StudentFilter;
 import org.slc.sli.config.ViewConfig;
 import org.slc.sli.config.ViewConfigSet;
 import org.slc.sli.entity.Config;
-import org.slc.sli.entity.CustomConfig;
 import org.slc.sli.entity.Config.Type;
+import org.slc.sli.entity.CustomConfig;
 import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.util.DashboardException;
 
 /**
  *
- * ConfigManager allows other classes, such as controllers, to access and persist view
+ * ConfigManager allows other classes, such as controllers, to access and
+ * persist view
  * configurations.
- * Given a user, it will obtain view configuration at each level of the user's hierarchy, and merge
+ * Given a user, it will obtain view configuration at each level of the user's
+ * hierarchy, and merge
  * them into one set for the user.
  *
  * @author dwu
@@ -128,7 +130,8 @@ public class ConfigManagerImpl implements ConfigManager {
     @Override
     public List<StudentFilter> getStudentFilterConfig(String userId) {
 
-        // get student filter configs for user's hierarchy (state, district, etc)
+        // get student filter configs for user's hierarchy (state, district,
+        // etc)
         StudentFilter[] userStudentFilterConfig = null;
         try {
             userStudentFilterConfig = persistor.getStudentFilterConfig(userId);
@@ -167,7 +170,8 @@ public class ConfigManagerImpl implements ConfigManager {
 
     /**
      * this method should be called by Spring Framework
-     * set location of config file to be read. If the directory does not exist, create it.
+     * set location of config file to be read. If the directory does not exist,
+     * create it.
      *
      * @param configLocation
      *            reading from properties file panel.config.driver.dir
@@ -175,7 +179,8 @@ public class ConfigManagerImpl implements ConfigManager {
     public void setDriverConfigLocation(String configLocation) {
         URL url = Config.class.getClassLoader().getResource(configLocation);
         if (url == null) {
-            File f = new File(Config.class.getClassLoader().getResource("") + "/" + configLocation);
+            File f = new File(Config.class.getClassLoader().getResource("")
+                    + "/" + configLocation);
             f.mkdir();
             this.driverConfigLocation = f.getAbsolutePath();
         } else {
@@ -185,7 +190,8 @@ public class ConfigManagerImpl implements ConfigManager {
 
     /**
      * this method should be called by Spring Framework
-     * set location of config file to be read. If the directory does not exist, create it.
+     * set location of config file to be read. If the directory does not exist,
+     * create it.
      *
      * @param configLocation
      *            reading from properties file panel.config.custom.dir
@@ -194,7 +200,9 @@ public class ConfigManagerImpl implements ConfigManager {
         if (!configLocation.startsWith("/")) {
             URL url = Config.class.getClassLoader().getResource(configLocation);
             if (url == null) {
-                File f = new File(Config.class.getClassLoader().getResource("").getPath() + configLocation);
+                File f = new File(Config.class.getClassLoader().getResource("")
+                        .getPath()
+                        + configLocation);
                 f.mkdir();
                 configLocation = f.getAbsolutePath();
             } else {
@@ -232,22 +240,27 @@ public class ConfigManagerImpl implements ConfigManager {
     }
 
     /**
-     * Find the lowest organization hierarchy config file. If the lowest organization hierarchy
+     * Find the lowest organization hierarchy config file. If the lowest
+     * organization hierarchy
      * config file does not exist, it returns default (Driver) config file.
-     * If the Driver config file does not exist, it is in a critical situation. It will throw an
+     * If the Driver config file does not exist, it is in a critical situation.
+     * It will throw an
      * exception.
      *
+     * @param apiCustomConfig
+     *            custom configuration uploaded by admininistrator.
      * @param customPath
      *            abslute directory path where a config file exist.
      * @param componentId
      *            name of the profile
      * @return proper Config to be used for the dashboard
      */
-    private Config getConfigByPath(String customPath, String componentId) {
+    private Config getConfigByPath(CustomConfig apiCustomConfig, String customPath, String componentId) {
         Config driverConfig = null;
         try {
             // read custom Config
-            File f = new File(getComponentConfigLocation(customPath, componentId));
+            File f = new File(getComponentConfigLocation(customPath,
+                    componentId));
             String driverId = componentId;
             Config customConfig = null;
             // if custom config exist, read the config file
@@ -259,36 +272,42 @@ public class ConfigManagerImpl implements ConfigManager {
             f = new File(getDriverConfigLocation(driverId));
             driverConfig = loadConfig(f);
             if (customConfig != null) {
-                // get overwritten Config file with customConfig based on Driver config.
-                return driverConfig.overWrite(customConfig);
+                if ((apiCustomConfig == null) || (apiCustomConfig.size() <= 0)) {
+                    // get overwritten Config file with customConfig based on Driver
+                    // config.
+                    return driverConfig.overWrite(customConfig);
+                }
             }
             return driverConfig;
         } catch (Throwable t) {
-            logger.error("Unable to read config for " + componentId + ", for path " + customPath, t);
-            throw new DashboardException("Unable to read config for " + componentId + ", for path " + customPath);
+            logger.error("Unable to read config for " + componentId
+                    + ", for path " + customPath, t);
+            throw new DashboardException("Unable to read config for "
+                    + componentId + ", for path " + customPath);
         }
     }
 
     private Config loadConfig(File f) throws Exception {
-        return new GsonBuilder().create().fromJson(new FileReader(f), Config.class);
+        return new GsonBuilder().create().fromJson(new FileReader(f),
+                Config.class);
     }
 
     protected String getCustomConfigPathForUserDomain(EdOrgKey edOrgKey) {
-        if (edOrgKey != null) {
-			return edOrgKey.getDistrictId();
-		}
-		return null;
+
+        return edOrgKey == null ? null : edOrgKey.getDistrictId();
     }
 
     @Override
-    public Config getComponentConfig(CustomConfig customConfig, EdOrgKey edOrgKey, String componentId) {
+    public Config getComponentConfig(CustomConfig customConfig,
+            EdOrgKey edOrgKey, String componentId) {
         if (customConfig != null) {
             Config customComponentConfig = customConfig.get(componentId);
             if (customComponentConfig != null) {
                 return customComponentConfig;
             }
         }
-        return getConfigByPath(getCustomConfigPathForUserDomain(edOrgKey), componentId);
+        return getConfigByPath(customConfig, getCustomConfigPathForUserDomain(edOrgKey),
+                componentId);
     }
 
     public void setConfigPersistor(ConfigPersistor configPersistor) {
@@ -297,7 +316,8 @@ public class ConfigManagerImpl implements ConfigManager {
 
     @Override
     @Cacheable(cacheName = "user.config.widget")
-    public Collection<Config> getWidgetConfigs(CustomConfig customConfig, EdOrgKey edOrgKey) {
+    public Collection<Config> getWidgetConfigs(CustomConfig customConfig,
+            EdOrgKey edOrgKey) {
         // id to config map
         Map<String, Config> widgets = new HashMap<String, Config>();
         Config config;
@@ -313,7 +333,8 @@ public class ConfigManagerImpl implements ConfigManager {
             try {
                 config = loadConfig(f);
             } catch (Exception t) {
-                logger.error("Unable to read config " + f.getName() + ". Skipping file", t);
+                logger.error("Unable to read config " + f.getName()
+                        + ". Skipping file", t);
                 continue;
             }
             // assemble widgets

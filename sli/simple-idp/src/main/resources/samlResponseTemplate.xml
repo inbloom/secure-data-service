@@ -11,16 +11,8 @@
   <saml:Assertion ID="__ASSERTION_ID__" Version="2.0" IssueInstant="__ISSUE_INSTANT__">
     <saml:Issuer>__ISSUER__</saml:Issuer>
     <saml:AttributeStatement>
-         <saml:Attribute Name="roles">
-            __ROLE_ELEMENTS__
-         </saml:Attribute>
-         <saml:Attribute Name="userId">
-            <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">__USER_ID__</saml:AttributeValue>
-         </saml:Attribute>
-         <saml:Attribute Name="userName">
-            <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">__USER_NAME__</saml:AttributeValue>
-         </saml:Attribute>
-      </saml:AttributeStatement>
+		__ATTRIBUTES__
+    </saml:AttributeStatement>
   </saml:Assertion>
   
 </samlp:Response>

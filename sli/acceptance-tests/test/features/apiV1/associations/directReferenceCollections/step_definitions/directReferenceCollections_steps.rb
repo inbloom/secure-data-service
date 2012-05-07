@@ -14,7 +14,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 
   # values to support the test for whether or not to display links
   id = "schools"                                if human_readable_id == "URI FOR ENTITY THAT CAN RETURN LINKS"
-  id = "8cc0a1ac-ccb5-dffc-1d74-32964722179b"   if human_readable_id == "ID OF ENTITY THAT CAN RETURN LINKS"
+  id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"   if human_readable_id == "ID OF ENTITY THAT CAN RETURN LINKS"
 
   #values to support direct entity reference tests
   id = @referring_collection_expose_name        if human_readable_id == "REFERRING COLLECTION URI"

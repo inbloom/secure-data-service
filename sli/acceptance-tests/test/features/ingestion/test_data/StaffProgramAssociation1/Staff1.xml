@@ -118,4 +118,65 @@
 		<LoginId>a</LoginId>
 		<HighlyQualifiedStaff>false</HighlyQualifiedStaff>
 	</Staff>
+	<!-- linda.kim and rbraverman to ACC-TEST-PROG-1 and ACC-TEST-PROG-2 -->
+	<StaffProgramAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<ProgramReference>
+			<ProgramIdentity>
+				<ProgramId>ACC-TEST-PROG-1</ProgramId>
+			</ProgramIdentity>
+		</ProgramReference>
+		<ProgramReference>
+			<ProgramIdentity>
+				<ProgramId>ACC-TEST-PROG-2</ProgramId>
+			</ProgramIdentity>
+		</ProgramReference>
+		<BeginDate>2011-01-05</BeginDate>
+		<EndDate>2012-02-15</EndDate>
+		<StudentRecordAccess>true</StudentRecordAccess>
+	</StaffProgramAssociation>
+	<!-- linda.kim to ACC-TEST-PROG-3 -->
+	<StaffProgramAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<ProgramReference>
+			<ProgramIdentity>
+				<ProgramId>ACC-TEST-PROG-3</ProgramId>
+			</ProgramIdentity>
+		</ProgramReference>
+		<BeginDate>2011-06-01</BeginDate>
+		<StudentRecordAccess>false</StudentRecordAccess>
+	</StaffProgramAssociation>
+	<!-- rbraverman and cgray to ACC-TEST-PROG-3 -->
+	<StaffProgramAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>cgray</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<ProgramReference>
+			<ProgramIdentity>
+				<ProgramId>ACC-TEST-PROG-3</ProgramId>
+			</ProgramIdentity>
+		</ProgramReference>
+		<BeginDate>2011-01-01</BeginDate>
+		<StudentRecordAccess>false</StudentRecordAccess>
+  </StaffProgramAssociation>
 </InterchangeStaffAssociation>
