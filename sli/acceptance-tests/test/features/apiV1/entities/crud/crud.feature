@@ -115,7 +115,7 @@ Examples:
 | "school"                       | schools                 | 5 |
 | "section"                      | sections                | 6 |
 | "session"                      | sessions                | 5 |
-| "staff"                        | staff                   | 11 |
+| "staff"                        | staff                   | 17 |
 | "student"                      | students                | 80 |
 | "studentAcademicRecord"        | studentAcademicRecords  | 7 |
 | "studentSectionGradebookEntry" | studentGradebookEntries | 4 |
