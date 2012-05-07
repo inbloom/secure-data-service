@@ -23,6 +23,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import com.google.common.collect.Lists;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -35,7 +37,10 @@ import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -59,6 +64,9 @@ public class RealmRoleManagerResource {
     private RoleRightAccess       roleRightAccess;
     
     private EntityService         service;
+    
+    @Autowired
+    private Repository<Entity> repo;
     
     @PostConstruct
     public void init() {
@@ -100,8 +108,11 @@ public class RealmRoleManagerResource {
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) updatedRealm.get("mappings");
         if (mappings != null) {
             Response validateResponse = validateMappings(mappings);
+            Response validateUniqueId = validateUniqueId(realmId, (String) updatedRealm.get("uniqueIdentifier"));
             if (validateResponse != null) {
                 return validateResponse;
+            } else if (validateUniqueId != null) {
+                return validateUniqueId;
             }
         }
         Map<String, List<Map<String, Object>>> oldMappings = (Map<String, List<Map<String, Object>>>) oldRealm.get("mappings");
@@ -147,9 +158,11 @@ public class RealmRoleManagerResource {
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) newRealm.get("mappings");
         if (mappings != null) {
             Response validateResponse = validateMappings(mappings);
-            
+            Response validateUniqueId = validateUniqueId(null, (String) newRealm.get("uniqueIdentifier"));
             if (validateResponse != null) {
                 return validateResponse;
+            } else if (validateUniqueId != null) {
+                return validateUniqueId;
             }
         }
         
@@ -223,6 +236,23 @@ public class RealmRoleManagerResource {
                 
                 clientRoles.add(clientRole);
             }
+        }
+        return null;
+    }
+    
+    private Response validateUniqueId(String realmId, String uniqueId) {
+        if (uniqueId == null || uniqueId.length() == 0) {
+            return null;
+        }
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("uniqueIdentifier", "=", uniqueId));
+//        Iterable<Entity> entities = repo.findAll("realm", query);
+        List<String> ids = Lists.newArrayList(service.listIds(query));
+        ids.remove(realmId);
+        if (ids != null && ids.iterator().hasNext()) {
+            Map<String, String> res = new HashMap<String, String>();
+            res.put("response", "Cannot have duplicate unique identifiers");
+            return Response.status(Status.BAD_REQUEST).entity(res).build();
         }
         return null;
     }
