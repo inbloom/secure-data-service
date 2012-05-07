@@ -32,3 +32,5 @@ simpleIDP_realm_params: "response_type=code&client_id=fm67sH6vZZ&redirect_uri=ht
 simpleIDP_login_url: "http://local.slidev.org:8082/simple-idp"
 simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
 simpleIDP_realm_suffix: "Local"
+
+ldap.hostname: ldap.slidev.org
