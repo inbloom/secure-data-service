@@ -80,7 +80,7 @@ And the grades teardrop color widgets for "SpringSemester2010-2011;FallSemester2
  |F    |teardrop-red       |
 And I click on student "Matt Sollars"
 And I see a header on the page that has the text "Logout"
-And I see a footer on the page that has the text "Proprietary Information"
+#And I see a footer on the page that has the text "Proprietary Information"
 And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
 And their id shown in proflie is "800000025"
@@ -217,7 +217,7 @@ And Student Enrollment History has the following entries:
 |<empty>   |South Daybreak Elementary  |1   |2011-09-05 |Next year school                           |<empty>  |<empty>        |<empty>            |
 |<empty>   |South Daybreak Elementary  |K   |2010-09-03 |Original entry into a United States school |<empty>  |2011-05-11     |End of school year |
 And I see a header on the page that has the text "Logout"
-And I see a footer on the page that has the text "Proprietary Information"
+#And I see a footer on the page that has the text "Proprietary Information"
 
 @integration
 Scenario: View Carmen Ortiz
@@ -311,7 +311,7 @@ And Student Enrollment History has the following entries:
 |<empty>|<empty>                |5 |2005-09-09 |Transfer from a private, religiously-affiliated school in the same local education agency|<empty>   |2006-05-15     |Exited             |
 |<empty>|<empty>                |2 |2002-09-12 |Transfer from a school outside of the country                                         |<empty>      |2003-04-12     |Expelled or involuntarily withdrawn|
 And I see a header on the page that has the text "Logout"
-And I see a footer on the page that has the text "Proprietary Information"
+#And I see a footer on the page that has the text "Proprietary Information"
 When I click on "Assessment" Tab
 And Assessment History includes results for:
 |Test       |
