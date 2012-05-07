@@ -11,19 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
@@ -39,6 +26,18 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -139,21 +138,7 @@ public class BasicService implements EntityService {
         }
 
         if (allowed.size() > 0) {
-            Set<Object> binIds = new HashSet<Object>();
-            for (String id : allowed) {
-                binIds.add(idConverter.toDatabaseId(id));
-            }
-            neutralQuery.addCriteria(new NeutralCriteria("_id", "in", binIds));
-
-            List<String> results = new ArrayList<String>();
-            Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
-
-            for (Entity entity : entities) {
-                results.add(entity.getEntityId());
-            }
-
-            return results;
-
+            return allowed;
         } else { // super list logic --> only true when using DefaultEntityContextResolver
             List<String> results = new ArrayList<String>();
             Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
