@@ -1,6 +1,5 @@
 package org.slc.sli.api.security.context.resolver;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.common.constants.EntityNames;
@@ -76,16 +75,12 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
      * @return
      */
     protected String getFilterDate(String gracePeriod, Calendar calendar) {
-        if (gracePeriod != null && !gracePeriod.equals("")
-                && !gracePeriod.equals("-1")) {
+        if (gracePeriod != null && !gracePeriod.equals("")) {
             int numDays = Integer.parseInt(gracePeriod) * -1;
-
             calendar.add(Calendar.DATE, numDays);
-
-            return String.format("%1$tY-%1$tm-%1$td", calendar);
         }
 
-        return StringUtils.EMPTY;
+        return String.format("%1$tY-%1$tm-%1$td", calendar);
     }
 
     /**
