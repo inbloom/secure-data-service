@@ -165,7 +165,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         ConfigMap configMap = getCustomConfig(token, edOrgKey);
         Config customComponentConfig = null;
         // if api has config, use it, otherwise, try local config
-        if (configMap != null) {
+        if (configMap != null && !configMap.isEmpty()) {
             customComponentConfig = configMap.getComponentConfig(componentId);
         } else {
             try {

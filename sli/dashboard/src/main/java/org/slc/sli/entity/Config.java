@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -278,6 +279,7 @@ public class Config implements Cloneable {
     protected Type type = Type.FIELD;
     protected Condition condition;
     protected Data data;
+    @Valid
     protected Item[] items;
     protected String root;
 

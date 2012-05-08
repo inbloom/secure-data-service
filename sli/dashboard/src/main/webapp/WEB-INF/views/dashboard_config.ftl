@@ -46,7 +46,7 @@
                         contentType: 'application/json',
                         success: function(status){
                             if(status == "Success") {
-                                alert("Successfully saved the config. Please logout and log back in to see the changes.");
+                                alert("Successfully saved the config.");
                             } else if(status == "Permission Denied") {
                                 alert("Permission Denied, You are not allowed to do this opertaion.");
                             } else if(status == "Invalid Input") {
@@ -54,11 +54,7 @@
                             }
                         },
                         error: $("body").ajaxError( function(event, request, settings) {
-                            if (request.responseText == "") {
-                                $(location).attr('href',$(location).attr('href'));
-                            } else {
-                                $(location).attr('href', contextRootPath + "/exception");
-                            }
+                            alert("The input should be a valid JSON string");
                         }),
                     });
                 });

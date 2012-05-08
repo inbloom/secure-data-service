@@ -153,7 +153,7 @@ public class LiveAPIClient implements APIClient {
 
     @LogExecutionTime
     private <T> void putEntityToAPI(String url, String token, T entity) {
-        restClient.putJsonRequestWHeaders(url, token,  gson.toJson(entity));
+        restClient.putJsonRequestWHeaders(url, token, gson.toJson(entity));
     }
 
     /**
