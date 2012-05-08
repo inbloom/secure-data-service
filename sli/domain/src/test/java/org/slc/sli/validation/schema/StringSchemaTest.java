@@ -6,9 +6,9 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -19,8 +19,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StringSchemaTest {
 
-    @Autowired
+//	@Autowired
     StringSchema schema;
+
+    @Before
+    public void setup() {
+    	schema = new StringSchema();
+    }
 
     @Test
     public void testStringValidation() throws IllegalArgumentException {
@@ -64,15 +69,16 @@ public class StringSchemaTest {
 
     @Test
     public void testBlacklist() {
-        List<String> blacklistPatterns = new ArrayList<String>();
-        blacklistPatterns.add("testPattern1");
-        blacklistPatterns.add("testPattern2");
-        blacklistPatterns.add("testPattern3");
-        schema.initializeBlacklistPatterns(blacklistPatterns);
+    	List<String> blacklistPatterns = new ArrayList<String>();
+    	blacklistPatterns.add("testPattern1");
+    	blacklistPatterns.add("testPattern2");
+    	blacklistPatterns.add("testPattern3");
 
-        assertTrue(schema.validate("This doesn't have the right testPattern and so is valid"));
-        assertFalse(schema.validate("This fails due to the testPattern1 pattern"));
-        assertFalse(schema.validate("This fails due to the case-insensitive TeStPatTeRn2 pattern"));
+    	StringSchema blacklistSchema = new StringSchema(blacklistPatterns);
+
+        assertTrue(blacklistSchema.validate("This doesn't have the right testPattern and so is valid"));
+        assertFalse(blacklistSchema.validate("This fails due to the testPattern1 pattern"));
+        assertFalse(blacklistSchema.validate("This fails due to the case-insensitive TeStPatTeRn2 pattern"));
     }
 
 }

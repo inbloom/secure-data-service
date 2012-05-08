@@ -45,7 +45,7 @@ public class StringSchema extends NeutralSchema {
     	initializeBlacklistPatterns(validationBlacklist);
     }
 
-    protected void initializeBlacklistPatterns(List<String> validationBlacklist) {
+    private void initializeBlacklistPatterns(List<String> validationBlacklist) {
     	blacklistPatterns = new ArrayList<Pattern>();
 
     	if (validationBlacklist == null) {

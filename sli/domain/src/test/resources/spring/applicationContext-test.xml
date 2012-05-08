@@ -17,9 +17,6 @@
   <bean id="validationBlacklist" class = "java.util.ArrayList">
     <constructor-arg>
       <list>
-        <value>testPattern1</value>
-        <value>testPattern2</value>
-        <value>testPattern3</value>
       </list>
     </constructor-arg>
   </bean>
