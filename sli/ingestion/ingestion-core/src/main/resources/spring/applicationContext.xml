@@ -53,58 +53,6 @@
     </property>
   </bean>
 
-   <bean id="jms-hornetq-maestro" class="org.apache.camel.component.jms.JmsComponent">
-    <property name="connectionFactory">
-      <bean factory-method="createConnectionFactoryWithoutHA" class="org.hornetq.api.jms.HornetQJMSClient">
-        <constructor-arg>
-          <util:constant static-field="org.hornetq.api.jms.JMSFactoryType.CF" />
-        </constructor-arg>
-        <constructor-arg>
-          <bean class="org.hornetq.api.core.TransportConfiguration">
-            <constructor-arg index="0">
-              <value>org.hornetq.core.remoting.impl.netty.NettyConnectorFactory</value>
-            </constructor-arg>
-            <constructor-arg index="1">
-              <map>
-                <entry key="host" value="${sli.ingestion.queue.maestro.host}" />
-                <entry key="port" value="${sli.ingestion.queue.maestro.port}" />
-                <entry key="ssl-enabled" value="true" />
-                <entry key="key-store-path" value="${sli.ingestion.queue.maestro.keystore}" />
-                <entry key="key-store-password" value="${sli.ingestion.queue.maestro.keystorePassword}" />
-              </map>
-            </constructor-arg>
-          </bean>
-        </constructor-arg>
-      </bean>
-    </property>
-  </bean>
-  
-   <bean id="jms-hornetq-pit" class="org.apache.camel.component.jms.JmsComponent">
-    <property name="connectionFactory">
-      <bean factory-method="createConnectionFactoryWithoutHA" class="org.hornetq.api.jms.HornetQJMSClient">
-        <constructor-arg>
-          <util:constant static-field="org.hornetq.api.jms.JMSFactoryType.CF" />
-        </constructor-arg>
-        <constructor-arg>
-          <bean class="org.hornetq.api.core.TransportConfiguration">
-            <constructor-arg index="0">
-              <value>org.hornetq.core.remoting.impl.netty.NettyConnectorFactory</value>
-            </constructor-arg>
-            <constructor-arg index="1">
-              <map>
-                <entry key="host" value="${sli.ingestion.queue.pit.host}" />
-                <entry key="port" value="${sli.ingestion.queue.pit.port}" />
-                <entry key="ssl-enabled" value="true" />
-                <entry key="key-store-path" value="${sli.ingestion.queue.pit.keystore}" />
-                <entry key="key-store-password" value="${sli.ingestion.queue.pit.keystorePassword}" />
-              </map>
-            </constructor-arg>
-          </bean>
-        </constructor-arg>
-      </bean>
-    </property>
-  </bean>
-
   <!-- Main application context, contains all other contexts in /spring -->
   <import resource="smooks-context.xml" />
   <import resource="camel-context.xml" />
@@ -174,6 +122,7 @@
     <property name="entityPersistHandler" ref="entityPersistHandler" />
     <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler"></property>
     <property name="persistedCollections" ref="persistedEntities" />
+    <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
   </bean>
   
   <bean id="WorkNoteAggregator" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteAggregator" />

@@ -1,11 +1,16 @@
 package org.slc.sli.ingestion;
 
+import java.io.Serializable;
+
 /**
  * Unit of work, chunked by Maestro, to be executed by a member of the orchestra (pit).
  *
  * @author shalka
  */
-public class WorkNoteImpl implements WorkNote {
+public class WorkNoteImpl implements WorkNote, Serializable {
+
+    private static final long serialVersionUID = 7526472295622776147L;
+
     private String batchJobId;
     private String collection;
     private long rangeMinimum;
