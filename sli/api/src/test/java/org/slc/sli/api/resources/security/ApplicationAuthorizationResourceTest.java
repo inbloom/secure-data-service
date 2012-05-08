@@ -1,18 +1,6 @@
 package org.slc.sli.api.resources.security;
 
-import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-
+import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -42,6 +31,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import static junit.framework.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 /**
  *
  * @author pwolf
@@ -58,6 +59,8 @@ public class ApplicationAuthorizationResourceTest {
     @Autowired
     @InjectMocks private ApplicationAuthorizationResource resource;
 
+    @Autowired
+    SecurityContextInjector securityContextInjector;
 
     @Mock EntityService service;
 
@@ -226,6 +229,7 @@ public class ApplicationAuthorizationResourceTest {
         Authentication mockAuth = Mockito.mock(Authentication.class);
         ArrayList<GrantedAuthority> rights = new ArrayList<GrantedAuthority>();
         rights.add(Right.ADMIN_ACCESS);
+        rights.add(Right.EDORG_APP_AUTHZ);
         Mockito.when(mockAuth.getAuthorities()).thenReturn(rights);
         SLIPrincipal principal = new SLIPrincipal();
         principal.setEdOrg(edorg);
