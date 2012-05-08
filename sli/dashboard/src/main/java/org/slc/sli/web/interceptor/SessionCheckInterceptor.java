@@ -14,7 +14,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.google.gson.JsonObject;
 
 /**
- * 
+ * Intercepts all incoming requests and ensures user is authenticated against api
  * @author svankina
  *
  */
@@ -30,11 +30,17 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
         this.restClient = restClient;
     }
 
+    /**
+     * Prehandle performs a session check on all incoming requests to ensure a user with an active spring securoty session,
+     *  is still authenticated against the api.
+     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = SecurityUtil.getToken();
 
         JsonObject json = restClient.sessionCheck(token);
+        
+        // If the user is not authenticated, expire the cookie and set oauth_token to null
         if (!json.get("authenticated").getAsBoolean()) {
             SecurityContextHolder.getContext().setAuthentication(null);
             HttpSession session = request.getSession();

@@ -114,11 +114,14 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         //If there is no oauth credential, and the user has a dashboard cookie, add cookie value as oauth session attribute.
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
+            
+            // Loop through cookies to find dashboard cookie
             for (Cookie c : cookies) {
                 if (c.getName().equals(DASHBOARD_COOKIE)) {
                     if (session.getAttribute(OAUTH_TOKEN) == null) {
                         JsonObject json = restClient.sessionCheck(c.getValue());
                         
+                        //If user is not authenticated, expire the cookie, else set OAUTH_TOKEN to cookie value and continue
                         if (!json.get("authenticated").getAsBoolean()) {
                             c.setMaxAge(0);
                         } else {
