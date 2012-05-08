@@ -120,12 +120,8 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap.put(EntityNames.EDUCATION_ORGANIZATION,
                 SecurityNodeBuilder.buildNode(EntityNames.EDUCATION_ORGANIZATION)
                         .addConnection(EntityNames.STAFF, "staffReference", ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
-<<<<<<< HEAD
                         .addConnection(EntityNames.STUDENT, "studentId", ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, studentGracePeriodNodeFilter)
-                        .addConnection(EntityNames.SCHOOL, "parentEducationAgencyReference", "")
-=======
                         .addConnection(EntityNames.SCHOOL, "", "")
->>>>>>> Fixing hole in seeing too many teachers as staff.
                         .addConnection(EntityNames.PROGRAM, "programReference", "") //TODO: fix XSD
                         .addConnection(EntityNames.SECTION, "schoolId", "")
                         .construct());
