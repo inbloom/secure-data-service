@@ -6,8 +6,8 @@
 		<% if not @edOrgs.empty? %>
 			<% @edOrgs.each do |org| %>
 				<div class="provisionBlock">
-					<%= radio_button_tag 'ed_org', org %>
-					<label for="ed_org_<%= org.gsub(/\s/, '_') %>"><%= org %></label>
+					<%= radio_button_tag 'ed_org', org.stateUniqueId %>
+					<label for="ed_org_<%= org.stateUniqueId %>"><%= org.nameOfInstitution %></label>
 				</div>
 			<% end %>
 			<div class="provisionBlock">
@@ -22,40 +22,8 @@
 			<label for="custom_ed_org">State organization Id of Ed Org</label>
 		</div>
 		<div class="provisionButtons">
-			<input name="cancel" type="submit" value="Cancel" id="cancelButton"/>
+			<input name="cancel" type="submit" value="Cancel" id="cancelButton" disabled="true"/>
 			<input name="commit" type="submit" value="Provision" id="provisionButton"/>
 		</div>
 	</form>
-</div>
-<div class="sidebar">
-<script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
-<script>
-new TWTR.Widget({
-  version: 2,
-  type: 'search',
-  search: 'education technology',
-  interval: 30000,
-  title: 'Whats going on',
-  subject: 'In education and technology?',
-  width: 250,
-  height: 300,
-  theme: {
-    shell: {
-      background: '#8ec1da',
-      color: '#ffffff'
-    },
-    tweets: {
-      background: '#ffffff',
-      color: '#444444',
-      links: '#1985b5'
-    }
-  },
-  features: {
-    scrollbar: false,
-    loop: true,
-    live: true,
-    behavior: 'default'
-  }
-}).render().start();
-</script>
 </div>

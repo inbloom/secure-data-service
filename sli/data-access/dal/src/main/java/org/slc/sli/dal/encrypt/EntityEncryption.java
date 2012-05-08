@@ -64,12 +64,14 @@ public class EntityEncryption {
 
     public Object decryptSingleValue(Object value) {
         if (!(value instanceof String)) {
-            LOG.warn("Value was expected to be encrypted but wasn't: {}", value);
+//            DE260: The log below is possibly a security hole!
+//            LOG.warn("Value was expected to be encrypted but wasn't: {}", value);
             return value;
         }
         Object decrypted = aes.decrypt((String) value);
         if (decrypted == null) {
-            LOG.warn("Value was expected to be encrypted but wasn't: {}", value);
+//            DE260: The log below is possibly a security hole!
+//            LOG.warn("Value was expected to be encrypted but wasn't: {}", value);
             return value;
         }
         return decrypted;
@@ -112,11 +114,13 @@ public class EntityEncryption {
                             if (item instanceof String) {
                                 newValue = aes.decrypt((String) item);
                                 if (newValue == null) {
-                                    LOG.warn("Data was expected to be encrypted but wasn't: {} = {}", piiField.getKey(), item);
+//                                    DE260: The log below is possibly a security hole!
+//                                    LOG.warn("Data was expected to be encrypted but wasn't: {} = {}", piiField.getKey(), item);
                                     newValue = item;
                                 }
                             } else {
-                                LOG.warn("Data was expected to be encrypted but wasn't: {} = {}", piiField.getKey(), item);
+//                                DE260: The log below is possibly a security hole!
+//                                LOG.warn("Data was expected to be encrypted but wasn't: {} = {}", piiField.getKey(), item);
                                 newValue = item;
                             }
                         }
@@ -132,11 +136,13 @@ public class EntityEncryption {
                     if (fieldValue instanceof String) {
                         newValue = aes.decrypt((String) fieldValue);
                         if (newValue == null) {
-                            LOG.warn("Data was expected to be encrypted but wasn't: {} = {}", piiField.getKey(), fieldValue);
+//                            DE260: The log below is possibly a security hole!
+//                            LOG.warn("Data was expected to be encrypted but wasn't: {} = {}", piiField.getKey(), fieldValue);
                             newValue = fieldValue;
                         }
                     } else {
-                        LOG.warn("Data was expected to be encrypted but wasn't: {} = {}", piiField.getKey(), fieldValue);
+//                        DE260: The log below is possibly a security hole!
+//                        LOG.warn("Data was expected to be encrypted but wasn't: {} = {}", piiField.getKey(), fieldValue);
                         newValue = fieldValue;
                     }
                 }
