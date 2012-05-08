@@ -32,7 +32,7 @@ public class NodeInfo {
     @PostConstruct
     public void init() {
 
-        LOG.info("Starting node with uuid: {} and node type: ", uuid, ingestionNodeType);
+        LOG.info("Starting node with uuid: {} and node type: {}", uuid, ingestionNodeType);
 
     }
 
