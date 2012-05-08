@@ -1,6 +1,5 @@
 package org.slc.sli.ingestion.model;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,9 +9,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import org.slc.sli.common.util.performance.PutResultInContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultsReport;
@@ -20,6 +16,8 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Model for ingestion jobs.
@@ -276,17 +274,18 @@ public class NewBatchJob implements Job {
         }
 
         // assign neutral record files to IngestionFileEntry
-        for (ResourceEntry resourceEntry : resourceEntries) {
-            if (FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())
-                    && resourceEntry.getResourceName() != null) {
-                for (IngestionFileEntry ife : ingestionFileEntries) {
-                    if (ife.getFileName().equals(resourceEntry.getExternallyUploadedResourceId())) {
-                        ife.setNeutralRecordFile(new File(resourceEntry.getResourceName()));
-                        break;
-                    }
-                }
-            }
-        }
+        // for (ResourceEntry resourceEntry : resourceEntries) {
+        // if
+        // (FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())
+        // && resourceEntry.getResourceName() != null) {
+        // for (IngestionFileEntry ife : ingestionFileEntries) {
+        // if (ife.getFileName().equals(resourceEntry.getExternallyUploadedResourceId())) {
+        // ife.setNeutralRecordFile(new File(resourceEntry.getResourceName()));
+        // break;
+        // }
+        // }
+        // }
+        // }
         return ingestionFileEntries;
     }
 

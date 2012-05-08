@@ -14,16 +14,12 @@ import java.util.Map.Entry;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.model.Error;
@@ -34,6 +30,10 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Writes out a job report and any errors/warnings associated with the job.
@@ -55,6 +55,9 @@ public class JobReportingProcessor implements Processor {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
+    @Autowired
+    private NeutralRecordMongoAccess neutralRecordMongoAccess;
+    
     @Override
     public void process(Exchange exchange) {
 
@@ -82,8 +85,8 @@ public class JobReportingProcessor implements Processor {
         } catch (Exception e) {
             LOG.error("Exception encountered in JobReportingProcessor. ", e);
         } finally {
-            deleteNeutralRecordFiles(job);
-
+            neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
+            LOG.info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
             if (job != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, job);
                 batchJobDAO.saveBatchJob(job);
@@ -273,21 +276,17 @@ public class JobReportingProcessor implements Processor {
 
     // TODO move this into a dedicated cleanup processor routing stage run on error or normal
     // completion
-    private void deleteNeutralRecordFiles(NewBatchJob job) {
-        for (ResourceEntry resourceEntry : job.getResourceEntries()) {
-            if (resourceEntry.getResourceName() != null
-                    && FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
-                File nrFile = new File(resourceEntry.getResourceName());
-                if (!nrFile.delete()) {
-                    LOG.warn("Failed to delete neutral record file " + resourceEntry.getResourceName());
-                }
-            }
-        }
-    }
-
-    private String getBatchJobId(Exchange exchange) {
-        return exchange.getIn().getHeader("BatchJobId", String.class);
-    }
+    // private void deleteNeutralRecordFiles(NewBatchJob job) {
+    // for (ResourceEntry resourceEntry : job.getResourceEntries()) {
+    // if (resourceEntry.getResourceName() != null
+    // && FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
+    // File nrFile = new File(resourceEntry.getResourceName());
+    // if (!nrFile.delete()) {
+    // LOG.warn("Failed to delete neutral record file " + resourceEntry.getResourceName());
+    // }
+    // }
+    // }
+    // }
 
     private void missingBatchJobIdError(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");

@@ -7,15 +7,13 @@ import org.milyn.delivery.sax.SAXElement;
 import org.milyn.delivery.sax.SAXElementVisitor;
 import org.milyn.delivery.sax.SAXText;
 import org.milyn.delivery.sax.annotation.StreamResultWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
@@ -33,22 +31,19 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     private final String beanId;
     private final String batchJobId;
-    private final NeutralRecordFileWriter nrfWriter;
     private final ErrorReport errorReport;
     private final IngestionFileEntry fe;
 
-    private SmooksEdFiVisitor(String beanId, String batchJobId, NeutralRecordFileWriter nrfWriter,
-            ErrorReport errorReport, IngestionFileEntry fe) {
+    private SmooksEdFiVisitor(String beanId, String batchJobId, ErrorReport errorReport, IngestionFileEntry fe) {
         this.beanId = beanId;
         this.batchJobId = batchJobId;
-        this.nrfWriter = nrfWriter;
         this.errorReport = errorReport;
         this.fe = fe;
     }
 
-    public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, NeutralRecordFileWriter nrfWriter,
-            ErrorReport errorReport, IngestionFileEntry fe) {
-        return new SmooksEdFiVisitor(beanId, batchJobId, nrfWriter, errorReport, fe);
+    public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, ErrorReport errorReport, 
+            IngestionFileEntry fe) {
+        return new SmooksEdFiVisitor(beanId, batchJobId, errorReport, fe);
     }
 
     @Override
@@ -58,21 +53,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         if (terminationError == null) {
 
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
-
-            boolean writeRecord = true;
-
-            if (neutralRecord.getRecordType().equals("studentAcademicRecord") && neutralRecord.getRecordId() != null) {
-                writeRecord = false;
-            }
-
-            if (writeRecord) {
-
-                // Write NeutralRecord to file
-                nrfWriter.writeRecord(neutralRecord);
-
-                // write NeutralRecord to mongodb staging database
-                nrMongoStagingWriter.writeResource(neutralRecord, batchJobId);
-            }
+            nrMongoStagingWriter.writeResource(neutralRecord, batchJobId);
 
         } else {
 
