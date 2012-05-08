@@ -28,32 +28,32 @@
     <!-- SLI Error Page Definitions -->
   	<error-page>
   		<error-code>500</error-code>
-  		<location>/exception?errorType=500</location>
+  		<location>/exception</location>
 	</error-page>
 
   	<error-page>
   		<error-code>415</error-code>
-  		<location>/exception?errorType=exception</location>
+  		<location>/exception</location>
 	</error-page>
 
   	<error-page>
   		<error-code>404</error-code>
-  		<location>/exception?errorType=404</location>
+  		<location>/exception</location>
 	</error-page>
 
   	<error-page>
   		<error-code>403</error-code>
-  		<location>/exception?errorType=403</location>
+  		<location>/exception</location>
 	</error-page>
 
   	<error-page>
   		<exception-type>java.lang.Throwable</exception-type>
-  		<location>/exception?errorType=exception</location>
+  		<location>/exception</location>
 	</error-page>
 
   	<error-page>
   		<exception-type>java.lang.RuntimeException</exception-type>
-  		<location>/exception?errorType=exception</location>
+  		<location>/exception</location>
 	</error-page>
 
     <session-config>
