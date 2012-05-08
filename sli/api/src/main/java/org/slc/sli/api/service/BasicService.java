@@ -479,9 +479,11 @@ public class BasicService implements EntityService {
             toReturn = treatment.toExposed(toReturn, defn, entity.getEntityId());
         }
 
-        // Blank out fields inaccessible to the user
-        filterFields(toReturn, "");
-
+        if (this.readRight != Right.ANONYMOUS_ACCESS) {
+         // Blank out fields inaccessible to the user
+            filterFields(toReturn, "");
+        }
+        
         return toReturn;
     }
 
