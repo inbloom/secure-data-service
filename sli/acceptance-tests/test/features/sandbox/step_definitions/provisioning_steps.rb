@@ -9,11 +9,17 @@ Transform /^realm "([^"]*)"$/ do |arg1|
   id
 end
 
-When /^I try to access the URI "([^"]*)" with operation "([^"]*)"$/ do |arg1, arg2|
+When /^I try to access the URI "([^"]*)" with operation "([^"]*)" and "([^"]*)" and "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
+
   @format = "application/json"
+  
+  dataObj = {
+      "stateOrganizationId" => arg3,
+      "tenantId" => arg4,
+    }
 
-  data = "{}"
-
+  data = prepareData("application/json", dataObj)
+  
   restHttpPost(arg1, data) if arg2 == "POST"
   restHttpGet(arg1) if arg2 == "GET"
   restHttpPut(arg1, data) if arg2 == "PUT"
