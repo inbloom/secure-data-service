@@ -32,7 +32,7 @@ Background: Nothing yet
     | assessments                 | assessment                 | 3               |
     | schools                     | school                     | 5               |
     | students                    | student                    | 82              |
-    | studentSectionAssociations  | studentSectionAssociation  | 309             |
+    | studentSectionAssociations  | studentSectionAssociation  | 311             |
     | courseOfferings             | sessionCourseAssociation   | 6               |
 
 

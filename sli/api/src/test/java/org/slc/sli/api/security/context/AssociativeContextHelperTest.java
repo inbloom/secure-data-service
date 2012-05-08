@@ -7,11 +7,8 @@ import java.util.Calendar;
 import static junit.framework.Assert.assertEquals;
 
 /**
- * Created with IntelliJ IDEA.
- * User: srupasinghe
- * Date: 5/7/12
- * Time: 10:33 PM
- * To change this template use File | Settings | File Templates.
+ * Unit Tests
+ *
  */
 public class AssociativeContextHelperTest {
 
