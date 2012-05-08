@@ -56,8 +56,8 @@ public class SecurityContextInjector {
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         principal.setExternalId("developer");
         setSecurityContext(principal);
-        
 
+        //TODO why do developers have admin access?
         Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.APP_CREATION };
         PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()

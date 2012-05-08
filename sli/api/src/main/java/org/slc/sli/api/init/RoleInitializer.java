@@ -135,6 +135,7 @@ public class RoleInitializer {
                 .addRights(new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.READ_GENERAL }).build();
     }
 
+    //TODO why do developers have ADMIN_ACCESS? and READ_GENERAL?
     private Role buildAppDeveloper() {
         LOG.info("Building Application Developer default role.");
         return RoleBuilder.makeRole(APP_DEVELOPER)
