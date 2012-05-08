@@ -642,7 +642,7 @@ th.ui-th-column div {
     line-height: 18px;
     margin: 0 0 9px;
 }
-.error-advice {
+.error-advice p {
     color: #999999;
     font-family: Arial,Helvetica,sans-serif;
     font-size: 13px;
@@ -654,6 +654,13 @@ th.ui-th-column div {
     height: 500px;
     margin-left: 0;
     margin-top: 10px;
+}
+.error-advice a {
+    color: #000000;
+    text-decoration: none;
+}
+.error-advice a:hover {
+    text-decoration: underline;
 }
 .error-footer {
     border-top: 2px solid #000000;
