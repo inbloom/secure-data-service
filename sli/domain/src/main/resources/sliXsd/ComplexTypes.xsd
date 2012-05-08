@@ -4376,7 +4376,10 @@
 	</xs:complexType>
 
 	<xs:complexType name="educationOrganization">
-		<xs:annotation>
+	   <xs:annotation>
+            <xs:appinfo>
+                <sli:SecuritySphere>Public</sli:SecuritySphere>
+            </xs:appinfo>
 			<xs:documentation>This entity represents any public or private
 				institution,
 				organization, or agency that provides instructional or
