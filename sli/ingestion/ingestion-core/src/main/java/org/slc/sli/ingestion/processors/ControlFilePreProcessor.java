@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.util.Date;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.dal.security.SecurityEvent;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -46,7 +48,7 @@ public class ControlFilePreProcessor implements Processor {
 
     @Autowired
     private TenantDA tenantDA;
-
+    
     @Value("${sli.ingestion.tenant.deriveTenants}")
     private boolean deriveTenantId;
 
@@ -69,7 +71,6 @@ public class ControlFilePreProcessor implements Processor {
         // TODO handle IOException or other system error
         NewBatchJob newBatchJob = null;
         try {
-
             File fileForControlFile = exchange.getIn().getBody(File.class);
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
 
@@ -92,7 +93,24 @@ public class ControlFilePreProcessor implements Processor {
             ControlFileDescriptor controlFileDescriptor = new ControlFileDescriptor(controlFile, resolvedLandingZone);
 
             setExchangeHeaders(exchange, controlFileDescriptor, newBatchJob);
+            
+            SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha MH
+                    "", // user
+                    "", // targetEdOrg
+                    "processUsingNewBatchJob", // Alpha MH (actionUri)
+                    "Ingestion", // Alpha MH (appId)
+                    "", // origin
+                    "", // executedOn
+                    "", // Alpha MH (Credential - N/A for ingestion)
+                    "", // userOrigin
+                    new Date(), // Alpha MH (timeStamp)
+                    "", // processNameOrId
+                    "ControlFilePreProcessor.class", // className
+                    "INFO", // Alpha MH (logLevel)
+                    "MESSAGE: Ingestion process started."); // Alpha MH (logMessage)
 
+            getSecurityLogData(event);
+            
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
         } finally {
@@ -101,6 +119,11 @@ public class ControlFilePreProcessor implements Processor {
                 batchJobDAO.saveBatchJob(newBatchJob);
             }
         }
+    }
+    
+    // Triggers security logging aspectJ
+    public SecurityEvent getSecurityLogData(SecurityEvent event) {
+        return event;
     }
 
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {

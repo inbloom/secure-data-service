@@ -39,6 +39,15 @@
     </encoder>
   </appender>
 
+  <appender name="SECURITY_FILE" class="ch.qos.logback.core.FileAppender">
+    <File>${logging.path}/Security.log</File>
+    <Append>true</Append>
+    <encoder>
+      <Pattern>%d - %msg%n
+      </Pattern>
+    </encoder>
+  </appender>
+
   <appender name="PERFORMANCE_LOGGER" class="ch.qos.logback.core.FileAppender">
     <File>${logging.path}/performanceStatistics.log</File>
     <Append>true</Append>
@@ -69,8 +78,12 @@
     <appender-ref ref="PERF_FILE" />
   </logger>
 
+  <logger name="Job.SecurityMonitor" level="INFO">
+    <appender-ref ref="SECURITY_FILE" />
+  </logger>
+
   <logger name="PerformanceLogger" level="INFO">
     <appender-ref ref="PERFORMANCE_LOGGER" />
   </logger>
-
+  
 </configuration>

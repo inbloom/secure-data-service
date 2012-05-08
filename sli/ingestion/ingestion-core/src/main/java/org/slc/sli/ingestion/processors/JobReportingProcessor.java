@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.dal.security.SecurityEvent;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -294,14 +296,17 @@ public class JobReportingProcessor implements Processor {
 
     private static void writeInfoLine(PrintWriter jobReportWriter, String string) {
         writeLine(jobReportWriter, "INFO", string);
+        writeSecurityLog("INFO", string);
     }
 
     private static void writeErrorLine(PrintWriter jobReportWriter, String string) {
         writeLine(jobReportWriter, "ERROR", string);
+        writeSecurityLog("ERROR", string);
     }
 
     private static void writeWarningLine(PrintWriter jobReportWriter, String string) {
         writeLine(jobReportWriter, "WARN", string);
+        writeSecurityLog("WARN", string);
     }
 
     private static void writeLine(PrintWriter jobReportWriter, String type, String text) {
@@ -328,4 +333,29 @@ public class JobReportingProcessor implements Processor {
             }
         }
     }
+    
+    private static void writeSecurityLog(String messageType, String message) {
+        SecurityEvent event = new SecurityEvent("",  // Alpha MH (tenantId - written in 'message')
+                "", // user
+                "", // targetEdOrg
+                "writeLine", // Alpha MH
+                "Ingestion", // Alpha MH (appId)
+                "", // origin
+                "", // executedOn
+                "", // Alpha MH (credential- N/A for ingestion)
+                "", // userOrigin
+                new Date(), // Alpha MH (timeStamp)
+                "", // processNameOrId
+                "JobReportingProcessor.class", // className 
+                messageType, // Alpha MH (logLevel)
+                message); // Alpha MH (logMessage)
+
+        getSecurityLogData(event);
+    }
+    
+    // Triggers security logging aspectJ
+    public static SecurityEvent getSecurityLogData(SecurityEvent event) {
+        return event;
+    }
+    
 }
