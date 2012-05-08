@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slc.sli.client.RESTClient;
 import org.slc.sli.security.SLIAuthenticationEntryPoint;
+import org.slc.sli.util.Constants;
 import org.slc.sli.util.SecurityUtil;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -41,7 +42,7 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
         JsonObject json = restClient.sessionCheck(token);
         
         // If the user is not authenticated, expire the cookie and set oauth_token to null
-        if (!json.get("authenticated").getAsBoolean()) {
+        if (!json.get(Constants.ATTR_AUTHENTICATED).getAsBoolean()) {
             SecurityContextHolder.getContext().setAuthentication(null);
             HttpSession session = request.getSession();
             session.setAttribute(SLIAuthenticationEntryPoint.OAUTH_TOKEN, null);

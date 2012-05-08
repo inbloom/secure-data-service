@@ -20,6 +20,7 @@ import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 import org.slc.sli.client.RESTClient;
+import org.slc.sli.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -76,7 +77,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         LOG.debug(json.toString());
         
         // If the user is authenticated, create an SLI principal, and authenticate
-        if (json.get("authenticated").getAsBoolean()) {
+        if (json.get(Constants.ATTR_AUTHENTICATED).getAsBoolean()) {
             SLIPrincipal principal = new SLIPrincipal();
             JsonElement nameElement = json.get("full_name");
             String username = nameElement.getAsString();
@@ -117,17 +118,17 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             
             // Loop through cookies to find dashboard cookie
             for (Cookie c : cookies) {
-                if (c.getName().equals(DASHBOARD_COOKIE)) {
-                    if (session.getAttribute(OAUTH_TOKEN) == null) {
+                if (c.getName().equals(DASHBOARD_COOKIE) && (session.getAttribute(OAUTH_TOKEN) == null)) {
+
                         JsonObject json = restClient.sessionCheck(c.getValue());
-                        
+
                         //If user is not authenticated, expire the cookie, else set OAUTH_TOKEN to cookie value and continue
                         if (!json.get("authenticated").getAsBoolean()) {
                             c.setMaxAge(0);
                         } else {
-                        session.setAttribute(OAUTH_TOKEN, c.getValue());
+                            session.setAttribute(OAUTH_TOKEN, c.getValue());
                         }
-                    }
+                    
                 }
             }
         }
@@ -173,6 +174,8 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         } else {
             LOG.debug("Using access token {}", token);
             addAuthentication((String) token);
+            
+            //save the cookie to support sessions across multiple dashboard servers
             Cookie cookie = new Cookie(DASHBOARD_COOKIE, (String) token);
             cookie.setDomain(DASHBOARD_COOKIE_DOMAIN);
             response.addCookie(cookie);

@@ -175,7 +175,8 @@ public final class Constants {
     public static final String ATTR_ERROR_HEADING = "errorHeading";    
     public static final String ATTR_ERROR_CONTENT = "errorContent";    
     public static final String ATTR_ERROR_DETAILS_ENABLED = "debugEnabled";    
-    public static final String ATTR_ERROR_DETAILS = "errorDetails";    
+    public static final String ATTR_ERROR_DETAILS = "errorDetails";
+    public static final String ATTR_AUTHENTICATED = "authenticated";
 
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
