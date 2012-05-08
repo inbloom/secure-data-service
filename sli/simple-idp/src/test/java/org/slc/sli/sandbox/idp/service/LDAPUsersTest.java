@@ -11,8 +11,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 /**
  * Unit tests
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/applicationContext-test.xml" })
+ @RunWith(SpringJUnit4ClassRunner.class)
+ @ContextConfiguration(locations = { "/applicationContext-test.xml" })
 public class LDAPUsersTest {
     
     @Autowired
