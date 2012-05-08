@@ -62,6 +62,7 @@
 
   <!-- Include resources from DAL -->
   <import resource="classpath:/spring/db.xml" />
+  <import resource="classpath:/spring/validation.xml" />
   <import resource="dal-context.xml" />
 
   <!-- debugging only <bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer"> <property name="traceOutExchanges"

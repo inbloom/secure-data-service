@@ -1,13 +1,15 @@
 package org.slc.sli.validation.schema;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
@@ -23,13 +25,37 @@ import org.slc.sli.validation.ValidationError.ErrorType;
 @Component
 public class StringSchema extends NeutralSchema {
 
+	private List<Pattern> blacklistPatterns;
+
     // Constructors
     public StringSchema() {
-        this(NeutralSchemaType.STRING.getName());
+        this(NeutralSchemaType.STRING.getName(), new ArrayList<String>());
     }
 
     public StringSchema(String xsdType) {
-        super(xsdType);
+    	this(xsdType, new ArrayList<String>());
+    }
+
+    public StringSchema(List<String> validationBlacklist) {
+    	this(NeutralSchemaType.STRING.getName(), validationBlacklist);
+    }
+
+    public StringSchema(String xsdType, List<String> validationBlacklist) {
+    	super(xsdType);
+    	initializeBlacklistPatterns(validationBlacklist);
+    }
+
+    private void initializeBlacklistPatterns(List<String> validationBlacklist) {
+    	blacklistPatterns = new ArrayList<Pattern>();
+
+    	if (validationBlacklist == null) {
+    		return;
+    	}
+
+    	for (String patternStr : validationBlacklist) {
+    		Pattern p = Pattern.compile(patternStr, Pattern.CASE_INSENSITIVE);
+    		blacklistPatterns.add(p);
+    	}
     }
 
     // Methods
@@ -38,16 +64,16 @@ public class StringSchema extends NeutralSchema {
     public NeutralSchemaType getSchemaType() {
         return NeutralSchemaType.STRING;
     }
-    
 
-    
+
+
 
     @Override
     public Object convert(Object value) {
         return value;
     }
-    
-    
+
+
 
     /**
      * Validates the given entity
@@ -64,7 +90,8 @@ public class StringSchema extends NeutralSchema {
      *            reference to the entity repository
      * @return true if valid
      */
-    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
+    @Override
+	protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
         if (!addError(String.class.isInstance(entity), fieldName, entity, "String", ErrorType.INVALID_DATATYPE, errors)) {
             return false;
         }
@@ -103,7 +130,11 @@ public class StringSchema extends NeutralSchema {
             }
         }
         if (!isWhitelisted()) {
-            //TODO
+            for (Pattern p : blacklistPatterns) {
+            	if (p.matcher(data).find()) {
+            		return false;
+            	}
+            }
         } else {
             int i = 0;
             ++i;

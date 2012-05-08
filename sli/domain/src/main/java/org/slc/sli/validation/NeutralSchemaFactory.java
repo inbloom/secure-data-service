@@ -1,7 +1,9 @@
 package org.slc.sli.validation;
 
 import java.util.HashMap;
+import java.util.List;
 
+import javax.annotation.Resource;
 import javax.xml.namespace.QName;
 
 import org.springframework.stereotype.Component;
@@ -23,29 +25,32 @@ import org.slc.sli.validation.schema.TimeSchema;
 import org.slc.sli.validation.schema.TokenSchema;
 
 /**
- * 
+ *
  * SLI Schema Factory which creates Schema instances based upon Ed-Fi type.
  * File persistence methods are also provided.
- * 
+ *
  * @author Robert Bloh <rbloh@wgen.net>
- * 
+ *
  */
 @Component
 public class NeutralSchemaFactory implements SchemaFactory {
-    
+
+	@Resource(name="validationBlacklist")
+	private List<String> validationBlacklist;
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.slc.sli.validation.SchemaFactory#createSchema(javax.xml.namespace.QName)
      */
     @Override
     public NeutralSchema createSchema(QName qName) {
         return createSchema(qName.getLocalPart());
     }
-    
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.slc.sli.validation.SchemaFactory#copySchema(org.slc.sli.validation.schema.NeutralSchema)
      */
@@ -57,10 +62,10 @@ public class NeutralSchemaFactory implements SchemaFactory {
         copy.setFields(toCopy.getFields());
         return copy;
     }
-    
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.slc.sli.validation.SchemaFactory#createSchema(java.lang.String)
      */
     @Override
@@ -72,7 +77,7 @@ public class NeutralSchemaFactory implements SchemaFactory {
             return new ComplexSchema(xsd);
         }
     }
-    
+
     private NeutralSchema createSchema(NeutralSchemaType schemaType) {
         switch (schemaType) {
             case BOOLEAN:
@@ -94,11 +99,11 @@ public class NeutralSchemaFactory implements SchemaFactory {
             case DURATION:
                 return new DurationSchema(schemaType.getName());
             case STRING:
-                return new StringSchema(schemaType.getName());
+                return new StringSchema(schemaType.getName(), validationBlacklist);
             case ID:
-                return new StringSchema(schemaType.getName());
+                return new StringSchema(schemaType.getName(), validationBlacklist);
             case IDREF:
-                return new StringSchema(schemaType.getName());
+                return new StringSchema(schemaType.getName(), validationBlacklist);
             case TOKEN:
                 return new TokenSchema(schemaType.getName());
             case LIST:
@@ -113,5 +118,5 @@ public class NeutralSchemaFactory implements SchemaFactory {
                 return null;
         }
     }
-    
+
 }
