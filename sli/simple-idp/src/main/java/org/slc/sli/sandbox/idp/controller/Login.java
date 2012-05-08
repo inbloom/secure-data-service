@@ -75,7 +75,7 @@ public class Login {
             return mav;
         }
 
-        if (realm.equals("SLIAdmin") || !isSandboxImpersonationEnabled) {
+        if (realm.equals(userService.getSLIAdminRealmName()) || !isSandboxImpersonationEnabled) {
             SamlAssertion samlAssertion = samlService.buildAssertion(userId, user.getRoles(), user.getAttributes(), requestInfo);
             ModelAndView mav = new ModelAndView("post");
             mav.addObject("samlAssertion", samlAssertion);
