@@ -23,14 +23,13 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
+import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
@@ -39,6 +38,8 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
@@ -69,6 +70,9 @@ public class JobReportingProcessorTest {
     @Mock
     private BatchJobDAO mockedBatchJobDAO;
 
+    @Mock
+    private NeutralRecordMongoAccess mockedNeutralRecordMongoAccess;
+    
     private static File tmpDir = new File(TEMP_DIR);
 
     @Before
@@ -106,7 +110,7 @@ public class JobReportingProcessorTest {
         mockedJob.setSourceId(TEMP_DIR);
 
         Iterable<Error> fakeErrorIterable = createFakeErrorIterable();
-
+        
         // mock the WorkNote
         WorkNote mockWorkNote = Mockito.mock(WorkNote.class);
         Mockito.when(mockWorkNote.getBatchJobId()).thenReturn(BATCHJOBID);
@@ -115,6 +119,9 @@ public class JobReportingProcessorTest {
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(BATCHJOBID))).thenReturn(mockedJob);
         Mockito.when(mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.anyInt())).thenReturn(fakeErrorIterable);
 
+        NeutralRecordRepository mockedNeutralRecordRepository = Mockito.mock(NeutralRecordRepository.class);
+        Mockito.when(mockedNeutralRecordMongoAccess.getRecordRepository()).thenReturn(mockedNeutralRecordRepository);
+        
         // create exchange
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
         exchange.getIn().setBody(mockWorkNote, WorkNote.class);
