@@ -13,9 +13,9 @@
       </bean>
     </entry>
   </util:map>
-  
-    <bean id="referenceFactory" class="org.slc.sli.ingestion.referenceresolution.ReferenceFactory">
+
+    <bean id="smooksExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SmooksExtendedReferenceResolver">
         <property name="idRefConfigs" ref="idRefConfigs" />
   </bean>
-  
+
 </beans>

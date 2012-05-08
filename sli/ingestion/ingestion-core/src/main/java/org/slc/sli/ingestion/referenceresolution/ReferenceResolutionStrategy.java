@@ -7,5 +7,5 @@ package org.slc.sli.ingestion.referenceresolution;
  */
 public interface ReferenceResolutionStrategy {
 
-    public String resolveReference(String referenceName, String referenceId, String enclosingEntityName, String idContent, String interchangeName);
+    public String resolve(String interchange, String element, String reference, String content);
 }
