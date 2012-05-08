@@ -1,19 +1,27 @@
 package org.slc.sli.ingestion.processors;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.apache.camel.Route;
+import org.apache.camel.builder.RouteBuilder;
 import org.slc.sli.ingestion.routes.IngestionRouteBuilder;
-import org.slc.sli.ingestion.routes.TenantRouteBuilder;
-import org.slc.sli.ingestion.tenant.TenantPopulator;
-import org.slc.sli.ingestion.tenant.TenantRecord;
+import org.slc.sli.ingestion.routes.LandingZoneRouteBuilder;
+import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Processor for tenant on boarding requests
+ * Processor for tenant collection polling
  * 
  * @author jtully
  *
@@ -27,7 +35,7 @@ public class TenantProcessor implements Processor {
     private CamelContext camelContext;
     
     @Autowired
-    private TenantPopulator tenantPopulator;
+    private TenantDA tenantDA;
     
     @Autowired
     private ZipFileProcessor zipFileProcessor;
@@ -35,45 +43,102 @@ public class TenantProcessor implements Processor {
     @Autowired
     private ControlFilePreProcessor controlFilePreProcessor;
     
+    //required to get the work item queue URI
     @Autowired
     private IngestionRouteBuilder ingestionRouteBuilder;
+    
+    public final static String TENANT_POLL_HEADER = "TENANT_POLL_STATUS";
+    public final static String TENANT_POLL_SUCCESS = "SUCCESS";
+    public final static String TENANT_POLL_FAILURE = "FAILURE";
     
     @Override
     public void process(Exchange exchange) throws Exception {
         try {
-            //get the tenant record from the JSON message body
-            String tenantJson = exchange.getIn().getBody(String.class);
-            TenantRecord tenant = TenantRecord.parse(tenantJson);
+            updateLzRoutes();
             
-            //add the tenantRecord to the tenant collection
-            if (!tenantPopulator.addTenant(tenant, true)) {
-                LOG.error("Failed to add tenant to tenant collection");
-                return;
-            }
-            
-            addTenantRoutes(tenant);
-            
-            //set body and headers for response message
-            exchange.getIn().setBody(tenant.toString());
-            exchange.getIn().setHeader("TENANT_STATUS", "SUCCESS");
-            
+            exchange.getIn().setHeader(TENANT_POLL_HEADER, TENANT_POLL_SUCCESS);
+        
         } catch (Exception e) {
-            exchange.getIn().setHeader("TENANT_STATUS", "FAILED");
+            exchange.getIn().setHeader(TENANT_POLL_HEADER, TENANT_POLL_FAILURE);
             LOG.error("Exception encountered adding tenant", e);
+        }
+    }
+
+    
+    /**
+     * Update the landing zone routes based on the tenant DB collection.
+     * @throws Exception 
+     */
+    private void updateLzRoutes() throws Exception {
+        //get the new list of lz paths from the tenant DB collection
+        List<String> newLzPaths = tenantDA.getLzPaths(getHostname()); 
+        Set<String> oldLzPaths = getLzRoutePaths();
+        
+        List<String> routesToAdd = new ArrayList<String>();
+        
+        for (String lzPath : newLzPaths) {
+            if (oldLzPaths.contains(lzPath)) {
+                oldLzPaths.remove(lzPath);
+            } else {
+                routesToAdd.add(lzPath);
+            }
+        }
+        
+        //add new routes
+        addRoutes(routesToAdd);
+        
+        //remove routes for oldLzPaths that were not found in DB collection
+        removeRoutes(oldLzPaths);
+    }
+    
+    /**
+     * Find the landing zones that are currently being monitored by
+     * the ingestion engine.
+     * 
+     * @return a set of the landing zone paths being polled
+     */
+    private Set<String> getLzRoutePaths() {
+        Set<String> routePaths = new HashSet<String>();
+        List<Route> routes = camelContext.getRoutes();
+        for (Route curRoute : routes) {
+            String routeId = curRoute.getId();
+            if (routeId.contains(LandingZoneRouteBuilder.CTRL_POLLER_PREFIX)) {
+                routePaths.add(routeId.replace(LandingZoneRouteBuilder.CTRL_POLLER_PREFIX, ""));
+            }
+        }
+        return routePaths;
+    }
+    
+    /**
+     * Remove routes from camel context.
+     * @throws Exception if a route cannot be removed 
+     */
+    private void removeRoutes(Set<String> routesToRemove) throws Exception{
+        for (String routePath : routesToRemove) {
+            String zipRouteId = LandingZoneRouteBuilder.ZIP_POLLER_PREFIX + routePath;
+            String ctrlRouteId = LandingZoneRouteBuilder.CTRL_POLLER_PREFIX + routePath;
+            //initiate graceful shutdown of these routes
+            camelContext.stopRoute(zipRouteId);
+            camelContext.stopRoute(ctrlRouteId);
         }
     }
     
     /**
-     * Dynamically add the route to the ingestion CamelContext for
-     * the given TenantRecord
-     * 
-     * @throws Exception - thrown if a route cannot be added.
-     * 
+     * Add routes to camel context.
+     * @throws Exception if a route cannot be resolved
      */
-    private void addTenantRoutes(TenantRecord tenant) throws Exception {
-        TenantRouteBuilder tenantRouteBuilder = new TenantRouteBuilder(tenant, 
+    private void addRoutes(List<String> routesToAdd) throws Exception {
+        RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(routesToAdd, 
                 ingestionRouteBuilder.getWorkItemQueueUri(),
                 zipFileProcessor, controlFilePreProcessor);
-        camelContext.addRoutes(tenantRouteBuilder);
+        camelContext.addRoutes(landingZoneRouteBuilder);
+    }
+    
+    /**
+     * Obtain the hostname for the ingestion server running.
+     * @throws UnknownHostException 
+     */
+    private String getHostname() throws UnknownHostException {
+        return InetAddress.getLocalHost().getHostName();
     }
 }
