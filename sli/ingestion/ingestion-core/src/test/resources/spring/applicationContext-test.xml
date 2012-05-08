@@ -33,6 +33,7 @@
   <import resource="validation-context.xml" />
   <import resource="handler-context.xml" />
   <import resource="processor-context.xml" />
+  <import resource="idRefResolution-context.xml" />
 
 
   <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"
@@ -132,4 +133,13 @@
       <ref bean="entityPersistHandler" />
     </property>
   </bean>
+  
+    <bean id="configResourceFactory" class="org.slc.sli.ingestion.referenceresolution.ConfigResourceFactory">
+      <property name="configRootDir" value="classpath:idRefResolution/" />
+  </bean>
+
+ <bean id="refConfigManager" class="org.slc.sli.ingestion.referenceresolution.RefConfigManager">
+     <property name="configFactory" ref="configResourceFactory" />
+ </bean>
+
 </beans>
