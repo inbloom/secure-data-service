@@ -18,8 +18,7 @@ When I login as "linda.kim" "linda.kim1234"
 Then I should be redirected to the Dashboard landing page
 #hitting denied URL
 When I access "/simon"
-Then I am informed that "Page Not Accessible"
-And I am informed that "The page you are requesting is not available"
+And I am informed that "the page that you were looking for could not be found"
 
 @integration
 Scenario: Invalid user login
