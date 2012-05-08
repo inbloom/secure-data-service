@@ -13,9 +13,7 @@ import java.util.Vector;
 
 import com.googlecode.ehcache.annotations.Cacheable;
 
-import org.slc.sli.entity.Config;
 import org.slc.sli.entity.Config.Data;
-import org.slc.sli.entity.CustomConfig;
 import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.ApiClientManager;
@@ -24,33 +22,30 @@ import org.slc.sli.util.Constants;
 
 /**
  * Retrieves and applies necessary business logic to obtain institution data
- * 
+ *
  * @author syau
- * 
+ *
  */
-public class UserEdOrgManagerImpl extends ApiClientManager implements
-        UserEdOrgManager {
-    
+public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgManager {
+
     private static final String USER_SCHOOLS_CACHE = "user.schools";
     private static final String USER_ED_ORG_CACHE = "user.district";
-    // TODO: config code does not belong here
-    private static final String USER_CONFIG_CACHE = "user.panel.config";
-    
+
     private GenericEntity getParentEducationalOrganization(String token,
             GenericEntity edOrgOrSchool) {
         return getApiClient().getParentEducationalOrganization(token,
                 edOrgOrSchool);
     }
-    
+
     private List<GenericEntity> getParentEducationalOrganizations(String token,
             List<GenericEntity> edOrgOrSchool) {
         return getApiClient().getParentEducationalOrganizations(token,
                 edOrgOrSchool);
     }
-    
+
     /**
      * read token. Then, find district name associated with school.
-     * 
+     *
      * @param token
      *            token-id, it is also using token as key value for cache.
      * @return District name
@@ -63,12 +58,12 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements
         }
         // get list of school
         List<GenericEntity> schools = getSchools(token);
-        
+
         if (schools != null && !schools.isEmpty()) {
-            
+
             // read first school
             GenericEntity school = schools.get(0);
-            
+
             // read parent organization
             GenericEntity parentEdOrg = getParentEducationalOrganization(
                     getToken(), school);
@@ -86,53 +81,53 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements
         }
         return null;
     }
-    
+
     /**
      * Get user's schools. Cache the results so we don't have to make the call
      * twice.
-     * 
+     *
      * @return
      */
     private List<GenericEntity> getSchools(String token) {
-        
+
         List<GenericEntity> schools = getFromCache(USER_SCHOOLS_CACHE, token);
-        
+
         // otherwise, call the api
         if (schools == null) {
             schools = getApiClient().getSchools(token, null);
-            
+
             // cache it
             putToCache(USER_SCHOOLS_CACHE, token, schools);
         }
-        
+
         return schools;
     }
-    
+
     /**
      * Returns the institutional hierarchy visible to the user with the given
      * auth token as a list of generic entities, with the ed-org level flattened
      * This assumes there are no cycles in the education organization hierarchy
      * tree.
-     * 
+     *
      * @return
      */
     @Override
     @Cacheable(cacheName = "user.hierarchy")
     public List<GenericEntity> getUserInstHierarchy(String token) {
-        
+
         // Find all the schools first.
         List<GenericEntity> schools = getSchools(token);
         if (schools == null) {
             return Collections.emptyList();
         }
-        
+
         // This maps ids from educational organisations to schools reachable
         // from it via the "child" relationship
         Map<String, Set<GenericEntity>> schoolReachableFromEdOrg = new HashMap<String, Set<GenericEntity>>();
-        
+
         // This just maps ed org ids to ed org objects.
         Map<String, GenericEntity> edOrgIdMap = new HashMap<String, GenericEntity>();
-        
+
         for (GenericEntity school : schools) {
             String parentEdOrgId = (String) school
                     .get(Constants.ATTR_PARENT_EDORG);
@@ -144,7 +139,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements
                 schoolReachableFromEdOrg.get(parentEdOrgId).add(school);
             }
         }
-        
+
         // traverse the ancestor chain from each school and find ed orgs that
         // the school is reachable from
         List<GenericEntity> edOrgs = getParentEducationalOrganizations(token,
@@ -156,11 +151,11 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements
                 String edOrgId = edOrg.getId();
                 // insert ed-org id to - edOrg mapping
                 edOrgIdMap.put(edOrgId, edOrg);
-                
+
                 // if parentedOrgId is not null, it means you are the top
                 // organization
                 if (parentEdOrgId != null) {
-                    
+
                     // insert ed-org - school mapping into the reverse map
                     if (!schoolReachableFromEdOrg.keySet().contains(
                             parentEdOrgId)) {
@@ -176,9 +171,9 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements
                 }
             }
          // next in the ancestor chain
-            edOrgs = getParentEducationalOrganizations(token, edOrgs); 
+            edOrgs = getParentEducationalOrganizations(token, edOrgs);
         }
-        
+
         // build result list
         List<GenericEntity> retVal = new ArrayList<GenericEntity>();
         for (String edOrgId : schoolReachableFromEdOrg.keySet()) {
@@ -201,7 +196,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements
                         + edOrgId);
             }
         }
-        
+
         Collection<GenericEntity> orphanSchools = findOrphanSchools(schools,
                 schoolReachableFromEdOrg);
         // Temporary: insert a dummy edorg for all orphan schools.
@@ -210,9 +205,9 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements
         }
         return retVal;
     }
-    
+
     // ------------- helper functions ----------------
-    
+
     private static Collection<GenericEntity> findOrphanSchools(
             List<GenericEntity> schools,
             Map<String, Set<GenericEntity>> schoolReachableFromEdOrg) {
@@ -233,7 +228,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements
         }
         return orphanSchools;
     }
-    
+
     // Insert schools into the list under a "dummy" ed-org
     private static List<GenericEntity> insertSchoolsUnderDummyEdOrg(
             List<GenericEntity> retVal, Collection<GenericEntity> schools) {
@@ -248,7 +243,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements
         }
         return retVal;
     }
-    
+
     /**
      * Override from UserEdOrgManager.
      * Signature is pre-defined by the architect.
@@ -268,7 +263,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements
         		for(Object school : schools) {
         			for(Object course : ((GenericEntity)school).getList("courses")) {
         				for(Object section : ((GenericEntity)course).getList("sections")) {
-            				if (((GenericEntity)section).getId().equals((String)key)) {
+            				if (((GenericEntity)section).getId().equals(key)) {
             					GenericEntity selectedOrg = new GenericEntity();
             					selectedOrg.put("name", org.get("name"));
             					selectedOrg.put("section", section);
@@ -281,44 +276,32 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements
         }
         return entity;
     }
-    
-    // TODO: does not belong here!!! goes to CacheManager
-    /**
-     * Get the user's educational organization's custom configuration.
-     * 
-     * @param token
-     *            The user's authentication token.
-     * @return The education organization's custom configuration
-     */
+
     @Override
-    public CustomConfig getCustomConfig(String token) {
-        
-        CacheValue<CustomConfig> value = getCacheValueFromCache(
-                USER_CONFIG_CACHE, token);
-        CustomConfig config = null;
-        if (value == null) {
-            EdOrgKey edOrgKey = getUserEdOrg(token);
-            String sliId = edOrgKey.getSliId();
-            config = getApiClient().getEdOrgCustomData(token, sliId);
-            putToCache(USER_CONFIG_CACHE, token, config);
-        } else {
-            config = value.get();
+    @SuppressWarnings("unchecked")
+
+    public GenericEntity getStaffInfo(String token) {
+        GenericEntity staffEntity = getApiClient().getStaffInfo(token);
+        staffEntity.put(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN, false);
+        // TODO: refactored out of ConfigController. is this complex code the only way to determine admin flag?
+        if (staffEntity != null) {
+            List<Object> credentialsList = (List<Object>) staffEntity.get(Constants.ATTR_CREDENTIALS_LIST_ATTRIBUTE);
+            if ((credentialsList != null) && (credentialsList.size() > 0)) {
+                Map<String, Object> credentials = (Map<String, Object>) credentialsList.get(0);
+                if (credentials != null) {
+                    List<Map<String, Object>> credentialFieldsList = (List<Map<String, Object>>) credentials.get(Constants.ATTR_CREDENTIAL_FIELD_ATTRIBUTE);
+                    if ((credentialFieldsList != null) && (credentialFieldsList.size() > 0)) {
+                        for (Map<String, Object> credentialField : credentialFieldsList) {
+                            String credentialCode = (String) credentialField.get(Constants.ATTR_CREDENTIAL_CODE_ATTRIBUTE);
+                            if ((credentialCode != null) && (credentialCode.equalsIgnoreCase(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN))) {
+                                staffEntity.put(Constants.ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN, true);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
         }
-        return config;
-    }
-    
-    /**
-     * Put or save the user's educational organization's custom configuration.
-     * 
-     * @param token
-     *            The user's authentication token.
-     * @param customConfigJson
-     *            The education organization's custom configuration JSON.
-     */
-    @Override
-    public void putCustomConfig(String token, String customConfigJson) {
-        getApiClient().putEdOrgCustomData(token,
-                getUserEdOrg(token).getSliId(), customConfigJson);
-        removeFromCache(USER_CONFIG_CACHE, token);
+        return staffEntity;
     }
 }

@@ -17,7 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.entity.CustomConfig;
+import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
 import org.slc.sli.util.Constants;
@@ -120,17 +120,16 @@ public class LiveAPIClient implements APIClient {
      * Get educational organization custom data
      */
     @Override
-    public CustomConfig getEdOrgCustomData(String token, String id) {
-        return (CustomConfig) createEntityFromAPI(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token,
-                CustomConfig.class);
+    public ConfigMap getEdOrgCustomData(String token, String id) {
+        return (ConfigMap) createEntityFromAPI(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token, ConfigMap.class);
     }
 
     /**
      * Put or save educational organization custom data
      */
     @Override
-    public void putEdOrgCustomData(String token, String id, String customJson) {
-        restClient.putJsonRequestWHeaders(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token, customJson);
+    public void putEdOrgCustomData(String token, String id, ConfigMap configMap) {
+        putEntityToAPI(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token, configMap);
     }
 
     /**
@@ -150,6 +149,11 @@ public class LiveAPIClient implements APIClient {
         }
         Object e = gson.fromJson(response, entityClass);
         return e;
+    }
+
+    @LogExecutionTime
+    private <T> void putEntityToAPI(String url, String token, T entity) {
+        restClient.putJsonRequestWHeaders(url, token,  gson.toJson(entity));
     }
 
     /**

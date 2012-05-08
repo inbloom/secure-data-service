@@ -143,11 +143,11 @@
                 <artifactId>ehcache-core</artifactId>
                 <version>2.5.1</version>
                 <type>pom</type>
-            </dependency>
+        </dependency>
         <dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.7.1</version>
+			<version>1.8.6</version>
 		</dependency>
 	    <dependency>
 	        <groupId>org.hibernate</groupId>

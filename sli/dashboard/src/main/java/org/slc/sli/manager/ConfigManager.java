@@ -3,7 +3,7 @@ package org.slc.sli.manager;
 import java.util.Collection;
 
 import org.slc.sli.entity.Config;
-import org.slc.sli.entity.CustomConfig;
+import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.EdOrgKey;
 
 
@@ -21,18 +21,28 @@ public interface ConfigManager {
     /**
      * reads the educational organization hierarchy and return proper config file
      *
-     * @param customConfig - custom configuration for the district
+     * @param token - user token
      * @param userEdOrg - user educational organization proxy
      * @param componentId
      *            name of the profile
      * @return proper Config to be used for the dashbord
      */
-    public Config getComponentConfig(CustomConfig customConfig, EdOrgKey userEdOrg, String componentId);
+    Config getComponentConfig(String token, EdOrgKey edOrgKey, String componentId);
     /**
      * Get all available widget configs relevant for the user
-     * @param customConfig - custom configuration for the district
+     * @param token - user token
      * @param userEdOrg - user educational organization proxy
      * @return collection of widget conigs
      */
-    public Collection<Config> getWidgetConfigs(CustomConfig customConfig, EdOrgKey userEdOrg);
+    public Collection<Config> getWidgetConfigs(String token, EdOrgKey userEdOrg);
+
+    /**
+     * get custom config for ed org
+     * @param token - user token
+     * @param userEdOrg - user ed org
+     * @return
+     */
+    public ConfigMap getCustomConfig(String token, EdOrgKey userEdOrg);
+    void putCustomConfig(String token, EdOrgKey edOrgKey, ConfigMap configMap);
+
 }
