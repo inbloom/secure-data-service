@@ -119,11 +119,10 @@ default:
         panel.data.use.cache: true
 
     app: &APPS-DEFAULT
-        bootstrap.app.keys: admin,portal
+        bootstrap.app.keys: admin,databrowser,dashboard
         bootstrap.app.admin.template: applications/admin.json
-        bootstrap.app.admin.url: https://testadmin1.slidev.org
-        bootstrap.app.admin.client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
-        bootstrap.app.admin.client_id: zl9FejUhnV
+        bootstrap.app.databrowser.template: applications/databrowser.json
+        bootstrap.app.dashboard.template: applications/dashboard.json
 
     misc: &MISC-DEFAULT
         # keystore password (used in common and data-access)
@@ -606,6 +605,15 @@ local:
         bootstrap.app.admin.client_id: Eg6eseKRzN
         bootstrap.app.admin.client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
 
+        bootstrap.app.databrowser.url: http://local.slidev.org:3000
+        bootstrap.app.databrowser.client_id: 2zhRrEXh8r
+        bootstrap.app.databrowser.client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
+
+        bootstrap.app.dashboard.url: http://local.slidev.org:8888/dashboard
+        bootstrap.app.dashboard.client_id: K2e7Dwhq5J
+        bootstrap.app.dashboard.client_secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+
+
     misc:
         <<: *MISC-DEFAULT
 
@@ -775,6 +783,14 @@ team:
         bootstrap.app.admin.url: https://${sli.dev.subdomain}.slidev.org:2001
         bootstrap.app.admin.client_id: OY6Nnukmn6
         bootstrap.app.admin.client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
+
+        bootstrap.app.databrowser.url: https://${sli.dev.subdomain}.slidev.org:2000
+        bootstrap.app.databrowser.client_id: G9tjgDx1aL
+        bootstrap.app.databrowser.client_secret: GTV8WeZSuRz2kR3GKyHLjYmtRMeRspHJTFXv72SBj81OccS3
+
+        bootstrap.app.dashboard.url: https://${sli.dev.subdomain}.slidev.org/dashboard
+        bootstrap.app.dashboard.client_id: 6TW4tHwcWG
+        bootstrap.app.dashboard.client_secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
 
 
     misc: &MISC-TEAM
@@ -1096,5 +1112,3 @@ sandbox:
         <<: *MISC-TEAM
 
 # this is not used but required 
-test-sandbox:
-    api:
