@@ -108,12 +108,9 @@ public class RealmRoleManagerResource {
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) updatedRealm.get("mappings");
         if (mappings != null) {
             Response validateResponse = validateMappings(mappings);
-            Response validateUniqueId = validateUniqueId(realmId, (String) updatedRealm.get("uniqueIdentifier"));
             if (validateResponse != null) {
                 return validateResponse;
-            } else if (validateUniqueId != null) {
-                return validateUniqueId;
-            }
+            } 
         }
         Map<String, List<Map<String, Object>>> oldMappings = (Map<String, List<Map<String, Object>>>) oldRealm.get("mappings");
         if (!oldMappings.equals(mappings) && !SecurityUtil.hasRight(Right.WRITE_ROLE_MAPPING)) {
@@ -158,11 +155,8 @@ public class RealmRoleManagerResource {
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) newRealm.get("mappings");
         if (mappings != null) {
             Response validateResponse = validateMappings(mappings);
-            Response validateUniqueId = validateUniqueId(null, (String) newRealm.get("uniqueIdentifier"));
             if (validateResponse != null) {
                 return validateResponse;
-            } else if (validateUniqueId != null) {
-                return validateUniqueId;
             }
         }
         
@@ -247,6 +241,8 @@ public class RealmRoleManagerResource {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("uniqueIdentifier", "=", uniqueId));
 //        Iterable<Entity> entities = repo.findAll("realm", query);
+        List<EntityBody> foo = Lists.newArrayList(service.list(query));
+        System.out.println("Foo is " + foo);
         List<String> ids = Lists.newArrayList(service.listIds(query));
         ids.remove(realmId);
         if (ids != null && ids.iterator().hasNext()) {

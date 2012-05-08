@@ -22,7 +22,7 @@
                 <xs:element name="name" minOccurs="1">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
-                            <xs:pattern value="([a-zA-Z0-9- ])*" />
+                            <xs:pattern value="([a-zA-Z0-9\-_ ])*" />
                             <xs:minLength value="5" />
                             <xs:maxLength value="50" />
                         </xs:restriction>
@@ -35,7 +35,7 @@
                 <xs:element name="uniqueIdentifier" minOccurs="0">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
-                            <xs:pattern value="([a-zA-Z0-9- ])*" />
+                            <xs:pattern value="([a-zA-Z0-9\-_ ])*" />
                             <xs:minLength value="5" />
                             <xs:maxLength value="50" />
                         </xs:restriction>
