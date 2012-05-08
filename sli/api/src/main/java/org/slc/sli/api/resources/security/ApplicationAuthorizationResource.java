@@ -1,8 +1,26 @@
 package org.slc.sli.api.resources.security;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.GET;
@@ -15,26 +33,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
-
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -87,6 +88,10 @@ public class ApplicationAuthorizationResource {
 
     @POST
     public Response createAuthorization(EntityBody newAppAuth, @Context final UriInfo uriInfo) {
+        if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
+            return SecurityUtil.forbiddenResponse();
+        }
+
         verifyAccess((String) newAppAuth.get(AUTH_ID));        
         String uuid = service.create(newAppAuth);
         String uri = uriToString(uriInfo) + "/" + uuid;
@@ -96,6 +101,10 @@ public class ApplicationAuthorizationResource {
     @PUT
     @Path("{" + UUID + "}") 
     public Response updateAuthorization(@PathParam(UUID) String uuid, EntityBody auth) {
+        if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
+            return SecurityUtil.forbiddenResponse();
+        }
+
         EntityBody oldAuth = service.get(uuid);
         verifyAccess((String) oldAuth.get(AUTH_ID));
 
