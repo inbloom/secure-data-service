@@ -1,5 +1,5 @@
 Feature: Tenant Registration Entity
-As an OAuth tenant developer for IL, I want to create a tenant entity in IL so that it can authenticate with SLI
+As an administrator for SLI, I want to create a tenant entity so that it listen for files on landing zone
 
 Scenario: CRUD operations on Tenants
 
@@ -21,7 +21,7 @@ Scenario: CRUD operations on Tenants
 
 Scenario: Deny creation when specifying invalid fields
 
-    Given I am logged in using "developer" "developer1234" to realm "SLI"
+    Given I am logged in using "administrator" "administrator1234" to realm "SLI"
     When I POST a tenant specifying an invalid field
     Then I should receive a return code of 400
 
