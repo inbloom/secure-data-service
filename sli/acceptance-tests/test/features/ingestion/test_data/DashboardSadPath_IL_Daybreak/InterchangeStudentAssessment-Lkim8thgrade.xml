@@ -45,15 +45,15 @@
       </LinguisticAccommodations> 
       <RetestIndicator>Primary Administration</RetestIndicator> 
       <ReasonNotTested>Medical waiver</ReasonNotTested> 
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <!--ScoreResults AssessmentReportingMethod="Scale score">
           <Result>12</Result> 
-      </ScoreResults> 
-      <ScoreResults AssessmentReportingMethod="Other">
+      </ScoreResults--> 
+      <!--ScoreResults AssessmentReportingMethod="Other">
           <Result>40</Result> 
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Percentile">
           <Result>3</Result> 
-      </ScoreResults> 
+      </ScoreResults--> 
       <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
       <PerformanceLevels> 
            <CodeValue>XY</CodeValue> 
