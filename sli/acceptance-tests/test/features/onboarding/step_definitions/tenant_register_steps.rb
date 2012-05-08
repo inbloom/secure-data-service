@@ -103,44 +103,61 @@ When /^I POST a tenant specifying an invalid field$/ do
   assert(@res != nil, "Response from POST operation was null")
 end
 
-When /^I POST a tenant with too-large fields$/ do
+def postToTenants(dataObj)
   @format = "application/json"
-  dataObj =  {
-      "landingZone" => [ 
-        { 
-          "educationOrganization" => "123456789012345678901234567890123456789012345678901234567890A",
-          "ingestionServer" => "123456789012345678901234567890123456789012345678A",
-          "path" => "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456A",
-          "desc" => "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456A",
-          "userNames" => [ "123456789012345678901234567890123456789012345678A", "123456789012345678901234567890123456789012345678B" ]
-        },
-        { 
-          "educationOrganization" => "123456789012345678901234567890123456789012345678901234567890B",
-          "ingestionServer" => "123456789012345678901234567890123456789012345678B",
-          "path" => "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456B",
-          "desc" => "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456B",
-          "userNames" => [ "123456789012345678901234567890123456789012345678A" ]
-        }
-      ],
-      "tenantId" => "123456789012345678901234567890123456789012345678A"
-  }
   data = prepareData("application/json", dataObj)
   restHttpPost("/tenants/", data)
   assert(@res != nil, "Response from POST operation was null")
 end
 
-When /^I POST a tenant with missing required fields$/ do
-  @format = "application/json"
-  dataObj =  {
+def getBaseTenant
+    return {
       "landingZone" => [ 
         { 
-          "desc" => "Daybreak district landing zone",
-          "userNames" => []
+          "educationOrganization" => "Twilight",
+          "ingestionServer" => "ingServIL",
+          "path" => "/home/ingestion/lz/inbound/IL-STATE-TWILIGHT",
+          "desc" => "Twilight district landing zone",
+          "userNames" => [ "rrogers" ]
         }
-      ]
+      ],
+      "tenantId" => "IL"
   }
-  data = prepareData("application/json", dataObj)
-  restHttpPost("/tenants/", data)
-  assert(@res != nil, "Response from POST operation was null")
+end
+
+When /^I POST a basic tenant with "([^"]*)" set to "([^"]*)"$/ do |property,value|
+  dataObject = getBaseTenant
+  dataObject[property] = value
+  postToTenants(dataObject)
+end
+
+When /^I POST a basic tenant with landingZone "([^"]*)" set to "([^"]*)"$/ do |property,value|
+  dataObject = getBaseTenant
+  dataObject["landingZone"][0][property] = value
+  postToTenants(dataObject)
+end
+
+When /^I POST a basic tenant with userName "([^"]*)"$/ do |value|
+  dataObject = getBaseTenant
+  dataObject["landingZone"][0]["userNames"][0] = value
+  postToTenants(dataObject)
+end
+
+When /^I POST a basic tenant with no userName$/ do
+  dataObject = getBaseTenant
+  dataObject["landingZone"][0].delete("userNames")
+  postToTenants(dataObject)
+end
+
+When /^I POST a basic tenant with missing "([^"]*)"$/ do |property|
+  dataObject = getBaseTenant
+  dataObject.delete(property)
+  postToTenants(dataObject)
+end
+
+When /^I POST a basic tenant with missing landingZone "([^"]*)"$/ do |property|
+  dataObject = getBaseTenant
+  dataObject["landingZone"][0].delete(property)
+  postToTenants(dataObject)
 end
 

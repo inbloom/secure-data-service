@@ -87,7 +87,7 @@ public class TenantResourceTest {
         landingZone.put(TenantResource.LZ_EDUCATION_ORGANIZATION, ED_ORG_1);
         landingZone.put(TenantResource.LZ_DESC, "Landing zone for IL_DAYBREAK");
         landingZone.put(TenantResource.LZ_PATH, "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\IL-STATE-DAYBREAK");
-        ArrayList<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
         entity.put(TenantResource.LZ, landingZones);
         return entity;
     }
@@ -100,7 +100,7 @@ public class TenantResourceTest {
         landingZone.put(TenantResource.LZ_EDUCATION_ORGANIZATION, ED_ORG_2);
         landingZone.put(TenantResource.LZ_DESC, "Landing zone for IL_SUNSET");
         landingZone.put(TenantResource.LZ_PATH, "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\IL-STATE-SUNSET");
-        ArrayList<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
         entity.put(TenantResource.LZ, landingZones);
         return entity;
     }
@@ -113,7 +113,7 @@ public class TenantResourceTest {
         landingZone.put(TenantResource.LZ_EDUCATION_ORGANIZATION, "NYC");
         landingZone.put(TenantResource.LZ_DESC, "Landing zone for NY");
         landingZone.put(TenantResource.LZ_PATH, "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\NY-STATE-NYC");
-        ArrayList<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
         entity.put(TenantResource.LZ, landingZones);
         return entity;
     }
