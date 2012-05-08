@@ -13,7 +13,6 @@ class EulasController < ApplicationController
   # GET /eulas/1
   # GET /eulas/1.json
   def show
-    @user_account_registration = UserAccountRegistration.new(params[:id])
 
           respond_to do |format|
             format.html # new.html.erb

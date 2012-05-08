@@ -24,10 +24,14 @@ class UserAccountRegistrationsController < ApplicationController
         format.json { render json: @user_account_registration.errors, status: :unprocessable_entity }
       else
         url=APP_CONFIG['api_base']
-        #RestClient.post(url,@user_account_registration.to_json,:content_type => :json, :accept => :json)
-        format.html  { redirect_to("/eulas/#@user_account_registration")}
-          format.json  { render :json => @user_account_registration,
-                       action: "/eulas/"}
+        @res=RestClient.get(url,@user_account_registration.to_json,:content_type => :json, :accept => :json)
+        format.html  { redirect_to(
+            :controller=> 'eulas',
+            :action => 'show',
+            :id =>@user_account_registration.email
+        )}
+      format.json  { render :json => @user_account_registration,
+                   action: "/eulas/1"}
       end
     end
   end
