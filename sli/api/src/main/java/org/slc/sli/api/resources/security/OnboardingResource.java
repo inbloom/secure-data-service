@@ -73,7 +73,7 @@ public class OnboardingResource {
 
     /**
      * Provision a landing zone for the provide educational organization.
-     *
+     * 
      * @QueryParam stateOrganizationId -- the unique identifier for this ed org
      * @QueryParam tenantId -- the tenant ID for this edorg.
      */
@@ -101,7 +101,7 @@ public class OnboardingResource {
 
     /**
      * Create an EdOrg if it does not exists.
-     *
+     * 
      * @param orgId
      *            The State Educational Organization identifier.
      * @param tenantId
@@ -210,6 +210,7 @@ public class OnboardingResource {
      * @param appIds
      *            collection of application id that edorg need to be authorized
      */
+    @SuppressWarnings("unchecked")
     private void createAppAuth(String edOrgId, List<String> appIds) {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(AUTH_ID, NeutralCriteria.OPERATOR_EQUAL, edOrgId));
@@ -217,13 +218,13 @@ public class OnboardingResource {
                 AUTH_TYPE_EDUCATION_ORGANIZATION));
         Entity appAuth = repo.findOne(APPLICATION_AUTH_RESOURCE_NAME, query);
         if (appAuth != null) {
-            EntityBody body = (EntityBody) (appAuth.getBody());
-            List<String> ids = body.getId(APP_IDS);
+            List<String> ids = (List<String>) appAuth.getBody().get(APP_IDS);
             for (String id : appIds) {
                 if (!ids.contains(id)) {
                     ids.add(id);
                 }
             }
+            appAuth.getBody().put(APP_IDS, ids);
             repo.update(APPLICATION_AUTH_RESOURCE_NAME, appAuth);
         } else {
             EntityBody body = new EntityBody();
