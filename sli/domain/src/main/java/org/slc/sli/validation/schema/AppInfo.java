@@ -23,6 +23,7 @@ public class AppInfo extends Annotation {
     protected static final String PII_ELEMENT_NAME = "PersonallyIdentifiableInfo";
     protected static final String READ_ENFORCEMENT_ELEMENT_NAME = "ReadEnforcement";
     protected static final String WRITE_ENFORCEMENT_ELEMENT_NAME = "WriteEnforcement";
+    protected static final String WHITELIST_ELEMENT_NAME = "Whitelist";
     protected static final String REFERENCE_TYPE_ELEMENT_NAME = "ReferenceType";
     protected static final String SECURITY_SPHERE = "SecuritySphere";
 
@@ -104,7 +105,17 @@ public class AppInfo extends Annotation {
         
         return rval;
     }
-    
+
+    public boolean isWhitelisted() {
+        boolean rval = false;
+        if (values.containsKey(WHITELIST_ELEMENT_NAME)) {
+            rval = Boolean.parseBoolean(values.get(WHITELIST_ELEMENT_NAME));
+        }
+        
+        return rval;
+        
+    }
+
     public Right getReadAuthority() {
         Right rval = Right.READ_GENERAL;
         

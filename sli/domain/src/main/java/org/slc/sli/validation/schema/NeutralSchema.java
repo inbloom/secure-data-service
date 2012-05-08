@@ -96,7 +96,15 @@ public abstract class NeutralSchema {
         
         return this.getAppInfo().isPersonallyIdentifiableInfo();
     }
-    
+
+    public boolean isWhitelisted() {
+        if (this.getAppInfo() == null) {
+            return false;
+        }
+        
+        return this.getAppInfo().isWhitelisted();        
+    }
+
     public void setVersion(String version) {
         this.version = version;
     }

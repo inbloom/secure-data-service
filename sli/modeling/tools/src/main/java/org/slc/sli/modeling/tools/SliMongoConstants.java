@@ -17,4 +17,5 @@ public final class SliMongoConstants {
     public static final QName SLI_READ_ENFORCEMENT = new QName(NAMESPACE_SLI, "ReadEnforcement");
     public static final QName SLI_REFERENCE_TYPE = new QName(NAMESPACE_SLI, "ReferenceType");
     public static final QName SLI_WRITE_ENFORCEMENT = new QName(NAMESPACE_SLI, "WriteEnforcement");
+    public static final QName SLI_WHITELIST = new QName(NAMESPACE_SLI, "Whitelist")
 }

@@ -102,6 +102,14 @@ public class StringSchema extends NeutralSchema {
                 }
             }
         }
+        if (!isWhitelisted()) {
+            //TODO
+        } else {
+            int i = 0;
+            ++i;
+
+        }
+
         return true;
     }
 

@@ -880,6 +880,7 @@
 		<xs:annotation>
 			<xs:documentation>A detailed description of the entity.
 			</xs:documentation>
+			<sli:Whitelist>false</sli:Whitelist>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1" />
