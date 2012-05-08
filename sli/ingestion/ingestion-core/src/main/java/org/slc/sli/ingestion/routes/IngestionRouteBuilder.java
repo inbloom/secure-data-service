@@ -89,15 +89,18 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     private NodeInfo nodeInfo;
 
-    @Value("${sli.ingestion.queue.maestroPit.queueURI}")
-    private String symphonyQueue;
+    @Value("${sli.ingestion.queue.maestro.queueURI}")
+    private String maestroQueue;
+
+
+    @Value("${sli.ingestion.queue.pit.queueURI}")
+    private String pitQueue;
 
     @Override
     public void configure() throws Exception {
 
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
 
-        String symphonyQueueUri = symphonyQueue + "?concurrentConsumers=" + concurrentConsumers;
 
         for (LocalFileSystemLandingZone lz : landingZoneManager.getLandingZones()) {
             configureLandingZonePollers(workItemQueueUri, lz);
@@ -107,13 +110,13 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // TODO: configure based on nodetype
 
-        String maestroQueueUri = "seda:maestroNodes";
+        String maestroQueueUri = maestroQueue + "?concurrentConsumers=" + concurrentConsumers;
 
-        String pitNodeQueueUri = "seda:pitNodes";
+        String pitNodeQueueUri = pitQueue + "?concurrentConsumers=" + concurrentConsumers;
 
         buildMaestroRoutes(maestroQueueUri, pitNodeQueueUri);
 
-        configurePitNodes(pitNodeQueueUri + "?concurrentConsumers=5");
+        configurePitNodes(pitNodeQueueUri );
 
     }
 
