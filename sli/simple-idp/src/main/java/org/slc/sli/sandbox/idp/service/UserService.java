@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserService {
     private static final String SLI_ADMIN_REALM = "SLIAdmin";
-            
+    
     private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
     
     @Autowired
@@ -45,24 +45,24 @@ public class UserService {
     @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
     private boolean isSandboxImpersonationEnabled = false;
     
-    public UserService() {}
+    public UserService() {
+    }
     
-    UserService(String userSearchAttribute, String userObjectClass, String groupSearchAttribute, String groupObjectClass){
+    UserService(String userSearchAttribute, String userObjectClass, String groupSearchAttribute, String groupObjectClass) {
         this.userSearchAttribute = userSearchAttribute;
         this.userObjectClass = userObjectClass;
         this.groupSearchAttribute = groupSearchAttribute;
         this.groupObjectClass = groupObjectClass;
     }
     
-    
     public void setSandboxImpersonationEnabled(boolean isSandboxImpersonationEnabled) {
         this.isSandboxImpersonationEnabled = isSandboxImpersonationEnabled;
     }
-
-    public String getSLIAdminRealmName(){
+    
+    public String getSLIAdminRealmName() {
         return SLI_ADMIN_REALM;
     }
-
+    
     /**
      * Holds user information
      */
@@ -93,6 +93,17 @@ public class UserService {
         }
     }
     
+    /**
+     * Authenticate the user for the given realm and return back a User object with
+     * all user attributes and roles loaded. If sandbox mode then it ensures the realm provided
+     * matches with the realm stored in the users LDAP description attribute (Realm=xxx)
+     * 
+     * @param realm
+     * @param userId
+     * @param password
+     * @return
+     * @throws AuthenticationException
+     */
     public User authenticate(String realm, String userId, String password) throws AuthenticationException {
         CollectingAuthenticationErrorCallback errorCallback = new CollectingAuthenticationErrorCallback();
         AndFilter filter = new AndFilter();
@@ -124,13 +135,22 @@ public class UserService {
                     "Requested authentication realm does not match authenticated users realm.");
         }
         filter = new AndFilter();
-        filter.and(new EqualsFilter("objectclass", groupObjectClass)).and(new EqualsFilter(groupSearchAttribute, userId));
+        filter.and(new EqualsFilter("objectclass", groupObjectClass)).and(
+                new EqualsFilter(groupSearchAttribute, userId));
         @SuppressWarnings("unchecked")
         List<String> groups = (List<String>) ldapTemplate.search(dn, filter.toString(), new GroupContextMapper());
         user.roles = groups;
         return user;
     }
     
+    /**
+     * LDAPTemplate mapper for getting attributes from the person context. Retrieves cn and
+     * description,
+     * parsing the value of description by line and then by key=value.
+     * 
+     * @author scole
+     * 
+     */
     static class PersonContextMapper implements ContextMapper {
         public Object mapFromContext(Object ctx) {
             DirContextAdapter context = (DirContextAdapter) ctx;
@@ -150,6 +170,12 @@ public class UserService {
         }
     }
     
+    /**
+     * LDAPTemplate mapper for getting group names.
+     * 
+     * @author scole
+     * 
+     */
     static class GroupContextMapper implements ContextMapper {
         @Override
         public Object mapFromContext(Object ctx) {
