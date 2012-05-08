@@ -97,6 +97,10 @@ Then /^I reset custom config$/ do
   putTextForConfigUpload("{}")
 end
 
+Then /^I see an error$/ do
+  @driver.find_element(:class,"error-container")
+end
+
 def putTextForConfigUpload(uploadText)
   textBoxId = "jsonText"
   textArea = @driver.find_element(:id, textBoxId)

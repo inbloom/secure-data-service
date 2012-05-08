@@ -12,7 +12,7 @@ When I select "Illinois Sunset School District 4526" and click go
 Scenario: Invalid User Login
 When I login as "linda.kim" "linda.kim1234"
 When I enter the Configuration Area
-Then I am informed that "Exception occurred"
+Then I see an error 
 
 @integration
 Scenario: Upload valid config file
