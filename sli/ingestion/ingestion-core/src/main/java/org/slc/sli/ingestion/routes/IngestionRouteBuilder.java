@@ -17,8 +17,8 @@ import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
-import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
+import org.slc.sli.ingestion.processors.StagedDataPersistenceProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.XmlFileProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
@@ -55,7 +55,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     PurgeProcessor purgeProcessor;
 
     @Autowired(required = true)
-    PersistenceProcessor persistenceProcessor;
+    StagedDataPersistenceProcessor persistenceProcessor;
 
     @Autowired
     TransformationProcessor transformationProcessor;
@@ -98,6 +98,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Override
     public void configure() throws Exception {
+        LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
 
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
         String maestroQueueUri = maestroQueue + "?transferExchange=true";
