@@ -41,7 +41,7 @@
 		<TeacherUniqueStateId>a</TeacherUniqueStateId>
 		<HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
 	</Teacher>
-	<TeacherSchoolAssociation>
+	<!--TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>cgray</StaffUniqueStateId>
@@ -60,8 +60,8 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 			<AcademicSubject>English Language and Literature</AcademicSubject>
 		</AcademicSubjects>
-	</TeacherSchoolAssociation>
-    <!--TeacherSectionAssociation>
+	</TeacherSchoolAssociation-->
+    <TeacherSectionAssociation>
         <TeacherReference>
             <StaffIdentity>
                 <StaffUniqueStateId>cgray</StaffUniqueStateId>
@@ -74,7 +74,7 @@
             </SectionIdentity>
         </SectionReference>
         <ClassroomPosition>Teacher of Record</ClassroomPosition>
-    </TeacherSectionAssociation-->
+    </TeacherSectionAssociation>
 	<!-- Linda Kim -->
 	<Teacher>
 		<StaffUniqueStateId>linda.kim</StaffUniqueStateId>
@@ -164,6 +164,20 @@
             <SectionIdentity>
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
                 <UniqueSectionCode>7th Grade English - Sec 5</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <ClassroomPosition>Teacher of Record</ClassroomPosition>
+    </TeacherSectionAssociation>
+    <TeacherSectionAssociation>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SectionReference>
+            <SectionIdentity>
+                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                <UniqueSectionCode>8th Grade Math - Sec 1</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <ClassroomPosition>Teacher of Record</ClassroomPosition>
@@ -361,7 +375,7 @@
         <SectionReference>
             <SectionIdentity>
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-                <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
+                <UniqueSectionCode>7th Grade English - Sec 5</UniqueSectionCode>
             </SectionIdentity>
         </SectionReference>
         <ClassroomPosition>Assistant Teacher</ClassroomPosition>

@@ -139,7 +139,7 @@
       </EducationalOrgIdentity>
     </LocalEducationAgencyReference>
   </School>
-  <!--Course>
+  <Course>
     <CourseTitle>8th Grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="CSSC course code">
@@ -161,7 +161,30 @@
         </EducationOrgIdentificationCode>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course-->
+  </Course>
+  <Course>
+    <CourseTitle>8th Grade Math</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>8th Grade Math</ID>
+    </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>East Daybreak Junior High</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </Course>
     <!--Course>
     <CourseTitle>7th Grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>

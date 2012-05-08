@@ -3,7 +3,7 @@
 <InterchangeStudentEnrollment xsi:schemaLocation="http://ed-fi.org/0100 Interchange-StudentEnrollment.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100">
   <!-- student-school associations for the 11th and 12th graders in high school -->
-  <StudentSchoolAssociation>
+  <!--StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -16,7 +16,7 @@
     </SchoolReference>
     <EntryDate>2011-09-01</EntryDate>
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
+  </StudentSchoolAssociation-->
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -199,7 +199,7 @@
   </StudentSchoolAssociation>
 
   <!-- last year's student-school associations for the 11th and 12th graders in high school -->
-  <StudentSchoolAssociation>
+  <!--StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
         <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -212,7 +212,7 @@
     </SchoolReference>
     <EntryDate>2010-09-01</EntryDate>
     <EntryGradeLevel>Tenth grade</EntryGradeLevel>
-  </StudentSchoolAssociation>
+  </StudentSchoolAssociation-->
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -567,6 +567,7 @@
   </StudentSchoolAssociation>
   
   <!--Sections-->
+  <!--11th graders-->
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -593,7 +594,7 @@
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <HomeroomIndicator>true</HomeroomIndicator>
+    <HomeroomIndicator>false</HomeroomIndicator>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -605,6 +606,21 @@
       <SectionIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         <UniqueSectionCode>Sec 145</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <HomeroomIndicator>true</HomeroomIndicator>
+  </StudentSectionAssociation>
+  <!--8th graders-->
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000000</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>8th Grade Math - Sec 1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <HomeroomIndicator>true</HomeroomIndicator>
