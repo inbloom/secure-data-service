@@ -1,6 +1,7 @@
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,15 @@ public class OnboardingResource {
     public static final String ADDRESS_STATE_ABRV = "stateAbbreviation";
     public static final String ADDRESS_POSTAL_CODE = "postalCode";
     public static final String CATEGORIES = "organizationCategories";  // 'State Education Agency'
+    public static final String APPLICATION_RESOURCE_NAME = "application";
+    public static final String APPLICATION_AUTH_RESOURCE_NAME = "applicationAuthorization";
+    public static final String APPLICATION_NAME = "name";
+    public static final String APPLICATION_AUTH_EDORGS = "authorized_ed_orgs";
+    public static final String AUTH_TYPE_EDUCATION_ORGANIZATION = "EDUCATION_ORGANIZATION";
+    public static final String AUTH_TYPE = "authType";
+    public static final String AUTH_ID = "authId";
+    public static final String APP_IDS = "appIds";
+    public static final List<String> COMMON_APP_NAMES = Arrays.asList("Dashboard", "Databrowser");
 
     @PostConstruct
     public void init() {
@@ -85,8 +95,6 @@ public class OnboardingResource {
         if (Status.fromStatusCode(r.getStatus()) != Status.CREATED) {
             return r;
         }
-
-        // Plug in additional provisioning steps here.
 
         return r;
     }
@@ -138,6 +146,91 @@ public class OnboardingResource {
         }
 
         uuid = e.getEntityId();
+
+        // retrieve the application ids for common applications that already exist in mongod
+        List<String> appIds = getAppIds(COMMON_APP_NAMES);
+
+        // update common applications to include new edorg uuid in the field "authorized_ed_orgs"
+        updateApps(uuid, appIds);
+
+        // create or update the applicationAuthorization collection in mongod for new edorg entity
+        createAppAuth(uuid, appIds);
+
         return Response.status(Status.CREATED).build();
+    }
+
+    /**
+     * @param commonAppNames
+     *            collection of common application names
+     * @return collection of common application id
+     */
+    private List<String> getAppIds(List<String> commonAppNames) {
+        List<String> appIds = new ArrayList<String>();
+        Iterable<Entity> apps = repo.findAll(APPLICATION_RESOURCE_NAME);
+        for (Entity app : apps) {
+            for (String appName : commonAppNames) {
+                if (((String) app.getBody().get(APPLICATION_NAME)).contains(appName)) {
+                    appIds.add(app.getEntityId());
+                }
+            }
+        }
+        return appIds;
+    }
+
+    /**
+     * @param edOrgId
+     *            the uuid of top level education organization
+     * @param appIds
+     *            collection of application id that the field "authorized_ed_orgs" need to be
+     *            updated
+     */
+    @SuppressWarnings("unchecked")
+    private void updateApps(String edOrgId, List<String> appIds) {
+        for (String appId : appIds) {
+            Entity app = repo.findById(APPLICATION_RESOURCE_NAME, appId);
+            if (app != null) {
+                List<String> authorized_edOrgIds = (List<String>) app.getBody().get(APPLICATION_AUTH_EDORGS);
+                if (authorized_edOrgIds == null) {
+                    authorized_edOrgIds = new ArrayList<String>();
+                    authorized_edOrgIds.add(edOrgId);
+                } else if (authorized_edOrgIds.contains(edOrgId)) {
+                    continue;
+                } else {
+                    authorized_edOrgIds.add(edOrgId);
+                }
+                app.getBody().put(APPLICATION_AUTH_EDORGS, authorized_edOrgIds);
+                repo.update(APPLICATION_RESOURCE_NAME, app);
+            }
+        }
+    }
+
+    /**
+     * @param edOrgId
+     *            the uuid of top level education organization
+     * @param appIds
+     *            collection of application id that edorg need to be authorized
+     */
+    private void createAppAuth(String edOrgId, List<String> appIds) {
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria(AUTH_ID, NeutralCriteria.OPERATOR_EQUAL, edOrgId));
+        query.addCriteria(new NeutralCriteria(AUTH_TYPE, NeutralCriteria.OPERATOR_EQUAL,
+                AUTH_TYPE_EDUCATION_ORGANIZATION));
+        Entity appAuth = repo.findOne(APPLICATION_AUTH_RESOURCE_NAME, query);
+        if (appAuth != null) {
+            EntityBody body = (EntityBody) (appAuth.getBody());
+            List<String> ids = body.getId(APP_IDS);
+            for (String id : appIds) {
+                if (!ids.contains(id)) {
+                    ids.add(id);
+                }
+            }
+            repo.update(APPLICATION_AUTH_RESOURCE_NAME, appAuth);
+        } else {
+            EntityBody body = new EntityBody();
+            body.put(AUTH_ID, edOrgId);
+            body.put(AUTH_TYPE, AUTH_TYPE_EDUCATION_ORGANIZATION);
+            body.put(APP_IDS, appIds);
+            repo.create(APPLICATION_AUTH_RESOURCE_NAME, body);
+        }
     }
 }
