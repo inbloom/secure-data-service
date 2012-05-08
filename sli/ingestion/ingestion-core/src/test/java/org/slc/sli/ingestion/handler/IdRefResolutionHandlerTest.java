@@ -25,7 +25,7 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/handler-context.xml" })
+@ContextConfiguration(locations = { "/spring/ref-handler-context.xml" })
 public class IdRefResolutionHandlerTest {
 
     @Autowired
