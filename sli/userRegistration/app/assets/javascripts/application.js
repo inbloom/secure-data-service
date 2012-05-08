@@ -14,13 +14,3 @@
 //= require jquery_ujs
 //= require_tree .
 
-$(document).ready(function () {
-
-    $("#new_user_account_registration").validate({
-        debug: true,
-        rules: {
-            "user_account_registration[email]": {required: true, email: true}
-        }
-    });
-
-});

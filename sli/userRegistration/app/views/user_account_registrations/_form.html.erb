@@ -1,42 +1,94 @@
 <%= form_for(@user_account_registration) do |f| %>
   <% if @user_account_registration.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@user_account_registration.errors.count, "error") %> prohibited this user_account_registration from being saved:</h2>
-
-      <ul>
-      <% @user_account_registration.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+      <h2><%= pluralize(@user_account_registration.errors.count, "error") %> prohibited user registration from being saved:</h2>
     </div>
   <% end %>
 
   <div class="field">
-    <%= f.label :email %>
-    <%= f.label ":" %>
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :firstName %>
-    <%= f.label ":" %>
-    <%= f.text_field :firstName %>
-  </div>
-  <div class="field">
-    <%= f.label :lastName %>
-    <%= f.label ":" %>
-    <%= f.text_field :lastName %>
-  </div>
-  <div class="field">
-    <%= f.label :password %>
-    <%= f.label ":" %>
-    <%= f.text_field :password %>
-  </div>
-  <div class="field">
-    <%= f.label :vendor %>
-    <%= f.label ":" %>
-    <%= f.text_field :vendor %>
+    <table>
+        <tr class="field">
+            <td><%= f.label :email %></td>
+            <td><%= f.label ":" %></td>
+            <td ><%= f.text_field :email %></td>
+            <% if @user_account_registration.errors[:email].any? %>
+            <td id="error_explanation">
+              <ul>
+              <% @user_account_registration.errors[:email].each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+              </ul>
+            </td>
+            <%end%>
+
+        </tr>
+        <tr class="field">
+                <td><%= f.label :firstName %></td>
+                <td><%= f.label ":" %></td>
+                <td class="textField"><%= f.text_field :firstName %></td>
+                <% if @user_account_registration.errors[:firstName].any? %>
+                    <td id="error_explanation">
+                      <ul>
+                      <% @user_account_registration.errors[:firstName].each do |msg| %>
+                        <li><%= msg %></li>
+                      <% end %>
+                      </ul>
+                    </td>
+                <%end%>
+            </tr>
+        <tr class="field">
+                <td><%= f.label :lastName %></td>
+                <td><%= f.label ":" %></td>
+                <td ><%= f.text_field :lastName %></td>
+                <% if @user_account_registration.errors[:lastName].any? %>
+                    <td id="error_explanation">
+                      <ul>
+                      <% @user_account_registration.errors[:lastName].each do |msg| %>
+                        <li><%= msg %></li>
+                      <% end %>
+                      </ul>
+                    </td>
+                <%end%>
+            </tr>
+        <tr class="field">
+                <td><%= f.label :password %></td>
+                <td><%= f.label ":" %></td>
+                <td ><%= f.password_field :password %></td>
+                <% if @user_account_registration.errors[:password].any? %>
+                    <td id="error_explanation">
+                      <ul>
+                      <% @user_account_registration.errors[:password].each do |msg| %>
+                        <li><%= msg %></li>
+                      <% end %>
+                      </ul>
+                    </td>
+                <%end%>
+            </tr>
+         <tr class="field">
+                        <td><%= f.label :confirmation %></td>
+                        <td><%= f.label ":" %></td>
+                        <td ><%= f.password_field :password_confirmation %></td>
+                        <% if @user_account_registration.errors[:confirmation].any? %>
+                            <td id="error_explanation">
+                              <ul>
+                              <% @user_account_registration.errors[:confirmation].each do |msg| %>
+                                <li><%= msg %></li>
+                              <% end %>
+                              </ul>
+                            </td>
+                        <%end%>
+                    </tr>
+        <tr class="field">
+                <td><%= f.label :vendor %></td>
+                <td><%= f.label ":" %></td>
+                <td><%= f.text_field :vendor %></td>
+                <td></td>
+            </tr>
+    <tr>
+    </table>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Cancel"%>
+    <%= f.submit "Submit"%>
   </div>
 <% end %>
