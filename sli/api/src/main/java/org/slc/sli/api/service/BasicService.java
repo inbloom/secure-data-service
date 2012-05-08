@@ -49,6 +49,7 @@ import org.slc.sli.domain.enums.Right;
 public class BasicService implements EntityService {
 
     private static final String ADMIN_SPHERE = "Admin";
+    private static final String PUBLIC_SPHERE = "Public";
 
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
 
@@ -126,7 +127,7 @@ public class BasicService implements EntityService {
      * @return the body of the entity
      */
     @Override
-	public Iterable<String> listIds(NeutralQuery neutralQuery) {
+    public Iterable<String> listIds(NeutralQuery neutralQuery) {
         checkRights(Right.READ_GENERAL);
 
         List<String> allowed = findAccessible();
@@ -567,6 +568,13 @@ public class BasicService implements EntityService {
         if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             neededRight = Right.ADMIN_ACCESS;
         }
+
+        if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
+            if (Right.READ_GENERAL.equals(neededRight)) {
+                neededRight = Right.READ_PUBLIC;
+            }
+        }
+
         Collection<GrantedAuthority> auths = getAuths();
 
         if (auths.contains(Right.FULL_ACCESS)) {
@@ -597,13 +605,13 @@ public class BasicService implements EntityService {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal == null) {
-			throw new AccessDeniedException("Principal cannot be found");
-		}
+            throw new AccessDeniedException("Principal cannot be found");
+        }
 
         Entity entity = principal.getEntity();
         String type = (entity != null ? entity.getType() : null);   // null for super admins because
-                                                                  // they don't contain mongo
-                                                                  // entries
+        // they don't contain mongo
+        // entries
 
         if (getAuths().contains(Right.FULL_ACCESS)) {  //Super admin
             return AllowAllEntityContextResolver.SUPER_LIST;
@@ -639,6 +647,13 @@ public class BasicService implements EntityService {
                     if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
                         neededRight = Right.ADMIN_ACCESS;
                     }
+
+                    if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
+                        if (Right.READ_GENERAL.equals(neededRight)) {
+                            neededRight = Right.READ_PUBLIC;
+                        }
+                    }
+
                     LOG.debug("Field {} requires {}", fieldPath, neededRight);
                     SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                             .getPrincipal();
