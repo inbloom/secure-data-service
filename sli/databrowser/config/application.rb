@@ -1,17 +1,15 @@
 require File.expand_path('../boot', __FILE__)
-
 require "action_controller/railtie"
 require "action_mailer/railtie"
 require "active_resource/railtie"
 require "rails/test_unit/railtie"
 require "sprockets/railtie"
 
-
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
   Bundler.require(*Rails.groups(:assets => %w(development test)))
-  # If you want your assets lazily compiled in production, use this line
-  # Bundler.require(:default, :assets, Rails.env)
+# If you want your assets lazily compiled in production, use this line
+# Bundler.require(:default, :assets, Rails.env)
 end
 
 module DbRails
@@ -49,5 +47,18 @@ module DbRails
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+  # I read this on SO, but it doesn't seem to work for getting request variables.
+  # http://stackoverflow.com/questions/8623437/how-do-i-prepend-a-session-id-to-every-log-message-rails-3
+
+  ## TODO - something isn't right here
+  #    config.middleware.delete  ActionDispatch::Cookies
+  #    config.middleware.delete ActionDispatch::Session::CookieStore
+
+  #   config.middleware.insert_before   Rails::Rack::Logger, "LoggingMiddleware"
+
+  #  config.middleware.insert_after    ActionDispatch::Static, ActionDispatch::Cookies
+  # config.middleware.insert_after    ActionDispatch::Cookies,  ActionDispatch::Session::CookieStore
+
   end
 end

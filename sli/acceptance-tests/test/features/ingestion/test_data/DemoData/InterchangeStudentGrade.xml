@@ -100,9 +100,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919001-1"/>
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919001</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919001-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919001-2">
@@ -140,9 +138,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919001-2"/>
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919001</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919001-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919002-1">
@@ -180,9 +176,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919002-1"/>
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919002</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919002-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919002-2">
@@ -220,9 +214,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919002-2"/>
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919002</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919002-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919003-1">
@@ -260,9 +252,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919003-1"/>
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919003</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919003-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919003-2">
@@ -300,9 +290,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919003-2"/>
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919003</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919003-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919004-1">
@@ -340,9 +328,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919004-1"/>
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919004</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919004-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919004-2">
@@ -380,9 +366,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919004-2"/>
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919004</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919004-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919005-1">
@@ -420,9 +404,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919005-1"/>
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919005</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919005-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919005-2">
@@ -460,9 +442,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919005-2"/>
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919005</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919005-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919006-1">
@@ -500,9 +480,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919006-1"/>
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919006</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919006-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919006-2">
@@ -540,9 +518,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919006-2"/>
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919006</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919006-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919007-1">
@@ -580,9 +556,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919007-1"/>
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919007</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919007-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919007-2">
@@ -620,9 +594,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919007-2"/>
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919007</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919007-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919008-1">
@@ -660,10 +632,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919008-1"/>
-      
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919008</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919008-1"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919008-2">
@@ -701,10 +670,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919008-2"/>
-      
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919008</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919008-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919009-1">
@@ -742,10 +708,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919009-1"/>
-      
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919009</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919009-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919009-2">
@@ -783,10 +746,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919009-2"/>
-      
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919009</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919009-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919010-1">
@@ -824,10 +784,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919010-1"/>
-      
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919010</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919010-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919010-2">
@@ -865,10 +822,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919010-2"/>
-      
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919010</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919010-2"/>
     </CourseTranscript>
     
     <StudentAcademicRecord id="SAR-91919011-1">
@@ -906,10 +860,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919011-1"/>
-      
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919011</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919011-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919011-2">
@@ -947,10 +898,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919011-2"/>
-      
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919011</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919011-2"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919012-1">
@@ -988,10 +936,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919012-1"/>
-      
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919012</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919012-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919012-2">
@@ -1029,10 +974,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919012-2"/>
-      
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919012</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919012-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919013-1">
@@ -1070,10 +1012,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919013-1"/>
-      
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919013</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919013-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919013-2">
@@ -1111,10 +1050,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919013-2"/>
-      
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919013</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919013-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919014-1">
@@ -1152,10 +1088,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919014-1"/>
-      
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919014</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919014-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919001-1">
@@ -1193,10 +1126,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919014-1"/>
-      
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919014</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919014-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919015-1">
@@ -1234,10 +1164,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919015-1"/>
-      
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919015</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919015-1"/>  
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919001-1">
@@ -1275,10 +1202,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919015-1"/>
-      
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919015</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919015-1"/>  
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919016-1">
@@ -1316,10 +1240,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919016-1"/>
-      
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919016</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919016-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919016-2">
@@ -1357,10 +1278,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919016-2"/>
-      
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919016</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919016-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919017-1">
@@ -1398,10 +1316,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919017-1"/>
-      
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919017</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919017-1"/>  
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919017-2">
@@ -1439,10 +1354,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919017-2"/>
-      
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919017</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919017-2"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919018-1">
@@ -1480,10 +1392,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919018-1"/>
-      
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919018</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919018-1"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919018-2">
@@ -1521,10 +1430,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919018-2"/>
-      
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919018</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919018-2"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919019-1">
@@ -1562,10 +1468,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919019-1"/>
-      
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919019</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919019-1"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919019-2">
@@ -1603,10 +1506,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919019-2"/>
-      
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919019</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919019-2"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919020-1">
@@ -1644,10 +1544,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919020-1"/>
-      
-      <CourseCode>Algebra-10</CourseCode>
-      <StudentUniqueStateId>91919020</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919020-1"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919020-2">
@@ -1685,10 +1582,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-91919020-2"/>
-      
-      <CourseCode>Geometry-10</CourseCode>
-      <StudentUniqueStateId>91919020</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-91919020-2"/>      
     </CourseTranscript>
 
     <StudentGradebookEntry>
@@ -2751,10 +2645,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-453827070-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>453827070</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-453827070-1"/>      
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-453827070-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -2771,31 +2662,6 @@
         </SessionIdentity>
       </SessionReference>
     </StudentAcademicRecord>
-    <CourseTranscript>
-      <CourseAttemptResult>Pass</CourseAttemptResult>
-      <CreditsEarned CreditType="Carnegie unit" CreditConversion="0">
-        <Credit>1</Credit>
-      </CreditsEarned>
-      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned>A</FinalLetterGradeEarned>
-      <FinalNumericGradeEarned>92</FinalNumericGradeEarned>
-      <CourseReference>
-        <CourseIdentity>
-          <CourseCode IdentificationSystem="CSSC course code">
-            <ID>7th Grade English</ID>
-          </CourseCode>
-        </CourseIdentity>
-      </CourseReference>
-      <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-4538270701-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>453827070</StudentUniqueStateId>
-    </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-943715230-1">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -2832,10 +2698,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-943715230-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>943715230</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-943715230-1"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-943715230-2">
@@ -2873,10 +2736,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-943715230-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>943715230</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-943715230-2"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-164420088-1">
@@ -2914,10 +2774,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-164420088-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>164420088</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-164420088-1"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-164420088-2">
@@ -2955,10 +2812,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-164420088-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>164420088</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-164420088-2"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-505331723-1">
@@ -2996,10 +2850,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-505331723-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>505331723</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-505331723-1"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-505331723-2">
@@ -3037,10 +2888,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-505331723-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>505331723</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-505331723-2"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-530425896-1">
@@ -3078,10 +2926,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-530425896-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>530425896</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-530425896-1"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-530425896-2">
@@ -3119,10 +2964,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-530425896-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>530425896</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-530425896-2"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-429526969-1">
@@ -3160,10 +3002,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-429526969-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>429526969</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-429526969-1"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-429526969-2">
@@ -3201,10 +3040,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-429526969-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>429526969</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-429526969-2"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-178828452-1">
@@ -3242,10 +3078,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-178828452-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>178828452</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-178828452-1"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-178828452-2">
@@ -3283,10 +3116,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-178828452-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>178828452</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-178828452-2"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-525878920-1">
@@ -3324,10 +3154,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-525878920-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>525878920</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-525878920-1"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-525878920-2">
@@ -3365,10 +3192,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-525878920-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>525878920</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-525878920-2"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-510152105-1">
@@ -3406,10 +3230,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-510152105-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>510152105</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-510152105-1"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-510152105-2">
@@ -3447,10 +3268,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-510152105-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>510152105</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-510152105-2"/>      
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-802709591-1">
@@ -3488,10 +3306,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-802709591-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>802709591</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-802709591-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-802709591-2">
@@ -3529,10 +3344,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-802709591-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>802709591</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-802709591-2"/>
     </CourseTranscript>
     
     <StudentAcademicRecord id="SAR-437680177-1">
@@ -3570,11 +3382,8 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-437680177-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>437680177</StudentUniqueStateId>
-    </CourseTranscript>
+      <StudentAcademicRecordReference ref="SAR-437680177-1"/>
+     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-437680177-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -3591,31 +3400,6 @@
         </SessionIdentity>
       </SessionReference>
     </StudentAcademicRecord>
-    <CourseTranscript>
-      <CourseAttemptResult>Pass</CourseAttemptResult>
-      <CreditsEarned CreditType="Carnegie unit" CreditConversion="0">
-        <Credit>1</Credit>
-      </CreditsEarned>
-      <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
-      <FinalLetterGradeEarned>A</FinalLetterGradeEarned>
-      <FinalNumericGradeEarned>92</FinalNumericGradeEarned>
-      <CourseReference>
-        <CourseIdentity>
-          <CourseCode IdentificationSystem="CSSC course code">
-            <ID>7th Grade English</ID>
-          </CourseCode>
-        </CourseIdentity>
-      </CourseReference>
-      <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-437680177-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>437680177</StudentUniqueStateId>
-    </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-170011136-1">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -3652,10 +3436,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-170011136-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>170011136</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-170011136-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-170011136-2">
@@ -3693,10 +3474,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-170011136-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>170011136</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-170011136-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-547028299-1">
@@ -3734,10 +3512,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-547028299-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>547028299</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-547028299-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-547028299-2">
@@ -3775,10 +3550,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-547028299-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>547028299</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-547028299-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-258392050-1">
@@ -3816,10 +3588,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-258392050-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>258392050</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-258392050-1"/>
     </CourseTranscript>
     <CourseTranscript>
       <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -3841,10 +3610,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-258392050-1"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>258392050</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-258392050-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-178875887-1">
@@ -3882,10 +3648,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-178875887-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>178875887</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-178875887-1"/>
     </CourseTranscript>
     <CourseTranscript>
       <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -3907,10 +3670,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-178875887-1"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>178875887</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-178875887-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-100644447-1">
@@ -3948,10 +3708,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-100644447-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>100644447</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-100644447-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-100644447-2">
@@ -3989,10 +3746,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-100644447-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>100644447</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-100644447-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-376191021-1">
@@ -4030,10 +3784,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-376191021-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>376191021</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-376191021-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-376191021-2">
@@ -4071,10 +3822,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-376191021-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>376191021</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-376191021-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-336344132-1">
@@ -4112,10 +3860,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-336344132-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>336344132</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-336344132-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-336344132-2">
@@ -4153,10 +3898,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-336344132-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>336344132</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-336344132-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-711411586-1">
@@ -4194,10 +3936,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-711411586-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>711411586</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-711411586-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-711411586-2">
@@ -4235,10 +3974,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-711411586-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>711411586</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-711411586-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-131758477-1">
@@ -4276,10 +4012,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-131758477-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>131758477</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-131758477-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-131758477-2">
@@ -4317,10 +4050,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-131758477-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>131758477</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-131758477-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-670703438-1">
@@ -4358,10 +4088,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-670703438-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>670703438</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-670703438-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-670703438-2">
@@ -4399,10 +4126,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-670703438-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>670703438</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-670703438-2"/>
     </CourseTranscript>
     
     <StudentAcademicRecord id="SAR-851123275-1">
@@ -4440,10 +4164,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-851123275-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>851123275</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-851123275-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-851123275-2">
@@ -4481,10 +4202,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-851123275-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>851123275</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-851123275-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-423037202-1">
@@ -4522,10 +4240,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-423037202-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>423037202</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-423037202-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-423037202-2">
@@ -4563,10 +4278,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-423037202-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>423037202</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-423037202-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-250918988-1">
@@ -4604,10 +4316,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-250918988-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>250918988</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-250918988-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-250918988-2">
@@ -4645,10 +4354,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-250918988-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>250918988</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-250918988-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-421216329-1">
@@ -4686,10 +4392,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-421216329-1"/>
-      
-      <CourseCode>7th Grade Composition</CourseCode>
-      <StudentUniqueStateId>421216329</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-421216329-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-421216329-2">
@@ -4727,10 +4430,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference id="SAR-421216329-2"/>
-      
-      <CourseCode>7th Grade English</CourseCode>
-      <StudentUniqueStateId>421216329</StudentUniqueStateId>
+      <StudentAcademicRecordReference ref="SAR-421216329-2"/>
     </CourseTranscript>
     
     <StudentGradebookEntry>

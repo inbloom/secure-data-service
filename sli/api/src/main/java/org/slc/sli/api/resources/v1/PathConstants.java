@@ -9,10 +9,10 @@ import org.slc.sli.api.config.ResourceNames;
  * Constants used in URI path requests.
  * 
  * @author kmyers
- * 
+ *
  */
 public class PathConstants {
-    
+
     public static final String STUDENT_SCHOOL_ASSOCIATIONS = "studentSchoolAssociations";
     public static final String TEACHER_SCHOOL_ASSOCIATIONS = "teacherSchoolAssociations";
     public static final String TEACHER_SECTION_ASSOCIATIONS = "teacherSectionAssociations";
@@ -27,10 +27,14 @@ public class PathConstants {
     public static final String STUDENT_TRANSCRIPT_ASSOCIATIONS = "studentTranscriptAssociations";
     public static final String STUDENT_PARENT_ASSOCIATIONS = "studentParentAssociations";
     public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS = "studentDisciplineIncidentAssociations";
+    public static final String STAFF_COHORT_ASSOCIATIONS = "staffCohortAssociations";
+    public static final String STUDENT_COHORT_ASSOCIATIONS = "studentCohortAssociations";
     public static final String STUDENT_WITH_GRADE = "studentWithGrade";
-    
+
     public static final String ASSESSMENTS = "assessments";
-    public static final String LEARNINGOBJECTIVES = "learningObjectives";
+    public static final String LEARNING_OBJECTIVES = "learningObjectives";
+    public static final String PARENT_LEARNING_OBJECTIVES = "parentLearningObjectives";
+    public static final String CHILD_LEARNING_OBJECTIVES = "childLearningObjectives";
     public static final String ATTENDANCES = "attendances";
     public static final String BELL_SCHEDULES = "bellSchedules";
     public static final String COHORTS = "cohorts";
@@ -49,6 +53,8 @@ public class PathConstants {
     public static final String TEACHERS = "teachers";
     public static final String STAFF = "staff";
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
+    public static final String STAFF_PROGRAM_ASSOCIATIONS = "staffProgramAssociations";
+    public static final String STUDENT_PROGRAM_ASSOCIATIONS = "studentProgramAssociations";
     
     public static final String CUSTOM_ENTITIES = "custom";
     
@@ -75,14 +81,21 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.COURSE_SECTION_ASSOCIATIONS, COURSE_SECTION_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS, STUDENT_TRANSCRIPT_ASSOCIATIONS);
         TEMP_MAP.put(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, STUDENT_PARENT_ASSOCIATIONS);
-        
+        TEMP_MAP.put(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, STUDENT_PROGRAM_ASSOCIATIONS);
+        TEMP_MAP.put(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, STAFF_PROGRAM_ASSOCIATIONS);
+        TEMP_MAP.put(ResourceNames.STAFF_COHORT_ASSOCIATIONS, STAFF_COHORT_ASSOCIATIONS);
+        TEMP_MAP.put(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS);
+        TEMP_MAP.put(ResourceNames.STAFF_COHORT_ASSOCIATIONS, STAFF_COHORT_ASSOCIATIONS);
+        TEMP_MAP.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, STUDENT_COHORT_ASSOCIATIONS);
+
         TEMP_MAP.put(ResourceNames.ASSESSMENTS, ASSESSMENTS);
-        TEMP_MAP.put(ResourceNames.LEARNINGOBJECTIVES, LEARNINGOBJECTIVES);
+        TEMP_MAP.put(ResourceNames.LEARNINGOBJECTIVES, LEARNING_OBJECTIVES);
         TEMP_MAP.put(ResourceNames.ATTENDANCES, ATTENDANCES);
         TEMP_MAP.put(ResourceNames.BELL_SCHEDULES, BELL_SCHEDULES);
         TEMP_MAP.put(ResourceNames.COHORTS, COHORTS);
         TEMP_MAP.put(ResourceNames.COURSES, COURSES);
         TEMP_MAP.put(ResourceNames.DISCIPLINE_INCIDENTS, DISCIPLINE_INCIDENTS);
+        TEMP_MAP.put(ResourceNames.DISCIPLINE_ACTIONS, DISCIPLINE_ACTIONS);
         TEMP_MAP.put(ResourceNames.EDUCATION_ORGANIZATIONS, EDUCATION_ORGANIZATIONS);
         TEMP_MAP.put(ResourceNames.GRADEBOOK_ENTRIES, GRADEBOOK_ENTRIES);
         TEMP_MAP.put(ResourceNames.PARENTS, PARENTS);

@@ -23,7 +23,7 @@ Then I should see following map of entry counts in the corresponding collections
 	   | studentTranscriptAssociation  | 2                   | body.finalLetterGradeEarned  | B                       | string               |
 	   | studentTranscriptAssociation  | 5                   | body.gradeLevelWhenTaken     | Tenth grade             | string               |
 
-	And I should see "Processed 27 records." in the resulting batch job file
+	And I should see "Processed 32 records." in the resulting batch job file
 	And I should not see an error log file created
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database
@@ -42,5 +42,5 @@ Then I should see following map of entry counts in the corresponding collections
 	   | studentTranscriptAssociation  | 3                   | body.finalLetterGradeEarned  | B                       | string               |
 	   | studentTranscriptAssociation  | 6                   | body.gradeLevelWhenTaken     | Tenth grade             | string               |
 	   
-	And I should see "Processed 6 records." in the resulting batch job file
+	And I should see "Processed 12 records." in the resulting batch job file
 	And I should not see an error log file created

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+    <util:map id="xsd" key-type="java.lang.String" value-type="org.springframework.core.io.Resource">
+        <entry key="AssessmentMetadata">
+            <value>classpath:edfiXsd/Interchange-AssessmentMetadata.xsd</value>
+        </entry>
+        <entry key="EducationOrganization">
+            <value>classpath:edfiXsd/Interchange-EducationOrganization.xsd</value>
+        </entry>
+        <entry key="EducationOrgCalendar">
+            <value>classpath:edfiXsd/Interchange-EducationOrgCalendar.xsd</value>
+        </entry>
+        <entry key="HSGeneratedStudentTranscript">
+            <value>classpath:edfiXsd/Interchange-HSGeneratedStudentTranscript.xsd</value>
+        </entry>
+        <entry key="MasterSchedule">
+            <value>classpath:edfiXsd/Interchange-MasterSchedule.xsd</value>
+        </entry>
+        <entry key="StaffAssociation">
+            <value>classpath:edfiXsd/Interchange-StaffAssociation.xsd</value>
+        </entry>
+        <entry key="Student">
+             <value>classpath:edfiXsd/Interchange-Student.xsd</value>
+        </entry>
+        <entry key="StudentAssessment">
+            <value>classpath:edfiXsd/Interchange-StudentAssessment.xsd</value>
+        </entry>
+        <entry key="Attendance">
+            <value>classpath:edfiXsd/Interchange-StudentAttendance.xsd</value>
+        </entry>
+        <entry key="StudentCohort">
+            <value>classpath:edfiXsd/Interchange-StudentCohort.xsd</value>
+        </entry>
+        <entry key="StudentDiscipline">
+           <value>classpath:edfiXsd/Interchange-StudentDiscipline.xsd</value>
+        </entry>
+        <entry key="StudentEnrollment">
+            <value>classpath:edfiXsd/Interchange-StudentEnrollment.xsd</value>
+        </entry>
+        <entry key="StudentGrades">
+            <value>classpath:edfiXsd/Interchange-StudentGrade.xsd</value>
+        </entry>
+        <entry key="Parent">
+            <value>classpath:edfiXsd/Interchange-StudentParent.xsd</value>
+        </entry>
+        <entry key="StudentProgram">
+            <value>classpath:edfiXsd/Interchange-StudentProgram.xsd</value>
+        </entry>
+    </util:map>
+
+    <bean id="xsdValidator" class="org.slc.sli.ingestion.validation.XsdValidator">
+        <property name="xsd" ref="xsd"></property>
+    </bean>
+</beans>

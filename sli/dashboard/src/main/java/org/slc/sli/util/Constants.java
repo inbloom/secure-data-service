@@ -7,7 +7,7 @@ package org.slc.sli.util;
  * @author dwu
  * 
  */
-public class Constants {
+public final class Constants {
     // API related URLs
     public static final String API_PREFIX = "api/rest";
     
@@ -39,7 +39,7 @@ public class Constants {
     public static final String FIELD_TYPE_HISTORICAL_COURSE = "historicalCourse";
     public static final String FIELD_TYPE_UNIT_GRADE = "unitTestGrade";
     public static final String FIELD_TYPE_CURRENT_TERM_GRADE = "currentTermGrade";
-
+    
     // model map keys
     public static final String MM_KEY_LOZENGE_CONFIG = "lozengeConfigs";
     public static final String MM_KEY_VIEW_CONFIG = "viewConfig";
@@ -110,7 +110,7 @@ public class Constants {
     public static final String ATTR_ASSESSMENTS = "assessments";
     public static final String ATTR_COHORT_YEAR = "cohortYear";
     public static final String ATTR_UNIQUE_SECTION_CODE = "uniqueSectionCode";
-    public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessments";
+    public static final String ATTR_STUDENT_ASSESSMENTS = "studentAssessmentAssociations";
     public static final String ATTR_COURSE_ID = "courseId";
     public static final String ATTR_STUDENT_ATTENDANCES = "attendances";
     public static final String ATTR_PARENT_EDORG = "parentEducationAgencyReference";
@@ -132,19 +132,55 @@ public class Constants {
     public static final String ATTR_GRADEBOOK_ENTRY_ID = "gradebookEntryId";
     public static final String ATTR_GRADEBOOK_ENTRY_TYPE = "gradebookEntryType";
     public static final String ATTR_GRADEBOOK_ENTRIES = "gradebookEntries";
+    public static final String ATTR_STUDENT_ENROLLMENT = "studentEnrollment";
+    public static final String ATTR_SCHOOL = "school";
     
-    //Teacher constants
+    // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
     
     public static final String HISTORICAL_DATA_VIEW = "Historical Data";
     public static final String MIDDLE_SCHOOL_VIEW = "IL_3-8_ELA";
     
-    public static final Object ATTR_NAME_WITH_LINK = "name_w_link";
+    public static final String ATTR_NAME_WITH_LINK = "name_w_link";
     
     public static final String PARAM_INCLUDE_FIELDS = "includeFields";
     
     // Program Participation Constants
     public static final String SHOW_ELL_LOZENGE = "Limited";
+<<<<<<< HEAD
+=======
+    
+    // AddressType Constants
+    public static final String TYPE_ADDRESS_HOME = "Home";
+    public static final String TYPE_ADDRESS_PHYSICAL = "Physical";
+    public static final String TYPE_ADDRESS_BILLING = "Billing";
+    public static final String TYPE_ADDRESS_MAILING = "Mailing";
+    public static final String TYPE_ADDRESS_OTHER = "Other";
+    public static final String TYPE_ADDRESS_TEMPORARY = "Temporary";
+    public static final String TYPE_ADDRESS_WORK = "Work";
+    
+    // TelephoneType Constants
+    public static final String TYPE_TELEPHONE_HOME = "Home";
+    public static final String TYPE_TELEPHONE_WORK = "Work";
+    public static final String TYPE_TELEPHONE_MOBILE = "Mobile";
+    public static final String TYPE_TELEPHONE_EMERGENCY_1 = "Emergency 1";
+    public static final String TYPE_TELEPHONE_EMERGENCY_2 = "Emergency 2";
+    public static final String TYPE_TELEPHONE_FAX = "Fax";
+    public static final String TYPE_TELEPHONE_OTHER = "Other";
+    public static final String TYPE_TELEPHONE_UNLISTED = "Unlisted";
+    
+    // EmailType Constants
+    public static final String TYPE_EMAIL_HOME_PERSONAL = "Home/Personal";
+    public static final String TYPE_EMAIL_WORK = "Work";
+    public static final String TYPE_EMAIL_ORGANIZATION = "Organization";
+    public static final String TYPE_EMAIL_OTHER = "Other";
+
+    public static final String CONTEXT_ROOT_PATH = "CONTEXT_ROOT_PATH";
+    
+    // extra elements added by API
+    public static final String METADATA = "metaData";
+    public static final String EXTERNAL_ID = "externalId";
+>>>>>>> master
     
     /**
      * Contains the possible values for FRE participation

@@ -1,10 +1,5 @@
 package org.slc.sli.unit.view;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,25 +32,26 @@ public class AttendanceAbsenceResolverTest {
 
     @Test
     public void testGetCountForPath() throws Exception {
-        List<Map> attendances = new ArrayList<Map>();
-        for (int i = 0; i < 20; ++i) {
-            attendances.add(getValidAttendanceObject());  
-        }
+        GenericEntity attendanceEvents = new GenericEntity();
+        attendanceEvents.put("Excused Absence", 20.0);
+        GenericEntity attendances = new GenericEntity();
+        attendances.put("attendances", attendanceEvents);
+
         mockStudent.put("attendances", attendances);
         Field f = new Field();
         f.setValue("ATTENDANCE.AbsenceCount");
+        
         assert (resolver.getCountForPath(f) == 20);
     }
 
     @Test
     public void testGetMixedCount() throws Exception {
-        List<Map> attendances = new ArrayList<Map>();
-        for (int i = 0; i < 20; ++i) {
-            attendances.add(getValidAttendanceObject());
-        }
-        for (int i = 0; i < 15; ++i) {
-            attendances.add(getInvalidAttendanceObject());
-        }
+        GenericEntity attendanceEvents = new GenericEntity();
+        attendanceEvents.put("Excused Absence", 20.0);
+        attendanceEvents.put("Tardy", 15.0);
+        GenericEntity attendances = new GenericEntity();
+        attendances.put("attendances", attendanceEvents);
+        
         Field f = new Field();
         f.setValue("ATTENDANCE.AbsenceCount");
         mockStudent.put("attendances", attendances);
@@ -64,10 +60,11 @@ public class AttendanceAbsenceResolverTest {
     
     @Test
     public void testTardyCount() {
-        List<Map> attendances = new ArrayList<Map>();
-        for (int i = 0; i < 17; i++) {
-            attendances.add(getInvalidAttendanceObject());
-        }
+        GenericEntity attendanceEvents = new GenericEntity();
+        attendanceEvents.put("Tardy", 17.0);
+        GenericEntity attendances = new GenericEntity();
+        attendances.put("attendances", attendanceEvents);
+        
         mockStudent.put("attendances", attendances);
         Field f = new Field();
         f.setValue("ATTENDANCE.TardyCount");
@@ -76,28 +73,27 @@ public class AttendanceAbsenceResolverTest {
     
     @Test
     public void testTardyCountMixed() {
-        List<Map> attendances = new ArrayList<Map>();
-        for (int i = 0; i < 20; ++i) {
-            attendances.add(getValidAttendanceObject());
-        }
-        for (int i = 0; i < 15; ++i) {
-            attendances.add(getInvalidAttendanceObject());
-        }
+        GenericEntity attendanceEvents = new GenericEntity();
+        attendanceEvents.put("Excused Absence", 20.0);
+        attendanceEvents.put("Tardy", 15.0);
+        GenericEntity attendances = new GenericEntity();
+        attendances.put("attendances", attendanceEvents);
+        
         Field f = new Field();
         f.setValue("ATTENDANCE.TardyCount");
         mockStudent.put("attendances", attendances);
         assert (resolver.getCountForPath(f) == 15);
     }
 
-    private Map getValidAttendanceObject() {
-        Map<String, String> attendance = new HashMap<String, String>();
-        attendance.put("attendanceEventCategory", "Excused Absence");
-        return attendance;
-    }
-
-    private Map getInvalidAttendanceObject() {
-        Map<String, String> attendance = new HashMap<String, String>();
-        attendance.put("attendanceEventCategory", "Tardy");
-        return attendance;
-    }
+//    private Map getValidAttendanceObject() {
+//        Map<String, String> attendance = new HashMap<String, String>();
+//        attendance.put("attendanceEventCategory", "Excused Absence");
+//        return attendance;
+//    }
+//
+//    private Map getInvalidAttendanceObject() {
+//        Map<String, String> attendance = new HashMap<String, String>();
+//        attendance.put("attendanceEventCategory", "Tardy");
+//        return attendance;
+//    }
 }

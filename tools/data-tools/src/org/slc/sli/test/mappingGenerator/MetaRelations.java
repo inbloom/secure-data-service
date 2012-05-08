@@ -3,7 +3,10 @@ package org.slc.sli.test.mappingGenerator;
 import java.util.HashMap;
 import java.util.Map;
 
+<<<<<<< HEAD
 import org.slc.sli.test.edfi.entities.relations.CohortMeta;
+=======
+>>>>>>> master
 import org.slc.sli.test.edfi.entities.relations.CourseMeta;
 import org.slc.sli.test.edfi.entities.relations.LeaMeta;
 import org.slc.sli.test.edfi.entities.relations.SchoolMeta;
@@ -12,14 +15,18 @@ import org.slc.sli.test.edfi.entities.relations.SectionMeta;
 import org.slc.sli.test.edfi.entities.relations.SessionMeta;
 import org.slc.sli.test.edfi.entities.relations.StudentMeta;
 import org.slc.sli.test.edfi.entities.relations.TeacherMeta;
+<<<<<<< HEAD
 import org.slc.sli.test.edfi.entities.relations.StaffMeta;
 import org.slc.sli.test.edfi.entities.relations.ProgramMeta;
+=======
+>>>>>>> master
 
 public final class MetaRelations {
 
     // knobs to control number of entities to create
     private static final int TOTAL_SEAS = 1;
     private static final int LEAS_PER_SEA = 1;
+<<<<<<< HEAD
     private static final int STAFF_PER_SEA = 3;
     private static final int SCHOOLS_PER_LEA = 2;
     private static final int COURSES_PER_SCHOOL = 2;
@@ -29,6 +36,14 @@ public final class MetaRelations {
     private static final int STUDENTS_PER_SCHOOL = 50;
     private static final int PROGRAMS_PER_SCHOOL = 2;
     private static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
+=======
+    private static final int SCHOOLS_PER_LEA = 1;
+    private static final int COURSES_PER_SCHOOL = 1;
+    private static final int SESSIONS_PER_SCHOOL = 1;
+    private static final int SECTIONS_PER_COURSE_SESSION = 1;
+    private static final int TEACHERS_PER_SCHOOL = 1;
+    private static final int STUDENTS_PER_SCHOOL = 25;
+>>>>>>> master
 
     // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
     public static final Map<String, SeaMeta> SEA_MAP = new HashMap<String, SeaMeta>();
@@ -42,6 +57,7 @@ public final class MetaRelations {
 
     public static final Map<String, TeacherMeta> TEACHER_MAP = new HashMap<String, TeacherMeta>();
 
+<<<<<<< HEAD
     public static final Map<String, StaffMeta> STAFF_MAP = new HashMap<String, StaffMeta>();
 
     public static final Map<String, StudentMeta> STUDENT_MAP = new HashMap<String, StudentMeta>();
@@ -50,6 +66,10 @@ public final class MetaRelations {
 
     public static final Map<String, CohortMeta> COHORT_MAP = new HashMap<String, CohortMeta>();
 
+=======
+    public static final Map<String, StudentMeta> STUDENT_MAP = new HashMap<String, StudentMeta>();
+
+>>>>>>> master
     /**
      * The top level call to start the XML generation process is
      * to 'buildSeas'
@@ -75,12 +95,17 @@ public final class MetaRelations {
 
             SEA_MAP.put(seaMeta.id, seaMeta);
 
+<<<<<<< HEAD
             Map<String, StaffMeta> staffForSea = buildStaffForSea(seaMeta);
             buildLeasForSea(seaMeta, staffForSea);
+=======
+            buildLeasForSea(seaMeta);
+>>>>>>> master
         }
     }
 
     /**
+<<<<<<< HEAD
      * Create staff relations for each sea
      */
     private static Map<String, StaffMeta> buildStaffForSea(SeaMeta seaMeta) {
@@ -97,12 +122,18 @@ public final class MetaRelations {
     }
 
     /**
+=======
+>>>>>>> master
      * Looping over all LEAs, build Schools for each LEA
      *
      * @param seaMeta
      */
+<<<<<<< HEAD
     private static void buildLeasForSea(SeaMeta seaMeta,
             Map<String, StaffMeta> staffForSea) {
+=======
+    private static void buildLeasForSea(SeaMeta seaMeta) {
+>>>>>>> master
 
         for (int idNum = 0; idNum < LEAS_PER_SEA; idNum++) {
 
@@ -110,7 +141,11 @@ public final class MetaRelations {
 
             LEA_MAP.put(leaMeta.id, leaMeta);
 
+<<<<<<< HEAD
             buildSchoolsForLea(leaMeta, staffForSea);
+=======
+            buildSchoolsForLea(leaMeta);
+>>>>>>> master
         }
     }
 
@@ -124,7 +159,11 @@ public final class MetaRelations {
      *
      * @param leaMeta
      */
+<<<<<<< HEAD
     private static void buildSchoolsForLea(LeaMeta leaMeta, Map<String, StaffMeta> staffForSea) {
+=======
+    private static void buildSchoolsForLea(LeaMeta leaMeta) {
+>>>>>>> master
 
         for (int idNum = 0; idNum < SCHOOLS_PER_LEA; idNum++) {
 
@@ -140,19 +179,27 @@ public final class MetaRelations {
 
             Map<String, SessionMeta> sessionsForSchool = buildSessionsForSchool(schoolMeta);
 
+<<<<<<< HEAD
             Map<String, ProgramMeta> programForSchool = buildProgramsForSchool(schoolMeta);
 
             Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
                     sessionsForSchool, programForSchool);
+=======
+            Map<String, SectionMeta> sectionsForSchool = buildSectionsForSchool(schoolMeta, coursesForSchool,
+                    sessionsForSchool);
+>>>>>>> master
 
             addSectionsToTeachers(sectionsForSchool, teachersForSchool);
 
             addStudentsToSections(sectionsForSchool, studentsForSchool);
+<<<<<<< HEAD
             
             addStudentsToPrograms(sectionsForSchool, studentsForSchool, programForSchool);
 
             addStaffToPrograms(programForSchool, staffForSea);
             
+=======
+>>>>>>> master
         }
     }
 
@@ -169,7 +216,17 @@ public final class MetaRelations {
         Map<String, TeacherMeta> teachersInSchoolMap = new HashMap<String, TeacherMeta>(TEACHERS_PER_SCHOOL);
         for (int idNum = 0; idNum < TEACHERS_PER_SCHOOL; idNum++) {
 
+<<<<<<< HEAD
             TeacherMeta teacherMeta = new TeacherMeta("teacher" + idNum, schoolMeta);
+=======
+            TeacherMeta teacherMeta;
+            if (idNum == 0) {
+                // hardcode first teacher as he is set up in ny idp
+                teacherMeta = TeacherMeta.create("wadama", schoolMeta);
+            } else {
+                teacherMeta = TeacherMeta.createWithChainedId("teacher" + idNum, schoolMeta);
+            }
+>>>>>>> master
 
             // it's useful to return the objects created JUST for this school
             // add to both maps here to avoid loop in map.putAll if we merged maps later
@@ -262,6 +319,7 @@ public final class MetaRelations {
      * @param schoolMeta
      * @param coursesForSchool
      * @param sessionsForSchool
+<<<<<<< HEAD
      * @param programsForSchool
      * @return
      */
@@ -273,6 +331,14 @@ public final class MetaRelations {
         
         Object[] programMetas = programsForSchool.values().toArray();
         int programCounter = 0;
+=======
+     * @return
+     */
+    private static Map<String, SectionMeta> buildSectionsForSchool(SchoolMeta schoolMeta,
+            Map<String, CourseMeta> coursesForSchool, Map<String, SessionMeta> sessionsForSchool) {
+
+        Map<String, SectionMeta> sectionMapForSchool = new HashMap<String, SectionMeta>();
+>>>>>>> master
 
         for (SessionMeta sessionMeta : sessionsForSchool.values()) {
 
@@ -280,6 +346,7 @@ public final class MetaRelations {
 
                 for (int idNum = 0; idNum < SECTIONS_PER_COURSE_SESSION; idNum++) {
 
+<<<<<<< HEAD
                     // program reference in section is optional; will create one program reference 
                     // for every inverse-probability-section-has-program section
                     ProgramMeta programMeta = null;
@@ -289,6 +356,9 @@ public final class MetaRelations {
                     }
 
                     SectionMeta sectionMeta = new SectionMeta("section" + idNum, schoolMeta, courseMeta, sessionMeta, programMeta);
+=======
+                    SectionMeta sectionMeta = new SectionMeta("section" + idNum, schoolMeta, courseMeta, sessionMeta);
+>>>>>>> master
 
                     // it's useful to return the objects created JUST for this school
                     // add to both maps here to avoid loop in map.putAll if we merged maps later
@@ -302,6 +372,7 @@ public final class MetaRelations {
     }
 
     /**
+<<<<<<< HEAD
      * Generate the programs for this school.
      * programMapForSchool is used later in this class.
      * PROGRAM_MAP is used to actually generate the XML.
@@ -344,6 +415,8 @@ public final class MetaRelations {
     }
 
     /**
+=======
+>>>>>>> master
      * Correlates teachers and sections on a 'per school' basis.
      *
      * @param sectionsForSchool
@@ -391,6 +464,7 @@ public final class MetaRelations {
         }
     }
 
+<<<<<<< HEAD
     /**
      * Correlates students and program on a 'per school' basis.
      * Student S is correlated with a program P iff there exists a section X s.t. S is  
@@ -457,4 +531,6 @@ public final class MetaRelations {
         }
     }
 
+=======
+>>>>>>> master
 }

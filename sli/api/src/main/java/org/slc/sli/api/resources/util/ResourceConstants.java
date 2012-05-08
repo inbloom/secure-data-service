@@ -12,6 +12,7 @@ import java.util.Map;
 public class ResourceConstants {
 
     public static final String SELF = "self";
+    public static final String CUSTOM = "custom";
     public static final String LINKS = "links";
 
     public static final String QUERY_PARAM_GRADE = "grade";

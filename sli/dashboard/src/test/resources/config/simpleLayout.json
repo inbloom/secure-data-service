@@ -1,0 +1,11 @@
+{
+  id : "studentProfile",
+  type: "LAYOUT",
+  data :{
+    entity: "student",
+    alias: "student"
+  }, 
+  items: [
+    {id : "csi", name: "Student Info", type: "PANEL"}
+  ]
+}

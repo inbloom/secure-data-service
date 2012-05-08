@@ -1,76 +1,141 @@
 /** TODO: structure this in a flexible way. separate layout and style? separate customizable and non-customizable? **/
 
 /**** CSS Reset ****/
-
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-    display: block;
-}
 body {
-    line-height: 1;
-}
-ol, ul {
-    list-style: none;
-}
-blockquote, q {
-    quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-    content: '';
-    content: none;
-}
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-
-
-
-
-body 
-{
-    font-size:10px;
+    color: #333333;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    line-height: 18px;
     margin: 0;
 }
-
-body,p,h1,h2,h3,h4,table,td,th,ul,ol,textarea,input
-{
-    font-family:verdana,helvetica,arial,sans-serif;
+.panel {
+    margin-bottom: 30px;
+    margin-left: 0;
+    margin-top: 15px;
+    padding: 0;
+    clear:both;
 }
-
-table,td,th
-{
-    font-size:12px;
+.panel-header {
+    border-bottom: 1px solid #CCCCCC;
+    height: 28px;
+    margin-left: 0;
+    padding-left: 6px;
+    padding-top: 8px;
+    vertical-align: middle;
 }
-
-h1
-{
-    font-size:24px;
+.panel-content {
+    margin-left: 0;
+    padding: 5px;
+    font-size: 13px;
 }
-
+.panel-content .tabular table {
+	border-right: 0 solid #DDDDDD;
+    border-top: 0 solid #DDDDDD; 
+    vertical-align: top;
+    font-weight: normal;
+    margin-bottom: 18px;
+    margin-top: 0;
+}
+.panel-content .tabular table tr td{
+    float: right;
+    padding-bottom: 6px;
+    padding-left: 4px;
+    padding-top: 6px;
+    text-align: left;
+    line-height: 4px;
+}
+.panel-content .tabular table th{
+    color: #999999;
+    vertical-align: top; 
+    text-align: right;
+    font-weight: normal;
+    padding-bottom: 6px;
+    padding-left: 4px;
+    padding-top: 6px;
+    line-height: 4px;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #333333;
+    font-weight: bold;
+    margin: 0;
+}
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
+    color: #999999;
+    font-weight: normal;
+}
+h1 {
+    font-size: 30px;
+    line-height: 36px;
+}
+h1 small {
+    font-size: 18px;
+}
+h2 {
+    font-size: 24px;
+    line-height: 36px;
+}
+h2 small {
+    font-size: 18px;
+}
+h3 {
+    font-size: 18px;
+    line-height: 27px;
+}
+h3 small {
+    font-size: 14px;
+}
+h4, h5, h6 {
+    line-height: 18px;
+}
+h4 {
+    font-size: 14px;
+}
+h4 small {
+    font-size: 12px;
+}
+h5 {
+    font-size: 12px;
+}
+h6 {
+    color: #000000;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+h7 {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: lighter;
+}
+.ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column {
+    background: url("../images/ui-bg_glass_65_ffffff_1x400.png") repeat-x scroll 50% 50% #FFFFFF;
+    border-bottom: 2px solid #000000;
+    border-right: 0px none;
+    border-top: 0px none;
+    border-left: 0px none;
+    color: #999999;
+    font-weight: normal;
+    font-size:13px;
+}
+th.ui-th-column div {
+    white-space: normal !important;
+    height: auto !important;
+    padding: 2px;
+    text-align: left;
+}
+.ui-widget-no-border .ui-jqgrid tr.jqgrow td { font-size:13px;color: #333333; padding: 4px 5px;border: 0px none;}
+.ui-widget-no-border .ui-jqgrid tr.jqgrow th { border: 0px none; padding: 4px 5px;}
+.ui-widget-no-border .ui-corner-all {border: 0px none;}
+.row {
+    margin-left: -20px;
+}
+.row:before, .row:after {
+    content: "";
+    display: table;
+}
+.row:after {
+    clear: both;
+}
 #selectapp
 {
     font-size:14px;
@@ -226,7 +291,7 @@ h1
 .csi .colMain
 {
     margin-left: 100px;
-    width: 900;
+    width: 900px;
 }
 
 .csi .studentName
@@ -243,7 +308,7 @@ h1
 .csi .studentInfo .col1
 {
     float: left;
-    width: 500;
+    width: 500px;
 }
 
 .csi .studentInfo .col2
@@ -257,36 +322,14 @@ h1
     font-size: 12px;
     height: 20px;
 }
-
-th.ui-th-column div {
-    white-space: normal !important;
-    height: auto !important;
-    padding: 2px;
+.panel-container {
+	position:relative;
 }
-
-.studentContactInfo {
-	display:table; 
-	font-size: 12px;
+.panel-container .panel-item {
+	float:left;
+    top:0;
+    right:0;
 }
-
-.contactInfoRow {
-	display:table-row;
-}
-
-.contactInfoCol1 {
-	display:table-cell;
-	width: 90px;
-}
-
-.contactInfoCol2 {
-	padding-bottom: 5px;
-	display:table-cell;
-}
-
-.section {
-	padding: 10px; 
-}
-
-.bold {
-	font-weight:bold;
+.contactInfoItem {
+	width:300px;
 }

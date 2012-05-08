@@ -1,10 +1,9 @@
 package org.slc.sli.ingestion.dal;
 
-import java.net.UnknownHostException;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import com.mongodb.MongoException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +28,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     @Override
-    public NeutralRecord create(String type, Map<String, Object> body, Map<String, Object> metaData,
-            String collectionName) {
+    public NeutralRecord create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
         NeutralRecord neutralRecord = new NeutralRecord();
         neutralRecord.setLocalId(metaData.get("externalId"));
@@ -48,22 +46,51 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     public Set<String> getCollectionNames() {
+        if (isCollectionGrouping()) {
+            Set<String> collectionSet = template.getCollectionNames();
+            Iterator<String> iter = collectionSet.iterator();
+            
+            Set<String> currentCollections = new HashSet<String>();
+            String currentCollection;
+            
+            while (iter.hasNext()) {
+                currentCollection = iter.next();
+                
+                if (currentCollection.endsWith(getCollectionGroupingIdentifier())) {
+                    currentCollections.add(currentCollection.replace("_" + getCollectionGroupingIdentifier(), ""));
+                }
+            }
+            
+            return currentCollections;
+        }
+        
         return template.getCollectionNames();
     }
-
-    public void changeTemplate(String batchJobId) {
-        StagingMongoTemplate currentTemplate = (StagingMongoTemplate) getTemplate();
-        try {
-            setTemplate(new StagingMongoTemplate(currentTemplate.getDatabasePrefix(), batchJobId, currentTemplate.getNeutralRecordMappingConverter()));
-        } catch (UnknownHostException e) {
-
-            LOG.error(e.getMessage());
-
-        } catch (MongoException e) {
-
-            LOG.error(e.getMessage());
-
+    
+    public void deleteGroupedCollections() {
+        if (isCollectionGrouping()) {
+            Set<String> collectionSet = template.getCollectionNames();
+            Iterator<String> iter = collectionSet.iterator();
+            
+            String currentCollection;
+            
+            while (iter.hasNext()) {
+                currentCollection = iter.next();
+                
+                if (currentCollection.endsWith(getCollectionGroupingIdentifier())) {
+                    template.dropCollection(currentCollection);
+                }
+            }
         }
+    }
+
+    public void registerBatchId(String batchJobId) {
+        setCollectionGrouping(true);
+        setCollectionGroupingIdentifier(batchJobId);
+    }
+    
+    public String getBatchJobId() {
+        return getCollectionGroupingIdentifier();
     }
 
     @Override

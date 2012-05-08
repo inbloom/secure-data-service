@@ -12,6 +12,11 @@
                 <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/assessment.xml" />
             </bean>
         </entry>
+        <entry key="studentTranscriptAssociation">
+            <bean class="org.milyn.Smooks">
+                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentTranscriptAssociation.xml" />
+            </bean>
+        </entry>
     </util:map>
 
     <bean id="abstractEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.EdFi2SLITransformer" abstract="true">
@@ -28,6 +33,10 @@
     </bean>
 
     <bean id="assessmentTransformationStrategy" class="org.slc.sli.ingestion.transformation.AssessmentCombiner" scope="prototype">
+        <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    </bean>
+
+    <bean id="studentTranscriptAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.StudentTranscriptAssociationCombiner" scope="prototype">
         <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     </bean>
 

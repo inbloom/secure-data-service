@@ -104,7 +104,7 @@ public class OAuthTokenUtil {
         neutralQuery.addCriteria(new NeutralCriteria("_id", "=", realm));
         
         Entity realmEntity = repo.findOne("realm", neutralQuery);
-        SLIPrincipal principal = locator.locate((String) realmEntity.getBody().get("regionId"), externalId);
+        SLIPrincipal principal = locator.locate((String) realmEntity.getBody().get("tenantId"), externalId);
         principal.setName((String) data.get("name"));
         principal.setRoles((List<String>) data.get("roles"));
         principal.setRealm(realm);

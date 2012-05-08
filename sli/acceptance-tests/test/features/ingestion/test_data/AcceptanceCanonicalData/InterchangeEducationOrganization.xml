@@ -207,7 +207,13 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>South Daybreak Elementary</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
     <CompetencyLevels id="CL-G1-1">
       <CodeValue>CL-G1-1</CodeValue>
       <Description>Express complete thoughts.</Description>
@@ -239,7 +245,13 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>East Daybreak Junior High</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
   </Course>
   <Course>
     <CourseTitle>American Literature</CourseTitle>
@@ -255,7 +267,13 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>Daybreak Central High</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
   </Course>
   <Course>
     <CourseTitle>Special Elective: Debate Clinic</CourseTitle>
@@ -271,7 +289,13 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>Daybreak Central High</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
   </Course>
 
   <!-- courses for progress history -->
@@ -289,7 +313,13 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>East Daybreak Junior High</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
   </Course>
   <Course>
     <CourseTitle>7th Grade Composition</CourseTitle>
@@ -305,7 +335,13 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>East Daybreak Junior High</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
   </Course>
   <Course>
     <CourseTitle>Kindergarten Homeroom</CourseTitle>
@@ -321,23 +357,77 @@
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>South Daybreak Elementary</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
   </Course>
   <Course>
-    <CourseTitle>8th Grade Composition</CourseTitle>
+    <CourseTitle>10th Grade Writing</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="CSSC course code">
-      <ID>8th Grade Composition</ID>
+      <ID>10th Grade Writing</ID>
     </CourseCode>
     <DateCourseAdopted>2000-01-01</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <MinimumAvailableCredit>
       <Credit>1</Credit>
     </MinimumAvailableCredit>
     <MaximumAvailableCredit>
       <Credit>1</Credit>
     </MaximumAvailableCredit>
-    <EducationOrganizationReference></EducationOrganizationReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>Daybreak Central High</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
   </Course>
-
+  <Course>
+    <CourseTitle>10th Grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>10th Grade English</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>Daybreak Central High</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </Course>
+  
+  <Program>
+    <ProgramId>ACC-TEST-PROG-1</ProgramId>
+	<ProgramType>Regular Education</ProgramType>
+	<ProgramSponsor>State Education Agency</ProgramSponsor>
+	<Services>
+	  <CodeValue>Test service 1</CodeValue>
+	  <ShortDescription>Short description for acceptance test program 1</ShortDescription>
+	  <Description>This is a longer description of the services provided by acceptance test program 1. More detail could be provided here.</Description>
+	</Services>
+  </Program>
+  <Program>
+    <ProgramId>ACC-TEST-PROG-2</ProgramId>
+	<ProgramType>Remedial Education</ProgramType>
+	<ProgramSponsor>Local Education Agency</ProgramSponsor>
+	<Services>
+	  <CodeValue>Test service 2</CodeValue>
+	  <ShortDescription>Short description for acceptance test program 2</ShortDescription>
+	  <Description>This is a longer description of the services provided by acceptance test program 2. More detail could be provided here.</Description>
+	</Services>
+  </Program>
 </InterchangeEducationOrganization>

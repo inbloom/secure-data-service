@@ -3,6 +3,7 @@ package org.slc.sli.security;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.scribe.exceptions.OAuthException;
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.model.Token;
 import org.scribe.utils.Preconditions;
@@ -24,6 +25,11 @@ public class SliTokenExtractor  implements AccessTokenExtractor {
         JsonParser parser = new JsonParser();
         JsonObject json = parser.parse(response).getAsJsonObject();
         LOG.debug("Response to extract token from - ", json);
+        
+        if (json.has("error")) {
+            throw new OAuthException(json.get("error_description").getAsString());
+        }
+        
         return new Token(json.get("access_token").getAsString(), "", response);
     }
     

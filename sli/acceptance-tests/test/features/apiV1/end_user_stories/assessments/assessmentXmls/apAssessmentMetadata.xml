@@ -11,40 +11,50 @@
 		<AssessmentCategory>College entrance exam</AssessmentCategory>
 		<GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
-			
 			<PerformanceLevel>
 				<Description>"Extremely well qualified"</Description>
-				<Code>5</Code>
+				<CodeValue>5</CodeValue>
 			</PerformanceLevel>
+			<AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>	
+		<AssessmentPerformanceLevel>	
 			<PerformanceLevel>
 				<Description>Well qualified</Description>
-				<Code>4</Code>
+				<CodeValue>4</CodeValue>
 			</PerformanceLevel>
+			<AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>	
+		<AssessmentPerformanceLevel>	
 			<PerformanceLevel>
 				<Description>Qualified</Description>
-				<Code>3</Code>
+				<CodeValue>3</CodeValue>
 			</PerformanceLevel>
+			<AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>	
+		<AssessmentPerformanceLevel>	
 			<PerformanceLevel>
 				<Description>Possibly qualified</Description>
-				<Code>2</Code>
+				<CodeValue>2</CodeValue>
 			</PerformanceLevel>
+			<AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>	
+		<AssessmentPerformanceLevel>	
 			<PerformanceLevel>
 				<Description>No recommendation</Description>
-				<Code>1</Code>
+				<CodeValue>1</CodeValue>
 			</PerformanceLevel>
-			
-			<AssessmentReportingMethod>Proficiency level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
-		<ContentStandard>Statewide Standard</ContentStandard>
+		<ContentStandard>Advanced Placement</ContentStandard>
 		<Version>1</Version>
 		<RevisionDate>2005-03-12</RevisionDate>
 		<AssessmentFamilyReference>
-			<AssessmentFamilyIdentiy>
+			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
 					<ID>AP-Eng-Lit</ID>
 				</AssessmentFamilyIdentificationCode>
-			</AssessmentFamilyIdentiy>
+			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	
@@ -94,40 +104,50 @@
 		<AssessmentCategory>College entrance exam</AssessmentCategory>
 		<GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
-			
 			<PerformanceLevel>
 				<Description>"Extremely well qualified"</Description>
-				<Code>5</Code>
+				<CodeValue>5</CodeValue>
 			</PerformanceLevel>
+			<AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>	
+		<AssessmentPerformanceLevel>	
 			<PerformanceLevel>
 				<Description>Well qualified</Description>
-				<Code>4</Code>
+				<CodeValue>4</CodeValue>
 			</PerformanceLevel>
+			<AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>	
+		<AssessmentPerformanceLevel>		
 			<PerformanceLevel>
 				<Description>Qualified</Description>
-				<Code>3</Code>
+				<CodeValue>3</CodeValue>
 			</PerformanceLevel>
+			<AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>	
+		<AssessmentPerformanceLevel>		
 			<PerformanceLevel>
 				<Description>Possibly qualified</Description>
-				<Code>2</Code>
+				<CodeValue>2</CodeValue>
 			</PerformanceLevel>
+			<AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>	
+		<AssessmentPerformanceLevel>		
 			<PerformanceLevel>
 				<Description>No recommendation</Description>
-				<Code>1</Code>
+				<CodeValue>1</CodeValue>
 			</PerformanceLevel>
-			
-			<AssessmentReportingMethod>Proficiency level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
-		<ContentStandard>Statewide Standard</ContentStandard>
+		<ContentStandard>Advanced Placement</ContentStandard>
 		<Version>1</Version>
 		<RevisionDate>2005-03-12</RevisionDate>
 		<AssessmentFamilyReference>
-			<AssessmentFamilyIdentiy>
+			<AssessmentFamilyIdentity>
 				<AssessmentFamilyIdentificationCode
 					IdentificationSystem="Test Contractor">
 					<ID>AP-Lang-and-Literature</ID>
 				</AssessmentFamilyIdentificationCode>
-			</AssessmentFamilyIdentiy>
+			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	

@@ -45,7 +45,7 @@
                         \"description\": \"Reduced Lunch\"
                     }, 
                     {
-                        \"name\": \"schoolFoodServiceEligibility\",
+                        \"name\": \"schoolFoodServicesEligibility\",
                         \"label\": \"FRE\",
                         \"color\": \"#8083fc\",
                         \"style\": \"solid\",

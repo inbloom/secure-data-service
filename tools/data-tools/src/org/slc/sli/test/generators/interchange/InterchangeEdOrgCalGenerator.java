@@ -27,15 +27,21 @@ public class InterchangeEdOrgCalGenerator {
      * @return
      */
     public static InterchangeEducationOrgCalendar generate() {
+<<<<<<< HEAD
         long startTime = System.currentTimeMillis();
+=======
+>>>>>>> master
 
         InterchangeEducationOrgCalendar interchange = new InterchangeEducationOrgCalendar();
         List<ComplexObjectType> interchangeObjects = interchange.getSessionOrGradingPeriodOrCalendarDate();
 
         addEntitiesToInterchange(interchangeObjects);
 
+<<<<<<< HEAD
         System.out.println("generated " + interchangeObjects.size() + " InterchangeEducationOrgCalendar entries in: "
                 + (System.currentTimeMillis() - startTime));
+=======
+>>>>>>> master
         return interchange;
     }
 
@@ -58,6 +64,10 @@ public class InterchangeEdOrgCalGenerator {
      */
     private static void generateSessions(List<ComplexObjectType> interchangeObjects,
             Collection<SessionMeta> sessionMetas) {
+<<<<<<< HEAD
+=======
+        long startTime = System.currentTimeMillis();
+>>>>>>> master
 
         for (SessionMeta sessionMeta : sessionMetas) {
 
@@ -72,5 +82,10 @@ public class InterchangeEdOrgCalGenerator {
             interchangeObjects.add(session);
         }
 
+<<<<<<< HEAD
+=======
+        System.out.println("generated " + sessionMetas.size() + " Session objects in: "
+                + (System.currentTimeMillis() - startTime));
+>>>>>>> master
     }
 }

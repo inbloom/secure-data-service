@@ -16,15 +16,19 @@ And I click the IDP page Go button
 Then I should be redirected to the Data Browser home page
 And I should see my available links labeled
  
- @wip
+@wip
 Scenario: Logout 
 
 Given I have an open web browser
-And I am authenticated to SLI IDP as user "jdoe" with pass "jdoe1234"
-And I have navigated to any page of the Data Browser
+And I navigated to the Data Browser Home URL
+And I was redirected to the Realm page
+And I choose realm "Illinois Sunset School District 4526" in the drop-down list
+And I was redirected to the "OpenAM" IDP Login page
+When I submit the credentials "jdoe" "jdoe1234" for the "OpenAM" login page
+Then I should be redirected to the Data Browser home page
 When I click on the Logout link
 Then I am redirected to a page that informs me that I have signed out
-And I am no longer authenticated to SLI
+And I am forced to reauthenticate to access the databrowser
 
 Scenario Outline: Navigate to home page from any page
 

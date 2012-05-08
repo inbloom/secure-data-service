@@ -7,9 +7,7 @@ $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG']
 
 # TODO: externalize this to a method so we can reuse in the future
 When /^I select "([^"]*)" and click go$/ do |arg1|
-  sleep(1)
- wait = Selenium::WebDriver::Wait.new(:timeout => 25) 
- realm_select = wait.until{@driver.find_element(:name=> "realmId")}
+ realm_select = @explicitWait.until{@driver.find_element(:name=> "realmId")}
   
   options = realm_select.find_elements(:tag_name=>"option")
   options.each do |e1|
@@ -23,9 +21,7 @@ When /^I select "([^"]*)" and click go$/ do |arg1|
 end
 
 When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
-    sleep(1)
-    wait = Selenium::WebDriver::Wait.new(:timeout => 10) # explicit wait for at most 5 sec
-    wait.until{@driver.find_element(:id, "IDToken1")}.send_keys username
+    @explicitWait.until{@driver.find_element(:id, "IDToken1")}.send_keys username
     @driver.find_element(:id, "IDToken2").send_keys password
     @driver.find_element(:name, "Login.Submit").click
 end
@@ -38,8 +34,7 @@ end
 
 
 When /^I click on the Dashboard page$/ do
-   wait = Selenium::WebDriver::Wait.new(:timeout => 30) # explicit wait for at most 5 sec
-   wait.until{@driver.find_element(:link_text=> "Dashboard")}.click
+   @explicitWait.until{@driver.find_element(:link_text=> "Dashboard")}.click
   sleep(2)
 end
 
@@ -83,8 +78,7 @@ def getStudentsWithELLLozenge()
 end
 
 When /^the following students have "([^"]*)" lozenges: "([^"]*)"$/ do |lozengeName, studentList|
-  wait = Selenium::WebDriver::Wait.new(:timeout => 40) # explicit wait for at most 5 sec
-  studentTable = wait.until{@driver.find_element(:id, "studentList")}
+  studentTable = @explicitWait.until{@driver.find_element(:id, "studentList")}
   student_cells = studentTable.find_elements(:xpath, "//td[@class='name_w_link']")
   i = 0
   students = Hash.new
@@ -101,6 +95,6 @@ When /^the following students have "([^"]*)" lozenges: "([^"]*)"$/ do |lozengeNa
   end
   
   students.each do |student|
-      assert(student[1]==1, student[0].to_s + " doesn't have ELL" )
+      assert(student[1]==1, student[0].to_s + " doesn't have " + lozengeName )
   end
 end

@@ -11,7 +11,6 @@ that are displayed.
 
     Scenario: Check user has multiple filters available
         Given I am authenticated to SLI as "cgray" "cgray"
-        When I go to "/studentList"
         When I select <edOrg> "Daybreak School District 4529"
           And I select <school> "Daybreak Central High"
           And I select <course> "American Literature"
@@ -21,7 +20,6 @@ that are displayed.
 
     Scenario: Students are filtered based on filter selected
         Given I am authenticated to SLI as "cgray" "cgray"
-        When I go to "/studentList"
         When I select <edOrg> "Daybreak School District 4529"
           And I select <school> "Daybreak Central High"
           And I select <course> "American Literature"

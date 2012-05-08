@@ -1,0 +1,17 @@
+district1:
+    id: "1"
+    authId: "DISTRICT1"
+    authType: "EDUCATION_ORGANIZATION"
+    appIds:
+    - appId1
+    - appId2
+
+new_district:
+    id: "2"
+    authId: "DISTRICT1"
+    authType: "EDUCATION_ORGANIZATION"
+    appIds:
+    - appId1
+
+sessionCheck:
+    edOrg: "DISTRICT1"

@@ -68,8 +68,8 @@ public class StudentIngestionTest {
 
         File neutralRecordsFile = IngestionTest.createNeutralRecordsFile(neutralRecords);
 
-        String idNamespace = "https://devapp1.slidev.org:443/sp";
-        persistenceProcessor.processIngestionStream(neutralRecordsFile, idNamespace);
+        String tenantId = "SLI";
+        persistenceProcessor.processIngestionStream(neutralRecordsFile, tenantId);
 
         verifyStudents(studentRepository, numberOfStudents);
 
@@ -95,8 +95,8 @@ public class StudentIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        String idNamespace = "https://devapp1.slidev.org:443/sp";
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), idNamespace);
+        String tenantId = "SLI";
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);
 
         verifyStudents(studentRepository, numberOfStudents);
 
@@ -122,8 +122,8 @@ public class StudentIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        String idNamespace = "https://devapp1.slidev.org:443/sp";
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), idNamespace);
+        String tenantId = "SLI";
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);
 
         verifyStudents(studentRepository, numberOfStudents);
 
@@ -145,8 +145,8 @@ public class StudentIngestionTest {
 
         edFiProcessor.processFileEntry(inputFileEntry);
 
-        String idNamespace = "https://devapp1.slidev.org:443/sp";
-        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), idNamespace);
+        String tenantId = "SLI";
+        persistenceProcessor.processIngestionStream(inputFileEntry.getNeutralRecordFile(), tenantId);
 
         assertEquals(100, IngestionTest.getTotalCountOfEntityInRepository(studentRepository, studentEntityType));
 

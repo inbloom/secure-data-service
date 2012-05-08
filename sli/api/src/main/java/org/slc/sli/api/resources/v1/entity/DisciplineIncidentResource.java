@@ -16,8 +16,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -25,16 +23,24 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * This event entity represents an occurrence of an
+ * infraction ranging from a minor problem behavior 
+ * that disrupts the orderly functioning of a school or
+ * classroom (such as tardiness) to a criminal act that 
+ * results in the involvement of a law enforcement
+ * official (such as robbery). A single event (e.g., a fight) is one
+ * incident regardless of how many perpetrators or victims are
+ * involved. Discipline incidents are events classified as warranting
+ * discipline action.
  * 
  * @author jstokes
+ * @author slee
  * 
  */
 @Path(PathConstants.V1 + "/" + PathConstants.DISCIPLINE_INCIDENTS)
@@ -43,14 +49,9 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class DisciplineIncidentResource extends DefaultCrudEndpoint {
     
-    /**
-     * Logging utility.
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(DisciplineIncidentResource.class);
-    
     @Autowired
     public DisciplineIncidentResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs);
+        super(entityDefs, ResourceNames.DISCIPLINE_INCIDENTS);
     }
 
     /**
@@ -71,9 +72,7 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return super.readAll(ResourceNames.DISCIPLINE_INCIDENTS, headers, uriInfo);
+        return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
@@ -88,17 +87,17 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      * @response.param {@name Location} {@style header} {@type
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessable.}
+     *                 item is accessible.}
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.create(ResourceNames.DISCIPLINE_INCIDENTS, newEntityBody, headers, uriInfo);
+        return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$disciplineIncidents$$ entity
+     * Get a single $$disciplineIncidents$$ entity.
      * 
      * @param disciplineIncidentId
      *            The Id of the $$disciplineIncidents$$.
@@ -113,11 +112,11 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.DISCIPLINE_INCIDENT_ID) final String disciplineIncidentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.DISCIPLINE_INCIDENTS, disciplineIncidentId, headers, uriInfo);
+        return super.read(disciplineIncidentId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$disciplineIncidents$$ entity
+     * Delete a $$disciplineIncidents$$ entity.
      * 
      * @param disciplineIncidentId
      *            The Id of the $$disciplineIncidents$$.
@@ -132,7 +131,7 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
     @Path("{" + ParameterConstants.DISCIPLINE_INCIDENT_ID + "}")
     public Response delete(@PathParam(ParameterConstants.DISCIPLINE_INCIDENT_ID) final String disciplineIncidentId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(ResourceNames.DISCIPLINE_INCIDENTS, disciplineIncidentId, headers, uriInfo);
+        return super.delete(disciplineIncidentId, headers, uriInfo);
     }
 
     /**
@@ -154,12 +153,13 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
     public Response update(@PathParam(ParameterConstants.DISCIPLINE_INCIDENT_ID) final String disciplineIncidentId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(ResourceNames.DISCIPLINE_INCIDENTS, disciplineIncidentId, newEntityBody, headers, uriInfo);
+        return super.update(disciplineIncidentId, newEntityBody, headers, uriInfo);
     }
 
 
     /**
-     * $$studentDisciplineIncidentAssociations$$
+     * Returns the $$studentDisciplineIncidentAssociations$$ that
+     * reference the given $$disciplineIncidents$$.
      *
      * @param disciplineIncidentId
      *            The id of the $$disciplineIncidents$$.
@@ -176,5 +176,27 @@ public class DisciplineIncidentResource extends DefaultCrudEndpoint {
                                                              @Context HttpHeaders headers,
                                                              @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "disciplineIncidentId", disciplineIncidentId, headers, uriInfo);
+    }
+
+
+    /**
+     * Returns the $$students$$ that are referenced from the $$studentDisciplineIncidentAssociations$$ 
+     * that references the given $$disciplineIncidents$$.
+     *
+     * @param disciplineIncidentId
+     *            The id of the $$disciplineIncidents$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return result of CRUD operation
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.DISCIPLINE_INCIDENT_ID + "}" + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS + "/" + PathConstants.STUDENTS)
+    public Response getStudentDisciplineIncidentAssociationStudents(@PathParam(ParameterConstants.DISCIPLINE_INCIDENT_ID) final String disciplineIncidentId,
+                                                                    @Context HttpHeaders headers,
+                                                                    @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "disciplineIncidentId", disciplineIncidentId, "studentId", ResourceNames.STUDENTS, headers, uriInfo);
     }
 }

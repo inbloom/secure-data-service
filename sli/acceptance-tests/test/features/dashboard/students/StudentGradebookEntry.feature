@@ -8,7 +8,6 @@ Background:
 
 Scenario: Displaying gradebook entry data for all students
   Given I am authenticated to SLI as "linda.kim" "linda.kim1234"
-  When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "East Daybreak Junior High"
     And I select <course> "8th Grade English"

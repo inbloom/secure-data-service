@@ -1,3 +1,4 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
 <#include "layout_includes.ftl">
@@ -52,16 +53,21 @@
         <div id="page-${item.id}">
         <#-- create panels -->
         <#list item.items as panel>
-         <#if panel.type == "PANEL">
+         
           <div class="panel">
+          <div class="panel-header">
+            <h7>${viewConfigs[panel.id].name}</h7>
+          </div>
+          <div class="panel-content">
+          <#if panel.type == "PANEL">
+            
             <#include "../panel/" + panel.id + ".ftl">
-          </div>
-         </#if>   
-         <#if panel.type == "GRID">
-          <div class="panel">
+            </#if> 
+          <#if panel.type == "GRID">
             <@includeGrid gridId=panel.id/>
-          </div>
-         </#if>         
+          </#if>    
+          </div>   
+          </div>  
         </#list>
         </div>
        </#if>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
@@ -22,6 +23,7 @@ import org.springframework.util.Assert;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.util.threadutil.ThreadLocalStorage;
 
 /**
  * mongodb implementation of the repository interface that provides basic
@@ -33,6 +35,8 @@ import org.slc.sli.domain.Repository;
 
 public abstract class MongoRepository<T> implements Repository<T> {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
+    
+    protected ThreadLocalStorage threadStore = new ThreadLocalStorage("" + UUID.randomUUID().toString());
 
     protected MongoTemplate template;
 
@@ -67,17 +71,17 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public abstract T create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName);
 
     public T create(T record, String collectionName) {
-        template.save(record, collectionName);
-        LOG.info(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
+        template.save(record, getComposedCollectionName(collectionName));
+        LOG.info(" create a record in collection {} with id {}", new Object[] { getComposedCollectionName(collectionName), getRecordId(record) });
         return record;
     }
 
     @Override
     public T findById(String collectionName, String id) {
         Object databaseId = idConverter.toDatabaseId(id);
-        LOG.debug("find a record in collection {} with id {}", new Object[] { collectionName, id });
+        LOG.debug("find a record in collection {} with id {}", new Object[] { getComposedCollectionName(collectionName), id });
         try {
-            return template.findById(databaseId, getRecordClass(), collectionName);
+            return template.findById(databaseId, getRecordClass(), getComposedCollectionName(collectionName));
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
             return null;
@@ -88,10 +92,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public T findOne(String collectionName, NeutralQuery neutralQuery) {
 
         //convert the neutral query into a mongo query
-        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
+        Query mongoQuery = this.queryConverter.convert(getComposedCollectionName(collectionName), neutralQuery);
 
         // find and return an entity
-        return template.findOne(mongoQuery, getRecordClass(), collectionName);
+        return template.findOne(mongoQuery, getRecordClass(), getComposedCollectionName(collectionName));
     }
 
     @Override
@@ -103,10 +107,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public Iterable<T> findAll(String collectionName, NeutralQuery neutralQuery) {
 
         //convert the neutral query into a mongo query
-        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
+        Query mongoQuery = this.queryConverter.convert(getComposedCollectionName(collectionName), neutralQuery);
 
         // find and return an instance
-        return template.find(mongoQuery, getRecordClass(), collectionName);
+        return template.find(mongoQuery, getRecordClass(), getComposedCollectionName(collectionName));
     }
 
     @Override
@@ -126,28 +130,28 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public Iterable<T> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
-        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
+        Query mongoQuery = this.queryConverter.convert(getComposedCollectionName(collectionName), neutralQuery);
 
         for (Map.Entry<String, String> field : paths.entrySet()) {
             mongoQuery.addCriteria(Criteria.where(field.getKey()).is(field.getValue()));
         }
 
         // find and return an entity
-        return template.find(mongoQuery, getRecordClass(), collectionName);
+        return template.find(mongoQuery, getRecordClass(), getComposedCollectionName(collectionName));
     }
 
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
-        DBCollection collection = template.getCollection(collectionName);
+        DBCollection collection = template.getCollection(getComposedCollectionName(collectionName));
         if (collection == null) {
             return 0;
         }
-        return collection.count(this.queryConverter.convert(collectionName, neutralQuery).getQueryObject());
+        return collection.count(this.queryConverter.convert(getComposedCollectionName(collectionName), neutralQuery).getQueryObject());
     }
 
     @Override
     public DBCollection getCollection(String collectionName) {
-        return template.getCollection(collectionName);
+        return template.getCollection(getComposedCollectionName(collectionName));
     }
 
     @Override
@@ -181,8 +185,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
         if (id.equals(""))
             return false;
         T deleted = template.findAndRemove(new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id))),
-                getRecordClass(), collectionName);
-        LOG.info("delete a entity in collection {} with id {}", new Object[] { collectionName, id });
+                getRecordClass(), getComposedCollectionName(collectionName));
+        LOG.info("delete a entity in collection {} with id {}", new Object[] { getComposedCollectionName(collectionName), id });
         return deleted != null;
     }
 
@@ -191,7 +195,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         for (T t : this.findAll(collectionName)) {
             this.delete(collectionName, getRecordId(t));
         }
-        LOG.info("delete all objects in collection {}", collectionName);
+        LOG.info("delete all objects in collection {}", getComposedCollectionName(collectionName));
     }
 
 
@@ -204,6 +208,41 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
     }
 
+    /**
+     * returns collection name with a append of collectionGroupingIdentifier (if collectionGroupingFlag is set to true)
+     * 
+     * @param collectionName
+     * @return
+     */
+    protected String getComposedCollectionName(String collectionName) {
+        if (isCollectionGrouping()) {
+            return collectionName + "_" + getCollectionGroupingIdentifier();
+        }
+        
+        return collectionName;
+    }
+    
+    
+    public boolean isCollectionGrouping() {
+        if (threadStore.get("collectionGroupingFlag") != null) {
+            return (Boolean) threadStore.get("collectionGroupingFlag");
+        }
+        
+        return false;
+    }
+
+    public void setCollectionGrouping(boolean collectionGrouping) {
+        threadStore.put("collectionGroupingFlag", collectionGrouping);
+    }
+    
+    public String getCollectionGroupingIdentifier() {
+        return (String) threadStore.get("collectionGroupingIdentifier");
+    }
+
+    public void setCollectionGroupingIdentifier(String collectionGroupingIdentifier) {
+        threadStore.put("collectionGroupingIdentifier", collectionGroupingIdentifier);
+    }
+    
     protected abstract String getRecordId(T record);
 
     protected abstract Class<T> getRecordClass();
@@ -218,8 +257,8 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Deprecated
     protected Iterable<T> findByQuery(String collectionName, Query query) {
-        List<T> results = template.find(query, getRecordClass(), collectionName);
-        logResults(collectionName, results);
+        List<T> results = template.find(query, getRecordClass(), getComposedCollectionName(collectionName));
+        logResults(getComposedCollectionName(collectionName), results);
         return results;
     }
 

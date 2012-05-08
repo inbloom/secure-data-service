@@ -70,6 +70,24 @@ public class MockRepo implements Repository<Entity> {
         repo.put("sessionCourseAssociation", new LinkedHashMap<String, Entity>());
         repo.put("courseSectionAssociation", new LinkedHashMap<String, Entity>()); // known
                                                                                    // technical-debt.
+<<<<<<< HEAD
+=======
+        repo.put("bellSchedule", new LinkedHashMap<String, Entity>());
+        repo.put("cohort", new LinkedHashMap<String, Entity>());
+        repo.put("disciplineIncident", new LinkedHashMap<String, Entity>());
+        repo.put("disciplineAction", new LinkedHashMap<String, Entity>());
+        repo.put("parent", new LinkedHashMap<String, Entity>());
+        repo.put("program", new LinkedHashMap<String, Entity>());
+        repo.put("gradebookEntry", new LinkedHashMap<String, Entity>());
+        repo.put("studentSectionGradebookEntry", new LinkedHashMap<String, Entity>());
+        repo.put("learningObjective", new LinkedHashMap<String, Entity>());
+        repo.put("studentDisciplineIncidentAssociation", new LinkedHashMap<String, Entity>());
+        repo.put("studentParentAssociation", new LinkedHashMap<String, Entity>());
+        repo.put("studentTranscriptAssociation", new LinkedHashMap<String, Entity>());
+        repo.put("teacherSectionAssociation", new LinkedHashMap<String, Entity>());
+        repo.put("studentProgramAssociation", new LinkedHashMap<String, Entity>());
+        repo.put("staffProgramAssociation", new LinkedHashMap<String, Entity>());
+>>>>>>> master
         repo.put("authSession", new LinkedHashMap<String, Entity>());
         repo.put("assessmentFamily", new LinkedHashMap<String, Entity>());
         repo.put("application", new LinkedHashMap<String, Entity>());
@@ -77,6 +95,9 @@ public class MockRepo implements Repository<Entity> {
         repo.put("oauth_access_token", new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.ATTENDANCE, new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.LEARNINGOBJECTIVE, new LinkedHashMap<String, Entity>());
+        repo.put(EntityNames.COHORT, new LinkedHashMap<String, Entity>());
+        repo.put(EntityNames.STAFF_COHORT_ASSOCIATION, new LinkedHashMap<String, Entity>());
+        repo.put(EntityNames.STUDENT_COHORT_ASSOCIATION, new LinkedHashMap<String, Entity>());
     }
     
     protected Map<String, Map<String, Entity>> getRepo() {
@@ -92,8 +113,31 @@ public class MockRepo implements Repository<Entity> {
         return repo.get(entityType).get(id);
     }
     
-    private Object getValue(Entity entity, String key) {
-        return (key.equals("_id")) ? entity.getEntityId() : entity.getBody().get(key);
+    @SuppressWarnings("unchecked")
+    private Object getValue(Entity entity, String key, boolean prefixable) {
+        if (!"_id".equals(key) && prefixable) {
+            key = "body." + key;
+        }
+        String[] path = key.split("\\.");
+        Map<String, Object> container = null;
+        if (path.length > 0) {
+            if ("_id".equals(path[0])) {
+                return entity.getEntityId();
+            } else if ("body".equals(path[0])) {
+                container = entity.getBody();
+            } else if ("metaData".equals(path[0])) {
+                container = entity.getMetaData();
+            }
+            for (int i = 1; i < path.length - 1; i++) {
+                Object sub = container.get(path[i]);
+                if (sub != null && sub instanceof Map) {
+                    container = (Map<String, Object>) sub;
+                } else {
+                    return null;
+                }
+            }
+        }
+        return container.get(path[path.length - 1]);
     }
     
     @SuppressWarnings("unchecked")
@@ -112,7 +156,8 @@ public class MockRepo implements Repository<Entity> {
             //
             if (criteria.getOperator().equals("=")) {
                 for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                    Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey());
+                    Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(),
+                            criteria.canBePrefixed());
                     if (entityValue != null) {
                         if (entityValue.equals(criteria.getValue())) {
                             results2.put(idAndEntity.getKey(), idAndEntity.getValue());
@@ -123,7 +168,8 @@ public class MockRepo implements Repository<Entity> {
             } else if (criteria.getOperator().equals("in")) {
                 for (Entry<String, Entity> idAndEntity : results.entrySet()) {
                     
-                    String entityValue = String.valueOf(this.getValue(idAndEntity.getValue(), criteria.getKey()));
+                    String entityValue = String.valueOf(this.getValue(idAndEntity.getValue(), criteria.getKey(),
+                            criteria.canBePrefixed()));
                     
                     List<String> validValues = (List<String>) criteria.getValue();
                     if (validValues.contains(entityValue)) {
@@ -134,7 +180,8 @@ public class MockRepo implements Repository<Entity> {
                 results = results2;
             } else if (criteria.getOperator().equals("!=")) {
                 for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                    Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey());
+                    Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(),
+                            criteria.canBePrefixed());
                     if (entityValue != null) {
                         if (!entityValue.equals(criteria.getValue())) {
                             results2.put(idAndEntity.getKey(), idAndEntity.getValue());
@@ -144,7 +191,8 @@ public class MockRepo implements Repository<Entity> {
                 results = results2;
             } else if (criteria.getOperator().equals(">")) {
                 for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                    String entityValue = (String) this.getValue(idAndEntity.getValue(), criteria.getKey());
+                    String entityValue = (String) this.getValue(idAndEntity.getValue(), criteria.getKey(),
+                            criteria.canBePrefixed());
                     if (entityValue != null) {
                         if (entityValue.compareTo((String) criteria.getValue()) > 0) {
                             results2.put(idAndEntity.getKey(), idAndEntity.getValue());
@@ -154,7 +202,8 @@ public class MockRepo implements Repository<Entity> {
                 results = results2;
             } else if (criteria.getOperator().equals("<")) {
                 for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                    String entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey()).toString();
+                    String entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(),
+                            criteria.canBePrefixed()).toString();
                     if (entityValue != null) {
                         if (entityValue.compareTo(criteria.getValue().toString()) < 0) {
                             results2.put(idAndEntity.getKey(), idAndEntity.getValue());
@@ -164,7 +213,8 @@ public class MockRepo implements Repository<Entity> {
                 results = results2;
             } else if (criteria.getOperator().equals(">=")) {
                 for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                    String entityValue = (String) this.getValue(idAndEntity.getValue(), criteria.getKey());
+                    String entityValue = (String) this.getValue(idAndEntity.getValue(), criteria.getKey(),
+                            criteria.canBePrefixed());
                     if (entityValue != null) {
                         if (entityValue.compareTo((String) criteria.getValue()) >= 0) {
                             results2.put(idAndEntity.getKey(), idAndEntity.getValue());
@@ -174,7 +224,8 @@ public class MockRepo implements Repository<Entity> {
                 results = results2;
             } else if (criteria.getOperator().equals("<=")) {
                 for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                    String entityValue = (String) this.getValue(idAndEntity.getValue(), criteria.getKey());
+                    String entityValue = (String) this.getValue(idAndEntity.getValue(), criteria.getKey(),
+                            criteria.canBePrefixed());
                     if (entityValue != null) {
                         if (entityValue.compareTo((String) criteria.getValue()) <= 0) {
                             results2.put(idAndEntity.getKey(), idAndEntity.getValue());
@@ -184,7 +235,8 @@ public class MockRepo implements Repository<Entity> {
                 results = results2;
             } else if (criteria.getOperator().equals("=~")) {
                 for (Entry<String, Entity> idAndEntity : results.entrySet()) {
-                    Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey());
+                    Object entityValue = this.getValue(idAndEntity.getValue(), criteria.getKey(),
+                            criteria.canBePrefixed());
                     if (entityValue != null) {
                         if (entityValue instanceof String && criteria.getValue() instanceof String) {
                             String entityValueString = (String) entityValue;
@@ -294,7 +346,7 @@ public class MockRepo implements Repository<Entity> {
         
         if (entityType.equals("realm")) {
             final Map<String, Object> body = new HashMap<String, Object>();
-            body.put("regionId", "SLI");
+            body.put("tenantId", "SLI");
             
             return new Entity() {
                 @Override
@@ -408,9 +460,35 @@ public class MockRepo implements Repository<Entity> {
     }
     
     @Override
-    public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
-        // Not implemented
-        return null;
+    public Entity create(final String type, Map<String, Object> body, Map<String, Object> metaData,
+            String collectionName) {
+        final HashMap<String, Object> clonedBody = new HashMap<String, Object>(body);
+        final HashMap<String, Object> clonedMetadata = new HashMap<String, Object>(metaData);
+        final String id = generateId();
+        Entity newEntity = new Entity() {
+            @Override
+            public String getEntityId() {
+                return id;
+            }
+            
+            @Override
+            public Map<String, Object> getMetaData() {
+                return clonedMetadata;
+            }
+            
+            @Override
+            public Map<String, Object> getBody() {
+                return clonedBody;
+            }
+            
+            @Override
+            public String getType() {
+                return type;
+            }
+        };
+        
+        update(collectionName, newEntity);
+        return newEntity;
     }
     
     @Override

@@ -8,7 +8,6 @@ Background:
 
 Scenario: Displaying historical data for all students
   Given I am authenticated to SLI as "jjones" "jjones1234"
-  When I go to "/studentlist"
   When I select <edOrg> "Daybreak School District 4529"
     And I select <school> "Daybreak Central High"
     And I select <course> "Algebra-11"

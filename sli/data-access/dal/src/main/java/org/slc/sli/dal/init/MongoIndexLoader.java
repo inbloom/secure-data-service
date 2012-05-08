@@ -31,7 +31,6 @@ public class MongoIndexLoader implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         if (this.mongoTemplate != null) {
             
-            // .on("metaData.idNamespace", ASCENDING)
             try {
                 LOG.debug("Creating compound index on attendance collection");
                 IndexDefinition index = new Index().on("body.eventDate", ASCENDING).on("body.studentId", ASCENDING)
@@ -45,7 +44,7 @@ public class MongoIndexLoader implements InitializingBean {
             try {
                 LOG.debug("Creating compound index on parent collection");
                 IndexDefinition index = new Index().on("body.parentUniqueStateId", ASCENDING)
-                        .on("metaData.idNamespace", ASCENDING).unique();
+                        .on("metaData.tenantId", ASCENDING).unique();
                 mongoTemplate.ensureIndex(index, PARENT_COLLECTION);
                 LOG.debug("Successfully created compound index on parent collection");
             } catch (Exception e) {
@@ -55,7 +54,7 @@ public class MongoIndexLoader implements InitializingBean {
             try {
                 LOG.debug("Creating compound index on student-parent association collection");
                 IndexDefinition index = new Index().on("body.studentId", ASCENDING).on("body.parentId", ASCENDING)
-                        .on("metaData.idNamespace", ASCENDING).unique();
+                        .on("metaData.tenantId", ASCENDING).unique();
                 mongoTemplate.ensureIndex(index, STUDENT_PARENT_ASSOCIATION_COLLECTION);
                 LOG.debug("Successfully created compound index on student-parent association collection");
             } catch (Exception e) {

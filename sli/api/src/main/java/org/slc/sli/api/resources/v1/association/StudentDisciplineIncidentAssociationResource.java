@@ -25,14 +25,17 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
+ * This association indicates those students who were
+ * victims, perpetrators, witnesses, and/or reporters for a discipline
+ * incident.
+ * 
+ * @author slee
  */
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
 @Component
@@ -46,7 +49,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
 
     @Autowired
     public StudentDisciplineIncidentAssociationResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs);
+        super(entityDefs, ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS);
         LOGGER.debug("New resource handler created {}", this);
     }
 
@@ -68,9 +71,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
                             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
                             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return super.readAll(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, headers, uriInfo);
+        return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
@@ -91,11 +92,11 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody,
                            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.create(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, newEntityBody, headers, uriInfo);
+        return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$studentDisciplineIncidentAssociations$$ entity
+     * Get a single $$studentDisciplineIncidentAssociations$$ entity.
      *
      * @param studentDisciplineIncidentAssociationId 
      *            The Id of the $$studentDisciplineIncidentAssociations$$.
@@ -110,11 +111,11 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID) final String studentDisciplineIncidentAssociationId,
                          @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, studentDisciplineIncidentAssociationId, headers, uriInfo);
+        return super.read(studentDisciplineIncidentAssociationId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$studentDisciplineIncidentAssociations$$ entity
+     * Delete a $$studentDisciplineIncidentAssociations$$ entity.
      *
      * @param studentDisciplineIncidentAssociationId 
      *            The Id of the $$studentDisciplineIncidentAssociations$$.
@@ -129,7 +130,7 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     @Path("{" + ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID + "}")
     public Response delete(@PathParam(ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID) final String studentDisciplineIncidentAssociationId,
                            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, studentDisciplineIncidentAssociationId, headers, uriInfo);
+        return super.delete(studentDisciplineIncidentAssociationId, headers, uriInfo);
     }
 
     /**
@@ -152,12 +153,12 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     public Response update(@PathParam(ParameterConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION_ID) final String studentDisciplineIncidentAssociationId,
                            final EntityBody newEntityBody,
                            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, studentDisciplineIncidentAssociationId, newEntityBody, headers, uriInfo);
+        return super.update(studentDisciplineIncidentAssociationId, newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Returns each $$students$$ that
-     * references the given $$studentDisciplineIncidentAssociations$$
+     * Returns each $$students$$ that is referenced by
+     * the given $$studentDisciplineIncidentAssociations$$.
      *
      * @param studentDisciplineIncidentAssociationId 
      *            The Id of the studentDisciplineIncidentAssociationId.
@@ -182,8 +183,8 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
     }
 
     /**
-     * Returns each $$disciplineIncidents$$ that
-     * references the given $$studentDisciplineIncidentAssociations$$
+     * Returns each $$disciplineIncidents$$ that is referenced by
+     * the given $$studentDisciplineIncidentAssociations$$.
      *
      * @param studentDisciplineIncidentAssociationId 
      *            The Id of the studentDisciplineIncidentAssociationId.
@@ -206,23 +207,4 @@ public class StudentDisciplineIncidentAssociationResource extends DefaultCrudEnd
                                            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "_id", studentDisciplineIncidentAssociationId, "disciplineIncidentId", ResourceNames.DISCIPLINE_INCIDENTS, headers, uriInfo);
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }

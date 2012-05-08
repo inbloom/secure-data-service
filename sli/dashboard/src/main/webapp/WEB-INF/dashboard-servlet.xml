@@ -15,6 +15,11 @@
     <!-- freemarker config -->
     <bean  id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/views/"/>
+         <property name="freemarkerSettings">
+    	 	<props>
+                <prop key="template_exception_handler">html_debug</prop>
+			</props>
+		</property>
     </bean>
  
     <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
@@ -23,4 +28,15 @@
         <property name="suffix" value=".ftl"/>
     </bean>
     
+    
+    <bean class="org.slc.sli.util.DashboardExceptionResolver">
+        <property name="exceptionMappings">
+		    <props>
+			    <prop key="java.lang.RuntimeException">exceptionPage</prop>
+			    
+			    <!-- Example usage of Exception Page -->
+			    <prop key="java.lang.IllegalArgumentException">exceptionPage</prop>
+		    </props>
+	    </property>
+	</bean>
 </beans>

@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -120,7 +122,12 @@ public class OAuthSessionServiceTest {
         OAuth2Authentication auth =  new OAuth2Authentication(new ClientToken("blah", "blah", new HashSet<String>()), 
                 new PreAuthenticatedAuthenticationToken(principal, "blah"));
         Mockito.when(validator.getAuthorizedApps(principal)).thenReturn(null);
-        service.validateAppAuthorization(auth);
+        try {
+            service.validateAppAuthorization(auth);
+            Assert.fail();
+        } catch (UnauthorizedClientException e) {
+            Assert.assertTrue(e instanceof UnauthorizedClientException);
+        }
     }
     
     @Test

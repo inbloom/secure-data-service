@@ -11,6 +11,8 @@ end
 
 Given /^the server is in "([^"]*)" mode$/ do |serverMode|
   @appPrefix = "dashboard_app_prefix_" + serverMode + "_mode"
+  # Setting an explicit timeout for elements that may take a long time to load
+  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60) 
 end
 
 def localLogin (username, password)
@@ -57,6 +59,7 @@ end
 # Asserts a piece of text exists in the body's page
 def assertText(text)
   body = @driver.find_element(:tag_name, "body")
+  puts "body.text = " + body.text
   assert(body.text.include?(text), "Text is missing from page: " + text )
 end
 
@@ -78,7 +81,7 @@ def clickButton(button, by)
 end
 
 def selectOption(selectFieldId, optionToSelect)
-  select = @driver.find_element(:id, selectFieldId)
+  select = @explicitWait.until{@driver.find_element(:id, selectFieldId)}
   all_options = select.find_elements(:tag_name, "option")
   optionFound = false
   all_options.each do |option|
@@ -92,7 +95,7 @@ end
 
 # TODO: add this paramteres (tableRef, by), also may want to add TR class
 def countTableRows()
-  tableRows = @driver.find_elements(:css, "tr.listRow")
+  tableRows = @explicitWait.until{@driver.find_elements(:css, "tr.listRow")}
   puts "# of TR = " +  @driver.find_elements(:css, "tr").length.to_s + ", table rows = " + tableRows.length.to_s
   return tableRows.length
 end
@@ -148,7 +151,7 @@ def tableHeaderContains(desiredContent)
   desiredContentArray.each do |searchValue|
     puts "in 1st loop, searchValue = " + searchValue
     headerNames.each do |header|
-      # puts "in 2st loop, student.attribute('innerHTML').to_s = " + student.attribute("innerHTML").to_s.lstrip.rstrip[0..15]
+      puts "in 2st loop, header.attribute('innerHTML').to_s = " + header.attribute("innerHTML").to_s.lstrip.rstrip[0..15]
       # puts "student.attribute('innerHTML').to_s.include?(searchValue) = " + student.attribute("innerHTML").to_s.include?(searchValue).to_s
       
       if header.attribute("innerHTML").to_s.lstrip.rstrip.include?(searchValue)

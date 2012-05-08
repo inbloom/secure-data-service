@@ -141,10 +141,15 @@ def dirContainsBatchJobLog?(dir)
   return false
 end
 
+When /^I am willing to wait upto (\d+) seconds for ingestion to complete$/ do |limit|
+  @maxTimeout = limit.to_i
+end
+
 When /^a batch job log has been created$/ do
-  intervalTime = 5 #seconds
-  maxTimeout = 240 #seconds
-  iters = maxTimeout/intervalTime
+  intervalTime = 3 #seconds
+  #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
+  @maxTimeout ? @maxTimeout : @maxTimeout = 240
+  iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
     runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/findJobLog.sh");
@@ -153,7 +158,7 @@ When /^a batch job log has been created$/ do
       @findJobLog = runShellCommand(File.dirname(__FILE__) + "/../../util/findJobLog.sh")
       if /job-.*.log/.match @findJobLog
         puts "Result of find job log: " + @findJobLog
-        puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
+        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -161,10 +166,10 @@ When /^a batch job log has been created$/ do
       end
     end
   else
-    sleep(7) # waiting to poll job file removes race condition (windows-specific)
+    sleep(3) # waiting to poll job file removes race condition (windows-specific)
     iters.times do |i|
       if dirContainsBatchJobLog? @landing_zone_path
-        puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
+        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -176,7 +181,7 @@ When /^a batch job log has been created$/ do
   if found
     assert(true, "")
   else
-    assert(false, "Either batch log was never created, or it took more than #{maxTimeout}")
+    assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
   end
 
 end
@@ -252,6 +257,59 @@ Then /^I check to find if record is in collection:$/ do |table|
 
   assert(@result == "true", "Some records are not found in collection.")
 end
+
+
+Then /^I find a\(n\) "([^"]*)" record where "([^"]*)" is equal to "([^"]*)"$/ do |collection, field, value|
+  @db = @conn[INGESTION_DB_NAME]
+  @entity_collection = @db.collection(collection)
+  @entity =  @entity_collection.find({field => value})
+  assert(@entity.count == 1, "Found more than one document with this query (or zero :) )")
+  
+end
+
+When /^verify that "([^"]*)" is (equal|unequal) to "([^"]*)"$/ do |arg1, equal_or_unequal, arg2|
+  @entity.each do |ent|
+    if equal_or_unequal == "equal"
+      assert(getValueAtIndex(ent,arg1) == getValueAtIndex(ent,arg2), "#{arg1} is not equal to #{arg2}")
+    else
+      assert(getValueAtIndex(ent,arg1) != getValueAtIndex(ent,arg2), "#{arg1} is not not equal to #{arg2}")
+    end
+  end
+end
+
+def getValueAtIndex(ent, index_string)
+  val = ent.clone
+  index_string.split('.').each do |part|
+    is_num?(part) ? val = val[part.to_i] : val = val[part]
+  end
+  val
+end
+
+Then /^verify the following data in that document:$/ do |table|
+  @entity.each do |ent|
+    table.hashes.map do |row|
+      curSearchString = row['searchParameter']
+      val = ent.clone
+      curSearchString.split('.').each do |part|
+        is_num?(part) ? val = val[part.to_i] : val = val[part]
+      end
+      if row["searchType"] == "integer" 
+        assert(val == row['searchValue'].to_i, "Expected value: #{row['searchValue']}, but received #{val}")
+      else
+        assert(val == row['searchValue'], "Expected value: #{row['searchValue']}, but received #{val}")
+      end
+    end
+  end
+end
+
+def is_num?(str)
+  Integer(str)
+rescue ArgumentError
+  false
+else
+  true
+end
+
 
 def checkForContentInFileGivenPrefix(message, prefix)
   

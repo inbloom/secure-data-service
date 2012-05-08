@@ -1,0 +1,105 @@
+package org.slc.sli.api.resources.v1.view.impl;
+
+import org.slc.sli.api.config.ResourceNames;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.v1.ParameterConstants;
+import org.slc.sli.api.resources.v1.PathConstants;
+import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
+import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderHelper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Provides data about students and transcript history to construct the custom
+ * views returned by the api
+ * @author srupasinghe
+ *
+ */
+@Component
+public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppender {
+
+    @Autowired
+    private OptionalFieldAppenderHelper optionalFieldAppenderHelper;
+
+    @Override
+    public List<EntityBody> applyOptionalField(List<EntityBody> entities) {
+
+        //get the student Ids
+        List<String> studentIds = optionalFieldAppenderHelper.getIdList(entities, "id");
+
+        //get the student section associations for the students
+        List<EntityBody> studentSectionAssociations = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_SECTION_ASSOCIATIONS,
+                ParameterConstants.STUDENT_ID, studentIds);
+
+        //get sections for the student
+        List<String> sectionIds = optionalFieldAppenderHelper.getIdList(studentSectionAssociations, ParameterConstants.SECTION_ID);
+        List<EntityBody> sections = optionalFieldAppenderHelper.queryEntities(ResourceNames.SECTIONS, "_id", sectionIds);
+
+        //get the transcripts
+        List<EntityBody> studentTranscripts = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_TRANSCRIPT_ASSOCIATIONS,
+                ParameterConstants.STUDENT_ID, studentIds);
+
+        //get the sessions
+        List<String> sessionIds = optionalFieldAppenderHelper.getIdList(sections, ParameterConstants.SESSION_ID);
+        List<EntityBody> sessions = optionalFieldAppenderHelper.queryEntities(ResourceNames.SESSIONS, "_id", sessionIds);
+
+        //get the courses
+        List<String> courseIds = optionalFieldAppenderHelper.getIdList(sections, ParameterConstants.COURSE_ID);
+        List<EntityBody> courses = optionalFieldAppenderHelper.queryEntities(ResourceNames.COURSES,
+                "_id", courseIds);
+
+        for (EntityBody student : entities) {
+            String studentId = (String) student.get("id");
+
+            List<EntityBody> studentSectionAssociationsForStudent = optionalFieldAppenderHelper.getEntitySubList(studentSectionAssociations,
+                    ParameterConstants.STUDENT_ID, studentId);
+
+            List<EntityBody> studentTranscriptAssociations = new ArrayList<EntityBody>();
+            for (EntityBody studentSectionAssociationForStudent : studentSectionAssociationsForStudent) {
+                String sectionId = (String) studentSectionAssociationForStudent.get(ParameterConstants.SECTION_ID);
+
+                //get the section for the student
+                EntityBody sectionForStudent = optionalFieldAppenderHelper.getEntityFromList(sections, "id", sectionId);
+
+                //get the session for the section
+                EntityBody sessionForSection = optionalFieldAppenderHelper.getEntityFromList(sessions, "id",
+                        (String) sectionForStudent.get(ParameterConstants.SESSION_ID));
+
+                EntityBody courseForSection = optionalFieldAppenderHelper.getEntityFromList(courses, "id",
+                        (String) sectionForStudent.get(ParameterConstants.COURSE_ID));
+
+                //get the student transcripts for the student
+                List<EntityBody> studentTranscriptsForStudent = optionalFieldAppenderHelper.getEntitySubList(studentTranscripts,
+                        ParameterConstants.STUDENT_ID, studentId);
+
+                //get the student transcripts for the student and the course
+                List<EntityBody> studentTranscriptsForStudentAndCourse = optionalFieldAppenderHelper.getEntitySubList(studentTranscriptsForStudent,
+                        ParameterConstants.COURSE_ID, (String) sectionForStudent.get(ParameterConstants.COURSE_ID));
+                studentTranscriptAssociations.addAll(studentTranscriptsForStudentAndCourse);
+
+                //add the session and course into the section
+                sectionForStudent.put(PathConstants.SESSIONS, sessionForSection);
+                sectionForStudent.put(PathConstants.COURSES, courseForSection);
+
+                //add the expanded items to the association
+                studentSectionAssociationForStudent.put(PathConstants.SECTIONS, sectionForStudent);
+                //studentSectionAssociationForStudent.put(PathConstants.STUDENT_TRANSCRIPT_ASSOCIATIONS, studentTranscriptsForStudentAndCourse);
+            }
+
+            EntityBody body = new EntityBody();
+            body.put(PathConstants.STUDENT_SECTION_ASSOCIATIONS, studentSectionAssociationsForStudent);
+            body.put(PathConstants.STUDENT_TRANSCRIPT_ASSOCIATIONS, studentTranscriptAssociations);
+
+            //add the associations to the student
+            student.put(ParameterConstants.OPTIONAL_FIELD_TRANSCRIPT, body);
+        }
+
+        return entities;
+    }
+
+
+
+}

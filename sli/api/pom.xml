@@ -12,7 +12,11 @@
     <description>API</description>
 
     <dependencies>
-
+         <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.5</version>
+        </dependency>
          <dependency>
              <groupId>org.slc.sli.common</groupId>
              <artifactId>domain</artifactId>
@@ -124,12 +128,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.6.11</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.sun.jersey.contribs</groupId>
             <artifactId>maven-wadl-plugin</artifactId>
             <version>1.0.1</version>
@@ -188,27 +186,6 @@
                     </connectors>
                 </configuration>
             </plugin>
-
-            <!-- Plugin for AspectJ integration -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.4</version>
-                <configuration>
-                    <XnoInline>true</XnoInline>
-                    <showWeaveInfo>true</showWeaveInfo>
-                    <complianceLevel>1.6</complianceLevel>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>test-compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
 

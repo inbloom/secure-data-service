@@ -27,7 +27,15 @@ class ApplicationController < ActionController::Base
     reset_session
     SessionResource.auth_id = nil
     flash[:error] = "There was a problem in the API."
-    redirect_to :back
+    #redirect_to :back
+  end
+
+  rescue_from OAuth2::Error do |exception|
+    logger.error {"Oauth invalid, clearing your session."}
+    reset_session
+    SessionResource.auth_id = nil
+    render :auth_error_page
+    #redirect_to :back
   end
   
   def callback

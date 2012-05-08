@@ -16,8 +16,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -25,15 +23,19 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
 import org.slc.sli.api.resources.v1.PathConstants;
 
 /**
- * Prototype new api end points and versioning
- * 
+ * StaffResource
+ *
+ * This entity represents an individual who performs specified activities for any public
+ * or private education institution or agency that provides instructional and/or support
+ * services to students or staff at the early childhood level through high school
+ * completion.
+ *
  * @author jstokes
  * 
  */
@@ -43,19 +45,20 @@ import org.slc.sli.api.resources.v1.PathConstants;
 @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
 public class StaffResource extends DefaultCrudEndpoint {
     
-    /**
-     * Logging utility.
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(StaffResource.class);
-    
+    public static final String UNIQUE_STATE_ID = "staffUniqueStateId";
+    public static final String NAME = "name";
+    public static final String SEX = "sex";
+    public static final String HISPANIC_LATINO_ETHNICITY = "hispanicLatinoEthnicity";
+    public static final String EDUCATION_LEVEL = "highestLevelOfEducationCompleted";
+
     @Autowired
     public StaffResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs);
+        super(entityDefs, ResourceNames.STAFF);
     }
 
     /**
-     * Returns all $$staff$$ entities for which the logged in User has permission and context.
-     * 
+     * readAll
+     *
      * @param offset
      *            starting position in results to return to user
      * @param limit
@@ -64,60 +67,58 @@ public class StaffResource extends DefaultCrudEndpoint {
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns all $$staff$$ entities for which the logged in User has permission and context.
      */
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     @GET
     public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return super.readAll(ResourceNames.STAFF, headers, uriInfo);
+        return super.readAll(offset, limit, headers, uriInfo);
     }
 
     /**
-     * Create a new $$staff$$ entity.
-     * 
+     * create
+     *
      * @param newEntityBody
      *            entity data
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *              URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return A 201 response on successfully created entity with the ID of the entity
      * @response.param {@name Location} {@style header} {@type
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessable.}
+     *                 item is accessible.}
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.create(ResourceNames.STAFF, newEntityBody, headers, uriInfo);
+        return super.create(newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Get a single $$staff$$ entity
-     * 
+     * read
+     *
      * @param staffId
-     *            The Id of the $$staff$$.
+     *            The id (or list of ids) of the $$staff$$.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return A single $$staff$$ entity
+     * @return A list of entities matching the list of ids queried for
      */
     @GET
     @Path("{" + ParameterConstants.STAFF_ID + "}")
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STAFF, staffId, headers, uriInfo);
+        return super.read(staffId, headers, uriInfo);
     }
 
     /**
-     * Delete a $$staff$$ entity
+     * delete
      * 
      * @param staffId
      *            The Id of the $$staff$$.
@@ -132,11 +133,11 @@ public class StaffResource extends DefaultCrudEndpoint {
     @Path("{" + ParameterConstants.STAFF_ID + "}")
     public Response delete(@PathParam(ParameterConstants.STAFF_ID) final String staffId, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(ResourceNames.STAFF, staffId, headers, uriInfo);
+        return super.delete(staffId, headers, uriInfo);
     }
 
     /**
-     * Update an existing $$staff$$ entity.
+     * update
      * 
      * @param staffId
      *            The id of the $$staff$$.
@@ -154,26 +155,19 @@ public class StaffResource extends DefaultCrudEndpoint {
     public Response update(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
             final EntityBody newEntityBody, 
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(ResourceNames.STAFF, staffId, newEntityBody, headers, uriInfo);
+        return super.update(staffId, newEntityBody, headers, uriInfo);
     }
     
     /**
-     * Returns each $$staffEducationOrganizationAssociations$$ that
-     * references the given $$staff$$
-     * 
-     * @param schoolId
+     * getStaffEducationOrganizationAssociations
+     *
+     * @param staffId
      *            The Id of the School.
-     * @param offset
-     *            Index of the first result to return
-     * @param limit
-     *            Maximum number of results to return.
-     * @param expandDepth
-     *            Number of hops (associations) for which to expand entities.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$staffEducationOrganizationAssociations$$ that references the given $$staff$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -186,16 +180,16 @@ public class StaffResource extends DefaultCrudEndpoint {
     
 
     /**
-     * Returns each $$staff$$ associated to the given school through
-     * a $$staffEducationOrganizationAssociations$$ 
-     * 
-     * @param schoolId
+     * getStaffEducationOrganizationAssociationEducationOrganizations
+     *
+     * @param staffId
      *            The Id of the School.
      * @param headers
      *            HTTP Request Headers
      * @param uriInfo
      *            URI information including path and query parameters
-     * @return result of CRUD operation
+     * @return Returns each $$staff$$ associated to the given school
+     * through a $$staffEducationOrganizationAssociations$$
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
@@ -206,4 +200,93 @@ public class StaffResource extends DefaultCrudEndpoint {
         return super.read(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "staffReference", staffId, 
                 "educationOrganizationReference", ResourceNames.EDUCATION_ORGANIZATIONS, headers, uriInfo);
     }
+
+    /**
+     * getStaffCohortAssociations
+     *
+     * @param staffId
+     *            The Id of the Staff.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return Returns each $$staffCohortAssociations$$ that references the given $$staff$$
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_COHORT_ASSOCIATIONS)
+    public Response getStaffCohortAssociations(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
+            @Context HttpHeaders headers, 
+            @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, ParameterConstants.STAFF_ID, staffId, headers, uriInfo);
+    }
+    
+
+    /**
+     * getStaffCohortAssociationCohorts
+     *
+     * @param staffId
+     *            The Id of the Staff.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return Returns each $$cohorts$$ associated to the given staff through a $$staffCohortAssociations$$
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_COHORT_ASSOCIATIONS + "/" + PathConstants.COHORTS)
+    public Response getStaffCohortAssociationCohorts(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
+            @Context HttpHeaders headers, 
+            @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.STAFF_COHORT_ASSOCIATIONS, ParameterConstants.STAFF_ID, staffId, 
+                ParameterConstants.COHORT_ID, ResourceNames.COHORTS, headers, uriInfo);
+    }
+    /**
+     * getStaffProgramAssociations
+     * Returns each $$staffProgramAssociations$$ that
+     * references the given $$staff$$
+     * 
+     * @param staffId
+     *            The Id of the $$staff$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return Returns each $$staffProgramAssociations$$ that references the given $$staff$$
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_PROGRAM_ASSOCIATIONS)
+    public Response getStaffProgramAssociations(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
+            @Context HttpHeaders headers, 
+            @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "staffId", staffId, headers, uriInfo);
+    }
+    
+
+    /**
+     * getStaffProgramAssociationPrograms
+     * Returns the $$programs$$ that are referenced from the $$staffProgramAssociations$$ 
+     * that references the given $$staff$$.
+     * 
+     * @param staffId
+     *            The Id of the $$staff$$.
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return Returns the $$programs$$ that are referenced from the $$staffProgramAssociations$$
+     * that references the given $$staff$$.
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Path("{" + ParameterConstants.STAFF_ID + "}" + "/" + PathConstants.STAFF_PROGRAM_ASSOCIATIONS + "/" + PathConstants.PROGRAMS)
+    public Response getStaffProgramAssociationPrograms(@PathParam(ParameterConstants.STAFF_ID) final String staffId,
+            @Context HttpHeaders headers, 
+            @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "staffId", staffId, 
+                "programId", ResourceNames.PROGRAMS, headers, uriInfo);
+    }
+
 }

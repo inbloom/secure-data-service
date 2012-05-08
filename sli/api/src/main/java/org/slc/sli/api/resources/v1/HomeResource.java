@@ -30,7 +30,9 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.stereotype.Component;
 
 /**
- * Resource for home entity and associations(version 1).
+ * HomeResource
+ *
+ * Provides initial information for a user.
  * 
  */
 @Path(PathConstants.V1 + "/" + "home")
@@ -49,15 +51,12 @@ public class HomeResource {
     }
 
     /**
-     * Returns the initial information when a user logs in.
-     * This includes a self link for the user's info, i.e. /staff/{GUID}.
-     * In addition, there may be links for associations such as
-     * /staff-educationOrganization-associations
-     * 
-     * @response.representation.200.mediaType application/json by default. 
-     * 
-     * @param uriInfo
-     * @return Response
+     * Provides a set of initial information when a user logs in. This
+     * includes a self link and links to entities with which the user
+     * is associated.
+     *
+     * @param uriInfo URI information including path and query parameters
+     * @return A list of links applicable to the user currently logged in.
      */
     @GET
     public Response getHomeUri(@Context final UriInfo uriInfo) {
@@ -74,7 +73,7 @@ public class HomeResource {
             body.put("id", userId);
 
             // prepare a list of links with the self link
-            List<EmbeddedLink> links = ResourceUtil.getAssociationAndReferenceLinksForEntity(this.entityDefs, defn, body, uriInfo);
+            List<EmbeddedLink> links = ResourceUtil.getLinks(this.entityDefs, defn, body, uriInfo);
             
             // create a final map of links to relevant links
             HashMap<String, Object> linksMap = new HashMap<String, Object>();

@@ -55,7 +55,7 @@ public class SliSmooksFactory {
             // just one visitor instance that can be added with multiple target selectors
             Visitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, batchJobId, fileWriter, errorReport);
 
-            nrMongoStagingWriter.changeMongoTemplate(batchJobId);
+            nrMongoStagingWriter.registerBatchId(batchJobId);
 
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             for (String targetSelector : targetSelectorList) {

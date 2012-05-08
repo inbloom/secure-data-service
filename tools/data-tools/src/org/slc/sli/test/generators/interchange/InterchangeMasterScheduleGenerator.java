@@ -27,15 +27,21 @@ public class InterchangeMasterScheduleGenerator {
      * @return
      */
     public static InterchangeMasterSchedule generate() {
+<<<<<<< HEAD
         long startTime = System.currentTimeMillis();
+=======
+>>>>>>> master
 
         InterchangeMasterSchedule interchange = new InterchangeMasterSchedule();
         List<ComplexObjectType> interchangeObjects = interchange.getCourseOfferingOrSectionOrBellSchedule();
 
         addEntitiesToInterchange(interchangeObjects);
 
+<<<<<<< HEAD
         System.out
                 .println("generated " + interchangeObjects.size() + " InterchangeMasterSchedule entries in: " + (System.currentTimeMillis() - startTime));
+=======
+>>>>>>> master
         return interchange;
     }
 
@@ -58,6 +64,10 @@ public class InterchangeMasterScheduleGenerator {
      */
     private static void generateSections(List<ComplexObjectType> interchangeObjects,
             Collection<SectionMeta> sectionMetas) {
+<<<<<<< HEAD
+=======
+        long startTime = System.currentTimeMillis();
+>>>>>>> master
 
         for (SectionMeta sectionMeta : sectionMetas) {
 
@@ -72,6 +82,12 @@ public class InterchangeMasterScheduleGenerator {
 
             interchangeObjects.add(section);
         }
+<<<<<<< HEAD
+=======
+
+        System.out.println("generated " + sectionMetas.size() + " Section objects in: "
+                + (System.currentTimeMillis() - startTime));
+>>>>>>> master
     }
 
 }

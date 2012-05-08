@@ -3,10 +3,10 @@
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
 
 <!-- Text Reading and Comprehension -->
-  <Assessment id="Test-Reading-and-writing-1-BOY">
-    <AssessmentTitle>Test Reading and Comprehension 1 MOY</AssessmentTitle>
+  <Assessment id="Reading-comp-measurement-instr-1-MOY">
+    <AssessmentTitle>Reading Comprehension Measurement Instrument Grade 1 MOY</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-      <ID>Test Reading and Comprehension Grade 1 MOY</ID>
+      <ID>Reading Comprehension Measurement Instrument Grade 1 MOY</ID>
     </AssessmentIdentificationCode>
     <AssessmentCategory>Reading readiness test</AssessmentCategory>
     <AcademicSubject>Reading</AcademicSubject>
@@ -15,23 +15,23 @@
       <PerformanceLevel>
         <Description>Above Proficient</Description>
       </PerformanceLevel>
+      <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
       <MinimumScore>12</MinimumScore>
-      <MaximumScore>38</MaximumScore>
-      <AssessmentReportingMethod>Proficiency Level</AssessmentReportingMethod>
+      <MaximumScore>38</MaximumScore> 
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <Description>Proficient</Description>
       </PerformanceLevel>
+      <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
       <MinimumScore>8</MinimumScore>
       <MaximumScore>11</MaximumScore>
-      <AssessmentReportingMethod>Proficiency Level</AssessmentReportingMethod>
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <Description>Below Proficient</Description>
       </PerformanceLevel>
-      <AssessmentReportingMethod>Proficiency Level</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
       <MinimumScore>3</MinimumScore>
       <MaximumScore>7</MaximumScore>
     </AssessmentPerformanceLevel>
@@ -39,7 +39,7 @@
       <PerformanceLevel>
         <Description>Far Below Proficient</Description>
       </PerformanceLevel>
-      <AssessmentReportingMethod>Proficiency Level</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
       <MinimumScore>0</MinimumScore>
       <MaximumScore>2</MaximumScore>
     </AssessmentPerformanceLevel>
@@ -47,56 +47,56 @@
       <PerformanceLevel>
         <Description>Above Proficient</Description>
       </PerformanceLevel>
+      <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
       <MinimumScore>12</MinimumScore>
       <MaximumScore>38</MaximumScore>
-      <AssessmentReportingMethod>Proficiency Level</AssessmentReportingMethod>
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <Description>Above Proficient</Description>
-        <Code>H</Code>
+        <CodeValue>H</CodeValue>
       </PerformanceLevel>
-      <AssessmentReportingMethod>Mastery Level</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <Description>Proficient</Description>
-        <Code>E,F,G</Code>
+        <CodeValue>E,F,G</CodeValue>
       </PerformanceLevel>
-      <AssessmentReportingMethod>Mastery Level</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <Description>Below Proficient</Description>
-        <Code>C,D</Code>
+        <CodeValue>C,D</CodeValue>
       </PerformanceLevel>
-      <AssessmentReportingMethod>Mastery Level</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <Description>Far Below Proficient</Description>
-        <Code>B</Code>
+        <CodeValue>B</CodeValue>
       </PerformanceLevel>
-      <AssessmentReportingMethod>Mastery Level</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
     </AssessmentPerformanceLevel>
     <Version>1</Version>
     <RevisionDate>2010-05-17</RevisionDate>
     <AssessmentPeriod>
-      <CodeValue>Test Reading and Comprehension-MOY-2011</CodeValue>
+      <CodeValue>RCMI-MOY-2011</CodeValue>
     </AssessmentPeriod>
     <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
         <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>Test Reading and Comprehension Grade 1</ID>
+          <ID>Reading Comprehension Measurement Instrument Grade 1</ID>
         </AssessmentFamilyIdentificationCode>
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </Assessment>
 
-  <Assessment id="Test-Reading-and-Comprehension-Grade-1-BOY">
-    <AssessmentTitle>Test Reading and Comprehension Grade 1 EOY</AssessmentTitle>
+  <Assessment id="Reading-comp-measurement-instr-1-EOY">
+    <AssessmentTitle>Reading Comprehension Measurement Instrument Grade 1 EOY</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-      <ID>Test Reading and Comprehension 1 EOY</ID>
+      <ID>Reading Comprehension Measurement Instrument Grade 1 EOY</ID>
     </AssessmentIdentificationCode>
     <AssessmentCategory>Reading readiness test</AssessmentCategory>
     <AcademicSubject>Reading</AcademicSubject>
@@ -105,23 +105,23 @@
       <PerformanceLevel>
         <Description>Above Proficient</Description>
       </PerformanceLevel>
+      <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
       <MinimumScore>19</MinimumScore>
       <MaximumScore>38</MaximumScore>
-      <AssessmentReportingMethod>Proficiency Level</AssessmentReportingMethod>
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <Description>Proficient</Description>
       </PerformanceLevel>
+      <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
       <MinimumScore>16</MinimumScore>
       <MaximumScore>18</MaximumScore>
-      <AssessmentReportingMethod>Proficiency Level</AssessmentReportingMethod>
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <Description>Below Proficient</Description>
       </PerformanceLevel>
-      <AssessmentReportingMethod>Proficiency Level</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
       <MinimumScore>8</MinimumScore>
       <MaximumScore>15</MaximumScore>
     </AssessmentPerformanceLevel>
@@ -129,47 +129,47 @@
       <PerformanceLevel>
         <Description>Far Below Proficient</Description>
       </PerformanceLevel>
-      <AssessmentReportingMethod>Proficiency Level</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
       <MinimumScore>0</MinimumScore>
       <MaximumScore>7</MaximumScore>
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <Description>Above Proficient</Description>
-        <Code>K</Code>
+        <CodeValue>K</CodeValue>
       </PerformanceLevel>
-      <AssessmentReportingMethod>Mastery Level</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <Description>Proficient</Description>
-        <Code>I,J</Code>
+        <CodeValue>I,J</CodeValue>
       </PerformanceLevel>
-      <AssessmentReportingMethod>Mastery Level</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <Description>Below Proficient</Description>
-        <Code>F,G,H</Code>
+        <CodeValue>F,G,H</CodeValue>
       </PerformanceLevel>
-      <AssessmentReportingMethod>Mastery Level</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
     </AssessmentPerformanceLevel>
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <Description>Far Below Proficient</Description>
-        <Code>E</Code>
+        <CodeValue>E</CodeValue>
       </PerformanceLevel>
-      <AssessmentReportingMethod>Mastery Level</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
     </AssessmentPerformanceLevel>
     <Version>1</Version>
     <RevisionDate>2010-05-17</RevisionDate>
     <AssessmentPeriod>
-      <CodeValue>Test Reading and Comprehension-EOY-2011</CodeValue>
+      <CodeValue>RCMI-EOY-2011</CodeValue>
     </AssessmentPeriod>
     <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
         <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-          <ID>Test Reading and Comprehension Grade 1</ID>
+          <ID>Reading Comprehension Measurement Instrument Grade 1</ID>
         </AssessmentFamilyIdentificationCode>
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
@@ -182,10 +182,10 @@
     </AssessmentFamilyIdentificationCode>
   </AssessmentFamily>
 
-  <AssessmentFamily id="Test Reading and Comprehension-Grade-1">
-    <AssessmentFamilyTitle>Test Reading and Comprehension</AssessmentFamilyTitle>
+  <AssessmentFamily id="Reading-Comprehension-Measurement-Instrument-Grade-1">
+    <AssessmentFamilyTitle>Reading Comprehension Measurement Instrument Grade 1</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-      <ID>Test Reading and Comprehension</ID>
+      <ID>Reading Comprehension Measurement Instrument Grade 1</ID>
     </AssessmentFamilyIdentificationCode>
     <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
@@ -198,17 +198,17 @@
 
   
   <AssessmentPeriodDescriptor>
-	<CodeValue>Test Reading and Comprehension-EOY-2011</CodeValue>
+	<CodeValue>RCMI-EOY-2011</CodeValue>
 	<Description>End of Year 2011-2012</Description>
-	<ShortDescription>Test Reading and Comprehension-EOY-2011</ShortDescription>
+	<ShortDescription>Reading Comp Measurement Instrument-EOY-2011</ShortDescription>
 	<BeginDate>2011-08-01</BeginDate>
 	<EndDate>2011-12-31</EndDate>
   </AssessmentPeriodDescriptor>
 
   <AssessmentPeriodDescriptor>
-	<CodeValue>Test Reading and Comprehension-MOY-2011</CodeValue>
+	<CodeValue>RCMI-MOY-2011</CodeValue>
 	<Description>Middle of Year 2011-2012</Description>
-	<ShortDescription>Test Reading and Comprehension-MOY-2011</ShortDescription>
+	<ShortDescription>Reading Comp Measurement Instrument-MOY-2011</ShortDescription>
 	<BeginDate>2012-01-01</BeginDate>
 	<EndDate>2012-03-31</EndDate>
   </AssessmentPeriodDescriptor>

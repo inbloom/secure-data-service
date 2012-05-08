@@ -29,7 +29,10 @@ public class InterchangeStaffAssociationGenerator {
      * @return
      */
     public static InterchangeStaffAssociation generate() {
+<<<<<<< HEAD
         long startTime = System.currentTimeMillis();
+=======
+>>>>>>> master
 
         InterchangeStaffAssociation interchange = new InterchangeStaffAssociation();
         List<Object> interchangeObjects = interchange
@@ -37,8 +40,11 @@ public class InterchangeStaffAssociationGenerator {
 
         addEntitiesToInterchange(interchangeObjects);
 
+<<<<<<< HEAD
         System.out.println("generated " + interchangeObjects.size() + " InterchangeStaffAssociation entries in: "
                 + (System.currentTimeMillis() - startTime));
+=======
+>>>>>>> master
         return interchange;
     }
 
@@ -51,6 +57,13 @@ public class InterchangeStaffAssociationGenerator {
 
         generateTeachersAndAssoc(interchangeObjects, MetaRelations.TEACHER_MAP.values());
 
+<<<<<<< HEAD
+=======
+        generateTeacherSchoolAssoc(interchangeObjects, MetaRelations.TEACHER_MAP.values());
+
+        generateTeacherSectionAssoc(interchangeObjects, MetaRelations.TEACHER_MAP.values());
+
+>>>>>>> master
     }
 
     /**
@@ -62,6 +75,10 @@ public class InterchangeStaffAssociationGenerator {
      * @param teacherMetas
      */
     private static void generateTeachersAndAssoc(List<Object> interchangeObjects, Collection<TeacherMeta> teacherMetas) {
+<<<<<<< HEAD
+=======
+        long startTime = System.currentTimeMillis();
+>>>>>>> master
 
         for (TeacherMeta teacherMeta : teacherMetas) {
 
@@ -75,6 +92,7 @@ public class InterchangeStaffAssociationGenerator {
 
             interchangeObjects.add(teacher);
 
+<<<<<<< HEAD
             generateTeacherSchoolAssoc(interchangeObjects, teacherMeta);
 
             generateTeacherSectionAssoc(interchangeObjects, teacherMeta);
@@ -109,5 +127,62 @@ public class InterchangeStaffAssociationGenerator {
 
             interchangeObjects.add(teacherSection);
         }
+=======
+        }
+
+        System.out.println("generated " + teacherMetas.size() + " Teacher objects in: "
+                + (System.currentTimeMillis() - startTime));
+    }
+
+    private static void generateTeacherSchoolAssoc(List<Object> interchangeObjects, Collection<TeacherMeta> teacherMetas) {
+        long startTime = System.currentTimeMillis();
+
+        int objGenCounter = 0;
+        for (TeacherMeta teacherMeta : teacherMetas) {
+            for (String schoolId : teacherMeta.schoolIds) {
+
+                TeacherSchoolAssociation teacherSchool;
+
+                if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                    teacherSchool = null;
+                } else {
+                    teacherSchool = TeacherSchoolAssociationGenerator.generateLowFi(teacherMeta, schoolId);
+                }
+
+                interchangeObjects.add(teacherSchool);
+
+                objGenCounter++;
+            }
+        }
+
+        System.out.println("generated " + objGenCounter + " TeacherSchoolAssociation objects in: "
+                + (System.currentTimeMillis() - startTime));
+    }
+
+    private static void generateTeacherSectionAssoc(List<Object> interchangeObjects,
+            Collection<TeacherMeta> teacherMetas) {
+        long startTime = System.currentTimeMillis();
+
+        int objGenCounter = 0;
+        for (TeacherMeta teacherMeta : teacherMetas) {
+            for (String sectionId : teacherMeta.sectionIds) {
+
+                TeacherSectionAssociation teacherSection;
+
+                if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                    teacherSection = null;
+                } else {
+                    teacherSection = TeacherSectionAssociationGenerator.generateLowFi(teacherMeta, sectionId);
+                }
+
+                interchangeObjects.add(teacherSection);
+
+                objGenCounter++;
+            }
+        }
+
+        System.out.println("generated " + objGenCounter + " TeacherSectionAssociation objects in: "
+                + (System.currentTimeMillis() - startTime));
+>>>>>>> master
     }
 }

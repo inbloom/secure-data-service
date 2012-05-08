@@ -18,6 +18,7 @@
   <modules>
     <module>ingestion-core</module>
     <module>ingestion-service</module>
+    <module>ingestion-validation</module>
   </modules>
 
   <dependencyManagement>

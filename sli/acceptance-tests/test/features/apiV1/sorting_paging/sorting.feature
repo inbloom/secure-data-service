@@ -21,8 +21,8 @@ Scenario: Sorting a collection of entities obtained via a hop using a (nested) f
     When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrganizationAssociations/staff"
     Then I should receive a return code of 200
     And I should receive a collection
-    And the link at index 0 should have "name.firstName" equal to "John"
-    And the link at index 1 should have "name.firstName" equal to "Jane"
+    And the link at index 0 should have "name.firstName" equal to "Sample"
+    And the link at index 1 should have "name.firstName" equal to "Johnny"
 
 Scenario: Sorting a collection of full student school association entities
 	Given format "application/json"
@@ -72,13 +72,13 @@ Scenario: Paging request the first two results from an API request via a hop
 		And parameter "sortBy" is "name.firstName"
 		And parameter "sortOrder" is "ascending"
 	When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrganizationAssociations/staff"
-	Then I should receive a collection with 2 elements
+	Then I should receive a collection with 4 elements
  	Given parameter "offset" is "0"
 		And parameter "limit" is "1"
 	When I navigate to GET "/v1/educationOrganizations/<'Gotham City School District ed-org' ID>/staffEducationOrganizationAssociations/staff"
 	Then I should receive a collection with 1 elements
 		And the link at index 0 should point to an entity with id "f0e41d87-92d4-4850-9262-ed2f2723159b"
-		And the header "TotalCount" equals 2
+		And the header "TotalCount" equals 4
 		And the a next link exists with offset equal to 1 and limit equal to 1
 		And the a previous link should not exist
 

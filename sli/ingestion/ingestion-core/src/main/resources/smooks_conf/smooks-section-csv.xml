@@ -62,7 +62,7 @@
 	<jb:value property="sessionId" data="csv-record/SessionReference_SessionIdentity_SessionName" />
 
 	<!-- ProgramReference -->
-	<jb:wiring property="programReference" beanIdRef="ProgramReferenceTypeArray" />
+	<jb:value property="programReference" data="csv-record/ProgramReference_ProgramIdentity_ProgramId" />
  </jb:bean>
 
     <!-- AvailableCreditsType -->
@@ -71,10 +71,5 @@
     	<jb:value property="creditConversion" data="csv-record/AvailableCredit_CreditConversion"/>
     	<jb:value property="credit" data="csv-record/AvailableCredit_Credit"/>
     </jb:bean>
-
-	<!-- ProgramReferenceType -->
-	<jb:bean beanId="ProgramReferenceTypeArray" class="java.util.ArrayList" createOnElement="csv-record">
-				<jb:value data="csv-record/ProgramReference_ProgramIdentity_ProgramId"/>
-	</jb:bean>
 
 </smooks-resource-list>

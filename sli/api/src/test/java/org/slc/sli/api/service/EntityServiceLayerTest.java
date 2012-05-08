@@ -397,6 +397,19 @@ public class EntityServiceLayerTest {
         
         entity = studentService.getCustom(studentId);
         assertEquals(null, entity);
+        
+        studentService.createOrUpdateCustom(studentId, customData);
+        entity = studentService.getCustom(studentId);
+        assertEquals(customData, entity);
+        
+        studentService.delete(studentId);
+        
+        try {
+            entity = studentService.getCustom(studentId);
+            fail("expected EntityNotFoundException");
+        } catch (EntityNotFoundException e) {
+            assertEquals(studentId, e.getId());
+        }
     }
     
     private <T> List<T> iterableToList(Iterable<T> itr) {

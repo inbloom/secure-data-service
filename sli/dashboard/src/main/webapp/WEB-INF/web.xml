@@ -25,6 +25,27 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
   
+    <!-- SLI Error Page Definitions -->
+  	<error-page>
+  		<error-code>500</error-code>
+  		<location>/exception?exception.message=Internal%20Server%20Error</location>
+	</error-page>
+
+  	<error-page>
+  		<error-code>404</error-code>
+  		<location>/exception?exception.messageType=Page%20Not%20Found&amp;exception.message=The%20page%20you%20are%20requesting%20is%20no%20longer%20available!</location>
+	</error-page>
+
+  	<error-page>
+  		<error-code>403</error-code>
+  		<location>/exception?exception.messageType=Page%20Not%20Accessible&amp;exception.message=The%20page%20you%20are%20requesting%20is%20not%20available!</location>
+	</error-page>
+
+  	<error-page>
+  		<exception-type>java.lang.Throwable</exception-type>
+  		<location>/exception</location>
+	</error-page>
+
     <session-config>
     <session-timeout>5</session-timeout>
     </session-config>

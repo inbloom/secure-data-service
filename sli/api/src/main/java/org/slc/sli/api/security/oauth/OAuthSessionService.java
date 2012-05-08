@@ -76,6 +76,10 @@ public class OAuthSessionService extends RandomValueTokenServices {
     
     protected void validateAppAuthorization(OAuth2Authentication authentication) throws UnauthorizedClientException {
         SLIPrincipal principal = (SLIPrincipal) authentication.getUserAuthentication().getPrincipal();
+        if (principal.getEntity() == null && !authentication.getAuthorities().contains(Right.ADMIN_ACCESS)) {
+            throw new UnauthorizedClientException("User could not be resolved");
+        }
+        
         List<String> authorizedApps = appValidator.getAuthorizedApps(principal);
         if (authorizedApps != null) {
             NeutralQuery query = new NeutralQuery();

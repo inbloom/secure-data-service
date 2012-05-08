@@ -15,11 +15,7 @@ public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
 
     @Override
     public void writeResource(NeutralRecord neutralRecord) {
-
-        // TODO: we need to be able to create databases on the fly (base on jobId)
-
         neutralRecordRepository.create(neutralRecord);
-
     }
 
     public NeutralRecordRepository getRecordRepository() {
@@ -30,12 +26,16 @@ public class NeutralRecordMongoAccess implements ResourceWriter<NeutralRecord> {
         this.neutralRecordRepository = neutralRecordRepository;
     }
 
-    public void changeMongoTemplate(String batchJobId) {
-        neutralRecordRepository.changeTemplate(batchJobId);
+    public void registerBatchId(String batchJobId) {
+        neutralRecordRepository.registerBatchId(removeUnsupportedChars(batchJobId));
     }
 
-    public void dropDatabase() {
-        neutralRecordRepository.getTemplate().getDb().dropDatabase();
+    public static String removeUnsupportedChars(String data) {
+        return data.substring(data.length() - 51, data.length()).replace("-", "");
+    }
+    
+    public void cleanupGroupedCollections() {
+        neutralRecordRepository.deleteGroupedCollections();
     }
 
 }

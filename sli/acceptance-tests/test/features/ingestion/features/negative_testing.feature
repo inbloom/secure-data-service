@@ -10,6 +10,7 @@ Scenario: Post an empty zip file should fail
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
   And I should see "Processed 0 records." in the resulting batch job file
   And I should see "File student.xml: Empty file" in the resulting batch job file
@@ -23,6 +24,7 @@ Scenario: Post a zip file where the first record has an incorrect enum for an at
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
   And I should see "Record 1: Enumeration mismatch for field <sex> (provided: [Boy], expected: [[Female, Male]])" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -36,6 +38,7 @@ Scenario: Post a zip file where the first record has a bad attribute should fail
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
   And I should see "Record 1: Missing or empty field <studentUniqueStateId>" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -50,6 +53,7 @@ Scenario: Post a zip file where the second record has a bad attribute should fai
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
   And I should see "Record 2: Missing or empty field <studentUniqueStateId>" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -65,6 +69,7 @@ Scenario: Post a zip file where the first record has an undefined attribute shou
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
   And I should see "Record 1: Unknown Field <FullName>" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -79,6 +84,7 @@ Scenario: Post a zip file where the first record has a missing attribute should 
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
   And I should see "Record 1: Missing or empty field <firstName>" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -93,6 +99,7 @@ Scenario: Post a zip file where the the edfi input is malformed XML
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
 #	And I should see "Input file was malformed" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
@@ -109,6 +116,7 @@ Scenario: Post a zip file where the the edfi input is missing a declaration line
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
 #	And I should see "Input file is missing declaration line" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
@@ -120,11 +128,51 @@ Scenario: Post a zip file where the the edfi input has no records
         | collectionName              |
         | student                     |
   When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 10 seconds for ingestion to complete
   And a batch job log has been created
   And I should see "Processed 0 records." in the resulting batch job file
   And I should see "All records processed successfully." in the resulting batch job file
   And I should see "student.xml records considered: 0" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "student.xml records failed: 0" in the resulting batch job file
+  
+#should ingest into Mongo with whitespace/returns trimmed from strings
+Scenario: Post a zip file where the the edfi input has attributes/strings/enums with whitespace and returns
+  Given I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
+  And the following collections are empty in datastore:
+        | collectionName              |
+        | student                     |
+  When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 10 seconds for ingestion to complete
+  And a batch job log has been created
+  And I find a(n) "student" record where "metaData.externalId" is equal to "100000000"
+  And verify the following data in that document:
+       | searchParameter                                                          | searchValue                           | searchType           |
+       | body.studentUniqueStateId                                                | 100000000                             | string               |
+       | body.schoolFoodServicesEligibility                                       | Reduced price                         | string               |
+       | body.limitedEnglishProficiency                                           | NotLimited                            | string               |
+  And I should see "Processed 1 records." in the resulting batch job file
+  And I should see "All records processed successfully." in the resulting batch job file
+  And I should see "student.xml records considered: 1" in the resulting batch job file
+  And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
+  And I should see "student.xml records failed: 0" in the resulting batch job file
+  
+Scenario: Post a zip file and then post it against and make sure the updated date changes but created stays the same
+  Given I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
+  And the following collections are empty in datastore:
+        | collectionName              |
+        | student                     |
+  When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 10 seconds for ingestion to complete
+  And a batch job log has been created
+  And I find a(n) "student" record where "metaData.externalId" is equal to "100000000"
+  And verify that "metaData.created" is equal to "metaData.updated"
+  Given I am using preconfigured Ingestion Landing Zone
+  And I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
+  When zip file is scp to ingestion landing zone
+  And I am willing to wait upto 10 seconds for ingestion to complete
+  And a batch job log has been created
+  And I find a(n) "student" record where "metaData.externalId" is equal to "100000000"
+  And verify that "metaData.created" is unequal to "metaData.updated"
 
 

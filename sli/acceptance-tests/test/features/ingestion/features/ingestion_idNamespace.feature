@@ -1,10 +1,10 @@
-Feature: idNamespace Ingestion Test
+Feature: TenantId Ingestion Test
 
 Background: I have a landing zone route configured
 Given I am using local data store
   And I am using preconfigured Ingestion Landing Zone
 
-Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
+Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Specified Tenant
 Given I post "idNamespace.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName              |
@@ -15,15 +15,15 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName              | count |
      | session                     | 1     |
    And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | session                     | 1                   | metaData.idNamespace        | https://dummysite.com   | string               |
+     | collectionName              | expectedRecordCount | searchParameter             | searchValue      | searchType           |
+     | session                     | 1                   | metaData.tenantId           | WG               | string               |
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "idNamespace.xml records considered: 1" in the resulting batch job file
   And I should see "idNamespace.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "idNamespace.xml records failed: 0" in the resulting batch job file
 
-Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
+Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Default Tenant
 Given I post "idNamespaceDefault.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName              |
@@ -34,8 +34,8 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName              | count |
      | session                     | 1     |
    And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter             | searchValue                          | searchType           |
-     | session                     | 1                   | metaData.idNamespace        | SLI    | string               |
+     | collectionName              | expectedRecordCount | searchParameter           | searchValue    | searchType           |
+     | session                     | 1                   | metaData.tenantId         | SLI            | string               |
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "idNamespace.xml records considered: 1" in the resulting batch job file

@@ -1,15 +1,16 @@
+@wip
 Feature: Student Profile View - Display and Hide Pages Based on Grades
 
 As a teacher in a school district, when I view a student's profile, a page appears based on that grade-range specified in configuration.
 
+
 Background:
 Given I have an open web browser
 
+@wip
 Scenario:  Page is hidden for student with no ELL
 Given the server is in "test" mode
-When I navigate to the Dashboard home page
 Given I am authenticated to SLI as "lkim" password "lkim"
-When I click on the Dashboard page
 And I wait for "1" seconds
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
@@ -21,11 +22,11 @@ And I view its student profile
 And there are "5" Tabs
 And the lozenges count is "0"
 
+@wip
 Scenario:  Page is displayed for student with ELL
+#covered in student profile tests
 Given the server is in "test" mode
-When I navigate to the Dashboard home page
 Given I am authenticated to SLI as "lkim" password "lkim"
-When I click on the Dashboard page
 And I wait for "1" seconds
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
@@ -38,3 +39,6 @@ And there are "6" Tabs
 And Tab has a title named "ELL"
 And the lozenges count is "1"
 And the lozenges include "ELL"
+
+
+

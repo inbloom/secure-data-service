@@ -5,7 +5,7 @@ def getTabIndex(tabName)
   found = nil
   tabIndex = nil
   links.each do |tab|
-    if (tab.text == tabName)
+    if (tab.text.include? tabName)
       found = tab
       url = tab["href"]
       i = url.index('#page') +1
@@ -33,22 +33,53 @@ Given /^I look at the panel "([^"]*)"$/ do |panelName|
   overviewTab = @driver.find_element(:id, tabIndex)
   checkPanelNameExists(overviewTab, panelName)
   
-  studentContactInfo = overviewTab.find_element(:class, "studentContactInfo")
-  contactSections = studentContactInfo.find_elements(:class, "section")
-
-  #right now we only have 3 section  
-  # 0 is phone, 1 is email, 2 is address, 
-  assert(contactSections.length == 3, "# of Contact Sections" + contactSections.length.to_s)
+  # contact info is in the first panel
+  studentContactInfo = overviewTab.find_element(:class, "panel")
+  #the first table is the student's contact info
+  contactSections = studentContactInfo.find_element(:xpath, "//div[@class='tabular']/table/tbody")
   
+  all_trs = contactSections.find_elements(:tag_name, "tr")
+
+  currentSection = "Phone"
+  sectionId = 0
   @section = []
   @sectionType = []
+  
+  #right now we only have 3 section  
+  # 0 is phone, 1 is email, 2 is address, 
+  #assert(contactSections.length == 3, "# of Contact Sections" + contactSections.length.to_s)
+  
   for i in ( 0..2)
-    @section[i] = contactSections[i].find_elements(:class, "contactInfoCol2")
-    @sectionType[i] = contactSections[i].find_elements(:class, "contactInfoCol1")
+    @section[i] = []
+    @sectionType[i] = []
   end   
+  
+  all_trs.each do |row|
+   th = row.find_element(:tag_name, "th")
+   td = row.find_element(:tag_name, "td")
+   
+   if (td.text.length > 0)
+     if (th.text.include? "E-mail")
+       sectionId = 1
+       currentSection = "E-mail"
+     elsif (th.text.include? "Address")
+       sectionId = 2
+       currentSection = "Address";
+     elsif (currentSection.include? "Phone")
+       sectionId = 0
+       temp = [th.text]
+       @sectionType[sectionId] = @sectionType[sectionId] + temp
+     end
+    puts sectionId.to_s + " " + td.text
+    temp= [td.text]
+    @section[sectionId] = @section[sectionId] + temp
+   end
+  end
 end
 
 When /^there are "([^"]*)" phone numbers$/ do |phoneNumberCount|  
+
+
   assert(@section[0].length == phoneNumberCount.to_i, "Actual phone number count: " + @section[0].length.to_s)
 end
 
@@ -61,11 +92,11 @@ Given /^the phone number "([^"]*)" is of type "([^"]*)"$/ do  |phoneNumber, phon
   foundPhone = false
   i = 0
   @section[0].each do |phone|
-    if (phone.text == phoneNumber)
+    if (phone == phoneNumber)
       foundPhone = true
-      pType = @sectionType[0][i].text
+      pType = @sectionType[0][i]
       assert(pType.index(':') > 0 && pType.length > 0)
-      assert(pType[0, pType.length-1] == phoneType, "Actual phone type: " + @sectionType[0][i].text) 
+      assert(pType[0, pType.length-1] == phoneType, "Actual phone type: " + @sectionType[0][i]) 
     end
     i=i+1
   end
@@ -103,13 +134,13 @@ Given /^the order of the email addresses is "([^"]*)"$/ do |listOfEmails|
 end
 
 # we don't perform an exact match
-Given /^the order of the addressess is  "([^"]*)"$/ do |listOfAddresses|
+Given /^the order of the addressess is "([^"]*)"$/ do |listOfAddresses|
   array = listOfAddresses.split(";")
    
   assert(array.length == @section[2].length, "Address Counts do not match")
    
   for i in (0..array.length-1)
-    current = @section[2][i].text
+    current = @section[2][i]
     searchKey = array[i]
     found = current.include? searchKey
     assert(found == true, "Address ordering is incorrect")
@@ -119,7 +150,7 @@ end
 def isItemInList(searchValue, content)
   found = false
   content.each do |currentContent|
-    if (currentContent.text == searchValue)
+    if (currentContent == searchValue)
       found = true
     end
   end 
@@ -132,6 +163,6 @@ def areItemsInOrder(listOfItems, content)
   assert(array.length == content.length, "Counts do not match")
    
   for i in (0..array.length-1)
-    assert(array[i] == content[i].text, "Ordering is incorrect")
+    assert(array[i] == content[i], "Ordering is incorrect")
   end
 end

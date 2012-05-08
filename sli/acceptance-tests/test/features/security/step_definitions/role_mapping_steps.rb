@@ -56,7 +56,7 @@ Then /^I should see a list of valid realm objects$/ do
   assert(result != nil, "Result of JSON parsing is nil")
 
   result.each do |item|
-    assert(item["idp"] != nil, "Realm "+item["regionId"]+" URL was not found.")
+    assert(item["idp"] != nil, "Realm "+item["tenantId"]+" URL was not found.")
   end
 end
 

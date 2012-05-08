@@ -1,0 +1,41 @@
+{
+    "keyFields" : [ "body.courseId", "body.studentId"],
+	"references" :
+	[{
+        "fieldPath" : "body.courseId","ref" :
+        {
+	        "collectionName" : "course",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.courseId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    { 
+        "fieldPath" : "body.studentId","ref" :
+        {
+	        "collectionName" : "student",
+	        "choiceOfFields" :
+	        [
+	            [
+		            { 
+		           	    "path" : "metaData.externalId",
+		                "values" : 
+		                [{
+			                "valueSource" : "body.studentId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    }]
+}
+

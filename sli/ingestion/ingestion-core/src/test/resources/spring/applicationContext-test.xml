@@ -23,7 +23,7 @@
         <value>classpath:ingestion-dev.properties</value>
 
         <value>classpath:/config/${sli.env}/ingestion/test.properties </value>
-        
+
         <value>classpath:/data-access/dal/config/${sli.env}/project.properties</value>
 
         <!-- override specific properties for testing -->
@@ -36,6 +36,7 @@
   <import resource="classpath:/spring/db.xml" />
   <import resource="dal-context.xml" />
   <import resource="persistence-context.xml" />
+  <import resource="validation-context.xml" />
 
 
   <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"

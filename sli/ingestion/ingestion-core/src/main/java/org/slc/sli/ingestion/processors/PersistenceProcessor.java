@@ -93,7 +93,7 @@ public class PersistenceProcessor implements Processor {
             long startTime = System.currentTimeMillis();
 
             // TODO this should be determined based on the sourceId
-            String idNamespace = job.getProperty("idNamespace", "SLI");
+            String tenantId = job.getProperty("tenantId", "SLI");
 
             this.exchange = exchange;
 
@@ -101,7 +101,7 @@ public class PersistenceProcessor implements Processor {
             LOG.info("processing persistence: {}", job);
 
             // Create the database for this job.
-            neutralRecordMongoAccess.changeMongoTemplate(job.getId());
+            neutralRecordMongoAccess.registerBatchId(job.getId());
 
             for (IngestionFileEntry fe : job.getFiles()) {
 
@@ -109,7 +109,7 @@ public class PersistenceProcessor implements Processor {
 
                 ErrorReport errorReportForFile = null;
                 try {
-                    errorReportForFile = processIngestionStream(fe, idNamespace, getTransformedCollections(), new HashSet<String>());
+                    errorReportForFile = processIngestionStream(fe, tenantId, getTransformedCollections(), new HashSet<String>());
 
                 } catch (IOException e) {
                     job.getFaultsReport().error("Internal error reading neutral representation of input file.", this);
@@ -146,8 +146,7 @@ public class PersistenceProcessor implements Processor {
             LOG.error("Exception:", exception);
 
         } finally {
-            // Drop the database for this job.
-            neutralRecordMongoAccess.dropDatabase();
+            neutralRecordMongoAccess.cleanupGroupedCollections();
         }
     }
 
@@ -158,13 +157,13 @@ public class PersistenceProcessor implements Processor {
      * the original input file for this IngestionFileEntry.
      *
      * @param ingestionFileEntry
-     * @param idNamespace
+     * @param tenantId
      * @throws IOException
      */
-    public ErrorReport processIngestionStream(IngestionFileEntry ingestionFileEntry, String idNamespace,
+    public ErrorReport processIngestionStream(IngestionFileEntry ingestionFileEntry, String tenantId,
             ArrayList<String> transformedCollections, Set<String> processedStagedCollections) throws IOException {
         return processIngestionStream(ingestionFileEntry.getNeutralRecordFile(), ingestionFileEntry.getFileName(),
-                idNamespace, transformedCollections, processedStagedCollections);
+                tenantId, transformedCollections, processedStagedCollections);
     }
 
     /**
@@ -172,16 +171,16 @@ public class PersistenceProcessor implements Processor {
      * Validation errors will go to an error file that corresponds with the file passed in.
      *
      * @param neutralRecordsFile
-     * @param idNamespace
+     * @param tenantId
      * @throws IOException
      */
-    public ErrorReport processIngestionStream(File neutralRecordsFile, String idNamespace) throws IOException {
-        return processIngestionStream(neutralRecordsFile, neutralRecordsFile.getName(), idNamespace,
+    public ErrorReport processIngestionStream(File neutralRecordsFile, String tenantId) throws IOException {
+        return processIngestionStream(neutralRecordsFile, neutralRecordsFile.getName(), tenantId,
                 new ArrayList<String>(), new HashSet<String>());
     }
 
     private ErrorReport processIngestionStream(File neutralRecordsFile, String originalInputFileName,
-            String idNamespace, ArrayList<String> transformedCollections, Set<String> processedStagedCollections)
+            String tenantId, ArrayList<String> transformedCollections, Set<String> processedStagedCollections)
             throws IOException {
 
         long recordNumber = 0;
@@ -209,7 +208,7 @@ public class PersistenceProcessor implements Processor {
                         // map NeutralRecord to Entity
                         NeutralRecordEntity neutralRecordEntity = Translator.mapToEntity(neutralRecord, recordNumber);
 
-                        neutralRecordEntity.setMetaDataField(EntityMetadataKey.ID_NAMESPACE.getKey(), idNamespace);
+                        neutralRecordEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), tenantId);
 
                         ErrorReport errorReport = new ProxyErrorReport(recordLevelErrorsInFile);
                         obsoletePersistHandler.handle(neutralRecordEntity, new ProxyErrorReport(errorReport));
@@ -230,7 +229,7 @@ public class PersistenceProcessor implements Processor {
                         Iterable<NeutralRecord> neutralRecordData = neutralRecordMongoAccess.getRecordRepository().findAll(neutralRecord.getRecordType() + "_transformed");
 
                         for (NeutralRecord nr : neutralRecordData) {
-                            nr.setSourceId(idNamespace);
+                            nr.setSourceId(tenantId);
                             nr.setRecordType(neutralRecord.getRecordType());
                             List<SimpleEntity> result = transformer.handle(nr, recordLevelErrorsInFile);
                             for (SimpleEntity entity : result) {
@@ -310,7 +309,7 @@ public class PersistenceProcessor implements Processor {
 
         ArrayList<String> collections = new ArrayList<String>();
 
-        Iterable<String> data = neutralRecordMongoAccess.getRecordRepository().getTemplate().getCollectionNames();
+        Iterable<String> data = neutralRecordMongoAccess.getRecordRepository().getCollectionNames();
         Iterator<String> iter = data.iterator();
 
         String collectionName;

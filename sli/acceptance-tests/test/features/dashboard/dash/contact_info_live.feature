@@ -1,4 +1,4 @@
-Feature:  View Student's contact information in live mode
+Feature:  Student Contact Info (live)
 As a teacher in a school district, I want to click on a student and be directed to their profile page that contains the student's contact info
 
 Background:
@@ -7,15 +7,12 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Sunset School District 4526" and click go
 When I login as "linda.kim" "linda.kim1234"
-And I wait for "2" seconds
-When I click on the Dashboard page
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
-And I wait for "10" seconds
 
-Scenario: View a student with 1 email, 1 address, 1 phone
+Scenario: Student has 1 email, 1 address, 1 phone
 Given I click on student "Imelda Lindsey"
 And I view its student profile
 And I look at the panel "Contact Information"
@@ -30,8 +27,11 @@ And the list of address includes
 1558 4th Street, APT 7776
 Chicago, IL 60139-2152
 """
+#Display/Hide tab based on ELL
+And there are "6" Tabs
+And the lozenges count is "0"
 
-Scenario: View a student with 2 phone numbers, 3 emails, 2 addresses
+Scenario: Student has 2 phone numbers, 3 emails, 2 addresses
 Given I click on student "Brielle Klein"
 And I view its student profile
 And I look at the panel "Contact Information"
@@ -55,7 +55,7 @@ And the list of address includes
 New York, NY 10753-2389
 """
 
-Scenario:  Student has no phone numbers and no email addresses
+Scenario:  Student has no phone and email
 Given I click on student "Patricia Harper"
 And I view its student profile
 And I look at the panel "Contact Information"
@@ -69,7 +69,7 @@ And I look at the panel "Contact Information"
 And there are "0" addresses
 
 
-Scenario: Include a building site number on its own line
+Scenario: Address has buildingSiteNumber
 Given I click on student "Rhonda Delgado"
 And I view its student profile
 And I look at the panel "Contact Information"
@@ -85,7 +85,8 @@ And the list of address includes
 9857 Kingsborough 2nd Walk
 Toronto, WA A1B 2C3
 CA
-"""	
+"""
+
 @wip
 Scenario:  An address with countryCode other than US
 #bundled in the test above
@@ -100,7 +101,6 @@ Toronto, WA A1B 2C3
 CA
 """
 
-
 Scenario:  primaryTelephoneNumber is not present
 Given I click on student "Nicholas Burks"
 And I view its student profile
@@ -109,14 +109,14 @@ And there are "1" phone numbers
 And the list of phone number includes "708-929-8507"
 
 
-Scenario:  Student's home phone number is not his primary number
+Scenario:  primaryTelephoneNumber is not the Home Number
 Given I click on student "Alec Swanson"
 And I view its student profile
 And I look at the panel "Contact Information"
 And there are "7" phone numbers
 And the order of the phone numbers is "312-230-0970;331-152-6310;219-861-1785;262-860-2296;815-462-0519;630-115-0626;219-328-5624"
 
-Scenario:  Student's addresses are in sorted order
+Scenario:  Check address sorting order
 Given I click on student "Hoyt Hicks"
 And I view its student profile
 And I look at the panel "Contact Information"
@@ -131,7 +131,7 @@ And the list of address includes
 4606 Albemarle Road, APT 5760
 Chicago, IL 60457-1957
 """
-And the order of the addressess is  "4256 Wyckoff Street;4606 Albemarle Road"
+And the order of the addressess is "4256 Wyckoff Street;4606 Albemarle Road"
 
 @wip
 Scenario: Max (10) phone numbers 

@@ -17,6 +17,7 @@ public class CleanupFilter implements ContainerResponseFilter {
     
     @Override
     public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
+        info("Cleaning up...");
         SecurityContextHolder.clearContext();
         return response;
     }

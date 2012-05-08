@@ -13,8 +13,11 @@
     <intercept-url pattern="/studentlist" access="hasRole('Educator')"/>
     <intercept-url pattern="/studentlistcontent" access="hasRole('Educator')"/>
     <intercept-url pattern="/studentprofile" access="hasRole('Educator')"/>
-    <intercept-url pattern="/appselector" access="hasRole('Educator')"/>
     <intercept-url pattern="/service/**" access="hasRole('Educator')"/>
+    <intercept-url pattern="/exception" access="permitAll"/>
+    <intercept-url pattern="/testException" access="permitAll"/>
+    <intercept-url pattern="/test404" access="permitAll"/>
+    <intercept-url pattern="/test403" access="denyAll"/>
     <intercept-url pattern="/" access="hasRole('Educator')"/>
     <intercept-url pattern="/**" access="denyAll" />
     <anonymous username="anonymous" granted-authority="ROLE_ANONYMOUS" />

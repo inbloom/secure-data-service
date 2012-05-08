@@ -85,7 +85,8 @@ public class ApprovedApplicationResourceTest {
     
     @Test (expected = InsufficientAuthenticationException.class)
     public void testNotLoggedIn() {
-        resource.getApplications();
+        SecurityContextHolder.clearContext();
+        resource.getApplications("");
     }
     
     @Test
@@ -93,13 +94,8 @@ public class ApprovedApplicationResourceTest {
         Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(
                 Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
         Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(null);
-        Authentication mockAuth = Mockito.mock(Authentication.class);
-        ArrayList<GrantedAuthority> rights = new ArrayList<GrantedAuthority>();
-        rights.add(Right.ADMIN_ACCESS);
-        Mockito.when(mockAuth.getAuthorities()).thenReturn(rights);
-        Mockito.when(mockAuth.getPrincipal()).thenReturn(new SLIPrincipal());
-        SecurityContextHolder.getContext().setAuthentication(mockAuth);
-        Response resp = resource.getApplications();
+        setupAuth(Right.ADMIN_ACCESS);
+        Response resp = resource.getApplications("");
         List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
         assertTrue(ents.contains(adminApp));
         assertTrue(ents.contains(userApp));
@@ -107,16 +103,12 @@ public class ApprovedApplicationResourceTest {
     }
     
     @Test
-    public void testNonAdminUser() {
+    public void testAdminUserFilterNonAdmin() {
         Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(
                 Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
-        Authentication mockAuth = Mockito.mock(Authentication.class);
-        ArrayList<GrantedAuthority> rights = new ArrayList<GrantedAuthority>();
-        rights.add(Right.READ_GENERAL);
-        Mockito.when(mockAuth.getAuthorities()).thenReturn(rights);
-        Mockito.when(mockAuth.getPrincipal()).thenReturn(new SLIPrincipal());
-        SecurityContextHolder.getContext().setAuthentication(mockAuth);
-        Response resp = resource.getApplications();
+        Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(null);
+        setupAuth(Right.ADMIN_ACCESS);
+        Response resp = resource.getApplications("false");
         List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
         assertFalse(ents.contains(adminApp));
         assertTrue(ents.contains(userApp));
@@ -124,19 +116,36 @@ public class ApprovedApplicationResourceTest {
     }
     
     @Test
+    public void testAdminUserFilterAdmin() {
+        Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(
+                Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
+        Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(null);
+        setupAuth(Right.ADMIN_ACCESS);
+        Response resp = resource.getApplications("true");
+        List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
+        assertTrue(ents.contains(adminApp));
+        assertFalse(ents.contains(userApp));
+        assertFalse(ents.contains(disabledApp));
+    }   
+    
+    @Test
     public void testNoneAllowed() {
         Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(new ArrayList<String>());
-        Authentication mockAuth = Mockito.mock(Authentication.class);
-        ArrayList<GrantedAuthority> rights = new ArrayList<GrantedAuthority>();
-        rights.add(Right.READ_GENERAL);
-        Mockito.when(mockAuth.getAuthorities()).thenReturn(rights);
-        Mockito.when(mockAuth.getPrincipal()).thenReturn(new SLIPrincipal());
-        SecurityContextHolder.getContext().setAuthentication(mockAuth);
-        Response resp = resource.getApplications();
+        setupAuth(Right.READ_GENERAL);
+        Response resp = resource.getApplications("");
         List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
         assertFalse(ents.contains(adminApp));
         assertFalse(ents.contains(userApp));
         assertFalse(ents.contains(disabledApp));
+    }
+    
+    private static void setupAuth(GrantedAuthority auth) {
+        Authentication mockAuth = Mockito.mock(Authentication.class);
+        ArrayList<GrantedAuthority> rights = new ArrayList<GrantedAuthority>();
+        rights.add(auth);
+        Mockito.when(mockAuth.getAuthorities()).thenReturn(rights);
+        Mockito.when(mockAuth.getPrincipal()).thenReturn(new SLIPrincipal());
+        SecurityContextHolder.getContext().setAuthentication(mockAuth);
     }
 
 }

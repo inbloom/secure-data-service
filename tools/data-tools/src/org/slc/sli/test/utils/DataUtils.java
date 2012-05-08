@@ -22,10 +22,17 @@ import org.apache.commons.io.FilenameUtils;
 
 public class DataUtils {
     static final int BUFFER = 1024*4;
+<<<<<<< HEAD
     
     /*
      * Takes *.xml or *.ctl files at path and zips them to an output.zip
      * 
+=======
+
+    /*
+     * Takes *.xml or *.ctl files at path and zips them to an output.zip
+     *
+>>>>>>> master
      * @path path where *.xml input files are and where output.zip will be written
      */
 	public static final void zipIngestionData(String path) {
@@ -82,17 +89,30 @@ public class DataUtils {
         }
         return null;
     }
+<<<<<<< HEAD
     
     /*
      * Determine the interchange of a file
      * 
+=======
+
+    /*
+     * Determine the interchange of a file
+     *
+>>>>>>> master
      * @fileName input file
      */
     public static final InterchangeType determineInterchange(String fileName) {
     	String lowerCaseBaseName = FilenameUtils.getBaseName(fileName).toLowerCase();
+<<<<<<< HEAD
     	
     	// TODO this should parse the xml header to determine the interchange
     	
+=======
+
+    	// TODO this should parse the xml header to determine the interchange
+
+>>>>>>> master
     	if (lowerCaseBaseName.startsWith("interchangeeducationorganization")) {
     		return InterchangeType.EDUCATION_ORGANIZATION;
     	} else if (lowerCaseBaseName.startsWith("interchangeeducationorgcalendar")) {
@@ -116,10 +136,17 @@ public class DataUtils {
     	} else if (lowerCaseBaseName.startsWith("interchangestudent")) {  // must be after other interchanges it's name is a subset of
     		return InterchangeType.STUDENT;
     	}
+<<<<<<< HEAD
     	
     	return null;
     }
     
+=======
+
+    	return null;
+    }
+
+>>>>>>> master
     public static final boolean writeControlFile(String fileToWrite, String interchange, String filename) {
         boolean success = false;
 //        System.out.println("--- Starting to write control file for " + filename + " --- ");
@@ -163,7 +190,11 @@ public class DataUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+<<<<<<< HEAD
         System.out.println("--- Wrote control file entry for " + filename + " --- ");
+=======
+        //System.out.println("--- Wrote control file entry for " + filename + " --- ");
+>>>>>>> master
         return success;
     }
 

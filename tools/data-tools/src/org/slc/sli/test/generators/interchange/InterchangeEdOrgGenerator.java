@@ -38,7 +38,10 @@ public class InterchangeEdOrgGenerator {
      * @return
      */
     public static InterchangeEducationOrganization generate() {
+<<<<<<< HEAD
         long startTime = System.currentTimeMillis();
+=======
+>>>>>>> master
 
         InterchangeEducationOrganization interchange = new InterchangeEducationOrganization();
         List<Object> interchangeObjects = interchange
@@ -46,8 +49,11 @@ public class InterchangeEdOrgGenerator {
 
         addEntitiesToInterchange(interchangeObjects);
 
+<<<<<<< HEAD
         System.out.println("generated " + interchangeObjects.size() + " InterchangeEducationOrganization entries in: "
                 + (System.currentTimeMillis() - startTime));
+=======
+>>>>>>> master
         return interchange;
     }
 
@@ -74,6 +80,11 @@ public class InterchangeEdOrgGenerator {
      * @param seaMetas
      */
     private static void generateStateEducationAgencies(List<Object> interchangeObjects, Collection<SeaMeta> seaMetas) {
+<<<<<<< HEAD
+=======
+        long startTime = System.currentTimeMillis();
+
+>>>>>>> master
         for (SeaMeta seaMeta : seaMetas) {
 
             StateEducationAgency sea;
@@ -86,6 +97,12 @@ public class InterchangeEdOrgGenerator {
 
             interchangeObjects.add(sea);
         }
+<<<<<<< HEAD
+=======
+
+        System.out.println("generated " + seaMetas.size() + " StateEducationAgency objects in: "
+                + (System.currentTimeMillis() - startTime));
+>>>>>>> master
     }
 
     /**
@@ -95,6 +112,11 @@ public class InterchangeEdOrgGenerator {
      * @param leaMetas
      */
     private static void generateLocalEducationAgencies(List<Object> interchangeObjects, Collection<LeaMeta> leaMetas) {
+<<<<<<< HEAD
+=======
+        long startTime = System.currentTimeMillis();
+
+>>>>>>> master
         for (LeaMeta leaMeta : leaMetas) {
 
             LocalEducationAgency lea;
@@ -107,6 +129,12 @@ public class InterchangeEdOrgGenerator {
 
             interchangeObjects.add(lea);
         }
+<<<<<<< HEAD
+=======
+
+        System.out.println("generated " + leaMetas.size() + " LocalEducationAgency objects in: "
+                + (System.currentTimeMillis() - startTime));
+>>>>>>> master
     }
 
     /**
@@ -116,6 +144,11 @@ public class InterchangeEdOrgGenerator {
      * @param schoolMetas
      */
     private static void generateSchools(List<Object> interchangeObjects, Collection<SchoolMeta> schoolMetas) {
+<<<<<<< HEAD
+=======
+        long startTime = System.currentTimeMillis();
+
+>>>>>>> master
         for (SchoolMeta schoolMeta : schoolMetas) {
 
             School school;
@@ -128,6 +161,12 @@ public class InterchangeEdOrgGenerator {
 
             interchangeObjects.add(school);
         }
+<<<<<<< HEAD
+=======
+
+        System.out.println("generated " + schoolMetas.size() + " School objects in: "
+                + (System.currentTimeMillis() - startTime));
+>>>>>>> master
     }
 
     /**
@@ -137,6 +176,11 @@ public class InterchangeEdOrgGenerator {
      * @param courseMetas
      */
     private static void generateCourses(List<Object> interchangeObjects, Collection<CourseMeta> courseMetas) {
+<<<<<<< HEAD
+=======
+        long startTime = System.currentTimeMillis();
+
+>>>>>>> master
         for (CourseMeta courseMeta : courseMetas) {
 
             Course course;
@@ -149,5 +193,11 @@ public class InterchangeEdOrgGenerator {
 
             interchangeObjects.add(course);
         }
+<<<<<<< HEAD
+=======
+
+        System.out.println("generated " + courseMetas.size() + " Course objects in: "
+                + (System.currentTimeMillis() - startTime));
+>>>>>>> master
     }
 }

@@ -1,0 +1,8 @@
+{
+  id : "csi",
+  type : "PANEL",
+  data :{
+    entity: "student",
+    alias: "student"
+  }
+}

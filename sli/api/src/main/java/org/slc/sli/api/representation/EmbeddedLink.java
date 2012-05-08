@@ -12,12 +12,12 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class EmbeddedLink {
     @JsonProperty("rel")
-    String rel;
+    private String rel;
     @JsonIgnore
     @JsonProperty("type")
-    String type;
+    private String type;
     @JsonProperty("href")
-    String href;
+    private String href;
 
     public EmbeddedLink(String rel, String type, String href) {
         this.rel = rel;

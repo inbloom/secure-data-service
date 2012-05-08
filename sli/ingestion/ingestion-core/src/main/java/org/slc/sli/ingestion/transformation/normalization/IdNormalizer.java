@@ -29,14 +29,14 @@ public class IdNormalizer {
 
     private Repository<Entity> entityRepository;
 
-    public void resolveInternalIds(Entity entity, String idNamespace, EntityConfig entityConfig, ErrorReport errorReport) {
+    public void resolveInternalIds(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
         if (entityConfig.getReferences() == null) {
             return;
         }
 
         try {
             for (RefDef reference : entityConfig.getReferences()) {
-                String id = resolveInternalId(entity, idNamespace, reference.getRef(), errorReport);
+                String id = resolveInternalId(entity, tenantId, reference.getRef(), errorReport);
 
                 if (errorReport.hasErrors()) {
                     return;
@@ -50,8 +50,8 @@ public class IdNormalizer {
         }
     }
 
-    public String resolveInternalId(Entity entity, String idNamespace, Ref refConfig, ErrorReport errorReport) {
-        List<String> ids = resolveInternalIds(entity, idNamespace, refConfig, errorReport);
+    public String resolveInternalId(Entity entity, String tenantId, Ref refConfig, ErrorReport errorReport) {
+        List<String> ids = resolveInternalIds(entity, tenantId, refConfig, errorReport);
 
         if (ids.size() == 0) {
             errorReport.error("Failed to resolve a reference", this);
@@ -61,7 +61,7 @@ public class IdNormalizer {
         return ids.get(0);
     }
 
-    public List<String> resolveInternalIds(Entity entity, String idNamespace, Ref refConfig, ErrorReport errorReport) {
+    public List<String> resolveInternalIds(Entity entity, String tenantId, Ref refConfig, ErrorReport errorReport) {
         ProxyErrorReport proxyErrorReport = new ProxyErrorReport(errorReport);
 
         String collection = refConfig.getCollectionName();
@@ -72,14 +72,14 @@ public class IdNormalizer {
             for (List<Field> fields : refConfig.getChoiceOfFields()) {
                 Query choice = new Query();
 
-                choice.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.ID_NAMESPACE.getKey()).is(idNamespace));
+                choice.addCriteria(Criteria.where(METADATA_BLOCK + "." + EntityMetadataKey.TENANT_ID.getKey()).is(tenantId));
 
                 for (Field field : fields) {
                     List<Object> filterValues = new ArrayList<Object>();
 
                     for (FieldValue fv : field.getValues()) {
                         if (fv.getRef() != null) {
-                            filterValues.addAll(resolveInternalIds(entity, idNamespace, fv.getRef(), proxyErrorReport));
+                            filterValues.addAll(resolveInternalIds(entity, tenantId, fv.getRef(), proxyErrorReport));
                         } else {
                             Object entityValue = PropertyUtils.getProperty(entity, fv.getValueSource());
                             if (entityValue instanceof Collection) {

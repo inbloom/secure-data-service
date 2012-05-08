@@ -28,6 +28,9 @@ DbRails::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  config.log_tags = [:uuid, :remote_ip]
+#  config.log_tags = [:uuid, :remote_ip]
 
+
+  # Set the logging destination(s)
+  config.log_to = %w[stdout file]
 end

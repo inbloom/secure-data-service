@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.config.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.ParameterConstants;
@@ -43,7 +43,7 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     
     @Autowired
     public AssessmentResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs);
+        super(entityDefs, ResourceNames.ASSESSMENTS);
     }
     
     /**
@@ -65,9 +65,7 @@ public class AssessmentResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.LIMIT, limit);
-        ResourceUtil.putValue(headers.getRequestHeaders(), ParameterConstants.OFFSET, offset);
-        return super.readAll(ResourceNames.ASSESSMENTS, headers, uriInfo);
+        return super.readAll(offset, limit, headers, uriInfo);
     }
     
     /**
@@ -82,12 +80,12 @@ public class AssessmentResource extends DefaultCrudEndpoint {
      * @return result of CRUD operation
      * @response.param {@name Location} {@style header} {@type
      *                 {http://www.w3.org/2001/XMLSchema}anyURI} {@doc The URI where the created
-     *                 item is accessable.}
+     *                 item is accessible.}
      */
     @POST
     @Consumes({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.create(ResourceNames.ASSESSMENTS, newEntityBody, headers, uriInfo);
+        return super.create(newEntityBody, headers, uriInfo);
     }
     
     /**
@@ -106,7 +104,7 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     @Produces({ MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response read(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.ASSESSMENTS, assessmentId, headers, uriInfo);
+        return super.read(assessmentId, headers, uriInfo);
     }
     
     /**
@@ -125,7 +123,7 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
     public Response delete(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(ResourceNames.ASSESSMENTS, assessmentId, headers, uriInfo);
+        return super.delete(assessmentId, headers, uriInfo);
     }
     
     /**
@@ -146,7 +144,7 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}")
     public Response update(@PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId,
             final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(ResourceNames.ASSESSMENTS, assessmentId, newEntityBody, headers, uriInfo);
+        return super.update(assessmentId, newEntityBody, headers, uriInfo);
     }
     
     /**
@@ -166,8 +164,8 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     public Response getStudentAssessmentAssociations(
             @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
-                headers, uriInfo);
+        return super
+                .read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, headers, uriInfo);
     }
     
     /**
@@ -189,8 +187,8 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     public Response getStudentAssessmentAssociationsStudents(
             @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
-                "studentId", ResourceNames.STUDENTS, headers, uriInfo);
+        return super.read(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, "studentId",
+                ResourceNames.STUDENTS, headers, uriInfo);
     }
     
     /**
@@ -217,8 +215,8 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     public Response getSectionAssessmentAssociations(
             @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
-                headers, uriInfo);
+        return super
+                .read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, headers, uriInfo);
     }
     
     /**
@@ -240,8 +238,36 @@ public class AssessmentResource extends DefaultCrudEndpoint {
     public Response getSectionAssessmentAssociationsSections(
             @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId,
-                "sectionId", ResourceNames.SECTIONS, headers, uriInfo);
+        return super.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, "sectionId",
+                ResourceNames.SECTIONS, headers, uriInfo);
     }
+    
+    /**
+     * Get a map of the objective assessment ids to $$learningStandards$$ entities for the given $$assessments$$.
+     * 
+     * @param id
+     *            the id of the assessment
+     * @return the learning standards
+     */
+    @GET
+    @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.LEARNING_STANDARDS)
+    public Response getLearningStandards(@PathParam(ParameterConstants.ASSESSMENT_ID) final String id) {
+        return Response.status(Status.NOT_FOUND).build();
+    }
+    
+    /**
+     * Get a map of the objective assessment ids and assessmentItem ids to $$learningObjectives$$ entities for the given $$assessments$$.
+     * 
+     * @param id
+     *            the id of the assessment
+     * @return the learning objectives
+     */
+    @GET
+    @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.LEARNING_OBJECTIVES)
+    public Response getLearningObjectives(@PathParam(ParameterConstants.ASSESSMENT_ID) final String id) {
+        return Response.status(Status.NOT_FOUND).build();
+    }
+    
+    
     
 }

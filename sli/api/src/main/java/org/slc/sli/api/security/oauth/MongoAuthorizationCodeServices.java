@@ -159,14 +159,14 @@ public class MongoAuthorizationCodeServices extends RandomValueAuthorizationCode
             NeutralQuery neutralQuery2 = new NeutralQuery();
             neutralQuery2.addCriteria(new NeutralCriteria("_id", "=", body.get("userRealm").toString()));
             Entity realm = repo.findOne("realm", neutralQuery2);
-            SLIPrincipal user = userLocator.locate((String) realm.getBody().get("regionId"), body.get("userId").toString());
+            SLIPrincipal user = userLocator.locate((String) realm.getBody().get("tenantId"), body.get("userId").toString());
             
             Set<String> roleNamesSet = StringUtils.commaDelimitedListToSet(body.get("userRoles").toString());
             user.setRoles(new ArrayList<String>(roleNamesSet));
             user.setName((String) body.get("userName"));
             user.setRealm(realm.getEntityId());
             user.setAdminRealm((String) body.get("adminRealm"));
-
+            user.setEdOrg((String) body.get("edOrg"));
             final List<String> roleNames = new ArrayList<String>();
             roleNames.addAll(roleNamesSet);
             Set<GrantedAuthority> authoritiesSet = SecurityUtil.sudoRun(new SecurityTask<Set<GrantedAuthority>>() {

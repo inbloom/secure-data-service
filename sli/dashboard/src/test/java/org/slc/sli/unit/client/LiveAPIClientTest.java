@@ -7,17 +7,20 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import org.slc.sli.client.LiveAPIClient;
 import org.slc.sli.client.RESTClient;
 import org.slc.sli.entity.GenericEntity;
+import org.slc.sli.util.Constants;
 
 /**
  * Unit test for the Live API client.
@@ -202,4 +205,273 @@ public class LiveAPIClientTest {
         
         // String query = client.b
     }
+    
+    
+    @Test
+    public void testGetSchools() {
+        LiveAPIClient liveClient = new LiveAPIClient() {
+            public String getId(String token) {
+                return null;
+            }
+            
+            public List<GenericEntity> getSectionsForTeacher(String teacherId, String token) {
+                return null;
+            }
+            
+            public List<GenericEntity> getSchoolsForSection(List<GenericEntity> sections, String token) {
+                LinkedList<GenericEntity> list = new LinkedList<GenericEntity>();
+                list.add(new GenericEntity());
+                return list;
+            }
+            
+        };
+        String token = "fakeToken";
+        String[] ids = {"1", "2"};
+
+        List<GenericEntity> result = liveClient.getSchools(token, Arrays.asList(ids));
+        assertEquals(result.size(), 1);
+    }
+    
+    @Test
+    public void testGetStudents() {
+        LiveAPIClient liveClient = new LiveAPIClient() {
+          
+            public GenericEntity getStudent(String token, String id) {
+              return new GenericEntity();
+          }
+        };
+        String[] ids = {"1", "2"};
+        String token = "fakeToken";
+        List<GenericEntity> result = liveClient.getStudents(token, Arrays.asList(ids));
+        assertEquals(result.size(), 2);
+    }
+    
+    @Test
+    public void testGetStudentAssessments() {
+        String token = "fakeToken";
+        String id = "1";
+        LiveAPIClient liveClient = new LiveAPIClient() {
+            public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
+                GenericEntity ge = new GenericEntity();
+                List<GenericEntity> list = new LinkedList<GenericEntity>();
+                list.add(ge);
+                return list;
+            }
+        };
+        
+        List<GenericEntity> result = liveClient.getStudentAssessments(token, id);
+        assertEquals(result.size(), 1);
+    }
+    
+    @Test
+    public void testGetSection() {
+        LiveAPIClient liveClient = new LiveAPIClient() {
+            public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
+                GenericEntity ge = new GenericEntity();
+                ge.put(Constants.ATTR_STUDENT_ID, "1");
+                List<GenericEntity> list = new LinkedList<GenericEntity>();
+                list.add(ge);
+                return list;
+            }
+            
+            public GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
+                GenericEntity ge = new GenericEntity();
+                ge.put(Constants.ATTR_UNIQUE_SECTION_CODE, "section");
+                return ge;
+            }
+        };
+        GenericEntity section = liveClient.getSection("1", "fakeToken");
+        assertEquals(section.get("uniqueSectionCode"), "section");
+        assertEquals(section.get("sectionName"), "section");
+        List studentUids = (List) section.get("studentUIDs");
+        assertEquals(studentUids.size(), 1);
+        
+    }
+    
+    @Test
+    public void testGetSession() {
+        client.getSession(null, null);
+    }
+    
+    @Test
+    public void testGetId() {
+        LiveAPIClient liveClient = new LiveAPIClient() {
+            public GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
+                GenericEntity ge = new GenericEntity();
+                List<Map> list = new LinkedList<Map>();
+                Map selfMap = new HashMap();
+                selfMap.put(Constants.ATTR_REL, Constants.ATTR_SELF);
+                selfMap.put(Constants.ATTR_HREF, "https://local.slidev.org/api/rest/v1/teachers/9d32fcd6-4148-4b6c-8c8b-b87ae9ef5a4b");
+                list.add(selfMap);
+                ge.put(Constants.ATTR_LINKS, list);
+                return ge;
+            }
+        };
+        assertEquals(liveClient.getId("token"), "9d32fcd6-4148-4b6c-8c8b-b87ae9ef5a4b");
+    }
+    
+    
+    @Test
+    public void testGetSectionsForTeacher() {
+        LiveAPIClient liveClient = new LiveAPIClient() {
+            public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
+                GenericEntity ge = new GenericEntity();
+                ge.put(Constants.ATTR_SECTION_ID, "1");
+                List<GenericEntity> list = new LinkedList<GenericEntity>();
+                list.add(ge);
+                return list;
+            }
+            
+            public GenericEntity getSection(String id, String token) {
+                return new GenericEntity();
+            }
+            
+        };
+        
+        List<GenericEntity> result = liveClient.getSectionsForTeacher(null, null);
+        assertEquals(result.size(), 1);
+    }
+    
+    
+    @Test
+    public void testGetHomeroomForStudent() {
+        
+        LiveAPIClient liveClient = new LiveAPIClient() {
+            public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
+                List<GenericEntity> list = new LinkedList<GenericEntity>();
+                if (token.equals("empty")) {
+                    return list;
+                }
+                GenericEntity ge = new GenericEntity();
+                ge.put(Constants.ATTR_HOMEROOM_INDICATOR, true);
+                list.add(ge);
+                if (token.equals("two")) {
+                    list.add(new GenericEntity());
+                }
+                return list;
+            }
+            
+            public GenericEntity getSection(String sectionId, String token) {
+                GenericEntity section = new GenericEntity();
+                section.put(Constants.ATTR_NAME, "section");
+                return section;
+            }
+        };
+        
+        GenericEntity ge = liveClient.getHomeRoomForStudent(null, "one");
+        assertEquals(ge.get(Constants.ATTR_NAME), "section");
+        ge = liveClient.getHomeRoomForStudent(null, "two");
+        assertEquals(ge.get(Constants.ATTR_NAME), "section");
+        ge = liveClient.getHomeRoomForStudent(null, "empty");
+        assertEquals(ge, null);
+    }
+    
+    
+    @Test
+    public void testGetTeacherForSection() {
+        LiveAPIClient liveClient = new LiveAPIClient() {
+            public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
+                GenericEntity ge = new GenericEntity();
+                ge.put(Constants.ATTR_CLASSROOM_POSITION, Constants.TEACHER_OF_RECORD);
+                List<GenericEntity> list = new LinkedList<GenericEntity>();
+                if (token.equals("empty"))
+                    return list;
+                list.add(ge);
+                return list;
+            }
+            
+            public GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
+                GenericEntity teacher = new GenericEntity();
+                teacher.put("name", "teacher");
+                return teacher;
+            }
+        };
+        
+        GenericEntity ge = liveClient.getTeacherForSection(null, "fakeToken");
+        assertEquals(ge.get(Constants.ATTR_NAME), "teacher");
+        ge = liveClient.getTeacherForSection(null, "empty");
+        assertEquals(ge, null);
+    }
+    
+    
+    @Test
+    public void testGetSchoolsForSection() {
+        LiveAPIClient liveClient = new LiveAPIClient() {
+            public GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
+                GenericEntity ge = new GenericEntity();
+                ge.put(Constants.ATTR_ID, url);
+                return ge;
+            }            
+        };
+        
+        List<GenericEntity> list = new LinkedList<GenericEntity>();
+        GenericEntity section = new GenericEntity();
+        List<Map> links = new LinkedList<Map>();
+        Map courseLink = new HashMap<String, String>();
+        courseLink.put(Constants.ATTR_REL, "getCourse");
+        courseLink.put(Constants.ATTR_HREF, "course");
+        Map schoolLink = new HashMap<String, String>();
+        schoolLink.put(Constants.ATTR_REL, "getSchool");
+        schoolLink.put(Constants.ATTR_HREF, "school");
+        links.add(courseLink);
+        links.add(schoolLink);
+        section.put(Constants.ATTR_LINKS, links);
+        section.put(Constants.ATTR_COURSE_ID, "course");
+        section.put(Constants.ATTR_SCHOOL_ID, "school");
+        list.add(section);
+        List<GenericEntity> result = liveClient.getSchoolsForSection(list, null);
+        assertEquals(result.size(), 1);
+        GenericEntity ge = result.get(0);
+        assertEquals(ge.get(Constants.ATTR_ID), "school");
+    }
+    
+    //Test student enrollment, by mocking out calls to API
+    @Test
+    public void testGetStudentEnrollment() {
+        GenericEntity student = new GenericEntity();
+        ArrayList<Map<String, String>> links = new ArrayList<Map<String, String>>();
+        HashMap<String, String> link = new HashMap<String, String>();
+        link.put(Constants.ATTR_REL, "getStudentSchoolAssociations");
+        link.put(Constants.ATTR_HREF, "getStudentSchoolAssociationLink");
+        links.add(link);
+        student.put(Constants.ATTR_LINKS, links);
+        LiveAPIClient liveClient = new LiveAPIClient() {
+            
+            /*
+             * Mock out call to studentSchoolAssociations to return a fake association when a call is made.
+             */
+            public List<GenericEntity> createEntitiesFromAPI(String url, String token, boolean fullEntities) {
+                GenericEntity studentSchoolAssociation = new GenericEntity();
+                ArrayList<Map<String, String>> links = new ArrayList<Map<String, String>>();
+                HashMap<String, String> link = new HashMap<String, String>();
+                link.put(Constants.ATTR_REL, "getSchool");
+                link.put(Constants.ATTR_HREF, "getSchoolLink");
+                links.add(link);
+                studentSchoolAssociation.put(Constants.ATTR_LINKS, links);
+                List<GenericEntity> associations = new LinkedList<GenericEntity>();
+                associations.add(studentSchoolAssociation);
+                return associations;
+            }
+            
+            
+            /*
+             * Mock out call to schools to return a fake school when a call is made via the api.
+             */
+            public GenericEntity createEntityFromAPI(String url, String token, boolean fullEntities) {
+                GenericEntity school = new GenericEntity();
+                school.put(Constants.ATTR_NAME, "schoolName");
+                return school;
+            }
+            
+        };
+        
+        //Make the getStudentEnrollment call and assert that the school returned in the call is the faked out school in the earlier call
+        List<GenericEntity> enrollment = liveClient.getStudentEnrollment("fakeToken", student);
+        GenericEntity firstEnrollment = enrollment.get(0);
+        Map<String, String> school = (Map<String, String>) firstEnrollment.get(Constants.ATTR_SCHOOL);
+        assertEquals(school.get(Constants.ATTR_NAME), "schoolName");
+    }
+    
+    
+    
 }
