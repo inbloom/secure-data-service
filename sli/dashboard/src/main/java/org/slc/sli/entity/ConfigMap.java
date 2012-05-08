@@ -1,18 +1,19 @@
 package org.slc.sli.entity;
 
+import java.util.Collections;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 
 /**
- *
+ * Collection of Config objects for custom config store
  * @author agrebneva
  *
  */
 public class ConfigMap {
     @Valid
-    private Map<String, Config> config;
+    private Map<String, Config> config = Collections.emptyMap();
 
     public Map<String, Config> getConfig() {
         return config;
@@ -28,5 +29,9 @@ public class ConfigMap {
 
     public int size() {
         return config.size();
+    }
+
+    public boolean isEmpty() {
+        return config == null || config.isEmpty();
     }
 }
