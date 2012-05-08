@@ -2,25 +2,20 @@ package org.slc.sli.ingestion.routes;
 
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.spring.SpringRouteBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.landingzone.LandingZoneManager;
-import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
-import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
+import org.slc.sli.ingestion.processors.TenantProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.XmlFileProcessor;
-import org.slc.sli.ingestion.processors.ZipFileProcessor;
-import org.slc.sli.ingestion.processors.TenantProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * Ingestion route builder.
@@ -30,12 +25,6 @@ import org.slc.sli.ingestion.tenant.TenantPopulator;
  */
 @Component
 public class IngestionRouteBuilder extends SpringRouteBuilder {
-
-    @Autowired
-    ZipFileProcessor zipFileProcessor;
-
-    @Autowired
-    ControlFilePreProcessor controlFilePreProcessor;
 
     @Autowired
     ControlFileProcessor ctlFileProcessor;
@@ -90,11 +79,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         configureTenantPollingTimerRoute();
         configureCommonRoute(workItemQueueUri);
-
-        // configure ctlFilePoller and zipFilePoller per landing zone
-        for (LocalFileSystemLandingZone lz : landingZoneManager.getLandingZones()) {
-            configureRoutePerLandingZone(workItemQueueUri, lz);
-        }
     }
     
     /**
@@ -109,37 +93,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             .setBody().simple("TenantPollingTimer fired: ${header.firedTime}")
             .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "TenantPollingTimer fired: ${header.firedTime}")
             .process(tenantProcessor);        
-    }
-
-    private void configureRoutePerLandingZone(String workItemQueueUri, LocalFileSystemLandingZone lz) {
-        String inboundDir = lz.getDirectory().getAbsolutePath();
-        log.info("Configuring route for landing zone: {} ", inboundDir);
-        // routeId: ctlFilePoller
-        from(
-                "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension() + "$"
-                        + "&move=" + inboundDir + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
-                        + "&moveFailed=" + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"
-                        + "&readLock=changed")
-                .routeId("ctlFilePoller-" + inboundDir)
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
-                .process(controlFilePreProcessor)
-                .to(workItemQueueUri);
-
-        // routeId: zipFilePoller
-        from(
-                "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.ZIP_FILE.getExtension() + "$&preMove="
-                        + inboundDir + "/.done&moveFailed=" + inboundDir
-                        + "/.error"
-                        + "&readLock=changed")
-                .routeId("zipFilePoller-" + inboundDir)
-                .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing zip file.")
-                .process(zipFileProcessor)
-                .choice()
-                .when(header("hasErrors").isEqualTo(true))
-                    .to("direct:stop")
-                .otherwise()
-                    .process(controlFilePreProcessor)
-                    .to(workItemQueueUri);
     }
 
     private void configureCommonRoute(String workItemQueueUri) {
