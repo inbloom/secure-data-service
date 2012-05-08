@@ -79,13 +79,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
             return false;
         }
 
-        Query idQuery = new Query(Criteria.where("_id").is(UUID.fromString(id)));
-
         Map<String, Object> entityBody = record.getBody();
         Map<String, Object> entityMetaData = record.getMetaData();
-
-
         Update update = new Update().set("body", entityBody).set("metaData", entityMetaData);
+        Query idQuery = new Query(Criteria.where("_id").is(UUID.fromString(id)));
+
+        template.updateFirst(idQuery, update, collection);
 
         return true;
     }

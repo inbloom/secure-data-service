@@ -11,6 +11,10 @@ gem 'therubyracer'
 
 gem 'oauth2'
 
+gem "net-ldap"
+
+gem 'approval', :path => '../approval'
+
 group :deployment, :integration do
   # Deploy with Capistrano
   gem 'capistrano'

@@ -61,7 +61,7 @@ public class ShardKeyMongoEntityDecoratorTest {
         shardKeyMongoEntityDecorator.decorate(dbObject);
         assertNotNull(dbObject.get("shardkey"));
 
-        assertEquals("key1Valuekey2Value_idValue", dbObject.get("shardkey"));
+        assert("key1Valuekey2Value_idValue".equals(dbObject.get("shardkey")));
     }
 
     @Test
@@ -78,6 +78,6 @@ public class ShardKeyMongoEntityDecoratorTest {
         testShardKeys.add("i.do.not.exist");
 
         shardKeyMongoEntityDecorator.decorate(dbObject);
-        assertEquals("key1Valuekey2Value_idValue", dbObject.get("shardkey"));
+        assert("key1Valuekey2Value_idValue".equals(dbObject.get("shardkey")));
     }
 }
