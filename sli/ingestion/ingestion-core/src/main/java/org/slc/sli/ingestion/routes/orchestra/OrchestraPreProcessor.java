@@ -5,14 +5,13 @@ import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slc.sli.ingestion.EdfiEntity;
+import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.ingestion.EdfiEntity;
-import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 
 /**
  *
@@ -58,6 +57,8 @@ public class OrchestraPreProcessor implements Processor {
             EdfiEntity stagedEdfiEntity = EdfiEntity.fromEntityName(stagedCollection);
             if (stagedEdfiEntity != null) {
                 stagedEntities.add(stagedEdfiEntity);
+            } else {
+                LOG.warn("Uncrecognized entity: {} dropping it on the floor", stagedCollection);
             }
         }
         LOG.info("staged entities for job: {}", stagedEntities);
