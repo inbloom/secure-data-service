@@ -41,7 +41,7 @@ When zip file is scp to ingestion landing zone
 #     | student                     | 1     |
 #   And I check to find if record is in collection:
 #     | collectionName              | expectedRecordCount | searchParameter             | searchValue      | searchType           |
-#     | student                     | 1                   | metaData.tenantId           | IL-NewEdOrg      | string               |
+#     | student                     | 1                   | metaData.tenantId           | IL-Newtowne      | string               |
 #  And I should see "Processed 1 records." in the resulting batch job file
 #  And I should not see an error log file created
 #  And I should see "tenant.xml records considered: 1" in the resulting batch job file
