@@ -62,7 +62,7 @@ def initializeTenants()
   @lzs_to_remove  = Array.new
   
   defaultLz = @ingestion_lz_identifer_map['IL-Daybreak']
-  # TODO check for undefined, show error
+  assert(defaultLz != nil, "Default landing zone not defined (IL-Daybreak)")
   
   if defaultLz.rindex('/') == (defaultLz.length - 1)
     # remove last character (/)
@@ -497,7 +497,9 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
 
   path = @tenantTopLevelLandingZone + 'tenant_' + rand(1048576).to_s
   
-  Dir.mkdir(path, 0777)
+  FileUtils.mkdir_p(path)
+  FileUtils.chmod(0777, path)
+ 
   puts lz_key + " -> " + path
   
   ingestionServer = Socket.gethostname
@@ -526,7 +528,6 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   
   @newTenant = {
     "_id" => BSON::Binary.new("HE9cAZldKXq5uZ==", BSON::Binary::SUBTYPE_UUID),
-    # "_id" => "9678a733-9633-1133-9f33-1040f39b7e33",
     "type" => "tenantTest",
     "body" => @body,
     "metaData" => @metaData
@@ -541,9 +542,6 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
 end
 
 Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
-  # TODO check that tenant-edOrg combination doesn't already exist
-  # update IL with new landing zone
-  
   tenant = lz_key
   edOrg = lz_key
   
@@ -559,24 +557,20 @@ Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
   matches = @tenantColl.find("body.tenantId" => tenant, "body.landingZone.educationOrganization" => edOrg).to_a
   puts "Found " + matches.size.to_s + " existing records for " + lz_key
   
-  if matches.size != 0
-    puts "We have a problem"
-    # TODO do something about the problem
-  end
+  assert(matches.size == 0, "Tenant already exists for " + lz_key)
   
   @existingTenant = @tenantColl.find_one("body.tenantId" => tenant)
-  # puts @existingTenant
   
   @id = @existingTenant['_id']
   @body = @existingTenant['body']
   
   @landingZones = @body['landingZone'].to_a
-  # puts @landingZones
   
   path = @tenantTopLevelLandingZone + 'tenant_' + rand(1048576).to_s
   
-  Dir.mkdir(path, 0777)
-  puts lz_key + " => " + path
+  FileUtils.mkdir_p(path)
+  FileUtils.chmod(0777, path)
+  puts lz_key + " -> " + path
   
   ingestionServer = Socket.gethostname
   
