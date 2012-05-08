@@ -43,6 +43,7 @@ public final class ResourceNames {
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
     public static final String STUDENT_ACADEMIC_RECORDS = "studentAcademicRecords";
     public static final String TEACHERS = "teachers";
+    public static final String USER_ACCOUNTS = "userAccounts";
 
     public static final String SCHOOL_SESSION_ASSOCIATIONS = "school-session-associations";
     public static final String SECTION_ASSESSMENT_ASSOCIATIONS = "section-assessment-associations";
@@ -119,6 +120,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, "getStudentGradebookEntry");
         SINGULAR_LINK_NAMES.put(ResourceNames.TEACHERS, "getTeacher");
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF, "getStaff");
+        SINGULAR_LINK_NAMES.put(ResourceNames.USER_ACCOUNTS, "getUserAccount");
     }
 
     /*
