@@ -565,11 +565,12 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(entityId);
         }
 
-        // Check that target entity is accessible to the actor
-        if (entityId != null && !findAccessible().contains(entityId)) {
-            throw new AccessDeniedException("No association between the user and target entity");
+        if (right != Right.ANONYMOUS_ACCESS) {
+         // Check that target entity is accessible to the actor
+            if (entityId != null && !findAccessible().contains(entityId)) {
+                throw new AccessDeniedException("No association between the user and target entity");
+            }
         }
-
     }
 
     private void checkRights(Right neededRight) {
