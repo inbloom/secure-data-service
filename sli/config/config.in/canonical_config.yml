@@ -68,12 +68,21 @@ default:
         sli.ingestion.queue.workItem.keystorePassword:
 
         # Symphony (maestro + pit) queue config
-        sli.ingestion.queue.maestroPit.host:
-        sli.ingestion.queue.maestroPit.port:
-        sli.ingestion.queue.maestroPit.queueURI: seda:IngestionSymphony
-        sli.ingestion.queue.maestroPit.concurrentConsumers: 4
-        sli.ingestion.queue.maestroPit.keystore:
-        sli.ingestion.queue.maestroPit.keystorePassword:
+        sli.ingestion.queue.maestro.host:
+        sli.ingestion.queue.maestro.port:
+        sli.ingestion.queue.maestro.queueURI: seda:IngestionMaestro
+        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.keystore:
+        sli.ingestion.queue.maestro.keystorePassword:
+        
+        # Pit (worker) nodes
+        sli.ingestion.queue.pit.host:
+        sli.ingestion.queue.pit.port:
+        sli.ingestion.queue.pit.queueURI: seda:IngestionPit
+        sli.ingestion.queue.pit.concurrentConsumers: 5
+        sli.ingestion.queue.pit.keystore:
+        sli.ingestion.queue.pit.keystorePassword:
+
 
         sli.ingestion.nodeType: worker
         sli.ingestion.tenant.deriveTenants: true
@@ -203,12 +212,22 @@ acceptance-tests:
 
         # TODO - need maestroPit queue config
         # Symphony (maestro + pit) queue config
-        sli.ingestion.queue.maestroPit.host: devmq1.slidev.org
-        sli.ingestion.queue.maestroPit.port: 5445
-        sli.ingestion.queue.maestroPit.queueURI: jms-hornetq:IngestionSymphony
-        sli.ingestion.queue.maestroPit.concurrentConsumers: 4
-        sli.ingestion.queue.maestroPit.keystore: /opt/tomcat/ssl/tomcat.keystore
-        sli.ingestion.queue.maestroPit.keystorePassword: Y0d@kn0ws
+        sli.ingestion.queue.maestro.host: devmq1.slidev.org
+        sli.ingestion.queue.maestro.port: 5445
+        sli.ingestion.queue.maestro.queueURI: jms-hornetq:IngestionMaestro
+        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
+        
+        # Pit (worker) nodes
+        sli.ingestion.queue.pit.host: devmq1.slidev.org
+        sli.ingestion.queue.pit.port: 5445
+        sli.ingestion.queue.pit.queueURI: jms-hornetq:IngestionPit
+        sli.ingestion.queue.pit.concurrentConsumers: 5
+        sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
+
+
 
 
     dashboard:
