@@ -139,7 +139,7 @@ public class RoleInitializer {
     private Role buildAppDeveloper() {
         LOG.info("Building Application Developer default role.");
         return RoleBuilder.makeRole(APP_DEVELOPER)
-                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.APP_CREATION, Right.READ_GENERAL}).build();
+                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL}).build();
     }
 
     private Role buildEducator() {

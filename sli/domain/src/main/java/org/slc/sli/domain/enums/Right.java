@@ -17,13 +17,11 @@ public enum Right implements GrantedAuthority {
     AGGREGATE_WRITE,
     ADMIN_ACCESS,
     FULL_ACCESS,
-    APP_CREATION,
     CRUD_REALM_ROLES,
     ROLE_CRUD,
     SLC_APP_APPROVE,
     EDORG_APP_AUTHZ,
-    DEV_APP_ENABLE,
-    DEV_APP_CREATE;
+    DEV_APP_CRUD;
 
     @Override
     public String getAuthority() {

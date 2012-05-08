@@ -102,7 +102,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                     + "Remove attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
-        if (!hasRight(Right.APP_CREATION)) {
+        if (!hasRight(Right.DEV_APP_CRUD)) {
             EntityBody body = new EntityBody();
             body.put("message", "You are not authorized to create new applications.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
@@ -156,7 +156,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             @Context
             HttpHeaders headers, @Context final UriInfo uriInfo) {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (hasRight(Right.APP_CREATION)) {
+        if (hasRight(Right.DEV_APP_CRUD)) {
             extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId());
         } else if (!hasRight(Right.SLC_APP_APPROVE)) {
             debug("ED-ORG of operator/admin {}", principal.getEdOrg());
@@ -183,7 +183,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         Response resp;
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (hasRight(Right.APP_CREATION)) {
+        if (hasRight(Right.DEV_APP_CRUD)) {
             extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId());
         } else if (!hasRight(Right.SLC_APP_APPROVE)) {
             debug("ED-ORG of operator/admin {}", principal.getEdOrg());
@@ -228,13 +228,12 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public Response deleteApplication(@PathParam(UUID) String uuid,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
-        if (hasRight(Right.APP_CREATION)) {
-            return super.delete(uuid, headers, uriInfo);
-        } else {
+        if (!hasRight(Right.DEV_APP_CRUD)) {
             EntityBody body = new EntityBody();
             body.put("message", "You cannot delete this application");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
+        return super.delete(uuid, headers, uriInfo);
     }
 
     //TODO app creation and app approval should be broken into separate endpoints.
@@ -306,7 +305,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
                         
-        } else if (hasRight(Right.APP_CREATION)) {  //App Developer
+        } else if (hasRight(Right.DEV_APP_CRUD)) {  //App Developer
             if (!oldRegStatus.endsWith(newRegStatus)) {
                 EntityBody body = new EntityBody();
                 body.put("message", "You are not authorized to register applications.");
