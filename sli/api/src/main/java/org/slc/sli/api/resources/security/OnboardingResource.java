@@ -189,16 +189,16 @@ public class OnboardingResource {
         for (String appId : appIds) {
             Entity app = repo.findById(APPLICATION_RESOURCE_NAME, appId);
             if (app != null) {
-                List<String> authorized_edOrgIds = (List<String>) app.getBody().get(APPLICATION_AUTH_EDORGS);
-                if (authorized_edOrgIds == null) {
-                    authorized_edOrgIds = new ArrayList<String>();
-                    authorized_edOrgIds.add(edOrgId);
-                } else if (authorized_edOrgIds.contains(edOrgId)) {
+                List<String> authorizedEdOrgIds = (List<String>) app.getBody().get(APPLICATION_AUTH_EDORGS);
+                if (authorizedEdOrgIds == null) {
+                    authorizedEdOrgIds = new ArrayList<String>();
+                    authorizedEdOrgIds.add(edOrgId);
+                } else if (authorizedEdOrgIds.contains(edOrgId)) {
                     continue;
                 } else {
-                    authorized_edOrgIds.add(edOrgId);
+                    authorizedEdOrgIds.add(edOrgId);
                 }
-                app.getBody().put(APPLICATION_AUTH_EDORGS, authorized_edOrgIds);
+                app.getBody().put(APPLICATION_AUTH_EDORGS, authorizedEdOrgIds);
                 repo.update(APPLICATION_RESOURCE_NAME, app);
             }
         }

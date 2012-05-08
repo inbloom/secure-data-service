@@ -171,9 +171,9 @@ public class OnboardingResourceTest {
         body.put("enabled", true);
         body.put("client_id", "K2e7Dwhq5J");
         body.put("behavior", "Full Window App");
-        Map<String, String> developer_info = new HashMap<String, String>();
-        developer_info.put("organization", "SLC");
-        body.put("developer_info", developer_info);
+        Map<String, String> developerInfo = new HashMap<String, String>();
+        developerInfo.put("organization", "SLC");
+        body.put("developer_info", developerInfo);
 
         return body;
     }
@@ -192,9 +192,9 @@ public class OnboardingResourceTest {
         body.put("enabled", true);
         body.put("client_id", "2zhRrEXh8r");
         body.put("behavior", "Iframe App");
-        Map<String, String> developer_info = new HashMap<String, String>();
-        developer_info.put("organization", "SLC");
-        body.put("developer_info", developer_info);
+        Map<String, String> developerInfo = new HashMap<String, String>();
+        developerInfo.put("organization", "SLC");
+        body.put("developer_info", developerInfo);
         return body;
     }
 }
