@@ -2,7 +2,7 @@ class EulasController < ApplicationController
   # GET /eulas
   # GET /eulas.json
   def index
-    @eulas = Eula.all
+    @eulas = Eula.new
 
     respond_to do |format|
       format.html # index.html.erb
@@ -43,13 +43,8 @@ class EulasController < ApplicationController
     @eula = Eula.new(params[:eula])
 
     respond_to do |format|
-      if @eula.save
-        format.html { redirect_to @eula, notice: 'Eula was successfully created.' }
-        format.json { render json: @eula, status: :created, location: @eula }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @eula.errors, status: :unprocessable_entity }
-      end
+      format.html { redirect_to @eula }
+      format.json { render json: @eula }
     end
   end
 
