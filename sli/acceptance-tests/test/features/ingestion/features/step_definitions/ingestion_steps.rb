@@ -71,17 +71,14 @@ def initializeTenants()
   
   # remove last directory
   if defaultLz.rindex('/') != nil
-    @topLevelLandingZone = defaultLz[0, defaultLz.rindex('/')] + '/' 
+    @topLevelLandingZone = defaultLz[0, defaultLz.rindex('/')] + '/'
+    @tenantTopLevelLandingZone = @topLevelLandingZone + "tenant/"
   elsif defaultLz.rindex('\\') != nil
-    @topLevelLandingZone = defaultLz[0, defaultLz.rindex('\\')] + '/' 
-  else
-    # this isn't right
-    @topLevelLandingZone = defaultLz
+    @topLevelLandingZone = defaultLz[0, defaultLz.rindex('\\')] + '\\'
+    @tenantTopLevelLandingZone = @topLevelLandingZone + "tenant\\"
   end
   
   puts "Top level LZ is -> " + @topLevelLandingZone
-  
-  @tenantTopLevelLandingZone = @topLevelLandingZone + "tenant/"
   
   cleanTenants()
   

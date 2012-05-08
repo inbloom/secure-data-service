@@ -59,6 +59,6 @@ public class LandingZoneRouteBuilderTest {
         assertEquals("Zip route Id was not as expected", 
                 LandingZoneRouteBuilder.ZIP_POLLER_PREFIX + testPath, routeList.get(1).getId());
         
-        camelContext.start();
+        camelContext.stop();
     }
 }

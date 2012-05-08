@@ -85,7 +85,9 @@ public class TenantProcessor implements Processor {
         }
         
         //add new routes
-        addRoutes(routesToAdd);
+        if (routesToAdd.size() > 0) {
+            addRoutes(routesToAdd);
+        }
         
         //remove routes for oldLzPaths that were not found in DB collection
         removeRoutes(oldLzPaths);
