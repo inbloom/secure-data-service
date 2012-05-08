@@ -45,7 +45,7 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
         calendar.setTimeInMillis(System.currentTimeMillis());
 
         //get the filter date
-        String endDate = getFilterDate(gracePeriod, calendar);
+        String endDate = helper.getFilterDate(gracePeriod, calendar);
 
         if (!toResolve.isEmpty() && !endDate.isEmpty()) {
             //get the section entities
@@ -67,20 +67,6 @@ public class SectionGracePeriodNodeFilter extends NodeFilter {
         }
 
         return toResolve;
-    }
-
-    /**
-     * Returns a date depending on the grace period
-     * @param gracePeriod
-     * @return
-     */
-    protected String getFilterDate(String gracePeriod, Calendar calendar) {
-        if (gracePeriod != null && !gracePeriod.equals("")) {
-            int numDays = Integer.parseInt(gracePeriod) * -1;
-            calendar.add(Calendar.DATE, numDays);
-        }
-
-        return String.format("%1$tY-%1$tm-%1$td", calendar);
     }
 
     /**

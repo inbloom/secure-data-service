@@ -1,0 +1,9 @@
+<div id="notice">
+	<%= notice %>
+</div>
+
+<h1>Realm Management For <%= @realm.name %> </h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Delete Realm', @realm, confirm: 'WARNING: DELETING REALM WILL PREVENT ANY USER ASSOCIATED WITH THIS REALM FROM AUTHENTICATING ON SLI AND WILL RESET ROLE MAPPING. ARE YOU SURE?', method: :delete %>

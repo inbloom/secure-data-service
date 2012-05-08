@@ -104,10 +104,10 @@ Examples:
 
 Examples:
 | Entity Type                    | Entity Resource URI       | Entity Count |
-| "assessment"                   | "assessments"             | 2 |
+| "assessment"                   | "assessments"             | 3 |
 | "attendance"                   | "attendances"             | 1 |
 | "cohort"                       | "cohorts"                 | 3 |
-| "course"                       | "courses"                 | 6 |
+| "course"                       | "courses"                 | 91 |
 | "disciplineAction"             | "disciplineActions"       | 2 |
 | "disciplineIncident"           | "disciplineIncidents"     | 2 |
 | "educationOrganization"        | "educationOrganizations"  | 59 |
@@ -117,10 +117,10 @@ Examples:
 | "parent"                       | "parents"                 | 2 |
 | "program"                      | "programs"                | 2 |
 | "school"                       | "schools"                 | 5 |
-| "section"                      | "sections"                | 6 |
-| "session"                      | "sessions"                | 5 |
+| "section"                      | "sections"                | 93 |
+| "session"                      | "sessions"                | 22 |
 | "staff"                        | "staff"                   | 17 |
-| "student"                      | "students"                | 80 |
+| "student"                      | "students"                | 82 |
 | "studentAcademicRecord"        | "studentAcademicRecords"  | 7 |
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | 4 |
 | "teacher"                      | "teachers"                | 4 |
