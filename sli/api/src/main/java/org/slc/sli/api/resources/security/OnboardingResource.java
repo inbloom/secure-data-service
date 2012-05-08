@@ -1,6 +1,7 @@
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,9 +9,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -18,14 +17,12 @@ import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ResourceConstants;
@@ -40,7 +37,7 @@ import org.slc.sli.domain.enums.Right;
  */
 @Component
 @Scope("request")
-@Path("/onboarding")
+@Path("/provision")
 @Produces({ Resource.JSON_MEDIA_TYPE })
 public class OnboardingResource {
 
@@ -50,14 +47,24 @@ public class OnboardingResource {
     @Autowired
     Repository<Entity> repo;
 
-	private static final String STATE_EDORG_ID = "stateOrganizationId";
-	private static final String EDORG_INSTITUTION_NAME = "nameOfInstitution";
-	private static final String ADDRESSES = "address";
-	private static final String ADDRESS_STREET = "streetNumberName";
-	private static final String ADDRESS_CITY = "city";
-	private static final String ADDRESS_STATE_ABRV = "stateAbbreviation";
-	private static final String ADDRESS_POSTAL_CODE = "postalCode";
-	private static final String CATEGORIES = "organizationCategories";  // 'State Education Agency'
+    public static final String STATE_EDUCATION_AGENCY = "State Education Agency";
+    public static final String STATE_EDORG_ID = "stateOrganizationId";
+    public static final String EDORG_INSTITUTION_NAME = "nameOfInstitution";
+    public static final String ADDRESSES = "address";
+    public static final String ADDRESS_STREET = "streetNumberName";
+    public static final String ADDRESS_CITY = "city";
+    public static final String ADDRESS_STATE_ABRV = "stateAbbreviation";
+    public static final String ADDRESS_POSTAL_CODE = "postalCode";
+    public static final String CATEGORIES = "organizationCategories";  // 'State Education Agency'
+    public static final String APPLICATION_RESOURCE_NAME = "application";
+    public static final String APPLICATION_AUTH_RESOURCE_NAME = "applicationAuthorization";
+    public static final String APPLICATION_NAME = "name";
+    public static final String APPLICATION_AUTH_EDORGS = "authorized_ed_orgs";
+    public static final String AUTH_TYPE_EDUCATION_ORGANIZATION = "EDUCATION_ORGANIZATION";
+    public static final String AUTH_TYPE = "authType";
+    public static final String AUTH_ID = "authId";
+    public static final String APP_IDS = "appIds";
+    public static final List<String> COMMON_APP_NAMES = Arrays.asList("Dashboard", "Databrowser");
 
     @PostConstruct
     public void init() {
@@ -67,68 +74,163 @@ public class OnboardingResource {
     /**
      * Provision a landing zone for the provide educational organization.
      *
-     * @QueryParameter stateOrganizationId -- the unique identifier for this ed org
-     * @QueryParameter tenantId -- the tenant ID for this edorg.
+     * @QueryParam stateOrganizationId -- the unique identifier for this ed org
+     * @QueryParam tenantId -- the tenant ID for this edorg.
      */
     @POST
-    @Path("Provision")
-    public Response provision(
-    	@QueryParam(STATE_EDORG_ID) String orgId,
-    	@QueryParam(ResourceConstants.ENTITY_METADATA_TENANT_ID) String tenantId,
-    	@Context final UriInfo uriInfo) {
+    public Response provision(Map<String, String> reqBody, @Context final UriInfo uriInfo) {
+        String orgId = reqBody.get(STATE_EDORG_ID);
+        String tenantId = reqBody.get(ResourceConstants.ENTITY_METADATA_TENANT_ID);
 
-    	// TODO -- do all provisioning here.
-        return Response.status(Status.SERVICE_UNAVAILABLE).build();
-    }
-
-	/**
-	 * Create an EdOrg if it does not exists.
-	 */
-    // @TODO -- this will become a method and not a resource.  The top level 'Provision' resource will call
-    //    	into this.
-    @POST
-	@Path("EdOrg/{" + STATE_EDORG_ID + "}")
-    public Response createEdOrg(@PathParam(STATE_EDORG_ID) String orgId, @Context final UriInfo uriInfo) {
-
-    	// Ensure the user is an admin.
+        // Ensure the user is an admin.
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to provision a landing zone.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
 
-	    EntityBody body = new EntityBody();
-		body.put(STATE_EDORG_ID, orgId);
-		body.put(EDORG_INSTITUTION_NAME, orgId);
+        String edOrgId = "";
+        Response r = createEdOrg(orgId, tenantId, edOrgId);
 
-		List<String> categories = new ArrayList<String>();
-		categories.add("State Education Agency");
-		body.put(CATEGORIES, categories);
+        if (Status.fromStatusCode(r.getStatus()) != Status.CREATED) {
+            return r;
+        }
 
-		List<Map<String, String>> addresses = new ArrayList<Map<String, String>>();
-		Map<String, String> address = new HashMap<String, String>();
-		address.put(ADDRESS_STREET, "unknown");
-		address.put(ADDRESS_CITY, "unknown");
-		address.put(ADDRESS_STATE_ABRV, "NC");
-		address.put(ADDRESS_POSTAL_CODE, "27713");
-		addresses.add(address);
+        return r;
+    }
 
-		body.put(ADDRESSES, addresses);
+    /**
+     * Create an EdOrg if it does not exists.
+     *
+     * @param orgId
+     *            The State Educational Organization identifier.
+     * @param tenantId
+     *            The EdOrg tenant identifier.
+     * @param unique
+     *            identifier for the new EdOrg entity (out)
+     * @return Response of the request as an HTTP Response.
+     */
+    public Response createEdOrg(final String orgId, final String tenantId, String uuid) {
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(STATE_EDORG_ID, "=", orgId));
 
-        // Look up the user's tenantID
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query) != null) {
+            return Response.status(Status.CONFLICT).build();
+        }
+
+        EntityBody body = new EntityBody();
+        body.put(STATE_EDORG_ID, orgId);
+        body.put(EDORG_INSTITUTION_NAME, orgId);
+
+        List<String> categories = new ArrayList<String>();
+        categories.add(STATE_EDUCATION_AGENCY);
+        body.put(CATEGORIES, categories);
+
+        List<Map<String, String>> addresses = new ArrayList<Map<String, String>>();
+        Map<String, String> address = new HashMap<String, String>();
+        address.put(ADDRESS_STREET, "unknown");
+        address.put(ADDRESS_CITY, "unknown");
+        address.put(ADDRESS_STATE_ABRV, "NC");
+        address.put(ADDRESS_POSTAL_CODE, "27713");
+        addresses.add(address);
+
+        body.put(ADDRESSES, addresses);
+
         Map<String, Object> meta = new HashMap<String, Object>();
-        meta.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, principal.getTenantId());
+        meta.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, tenantId);
 
+        Entity e = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
+        if (e == null) {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        }
 
-		if (repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query) != null) {
-	        return Response.status(Status.CONFLICT).entity(orgId).build();
-		}
+        uuid = e.getEntityId();
 
-		Entity e = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
-        return Response.status(Status.CREATED).entity(e).build();
+        // retrieve the application ids for common applications that already exist in mongod
+        List<String> appIds = getAppIds(COMMON_APP_NAMES);
+
+        // update common applications to include new edorg uuid in the field "authorized_ed_orgs"
+        updateApps(uuid, appIds);
+
+        // create or update the applicationAuthorization collection in mongod for new edorg entity
+        createAppAuth(uuid, appIds);
+
+        return Response.status(Status.CREATED).build();
+    }
+
+    /**
+     * @param commonAppNames
+     *            collection of common application names
+     * @return collection of common application id
+     */
+    private List<String> getAppIds(List<String> commonAppNames) {
+        List<String> appIds = new ArrayList<String>();
+        Iterable<Entity> apps = repo.findAll(APPLICATION_RESOURCE_NAME);
+        for (Entity app : apps) {
+            for (String appName : commonAppNames) {
+                if (((String) app.getBody().get(APPLICATION_NAME)).contains(appName)) {
+                    appIds.add(app.getEntityId());
+                }
+            }
+        }
+        return appIds;
+    }
+
+    /**
+     * @param edOrgId
+     *            the uuid of top level education organization
+     * @param appIds
+     *            collection of application id that the field "authorized_ed_orgs" need to be
+     *            updated
+     */
+    @SuppressWarnings("unchecked")
+    private void updateApps(String edOrgId, List<String> appIds) {
+        for (String appId : appIds) {
+            Entity app = repo.findById(APPLICATION_RESOURCE_NAME, appId);
+            if (app != null) {
+                List<String> authorizedEdOrgIds = (List<String>) app.getBody().get(APPLICATION_AUTH_EDORGS);
+                if (authorizedEdOrgIds == null) {
+                    authorizedEdOrgIds = new ArrayList<String>();
+                    authorizedEdOrgIds.add(edOrgId);
+                } else if (authorizedEdOrgIds.contains(edOrgId)) {
+                    continue;
+                } else {
+                    authorizedEdOrgIds.add(edOrgId);
+                }
+                app.getBody().put(APPLICATION_AUTH_EDORGS, authorizedEdOrgIds);
+                repo.update(APPLICATION_RESOURCE_NAME, app);
+            }
+        }
+    }
+
+    /**
+     * @param edOrgId
+     *            the uuid of top level education organization
+     * @param appIds
+     *            collection of application id that edorg need to be authorized
+     */
+    private void createAppAuth(String edOrgId, List<String> appIds) {
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria(AUTH_ID, NeutralCriteria.OPERATOR_EQUAL, edOrgId));
+        query.addCriteria(new NeutralCriteria(AUTH_TYPE, NeutralCriteria.OPERATOR_EQUAL,
+                AUTH_TYPE_EDUCATION_ORGANIZATION));
+        Entity appAuth = repo.findOne(APPLICATION_AUTH_RESOURCE_NAME, query);
+        if (appAuth != null) {
+            EntityBody body = (EntityBody) (appAuth.getBody());
+            List<String> ids = body.getId(APP_IDS);
+            for (String id : appIds) {
+                if (!ids.contains(id)) {
+                    ids.add(id);
+                }
+            }
+            repo.update(APPLICATION_AUTH_RESOURCE_NAME, appAuth);
+        } else {
+            EntityBody body = new EntityBody();
+            body.put(AUTH_ID, edOrgId);
+            body.put(AUTH_TYPE, AUTH_TYPE_EDUCATION_ORGANIZATION);
+            body.put(APP_IDS, appIds);
+            repo.create(APPLICATION_AUTH_RESOURCE_NAME, body);
+        }
     }
 }
