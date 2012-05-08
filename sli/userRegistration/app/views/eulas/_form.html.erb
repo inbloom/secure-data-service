@@ -13,30 +13,32 @@
 
   <div class="actions">
 
-  <div class="field">
-    <%= f.label :termsOfService %>
-    <%= f.label ":" %>
-    <%= f.text_field :termsOfService %>
-  </div>
+    <div class="field">
+      <%= f.label :termsOfService %>
+      <%= f.label ":" %>
+      <%= f.text_field :termsOfService %>
+    </div>
 
-      <div class="field">
-        <table border="1">
-          <tr>
-            <td border="0">
-          <%= f.label :eula %>
-            </td>
-          </tr>
-          <tr>
-            <td border="1">
-          <%= f.label :loremIpsum %>
-            </td>
-          </tr>
-        </table>
-      </div>
+    <div class="field">
+      <table border="1">
+        <tr>
+          <td border="0">
+            <%= f.label :eula %>
+          </td>
+        </tr>
+        <tr>
+          <td border="1">
+            <%= f.label :loremIpsum %>
+          </td>
+        </tr>
+      </table>
+    </div>
 
     <%= f.submit "Accept",
-      :confirm => "Your request was submitted. You will receive and email asking you to verify your email address, and then provide you with the next steps in the process." %>
-    <%= f.submit "Reject"%>
+      :confirm => "Your request was submitted. You will receive and email asking you to verify your email address, and then provide you with the next steps in the process.", 
+      :id => "acceptEulaButton" %>
+    <%= f.submit "Reject", 
+      :id => "rejectEulaButton" %>
 
   </div>
 <% end %>
