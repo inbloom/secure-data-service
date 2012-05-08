@@ -17,7 +17,7 @@
    "redirect_uri":"${bootstrap.app.databrowser.url}/callback",
    "is_admin":true,
    "enabled":true,
-   "behavior":"Iframe App",
+   "behavior":"Full Window App",
    "developer_info":{
       "organization":"SLI"
    }
