@@ -29,9 +29,9 @@ Background: Nothing yet
 
   Examples:
     | ENTITY URI                  | ENTITY TYPE                | ENTITY COUNT    |
-    | assessments                 | assessment                 | 2               |
+    | assessments                 | assessment                 | 3               |
     | schools                     | school                     | 5               |
-    | students                    | student                    | 81              |
+    | students                    | student                    | 82              |
     | studentSectionAssociations  | studentSectionAssociation  | 311             |
     | courseOfferings             | sessionCourseAssociation   | 6               |
 
