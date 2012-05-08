@@ -25,8 +25,9 @@ class UserAccountRegistrationsController < ApplicationController
       else
         url=APP_CONFIG['api_base']
         #RestClient.post(url,@user_account_registration.to_json,:content_type => :json, :accept => :json)
-        format.html { render action: "eulas/new" }
-        format.json{render action: "eulas/new",json: @user_account_registration}
+        format.html  { redirect_to("/eulas/#@user_account_registration")}
+          format.json  { render :json => @user_account_registration,
+                       action: "/eulas/"}
       end
     end
   end

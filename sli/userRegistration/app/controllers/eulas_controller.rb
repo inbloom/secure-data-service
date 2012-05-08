@@ -13,12 +13,12 @@ class EulasController < ApplicationController
   # GET /eulas/1
   # GET /eulas/1.json
   def show
-    @eula = Eula.find(params[:id])
+    @user_account_registration = UserAccountRegistration.new(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @eula }
-    end
+          respond_to do |format|
+            format.html # new.html.erb
+            format.json { render json: @eula }
+          end
   end
 
   # GET /eulas/new
@@ -31,6 +31,7 @@ class EulasController < ApplicationController
       format.json { render json: @eula }
     end
   end
+
 
   # GET /eulas/1/edit
   def edit
