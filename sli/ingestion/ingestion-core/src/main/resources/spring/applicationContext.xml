@@ -110,12 +110,20 @@
 
   <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor" />
 
+<!--
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
     <property name="entityPersistHandler" ref="entityPersistHandler" />
     <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler"></property>
     <property name="persistedCollections" ref="persistedEntities" />
   </bean>
+-->
 
+  <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.StagedDataPersistenceProcessor">
+    <property name="entityPersistHandler" ref="entityPersistHandler" />
+    <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler"></property>
+    <property name="persistedCollections" ref="persistedEntities" />
+  </bean>
+  
   <bean id="WorkNoteAggregator" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteAggregator" />
   <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />
   <bean id="stagedEntityTypeDAO" class="org.slc.sli.ingestion.routes.orchestra.InMemoryStagedEntityTypeDAO" />
