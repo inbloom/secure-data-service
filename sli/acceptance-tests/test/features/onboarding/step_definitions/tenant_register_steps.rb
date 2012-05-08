@@ -51,7 +51,7 @@ When /^I rePOST the new tenant$/ do
   assert(@res != nil, "Response from POST operation was null")
 end
 
-And /^I should receive the new tenant id$/ do
+And /^I should receive the same tenant id$/ do
   headers = @res.raw_headers
   assert(headers != nil, "Headers are nil")
   assert(headers['location'] != nil, "There is no location link from the previous request")

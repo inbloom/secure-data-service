@@ -9,7 +9,7 @@ Scenario: CRUD operations on Tenants
     And I should receive an ID for the newly created tenant
     When I rePOST the new tenant
     Then I should receive a return code of 201
-    And I should receive the new tenant id
+    And I should receive the same tenant id
     When I navigate to GET "/tenants/<New Tenant ID>"
     Then I should receive a return code of 200
     And I should receive the data for the specified tenant entry
