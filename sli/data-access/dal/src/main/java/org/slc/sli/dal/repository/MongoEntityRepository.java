@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
+import com.mongodb.WriteResult;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,12 +80,21 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
             return false;
         }
 
-        Map<String, Object> entityBody = record.getBody();
-        Map<String, Object> entityMetaData = record.getMetaData();
+        MongoEntity encryptedEntity = new MongoEntity(record.getType(), record.getEntityId(),
+                record.getBody(), record.getMetaData());
+        encryptedEntity.encrypt(encrypt);
+
+        Map<String, Object> entityBody = encryptedEntity.getBody();
+        Map<String, Object> entityMetaData = encryptedEntity.getMetaData();
         Update update = new Update().set("body", entityBody).set("metaData", entityMetaData);
         Query idQuery = new Query(Criteria.where("_id").is(UUID.fromString(id)));
 
-        template.updateFirst(idQuery, update, collection);
+        //attempt update
+        WriteResult result = template.updateFirst(idQuery, update, collection);
+        //if no records were updated, try insert
+        if (result.getN() == 0) {
+            template.insert(record, collection);
+        }
 
         return true;
     }

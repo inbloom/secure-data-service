@@ -37,7 +37,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     protected MongoTemplate template;
 
-    private IdConverter idConverter;
+    protected IdConverter idConverter;
 
     @Autowired
     private MongoQueryConverter queryConverter;
