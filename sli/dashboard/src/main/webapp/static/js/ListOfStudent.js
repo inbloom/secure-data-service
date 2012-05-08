@@ -49,7 +49,7 @@ function getStudentListData()
       var panelConfig = DashboardProxy.getConfig(listOfStudents);
       var options={};
       var viewSelect=document.getElementById("viewSelect");
-      var viewIndex=0//viewSelect.options[viewSelect.selectedIndex].value;      
+      var viewIndex=viewSelect.options[viewSelect.selectedIndex].value;      
       if(viewIndex != -1) {
 	      jQuery.extend(options, panelConfig, {items:panelConfig.items[viewIndex].items});
 	      
