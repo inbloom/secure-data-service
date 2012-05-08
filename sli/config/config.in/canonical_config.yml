@@ -84,7 +84,7 @@ default:
         sli.ingestion.queue.pit.keystorePassword:
 
 
-        sli.ingestion.nodeType: worker
+        sli.ingestion.nodeType: single
         sli.ingestion.tenant.deriveTenants: true
         sli.ingestion.tenant.loadDefaultTenants: true
 
@@ -214,7 +214,7 @@ acceptance-tests:
         # Symphony (maestro + pit) queue config
         sli.ingestion.queue.maestro.host: devmq1.slidev.org
         sli.ingestion.queue.maestro.port: 5445
-        sli.ingestion.queue.maestro.queueURI: jms-hornetq:IngestionMaestro
+        sli.ingestion.queue.maestro.queueURI: jms-hornetq-maestro:IngestionMaestro
         sli.ingestion.queue.maestro.concurrentConsumers: 5
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
@@ -222,7 +222,7 @@ acceptance-tests:
         # Pit (worker) nodes
         sli.ingestion.queue.pit.host: devmq1.slidev.org
         sli.ingestion.queue.pit.port: 5445
-        sli.ingestion.queue.pit.queueURI: jms-hornetq:IngestionPit
+        sli.ingestion.queue.pit.queueURI: jms-hornetq-pit:IngestionPit
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
@@ -765,6 +765,24 @@ team:
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
 
+
+        # TODO - need maestroPit queue config
+        # Symphony (maestro + pit) queue config
+        sli.ingestion.queue.maestro.host: localhost
+        sli.ingestion.queue.maestro.port: 5445
+        sli.ingestion.queue.maestro.queueURI: jms-hornetq-maestro:IngestionMaestro
+        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
+        
+        # Pit (worker) nodes
+        sli.ingestion.queue.pit.host: localhost
+        sli.ingestion.queue.pit.port: 5445
+        sli.ingestion.queue.pit.queueURI: jms-hornetq-pit:IngestionPit
+        sli.ingestion.queue.pit.concurrentConsumers: 5
+        sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
+        sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
+        
         sli.ingestion.tenant.loadDefaultTenants: false
 
     dashboard: &DASHBOARD-TEAM
@@ -1097,3 +1115,46 @@ sandbox:
     misc:
         <<: *MISC-TEAM
 
+# Properties for systems being used by Team Hermod for ingestion performance
+nxteam:
+    api:
+    <<: *API-TEAM
+    dashboard:
+        <<: *DASHBOARD-TEAM
+    ingestion: &INGESTION-NXTEAM
+        <<: *INGESTION-TEAM
+        sli.ingestion.queue.pit.host: nxing.slidev.org
+     
+    data-access:
+        <<: *DATA-ACCESS-TEAM
+    misc:
+        <<: *MISC-TEAM
+
+
+nxteam-maestro:
+    api:
+        <<: *API-TEAM
+    dashboard:
+        <<: *DASHBOARD-TEAM
+    ingestion:
+        <<: *INGESTION-NXTEAM
+        sli.ingestion.nodeType: maestro
+    data-access:
+        <<: *DATA-ACCESS-TEAM
+    misc:
+        <<: *MISC-TEAM
+
+
+nxteam-pit:
+    api:
+        <<: *API-TEAM
+    dashboard:
+        <<: *DASHBOARD-TEAM
+    ingestion:
+        <<: *INGESTION-NXTEAM
+        sli.ingestion.nodeType: pit
+    data-access:
+        <<: *DATA-ACCESS-TEAM
+    misc:
+        <<: *MISC-TEAM
+  
