@@ -104,7 +104,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         String maestroQueueUri = maestroQueue + "?transferExchange=true";
         String pitNodeQueueUri = pitQueue + "?concurrentConsumers=5&transferExchange=true";
 
-        if (IngestionNodeType.MAESTRO.equals(nodeInfo.getNodeType())) {
+        if (IngestionNodeType.MAESTRO.equals(nodeInfo.getNodeType())
+                || IngestionNodeType.STANDALONE.equals(nodeInfo.getNodeType())) {
+
             LOG.info("configuring routes for maestro node");
 
             if (loadDefaultTenants) {
@@ -120,7 +122,11 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
             buildMaestroRoutes(maestroQueueUri, pitNodeQueueUri);
 
-        } else if (IngestionNodeType.PIT.equals(nodeInfo.getNodeType())) {
+        }
+
+        if (IngestionNodeType.PIT.equals(nodeInfo.getNodeType())
+                || IngestionNodeType.STANDALONE.equals(nodeInfo.getNodeType())) {
+
             LOG.info("configuring routes for pit node");
 
             configurePitNodes(pitNodeQueueUri, maestroQueueUri);

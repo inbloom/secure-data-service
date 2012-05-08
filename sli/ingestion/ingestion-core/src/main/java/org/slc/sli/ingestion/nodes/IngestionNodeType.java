@@ -12,5 +12,7 @@ public class IngestionNodeType {
     public static final String MAESTRO = "maestro";
 
     /** Life in the pit is execution of what the maestro tells you to do */
-    public static final Object PIT = "pit";
+    public static final String PIT = "pit";
+
+    public static final String STANDALONE = "standalone";
 }
