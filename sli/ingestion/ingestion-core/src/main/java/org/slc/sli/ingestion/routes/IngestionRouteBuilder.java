@@ -99,6 +99,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Override
     public void configure() throws Exception {
 
+        log.info( "Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType() );
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
 
 
