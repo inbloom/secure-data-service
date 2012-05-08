@@ -151,7 +151,7 @@ end
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
-task :production => [:apiV1Tests, :securityTests, :ingestionTests, :ingestionOfflineToolTests] do
+task :production => [:apiV1Tests, :securityTests, :onboardingTests, :ingestionTests, :ingestionOfflineToolTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -165,7 +165,7 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :securityTests] do
+task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :onboardingTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

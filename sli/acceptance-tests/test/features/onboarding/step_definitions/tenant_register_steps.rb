@@ -47,14 +47,17 @@ When /^I rePOST the new tenant$/ do
       "tenantId" => "IL"
   }
   data = prepareData("application/json", dataObj)
-  restHttpPost(arg1, data)
+  restHttpPost("/tenants/", data)
   assert(@res != nil, "Response from POST operation was null")
 end
 
 And /^I should receive the new tenant id$/ do
+  headers = @res.raw_headers
+  assert(headers != nil, "Headers are nil")
+  assert(headers['location'] != nil, "There is no location link from the previous request")
   s = headers['location'][0]
   newNewId = s[s.rindex('/')+1..-1]
-  assert(@newNewId != nil, "After POST, tenant ID is nil")
+  assert(newNewId != nil, "After POST, tenant ID is nil")
   assert(@newId == newNewId, "POSTing to tenant collection with same tenant Id does not result in the same guid")
 end
 
@@ -74,7 +77,7 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
           "ingestionServer" => "ingServIL",
           "path" => "/home/ingestion/lz/inbound/IL-STATE-DAYBREAK",
           "desc" => "Daybreak district landing zone",
-          "username" => "rrogers"
+          "userNames" => [ "rrogers" ]
         }
       ],
       "tenantId" => "IL"

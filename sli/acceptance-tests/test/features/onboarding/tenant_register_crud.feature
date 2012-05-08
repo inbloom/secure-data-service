@@ -21,7 +21,7 @@ Scenario: CRUD operations on Tenants
 
 Scenario: Deny creation when specifying invalid fields
 
-    Given I am logged in using "administrator" "administrator1234" to realm "SLI"
+    Given I am logged in using "developer" "developer1234" to realm "SLI"
     When I POST a tenant specifying an invalid field
     Then I should receive a return code of 400
 
