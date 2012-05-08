@@ -109,4 +109,10 @@ public class WorkNoteImpl implements WorkNote {
     public void setRangeMaximum(long rangeMaximum) {
         this.rangeMaximum = rangeMaximum;
     }
+
+    @Override
+    public String toString() {
+        return "WorkNoteImpl [batchJobId=" + batchJobId + ", collection=" + collection + ", rangeMinimum="
+                + rangeMinimum + ", rangeMaximum=" + rangeMaximum + "]";
+    }
 }

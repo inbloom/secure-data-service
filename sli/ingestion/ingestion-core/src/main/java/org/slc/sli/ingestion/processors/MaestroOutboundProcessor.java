@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion.processor;
+package org.slc.sli.ingestion.processors;
 
 import java.util.ArrayList;
 import java.util.List;

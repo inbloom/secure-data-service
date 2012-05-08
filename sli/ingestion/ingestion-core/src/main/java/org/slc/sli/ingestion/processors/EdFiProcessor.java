@@ -194,8 +194,6 @@ public class EdFiProcessor implements Processor {
         if (hasError) {
             exchange.getIn().setHeader("hasErrors", hasError);
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        } else {
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.DATA_TRANSFORMATION.name());
         }
     }
 

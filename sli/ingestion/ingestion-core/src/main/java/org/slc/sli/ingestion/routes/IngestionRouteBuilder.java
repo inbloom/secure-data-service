@@ -9,20 +9,21 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.landingzone.LandingZoneManager;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
-import org.slc.sli.ingestion.nodes.IngestionNodeType;
 import org.slc.sli.ingestion.nodes.NodeInfo;
-import org.slc.sli.ingestion.processor.MaestroOutboundProcessor;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
+import org.slc.sli.ingestion.processors.MaestroOutboundProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
-import org.slc.sli.ingestion.processors.PitInboundProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.XmlFileProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
+import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
+import org.slc.sli.ingestion.routes.orchestra.WorkNoteAggregator;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
 
 /**
@@ -62,7 +63,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private MaestroOutboundProcessor maestroOutputProcessor;
 
     @Autowired
-    private PitInboundProcessor pitInboundProcessor;
+    private OrchestraPreProcessor orchestraPreProcessor;
+
+    @Autowired
+    private AggregationPostProcessor aggregationPostProcessor;
 
     @Autowired
     JobReportingProcessor jobReportingProcessor;
@@ -88,54 +92,29 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.queue.maestroPit.queueURI}")
     private String symphonyQueue;
 
-    private String symphonyQueueUri;
-
     @Override
     public void configure() throws Exception {
 
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
 
-        symphonyQueueUri = symphonyQueue + "?concurrentConsumers=" + concurrentConsumers;
+        String symphonyQueueUri = symphonyQueue + "?concurrentConsumers=" + concurrentConsumers;
 
-        if (IngestionNodeType.MAESTRO.equals(nodeInfo.getNodeType())) {
-            buildMaestroRoutes(workItemQueueUri);
-        } else if (IngestionNodeType.PIT.equals(nodeInfo.getNodeType())) {
-            buildPitRoutes(workItemQueueUri);
-            configureCommonRoute(workItemQueueUri);
-        } else {
-
-            if (loadDefaultTenants) {
-                // populate the tenant collection with a default set of tenants
-                tenantPopulator.populateDefaultTenants();
-            }
-
-            configureCommonRoute(workItemQueueUri);
-            configureSingleNodeRoute(workItemQueueUri);
-
-            // configure ctlFilePoller and zipFilePoller per landing zone
-            for (LocalFileSystemLandingZone lz : landingZoneManager.getLandingZones()) {
-                configureRoutePerLandingZone(workItemQueueUri, lz);
-            }
+        for (LocalFileSystemLandingZone lz : landingZoneManager.getLandingZones()) {
+            configureLandingZonePollers(workItemQueueUri, lz);
         }
-    }
 
-    /**
-     * Pit routes should:
-     * 1. Take an external work item that the maestro posted from a JMS endpoint
-     * 2. Transform and persist the items in the sheet music
-     * 3. Posts a message back to the queue saying "I'm done, here's what I did"
-     *
-     * Don't delete items from staging! Maestro will do this!
-     *
-     * @param workItemQueueUri
-     */
-    private void buildPitRoutes(String workItemQueueUri) {
+        configureCommonExtractRoute(workItemQueueUri);
 
-        from(symphonyQueueUri)
-            .routeId("PIT_ROUTE")
-            .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Inbound request for pit to play.")
-            .process(pitInboundProcessor)
-            .to(workItemQueueUri);
+        // TODO: configure based on nodetype
+
+        String maestroQueueUri = "seda:maestroNodes";
+
+        String pitNodeQueueUri = "seda:pitNodes";
+
+        buildMaestroRoutes(maestroQueueUri, pitNodeQueueUri);
+
+        configurePitNodes(pitNodeQueueUri + "?concurrentConsumers=5");
+
     }
 
     /**
@@ -145,30 +124,58 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
      * 3. Wait for pit nodes to be done
      * 4. Aggregate pit node job status into final status
      *
-     * @param workItemQueueUri
+     * @param maestroQueueUri
+     * @param pitNodeQueueUri
      */
-    private void buildMaestroRoutes(String workItemQueueUri) {
+    private void buildMaestroRoutes(String maestroQueueUri, String pitNodeQueueUri) {
 
-        for (LocalFileSystemLandingZone lz : landingZoneManager.getLandingZones()) {
-            configureRoutePerLandingZone(workItemQueueUri, lz);
-        }
-
-        // Copy and paste - yikes.
-        configureCommonRoute(workItemQueueUri);
-
-        // Maestro route is creating work items that can be distributed to pit nodes.
-
-        from(workItemQueueUri)
-            .routeId("MAESTRO_ROUTE")
+        // routeId: postExtract
+        // we enter here after EdFiProcessor. everything has been staged.
+        // TODO: fix endpoint
+        from("seda:postExtract")
+            .routeId("postExtract")
+            .process(orchestraPreProcessor)
             .choice()
-                .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_STAGED.name()))
-                    .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Maestor Creating Music Sheets.")
-                    .process(maestroOutputProcessor)
-                    .to(symphonyQueueUri);
+                .when(header("stagedEntitiesEmpty").isEqualTo(true))
+                    .to("direct:stop")
+                .otherwise()
+                    .to(maestroQueueUri);
 
+        // uses custom bean to split WorkNotes and send to processors
+        from(maestroQueueUri)
+            .routeId("splitter")
+            .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Maestro splitting WorkNotes.")
+            .split()
+                .method("WorkNoteSplitter", "split")
+            .setHeader("IngestionMessageType", constant(MessageType.DATA_TRANSFORMATION.name()))
+            .to(pitNodeQueueUri);
+
+        // aggregates messages correlated by batchJobId, with completion size equal to the number of messages the splitter created (CamelSplitSize)
+        // we enter here after PersistenceProcessor.
+        // aggregationPostProcessor is only invoked once the completion predicate (we're using completionSize) evaluates to true.
+        // we then route back to splitter or stop if finished.
+        // TODO: fix endpoint
+        from("seda:postPersist")
+            .routeId("aggregator")
+            .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Maestro aggregating WorkNotes.")
+            .aggregate(simple("${body.getBatchJobId}"), new WorkNoteAggregator())
+                .completionSize(simple("${property.CamelSplitSize}"))
+            .process(aggregationPostProcessor)
+            .choice()
+                .when(header("processedAllStagedEntities").isEqualTo(true))
+                    .to("direct:stop")
+                .otherwise()
+                    .to(maestroQueueUri);
     }
 
-    private void configureRoutePerLandingZone(String workItemQueueUri, LocalFileSystemLandingZone lz) {
+    /**
+     * The starting points of ingestion processing, file pollers for .zip and .ctl files and routing accordingly.
+     *
+     * @param workItemQueueUri
+     * @param lz
+     */
+    private void configureLandingZonePollers(String workItemQueueUri, LocalFileSystemLandingZone lz) {
+
         String inboundDir = lz.getDirectory().getAbsolutePath();
         log.info("Configuring route for landing zone: {} ", inboundDir);
         // routeId: ctlFilePoller
@@ -194,11 +201,17 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                     .to(workItemQueueUri);
     }
 
-    private void configureCommonRoute(String workItemQueueUri) {
-        // routeId: workItemRoute -> main ingestion route: ctlFileProcessor -> xmlFileProcessor ->
-        // edFiProcessor -> persistenceProcessor
+    /**
+     * The common route will get us through the extract phase. When complete, all data will be staged in
+     * NeutralRecord format in mongodb.
+     *
+     * @param workItemQueueUri
+     */
+    private void configureCommonExtractRoute(String workItemQueueUri) {
+
+        // routeId: extraction
         from(workItemQueueUri)
-            .routeId("COMMON_ROUTE")
+            .routeId("extraction")
             .choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.BATCH_REQUEST.name()))
                     .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing control file.")
@@ -218,40 +231,17 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                     .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
                     .process(edFiProcessor)
-                    .to("direct:postExtract");
+                    .to("seda:postExtract");
 
-    }
-
-    /** I think this will need to go and use a seda queue for developer testing. */
-    private void configureSingleNodeRoute(String workItemQueueUri) {
-
-        from("direct:postExtract")
-            .routeId("SINGLE_NODE_ROUTE")
-            .choice()
-                .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
-                    .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Data transformation.")
-                    .process(transformationProcessor)
-                    .to("direct:postExtract")
-
-                .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
-                    .to("direct:persist")
-                    .when(header("IngestionMessageType").isEqualTo(MessageType.ERROR.name()))
-                        .log("Error: ${header.ErrorMessage}")
-                        .to("direct:stop")
-                    .otherwise()
-                        .to("direct:stop");
-
-        // routeId: jobDispatch
+        // routeId: assembledJobs
         from("direct:assembledJobs")
-            .routeId("jobDispatch")
+            .routeId("assembledJobs")
             .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Dispatching jobs for file.")
             .choice()
                 .when(header("hasErrors").isEqualTo(true))
                     .to("direct:stop")
                 .otherwise()
                     .to(workItemQueueUri);
-
-        configurePersistenceRoute();
 
         // routeId: jobReporting
         from("direct:jobReporting")
@@ -268,21 +258,37 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             .stop();
     }
 
-    private void configurePersistenceRoute() {
+    /**
+     * The TransformPersist route will handle transformation of staged NeutralRecords and persist
+     * SLI entities to mongodb.
+     *
+     * @param pitNodeQueueUri
+     */
+    private void configurePitNodes(String pitNodeQueueUri) {
 
-        // routeId: persistencePipeline
-
-        from("direct:persist")
-            .routeId("persistencePipeline")
-            .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Persisiting data for file.")
-            .log("persist: jobId: " + header("jobId").toString())
+        // routeId: pitNodes
+        from(pitNodeQueueUri)
+            .routeId("pitNodes")
             .choice()
-                .when(header("dry-run").isEqualTo(true))
-                    .log("job has errors or dry-run specified; data will not be published")
-                    .to("direct:stop")
-                .otherwise()
-                    .log("publishing data now!")
-                    .process(persistenceProcessor)
+                .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
+                    .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Data transformation.")
+                    .process(transformationProcessor)
+                    .to(pitNodeQueueUri)
+
+                .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
+                    .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Persisiting data for file.")
+                    .log("persist: jobId: " + header("jobId").toString())
+                    .choice()
+                        .when(header("dry-run").isEqualTo(true))
+                            .log("job has dry-run specified; data will not be published")
+                            .to("direct:stop")
+                        .otherwise()
+                            .log("persisting data now!")
+                            .process(persistenceProcessor)
+                            .to("seda:postPersist")
+
+                .when(header("IngestionMessageType").isEqualTo(MessageType.ERROR.name()))
+                    .log("Error: ${header.ErrorMessage}")
                     .to("direct:stop");
     }
 

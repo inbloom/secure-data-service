@@ -18,13 +18,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class NodeInfo {
 
-    private static final Logger LOG = LoggerFactory.getLogger( NodeInfo.class );
+    private static final Logger LOG = LoggerFactory.getLogger(NodeInfo.class);
 
     private UUID uuid;
 
     @Value("${sli.ingestion.nodeType}")
     private String ingestionNodeType;
-
 
     public NodeInfo() {
         uuid = UUID.randomUUID();
@@ -33,13 +32,13 @@ public class NodeInfo {
     @PostConstruct
     public void init() {
 
-        LOG.info( "Starting node with uuid: {} and node type: ", uuid, ingestionNodeType );
-
+        LOG.info("Starting node with uuid: {} and node type: ", uuid, ingestionNodeType);
 
     }
 
     /**
      * Returns the UUID of this node.
+     *
      * @return
      */
     public UUID getUUID() {
@@ -48,6 +47,7 @@ public class NodeInfo {
 
     /**
      * Returns the type of ingestion node - loosely typed in IngestionNodeType.
+     *
      * @return
      */
     public String getNodeType() {
