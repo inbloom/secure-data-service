@@ -175,6 +175,17 @@
             </properties>
         </profile>
 
+        <profile>
+            <id>sandbox</id>
+            <properties>
+                <sli.env>sandbox</sli.env>
+<!--                <sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties> --> 
+				<sli.encryption.keyStore>${project.parent.basedir}/data-access/dal/keyStore/localKeyStore.jks</sli.encryption.keyStore>
+				<sli.encryption.properties>${project.parent.basedir}/data-access/dal/keyStore/localEncryption.properties</sli.encryption.properties>
+            </properties>
+        </profile>
+
 		<!-- Add additional profiles here. For example: integration, production,
 			multishard, ... -->
 	</profiles>
