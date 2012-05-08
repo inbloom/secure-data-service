@@ -1,7 +1,6 @@
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,7 +31,6 @@ import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -51,7 +49,7 @@ import org.slc.sli.domain.enums.Right;
 public class BasicService implements EntityService {
 
     private static final String ADMIN_SPHERE = "Admin";
-    private static final List<String> PUBLIC_COLLECTIONS = Arrays.asList(EntityNames.EDUCATION_ORGANIZATION);
+    private static final String PUBLIC_SPHERE = "Public";
 
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
 
@@ -129,7 +127,7 @@ public class BasicService implements EntityService {
      * @return the body of the entity
      */
     @Override
-	public Iterable<String> listIds(NeutralQuery neutralQuery) {
+    public Iterable<String> listIds(NeutralQuery neutralQuery) {
         checkRights(Right.READ_GENERAL);
 
         List<String> allowed = findAccessible();
@@ -139,21 +137,7 @@ public class BasicService implements EntityService {
         }
 
         if (allowed.size() > 0) {
-            Set<Object> binIds = new HashSet<Object>();
-            for (String id : allowed) {
-                binIds.add(idConverter.toDatabaseId(id));
-            }
-            neutralQuery.addCriteria(new NeutralCriteria("_id", "in", binIds));
-
-            List<String> results = new ArrayList<String>();
-            Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
-
-            for (Entity entity : entities) {
-                results.add(entity.getEntityId());
-            }
-
-            return results;
-
+            return allowed;
         } else { // super list logic --> only true when using DefaultEntityContextResolver
             List<String> results = new ArrayList<String>();
             Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
@@ -585,10 +569,10 @@ public class BasicService implements EntityService {
             neededRight = Right.ADMIN_ACCESS;
         }
 
-        if (PUBLIC_COLLECTIONS.contains(collectionName)) {
-        	if (Right.READ_GENERAL.equals(neededRight)) {
-        		neededRight = Right.AGGREGATE_READ;
-        	}
+        if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
+            if (Right.READ_GENERAL.equals(neededRight)) {
+                neededRight = Right.READ_PUBLIC;
+            }
         }
 
         Collection<GrantedAuthority> auths = getAuths();
@@ -621,13 +605,13 @@ public class BasicService implements EntityService {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal == null) {
-			throw new AccessDeniedException("Principal cannot be found");
-		}
+            throw new AccessDeniedException("Principal cannot be found");
+        }
 
         Entity entity = principal.getEntity();
         String type = (entity != null ? entity.getType() : null);   // null for super admins because
-                                                                  // they don't contain mongo
-                                                                  // entries
+        // they don't contain mongo
+        // entries
 
         if (getAuths().contains(Right.FULL_ACCESS)) {  //Super admin
             return AllowAllEntityContextResolver.SUPER_LIST;
@@ -664,10 +648,10 @@ public class BasicService implements EntityService {
                         neededRight = Right.ADMIN_ACCESS;
                     }
 
-                    if (PUBLIC_COLLECTIONS.contains(collectionName)) {
-                    	if (Right.READ_GENERAL.equals(neededRight)) {
-                    		neededRight = Right.AGGREGATE_READ;
-                    	}
+                    if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
+                        if (Right.READ_GENERAL.equals(neededRight)) {
+                            neededRight = Right.READ_PUBLIC;
+                        }
                     }
 
                     LOG.debug("Field {} requires {}", fieldPath, neededRight);
