@@ -214,7 +214,7 @@ acceptance-tests:
         # Symphony (maestro + pit) queue config
         sli.ingestion.queue.maestro.host: devmq1.slidev.org
         sli.ingestion.queue.maestro.port: 5445
-        sli.ingestion.queue.maestro.queueURI: jms-hornetq:IngestionMaestro
+        sli.ingestion.queue.maestro.queueURI: jms-hornetq-maestro:IngestionMaestro
         sli.ingestion.queue.maestro.concurrentConsumers: 5
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
@@ -222,7 +222,7 @@ acceptance-tests:
         # Pit (worker) nodes
         sli.ingestion.queue.pit.host: devmq1.slidev.org
         sli.ingestion.queue.pit.port: 5445
-        sli.ingestion.queue.pit.queueURI: jms-hornetq:IngestionPit
+        sli.ingestion.queue.pit.queueURI: jms-hornetq-pit:IngestionPit
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
@@ -770,7 +770,7 @@ team:
         # Symphony (maestro + pit) queue config
         sli.ingestion.queue.maestro.host: localhost
         sli.ingestion.queue.maestro.port: 5445
-        sli.ingestion.queue.maestro.queueURI: jms-hornetq:IngestionMaestro
+        sli.ingestion.queue.maestro.queueURI: jms-hornetq-maestro:IngestionMaestro
         sli.ingestion.queue.maestro.concurrentConsumers: 5
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
@@ -778,7 +778,7 @@ team:
         # Pit (worker) nodes
         sli.ingestion.queue.pit.host: localhost
         sli.ingestion.queue.pit.port: 5445
-        sli.ingestion.queue.pit.queueURI: jms-hornetq:IngestionPit
+        sli.ingestion.queue.pit.queueURI: jms-hornetq-pit:IngestionPit
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
