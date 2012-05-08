@@ -44,4 +44,5 @@ public final class EntityNames {
     public static final String STAFF_PROGRAM_ASSOCIATION = "staffProgramAssociation";
     public static final String STUDENT_COHORT_ASSOCIATION = "studentCohortAssociation";
     public static final String STAFF_COHORT_ASSOCIATION = "staffCohortAssociation";
+    public static final String USER_ACCOUNT = "userAccount";
 }

@@ -193,6 +193,11 @@ module ApprovalEngine
 		end
 	end 
 
+	# Returns an individual user via their email address or nil if the user does not exist. 
+	def ApprovalEngine.get_user(email_address)
+		return @@storage.read_users(email_address)
+	end 
+
 	# Update the user information that was submitted via the add_user method. 
 	#
 	# Input parameter: A subset of the "user_info" submitted to the "add_user" method. 
