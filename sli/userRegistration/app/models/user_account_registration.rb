@@ -1,5 +1,5 @@
 
-class UserAccountRegistration <SessionResource
+class UserAccountRegistration
     include ActiveModel::Validations
     include ActiveModel::Conversion
     extend ActiveModel::Naming
