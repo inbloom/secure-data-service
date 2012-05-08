@@ -6,7 +6,7 @@ Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
   id
 end
 
-When /^I POST a new tenant$/ do |arg1|
+When /^I POST a new tenant$/ do
   @format = "application/json"
   dataObj =  {
       "landingZone" => [ 
@@ -28,7 +28,7 @@ When /^I POST a new tenant$/ do |arg1|
       "tenantId" => "IL"
   }
   data = prepareData("application/json", dataObj)
-  restHttpPost(arg1, data)
+  restHttpPost("/tenants/", data)
   assert(@res != nil, "Response from POST operation was null")
 end
 
@@ -96,7 +96,7 @@ When /^I POST a tenant specifying an invalid field$/ do
   dataObj = DataProvider.getValidAppData()
   dataObj["foo"] = "A Bar Tenant"
   data = prepareData("application/json", dataObj)
-  restHttpPost("/apps/", data)
+  restHttpPost("/tenants/", data)
   assert(@res != nil, "Response from POST operation was null")
 end
 
