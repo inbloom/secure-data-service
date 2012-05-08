@@ -2,6 +2,8 @@ package org.slc.sli.ingestion.routes;
 
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.spring.SpringRouteBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -9,12 +11,12 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.landingzone.LandingZoneManager;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
+import org.slc.sli.ingestion.nodes.IngestionNodeType;
 import org.slc.sli.ingestion.nodes.NodeInfo;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
-import org.slc.sli.ingestion.processors.MaestroOutboundProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
@@ -34,6 +36,8 @@ import org.slc.sli.ingestion.tenant.TenantPopulator;
  */
 @Component
 public class IngestionRouteBuilder extends SpringRouteBuilder {
+
+    private static final Logger LOG = LoggerFactory.getLogger(IngestionRouteBuilder.class);
 
     @Autowired
     ZipFileProcessor zipFileProcessor;
@@ -58,9 +62,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     private XmlFileProcessor xmlFileProcessor;
-
-    @Autowired
-    private MaestroOutboundProcessor maestroOutputProcessor;
 
     @Autowired
     private OrchestraPreProcessor orchestraPreProcessor;
@@ -89,32 +90,40 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     private NodeInfo nodeInfo;
 
-    @Value("${sli.ingestion.queue.maestroPit.queueURI}")
-    private String symphonyQueue;
+    @Value("${sli.ingestion.queue.maestro.queueURI}")
+    private String maestroQueue;
+
+    @Value("${sli.ingestion.queue.pit.queueURI}")
+    private String pitQueue;
 
     @Override
     public void configure() throws Exception {
 
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
+        String maestroQueueUri = maestroQueue + "?transferExchange=true";
+        String pitNodeQueueUri = pitQueue + "?concurrentConsumers=5&transferExchange=true";
 
-        String symphonyQueueUri = symphonyQueue + "?concurrentConsumers=" + concurrentConsumers;
+        if (IngestionNodeType.MAESTRO.equals(nodeInfo.getNodeType())) {
+            LOG.info("configuring routes for maestro node");
 
-        for (LocalFileSystemLandingZone lz : landingZoneManager.getLandingZones()) {
-            configureLandingZonePollers(workItemQueueUri, lz);
+            if (loadDefaultTenants) {
+                //populate the tenant collection with a default set of tenants
+                tenantPopulator.populateDefaultTenants();
+            }
+
+            for (LocalFileSystemLandingZone lz : landingZoneManager.getLandingZones()) {
+                configureLandingZonePollers(workItemQueueUri, lz);
+            }
+
+            configureCommonExtractRoute(workItemQueueUri);
+
+            buildMaestroRoutes(maestroQueueUri, pitNodeQueueUri);
+
+        } else if (IngestionNodeType.PIT.equals(nodeInfo.getNodeType())) {
+            LOG.info("configuring routes for pit node");
+
+            configurePitNodes(pitNodeQueueUri, maestroQueueUri);
         }
-
-        configureCommonExtractRoute(workItemQueueUri);
-
-        // TODO: configure based on nodetype
-
-        String maestroQueueUri = "seda:maestroNodes";
-
-        String pitNodeQueueUri = "seda:pitNodes";
-
-        buildMaestroRoutes(maestroQueueUri, pitNodeQueueUri);
-
-        configurePitNodes(pitNodeQueueUri + "?concurrentConsumers=5");
-
     }
 
     /**
@@ -132,17 +141,17 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: postExtract
         // we enter here after EdFiProcessor. everything has been staged.
         // TODO: fix endpoint
-        from("seda:postExtract")
+        from("direct:postExtract")
             .routeId("postExtract")
             .process(orchestraPreProcessor)
             .choice()
                 .when(header("stagedEntitiesEmpty").isEqualTo(true))
                     .to("direct:stop")
                 .otherwise()
-                    .to(maestroQueueUri);
+                    .to("direct:splitter");
 
         // uses custom bean to split WorkNotes and send to processors
-        from(maestroQueueUri)
+        from("direct:splitter")
             .routeId("splitter")
             .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Maestro splitting WorkNotes.")
             .split()
@@ -155,7 +164,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // aggregationPostProcessor is only invoked once the completion predicate (we're using completionSize) evaluates to true.
         // we then route back to splitter or stop if finished.
         // TODO: fix endpoint
-        from("seda:postPersist")
+        from(maestroQueueUri)
             .routeId("aggregator")
             .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Maestro aggregating WorkNotes.")
             .aggregate(simple("${body.getBatchJobId}"), new WorkNoteAggregator())
@@ -165,7 +174,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .when(header("processedAllStagedEntities").isEqualTo(true))
                     .to("direct:stop")
                 .otherwise()
-                    .to(maestroQueueUri);
+                    .to("direct:splitter");
     }
 
     /**
@@ -231,7 +240,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .when(header("IngestionMessageType").isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
                     .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Job Pipeline for file.")
                     .process(edFiProcessor)
-                    .to("seda:postExtract");
+                    .to("direct:postExtract");
 
         // routeId: assembledJobs
         from("direct:assembledJobs")
@@ -264,7 +273,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
      *
      * @param pitNodeQueueUri
      */
-    private void configurePitNodes(String pitNodeQueueUri) {
+    private void configurePitNodes(String pitNodeQueueUri, String maestroQueueUri) {
 
         // routeId: pitNodes
         from(pitNodeQueueUri)
@@ -285,7 +294,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                         .otherwise()
                             .log("persisting data now!")
                             .process(persistenceProcessor)
-                            .to("seda:postPersist")
+                            .to(maestroQueueUri)
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.ERROR.name()))
                     .log("Error: ${header.ErrorMessage}")
