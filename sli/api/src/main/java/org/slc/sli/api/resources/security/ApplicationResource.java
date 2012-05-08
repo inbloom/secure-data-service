@@ -131,6 +131,9 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         
         String clientSecret = TokenGenerator.generateToken(CLIENT_SECRET_LENGTH);
         newApp.put(CLIENT_SECRET, clientSecret);
+        
+        //we don't allow create apps to have the boostrap flag
+        newApp.remove("bootstrap");
         return super.create(newApp, headers, uriInfo);
     }
 
@@ -334,6 +337,9 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             body.put("message", "You are not authorized to update application.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
+        
+        //we don't allow create apps to have the boostrap flag
+        app.remove("bootstrap");
         
         return super.update(uuid, app, headers, uriInfo);
     }
