@@ -78,7 +78,8 @@ public class StudentAssessmentEntityTest {
             NeutralRecord studentAssessmentNeutralRecord) {
 
         assertEquals("studentAssessmentAssociation", studentAssessmentNeutralRecord.getRecordType());
-        assertEquals("{administrationDate=2013-11-11, studentId=Yjmyw}", studentAssessmentNeutralRecord.getLocalId());
+        // assertEquals("{administrationDate=2013-11-11, studentId=Yjmyw}", studentAssessmentNeutralRecord.getLocalId());
+        // --> associations should not have local ids, this is not valid
 
         assertEquals("2013-11-11", studentAssessmentNeutralRecord
                 .getAttributes().get("administrationDate"));
