@@ -116,18 +116,6 @@
     <property name="persistedCollections" ref="persistedEntities" />
   </bean>
 
-  <bean id="configResourceFactory" class="org.slc.sli.ingestion.referenceresolution.ConfigResourceFactory">
-      <property name="configRootDir" value="classpath:idRefResolution/" />
-  </bean>
-
- <bean id="refConfigManager" class="org.slc.sli.ingestion.referenceresolution.RefConfigManager">
-     <property name="configFactory" ref="configResourceFactory" />
- </bean>
- 
-       <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/assessment.xml" />
-      </bean>
-
 </beans>
 
 

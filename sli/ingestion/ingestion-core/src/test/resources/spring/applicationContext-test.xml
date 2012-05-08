@@ -125,12 +125,4 @@
     </property>
   </bean>
   
-    <bean id="configResourceFactory" class="org.slc.sli.ingestion.referenceresolution.ConfigResourceFactory">
-      <property name="configRootDir" value="classpath:idRefResolution/" />
-  </bean>
-
- <bean id="refConfigManager" class="org.slc.sli.ingestion.referenceresolution.RefConfigManager">
-     <property name="configFactory" ref="configResourceFactory" />
- </bean>
-
 </beans>
