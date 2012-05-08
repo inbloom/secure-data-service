@@ -71,74 +71,7 @@
                 </AssessmentIdentificationCode> 
            </AssessmentIdentity> 
       </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-10-01</AdministrationDate> 
-      <AdministrationEndDate>2011-10-01</AdministrationEndDate> 
-      <SerialNumber>9</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <SpecialAccommodations> 
-           <SpecialAccommodation>Braille</SpecialAccommodation> 
-      </SpecialAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <ReasonNotTested>Medical waiver</ReasonNotTested> 
-      <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>9</Result> 
-      </ScoreResults> 
-      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>MS</CodeValue> 
-           <Description>Meets Standards</Description> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>800000001</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>Grade 8 2011 ISAT Writing</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-10-01</AdministrationDate> 
-      <AdministrationEndDate>2011-10-01</AdministrationEndDate> 
-      <SerialNumber>9</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <ReasonNotTested>Medical waiver</ReasonNotTested> 
-      <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>212</Result> 
-      </ScoreResults> 
-      <ScoreResults AssessmentReportingMethod="Other">
-          <Result>699</Result> 
-      </ScoreResults> 
-      <ScoreResults AssessmentReportingMethod="Percentile">
-          <Result>58</Result> 
-      </ScoreResults> 
-      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>ES</CodeValue> 
-           <Description>Exceeds Standards</Description> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>800000001</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>Grade 8 2011 ISAT Reading</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
+   </StudentAssessment>  
    <StudentAssessment> 
       <AdministrationDate>2011-10-01</AdministrationDate> 
       <AdministrationEndDate>2011-10-01</AdministrationEndDate> 
@@ -336,73 +269,6 @@
       <StudentReference> 
            <StudentIdentity> 
                 <StudentUniqueStateId>800000000</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>Grade 8 2011 ISAT Reading</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-09-01</AdministrationDate> 
-      <AdministrationEndDate>2011-09-01</AdministrationEndDate> 
-      <SerialNumber>6</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <ReasonNotTested>Medical waiver</ReasonNotTested> 
-      <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>4</Result> 
-      </ScoreResults> 
-      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>ES</CodeValue> 
-           <Description>Exceeds Standards</Description> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>800000001</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>Grade 8 2011 ISAT Writing</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-09-01</AdministrationDate> 
-      <AdministrationEndDate>2011-09-01</AdministrationEndDate> 
-      <SerialNumber>8</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <SpecialAccommodations> 
-           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation> 
-      </SpecialAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <ReasonNotTested>Medical waiver</ReasonNotTested> 
-      <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>101</Result> 
-      </ScoreResults> 
-      <ScoreResults AssessmentReportingMethod="Other">
-          <Result>331</Result> 
-      </ScoreResults> 
-      <ScoreResults AssessmentReportingMethod="Percentile">
-          <Result>28</Result> 
-      </ScoreResults> 
-      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>MS</CodeValue> 
-           <Description>Meets Standards</Description> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>800000001</StudentUniqueStateId> 
            </StudentIdentity> 
       </StudentReference> 
       <AssessmentReference> 
