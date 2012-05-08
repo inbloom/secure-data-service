@@ -56,12 +56,19 @@ public class TenantResource extends DefaultCrudEndpoint {
     public static final String RESOURCE_NAME = "tenant";
     public static final String TENANT_ID = "tenantId";
     public static final String LZ = "landingZone";
-    public static final String LZ_EDUCATION_ORGANIZATION = "educationOrganization";
-    public static final String LZ_INGESTION_SERVER = "ingestionServer";
-    public static final String LZ_PATH = "path";
-    public static final String LZ_USER_NAMES = "userNames";
-    public static final String LZ_DESC = "desc";
+    public static final String LZ_EDUCATION_ORGANIZATION = "educationOrganization"; //required
+    public static final String LZ_INGESTION_SERVER = "ingestionServer"; //required
+    public static final String LZ_PATH = "path"; //required
+    public static final String LZ_USER_NAMES = "userNames"; //optional (for Alpha)
+    public static final String LZ_DESC = "desc"; //optional
     //TODO: validate LandingZone data lengths, etc?
+
+    public static final int TENANT_ID_MAX = 48;
+    //inherit edOrg max length from XSD: 60
+    public static final int USERNAME_MAX = 48;
+    public static final int PATH_MAX = 256;
+    public static final int INGESTION_SERVER_MAX = 48;
+    public static final int DESC_MAX = 256;
 
     @Autowired
     public TenantResource(EntityDefinitionStore entityDefs) {
