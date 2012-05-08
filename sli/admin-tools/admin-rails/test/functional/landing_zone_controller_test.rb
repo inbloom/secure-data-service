@@ -7,8 +7,12 @@ class LandingZoneControllerTest < ActionController::TestCase
   # end
 
   test "should get index" do
-    get :index
+    get :index, {}, { :roles => ["LEA Administrator"] }
     assert_response :success, @response.body
   end
-
+  
+  test "should fail due to lack of permissions" do
+    get :index, {}, { :roles => ["Developer"] }
+    assert_response 403
+  end
 end
