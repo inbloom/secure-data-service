@@ -138,6 +138,8 @@ default:
         # (only used in data-access)
         sli.encryption.dalKeyPass: changeit
 
+        # (only used in data-access)
+        sli.encryption.dalInitializationVector: aabbccddeeff11223344556677889900
         # (used in common and data-access)
         sli.wildcard.x509certificate.alias: wildcard
 
