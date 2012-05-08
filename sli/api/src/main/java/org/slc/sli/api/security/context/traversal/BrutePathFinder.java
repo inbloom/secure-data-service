@@ -116,6 +116,7 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap.put(EntityNames.EDUCATION_ORGANIZATION,
                 SecurityNodeBuilder.buildNode(EntityNames.EDUCATION_ORGANIZATION)
                         .addConnection(EntityNames.STAFF, "staffReference", ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
+                        .addConnection(EntityNames.STUDENT, "studentId", ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS)
                         .addConnection(EntityNames.SCHOOL, "parentEducationAgencyReference", "")
                         .addConnection(EntityNames.PROGRAM, "programReference", "") //TODO: fix XSD
                         .construct());
@@ -124,6 +125,18 @@ public class BrutePathFinder implements SecurityPathFinder {
                 EntityNames.STAFF + EntityNames.STAFF,
                 Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
                         nodeMap.get(EntityNames.STAFF)));
+
+        prePath.put(
+                EntityNames.STAFF + EntityNames.SECTION,
+                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
+                        nodeMap.get(EntityNames.SCHOOL), nodeMap.get(EntityNames.TEACHER),
+                        nodeMap.get(EntityNames.SECTION)));
+
+        prePath.put(
+                EntityNames.STAFF + EntityNames.COURSE,
+                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
+                        nodeMap.get(EntityNames.SCHOOL), nodeMap.get(EntityNames.TEACHER),
+                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.COURSE)));
 
         prePath.put(
                 EntityNames.TEACHER + EntityNames.TEACHER,

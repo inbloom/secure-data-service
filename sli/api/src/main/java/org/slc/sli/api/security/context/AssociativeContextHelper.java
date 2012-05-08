@@ -83,9 +83,11 @@ public class AssociativeContextHelper {
 
     public List<String> getAssocKeys(String entityType, AssociationDefinition ad) {
 
-        if (ad.getSourceEntity().getType().equals(entityType)) {
+        if (ad.getSourceEntity().getType().equals(entityType)
+            || ad.getSourceEntity().getStoredCollectionName().equals(entityType)) {
             return Arrays.asList(ad.getSourceKey(), ad.getTargetKey());
-        } else if (ad.getTargetEntity().getType().equals(entityType)) {
+        } else if (ad.getTargetEntity().getType().equals(entityType)
+            || ad.getTargetEntity().getStoredCollectionName().equals(entityType)) {
             return Arrays.asList(ad.getTargetKey(), ad.getSourceKey());
         } else {
             throw new IllegalArgumentException("Entity is not a member of association " + entityType + " " + ad.getType());

@@ -100,7 +100,7 @@ Examples:
 
 Examples:
 | EntityType                     | EntityURI               | EntityCount |
-| "assessment"                   | assessments             | 2 |
+| "assessment"                   | assessments             | 3 |
 | "attendance"                   | attendances             | 1 |
 | "cohort"                       | cohorts                 | 3 |
 | "course"                       | courses                 | 6 |
@@ -114,9 +114,9 @@ Examples:
 | "program"                      | programs                | 2 |
 | "school"                       | schools                 | 5 |
 | "section"                      | sections                | 6 |
-| "session"                      | sessions                | 5 |
+| "session"                      | sessions                | 18 |
 | "staff"                        | staff                   | 17 |
-| "student"                      | students                | 80 |
+| "student"                      | students                | 82 |
 | "studentAcademicRecord"        | studentAcademicRecords  | 7 |
 | "studentSectionGradebookEntry" | studentGradebookEntries | 4 |
 | "teacher"                      | teachers                | 4 |
