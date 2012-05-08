@@ -58,9 +58,6 @@ public class TenantResourceTest {
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
 
-    private static final String TENANT_ID = "tenantId";
-    private static final String LANDING_ZONE = "landingZone";
-    private static final String EDUCATION_ORGANIZATION = "educationOrganization";
     private static final String TENANT_1 = "IL";
     private static final String TENANT_2 = "NC";
     private static final String TENANT_3 = "NY";
@@ -84,40 +81,40 @@ public class TenantResourceTest {
 
     private Map<String, Object> createTestEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put(TENANT_ID, TENANT_1);
+        entity.put(TenantResource.TENANT_ID, TENANT_1);
         Map<String, Object> landingZone = new HashMap<String, Object>();
-        landingZone.put("ingestionServer", "example.com");
-        landingZone.put(EDUCATION_ORGANIZATION, ED_ORG_1);
-        landingZone.put("desc", "Landing zone for IL_DAYBREAK");
-        landingZone.put("path", "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\IL-STATE-DAYBREAK");
+        landingZone.put(TenantResource.LZ_INGESTION_SERVER, "example.com");
+        landingZone.put(TenantResource.LZ_EDUCATION_ORGANIZATION, ED_ORG_1);
+        landingZone.put(TenantResource.LZ_DESC, "Landing zone for IL_DAYBREAK");
+        landingZone.put(TenantResource.LZ_PATH, "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\IL-STATE-DAYBREAK");
         ArrayList<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
-        entity.put(LANDING_ZONE, landingZones);
+        entity.put(TenantResource.LZ, landingZones);
         return entity;
     }
 
     private Map<String, Object> createTestUpdateEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put(TENANT_ID, TENANT_2);
+        entity.put(TenantResource.TENANT_ID, TENANT_2);
         Map<String, Object> landingZone = new HashMap<String, Object>();
-        landingZone.put("ingestionServer", "example.com");
-        landingZone.put(EDUCATION_ORGANIZATION, ED_ORG_2);
-        landingZone.put("desc", "Landing zone for IL_SUNSET");
-        landingZone.put("path", "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\IL-STATE-SUNSET");
+        landingZone.put(TenantResource.LZ_INGESTION_SERVER, "example.com");
+        landingZone.put(TenantResource.LZ_EDUCATION_ORGANIZATION, ED_ORG_2);
+        landingZone.put(TenantResource.LZ_DESC, "Landing zone for IL_SUNSET");
+        landingZone.put(TenantResource.LZ_PATH, "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\IL-STATE-SUNSET");
         ArrayList<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
-        entity.put(LANDING_ZONE, landingZones);
+        entity.put(TenantResource.LZ, landingZones);
         return entity;
     }
 
     private Map<String, Object> createTestSecondaryEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put(TENANT_ID, TENANT_3);
+        entity.put(TenantResource.TENANT_ID, TENANT_3);
         Map<String, Object> landingZone = new HashMap<String, Object>();
-        landingZone.put("ingestionServer", "example.com");
-        landingZone.put(EDUCATION_ORGANIZATION, "NYC");
-        landingZone.put("desc", "Landing zone for NY");
-        landingZone.put("path", "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\NY-STATE-NYC");
+        landingZone.put(TenantResource.LZ_INGESTION_SERVER, "example.com");
+        landingZone.put(TenantResource.LZ_EDUCATION_ORGANIZATION, "NYC");
+        landingZone.put(TenantResource.LZ_DESC, "Landing zone for NY");
+        landingZone.put(TenantResource.LZ_PATH, "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\NY-STATE-NYC");
         ArrayList<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
-        entity.put(LANDING_ZONE, landingZones);
+        entity.put(TenantResource.LZ, landingZones);
         return entity;
     }
 
@@ -194,7 +191,7 @@ public class TenantResourceTest {
         EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
         EntityBody body = (EntityBody) entityResponse.getEntity();
         assertNotNull("Should return an entity", body);
-        assertEquals(TENANT_ID + " should be " + TENANT_2, body.get(TENANT_ID), TENANT_2);
+        assertEquals(TenantResource.TENANT_ID + " should be " + TENANT_2, body.get(TenantResource.TENANT_ID), TENANT_2);
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
 
@@ -227,12 +224,12 @@ public class TenantResourceTest {
 
         EntityBody body1 = results.get(0);
         assertNotNull("Should not be null", body1);
-        assertEquals(TENANT_ID + " should be " + TENANT_1, body1.get(TENANT_ID), TENANT_1);
+        assertEquals(TenantResource.TENANT_ID + " should be " + TENANT_1, body1.get(TenantResource.TENANT_ID), TENANT_1);
         assertNotNull("Should include links", body1.get(ResourceConstants.LINKS));
 
         EntityBody body2 = results.get(1);
         assertNotNull("Should not be null", body2);
-        assertEquals(TENANT_ID + " should be " + TENANT_3, body2.get(TENANT_ID), TENANT_3);
+        assertEquals(TenantResource.TENANT_ID + " should be " + TENANT_3, body2.get(TenantResource.TENANT_ID), TENANT_3);
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
     }
 
