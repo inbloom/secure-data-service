@@ -43,7 +43,7 @@ module ApplicationHelper
        			:first      => userAccountRegistration[:firstName],
        			:last       => userAccountRegistration[:lastName],
        			:email      => userAccountRegistration[:email],
-       			:password   => userAccountRegistration[:password]",
+       			:password   => userAccountRegistration[:password],
        			:vendor     => userAccountRegistration[:vendor],
        			:emailtoken => token.clone,
        			:status     => "submitted"
@@ -74,7 +74,7 @@ module ApplicationHelper
                 :first      => userAccountRegistration[:firstName],
                 :last       => userAccountRegistration[:lastName],
                 :email      => userAccountRegistration[:email],
-                :password   => userAccountRegistration[:password]",
+                :password   => userAccountRegistration[:password],
                 :vendor     => userAccountRegistration[:vendor],
                 :emailtoken => token.clone,
                 :status     => "submitted"

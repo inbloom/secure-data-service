@@ -24,7 +24,9 @@ class UserAccountRegistrationsController < ApplicationController
         format.json { render json: @user_account_registration.errors, status: :unprocessable_entity }
       else
         url=APP_CONFIG['api_base']
-        RestClient.post(url,@user_account_registration.to_json,:content_type => :json, :accept => :json)
+        #RestClient.post(url,@user_account_registration.to_json,:content_type => :json, :accept => :json)
+        format.html { render action: "eulas/new" }
+        format.json{render action: "eulas/new",json: @user_account_registration}
       end
     end
   end
