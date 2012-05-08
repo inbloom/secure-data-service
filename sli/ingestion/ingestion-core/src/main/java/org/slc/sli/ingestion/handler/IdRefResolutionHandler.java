@@ -170,7 +170,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                         if (strategyMap.containsKey(elementName)) {
                             parentElement = parentStack.elementAt((parentStack.size() - 2));
                             resolutionStrategy = applicationContext.getBean(strategyMap.get(elementName), ReferenceResolutionStrategy.class);
-                            String resolvedReference = resolutionStrategy.resolveReference(elementName, refValue, parentElement, idObject.get(refValue), interchangeName);
+//                            String resolvedReference = resolutionStrategy.resolveReference(elementName, refValue, parentElement, idObject.get(refValue), interchangeName);
+                            String resolvedReference = resolutionStrategy.resolve(interchangeName, parentElement, refValue, idObject.get(refValue));
                             boolean contentReplaced = writeResolvedReference(event, xmlw, resolvedReference);
                             if (contentReplaced) {
                                 referenceReplaced = elementName;
