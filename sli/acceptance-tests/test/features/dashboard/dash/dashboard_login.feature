@@ -30,6 +30,16 @@ And was redirected to the SLI-IDP login page
 When I login as "InvalidJohnDoe" "demo1234"
 Then I am informed that "Authentication failed"
 
+Scenario: Login with cookie
+
+Given I have an open web browser
+Given the server is in "live" mode
+When I navigate to the Dashboard home page
+Then I should be redirected to the Realm page
+Then I add a cookie for linda.kim
+When I navigate to the Dashboard home page
+Then I should be redirected to the Dashboard landing page
+
 @wip
 Scenario: user in IDP but not in mongo
 Given I have an open web browser
