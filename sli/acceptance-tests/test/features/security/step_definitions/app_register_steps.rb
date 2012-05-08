@@ -114,7 +114,6 @@ end
 
 Then /^it should be "([^"]*)"$/ do |arg1|
   app = JSON.parse(@res.body)
-  puts app["registration"]
   assert(app["registration"]["status"] === arg1, "Registration field should be #{arg1}, not #{app["registration"]["status"]}")
 end
 
@@ -157,7 +156,6 @@ When /^I navigate to PUT "([^"]*)" to update an application to "([^"]*)"$/ do |a
   app = JSON.parse(@res.body)
   app["registration"]["status"] = arg2
   data = prepareData("application/json", app)
-  puts arg1
   restHttpPut(arg1, data)
 
   assert(@res != nil, "Response from PUT operation was null")

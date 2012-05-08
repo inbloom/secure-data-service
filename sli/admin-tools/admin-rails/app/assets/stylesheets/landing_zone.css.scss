@@ -4,7 +4,7 @@
 
 div.provision {
   overflow:hidden;
-  width:350px;
+  width:550px;
   float:left;
 }
 
@@ -23,31 +23,29 @@ div.edOrgIdSelect{
 div.provision label{
   float:left;
   text-align:left;
-  width:300px;
+  width:250px;
 }
 
 div.provision input{
   display:block;
   float:left;
-  margin-left:10px;
 }
 
-div.provisionBlock input{
+input.radioButton {
   width:20px;
-}
-
-div.edOrgIdSelect input{
-  margin-left:40px;
 }
 
 div.edOrgIdSelect label{
   visibility:hidden;
+  height:0px;
 }
 
 div.provisionButtons input{
+  margin-top:18px;
   float:right;
 }
 
 div.sidebar {
   float:right
 }
+

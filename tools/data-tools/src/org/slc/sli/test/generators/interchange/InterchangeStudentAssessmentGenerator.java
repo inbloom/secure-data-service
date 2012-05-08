@@ -12,6 +12,7 @@ import org.slc.sli.test.edfi.entities.StudentReferenceType;
 import org.slc.sli.test.edfi.entities.meta.AssessmentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentAssessmentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.AssessmentMetaRelations;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.AssessmentGenerator;
 import org.slc.sli.test.generators.StudentAssessmentGenerator;
@@ -44,7 +45,7 @@ public class InterchangeStudentAssessmentGenerator {
         Collection<StudentAssessment> studentAssessments = generateStudentAssessments(interchangeObjects,
                 MetaRelations.STUDENT_ASSES_MAP.values());
 
-        //generateStudentObjectiveAssessments(interchangeObjects, studentAssessments);
+        generateStudentObjectiveAssessments(interchangeObjects, studentAssessments);
 
         // TODO: StudentAssessmentItem (post-alpha)
     }
@@ -78,7 +79,7 @@ public class InterchangeStudentAssessmentGenerator {
                 studentAssessment = StudentAssessmentGenerator.generateLowFi(studentAssessmentMeta);
             }
 
-            //studentAssessments.add(studentAssessment);
+            studentAssessments.add(studentAssessment);
             interchangeObjects.add(studentAssessment);
         }
 
@@ -90,20 +91,24 @@ public class InterchangeStudentAssessmentGenerator {
     private static void generateStudentObjectiveAssessments(List<Object> interchangeObjects,
             Collection<StudentAssessment> studentAssessmentMetas) {
         long startTime = System.currentTimeMillis();
-
+        long count = 0;
+        
         for (StudentAssessment studentAssessment : studentAssessmentMetas) {
-            StudentObjectiveAssessment studentObjectiveAssessment;
-
-            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                studentObjectiveAssessment = null;
-            } else {
-                studentObjectiveAssessment = StudentObjectiveAssessmentGenerator.generateLowFi(studentAssessment);
+            if ((int) (Math.random() * AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT) == 0) {
+                StudentObjectiveAssessment studentObjectiveAssessment;
+                
+                if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                    studentObjectiveAssessment = null;
+                } else {
+                    studentObjectiveAssessment = StudentObjectiveAssessmentGenerator.generateLowFi(studentAssessment);
+                }
+                
+                interchangeObjects.add(studentObjectiveAssessment);
+                count++;
             }
-
-            interchangeObjects.add(studentObjectiveAssessment);
         }
 
-        System.out.println("generated " + studentAssessmentMetas.size() + " StudentObjectiveAssessment objects in: "
+        System.out.println("generated " + count + " StudentObjectiveAssessment objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 

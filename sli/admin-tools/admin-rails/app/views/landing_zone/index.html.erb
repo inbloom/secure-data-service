@@ -1,61 +1,36 @@
 <% @title="Provision Landing Zone" %>
 <div class="provision">
 	<h1>Provision Landing-Zone</h1>
-	<p>This will create the directory where the data will be imported from.</p>
+	<p>This will create a landing zone from which data for the educational organization can be imported.  It will also initialize the roles and permissions for the educational organization</p>
 	<%= form_tag( url_for(:controller => 'landing_zone', :action => 'provision')) %>
 		<% if not @edOrgs.empty? %>
 			<% @edOrgs.each do |org| %>
 				<div class="provisionBlock">
-					<%= radio_button_tag 'ed_org', org %>
-					<label for="ed_org_<%= org.gsub(/\s/, '_') %>"><%= org %></label>
+					<%= radio_button_tag 'ed_org', org.stateUniqueId, false, :class => "radioButton" %>
+					<label for="ed_org_<%= org.stateUniqueId %>"><%= org.nameOfInstitution %></label>
 				</div>
 			<% end %>
 			<div class="provisionBlock">
-	                  <input id="custom" name="ed_org" type="radio" value="custom" /> 
+	                  <input id="custom" name="ed_org" type="radio" value="custom" class="radioButton" /> 
 			  <label for="custom">Custom High-Level Ed-Org</label>
+			  <div class="edOrgIdSelect">
+			    <%= text_field_tag "custom_ed_org", nil, :placeholder => "State Organization Id"  %>
+			    <label for="custom_ed_org">State organization Id of Ed Org</label>
+		          </div>
 			</div>
 		<% else %>
-			<input id="custom" type="hidden" name="ed_org" value="custom">
+			<input id="custom" type="hidden" name="ed_org" value="custom" class="radioButton" >
+			<div class="provisionBlock">
+			  <label>Input ID of Educational Organization</label>
+			  <div class="edOrgIdSelect">
+			    <%= text_field_tag "custom_ed_org", nil, :placeholder => "State Organization Id"  %>
+			    <label for="custom_ed_org">State organization Id of Ed Org</label>
+			  </div>
+			</div>
 		<% end %>
-		<div class="edOrgIdSelect">
-			<%= text_field_tag "custom_ed_org", nil, :placeholder => "State Organization Id"  %>
-			<label for="custom_ed_org">State organization Id of Ed Org</label>
-		</div>
 		<div class="provisionButtons">
-			<input name="cancel" type="submit" value="Cancel" id="cancelButton"/>
+			<input name="cancel" type="submit" value="Cancel" id="cancelButton" disabled="true"/>
 			<input name="commit" type="submit" value="Provision" id="provisionButton"/>
 		</div>
 	</form>
-</div>
-<div class="sidebar">
-<script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
-<script>
-new TWTR.Widget({
-  version: 2,
-  type: 'search',
-  search: 'education technology',
-  interval: 30000,
-  title: 'Whats going on',
-  subject: 'In education and technology?',
-  width: 250,
-  height: 300,
-  theme: {
-    shell: {
-      background: '#8ec1da',
-      color: '#ffffff'
-    },
-    tweets: {
-      background: '#ffffff',
-      color: '#444444',
-      links: '#1985b5'
-    }
-  },
-  features: {
-    scrollbar: false,
-    loop: true,
-    live: true,
-    behavior: 'default'
-  }
-}).render().start();
-</script>
 </div>
