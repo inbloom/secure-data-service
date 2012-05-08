@@ -60,7 +60,6 @@ end
 
 def initializeTenants()
   @lzs_to_remove  = Array.new
-  @lzs_to_remove.push('IL-Newtowne')
   
   defaultLz = @ingestion_lz_identifer_map['IL-Daybreak']
   # TODO check for undefined, show error
@@ -84,12 +83,6 @@ def initializeTenants()
 end
 
 def cleanTenants()
-
-  # if File.directory?(@tenantTopLevelLandingZone)
-    # puts "Deleting " + @tenantTopLevelLandingZone
-    # FileUtils.remove_dir(@tenantTopLevelLandingZone, true)
-  # end
-  
   @db = @conn[INGESTION_DB_NAME]
   @tenantColl = @db.collection('tenant')
   @tenantColl.remove("type" => "tenantTest")
@@ -497,7 +490,7 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   path = @tenantTopLevelLandingZone + 'tenant_' + rand(1048576).to_s
   
   Dir.mkdir(path, 0777)
-  puts lz_key + " => " + path
+  puts lz_key + " -> " + path
   
   ingestionServer = Socket.gethostname
   
