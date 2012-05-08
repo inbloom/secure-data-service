@@ -114,6 +114,7 @@ public class MongoEntity implements Entity, Serializable {
                 uid = UUID.randomUUID();
             }
             entityId = uid.toString();
+            //add shard key here
         } else {
             uid = UUID.fromString(entityId);
         }

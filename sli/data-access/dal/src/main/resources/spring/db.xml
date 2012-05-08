@@ -65,4 +65,18 @@
   </bean>
 
   <context:component-scan base-package="org.slc.sli.dal" />
+
+  <bean id="shardKeyMongoEntityDecorator" class="org.slc.sli.domain.ShardKeyMongoEntityDecorator">
+    <property name="shardDefinitions">
+      <map>
+        <entry key="attendance">
+          <list>
+            <value>metaData.tenantId</value>
+            <value>body.schoolYear</value>
+            <value>_id</value>
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
 </beans>
