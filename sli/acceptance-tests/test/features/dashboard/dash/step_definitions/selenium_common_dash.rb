@@ -92,6 +92,7 @@ def selectOption(selectFieldId, optionToSelect)
     if option.attribute("text") == optionToSelect
       optionFound = true
       option.click
+      break
     end
   end  
   assert(optionFound, "Desired option '" + optionToSelect + "' was not found in '" + @dropDownId + "' list")
