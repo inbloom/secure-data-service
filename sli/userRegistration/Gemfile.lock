@@ -116,6 +116,7 @@ DEPENDENCIES
   approval!
   coffee-rails (~> 3.2.1)
   jquery-rails
+  json
   net-ldap
   rails (= 3.2.3)
   rest-client

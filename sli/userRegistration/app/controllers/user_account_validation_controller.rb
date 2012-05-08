@@ -1,5 +1,6 @@
 
 require 'rest-client'
+require 'json'
 
 class UserAccountValidationController < ApplicationController
   
@@ -25,31 +26,24 @@ class UserAccountValidationController < ApplicationController
   def show
     
     url = "http://localhost:8080/api/rest/v1/userAccounts/" + params[:id]
-    urlHeader = {:accept => "application/json"}
-    #headers.store(:Authorization, "bearer "+sessionId)
-    puts "1 url: #{url}"
-    puts "2 headers: #{headers}"
+    urlHeader = {"accept" => "application/json"}
+    res = RestClient.get(url, urlHeader){|response, request, result| response }
     
-    @res = RestClient.get(url, urlHeader){|response, request, result| response }
-    
-    puts "3 @res: #{@res}"
-    
-    result = 0
-    
-    if result == 0 
-        @validation_result = ACCOUNT_VERIFICATION_COMPLETE
-        ApplicationHelper.verify_email(TODO:email token)
-    elsif result == 1
-        @validation_result = INVALID_VERIFICATION_CODE
-    elsif result == 2
+    if (res.code == 200)
+      jsonDocument = JSON.parse(res.body)
+      if (jsonDocument["validated"] == "true")
         @validation_result = ACCOUNT_PREVIOUSLY_VERIFIED
-    end
+      else
+        #
+        @validation_result = ACCOUNT_VERIFICATION_COMPLETE
+      end
+    else # (res.code == 404)
+      @validation_result = INVALID_VERIFICATION_CODE
+    end 
     
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @validation_result }
     end
-  end
-  
-    
+  end # end def show
 end
