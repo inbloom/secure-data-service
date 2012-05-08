@@ -42,6 +42,7 @@ public class TenantResource extends DefaultCrudEndpoint {
     @Autowired
     private EntityDefinitionStore store;
 
+    public static final String UUID = "uuid";
     public static final String RESOURCE_NAME = "tenant";
     public static final String TENANT_ID = "tenantId";
     public static final String LZ_EDUCATION_ORGANIZATION = "educationOrganization";
@@ -96,8 +97,8 @@ public class TenantResource extends DefaultCrudEndpoint {
      * @return the JSON data of the application, otherwise 404 if not found
      */
     @GET
-    @Path("{" + TENANT_ID + "}")
-    public Response getTenant(@PathParam(TENANT_ID) String tenantId,
+    @Path("{" + UUID + "}")
+    public Response getTenant(@PathParam(UUID) String uuid,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
@@ -106,12 +107,12 @@ public class TenantResource extends DefaultCrudEndpoint {
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
 
-        return super.read(tenantId, headers, uriInfo);
+        return super.read(uuid, headers, uriInfo);
     }
 
     @DELETE
-    @Path("{" + TENANT_ID + "}")
-    public Response deleteTenant(@PathParam(TENANT_ID) String tenantId,
+    @Path("{" + UUID + "}")
+    public Response deleteTenant(@PathParam(UUID) String uuid,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
@@ -120,12 +121,12 @@ public class TenantResource extends DefaultCrudEndpoint {
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
 
-        return super.delete(tenantId, headers, uriInfo);
+        return super.delete(uuid, headers, uriInfo);
     }
 
     @PUT
-    @Path("{" + TENANT_ID + "}")
-    public Response updateTenant(@PathParam(TENANT_ID) String tenantId, EntityBody tenant,
+    @Path("{" + UUID + "}")
+    public Response updateTenant(@PathParam(UUID) String uuid, EntityBody tenant,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
@@ -134,7 +135,7 @@ public class TenantResource extends DefaultCrudEndpoint {
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
 
-        return super.update(tenantId, tenant, headers, uriInfo);
+        return super.update(uuid, tenant, headers, uriInfo);
     }
 
 }
