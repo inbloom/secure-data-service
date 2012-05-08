@@ -59,7 +59,7 @@
   <import resource="persistence-context.xml" />
   <import resource="processor-context.xml" />
   <import resource="classpath:/spring/base-applicationContext.xml" />
-
+  <import resource="idRefResolution-context.xml" />
   <!-- Include resources from DAL -->
   <import resource="classpath:/spring/db.xml" />
   <import resource="dal-context.xml" />
@@ -115,6 +115,18 @@
     <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler"></property>
     <property name="persistedCollections" ref="persistedEntities" />
   </bean>
+
+  <bean id="configResourceFactory" class="org.slc.sli.ingestion.referenceresolution.ConfigResourceFactory">
+      <property name="configRootDir" value="classpath:idRefResolution/" />
+  </bean>
+
+ <bean id="refConfigManager" class="org.slc.sli.ingestion.referenceresolution.RefConfigManager">
+     <property name="configFactory" ref="configResourceFactory" />
+ </bean>
+ 
+       <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/assessment.xml" />
+      </bean>
 
 </beans>
 
