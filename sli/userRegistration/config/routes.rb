@@ -15,7 +15,7 @@ UserRegistration::Application.routes.draw do
   # This route can be invoked with purchase_url(:id => product.id)
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :user_account_registration
+     resources :user_account_registration
 
   # Sample resource route with options:
   #   resources :products do
