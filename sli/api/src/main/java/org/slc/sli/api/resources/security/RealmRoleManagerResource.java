@@ -35,7 +35,11 @@ import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -60,6 +64,12 @@ public class RealmRoleManagerResource {
     
     private EntityService         service;
     
+    @Autowired
+    private Repository<Entity> repo;
+    
+    @Autowired
+    private IdConverter idConverter;
+
     @PostConstruct
     public void init() {
         EntityDefinition def = store.lookupByResourceName("realm");
@@ -100,8 +110,11 @@ public class RealmRoleManagerResource {
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) updatedRealm.get("mappings");
         if (mappings != null) {
             Response validateResponse = validateMappings(mappings);
+            Response validateUniqueness = validateUniqueId(realmId, (String) updatedRealm.get("uniqueIdentifier"));
             if (validateResponse != null) {
                 return validateResponse;
+            } else if (validateUniqueness != null) {
+                return validateUniqueness;
             }
         }
         Map<String, List<Map<String, Object>>> oldMappings = (Map<String, List<Map<String, Object>>>) oldRealm.get("mappings");
@@ -147,9 +160,11 @@ public class RealmRoleManagerResource {
         Map<String, List<Map<String, Object>>> mappings = (Map<String, List<Map<String, Object>>>) newRealm.get("mappings");
         if (mappings != null) {
             Response validateResponse = validateMappings(mappings);
-            
+            Response validateUniqueness = validateUniqueId(null, (String) newRealm.get("uniqueIdentifier"));
             if (validateResponse != null) {
                 return validateResponse;
+            } else if (validateUniqueness != null) {
+                return validateUniqueness;
             }
         }
         
@@ -223,6 +238,24 @@ public class RealmRoleManagerResource {
                 
                 clientRoles.add(clientRole);
             }
+        }
+        return null;
+    }
+    
+    private Response validateUniqueId(String realmId, String uniqueId) {
+        if (uniqueId == null || uniqueId.length() == 0) {
+            return null;
+        }
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("uniqueIdentifier", "=", uniqueId));
+        if (realmId != null) {
+            query.addCriteria(new NeutralCriteria("_id", "!=", idConverter.toDatabaseId(realmId)));
+        }
+        Iterable<Entity> bodies = repo.findAll("realm", query);
+        if (bodies != null && bodies.iterator().hasNext()) {
+            Map<String, String> res = new HashMap<String, String>();
+            res.put("response", "Cannot have duplicate unique identifiers");
+            return Response.status(Status.BAD_REQUEST).entity(res).build();
         }
         return null;
     }
