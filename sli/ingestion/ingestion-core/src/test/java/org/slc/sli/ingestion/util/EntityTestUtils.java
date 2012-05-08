@@ -5,13 +5,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -19,10 +21,10 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.junit.Assert;
 import org.milyn.Smooks;
+import org.milyn.SmooksException;
+import org.milyn.payload.JavaResult;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordFileReader;
-import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
@@ -36,22 +38,44 @@ import org.xml.sax.SAXException;
  */
 public class EntityTestUtils {
     
-    public static NeutralRecordFileReader getNeutralRecords(InputStream dataSource, String smooksConfig,
-            String targetSelector) throws IOException, SAXException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(outputStream);
-        
+//    public static NeutralRecordFileReader getNeutralRecords(InputStream dataSource, String smooksConfig,
+//            String targetSelector) throws IOException, SAXException {
+//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//        NeutralRecordFileWriter nrfWriter = new NeutralRecordFileWriter(outputStream);
+//        
+//        Smooks smooks = new Smooks(smooksConfig);
+//        
+//        smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", null, null, null), targetSelector);
+//        
+//        try {
+//            smooks.filterSource(new StreamSource(dataSource));
+//        } finally {
+//            nrfWriter.close();
+//        }
+//        
+//        return new NeutralRecordFileReader(outputStream.toByteArray());
+//    }
+    
+    @SuppressWarnings("unchecked")
+    public static List<NeutralRecord> getNeutralRecords(InputStream dataSource, String smooksConfig,
+            String targetSelector) throws IOException, SAXException, SmooksException {
         Smooks smooks = new Smooks(smooksConfig);
+        smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", null, null, null), targetSelector);
         
-        smooks.addVisitor(SmooksEdFiVisitor.createInstance("record", null, nrfWriter, null, null), targetSelector);
+        JavaResult result = new JavaResult();
+        smooks.filterSource(new StreamSource(dataSource), result);
         
-        try {
-            smooks.filterSource(new StreamSource(dataSource));
-        } finally {
-            nrfWriter.close();
+        List<NeutralRecord> entityList = new ArrayList<NeutralRecord>();
+        for (Entry<String, Object> resEntry : result.getResultMap().entrySet()) {
+            if (resEntry.getValue() instanceof List) {
+                List<?> list = (List<?>) resEntry.getValue();
+                if (list.size() != 0 && list.get(0) instanceof NeutralRecord) {
+                    entityList = (List<NeutralRecord>) list;
+                    break;
+                }
+            }
         }
-        
-        return new NeutralRecordFileReader(outputStream.toByteArray());
+        return entityList;
     }
     
     public static void mapValidation(Map<String, Object> obj, String schemaName, EntityValidator validator) {
@@ -101,22 +125,14 @@ public class EntityTestUtils {
      */
     public static NeutralRecord smooksGetSingleNeutralRecord(String smooksXmlConfigFilePath, String targetSelector,
             String testData) throws IOException, SAXException {
-        
         ByteArrayInputStream testDataStream = new ByteArrayInputStream(testData.getBytes());
         
         NeutralRecord neutralRecord = null;
-        NeutralRecordFileReader nrfr = null;
-        try {
-            nrfr = EntityTestUtils.getNeutralRecords(testDataStream, smooksXmlConfigFilePath, targetSelector);
+        List<NeutralRecord> records = EntityTestUtils.getNeutralRecords(testDataStream, smooksXmlConfigFilePath, targetSelector);
             
-            Assert.assertTrue(nrfr.hasNext());
-            
-            neutralRecord = nrfr.next();
-        } finally {
-            if (nrfr != null)
-                nrfr.close();
-        }
-        
+        if (records != null && records.size() > 0) {
+            neutralRecord = records.get(0);
+        }        
         return neutralRecord;
     }
     

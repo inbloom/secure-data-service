@@ -6,15 +6,13 @@ import java.util.Map;
 
 import org.milyn.Smooks;
 import org.milyn.delivery.Visitor;
-import org.xml.sax.SAXException;
-
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordFileWriter;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.xml.sax.SAXException;
 
 /**
  * Factory class for Smooks
@@ -28,14 +26,14 @@ public class SliSmooksFactory {
     private String beanId;
     private NeutralRecordMongoAccess nrMongoStagingWriter;
 
-    public Smooks createInstance(IngestionFileEntry ingestionFileEntry, NeutralRecordFileWriter fileWriter,
-            ErrorReport errorReport) throws IOException, SAXException {
+    public Smooks createInstance(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) 
+            throws IOException, SAXException {
 
         FileType fileType = ingestionFileEntry.getFileType();
         SliSmooksConfig sliSmooksConfig = sliSmooksConfigMap.get(fileType);
         if (sliSmooksConfig != null) {
 
-            return createSmooksFromConfig(sliSmooksConfig, fileWriter, errorReport, ingestionFileEntry.getBatchJobId(),
+            return createSmooksFromConfig(sliSmooksConfig, errorReport, ingestionFileEntry.getBatchJobId(),
                     ingestionFileEntry);
 
         } else {
@@ -44,8 +42,8 @@ public class SliSmooksFactory {
         }
     }
 
-    private Smooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, NeutralRecordFileWriter fileWriter,
-            ErrorReport errorReport, String batchJobId, IngestionFileEntry fe) throws IOException, SAXException {
+    private Smooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, ErrorReport errorReport,
+            String batchJobId, IngestionFileEntry fe) throws IOException, SAXException {
 
         Smooks smooks = new Smooks(sliSmooksConfig.getConfigFileName());
 
@@ -54,7 +52,7 @@ public class SliSmooksFactory {
         if (targetSelectorList != null) {
 
             // just one visitor instance that can be added with multiple target selectors
-            Visitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, batchJobId, fileWriter, errorReport,
+            Visitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, batchJobId, errorReport,
                     fe);
 
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);

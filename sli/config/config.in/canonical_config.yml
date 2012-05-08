@@ -1124,9 +1124,15 @@ nxteam:
     ingestion: &INGESTION-NXTEAM
         <<: *INGESTION-TEAM
         sli.ingestion.queue.pit.host: nxing.slidev.org
+      
      
     data-access:
         <<: *DATA-ACCESS-TEAM
+        sli.mongodb.host: localhost
+        sli.ingestion.staging.mongodb.host: nxmongo.slidev.org
+        sli.ingestion.batchjob.mongodb.host: nxmongo.slidev.org
+
+         
     misc:
         <<: *MISC-TEAM
 
