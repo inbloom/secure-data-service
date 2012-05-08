@@ -122,6 +122,7 @@
     <property name="entityPersistHandler" ref="entityPersistHandler" />
     <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler"></property>
     <property name="persistedCollections" ref="persistedEntities" />
+    <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
   </bean>
   
   <bean id="WorkNoteAggregator" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteAggregator" />

@@ -72,6 +72,8 @@ public class StagedDataPersistenceProcessor implements Processor {
 
     private NeutralRecordEntityPersistHandler obsoletePersistHandler;
 
+    private NeutralRecordReadConverter neutralRecordReadConverter;
+
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
@@ -148,11 +150,9 @@ public class StagedDataPersistenceProcessor implements Processor {
             BasicDBObject query = new BasicDBObject("batchJobId", job.getId());
             DBCursor cursor = getCollectionIterable(transformedCollectionName, query, job.getId());
 
-            NeutralRecordReadConverter nrConverter = new NeutralRecordReadConverter();
-
             for (DBObject record : cursor) {
 
-                NeutralRecord neutralRecord = nrConverter.convert(record);
+                NeutralRecord neutralRecord = neutralRecordReadConverter.convert(record);
 
                 fatalErrorMessage = "ERROR: Fatal problem saving records to database: \n" + "\tEntity\t" + collectionName + "\n";
 
@@ -352,6 +352,14 @@ public class StagedDataPersistenceProcessor implements Processor {
 
     public void setPersistedCollections(Set<String> persistedCollections) {
         this.persistedCollections = persistedCollections;
+    }
+
+    public NeutralRecordReadConverter getNeutralRecordReadConverter() {
+        return neutralRecordReadConverter;
+    }
+
+    public void setNeutralRecordReadConverter(NeutralRecordReadConverter neutralRecordReadConverter) {
+        this.neutralRecordReadConverter = neutralRecordReadConverter;
     }
 
     protected DBCursor getCollectionIterable(String collectionName, DBObject query, String jobId) {
