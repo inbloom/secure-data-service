@@ -1,11 +1,15 @@
 package org.slc.sli.ingestion.processors;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
+import org.apache.camel.Route;
+import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
 import org.junit.Before;
@@ -16,9 +20,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.ingestion.tenant.TenantDA;
-import org.slc.sli.ingestion.tenant.TenantPopulator;
-import org.slc.sli.ingestion.tenant.TenantRecord;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -37,12 +38,12 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class TenantProcessorTest {
 
+    @InjectMocks
     @Autowired
     private TenantProcessor tenantProcessor;
     
-    @InjectMocks
-    @Autowired
-    private TenantPopulator tenantPopulator;
+    @Mock
+    private CamelContext mockedCamelContext;
     
     @Mock
     private TenantDA mockedTenantDA;
@@ -56,25 +57,24 @@ public class TenantProcessorTest {
     @Test
     public void shouldProcessTenantRequest() throws Exception {
         
+        List<String> testLzPaths = new ArrayList<String>();
+        testLzPaths.add("testLz");
+        
+        List<Route> routes = new ArrayList<Route>();
+        
+        when(mockedTenantDA.getLzPaths(Mockito.any(String.class))).thenReturn(testLzPaths);
+        when(mockedCamelContext.getRoutes()).thenReturn(routes);
+        
         //get a test tenantRecord
-        TenantRecord tenantRecord = createTenantRecord();
-        String tenantRecordJson = tenantRecord.toString();
         
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
-        exchange.getIn().setBody(tenantRecordJson);
 
         tenantProcessor.process(exchange);
         
-        Mockito.verify(mockedTenantDA, Mockito.times(1)).insertTenant(Mockito.any(TenantRecord.class));
-        //Mockito.verify(mockedTenantDA, Mockito.times(1)).insertTenant(Mockito.eq(tenantRecord));
+        Mockito.verify(mockedCamelContext, Mockito.times(0)).stopRoute(Mockito.any(String.class));
+        Mockito.verify(mockedCamelContext, Mockito.times(1)).addRoutes(Mockito.any(RouteBuilder.class));
         
         //check there is no error on the received message
-        assertEquals("No error message should be set on exachange", null, exchange.getIn().getHeader("ErrorMessage"));
-    }
-    
-    private TenantRecord createTenantRecord() throws IOException {
-        InputStream tenantStream = EntityTestUtils.getResourceAsStream("tenants/testTenant.json");
-        TenantRecord tenantRecord = TenantRecord.parse(tenantStream);
-        return tenantRecord;
+        assertEquals("Header on exchange should indicate success", TenantProcessor.TENANT_POLL_SUCCESS, exchange.getIn().getHeader(TenantProcessor.TENANT_POLL_HEADER));
     }
 }

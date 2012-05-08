@@ -18,6 +18,7 @@ import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.XmlFileProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
+import org.slc.sli.ingestion.processors.TenantProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
 
@@ -58,6 +59,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     JobReportingProcessor jobReportingProcessor;
 
     @Autowired
+    TenantProcessor tenantProcessor;
+    
+    @Autowired
     LandingZoneManager landingZoneManager;
 
     @Autowired
@@ -72,6 +76,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.tenant.loadDefaultTenants}")
     private boolean loadDefaultTenants;
 
+    @Value("${sli.ingestion.tenant.tenantPollingRepeatInterval}")
+    private String tenantPollingRepeatInterval;
+    
     @Override
     public void configure() throws Exception {
         String workItemQueueUri = getWorkItemQueueUri();
@@ -81,6 +88,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             tenantPopulator.populateDefaultTenants();
         }
 
+        configureTenantPollingTimerRoute();
         configureCommonRoute(workItemQueueUri);
 
         // configure ctlFilePoller and zipFilePoller per landing zone
@@ -94,6 +102,13 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
      */
     public String getWorkItemQueueUri() {
         return workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
+    }
+    
+    private void configureTenantPollingTimerRoute() {
+        from("quartz://tenantPollingTimer?trigger.fireNow=true&trigger.repeatCount=-1&trigger.repeatInterval="+tenantPollingRepeatInterval)
+            .setBody().simple("TenantPollingTimer fired: ${header.firedTime}")
+            .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "TenantPollingTimer fired: ${header.firedTime}")
+            .process(tenantProcessor);        
     }
 
     private void configureRoutePerLandingZone(String workItemQueueUri, LocalFileSystemLandingZone lz) {
