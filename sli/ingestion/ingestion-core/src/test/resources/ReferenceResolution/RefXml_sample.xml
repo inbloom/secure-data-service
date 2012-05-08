@@ -22,6 +22,22 @@
 		<Sex>Female</Sex>
 	</StudentIdentity>
 </StudentReference>
+<AssessmentReference id="TA-ACT-8">
+	<AssessmentIdentity>
+		<AssessmentTitle>ACT</AssessmentTitle>
+		<AcademicSubject>Reading</AcademicSubject>
+		<GradeLevelAssessed>TA-ACT-8</GradeLevelAssessed>
+		<Version>1</Version>
+	</AssessmentIdentity>
+</AssessmentReference>
+<AssessmentReference id="TA-ACT-9">
+	<AssessmentIdentity>
+		<AssessmentTitle>ACT</AssessmentTitle>
+		<AcademicSubject>Reading</AcademicSubject>
+		<GradeLevelAssessed>TA-ACT-9</GradeLevelAssessed>
+		<Version>1</Version>
+	</AssessmentIdentity>
+</AssessmentReference>
 <StudentAssessment>
 	<AdministrationDate>2010-12-01</AdministrationDate>
 	<SerialNumber>0</SerialNumber>
@@ -31,8 +47,10 @@
 	<ScoreResults AssessmentReportingMethod="Raw score">
 		<Result>0</Result>
 	</ScoreResults>
-	<StudentReference ref="STU-1"/>
-	<AssessmentReference ref="TA-ACT-9"/>
+	<StudentReference ref="STU-0"/>
+		<TestElement>
+		<AssessmentReference ref="TA-ACT-8"/>
+	</TestElement>
 </StudentAssessment>
 <StudentAssessment>
 	<AdministrationDate>2010-12-01</AdministrationDate>
@@ -44,6 +62,8 @@
 		<Result>0</Result>
 	</ScoreResults>
 	<StudentReference ref="STU-1"/>
-	<AssessmentReference ref="TA-ACT-4"/>
+	<TestElement>
+		<AssessmentReference ref="TA-ACT-9"/>
+	</TestElement>
 </StudentAssessment>
 </InterchangeStudentAssessment>

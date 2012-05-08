@@ -1,18 +1,6 @@
 package org.slc.sli.ingestion.referenceresolution;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.Map;
-
-import javax.xml.namespace.QName;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
 
 /**
  *
@@ -48,7 +36,11 @@ public class ExtendedReferenceResolver implements ReferenceResolutionStrategy {
      *
      */
     @Override
-    public String resolveReference(String referenceName, String referenceId, String enclosingEntityName, File xmlFile,
+    public String resolveReference(String referenceName, String referenceId, String enclosingEntityName, String idContent, String interchangeName) {
+        return null;
+
+    }
+    /*public String resolveReference(String referenceName, String referenceId, String enclosingEntityName, File xmlFile,
             String interchangeName) {
         // Create an extended reference to replace the simple reference.
         String referenceBody = null;
@@ -108,7 +100,7 @@ public class ExtendedReferenceResolver implements ReferenceResolutionStrategy {
         // Return the extended reference body, or null if not resolved.
         return referenceBody;
 
-    }
+    }*/
 
     private String convert(String entityBody, Map<String, Object> template) {
         // TODO Implement actual conversion.

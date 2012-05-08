@@ -1,14 +1,15 @@
 package org.slc.sli.ingestion.handler;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Stack;
 
 import javax.xml.namespace.QName;
@@ -17,6 +18,7 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.XMLEvent;
@@ -41,12 +43,15 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     private ApplicationContext applicationContext;
     private Map<String, String> strategyMap;
-    private List<Object> refObject;
-    private Set<Object> idObject;
+    private List<String> refObject = new ArrayList<String>();;
+    private Map<String, String> idObject = new HashMap<String, String>();;
     private String interchangeName;
-    private int resolveInEachParse = 2;
+    private int resolveInEachParse;
     private Stack<String> parentStack = new Stack<String>();
     private String parentElement;
+    private final String refAtr = "ref";
+    private final String idAtr = "id";
+    private final String resolvedAtr = "resolved";
 
     @Override
     IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
@@ -59,16 +64,143 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             file = outputFile;
             numOfRefUnResolved -= resolveInEachParse;
         }
-
         if (file != null) {
-            // Return the expanded XML file.
             fileEntry.setFile(file);
         }
         return fileEntry;
     }
 
+
+
+    private File resolveReferences(File inputFile, ErrorReport errorReport, Logger log) {
+
+        File outputFile = new File(inputFile.getPath().substring(0, inputFile.getPath().lastIndexOf(".xml")) + "_RESOLVED.xml");
+        try {
+
+            refObject = loadRefs(inputFile);
+            idObject = loadIds(inputFile);
+            resolveReferencesInBatch(inputFile, outputFile, errorReport, log);
+
+        } catch (FileNotFoundException fileNotFoundException) {
+            logError("Error configuring parser for XML file " + inputFile.getName() + ": " + fileNotFoundException.getMessage(),
+                    errorReport, log);
+        } catch (XMLStreamException xmlStreamException) {
+            logError("Error configuring parser for XML file " + inputFile.getName() + ": " + xmlStreamException.getMessage(),
+                    errorReport, log);
+        } catch (Exception exception) {
+            logError("Error configuring parser for XML file " + inputFile.getName() + ": " + exception.getMessage(),
+                    errorReport, log);
+        }
+
+        return outputFile;
+    }
+
+
+    private List<String> loadRefs(File inputFile) throws XMLStreamException, FileNotFoundException {
+        List<String> refsList = new ArrayList<String>();
+        XMLEventReader xmlr = XMLInputFactory.newInstance().createXMLEventReader(inputFile.getName(), new FileInputStream(inputFile.getAbsolutePath()));
+        XMLEvent event;
+
+        while (xmlr != null && xmlr.hasNext() && refsList.size() < resolveInEachParse) {
+            event = xmlr.nextEvent();
+            if (event.getEventType() == XMLEvent.START_ELEMENT) {
+                Attribute ref = getAttribute(event, refAtr);
+                Attribute refResolved = getAttribute(event, resolvedAtr);
+                if (ref != null && refResolved == null) {
+                    refsList.add(ref.getValue());
+                }
+            }
+        }
+        xmlr.close();
+        return refsList;
+    }
+
+    private Map<String, String> loadIds(File inputFile) throws XMLStreamException, FileNotFoundException {
+        Map<String, String> idsMap = new HashMap<String, String>();
+        XMLEventReader xmlr = XMLInputFactory.newInstance().createXMLEventReader(inputFile.getName(), new FileInputStream(inputFile));
+        XMLEvent event;
+
+        while (xmlr != null && xmlr.hasNext() && idsMap.size() < resolveInEachParse) {
+            event = xmlr.nextEvent();
+            if (event.getEventType() == XMLStreamConstants.START_ELEMENT) {
+                Attribute id = getAttribute(event, idAtr);
+                if (id != null && refObject.contains(id.getValue())  && !idObject.containsKey(id.getValue())) {
+                   idsMap.put(id.getValue(), getContent(event, xmlr));
+                }
+            }
+        }
+        xmlr.close();
+        return idsMap;
+    }
+
+
+
+    private void resolveReferencesInBatch(File inputFile, File outputFile, ErrorReport errorReport, Logger log) throws FileNotFoundException, XMLStreamException {
+        XMLInputFactory xmlif = XMLInputFactory.newInstance();
+        XMLEventReader xmlr = xmlif.createXMLEventReader(inputFile.getName(), new FileInputStream(inputFile.getAbsolutePath()));
+        XMLEventWriter xmlw = XMLOutputFactory.newInstance().createXMLEventWriter(new FileOutputStream(outputFile.getAbsolutePath()));
+        XMLEvent event;
+        ReferenceResolutionStrategy resolutionStrategy;
+
+        String referenceReplaced = "";
+        while (xmlr != null && xmlr.hasNext()) {
+            event = xmlr.nextEvent();
+
+            if (event.getEventType() == XMLEvent.START_ELEMENT) {
+
+                String elementName = event.asStartElement().getName().getLocalPart();
+                parentStack.push(elementName);
+
+                if (elementName.startsWith("Interchange")) {
+                    interchangeName = elementName;
+                    xmlw.add(event);
+                    continue;
+                }
+
+                Attribute ref = getAttribute(event, refAtr);
+                if (ref == null) {
+                    xmlw.add(event);
+                    continue;
+                }
+
+                Attribute resolvedAttr = getAttribute(event, resolvedAtr);
+                String refValue = ref.getValue();
+
+                if (resolvedAttr == null && idObject.containsKey(refValue)) {
+                        if (strategyMap.containsKey(elementName)) {
+                            parentElement = parentStack.elementAt((parentStack.size() - 2));
+                            resolutionStrategy = applicationContext.getBean(strategyMap.get(elementName), ReferenceResolutionStrategy.class);
+                            String resolvedReference = resolutionStrategy.resolveReference(elementName, refValue, parentElement, idObject.get(refValue), interchangeName);
+                            boolean contentReplaced = writeResolvedReference(event, xmlw, resolvedReference);
+                            if (contentReplaced) {
+                                referenceReplaced = elementName;
+                            }
+                    } else {
+                        xmlw.add(event);
+                        xmlw.add(XMLEventFactory.newInstance().createAttribute(resolvedAtr, "false"));
+                        logError(elementName + " has not been configured to use a reference resolution strategy.", errorReport, log);
+                    }
+                } else {
+                    xmlw.add(event);
+                }
+            } else if (event.getEventType() == XMLEvent.END_ELEMENT) {
+                parentStack.pop();
+                if (referenceReplaced.isEmpty()) {
+                    xmlw.add(event);
+                } else if (referenceReplaced.equals(event.asEndElement().getName().getLocalPart())) {
+                    referenceReplaced = "";
+                }
+            } else {
+                if (referenceReplaced.isEmpty()) {
+                    xmlw.add(event);
+                }
+            }
+        }
+        xmlr.close();
+        xmlw.close();
+    }
+
     private int countReferences(File file, ErrorReport errorReport, Logger log) {
-        //parse and return the total number of references
         int count = 0;
         XMLInputFactory xif = XMLInputFactory.newInstance();
         try {
@@ -77,7 +209,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             while (xmlEventReader.hasNext()) {
                 XMLEvent xmlEvent = xmlEventReader.nextEvent();
                 if (xmlEvent.getEventType() == XMLEvent.START_ELEMENT) {
-                    Attribute refAttribute = getAttribute(xmlEvent, "ref");
+                    Attribute refAttribute = getAttribute(xmlEvent, refAtr);
                     if (refAttribute != null) {
                         count++;
                     }
@@ -95,6 +227,65 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return count;
     }
 
+    private String getContent(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
+
+        StringWriter sw = new StringWriter(1024);
+        XMLEventWriter xmlw = XMLOutputFactory.newInstance().createXMLEventWriter(sw);
+        StringBuilder sb = new StringBuilder();
+        Stack<XMLEvent> events = new Stack<XMLEvent>();
+        events.add(xmlEvent);
+
+        xmlw.add(xmlEvent);
+        while (eventReader.hasNext() && !events.isEmpty()) {
+            XMLEvent tmp = eventReader.nextEvent();
+
+            if (tmp.isStartElement()) {
+                events.add(tmp);
+            }
+
+            xmlw.add(tmp);
+            if (tmp.isEndElement()) {
+                XMLEvent top = events.peek();
+
+                if (tmp.asEndElement().getName().equals(top.asStartElement().getName())) {
+                    events.pop();
+                } else {
+                    throw new XMLStreamException("Unexpected end of the element");
+                }
+            }
+        }
+        return sw.getBuffer().toString();
+    }
+
+    private boolean writeResolvedReference(XMLEvent event, XMLEventWriter xmlw, String resolvedReference) throws XMLStreamException {
+
+        boolean contentReplaced = false;
+        if (resolvedReference == null) {
+            xmlw.add(event);
+            xmlw.add(XMLEventFactory.newInstance().createAttribute(resolvedAtr, "false"));
+        } else {
+            XMLEventReader xmlResolvedReader = XMLInputFactory.newInstance().createXMLEventReader(new ByteArrayInputStream(resolvedReference.getBytes()));
+            XMLEvent resolvedEvent;
+            boolean isFirst = true;
+            contentReplaced = true;
+            while (xmlResolvedReader != null && xmlResolvedReader.hasNext()) {
+                resolvedEvent = xmlResolvedReader.nextEvent();
+                if (resolvedEvent.isStartElement()) {
+                    xmlw.add(resolvedEvent);
+                    if (isFirst) {
+                        xmlw.add(XMLEventFactory.newInstance().createAttribute(resolvedAtr, "true"));
+                        isFirst = false;
+                    }
+                } else if (resolvedEvent.isStartDocument() || resolvedEvent.isEndDocument()) {
+                    continue;
+                } else {
+                    xmlw.add(resolvedEvent);
+                }
+            }
+            xmlResolvedReader.close();
+        }
+        return contentReplaced;
+    }
     /**
      * Write an error message to the log and error files.
      *
@@ -111,150 +302,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         errorReport.error(errorMessage, ReferenceResolutionHandler.class);
     }
 
-    private File resolveReferences(File inputFile, ErrorReport errorReport, Logger log) {
-
-        File outputFile = new File(inputFile.getPath().substring(0, inputFile.getPath().lastIndexOf(".xml")) + "_RESOLVED.xml");
-        try {
-
-            loadRefs(inputFile);
-            loadIds(inputFile, outputFile);
-            resolveReferences(inputFile, outputFile);
-
-        } catch (FileNotFoundException fileNotFoundException) {
-            logError("Error configuring parser for XML file " + inputFile.getName() + ": " + fileNotFoundException.getMessage(),
-                    errorReport, log);
-        } catch (XMLStreamException xmlStreamException) {
-            logError("Error configuring parser for XML file " + inputFile.getName() + ": " + xmlStreamException.getMessage(),
-                    errorReport, log);
-        }
-
-        return inputFile;
-    }
-
-    private void loadIds(File inputFile, File outputFile) throws XMLStreamException, FileNotFoundException {
-
-        idObject = new HashSet<Object>();
-
-        XMLInputFactory xmlif = XMLInputFactory.newInstance();
-        XMLOutputFactory xof =  XMLOutputFactory.newInstance();
-        XMLEventFactory  eventFactory = XMLEventFactory.newInstance();
-
-        XMLEventReader xmlr = xmlif.createXMLEventReader(inputFile.getName(), new FileInputStream(inputFile.getAbsolutePath()));
-        XMLEventWriter xmlw = xof.createXMLEventWriter(new FileOutputStream(outputFile.getAbsolutePath()));
-        XMLEvent event;
-
-        while (xmlr != null && xmlr.hasNext()) {
-            event = xmlr.nextEvent();
-            boolean idResolvedValue = false;
-            if (event.getEventType() == XMLEvent.START_ELEMENT) {
-
-                Attribute id = getAttribute(event, "id");
-                Attribute idResolved = getAttribute(event, "resolved");
-                if (idResolved != null) {
-                    idResolvedValue = Boolean.parseBoolean(idResolved.getValue());
-                }
-                if (id != null && !idResolvedValue) {
-                    idObject.add(id.getValue());
-                    XMLEvent attribute = eventFactory.createAttribute("resolved", "true");
-                    xmlw.add(event);
-                    xmlw.add(attribute);
-                } else {
-                    xmlw.add(event);
-                }
-
-            } else {
-                xmlw.add(event);
-            }
-        }
-        xmlr.close();
-        xmlw.close();
-    }
-
-    private void loadRefs(File inputFile) throws XMLStreamException, FileNotFoundException {
-        refObject = new ArrayList<Object>();
-        XMLInputFactory xmlif = XMLInputFactory.newInstance();
-        String fileName = inputFile.getName();
-
-        XMLEventReader xmlr = xmlif.createXMLEventReader(fileName, new FileInputStream(inputFile.getAbsolutePath()));
-        XMLEvent event;
-
-        while (xmlr != null && xmlr.hasNext()) {
-            event = xmlr.nextEvent();
-            if (event.getEventType() == XMLEvent.START_ELEMENT) {
-
-                String elementName = event.asStartElement().getName().getLocalPart();
-                if (elementName.startsWith("Interchange")) {
-                    interchangeName = elementName;
-                }
-
-
-                Attribute ref = getAttribute(event, "ref");
-                Attribute refResolved = getAttribute(event, "resolved");
-                if (refResolved == null && ref != null && refObject.size() < resolveInEachParse) {
-                    refObject.add(ref.getValue());
-                }
-            }
-        }
-        xmlr.close();
-    }
-
-    private void resolveReferences(File inputFile, File outputFile) throws FileNotFoundException, XMLStreamException {
-
-
-        XMLInputFactory xmlif = XMLInputFactory.newInstance();
-        XMLOutputFactory xof =  XMLOutputFactory.newInstance();
-        XMLEventFactory  eventFactory = XMLEventFactory.newInstance();
-
-        XMLEventReader xmlr = xmlif.createXMLEventReader(inputFile.getName(), new FileInputStream(inputFile.getAbsolutePath()));
-        XMLEventWriter xmlw = xof.createXMLEventWriter(new FileOutputStream(outputFile.getAbsolutePath()));
-        XMLEvent event;
-
-        while (xmlr != null && xmlr.hasNext()) {
-            event = xmlr.nextEvent();
-            if (event.getEventType() == XMLEvent.START_ELEMENT) {
-
-                String elementName = event.asStartElement().getName().getLocalPart();
-                parentStack.push(elementName);
-
-
-                Attribute ref = event.asStartElement().getAttributeByName(new QName("ref"));
-                if (ref == null) {
-                    continue;
-                }
-                boolean resolved = false;
-                Attribute resolvedAttr = event.asStartElement().getAttributeByName(new QName("resolved"));
-                if (resolvedAttr != null) {
-                    resolved = Boolean.parseBoolean(resolvedAttr.getValue());
-                }
-                String resolvedString = null;
-                ReferenceResolutionStrategy resolutionStrategy;
-                if (resolvedAttr == null || !resolved) {
-                    String refValue = ref.getValue();
-                    if (idObject.contains(refValue)) {
-                        //UN: Check if simple strategy or not and invoke the execute function accordingly.
-                        if (strategyMap.containsKey(refValue)) {
-                            String strategy = strategyMap.get(refValue);
-                            resolutionStrategy = applicationContext.getBean(strategy, ReferenceResolutionStrategy.class);
-                            parentElement = parentStack.elementAt((parentStack.size() - 2));
-                            String resolvedReference = resolutionStrategy.resolveReference(elementName, refValue, parentElement, inputFile, interchangeName);
-                            if (resolvedReference == null) {
-                                //UN: Add resolved = true to the current element
-                            } else {
-                                //UN: Add the resolved = true to the return string and add the return string to the file.
-                            }
-                        }
-                    }
-                }
-            } else if (event.getEventType() == XMLEvent.END_ELEMENT) {
-                parentStack.pop();
-            } else {
-
-            }
-        }
-        xmlr.close();
-        xmlw.close();
-    }
-
     private Attribute getAttribute(XMLEvent startElementEvent, String attributeName) {
 
         Attribute attribute = startElementEvent.asStartElement().getAttributeByName(new QName(attributeName));
@@ -267,6 +314,14 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     public void setStrategyMap(Map<String, String> strategyMap) {
         this.strategyMap = strategyMap;
+    }
+
+    public int getResolveInEachParse() {
+        return resolveInEachParse;
+    }
+
+    public void setResolveInEachParse(int resolveInEachParse) {
+        this.resolveInEachParse = resolveInEachParse;
     }
 
     @Override
