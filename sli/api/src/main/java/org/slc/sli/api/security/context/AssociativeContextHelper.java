@@ -1,9 +1,10 @@
 package org.slc.sli.api.security.context;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -152,5 +153,19 @@ public class AssociativeContextHelper {
             foundIds.add((String) body.get(returnedReference));
         }
         return foundIds;
+    }
+
+    /**
+     * Returns a date depending on the grace period
+     * @param gracePeriod
+     * @return
+     */
+    public String getFilterDate(String gracePeriod, Calendar calendar) {
+        if (gracePeriod != null && !gracePeriod.equals("")) {
+            int numDays = Integer.parseInt(gracePeriod) * -1;
+            calendar.add(Calendar.DATE, numDays);
+        }
+
+        return String.format("%1$tY-%1$tm-%1$td", calendar);
     }
 }
