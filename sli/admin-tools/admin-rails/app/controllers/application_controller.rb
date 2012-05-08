@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
   end
   def callback
     #TODO: disable redirects to other domains
-    redirect_to session[:oauth].entry_url unless session[:oauth].entry_url.include? '/callback'
+    redirect_to session[:entry_url] unless session[:entry_url].include? '/callback'
     return
     #render :nothing => true
   end
@@ -43,15 +43,13 @@ class ApplicationController < ActionController::Base
     oauth = session[:oauth]
     if oauth == nil 
       oauth = OauthHelper::Oauth.new()
-      oauth.entry_url = current_url
+      session[:entry_url] = current_url
       session[:oauth] = oauth 
     end
     if oauth.enabled?
       if oauth.token != nil
-        logger.info { "OAuth access token is #{oauth.token}"}
         SessionResource.access_token = oauth.token
       elsif params[:code] && !oauth.has_code
-        logger.info { "Requesting access token for  #{params[:code]}"}
         SessionResource.access_token = oauth.get_token(params[:code])
         check = Check.get("")
         session[:full_name] ||= check["full_name"]   
@@ -59,8 +57,8 @@ class ApplicationController < ActionController::Base
         session[:roles] = check["sliRoles"]
         session[:edOrg] = check["edOrg"]
       else
-        logger.info { "Redirecting to oauth auth URL:  #{oauth.authorize_url}"}
-        redirect_to oauth.authorize_url + "&Realm=" + CGI::escape(@admin_realm) + "&state=" + CGI::escape(form_authenticity_token)
+        admin_realm = "#{APP_CONFIG['admin_realm']}"
+        redirect_to oauth.authorize_url + "&Realm=" + CGI::escape(admin_realm) + "&state=" + CGI::escape(form_authenticity_token)
       end
     else
       logger.info { "OAuth disabled."}
