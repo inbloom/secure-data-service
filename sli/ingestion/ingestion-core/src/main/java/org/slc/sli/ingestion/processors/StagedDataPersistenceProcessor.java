@@ -51,7 +51,8 @@ import org.slc.sli.ingestion.validation.ProxyErrorReport;
 /**
  * Ingestion Persistence Processor.
  *
- * Specific Ingestion Persistence Processor which provides specific SLI Ingestion instance persistence behavior.
+ * Specific Ingestion Persistence Processor which provides specific SLI Ingestion instance
+ * persistence behavior.
  * Persists data from Staged Database.
  *
  */
@@ -126,7 +127,8 @@ public class StagedDataPersistenceProcessor implements Processor {
         }
     }
 
-    private void processAndMeasureResource(String collectionName, String transformedCollectionName, NewBatchJob newJob, Stage stage) {
+    private void processAndMeasureResource(String collectionName, String transformedCollectionName, NewBatchJob newJob,
+            Stage stage) {
         Metrics metrics = Metrics.createAndStart(newJob.getId() + collectionName);
         stage.getMetrics().add(metrics);
 
@@ -135,7 +137,8 @@ public class StagedDataPersistenceProcessor implements Processor {
         metrics.stopMetric();
     }
 
-    private void processStagedCollection(String collectionName, String transformedCollectionName, Job job, Metrics metrics) {
+    private void processStagedCollection(String collectionName, String transformedCollectionName, Job job,
+            Metrics metrics) {
 
         long recordNumber = 0;
         long numFailed = 0;
@@ -154,12 +157,15 @@ public class StagedDataPersistenceProcessor implements Processor {
 
                 NeutralRecord neutralRecord = neutralRecordReadConverter.convert(record);
 
-                fatalErrorMessage = "ERROR: Fatal problem saving records to database: \n" + "\tEntity\t" + collectionName + "\n";
+                fatalErrorMessage = "ERROR: Fatal problem saving records to database: \n" + "\tEntity\t"
+                        + collectionName + "\n";
 
                 if (!collectionName.equals(transformedCollectionName)) {
-                    numFailed += processTransformableNeutralRecord(neutralRecord, job, encounteredStgCollections, errorReportForCollection);
+                    numFailed += processTransformableNeutralRecord(neutralRecord, job, encounteredStgCollections,
+                            errorReportForCollection);
                 } else {
-                    numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, getTenantId(job), errorReportForCollection);
+                    numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, getTenantId(job),
+                            errorReportForCollection);
                 }
             }
 
@@ -173,7 +179,8 @@ public class StagedDataPersistenceProcessor implements Processor {
         }
     }
 
-    private long processTransformableNeutralRecord(NeutralRecord neutralRecord, Job job, Set<String> encounteredStgCollections, ErrorReport errorReportForCollection) {
+    private long processTransformableNeutralRecord(NeutralRecord neutralRecord, Job job,
+            Set<String> encounteredStgCollections, ErrorReport errorReportForCollection) {
         long numFailed = 0;
 
         // only proceed if we haven't proceesed this record type yet
@@ -191,7 +198,8 @@ public class StagedDataPersistenceProcessor implements Processor {
                     // TODO: why is this necessary?
                     stagedNeutralRecord.setRecordType(neutralRecord.getRecordType());
 
-                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForCollection);
+                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord,
+                            errorReportForCollection);
                     for (SimpleEntity xformedEntity : xformedEntities) {
 
                         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
@@ -231,7 +239,8 @@ public class StagedDataPersistenceProcessor implements Processor {
 
     }
 
-    private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId, ErrorReport errorReportForCollection) {
+    private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId,
+            ErrorReport errorReportForCollection) {
         long numFailed = 0;
 
         // only persist if it's in the spring-loaded list of supported record types
@@ -287,13 +296,17 @@ public class StagedDataPersistenceProcessor implements Processor {
      * @return collectionName
      */
     private String getStagedCollectionName(Job job, String collectionName) {
+
+        String collectionNameTransformed = collectionName + "_transformed";
+
         boolean collectionExists = neutralRecordMongoAccess.getRecordRepository().collectionExistsForJob(
-                collectionName + "_transformed", job.getId());
+                collectionNameTransformed, job.getId());
 
         if (collectionExists) {
-            if (neutralRecordMongoAccess.getRecordRepository().count(collectionName, new NeutralQuery()) > 0) {
-                LOG.info("FOUND TRANSFORMED COLLECTION WITH MORE THEN 0 RECORD = " + collectionName);
-                return (collectionName + "_transformed");
+            if (neutralRecordMongoAccess.getRecordRepository().countForJob(collectionNameTransformed, new NeutralQuery(),
+                    job.getId()) > 0) {
+                LOG.info("FOUND TRANSFORMED COLLECTION WITH MORE THAN 0 RECORD = " + collectionNameTransformed);
+                return (collectionNameTransformed);
             }
         }
         return collectionName;
@@ -303,10 +316,6 @@ public class StagedDataPersistenceProcessor implements Processor {
         DatabaseLoggingErrorReport dbErrorReport = new DatabaseLoggingErrorReport(batchJobId, BATCH_JOB_STAGE,
                 resourceId, batchJobDAO);
         return dbErrorReport;
-    }
-
-    private void cleanupStagingDbForJob(Job job) {
-        neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(job.getId());
     }
 
     private static String getTenantId(Job job) {
@@ -365,7 +374,7 @@ public class StagedDataPersistenceProcessor implements Processor {
     protected DBCursor getCollectionIterable(String collectionName, DBObject query, String jobId) {
         DBCollection col = neutralRecordMongoAccess.getRecordRepository().getCollectionForJob(collectionName, jobId);
 
-        DBCursor dbcursor = col.find(query);  //new DBCursor(col, query, query);
+        DBCursor dbcursor = col.find(query);  // new DBCursor(col, query, query);
         dbcursor.addOption(Bytes.QUERYOPTION_NOTIMEOUT);
         dbcursor.batchSize(1000);
 
