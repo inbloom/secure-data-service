@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ReferenceSchema;
 
@@ -118,7 +119,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
         factory.makeEntity(EntityNames.LEARNINGOBJECTIVE, ResourceNames.LEARNINGOBJECTIVES).buildAndRegister(this);
         factory.makeEntity(EntityNames.LEARNINGSTANDARD, ResourceNames.LEARNINGSTANDARDS).buildAndRegister(this);
-        factory.makeEntity(EntityNames.USER_ACCOUNT, ResourceNames.USER_ACCOUNTS).buildAndRegister(this);
+        factory.makeEntity(EntityNames.USER_ACCOUNT, ResourceNames.USER_ACCOUNTS)
+                .setRequiredReadRight(Right.ANONYMOUS_ACCESS).setRequiredWriteRight(Right.ANONYMOUS_ACCESS)
+                .buildAndRegister(this);
 
         // adding the association definitions
         AssociationDefinition studentSchoolAssociation = factory.makeAssoc("studentSchoolAssociation", "studentSchoolAssociations")
