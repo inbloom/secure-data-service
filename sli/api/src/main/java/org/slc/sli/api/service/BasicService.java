@@ -1,7 +1,6 @@
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,21 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.CallingApplicationInfoProvider;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
-import org.slc.sli.api.security.context.resolver.EntityContextResolver;
-import org.slc.sli.api.security.schema.SchemaDataProvider;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +23,21 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.CallingApplicationInfoProvider;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
+import org.slc.sli.api.security.schema.SchemaDataProvider;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
+
 /**
  * Implementation of EntityService that can be used for most entities.
  *
@@ -50,7 +49,7 @@ import org.springframework.stereotype.Component;
 public class BasicService implements EntityService {
 
     private static final String ADMIN_SPHERE = "Admin";
-    private static final List<String> PUBLIC_COLLECTIONS = Arrays.asList(EntityNames.EDUCATION_ORGANIZATION);
+    private static final String PUBLIC_SPHERE = "Public";
 
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
 
@@ -570,9 +569,9 @@ public class BasicService implements EntityService {
             neededRight = Right.ADMIN_ACCESS;
         }
 
-        if (PUBLIC_COLLECTIONS.contains(collectionName)) {
+        if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             if (Right.READ_GENERAL.equals(neededRight)) {
-                neededRight = Right.AGGREGATE_READ;
+                neededRight = Right.READ_PUBLIC;
             }
         }
 
@@ -649,9 +648,9 @@ public class BasicService implements EntityService {
                         neededRight = Right.ADMIN_ACCESS;
                     }
 
-                    if (PUBLIC_COLLECTIONS.contains(collectionName)) {
+                    if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
                         if (Right.READ_GENERAL.equals(neededRight)) {
-                            neededRight = Right.AGGREGATE_READ;
+                            neededRight = Right.READ_PUBLIC;
                         }
                     }
 
