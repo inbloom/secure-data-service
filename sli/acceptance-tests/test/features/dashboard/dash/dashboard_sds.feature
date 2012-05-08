@@ -11,7 +11,7 @@ When I select "Illinois Sunset School District 4526" and click go
 Scenario: View Matt Sollars
 When I login as "linda.kim" "linda.kim1234"
 And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Proprietary Information"
+And I see a footer on the page that has the text "Proprietary Information"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
@@ -80,7 +80,7 @@ And the grades teardrop color widgets for "SpringSemester2010-2011;FallSemester2
  |F    |teardrop-red       |
 And I click on student "Matt Sollars"
 And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Proprietary Information"
+And I see a footer on the page that has the text "Proprietary Information"
 And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
 And their id shown in proflie is "800000025"
@@ -146,7 +146,7 @@ Then I should only see one view named "Early Literacy View"
 And the list includes: "Mi-Ha Tran"
 And the following students have "ELL" lozenges: "Malcolm Haehn;Dara Nemecek;Lauretta Seip"
 And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Proprietary Information"
+And I see a footer on the page that has the text "Proprietary Information"
 # Early Literacy View
 And the count for id "attendances.absenceCount" for student "Mi-Ha Tran" is "1"
 And the class for id "attendances.absenceCount" for student "Mi-Ha Tran" is "color-widget-green"
@@ -217,7 +217,7 @@ And Student Enrollment History has the following entries:
 |<empty>   |South Daybreak Elementary  |1   |2011-09-05 |Next year school                           |<empty>  |<empty>        |<empty>            |
 |<empty>   |South Daybreak Elementary  |K   |2010-09-03 |Original entry into a United States school |<empty>  |2011-05-11     |End of school year |
 And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Proprietary Information"
+And I see a footer on the page that has the text "Proprietary Information"
 
 @integration
 Scenario: View Carmen Ortiz
@@ -230,7 +230,7 @@ Then I see a list of 25 students
 And the list includes: "Carmen Ortiz"
 And the following students have "ELL" lozenges: "Randolph Vanhooser;Kelvin Zahm;Johnathan Zenz"
 And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Proprietary Information"
+And I see a footer on the page that has the text "Proprietary Information"
 Then I should only see one view named "College Ready ELA View"
 And the count for id "attendances.absenceCount" for student "Carmen Ortiz" is "1"
 And the class for id "attendances.absenceCount" for student "Carmen Ortiz" is "color-widget-green"
@@ -311,7 +311,7 @@ And Student Enrollment History has the following entries:
 |<empty>|<empty>                |5 |2005-09-09 |Transfer from a private, religiously-affiliated school in the same local education agency|<empty>   |2006-05-15     |Exited             |
 |<empty>|<empty>                |2 |2002-09-12 |Transfer from a school outside of the country                                         |<empty>      |2003-04-12     |Expelled or involuntarily withdrawn|
 And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Proprietary Information"
+And I see a footer on the page that has the text "Proprietary Information"
 When I click on "Assessment" Tab
 And Assessment History includes results for:
 |Test       |
