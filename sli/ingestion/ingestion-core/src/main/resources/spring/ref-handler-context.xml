@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd ">
+
+  <import resource="validation-context.xml" />
+  <bean id="IdReferenceResolutionHandler" class="org.slc.sli.ingestion.handler.IdRefResolutionHandler">
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+    <property name="strategyMap" ref="strategyConfig"/>
+    <property name="resolveInEachParse" value="2"/>
+  </bean>
+
+  <bean id="extendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.ExtendedReferenceResolver"/>
+  <bean id="simpleReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SimpleReferenceResolver"/>
+
+  <util:map id="strategyConfig">
+    <entry key="StudentReference">
+      <value>extendedReferenceResolver</value>
+    </entry>
+    <entry key="AssessmentReference">
+      <value>simpleReferenceResolver</value>
+    </entry>
+  </util:map>
+</beans>
