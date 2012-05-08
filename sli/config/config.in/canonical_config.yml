@@ -1088,3 +1088,6 @@ sandbox:
     misc:
         <<: *MISC-TEAM
 
+# this is not used but required 
+test-sandbox:
+    api:
