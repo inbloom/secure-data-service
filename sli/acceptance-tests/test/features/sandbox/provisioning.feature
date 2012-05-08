@@ -3,41 +3,49 @@ Feature: Use the Provisioning REST interface to provision a new sandbox applicat
 Scenario Outline: Deny access to users not using SLI Adminstrator credentials
 
 	Given I am logged in using <Username> <Password> to realm "SLI"
-	When I try to access the URI "/provision?stateOrganizationId=Test&tenantId=12345" with operation <Operation>
+	When I try to access the URI "/provision" with operation <Operation> and <StateOrganizationId> and <TenantId> 
 	Then I should be denied access
 	Examples:
-	| Username        | Password            | Operation |
-	| "leader"        | "leader1234"        | "POST"    |
+	| Username        | Password            | Operation | StateOrganizationId | TenantId |
+	| "leader"        | "leader1234"        | "POST"    | "Test"              | "12345"  |
 
-@wip	
 Scenario Outline: Deny access to users using non-allowed methods
 
 	Given I am logged in using <Username> <Password> to realm "SLI"
-	When I try to access the URI "/provision?stateOrganizationId=Test&tenantId=12345" with operation <Operation>
+	When I try to access the URI "/provision" with operation <Operation> and <StateOrganizationId> and <TenantId> 
 	Then I should receive a return code of 405
-  Examples:
-  | Username        | Password            | Operation |
-  | "leader"        | "leader1234"        | "PUT"     |
-  | "administrator" | "administrator1234" | "DELETE"  |
-  | "administrator" | "administrator1234" | "GET"  |
+	Examples:
+	| Username        | Password            | Operation | StateOrganizationId | TenantId |
+	| "leader"        | "leader1234"        | "PUT"     | "Test"              | "12345"  |
+	| "administrator" | "administrator1234" | "DELETE"  | "Test"              | "12345"  |
+	| "administrator" | "administrator1234" | "GET"     | "Test"              | "12345"  |
 
-Scenario: Deny access to users using SLI Administrator credentials from non-SLI realms
+Scenario Outline: Deny access to users using SLI Administrator credentials from non-SLI realms
 
-	Given I am logged in using "badadmin" "badadmin1234" to realm "IL"
-	When I try to access the URI "/provision?stateOrganizationId==Test&tenantId=12345" with operation "POST"
+	Given I am logged in using <Username> <Password> to realm "IL"
+	When I try to access the URI "/provision" with operation <Operation> and <StateOrganizationId> and <TenantId> 
 	Then I should be denied access
+	Examples:
+	| Username        | Password            | Operation | StateOrganizationId | TenantId |
+	| "badadmin"      | "badadmin1234"      | "POST"    | "Test"              | "12345"  |
 
-Scenario: Provision a new landing zone.
+Scenario Outline: Provision a new landing zone.
 
-	Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
-	When I try to access the URI "/provision?stateOrganizationId=Test&tenantId=12345" with operation "POST"
+	Given I am logged in using <Username> <Password> to realm "SLI"
+	When I try to access the URI "/provision" with operation <Operation> and <StateOrganizationId> and <TenantId> 	
 	Then I should receive a return code of 201
+	Examples:
+	| Username         | Password             | Operation | StateOrganizationId | TenantId |
+	| "fakerealmadmin" | "fakerealmadmin1234" | "POST"    | "Test"              | "12345"  |
 
-Scenario: Provision a new landing zone twice should fail.
+Scenario Outline: Provision a new landing zone twice should fail.
 
-	Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
-	When I try to access the URI "/provision?stateOrganizationId=Test1&tenantId=12345" with operation "POST"
+	Given I am logged in using <Username> <Password> to realm "SLI"
+	When I try to access the URI "/provision" with operation <Operation> and <StateOrganizationId> and <TenantId> 	
 	Then I should receive a return code of 201
-	Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
-	When I try to access the URI "/provision?stateOrganizationId=Test1&tenantId=12345" with operation "POST"
+	Given I am logged in using <Username> <Password> to realm "SLI"
+	When I try to access the URI "/provision" with operation <Operation> and <StateOrganizationId> and <TenantId> 	
 	Then I should receive a return code of 409
+	Examples:
+	| Username         | Password             | Operation | StateOrganizationId | TenantId |
+	| "fakerealmadmin" | "fakerealmadmin1234" | "POST"    | "Test1"             | "12345"  |
