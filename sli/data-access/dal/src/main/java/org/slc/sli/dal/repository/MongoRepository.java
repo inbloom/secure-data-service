@@ -35,7 +35,7 @@ import org.slc.sli.domain.Repository;
 public abstract class MongoRepository<T> implements Repository<T> {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
 
-    private MongoTemplate template;
+    protected MongoTemplate template;
 
     private IdConverter idConverter;
 
