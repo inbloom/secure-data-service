@@ -46,7 +46,7 @@ import org.slc.sli.util.TimedLogic;
  * enrollment, program, and assessment information in order to deliver the
  * Population Summary interaction.
  *
- * @author Robert Bloh rbloh@wgen.net
+ * @author Robert Bloh
  *
  */
 public class PopulationManagerImpl extends ApiClientManager implements PopulationManager {
@@ -128,7 +128,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     @Override
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
 
-        String id = (String) sectionId;;
+        String id = (String) sectionId;
 
         // get student summary data
         List<GenericEntity> studentSummaries = getStudentSummaries(token, null, null, id);
