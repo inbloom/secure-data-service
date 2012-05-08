@@ -1,12 +1,10 @@
 package org.slc.sli.sandbox.idp.controller;
 
-import java.io.IOException;
-
 import org.slc.sli.sandbox.idp.service.AuthRequestService;
 import org.slc.sli.sandbox.idp.service.AuthenticationException;
+import org.slc.sli.sandbox.idp.service.RoleService;
 import org.slc.sli.sandbox.idp.service.SamlAssertionService;
 import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
-import org.slc.sli.sandbox.idp.service.RoleService;
 import org.slc.sli.sandbox.idp.service.UserService;
 import org.slc.sli.sandbox.idp.service.UserService.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +46,6 @@ public class Login {
     /**
      * Loads required data and redirects to the login page view.
      * 
-     * @throws IOException
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView form(@RequestParam("SAMLRequest") String encodedSamlRequest, @RequestParam("realm") String realm) {
@@ -71,11 +68,13 @@ public class Login {
             ModelAndView mav = new ModelAndView("login");
             mav.addObject("msg", "Invalid userId or password");
             mav.addObject("SAMLRequest", encodedSamlRequest);
+            mav.addObject("realm", realm);
             return mav;
         }
         
-        if (realm.equals("SLIAdmin") || !isSandboxImpersonationEnabled) {
-            SamlAssertion samlAssertion = samlService.buildAssertion(userId, user.getRoles(), user.getAttributes(), requestInfo);
+        if (realm.equals(userService.getSLIAdminRealmName()) || !isSandboxImpersonationEnabled) {
+            SamlAssertion samlAssertion = samlService.buildAssertion(userId, user.getRoles(), user.getAttributes(),
+                    requestInfo);
             ModelAndView mav = new ModelAndView("post");
             mav.addObject("samlAssertion", samlAssertion);
             return mav;

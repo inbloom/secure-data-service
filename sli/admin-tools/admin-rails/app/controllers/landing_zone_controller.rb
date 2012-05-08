@@ -14,6 +14,7 @@ class LandingZoneController < ApplicationController
     if (ed_org_id == nil || ed_org_id.gsub(/\s/, '').length == 0)
       redirect_to :action => 'index', :controller => 'landing_zone'
     else
+      ed_org_id = ed_org_id.gsub(/^ed_org_/, '')
       LandingZone.provision ed_org_id
     end
   end
