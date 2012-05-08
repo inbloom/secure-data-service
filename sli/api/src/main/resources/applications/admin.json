@@ -3,17 +3,18 @@
    "description":"Administrative tool suite",
    "version":"1.0",
    "bootstrap": true,
-   "image_url":"${admin.url}/assets/icon.png",
-   "administration_url":"${admin.url}",
-   "application_url":"${admin.url}",
-   "client_secret":"${admin.client_secret}",
-   "client_id":"${admin.client_id}",
+   "image_url":"${bootstrap.app.admin.url}/assets/icon.png",
+   "administration_url":"${bootstrap.app.admin.url}",
+   "application_url":"${bootstrap.app.admin.url}",
+   "client_secret":"${bootstrap.app.admin.client_secret}",
+   "client_id":"${bootstrap.app.admin.client_id}",
+   "created_by":"SLIDeveloper",
    "registration":{
       "status":"APPROVED",
       "request_date": 1330521193111,
       "approval_date": 1330521193111
    },
-   "redirect_uri":"${admin.url}/callback",
+   "redirect_uri":"${bootstrap.app.admin.url}/callback",
    "is_admin":true,
    "enabled":true,
    "behavior":"Iframe App",
@@ -24,7 +25,7 @@
       {
          "name":"Application Registration",
          "description":"Register an application that can access SLI API.",
-         "url":"${admin.url}/apps",
+         "url":"${bootstrap.app.admin.url}/apps",
          "roles":[
             "SLI Administrator"
          ]
@@ -32,7 +33,7 @@
       {
          "name":"Application Authorization",
          "description":"Manage which applications a district's users can see.",
-         "url":"${admin.url}/application_authorizations",
+         "url":"${bootstrap.app.admin.url}/application_authorizations",
          "roles":[
             "LEA Administrator"
          ]
@@ -40,7 +41,7 @@
       {
          "name":"Realm Role Mapper",
          "description":"Control how roles are from a IDP are mapped to SLI roles.",
-         "url":"${admin.url}/realms/",
+         "url":"${bootstrap.app.admin.url}/realms/",
          "roles":[
             "SLI Administrator"
          ]
@@ -48,7 +49,7 @@
       {
          "name":"Role Viewer",
          "description":"View available roles.",
-         "url":"${admin.url}",
+         "url":"${bootstrap.app.admin.url}",
          "roles":[
             "SLI Administrator"
          ]

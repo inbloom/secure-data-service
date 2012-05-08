@@ -31,8 +31,8 @@ Background: Nothing yet
     | ENTITY URI                  | ENTITY TYPE                | ENTITY COUNT    |
     | assessments                 | assessment                 | 2               |
     | schools                     | school                     | 5               |
-    | students                    | student                    | 80              |
-    | studentSectionAssociations  | studentSectionAssociation  | 309             |
+    | students                    | student                    | 81              |
+    | studentSectionAssociations  | studentSectionAssociation  | 311             |
     | courseOfferings             | sessionCourseAssociation   | 6               |
 
 
