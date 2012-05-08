@@ -38,6 +38,7 @@ class UserAccountValidationController < ApplicationController
     
     if result == 0 
         @validation_result = ACCOUNT_VERIFICATION_COMPLETE
+        ApplicationHelper.verify_email(TODO:email token)
     elsif result == 1
         @validation_result = INVALID_VERIFICATION_CODE
     elsif result == 2

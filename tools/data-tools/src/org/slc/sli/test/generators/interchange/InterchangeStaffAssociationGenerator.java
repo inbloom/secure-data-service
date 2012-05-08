@@ -225,7 +225,9 @@ public class InterchangeStaffAssociationGenerator {
      */
     private static void generateStaffProgramAssoc(List<Object> interchangeObjects,
             Collection<ProgramMeta> programMetas) {
-
+        long startTime = System.currentTimeMillis();
+        long count = 0;
+        
         for (ProgramMeta programMeta : programMetas) {
             StaffProgramAssociation staffProgramAssociation;
             
@@ -236,7 +238,11 @@ public class InterchangeStaffAssociationGenerator {
             }
 
             interchangeObjects.add(staffProgramAssociation);
+            count++;
         }
+        
+        System.out.println("generated " + count + " StaffProgramAssociation objects in: "
+                + (System.currentTimeMillis() - startTime));
         
     }
 }
