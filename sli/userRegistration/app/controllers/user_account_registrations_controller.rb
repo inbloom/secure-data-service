@@ -1,4 +1,4 @@
-
+require 'rest-client'
 class UserAccountRegistrationsController < ApplicationController
   # GET /user_account_registrations/new
   # GET /user_account_registrations/new.json
@@ -23,7 +23,8 @@ class UserAccountRegistrationsController < ApplicationController
         format.html { render action: "new" }
         format.json { render json: @user_account_registration.errors, status: :unprocessable_entity }
       else
-         @user_account_registration.save
+        url=APP_CONFIG['api_base']
+        RestClient.post(url,@user_account_registration.to_json,:content_type => :json, :accept => :json)
       end
     end
   end
