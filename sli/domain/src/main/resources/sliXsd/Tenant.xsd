@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
+    attributeFormDefault="qualified">
+
+    <xs:element name="tenant">
+        <xs:complexType>
+            <xs:annotation>
+                <xs:appinfo>
+                    <sli:SecuritySphere>Admin</sli:SecuritySphere>
+                </xs:appinfo>
+            </xs:annotation>
+
+            <xs:sequence>
+                <xs:element name="tenantId" type="xs:string" minOccurs="1" />
+                <xs:element name="landingZone" type="landingZone" maxOccurs="unbounded" />
+            </xs:sequence>
+
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="landingZone">
+        <xs:sequence>
+            <xs:element name="educationOrganization" type="xs:string" minOccurs="1" />
+            <xs:element name="path" type="xs:string" minOccurs="1" />
+            <xs:element name="ingestionServer" type="xs:string" minOccurs="1" />
+            <xs:element name="desc" type="xs:string" minOccurs="0" />
+            <xs:element name="userNames" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+   
+</xs:schema>
