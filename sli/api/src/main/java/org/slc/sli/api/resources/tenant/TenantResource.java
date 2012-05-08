@@ -47,7 +47,7 @@ public class TenantResource extends DefaultCrudEndpoint {
     public static final String LZ_EDUCATION_ORGANIZATION = "educationOrganization";
     public static final String LZ_INGESTION_SERVER = "ingestionServer";
     public static final String LZ_PATH = "path";
-    public static final String LZ_USER_NAME = "userName";
+    public static final String LZ_USER_NAMES = "userNames";
     public static final String LZ_DESC = "desc";
     //TODO: validate LandingZone data lengths, etc?
 

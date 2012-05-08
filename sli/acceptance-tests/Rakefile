@@ -236,6 +236,11 @@ task :ingestionAcceptanceSdsTest do
   runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
 end
 
+desc "Run Ingestion Tenant Test"
+task :ingestionTenantTest do
+  runTests("test/features/ingestion/features/ingestion_tenant.feature")
+end
+
 desc "Run Ingestion Session Test"
 task :ingestionSessionTest do
   runTests("test/features/ingestion/features/ingestion_session.feature")
