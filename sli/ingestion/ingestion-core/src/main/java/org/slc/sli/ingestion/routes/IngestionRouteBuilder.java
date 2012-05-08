@@ -15,8 +15,8 @@ import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
 import org.slc.sli.ingestion.processors.MaestroOutboundProcessor;
-import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
+import org.slc.sli.ingestion.processors.StagedDataPersistenceProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.XmlFileProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
@@ -51,7 +51,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     PurgeProcessor purgeProcessor;
 
     @Autowired(required = true)
-    PersistenceProcessor persistenceProcessor;
+    StagedDataPersistenceProcessor persistenceProcessor;
 
     @Autowired
     TransformationProcessor transformationProcessor;
@@ -101,6 +101,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
 
+        if (loadDefaultTenants) {
+            //populate the tenant collection with a default set of tenants
+            tenantPopulator.populateDefaultTenants();
+        }
 
         for (LocalFileSystemLandingZone lz : landingZoneManager.getLandingZones()) {
             configureLandingZonePollers(workItemQueueUri, lz);
@@ -116,7 +120,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         buildMaestroRoutes(maestroQueueUri, pitNodeQueueUri);
 
-        configurePitNodes(pitNodeQueueUri );
+        configurePitNodes(pitNodeQueueUri);
 
     }
 

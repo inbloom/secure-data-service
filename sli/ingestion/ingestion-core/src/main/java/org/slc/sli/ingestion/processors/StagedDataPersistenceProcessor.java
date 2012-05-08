@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.Bytes;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 import org.apache.camel.Exchange;
@@ -17,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.performance.Profiled;
-import org.slc.sli.dal.MongoIterable;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
@@ -30,6 +31,7 @@ import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.Translator;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
+import org.slc.sli.ingestion.dal.NeutralRecordReadConverter;
 import org.slc.sli.ingestion.handler.EntityPersistHandler;
 import org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
@@ -106,6 +108,8 @@ public class StagedDataPersistenceProcessor implements Processor {
 
             String collectionToProcess = getStagedCollectionName(newJob, workNote.getCollection());
 
+            LOG.info("PERSISTING DATA IN COLLECTION: {}", collectionToProcess);
+
             processAndMeasureResource(workNote.getCollection(), collectionToProcess, newJob, stage);
 
             exchange.getIn().setHeader("IngestionMessageType", MessageType.DONE.name());
@@ -114,8 +118,6 @@ public class StagedDataPersistenceProcessor implements Processor {
             handleProcessingExceptions(exception, exchange, batchJobId);
         } finally {
             if (newJob != null) {
-                cleanupStagingDbForJob(newJob);
-
                 BatchJobUtils.stopStageAndAddToJob(stage, newJob);
                 batchJobDAO.saveBatchJob(newJob);
             }
@@ -144,18 +146,17 @@ public class StagedDataPersistenceProcessor implements Processor {
         try {
 
             BasicDBObject query = new BasicDBObject("batchJobId", job.getId());
-            Iterable<DBObject> cursor = getCollectionIterable(transformedCollectionName, query, job.getId());
+            DBCursor cursor = getCollectionIterable(transformedCollectionName, query, job.getId());
 
+            NeutralRecordReadConverter nrConverter = new NeutralRecordReadConverter();
 
             for (DBObject record : cursor) {
-                String type = ((DBObject) record.get("type")).toString();
 
-                NeutralRecord neutralRecord = (NeutralRecord) record;
+                NeutralRecord neutralRecord = nrConverter.convert(record);
 
-                fatalErrorMessage = "ERROR: Fatal problem saving records to database: \n" + "\tEntity\t" + type + "\n";
+                fatalErrorMessage = "ERROR: Fatal problem saving records to database: \n" + "\tEntity\t" + collectionName + "\n";
 
                 if (!collectionName.equals(transformedCollectionName)) {
-
                     numFailed += processTransformableNeutralRecord(neutralRecord, job, encounteredStgCollections, errorReportForCollection);
                 } else {
                     numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, getTenantId(job), errorReportForCollection);
@@ -290,7 +291,10 @@ public class StagedDataPersistenceProcessor implements Processor {
                 collectionName + "_transformed", job.getId());
 
         if (collectionExists) {
-            return (collectionName + "_transformed");
+            if (neutralRecordMongoAccess.getRecordRepository().count(collectionName, new NeutralQuery()) > 0) {
+                LOG.info("FOUND TRANSFORMED COLLECTION WITH MORE THEN 0 RECORD = " + collectionName);
+                return (collectionName + "_transformed");
+            }
         }
         return collectionName;
     }
@@ -350,8 +354,13 @@ public class StagedDataPersistenceProcessor implements Processor {
         this.persistedCollections = persistedCollections;
     }
 
-    protected Iterable<DBObject> getCollectionIterable(String collectionName, DBObject query, String jobId) {
+    protected DBCursor getCollectionIterable(String collectionName, DBObject query, String jobId) {
         DBCollection col = neutralRecordMongoAccess.getRecordRepository().getCollectionForJob(collectionName, jobId);
-        return new MongoIterable(col, query, 1000);
+
+        DBCursor dbcursor = col.find(query);  //new DBCursor(col, query, query);
+        dbcursor.addOption(Bytes.QUERYOPTION_NOTIMEOUT);
+        dbcursor.batchSize(1000);
+
+        return dbcursor;
     }
 }
