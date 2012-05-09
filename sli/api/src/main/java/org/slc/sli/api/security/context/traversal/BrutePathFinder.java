@@ -123,8 +123,8 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap.put(EntityNames.EDUCATION_ORGANIZATION,
                 SecurityNodeBuilder.buildNode(EntityNames.EDUCATION_ORGANIZATION)
                         .addConnection(EntityNames.STAFF, "staffReference", ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
-                        .addConnection(EntityNames.SCHOOL, "", "")
                         .addConnection(EntityNames.STUDENT, "studentId", ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, studentGracePeriodNodeFilter)
+                        .addConnection(EntityNames.SCHOOL, "", "")
                         .addConnection(EntityNames.PROGRAM, "programReference", "") //TODO: fix XSD
                         .addConnection(EntityNames.SECTION, "schoolId", "")
                         .construct());
@@ -148,6 +148,11 @@ public class BrutePathFinder implements SecurityPathFinder {
                 EntityNames.STAFF + EntityNames.SESSION,
                 Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
                         nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.SESSION)));
+
+        prePath.put(
+                EntityNames.STAFF + EntityNames.TEACHER,
+                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
+                		nodeMap.get(EntityNames.SCHOOL), nodeMap.get(EntityNames.TEACHER)));
 
         prePath.put(
                 EntityNames.TEACHER + EntityNames.TEACHER,
