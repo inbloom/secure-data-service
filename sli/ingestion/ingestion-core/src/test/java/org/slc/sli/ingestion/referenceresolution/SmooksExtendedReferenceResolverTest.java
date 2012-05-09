@@ -2,7 +2,6 @@ package org.slc.sli.ingestion.referenceresolution;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
@@ -16,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.ingestion.IngestionTest;
+
 /**
  *
  * @author tke
@@ -27,77 +28,26 @@ public class SmooksExtendedReferenceResolverTest {
 
     @Autowired
     SmooksExtendedReferenceResolver referenceFactory;
-    @Test
-    public void test() throws IOException {
-        String testXML = "<StudentSectionAssociation>"
-                            + "<StudentReference>"
-                                + "<StudentIdentity>"
-                                    + "<StudentUniqueStateId>"
-                                        + "testing"
-                                  + "</StudentUniqueStateId>"
-                                  + "</StudentIdentity>"
-                                + "</StudentReference>"
-                                + "<SectionReference>"
-                                    + "<SectionIdentity>"
-                                        + "<UniqueSectionCode>"
-                                            + "testing"
-                                        + "</UniqueSectionCode>"
-                                     + "</SectionIdentity>"
-                                + "</SectionReference>"
-                                + "</StudentSectionAssociation>";
 
-        String expectedXML = "<StudentSectionAssociationIdentity>"
-                                + "<StudentIdentity>"
-                                    + "<StudentUniqueStateId>"
-                                        + "testing"
-                                    + "</StudentUniqueStateId>"
-                                + "</StudentIdentity>"
-                                + "<SectionIdentity>"
-                                    + "<UniqueSectionCode>"
-                                        + "testing"
-                                    + "</UniqueSectionCode>"
-                                + "</SectionIdentity>"
-                             + "</StudentSectionAssociationIdentity>";
-
-
-        File content = null;
+    private void test(File content, File expected, String xpath) throws IOException {
         File result = null;
-
         try {
-            content = createFile(testXML);
+            result = referenceFactory.resolve(xpath, content);
 
-            result = referenceFactory.resolve("/InterchangeStudentGrade/StudentGradebookEntry/StudentSectionAssociationReference", content);
-
+            String expectedXML = readFromFile(expected);
             String actualXML = readFromFile(result);
 
+            expectedXML = expectedXML.replaceAll("\\n", "");
+            expectedXML = expectedXML.replaceAll("\\s+", "");
             actualXML = actualXML.replaceAll("\\n", "");
             actualXML = actualXML.replaceAll("\\s+", "");
 
             Assert.assertEquals(expectedXML, actualXML);
         } finally {
-            if (content != null) {
-                content.delete();
-            }
-
             if (result != null) {
                 result.delete();
             }
         }
-    }
-
-    private File createFile(String content) throws IOException {
-        File contentFile = File.createTempFile("test", ".xml");
-
-        FileWriter writer = null;
-        try {
-            writer = new FileWriter(contentFile);
-
-            IOUtils.write(content, writer);
-        } finally {
-            IOUtils.closeQuietly(writer);
-        }
-
-        return contentFile;
     }
 
     private String readFromFile(File file) throws IOException {
@@ -114,4 +64,10 @@ public class SmooksExtendedReferenceResolverTest {
         }
     }
 
+    @Test
+    public void testResolution() throws IOException {
+        File input = IngestionTest.getFile("idRefResolutionData/InterchangeStudentGradeStudentGradebookEntryStudentSectionAssociationReference_input.xml");
+        File expected = IngestionTest.getFile("idRefResolutionData/InterchangeStudentGradeStudentGradebookEntryStudentSectionAssociationReference_expected.xml");
+        test(input, expected, "/InterchangeStudentGrade/StudentGradebookEntry/StudentSectionAssociationReference");
+    }
 }
