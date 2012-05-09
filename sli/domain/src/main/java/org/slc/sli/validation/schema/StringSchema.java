@@ -3,8 +3,8 @@ package org.slc.sli.validation.schema;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.regex.Pattern;
 
+import org.owasp.esapi.reference.validation.BaseValidationRule;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -25,38 +25,38 @@ import org.slc.sli.validation.ValidationError.ErrorType;
 @Component
 public class StringSchema extends NeutralSchema {
 
-	private List<Pattern> blacklistPatterns;
+	private List<BaseValidationRule> validationRuleList;
 
     // Constructors
     public StringSchema() {
-        this(NeutralSchemaType.STRING.getName(), new ArrayList<String>());
+        this(NeutralSchemaType.STRING.getName(), new ArrayList<BaseValidationRule>());
     }
 
     public StringSchema(String xsdType) {
-    	this(xsdType, new ArrayList<String>());
+    	this(xsdType, new ArrayList<BaseValidationRule>());
     }
 
-    public StringSchema(List<String> validationBlacklist) {
-    	this(NeutralSchemaType.STRING.getName(), validationBlacklist);
+    public StringSchema(List<BaseValidationRule> validationRuleList) {
+    	this(NeutralSchemaType.STRING.getName(), validationRuleList);
     }
 
-    public StringSchema(String xsdType, List<String> validationBlacklist) {
+    public StringSchema(String xsdType, List<BaseValidationRule> validationRuleList) {
     	super(xsdType);
-    	initializeBlacklistPatterns(validationBlacklist);
+    	this.validationRuleList = validationRuleList;
     }
 
-    private void initializeBlacklistPatterns(List<String> validationBlacklist) {
-    	blacklistPatterns = new ArrayList<Pattern>();
-
-    	if (validationBlacklist == null) {
-    		return;
-    	}
-
-    	for (String patternStr : validationBlacklist) {
-    		Pattern p = Pattern.compile(patternStr, Pattern.CASE_INSENSITIVE);
-    		blacklistPatterns.add(p);
-    	}
-    }
+//    private void initializeBlacklistPatterns(List<String> validationBlacklist) {
+//    	blacklistPatterns = new ArrayList<Pattern>();
+//
+//    	if (validationBlacklist == null) {
+//    		return;
+//    	}
+//
+//    	for (String patternStr : validationBlacklist) {
+//    		Pattern p = Pattern.compile(patternStr, Pattern.CASE_INSENSITIVE);
+//    		blacklistPatterns.add(p);
+//    	}
+//    }
 
     // Methods
 
@@ -130,8 +130,8 @@ public class StringSchema extends NeutralSchema {
             }
         }
         if (!isWhitelisted()) {
-            for (Pattern p : blacklistPatterns) {
-            	if (p.matcher(data).find()) {
+            for (BaseValidationRule validationRule : validationRuleList) {
+            	if (!validationRule.isValid("StringSchemaContext", data)) {
             		return false;
             	}
             }
