@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -19,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
@@ -66,11 +64,6 @@ public class OnboardingResource {
     public static final String APP_IDS = "appIds";
     public static final List<String> COMMON_APP_NAMES = Arrays.asList("Dashboard", "Databrowser");
 
-    @PostConstruct
-    public void init() {
-        EntityDefinition def = store.lookupByResourceName(EntityNames.EDUCATION_ORGANIZATION);
-    }
-
     /**
      * Provision a landing zone for the provide educational organization.
      *
@@ -114,6 +107,8 @@ public class OnboardingResource {
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(STATE_EDORG_ID, "=", orgId));
+        query.addCriteria(new NeutralCriteria("metaData." + ResourceConstants.ENTITY_METADATA_TENANT_ID, "=", tenantId,
+                false));
 
         if (repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query) != null) {
             return Response.status(Status.CONFLICT).build();
@@ -140,7 +135,7 @@ public class OnboardingResource {
         Map<String, Object> meta = new HashMap<String, Object>();
         meta.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, tenantId);
 
-        Entity e = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
+        Entity e = repo.create(EntityNames.EDUCATION_ORGANIZATION, body, meta, EntityNames.EDUCATION_ORGANIZATION);
         if (e == null) {
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
