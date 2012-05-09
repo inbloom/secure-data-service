@@ -4,7 +4,7 @@ class EulasController < ApplicationController
   # GET /eulas
   # GET /eulas.json
   def index
-    @eulas = Eula.new
+    @eula = Eula.new
 
     respond_to do |format|
       format.html # index.html.erb
