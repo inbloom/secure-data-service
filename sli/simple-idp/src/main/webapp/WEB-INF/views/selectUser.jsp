@@ -38,6 +38,8 @@
 		<div class='form-container'>
 			<form id="selectUser_form" name="selectUser_form" action="selectUser" method="post"
 				class="form-horizontal">
+				<input type="hidden" name="realm" value="${realm}"/>
+				<input type="hidden" name="SAMLRequest" value="${SAMLRequest}"/>
 				<fieldset>
 					<div class="control-group">
 						<label for="userId" class="control-label">UserId:</label>

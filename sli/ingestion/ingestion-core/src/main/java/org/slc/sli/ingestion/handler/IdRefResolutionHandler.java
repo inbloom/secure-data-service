@@ -47,7 +47,7 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
-    private Map<String, String> strategyMap;
+    private Map<String, ReferenceResolutionStrategy> strategyMap;
     private int resolveInEachParse;
 
     private static final QName ID_ATTR = new QName("id");
@@ -216,6 +216,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             XmlEventBrowser replaceRefContent = new XmlEventBrowser() {
 
+            String interchangeName = "";
+
             @Override
             public boolean isSupported(XMLEvent xmlEvent) {
                 return true;
@@ -224,10 +226,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             @Override
             public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
                 String contentToAdd = null;
-
-                String interchangeName = "";
-                //String parentElement = "";
-
 
 
                 if (xmlEvent.isStartElement()) {
@@ -244,10 +242,9 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                     Attribute id = start.getAttributeByName(ID_ATTR);
                     Attribute ref = start.getAttributeByName(REF_ATTR);
+                    Attribute resolved = start.getAttributeByName(REF_RESOLVED_ATTR);
 
-
-
-                    if (ref != null && refObject.contains(ref.getValue())) {
+                    if (ref != null && refObject.contains(ref.getValue()) && resolved == null) {
 
                         wr.add(xmlEvent);
 
@@ -264,11 +261,12 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                         wr.add(event);
                                     }
                             } else {
-                                wr.add(xmlEvent);
                                 wr.add(XMLEventFactory.newInstance().createAttribute(REF_RESOLVED_ATTR, "false"));
                                 //logError(elementName + " has not been configured to use a reference resolution strategy.", errorReport, log);
                             }
 
+                                } else {
+                                    wr.add(XMLEventFactory.newInstance().createAttribute(REF_RESOLVED_ATTR, "false"));
                                 }
                         }
                     } else {
@@ -383,9 +381,10 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         ReferenceResolutionStrategy resolutionStrategy;
 
             String parentElement = parentStack.elementAt((parentStack.size() - 2));
-            resolutionStrategy = applicationContext.getBean(strategyMap.get(elementName), ReferenceResolutionStrategy.class);
+            resolutionStrategy = strategyMap.get(elementName);
 
-            String resolvedReference = resolutionStrategy.resolve(interchangeName, parentElement, elementName, idContent);
+            String resolvedReference = null;
+            //resolutionStrategy.resolve("/ " + interchangeName + "/" + parentElement + "/" + elementName, idContent);
             if (resolvedReference == null) {
                 events.add(XMLEventFactory.newInstance().createAttribute(REF_RESOLVED_ATTR, "false"));
             } else {
@@ -510,11 +509,11 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return attribute;
     }
 
-    public Map<String, String> getStrategyMap() {
+    public Map<String, ReferenceResolutionStrategy> getStrategyMap() {
         return strategyMap;
     }
 
-    public void setStrategyMap(Map<String, String> strategyMap) {
+    public void setStrategyMap(Map<String, ReferenceResolutionStrategy> strategyMap) {
         this.strategyMap = strategyMap;
     }
 

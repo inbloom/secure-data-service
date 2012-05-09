@@ -53,7 +53,7 @@ class RealmsController < ApplicationController
        end
 
        if success
-         format.html { redirect_to realm_editors_path, notice: 'Realm was successfully updated.' }
+         format.html { redirect_to edit_realm_management_path, notice: 'Realm was successfully updated.' }
          format.json { render json: @realm, status: :created, location: @realm }
        else
          format.json { render json: errorMsg, status: :unprocessable_entity }
@@ -75,7 +75,7 @@ class RealmsController < ApplicationController
 
      respond_to do |format|
        if @realm.save
-         format.html { redirect_to realm_editors_path, notice: 'Realm was successfully created.' }
+         format.html { redirect_to realm_management_index_path, notice: 'Realm was successfully created.' }
          format.json { render json: @realm, status: :created, location: @realm }
        else
          format.html { render action: "new" }
@@ -91,7 +91,7 @@ class RealmsController < ApplicationController
     @realm.destroy
 
     respond_to do |format|
-      format.html { redirect_to realm_editors_url, notice: "Realm was successfully deleted." }
+      format.html { redirect_to new_realm_management_path, notice: "Realm was successfully deleted." }
       format.json { head :ok }
     end
   end
