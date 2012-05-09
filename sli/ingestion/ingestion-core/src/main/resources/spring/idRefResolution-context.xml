@@ -14,11 +14,6 @@
       </bean>
     </entry>
 
-    <entry key="InterchangeEducationOrgCalenderSessionGradingPeriodReference">
-        <bean class="org.milyn.Smooks">
-            <constructor-arg type="java.lang.String" value="idRefResolution/InterchangeSchoolAssociation/Session/GradingPeriodReference.xml" />
-        </bean>
-    </entry>
   </util:map>
 
   <bean id="smooksExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SmooksExtendedReferenceResolver">
