@@ -36,17 +36,20 @@ class UserAccountValidationController < ApplicationController
   # GET /user_account_registrations/validate/1
   # GET /user_account_registrations/validate/1.json
   def show
-    
+    # TODO: Using Eula.new here becuause of issues with UserAccountValidation. 
+    #       Fix configuration of UserAccountValidation, or use more generic handler 
+    @user_account_validation = Eula.new
+
     url = "http://localhost:8080/api/rest/v1/userAccounts/" + params[:id]
     
     res = RestClient.get(url, REST_HEADER){|response, request, result| response }
     
     if (res.code == 200)
       parsedJsonHash = JSON.parse(res.body)
-      if (parsedJsonHash["validated"] == "true")
+      if (parsedJsonHash["validated"] == true)
         @validation_result = ACCOUNT_PREVIOUSLY_VERIFIED
       else
-        parsedJsonHash["validated"] = "true"
+        parsedJsonHash["validated"] = true
         putRes = RestClient.put(url, parsedJsonHash.to_json, REST_HEADER){|response, request, result| response }
         if (putRes.code == 204)
           @validation_result = ACCOUNT_VERIFICATION_COMPLETE
@@ -59,10 +62,6 @@ class UserAccountValidationController < ApplicationController
     else
       @validation_result = UNEXPECTED_VERIFICATION_ERROR
     end 
-    
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @validation_result }
-    end
+
   end # end def show
 end

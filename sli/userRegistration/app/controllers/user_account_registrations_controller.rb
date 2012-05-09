@@ -96,7 +96,7 @@ private
     #redirect cancel
    def check_for_cancel
        if params[:commit] == "Cancel"
-         redirect_to  APP_CONFIG['redirect_cancel_handler']
+         redirect_to  APP_CONFIG['redirect_slc_url']
        end
      end
 
