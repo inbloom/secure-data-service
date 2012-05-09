@@ -69,7 +69,7 @@ public class TenantResourceTest {
         uriInfo = ResourceTestUtil.buildMockUriInfo(null);
 
         // inject administrator security context for unit testing
-        injector.setAdminContextWithElevatedRights();
+        injector.setRealmAdminContext();
 
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
@@ -88,6 +88,21 @@ public class TenantResourceTest {
         landingZone.put(TenantResource.LZ_DESC, "Landing zone for IL_DAYBREAK");
         landingZone.put(TenantResource.LZ_PATH, "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\IL-STATE-DAYBREAK");
         List<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
+        landingZones.add(landingZone);
+        entity.put(TenantResource.LZ, landingZones);
+        return entity;
+    }
+
+    private Map<String, Object> createTestAppendEntity() {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put(TenantResource.TENANT_ID, TENANT_1);
+        Map<String, Object> landingZone = new HashMap<String, Object>();
+        landingZone.put(TenantResource.LZ_INGESTION_SERVER, "example.com");
+        landingZone.put(TenantResource.LZ_EDUCATION_ORGANIZATION, ED_ORG_2);
+        landingZone.put(TenantResource.LZ_DESC, "Landing zone for IL_SUNSET");
+        landingZone.put(TenantResource.LZ_PATH, "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\IL-STATE-SUNSET");
+        List<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
+        landingZones.add(landingZone);
         entity.put(TenantResource.LZ, landingZones);
         return entity;
     }
@@ -101,6 +116,7 @@ public class TenantResourceTest {
         landingZone.put(TenantResource.LZ_DESC, "Landing zone for IL_SUNSET");
         landingZone.put(TenantResource.LZ_PATH, "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\IL-STATE-SUNSET");
         List<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
+        landingZones.add(landingZone);
         entity.put(TenantResource.LZ, landingZones);
         return entity;
     }
@@ -114,6 +130,7 @@ public class TenantResourceTest {
         landingZone.put(TenantResource.LZ_DESC, "Landing zone for NY");
         landingZone.put(TenantResource.LZ_PATH, "C:\\code\\sli\\sli\\ingestion\\ingestion-service\\target\\ingestion\\lz\\inbound\\NY-STATE-NYC");
         List<Map<String, Object>> landingZones = new ArrayList<Map<String, Object>>();
+        landingZones.add(landingZone);
         entity.put(TenantResource.LZ, landingZones);
         return entity;
     }
@@ -125,6 +142,31 @@ public class TenantResourceTest {
 
         String id = ResourceTestUtil.parseIdFromLocation(response);
         assertNotNull("ID should not be null", id);
+    }
+
+    @Test
+    public void testCreateAppends() {
+        Response response = tenantResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
+        assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
+        String id1 = ResourceTestUtil.parseIdFromLocation(response);
+        assertNotNull("ID should not be null", id1);
+
+        response = tenantResource.create(new EntityBody(createTestAppendEntity()), httpHeaders, uriInfo);
+        assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
+        String id2 = ResourceTestUtil.parseIdFromLocation(response);
+        assertNotNull("ID should not be null", id2);
+
+        assertEquals("Both creates should return same id", id1, id2);
+
+        //try to get it
+        Response getResponse = tenantResource.read(id1, httpHeaders, uriInfo);
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
+        EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
+        EntityBody body = (EntityBody) entityResponse.getEntity();
+        assertNotNull("Should return an entity", body);
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> landingZones = (List<Map<String, Object>>) body.get(TenantResource.LZ);
+        assertEquals("Should have 2 landing zones", 2, landingZones.size());
     }
 
     @Test
