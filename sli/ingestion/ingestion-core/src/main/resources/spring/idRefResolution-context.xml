@@ -13,6 +13,12 @@
           value="idRefResolution/InterchangeStudentGrade/StudentGradebookEntry/StudentSectionAssociationReference.xml" />
       </bean>
     </entry>
+
+    <entry key="InterchangeEducationOrgCalenderSessionGradingPeriodReference">
+        <bean class="org.milyn.Smooks">
+            <constructor-arg type="java.lang.String" value="idRefResolution/InterchangeSchoolAssociation/Session/GradingPeriodReference.xml" />
+        </bean>
+    </entry>
   </util:map>
 
   <bean id="smooksExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SmooksExtendedReferenceResolver">
@@ -40,5 +46,6 @@
     <entry key="LearningObjectiveReference" value-ref="simpleReferenceResolver" />
     <entry key="SectionReference" value-ref="simpleReferenceResolver" />
     <entry key="GradingPeriodReference" value-ref="simpleReferenceResolver" />
+
   </util:map>
 </beans>

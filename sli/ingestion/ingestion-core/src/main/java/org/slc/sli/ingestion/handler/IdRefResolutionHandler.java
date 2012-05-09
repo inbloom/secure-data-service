@@ -242,8 +242,9 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                     Attribute id = start.getAttributeByName(ID_ATTR);
                     Attribute ref = start.getAttributeByName(REF_ATTR);
+                    Attribute resolved = start.getAttributeByName(REF_RESOLVED_ATTR);
 
-                    if (ref != null && refObject.contains(ref.getValue())) {
+                    if (ref != null && refObject.contains(ref.getValue()) && resolved == null) {
 
                         wr.add(xmlEvent);
 
@@ -260,11 +261,12 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                         wr.add(event);
                                     }
                             } else {
-                                wr.add(xmlEvent);
                                 wr.add(XMLEventFactory.newInstance().createAttribute(REF_RESOLVED_ATTR, "false"));
                                 //logError(elementName + " has not been configured to use a reference resolution strategy.", errorReport, log);
                             }
 
+                                } else {
+                                    wr.add(XMLEventFactory.newInstance().createAttribute(REF_RESOLVED_ATTR, "false"));
                                 }
                         }
                     } else {
