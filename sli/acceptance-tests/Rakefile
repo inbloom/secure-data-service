@@ -385,6 +385,11 @@ task :ingestionParallelTests do
  runTests("test/features/ingestion/features/ingestion_acceptance_parallel_test.feature")
 end
 
+desc "Run Ingestion for Dashboard Sad Path Tests"
+task :ingestionDashboardSadPathTest do
+  runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
+end
+
 ############################################################
 # Ingestion Offline Tool tests start
 ############################################################
@@ -1027,7 +1032,8 @@ task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
                          :dashboardSdsUserBasedViewsTests,
                          :dashboardSdsAttendanceTests,
                          :dashboardStudentSearchTests,
-                         :dashboardSdsTranscriptPanelTests] do
+                         :dashboardSdsTranscriptPanelTests,
+                         :dashboardSdsUploadConfigTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1089,6 +1095,11 @@ end
 desc "Run dashboard integrated Tests - Simple Search Tests"
 task :dashboardStudentSearchTests do
   runTests("test/features/dashboard/dash/student_search.feature")
+end
+
+desc "Run dashboard integrated Tests - Upload Config"
+task :dashboardSdsUploadConfigTests do
+  runTests("test/features/dashboard/dash/upload_config_sds.feature")
 end
 
 desc "Run dashboard student gradebook entry tests"

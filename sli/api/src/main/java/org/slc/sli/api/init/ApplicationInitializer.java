@@ -3,6 +3,7 @@ package org.slc.sli.api.init;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -11,6 +12,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.io.IOUtils;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -55,7 +57,7 @@ public class ApplicationInitializer {
                         is.close();
                     }
 
-                    writeApplicationToMongo(appData);
+                    writeApplicationToMongo(appData, sliProps.getProperty("bootstrap.app." + key + ".guid"));
                 }
 
             }
@@ -65,11 +67,23 @@ public class ApplicationInitializer {
         }
     }
 
-    private void writeApplicationToMongo(Map<String, Object> appData) {
+    private void writeApplicationToMongo(Map<String, Object> appData, String guid) {
         Entity app = findExistingApp(appData);
+        
+        if (guid != null && app != null && !app.getEntityId().equals(guid)) {
+            repository.delete(APP_RESOURCE, guid);
+            app = null;
+        }
+        
         if (app == null) {
             info("Creating boostrap application data for {}", appData.get("name"));
-            repository.create(APP_RESOURCE, appData);
+            
+            if (guid != null) {
+                Entity entity = new MongoEntity(APP_RESOURCE, guid, appData, new HashMap<String, Object>());
+                repository.update(APP_RESOURCE, entity);
+            } else {
+                repository.create(APP_RESOURCE, appData);
+            }
         } else {
             //check if we need to update it
             long oldAppHash = InitializerUtils.checksum(app.getBody());
