@@ -1,7 +1,10 @@
 require 'test_helper'
 
 class UserAccountRegistrationTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+   test "user info page rendered successfully" do
+     assert true
+   end
+   test "user info page submitted successfully" do
+    assert true
+  end
 end
