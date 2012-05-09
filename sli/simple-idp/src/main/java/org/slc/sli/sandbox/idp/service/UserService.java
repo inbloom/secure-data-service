@@ -123,7 +123,7 @@ public class UserService {
         filter.and(new EqualsFilter("objectclass", groupObjectClass)).and(
                 new EqualsFilter(groupSearchAttribute, userId));
         @SuppressWarnings("unchecked")
-        List<String> groups = (List<String>) ldapTemplate.search(dn, filter.toString(), new GroupContextMapper());
+        List<String> groups = ldapTemplate.search(dn, filter.toString(), new GroupContextMapper());
         user.roles = groups;
         return user;
     }
@@ -137,6 +137,7 @@ public class UserService {
      * 
      */
     static class PersonContextMapper implements ContextMapper {
+        @Override
         public Object mapFromContext(Object ctx) {
             DirContextAdapter context = (DirContextAdapter) ctx;
             User user = new User();

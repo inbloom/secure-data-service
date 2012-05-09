@@ -10,14 +10,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.security.OauthSessionManager;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.ClientRoleResolver;
-import org.slc.sli.api.security.roles.Role;
-import org.slc.sli.api.security.roles.RoleRightAccess;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -29,6 +21,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.OauthSessionManager;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.ClientRoleResolver;
+import org.slc.sli.api.security.roles.Role;
+import org.slc.sli.api.security.roles.RoleRightAccess;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 
 /**
  * System resource class for security session context.
@@ -127,6 +128,7 @@ public class SecuritySessionResource {
             sessionDetails.put("adminRealm", principal.getAdminRealm());
             sessionDetails.put("edOrg", principal.getEdOrg());
             sessionDetails.put("sliRoles", roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
+            sessionDetails.put("tenantId", principal.getTenantId());
 
             List<Role> allRoles = SecurityUtil.sudoRun(new SecurityTask<List<Role>>() {
                 @Override
