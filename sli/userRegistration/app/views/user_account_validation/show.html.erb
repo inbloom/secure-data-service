@@ -1,7 +1,16 @@
+<%= form_for(@user_account_validation) do |f| %>
+
 <p id="notice"><%= notice %></p>
 
 <p>
   <H1><b><%= @validation_result['status'] %></b></H1>
   <br>
   <%= @validation_result['message'] %>
+
+  <br/><br/>
+  <%= f.submit "Ok", 
+    :id => "okButton" %>
+
 </p>
+
+<% end %>
