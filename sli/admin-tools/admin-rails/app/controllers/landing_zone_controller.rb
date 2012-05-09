@@ -13,6 +13,7 @@ class LandingZoneController < ApplicationController
     tenant = get_tenant
     if (tenant == nil)
       render_403
+      return
     end
 
     ed_org_id = params[:ed_org]
