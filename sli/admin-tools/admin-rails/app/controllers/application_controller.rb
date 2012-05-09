@@ -57,10 +57,10 @@ class ApplicationController < ActionController::Base
         session[:adminRealm] = check["adminRealm"]
         session[:roles] = check["sliRoles"]
         session[:edOrg] = check["edOrg"]
-        if is_operator? and not is_developer?
-          session = nil
-          render_403
-        end
+        #if is_operator? and not is_developer?
+          #session = nil
+          #render_403
+        #end
       else
         admin_realm = "#{APP_CONFIG['admin_realm']}"
         redirect_to oauth.authorize_url + "&Realm=" + CGI::escape(admin_realm) + "&state=" + CGI::escape(form_authenticity_token)
@@ -94,4 +94,12 @@ class ApplicationController < ActionController::Base
     session[:roles].include? "SLC Operator"
   end
 
+  def is_lea_admin?
+    session[:roles].include? "LEA Administrator"
+  end
+
+  def is_slc_admin?
+    session[:roles].include? "SLI Administrator"
+  end
+  
 end
