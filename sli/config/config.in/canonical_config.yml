@@ -84,7 +84,7 @@ default:
         sli.ingestion.queue.pit.keystorePassword:
 
 
-        sli.ingestion.nodeType: single
+        sli.ingestion.nodeType: standalone
         sli.ingestion.tenant.deriveTenants: true
         sli.ingestion.tenant.loadDefaultTenants: true
 
