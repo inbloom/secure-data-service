@@ -1,4 +1,7 @@
 class EulasController < ApplicationController
+  before_filter :cancel_redirect, :only => [:new, :create]
+  before_filter :ok, :only => [:new, :create]
+
   # GET /eulas
   # GET /eulas.json
   def index
@@ -76,4 +79,19 @@ class EulasController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+private
+
+  def cancel_redirect
+    if params[:commit] == "Reject"
+      redirect_to APP_CONFIG['redirect_slc_url']
+    end
+  end
+
+  def ok
+    if params[:commit] == "Ok"
+      redirect_to APP_CONFIG['redirect_slc_url']
+    end
+  end
+
 end
