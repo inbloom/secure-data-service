@@ -14,6 +14,12 @@ Given /^I am a valid Super Administrator$/ do
   @pass = 'sunsetadmin1234'
 end
 
+When /^I try to authenticate on the Application Approval Tool$/ do
+  # NOTE approval tool and registration tool share the same url
+  step "I hit the Application Registration Tool URL"
+  step "I login"
+end
+
 When /^I try to authenticate on the Application Registration Tool$/ do
   step "I hit the Application Registration Tool URL"
   step "I login"
