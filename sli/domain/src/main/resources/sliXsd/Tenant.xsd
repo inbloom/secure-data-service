@@ -55,7 +55,7 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="userNames" minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="userNames" minOccurs="0" maxOccurs="unbounded">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:maxLength value="48" />
