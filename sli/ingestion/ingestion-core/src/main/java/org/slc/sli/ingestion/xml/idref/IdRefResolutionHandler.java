@@ -244,20 +244,20 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                     newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, "false"));
                                 } else {
                                     contentToAdd = refContent.get(ref.getValue());
+                                    if (contentToAdd != null) {
+                                        String currentXPath = this.getCurrentXPath();
+                                        ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
 
-                                    String currentXPath = this.getCurrentXPath();
-                                    ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
+                                        if (rrs != null) {
+                                            File resolvedContent = rrs.resolve(currentXPath, contentToAdd);
 
-                                    if (rrs != null) {
-                                        File resolvedContent = rrs.resolve(currentXPath, contentToAdd);
-
-                                        if (resolvedContent != null && !resolvedContent.equals(contentToAdd)) {
-                                            resolvedContent.renameTo(contentToAdd);
+                                            if (resolvedContent != null && !resolvedContent.equals(contentToAdd)) {
+                                                resolvedContent.renameTo(contentToAdd);
+                                            }
+                                        } else {
+                                            LOG.debug("Current XPath [{}] is not supported", currentXPath);
                                         }
-                                    } else {
-                                        LOG.debug("Current XPath [{}] is not supported", currentXPath);
                                     }
-
                                     newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
                                             (contentToAdd == null) ? "false" : "true"));
                                 }
@@ -308,15 +308,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                 newXml = null;
             }
         } finally {
-            IOUtils.closeQuietly(out);
-
-            if (writer != null) {
-                try {
-                    writer.close();
-                } catch (XMLStreamException e) {
-                    writer = null;
-                }
-            }
+            closeResources(writer, out);
         }
 
         return newXml;
@@ -398,19 +390,13 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             writer.flush();
         } catch (Exception e) {
+            closeResources(writer, out);
             if (snippet != null) {
                 snippet.delete();
                 snippet = null;
             }
         } finally {
-            if (writer != null) {
-                try {
-                    writer.close();
-                } catch (XMLStreamException e) {
-                    writer = null;
-                }
-            }
-            IOUtils.closeQuietly(out);
+            closeResources(writer, out);
         }
 
         return snippet;
@@ -421,6 +407,21 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             @Override
             public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
+
+                StartElement start = xmlEvent.asStartElement();
+
+                @SuppressWarnings("unchecked")
+                Iterator<Attribute> attrs = start.getAttributes();
+                ArrayList<Attribute> newAttrs = new ArrayList<Attribute>();
+
+                while (attrs.hasNext()) {
+                    Attribute attribute = attrs.next();
+                    String attributeName = attribute.getName().getLocalPart();
+                    if (attribute != null && !attributeName.equals(ID_ATTR.getLocalPart())) {
+                        newAttrs.add(attrs.next());
+                    }
+                }
+                xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(), start.getNamespaces());
                 xmlEventWriter.add(xmlEvent);
             }
 
@@ -436,6 +437,19 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         };
 
         browse(contentToAdd, addToXml);
+    }
+
+    private void closeResources(XMLEventWriter writer, BufferedOutputStream out) {
+
+        if (writer != null) {
+            try {
+                writer.close();
+            } catch (XMLStreamException e) {
+                writer = null;
+            }
+        }
+        IOUtils.closeQuietly(out);
+
     }
 
     public Map<String, ReferenceResolutionStrategy> getSupportedResolvers() {
