@@ -14,7 +14,6 @@ import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.handler.IdRefResolutionHandler;
 import org.slc.sli.ingestion.handler.ReferenceResolutionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
@@ -24,6 +23,7 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 
 /**
  * Processes a XML file
