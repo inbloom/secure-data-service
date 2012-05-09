@@ -88,7 +88,8 @@ When /^I pass my valid username and password$/ do
 end
 
 Then /^I get message that I am not authorized$/ do
-  pending # express the regexp above with the code you wish you had
+  isForbidden = @driver.find_element(:xpath, './/body/title[text()="Not Authorized (403)"]')
+  assert(isForbidden != nil)
 end
 
 Then /^I am not logged into the application$/ do
