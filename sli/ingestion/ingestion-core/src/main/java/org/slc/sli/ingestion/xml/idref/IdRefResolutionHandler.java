@@ -29,14 +29,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
 
+import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.referenceresolution.ReferenceResolutionStrategy;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * @author okrook
  *
  */
-public class IdRefResolver {
-    public static final Logger LOG = LoggerFactory.getLogger(IdRefResolver.class);
+public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
+    public static final Logger LOG = LoggerFactory.getLogger(IdRefResolutionHandler.class);
 
     private static final QName ID_ATTR = new QName("id");
     private static final QName REF_ATTR = new QName("ref");
@@ -49,6 +53,18 @@ public class IdRefResolver {
     private static final XMLEventFactory EVENT_FACTORY = XMLEventFactory.newInstance();
 
     private Map<String, ReferenceResolutionStrategy> supportedResolvers;
+
+    @Override
+    protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+        File file = fileEntry.getFile();
+
+            file = process(file);
+
+        if (file != null) {
+            fileEntry.setFile(file);
+        }
+        return fileEntry;
+    }
 
     protected File process(File xml) {
         StopWatch sw = new StopWatch("Processing " + xml.getName());
@@ -74,7 +90,9 @@ public class IdRefResolver {
             sw.stop();
         } finally {
             for (File snippet : refContent.values()) {
-                snippet.delete();
+                if (snippet != null) {
+                    snippet.delete();
+                }
             }
         }
 

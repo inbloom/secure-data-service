@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion.handler;
+package org.slc.sli.ingestion.xml.idref;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,16 +26,16 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/ref-handler-context.xml" })
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class IdRefResolutionHandlerTest {
 
     @Autowired
     private IdRefResolutionHandler idRefResolutionHandler;
 
-    @Ignore
     @Test
+    @Ignore
     public void testListOfReferences() throws FileNotFoundException {
-        File inputFile = IngestionTest.getFile("ReferenceResolution/RefXml_sample.xml");
+        File inputFile = IngestionTest.getFile("ReferenceResolution/gradebook.xml");
         ErrorReport errorReport = Mockito.mock(ErrorReport.class);
         FileProcessStatus fileProcessStatus = Mockito.mock(FileProcessStatus.class);
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
