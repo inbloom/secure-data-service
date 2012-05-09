@@ -1,6 +1,9 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.lang.management.ManagementFactory;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Date;
 
 import org.apache.camel.Exchange;
@@ -49,7 +52,7 @@ public class ControlFilePreProcessor implements Processor {
 
     @Autowired
     private TenantDA tenantDA;
-    
+
     @Value("${sli.ingestion.tenant.deriveTenants}")
     private boolean deriveTenantId;
 
@@ -94,24 +97,33 @@ public class ControlFilePreProcessor implements Processor {
             ControlFileDescriptor controlFileDescriptor = new ControlFileDescriptor(controlFile, resolvedLandingZone);
 
             setExchangeHeaders(exchange, controlFileDescriptor, newBatchJob);
-            
+
+            byte[] ipAddr = null;
+            try {
+                InetAddress addr = InetAddress.getLocalHost();
+
+                // Get IP Address
+                ipAddr = addr.getAddress();
+
+            } catch (UnknownHostException e) {
+            }
             SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha MH
                     "", // user
                     "", // targetEdOrg
                     "processUsingNewBatchJob", // Alpha MH (actionUri)
                     "Ingestion", // Alpha MH (appId)
                     "", // origin
-                    "", // executedOn
+                    ipAddr[0]+"."+ipAddr[1]+"."+ipAddr[2]+"."+ipAddr[3], // executedOn
                     "", // Alpha MH (Credential - N/A for ingestion)
                     "", // userOrigin
                     new Date(), // Alpha MH (timeStamp)
-                    "", // processNameOrId
-                    "ControlFilePreProcessor.class", // className
+                    ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
+                    this.getClass().getName(), // className
                     LogLevelType.TYPE_INFO, // Alpha MH (logLevel)
                     "MESSAGE: Ingestion process started."); // Alpha MH (logMessage)
 
              audit(event);
-            
+
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
         } finally {
@@ -121,7 +133,7 @@ public class ControlFilePreProcessor implements Processor {
             }
         }
     }
-    
+
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());

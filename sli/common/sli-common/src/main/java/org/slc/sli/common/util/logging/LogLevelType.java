@@ -3,7 +3,7 @@ package org.slc.sli.common.util.logging;
 /**
  * Types of log levels
  *
- * @author okrook
+ * @author dshaw
  *
  */
 public enum LogLevelType {

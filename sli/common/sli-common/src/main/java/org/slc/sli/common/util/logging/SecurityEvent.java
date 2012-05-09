@@ -3,9 +3,9 @@ package org.slc.sli.common.util.logging;
 import java.util.Date;
 
 public class SecurityEvent {
-    
+
     private static final String delimiter = ",";
-    
+
     private String tenantId; // Alpha MH
 
     private String user;
@@ -25,20 +25,20 @@ public class SecurityEvent {
     private String userOrigin;
 
     private Date timeStamp; // Alpha MH
-    
+
     private String processNameOrId;
-    
+
     private String className;
-    
+
     private LogLevelType logLevel; // Alpha MH
-    
+
     private String logMessage; // Alpha MH
 
     public SecurityEvent() {
     }
 
-    public SecurityEvent(String tenantId, String user, String targetEdOrg, String actionUri, 
-            String appId, String origin, String executedOn, String credential, String userOrigin, 
+    public SecurityEvent(String tenantId, String user, String targetEdOrg, String actionUri,
+            String appId, String origin, String executedOn, String credential, String userOrigin,
             Date timeStamp, String processNameOrId, String className, LogLevelType logLevel, String logMessage) {
         this.tenantId = tenantId;
         this.user = user;
@@ -167,11 +167,11 @@ public class SecurityEvent {
     public void setLogMessage(String logMessage) {
         this.logMessage = logMessage;
     }
-    
+
     @Override
     public String toString(){
         String message;
-        
+
         message = tenantId + delimiter +
                 user + delimiter +
                 targetEdOrg + delimiter +
@@ -186,7 +186,7 @@ public class SecurityEvent {
                 className + delimiter +
                 logLevel.getName() + delimiter +
                 logMessage;
-         
+
         return message;
     }
 

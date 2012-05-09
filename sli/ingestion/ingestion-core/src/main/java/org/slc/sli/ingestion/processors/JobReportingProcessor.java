@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.management.ManagementFactory;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.util.Date;
@@ -334,18 +337,27 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void writeSecurityLog(LogLevelType messageType, String message) {
+        byte[] ipAddr = null;
+        try {
+            InetAddress addr = InetAddress.getLocalHost();
+
+            // Get IP Address
+            ipAddr = addr.getAddress();
+
+        } catch (UnknownHostException e) {
+        }
         SecurityEvent event = new SecurityEvent("",  // Alpha MH (tenantId - written in 'message')
                 "", // user
                 "", // targetEdOrg
                 "writeLine", // Alpha MH
                 "Ingestion", // Alpha MH (appId)
                 "", // origin
-                "", // executedOn
+                ipAddr[0]+"."+ipAddr[1]+"."+ipAddr[2]+"."+ipAddr[3], // executedOn
                 "", // Alpha MH (credential- N/A for ingestion)
                 "", // userOrigin
                 new Date(), // Alpha MH (timeStamp)
-                "", // processNameOrId
-                "JobReportingProcessor.class", // className
+                ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
+                this.getClass().getName(), // className
                 messageType, // Alpha MH (logLevel)
                 message); // Alpha MH (logMessage)
 
