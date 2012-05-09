@@ -1123,6 +1123,8 @@ nxteam:
         <<: *DASHBOARD-TEAM
     ingestion: &INGESTION-NXTEAM
         <<: *INGESTION-TEAM
+        sli.ingestion.queue.workItem.host: nxing.slidev.org
+        sli.ingestion.queue.maestro.host: nxing.slidev.org
         sli.ingestion.queue.pit.host: nxing.slidev.org
       
      
