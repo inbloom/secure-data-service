@@ -31,7 +31,7 @@ public class TenantPollingTimerTest extends CamelTestSupport {
         return new RouteBuilder() {
             @Override
             public void configure() throws Exception {
-                from("quartz://tenantPollingTimer?trigger.fireNow=true&trigger.repeatCount="+TenantPollingTimerTest.expectedCount+"&trigger.repeatInterval=100")
+                from("quartz://tenantPollingTimer?trigger.fireNow=true&trigger.repeatCount=" + TenantPollingTimerTest.expectedCount + "&trigger.repeatInterval=100")
                 .setBody().simple("TenantPollingTimer fired: ${header.firedTime}")
                 .log(LoggingLevel.DEBUG, "Job.PerformanceMonitor", "TenantPollingTimer fired: ${header.firedTime}")
                 .to("mock:result");

@@ -74,13 +74,12 @@ public class TenantRecord {
     }
     
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return super.hashCode();
     }
     
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         return this.toString().equals(o.toString());
     }
 }

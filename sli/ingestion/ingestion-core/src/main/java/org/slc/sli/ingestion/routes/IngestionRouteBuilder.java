@@ -89,7 +89,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     }
     
     private void configureTenantPollingTimerRoute() {
-        from("quartz://tenantPollingTimer?trigger.fireNow=true&trigger.repeatCount=-1&trigger.repeatInterval="+tenantPollingRepeatInterval)
+        from("quartz://tenantPollingTimer?trigger.fireNow=true&trigger.repeatCount=-1&trigger.repeatInterval=" + tenantPollingRepeatInterval)
             .setBody().simple("TenantPollingTimer fired: ${header.firedTime}")
             .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "TenantPollingTimer fired: ${header.firedTime}")
             .process(tenantProcessor);        

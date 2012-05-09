@@ -17,7 +17,7 @@ import org.slc.sli.ingestion.processors.ZipFileProcessor;
  * @author jtully
  *
  */
-public class LandingZoneRouteBuilder extends RouteBuilder{
+public class LandingZoneRouteBuilder extends RouteBuilder {
     
     //TODO is it possible to inject these?
     private ZipFileProcessor zipFileProcessor;
@@ -25,8 +25,8 @@ public class LandingZoneRouteBuilder extends RouteBuilder{
     
     private List<String> landingZonePaths;
     
-    public final static String CTRL_POLLER_PREFIX = "ctlFilePoller-";
-    public final static String ZIP_POLLER_PREFIX = "zipFilePoller-";
+    public static final String CTRL_POLLER_PREFIX = "ctlFilePoller-";
+    public static final String ZIP_POLLER_PREFIX = "zipFilePoller-";
     
     private String workItemQueueUri;
     
