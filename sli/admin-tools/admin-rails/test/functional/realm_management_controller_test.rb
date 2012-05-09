@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class RealmEditorsControllerTest < ActionController::TestCase
+class RealmManagementControllerTest < ActionController::TestCase
   #setup do
-  #  @realm_editor = realm_editors(:one)
+  #  @realm_editor = realm_management(:one)
   #end
 
   test "should get index" do

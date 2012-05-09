@@ -2370,6 +2370,8 @@
 					<xs:appinfo>
 						<sli:PersonallyIdentifiableInfo>true
 						</sli:PersonallyIdentifiableInfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2424,6 +2426,10 @@
 						"Spanish origin," can be used in addition to "Hispanic or
 						Latino."
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="oldEthnicity" type="oldEthnicityType"
@@ -2439,6 +2445,10 @@
 						Hispanic
 						5 - White, not of Hispanic origin
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="race" type="raceItemType" minOccurs="0"
@@ -2451,6 +2461,10 @@
 						is listed, it must allow for multiple entries so that each
 						individual can specify all appropriate races.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="economicDisadvantaged" type="xs:boolean"

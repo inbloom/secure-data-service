@@ -61,20 +61,6 @@ public class SectionGracePeriodNodeFilterTest {
     }
 
     @Test
-    public void testGetFilterDate() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2012, 4, 3);
-
-        assertEquals("Should match", "2012-02-03", nodeFilter.getFilterDate("90", calendar));
-        calendar.clear();
-        calendar.set(2012, 4, 3);
-        assertEquals("Should match", "2012-05-03", nodeFilter.getFilterDate("", calendar));
-        calendar.clear();
-        calendar.set(2012, 1, 3);
-        assertEquals("Should match", "2012-02-03", nodeFilter.getFilterDate(null, calendar));
-    }
-
-    @Test
     public void testGetIds() {
         List<Entity> entities = getEntityList();
 
@@ -116,7 +102,7 @@ public class SectionGracePeriodNodeFilterTest {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(2012, 4, 3);
-        when(nodeFilter.getFilterDate(anyString(), any(Calendar.class))).thenReturn("2012-04-03");
+        when(mockHelper.getFilterDate(anyString(), any(Calendar.class))).thenReturn("2012-04-03");
 
         when(mockHelper.getReferenceEntities(eq(EntityNames.SECTION),
                 eq("_id"), any(List.class))).thenReturn(sections);
@@ -136,7 +122,7 @@ public class SectionGracePeriodNodeFilterTest {
 
     @Test
     public void testEmptyFilterDate()  {
-        when(nodeFilter.getFilterDate(anyString(), any(Calendar.class))).thenReturn(StringUtils.EMPTY);
+        when(mockHelper.getFilterDate(anyString(), any(Calendar.class))).thenReturn(StringUtils.EMPTY);
 
         List<String> ids = new ArrayList<String>();
         ids.add("1");

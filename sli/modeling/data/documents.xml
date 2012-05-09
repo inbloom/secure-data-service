@@ -130,11 +130,6 @@
 		<resourceName>creditsBySubjects</resourceName>
 		<collectionName>creditsBySubject</collectionName>
 	</document>
-	<document name="DailyAttendanceType">
-		<class name="DailyAttendanceType"></class>
-		<resourceName>dailyAttendanceTypes</resourceName>
-		<collectionName>dailyAttendanceType</collectionName>
-	</document>
 	<document name="Diploma">
 		<class name="Diploma"></class>
 		<resourceName>diplomas</resourceName>
