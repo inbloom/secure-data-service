@@ -1117,52 +1117,48 @@ sandbox:
 
 # Properties for systems being used by Team Hermod for ingestion performance
 nxteam:
-    api:
-    <<: *API-TEAM
-    dashboard:
+    api: &API-NXTEAM
+        <<: *API-TEAM
+    dashboard: &DASHBOARD-NXTEAM
         <<: *DASHBOARD-TEAM
     ingestion: &INGESTION-NXTEAM
         <<: *INGESTION-TEAM
         sli.ingestion.queue.workItem.host: nxing.slidev.org
         sli.ingestion.queue.maestro.host: nxing.slidev.org
         sli.ingestion.queue.pit.host: nxing.slidev.org
-      
-     
-    data-access:
+    data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
-        sli.mongodb.host: localhost
+        sli.mongodb.host: nxmongo.slidev.org
         sli.ingestion.staging.mongodb.host: nxmongo.slidev.org
         sli.ingestion.batchjob.mongodb.host: nxmongo.slidev.org
-
-         
-    misc:
+    misc: &MISC-NXTEAM
         <<: *MISC-TEAM
 
 
 nxteam-maestro:
     api:
-        <<: *API-TEAM
+        <<: *API-NXTEAM
     dashboard:
-        <<: *DASHBOARD-TEAM
+        <<: *DASHBOARD-NXTEAM
     ingestion:
         <<: *INGESTION-NXTEAM
         sli.ingestion.nodeType: maestro
     data-access:
-        <<: *DATA-ACCESS-TEAM
+        <<: *DATA-ACCESS-NXTEAM
     misc:
-        <<: *MISC-TEAM
+        <<: *MISC-NXTEAM
 
 
 nxteam-pit:
     api:
-        <<: *API-TEAM
+        <<: *API-NXTEAM
     dashboard:
-        <<: *DASHBOARD-TEAM
+        <<: *DASHBOARD-NXTEAM
     ingestion:
         <<: *INGESTION-NXTEAM
         sli.ingestion.nodeType: pit
     data-access:
-        <<: *DATA-ACCESS-TEAM
+        <<: *DATA-ACCESS-NXTEAM
     misc:
-        <<: *MISC-TEAM
+        <<: *MISC-NXTEAM
   
