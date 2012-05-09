@@ -39,7 +39,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     public AssessmentCombiner() {
         collections = new HashMap<String, Map<Object, NeutralRecord>>();
         transformedCollections = new HashMap<String, Map<Object, NeutralRecord>>();
-        buildObjectiveAssessmentMap();
     }
     
     /**
@@ -50,6 +49,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     @Override
     public void performTransformation() {
         loadData();
+        buildObjectiveAssessmentMap();
         transform();
         persist();
     }
