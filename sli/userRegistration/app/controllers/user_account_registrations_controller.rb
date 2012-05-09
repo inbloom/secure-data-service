@@ -27,8 +27,7 @@ class UserAccountRegistrationsController < ApplicationController
         urlHeader = {
             "Content-Type" => "application/json",
             "content_type" => "json",
-            "accept" => "application/json",
-            "authorization" => "bearer 4cf7a5d4-37a1-ca19-8b13-b5f95131ac85"
+            "accept" => "application/json"
             }
         res = RestClient.get(url+"?userName="+@user_account_registration.email, urlHeader){|response, request, result| response }
         puts(res.code)
@@ -36,15 +35,18 @@ class UserAccountRegistrationsController < ApplicationController
 
         if (res.code==200)
             jsonDocument = JSON.parse(res.body)
-             if (jsonDocument[INDEX]["validated"] == "true")
-                puts("user name validated")
-                    @user_account_registration.errors.add(:email, "User name already exists in record")
-                    @redirectPage=false
-             else
+            if(jsonDocument[INDEX].nil?)
+                puts("No record for user")
+                commitResult=  commitResult= RestClient.post(url,@user_account_registration.to_json,urlHeader){|response, request, result| response }
+                check_commit_success(commitResult)
+            elsif (jsonDocument[INDEX]["validated"] == "true")
+                @user_account_registration.errors.add(:email, "User name already exists in record")
+                @redirectPage=false
+            else
                 puts("user name exists but not validated")
                 commitResult= RestClient.put(url+"/userAccountId="+jsonDocument[INDEX]["id"],@user_account_registration.to_json,urlHeader){|response, request, result| response }
                 check_commit_success(commitResult)
-             end
+            end
         else
             puts("new user")
             commitResult= RestClient.post(url,@user_account_registration.to_json,urlHeader)
@@ -65,16 +67,17 @@ class UserAccountRegistrationsController < ApplicationController
 
 private
    def check_commit_success(commitResult)
+   puts(commitResult)
     if commitResult.code != 200
         @redirectPage=false
         @user_account_registration.errors.add(:email, "Error occurred while storing record")
     end
    end
-private
-  #redirect cancel
-  def check_for_cancel
-      if params[:commit] == "Cancel"
-        redirect_to  APP_CONFIG['api_base']
-      end
-    end
+    #redirect cancel
+   def check_for_cancel
+       if params[:commit] == "Cancel"
+         redirect_to  APP_CONFIG['redirect_cancel_handler']
+       end
+     end
+
 end
