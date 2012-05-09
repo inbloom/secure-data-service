@@ -73,7 +73,7 @@ public class ListSchema extends NeutralSchema {
      * list, which is now handled by ChoiceSchema
      */
     public void updateAnnotations() {
-        AppInfo info = (AppInfo) annotations.get(AnnotationType.APPINFO);
+        AppInfo info = (AppInfo) getAnnotation(AnnotationType.APPINFO);
         if (info != null) {
             for (NeutralSchema itemSchema : getList()) {
                 itemSchema.inheritAnnotations(info);
@@ -181,6 +181,13 @@ public class ListSchema extends NeutralSchema {
         }
 
         return isValid;
+    }
+    
+    protected Annotation getAnnotation(Annotation.AnnotationType type) {
+        if (annotations.containsKey(type)) {
+            return annotations.get(type);
+        }
+        return list.get(0).getAnnotation(type);
     }
 
 }

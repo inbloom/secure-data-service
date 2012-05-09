@@ -30,7 +30,7 @@ Examples:
 	|"racosta"   |"racosta1234"   |"IL" |"Leader"  |"Sunset Central High"      |"Dale Reiss"|
 	|"agibbs"    |"agibbs1234"    |"NY" |"IT Admin"|"Dawn Elementary"          |"Teachers in Parker Elementary"|
 	|"akopel"    |"akopel1234"    |"IL" |"IT Admin"|"South Daybreak Elementary"|"Students in AP Calculus Sec 201"|
-@wip
+
 Scenario Outline: Staff listing teachers they have context to
 
 Given I am logged in using <Username> <Password> to realm <Realm>
