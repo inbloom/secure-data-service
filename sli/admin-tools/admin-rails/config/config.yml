@@ -54,4 +54,14 @@ team_sb:
     email_port: 3000
     is_sandbox: true
     admin_realm: Shared Learning Infrastructure
-    
+test:
+    api_base: https://devapp1.slidev.org/api/rest
+    ldap_host: ldap.slidev.org
+    ldap_port: 389
+    ldap_base: ou=DevTest,dc=slidev,dc=org
+    ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+    ldap_pass: Y;Gtf@w{
+    is_sandbox: false
+    email_host: mon.slidev.org
+    email_port: 3000
+    admin_realm: Shared Learning Infrastructure

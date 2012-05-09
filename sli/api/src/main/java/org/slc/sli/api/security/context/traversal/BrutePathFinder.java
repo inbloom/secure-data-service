@@ -8,6 +8,9 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
@@ -15,8 +18,6 @@ import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ResourceNames;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Basic brute force path finding implementation.
@@ -147,6 +148,11 @@ public class BrutePathFinder implements SecurityPathFinder {
                 EntityNames.STAFF + EntityNames.SESSION,
                 Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
                         nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.SESSION)));
+
+        prePath.put(
+                EntityNames.STAFF + EntityNames.TEACHER,
+                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
+                		nodeMap.get(EntityNames.SCHOOL), nodeMap.get(EntityNames.TEACHER)));
 
         prePath.put(
                 EntityNames.TEACHER + EntityNames.TEACHER,

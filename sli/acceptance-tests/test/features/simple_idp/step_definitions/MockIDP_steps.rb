@@ -1,5 +1,7 @@
-require_relative '../../../../../utils/sli_utils.rb'
-require_relative '../../../../../dashboard/dash/step_definitions/selenium_common_dash.rb'
+require "selenium-webdriver"
+
+require_relative '../../utils/sli_utils.rb'
+require_relative '../../utils/selenium_common.rb'
 
 Given /^I have selected the realm using the realm selector$/ do
   url = PropLoader.getProps['simpleIDP_realm_server_address']+"api/oauth/authorize?"+URI.escape(PropLoader.getProps['simpleIDP_realm_params'])
