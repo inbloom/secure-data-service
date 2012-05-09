@@ -55,6 +55,7 @@ Examples:
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
+| "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 
     Scenario Outline: CRUD operations on invalid entities
     Given entity URI <Entity Resource URI>
@@ -93,6 +94,7 @@ Examples:
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
+| "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 
     Scenario Outline: Get All Entities
     Given entity URI <Entity Resource URI>
@@ -125,3 +127,4 @@ Examples:
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | 4 |
 | "teacher"                      | "teachers"                | 4 |
 | "userAccount"                  | "userAccounts"            | 2 |
+| "grade"                        | "grades"                  | 2 |
