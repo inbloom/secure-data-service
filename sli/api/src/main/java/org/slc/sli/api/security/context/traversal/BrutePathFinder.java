@@ -44,9 +44,11 @@ public class BrutePathFinder implements SecurityPathFinder {
 
         nodeMap.put(EntityNames.TEACHER,
                 SecurityNodeBuilder.buildNode(EntityNames.TEACHER, EntityNames.STAFF)
+                        .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS,
+                                sectionGracePeriodNodeFilter)
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS,
                                 edorgFilter)
-                        .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS, sectionGracePeriodNodeFilter)
+
                         .construct());
         nodeMap.put(
                 EntityNames.SCHOOL,
