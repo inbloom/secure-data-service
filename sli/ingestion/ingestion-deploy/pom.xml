@@ -117,6 +117,8 @@
 		</profile>
 	</profiles>
 
+
+<!-- - WARNING!  This must be changed before merging to master, either by using an external repository or some other maven magic. -->
 	<repositories>
 		<repository>
 			<id>hermodRepo</id>
