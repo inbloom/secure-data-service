@@ -141,7 +141,8 @@ public class BasicService implements EntityService {
         Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
 
         for (Entity entity : entities) {
-            results.add(entity.getEntityId());
+            if (allowed.contains(entity.getEntityId()))
+                results.add(entity.getEntityId());
         }
 
         return results;
