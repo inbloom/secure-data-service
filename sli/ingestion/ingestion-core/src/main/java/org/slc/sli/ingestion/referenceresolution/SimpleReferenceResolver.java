@@ -1,5 +1,7 @@
 package org.slc.sli.ingestion.referenceresolution;
 
+import java.io.File;
+
 /**
  *
  * Class to resolve simple references to extended references within ingested XML files.
@@ -25,8 +27,7 @@ public class SimpleReferenceResolver implements ReferenceResolutionStrategy {
      *         Extended reference XML text body, or null, if unresolved.
      */
     @Override
-    public String resolve(String interchange, String element, String reference, String content) {
-        //String stub = "<AssessmentReference><AssessmentIdentity><AssessmentTitle>ACT</AssessmentTitle><AcademicSubject>Reading</AcademicSubject><GradeLevelAssessed>TA-ACT-8</GradeLevelAssessed><Version>1</Version></AssessmentIdentity></AssessmentReference>";
+    public File resolve(String xPath, File content) {
         return content;
     }
 

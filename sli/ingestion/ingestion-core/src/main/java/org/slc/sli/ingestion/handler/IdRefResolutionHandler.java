@@ -381,7 +381,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             String parentElement = parentStack.elementAt((parentStack.size() - 2));
             resolutionStrategy = applicationContext.getBean(strategyMap.get(elementName), ReferenceResolutionStrategy.class);
 
-            String resolvedReference = resolutionStrategy.resolve(interchangeName, parentElement, elementName, idContent);
+            String resolvedReference = null;
+            //resolutionStrategy.resolve("/ " + interchangeName + "/" + parentElement + "/" + elementName, idContent);
             if (resolvedReference == null) {
                 events.add(XMLEventFactory.newInstance().createAttribute(REF_RESOLVED_ATTR, "false"));
             } else {

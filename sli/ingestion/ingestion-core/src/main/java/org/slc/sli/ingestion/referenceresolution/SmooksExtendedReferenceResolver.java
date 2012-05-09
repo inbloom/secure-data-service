@@ -1,10 +1,22 @@
 package org.slc.sli.ingestion.referenceresolution;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Map;
 
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+
+import org.apache.commons.io.IOUtils;
 import org.milyn.Smooks;
-import org.milyn.payload.StringResult;
-import org.milyn.payload.StringSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.slc.sli.ingestion.xml.idref.IdRefResolver;
 
 /**
  *
@@ -13,13 +25,16 @@ import org.milyn.payload.StringSource;
  */
 
 public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrategy {
-    private static Map<String, Smooks> idRefConfigs;
+    public static final Logger LOG = LoggerFactory.getLogger(IdRefResolver.class);
+
+    private Map<String, Smooks> idRefConfigs;
+
     public Map<String, Smooks> getIdRefConfigs() {
         return idRefConfigs;
     }
 
     public void setIdRefConfigs(Map<String, Smooks> idRefConfigs) {
-        SmooksExtendedReferenceResolver.idRefConfigs = idRefConfigs;
+        this.idRefConfigs = idRefConfigs;
     }
 
     /**
@@ -32,16 +47,33 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
      * @return : the resolved content in XML format. Null if the reference is not supported yet.
      */
     @Override
-    public String resolve(String interchange, String element, String reference, String content) {
-        String key = interchange + element + reference;
-        if (!idRefConfigs.containsKey(key)) {
+    public File resolve(String xPath, File content) {
+        Smooks smooks = idRefConfigs.get(xPath);
+
+        if (smooks == null) {
             return null;
         }
-        Smooks smooks = idRefConfigs.get(key);
-        StringResult result = new StringResult();
-        StringSource source = new StringSource(content);
-        smooks.filterSource(source, result);
 
-        return result.toString();
+        File convertedContent;
+        BufferedInputStream in = null;
+        BufferedOutputStream out = null;
+
+        try {
+            StreamSource source = new StreamSource(new BufferedInputStream(new FileInputStream(content)));
+
+            convertedContent = File.createTempFile("smooks", ".xml", content.getParentFile());
+
+            StreamResult result = new StreamResult(new BufferedOutputStream(new FileOutputStream(convertedContent)));
+
+            smooks.filterSource(source, result);
+        } catch (IOException e) {
+            convertedContent = null;
+        } finally {
+            IOUtils.closeQuietly(in);
+            IOUtils.closeQuietly(out);
+        }
+
+
+        return convertedContent;
     }
 }

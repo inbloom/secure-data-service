@@ -29,14 +29,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
 
-import org.slc.sli.ingestion.handler.FileSplitHandler;
+import org.slc.sli.ingestion.referenceresolution.ReferenceResolutionStrategy;
 
 /**
  * @author okrook
  *
  */
 public class IdRefResolver {
-    public static final Logger LOG = LoggerFactory.getLogger(FileSplitHandler.class);
+    public static final Logger LOG = LoggerFactory.getLogger(IdRefResolver.class);
 
     private static final QName ID_ATTR = new QName("id");
     private static final QName REF_ATTR = new QName("ref");
@@ -47,6 +47,8 @@ public class IdRefResolver {
     private static final XMLInputFactory INPUT_FACTORY = XMLInputFactory.newInstance();
     private static final XMLOutputFactory OUTPUT_FACTORY = XMLOutputFactory.newInstance();
     private static final XMLEventFactory EVENT_FACTORY = XMLEventFactory.newInstance();
+
+    private Map<String, ReferenceResolutionStrategy> supportedResolvers;
 
     protected File process(File xml) {
         StopWatch sw = new StopWatch("Processing " + xml.getName());
@@ -189,6 +191,7 @@ public class IdRefResolver {
             final XMLEventWriter wr = writer;
 
             XmlEventVisitor replaceRefContent = new XmlEventVisitor() {
+                Stack<StartElement> parents = new Stack<StartElement>();
 
                 @Override
                 public boolean isSupported(XMLEvent xmlEvent) {
@@ -201,6 +204,8 @@ public class IdRefResolver {
 
                     if (xmlEvent.isStartElement()) {
                         StartElement start = xmlEvent.asStartElement();
+                        this.parents.push(start);
+
 
                         Attribute refResolved = start.getAttributeByName(REF_RESOLVED_ATTR);
 
@@ -222,6 +227,19 @@ public class IdRefResolver {
                                 } else {
                                     contentToAdd = refContent.get(ref.getValue());
 
+                                    String currentXPath = this.getCurrentXPath();
+                                    ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
+
+                                    if (rrs != null) {
+                                        File resolvedContent = rrs.resolve(currentXPath, contentToAdd);
+
+                                        if (resolvedContent != null && !resolvedContent.equals(contentToAdd)) {
+                                            resolvedContent.renameTo(contentToAdd);
+                                        }
+                                    } else {
+                                        LOG.debug("Current XPath [{}] is not supported", currentXPath);
+                                    }
+
                                     newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
                                             (contentToAdd == null) ? "false" : "true"));
                                 }
@@ -230,6 +248,8 @@ public class IdRefResolver {
                                         start.getNamespaces());
                             }
                         }
+                    } else if (xmlEvent.isEndElement()) {
+                        this.parents.pop();
                     }
 
                     wr.add(xmlEvent);
@@ -247,6 +267,16 @@ public class IdRefResolver {
                 @Override
                 public boolean canAcceptMore() {
                     return true;
+                }
+
+                private String getCurrentXPath() {
+                    StringBuffer sb = new StringBuffer();
+
+                    for (StartElement start : this.parents) {
+                        sb.append('/').append(start.getName().getLocalPart());
+                    }
+
+                    return sb.toString();
                 }
 
             };
@@ -387,5 +417,13 @@ public class IdRefResolver {
         };
 
         browse(contentToAdd, addToXml);
+    }
+
+    public Map<String, ReferenceResolutionStrategy> getSupportedResolvers() {
+        return supportedResolvers;
+    }
+
+    public void setSupportedResolvers(Map<String, ReferenceResolutionStrategy> supportedResolvers) {
+        this.supportedResolvers = supportedResolvers;
     }
 }
