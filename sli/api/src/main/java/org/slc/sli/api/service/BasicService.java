@@ -163,7 +163,10 @@ public class BasicService implements EntityService {
     public String create(EntityBody content) {
         LOG.debug("Creating a new entity in collection {} with content {}", new Object[] { collectionName, content });
 
-        checkRights(determineWriteAccess(content, ""));
+        // if service does not allow anonymous write access, check user rights
+        if (this.writeRight != Right.ANONYMOUS_ACCESS) {
+            checkRights(determineWriteAccess(content, ""));
+        }
 
         return repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName).getEntityId();
     }
