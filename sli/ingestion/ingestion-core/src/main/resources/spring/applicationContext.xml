@@ -78,6 +78,8 @@
   <aop:aspectj-autoproxy />
   <bean id="ingestionPerformaceTrackingAspect" class="org.slc.sli.ingestion.measurement.IngestionPerformanceTrackingAspect" />
 
+  <bean id="ingestionSecurityLoggingAspect" class="org.slc.sli.aspect.LoggerCarrierAspect" />
+
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
 
   <bean id="landingZoneManager" class="org.slc.sli.ingestion.landingzone.LandingZoneManager">
