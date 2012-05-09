@@ -1,7 +1,8 @@
 require 'rest-client'
+require 'json'
 class UserAccountRegistrationsController < ApplicationController
     before_filter :check_for_cancel, :only => [:create, :update]
-
+  INDEX=0
   # GET /user_account_registrations/new
   # GET /user_account_registrations/new.json
   def new
@@ -18,7 +19,7 @@ class UserAccountRegistrationsController < ApplicationController
   # POST /user_account_registrations.json
   def create
     @user_account_registration = UserAccountRegistration.new(params[:user_account_registration])
-    redirectPage=true
+    @redirectPage=true
     if @user_account_registration.valid? ==false
        redirectPage=false
       else
@@ -26,36 +27,32 @@ class UserAccountRegistrationsController < ApplicationController
         urlHeader = {
             "Content-Type" => "application/json",
             "content_type" => "json",
-            "accept" => "application/json"
+            "accept" => "application/json",
+            "authorization" => "bearer 4cf7a5d4-37a1-ca19-8b13-b5f95131ac85"
             }
         res = RestClient.get(url+"?userName="+@user_account_registration.email, urlHeader){|response, request, result| response }
         puts(res.code)
         puts(res.body)
-        puts(response.to_json)
 
         if (res.code==200)
             jsonDocument = JSON.parse(res.body)
-            if(jsonDocument!=nil)
-                if (jsonDocument["validated"] == "true")
+             if (jsonDocument[INDEX]["validated"] == "true")
+                puts("user name validated")
                     @user_account_registration.errors.add(:email, "User name already exists in record")
-                    redirectPage=false
-                else
-                 @commitResult= RestClient.put(url+"/userAccountId="+jsonDocument["id"],@user_account_registration.to_json,urlHeader){|response, request, result| response }
-                end
-            else
-                @commitResult= RestClient.post(url,@user_account_registration.to_json,urlHeader)
-            end
+                    @redirectPage=false
+             else
+                puts("user name exists but not validated")
+                commitResult= RestClient.put(url+"/userAccountId="+jsonDocument[INDEX]["id"],@user_account_registration.to_json,urlHeader){|response, request, result| response }
+                check_commit_success(commitResult)
+             end
         else
-            @commitResult= RestClient.post(url,@user_account_registration.to_json,urlHeader)
+            puts("new user")
+            commitResult= RestClient.post(url,@user_account_registration.to_json,urlHeader)
+            check_commit_success(commitResult)
         end
-        if @commitResult.code != 200
-            redirectPage=false
-            @user_account_registration.errors.add(:email, "Error occurred storing user name in record")
-        end
-
       end
     respond_to do |format|
-        if redirectPage==true
+        if @redirectPage==true
             format.html  { redirect_to("/eulas/#@user_account_registration.email")}
             format.json  { render :json => @user_account_registration,
                                    action: "/eulas/"}
@@ -66,6 +63,14 @@ class UserAccountRegistrationsController < ApplicationController
     end
   end
 
+private
+   def check_commit_success(commitResult)
+    if commitResult.code != 200
+        @redirectPage=false
+        @user_account_registration.errors.add(:email, "Error occurred while storing record")
+    end
+   end
+private
   #redirect cancel
   def check_for_cancel
       if params[:commit] == "Cancel"
