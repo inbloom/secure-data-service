@@ -42,7 +42,7 @@ end
 Then /^I should find (\d+) rows of transcript history$/ do |count|
   @tranHistTable = @panel.find_element(:class, "ui-jqgrid-bdiv")
   @rows = @tranHistTable.find_elements(:tag_name, "tr")
-  assert(@rows.size - 1 == convert(count), "Expected #{count}, received #{@rows.size}")
+  assert(@rows.size - 1 == convert(count), "Expected #{count}, received #{@rows.size-1}")
 end
 
 Then /^I should see the table headers "([^"]*)"$/ do |headers|
@@ -89,7 +89,7 @@ end
 Then /^I should find (\d+) sub rows$/ do |count|
   subTable = @subGrid.find_element(:class, "ui-jqgrid-bdiv")
   @subRows = subTable.find_elements(:tag_name, "tr")
-  assert(@subRows.size - 1 == convert(count), "Expected #{count}, received #{@subRows.size}")
+  assert(@subRows.size - 1 == convert(count), "Expected #{count}, received #{@subRows.size-1}")
 end
 
 Then /^I should see "([^\"]*)" for sub row (\d+)$/ do |rowData, rowIndex|

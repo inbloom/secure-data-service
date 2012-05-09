@@ -30,6 +30,7 @@ And was redirected to the SLI-IDP login page
 When I login as "InvalidJohnDoe" "demo1234"
 Then I am informed that "Authentication failed"
 
+@wip
 Scenario: Login with cookie
 
 Given I have an open web browser

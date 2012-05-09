@@ -10,6 +10,9 @@ default:
 
         # Security SAML (only used in api)
         sli.security.sp.issuerName: http://local.slidev.org:8080
+        
+        # Security grace period for viewing sections (only use in api)
+        sli.security.gracePeriod: 2000
 
         # Trusted Certificate Authority Store (used in common)
         sli.trust.certificates: ../common/common-util/trust/trustedCertificates
@@ -25,6 +28,13 @@ default:
 
         # Sandbox settings
         sli.sandbox.autoRegisterApps: false
+
+        # Used to bootstrap the admin realm
+        bootstrap.admin.realm.name: Shared Learning Infrastructure
+        bootstrap.admin.realm.tenantId: SLI	
+        bootstrap.admin.realm.idpId: https://devapp1.slidev.org:443/sp
+        bootstrap.admin.realm.redirectEndpoint: https://devapp1.slidev.org:443/sp/SSORedirect/metaAlias/idp
+
 
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
@@ -108,6 +118,13 @@ default:
         # (only used in dashboard)
         panel.data.use.cache: true
 
+    app: &APPS-DEFAULT
+        bootstrap.app.keys: admin,databrowser,dashboard
+        bootstrap.app.admin.template: applications/admin.json
+        bootstrap.app.databrowser.template: applications/databrowser.json
+        bootstrap.app.dashboard.template: applications/dashboard.json
+        bootstrap.app.dashboard.guid: 1ad39ff1-65f8-4a16-8912-b49872f1ee96
+
     misc: &MISC-DEFAULT
         # keystore password (used in common and data-access)
         sli.encryption.keyStorePass: changeit
@@ -121,12 +138,15 @@ default:
         # (used in common and data-access)
         sli.wildcard.x509certificate.alias: wildcard
 
-        # (only used in simple-idp)
+        # (only used in SimpleIDP)
         sli.simple-idp.issuer-base: http://local.slidev.org:8082/simple-idp
-
-        # (only used in simple-idp)
-        sli.simple-idp.response-destination: http://local.slidev.org:8080/api/rest/saml/sso/post
-
+        sli.simple-idp.cot: http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
+        sli.simple-idp.userSearchAttribute: uid
+        sli.simple-idp.userObjectClass: person
+        sli.simple-idp.groupSearchAttribute: memberuid
+        sli.simple-idp.groupObjectClass: posixGroup
+        sli.simple-idp.sandboxImpersonationEnabled: false
+        
         # SLI Subdomain substituted by various services (used by SDK and dashboard)
         sli.dev.subdomain: ci
 
@@ -193,7 +213,6 @@ acceptance-tests:
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
-
 
     misc:
         <<: *MISC-DEFAULT
@@ -581,6 +600,21 @@ local:
     dashboard:
         <<: *DASHBOARD-DEFAULT
 
+    apps:
+        <<: *APPS-DEFAULT
+        bootstrap.app.admin.url: http://local.slidev.org:3000
+        bootstrap.app.admin.client_id: Eg6eseKRzN
+        bootstrap.app.admin.client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
+
+        bootstrap.app.databrowser.url: http://local.slidev.org:3000
+        bootstrap.app.databrowser.client_id: 2zhRrEXh8r
+        bootstrap.app.databrowser.client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
+
+        bootstrap.app.dashboard.url: http://local.slidev.org:8888/dashboard
+        bootstrap.app.dashboard.client_id: K2e7Dwhq5J
+        bootstrap.app.dashboard.client_secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+
+
     misc:
         <<: *MISC-DEFAULT
 
@@ -745,14 +779,29 @@ team:
         panel.config.driver.dir: config
         panel.config.custom.dir: custom
 
+    apps:
+        <<: *APPS-DEFAULT
+        bootstrap.app.admin.url: https://${sli.dev.subdomain}.slidev.org:2001
+        bootstrap.app.admin.client_id: OY6Nnukmn6
+        bootstrap.app.admin.client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
+
+        bootstrap.app.databrowser.url: https://${sli.dev.subdomain}.slidev.org:2000
+        bootstrap.app.databrowser.client_id: G9tjgDx1aL
+        bootstrap.app.databrowser.client_secret: GTV8WeZSuRz2kR3GKyHLjYmtRMeRspHJTFXv72SBj81OccS3
+
+        bootstrap.app.dashboard.url: https://${sli.dev.subdomain}.slidev.org/dashboard
+        bootstrap.app.dashboard.client_id: 6TW4tHwcWG
+        bootstrap.app.dashboard.client_secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
+
+
     misc: &MISC-TEAM
         <<: *MISC-DEFAULT
         sli.dev.subdomain: ci
         log.path: /storage/logs
         sli.simple-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/simple-idp
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
-
-
+        sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
+        sli.simple-idp.sandboxImpersonationEnabled: false
 
 bloomington:
     ingestion:
@@ -1055,6 +1104,13 @@ sandbox:
         <<: *INGESTION-TEAM
     data-access:
         <<: *DATA-ACCESS-TEAM
+    apps:
+        <<: *APPS-DEFAULT
+        bootstrap.app.keys: admin
+        bootstrap.app.admin.url: https://${sli.dev.subdomain}.slidev.org:2001
+        bootstrap.app.admin.client_id: OY6Nnukmn6
+        bootstrap.app.admin.client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
     misc:
         <<: *MISC-TEAM
 
+# this is not used but required 

@@ -95,7 +95,7 @@ public class HomeResource {
 
         // get the Entity for the logged in user
         Entity entity = ResourceUtil.getSLIPrincipalFromSecurityContext().getEntity();
-        if (entity != null) {
+        if (entity != null && !entity.getEntityId().equals("-133")) {
             EntityDefinition entityDefinition = this.entityDefs.lookupByEntityType(entity.getType());
             pair = Pair.of(entity.getEntityId(), entityDefinition);
         }

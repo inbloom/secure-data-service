@@ -25,31 +25,32 @@ import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 public final class MetaRelations {
 
     // knobs to control number of entities to create
-    public static final int TOTAL_SEAS = 2;
-    public static final int LEAS_PER_SEA =5;
+	public static final int TOTAL_SEAS = 1;
+    public static final int LEAS_PER_SEA =2;
     public static final int STAFF_PER_SEA = 3;
     public static final int SCHOOLS_PER_LEA = 2;
     public static final int COURSES_PER_SCHOOL = 2;
-    public static final int SESSIONS_PER_SCHOOL = 1;
-    public static final int SECTIONS_PER_COURSE_SESSION = 2;
-    
-    public static final int TEACHERS_PER_SCHOOL = 5;
-    public static final int STUDENTS_PER_SCHOOL = 10;
-    public static final int PROGRAMS_PER_SCHOOL = 2;
+    public static final int SESSIONS_PER_SCHOOL = 2;
+    public static final int SECTIONS_PER_COURSE_SESSION = 7;
+    public static final int TEACHERS_PER_SCHOOL = 2;
+    public static final int STUDENTS_PER_SCHOOL = 8;
+    public static final int PROGRAMS_PER_SCHOOL = 1;
     public static final int STAFF_PER_PROGRAM = 2;
     public static final int FREE_STANDING_COHORT_PER_SCHOOL = 4;
     public static final int FREE_STANDING_COHORT_SIZE = 4;
     public static final int STAFF_PER_FREE_STANDING_COHORT = 2;
     public static final int INV_PROB_SECTION_HAS_PROGRAM = 10;
     public static final int ASSESSMENTS_PER_STUDENT = 10;
-    public static final int ATTENDANCE_PER_STUDENT_SECTION = 10;
+    public static final int ATTENDANCE_PER_STUDENT_SECTION = 8;
     public static final int DISCPLINE_ACTIONS_PER_SCHOOL = 2;
     public static final int DISCPLINE_INCIDENTS_PER_SCHOOL = 5;
-
     public static final int INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = 10;
-    public static final int NUM_STAFF_PER_DISCIPLINE_ACTION = 2;
+    public static final int NUM_STAFF_PER_DISCIPLINE_ACTION = 1;
     public static final int COURSES_PER_STUDENT = 2;
-    // publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
+    public static final int SECTIONS_PER_STUDENT = 2;
+
+
+     //publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
     // TODO: do we need maps? maybe just use Collections?
     public static final Map<String, SeaMeta> SEA_MAP = new TreeMap<String, SeaMeta>();
     public static final Map<String, LeaMeta> LEA_MAP = new TreeMap<String, LeaMeta>();
@@ -157,7 +158,7 @@ public final class MetaRelations {
 
         for (int idNum = 0; idNum < SCHOOLS_PER_LEA; idNum++) {
 
-            SchoolMeta schoolMeta = new SchoolMeta("sch" + idNum, leaMeta);
+            SchoolMeta schoolMeta = new SchoolMeta("sc" + idNum, leaMeta);
 
             SCHOOL_MAP.put(schoolMeta.id, schoolMeta);
 
@@ -256,7 +257,7 @@ public final class MetaRelations {
 
         for (int idNum = 0; idNum < STUDENTS_PER_SCHOOL; idNum++) {
 
-            StudentMeta studentMeta = new StudentMeta("student" + idNum, schoolMeta);
+            StudentMeta studentMeta = new StudentMeta("stu" + idNum, schoolMeta);
 
             // it's useful to return the objects created JUST for this school
             // add to both maps here to avoid loop in map.putAll if we merged maps later
@@ -266,24 +267,26 @@ public final class MetaRelations {
             boolean hasBoth = random.nextBoolean();
 
             if(hasBoth == false) {
-                ParentMeta fatherMeta = new ParentMeta(studentMeta.id + "-far" + counter, true );
+                ParentMeta fatherMeta = new ParentMeta(studentMeta.id + "-dad" + counter, true );
                 PARENT_MAP.put(fatherMeta.id, fatherMeta);
-                StudentParentAssociationMeta studentFatherMeta = new StudentParentAssociationMeta ("stuParAss" + counter ,studentMeta, fatherMeta);
-                STUDENT_PARENT_MAP.put( schoolMeta.id + counter + "2", studentFatherMeta);
+                StudentParentAssociationMeta studentFatherMeta = new StudentParentAssociationMeta ("sPA" + counter ,studentMeta, fatherMeta);
+                STUDENT_PARENT_MAP.put( studentMeta.id + schoolMeta.id + counter + "1", studentFatherMeta);
             }
+
             else {
                 ParentMeta fatherMeta = new ParentMeta(studentMeta.id + "-dad" + counter, true );
                 PARENT_MAP.put(fatherMeta.id, fatherMeta);
                 ParentMeta motherMeta = new ParentMeta(studentMeta.id + "-mom" + counter, false );
                 PARENT_MAP.put(motherMeta.id, motherMeta);
-                StudentParentAssociationMeta studentMotherMeta = new StudentParentAssociationMeta ("stuParAss" + counter ,studentMeta, motherMeta);
-                STUDENT_PARENT_MAP.put( schoolMeta.id + counter + "1", studentMotherMeta);
-                StudentParentAssociationMeta studentFatherMeta = new StudentParentAssociationMeta ("stuParAss" + counter ,studentMeta, fatherMeta);
-                STUDENT_PARENT_MAP.put( schoolMeta.id + counter + "2", studentFatherMeta);
+                StudentParentAssociationMeta studentMotherMeta = new StudentParentAssociationMeta ("sPA" + counter ,studentMeta, motherMeta);
+                STUDENT_PARENT_MAP.put(studentMeta.id + schoolMeta.id + counter + "1", studentMotherMeta);
+                StudentParentAssociationMeta studentFatherMeta = new StudentParentAssociationMeta ("sPA" + counter ,studentMeta, fatherMeta);
+                STUDENT_PARENT_MAP.put(studentMeta.id + schoolMeta.id + counter + "2", studentFatherMeta);
              }
 
             counter ++;
         }
+
         return studentsInSchoolMap;
     }
 
@@ -459,7 +462,7 @@ public final class MetaRelations {
         Map<String, DisciplineIncidentMeta> disciplineIncidentsForSchool = new HashMap<String, DisciplineIncidentMeta>(
                 DISCPLINE_INCIDENTS_PER_SCHOOL);
         for (int idNum = 0; idNum < DISCPLINE_INCIDENTS_PER_SCHOOL; idNum++) {
-            DisciplineIncidentMeta disciplineIncidentMeta = new DisciplineIncidentMeta("di" + idNum, schoolMeta);
+            DisciplineIncidentMeta disciplineIncidentMeta = new DisciplineIncidentMeta("i" + idNum, schoolMeta);
             disciplineIncidentsForSchool.put(disciplineIncidentMeta.id, disciplineIncidentMeta);
             DISCIPLINE_INCIDENT_MAP.put(disciplineIncidentMeta.id, disciplineIncidentMeta);
         }
@@ -475,7 +478,7 @@ public final class MetaRelations {
     private static Map<String, DisciplineActionMeta> buildDisciplineActionsForSchool(SchoolMeta schoolMeta) {
         Map<String, DisciplineActionMeta> disciplineActionForSchool = new HashMap<String, DisciplineActionMeta>();
         for (int idNum = 0; idNum < DISCPLINE_INCIDENTS_PER_SCHOOL; idNum++) {
-            DisciplineActionMeta disciplineActionMeta = new DisciplineActionMeta("da" + idNum, schoolMeta);
+            DisciplineActionMeta disciplineActionMeta = new DisciplineActionMeta("a" + idNum, schoolMeta);
             disciplineActionForSchool.put(disciplineActionMeta.id, disciplineActionMeta);
             DISCIPLINE_ACTION_MAP.put(disciplineActionMeta.id, disciplineActionMeta);
         }
@@ -518,15 +521,16 @@ public final class MetaRelations {
         Object[] sectionMetas = sectionsForSchool.values().toArray();
         int sectionCounter = 0;
 
-        // each section needs to be referenced by a TeacherMeta
         for (StudentMeta studentMeta : studentsForSchool.values()) {
 
-            // loop through the sections we have in this school and assign students to them
-            if (sectionCounter >= sectionMetas.length) {
-                sectionCounter = 0;
+            // TODO students should not belong to simultaneous sections
+            for (int i = 0; i < SECTIONS_PER_STUDENT; i++) {
+                if (sectionCounter >= sectionMetas.length) {
+                    sectionCounter = 0;
+                }
+                studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
+                sectionCounter++;
             }
-            studentMeta.sectionIds.add(((SectionMeta) sectionMetas[sectionCounter]).id);
-            sectionCounter++;
         }
     }
 
@@ -660,7 +664,7 @@ public final class MetaRelations {
         int staffIndx = 0;
         Object[] studentMetas = studentsForSchool.values().toArray();
         int studentIndx = 0;
-        
+
         // assign a student to each discipline incident.
         for (DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentsForSchool.values()) {
             StudentMeta studentMeta = (StudentMeta) studentMetas[studentIndx];

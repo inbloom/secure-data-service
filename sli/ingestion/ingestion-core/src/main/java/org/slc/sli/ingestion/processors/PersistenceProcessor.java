@@ -2,28 +2,36 @@ package org.slc.sli.ingestion.processors;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.performance.Profiled;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.Translator;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slc.sli.ingestion.handler.EntityPersistHandler;
+import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
@@ -33,16 +41,12 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
-import org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Ingestion Persistence Processor.
@@ -58,13 +62,15 @@ public class PersistenceProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
 
-    @Autowired
-    SmooksEdFi2SLITransformer transformer;
+    private Map<String, EdFi2SLITransformer> transformers;
 
+    private EdFi2SLITransformer defaultEdFi2SLITransformer;
     // spring-loaded list of supported collections
     private Set<String> persistedCollections;
 
-    private EntityPersistHandler entityPersistHandler;
+    private Map<String, ? extends AbstractIngestionHandler<SimpleEntity, Entity>> entityPersistHandlers;
+
+    private AbstractIngestionHandler<SimpleEntity, Entity> defaultEntityPersistHandler;
 
     private NeutralRecordEntityPersistHandler obsoletePersistHandler;
 
@@ -73,6 +79,9 @@ public class PersistenceProcessor implements Processor {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
+
+    /** The names of Mongo collections of documents that have been transformed. */
+    private Collection<String> transformedCollections;
 
     /**
      * Camel Exchange process callback method
@@ -101,52 +110,53 @@ public class PersistenceProcessor implements Processor {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
             LOG.info("processing persistence: {}", newJob);
 
-            // sets jobid in thread local
-            neutralRecordMongoAccess.registerBatchId(newJob.getId());
+            transformedCollections = getTransformedCollectionNames(newJob);
 
             for (ResourceEntry resource : newJob.getResourceEntries()) {
-
                 if (FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resource.getResourceFormat())) {
 
-                    Metrics metrics = Metrics.createAndStart(resource.getResourceId());
-                    stage.getMetrics().add(metrics);
-
-                    if (resource.getResourceName() != null) {
-                        try {
-
-                            processNeutralRecordsFile(new File(resource.getResourceName()), getTenantId(newJob),
-                                    batchJobId, metrics);
-                        } catch (IOException e) {
-                            Error error = Error.createIngestionError(batchJobId, resource.getResourceId(),
-                                    BATCH_JOB_STAGE.getName(), null, null, null, FaultType.TYPE_ERROR.getName(),
-                                    "Exception", e.getMessage());
-                            batchJobDAO.saveError(error);
-                        }
-                    }
-                    metrics.stopMetric();
+                    processAndMeasureResource(resource, newJob, stage);
                 }
             }
+
             exchange.getIn().setHeader("IngestionMessageType", MessageType.DONE.name());
 
         } catch (Exception exception) {
             handleProcessingExceptions(exception, exchange, batchJobId);
         } finally {
-            cleanupStagingDbForJob();
-
             if (newJob != null) {
+                cleanupStagingDbForJob(newJob);
+
                 BatchJobUtils.stopStageAndAddToJob(stage, newJob);
                 batchJobDAO.saveBatchJob(newJob);
             }
         }
     }
 
-    private void processNeutralRecordsFile(File neutralRecordsFile, String tenantId, String batchJobId, Metrics metrics)
-            throws IOException {
+    private void processAndMeasureResource(ResourceEntry resource, NewBatchJob newJob, Stage stage) {
+        Metrics metrics = Metrics.createAndStart(resource.getResourceId());
+        stage.getMetrics().add(metrics);
+
+        if (resource.getResourceName() != null) {
+            try {
+
+                processNeutralRecordsFile(new File(resource.getResourceName()), newJob, metrics);
+            } catch (IOException e) {
+                Error error = Error.createIngestionError(newJob.getId(), resource.getResourceId(),
+                        BATCH_JOB_STAGE.getName(), null, null, null, FaultType.TYPE_ERROR.getName(), "Exception",
+                        e.getMessage());
+                batchJobDAO.saveError(error);
+            }
+        }
+        metrics.stopMetric();
+    }
+
+    private void processNeutralRecordsFile(File neutralRecordsFile, Job job, Metrics metrics) throws IOException {
 
         long recordNumber = 0;
         long numFailed = 0;
 
-        ErrorReport errorReportForNrFile = createDbErrorReport(batchJobId, neutralRecordsFile.getName());
+        ErrorReport errorReportForNrFile = createDbErrorReport(job.getId(), neutralRecordsFile.getName());
 
         NeutralRecordFileReader nrFileReader = null;
         String fatalErrorMessage = "ERROR: Fatal problem saving records to database.\n";
@@ -164,13 +174,12 @@ public class PersistenceProcessor implements Processor {
                         + neutralRecord.getRecordType() + "\n" + "\tIdentifier\t" + (String) neutralRecord.getLocalId()
                         + "\n";
 
-                // TODO: don't need to construct this collection every time. construct once.
-                if (getTransformedCollections().contains(neutralRecord.getRecordType())) {
+                if (transformedCollections.contains(neutralRecord.getRecordType())) {
 
-                    numFailed += processTransformableNeutralRecord(neutralRecord, tenantId, encounteredStgCollections,
+                    numFailed += processTransformableNeutralRecord(neutralRecord, job, encounteredStgCollections,
                             errorReportForNrFile);
                 } else {
-                    numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, tenantId,
+                    numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, getTenantId(job),
                             errorReportForNrFile);
                 }
             }
@@ -187,7 +196,7 @@ public class PersistenceProcessor implements Processor {
         }
     }
 
-    private long processTransformableNeutralRecord(NeutralRecord neutralRecord, String tenantId,
+    private long processTransformableNeutralRecord(NeutralRecord neutralRecord, Job job,
             Set<String> encounteredStgCollections, ErrorReport errorReportForNrFile) {
         long numFailed = 0;
 
@@ -195,21 +204,26 @@ public class PersistenceProcessor implements Processor {
         if (!encounteredStgCollections.contains(neutralRecord.getRecordType())) {
             LOG.debug("processing transformable neutral record: {}", neutralRecord.getRecordType());
 
-            Iterable<NeutralRecord> stagedNeutralRecords = getStagedNeutralRecords(neutralRecord,
+            Iterable<NeutralRecord> stagedNeutralRecords = getStagedNeutralRecords(neutralRecord, job,
                     encounteredStgCollections);
 
             if (stagedNeutralRecords.iterator().hasNext()) {
 
                 for (NeutralRecord stagedNeutralRecord : stagedNeutralRecords) {
-                    stagedNeutralRecord.setSourceId(tenantId);
+                    stagedNeutralRecord.setSourceId(getTenantId(job));
 
                     // TODO: why is this necessary?
                     stagedNeutralRecord.setRecordType(neutralRecord.getRecordType());
 
+
+                    EdFi2SLITransformer transformer = findTransformer(neutralRecord.getRecordType());
                     List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForNrFile);
+
                     for (SimpleEntity xformedEntity : xformedEntities) {
 
                         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForNrFile);
+
+                        AbstractIngestionHandler<SimpleEntity, Entity> entityPersistHandler = findHandler(xformedEntity.getType());
                         entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
 
                         if (errorReportForNrEntity.hasErrors()) {
@@ -225,6 +239,23 @@ public class PersistenceProcessor implements Processor {
         }
         return numFailed;
     }
+
+    private AbstractIngestionHandler<SimpleEntity, Entity> findHandler(String type) {
+        if (entityPersistHandlers.containsKey(type)) {
+            return entityPersistHandlers.get(type);
+        } else {
+            return defaultEntityPersistHandler;
+        }
+    }
+
+    private EdFi2SLITransformer findTransformer(String type) {
+        if (transformers.containsKey(type)) {
+            return transformers.get(type);
+        } else {
+            return defaultEdFi2SLITransformer;
+        }
+    }
+
 
     private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId,
             ErrorReport errorReportForNrFile) {
@@ -247,42 +278,53 @@ public class PersistenceProcessor implements Processor {
         return numFailed;
     }
 
-    private Iterable<NeutralRecord> getStagedNeutralRecords(NeutralRecord neutralRecord,
+    private Iterable<NeutralRecord> getStagedNeutralRecords(NeutralRecord neutralRecord, Job job,
             Set<String> encounteredStgCollections) {
 
         Iterable<NeutralRecord> stagedNeutralRecords = Collections.emptyList();
 
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setLimit(0);
+
         if (neutralRecord.getRecordType().equals("studentTranscriptAssociation")) {
             String studentAcademicRecordId = (String) neutralRecord.getAttributes().remove("studentAcademicRecordId");
             neutralQuery.addCriteria(new NeutralCriteria("studentAcademicRecordId", "=", studentAcademicRecordId));
-            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAll(
-                    neutralRecord.getRecordType() + "_transformed", neutralQuery);
+
+            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
+                    neutralRecord.getRecordType() + "_transformed", job.getId(), neutralQuery);
         } else {
-            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAll(
-                    neutralRecord.getRecordType() + "_transformed", neutralQuery);
+
+            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
+                    neutralRecord.getRecordType() + "_transformed", job.getId(), neutralQuery);
+
             encounteredStgCollections.add(neutralRecord.getRecordType());
         }
         return stagedNeutralRecords;
     }
 
     /**
-     * returns list of collections that were created as a result transformation feature
+     * returns list of the names of collections that were created as a result transformation feature
+     *
+     * @param job
      *
      * @return transformedCollections
      */
-    private List<String> getTransformedCollections() {
-        List<String> collections = new ArrayList<String>();
+    private Collection<String> getTransformedCollectionNames(Job job) {
+        HashSet<String> collections = new HashSet<String>();
 
-        Iterable<String> data = neutralRecordMongoAccess.getRecordRepository().getCollectionNames();
+        Iterable<String> data = neutralRecordMongoAccess.getRecordRepository()
+                .getCollectionFullNamesForJob(job.getId());
         Iterator<String> iter = data.iterator();
 
         while (iter.hasNext()) {
             String collectionName = iter.next();
 
-            if (collectionName.endsWith("_transformed")) {
-                collections.add(collectionName.substring(0, collectionName.length() - "_transformed".length()));
+            int indexOfTransformed = collectionName.indexOf("_transformed");
+            if (indexOfTransformed != -1) {
+                if (neutralRecordMongoAccess.getRecordRepository().count(collectionName, new NeutralQuery()) > 0) {
+                    LOG.info("FOUND TRANSFORMED COLLECTION WITH MORE THEN 0 RECORD = " + collectionName);
+                    collections.add(collectionName.substring(0, indexOfTransformed));
+                }
             }
         }
         return collections;
@@ -294,13 +336,13 @@ public class PersistenceProcessor implements Processor {
         return dbErrorReport;
     }
 
-    private void cleanupStagingDbForJob() {
-        neutralRecordMongoAccess.cleanupGroupedCollections();
+    private void cleanupStagingDbForJob(Job job) {
+        neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(job.getId());
     }
 
-    private static String getTenantId(NewBatchJob newJob) {
+    private static String getTenantId(Job job) {
         // TODO this should be determined based on the sourceId
-        String tenantId = newJob.getProperty("tenantId");
+        String tenantId = job.getProperty("tenantId");
         if (tenantId == null) {
             tenantId = "SLI";
         }
@@ -323,13 +365,8 @@ public class PersistenceProcessor implements Processor {
         batchJobDAO.saveError(error);
     }
 
-    // TODO: currently only called by unit tests.... GET RID OF IT!!!
-    public void processIngestionStream(String batchJobId, File neutralRecordsFile, String tenantId) throws IOException {
-        processNeutralRecordsFile(neutralRecordsFile, tenantId, batchJobId, null);
-    }
-
-    public void setEntityPersistHandler(EntityPersistHandler entityPersistHandler) {
-        this.entityPersistHandler = entityPersistHandler;
+    public void setEntityPersistHandlers(Map<String, ? extends AbstractIngestionHandler<SimpleEntity, Entity>> entityPersistHandlers) {
+        this.entityPersistHandlers = entityPersistHandlers;
     }
 
     public NeutralRecordEntityPersistHandler getObsoletePersistHandler() {
@@ -346,6 +383,18 @@ public class PersistenceProcessor implements Processor {
 
     public void setPersistedCollections(Set<String> persistedCollections) {
         this.persistedCollections = persistedCollections;
+    }
+
+    public void setTransformers(Map<String, EdFi2SLITransformer> transformers) {
+        this.transformers = transformers;
+    }
+
+    public void setDefaultEdFi2SLITransformer(EdFi2SLITransformer defaultEdFi2SLITransformer) {
+        this.defaultEdFi2SLITransformer = defaultEdFi2SLITransformer;
+    }
+
+    public void setDefaultEntityPersistHandler(AbstractIngestionHandler<SimpleEntity, Entity> defaultEntityPersistHandler) {
+        this.defaultEntityPersistHandler = defaultEntityPersistHandler;
     }
 
 }

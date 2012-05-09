@@ -32,27 +32,28 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
+
 /**
  * Spring interceptor for calls that don't have a session
  * This implementation simply redirects to the login URL
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 @Component
 public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(SLIAuthenticationEntryPoint.class);
-    
+
     @Value("${oauth.redirect}")
     private String callbackUrl;
-    
+
     @Value("${oauth.client.id}")
     private String clientId;
-    
+
     @Value("${oauth.client.secret}")
     private String clientSecret;
-    
+
     @Value("${api.server.url}")
     private String apiUrl;
     
@@ -63,19 +64,19 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     private static final String DASHBOARD_COOKIE_DOMAIN = ".slidev.org";
     
     private RESTClient restClient;
-    
+
     public RESTClient getRestClient() {
         return restClient;
     }
-    
+
     public void setRestClient(RESTClient restClient) {
         this.restClient = restClient;
     }
-    
+
     private void addAuthentication(String token) {
         JsonObject json = restClient.sessionCheck(token);
         LOG.debug(json.toString());
-        
+
         // If the user is authenticated, create an SLI principal, and authenticate
         if (json.get(Constants.ATTR_AUTHENTICATED).getAsBoolean()) {
             SLIPrincipal principal = new SLIPrincipal();
@@ -95,18 +96,18 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             JsonArray grantedAuthorities = json.getAsJsonArray("sliRoles");
             Iterator<JsonElement> authIterator = grantedAuthorities.iterator();
             LinkedList<GrantedAuthority> authList = new LinkedList<GrantedAuthority>();
-            
+
             // Add authorities to user principal
             while (authIterator.hasNext()) {
                 JsonElement nextElement = authIterator.next();
                 authList.add(new GrantedAuthorityImpl(nextElement.getAsString()));
             }
-            
+
             SecurityContextHolder.getContext().setAuthentication(
                     new PreAuthenticatedAuthenticationToken(principal, token, authList));
         }
     }
-    
+
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
@@ -134,21 +135,24 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         }
 
         SliApi.setBaseUrl(apiUrl);
-        LOG.debug("Client ID is {}, clientSecret is {}, callbackUrl is {}", new Object[] { clientId, clientSecret,
-                callbackUrl });
+
+//        DE260: The log below is possibly a security hole!
+//        LOG.debug("Client ID is {}, clientSecret is {}, callbackUrl is {}", new Object[] { clientId, clientSecret,
+//                callbackUrl });
         OAuthService service = new ServiceBuilder().provider(SliApi.class).apiKey(clientId).apiSecret(clientSecret)
                 .callback(callbackUrl).build();
-        
         Object token = session.getAttribute(OAUTH_TOKEN);
-        LOG.debug(
-                "Oauth token in session - {} and access code - {} and request URL is {}",
-                new Object[] { session.getAttribute(OAUTH_TOKEN), request.getParameter("code"), request.getRequestURL() });
+
+//        DE260: The log below is possibly a security hole!
+//        LOG.debug(
+//                "Oauth token in session - {} and access code - {} and request URL is {}",
+//                new Object[] { session.getAttribute(OAUTH_TOKEN), request.getParameter("code"), request.getRequestURL() });
+
         if (session.getAttribute(OAUTH_TOKEN) == null && request.getParameter("code") != null) {
             Verifier verifier = new Verifier(request.getParameter("code"));
             Token accessToken = null;
             try {
                 accessToken = service.getAccessToken(null, verifier);
-                
                 session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
                 Object entryUrl = session.getAttribute(ENTRY_URL);
                 if (entryUrl != null) {
@@ -157,6 +161,8 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                     response.sendRedirect(request.getRequestURI());
                 }                
             } catch (OAuthException ex) {
+                //This will happen if the request to getAccessToken results in an OAuth error, such as
+                //if the user isn't authorized to use the client.
                 LOG.error("Authentication exception: {}", new Object[] { ex.getMessage() });
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, ex.getMessage());
                 return;
@@ -167,12 +173,13 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             }
         } else if (session.getAttribute(OAUTH_TOKEN) == null) {
             session.setAttribute(ENTRY_URL, request.getRequestURL());
-            
+
             // The request token doesn't matter for OAuth 2.0 which is why it's null
             String authUrl = service.getAuthorizationUrl(null);
             response.sendRedirect(authUrl);
         } else {
-            LOG.debug("Using access token {}", token);
+//            DE260: The log below is possibly a security hole!
+//            LOG.debug("Using access token {}", token);
             addAuthentication((String) token);
             
             //save the cookie to support sessions across multiple dashboard servers
@@ -182,37 +189,37 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             response.sendRedirect(request.getRequestURI());
         }
     }
-    
+
     public String getClientId() {
         return clientId;
     }
-    
+
     public String getClientSecret() {
         return clientSecret;
     }
-    
+
     public String getCallbackUrl() {
         return callbackUrl;
     }
-    
+
     public void setClientId(String clientId) {
         this.clientId = clientId;
     }
-    
+
     public void setClientSecret(String clientSecret) {
         this.clientSecret = clientSecret;
     }
-    
+
     public void setCallbackUrl(String callbackUrl) {
         this.callbackUrl = callbackUrl;
     }
-    
+
     public void setApiUrl(String apiUrl) {
         this.apiUrl = apiUrl;
     }
-    
+
     public String getApiUrl() {
         return apiUrl;
     }
-    
+
 }
