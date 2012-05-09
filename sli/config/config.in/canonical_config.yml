@@ -218,7 +218,7 @@ acceptance-tests:
         sli.ingestion.queue.maestro.port: 5445
         sli.ingestion.queue.maestro.queueURI: jms-hornetq:IngestionMaestro
         sli.ingestion.queue.maestro.concurrentConsumers: 5
-        sli.ingestion.queue.maestro.uriOptions: &transferExchange=true
+        sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
 
@@ -227,7 +227,7 @@ acceptance-tests:
         sli.ingestion.queue.pit.port: 5445
         sli.ingestion.queue.pit.queueURI: jms-hornetq:IngestionPit
         sli.ingestion.queue.pit.concurrentConsumers: 5
-        sli.ingestion.queue.pit.uriOptions: &transferExchange=true
+        sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
 
@@ -776,7 +776,7 @@ team:
         sli.ingestion.queue.maestro.port: 5445
         sli.ingestion.queue.maestro.queueURI: jms-hornetq:IngestionMaestro
         sli.ingestion.queue.maestro.concurrentConsumers: 5
-        sli.ingestion.queue.maestro.uriOptions: &transferExchange=true
+        sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
 
@@ -785,7 +785,7 @@ team:
         sli.ingestion.queue.pit.port: 5445
         sli.ingestion.queue.pit.queueURI: jms-hornetq:IngestionPit
         sli.ingestion.queue.pit.concurrentConsumers: 5
-        sli.ingestion.queue.pit.uriOptions: &transferExchange=true
+        sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
 
