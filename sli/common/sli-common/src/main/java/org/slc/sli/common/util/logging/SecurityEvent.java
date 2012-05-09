@@ -1,8 +1,10 @@
-package org.slc.sli.dal.security;
+package org.slc.sli.common.util.logging;
 
 import java.util.Date;
 
 public class SecurityEvent {
+    
+    private static final String delimiter = ",";
     
     private String tenantId; // Alpha MH
 
@@ -28,7 +30,7 @@ public class SecurityEvent {
     
     private String className;
     
-    private String logLevel; // Alpha MH
+    private LogLevelType logLevel; // Alpha MH
     
     private String logMessage; // Alpha MH
 
@@ -37,7 +39,7 @@ public class SecurityEvent {
 
     public SecurityEvent(String tenantId, String user, String targetEdOrg, String actionUri, 
             String appId, String origin, String executedOn, String credential, String userOrigin, 
-            Date timeStamp, String processNameOrId, String className, String logLevel, String logMessage) {
+            Date timeStamp, String processNameOrId, String className, LogLevelType logLevel, String logMessage) {
         this.tenantId = tenantId;
         this.user = user;
         this.targetEdOrg = targetEdOrg;
@@ -150,11 +152,11 @@ public class SecurityEvent {
         this.className = className;
     }
 
-    public String getLogLevel() {
+    public LogLevelType getLogLevel() {
         return logLevel;
     }
 
-    public void setLogLevel(String logLevel) {
+    public void setLogLevel(LogLevelType logLevel) {
         this.logLevel = logLevel;
     }
 
@@ -166,22 +168,23 @@ public class SecurityEvent {
         this.logMessage = logMessage;
     }
     
-    public String write(){
+    @Override
+    public String toString(){
         String message;
         
-        message = tenantId + "," +
-                user + "," +
-                targetEdOrg + "," +
-                actionUri + "," +
-                appId + "," +
-                origin + "," +
-                executedOn + "," +
-                credential + "," +
-                userOrigin + "," +
-                timeStamp + "," +
-                processNameOrId + "," +
-                className + "," +
-                logLevel + "," +
+        message = tenantId + delimiter +
+                user + delimiter +
+                targetEdOrg + delimiter +
+                actionUri + delimiter +
+                appId + delimiter +
+                origin + delimiter +
+                executedOn + delimiter +
+                credential + delimiter +
+                userOrigin + delimiter +
+                timeStamp + delimiter +
+                processNameOrId + delimiter +
+                className + delimiter +
+                logLevel.getName() + delimiter +
                 logMessage;
          
         return message;

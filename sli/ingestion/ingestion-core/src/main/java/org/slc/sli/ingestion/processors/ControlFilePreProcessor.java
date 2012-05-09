@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.dal.security.SecurityEvent;
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -106,10 +107,10 @@ public class ControlFilePreProcessor implements Processor {
                     new Date(), // Alpha MH (timeStamp)
                     "", // processNameOrId
                     "ControlFilePreProcessor.class", // className
-                    "INFO", // Alpha MH (logLevel)
+                    LogLevelType.TYPE_INFO, // Alpha MH (logLevel)
                     "MESSAGE: Ingestion process started."); // Alpha MH (logMessage)
 
-            getSecurityLogData(event);
+             audit(event);
             
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
@@ -121,11 +122,6 @@ public class ControlFilePreProcessor implements Processor {
         }
     }
     
-    // Triggers security logging aspectJ
-    public SecurityEvent getSecurityLogData(SecurityEvent event) {
-        return event;
-    }
-
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());

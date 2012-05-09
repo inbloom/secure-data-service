@@ -78,7 +78,7 @@
     <appender-ref ref="PERF_FILE" />
   </logger>
 
-  <logger name="Job.SecurityMonitor" level="INFO">
+  <logger name="SecurityMonitor" level="INFO">
     <appender-ref ref="SECURITY_FILE" />
   </logger>
 

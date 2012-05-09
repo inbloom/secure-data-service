@@ -20,7 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.dal.security.SecurityEvent;
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -126,7 +127,7 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private static void writeBatchJobProperties(NewBatchJob job, PrintWriter jobReportWriter) {
+    private void writeBatchJobProperties(NewBatchJob job, PrintWriter jobReportWriter) {
         if (job.getBatchProperties() != null) {
             for (Entry<String, String> entry : job.getBatchProperties().entrySet()) {
                 writeInfoLine(jobReportWriter, "[configProperty] " + entry.getKey() + ": " + entry.getValue());
@@ -257,7 +258,7 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private static void logResourceMetric(ResourceEntry resourceEntry, long numProcessed, long numFailed,
+    private void logResourceMetric(ResourceEntry resourceEntry, long numProcessed, long numFailed,
             PrintWriter jobReportWriter) {
         String id = "[file] " + resourceEntry.getExternallyUploadedResourceId();
         writeInfoLine(jobReportWriter,
@@ -294,27 +295,25 @@ public class JobReportingProcessor implements Processor {
         LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
-    private static void writeInfoLine(PrintWriter jobReportWriter, String string) {
+    private void writeInfoLine(PrintWriter jobReportWriter, String string) {
         writeLine(jobReportWriter, "INFO", string);
-        writeSecurityLog("INFO", string);
+        writeSecurityLog(LogLevelType.TYPE_INFO, string);
     }
 
-    private static void writeErrorLine(PrintWriter jobReportWriter, String string) {
+    private void writeErrorLine(PrintWriter jobReportWriter, String string) {
         writeLine(jobReportWriter, "ERROR", string);
-        writeSecurityLog("ERROR", string);
     }
 
-    private static void writeWarningLine(PrintWriter jobReportWriter, String string) {
+    private void writeWarningLine(PrintWriter jobReportWriter, String string) {
         writeLine(jobReportWriter, "WARN", string);
-        writeSecurityLog("WARN", string);
     }
 
-    private static void writeLine(PrintWriter jobReportWriter, String type, String text) {
+    private void writeLine(PrintWriter jobReportWriter, String type, String text) {
         jobReportWriter.write(type + "  " + text);
         jobReportWriter.println();
     }
 
-    private static void cleanupWriterAndLocks(PrintWriter jobReportWriter, FileLock lock, FileChannel channel) {
+    private void cleanupWriterAndLocks(PrintWriter jobReportWriter, FileLock lock, FileChannel channel) {
         if (jobReportWriter != null) {
             jobReportWriter.close();
         }
@@ -333,8 +332,8 @@ public class JobReportingProcessor implements Processor {
             }
         }
     }
-    
-    private static void writeSecurityLog(String messageType, String message) {
+
+    private void writeSecurityLog(LogLevelType messageType, String message) {
         SecurityEvent event = new SecurityEvent("",  // Alpha MH (tenantId - written in 'message')
                 "", // user
                 "", // targetEdOrg
@@ -346,16 +345,10 @@ public class JobReportingProcessor implements Processor {
                 "", // userOrigin
                 new Date(), // Alpha MH (timeStamp)
                 "", // processNameOrId
-                "JobReportingProcessor.class", // className 
+                "JobReportingProcessor.class", // className
                 messageType, // Alpha MH (logLevel)
                 message); // Alpha MH (logMessage)
 
-        getSecurityLogData(event);
+        audit(event);
     }
-    
-    // Triggers security logging aspectJ
-    public static SecurityEvent getSecurityLogData(SecurityEvent event) {
-        return event;
-    }
-    
 }
