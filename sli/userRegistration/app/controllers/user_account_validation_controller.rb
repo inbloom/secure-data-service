@@ -43,10 +43,10 @@ class UserAccountValidationController < ApplicationController
     
     if (res.code == 200)
       parsedJsonHash = JSON.parse(res.body)
-      if (parsedJsonHash["validated"] == "true")
+      if (parsedJsonHash["validated"] == true)
         @validation_result = ACCOUNT_PREVIOUSLY_VERIFIED
       else
-        parsedJsonHash["validated"] = "true"
+        parsedJsonHash["validated"] = true
         putRes = RestClient.put(url, parsedJsonHash.to_json, REST_HEADER){|response, request, result| response }
         if (putRes.code == 204)
           @validation_result = ACCOUNT_VERIFICATION_COMPLETE
