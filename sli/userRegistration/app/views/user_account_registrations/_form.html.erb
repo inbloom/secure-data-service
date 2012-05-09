@@ -9,7 +9,6 @@
     <table>
         <tr class="field">
             <td><%= f.label :email %></td>
-            <td><%= f.label ":" %></td>
             <td ><%= f.text_field :email %></td>
             <% if @user_account_registration.errors[:email].any? %>
             <td id="error_explanation">
@@ -20,11 +19,9 @@
               </ul>
             </td>
             <%end%>
-
         </tr>
         <tr class="field">
                 <td><%= f.label :firstName %></td>
-                <td><%= f.label ":" %></td>
                 <td class="textField"><%= f.text_field :firstName %></td>
                 <% if @user_account_registration.errors[:firstName].any? %>
                     <td id="error_explanation">
@@ -38,7 +35,6 @@
             </tr>
         <tr class="field">
                 <td><%= f.label :lastName %></td>
-                <td><%= f.label ":" %></td>
                 <td ><%= f.text_field :lastName %></td>
                 <% if @user_account_registration.errors[:lastName].any? %>
                     <td id="error_explanation">
@@ -52,7 +48,6 @@
             </tr>
         <tr class="field">
                 <td><%= f.label :password %></td>
-                <td><%= f.label ":" %></td>
                 <td ><%= f.password_field :password %></td>
                 <% if @user_account_registration.errors[:password].any? %>
                     <td id="error_explanation">
@@ -66,7 +61,6 @@
             </tr>
          <tr class="field">
                         <td><%= f.label :confirmation %></td>
-                        <td><%= f.label ":" %></td>
                         <td ><%= f.password_field :password_confirmation %></td>
                         <% if @user_account_registration.errors[:confirmation].any? %>
                             <td id="error_explanation">
@@ -80,7 +74,6 @@
                     </tr>
         <tr class="field">
                 <td><%= f.label :vendor %></td>
-                <td><%= f.label ":" %></td>
                 <td><%= f.text_field :vendor %></td>
                 <td></td>
             </tr>

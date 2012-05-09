@@ -17,13 +17,14 @@
       <table style="border: 1px solid">
         <tr>
           <td>
-            <pre width="100">
+            <pre width="80" style="height: 400px; overflow-y: scroll; background-color:#FFFFFF">
                 <%= render :file => '../../public/license.txt' %>
             </pre>
           </td>
         </tr>
       </table>
     </div>
+    <br/>
 
     <%= f.submit "Accept",
       :confirm => "Your request was submitted. You will receive and email asking you to verify your email address, and then provide you with the next steps in the process.", 
