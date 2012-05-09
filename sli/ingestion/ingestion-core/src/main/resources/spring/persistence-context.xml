@@ -43,6 +43,7 @@
     <value>attendance</value>
     <value>course</value>
     <value>educationOrganization</value>
+    <value>grade</value>
     <value>gradebookEntry</value>
     <value>parent</value>
     <value>school</value>
