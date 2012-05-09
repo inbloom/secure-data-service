@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 import org.slc.sli.util.DashboardException;
 
 /**
@@ -264,6 +267,8 @@ public class Config implements Cloneable {
         }
     }
 
+    @NotNull
+    @Pattern(regexp = "[a-zA-Z0-9]{1,30}")
     protected String id;
     /**
      * if id of the parent is different from the id - in case when many similar panels share the driver

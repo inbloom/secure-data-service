@@ -53,6 +53,6 @@ When I select ed org "Daybreak School District 4529"
 When I select school "Daybreak Central High"
 And I select course "Writing about Government"
 And I select section "Sec 923"
-Then I should only see one view named "College Ready ELA View"
+Then I should only see one view named "Middle School ELA View"
 #Then I see a list of 2 students
 
