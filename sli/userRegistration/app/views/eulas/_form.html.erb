@@ -1,18 +1,5 @@
-<%= form_for(@eula) do |f| %>
-  <% if @eula.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@eula.errors.count, "error") %> prohibited this eula from being saved:</h2>
-
-      <ul>
-      <% @eula.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+<%= form_for(:eula) do |f| %>
   <div class="actions">
-
     <div class="field">
       <table style="border: 1px solid">
         <tr>
@@ -30,6 +17,5 @@
       :id => "acceptEulaButton" %>
     <%= f.submit "Reject", 
       :id => "rejectEulaButton" %>
-
   </div>
 <% end %>
