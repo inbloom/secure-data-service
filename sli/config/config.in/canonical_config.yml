@@ -462,7 +462,7 @@ devjuggernauts:
 
     misc:
         <<: *MISC-DEFAULT
-        log.path: ${user.home}/logs
+        log.path: /var/logs
 
 
 
