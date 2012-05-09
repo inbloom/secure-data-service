@@ -11,7 +11,8 @@ import org.milyn.payload.StringSource;
  * @author tke
  *
  */
-public class SmooksExtendedReferenceResolver extends ExtendedReferenceResolver {
+
+public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrategy {
     private static Map<String, Smooks> idRefConfigs;
     public Map<String, Smooks> getIdRefConfigs() {
         return idRefConfigs;
