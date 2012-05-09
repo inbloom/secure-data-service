@@ -40,7 +40,7 @@ public class ShardKeyMongoEntityDecorator implements MongoEntityDecorator {
         for (String shardField : typeShardFields) {
             shardKey.append(getField(dbObj, shardField));
         }
-        dbObj.put(FIELD_SHARDKEY, shardKey);
+        dbObj.put(FIELD_SHARDKEY, shardKey.toString());
     }
 
     protected String getField(BasicDBObject dbObject, String key) {
