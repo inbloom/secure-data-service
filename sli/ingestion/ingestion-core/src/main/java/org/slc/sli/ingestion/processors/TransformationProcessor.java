@@ -14,6 +14,7 @@ import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
@@ -63,6 +64,9 @@ public class TransformationProcessor implements Processor {
     private void processTransformations(WorkNote workNote, Exchange exchange) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
+        Metrics metrics = Metrics.createAndStart(workNote.getBatchJobId() + "-" + workNote.getCollection());
+        stage.getMetrics().add(metrics);
+
         String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = null;
         try {
@@ -74,6 +78,8 @@ public class TransformationProcessor implements Processor {
         } catch (Exception e) {
             handleProcessingExceptions(exchange, batchJobId, e);
         } finally {
+            metrics.stopMetric();
+
             BatchJobUtils.stopStageAndAddToJob(stage, newJob);
             batchJobDAO.saveBatchJob(newJob);
         }
