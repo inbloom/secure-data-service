@@ -5,6 +5,8 @@ import java.util.Map;
 import org.milyn.Smooks;
 import org.milyn.payload.StringResult;
 import org.milyn.payload.StringSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -14,6 +16,8 @@ import org.milyn.payload.StringSource;
 
 public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrategy {
     private static Map<String, Smooks> idRefConfigs;
+    private static final Logger LOG = LoggerFactory.getLogger(SmooksExtendedReferenceResolver.class);
+
     public Map<String, Smooks> getIdRefConfigs() {
         return idRefConfigs;
     }
@@ -35,6 +39,7 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
     public String resolve(String interchange, String element, String reference, String content) {
         String key = interchange + element + reference;
         if (!idRefConfigs.containsKey(key)) {
+            LOG.warn("IDRef Resolution does not supported:" + interchange + " - " + element + " - " + reference);
             return null;
         }
         Smooks smooks = idRefConfigs.get(key);
@@ -42,6 +47,10 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
         StringSource source = new StringSource(content);
         smooks.filterSource(source, result);
 
-        return result.toString();
+        String resultStr = result.toString();
+        if (resultStr.isEmpty()) {
+            LOG.warn("IDRef Resolution failed. Configuration or input may not be correct:" + interchange + " - " + element + " - " + reference);
+        }
+        return resultStr;
     }
 }
