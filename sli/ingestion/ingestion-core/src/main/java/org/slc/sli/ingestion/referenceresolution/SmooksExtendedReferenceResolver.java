@@ -11,14 +11,15 @@ import org.milyn.payload.StringSource;
  * @author tke
  *
  */
+
 public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrategy {
-    private Map<String, Smooks> idRefConfigs;
+    private static Map<String, Smooks> idRefConfigs;
     public Map<String, Smooks> getIdRefConfigs() {
         return idRefConfigs;
     }
 
     public void setIdRefConfigs(Map<String, Smooks> idRefConfigs) {
-        this.idRefConfigs = idRefConfigs;
+        SmooksExtendedReferenceResolver.idRefConfigs = idRefConfigs;
     }
 
     /**
