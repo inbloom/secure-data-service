@@ -216,6 +216,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             XmlEventBrowser replaceRefContent = new XmlEventBrowser() {
 
+            String interchangeName = "";
+
             @Override
             public boolean isSupported(XMLEvent xmlEvent) {
                 return true;
@@ -224,10 +226,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             @Override
             public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
                 String contentToAdd = null;
-
-                String interchangeName = "";
-                //String parentElement = "";
-
 
 
                 if (xmlEvent.isStartElement()) {
@@ -244,8 +242,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                     Attribute id = start.getAttributeByName(ID_ATTR);
                     Attribute ref = start.getAttributeByName(REF_ATTR);
-
-
 
                     if (ref != null && refObject.contains(ref.getValue())) {
 

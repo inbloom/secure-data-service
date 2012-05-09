@@ -3,6 +3,7 @@ package org.slc.sli.ingestion.handler;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -31,6 +32,7 @@ public class IdRefResolutionHandlerTest {
     @Autowired
     private IdRefResolutionHandler idRefResolutionHandler;
 
+    @Ignore
     @Test
     public void testListOfReferences() throws FileNotFoundException {
         File inputFile = IngestionTest.getFile("ReferenceResolution/RefXml_sample.xml");
