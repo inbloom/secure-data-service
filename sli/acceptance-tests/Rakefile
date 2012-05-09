@@ -888,7 +888,7 @@ end
 
 desc "Run Sandbox Simple IDP Authentication Selenium Tests"
 task :simpleIDPAuthTests => [:realmInit, :importSandboxData] do
-  runTests("test/features/apiV1/end_user_stories/sandbox/simpleIDP/MockIDP.feature")
+  runTests("test/features/simple-idp")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
