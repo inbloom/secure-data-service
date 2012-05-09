@@ -65,11 +65,14 @@ public class AuthFilter implements Filter {
     private void handleCallback(ServletRequest request, ServletResponse response) {
         BasicClient client = (BasicClient) ((HttpServletRequest) request).getSession().getAttribute("client");
         String code = ((HttpServletRequest) request).getParameter("code");
-        LOG.debug("Got authoriation code: {}", code);
+//        DE260 - commenting out possibly sensitive data
+//        LOG.debug("Got authoriation code: {}", code);
 
         if (client != null) {
-            String accessToken = client.connect(code);
-            LOG.debug("Got access token: {}", accessToken);
+//            String accessToken =
+                    client.connect(code);
+//            DE260 - commenting out possibly sensitive data
+//            LOG.debug("Got access token: {}", accessToken);
         }
     }
 
