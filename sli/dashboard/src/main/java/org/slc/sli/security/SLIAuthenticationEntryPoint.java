@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,6 +19,8 @@ import org.scribe.exceptions.OAuthException;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
+import org.slc.sli.client.RESTClient;
+import org.slc.sli.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +32,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.client.RESTClient;
 
 /**
  * Spring interceptor for calls that don't have a session
@@ -54,10 +56,13 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Value("${api.server.url}")
     private String apiUrl;
-
-    private static final String OAUTH_TOKEN = "OAUTH_TOKEN";
+    
+    public static final String OAUTH_TOKEN = "OAUTH_TOKEN";
+    public static final String DASHBOARD_COOKIE = "SLI_DASHBOARD_COOKIE";
     private static final String ENTRY_URL = "ENTRY_URL";
-
+    
+    private static final String DASHBOARD_COOKIE_DOMAIN = ".slidev.org";
+    
     private RESTClient restClient;
 
     public RESTClient getRestClient() {
@@ -73,7 +78,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         LOG.debug(json.toString());
 
         // If the user is authenticated, create an SLI principal, and authenticate
-        if (json.get("authenticated").getAsBoolean()) {
+        if (json.get(Constants.ATTR_AUTHENTICATED).getAsBoolean()) {
             SLIPrincipal principal = new SLIPrincipal();
             JsonElement nameElement = json.get("full_name");
             String username = nameElement.getAsString();
@@ -106,6 +111,29 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
+        HttpSession session = request.getSession();
+        
+        //If there is no oauth credential, and the user has a dashboard cookie, add cookie value as oauth session attribute.
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            
+            // Loop through cookies to find dashboard cookie
+            for (Cookie c : cookies) {
+                if (c.getName().equals(DASHBOARD_COOKIE) && (session.getAttribute(OAUTH_TOKEN) == null)) {
+
+                        JsonObject json = restClient.sessionCheck(c.getValue());
+
+                        //If user is not authenticated, expire the cookie, else set OAUTH_TOKEN to cookie value and continue
+                        if (!json.get("authenticated").getAsBoolean()) {
+                            c.setMaxAge(0);
+                        } else {
+                            session.setAttribute(OAUTH_TOKEN, c.getValue());
+                        }
+                    
+                }
+            }
+        }
+
         SliApi.setBaseUrl(apiUrl);
 
 //        DE260: The log below is possibly a security hole!
@@ -113,8 +141,6 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
 //                callbackUrl });
         OAuthService service = new ServiceBuilder().provider(SliApi.class).apiKey(clientId).apiSecret(clientSecret)
                 .callback(callbackUrl).build();
-
-        HttpSession session = request.getSession();
         Object token = session.getAttribute(OAUTH_TOKEN);
 
 //        DE260: The log below is possibly a security hole!
@@ -127,20 +153,23 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             Token accessToken = null;
             try {
                 accessToken = service.getAccessToken(null, verifier);
+                session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
+                Object entryUrl = session.getAttribute(ENTRY_URL);
+                if (entryUrl != null) {
+                    response.sendRedirect(session.getAttribute(ENTRY_URL).toString());
+                } else {
+                    response.sendRedirect(request.getRequestURI());
+                }                
             } catch (OAuthException ex) {
                 //This will happen if the request to getAccessToken results in an OAuth error, such as
                 //if the user isn't authorized to use the client.
-
-                //TODO: provide an improved error page
+                LOG.error("Authentication exception: {}", new Object[] { ex.getMessage() });
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, ex.getMessage());
                 return;
-            }
-            session.setAttribute(OAUTH_TOKEN, accessToken.getToken());
-            Object entryUrl = session.getAttribute(ENTRY_URL);
-            if (entryUrl != null) {
-                response.sendRedirect(session.getAttribute(ENTRY_URL).toString());
-            } else {
-                response.sendRedirect(request.getRequestURI());
+            } catch (Exception ex) {
+                LOG.error("Authentication exception: {}", new Object[] { ex.getMessage() });
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+                return;
             }
         } else if (session.getAttribute(OAUTH_TOKEN) == null) {
             session.setAttribute(ENTRY_URL, request.getRequestURL());
@@ -152,6 +181,11 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
 //            DE260: The log below is possibly a security hole!
 //            LOG.debug("Using access token {}", token);
             addAuthentication((String) token);
+            
+            //save the cookie to support sessions across multiple dashboard servers
+            Cookie cookie = new Cookie(DASHBOARD_COOKIE, (String) token);
+            cookie.setDomain(DASHBOARD_COOKIE_DOMAIN);
+            response.addCookie(cookie);
             response.sendRedirect(request.getRequestURI());
         }
     }
