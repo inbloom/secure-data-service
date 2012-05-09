@@ -49,6 +49,7 @@ class ApplicationController < ActionController::Base
     if oauth.enabled?
       if oauth.token != nil
         SessionResource.access_token = oauth.token
+        logger.debug "TOKEN = #{oauth.token}"
       elsif params[:code] && !oauth.has_code
         SessionResource.access_token = oauth.get_token(params[:code])
         check = Check.get("")
