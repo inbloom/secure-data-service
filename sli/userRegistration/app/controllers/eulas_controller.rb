@@ -52,7 +52,7 @@ private
       redirect_to APP_CONFIG['redirect_slc_url']
     end
     if params[:commit] == "Accept"
-      redirect_to "/eulas/show"
+      redirect_to "/finish"
     end
     if params[:commit] == "Ok"
       redirect_to APP_CONFIG['redirect_slc_url']
