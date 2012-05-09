@@ -54,8 +54,10 @@ class UserAccountValidationController < ApplicationController
           @validation_result = UNEXPECTED_VERIFICATION_ERROR
         end
       end
-    else # (res.code == 404)
+    elsif (res.code == 404)
       @validation_result = INVALID_VERIFICATION_CODE
+    else
+      @validation_result = UNEXPECTED_VERIFICATION_ERROR
     end 
     
     respond_to do |format|
