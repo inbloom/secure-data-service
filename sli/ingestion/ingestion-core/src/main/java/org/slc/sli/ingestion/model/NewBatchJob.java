@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import org.slc.sli.common.util.performance.PutResultInContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultsReport;
@@ -16,8 +19,6 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Model for ingestion jobs.
@@ -41,21 +42,21 @@ public class NewBatchJob implements Job {
 
     private Map<String, String> batchProperties;
 
-    private List<Stage> stages;
+    private List<StageSet> stages;
 
     private List<ResourceEntry> resourceEntries;
 
     // mongoTemplate requires this constructor.
     public NewBatchJob() {
         this.batchProperties = new HashMap<String, String>();
-        this.stages = new LinkedList<Stage>();
+        this.stages = new LinkedList<StageSet>();
         this.resourceEntries = new LinkedList<ResourceEntry>();
     }
 
     public NewBatchJob(String id) {
         this.id = id;
         this.batchProperties = new HashMap<String, String>();
-        this.stages = new LinkedList<Stage>();
+        this.stages = new LinkedList<StageSet>();
         this.resourceEntries = new LinkedList<ResourceEntry>();
     }
 
@@ -75,7 +76,10 @@ public class NewBatchJob implements Job {
         if (stages == null) {
             stages = new LinkedList<Stage>();
         }
-        this.stages = stages;
+        for (int i = 0; i < stages.size(); i++) {
+            this.stages.add(new StageSet(stages.get(i)));
+        }
+
         if (resourceEntries == null) {
             resourceEntries = new LinkedList<ResourceEntry>();
         }
@@ -180,9 +184,11 @@ public class NewBatchJob implements Job {
         this.batchProperties = batchProperties;
     }
 
+    /*
     public List<Stage> getStages() {
         return stages;
     }
+    */
 
     public List<ResourceEntry> getResourceEntries() {
         return resourceEntries;
@@ -236,10 +242,18 @@ public class NewBatchJob implements Job {
      * @param stageType
      */
     public List<Metrics> getStageMetrics(BatchJobStageType stageType) {
-        for (Stage stage : this.getStages()) {
-            if (stageType.getName().equals(stage.getStageName())) {
-                return stage.getMetrics();
+        List<Metrics> m = new LinkedList<Metrics>();
+
+        for (StageSet sts : this.stages) {
+            for (Stage s: sts.getChunks()) {
+                if (stageType.getName().equals(s.getStageName())) {
+                    m.addAll(s.getMetrics());
+                }
             }
+        }
+
+        if (m.size() > 0) {
+            return m;
         }
 
         return Collections.emptyList();
@@ -251,8 +265,48 @@ public class NewBatchJob implements Job {
      * @param stage
      */
     public void addStage(Stage stage) {
-        this.stages.add(stage);
+        boolean inExisting = false;
+        for (int i = 0; i < this.stages.size(); i++) {
+            if (!inExisting && this.stages.get(i).getStageName().equals(stage.getStageName())) {
+                this.stages.get(i).addStage(stage);
+                inExisting = true;
+            }
+        }
+
+        if (!inExisting) {
+            this.stages.add(new StageSet(stage));
+        }
     }
+
+    public void addStageChunk(Stage stage) {
+        this.addStage(stage);
+    }
+
+    /*
+    public void addStageChunk(Stage stage) {
+        boolean stageFound = false;
+
+        Stage stageToUpdate;
+        for (int i = 0; i < this.stages.size(); i++) {
+            if (this.stages.get(i).getStageName().equals(stage.getStageName())) {
+                stageFound = true;
+                stageToUpdate = this.stages.remove(i);
+
+                //insert stage with chunks
+                for (Metrics m : stage.getMetrics()) {
+                    stageToUpdate.addMetrics(m);
+                }
+
+                this.stages.add(stageToUpdate);
+            }
+        }
+
+        if (!stageFound) {
+            this.stages.add(stage);
+        }
+
+    }
+    */
 
     @Override
     public List<IngestionFileEntry> getFiles() {

@@ -82,6 +82,11 @@ public class BatchJobUtils {
         job.addStage(stage);
     }
 
+    public static void stopStageChunkAndAddToJob(Stage stage, NewBatchJob job) {
+        stage.stopStage();
+        job.addStageChunk(stage);
+    }
+
     public static ResourceEntry createResourceForOutputFile(IngestionFileEntry fe, FileProcessStatus fileProcessStatus) {
         ResourceEntry resource = new ResourceEntry();
         String rId = fileProcessStatus.getOutputFileName();

@@ -80,7 +80,7 @@ public class TransformationProcessor implements Processor {
         } finally {
             metrics.stopMetric();
 
-            BatchJobUtils.stopStageAndAddToJob(stage, newJob);
+            BatchJobUtils.stopStageChunkAndAddToJob(stage, newJob);
             batchJobDAO.saveBatchJob(newJob);
         }
     }

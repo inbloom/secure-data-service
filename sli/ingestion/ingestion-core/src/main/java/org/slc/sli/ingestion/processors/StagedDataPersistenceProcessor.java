@@ -120,7 +120,7 @@ public class StagedDataPersistenceProcessor implements Processor {
             handleProcessingExceptions(exception, exchange, batchJobId);
         } finally {
             if (newJob != null) {
-                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
+                BatchJobUtils.stopStageChunkAndAddToJob(stage, newJob);
                 batchJobDAO.saveBatchJob(newJob);
             }
         }
