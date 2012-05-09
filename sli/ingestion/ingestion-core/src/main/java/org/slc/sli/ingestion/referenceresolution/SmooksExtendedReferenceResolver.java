@@ -12,13 +12,13 @@ import org.milyn.payload.StringSource;
  *
  */
 public class SmooksExtendedReferenceResolver extends ExtendedReferenceResolver {
-    private Map<String, Smooks> idRefConfigs;
+    private static Map<String, Smooks> idRefConfigs;
     public Map<String, Smooks> getIdRefConfigs() {
         return idRefConfigs;
     }
 
     public void setIdRefConfigs(Map<String, Smooks> idRefConfigs) {
-        this.idRefConfigs = idRefConfigs;
+        SmooksExtendedReferenceResolver.idRefConfigs = idRefConfigs;
     }
 
     /**
