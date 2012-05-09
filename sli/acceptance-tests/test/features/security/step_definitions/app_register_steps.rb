@@ -124,6 +124,19 @@ Then /^I should only see "([^"]*)" applications$/ do |arg1|
   end
 end
 
+Then /^the "([^"]*)" bootstrap app should exist$/ do |appName|
+  apps = JSON.parse(@res.body)
+  foundApp = false
+  apps.each do |app|
+    puts app["name"]
+    if app["name"] == appName
+        foundApp = true
+        assert(app["bootstrap"] == true, "App #{appName} was not marked bootstrap")
+    end
+  end
+  assert(foundApp, "Did not find #{appName}")
+end
+
 When /^I navigate to PUT "([^"]*)" to update an application's name$/ do |arg1|
   @format = "application/json"
   uri = "/apps/deb9a9d2-771d-40a1-bb9c-7f93b44e51df"
@@ -157,7 +170,5 @@ When /^I navigate to PUT "([^"]*)" to update an application to "([^"]*)"$/ do |a
   app["registration"]["status"] = arg2
   data = prepareData("application/json", app)
   restHttpPut(arg1, data)
-
   assert(@res != nil, "Response from PUT operation was null")
 end
-
