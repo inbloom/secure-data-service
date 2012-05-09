@@ -120,7 +120,7 @@ public class ControlFilePreProcessor implements Processor {
                     ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
                     this.getClass().getName(), // className
                     LogLevelType.TYPE_INFO, // Alpha MH (logLevel)
-                    "MESSAGE: Ingestion process started."); // Alpha MH (logMessage)
+                    "Ingestion process started."); // Alpha MH (logMessage)
 
              audit(event);
 
