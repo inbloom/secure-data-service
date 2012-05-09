@@ -47,22 +47,11 @@ class UserAccountValidationController < ApplicationController
         @validation_result = ACCOUNT_PREVIOUSLY_VERIFIED
       else
         parsedJsonHash["validated"] = "true"
-        
         putRes = RestClient.put(url, parsedJsonHash.to_json, REST_HEADER){|response, request, result| response }
-        
         if (putRes.code == 204)
           @validation_result = ACCOUNT_VERIFICATION_COMPLETE
         else
           @validation_result = UNEXPECTED_VERIFICATION_ERROR
-          @validation_result = {
-            "status" => "Process failed!",
-            "message" => "putRes: #{putRes} parsedJsonHash: #{parsedJsonHash} "
-          }
-          
-          puts "--------------------------------------"
-          puts "parsedJsonHash: #{parsedJsonHash}"
-          puts "putRes: #{putRes}"
-          puts "--------------------------------------"
         end
       end
     else # (res.code == 404)
