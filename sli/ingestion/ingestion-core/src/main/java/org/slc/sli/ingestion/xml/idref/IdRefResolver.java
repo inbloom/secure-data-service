@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
@@ -203,29 +202,33 @@ public class IdRefResolver {
                     if (xmlEvent.isStartElement()) {
                         StartElement start = xmlEvent.asStartElement();
 
-                        Attribute id = start.getAttributeByName(ID_ATTR);
-                        Attribute ref = start.getAttributeByName(REF_ATTR);
+                        Attribute refResolved = start.getAttributeByName(REF_RESOLVED_ATTR);
 
-                        if (ref != null && refContent.containsKey(ref.getValue())) {
-                            @SuppressWarnings("unchecked")
-                            Iterator<Attribute> attrs = start.getAttributes();
-                            ArrayList<Attribute> newAttrs = new ArrayList<Attribute>();
+                        if (refResolved == null) {
+                            Attribute id = start.getAttributeByName(ID_ATTR);
+                            Attribute ref = start.getAttributeByName(REF_ATTR);
 
-                            while (attrs.hasNext()) {
-                                newAttrs.add(attrs.next());
+                            if (ref != null && refContent.containsKey(ref.getValue())) {
+                                @SuppressWarnings("unchecked")
+                                Iterator<Attribute> attrs = start.getAttributes();
+                                ArrayList<Attribute> newAttrs = new ArrayList<Attribute>();
+
+                                while (attrs.hasNext()) {
+                                    newAttrs.add(attrs.next());
+                                }
+
+                                if (id != null && id.getValue().equals(ref.getValue())) {
+                                    newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, "false"));
+                                } else {
+                                    contentToAdd = refContent.get(ref.getValue());
+
+                                    newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
+                                            (contentToAdd == null) ? "false" : "true"));
+                                }
+
+                                xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
+                                        start.getNamespaces());
                             }
-
-                            if (id != null && id.getValue().equals(ref.getValue())) {
-                                newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, "false"));
-                            } else {
-                                contentToAdd = refContent.get(ref.getValue());
-
-                                newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
-                                        (contentToAdd == null) ? "false" : "true"));
-                            }
-
-                            xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
-                                    start.getNamespaces());
                         }
                     }
 
@@ -236,12 +239,8 @@ public class IdRefResolver {
                         wr.add(newLine);
                     }
 
-                    if (contentToAdd != null && !"".equals(contentToAdd)) {
-                        List<XMLEvent> content = convert(contentToAdd);
-
-                        for (XMLEvent event : content) {
-                            wr.add(event);
-                        }
+                    if (contentToAdd != null) {
+                        addContent(contentToAdd, wr);
                     }
                 }
 
@@ -368,14 +367,12 @@ public class IdRefResolver {
         return snippet;
     }
 
-    private List<XMLEvent> convert(File contentToAdd) throws XMLStreamException {
-        final List<XMLEvent> events = new ArrayList<XMLEvent>();
-
-        XmlEventVisitor convertToXml = new XmlEventVisitor() {
+    private void addContent(File contentToAdd, final XMLEventWriter xmlEventWriter) {
+        XmlEventVisitor addToXml = new XmlEventVisitor() {
 
             @Override
             public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
-                events.add(xmlEvent);
+                xmlEventWriter.add(xmlEvent);
             }
 
             @Override
@@ -389,8 +386,6 @@ public class IdRefResolver {
             }
         };
 
-        browse(contentToAdd, convertToXml);
-
-        return events;
+        browse(contentToAdd, addToXml);
     }
 }
