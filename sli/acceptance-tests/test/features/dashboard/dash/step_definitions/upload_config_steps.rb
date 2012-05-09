@@ -20,7 +20,8 @@ When /^click Save$/ do
 end
 
 When /^I paste Invalid json config into the text box$/ do
-  invalid = "{
+  invalid = "{config: 
+          {
           \"listOfStudents\" :
           id : \"listOfStudents\",
           type : \"PANEL\",
@@ -32,13 +33,14 @@ When /^I paste Invalid json config into the text box$/ do
           root: 'students',
           items : [
             {name: \"Invalid View\", 
-            items: [
+            items: 
             "
   putTextForConfigUpload(invalid)
 end
 
 Then /^I paste Valid json config into the text box$/ do
-  valid = "{
+  valid = "{ config :
+          {
           \"listOfStudents\" :
           {
             id : \"listOfStudents\",
@@ -52,10 +54,10 @@ Then /^I paste Valid json config into the text box$/ do
             items : [
               {name: \"Uploaded Custom View\", 
               items: [
-                {name: \"My Student\", width: 150, field: \"name.fullName\", formatter:restLink, params: {link:'service/layout/studentProfile/', target:\"_self\"}},
-                {name: \"\", width: 60, field: \"programParticipation\", formatter: Lozenge},
-                {name: \"Absence Count For Testing\", field: \"attendances.absenceCount\", width:100, sorter: 'int', formatter: CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style:'color-widget-red'}}}},
-                {name: \"Tardy Count For Testing\", field: \"attendances.tardyCount\", width:100, sorter: 'int', formatter: CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style:'color-widget-yellow'}, 11:{style:'color-widget-red'}}}}
+                {name: \"My Student\", width: 150, field: \"name.fullName\", formatter:'restLink', params: {link:'service/layout/studentProfile/', target:\"_self\"}},
+                {name: \"\", width: 60, field: \"programParticipation\", formatter: 'Lozenge'},
+                {name: \"Absence Count For Testing\", field: \"attendances.absenceCount\", width:100, sorter: 'int', formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style:'color-widget-red'}}}},
+                {name: \"Tardy Count For Testing\", field: \"attendances.tardyCount\", width:100, sorter: 'int', formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style: 'color-widget-green'}, 6:{style:'color-widget-yellow'}, 11:{style:'color-widget-red'}}}}
               ]
               }
             ] 
@@ -75,6 +77,7 @@ Then /^I paste Valid json config into the text box$/ do
               {id: \"tab1\", name: \"ELL\", type : \"TAB\", condition: {field: \"limitedEnglishProficiency\", value: [\"Limited\"]}, items: []}
             ]
           }
+        }
         }"
   
   putTextForConfigUpload(valid)

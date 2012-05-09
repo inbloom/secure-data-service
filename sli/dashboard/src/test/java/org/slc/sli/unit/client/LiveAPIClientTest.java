@@ -15,6 +15,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -32,7 +35,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.client.LiveAPIClient;
 import org.slc.sli.client.RESTClient;
-import org.slc.sli.entity.CustomConfig;
+import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 
@@ -77,17 +80,17 @@ public class LiveAPIClientTest {
         String token = "token";
         String id = "id";
         String url = client.getApiUrl() + EDORGS_URL + id + CUSTOM_DATA;
-        String json = "{" + "\"component_1\": " + "{" + "\"id\" : \"component_1\", " + "\"name\" : \"Component 1\", "
+        String json = "{config: {" + "\"component_1\": " + "{" + "\"id\" : \"component_1\", " + "\"name\" : \"Component 1\", "
                 + "\"type\" : \"LAYOUT\", " + "\"items\": ["
                 + "{\"id\" : \"component_1_1\", \"name\": \"First Child Component\", \"type\": \"PANEL\"}, "
                 + "{\"id\" : \"component_1_2\", \"name\": \"Second Child Component\", \"type\": \"PANEL\"}" + "]" + "}"
-                + "}";
+                + "}}";
 
         when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(json);
-        CustomConfig customConfig = client.getEdOrgCustomData(token, id);
+        ConfigMap customConfig = client.getEdOrgCustomData(token, id);
         assertNotNull(customConfig);
         assertEquals(1, customConfig.size());
-        assertEquals("component_1", customConfig.get("component_1").getId());
+        assertEquals("component_1", customConfig.getComponentConfig("component_1").getId());
 
     }
 
@@ -97,23 +100,24 @@ public class LiveAPIClientTest {
         String token = "token";
         String id = "id";
         String url = client.getApiUrl() + EDORGS_URL + id + CUSTOM_DATA;
-        String json = "{" + "\"component_1\": " + "{" + "\"id\" : \"component_1\", " + "\"name\" : \"Component 1\", "
+        String json = "{config:{" + "\"component_1\": " + "{" + "\"id\" : \"component_1\", " + "\"name\" : \"Component 1\", "
                 + "\"type\" : \"LAYOUT\", " + "\"items\": ["
                 + "{\"id\" : \"component_1_1\", \"name\": \"First Child Component\", \"type\": \"PANEL\"}, "
                 + "{\"id\" : \"component_1_2\", \"name\": \"Second Child Component\", \"type\": \"PANEL\"}" + "]" + "}"
-                + "}";
-
+                + "}}";
+        Gson gson = new GsonBuilder().create();
+        ConfigMap customConfig = gson.fromJson(json, ConfigMap.class);
         RestClientAnswer restClientAnswer = new RestClientAnswer();
         Mockito.doAnswer(restClientAnswer).when(mockRest)
                 .putJsonRequestWHeaders(Mockito.anyString(), Mockito.anyString(), Mockito.anyObject());
-        client.putEdOrgCustomData(token, id, json);
+        client.putEdOrgCustomData(token, id, customConfig);
         String customJson = restClientAnswer.getJson();
 
         when(mockRest.makeJsonRequestWHeaders(url, token)).thenReturn(customJson);
-        CustomConfig customConfig = client.getEdOrgCustomData(token, id);
+        customConfig = client.getEdOrgCustomData(token, id);
         assertNotNull(customConfig);
         assertEquals(1, customConfig.size());
-        assertEquals("component_1", customConfig.get("component_1").getId());
+        assertEquals("component_1", customConfig.getComponentConfig("component_1").getId());
 
     }
 

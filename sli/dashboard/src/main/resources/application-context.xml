@@ -24,6 +24,7 @@
     <bean id="configManager" class="org.slc.sli.manager.impl.ConfigManagerImpl">
         <property name="driverConfigLocation" value="${panel.config.driver.dir}"/>
         <property name="userConfigLocation" value="${panel.config.custom.dir}"/>
+        <property name="apiClient" ref="apiClientRef"/>
     </bean>
 
     <bean id="entityManager" class="org.slc.sli.manager.EntityManager">

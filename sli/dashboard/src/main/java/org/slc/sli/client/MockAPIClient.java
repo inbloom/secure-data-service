@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.entity.CustomConfig;
+import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
 
@@ -62,7 +62,7 @@ public class MockAPIClient implements APIClient {
      *
      */
     @Override
-    public CustomConfig getEdOrgCustomData(String token, String id) {
+    public ConfigMap getEdOrgCustomData(String token, String id) {
         return null;
     }
 
@@ -72,7 +72,7 @@ public class MockAPIClient implements APIClient {
      *
      */
     @Override
-    public void putEdOrgCustomData(String token, String id, String customJson) {
+    public void putEdOrgCustomData(String token, String id, ConfigMap configMap) {
     }
 
     @Override

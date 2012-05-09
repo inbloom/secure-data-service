@@ -10,6 +10,7 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 
 import org.slc.sli.client.MockAPIClient;
 import org.slc.sli.entity.Config;
+import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.impl.ConfigManagerImpl;
@@ -32,6 +33,10 @@ public class ConfigManagerTest {
             protected String getCustomConfigPathForUserDomain(EdOrgKey key) {
                 return "aa";
             }
+            @Override
+            public ConfigMap getCustomConfig(String token, EdOrgKey edOrgKey) {
+                return null;
+            }
         };
         configManager.setDriverConfigLocation("config");
 
@@ -53,7 +58,7 @@ public class ConfigManagerTest {
      */
     @Test
     public void testConfigFields() {
-        Config config = configManager.getComponentConfig(null, new EdOrgKey("1"), "gridSample");
+        Config config = configManager.getComponentConfig("1", new EdOrgKey("1"), "gridSample");
         Assert.assertEquals("gridSample", config.getId());
         Assert.assertEquals("attendance", config.getRoot());
         Assert.assertEquals(config.getName(), "Grid");
