@@ -37,15 +37,14 @@ module ApplicationHelper
     #     :vendor => "Acme Inc."
     # }
     # 	#
-    def self.add_user(userAccountRegistration,token)
+    def self.add_user(userAccountRegistration)
        ApprovalEngine.init(@@ldap,@@emailer,IS_SANDBOX)
        new_user = {
-       			:first      => userAccountRegistration[:firstName],
-       			:last       => userAccountRegistration[:lastName],
-       			:email      => userAccountRegistration[:email],
-       			:password   => userAccountRegistration[:password],
-       			:vendor     => userAccountRegistration[:vendor],
-       			:emailtoken => token.clone,
+       			:first      => userAccountRegistration.firstName,
+       			:last       => userAccountRegistration.lastName,
+       			:email      => userAccountRegistration.email,
+       			:password   => userAccountRegistration.password,
+       			:vendor     => userAccountRegistration.vendor,
        			:status     => "submitted"
        		}
 
@@ -68,18 +67,29 @@ module ApplicationHelper
     #
     # Input parameter: A subset of the "user_info" submitted to the "add_user" method.
     #
-    def self.update_user_info(userAccountRegistration,token)
+    def self.update_user_info(userAccountRegistration)
        ApprovalEngine.init(@@ldap,@@emailer,IS_SANDBOX)
        new_user = {
-                :first      => userAccountRegistration[:firstName],
-                :last       => userAccountRegistration[:lastName],
-                :email      => userAccountRegistration[:email],
-                :password   => userAccountRegistration[:password],
-                :vendor     => userAccountRegistration[:vendor],
-                :emailtoken => token.clone,
+                :first      => userAccountRegistration.firstName,
+                :last       => userAccountRegistration.lastName,
+                :email      => userAccountRegistration.email,
+                :password   => userAccountRegistration.password,
+                :vendor     => userAccountRegistration.vendor,
                 :status     => "submitted"
             }
        ApprovalEngine.update_user_info(new_user)
     end
 
+    #get email token for a specific user
+    def self.get_email_token(email_address)
+        ApprovalEngine.init(@@ldap,@@emailer,IS_SANDBOX)
+        user_info= ApprovalEngine.get_user(email_address)
+        return user_info[:emailtoken]
+    end
+
+    #remove user with address
+    def self.remove_user(email_address)
+        ApprovalEngine.init(@@ldap,@@emailer,IS_SANDBOX)
+        ApprovalEngine.remove_user(email_address)
+    end
 end
