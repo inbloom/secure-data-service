@@ -28,11 +28,14 @@ public class SmooksExtendedReferenceResolver extends ExtendedReferenceResolver {
      * @param element  : name of element
      * @param reference : name of the reference
      * @param content : the content of the referenced element in XML format
-     * @return : the resolved content in XML format
+     * @return : the resolved content in XML format. Null if the reference is not supported yet.
      */
     @Override
     public String resolve(String interchange, String element, String reference, String content) {
         String key = interchange + element + reference;
+        if (!idRefConfigs.containsKey(key)) {
+            return null;
+        }
         Smooks smooks = idRefConfigs.get(key);
         StringResult result = new StringResult();
         StringSource source = new StringSource(content);
