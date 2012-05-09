@@ -29,3 +29,30 @@ end
 Then /^I should be denied access$/ do
   assert(@res.code == 403, "Return code was not expected: "+@res.code.to_s+" but expected 403")
 end
+
+Then /^I should see a top level ed org is created with "([^"]*)" is "([^"]*)"$/ do |key, value|
+  uri="/v1/educationOrganizations"
+  uri=uri+"?"+URI.escape(key)+"="+URI.escape(value)
+  restHttpGet(uri)
+  assert(@res.length>0,"didnt see a top level ed org with #{key} is #{value}")
+ @edorgId=JSON.parse(@res.body)[0]["id"]
+ 
+end
+
+Then /^I should see this ed org is Authorized to use Apps "([^"]*)" and "([^"]*)"$/ do |app1, app2|
+  uri ="/application"
+  restHttpGet(uri)
+  dataH=JSON.parse(@res.body)
+  foundApp1=false
+  foundApp2=false
+  dataH.each do |app|
+    if app["name"].include? app1 and app["authorized_ed_orgs"].include? @edorgId
+      foundApp1=true
+    end
+    if app["name"].include? app2 and app["authorized_ed_orgs"].include? @edorgId
+      foundApp2=true
+    end
+  end
+  assert(foundApp1,"didnt see this ed org is authorized to use #{app1}")
+  assert(foundApp2,"didnt see this ed org is authorized to use #{app2}")
+end
