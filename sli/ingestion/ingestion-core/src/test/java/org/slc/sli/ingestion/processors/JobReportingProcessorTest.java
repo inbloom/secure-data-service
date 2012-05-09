@@ -202,7 +202,7 @@ public class JobReportingProcessorTest {
                 BatchJobUtils.getCurrentTimeStamp(), 50, 5);
         List<Metrics> ms = new LinkedList<Metrics>();
         ms.add(m);
-        Stage s = new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "fininshed", BatchJobUtils.getCurrentTimeStamp(),
+        Stage s = new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "finished", BatchJobUtils.getCurrentTimeStamp(),
                 BatchJobUtils.getCurrentTimeStamp(), ms);
 
         List<Stage> listStages = new LinkedList<Stage>();
