@@ -59,7 +59,7 @@ public class BrutePathFinderTest {
     }
 
 
-    @Test
+    // @Test
     // public void testGet2PartPath() throws Exception {
         // path = pathFinder.find("teacher", "section");
         // assertTrue(path.size() == 2);
