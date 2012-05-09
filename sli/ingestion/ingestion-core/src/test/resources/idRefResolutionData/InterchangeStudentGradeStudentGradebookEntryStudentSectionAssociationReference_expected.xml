@@ -1,0 +1,8 @@
+<StudentSectionAssociationIdentity>
+    <StudentIdentity>
+        <StudentUniqueStateId>testing</StudentUniqueStateId>
+    </StudentIdentity>
+    <SectionIdentity>
+        <UniqueSectionCode>testing</UniqueSectionCode>
+    </SectionIdentity>
+</StudentSectionAssociationIdentity>
