@@ -47,7 +47,7 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
-    private Map<String, String> strategyMap;
+    private Map<String, ReferenceResolutionStrategy> strategyMap;
     private int resolveInEachParse;
 
     private static final QName ID_ATTR = new QName("id");
@@ -379,7 +379,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         ReferenceResolutionStrategy resolutionStrategy;
 
             String parentElement = parentStack.elementAt((parentStack.size() - 2));
-            resolutionStrategy = applicationContext.getBean(strategyMap.get(elementName), ReferenceResolutionStrategy.class);
+            resolutionStrategy = strategyMap.get(elementName);
 
             String resolvedReference = null;
             //resolutionStrategy.resolve("/ " + interchangeName + "/" + parentElement + "/" + elementName, idContent);
@@ -507,11 +507,11 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return attribute;
     }
 
-    public Map<String, String> getStrategyMap() {
+    public Map<String, ReferenceResolutionStrategy> getStrategyMap() {
         return strategyMap;
     }
 
-    public void setStrategyMap(Map<String, String> strategyMap) {
+    public void setStrategyMap(Map<String, ReferenceResolutionStrategy> strategyMap) {
         this.strategyMap = strategyMap;
     }
 
