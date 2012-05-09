@@ -99,7 +99,7 @@ And Tab has a title named "ELL"
 And Tab has a title named "Daybreak District"
 And in "Middle School Overview" tab, there are "2" Panels
 And in "Attendance and Discipline" tab, there are "1" Panels
-#And in "Assessments" tab, there are "2" Panels
+And in "Assessments" tab, there are "2" Panels
 And in "Grades and Credits" tab, there are "1" Panels
 And in "Advanced Academics" tab, there are "0" Panels
 And in "ELL" tab, there are "0" Panels
@@ -131,8 +131,8 @@ And the Assessment History for "ISAT Writing" has the following entries:
 |Date         |Grade  |Assessment Name            |Perf Level|Scale score|
 |2011-10-01   |8      |Grade 8 2011 ISAT Writing  |1         |1          |
 |2011-09-01   |8      |Grade 8 2011 ISAT Writing  |25        |25         |
-#And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Copyright"
+And I click on the browser back button
+Then I see a list of 28 students
 
 @integration
 Scenario: View Mi-Ha Tran
@@ -218,6 +218,8 @@ And Student Enrollment History has the following entries:
 |<empty>   |South Daybreak Elementary  |K   |2010-09-03 |Original entry into a United States school |<empty>  |2011-05-11     |End of school year |
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Proprietary Information"
+And I click on the browser back button
+Then I see a list of 25 students
 
 @integration
 Scenario: View Carmen Ortiz
@@ -320,3 +322,5 @@ And the Assessment History for "AP English" has the following entries:
 |Date         |Grade  |Assessment Name                     |Perf Level |
 |2011-05-01   |12     |English Literature and Composition  |3          |
 |2011-05-01   |12     |English Language and Composition    |2          |
+And I click on the browser back button
+Then I see a list of 25 students
