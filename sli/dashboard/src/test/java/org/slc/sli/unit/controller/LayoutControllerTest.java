@@ -1,5 +1,7 @@
 package org.slc.sli.unit.controller;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,16 +18,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.slc.sli.controller.GenericLayoutController;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.Config.Data;
-import org.slc.sli.entity.CustomConfig;
+import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.StudentProgramUtil;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl;
+import org.slc.sli.web.controller.GenericLayoutController;
 
 /**
  * Tesing layout controller
@@ -39,9 +41,6 @@ public class LayoutControllerTest {
 
     @Autowired
     ApplicationContext applicationContext;
-
-    @Autowired
-    ConfigManager configManager;
 
     CustomizationAssemblyFactoryImpl dataFactory = new CustomizationAssemblyFactoryImpl() {
 
@@ -104,7 +103,28 @@ public class LayoutControllerTest {
     @Before
     public void setUp() throws Exception {
         layoutController = new LayoutControllerMock();
-        dataFactory.setConfigManager(configManager);
+        dataFactory.setConfigManager(new ConfigManager() {
+
+            @Override
+            public Config getComponentConfig(String token, EdOrgKey edOrgKey, String componentId) {
+                return new Config();
+            }
+
+            @Override
+            public Collection<Config> getWidgetConfigs(String token, EdOrgKey userEdOrg) {
+                return new ArrayList<Config>();
+            }
+
+            @Override
+            public ConfigMap getCustomConfig(String token, EdOrgKey userEdOrg) {
+                return null;
+            }
+
+            @Override
+            public void putCustomConfig(String token, EdOrgKey edOrgKey, ConfigMap configMap) {
+            }
+
+        });
         dataFactory.setUserEdOrgManager(new UserEdOrgManager() {
 
             @Override
@@ -121,14 +141,11 @@ public class LayoutControllerTest {
             public GenericEntity getUserInstHierarchy(String token, Object key, Data config) {
                 return null;
             }
-            
+
             @Override
-            public CustomConfig getCustomConfig(String token) {
+            public GenericEntity getStaffInfo(String token) {
+                // TODO Auto-generated method stub
                 return null;
-            }
-            
-            @Override
-            public void putCustomConfig(String token, String customConfigJson) {
             }
         });
         layoutController.setCustomizedDataFactory(dataFactory);

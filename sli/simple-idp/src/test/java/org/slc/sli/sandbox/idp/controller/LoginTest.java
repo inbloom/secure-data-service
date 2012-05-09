@@ -47,6 +47,7 @@ public class LoginTest {
     
     @Test
     public void testLoginSetup() {
+        loginController.setSandboxImpersonationEnabled(false);
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRequestId()).thenReturn("req1234");
         Mockito.when(reqInfo.getRealm()).thenReturn("realm");
@@ -60,6 +61,7 @@ public class LoginTest {
     
     @Test
     public void testAdminLogin() throws AuthenticationException {
+        loginController.setSandboxImpersonationEnabled(false);
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRealm()).thenReturn("SLIAdmin");
         Mockito.when(authRequestService.processRequest("SAMLRequest", "SLIAdmin")).thenReturn(reqInfo);
@@ -88,6 +90,7 @@ public class LoginTest {
     
     @Test
     public void testNormalLogin() throws AuthenticationException {
+        loginController.setSandboxImpersonationEnabled(false);
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRealm()).thenReturn("realm");
         Mockito.when(authRequestService.processRequest("SAMLRequest", "realm")).thenReturn(reqInfo);
@@ -158,7 +161,7 @@ public class LoginTest {
         UserService.User user = new User("userId", roles, attributes);
         
         Mockito.when(userService.authenticate("SLIAdmin", "userId", "password")).thenReturn(user);
-        
+        Mockito.when(userService.getSLIAdminRealmName()).thenReturn("SLIAdmin");
         SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
         Mockito.when(loginService.buildAssertion("userId", roles, attributes, reqInfo)).thenReturn(samlResponse);
         

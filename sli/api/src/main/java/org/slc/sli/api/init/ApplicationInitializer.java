@@ -3,19 +3,23 @@ package org.slc.sli.api.init;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 import org.apache.commons.io.IOUtils;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.PropertyPlaceholderHelper;
 
 import com.mongodb.util.JSON;
 
@@ -27,49 +31,59 @@ import com.mongodb.util.JSON;
 @Component
 public class ApplicationInitializer {
 
-
-    @Value("${sli.conf}")
-    private String propsFile;
-
     @Autowired
     private Repository<Entity> repository;
 
-    private static final String APP_RESOURCE = "application";
+    @Resource(name = "sliProperties")
+    private Properties sliProps;
 
+    private static final String APP_RESOURCE = "application";
 
     @PostConstruct
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void init() {
-        //not yet ready to enable
-        /*try {
-            FileInputStream fis = new FileInputStream(propsFile);
-            Properties props = new Properties();
-            props.load(fis);
-            fis.close();
+        try {
 
-            String[] appKeys = props.getProperty("bootstrap.app.keys").split(",");
+            String[] appKeys = sliProps.getProperty("bootstrap.app.keys").split(",");
             for (String key : appKeys) {
                 String templateKey = "bootstrap.app." + key + ".template";
-                if (props.containsKey(templateKey)) {
-                    InputStream is = new ClassPathResource(props.getProperty(templateKey)).getInputStream();
-                    Map appData = loadJsonFile(is, key, props);
-                    is.close();
-                    writeApplicationToMongo(appData);
+                if (sliProps.containsKey(templateKey)) {
+                    InputStream is = null;
+                    Map appData = null;
+                    try {
+                        is = new ClassPathResource(sliProps.getProperty(templateKey)).getInputStream();
+                        appData = loadJsonFile(is);
+                    } finally {
+                        is.close();
+                    }
+
+                    writeApplicationToMongo(appData, sliProps.getProperty("bootstrap.app." + key + ".guid"));
                 }
 
             }
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }*/
+            error("Error loading JSON template", e);
+        }
     }
 
-    private void writeApplicationToMongo(Map appData) {
+    private void writeApplicationToMongo(Map<String, Object> appData, String guid) {
         Entity app = findExistingApp(appData);
+        
+        if (guid != null && app != null && !app.getEntityId().equals(guid)) {
+            repository.delete(APP_RESOURCE, guid);
+            app = null;
+        }
+        
         if (app == null) {
             info("Creating boostrap application data for {}", appData.get("name"));
-            repository.create(APP_RESOURCE, appData);
+            
+            if (guid != null) {
+                Entity entity = new MongoEntity(APP_RESOURCE, guid, appData, new HashMap<String, Object>());
+                repository.update(APP_RESOURCE, entity);
+            } else {
+                repository.create(APP_RESOURCE, appData);
+            }
         } else {
             //check if we need to update it
             long oldAppHash = InitializerUtils.checksum(app.getBody());
@@ -88,7 +102,7 @@ public class ApplicationInitializer {
      * @param appData
      * @return the app entity, or null if not found
      */
-    Entity findExistingApp(Map appData) {
+    Entity findExistingApp(Map<String, Object> appData) {
         //first try to find it by client_id
         Entity app = repository.findOne(APP_RESOURCE, new NeutralQuery(
                 new NeutralCriteria("client_id", NeutralCriteria.OPERATOR_EQUAL, appData.get("client_id"))));
@@ -101,26 +115,13 @@ public class ApplicationInitializer {
         return app;
     }
 
-    Map loadJsonFile(InputStream is, String appKey, Properties props) throws IOException {
+    @SuppressWarnings("unchecked")
+    Map<String, Object> loadJsonFile(InputStream is) throws IOException {
         StringWriter writer = new StringWriter();
         IOUtils.copy(is, writer);
         String template = writer.toString();
-        template = replaceVars(template, appKey, props);
-
-        return (Map) JSON.parse(template);
-    }
-
-    private String replaceVars(String template, String appKey, Properties props) {
-        for (Map.Entry<Object, Object> entry : props.entrySet()) {
-            if (((String) entry.getKey()).startsWith("bootstrap.app." + appKey)) {
-                template = replaceVar(template, ((String) entry.getKey()).substring(14), (String) entry.getValue());
-            }
-        }
-
-        return template;
-    }
-
-    private String replaceVar(String template, String key, String value) {
-        return template.replaceAll("\\$\\{" + key + "\\}", value);
+        PropertyPlaceholderHelper helper = new PropertyPlaceholderHelper("${", "}"); 
+        template = helper.replacePlaceholders(template, sliProps);
+        return (Map<String, Object>) JSON.parse(template);
     }
 }
