@@ -15,6 +15,7 @@
                 <xs:element name="tenantId" minOccurs="1">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
+                            <xs:minLength value="1" />
                             <xs:maxLength value="48" />
                         </xs:restriction>
                     </xs:simpleType>
@@ -30,6 +31,7 @@
             <xs:element name="educationOrganization" minOccurs="1">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
+                        <xs:minLength value="1" />
                         <xs:maxLength value="60" /> <!-- inherits from IdentificationCode -->
                     </xs:restriction>
                 </xs:simpleType>
@@ -37,6 +39,7 @@
             <xs:element name="path" minOccurs="1">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
+                        <xs:minLength value="1" />
                         <xs:maxLength value="256" />
                     </xs:restriction>
                 </xs:simpleType>
@@ -44,6 +47,7 @@
             <xs:element name="ingestionServer" minOccurs="1">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
+                        <xs:minLength value="1" />
                         <xs:maxLength value="48" />
                     </xs:restriction>
                 </xs:simpleType>
@@ -58,6 +62,7 @@
             <xs:element name="userNames" minOccurs="0" maxOccurs="unbounded">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
+                        <xs:minLength value="1" />
                         <xs:maxLength value="48" />
                     </xs:restriction>
                 </xs:simpleType>
