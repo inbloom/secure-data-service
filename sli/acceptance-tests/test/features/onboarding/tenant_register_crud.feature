@@ -35,3 +35,49 @@ Scenario Outline: Deny access when logging in as invalid user
     | User       | Password       | Realm |
     | "baduser"  | "baduser1234"  | "SLI" |
     | "badadmin" | "badadmin1234" | "IL"  |
+
+Scenario: Deny creation when specifying individual too-long fields
+
+    Given I am logged in using "developer" "developer1234" to realm "SLI"
+    When I POST a basic tenant with "tenantId" set to "123456789012345678901234567890123456789012345678A"
+    Then I should receive a return code of 400
+    When I POST a basic tenant with userName "123456789012345678901234567890123456789012345678A"
+    Then I should receive a return code of 400
+
+Scenario Outline: Deny creation when specifying individual landingZone too-long fields
+
+    Given I am logged in using "developer" "developer1234" to realm "SLI"
+    When I POST a basic tenant with landingZone <Property> set to <Value>
+    Then I should receive a return code of 400
+    Examples:
+    | Property      | Value |
+    | "ingestionServer"       | "123456789012345678901234567890123456789012345678A" |
+    | "educationOrganization" | "123456789012345678901234567890123456789012345678901234567890A" |
+    | "path"                  | "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456A" |
+    | "desc"                  | "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456A" |
+
+Scenario: Deny creation when missing userName
+    Given I am logged in using "developer" "developer1234" to realm "SLI"
+    When I POST a basic tenant with no userName
+    Then I should receive a return code of 400
+
+Scenario Outline: Deny creation when missing individual fields
+
+    Given I am logged in using "developer" "developer1234" to realm "SLI"
+    When I POST a basic tenant with missing <Property>
+    Then I should receive a return code of 400
+    Examples:
+    | Property      |
+    | "tenantId"    |
+    | "landingZone" |
+
+Scenario Outline: Deny creation when missing individual landingZone fields
+
+    Given I am logged in using "developer" "developer1234" to realm "SLI"
+    When I POST a basic tenant with missing landingZone <Property>
+    Then I should receive a return code of 400
+    Examples:
+    | Property      |
+    | "ingestionServer"       |
+    | "educationOrganization" |
+    | "path"                  |

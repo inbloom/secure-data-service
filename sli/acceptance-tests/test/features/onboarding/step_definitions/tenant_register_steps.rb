@@ -103,3 +103,61 @@ When /^I POST a tenant specifying an invalid field$/ do
   assert(@res != nil, "Response from POST operation was null")
 end
 
+def postToTenants(dataObj)
+  @format = "application/json"
+  data = prepareData("application/json", dataObj)
+  restHttpPost("/tenants/", data)
+  assert(@res != nil, "Response from POST operation was null")
+end
+
+def getBaseTenant
+    return {
+      "landingZone" => [ 
+        { 
+          "educationOrganization" => "Twilight",
+          "ingestionServer" => "ingServIL",
+          "path" => "/home/ingestion/lz/inbound/IL-STATE-TWILIGHT",
+          "desc" => "Twilight district landing zone",
+          "userNames" => [ "rrogers" ]
+        }
+      ],
+      "tenantId" => "IL"
+  }
+end
+
+When /^I POST a basic tenant with "([^"]*)" set to "([^"]*)"$/ do |property,value|
+  dataObject = getBaseTenant
+  dataObject[property] = value
+  postToTenants(dataObject)
+end
+
+When /^I POST a basic tenant with landingZone "([^"]*)" set to "([^"]*)"$/ do |property,value|
+  dataObject = getBaseTenant
+  dataObject["landingZone"][0][property] = value
+  postToTenants(dataObject)
+end
+
+When /^I POST a basic tenant with userName "([^"]*)"$/ do |value|
+  dataObject = getBaseTenant
+  dataObject["landingZone"][0]["userNames"][0] = value
+  postToTenants(dataObject)
+end
+
+When /^I POST a basic tenant with no userName$/ do
+  dataObject = getBaseTenant
+  dataObject["landingZone"][0].delete("userNames")
+  postToTenants(dataObject)
+end
+
+When /^I POST a basic tenant with missing "([^"]*)"$/ do |property|
+  dataObject = getBaseTenant
+  dataObject.delete(property)
+  postToTenants(dataObject)
+end
+
+When /^I POST a basic tenant with missing landingZone "([^"]*)"$/ do |property|
+  dataObject = getBaseTenant
+  dataObject["landingZone"][0].delete(property)
+  postToTenants(dataObject)
+end
+
