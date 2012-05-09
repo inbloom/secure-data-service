@@ -2,6 +2,7 @@ class LandingZoneController < ApplicationController
   before_filter :check_roles
   rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
   rescue_from ProvisioningError, :with => :handle_error
+  rescue_from ActiveResource::ResourceConflict, :with => :already_there
   
   def provision
     if (params[:cancel] == "Cancel")
@@ -45,6 +46,13 @@ class LandingZoneController < ApplicationController
       return check["user_id"]
     else
       return check["tenantId"]
+    end
+  end
+
+  def already_there
+    respond_to do |format|
+      format.html { render :file => "#{Rails.root}/public/409.html", :status => :conflict }
+      format.any  { head :conflict }
     end
   end
 end
