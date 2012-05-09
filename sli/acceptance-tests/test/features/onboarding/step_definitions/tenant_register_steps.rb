@@ -1,9 +1,35 @@
 require_relative '../../utils/sli_utils.rb'
+require 'mongo'
+
+############################################################
+# ENVIRONMENT CONFIGURATION
+############################################################
+
+INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
+INGESTION_DB = PropLoader.getProps['ingestion_db']
+UNIQUE_TENANT_ID_1 = "694132a09a05"
+UNIQUE_TENANT_ID_2 ="e04161f09a09"
+UNIQUE_TENANT_ID_3 = "4fa3fe8be4b00b3987bec778"
 
 Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
-  id = arg1+"4fa3fe8be4b00b3987bec778" if arg2 == "Testing Tenant"
+  id = arg1+UNIQUE_TENANT_ID_2 if arg2 == "Testing Tenant"
   id = arg1+@newId       if arg2 == "New Tenant ID"
   id
+end
+
+############################################################
+# STEPS: BEFORE
+############################################################
+
+Before do
+  @conn = Mongo::Connection.new(INGESTION_DB)
+  @mdb = @conn.db(INGESTION_DB_NAME)
+  @tenantColl = @mdb.collection('tenant')
+  puts INGESTION_DB
+  puts INGESTION_DB_NAME
+  @tenantColl.remove({"body.tenantId" => UNIQUE_TENANT_ID_1})
+  @tenantColl.remove({"body.tenantId" => UNIQUE_TENANT_ID_2})
+  @tenantColl.remove({"body.tenantId" => UNIQUE_TENANT_ID_3})
 end
 
 When /^I POST a new tenant$/ do
@@ -25,7 +51,7 @@ When /^I POST a new tenant$/ do
           "userNames" => [ "jstevenson" ]
         }
       ],
-      "tenantId" => "IL"
+      "tenantId" => UNIQUE_TENANT_ID_1
   }
   data = prepareData("application/json", dataObj)
   restHttpPost("/tenants/", data)
@@ -44,7 +70,7 @@ When /^I rePOST the new tenant$/ do
           "userNames" => [ "rrogers" ]
         }
       ],
-      "tenantId" => "IL"
+      "tenantId" => UNIQUE_TENANT_ID_1
   }
   data = prepareData("application/json", dataObj)
   restHttpPost("/tenants/", data)
@@ -80,7 +106,7 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
           "userNames" => [ "rrogers" ]
         }
       ],
-      "tenantId" => "IL"
+      "tenantId" => UNIQUE_TENANT_ID_1
   }
   data = prepareData("application/json", dataObj)
   restHttpPut(arg1, data)
@@ -121,7 +147,7 @@ def getBaseTenant
           "userNames" => [ "rrogers" ]
         }
       ],
-      "tenantId" => "IL"
+      "tenantId" => UNIQUE_TENANT_ID_1
   }
 end
 

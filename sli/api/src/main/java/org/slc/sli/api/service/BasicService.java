@@ -136,7 +136,7 @@ public class BasicService implements EntityService {
             return Collections.emptyList();
         }
 
-        if (allowed.size() > 0) {
+        if (allowed.size() == 0) {
             return allowed;
         } else { // super list logic --> only true when using DefaultEntityContextResolver
             List<String> results = new ArrayList<String>();
