@@ -53,6 +53,10 @@
     </property>
   </bean>
 
+   <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+      <property name="brokerURL" value="tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}" />
+   </bean>
+
   <!-- Main application context, contains all other contexts in /spring -->
   <import resource="smooks-context.xml" />
   <import resource="camel-context.xml" />
