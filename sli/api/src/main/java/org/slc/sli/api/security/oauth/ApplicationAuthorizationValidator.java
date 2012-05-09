@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.common.constants.EntityNames;
@@ -12,10 +15,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Determines which applications a given user is authorized to use based on
@@ -27,7 +26,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationAuthorizationValidator {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationAuthorizationValidator.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationAuthorizationValidator.class);
 
     @Autowired
     private Repository<Entity> repo;
@@ -75,14 +74,14 @@ public class ApplicationAuthorizationValidator {
                 NeutralQuery districtQuery = new NeutralQuery();
                 districtQuery.addCriteria(new NeutralCriteria("authorized_ed_orgs", "=", district.getEntityId()));
                 Iterable<Entity> districtAuthorizedApps = repo.findAll("application", districtQuery);
-                
+
                 apps.addAll((List<String>) authorizedApps.getBody().get("appIds"));
                 for (Entity currentApp : districtAuthorizedApps) {
                     if (apps.contains(currentApp.getEntityId())) {
                         results.add(currentApp.getEntityId());
                     }
                 }
-                
+
                 NeutralQuery bootstrapQuery = new NeutralQuery();
                 bootstrapQuery.addCriteria(new NeutralCriteria("bootstrap", "=", true));
                 Iterable<Entity> bootstrapApps = repo.findAll("application", bootstrapQuery);
@@ -116,8 +115,9 @@ public class ApplicationAuthorizationValidator {
             try {
                 edOrgs = contextResolverStore.findResolver(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
             } catch (IllegalArgumentException ex) {
+//                DE260 - Logging of possibly sensitive data
                 // this is what the resolver throws if it doesn't find any edorg data
-                LOGGER.warn("Could not find an associated ed-org for {}.", principal.getExternalId());
+//                LOGGER.warn("Could not find an associated ed-org for {}.", principal.getExternalId());
             }
             if (edOrgs == null || edOrgs.size() == 0) {   //maybe user is a staff?
                 edOrgs = contextResolverStore.findResolver(EntityNames.STAFF, EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
@@ -138,16 +138,18 @@ public class ApplicationAuthorizationValidator {
                             toReturn.add(entity);
                         }
                     }
-                    
+
                 }
             }
 
         } else {
-            LOGGER.warn("Skipping LEA lookup for {} because no entity data was found.", principal.getExternalId());
+//            DE260 - Logging of possibly sensitive data
+//            LOGGER.warn("Skipping LEA lookup for {} because no entity data was found.", principal.getExternalId());
             return null;
         }
         if (toReturn.size() == 0) {
-            LOGGER.warn("Could not find an associated LEA for {}.", principal.getExternalId());
+//            DE260 - Logging of possibly sensitive data
+//            LOGGER.warn("Could not find an associated LEA for {}.", principal.getExternalId());
         }
         return toReturn;
     }
