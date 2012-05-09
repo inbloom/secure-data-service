@@ -35,19 +35,21 @@ public class ApplicationInitializer {
     private Repository<Entity> repository;
 
     @Resource(name = "sliProperties")
-    private Properties sliProps;
+    protected Properties sliProps;
 
     private static final String APP_RESOURCE = "application";
 
     @PostConstruct
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void init() {
+
         try {
 
             String[] appKeys = sliProps.getProperty("bootstrap.app.keys").split(",");
             for (String key : appKeys) {
                 String templateKey = "bootstrap.app." + key + ".template";
                 if (sliProps.containsKey(templateKey)) {
+                    
                     InputStream is = null;
                     Map appData = null;
                     try {
