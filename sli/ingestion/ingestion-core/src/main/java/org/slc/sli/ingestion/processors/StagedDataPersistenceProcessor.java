@@ -128,7 +128,7 @@ public class StagedDataPersistenceProcessor implements Processor {
 
     private void processAndMeasureResource(String collectionName, String transformedCollectionName, NewBatchJob newJob,
             Stage stage) {
-        Metrics metrics = Metrics.createAndStart(newJob.getId() + collectionName);
+        Metrics metrics = Metrics.createAndStart(newJob.getId() + "-" + collectionName);
         stage.getMetrics().add(metrics);
 
         processStagedCollection(collectionName, transformedCollectionName, newJob, metrics);
@@ -151,6 +151,8 @@ public class StagedDataPersistenceProcessor implements Processor {
             DBCursor cursor = getCollectionIterable(transformedCollectionName, query, job.getId());
 
             for (DBObject record : cursor) {
+
+                recordNumber++;
 
                 NeutralRecord neutralRecord = neutralRecordReadConverter.convert(record);
 
