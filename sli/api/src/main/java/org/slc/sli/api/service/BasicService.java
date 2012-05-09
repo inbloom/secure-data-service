@@ -190,9 +190,11 @@ public class BasicService implements EntityService {
     @Override
     public boolean update(String id, EntityBody content) {
         LOG.debug("Updating {} in {}", new String[] { id, collectionName });
-
-        checkAccess(determineWriteAccess(content, ""), id);
-
+        
+        if (this.writeRight != Right.ANONYMOUS_ACCESS) {
+            checkAccess(determineWriteAccess(content, ""), id);
+        }
+        
         Entity entity = repo.findById(collectionName, id);
         if (entity == null) {
             LOG.info("Could not find {}", id);
