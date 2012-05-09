@@ -4,19 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.Bytes;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -46,6 +35,16 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.Bytes;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 /**
  * Ingestion Persistence Processor.
@@ -143,21 +142,13 @@ public class StagedDataPersistenceProcessor implements Processor {
         long numFailed = 0;
 
         ErrorReport errorReportForCollection = createDbErrorReport(job.getId(), collectionName);
-
-        String fatalErrorMessage = "ERROR: Fatal problem saving records to database.\n";
         try {
-
             BasicDBObject query = new BasicDBObject("batchJobId", job.getId());
             DBCursor cursor = getCollectionIterable(transformedCollectionName, query, job.getId());
 
             for (DBObject record : cursor) {
-
                 recordNumber++;
-
                 NeutralRecord neutralRecord = neutralRecordReadConverter.convert(record);
-
-                fatalErrorMessage = "ERROR: Fatal problem saving records to database: \n" + "\tEntity\t"
-                        + collectionName + "\n";
 
                 if (!collectionName.equals(transformedCollectionName)) {
                     numFailed += processTransformableNeutralRecord(neutralRecord, getTenantId(job),
@@ -167,12 +158,12 @@ public class StagedDataPersistenceProcessor implements Processor {
                             errorReportForCollection);
                 }
             }
-
         } catch (Exception e) {
+            String fatalErrorMessage = "ERROR: Fatal problem saving records to database: \n" + "\tEntity\t"
+                    + collectionName + "\n";
             errorReportForCollection.fatal(fatalErrorMessage, StagedDataPersistenceProcessor.class);
             LOG.error("Exception when attempting to ingest NeutralRecords in: " + collectionName + ".\n", e);
         } finally {
-
             metrics.setRecordCount(recordNumber);
             metrics.setErrorCount(numFailed);
         }

@@ -61,7 +61,7 @@ public class NewBatchJob implements Job {
     }
 
     public NewBatchJob(String id, String sourceId, String status, int totalFiles, Map<String, String> batchProperties,
-            List<Stage> stages, List<ResourceEntry> resourceEntries) {
+            List<Stage> listOfStages, List<ResourceEntry> resourceEntries) {
         this.id = id;
         this.sourceId = sourceId;
 
@@ -69,21 +69,21 @@ public class NewBatchJob implements Job {
 
         this.status = status;
         this.totalFiles = totalFiles;
-        if (batchProperties == null) {
-            batchProperties = new HashMap<String, String>();
-        }
-        this.batchProperties = batchProperties;
-        if (stages == null) {
-            stages = new LinkedList<Stage>();
-        }
-        for (int i = 0; i < stages.size(); i++) {
-            this.stages.add(new StageSet(stages.get(i)));
-        }
+        if (batchProperties != null) {
+            this.batchProperties = batchProperties;
+        }        
 
-        if (resourceEntries == null) {
-            resourceEntries = new LinkedList<ResourceEntry>();
-        }
-        this.resourceEntries = resourceEntries;
+        this.stages = new LinkedList<StageSet>();
+        if (listOfStages != null) {
+            for (int i = 0; i < listOfStages.size(); i++) {
+                this.stages.add(new StageSet(listOfStages.get(i)));
+            }
+        }        
+
+        this.resourceEntries = new LinkedList<ResourceEntry>();
+        if (resourceEntries != null) {
+            this.resourceEntries = resourceEntries;
+        }        
     }
 
     public static NewBatchJob createJobForFile(String fileName) {
