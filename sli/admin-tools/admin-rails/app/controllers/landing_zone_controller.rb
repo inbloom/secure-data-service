@@ -9,13 +9,18 @@ class LandingZoneController < ApplicationController
       return
     end
     
+    tenant = get_tenant
+    if (tenant == nil)
+      render_403
+    end
+
     ed_org_id = params[:ed_org]
     ed_org_id = params[:custom_ed_org] if ed_org_id == 'custom'
     if (ed_org_id == nil || ed_org_id.gsub(/\s/, '').length == 0)
       redirect_to :action => 'index', :controller => 'landing_zone'
     else
       ed_org_id = ed_org_id.gsub(/^ed_org_/, '')
-      LandingZone.provision ed_org_id
+      LandingZone.provision ed_org_id, tenant
     end
   end
 
@@ -31,6 +36,15 @@ class LandingZoneController < ApplicationController
     unless session[:roles].include? "LEA Administrator"
       logger.warn "Rejecting user #{session[:full_name]} due to insufficient privilages: roles: #{session[:roles]}"
       render_403
+    end
+  end
+
+  def get_tenant
+    check = Check.get ""
+    if APP_CONFIG["is_sandbox"]
+      return check["user_id"]
+    else
+      return check["tenantId"]
     end
   end
 end

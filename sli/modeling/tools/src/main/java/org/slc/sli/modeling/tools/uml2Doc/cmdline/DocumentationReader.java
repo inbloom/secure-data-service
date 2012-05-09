@@ -263,7 +263,8 @@ public final class DocumentationReader {
                     done = true;
                     break;
                 }
-                case XMLStreamConstants.CHARACTERS: {
+                case XMLStreamConstants.CHARACTERS:
+                case XMLStreamConstants.COMMENT: {
                     // Ignore.
                     break;
                 }
