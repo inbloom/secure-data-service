@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -183,6 +184,18 @@ public class ListSchemaTest {
         listEntity.add(stringEntity);
 
         assertFalse("Expected ListSchema complex validation failure did not succeed", schema.validate(listEntity));
+    }
+    
+    @Test
+    public void testAnnotations() throws IllegalArgumentException {
+        schema.clearFields();
+        complexSchema.clearFields();
+        AppInfo d = new AppInfo(null);
+        d.put(AppInfo.READ_ENFORCEMENT_ELEMENT_NAME, Right.READ_RESTRICTED.toString());
+        complexSchema.addAnnotation(d);
+        schema.getList().add(complexSchema);
+        assertTrue("The schema should have a read_restricted annotation", schema.getAppInfo().getReadAuthority()
+                .equals(Right.READ_RESTRICTED));
     }
 
     @Test
