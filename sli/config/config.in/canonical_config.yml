@@ -123,6 +123,7 @@ default:
         bootstrap.app.admin.template: applications/admin.json
         bootstrap.app.databrowser.template: applications/databrowser.json
         bootstrap.app.dashboard.template: applications/dashboard.json
+        bootstrap.app.dashboard.guid: 1ad39ff1-65f8-4a16-8912-b49872f1ee96
 
     misc: &MISC-DEFAULT
         # keystore password (used in common and data-access)
