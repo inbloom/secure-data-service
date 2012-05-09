@@ -17,7 +17,7 @@
 		<diagram>
 			<prolog xml:lang="en"></prolog>
 			<title xml:lang="en">Alternative/Supplemental Services</title>
-			<source>alt-supp-services-01.svg</source>
+			<source>alternative_supplemental_services.png</source>
 			<epilog xml:lang="en"></epilog>
 		</diagram>
 		<entity>
@@ -79,8 +79,14 @@
 		</description>
 		<diagram>
 			<prolog xml:lang="en"></prolog>
+			<title xml:lang="en">Assessments</title>
+			<source>assessments.png</source>
+			<epilog xml:lang="en"></epilog>
+		</diagram>
+		<diagram>
+			<prolog xml:lang="en"></prolog>
 			<title xml:lang="en">Assessment Core Standards</title>
-			<source>assessment-core-standards-01.svg</source>
+			<source></source>
 			<epilog xml:lang="en">Many states have standard learning
 				standards that drive the curriculum and the assessments. The Common
 				Core State Standards Initiative
@@ -101,7 +107,7 @@
 		<diagram>
 			<prolog xml:lang="en"></prolog>
 			<title xml:lang="en">Assessment Metadata</title>
-			<source>assessment-metadata-01.svg</source>
+			<source></source>
 			<epilog xml:lang="en">
 				Assessment metadata is defined as all data that describes the
 				assessment, as shown below. The model reflects four levels of
@@ -149,7 +155,7 @@
 		<diagram>
 			<prolog xml:lang="en"></prolog>
 			<title xml:lang="en">Student Assessment</title>
-			<source>assessment-student-01.svg</source>
+			<source></source>
 			<epilog xml:lang="en">
 				The student’s assessment results follows a similar structure:
 				<ul>
@@ -249,7 +255,7 @@
 		</description>
 		<diagram>
 			<title xml:lang="en">Bell Schedule</title>
-			<source>bell-schedule.svg</source>
+			<source>bell_schedule.png</source>
 		</diagram>
 		<entity>
 			<title xml:lang="en">Bell Schedule</title>
@@ -326,7 +332,7 @@
 		</description>
 		<diagram>
 			<title xml:lang="en">Discipline</title>
-			<source>discipline.svg</source>
+			<source>discipline.png</source>
 		</diagram>
 		<entity>
 			<title xml:lang="en">Behavior Descriptor</title>
@@ -385,7 +391,7 @@
 		</description>
 		<diagram>
 			<title xml:lang="en">Education Organization</title>
-			<source>diagram.jpeg</source>
+			<source>EdOrg.png</source>
 		</diagram>
 		<entity>
 			<title xml:lang="en">Education Organization</title>
@@ -402,12 +408,12 @@
 	<domain>
 		<title>Enrollment</title>
 		<description xml:lang="en">The Enrollment domain represents
-			students’ enrollments in Schools, as specifically designated by the
+			students' enrollments in Schools, as specifically designated by the
 			StudentSchoolAssociation.
 		</description>
 		<diagram>
 			<title xml:lang="en">Enrollment</title>
-			<source>diagram.jpeg</source>
+			<source>Enrollment.png</source>
 		</diagram>
 		<entity>
 			<title xml:lang="en">Education Organization</title>
@@ -453,7 +459,7 @@
 		</description>
 		<diagram>
 			<title xml:lang="en">Graduation</title>
-			<source>diagram.jpeg</source>
+			<source>graduation.png</source>
 		</diagram>
 		<entity>
 			<title xml:lang="en">Diploma</title>
@@ -496,7 +502,7 @@
 		</description>
 		<diagram>
 			<title xml:lang="en">School Calendar</title>
-			<source>diagram.jpeg</source>
+			<source>school_calendar.png</source>
 		</diagram>
 		<entity>
 			<title xml:lang="en">Academic Week</title>
@@ -542,7 +548,7 @@
 		</description>
 		<diagram>
 			<title xml:lang="en">Staff</title>
-			<source>diagram.jpeg</source>
+			<source>staff.png</source>
 		</diagram>
 		<entity>
 			<title xml:lang="en">Credential Field Descriptor</title>
@@ -602,7 +608,7 @@
 		</description>
 		<diagram>
 			<title xml:lang="en">Student Academic Record</title>
-			<source>diagram.jpeg</source>
+			<source>student_academic_record.png</source>
 		</diagram>
 		<!-- CompetencyLevelDescriptor is not defined for SLI -->
 		<entity>
@@ -685,7 +691,7 @@
 		</description>
 		<diagram>
 			<title xml:lang="en">Student Attendance</title>
-			<source>diagram.jpeg</source>
+			<source>student_attendance.png</source>
 		</diagram>
 		<entity>
 			<title xml:lang="en">Attendance Event</title>
@@ -722,7 +728,7 @@
 		</description>
 		<diagram>
 			<title xml:lang="en">Student Cohort</title>
-			<source>diagram.jpeg</source>
+			<source>student_cohort.png</source>
 		</diagram>
 		<entity>
 			<title xml:lang="en">Cohort</title>
@@ -761,7 +767,7 @@
 		</description>
 		<diagram>
 			<title xml:lang="en">Student Identification and Demographics</title>
-			<source>diagram.jpeg</source>
+			<source>student_identification.png</source>
 		</diagram>
 		<entity>
 			<title xml:lang="en">Parent</title>
@@ -799,7 +805,7 @@
 		</description>
 		<diagram>
 			<title xml:lang="en">Teaching and Learning</title>
-			<source>diagram.jpeg</source>
+			<source>teaching_and_learning.png</source>
 		</diagram>
 		<!-- ClassPeriod is not defined for SLI -->
 		<entity>
@@ -873,7 +879,7 @@
 		</description>
 		<diagram>
 			<title xml:lang="en">Career and Technical Education</title>
-			<source>diagram.jpeg</source>
+			<source>career_and_tech_ed.png</source>
 		</diagram>
 		<entity>
 			<title xml:lang="en">Attendance Event</title>
@@ -935,7 +941,7 @@
 		</description>
 		<diagram>
 			<title xml:lang="en">Special Education</title>
-			<source>diagram.jpeg</source>
+			<source>special_ed.png</source>
 		</diagram>
 		<entity>
 			<title xml:lang="en">Attendance Event</title>
@@ -991,4 +997,57 @@
 			<class name="StudentSpecialEdProgramAssociation"></class>
 		</entity>
 	</domain>
+	<!--  domain>
+		<title>Title I Part A Services</title>
+		<description xml:lang="en">The Special Education domain extends the Alternative/Supplemental Services domain by extending the
+		StudentProgramAssociation to specify the kind of Title I Part A participation the student is receiving.</description>
+		<diagram>
+			<title xml:lang="en">Title I Part A Services</title>
+			<source>title_i_part_A.png</source>
+		</diagram>
+		<entity>
+			<title xml:lang="en">Attendance Event</title>
+			<class name="AttendanceEvent"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Education Organization</title>
+			<class name="EducationOrganization" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Program</title>
+			<class name="Program"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">School</title>
+			<class name="School" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Section</title>
+			<class name="Section" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Service Descriptor</title>
+			<class name="ServiceDescriptor"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Staff</title>
+			<class name="Staff" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Staff Program Association</title>
+			<class name="StaffProgramAssociation" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student</title>
+			<class name="Student" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Program Association</title>
+			<class name="StudentProgramAssociation" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Section Association</title>
+			<class name="StudentSectionAssociation" />
+		</entity>
+	</domain-->
 </pim-cfg>
