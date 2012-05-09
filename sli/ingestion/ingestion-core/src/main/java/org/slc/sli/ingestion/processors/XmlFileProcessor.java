@@ -80,9 +80,9 @@ public class XmlFileProcessor implements Processor {
 
                     fe.setFile(new File(resource.getResourceName()));
 
-                    referenceResolutionHandler.handle(fe, fe.getErrorReport());
+                    //referenceResolutionHandler.handle(fe, fe.getErrorReport());
 
-//                    idRefResolutionHandler.handle(fe, fe.getErrorReport());
+                    idRefResolutionHandler.handle(fe, fe.getErrorReport());
 
                     hasErrors = aggregateAndPersistErrors(batchJobId, fe);
                 }

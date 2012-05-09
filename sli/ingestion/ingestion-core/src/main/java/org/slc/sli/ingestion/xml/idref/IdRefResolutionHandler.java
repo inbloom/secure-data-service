@@ -33,6 +33,7 @@ import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.referenceresolution.ReferenceResolutionStrategy;
+import org.slc.sli.ingestion.util.FileUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -103,8 +104,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         if (semiResolvedXml == null) {
             return xml;
         } else {
-            semiResolvedXml.renameTo(xml);
-
+            FileUtils.renameFile(semiResolvedXml, xml);
             return process(semiResolvedXml);
         }
     }
@@ -410,6 +410,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     writer = null;
                 }
             }
+            IOUtils.closeQuietly(out);
         }
 
         return snippet;
