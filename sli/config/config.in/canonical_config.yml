@@ -72,14 +72,16 @@ default:
         sli.ingestion.queue.maestro.port:
         sli.ingestion.queue.maestro.queueURI: seda:IngestionMaestro
         sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.uriOptions:
         sli.ingestion.queue.maestro.keystore:
         sli.ingestion.queue.maestro.keystorePassword:
-        
+
         # Pit (worker) nodes
         sli.ingestion.queue.pit.host:
         sli.ingestion.queue.pit.port:
         sli.ingestion.queue.pit.queueURI: seda:IngestionPit
         sli.ingestion.queue.pit.concurrentConsumers: 5
+        sli.ingestion.queue.pit.uriOptions:
         sli.ingestion.queue.pit.keystore:
         sli.ingestion.queue.pit.keystorePassword:
 
@@ -216,14 +218,16 @@ acceptance-tests:
         sli.ingestion.queue.maestro.port: 5445
         sli.ingestion.queue.maestro.queueURI: jms-hornetq:IngestionMaestro
         sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
-        
+
         # Pit (worker) nodes
         sli.ingestion.queue.pit.host: devmq1.slidev.org
         sli.ingestion.queue.pit.port: 5445
         sli.ingestion.queue.pit.queueURI: jms-hornetq:IngestionPit
         sli.ingestion.queue.pit.concurrentConsumers: 5
+        sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
 
@@ -772,17 +776,19 @@ team:
         sli.ingestion.queue.maestro.port: 5445
         sli.ingestion.queue.maestro.queueURI: jms-hornetq:IngestionMaestro
         sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
-        
+
         # Pit (worker) nodes
         sli.ingestion.queue.pit.host: localhost
         sli.ingestion.queue.pit.port: 5445
         sli.ingestion.queue.pit.queueURI: jms-hornetq:IngestionPit
         sli.ingestion.queue.pit.concurrentConsumers: 5
+        sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
-        
+
         sli.ingestion.tenant.loadDefaultTenants: false
 
     dashboard: &DASHBOARD-TEAM
@@ -1162,4 +1168,3 @@ nxteam-pit:
         <<: *DATA-ACCESS-NXTEAM
     misc:
         <<: *MISC-NXTEAM
-  

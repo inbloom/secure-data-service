@@ -78,31 +78,43 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     TenantPopulator tenantPopulator;
 
+    @Autowired
+    private NodeInfo nodeInfo;
+
     @Value("${sli.ingestion.queue.workItem.queueURI}")
     private String workItemQueue;
 
     @Value("${sli.ingestion.queue.workItem.concurrentConsumers}")
-    private int concurrentConsumers;
+    private String workItemConsumers;
 
     @Value("${sli.ingestion.tenant.loadDefaultTenants}")
     private boolean loadDefaultTenants;
 
-    @Autowired
-    private NodeInfo nodeInfo;
-
     @Value("${sli.ingestion.queue.maestro.queueURI}")
     private String maestroQueue;
 
+    @Value("${sli.ingestion.queue.maestro.concurrentConsumers}")
+    private String maestroConsumers;
+
+    @Value("${sli.ingestion.queue.maestro.uriOptions}")
+    private String maestroUriOptions;
+
     @Value("${sli.ingestion.queue.pit.queueURI}")
     private String pitQueue;
+
+    @Value("${sli.ingestion.queue.pit.concurrentConsumers}")
+    private String pitConsumers;
+
+    @Value("${sli.ingestion.queue.pit.uriOptions}")
+    private String pitUriOptions;
 
     @Override
     public void configure() throws Exception {
         LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
 
-        String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + concurrentConsumers;
-        String maestroQueueUri = maestroQueue + "?transferExchange=true";
-        String pitNodeQueueUri = pitQueue + "?concurrentConsumers=5&transferExchange=true";
+        String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + workItemConsumers;
+        String maestroQueueUri = maestroQueue + "?concurrentConsumers=" + maestroConsumers + maestroUriOptions;
+        String pitNodeQueueUri = pitQueue + "?concurrentConsumers=" + pitConsumers + pitUriOptions;
 
         if (IngestionNodeType.MAESTRO.equals(nodeInfo.getNodeType())
                 || IngestionNodeType.STANDALONE.equals(nodeInfo.getNodeType())) {
