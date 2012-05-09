@@ -15,10 +15,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-public class ReferenceFactoryTest {
+public class SmooksExtendedReferenceResolverTest {
 
     @Autowired
-    ReferenceFactory referenceFactory;
+    SmooksExtendedReferenceResolver referenceFactory;
     @Test
     public void test() {
         String testXML = "<StudentSectionAssociation>"
