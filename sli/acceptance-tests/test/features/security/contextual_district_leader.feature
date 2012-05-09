@@ -30,6 +30,20 @@ Examples:
 	|"llogan"    |"llogan1234"    |"IL" |"Leader"  |"IL-Sunset"  |"Dale Reiss"|
 	|"jcarlyle"  |"jcarlyle1234"  |"NY" |"IT Admin"|"NY-Parker"  |"Teachers in Dawn Elementary"|
 	|"jstevenson"|"jstevenson1234"|"IL" |"IT Admin"|"IL-Daybreak"|"Students in AP Calculus Sec 201"|
+@wip
+Scenario Outline: Staff listing teachers they have context to
+
+Given I am logged in using <Username> <Password> to realm <Realm>
+And I have a Role attribute that equals <Role>
+And my "district" is <District>
+When I try to access the data for "My Teachers" in my "district" from the API
+Then I get the data containing <Data> returned in json format
+Examples:
+  |Username    |Password        |Realm|Role      |District     |Data|
+  |"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Teachers in Dusk District"|
+  |"sbantu"    |"sbantu1234"    |"IL" |"Leader"  |"IL-Daybreak"|"Teachers in Daybreak District"|
+  |"llogan"    |"llogan1234"    |"IL" |"Leader"  |"IL-Sunset"  |"Teachers in Sunset District"|
+  |"jcarlyle"  |"jcarlyle1234"  |"NY" |"IT Admin"|"NY-Parker"  |"Teachers in Parker District"|
 
 Scenario Outline: IT Administrator trying to edit data for own district
 
