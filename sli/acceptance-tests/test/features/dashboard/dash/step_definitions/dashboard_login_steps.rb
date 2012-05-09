@@ -93,3 +93,6 @@ Then /^I can see "([^"]*)"$/ do |arg1|
   assertText(arg1)
 end
 
+Then /^I add a cookie for linda.kim$/ do
+  @driver.manage.add_cookie(:name=> "SLI_DASHBOARD_COOKIE",:value=>"4cf7a5d4-37a1-ca19-8b13-b5f95131ac85")
+end

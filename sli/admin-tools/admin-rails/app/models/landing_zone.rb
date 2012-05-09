@@ -12,18 +12,6 @@ class LandingZone
   end
   
   def self.provision(edorg_id, tenant)
-    # edOrg = EducationOrganization.new(:stateUniqueId => edorg_id, 
-    #                               :nameOfInstitution => 'TEMPORARY_PLACEHOLDER', 
-    #                               :organizationCategories => 'State Education Agency', 
-    #                               :address => { 
-    #                               :streetNumberName => 'TEMPORARY_PLACEHOLDER', 
-    #                               :city => 'TEMPORARY_PLACEHOLDER', 
-    #                               :stateAbbreviation => 'TX', 
-    #                               :postalCode => 'TEMPORARY_PLACEHOLDER'})
-    #     # TODO:  implement how to save this in the db
-    # Rails.logger.warn "Provisioning logic not implemented yet!"
-    # saved = edOrg.save()
-    # saved = true
     provision = OnBoarding.new(:stateOrganizationId => edorg_id, :tenantId => tenant)
     saved = provision.save()
     Rails.logger.info "Provisioning Request: #{edorg_id}, successful? #{saved}"

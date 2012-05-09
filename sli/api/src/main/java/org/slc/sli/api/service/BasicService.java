@@ -152,7 +152,8 @@ public class BasicService implements EntityService {
 
     @Override
     public String create(EntityBody content) {
-        LOG.debug("Creating a new entity in collection {} with content {}", new Object[] { collectionName, content });
+//        DE260 - Logging of possibly sensitive data
+//        LOG.debug("Creating a new entity in collection {} with content {}", new Object[] { collectionName, content });
 
         checkRights(determineWriteAccess(content, ""));
 
@@ -161,7 +162,8 @@ public class BasicService implements EntityService {
 
     @Override
     public void delete(String id) {
-        LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
+//        DE260 - Logging of possibly sensitive data
+//        LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
 
         checkAccess(Right.WRITE_GENERAL, id);
 

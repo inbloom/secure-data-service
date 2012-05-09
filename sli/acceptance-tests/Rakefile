@@ -38,7 +38,8 @@ $collectionSet = ["student",
                   "studentParentAssociation",
                   "attendance",
                   "program",
-                  "studentAcademicRecord"]
+                  "studentAcademicRecord",
+                  "grade"]
 
 #######################################################################################################
 # Helper defs
@@ -70,7 +71,7 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
   #turn true/false into command line option
   dropOption = (dropExistingCollection) ? "--drop":""
 
-  sh "#{MONGO_BIN}mongo #{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
 
   sh "#{MONGO_BIN}mongoimport #{dropOption} -d #{DB_NAME} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
     #allow for user to pass block to run the test for each running of setFixture
@@ -388,6 +389,11 @@ end
 desc "Run Ingestion Parallel Job Tests"
 task :ingestionParallelTests do
  runTests("test/features/ingestion/features/ingestion_acceptance_parallel_test.feature")
+end
+
+desc "Run Ingestion for Dashboard Sad Path Tests"
+task :ingestionDashboardSadPathTest do
+  runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
 end
 
 ############################################################
@@ -1044,7 +1050,8 @@ task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
                          :dashboardSdsUserBasedViewsTests,
                          :dashboardSdsAttendanceTests,
                          :dashboardStudentSearchTests,
-                         :dashboardSdsTranscriptPanelTests] do
+                         :dashboardSdsTranscriptPanelTests,
+                         :dashboardSdsUploadConfigTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1106,6 +1113,11 @@ end
 desc "Run dashboard integrated Tests - Simple Search Tests"
 task :dashboardStudentSearchTests do
   runTests("test/features/dashboard/dash/student_search.feature")
+end
+
+desc "Run dashboard integrated Tests - Upload Config"
+task :dashboardSdsUploadConfigTests do
+  runTests("test/features/dashboard/dash/upload_config_sds.feature")
 end
 
 desc "Run dashboard student gradebook entry tests"
@@ -1284,7 +1296,8 @@ task :importSandboxData do
     "studentAcademicRecord" => "studentAcademicRecord_fixture.json",
     "learningStandard" => "learningStandard_fixture.json",
     "learningObjective" => "learningObjective_fixture.json",
-    "userAccount" => "userAccount_fixture.json"
+    "userAccount" => "userAccount_fixture.json",
+    "grade" => "grade_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 

@@ -70,6 +70,7 @@ public class TenantPopulator implements ResourceLoaderAware {
     public void populateDefaultTenants() {
         try {
             String hostName = InetAddress.getLocalHost().getHostName();
+            createParentLzDirectory();
             List<TenantRecord> tenants = constructDefaultTenantCollection(hostName);
             tenantDA.dropTenants();
             for (TenantRecord tenant : tenants) {
@@ -97,6 +98,19 @@ public class TenantPopulator implements ResourceLoaderAware {
         return tenants;
     }
 
+    /**
+     * 
+     * Create the landing zone directory for the parent landing zone
+     * 
+     */
+    private void createParentLzDirectory() {
+        String lzPath = Matcher.quoteReplacement(parentLandingZoneDir);
+        File lzDirectory = new File(lzPath);
+        lzDirectory.mkdir();
+        lzDirectory.setReadable(true, false);
+        lzDirectory.setWritable(true, false);
+    }
+    
     /**
      *
      * Create the landing zone directory for a tenant.

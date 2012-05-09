@@ -50,7 +50,6 @@ Scenario: Educator accessing a student that he/she does not teach, and it is out
   Then I should receive a return code of 200
   And I should see that "entityType" is "student" in the JSON response
 
-@wip
 Scenario: Leader accessing a student that is not enrolled in his/her school, and was before but that was out of the grace period
   Given I am logged in using "sbantu" "sbantu1234" to realm "IL"
   And my school is "<'SOUTH DAYBREAK ELEMENTARY'>"
@@ -62,4 +61,3 @@ Scenario: Leader accessing a student that is not enrolled in his/her school, and
   When I am logged in using "rrogers" "rrogers1234" to realm "IL"
   And I make an API call to get "<'STEVE DONG'>"
   Then I should receive a return code of 403
-  And I should see that "entityType" is "student" in the JSON response
