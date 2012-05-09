@@ -53,6 +53,14 @@
          "roles":[
             "SLI Administrator"
          ]
+      },
+      {
+         "name":"Account Approval",
+         "description":"Approve Reject and Disable Accounts",
+         "url":"${bootstrap.app.admin.url}/account_managements",
+         "roles":[
+            "SLC Operator"
+         ]
       }
    ]
 }
