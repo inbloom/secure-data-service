@@ -70,7 +70,7 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
   #turn true/false into command line option
   dropOption = (dropExistingCollection) ? "--drop":""
 
-  sh "#{MONGO_BIN}mongo #{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
 
   sh "#{MONGO_BIN}mongoimport #{dropOption} -d #{DB_NAME} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
     #allow for user to pass block to run the test for each running of setFixture
@@ -215,7 +215,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
+task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
@@ -1174,6 +1174,31 @@ end
 ############################################################
 # SDK Tests end
 ############################################################
+
+
+############################################################
+# Ondboarding / Provisioning Tests start
+############################################################
+
+desc "Run Ondboarding / Provisioning acceptance tests"
+task :onboardingTests => [:provisioningTests] do
+    displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run Sandbox Developer Provisioning acceptance tests"
+task :provisioningTests => [:importSandboxData, :realmInit] do
+    runTests("test/features/sandbox/provisioning.feature")
+end
+
+############################################################
+# Ondboarding / Provisioning Tests end
+############################################################
+
 
 desc "Export Storied Test Data"
 task :exportStoriedData do

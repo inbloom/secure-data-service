@@ -1,21 +1,19 @@
 package org.slc.sli.api.init;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.PostConstruct;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleBuilder;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A simple initializing bean to initialize our Mongo instance with default roles.
@@ -123,7 +121,7 @@ public class RoleInitializer {
 
     private Role buildRealmAdmin() {
         LOG.info("Building Realm Administrator default role.");
-        return RoleBuilder.makeRole(REALM_ADMINISTRATOR).addRights(new Right[] { Right.READ_PUBLIC, Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.WRITE_GENERAL_REALM, Right.WRITE_ROLE_MAPPING}).build();
+        return RoleBuilder.makeRole(REALM_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM_ROLES, Right.READ_PUBLIC}).build();
     }
 
     private Role buildAggregate() {
@@ -134,13 +132,14 @@ public class RoleInitializer {
     private Role buildSLCOperator() {
         LOG.info("Building SLC Operator role.");
         return RoleBuilder.makeRole(SLC_OPERATOR)
-                .addRights(new Right[] { Right.READ_PUBLIC, Right.ADMIN_ACCESS, Right.APP_REGISTER, Right.APP_EDORG_SELECT, Right.READ_GENERAL }).build();
+                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.READ_GENERAL, Right.READ_PUBLIC }).build();
     }
 
+    //TODO why do developers have ADMIN_ACCESS? and READ_GENERAL?
     private Role buildAppDeveloper() {
         LOG.info("Building Application Developer default role.");
         return RoleBuilder.makeRole(APP_DEVELOPER)
-                .addRights(new Right[] { Right.READ_PUBLIC, Right.ADMIN_ACCESS, Right.APP_CREATION, Right.APP_EDORG_SELECT, Right.READ_GENERAL}).build();
+                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL, Right.READ_PUBLIC}).build();
     }
 
     private Role buildEducator() {
@@ -165,7 +164,7 @@ public class RoleInitializer {
 
     private Role buildLEAAdmin() {
         LOG.info("Building LEA Administrator default role.");
-        return RoleBuilder.makeRole(LEA_ADMINISTRATOR).addRights(new Right[] { Right.READ_PUBLIC, Right.ADMIN_ACCESS }).setAdmin(true).build();
+        return RoleBuilder.makeRole(LEA_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ, Right.READ_PUBLIC }).setAdmin(true).build();
     }
 
     public void setRepository(Repository repo) {

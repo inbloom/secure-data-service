@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'net/ldap'
+require 'date'
 
 ldap_conf = { :host => "ldap.slidev.org",
      :port => 389,
@@ -30,7 +31,18 @@ else
 end
 
 filter = Net::LDAP::Filter.eq( "cn", "*" )
-ldap.search(:filter => filter ) do |entry|
+fetch_attributes = [
+    :givenname,
+    :sn,
+    :uid,
+    :userpassword,
+    :o,
+    :displayname,
+    :destinationindicator,
+    :createTimestamp, 
+    :modifyTimestamp
+]
+ldap.search(:filter => filter , :attributes => fetch_attributes) do |entry|
   puts "DN: #{entry.dn}"
   entry.each do |attribute, values|
     puts "   attr:#{attribute}:"

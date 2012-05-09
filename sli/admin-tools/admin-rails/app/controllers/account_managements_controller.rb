@@ -78,8 +78,7 @@ class AccountManagementsController < ApplicationController
         account_management.vendor=account[:vendor]
         account_management.email=account[:email]
         
-        #hard coded the last update until the approval engine provide support for it
-        account_management.lastUpdate="2012-01-01"
+        account_management.lastUpdate=account[:updated].strftime("%Y-%m-%d %I:%M:%S%p")
         account_management.status=account[:status]
         account_management.transitions=account[:transitions]
         account_managements.push(account_management)

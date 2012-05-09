@@ -1,27 +1,27 @@
 include GeneralRealmHelper
 
-class RealmEditorsController < ApplicationController
+class RealmManagementController < ApplicationController
   rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
   rescue_from ActiveResource::ResourceNotFound, :with => :render_404
 
-  # GET /realm_editors
-  # GET /realm_editors.json
+  # GET /realm_management
+  # GET /realm_management.json
   def index
     userRealm = session[:edOrg]
     Check.get("")
     realmToRedirectTo = GeneralRealmHelper.get_realm_to_redirect_to(userRealm)
     logger.debug("Redirecting to #{realmToRedirectTo}")
     if realmToRedirectTo.nil? and session[:roles] != nil and session[:roles].member?("Realm Administrator")
-      redirect_to new_realm_editor_path, notice: notice
+      redirect_to new_realm_management_path, notice: notice
     elsif realmToRedirectTo.nil?
       render_404
     else
-      redirect_to edit_realm_editor_path(realmToRedirectTo), notice: notice
+      redirect_to edit_realm_management_path(realmToRedirectTo), notice: notice
     end
   end
 
-  ## GET /realm_editors/1
-  ## GET /realm_editors/1.json
+  ## GET /realm_management/1
+  ## GET /realm_management/1.json
   #def show
   #  @realm = Realm.find(params[:id])
   #
@@ -31,8 +31,8 @@ class RealmEditorsController < ApplicationController
   #  end
   #end
 
-  # GET /realm_editors/new
-  # GET /realm_editors/new.json
+  # GET /realm_management/new
+  # GET /realm_management/new.json
   def new
     @realm = Realm.new
 
@@ -42,13 +42,13 @@ class RealmEditorsController < ApplicationController
     end
   end
 
-  # GET /realm_editors/1/edit
+  # GET /realm_management/1/edit
   def edit
     @realm = Realm.find(params[:id])
   end
 
-  # POST /realm_editors
-  # POST /realm_editors.json
+  # POST /realm_management
+  # POST /realm_management.json
   #def create
   #  @realm = Realm.new(params[:realm_editor])
   #
@@ -63,8 +63,8 @@ class RealmEditorsController < ApplicationController
   #  end
   #end
 
-  # PUT /realm_editors/1
-  # PUT /realm_editors/1.json
+  # PUT /realm_management/1
+  # PUT /realm_management/1.json
   #def update
   #  @realm = Realm.find(params[:id])
   #
@@ -79,8 +79,8 @@ class RealmEditorsController < ApplicationController
   #  end
   #end
   #
-  ## DELETE /realm_editors/1
-  ## DELETE /realm_editors/1.json
+  ## DELETE /realm_management/1
+  ## DELETE /realm_management/1.json
   #def destroy
   #  @realm = Realm.find(params[:id])
   #  @realm.destroy
