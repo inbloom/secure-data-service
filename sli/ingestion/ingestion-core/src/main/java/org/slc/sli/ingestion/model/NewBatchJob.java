@@ -76,6 +76,8 @@ public class NewBatchJob implements Job {
         if (stages == null) {
             stages = new LinkedList<Stage>();
         }
+
+        this.stages = new LinkedList<StageSet>();
         for (int i = 0; i < stages.size(); i++) {
             this.stages.add(new StageSet(stages.get(i)));
         }
