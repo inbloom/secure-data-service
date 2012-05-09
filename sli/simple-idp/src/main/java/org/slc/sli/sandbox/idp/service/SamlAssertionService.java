@@ -34,7 +34,7 @@ public class SamlAssertionService {
     private String issuerBase;
     
     /**
-     * Creates the identity assertion SAML Response to send to the API 
+     * Creates the identity assertion SAML Response to send to the API
      * 
      * @param userId
      *            userId to send back in saml assertion
@@ -50,10 +50,13 @@ public class SamlAssertionService {
             AuthRequestService.Request requestInfo) {
         String destination = requestInfo.getDestination();
         
-        LOG.info("Building SAML assertion for user: {} roles: {} attributes: {} inResponseTo: {} destination: {}", new Object[] { userId, roles, attributes,
-                requestInfo.getRequestId(), destination });
+        LOG.info("Building SAML assertion for user: {} roles: {} attributes: {} inResponseTo: {} destination: {}",
+                new Object[] { userId, roles, attributes, requestInfo.getRequestId(), destination });
         
-        String issuer = issuerBase + "?realm=" + requestInfo.getRealm();
+        String issuer = issuerBase;
+        if (requestInfo.getRealm() != null && requestInfo.getRealm().length()>0) {
+            issuer += "?realm=" + requestInfo.getRealm();
+        }
         
         String encodedResponse = samlComposer.componseResponse(destination, issuer, requestInfo.getRequestId(), userId,
                 attributes, roles);

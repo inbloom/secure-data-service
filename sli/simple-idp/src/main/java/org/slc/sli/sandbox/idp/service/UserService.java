@@ -23,7 +23,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class UserService {
-    private static final String SLI_ADMIN_REALM = "SLIAdmin";
     
     private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
     
@@ -42,9 +41,6 @@ public class UserService {
     @Value("${sli.simple-idp.groupObjectClass}")
     private String groupObjectClass;
     
-    @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
-    private boolean isSandboxImpersonationEnabled = false;
-    
     public UserService() {
     }
     
@@ -53,14 +49,6 @@ public class UserService {
         this.userObjectClass = userObjectClass;
         this.groupSearchAttribute = groupSearchAttribute;
         this.groupObjectClass = groupObjectClass;
-    }
-    
-    public void setSandboxImpersonationEnabled(boolean isSandboxImpersonationEnabled) {
-        this.isSandboxImpersonationEnabled = isSandboxImpersonationEnabled;
-    }
-    
-    public String getSLIAdminRealmName() {
-        return SLI_ADMIN_REALM;
     }
     
     /**
@@ -91,6 +79,14 @@ public class UserService {
         public Map<String, String> getAttributes() {
             return attributes;
         }
+        
+        public void setRoles(List<String> roles) {
+            this.roles = roles;
+        }
+        
+        public void setUserId(String userId) {
+            this.userId = userId;
+        }
     }
     
     /**
@@ -108,13 +104,7 @@ public class UserService {
         CollectingAuthenticationErrorCallback errorCallback = new CollectingAuthenticationErrorCallback();
         AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", userObjectClass)).and(new EqualsFilter(userSearchAttribute, userId));
-        String ou;
-        if (isSandboxImpersonationEnabled) {
-            ou = SLI_ADMIN_REALM;
-        } else {
-            ou = realm;
-        }
-        DistinguishedName dn = new DistinguishedName("ou=" + ou);
+        DistinguishedName dn = new DistinguishedName("ou=" + realm);
         boolean result = ldapTemplate.authenticate(dn, filter.toString(), password, errorCallback);
         if (!result) {
             Exception error = errorCallback.getError();
@@ -129,11 +119,6 @@ public class UserService {
         User user = (User) ldapTemplate.searchForObject(dn, filter.toString(), new PersonContextMapper());
         user.userId = userId;
         
-        String usersRealm = user.attributes.get("SandboxRealm");
-        if (isSandboxImpersonationEnabled && !realm.equals(SLI_ADMIN_REALM) && !realm.equals(usersRealm)) {
-            throw new AuthenticationException(
-                    "Requested authentication realm does not match authenticated users realm.");
-        }
         filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", groupObjectClass)).and(
                 new EqualsFilter(groupSearchAttribute, userId));
