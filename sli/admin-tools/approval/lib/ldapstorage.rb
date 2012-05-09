@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'net/ldap'
+require 'date'
 
 class LDAPStorage 
 	# set the objectClasses for user objects
@@ -18,14 +19,28 @@ class LDAPStorage
 		:displayname          => :emailtoken,
 		:destinationindicator => :status
 	}
-
 	ENTITY_ATTR_MAPPING = LDAP_ATTR_MAPPING.invert
+
+	# READ-ONLY FIELDS 
+	RO_LDAP_ATTR_MAPPING = {
+		:createTimestamp => :created, 
+    	:modifyTimestamp => :updated
+	}
+
+	# List of fields to fetch from LDAP for user 
+	COMBINED_LDAP_ATTR_MAPPING = LDAP_ATTR_MAPPING.merge(RO_LDAP_ATTR_MAPPING)
+
 	ALLOW_UPDATING = [
 		:first,
 		:last,
 		:password, 
 		:vendor,
 		:emailtoken
+	]
+
+	LDAP_DATETIME_FIELDS = Set.new [
+		:createTimestamp, 
+		:modifyTimestamp
 	]
 
 	# SEC_AUTH_REALM  = "sandboxAuthRealm"
@@ -79,8 +94,21 @@ class LDAPStorage
 	# returns extended user_info
 	def read_user(email_address)
 		filter = Net::LDAP::Filter.eq( "cn", email_address)
-		return map_fields(@ldap.search(:filter => filter), 1)[0]
+		return search_map_user_fields(filter, 1)[0]
 	end
+
+	# returns extended user_info for the given emailtoken (see create_user) or nil 
+	def read_user_emailtoken(emailtoken)
+		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:emailtoken].to_s, emailtoken)
+		return search_map_user_fields(filter, 1)[0]		
+	end
+
+	# returns array of extended user_info for all users or all users with given status 
+	# use constants in approval.rb 
+	def read_users(status=nil)
+		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
+		return search_map_user_fields(filter)
+	end	
 
 	# updates the user status from an extended user_info 
 	def update_status(user)
@@ -151,19 +179,6 @@ class LDAPStorage
 		!!read_user(email_address)
 	end
 
-	# returns extended user_info for the given emailtoken (see create_user) or nil 
-	def read_user_emailtoken(emailtoken)
-		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:emailtoken].to_s, emailtoken)
-		return map_fields(@ldap.search(:filter => filter), 1)[0]		
-	end
-
-	# returns array of extended user_info for all users or all users with given status 
-	# use constants in approval.rb 
-	def read_users(status=nil)
-		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
-		return map_fields(@ldap.search(:filter => filter))		
-	end
-
 	# updates the user_info except for the user status 
 	# user_info is the same input as for create_user 
 	def update_user_info(user_info)
@@ -184,6 +199,11 @@ class LDAPStorage
 		@ldap.delete(:dn => get_DN(email_address))
 	end 
 
+	#############################################################################
+	# PRIVATE methods
+	#############################################################################
+	private
+
 	# returns the LDAP DN
 	def get_DN(email_address)
 		return "cn=#{email_address},#{@people_base}"
@@ -194,16 +214,18 @@ class LDAPStorage
 	end
 
 	# extract the user from the ldap record
-	def map_fields(search_result, max_recs=nil)
-		arr = search_result.to_a()
+	def search_map_user_fields(filter, max_recs=nil)
+		attributes = COMBINED_LDAP_ATTR_MAPPING.keys
+		arr = @ldap.search(:filter => filter, :attributes => attributes).to_a()
 		if !max_recs
 			max_recs = arr.length
 		end
 
 		return arr[0..(max_recs-1)].map do |entry|
 			user_rec = {}
-			LDAP_ATTR_MAPPING.each do |ldap_k, rec_k| 
-				user_rec[rec_k] = entry[ldap_k].is_a?(Array) ?  entry[ldap_k][0] : entry[ldap_k]
+			COMBINED_LDAP_ATTR_MAPPING.each do |ldap_k, rec_k| 
+				attr_val = entry[ldap_k].is_a?(Array) ?  entry[ldap_k][0] : entry[ldap_k]
+				user_rec[rec_k] = LDAP_DATETIME_FIELDS.include?(ldap_k) ? DateTime.iso8601(attr_val) : attr_val
 			end
 			user_rec
 		end

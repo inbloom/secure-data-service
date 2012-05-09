@@ -15,7 +15,7 @@ Scenario: Realm administrator editing an existing realm
    When I hit the realm editing URL
     And I should see that I am on the "Fake Realm" edit page
     And I should enter "Edited Fake" into the Display Name field
-    And I should click the "Update Realm" button
+    And I should click the "Save" button
     Then I should be redirected back to the edit page
     And I should receive a notice that the realm was successfully "updated"
     And I should see that I am on the "Edited Fake" edit page
@@ -38,7 +38,7 @@ Scenario: Realm Administrator creating a new realm
   And I should see that I am on the new realm page
   And all of the input fields should be blank
   When I enter valid data into all fields
-  And I should click the "Create Realm" button
+  And I should click the "Save" button
   Then I should be redirected back to the edit page
   And I should receive a notice that the realm was successfully "created"
   And I should see that I am on the "Brand New Realm" edit page
