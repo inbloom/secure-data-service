@@ -1126,6 +1126,7 @@ nxteam:
         sli.ingestion.queue.workItem.host: nxing.slidev.org
         sli.ingestion.queue.maestro.host: nxing.slidev.org
         sli.ingestion.queue.pit.host: nxing.slidev.org
+        sli.ingestion.tenant.loadDefaultTenants: true
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
         sli.mongodb.host: nxmongo.slidev.org
