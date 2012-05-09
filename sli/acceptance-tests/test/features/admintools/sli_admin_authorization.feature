@@ -1,6 +1,8 @@
-@wip
 @security
 Feature: SLI hosted admin authorization tests
+
+Background:
+Given I have an open web browser
 
 Scenario: Valid SLC Operator tries to authenticate on Application Authorization Tool
 Given I am a valid SLC Operator
