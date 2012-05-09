@@ -16,7 +16,7 @@ import org.milyn.Smooks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.ingestion.xml.idref.IdRefResolver;
+import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 
 /**
  *
@@ -25,7 +25,7 @@ import org.slc.sli.ingestion.xml.idref.IdRefResolver;
  */
 
 public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrategy {
-    public static final Logger LOG = LoggerFactory.getLogger(IdRefResolver.class);
+    public static final Logger LOG = LoggerFactory.getLogger(IdRefResolutionHandler.class);
 
     private Map<String, Smooks> idRefConfigs;
 

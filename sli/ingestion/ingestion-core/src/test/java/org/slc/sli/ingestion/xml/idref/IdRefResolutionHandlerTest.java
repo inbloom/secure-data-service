@@ -1,4 +1,4 @@
-package org.slc.sli.ingestion.handler;
+package org.slc.sli.ingestion.xml.idref;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,10 +40,8 @@ public class IdRefResolutionHandlerTest {
     @Autowired
     private IdRefResolutionHandler idRefResolutionHandler;
 
-    @Test
-    @Ignore
     public void testListOfReferences() throws FileNotFoundException {
-        File inputFile = IngestionTest.getFile("ReferenceResolution/InterchangeStudentGrade.xml");
+        File inputFile = IngestionTest.getFile("ReferenceResolution/gradebook.xml");
         ErrorReport errorReport = Mockito.mock(ErrorReport.class);
         FileProcessStatus fileProcessStatus = Mockito.mock(FileProcessStatus.class);
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,

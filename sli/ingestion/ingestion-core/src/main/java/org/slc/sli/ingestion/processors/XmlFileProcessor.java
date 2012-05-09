@@ -23,6 +23,7 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 
 /**
  * Processes a XML file
@@ -38,6 +39,9 @@ public class XmlFileProcessor implements Processor {
 
     @Autowired
     private ReferenceResolutionHandler referenceResolutionHandler;
+
+    @Autowired
+    private IdRefResolutionHandler idRefResolutionHandler;
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -77,6 +81,8 @@ public class XmlFileProcessor implements Processor {
                     fe.setFile(new File(resource.getResourceName()));
 
                     referenceResolutionHandler.handle(fe, fe.getErrorReport());
+
+//                    idRefResolutionHandler.handle(fe, fe.getErrorReport());
 
                     hasErrors = aggregateAndPersistErrors(batchJobId, fe);
                 }
@@ -120,6 +126,15 @@ public class XmlFileProcessor implements Processor {
         }
 
         return fe.getErrorReport().hasErrors();
+    }
+
+    public IdRefResolutionHandler getIdRefResolutionHandler() {
+        return idRefResolutionHandler;
+    }
+
+    public void setIdRefResolutionHandler(
+            IdRefResolutionHandler idRefResolutionHandler) {
+        this.idRefResolutionHandler = idRefResolutionHandler;
     }
 
     public ReferenceResolutionHandler getReferenceResolutionHandler() {
