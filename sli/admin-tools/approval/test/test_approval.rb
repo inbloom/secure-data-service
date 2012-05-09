@@ -21,7 +21,8 @@ class TestApprovalEngine < Test::Unit::TestCase
 			:password   => "secret", 
 			:vendor     => "Acme Inc.",
 			:emailtoken => @jd_emailtoken,
-			:status     => "submitted"	
+			:status     => "submitted",
+			:homedir    => "/home/exampleuser"	
 		}
 
 		@td_email = "tdoe@example.com"
@@ -30,7 +31,11 @@ class TestApprovalEngine < Test::Unit::TestCase
 	end
 
 	def regular_workflow(is_sandbox)
-		@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+		#@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+		#@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=Sandbox,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+		#@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=Local,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+		#@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=ProductionTest,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+		@ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=ciTest,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User,ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 		@mock_emailer = MockEmailer.new
 
 		ApprovalEngine.init(@ldap, @mock_emailer, is_sandbox)
@@ -48,6 +53,7 @@ class TestApprovalEngine < Test::Unit::TestCase
 		jd_emailtoken = ApprovalEngine.add_disabled_user(@jd_user)
 		assert(ApprovalEngine.user_exists?(@jd_email))
 		user = @ldap.read_user(@jd_email)
+		puts "FOUND:\n#{user}"
 		assert(user)
 		assert(user[:email] == @jd_email)
 		assert(user[:status] == ApprovalEngine::STATE_SUBMITTED)
