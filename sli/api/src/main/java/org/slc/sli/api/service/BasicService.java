@@ -99,7 +99,7 @@ public class BasicService implements EntityService {
 
         List<String> allowed = findAccessible();
 
-        if (allowed.isEmpty()) {
+        if (allowed.isEmpty() && this.readRight != Right.ANONYMOUS_ACCESS) {
             return 0;
         }
 
@@ -113,8 +113,8 @@ public class BasicService implements EntityService {
             }
         }
         NeutralQuery localNeutralQuery = new NeutralQuery();
-
-        if (allowed.size() < 0) {   //super list
+        
+        if (allowed.size() < 0 || this.readRight == Right.ANONYMOUS_ACCESS) {   //super list
             localNeutralQuery = neutralQuery;
         } else if (!ids.isEmpty()) {
             Set<String> allowedSet = new HashSet<String>(allowed);
@@ -163,7 +163,10 @@ public class BasicService implements EntityService {
     public String create(EntityBody content) {
         LOG.debug("Creating a new entity in collection {} with content {}", new Object[] { collectionName, content });
 
-        checkRights(determineWriteAccess(content, ""));
+        // if service does not allow anonymous write access, check user rights
+        if (this.writeRight != Right.ANONYMOUS_ACCESS) {
+            checkRights(determineWriteAccess(content, ""));
+        }
 
         return repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName).getEntityId();
     }
