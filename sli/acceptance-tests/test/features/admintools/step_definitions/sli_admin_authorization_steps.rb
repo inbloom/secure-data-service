@@ -16,8 +16,7 @@ end
 
 When /^I try to authenticate on the Application Registration Tool$/ do
   step "I hit the Application Registration Tool URL"
-  #step "I login"
-  step "I submit the credentials \"#@user\" \"#@pass\" for the \"OpenAM\" login page"
+  step "I login"
 end
 
 When /^I try to authenticate on the Application Authorization Tool$/ do
@@ -26,7 +25,7 @@ When /^I try to authenticate on the Application Authorization Tool$/ do
 end
 
 When /^I try to authenticate on the Role Mapping Tool$/ do
-  step "I hit the Role Mapping Tool URL"
+  step "I navigate to the Complex-Configurable Role Mapping Page"
   step "I login"
 end
 
