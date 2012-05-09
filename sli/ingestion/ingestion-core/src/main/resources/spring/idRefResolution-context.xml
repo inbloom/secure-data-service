@@ -29,7 +29,6 @@
     <property name="resolveInEachParse" value="2"/>
   </bean>
 
-  <bean id="extendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SmooksExtendedReferenceResolver"/>
   <bean id="simpleReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SimpleReferenceResolver"/>
 
   <util:map id="strategyConfig">
@@ -37,7 +36,7 @@
       <value>simpleReferenceResolver</value>
     </entry>
     <entry key="StudentSectionAssociationReference">
-      <value>extendedReferenceResolver</value>
+      <value>smooksExtendedReferenceResolver</value>
     </entry>
     <entry key="GradebookEntryReference">
       <value>simpleReferenceResolver</value>
