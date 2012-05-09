@@ -76,9 +76,9 @@
 					<path>/ingestion-service</path>
 					<warFile>${project.build.directory}/ingestion-service.war</warFile>
 					<systemProperties>
-					   <ingestionNodeType>${sli.ingestion.nodeType}</ingestionNodeType>
+						<ingestionNodeType>${sli.ingestion.nodeType}</ingestionNodeType>
 					</systemProperties>
-                    <update>true</update>
+					<update>true</update>
 				</configuration>
 			</plugin>
 
@@ -117,4 +117,15 @@
 		</profile>
 	</profiles>
 
+	<repositories>
+		<repository>
+			<id>hermodRepo</id>
+			<name>hermodRepo</name>
+			<url>http://nexus.slidev.org:8080/nexus/content/repositories/hermod/</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 </project>
