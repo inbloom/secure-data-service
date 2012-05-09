@@ -4,8 +4,17 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.security.Key;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.crypto.Cipher;
@@ -19,7 +28,7 @@ import org.apache.commons.codec.binary.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 
 /**
  * Encrypts/Decrypts data using AES
@@ -34,61 +43,11 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
 
     private static final Logger LOG = LoggerFactory.getLogger(AesCipher.class);
 
-    @Value("${sli.encryption.keyStore}")
-    private String keyStore;
+    public AesCipher() {
+    }
 
-    @Value("${sli.encryption.dalInitializationVector}")
-    private String initializationVector;
-
-    @Value("${sli.encryption.keyStorePass}")
-    private String keyStorePass;
-
-    @Value("${sli.encryption.dalKeyAlias}")
-    private String keyAlias;
-
-    @Value("${sli.encryption.dalKeyPass}")
-    private String keyPass;
-
-    @Autowired
-    private SecretKeyProvider secretKeyProvider;
-
-    @PostConstruct
-    protected void init() {
-
-        if (keyStorePass == null) {
-            throw new RuntimeException("No key store password provided");
-        }
-        if (keyAlias == null) {
-            throw new RuntimeException("No key alias provided");
-        }
-        if (keyPass == null) {
-            throw new RuntimeException("No key password provided");
-        }
-        if (initializationVector == null) {
-            throw new RuntimeException("No initialization vector provided");
-        }
-
-        SecretKey key = secretKeyProvider.lookupSecretKey(keyStore,
-                keyStorePass, keyAlias, keyPass);
-
-        byte[] ivBytes;
-        try {
-            ivBytes = Hex.decodeHex(initializationVector.toCharArray());
-        } catch (DecoderException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            IvParameterSpec ivspec = new IvParameterSpec(ivBytes);
-
-            this.encryptCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            this.encryptCipher.init(Cipher.ENCRYPT_MODE, key, ivspec);
-
-            this.decryptCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            this.decryptCipher.init(Cipher.DECRYPT_MODE, key, ivspec);
-        } catch (GeneralSecurityException e) {
-            throw new RuntimeException(e);
-        }
+    public AesCipher(SecretKey key, String initializationVector) {
+        this.setKeyAndInitializationVector(key, initializationVector);
     }
 
     @Override
@@ -200,52 +159,99 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
         }
     }
 
-    protected void setKeyAndInitializationVector(SecretKey key,
-            byte[] initializationVector) {
-    }
+    // Support for DI
+    String keyStore;
+    String propertiesFile;
 
-    public String getInitializationVector() {
-        return initializationVector;
-    }
-
-    public void setInitializationVector(String initializationVector) {
-        this.initializationVector = initializationVector;
-    }
-
-    public String getKeyStorePass() {
-        return keyStorePass;
-    }
-
-    public void setKeyStorePass(String keyStorePass) {
-        this.keyStorePass = keyStorePass;
-    }
-
-    public String getKeyAlias() {
-        return keyAlias;
-    }
-
-    public void setKeyAlias(String keyAlias) {
-        this.keyAlias = keyAlias;
-    }
-
-    public String getKeyPass() {
-        return keyPass;
-    }
-
-    public void setKeyPass(String keyPass) {
-        this.keyPass = keyPass;
-    }
-
-    public SecretKeyProvider getSecretKeyProvider() {
-        return secretKeyProvider;
-    }
-
-    public void setSecretKeyProvider(SecretKeyProvider secretKeyProvider) {
-        this.secretKeyProvider = secretKeyProvider;
-    }
+    @Autowired
+    ApplicationContext springContext;
 
     public void setKeyStore(String keyStore) {
         this.keyStore = keyStore;
     }
 
+    public void setPropertiesFile(String propFile) {
+        this.propertiesFile = propFile;
+    }
+
+    @SuppressWarnings("unused")
+    @PostConstruct
+    private void init() throws KeyStoreException, NoSuchAlgorithmException,
+            CertificateException, IOException, UnrecoverableKeyException {
+
+        String keyStorePass, keyAlias, keyPass, initializationVector;
+
+        FileInputStream propStream = null;
+        try {
+            propStream = new FileInputStream(new File(propertiesFile));
+            Properties props = new Properties();
+            props.load(propStream);
+            keyStorePass = props.getProperty("sli.encryption.keyStorePass");
+            keyAlias = props.getProperty("sli.encryption.dalKeyAlias");
+            keyPass = props.getProperty("sli.encryption.dalKeyPass");
+            initializationVector = props
+                    .getProperty("sli.encryption.dalInitializationVector");
+        } finally {
+            if (propStream != null) {
+                propStream.close();
+            }
+        }
+
+        if (keyStorePass == null) {
+            throw new RuntimeException(
+                    "No key store password found in properties file.");
+        }
+        if (keyAlias == null) {
+            throw new RuntimeException("No key alias found in properties file");
+        }
+        if (keyPass == null) {
+            throw new RuntimeException(
+                    "No key password found in properties file");
+        }
+        if (initializationVector == null) {
+            throw new RuntimeException("No initialization vector provided");
+        }
+
+        KeyStore ks = KeyStore.getInstance("JCEKS");
+
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(new File(keyStore));
+            ks.load(fis, keyStorePass.toCharArray());
+        } finally {
+            if (fis != null) {
+                fis.close();
+            }
+        }
+        Key key = ks.getKey(keyAlias, keyPass.toCharArray());
+        if (!(key instanceof SecretKey)) {
+            throw new RuntimeException("Expected key of type SecretKey, got "
+                    + key.getClass());
+        }
+        this.setKeyAndInitializationVector((SecretKey) key,
+                initializationVector);
+    }
+
+    protected void setKeyAndInitializationVector(SecretKey key,
+            String initializationVector) {
+
+        byte[] ivBytes;
+        try {
+            ivBytes = Hex.decodeHex(initializationVector.toCharArray());
+        } catch (DecoderException e) {
+            throw new RuntimeException(e);
+        }
+
+        IvParameterSpec ivspec = new IvParameterSpec(ivBytes);
+
+        try {
+            this.encryptCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            this.encryptCipher.init(Cipher.ENCRYPT_MODE, key, ivspec);
+
+            this.decryptCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            this.decryptCipher.init(Cipher.DECRYPT_MODE, key, ivspec);
+        } catch (GeneralSecurityException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
