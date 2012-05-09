@@ -3,9 +3,9 @@ class Eula
     include ActiveModel::Conversion
     extend ActiveModel::Naming
 
-   attr_accessor :termsOfService, :eula, :loremIpsum
+   attr_accessor :termsOfService, :eula
 
-   validates_presence_of :termsOfService,:eula, :loremIpsum
+   validates_presence_of :termsOfService,:eula
 
    def initialize(attributes = {})
        attributes.each do |name, value|

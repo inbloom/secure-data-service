@@ -319,8 +319,10 @@ public class BasicService implements EntityService {
 
         List<String> allowed = findAccessible();
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
-
-        if (allowed.isEmpty()) {
+        
+        if (this.readRight == Right.ANONYMOUS_ACCESS) {
+            LOG.debug("super list logic --> {} service allows anonymous access", this.collectionName);
+        } else if (allowed.isEmpty()) {
             return Collections.emptyList();
         } else if (allowed.size() < 0) {
             LOG.debug("super list logic --> only true when using DefaultEntityContextResolver");
