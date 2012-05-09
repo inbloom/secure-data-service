@@ -1,3 +1,14 @@
+Transform /^IDs for "([^"]*)"$/ do |idCategory|
+    expectedIds = ["edce823c-ee28-4840-ae3d-74d9e9976dc5",
+        "67ed9078-431a-465e-adf7-c720d08ef512",
+        "bcfcc33f-f4a6-488f-baee-b92fbd062e8d",
+        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"] if idCategory == "Daybreak and Sunset"
+    expectedIds = ["67ed9078-431a-465e-adf7-c720d08ef512",
+        "bcfcc33f-f4a6-488f-baee-b92fbd062e8d",
+        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"] if idCategory == "Daybreak only"
+    expectedIds
+end
+
 When /^I should navigate to "([^"]*)"$/ do |page|
   @driver.get(PropLoader.getProps['databrowser_server_url'] + "/entities/teachers")
 end
@@ -15,19 +26,7 @@ Then /^I should see that there are "([^"]*)" teachers$/ do |expectedNumTeachers|
   assert(total == expected, "Expected #{expectedNumTeachers}, found #{total}")
 end
 
-Then /^I should get the IDs for "([^"]*)"$/ do |expectedCategory|
-  if expectedCategory == "Daybreak and Sunset"
-    expectedIds = ["edce823c-ee28-4840-ae3d-74d9e9976dc5",
-        "67ed9078-431a-465e-adf7-c720d08ef512",
-        "bcfcc33f-f4a6-488f-baee-b92fbd062e8d",
-        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"]
-  elsif expectedCategory == "Daybreak only"
-    expectedIds = ["67ed9078-431a-465e-adf7-c720d08ef512",
-        "bcfcc33f-f4a6-488f-baee-b92fbd062e8d",
-        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"]
-  else 
-    assert(false, "Unimplemented set of IDs")
-  end
+Then /^I should get the (IDs for "[^"]*")$/ do |expectedIds|
   
   table = @driver.find_element(:id, "simple")
   rows = table.find_elements(:xpath, ".//tr")
