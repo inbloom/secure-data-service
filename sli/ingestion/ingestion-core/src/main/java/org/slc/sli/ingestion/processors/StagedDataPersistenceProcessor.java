@@ -1,7 +1,6 @@
 package org.slc.sli.ingestion.processors;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -145,8 +144,6 @@ public class StagedDataPersistenceProcessor implements Processor {
 
         ErrorReport errorReportForCollection = createDbErrorReport(job.getId(), collectionName);
 
-        Set<String> encounteredStgCollections = new HashSet<String>();
-
         String fatalErrorMessage = "ERROR: Fatal problem saving records to database.\n";
         try {
 
@@ -161,7 +158,7 @@ public class StagedDataPersistenceProcessor implements Processor {
                         + collectionName + "\n";
 
                 if (!collectionName.equals(transformedCollectionName)) {
-                    numFailed += processTransformableNeutralRecord(neutralRecord, job, encounteredStgCollections,
+                    numFailed += processTransformableNeutralRecord(neutralRecord, getTenantId(job),
                             errorReportForCollection);
                 } else {
                     numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, getTenantId(job),
@@ -179,52 +176,38 @@ public class StagedDataPersistenceProcessor implements Processor {
         }
     }
 
-    private long processTransformableNeutralRecord(NeutralRecord neutralRecord, Job job,
-            Set<String> encounteredStgCollections, ErrorReport errorReportForCollection) {
+    private long processTransformableNeutralRecord(NeutralRecord neutralRecord, String tenantId,
+            ErrorReport errorReportForCollection) {
         long numFailed = 0;
 
-        // only proceed if we haven't proceesed this record type yet
-        if (!encounteredStgCollections.contains(neutralRecord.getRecordType())) {
-            LOG.debug("processing transformable neutral record: {}", neutralRecord.getRecordType());
+        LOG.debug("processing transformable neutral record: {}", neutralRecord.getRecordType());
 
-            Iterable<NeutralRecord> stagedNeutralRecords = getStagedNeutralRecords(neutralRecord, job,
-                    encounteredStgCollections);
+        // remove _transformed metadata from type. upcoming transformation is based on type.
+        neutralRecord.setRecordType(neutralRecord.getRecordType().replaceFirst("_transformed", ""));
 
-            if (stagedNeutralRecords.iterator().hasNext()) {
+        // must set tenantId here, it is used by upcoming transformer.
+        neutralRecord.setSourceId(tenantId);
 
-                for (NeutralRecord stagedNeutralRecord : stagedNeutralRecords) {
-                    stagedNeutralRecord.setSourceId(getTenantId(job));
+        List<SimpleEntity> xformedEntities = transformer.handle(neutralRecord, errorReportForCollection);
+        for (SimpleEntity xformedEntity : xformedEntities) {
 
-                    // TODO: why is this necessary?
-                    stagedNeutralRecord.setRecordType(neutralRecord.getRecordType());
+            ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
 
-                    List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord,
-                            errorReportForCollection);
-                    for (SimpleEntity xformedEntity : xformedEntities) {
+            if (xformedEntity.getType().equals("schoolSessionAssociation")) {
 
-                        ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
+                persistSessionAndSchoolSessionAssociation(xformedEntity, errorReportForNrEntity);
 
-                        if (xformedEntity.getType().equals("schoolSessionAssociation")) {
-
-                            persistSessionAndSchoolSessionAssociation(xformedEntity, errorReportForNrEntity);
-
-                        } else {
-
-                            entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
-
-                        }
-
-                        if (errorReportForNrEntity.hasErrors()) {
-                            numFailed++;
-                        }
-                    }
-                }
             } else {
-                // TODO: this isn't really a failure per record. revisit.
-                numFailed++;
+
+                entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
+
             }
 
+            if (errorReportForNrEntity.hasErrors()) {
+                numFailed++;
+            }
         }
+
         return numFailed;
     }
 
@@ -303,8 +286,8 @@ public class StagedDataPersistenceProcessor implements Processor {
                 collectionNameTransformed, job.getId());
 
         if (collectionExists) {
-            if (neutralRecordMongoAccess.getRecordRepository().countForJob(collectionNameTransformed, new NeutralQuery(),
-                    job.getId()) > 0) {
+            if (neutralRecordMongoAccess.getRecordRepository().countForJob(collectionNameTransformed,
+                    new NeutralQuery(), job.getId()) > 0) {
                 LOG.info("FOUND TRANSFORMED COLLECTION WITH MORE THAN 0 RECORD = " + collectionNameTransformed);
                 return (collectionNameTransformed);
             }
