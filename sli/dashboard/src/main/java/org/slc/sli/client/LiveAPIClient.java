@@ -142,7 +142,8 @@ public class LiveAPIClient implements APIClient {
      */
     @LogExecutionTime
     public Object createEntityFromAPI(String url, String token, Class entityClass) {
-        LOGGER.info("Querying API: {}", url);
+//        DE260 - Logging of possibly sensitive data
+//        LOGGER.info("Querying API: {}", url);
         String response = restClient.makeJsonRequestWHeaders(url, token);
         if (response == null) {
             return null;
@@ -378,7 +379,8 @@ public class LiveAPIClient implements APIClient {
         GenericEntity session = null;
         try {
             session = createEntityFromAPI(getApiUrl() + SESSION_URL + id, token);
-            LOGGER.debug("Session: {}", session);
+//            DE260 - Logging of possibly sensitive data
+//            LOGGER.debug("Session: {}", session);
         } catch (Exception e) {
             LOGGER.warn("Error occured while getting session", e);
             session = new GenericEntity();
@@ -774,7 +776,8 @@ public class LiveAPIClient implements APIClient {
      */
     @ExecutionTimeLogger.LogExecutionTime
     public GenericEntity createEntityFromAPI(String url, String token) {
-        LOGGER.info("Querying API: {}", url);
+//        DE260 - Logging of possibly sensitive data
+//        LOGGER.info("Querying API: {}", url);
         String response = restClient.makeJsonRequestWHeaders(url, token);
         if (response == null) {
             return null;
@@ -800,8 +803,9 @@ public class LiveAPIClient implements APIClient {
     public List<GenericEntity> createEntitiesFromAPI(String url, String token) {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
 
+//        DE260 - Logging of possibly sensitive data
         // Parse JSON
-        LOGGER.info("Querying API for list: {}", url);
+//        LOGGER.info("Querying API for list: {}", url);
         String response = restClient.makeJsonRequestWHeaders(url, token);
         if (response == null) {
             return Collections.emptyList();
