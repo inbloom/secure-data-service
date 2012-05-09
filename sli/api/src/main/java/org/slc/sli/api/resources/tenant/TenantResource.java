@@ -70,7 +70,7 @@ public class TenantResource extends DefaultCrudEndpoint {
 
     @POST
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public Response createTenant(EntityBody newTenant, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+    public Response create(EntityBody newTenant, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
             EntityBody body = new EntityBody();
@@ -141,7 +141,7 @@ public class TenantResource extends DefaultCrudEndpoint {
     }
 
     @GET
-    public Response getTenants(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
+    public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context
             HttpHeaders headers, @Context final UriInfo uriInfo) {
@@ -165,7 +165,7 @@ public class TenantResource extends DefaultCrudEndpoint {
      */
     @GET
     @Path("{" + UUID + "}")
-    public Response getTenant(@PathParam(UUID) String uuid,
+    public Response read(@PathParam(UUID) String uuid,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
@@ -179,7 +179,7 @@ public class TenantResource extends DefaultCrudEndpoint {
 
     @DELETE
     @Path("{" + UUID + "}")
-    public Response deleteTenant(@PathParam(UUID) String uuid,
+    public Response delete(@PathParam(UUID) String uuid,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
@@ -193,7 +193,7 @@ public class TenantResource extends DefaultCrudEndpoint {
 
     @PUT
     @Path("{" + UUID + "}")
-    public Response updateTenant(@PathParam(UUID) String uuid, EntityBody tenant,
+    public Response update(@PathParam(UUID) String uuid, EntityBody tenant,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
