@@ -23,22 +23,34 @@ class UserAccountRegistrationsController < ApplicationController
        redirectPage=false
       else
         url=APP_CONFIG['api_base']
-        urlHeader = {"accept" => "application/json"}
+        urlHeader = {
+            "Content-Type" => "application/json",
+            "content_type" => "json",
+            "accept" => "application/json"
+            }
         res = RestClient.get(url+"?userName="+@user_account_registration.email, urlHeader){|response, request, result| response }
+        puts(res.code)
+        puts(res.body)
+        puts(response.to_json)
+
         if (res.code==200)
             jsonDocument = JSON.parse(res.body)
-            if (jsonDocument["validated"] == "true")
-                @user_account_registration.errors.add(:email, "User name already exists in record")
-                redirectPage=false
+            if(jsonDocument!=nil)
+                if (jsonDocument["validated"] == "true")
+                    @user_account_registration.errors.add(:email, "User name already exists in record")
+                    redirectPage=false
+                else
+                 @commitResult= RestClient.put(url+"/userAccountId="+jsonDocument["id"],@user_account_registration.to_json,urlHeader){|response, request, result| response }
+                end
             else
-             @commitResult= RestClient.put(url+"/userAccountId="+jsonDocument["id"], urlHeader){|response, request, result| response }
+                @commitResult= RestClient.post(url,@user_account_registration.to_json,urlHeader)
             end
         else
-            @commitResult= RestClient.post(url+"/userAccountId="+jsonDocument["id"],@user_account_registration.to_json,:content_type => :json, :accept => :json)
+            @commitResult= RestClient.post(url,@user_account_registration.to_json,urlHeader)
         end
         if @commitResult.code != 200
             redirectPage=false
-            @user_account_registration.errors.add(:email, "Error occured storing user name in record")
+            @user_account_registration.errors.add(:email, "Error occurred storing user name in record")
         end
 
       end
