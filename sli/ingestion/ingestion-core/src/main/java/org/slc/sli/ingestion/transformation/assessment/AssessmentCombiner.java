@@ -74,10 +74,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         loadCollectionFromDb("assessmentFamily");
         LOG.info("AssessmentFamily is loaded into local storage.  Total Count = "
                 + collections.get("assessmentFamily").size());
-
-        loadCollectionFromDb("assessmentItem");
-        LOG.info("AssessmentItem is loaded into local storage.  Total Count = "
-                + collections.get("assessmentItem").size());
     }
 
     @SuppressWarnings("unchecked")
@@ -145,10 +141,14 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     }
 
     private Map<String, Object> getAssessmentItem(String itemRef) {
-        for (NeutralRecord item : collections.get("assessmentItem").values()) {
-            if (itemRef.equals(item.getLocalId())) {
-                return item.getAttributes();
-            }
+        Map<String, String> paths = new HashMap<String, String>();
+        paths.put("localId", itemRef);
+
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
+                "assessmentItem", paths, getJob().getId());
+
+        if (data.iterator().hasNext()) {
+            return data.iterator().next().getAttributes();
         }
         return null;
     }
