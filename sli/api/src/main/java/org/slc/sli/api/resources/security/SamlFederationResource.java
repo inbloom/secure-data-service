@@ -71,12 +71,6 @@ public class SamlFederationResource {
     @Value("classpath:saml/samlMetadata.xml.template")
     private Resource metadataTemplateResource;
 
-//    @Context
-//    private UriInfo uriInfo;
-
-//    @Context
-//    private HttpHeaders httpHeaders;
-
     @Context
     private HttpServletRequest httpServletRequest;
 
