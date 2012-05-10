@@ -1,3 +1,4 @@
+@wip
 Feature: Tenant Registration Entity
 As an administrator for SLI, I want to create a tenant entity so that it listen for files on landing zone
 
