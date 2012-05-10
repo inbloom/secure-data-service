@@ -49,6 +49,7 @@ module ApplicationHelper
        		}
 
        ApprovalEngine.add_disabled_user(new_user)
+       user = @@ldap.read_user(userAccountRegistration.email)
     end
 
     # Verify the email address against the backend.
@@ -78,6 +79,7 @@ module ApplicationHelper
                 :status     => "submitted"
             }
        ApprovalEngine.update_user_info(new_user)
+       user = @@ldap.read_user(userAccountRegistration.email)
     end
 
     #get email token for a specific user
@@ -88,7 +90,7 @@ module ApplicationHelper
     end
 
     # Returns an individual user via their email token or nil if the user does not exist.
-      def ApprovalEngine.get_user_with_emailtoken(email_token)
+      def self.get_user_with_emailtoken(email_token)
         ApprovalEngine.init(@@ldap,@@emailer,IS_SANDBOX)
         return ApprovalEngine.get_user_emailtoken(email_token)
       end
@@ -98,5 +100,6 @@ module ApplicationHelper
     def self.remove_user(email_address)
         ApprovalEngine.init(@@ldap,@@emailer,IS_SANDBOX)
         ApprovalEngine.remove_user(email_address)
+
     end
 end

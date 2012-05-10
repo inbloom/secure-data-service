@@ -51,6 +51,7 @@ class EulasController < ApplicationController
       :sender_name => APP_CONFIG["email_sender_name"],
       :sender_email_addr => APP_CONFIG["email_sender_address"],
     }
+    puts(user_email_info["email_address"])
     emailtoken=ApplicationHelper.get_email_token(user_email_info["email_address"])
     
     message = "Your SLI account has been created pending email verification.\n" <<
