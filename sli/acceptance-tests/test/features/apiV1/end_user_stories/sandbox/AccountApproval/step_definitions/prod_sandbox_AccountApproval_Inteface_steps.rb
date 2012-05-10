@@ -33,7 +33,10 @@ Given /^there are accounts in requests pending in the system$/ do
        :password => "secret", 
        :emailtoken => "token",
        :vendor => "Macro Corp",
-       :status => "pending"
+       :status => "pending",
+       :homedir => "test",
+       :uid => "devldapuser@slidev.org",
+       :gid => "testgroup"
    }
   @ldap.create_user(user_info)
   sleep(1)
@@ -138,7 +141,10 @@ Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
        :password => "secret", 
        :emailtoken => "token",
        :vendor => vendor,
-       :status => "approved"
+       :status => "approved",
+       :homedir => "test",
+       :uid => "devldapuser@slidev.org",
+       :gid => "testgroup"
    }
   @ldap.create_user(user_info)
   sleep(1)
@@ -154,7 +160,10 @@ def create_account(status, vendor)
        :password => "secret", 
        :emailtoken => "token",
        :vendor => vendor,
-       :status => status
+       :status => status,
+       :homedir => "test",
+       :uid => "devldapuser@slidev.org",
+       :gid => "testgroup"
    }
   @ldap.create_user(user_info)
   sleep(1)
