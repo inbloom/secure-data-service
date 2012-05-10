@@ -14,9 +14,9 @@
   <bean id="validationStrategyList" class="java.util.ArrayList">
     <constructor-arg>
       <list>
-        <!-- <ref bean="characterBlacklistStrategy" /> -->
+        <ref bean="characterBlacklistStrategy" />
         <!-- <ref bean="regexBlacklistStrategy" /> Not needed until there's regex to check against -->
-        <!-- <ref bean="stringBlacklistStrategy" /> -->
+        <ref bean="stringBlacklistStrategy" />
       </list>
     </constructor-arg>
   </bean>
@@ -24,8 +24,8 @@
   <bean id="relaxedValidationStrategyList" class="java.util.ArrayList">
     <constructor-arg>
       <list>
-        <!-- <ref bean="relaxedCharacterBlacklistStrategy" /> -->
-        <!-- <ref bean="relaxedStringBlacklistStrategy" /> -->
+        <ref bean="relaxedCharacterBlacklistStrategy" />
+        <ref bean="relaxedStringBlacklistStrategy" />
       </list>
     </constructor-arg>
   </bean>
@@ -115,11 +115,11 @@
         <value>\u0006</value>   <!-- Control - acknowledge               -->
         <value>\u0007</value>   <!-- Control - bell                      -->
         <value>\u0008</value>   <!-- Control - backspace                 -->
-        <value>\u0009</value>   <!-- Control - horizontal tabulation     -->
-        <value>\u000A</value>   <!-- Control - line feed                 -->
+        <!--  <value>\u0009</value> -->  <!-- Control - horizontal tabulation     -->
+        <!--  <value>\u000A</value> -->  <!-- Control - line feed                 -->
         <value>\u000B</value>   <!-- Control - vertical tabulation       -->
         <value>\u000C</value>   <!-- Control - form feed                 -->
-        <value>\u000D</value>   <!-- Control - carriage return           -->
+        <!--  <value>\u000D</value> -->  <!-- Control - carriage return           -->
         <value>\u000E</value>   <!-- Control - shift out                 -->
         <value>\u000F</value>   <!-- Control - shift in                  -->
         <value>\u0010</value>   <!-- Control - data link escape          -->

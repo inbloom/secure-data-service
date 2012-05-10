@@ -20,8 +20,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class RegexBlacklistStrategyTest {
 
-    private final String PREFIX = "some strings";
-    private final String SUFFIX = "and other strings";
+    private static final String PREFIX = "some strings";
+    private static final String SUFFIX = "and other strings";
 
     @Autowired
     private AbstractBlacklistStrategy regexBlacklistStrategy;
