@@ -207,7 +207,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public void deleteAll(String collectionName) {
-    	template.getCollection(collectionName).remove(new BasicDBObject());
+        template.getCollection(collectionName).remove(new BasicDBObject());
         LOG.debug("delete all objects in collection {}", collectionName);
     }
 

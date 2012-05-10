@@ -37,19 +37,17 @@ public class TenantProcessor implements Processor {
     @Autowired
     private TenantDA tenantDA;
     
+    private String workItemQueueUri;
+    
     @Autowired
     private ZipFileProcessor zipFileProcessor;
 
     @Autowired
     private ControlFilePreProcessor controlFilePreProcessor;
     
-    //required to get the work item queue URI
-    @Autowired
-    private IngestionRouteBuilder ingestionRouteBuilder;
-    
-    public final static String TENANT_POLL_HEADER = "TENANT_POLL_STATUS";
-    public final static String TENANT_POLL_SUCCESS = "SUCCESS";
-    public final static String TENANT_POLL_FAILURE = "FAILURE";
+    public static final String TENANT_POLL_HEADER = "TENANT_POLL_STATUS";
+    public static final String TENANT_POLL_SUCCESS = "SUCCESS";
+    public static final String TENANT_POLL_FAILURE = "FAILURE";
     
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -64,7 +62,9 @@ public class TenantProcessor implements Processor {
         }
     }
 
-    
+    public void setWorkItemQueueUri(String workItemQueueUri) {
+        this.workItemQueueUri = workItemQueueUri;
+    }
     /**
      * Update the landing zone routes based on the tenant DB collection.
      * @throws Exception 
@@ -115,7 +115,7 @@ public class TenantProcessor implements Processor {
      * Remove routes from camel context.
      * @throws Exception if a route cannot be removed 
      */
-    private void removeRoutes(Set<String> routesToRemove) throws Exception{
+    private void removeRoutes(Set<String> routesToRemove) throws Exception {
         for (String routePath : routesToRemove) {
             String zipRouteId = LandingZoneRouteBuilder.ZIP_POLLER_PREFIX + routePath;
             String ctrlRouteId = LandingZoneRouteBuilder.CTRL_POLLER_PREFIX + routePath;
@@ -130,9 +130,8 @@ public class TenantProcessor implements Processor {
      * @throws Exception if a route cannot be resolved
      */
     private void addRoutes(List<String> routesToAdd) throws Exception {
-        RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(routesToAdd, 
-                ingestionRouteBuilder.getWorkItemQueueUri(),
-                zipFileProcessor, controlFilePreProcessor);
+        RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(routesToAdd,
+                workItemQueueUri, zipFileProcessor, controlFilePreProcessor);
         camelContext.addRoutes(landingZoneRouteBuilder);
     }
     
@@ -143,4 +142,5 @@ public class TenantProcessor implements Processor {
     private String getHostname() throws UnknownHostException {
         return InetAddress.getLocalHost().getHostName();
     }
+    
 }

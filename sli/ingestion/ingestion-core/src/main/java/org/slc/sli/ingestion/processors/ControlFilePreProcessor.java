@@ -113,7 +113,7 @@ public class ControlFilePreProcessor implements Processor {
                     "processUsingNewBatchJob", // Alpha MH (actionUri)
                     "Ingestion", // Alpha MH (appId)
                     "", // origin
-                    ipAddr[0]+"."+ipAddr[1]+"."+ipAddr[2]+"."+ipAddr[3], // executedOn
+                    ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3], // executedOn
                     "", // Alpha MH (Credential - N/A for ingestion)
                     "", // userOrigin
                     new Date(), // Alpha MH (timeStamp)

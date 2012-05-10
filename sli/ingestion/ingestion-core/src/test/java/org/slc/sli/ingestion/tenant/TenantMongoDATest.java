@@ -16,7 +16,6 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 import org.slc.sli.domain.Entity;
@@ -36,8 +35,6 @@ public class TenantMongoDATest {
     
     private Repository<Entity> mockRepository; 
     
-//    private TenantRecord tenantRecord;
-    
     private final String ingestionServerName = "ingestion_server_host";
     private final String lzPath1 = "lz_path_1";
     private final String lzPath2 = "lz_path_2";
@@ -45,11 +42,11 @@ public class TenantMongoDATest {
     
     @Before
     public void setup() {
-    	tenantDA = new TenantMongoDA();
+        tenantDA = new TenantMongoDA();
         // Setup the mocked Repository Template.
-    	mockRepository = mock(Repository.class);
+        mockRepository = mock(Repository.class);
         tenantDA.setEntityRepository(mockRepository);
-//        createTestTenantRecord();
+        //createTestTenantRecord();
     }
     
     @Test
@@ -70,33 +67,29 @@ public class TenantMongoDATest {
     }
     
     private Entity createTenantEntity() {
-    	List<Pair<String,String>> ingestionServersAndPaths = new ArrayList<Pair<String,String>>();
-    	ingestionServersAndPaths.add(ImmutablePair.of(ingestionServerName, lzPath1));
-    	ingestionServersAndPaths.add(ImmutablePair.of(ingestionServerName, lzPath2));
-    	return createEntityWithLzPaths(ingestionServersAndPaths);
-    	
+        List<Pair<String, String>> ingestionServersAndPaths = new ArrayList<Pair<String, String>>();
+        ingestionServersAndPaths.add(ImmutablePair.of(ingestionServerName, lzPath1));
+        ingestionServersAndPaths.add(ImmutablePair.of(ingestionServerName, lzPath2));
+        return createEntityWithLzPaths(ingestionServersAndPaths);
     }
     
-    
-    
-    private Entity createEntityWithLzPaths(List<Pair<String,String>> ingestionServersAndPaths) {
-    	
-    	SimpleEntity entity = new SimpleEntity();
-    	entity.setBody(new HashMap<String, Object>());
-    	
-    	List<Map<String,String>> landingZones = new ArrayList<Map<String,String>>();
-    	for( Pair<String, String> ingestionServerAndPath : ingestionServersAndPaths) {
-
-    		Map<String, String> landingZone = new HashMap<String, String>();
-    		
-    		landingZone.put(TenantMongoDA.INGESTION_SERVER, ingestionServerAndPath.getLeft());
-    		landingZone.put(TenantMongoDA.PATH, ingestionServerAndPath.getRight());
-    		landingZones.add(landingZone);
-    	}
-    	
-    	entity.getBody().put(TenantMongoDA.LANDING_ZONE, landingZones);
-    	entity.getBody().put(TenantMongoDA.TENANT_ID, tenantId);
-    	return entity;
+    private Entity createEntityWithLzPaths(List<Pair<String, String>> ingestionServersAndPaths) {
+        
+        SimpleEntity entity = new SimpleEntity();
+        entity.setBody(new HashMap<String, Object>());
+        
+        List<Map<String, String>> landingZones = new ArrayList<Map<String, String>>();
+        for (Pair<String, String> ingestionServerAndPath : ingestionServersAndPaths) {
+            Map<String, String> landingZone = new HashMap<String, String>();
+            
+            landingZone.put(TenantMongoDA.INGESTION_SERVER, ingestionServerAndPath.getLeft());
+            landingZone.put(TenantMongoDA.PATH, ingestionServerAndPath.getRight());
+            landingZones.add(landingZone);
+        }
+        
+        entity.getBody().put(TenantMongoDA.LANDING_ZONE, landingZones);
+        entity.getBody().put(TenantMongoDA.TENANT_ID, tenantId);
+        return entity;
     }
     
     @Test
@@ -107,7 +100,7 @@ public class TenantMongoDATest {
         Entity tenantRecord = createTenantEntity();
         
         when(mockRepository.findOne(Mockito.eq("tenant"), Mockito.any(NeutralQuery.class))).
-        	thenReturn(tenantRecord);
+            thenReturn(tenantRecord);
         
         String tenantIdResult = tenantDA.getTenantId(lzPath1);
         
@@ -120,69 +113,66 @@ public class TenantMongoDATest {
     
     @Test
     public void shouldDropTenants() {
-    	
-    	tenantDA.dropTenants();
-    	Mockito.verify(mockRepository, Mockito.times(1)).deleteAll("tenant");
-    	
+        
+        tenantDA.dropTenants();
+        Mockito.verify(mockRepository, Mockito.times(1)).deleteAll("tenant");
+    
     }
     
     @Test
     public void shouldInsertTenant() {
-    	TenantRecord tenantRecord = createTestTenantRecord();
-    	
-    	tenantDA.insertTenant(tenantRecord);
-    	
-    	Mockito.verify(mockRepository).create(Mockito.eq("tenant"),Mockito.argThat(new IsCorrectBody(tenantRecord)));
-    	
+        TenantRecord tenantRecord = createTestTenantRecord();
+        
+        tenantDA.insertTenant(tenantRecord);
+        
+        Mockito.verify(mockRepository).create(Mockito.eq("tenant"), Mockito.argThat(new IsCorrectBody(tenantRecord)));
+        
     }
     
-    private class IsCorrectBody extends ArgumentMatcher<Map<String,Object>>{
+    private class IsCorrectBody extends ArgumentMatcher<Map<String, Object>> {
 
-    	private final TenantRecord tenant;
-    	
-    	public IsCorrectBody(TenantRecord tenant) {
-    		this.tenant = tenant;
-    	}
-    	
-		@Override
-		public boolean matches(Object argument) {
-			Map<String,Object> arg = (Map<String,Object>)argument;
-			
-			if( false == StringUtils.equals(tenant.getTenantId(),(String)arg.get(TenantMongoDA.TENANT_ID))) {
-				return false;
-			}
-			List<Map<String,String>> landingZones = (List<Map<String, String>>) arg.get(TenantMongoDA.LANDING_ZONE);
-			
-			if(landingZones.size() != tenant.getLandingZone().size()) {
-				return false;
-			}
-			
-			for( int i = 0; i < landingZones.size(); i++ ) {
-				LandingZoneRecord lzRecord = tenant.getLandingZone().get(i);
-				Map<String,String> lzMap = landingZones.get(i);
-				if( false == StringUtils.equals(lzRecord.getDesc(), lzMap.get(TenantMongoDA.DESC))) {
-					return false;
-				}
-				if( false == StringUtils.equals(lzRecord.getEducationOrganization(), lzMap.get(TenantMongoDA.EDUCATION_ORGANIZATION))) {
-					return false;
-				}
-				if( false == StringUtils.equals(lzRecord.getIngestionServer(), lzMap.get(TenantMongoDA.INGESTION_SERVER))) {
-					return false;
-				}
-				if( false == StringUtils.equals(lzRecord.getPath(), lzMap.get(TenantMongoDA.PATH))) {
-					return false;
-				}
-			}
-			
-			return true;
-		}
-    	
+        private final TenantRecord tenant;
+        
+        public IsCorrectBody(TenantRecord tenant) {
+            this.tenant = tenant;
+        }
+        
+        @Override
+        public boolean matches(Object argument) {
+            Map<String, Object> arg = (Map<String, Object>) argument;
+
+            if (!StringUtils.equals(tenant.getTenantId(), (String) arg.get(TenantMongoDA.TENANT_ID))) {
+                return false;
+            }
+            List<Map<String, String>> landingZones = (List<Map<String, String>>) arg.get(TenantMongoDA.LANDING_ZONE);
+            
+            if (landingZones.size() != tenant.getLandingZone().size()) {
+                return false;
+            }
+            
+            for (int i = 0; i < landingZones.size(); i++) {
+                LandingZoneRecord lzRecord = tenant.getLandingZone().get(i);
+                Map<String, String> lzMap = landingZones.get(i);
+                if (!StringUtils.equals(lzRecord.getDesc(), lzMap.get(TenantMongoDA.DESC))) {
+                    return false;
+                }
+                if (!StringUtils.equals(lzRecord.getEducationOrganization(), lzMap.get(TenantMongoDA.EDUCATION_ORGANIZATION))) {
+                    return false;
+                }
+                if (!StringUtils.equals(lzRecord.getIngestionServer(), lzMap.get(TenantMongoDA.INGESTION_SERVER))) {
+                    return false;
+                }
+                if (!StringUtils.equals(lzRecord.getPath(), lzMap.get(TenantMongoDA.PATH))) {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
     }
-    
-    
     
     private TenantRecord createTestTenantRecord() {
-    	TenantRecord tenant = new TenantRecord();
+        TenantRecord tenant = new TenantRecord();
         List<LandingZoneRecord> lzList = new ArrayList<LandingZoneRecord>();
         
         LandingZoneRecord lz1 = new LandingZoneRecord();
