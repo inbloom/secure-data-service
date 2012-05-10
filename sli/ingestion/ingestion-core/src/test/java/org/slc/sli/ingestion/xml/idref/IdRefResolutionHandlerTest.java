@@ -52,10 +52,12 @@ public class IdRefResolutionHandlerTest {
 
         TestExecutor findIdRefsToResolve = new TestExecutor() {
 
+            @SuppressWarnings("unchecked")
             @Override
             public void execute(File file) throws Throwable {
-                @SuppressWarnings("unchecked")
-                Set<String> result = (Set<String>) PrivateAccessor.invoke(idRefResolutionHandler, "findIDRefsToResolve", new Class[]{File.class}, new Object[]{file});
+
+                ErrorReport errorReport = Mockito.mock(ErrorReport.class);
+                Set<String> result = (Set<String>) PrivateAccessor.invoke(idRefResolutionHandler, "findIDRefsToResolve", new Class[]{File.class, ErrorReport.class}, new Object[]{file, errorReport});
 
                 Assert.assertNotNull(result);
                 Assert.assertEquals(1, result.size());
@@ -76,11 +78,11 @@ public class IdRefResolutionHandlerTest {
             @Override
             public void execute(File file) throws Throwable {
                 Map<String, File> result = null;
-
+                ErrorReport errorReport = Mockito.mock(ErrorReport.class);
                 try {
-                    Set<String> refs = (Set<String>) PrivateAccessor.invoke(idRefResolutionHandler, "findIDRefsToResolve", new Class[]{File.class}, new Object[]{file});
+                    Set<String> refs = (Set<String>) PrivateAccessor.invoke(idRefResolutionHandler, "findIDRefsToResolve", new Class[]{File.class, ErrorReport.class}, new Object[]{file, errorReport});
 
-                    result = (Map<String, File>) PrivateAccessor.invoke(idRefResolutionHandler, "findMatchingEntities", new Class[]{File.class, Set.class}, new Object[]{file, refs});
+                    result = (Map<String, File>) PrivateAccessor.invoke(idRefResolutionHandler, "findMatchingEntities", new Class[]{File.class, Set.class, ErrorReport.class}, new Object[]{file, refs, errorReport});
 
                     Assert.assertNotNull(result);
                     Assert.assertEquals(1, result.size());
@@ -133,7 +135,7 @@ public class IdRefResolutionHandlerTest {
 
             FileUtils.copyFile(inputFile, tempInputFile);
 
-            test.execute(tempInputFile);
+
         } finally {
             FileUtils.deleteQuietly(tempInputFile);
         }
