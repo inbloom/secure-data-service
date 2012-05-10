@@ -23,8 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -352,7 +350,7 @@ public class JobReportingProcessor implements Processor {
                 "writeLine", // Alpha MH
                 "Ingestion", // Alpha MH (appId)
                 "", // origin
-                ipAddr[0]+"."+ipAddr[1]+"."+ipAddr[2]+"."+ipAddr[3], // executedOn
+                ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3], // executedOn
                 "", // Alpha MH (credential- N/A for ingestion)
                 "", // userOrigin
                 new Date(), // Alpha MH (timeStamp)
