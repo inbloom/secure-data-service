@@ -1,21 +1,15 @@
 package org.slc.sli.validation.strategy;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
 import org.owasp.esapi.errors.ValidationException;
-import org.owasp.esapi.reference.validation.BaseValidationRule;
 import org.springframework.stereotype.Component;
 
 @Component
-public class StringBlacklistStrategy extends BaseValidationRule {
-
-    @Resource(name="stringBlacklist")
-    private List<String> stringBlacklist;
+public class StringBlacklistStrategy extends AbstractBlacklistStrategy {
 
     private Pattern pattern;
 
@@ -26,8 +20,11 @@ public class StringBlacklistStrategy extends BaseValidationRule {
     @PostConstruct
     protected void init() {
         String regex = "\\b(";
-        for (String entry : stringBlacklist) {
-            regex += entry + "|";
+
+        if (inputCollection != null) {
+            for (String entry : inputCollection) {
+                regex += entry + "|";
+            }
         }
 
         if (regex.endsWith("|")) {
@@ -47,7 +44,7 @@ public class StringBlacklistStrategy extends BaseValidationRule {
     public Object getValid(String context, String input) throws ValidationException {
         Matcher matcher = pattern.matcher(input);
         if (matcher.find()) {
-            throw new ValidationException("Invalid input", "Invalid input");
+            throw new BlacklistValidationException("Invalid input: " + input);
         }
         return input;
     }
@@ -56,5 +53,4 @@ public class StringBlacklistStrategy extends BaseValidationRule {
     protected Object sanitize(String context, String input) {
         return input;
     }
-
 }

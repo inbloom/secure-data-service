@@ -16,6 +16,6 @@
     </context:component-scan>
     <bean id="entityValidator" class="org.slc.sli.validation.AvroEntityValidator" />
 
-    <import resource="classpath:/spring/validation.xml" />
+    <import resource="validation.xml" />
 
 </beans>

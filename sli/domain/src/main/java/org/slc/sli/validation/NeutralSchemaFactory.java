@@ -36,8 +36,11 @@ import org.slc.sli.validation.schema.TokenSchema;
 @Component
 public class NeutralSchemaFactory implements SchemaFactory {
 
-	@Resource(name="validationStrategyList")
-	private List<BaseValidationRule> validationStrategyList;
+    @Resource(name="validationStrategyList")
+    private List<BaseValidationRule> validationStrategyList;
+
+    @Resource(name="relaxedValidationStrategyList")
+    private List<BaseValidationRule> relaxedValidationStrategyList;
 
     /*
      * (non-Javadoc)
@@ -100,11 +103,11 @@ public class NeutralSchemaFactory implements SchemaFactory {
             case DURATION:
                 return new DurationSchema(schemaType.getName());
             case STRING:
-                return new StringSchema(schemaType.getName(), validationStrategyList);
+                return new StringSchema(schemaType.getName(), validationStrategyList, relaxedValidationStrategyList);
             case ID:
-                return new StringSchema(schemaType.getName(), validationStrategyList);
+                return new StringSchema(schemaType.getName(), validationStrategyList, relaxedValidationStrategyList);
             case IDREF:
-                return new StringSchema(schemaType.getName(), validationStrategyList);
+                return new StringSchema(schemaType.getName(), validationStrategyList, relaxedValidationStrategyList);
             case TOKEN:
                 return new TokenSchema(schemaType.getName());
             case LIST:

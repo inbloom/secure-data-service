@@ -25,38 +25,27 @@ import org.slc.sli.validation.ValidationError.ErrorType;
 @Component
 public class StringSchema extends NeutralSchema {
 
-	private List<BaseValidationRule> validationRuleList;
+    private List<BaseValidationRule> validationRuleList;
+    private List<BaseValidationRule> relaxedValidationRuleList;
 
     // Constructors
     public StringSchema() {
-        this(NeutralSchemaType.STRING.getName(), new ArrayList<BaseValidationRule>());
+        this(NeutralSchemaType.STRING.getName(), new ArrayList<BaseValidationRule>(), new ArrayList<BaseValidationRule>());
     }
 
     public StringSchema(String xsdType) {
-    	this(xsdType, new ArrayList<BaseValidationRule>());
+        this(xsdType, new ArrayList<BaseValidationRule>(), new ArrayList<BaseValidationRule>());
     }
 
-    public StringSchema(List<BaseValidationRule> validationRuleList) {
-    	this(NeutralSchemaType.STRING.getName(), validationRuleList);
+    public StringSchema(List<BaseValidationRule> validationRuleList, List<BaseValidationRule> relaxedValidationRuleList) {
+        this(NeutralSchemaType.STRING.getName(), validationRuleList, relaxedValidationRuleList);
     }
 
-    public StringSchema(String xsdType, List<BaseValidationRule> validationRuleList) {
-    	super(xsdType);
-    	this.validationRuleList = validationRuleList;
+    public StringSchema(String xsdType, List<BaseValidationRule> validationRuleList, List<BaseValidationRule> relaxedValidationRuleList) {
+        super(xsdType);
+        this.validationRuleList = validationRuleList;
+        this.relaxedValidationRuleList = relaxedValidationRuleList;
     }
-
-//    private void initializeBlacklistPatterns(List<String> validationBlacklist) {
-//    	blacklistPatterns = new ArrayList<Pattern>();
-//
-//    	if (validationBlacklist == null) {
-//    		return;
-//    	}
-//
-//    	for (String patternStr : validationBlacklist) {
-//    		Pattern p = Pattern.compile(patternStr, Pattern.CASE_INSENSITIVE);
-//    		blacklistPatterns.add(p);
-//    	}
-//    }
 
     // Methods
 
@@ -91,7 +80,7 @@ public class StringSchema extends NeutralSchema {
      * @return true if valid
      */
     @Override
-	protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
+    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
         if (!addError(String.class.isInstance(entity), fieldName, entity, "String", ErrorType.INVALID_DATATYPE, errors)) {
             return false;
         }
@@ -131,14 +120,18 @@ public class StringSchema extends NeutralSchema {
         }
         if (!isWhitelisted()) {
             for (BaseValidationRule validationRule : validationRuleList) {
-            	if (!validationRule.isValid("StringSchemaContext", data)) {
-            		return false;
-            	}
+                if (!validationRule.isValid("StringSchemaContext", data)) {
+                    return false;
+                }
             }
         } else {
             int i = 0;
             ++i;
-
+            for (BaseValidationRule validationRule : relaxedValidationRuleList) {
+                if (!validationRule.isValid("StringSchemaContext", data)) {
+                    return false;
+                }
+            }
         }
 
         return true;

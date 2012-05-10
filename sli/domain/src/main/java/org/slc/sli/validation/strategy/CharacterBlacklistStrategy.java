@@ -1,21 +1,15 @@
 package org.slc.sli.validation.strategy;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
 import org.owasp.esapi.errors.ValidationException;
-import org.owasp.esapi.reference.validation.BaseValidationRule;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CharacterBlacklistStrategy extends BaseValidationRule {
-
-    @Resource(name="characterBlacklist")
-    private List<String> characterBlacklist;
+public class CharacterBlacklistStrategy extends AbstractBlacklistStrategy {
 
     private Set<Character> characterSet;
 
@@ -26,7 +20,12 @@ public class CharacterBlacklistStrategy extends BaseValidationRule {
     @PostConstruct
     protected void init() {
         characterSet = new HashSet<Character>();
-        for (String entry : characterBlacklist) {
+
+        if (inputCollection == null) {
+            return;
+        }
+
+        for (String entry : inputCollection) {
             if (entry.isEmpty()) {
                 continue;
             }
@@ -52,7 +51,7 @@ public class CharacterBlacklistStrategy extends BaseValidationRule {
     public Object getValid(String context, String input) throws ValidationException {
         for (char c : input.toCharArray()) {
             if (characterSet.contains(c)) {
-                throw new ValidationException("Invalid character", "InvalidCharacter");
+                throw new BlacklistValidationException("Invalid input: " + input);
             }
         }
         return input;
@@ -62,5 +61,4 @@ public class CharacterBlacklistStrategy extends BaseValidationRule {
     protected Object sanitize(String context, String input) {
         return input;
     }
-
 }
