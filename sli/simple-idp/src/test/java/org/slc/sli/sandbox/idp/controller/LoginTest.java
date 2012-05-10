@@ -79,7 +79,7 @@ public class LoginTest {
         SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
         Mockito.when(loginService.buildAssertion("userId", roles, attributes, reqInfo)).thenReturn(samlResponse);
         
-        Object response = loginController.login("userId", "password", "SAMLRequest", "SLIAdmin");
+        Object response = loginController.login("userId", "password", "SAMLRequest", "SLIAdmin", null);
         
         assertEquals("org.springframework.web.servlet.ModelAndView", response.getClass().getName());
         ModelAndView mov = (ModelAndView) response;
@@ -108,7 +108,7 @@ public class LoginTest {
         SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
         Mockito.when(loginService.buildAssertion("userId", roles, attributes, reqInfo)).thenReturn(samlResponse);
         
-        Object response = loginController.login("userId", "password", "SAMLRequest", "realm");
+        Object response = loginController.login("userId", "password", "SAMLRequest", "realm", null);
         
         assertEquals("org.springframework.web.servlet.ModelAndView", response.getClass().getName());
         ModelAndView mov = (ModelAndView) response;
@@ -135,7 +135,7 @@ public class LoginTest {
         defaultRoles.add(new RoleService.Role("roleName"));
         Mockito.when(roleService.getAvailableRoles()).thenReturn(defaultRoles);
         
-        Object response = loginController.login("userId", "password", "SAMLRequest", "realm");
+        Object response = loginController.login("userId", "password", "SAMLRequest", "realm", null);
         
         assertEquals("org.springframework.web.servlet.ModelAndView", response.getClass().getName());
         ModelAndView mov = (ModelAndView) response;
@@ -165,7 +165,7 @@ public class LoginTest {
         SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
         Mockito.when(loginService.buildAssertion("userId", roles, attributes, reqInfo)).thenReturn(samlResponse);
         
-        Object response = loginController.login("userId", "password", "SAMLRequest", "SLIAdmin");
+        Object response = loginController.login("userId", "password", "SAMLRequest", "SLIAdmin", null);
         
         assertEquals("org.springframework.web.servlet.ModelAndView", response.getClass().getName());
         ModelAndView mov = (ModelAndView) response;
