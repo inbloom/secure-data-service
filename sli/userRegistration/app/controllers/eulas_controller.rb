@@ -51,10 +51,11 @@ class EulasController < ApplicationController
       :sender_name => APP_CONFIG["email_sender_name"],
       :sender_email_addr => APP_CONFIG["email_sender_address"],
     }
+    emailtoken=ApplicationHelper.get_email_token(user_email_info["email_address"])
     
     message = "Your SLI account has been created pending email verification.\n" <<
       "\n\nPlease visit the following link to confirm your account:\n" <<
-      "\n\n" + APP_CONFIG["validate_base"] + "/#{guid}\n\n"
+      "\n\n" + APP_CONFIG["validate_base"] + "/#{emailtoken}\n\n"
     
     email = Emailer.new email_conf
     email.send_approval_email(

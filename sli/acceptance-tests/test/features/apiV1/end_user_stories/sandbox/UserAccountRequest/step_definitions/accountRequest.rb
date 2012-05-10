@@ -20,15 +20,22 @@ end
 
 Given /^I go to the production account registration page$/ do
   @driver.get @userRegAppUrl
+  @env = "Production"
 end
 
 Given /^I go to the sandbox account registration page$/ do
   @driver.get @userRegAppUrl
+  @env = "Sandbox"
 end
 
 Given /^there is an approved account with login name "([^\"]*)"$/ do |email|
   coll = @db["userAccount"]
-  assert(coll.find("username" => email).count != 0, "No record found for #{email}")
+  records = coll.find("body.userName" => email, "body.environment" => @env).to_a
+  assert(records.size != 0, "No record found for #{email}")
+  assert(records.size == 1, "More than one records found for #{email}")
+  records.each do |record|
+    assert(record["body"]["validated"] == true, "#{email} is not validated")
+  end
 end
 
 ###############################################################################
@@ -44,7 +51,7 @@ end
 
 When /^I query the database for EULA acceptance$/ do
   coll = @db["userAccount"]
-  @records = coll.find("validated" => true)
+  @validatedRecords = coll.find("body.validated" => true).to_a
 end
 
 ###############################################################################
@@ -87,4 +94,17 @@ Then /^I am directed to an acknowledgement page.$/ do
   text = "Successful"
   body = @driver.find_element(:tag_name, "body")
   assert(body.text.include?(text), "Cannot find the text #{text}")
+end
+
+Then /^I get (\d+) record$/ do |count|
+  assert(@validatedRecords.size == convert(count), "Expected #{count}, received #{@validatedRecords.size}")
+end
+
+Then /^"([^\"]*)" is "([^\"]*)"$/ do |key, value|
+  if (@validatedRecords.size == 1)
+    assert(@validatedRecords[0]["body"][key] == convert(value), "Expected #{value} for #{key},
+        received #{@validatedRecords[0]["body"][key]}")
+  else
+    raise("Error: received more than 1 record (unhandled)")
+  end
 end
