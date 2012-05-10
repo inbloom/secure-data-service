@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
     logger.error {"Exception on server, clearing your session."}
     SessionResource.access_token = nil
   end
-  
+
   def callback
     #TODO: disable redirects to other domains
     redirect_to session[:entry_url] unless session[:entry_url].include? '/callback'
