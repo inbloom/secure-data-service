@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.milyn.Smooks;
 import org.slf4j.Logger;
@@ -53,25 +54,39 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
             return null;
         }
 
-        File convertedContent;
+        File convertedContent = null;
         BufferedInputStream in = null;
         BufferedOutputStream out = null;
 
-        try {
-            StreamSource source = new StreamSource(new BufferedInputStream(new FileInputStream(content)));
+        boolean failure = true;
 
+        try {
             convertedContent = File.createTempFile("smooks", ".xml", content.getParentFile());
 
-            StreamResult result = new StreamResult(new BufferedOutputStream(new FileOutputStream(convertedContent)));
+            in = new BufferedInputStream(new FileInputStream(content));
+            out = new BufferedOutputStream(new FileOutputStream(convertedContent));
+
+            StreamSource source = new StreamSource(in);
+            StreamResult result = new StreamResult(out);
 
             smooks.filterSource(source, result);
+
+            out.flush();
+
+            // If the file is empty, the configuration could not use to resolve the input
+            failure = (convertedContent.length() == 0);
         } catch (Exception e) {
-            convertedContent = null;
+            failure = true;
         } finally {
             IOUtils.closeQuietly(in);
             IOUtils.closeQuietly(out);
-        }
 
+            if (failure) {
+                LOG.warn("Failed to resolve input with configuration :" + xPath);
+                FileUtils.deleteQuietly(convertedContent);
+                convertedContent = null;
+            }
+        }
 
         return convertedContent;
     }
