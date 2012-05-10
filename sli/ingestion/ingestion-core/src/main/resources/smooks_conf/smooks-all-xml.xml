@@ -1023,8 +1023,13 @@
 
     <!-- Use courseCode so that every instance of a same-titled course will be stored -->
     <jb:value property="localId" data="InterchangeEducationOrganization/Course/CourseTitle" />
+    <jb:wiring property="localParentIds" beanIdRef="courseLocalParentIds" />
     <jb:wiring property="attributes" beanIdRef="courseAttributes" />
 
+  </jb:bean>
+
+  <jb:bean beanId="courseLocalParentIds" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Course">
+      <jb:wiring property="educationOrganization#schoolId" beanIdRef="Course_EducationOrganizationReference" />
   </jb:bean>
 
   <jb:bean beanId="courseAttributes" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/Course">
@@ -1046,6 +1051,9 @@
     <!-- MaximumAvilableCredit -->
     <jb:wiring property="maximumAvailableCredit" beanIdRef="MaximumAvailableCreditType" />
     <jb:value property="careerPathway" data="Course/CareerPathway" />
+    <!-- this schoolId field is added to pass validation unit test: CourseEntityTest
+         the parent id is resolved correctly during ingestion -->
+    <jb:value property="schoolId" data="Course/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode/ID" />
   </jb:bean>
 
   <jb:bean beanId="courseCodeTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Course">
@@ -1072,6 +1080,28 @@
     <jb:value property="credit" data="Course/MaximumAvailableCredit/Credit" decoder="Double"/>
     <jb:value property="creditType" data="Course/MaximumAvailableCredit/@CreditType" />
     <jb:value property="creditConversion" data="Course/MaximumAvailableCredit/@CreditConversion" decoder="Double"/>
+  </jb:bean>
+
+  <!-- Course supporting objects: EducationOrganizationReference -->
+  <jb:bean beanId="Course_EducationOrganizationReference"
+           class="java.util.HashMap"
+           createOnElement="InterchangeEducationOrganization/Course">
+      <jb:wiring property="educationOrganization#educationOrgIdentificationCode" beanIdRef="Course_EducationOrganizationReference_EducationOrgIdentificationCodeArray" />
+  </jb:bean>
+
+  <jb:bean beanId="Course_EducationOrganizationReference_EducationOrgIdentificationCodeArray"
+           class="java.util.ArrayList"
+           createOnElement="InterchangeEducationOrganization/Course">
+      <jb:wiring beanIdRef="Course_EducationOrganizationReference_EducationOrgIdentificationCode" />
+  </jb:bean>
+
+  <jb:bean beanId="Course_EducationOrganizationReference_EducationOrgIdentificationCode"
+           class="java.util.HashMap"
+           createOnElement="InterchangeEducationOrganization/Course/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode">
+      <jb:value property="educationOrganization#body.educationOrgIdentificationCode.identificationSystem"
+                data="Course/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode/@IdentificationSystem" />
+      <jb:value property="educationOrganization#body.educationOrgIdentificationCode.ID"
+                data="Course/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode/ID" />
   </jb:bean>
 
   <!-- ObjectiveAssessment Mapping -->
