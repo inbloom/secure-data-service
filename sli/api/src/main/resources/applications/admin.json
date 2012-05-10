@@ -27,7 +27,7 @@
          "description":"Register an application that can access SLI API.",
          "url":"${bootstrap.app.admin.url}/apps",
          "roles":[
-            "SLC Operator", "Application Developer"
+            "SLI Administrator"
          ]
       },
       {
@@ -43,7 +43,7 @@
          "description":"Control how roles are from a IDP are mapped to SLI roles.",
          "url":"${bootstrap.app.admin.url}/realms/",
          "roles":[
-           "Realm Administrator"
+            "SLI Administrator"
          ]
       },
       {
@@ -51,7 +51,7 @@
          "description":"View available roles.",
          "url":"${bootstrap.app.admin.url}",
          "roles":[
-           "Realm Administrator"
+            "SLI Administrator"
          ]
       },
       {

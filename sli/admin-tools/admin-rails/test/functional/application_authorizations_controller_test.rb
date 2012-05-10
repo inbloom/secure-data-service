@@ -6,7 +6,6 @@ class ApplicationAuthorizationsControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    session[:roles] = ["LEA Administrator"]
     get :index
     assert_response :success
     assert_not_nil assigns(:application_authorizations)
@@ -18,7 +17,6 @@ class ApplicationAuthorizationsControllerTest < ActionController::TestCase
   #end
   #
   test "should create application_authorization" do
-    session[:roles] = ["LEA Administrator"]
     post :create, application_authorization: @appauth_fixtures['new_district']  
     #assert_redirected_to application_authorization_path(assigns(:application_authorization))
     assert_redirected_to assigns(:application_authorization)
@@ -26,7 +24,6 @@ class ApplicationAuthorizationsControllerTest < ActionController::TestCase
   
 
   test "should show application_authorization" do
-    session[:roles] = ["LEA Administrator"]
     get :show, id: "1"
     assert_response :success
   end
@@ -37,7 +34,6 @@ class ApplicationAuthorizationsControllerTest < ActionController::TestCase
   #end
   #
   test "should update application_authorization" do
-    session[:roles] = ["LEA Administrator"]
     put :update, id: "1", application_authorization: @appauth_fixtures['district1']
     assert_redirected_to assigns(:application_authorization)
   end

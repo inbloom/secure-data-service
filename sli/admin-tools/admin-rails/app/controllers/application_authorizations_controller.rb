@@ -1,17 +1,7 @@
 class ApplicationAuthorizationsController < ApplicationController
   rescue_from ActiveResource::ForbiddenAccess, :with => :render_403
   rescue_from ActiveResource::ResourceNotFound, :with => :render_404
-  before_filter :check_rights
 
-  # Let us add some docs to this confusing controller.
-  # NOTE this controller allows ed org super admins to 
-  # enable/disable apps for their LEA.
-  # SEA admin authorization not implemented yet.
-  def check_rights
-    unless is_lea_admin?
-      render_403
-    end
-  end
 
   # GET /application_authorizations
   # GET /application_authorizations.json
