@@ -140,6 +140,26 @@
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:complexType name="TestWhitelistSequenceComplex">
+		<xs:annotation>
+			<xs:documentation>Test Whitelist sequence complex documentation.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="white" type="TestWhitelistString" />
+			<xs:element name="nonwhite" type="TestNonWhitelistString" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TestWhitelistChoiceComplex">
+		<xs:annotation>
+			<xs:documentation>Test Whitelist choice complex documentation.</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="white" type="TestWhitelistString" />
+			<xs:element name="nonwhite" type="TestNonWhitelistString" />
+		</xs:choice>
+	</xs:complexType>
+
 	<!-- non PII complex object with a PII element -->
 	<xs:complexType name="TestNotPersonallyIdentifiableInfoComplex">
 		<xs:sequence>

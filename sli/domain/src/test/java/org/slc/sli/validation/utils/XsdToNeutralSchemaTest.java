@@ -89,6 +89,100 @@ public class XsdToNeutralSchemaTest {
     }
     
     /**
+    * Test non-whitelist annotations within a simple string documentation.
+    * 
+    * 
+    */
+    @Test
+    public void testNonWhitelistStringType() throws IOException {
+        
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        repo.setApplicationContext(appContext);
+        
+        NeutralSchema simpleDoc = repo.getSchema("TestNonWhitelistString");
+        assertNotNull(simpleDoc);
+        assertEquals("TestNonWhitelistString", simpleDoc.getType());
+        assertTrue("TestNonWhitelistString should NOT be Whitelist", !simpleDoc.isWhitelisted());
+    }
+    
+    /**
+    * Test whitelist annotations within a simple string documentation.
+    * 
+    * 
+    */
+    @Test
+    public void testWhitelistStringType() throws IOException {
+        
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        repo.setApplicationContext(appContext);
+        
+        NeutralSchema simpleDoc = repo.getSchema("TestWhitelistString");
+        assertNotNull(simpleDoc);
+        assertEquals("TestWhitelistString", simpleDoc.getType());
+        assertTrue("TestWhitelistString should be Whitelist", simpleDoc.isWhitelisted());
+    }
+    
+    /**
+    * Test whitelist annotations within a complex string documentation sequence.
+    * 
+    */
+    @Test
+    public void testTestWhitelistSequenceComplex() throws IOException {
+        
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        repo.setApplicationContext(appContext);
+        
+        NeutralSchema complexDoc = repo.getSchema("TestWhitelistSequenceComplex");
+        assertNotNull(complexDoc);
+        
+        Map<String, NeutralSchema> fields = complexDoc.getFields();
+        for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
+            
+            // base1 has TestWhitelistString documentation
+            if (entry.getKey().equals("white")) {
+                assertEquals("TestWhitelistString", entry.getValue().getType());
+                assertTrue("TestWhitelistString should be Whitelist", entry.getValue().isWhitelisted());
+            }
+            
+            // simple has TestNonWhitelistString documentation
+            if (entry.getKey().equals("nonwhite")) {
+                assertEquals("TestNonWhitelistString", entry.getValue().getType());
+                assertTrue("TestNonWhitelistString should NOT be Whitelist", !entry.getValue().isWhitelisted());
+            }
+        }
+    }
+    
+    /**
+    * Test whitelist annotations within a complex string documentation choice.
+    * 
+    */
+    @Test
+    public void testTestWhitelistChoiceComplex() throws IOException {
+        
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        repo.setApplicationContext(appContext);
+        
+        NeutralSchema complexDoc = repo.getSchema("TestWhitelistChoiceComplex");
+        assertNotNull(complexDoc);
+        
+        Map<String, NeutralSchema> fields = complexDoc.getFields();
+        for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
+            
+            // base1 has TestWhitelistString documentation
+            if (entry.getKey().equals("white")) {
+                assertEquals("TestWhitelistString", entry.getValue().getType());
+                assertTrue("TestWhitelistString should be Whitelist", entry.getValue().isWhitelisted());
+            }
+            
+            // simple has TestNonWhitelistString documentation
+            if (entry.getKey().equals("nonwhite")) {
+                assertEquals("TestNonWhitelistString", entry.getValue().getType());
+                assertTrue("TestNonWhitelistString should NOT be Whitelist", !entry.getValue().isWhitelisted());
+            }
+        }
+    }
+    
+    /**
      * Certain annotations are inheritable when the type is contained within another type.
      * For example, the annotation for personally identifiable information (PII) is inheritable.
      * If a complex type is marked as PII, all of its elements are automatically marked PII.

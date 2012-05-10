@@ -169,6 +169,10 @@ public class AppInfo extends Annotation {
             values.put(PII_ELEMENT_NAME, "true");
         }
         
+        if (parentInfo.isWhitelisted()) {
+            values.put(WHITELIST_ELEMENT_NAME, "true");
+        }
+        
         switch (parentInfo.getReadAuthority()) {
             case FULL_ACCESS:
                 values.put(READ_ENFORCEMENT_ELEMENT_NAME, Right.FULL_ACCESS.toString());
