@@ -19,6 +19,25 @@ Scenario: As a user I request for a production account
   And I am redirected to a page with terms and conditions
   And when I click "Accept"
   Then I am directed to an acknowledgement page.
+  And an email verification link is generated
+
+@production
+Scenario: Verifying email address
+  When I visit "<VALID VERIFICATION LINK>"
+  Then I should see the text "Registration Complete!"
+  Then I should see the text "An administrator will email you when your account is ready."
+
+@production
+Scenario: Verifying email address - invalid link
+  When I visit "<INVALID VERIFICATION LINK>"
+  Then I should see the text "Account validation failed!"
+  Then I should see the text "Invalid account verification code."
+
+@production
+Scenario: Verifying email address - already verified
+  When I visit "<VALID VERIFICATION LINK>"
+  Then I should see the text "Account validation failed!"
+  Then I should see the text "Account previously verified."
 
 @production
 Scenario: As an slc operator I want to register unique user accounts in the system
@@ -48,7 +67,7 @@ Scenario: As an slc operator I want to check if a user accepted EULA
 Scenario: Clicking the "cancel" button - registration form
   Given I go to the production account registration page
   And when I click "Cancel"
-  Then I am redirected to the SLC website
+  Then I am redirected to the hosting website
 
 @production
 Scenario: Clicking the "reject" button - EULA page
@@ -64,7 +83,7 @@ Scenario: Clicking the "reject" button - EULA page
   Then my field entries are validated
   And I am redirected to a page with terms and conditions
   And when I click "Reject"
-  Then I am redirected to the SLC website
+  Then I am redirected to the hosting website
 
 @sandbox
 Scenario: As a user I request for a sandbox account
@@ -81,3 +100,6 @@ Scenario: As a user I request for a sandbox account
   And I am redirected to a page with terms and conditions
   And when I click "Accept"
   Then I am directed to an acknowledgement page.
+  And an email verification link is generated
+  When I visit the email verification link
+  Then I should see the text "Registration Complete!"
