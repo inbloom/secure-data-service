@@ -47,9 +47,9 @@ public class TenantProcessor implements Processor {
     @Autowired
     private IngestionRouteBuilder ingestionRouteBuilder;
     
-    public final static String TENANT_POLL_HEADER = "TENANT_POLL_STATUS";
-    public final static String TENANT_POLL_SUCCESS = "SUCCESS";
-    public final static String TENANT_POLL_FAILURE = "FAILURE";
+    public static final String TENANT_POLL_HEADER = "TENANT_POLL_STATUS";
+    public static final String TENANT_POLL_SUCCESS = "SUCCESS";
+    public static final String TENANT_POLL_FAILURE = "FAILURE";
     
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -115,7 +115,7 @@ public class TenantProcessor implements Processor {
      * Remove routes from camel context.
      * @throws Exception if a route cannot be removed 
      */
-    private void removeRoutes(Set<String> routesToRemove) throws Exception{
+    private void removeRoutes(Set<String> routesToRemove) throws Exception {
         for (String routePath : routesToRemove) {
             String zipRouteId = LandingZoneRouteBuilder.ZIP_POLLER_PREFIX + routePath;
             String ctrlRouteId = LandingZoneRouteBuilder.CTRL_POLLER_PREFIX + routePath;

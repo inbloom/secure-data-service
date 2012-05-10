@@ -25,8 +25,15 @@ Before do
   @conn = Mongo::Connection.new(INGESTION_DB)
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
-  puts INGESTION_DB
-  puts INGESTION_DB_NAME
+  
+  # 2012-05-10: this is necessary to remove old style data from the tenant collection; 
+  # it can go away once there is no lingering bad data anywhere
+  @tenantColl.find().each do |row|
+    if row['tenantId'] != nil
+      @tenantColl.remove(row)
+    end
+  end
+  
   @tenantColl.remove({"body.tenantId" => UNIQUE_TENANT_ID_1})
   @tenantColl.remove({"body.tenantId" => UNIQUE_TENANT_ID_2})
   @tenantColl.remove({"body.tenantId" => UNIQUE_TENANT_ID_3})
