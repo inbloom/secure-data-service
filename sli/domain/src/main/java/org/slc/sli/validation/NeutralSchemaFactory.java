@@ -36,10 +36,10 @@ import org.slc.sli.validation.strategy.AbstractBlacklistStrategy;
 @Component
 public class NeutralSchemaFactory implements SchemaFactory {
 
-    @Resource(name="validationStrategyList")
+    @Resource(name = "validationStrategyList")
     private List<AbstractBlacklistStrategy> validationStrategyList;
 
-    @Resource(name="relaxedValidationStrategyList")
+    @Resource(name = "relaxedValidationStrategyList")
     private List<AbstractBlacklistStrategy> relaxedValidationStrategyList;
 
     /*
