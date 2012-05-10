@@ -19,12 +19,12 @@
         <xs:restriction base="xs:string"/>
     </xs:simpleType>
         
-	<xs:simpleType name="TestWhitelistString">
+	<xs:simpleType name="TestRelaxedBlacklistString">
 		<xs:annotation>
 			<xs:documentation>A detailed description of the entity.
 			</xs:documentation>
             <xs:appinfo>
-				<sli:Whitelist>true</sli:Whitelist>
+				<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
@@ -33,7 +33,7 @@
 		</xs:restriction>
 	</xs:simpleType>
 
-	<xs:simpleType name="TestNonWhitelistString">
+	<xs:simpleType name="TestNonRelaxedBlacklistString">
 		<xs:annotation>
 			<xs:documentation>A detailed description of the entity.
 			</xs:documentation>

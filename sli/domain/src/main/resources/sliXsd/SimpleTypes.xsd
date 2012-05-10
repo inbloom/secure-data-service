@@ -881,7 +881,7 @@
 			<xs:documentation>A detailed description of the entity.
 			</xs:documentation>
             <xs:appinfo>
-				<sli:Whitelist>true</sli:Whitelist>
+				<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
@@ -1497,7 +1497,7 @@
 				earned by or awarded to the individual.
 			</xs:documentation>
             <xs:appinfo>
-				<sli:Whitelist>true</sli:Whitelist>
+				<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
@@ -1633,7 +1633,7 @@
 				activity..
 			</xs:documentation>
             <xs:appinfo>
-				<sli:Whitelist>true</sli:Whitelist>
+				<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
