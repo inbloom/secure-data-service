@@ -42,6 +42,7 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  */
 public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
     public static final Logger LOG = LoggerFactory.getLogger(IdRefResolutionHandler.class);
+    private ErrorReport errorReport;
 
     private static final QName ID_ATTR = new QName("id");
     private static final QName REF_ATTR = new QName("ref");
@@ -57,6 +58,9 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+
+        this.errorReport = errorReport;
+
         File file = fileEntry.getFile();
 
         file = process(file);
@@ -252,12 +256,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                                             if (resolvedContent != null && !resolvedContent.equals(contentToAdd)) {
                                                 FileUtils.renameFile(resolvedContent, contentToAdd);
-                                            } else {
-                                                contentToAdd = null;
-                                                LOG.debug("Reference was not resolved.");
                                             }
                                         } else {
-                                            contentToAdd = null;
                                             LOG.debug("Current XPath [{}] is not supported", currentXPath);
                                         }
                                     }
@@ -312,6 +312,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                 newXml.delete();
                 newXml = null;
             }
+            LOG.debug("Error resolving references in XML file {}", xml.getName());
+            errorReport.error("Error resolving references in XML file " + xml.getName(), IdRefResolutionHandler.class);
         } finally {
             closeResources(writer, out);
         }
@@ -331,6 +333,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
         } catch (Exception e) {
             LOG.debug("Exception happened while processing {}", xml.getName());
+            errorReport.error("Error resolving references in XML file " + xml.getName(), IdRefResolutionHandler.class);
         } finally {
             if (eventReader != null) {
                 try {
