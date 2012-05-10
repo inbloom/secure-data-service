@@ -96,9 +96,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             sw.stop();
         } finally {
             for (File snippet : refContent.values()) {
-                if (snippet != null) {
-                    snippet.delete();
-                }
+                org.apache.commons.io.FileUtils.deleteQuietly(snippet);
             }
         }
 
@@ -320,10 +318,9 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         } catch (Exception e) {
             closeResources(writer, out);
 
-            if (newXml != null) {
-                newXml.delete();
-                newXml = null;
-            }
+            org.apache.commons.io.FileUtils.deleteQuietly(newXml);
+            newXml = null;
+
             LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()));
             errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()), IdRefResolutionHandler.class);
         } finally {
@@ -473,10 +470,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             writer.flush();
         } catch (Exception e) {
             closeResources(writer, out);
-            if (snippet != null) {
-                snippet.delete();
-                snippet = null;
-            }
+            org.apache.commons.io.FileUtils.deleteQuietly(snippet);
+            snippet = null;
         } finally {
             closeResources(writer, out);
         }
