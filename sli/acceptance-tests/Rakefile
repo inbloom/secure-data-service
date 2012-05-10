@@ -810,6 +810,7 @@ desc "Run V1 Blacklist/Whitelist input Tests"
 task :v1BlacklistValidationTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/blacklistValidation/blacklistValidation.feature")
+end
 
 desc "Run Account Approval Tests"
 task :accountApprovalTests do

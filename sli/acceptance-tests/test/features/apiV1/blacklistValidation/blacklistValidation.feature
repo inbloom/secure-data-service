@@ -48,7 +48,7 @@ Scenario: Create entities which contain invalid text in relaxed validation
     When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 400
  
-   Given an entity with the text 'onload' in the description field for a "<ENTITY TYPE>"
+   Given an entity with the text '<script' in the description field for a "<ENTITY TYPE>"
     When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 400
  
