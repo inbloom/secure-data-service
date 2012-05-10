@@ -38,6 +38,11 @@ When /^I look in the course drop\-down$/ do
   assertMissingField(@dropDownId, "id")
 end
 
+When /^I look at the section drop\-down$/ do
+  @dropDownId = "sectionSelect"
+  assertMissingField(@dropDownId, "id")
+end
+
 Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
   puts "@dropDownId = " + @dropDownId
   desiredContentArray = listContent.split(";")
@@ -116,4 +121,13 @@ Then /^I see these values in the section drop\-down: "([^"]*)"$/ do |listContent
   selectContentArray = selectContent.split(";")
   result = (desiredContentArray | selectContentArray) - (desiredContentArray & selectContentArray)
   assert(result == [""], "list content does not match required content: " + listContent)  
+end
+
+Then /^I copy my current URL$/ do
+  @copiedUrl = @driver.current_url
+end
+
+Given /^I paste my copied URL$/ do
+  puts @copiedUrl
+  @driver.get @copiedUrl
 end
