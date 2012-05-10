@@ -1,19 +1,13 @@
 package org.slc.sli.ingestion.xml.idref;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Map;
 import java.util.Set;
 
 import junit.framework.Assert;
 import junitx.util.PrivateAccessor;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -94,7 +88,7 @@ public class IdRefResolutionHandlerTest {
                 } finally {
                     if (result != null) {
                         for (File f : result.values()) {
-                            deleteQuietly(f);
+                            FileUtils.deleteQuietly(f);
                         }
                     }
                 }
@@ -133,30 +127,15 @@ public class IdRefResolutionHandlerTest {
 
     private static void performTestOnFile(File inputFile, TestExecutor test) throws Throwable {
         File tempInputFile = null;
-        InputStream input = null;
-        OutputStream output = null;
 
         try {
             tempInputFile = File.createTempFile("unit", ".test");
 
-            input = new BufferedInputStream(new FileInputStream(inputFile));
-            output = new BufferedOutputStream(new FileOutputStream(tempInputFile));
-
-            IOUtils.copy(input, output);
-
-            output.flush();
+            FileUtils.copyFile(inputFile, tempInputFile);
 
             test.execute(tempInputFile);
         } finally {
-            IOUtils.closeQuietly(input);
-            IOUtils.closeQuietly(output);
-            deleteQuietly(tempInputFile);
-        }
-    }
-
-    private static void deleteQuietly(File file) {
-        if (file != null) {
-            file.delete();
+            FileUtils.deleteQuietly(tempInputFile);
         }
     }
 }
