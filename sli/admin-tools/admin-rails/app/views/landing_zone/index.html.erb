@@ -6,8 +6,8 @@
 		<% if not @edOrgs.empty? %>
 			<% @edOrgs.each do |org| %>
 				<div class="provisionBlock">
-					<%= radio_button_tag 'ed_org', org %>
-					<label for="ed_org_<%= org.gsub(/\s/, '_') %>"><%= org %></label>
+					<%= radio_button_tag 'ed_org', org.stateUniqueId %>
+					<label for="ed_org_<%= org.stateUniqueId %>"><%= org.nameOfInstitution %></label>
 				</div>
 			<% end %>
 			<div class="provisionBlock">
@@ -18,12 +18,12 @@
 			<input id="custom" type="hidden" name="ed_org" value="custom">
 		<% end %>
 		<div class="edOrgIdSelect">
-			<%= text_field_tag "custom_ed_org", nil, :placeholder => "State Organization Id", :disabled => (not @edOrgs.empty?) %>
+			<%= text_field_tag "custom_ed_org", nil, :placeholder => "State Organization Id"  %>
 			<label for="custom_ed_org">State organization Id of Ed Org</label>
 		</div>
 		<div class="provisionButtons">
+			<input name="cancel" type="submit" value="Cancel" id="cancelButton" disabled="true"/>
 			<input name="commit" type="submit" value="Provision" id="provisionButton"/>
-			<input name="cancel" type="submit" value="Cancel" id="cancelButton"/>
 		</div>
 	</form>
 </div>

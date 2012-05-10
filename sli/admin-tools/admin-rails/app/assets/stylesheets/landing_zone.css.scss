@@ -2,9 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-div.provision div{
+div.provision {
   overflow:hidden;
   width:350px;
+  float:left;
 }
 
 div.provisionBlock{
@@ -45,4 +46,8 @@ div.edOrgIdSelect label{
 
 div.provisionButtons input{
   float:right;
+}
+
+div.sidebar {
+  float:right
 }

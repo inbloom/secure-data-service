@@ -6,6 +6,17 @@
 
 	<!-- This file contains the simple types for the SLI database schema representation. -->
 
+    <xs:simpleType name="environmentType">
+        <xs:annotation>
+            <xs:documentation>Type of environment a user account could access
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Production" />
+            <xs:enumeration value="Sandbox" />
+        </xs:restriction>
+    </xs:simpleType>
+
 	<xs:simpleType name="ideaEligibilityType">
 		<xs:annotation>
 			<xs:documentation>Indicator of the eligibility of the student to receive special education services according to the Individuals with Disabilities Education Act (IDEA).</xs:documentation>
