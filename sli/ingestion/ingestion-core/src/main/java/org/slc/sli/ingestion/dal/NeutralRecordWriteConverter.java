@@ -71,9 +71,12 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
         dbObj.put("_id", uid);
         dbObj.put("body", encryptedBody);
         dbObj.put("batchJobId", neutralRecord.getBatchJobId());
-        dbObj.put("localId", neutralRecord.getLocalId());
+        if (neutralRecord.getLocalId() != null) {
+            dbObj.put("localId", neutralRecord.getLocalId().toString());
+        }
         dbObj.put("localParentIds", localParentIds);
         dbObj.put("sourceFile", neutralRecord.getSourceFile());
+        dbObj.put("locationInSourceFile", neutralRecord.getLocationInSourceFile());
         dbObj.put("association", neutralRecord.isAssociation());
         return dbObj;
     }
