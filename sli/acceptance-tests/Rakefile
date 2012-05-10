@@ -877,6 +877,9 @@ task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
   runFixtureAndTests("test/features/databrowser/databrowser_denial.feature", "application", "application_denial_fixture.json")
+  setFixture("application", "application_fixture.json")
+  runFixtureAndTests("test/features/databrowser/databrowser_selective_deny.feature", "applicationAuthorization", "applicationAuthorization_no_sunset_fixture.json")
+  runFixtureAndTests("test/features/databrowser/databrowser_show_all.feature", "applicationAuthorization", "applicationAuthorization_fixture.json")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
