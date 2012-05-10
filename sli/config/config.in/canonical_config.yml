@@ -79,6 +79,7 @@ default:
 
         sli.ingestion.tenant.deriveTenants: true
         sli.ingestion.tenant.loadDefaultTenants: true
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard: &DASHBOARD-DEFAULT
 
@@ -220,6 +221,7 @@ devjuggernauts:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -315,6 +317,7 @@ local:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -405,6 +408,7 @@ team:
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
 
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT
@@ -448,6 +452,7 @@ team:
         sli.simple-idp.sandboxImpersonationEnabled: false
 
 
+
 perf:
     data-access:
         <<: *DATA-ACCESS-DEFAULT
@@ -489,6 +494,7 @@ perf:
         # perf/ingestion/test.properties
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 
 
@@ -517,6 +523,7 @@ test-local:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 
 test-team:
@@ -546,6 +553,7 @@ test-team:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 
 test-perf:
@@ -556,6 +564,7 @@ test-perf:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 sandbox:
     api:

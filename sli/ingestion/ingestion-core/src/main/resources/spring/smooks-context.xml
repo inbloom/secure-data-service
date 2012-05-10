@@ -90,8 +90,10 @@
             <constructor-arg value="${smooks.config.all.xml}" />
             <constructor-arg>
               <list>
+                
                 <value>${smooks.targetselector.xml.assessment}</value>
                 <value>${smooks.targetselector.xml.objective.assessment}</value>
+                <value>${smooks.targetselector.xml.assessment.item}</value>
                 <value>${smooks.targetselector.xml.assessmentFamily}</value>
                 <value>${smooks.targetselector.xml.learningObjective}</value>
                 <value>InterchangeAssessmentMetadata/AssessmentPeriodDescriptor</value>
