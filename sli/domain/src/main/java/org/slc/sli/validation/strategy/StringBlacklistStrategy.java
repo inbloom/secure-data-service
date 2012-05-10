@@ -17,10 +17,14 @@ public class StringBlacklistStrategy extends AbstractBlacklistStrategy {
 
     private Pattern pattern;
 
+    /**
+     * Default constructor, sets typeName to "default"
+     */
     public StringBlacklistStrategy() {
-        this("default");
+        super("default");
     }
 
+    @Override
     @PostConstruct
     protected void init() {
         String regex = "\\b(";
@@ -38,10 +42,6 @@ public class StringBlacklistStrategy extends AbstractBlacklistStrategy {
         regex += ")\\b";
 
         pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-    }
-
-    public StringBlacklistStrategy(String typeName) {
-        super(typeName);
     }
 
     @Override

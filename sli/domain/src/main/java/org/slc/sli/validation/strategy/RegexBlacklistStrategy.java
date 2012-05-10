@@ -19,10 +19,14 @@ public class RegexBlacklistStrategy extends AbstractBlacklistStrategy {
 
     private List<Pattern> patternList;
 
+    /**
+     * Default constructor, sets typeName to "default"
+     */
     public RegexBlacklistStrategy() {
-        this("default");
+        super("default");
     }
 
+    @Override
     @PostConstruct
     protected void init() {
         patternList = new ArrayList<Pattern>();
@@ -38,10 +42,6 @@ public class RegexBlacklistStrategy extends AbstractBlacklistStrategy {
                 continue;
             }
         }
-    }
-
-    public RegexBlacklistStrategy(String typeName) {
-        super(typeName);
     }
 
     @Override

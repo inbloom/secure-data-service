@@ -15,7 +15,7 @@
     <constructor-arg>
       <list>
         <ref bean="characterBlacklistStrategy" />
-        <ref bean="regexBlacklistStrategy" />
+        <!-- <ref bean="regexBlacklistStrategy" /> Not needed until there's regex to check against -->
         <ref bean="stringBlacklistStrategy" />
       </list>
     </constructor-arg>
