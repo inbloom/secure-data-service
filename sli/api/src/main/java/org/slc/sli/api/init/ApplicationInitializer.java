@@ -3,6 +3,7 @@ package org.slc.sli.api.init;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -11,6 +12,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.io.IOUtils;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -23,7 +25,18 @@ import com.mongodb.util.JSON;
 
 /**
  * 
- * @author pwolf
+ * Bootstraps application data during API startup.
+ * 
+ * The application data is contained within template files in the API, e.g. applications/admin.json.
+ * 
+ * During startup we look for two types of properties
+ * <ol>
+ * <li>bootstrap.app.keys - comma-separated list identifying which apps to bootstrap</li>
+ * <li>bootstrap.app.<key>.template - path within API of the template file for a given app key</li>
+ * <li>bootstrap.app.<key>.guid - (optional) mongo id to use when bootstrapping app
+ * </ol>
+ * 
+ * Before loading the template file into mongo, it performs string substitution on the ${...} tokens.
  *
  */
 @Component
@@ -33,31 +46,31 @@ public class ApplicationInitializer {
     private Repository<Entity> repository;
 
     @Resource(name = "sliProperties")
-    private Properties sliProps;
+    protected Properties sliProps;
 
     private static final String APP_RESOURCE = "application";
 
     @PostConstruct
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void init() {
+
         try {
 
             String[] appKeys = sliProps.getProperty("bootstrap.app.keys").split(",");
             for (String key : appKeys) {
                 String templateKey = "bootstrap.app." + key + ".template";
                 if (sliProps.containsKey(templateKey)) {
+                    
                     InputStream is = null;
-                    Map appData = null;
+                    
                     try {
                         is = new ClassPathResource(sliProps.getProperty(templateKey)).getInputStream();
-                        appData = loadJsonFile(is);
+                        Map appData = loadJsonFile(is);
+                        writeApplicationToMongo(appData, sliProps.getProperty("bootstrap.app." + key + ".guid"));
                     } finally {
                         is.close();
                     }
-
-                    writeApplicationToMongo(appData);
                 }
-
             }
 
         } catch (IOException e) {
@@ -65,11 +78,28 @@ public class ApplicationInitializer {
         }
     }
 
-    private void writeApplicationToMongo(Map<String, Object> appData) {
+    /**
+     * Determine if an app needs to be created/updated in mongo, and if so, performs the operation
+     * @param appData
+     * @param guid optional mongo id.  Can be null
+     */
+    private void writeApplicationToMongo(Map<String, Object> appData, String guid) {
         Entity app = findExistingApp(appData);
+        
+        if (guid != null && app != null && !app.getEntityId().equals(guid)) {
+            repository.delete(APP_RESOURCE, guid);
+            app = null;
+        }
+        
         if (app == null) {
             info("Creating boostrap application data for {}", appData.get("name"));
-            repository.create(APP_RESOURCE, appData);
+            
+            if (guid != null) {
+                Entity entity = new MongoEntity(APP_RESOURCE, guid, appData, new HashMap<String, Object>());
+                repository.update(APP_RESOURCE, entity);
+            } else {
+                repository.create(APP_RESOURCE, appData);
+            }
         } else {
             //check if we need to update it
             long oldAppHash = InitializerUtils.checksum(app.getBody());
@@ -101,6 +131,12 @@ public class ApplicationInitializer {
         return app;
     }
 
+    /**
+     * Load the JSON template and perform string substitution on the ${...} tokens
+     * @param is
+     * @return
+     * @throws IOException
+     */
     @SuppressWarnings("unchecked")
     Map<String, Object> loadJsonFile(InputStream is) throws IOException {
         StringWriter writer = new StringWriter();

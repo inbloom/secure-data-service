@@ -19,6 +19,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -38,11 +42,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * Prototype new api end points and versioning base class
@@ -60,7 +59,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @QueryParam(ParameterConstants.INCLUDE_CUSTOM)
     @DefaultValue(ParameterConstants.DEFAULT_INCLUDE_CUSTOM)
     protected String includeCustomEntityStr;
-    
+
     /* Critera you can override in sublcass */
     protected NeutralCriteria extraCriteria;
 
@@ -73,11 +72,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     private final String resourceName;
 
     /* Logger utility to use to output debug, warning, or other messages to the "console" */
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCrudEndpoint.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCrudEndpoint.class);
 
     @Autowired
     private OptionalFieldAppenderFactory factory;
-    
+
     @Autowired
     private Repository<Entity> repo;
 
@@ -155,8 +154,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return handle(resourceName, entityDefs, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
-                LOGGER.debug("Attempting to read from {} where {} = {}",
-                        new Object[] { entityDef.getStoredCollectionName(), key, value });
+//                DE260 - Logging of possibly sensitive data
+//                LOGGER.debug("Attempting to read from {} where {} = {}",
+//                        new Object[] { entityDef.getStoredCollectionName(), key, value });
 
                 NeutralQuery neutralQuery = new ApiQuery(uriInfo);
                 List<String> valueList = Arrays.asList(value.split(","));
@@ -223,13 +223,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 // look up information on association
                 EntityDefinition endpointEntity = entityDefs.lookupByResourceName(resolutionResourceName);
                 String resource1 = entityDef.getStoredCollectionName();
-                String resource2 = endpointEntity.getStoredCollectionName();
+//                String resource2 = endpointEntity.getStoredCollectionName();
 
+//                DE260 - Logging of possibly sensitive data
                 // write some information to debug
-                LOGGER.debug("Attempting to list from {} where {} = {}", new Object[] { resource1, key, value });
-                LOGGER.debug("Then for each result, ");
-                LOGGER.debug(" going to read from {} where \"_id\" = {}.{}",
-                        new Object[] { resource2, resource1, idKey });
+//                LOGGER.debug("Attempting to list from {} where {} = {}", new Object[] { resource1, key, value });
+//                LOGGER.debug("Then for each result, ");
+//                LOGGER.debug(" going to read from {} where \"_id\" = {}.{}",
+//                        new Object[] { resource2, resource1, idKey });
 
                 NeutralQuery endpointNeutralQuery = new ApiQuery(uriInfo);
                 NeutralQuery associationNeutralQuery = createAssociationNeutralQuery(key, value, idKey);
@@ -428,9 +429,13 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             public Response run(EntityDefinition entityDef) {
                 EntityBody copy = new EntityBody(newEntityBody);
                 copy.remove(ResourceConstants.LINKS);
-                LOGGER.debug("updating entity {}", copy);
+
+//                DE260 - Logging of possibly sensitive data
+//                LOGGER.debug("updating entity {}", copy);
                 entityDef.getService().update(id, copy);
-                LOGGER.debug("updating entity {}", copy);
+
+//                DE260 - Logging of possibly sensitive data
+//                LOGGER.debug("updating entity {}", copy);
                 return Response.status(Status.NO_CONTENT).build();
             }
         });
@@ -494,6 +499,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         });
     }
 
+    @Override
     public Response readAll(final String collectionName, final HttpHeaders headers, final UriInfo uriInfo) {
         return this.readAll(collectionName, headers, uriInfo, false);
     }

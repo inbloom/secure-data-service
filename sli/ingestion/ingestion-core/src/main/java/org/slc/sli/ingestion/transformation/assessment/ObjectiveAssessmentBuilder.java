@@ -26,6 +26,7 @@ public class ObjectiveAssessmentBuilder {
     public static final String SUB_OBJECTIVE_REFS = "subObjectiveRefs";
     public static final String BY_IDENTIFICATION_CDOE = "identificationCode";
     public static final String BY_ID = "id";
+    public static final String ASSESSMENT_ITEM_REFS = "assessmentItemRefs";
     private final NeutralRecordMongoAccess mongoAccess;
     private final String jobId;
 
@@ -75,6 +76,7 @@ public class ObjectiveAssessmentBuilder {
             objectiveAssessment.put("objectiveAssessments", subObjectives);
         }
         objectiveAssessment.remove(SUB_OBJECTIVE_REFS);
+        objectiveAssessment.remove(ASSESSMENT_ITEM_REFS);
 
         return objectiveAssessment;
 
