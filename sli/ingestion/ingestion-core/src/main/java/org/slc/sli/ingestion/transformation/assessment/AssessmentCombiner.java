@@ -116,6 +116,9 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 attrs.put("assessmentPeriodDescriptor", getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
 
             }
+
+            attrs.remove("assessmentItemRefs");
+
             neutralRecord.setAttributes(attrs);
             transformedAssessments.put(neutralRecord.getLocalId(), neutralRecord);
         }
