@@ -4376,7 +4376,10 @@
 	</xs:complexType>
 
 	<xs:complexType name="educationOrganization">
-		<xs:annotation>
+	   <xs:annotation>
+            <xs:appinfo>
+                <sli:SecuritySphere>Public</sli:SecuritySphere>
+            </xs:appinfo>
 			<xs:documentation>This entity represents any public or private
 				institution,
 				organization, or agency that provides instructional or
@@ -6090,6 +6093,17 @@
 					<xs:documentation>Indicates the career cluster or pathway the
 						course is associated with as part of a CTE curriculum.
 					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="schoolId" type="reference">
+				<xs:annotation>
+					<xs:documentation>
+						The Education Organization that defines the curriculum and courses offered -
+						often the LEA or school.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>

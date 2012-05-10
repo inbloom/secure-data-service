@@ -49,6 +49,7 @@ import org.slc.sli.domain.enums.Right;
 public class BasicService implements EntityService {
 
     private static final String ADMIN_SPHERE = "Admin";
+    private static final String PUBLIC_SPHERE = "Public";
 
     private static final Logger LOG = LoggerFactory.getLogger(BasicService.class);
 
@@ -126,7 +127,7 @@ public class BasicService implements EntityService {
      * @return the body of the entity
      */
     @Override
-	public Iterable<String> listIds(NeutralQuery neutralQuery) {
+    public Iterable<String> listIds(NeutralQuery neutralQuery) {
         checkRights(Right.READ_GENERAL);
 
         List<String> allowed = findAccessible();
@@ -135,23 +136,22 @@ public class BasicService implements EntityService {
             return Collections.emptyList();
         }
 
-        if (allowed.size() > 0) {
-            return allowed;
-        } else { // super list logic --> only true when using DefaultEntityContextResolver
-            List<String> results = new ArrayList<String>();
-            Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
+        // super list logic --> only true when using DefaultEntityContextResolver
+        List<String> results = new ArrayList<String>();
+        Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
 
-            for (Entity entity : entities) {
+        for (Entity entity : entities) {
+            if (allowed.contains(entity.getEntityId()))
                 results.add(entity.getEntityId());
-            }
-
-            return results;
         }
+
+        return results;
     }
 
     @Override
     public String create(EntityBody content) {
-        LOG.debug("Creating a new entity in collection {} with content {}", new Object[] { collectionName, content });
+//        DE260 - Logging of possibly sensitive data
+//        LOG.debug("Creating a new entity in collection {} with content {}", new Object[] { collectionName, content });
 
         checkRights(determineWriteAccess(content, ""));
 
@@ -160,7 +160,8 @@ public class BasicService implements EntityService {
 
     @Override
     public void delete(String id) {
-        LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
+//        DE260 - Logging of possibly sensitive data
+//        LOG.debug("Deleting {} in {}", new String[] { id, collectionName });
 
         checkAccess(Right.WRITE_GENERAL, id);
 
@@ -567,6 +568,13 @@ public class BasicService implements EntityService {
         if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             neededRight = Right.ADMIN_ACCESS;
         }
+
+        if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
+            if (Right.READ_GENERAL.equals(neededRight)) {
+                neededRight = Right.READ_PUBLIC;
+            }
+        }
+
         Collection<GrantedAuthority> auths = getAuths();
 
         if (auths.contains(Right.FULL_ACCESS)) {
@@ -597,13 +605,13 @@ public class BasicService implements EntityService {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal == null) {
-			throw new AccessDeniedException("Principal cannot be found");
-		}
+            throw new AccessDeniedException("Principal cannot be found");
+        }
 
         Entity entity = principal.getEntity();
         String type = (entity != null ? entity.getType() : null);   // null for super admins because
-                                                                  // they don't contain mongo
-                                                                  // entries
+        // they don't contain mongo
+        // entries
 
         if (getAuths().contains(Right.FULL_ACCESS)) {  //Super admin
             return AllowAllEntityContextResolver.SUPER_LIST;
@@ -630,21 +638,26 @@ public class BasicService implements EntityService {
                 String fieldName = entry.getKey();
                 Object value = entry.getValue();
 
-                if (value instanceof Map) {
+                String fieldPath = prefix + fieldName;
+                Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
+                
+                if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
+                    neededRight = Right.ADMIN_ACCESS;
+                }
+                
+                if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
+                    if (Right.READ_GENERAL.equals(neededRight)) {
+                        neededRight = Right.READ_PUBLIC;
+                    }
+                }
+                
+                LOG.debug("Field {} requires {}", fieldPath, neededRight);
+                SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                        .getPrincipal();
+                if (!auths.contains(neededRight) && !principal.getEntity().getEntityId().equals(eb.get("id"))) {
+                    toRemove.add(fieldName);
+                } else if (value instanceof Map) {
                     filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
-                } else {
-                    String fieldPath = prefix + fieldName;
-                    Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
-
-                    if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-                        neededRight = Right.ADMIN_ACCESS;
-                    }
-                    LOG.debug("Field {} requires {}", fieldPath, neededRight);
-                    SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                            .getPrincipal();
-                    if (!auths.contains(neededRight) && !principal.getEntity().getEntityId().equals(eb.get("id"))) {
-                        toRemove.add(fieldName);
-                    }
                 }
             }
 

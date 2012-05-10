@@ -40,6 +40,7 @@
   <bean id="entityRepository" class="org.slc.sli.ingestion.validation.IngestionDummyEntityRepository" />
 
   <import resource="classpath:/spring/validation.xml" />
+
 </beans>
 
 

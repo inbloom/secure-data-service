@@ -1,4 +1,4 @@
-class LandingZone
+class LandingZone < Ldap
   
   def self.possible_edorgs
     if APP_CONFIG["is_sandbox"]
@@ -11,26 +11,30 @@ class LandingZone
     end
   end
   
-  def self.provision(edorg_id)
-    # edOrg = EducationOrganization.new(:stateUniqueId => edorg_id, 
-    #                               :nameOfInstitution => 'TEMPORARY_PLACEHOLDER', 
-    #                               :organizationCategories => 'State Education Agency', 
-    #                               :address => { 
-    #                               :streetNumberName => 'TEMPORARY_PLACEHOLDER', 
-    #                               :city => 'TEMPORARY_PLACEHOLDER', 
-    #                               :stateAbbreviation => 'TX', 
-    #                               :postalCode => 'TEMPORARY_PLACEHOLDER'})
-    #     # TODO:  implement how to save this in the db
-    Rails.logger.warn "Provisioning logic not implemented yet!"
-    # saved = edOrg.save()
-    saved = true
+  def self.provision(edorg_id, tenant)
+    provision = OnBoarding.new(:stateOrganizationId => edorg_id, :tenantId => tenant)
+    # TODO: catch exception because we still want to create user on LDAP
+    saved = provision.save()
     Rails.logger.info "Provisioning Request: #{edorg_id}, successful? #{saved}"
     
     if (saved == false)
       raise ProvisioningError.new "Could not provision landing zone"
     end
   end
-  
+
+  # user_info = {
+  #     :first => "John",
+  #     :last => "Doe", 
+  #     :email => "jdoe@example.com",
+  #     :password => "secret", 
+  #     :vendor => "Acme Inc."
+  #     :emailtoken ... hash string 
+  #     :updated ... datetime
+  #     :status  ... "submitted"
+  #     :homedirectory ... string
+  # }
+  # @@ldap.create_user(user_info)
+
 end
 
 class ProvisioningError < StandardError

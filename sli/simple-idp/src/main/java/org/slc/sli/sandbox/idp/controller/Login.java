@@ -1,12 +1,15 @@
 package org.slc.sli.sandbox.idp.controller;
 
-import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
 
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.LoggingUtils;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.sandbox.idp.service.AuthRequestService;
 import org.slc.sli.sandbox.idp.service.AuthenticationException;
+import org.slc.sli.sandbox.idp.service.RoleService;
 import org.slc.sli.sandbox.idp.service.SamlAssertionService;
 import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
-import org.slc.sli.sandbox.idp.service.RoleService;
 import org.slc.sli.sandbox.idp.service.UserService;
 import org.slc.sli.sandbox.idp.service.UserService.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +51,6 @@ public class Login {
     /**
      * Loads required data and redirects to the login page view.
      * 
-     * @throws IOException
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView form(@RequestParam("SAMLRequest") String encodedSamlRequest, @RequestParam("realm") String realm) {
@@ -61,7 +63,7 @@ public class Login {
     
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Object login(@RequestParam("userId") String userId, @RequestParam("password") String password,
-            @RequestParam("SAMLRequest") String encodedSamlRequest, @RequestParam("realm") String realm) {
+            @RequestParam("SAMLRequest") String encodedSamlRequest, @RequestParam("realm") String realm, HttpServletRequest request) {
         
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
         User user;
@@ -71,11 +73,15 @@ public class Login {
             ModelAndView mav = new ModelAndView("login");
             mav.addObject("msg", "Invalid userId or password");
             mav.addObject("SAMLRequest", encodedSamlRequest);
+            mav.addObject("realm", realm);
+            writeLoginSecurityEvent(false, userId, realm, request);
             return mav;
         }
-        
-        if (realm.equals("SLIAdmin") || !isSandboxImpersonationEnabled) {
-            SamlAssertion samlAssertion = samlService.buildAssertion(userId, user.getRoles(), user.getAttributes(), requestInfo);
+        writeLoginSecurityEvent(true, userId, realm, request);
+
+        if (realm.equals(userService.getSLIAdminRealmName()) || !isSandboxImpersonationEnabled) {
+            SamlAssertion samlAssertion = samlService.buildAssertion(userId, user.getRoles(), user.getAttributes(),
+                    requestInfo);
             ModelAndView mav = new ModelAndView("post");
             mav.addObject("samlAssertion", samlAssertion);
             return mav;
@@ -87,5 +93,32 @@ public class Login {
             return mav;
         }
         
+    }
+
+    private void writeLoginSecurityEvent(boolean successful, String userId, String realm, HttpServletRequest request) {
+        SecurityEvent event = new SecurityEvent();
+        
+        event.setUser(userId);
+        event.setTargetEdOrg(realm);
+        
+        try {
+            event.setExecutedOn(LoggingUtils.getCanonicalHostName());
+        } catch (RuntimeException e) {
+        }
+        
+        if (request != null) {
+            event.setActionUri(request.getRequestURI());
+            event.setUserOrigin(request.getRemoteHost());
+        }
+        
+        if (successful) {
+            event.setLogLevel(LogLevelType.TYPE_INFO);
+            event.setLogMessage("Successful login to " + realm + " by " + userId + ".");
+        } else {
+            event.setLogLevel(LogLevelType.TYPE_ERROR);
+            event.setLogMessage("Failed login to " + realm + " by " + userId + ".");
+        }
+        
+        audit(event);
     }
 }

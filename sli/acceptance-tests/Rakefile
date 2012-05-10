@@ -38,7 +38,8 @@ $collectionSet = ["student",
                   "studentParentAssociation",
                   "attendance",
                   "program",
-                  "studentAcademicRecord"]
+                  "studentAcademicRecord",
+                  "grade"]
 
 #######################################################################################################
 # Helper defs
@@ -70,7 +71,7 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
   #turn true/false into command line option
   dropOption = (dropExistingCollection) ? "--drop":""
 
-  sh "#{MONGO_BIN}mongo #{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
 
   sh "#{MONGO_BIN}mongoimport #{dropOption} -d #{DB_NAME} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
     #allow for user to pass block to run the test for each running of setFixture
@@ -159,7 +160,7 @@ end
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
-task :production => [:apiV1Tests, :securityTests, :ingestionTests, :ingestionOfflineToolTests] do
+task :production => [:apiV1Tests, :securityTests, :onboardingTests, :ingestionTests, :ingestionOfflineToolTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -173,7 +174,7 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :securityTests] do
+task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :onboardingTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -215,12 +216,12 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionDemoDataTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
+task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
-                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest] do
+                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, :ingestionTenantTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -242,6 +243,11 @@ end
 desc "Run Ingestion Acceptance SDS Tests"
 task :ingestionAcceptanceSdsTest do
   runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
+end
+
+desc "Run Ingestion Tenant Test"
+task :ingestionTenantTest do
+  runTests("test/features/ingestion/features/ingestion_tenant.feature")
 end
 
 desc "Run Ingestion Session Test"
@@ -383,6 +389,11 @@ end
 desc "Run Ingestion Parallel Job Tests"
 task :ingestionParallelTests do
  runTests("test/features/ingestion/features/ingestion_acceptance_parallel_test.feature")
+end
+
+desc "Run Ingestion for Dashboard Sad Path Tests"
+task :ingestionDashboardSadPathTest do
+  runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
 end
 
 ############################################################
@@ -861,6 +872,10 @@ task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApp
   end
 end
 
+task :adminRightsTests do
+  runTests("test/features/admintools/sli_admin_authorization.feature")
+end
+
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
@@ -888,7 +903,7 @@ end
 
 desc "Run Sandbox Simple IDP Authentication Selenium Tests"
 task :simpleIDPAuthTests => [:realmInit, :importSandboxData] do
-  runTests("test/features/apiV1/end_user_stories/sandbox/simpleIDP/MockIDP.feature")
+  runTests("test/features/simple-idp")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -911,6 +926,18 @@ task :securityTests => [:realmInit] do
 end
 ############################################################
 # Security tests end
+############################################################
+
+############################################################
+# Onboarding tests start
+############################################################
+desc "Run Onboarding Tests"
+task :onboardingTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/onboarding")
+end
+############################################################
+# Onboarding tests end
 ############################################################
 
 ############################################################
@@ -1027,7 +1054,8 @@ task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
                          :dashboardSdsUserBasedViewsTests,
                          :dashboardSdsAttendanceTests,
                          :dashboardStudentSearchTests,
-                         :dashboardSdsTranscriptPanelTests] do
+                         :dashboardSdsTranscriptPanelTests,
+                         :dashboardSdsUploadConfigTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -1089,6 +1117,11 @@ end
 desc "Run dashboard integrated Tests - Simple Search Tests"
 task :dashboardStudentSearchTests do
   runTests("test/features/dashboard/dash/student_search.feature")
+end
+
+desc "Run dashboard integrated Tests - Upload Config"
+task :dashboardSdsUploadConfigTests do
+  runTests("test/features/dashboard/dash/upload_config_sds.feature")
 end
 
 desc "Run dashboard student gradebook entry tests"
@@ -1175,6 +1208,31 @@ end
 # SDK Tests end
 ############################################################
 
+
+############################################################
+# Ondboarding / Provisioning Tests start
+############################################################
+
+desc "Run Ondboarding / Provisioning acceptance tests"
+task :onboardingTests => [:provisioningTests] do
+    displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run Sandbox Developer Provisioning acceptance tests"
+task :provisioningTests => [:importSandboxData, :realmInit] do
+    runTests("test/features/sandbox/provisioning.feature")
+end
+
+############################################################
+# Ondboarding / Provisioning Tests end
+############################################################
+
+
 desc "Export Storied Test Data"
 task :exportStoriedData do
   Rake::Task["ingestionAcceptanceSdsTest"].execute
@@ -1242,7 +1300,8 @@ task :importSandboxData do
     "studentAcademicRecord" => "studentAcademicRecord_fixture.json",
     "learningStandard" => "learningStandard_fixture.json",
     "learningObjective" => "learningObjective_fixture.json",
-    "userAccount" => "userAccount_fixture.json"
+    "userAccount" => "userAccount_fixture.json",
+    "grade" => "grade_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 

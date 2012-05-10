@@ -165,13 +165,23 @@ public final class Constants {
     public static final String ATTR_STUDENT_GRADEBOOK_ENTRIES = "studentGradebookEntries";
     public static final String ATTR_LETTER_GRADE_EARNED = "letterGradeEarned";
 
+    public static final String ATTR_CREDENTIALS_CODE_FOR_IT_ADMIN = "IT Admin";
+    public static final String ATTR_CREDENTIALS_LIST_ATTRIBUTE = "credentials";
+    public static final String ATTR_CREDENTIAL_FIELD_ATTRIBUTE = "credentialField";
+    public static final String ATTR_CREDENTIAL_CODE_ATTRIBUTE = "codeValue";
+
     public static final String ATTR_CUMULATIVE_GPA = "cumulativeGradePointAverage";
     public static final String ATTR_STUDENT_ACADEMIC_RECORDS = "studentAcademicRecords";
     public static final String ATTR_SESSION_BEGIN_DATE = "beginDate";
 
     public static final String ATTR_GRADE_EARNED = "gradeEarned";
     public static final String ATTR_SEARCH_STRING = "searchString";
-    public static final String ATTR_NUM_RESULTS = "numResults";    
+    public static final String ATTR_NUM_RESULTS = "numResults";
+    public static final String ATTR_ERROR_HEADING = "errorHeading";
+    public static final String ATTR_ERROR_CONTENT = "errorContent";
+    public static final String ATTR_ERROR_DETAILS_ENABLED = "debugEnabled";
+    public static final String ATTR_ERROR_DETAILS = "errorDetails";
+    public static final String ATTR_AUTHENTICATED = "authenticated";
 
     // Teacher constants
     public static final String TEACHER_OF_RECORD = "Teacher of Record";
@@ -212,14 +222,20 @@ public final class Constants {
     public static final String TYPE_EMAIL_OTHER = "Other";
 
     public static final String CONTEXT_ROOT_PATH = "CONTEXT_ROOT_PATH";
+    public static final String CONTEXT_PREVIOUS_PATH = "CONTEXT_PREVIOUS_PATH";
 
     // extra elements added by API
     public static final String METADATA = "metaData";
     public static final String EXTERNAL_ID = "externalId";
-    
+
     // Grades for Sections Constants
     public static final String SECTION_LETTER_GRADE = "letterGrade";
     public static final String SECTION_COURSE = "courseTitle";
+
+    //Roles
+    public static final String ROLE_IT_ADMINISTRATOR = "IT Administrator";
+    public static final String ROLE_EDUCATOR = "Educator";
+    public static final String ROLE_LEADER = "Leader";
 
     /**
      * Contains the possible values for FRE participation

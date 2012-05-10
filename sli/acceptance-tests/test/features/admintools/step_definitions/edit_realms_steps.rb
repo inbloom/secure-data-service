@@ -1,11 +1,11 @@
 When /^I hit the realm editing URL$/ do
-  @url = PropLoader.getProps['admintools_server_url'] + "/realm_editors"
+  @url = PropLoader.getProps['admintools_server_url'] + "/realm_management"
   @driver.get @url
 end
 
 When /^I should see that I am on the "([^"]*)" edit page$/ do |realmName|
-  assertWithWait("Should show 'Editing #{realmName}' message") do
-    @driver.page_source.index("Editing " + realmName) != nil
+  assertWithWait("Should show 'Realm Management For #{realmName}' message") do
+    @driver.page_source.index("Realm Management For " + realmName) != nil
    end
 end
 

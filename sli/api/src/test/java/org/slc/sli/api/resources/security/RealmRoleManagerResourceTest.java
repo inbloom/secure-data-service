@@ -1,22 +1,15 @@
 package org.slc.sli.api.resources.security;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.HashMap;
-
-import javax.ws.rs.core.Response;
-
 import junit.framework.Assert;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -25,11 +18,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
+import javax.ws.rs.core.Response;
+import java.util.HashMap;
+
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Simple test for ClientRoleManagerResource
@@ -37,7 +32,7 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class })
+        DirtiesContextTestExecutionListener.class })
 @DirtiesContext
 public class RealmRoleManagerResourceTest {
     @Autowired
@@ -60,7 +55,7 @@ public class RealmRoleManagerResourceTest {
         mapping.put("realm_name", "Waffles");
         mapping.put("edOrg", "fake-ed-org");
         mapping.put("mappings", new HashMap<String, String>());
-        
+
         EntityBody realm2 = new EntityBody();
         realm2.put("id", "other-realm");
         realm2.put("name", "Other Realm");
@@ -96,11 +91,19 @@ public class RealmRoleManagerResourceTest {
     }
 
     @Test
-    public void testGetMappings() throws Exception {
-        assertNotNull(resource.getMappings("1234"));
-        assertNull(resource.getMappings("-1"));
+    public void testGetMappingsFound() throws Exception {
+        Response res = resource.getMappings("1234");
+        Assert.assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
+        Assert.assertNotNull(res.getEntity());
     }
-    
+
+    @Test
+    public void testGetMappingsNotFound() throws Exception {
+        Response res = resource.getMappings("-1");
+        Assert.assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
+        Assert.assertNull(res.getEntity());
+    }
+
     @Test
     public void testUpdateOtherEdOrgRealm() {
         EntityBody temp = new EntityBody();
