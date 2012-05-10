@@ -15,7 +15,7 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
-     | assessment                  | 4     |
+     | assessment                  | 5     |
      | studentAssessmentAssociation| 3     |
      | learningStandard            | 6     |
    And I check to find if record is in collection:
@@ -39,7 +39,7 @@ Then I should see following map of entry counts in the corresponding collections
      | learningStandard            | 6                   | body.subjectArea                               | ELA                                              |
      
 
-  And I should see "Processed 14 records." in the resulting batch job file
+  And I should see "Processed 15 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "dibelsAssessmentMetadata.xml records considered: 3" in the resulting batch job file
   And I should see "dibelsAssessmentMetadata.xml records ingested successfully: 3" in the resulting batch job file
@@ -47,6 +47,9 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "satAssessmentMetadata.xml records considered: 1" in the resulting batch job file
   And I should see "satAssessmentMetadata.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "satAssessmentMetadata.xml records failed: 0" in the resulting batch job file
+  And I should see "actAssessmentMetadata.xml records considered: 1" in the resulting batch job file
+  And I should see "actAssessmentMetadata.xml records ingested successfully: 1" in the resulting batch job file
+  And I should see "actAssessmentMetadata.xml records failed: 0" in the resulting batch job file
   And I should see "InterchangeStudent.xml records considered: 1" in the resulting batch job file
   And I should see "InterchangeStudent.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
