@@ -221,8 +221,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                     if (xmlEvent.isStartElement()) {
                         StartElement start = xmlEvent.asStartElement();
-                        this.parents.push(start);
-
+                        parents.push(start);
 
                         Attribute refResolved = start.getAttributeByName(REF_RESOLVED_ATTR);
 
@@ -252,12 +251,13 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                             File resolvedContent = rrs.resolve(currentXPath, contentToAdd);
 
                                             if (resolvedContent != null && !resolvedContent.equals(contentToAdd)) {
-                                                FileUtils.renameFile(resolvedContent, contentToAdd)
+                                                FileUtils.renameFile(resolvedContent, contentToAdd);
                                             }
                                         } else {
                                             LOG.debug("Current XPath [{}] is not supported", currentXPath);
                                         }
                                     }
+
                                     newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
                                             (contentToAdd == null) ? "false" : "true"));
                                 }
@@ -267,7 +267,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                             }
                         }
                     } else if (xmlEvent.isEndElement()) {
-                        this.parents.pop();
+                        parents.pop();
                     }
 
                     wr.add(xmlEvent);
@@ -296,7 +296,6 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                     return sb.toString();
                 }
-
             };
 
             browse(xml, replaceRefContent);
@@ -304,6 +303,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             writer.flush();
         } catch (Exception e) {
             closeResources(writer, out);
+
             if (newXml != null) {
                 newXml.delete();
                 newXml = null;
@@ -363,31 +363,93 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             writer = OUTPUT_FACTORY.createXMLEventWriter(out);
 
-            Stack<XMLEvent> events = new Stack<XMLEvent>();
+            final XMLEventWriter wr = writer;
 
-            events.add(xmlEvent);
+            XmlEventVisitor writeRefContent = new XmlEventVisitor() {
+                Stack<StartElement> parents = new Stack<StartElement>();
+                Map<String, Integer> parentIds = new HashMap<String, Integer>();
 
-            writer.add(xmlEvent);
-
-            while (eventReader.hasNext() && !events.isEmpty()) {
-                XMLEvent tmp = eventReader.nextEvent();
-
-                if (tmp.isStartElement()) {
-                    events.add(tmp);
+                @Override
+                public boolean isSupported(XMLEvent xmlEvent) {
+                    return true;
                 }
 
-                writer.add(tmp);
+                @Override
+                public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
+                    if (xmlEvent.isStartElement()) {
+                        StartElement start = xmlEvent.asStartElement();
+                        pushParent(start);
 
-                if (tmp.isEndElement()) {
-                    XMLEvent top = events.peek();
+                        Attribute refResolved = start.getAttributeByName(REF_RESOLVED_ATTR);
 
-                    if (tmp.asEndElement().getName().equals(top.asStartElement().getName())) {
-                        events.pop();
-                    } else {
-                        throw new XMLStreamException("Unexpected end of the element");
+                        if (refResolved == null) {
+                            Attribute ref = start.getAttributeByName(REF_ATTR);
+
+                            // Set "ref" as unresolved if circular reference is detected
+                            if (ref != null && isParent(ref.getValue())) {
+                                @SuppressWarnings("unchecked")
+                                Iterator<Attribute> attrs = start.getAttributes();
+                                ArrayList<Attribute> newAttrs = new ArrayList<Attribute>();
+
+                                while (attrs.hasNext()) {
+                                    newAttrs.add(attrs.next());
+                                }
+
+                                newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR, "false"));
+
+                                xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
+                                        start.getNamespaces());
+                            }
+                        }
+                    } else if (xmlEvent.isEndElement()) {
+                        popParent();
+                    }
+
+                    wr.add(xmlEvent);
+                }
+
+                @Override
+                public boolean canAcceptMore() {
+                    return !parents.isEmpty();
+                }
+
+                private void pushParent(StartElement parent) {
+                    parents.push(parent);
+                    Attribute id = parent.getAttributeByName(ID_ATTR);
+                    if (id != null) {
+                        Integer count = parentIds.get(id.getValue());
+                        if (count == null) {
+                            count = 1;
+                        } else {
+                            count = count++;
+                        }
+
+                        parentIds.put(id.getValue(), count);
                     }
                 }
-            }
+
+                private void popParent() {
+                    StartElement parent = parents.pop();
+                    Attribute id = parent.getAttributeByName(ID_ATTR);
+                    if (id != null) {
+                        Integer count = parentIds.get(id.getValue());
+                        if (count <= 1) {
+                            parentIds.remove(id.getValue());
+                        } else {
+                            parentIds.put(id.getValue(), count--);
+                        }
+                    }
+                }
+
+                private boolean isParent(String id) {
+                    return parentIds.containsKey(id);
+                }
+            };
+
+            // persist the input event manually
+            writeRefContent.visit(xmlEvent, eventReader);
+
+            browse(eventReader, writeRefContent);
 
             writer.flush();
         } catch (Exception e) {
@@ -408,21 +470,24 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             @Override
             public void visit(XMLEvent xmlEvent, XMLEventReader eventReader) throws XMLStreamException {
+                if (xmlEvent.isStartElement()) {
+                    StartElement start = xmlEvent.asStartElement();
 
-                StartElement start = xmlEvent.asStartElement();
+                    @SuppressWarnings("unchecked")
+                    Iterator<Attribute> attrs = start.getAttributes();
+                    ArrayList<Attribute> newAttrs = new ArrayList<Attribute>();
 
-                @SuppressWarnings("unchecked")
-                Iterator<Attribute> attrs = start.getAttributes();
-                ArrayList<Attribute> newAttrs = new ArrayList<Attribute>();
-
-                while (attrs.hasNext()) {
-                    Attribute attribute = attrs.next();
-                    String attributeName = attribute.getName().getLocalPart();
-                    if (attribute != null && !attributeName.equals(ID_ATTR.getLocalPart())) {
-                        newAttrs.add(attrs.next());
+                    // Strip out "id" attribute if found, so it does not interfere with findMatchingEntities logic
+                    while (attrs.hasNext()) {
+                        Attribute attribute = attrs.next();
+                        if (!ID_ATTR.getLocalPart().equals(attribute.getName().getLocalPart())) {
+                            newAttrs.add(attribute);
+                        }
                     }
+
+                    xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(), start.getNamespaces());
                 }
-                xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(), start.getNamespaces());
+
                 xmlEventWriter.add(xmlEvent);
             }
 
