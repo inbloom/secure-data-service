@@ -23,7 +23,7 @@ public class AppInfo extends Annotation {
     protected static final String PII_ELEMENT_NAME = "PersonallyIdentifiableInfo";
     protected static final String READ_ENFORCEMENT_ELEMENT_NAME = "ReadEnforcement";
     protected static final String WRITE_ENFORCEMENT_ELEMENT_NAME = "WriteEnforcement";
-    protected static final String WHITELIST_ELEMENT_NAME = "Whitelist";
+    protected static final String RELAXEDBLACKLIST_ELEMENT_NAME = "RelaxedBlacklist";
     protected static final String REFERENCE_TYPE_ELEMENT_NAME = "ReferenceType";
     protected static final String SECURITY_SPHERE = "SecuritySphere";
 
@@ -106,10 +106,10 @@ public class AppInfo extends Annotation {
         return rval;
     }
 
-    public boolean isWhitelisted() {
+    public boolean isRelaxedBlacklisted() {
         boolean rval = false;
-        if (values.containsKey(WHITELIST_ELEMENT_NAME)) {
-            rval = Boolean.parseBoolean(values.get(WHITELIST_ELEMENT_NAME));
+        if (values.containsKey(RELAXEDBLACKLIST_ELEMENT_NAME)) {
+            rval = Boolean.parseBoolean(values.get(RELAXEDBLACKLIST_ELEMENT_NAME));
         }
         
         return rval;
@@ -167,6 +167,10 @@ public class AppInfo extends Annotation {
     public void inherit(AppInfo parentInfo) {
         if (parentInfo.isPersonallyIdentifiableInfo()) {
             values.put(PII_ELEMENT_NAME, "true");
+        }
+        
+        if (parentInfo.isRelaxedBlacklisted()) {
+            values.put(RELAXEDBLACKLIST_ELEMENT_NAME, "true");
         }
         
         switch (parentInfo.getReadAuthority()) {

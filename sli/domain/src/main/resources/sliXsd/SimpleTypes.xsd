@@ -880,7 +880,9 @@
 		<xs:annotation>
 			<xs:documentation>A detailed description of the entity.
 			</xs:documentation>
-			<sli:Whitelist>false</sli:Whitelist>
+            <xs:appinfo>
+				<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1" />
@@ -1494,6 +1496,9 @@
 			<xs:documentation>A description of the type of academic distinctions
 				earned by or awarded to the individual.
 			</xs:documentation>
+            <xs:appinfo>
+				<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1" />
@@ -1627,6 +1632,9 @@
 				for accomplishments in a co-curricular, or extra-curricular
 				activity..
 			</xs:documentation>
+            <xs:appinfo>
+				<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1" />
