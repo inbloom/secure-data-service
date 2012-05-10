@@ -97,14 +97,14 @@ public abstract class NeutralSchema {
         return this.getAppInfo().isPersonallyIdentifiableInfo();
     }
     
-    public boolean isWhitelisted() {
+    public boolean isRelaxedBlacklisted() {
         AppInfo myInfo = (AppInfo) annotations.get(AnnotationType.APPINFO);
         if (myInfo == null) {
             myInfo = new AppInfo(null);
             addAnnotation(myInfo);
         }
         
-        return myInfo.isWhitelisted();
+        return myInfo.isRelaxedBlacklisted();
     }
 
     public void setVersion(String version) {

@@ -118,7 +118,7 @@ public class StringSchema extends NeutralSchema {
                 }
             }
         }
-        if (isWhitelisted()) {
+        if (isRelaxedBlacklisted()) {
             for (AbstractBlacklistStrategy validationRule : relaxedValidationRuleList) {
                 if (!validationRule.isValid("StringSchemaContext", data)) {
                     return false;

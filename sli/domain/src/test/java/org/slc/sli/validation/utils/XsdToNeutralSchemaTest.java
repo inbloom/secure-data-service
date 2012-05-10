@@ -89,95 +89,95 @@ public class XsdToNeutralSchemaTest {
     }
     
     /**
-    * Test non-whitelist annotations within a simple string documentation.
+    * Test non-RelaxedBlacklist annotations within a simple string documentation.
     * 
     * 
     */
     @Test
-    public void testNonWhitelistStringType() throws IOException {
+    public void testNonRelaxedBlacklistStringType() throws IOException {
         
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
         repo.setApplicationContext(appContext);
         
-        NeutralSchema simpleDoc = repo.getSchema("TestNonWhitelistString");
+        NeutralSchema simpleDoc = repo.getSchema("TestNonRelaxedBlacklistString");
         assertNotNull(simpleDoc);
-        assertEquals("TestNonWhitelistString", simpleDoc.getType());
-        assertTrue("TestNonWhitelistString should NOT be Whitelist", !simpleDoc.isWhitelisted());
+        assertEquals("TestNonRelaxedBlacklistString", simpleDoc.getType());
+        assertTrue("TestNonRelaxedBlacklistString should NOT be RelaxedBlacklist", !simpleDoc.isRelaxedBlacklisted());
     }
     
     /**
-    * Test whitelist annotations within a simple string documentation.
+    * Test RelaxedBlacklist annotations within a simple string documentation.
     * 
     * 
     */
     @Test
-    public void testWhitelistStringType() throws IOException {
+    public void testRelaxedBlacklistStringType() throws IOException {
         
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
         repo.setApplicationContext(appContext);
         
-        NeutralSchema simpleDoc = repo.getSchema("TestWhitelistString");
+        NeutralSchema simpleDoc = repo.getSchema("TestRelaxedBlacklistString");
         assertNotNull(simpleDoc);
-        assertEquals("TestWhitelistString", simpleDoc.getType());
-        assertTrue("TestWhitelistString should be Whitelist", simpleDoc.isWhitelisted());
+        assertEquals("TestRelaxedBlacklistString", simpleDoc.getType());
+        assertTrue("TestRelaxedBlacklistString should be RelaxedBlacklist", simpleDoc.isRelaxedBlacklisted());
     }
     
     /**
-    * Test whitelist annotations within a complex string documentation sequence.
+    * Test RelaxedBlacklist annotations within a complex string documentation sequence.
     * 
     */
     @Test
-    public void testTestWhitelistSequenceComplex() throws IOException {
+    public void testTestRelaxedBlacklistSequenceComplex() throws IOException {
         
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
         repo.setApplicationContext(appContext);
         
-        NeutralSchema complexDoc = repo.getSchema("TestWhitelistSequenceComplex");
+        NeutralSchema complexDoc = repo.getSchema("TestRelaxedBlacklistSequenceComplex");
         assertNotNull(complexDoc);
         
         Map<String, NeutralSchema> fields = complexDoc.getFields();
         for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
             
-            // base1 has TestWhitelistString documentation
+            // base1 has TestRelaxedBlacklistString documentation
             if (entry.getKey().equals("white")) {
-                assertEquals("TestWhitelistString", entry.getValue().getType());
-                assertTrue("TestWhitelistString should be Whitelist", entry.getValue().isWhitelisted());
+                assertEquals("TestRelaxedBlacklistString", entry.getValue().getType());
+                assertTrue("TestRelaxedBlacklistString should be RelaxedBlacklist", entry.getValue().isRelaxedBlacklisted());
             }
             
-            // simple has TestNonWhitelistString documentation
+            // simple has TestNonRelaxedBlacklistString documentation
             if (entry.getKey().equals("nonwhite")) {
-                assertEquals("TestNonWhitelistString", entry.getValue().getType());
-                assertTrue("TestNonWhitelistString should NOT be Whitelist", !entry.getValue().isWhitelisted());
+                assertEquals("TestNonRelaxedBlacklistString", entry.getValue().getType());
+                assertTrue("TestNonRelaxedBlacklistString should NOT be RelaxedBlacklist", !entry.getValue().isRelaxedBlacklisted());
             }
         }
     }
     
     /**
-    * Test whitelist annotations within a complex string documentation choice.
+    * Test RelaxedBlacklist annotations within a complex string documentation choice.
     * 
     */
     @Test
-    public void testTestWhitelistChoiceComplex() throws IOException {
+    public void testTestRelaxedBlacklistChoiceComplex() throws IOException {
         
         XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
         repo.setApplicationContext(appContext);
         
-        NeutralSchema complexDoc = repo.getSchema("TestWhitelistChoiceComplex");
+        NeutralSchema complexDoc = repo.getSchema("TestRelaxedBlacklistChoiceComplex");
         assertNotNull(complexDoc);
         
         Map<String, NeutralSchema> fields = complexDoc.getFields();
         for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
             
-            // base1 has TestWhitelistString documentation
+            // base1 has TestRelaxedBlacklistString documentation
             if (entry.getKey().equals("white")) {
-                assertEquals("TestWhitelistString", entry.getValue().getType());
-                assertTrue("TestWhitelistString should be Whitelist", entry.getValue().isWhitelisted());
+                assertEquals("TestRelaxedBlacklistString", entry.getValue().getType());
+                assertTrue("TestRelaxedBlacklistString should be RelaxedBlacklist", entry.getValue().isRelaxedBlacklisted());
             }
             
-            // simple has TestNonWhitelistString documentation
+            // simple has TestNonRelaxedBlacklistString documentation
             if (entry.getKey().equals("nonwhite")) {
-                assertEquals("TestNonWhitelistString", entry.getValue().getType());
-                assertTrue("TestNonWhitelistString should NOT be Whitelist", !entry.getValue().isWhitelisted());
+                assertEquals("TestNonRelaxedBlacklistString", entry.getValue().getType());
+                assertTrue("TestNonRelaxedBlacklistString should NOT be RelaxedBlacklist", !entry.getValue().isRelaxedBlacklisted());
             }
         }
     }

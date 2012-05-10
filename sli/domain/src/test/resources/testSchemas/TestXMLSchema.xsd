@@ -140,23 +140,23 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="TestWhitelistSequenceComplex">
+	<xs:complexType name="TestRelaxedBlacklistSequenceComplex">
 		<xs:annotation>
-			<xs:documentation>Test Whitelist sequence complex documentation.</xs:documentation>
+			<xs:documentation>Test RelaxedBlacklist sequence complex documentation.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="white" type="TestWhitelistString" />
-			<xs:element name="nonwhite" type="TestNonWhitelistString" />
+			<xs:element name="white" type="TestRelaxedBlacklistString" />
+			<xs:element name="nonwhite" type="TestNonRelaxedBlacklistString" />
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="TestWhitelistChoiceComplex">
+	<xs:complexType name="TestRelaxedBlacklistChoiceComplex">
 		<xs:annotation>
-			<xs:documentation>Test Whitelist choice complex documentation.</xs:documentation>
+			<xs:documentation>Test RelaxedBlacklist choice complex documentation.</xs:documentation>
 		</xs:annotation>
 		<xs:choice minOccurs="0" maxOccurs="unbounded">
-			<xs:element name="white" type="TestWhitelistString" />
-			<xs:element name="nonwhite" type="TestNonWhitelistString" />
+			<xs:element name="white" type="TestRelaxedBlacklistString" />
+			<xs:element name="nonwhite" type="TestNonRelaxedBlacklistString" />
 		</xs:choice>
 	</xs:complexType>
 

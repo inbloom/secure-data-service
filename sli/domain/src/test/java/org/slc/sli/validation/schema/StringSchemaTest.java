@@ -16,12 +16,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StringSchemaTest {
 
-//	@Autowired
+//  @Autowired
     StringSchema schema;
 
     @Before
     public void setup() {
-    	schema = new StringSchema();
+    schema = new StringSchema();
     }
 
     @Test
@@ -66,12 +66,12 @@ public class StringSchemaTest {
 
     @Test
     public void testBlacklist() {
-//    	List<String> blacklistPatterns = new ArrayList<String>();
-//    	blacklistPatterns.add("testPattern1");
-//    	blacklistPatterns.add("testPattern2");
-//    	blacklistPatterns.add("testPattern3");
+//      List<String> blacklistPatterns = new ArrayList<String>();
+//      blacklistPatterns.add("testPattern1");
+//      blacklistPatterns.add("testPattern2");
+//      blacklistPatterns.add("testPattern3");
 //
-//    	StringSchema blacklistSchema = new StringSchema(blacklistPatterns);
+//      StringSchema blacklistSchema = new StringSchema(blacklistPatterns);
 //
 //        assertTrue(blacklistSchema.validate("This doesn't have the right testPattern and so is valid"));
 //        assertFalse(blacklistSchema.validate("This fails due to the testPattern1 pattern"));
