@@ -1,5 +1,5 @@
 
- class EulasController < ApplicationController
+class EulasController < ApplicationController
   # GET /eula 
   def show
     puts "session = #{session}"
