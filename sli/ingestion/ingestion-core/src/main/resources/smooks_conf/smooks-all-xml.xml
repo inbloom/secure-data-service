@@ -3691,7 +3691,22 @@
     <jb:value property="studentId" data="StudentSectionAssociationReference/StudentSectionAssociationIdentity/StudentIdentity/StudentUniqueStateId" />
     <jb:value property="uniqueSectionCode" data="StudentSectionAssociationReference/StudentSectionAssociationIdentity/SectionIdentity/UniqueSectionCode" />
   </jb:bean>
-
   <!-- End Grade mapping -->
+
+  <!-- Start CompetencyLevelDescriptor mapping -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
+    createOnElement="InterchangeEducationOrganization/CompetencyLevelDescriptor">
+    <jb:expression property="recordType">'competencyLevelDescriptor'</jb:expression>
+    <jb:value property="localId" data="CompetencyLevelDescriptor/@id" />
+    <jb:wiring property="attributes" beanIdRef="CompetencyLevelDescriptorAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="CompetencyLevelDescriptorAttributes" class="java.util.HashMap"
+    createOnElement="InterchangeEducationOrganization/CompetencyLevelDescriptor">
+    <jb:value property="codeValue" data="CompetencyLevelDescriptor/CodeValue" />
+    <jb:value property="description" data="CompetencyLevelDescriptor/Description" />
+    <jb:value property="performanceBaseConversion" data="CompetencyLevelDescriptor/PerformanceBaseConversion" />
+  </jb:bean>
+  <!-- End CompetencyLevelDescriptor mapping -->
 
 </smooks-resource-list>
