@@ -8,3 +8,5 @@ TODO:
 	do we need to serve json?     format.json  { render :json => @user_account_registration,
 	                                   action: "/eulas?gUid="+@gUID}
    	UNIT TESTS!
+
+   	9 tests, 3 assertions, 0 failures, 7 errors, 0 skips
