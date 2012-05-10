@@ -252,8 +252,12 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                                             if (resolvedContent != null && !resolvedContent.equals(contentToAdd)) {
                                                 FileUtils.renameFile(resolvedContent, contentToAdd);
+                                            } else {
+                                                contentToAdd = null;
+                                                LOG.debug("Reference was not resolved.");
                                             }
                                         } else {
+                                            contentToAdd = null;
                                             LOG.debug("Current XPath [{}] is not supported", currentXPath);
                                         }
                                     }

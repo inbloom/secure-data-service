@@ -5,7 +5,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Map;
 
 import javax.xml.transform.stream.StreamResult;
@@ -66,7 +65,7 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
             StreamResult result = new StreamResult(new BufferedOutputStream(new FileOutputStream(convertedContent)));
 
             smooks.filterSource(source, result);
-        } catch (IOException e) {
+        } catch (Exception e) {
             convertedContent = null;
         } finally {
             IOUtils.closeQuietly(in);
