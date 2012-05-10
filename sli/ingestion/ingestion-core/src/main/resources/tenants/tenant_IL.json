@@ -1,13 +1,13 @@
 {
 	"landingZone" : [ 
 		{ 
-			"district" : "Sunset" , 
+			"educationOrganization" : "Sunset" , 
 			"ingestionServer" : "<hostname>" , 
 			"path" : "<lzpath>/IL-STATE-SUNSET" , 
 			"desc" : "Landing zone for IL-SUNSET"
 		} , 
 		{ 
-			"district" : "Daybreak" , 
+			"educationOrganization" : "Daybreak" , 
 			"ingestionServer" : "<hostname>",
 			"path" : "<lzpath>/IL-STATE-DAYBREAK" ,
 			"desc" : "Landing zone for IL-DAYBREAK"

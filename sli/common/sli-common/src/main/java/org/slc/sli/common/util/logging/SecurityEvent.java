@@ -2,9 +2,15 @@ package org.slc.sli.common.util.logging;
 
 import java.util.Date;
 
+/**
+ * class to represent a security event for logging
+ *
+ * @author dshaw
+ *
+ */
 public class SecurityEvent {
 
-    private static final String delimiter = ",";
+    private static final String DELIMITER = ",";
 
     private String tenantId; // Alpha MH
 
@@ -169,23 +175,23 @@ public class SecurityEvent {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String message;
 
-        message = tenantId + delimiter +
-                user + delimiter +
-                targetEdOrg + delimiter +
-                actionUri + delimiter +
-                appId + delimiter +
-                origin + delimiter +
-                executedOn + delimiter +
-                credential + delimiter +
-                userOrigin + delimiter +
-                timeStamp + delimiter +
-                processNameOrId + delimiter +
-                className + delimiter +
-                logLevel.getName() + delimiter +
-                logMessage;
+        message = ((tenantId == null) ? "" : tenantId) + DELIMITER
+                + ((user == null) ? "" : user) + DELIMITER
+                + ((targetEdOrg == null) ? "" : targetEdOrg) + DELIMITER
+                + ((actionUri == null) ? "" : actionUri) + DELIMITER
+                + ((appId == null) ? "" : appId) + DELIMITER
+                + ((origin == null) ? "" : origin) + DELIMITER
+                + ((executedOn == null) ? "" : executedOn) + DELIMITER
+                + ((credential == null) ? "" : credential) + DELIMITER
+                + ((userOrigin == null) ? "" : userOrigin) + DELIMITER
+                + ((timeStamp == null) ? "" : timeStamp) + DELIMITER
+                + ((processNameOrId == null) ? "" : processNameOrId) + DELIMITER
+                + ((className == null) ? "" : className) + DELIMITER
+                + ((logLevel == null) ? LogLevelType.TYPE_INFO.getName() : logLevel.getName()) + DELIMITER
+                + ((logMessage == null) ? "" : logMessage);
 
         return message;
     }
