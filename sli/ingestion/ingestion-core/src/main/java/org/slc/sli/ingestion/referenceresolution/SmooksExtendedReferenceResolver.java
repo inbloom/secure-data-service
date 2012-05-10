@@ -10,7 +10,6 @@ import java.util.Map;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.io.IOUtils;
 import org.milyn.Smooks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,9 +53,6 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
         }
 
         File convertedContent;
-        BufferedInputStream in = null;
-        BufferedOutputStream out = null;
-
         try {
             StreamSource source = new StreamSource(new BufferedInputStream(new FileInputStream(content)));
 
@@ -68,9 +64,6 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
 
         } catch (Exception e) {
             convertedContent = null;
-        } finally {
-            IOUtils.closeQuietly(in);
-            IOUtils.closeQuietly(out);
         }
 
         //If the file is empty, the configuration could not use to resolve the input
