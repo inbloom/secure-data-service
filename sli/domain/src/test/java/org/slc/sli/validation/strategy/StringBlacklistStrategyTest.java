@@ -1,7 +1,6 @@
 package org.slc.sli.validation.strategy;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,6 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.owasp.esapi.errors.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -21,31 +21,63 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StringBlacklistStrategyTest {
 
+    // trailing and leading spaces required to match word boundaries
+    private final String PREFIX = "some chars ";
+    private final String SUFFIX = " and other chars";
+
     @Autowired
-    AbstractBlacklistStrategy stringBlacklistStrategy;
+    private AbstractBlacklistStrategy stringBlacklistStrategy;
 
     @Test
-    public void testGetValid() {
-        // trailing and leading spaces required to match word boundaries
-        String prefix = "some strings ";
-        String suffix = " and other strings";
-
+    public void testSpringGetValid() {
         List<String> springBadStringList = createSpringBadStringList();
         for (String s : springBadStringList) {
-            String input = prefix + s + suffix;
-            assertFalse(s + " should not be a valid string", stringBlacklistStrategy.isValid("StringBlacklistStrategyTest", input));
-        }
-
-        List<String> badStringList = createBadStringList();
-        for (String s : badStringList) {
-            String input = prefix + s + suffix;
-            assertFalse(s + " should not be a valid string", stringBlacklistStrategy.isValid("StringBlacklistStrategyTest", input));
+            String input = PREFIX + s + SUFFIX;
+            try {
+                stringBlacklistStrategy.getValid("StringBlacklistStrategyTest", input);
+                fail("Invalid string passed validation: " + s);
+            } catch (ValidationException e) {
+                continue;
+            }
         }
 
         List<String> goodStringList = createGoodStringList();
         for (String s : goodStringList) {
-            String input = prefix + s + suffix;
-            assertTrue(s + " should be a valid string", stringBlacklistStrategy.isValid("StringBlacklistStrategyTest", input));
+            String input = PREFIX + s + SUFFIX;
+            try {
+                stringBlacklistStrategy.getValid("StringBlacklistStrategyTest", input);
+            } catch (ValidationException e) {
+                fail("Valid string did not pass validation: " + s);
+            }
+        }
+    }
+
+    @Test
+    public void testGetValid() {
+        AbstractBlacklistStrategy strategy = new StringBlacklistStrategy();
+        List<String> badStringList = createBadStringList();
+
+        strategy.setInputCollection(badStringList);
+        strategy.init();
+
+        for (String s : badStringList) {
+            String input = PREFIX + s + SUFFIX;
+            try {
+                strategy.getValid("StringBlacklistStrategyTest", input);
+                fail("Invalid string passed validation: " + s);
+            } catch (ValidationException e) {
+                continue;
+            }
+        }
+
+        List<String> goodStringList = createGoodStringList();
+        for (String s : goodStringList) {
+            String input = PREFIX + s + SUFFIX;
+            try {
+                strategy.getValid("StringBlacklistStrategyTest", input);
+            } catch (ValidationException e) {
+                fail("Valid string did not pass validation: " + s);
+            }
         }
     }
 
@@ -59,6 +91,8 @@ public class StringBlacklistStrategyTest {
         stringList.add("script");
         stringList.add("img");
         stringList.add("src");
+        stringList.add("onload");
+        stringList.add("onunload");
         return stringList;
     }
 
