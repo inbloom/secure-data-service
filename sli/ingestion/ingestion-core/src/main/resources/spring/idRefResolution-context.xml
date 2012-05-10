@@ -13,7 +13,65 @@
           value="idRefResolution/InterchangeStudentGrade/StudentGradebookEntry/StudentSectionAssociationReference.xml" />
       </bean>
     </entry>
-
+    
+    <!--InterchangeAssessmentMetadata -->
+    <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference.xml" />
+      </bean>
+    </entry>
+    <entry key="/InterchangeAssessmentMetadata/AssessmentFamily/AssessmentFamilyReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeAssessmentMetadata/AssessmentFamily/AssessmentFamilyReference.xml" />
+      </bean>
+    </entry>
+    <entry key="/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference.xml" />
+      </bean>
+    </entry>
+    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningStandardReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningStandardReference.xml" />
+      </bean>
+    </entry>
+    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference.xml" />
+      </bean>
+    </entry>
+    <!-- end of InterchangeAssessmentMetadata  -->
+    
+    <!--InterchangeStduentGrade -->
+    <entry key="/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference.xml" />
+      </bean>
+    </entry>
+    
+     <entry key="/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference.xml" />
+      </bean>
+    </entry>
+    
+    <entry key="/InterchangeStudentGrade/GradebookEntry/LearningObjectiveReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeStudentGrade/GradebookEntry/LearningObjectiveReference.xml" />
+      </bean>
+    </entry>
+    
+    <!--end of InterchangeStudentGrade -->
+    
+    
   </util:map>
 
   <bean id="smooksExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SmooksExtendedReferenceResolver">
@@ -33,13 +91,26 @@
   <bean id="simpleReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SimpleReferenceResolver" />
 
   <util:map id="strategyConfig">
-    <entry key="CompetencyLevel" value-ref="simpleReferenceResolver" />
-    <entry key="StudentSectionAssociationReference" value-ref="smooksExtendedReferenceResolver" />
-    <entry key="GradebookEntryReference" value-ref="simpleReferenceResolver" />
-    <entry key="LearningStandardReference" value-ref="simpleReferenceResolver" />
-    <entry key="LearningObjectiveReference" value-ref="simpleReferenceResolver" />
-    <entry key="SectionReference" value-ref="simpleReferenceResolver" />
-    <entry key="GradingPeriodReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/AssessmentFamily/AssessmentFamilyReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/AssessmentItem/AssessmentFamilyReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningStandardReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentItemReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/Assessment/ObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentItemReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/ObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
 
+    <entry key="/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/GradebookEntry/LearningObjectiveReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/CourseTranscript/StudentAcademicRecordReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/ReportCard/GradeReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/ReportCard/StudentCompetencyReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/StudentAcademicRecord/ReportCardReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/StudentAcademicRecord/DiplomaReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/StudentGadebookEntry/GradbookEntryReference" value-ref="simpleReferenceResolver" />
+
+    <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference" value-ref="smooksExtendedReferenceResolver" />
   </util:map>
 </beans>
