@@ -74,6 +74,7 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
         dbObj.put("localId", neutralRecord.getLocalId());
         dbObj.put("localParentIds", localParentIds);
         dbObj.put("sourceFile", neutralRecord.getSourceFile());
+        dbObj.put("locationInSourceFile", neutralRecord.getLocationInSourceFile());
         dbObj.put("association", neutralRecord.isAssociation());
         return dbObj;
     }
