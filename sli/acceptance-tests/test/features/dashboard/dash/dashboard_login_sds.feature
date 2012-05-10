@@ -22,7 +22,7 @@ Then I should be redirected to the Dashboard landing page
 When I access "/simon"
 And I am informed that "the page that you were looking for could not be found"
 
-@integration
+@integration 
 Scenario: Invalid user login
 
 When I navigate to the Dashboard home page
@@ -48,7 +48,7 @@ When I select "Illinois Sunset School District 4526" and click go
 When I login as "jstevenson" "jstevenson1234"
 Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
-#Then I only see "Daybreak School District 4529"
+Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
 Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
@@ -109,6 +109,7 @@ And the Assessment History for "ISAT Writing" has the following entries:
 |2011-10-01   |8      |Grade 8 2011 ISAT Writing  |1         |1          |
 |2011-09-01   |8      |Grade 8 2011 ISAT Writing  |25        |25         |
 And I click on the browser back button
+Then I see a list of 28 students
 When I select school "Daybreak Central High"
 And I select course "American Literature"
 And I select section "Sec 145"
@@ -130,13 +131,13 @@ And the search results include:
   |Rudolph Sennett  |1        |South Daybreak Elementary  |
   |Rudolph Krinsky  |12       |Daybreak Central High      |
   
- @integeation
+ @integration
  Scenario: Login with State Level IT Admin
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
 When I login as "rrogers" "rrogers1234"
 When I look in the ed org drop-down
-Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526;Illinois State Board of Education"
+Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
 Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
@@ -145,6 +146,7 @@ And I select school "Sunset Central High School"
 And I select course "A.P. Calculus"
 And I select section "A.P. Calculus Sec 201"
 And I see a list of 3 students
+When I select ed org "Daybreak School District 4529"
 When I select school "Daybreak Central High"
 And I select course "American Literature"
 And I select section "Sec 145"
@@ -172,7 +174,106 @@ Scenario: Login with District Leader
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
 When I login as "sbantu" "sbantu1234"
-	
+When I look in the ed org drop-down
+Then I only see "Daybreak School District 4529"
+When I select ed org "Daybreak School District 4529"
+When I look in the school drop-down
+Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
+When I select school "East Daybreak Junior High"
+When I select course "8th Grade English"
+When I select section "8th Grade English - Sec 6"
+Then I see a list of 28 students
+And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
+And the fuel gauge for "Matt Sollars" in "ISAT Reading.perfLevel" is "199"
+And the fuel gauge for "Matt Sollars" in "ISAT Writing.perfLevel" is "1"
+And the "current" grade for "Matt Sollars" is "B"
+And the "last semester" grade for "Matt Sollars" is "B+"
+And the "2 semesters ago" grade for "Matt Sollars" is "A-"
+When I select school "South Daybreak Elementary"
+And I select course "1st Grade Homeroom"
+And I select section "Mrs. Braverman's Homeroom #38"
+Then I see a list of 25 students
+And the count for id "attendances.absenceCount" for student "Mi-Ha Tran" is "1"
+And the class for id "attendances.absenceCount" for student "Mi-Ha Tran" is "color-widget-green"
+And the count for id "attendances.tardyCount" for student "Mi-Ha Tran" is "0"
+And the class for id "attendances.tardyCount" for student "Mi-Ha Tran" is "color-widget-darkgreen"
+When I select ed org "Daybreak School District 4529"
+And I select school "Daybreak Central High"
+And I select course "American Literature"
+And I select section "Sec 145"
+And I see a list of 25 students
+When I enter "Matt" into the "firstName" search box
+And I click the search button
+Then "1" results are returned
+And the search results include:
+  |Student          |Grade    |School                     |
+  |Matt Sollars     |8        |East Daybreak Junior High  |
+  
+ @integration
+ Scenario: Login with District level Agg. Viewer
+When I navigate to the Dashboard home page
+When I select "Illinois Sunset School District 4526" and click go
+When I login as "jjackson" "jjackson1234"
+When I look in the ed org drop-down
+Then I only see "Daybreak School District 4529"
+When I select ed org "Daybreak School District 4529"
+When I look in the school drop-down
+Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
+When I select school "East Daybreak Junior High"
+Then I don't see a course selection
+
+@integration
+Scenario: Login with State Agg. Viewer
+When I navigate to the Dashboard home page
+When I select "Illinois Sunset School District 4526" and click go
+When I login as "mjohnson" "mjohnson1234"
+When I look in the ed org drop-down
+Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
+When I select ed org "Daybreak School District 4529"
+When I look in the school drop-down
+Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
+When I select school "South Daybreak Elementary"
+Then I don't see a course selection
+When I select ed org "Sunset School District 4526"
+When I look in the school drop-down
+Then I see these values in the drop-down: "Sunset Central High School"
+Then I don't see a course selection
+
+@integration
+Scenario: Login with State Leader
+When I navigate to the Dashboard home page
+When I select "Illinois Sunset School District 4526" and click go
+When I login as "ckoch" "ckoch1234"
+When I look in the ed org drop-down
+Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
+When I select ed org "Daybreak School District 4529"
+When I look in the school drop-down
+Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
+When I select ed org "Sunset School District 4526"
+And I select school "Sunset Central High School"
+And I select course "A.P. Calculus"
+And I select section "A.P. Calculus Sec 201"
+And I see a list of 3 students
+When I select ed org "Daybreak School District 4529"
+When I select school "Daybreak Central High"
+And I select course "American Literature"
+And I select section "Sec 145"
+Then I see a list of 25 students
+When I enter "Matt" into the "firstName" search box
+And I click the search button
+Then "2" results are returned
+And the search results include:
+  |Student          |Grade    |School                     |
+  |Matt Sollars     |8        |East Daybreak Junior High  |
+  |Matt Forker      |11       |Sunset Central High School |
+And I click on student "Matt Forker"
+And I view its student profile
+And I view its student profile
+And their name shown in profile is "Matt Forker"
+And their id shown in proflie is "1000000002"
+And their grade is "11"
+And the teacher is "Mr Mark Anthony"
+And the class is "A.P. Calculus Sec 201"
 
 @wip @integration
 Scenario: user in IDP but not in mongo
