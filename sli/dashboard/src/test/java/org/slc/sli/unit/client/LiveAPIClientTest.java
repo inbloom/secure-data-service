@@ -20,7 +20,6 @@ import com.google.gson.GsonBuilder;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -287,7 +286,7 @@ public class LiveAPIClientTest {
         // String query = client.b
     }
 
-    @Ignore
+
     @Test
     public void testGetSchools() {
         LiveAPIClient liveClient = new LiveAPIClient() {
