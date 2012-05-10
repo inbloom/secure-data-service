@@ -463,22 +463,14 @@ public class LiveAPIClient implements APIClient {
     }
     
     private List<GenericEntity> processSections(List<GenericEntity> sections) {
-        if (sections != null && !sections.isEmpty()) {
+        if (sections != null ) {
             for (GenericEntity section : sections) {
                 // if no section name, fill in with section code
                 if (section.get(Constants.ATTR_SECTION_NAME) == null) {
                     section.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
                 }
             }
-        } else {
-            sections = new ArrayList<GenericEntity>();
-            GenericEntity e = new GenericEntity();
-            e.put(Constants.ATTR_SECTION_NAME, "No sections are available for you to view.");
-            e.put(Constants.ATTR_SCHOOL_ID, "-1");
-            e.put(Constants.ATTR_COURSE_ID, "-1");
-            sections.add(e);
-        }      
-        
+        }  
         return sections;
     }
 

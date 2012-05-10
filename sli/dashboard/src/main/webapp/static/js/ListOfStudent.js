@@ -130,6 +130,10 @@ function populateCourseMenu(){
         for(j = 0;j < temp.length;j++){
         	y += "<option value='" +j +"'>"+ temp[j].courseTitle + "</option>";
         }
+        if(temp.length == 0 ) {
+            y = "<select id='courseSelect'>";
+            y += "<option value='0'>" + "There are no courses available for you.  Please contact your IT administrator." + "</option>";
+        }
     }
     document.getElementById("courseDiv").innerHTML = y;
     
