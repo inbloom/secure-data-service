@@ -2,16 +2,17 @@ package org.slc.sli.ingestion.xml.idref;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Map;
+import java.util.Set;
 
 import junit.framework.Assert;
 import junitx.util.PrivateAccessor;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -40,58 +41,62 @@ public class IdRefResolutionHandlerTest {
     @Autowired
     private IdRefResolutionHandler idRefResolutionHandler;
 
-    public void testListOfReferences() throws FileNotFoundException {
-        File inputFile = IngestionTest.getFile("ReferenceResolution/gradebook.xml");
-        ErrorReport errorReport = Mockito.mock(ErrorReport.class);
-        FileProcessStatus fileProcessStatus = Mockito.mock(FileProcessStatus.class);
-        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
-                FileType.XML_STUDENT_GRADES, inputFile.getName(), MD5.calculate(inputFile));
-        inputFileEntry.setFile(inputFile);
-        idRefResolutionHandler.doHandling(inputFileEntry, errorReport, fileProcessStatus);
-
-    }
-
     @Test
-    public void testLoadRefs() throws Throwable {
+    public void testFindIDRefsToResolve() throws Throwable {
         File inputFile = IngestionTest.getFile("ReferenceResolution/InterchangeStudentGrade.xml");
         File tempInputFile = new File(inputFile.getPath().substring(0, inputFile.getPath().lastIndexOf(".xml")) + "_TEMP.xml");
 
         IOUtils.copy(new FileInputStream(inputFile), new FileOutputStream(tempInputFile));
 
         @SuppressWarnings("unchecked")
-        List<String> result = (List<String>) PrivateAccessor.invoke(idRefResolutionHandler, "loadRefs", new Class[]{File.class}, new Object[]{tempInputFile});
+        Set<String> result = (Set<String>) PrivateAccessor.invoke(idRefResolutionHandler, "findIDRefsToResolve", new Class[]{File.class}, new Object[]{tempInputFile});
 
         Assert.assertNotNull(result);
         Assert.assertEquals(1, result.size());
-        Assert.assertEquals("GBE-8th Grade English-3", result.get(0));
+        Assert.assertTrue(result.contains("GBE-8th Grade English-3"));
     }
 
     @Test
-    public void testLoadIds() throws Throwable {
+    public void testFindMatchingEntities() throws Throwable {
         File inputFile = IngestionTest.getFile("ReferenceResolution/InterchangeStudentGrade.xml");
         File tempInputFile = new File(inputFile.getPath().substring(0, inputFile.getPath().lastIndexOf(".xml")) + "_TEMP.xml");
 
         IOUtils.copy(new FileInputStream(inputFile), new FileOutputStream(tempInputFile));
 
 
-        List<String> refs = (List<String>) PrivateAccessor.invoke(idRefResolutionHandler, "loadRefs", new Class[]{File.class}, new Object[]{tempInputFile});
-        Map<String, String> result = (Map<String, String>) PrivateAccessor.invoke(idRefResolutionHandler, "loadIds", new Class[]{File.class, List.class}, new Object[]{tempInputFile, refs});
+        Set<String> refs = (Set<String>) PrivateAccessor.invoke(idRefResolutionHandler, "findIDRefsToResolve", new Class[]{File.class}, new Object[]{tempInputFile});
+        Map<String, String> result = (Map<String, String>) PrivateAccessor.invoke(idRefResolutionHandler, "findMatchingEntities", new Class[]{File.class, Set.class}, new Object[]{tempInputFile, refs});
 
         Assert.assertNotNull(result);
         Assert.assertEquals(1, result.size());
         Assert.assertTrue(result.containsKey("GBE-8th Grade English-3"));
-        Assert.assertEquals(
-        "<GradebookEntry id=\"GBE-8th Grade English-3\">\n"
-      + "      <GradebookEntryType>Unit test</GradebookEntryType>\n"
-      + "      <DateAssigned>2011-09-29</DateAssigned>\n"
-      + "      <SectionReference>\n"
-      + "        <SectionIdentity>\n"
-      + "          <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>\n"
-      + "          <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>\n"
-      + "        </SectionIdentity>\n"
-      + "      </SectionReference>\n"
-      + "    </GradebookEntry>"
-                           , result.get("GBE-8th Grade English-3"));
     }
 
+    @Test
+    public void testProcess() throws IOException {
+        File inputFile = IngestionTest.getFile("ReferenceResolution/InterchangeStudentGrade.xml");
+        File tempInputFile = new File(inputFile.getPath().substring(0, inputFile.getPath().lastIndexOf(".xml")) + "_TEMP.xml");
+
+
+        InputStream inputFileStream = new FileInputStream(inputFile);
+        OutputStream tempInputFileStream = new FileOutputStream(tempInputFile);
+        IOUtils.copy(inputFileStream , tempInputFileStream);
+
+        inputFileStream.close();
+        tempInputFileStream.close();
+
+        ErrorReport errorReport = Mockito.mock(ErrorReport.class);
+        FileProcessStatus fileProcessStatus = Mockito.mock(FileProcessStatus.class);
+        String beforeHash = MD5.calculate(inputFile);
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
+                FileType.XML_STUDENT_GRADES, tempInputFile.getName(), beforeHash);
+        inputFileEntry.setFile(tempInputFile);
+
+        idRefResolutionHandler.doHandling(inputFileEntry, errorReport, fileProcessStatus);
+
+        String afterHash = MD5.calculate(tempInputFile);
+
+        Assert.assertFalse(beforeHash.equals(afterHash));
+
+    }
 }
