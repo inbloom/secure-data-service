@@ -7,7 +7,7 @@
 
 
   <util:map id="idRefConfigs" key-type="java.lang.String" value-type="org.milyn.Smooks">
-      
+
     <!--InterchangeAssessmentMetadata -->
     <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference">
       <bean class="org.milyn.Smooks">
@@ -39,7 +39,7 @@
           value="idRefResolution/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference.xml" />
       </bean>
     </entry>
-    
+
     <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningStandardReference">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String"
@@ -53,7 +53,7 @@
       </bean>
     </entry>
     <!-- end of InterchangeAssessmentMetadata  -->
-    
+
     <!--InterchangeStduentGrade -->
     <entry key="/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference">
       <bean class="org.milyn.Smooks">
@@ -61,23 +61,23 @@
           value="idRefResolution/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference.xml" />
       </bean>
     </entry>
-    
+
      <entry key="/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String"
           value="idRefResolution/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference.xml" />
       </bean>
     </entry>
-    
+
     <entry key="/InterchangeStudentGrade/GradebookEntry/LearningObjectiveReference">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String"
           value="idRefResolution/InterchangeStudentGrade/GradebookEntry/LearningObjectiveReference.xml" />
       </bean>
     </entry>
-    
+
     <!--end of InterchangeStudentGrade -->
-    
+
     <!--Iterchange StudentAssessmenet -->
     <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference">
       <bean class="org.milyn.Smooks">
@@ -85,15 +85,15 @@
           value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.xml" />
       </bean>
     </entry>
-    
+
         <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String"
           value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/StudentReference.xml" />
       </bean>
     </entry>
-    
-    
+
+
   </util:map>
 
   <bean id="smooksExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SmooksExtendedReferenceResolver">
@@ -133,7 +133,7 @@
     <entry key="/InterchangeStudentGrade/ReportCard/StudentCompetencyReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentAcademicRecord/ReportCardReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentAcademicRecord/DiplomaReference" value-ref="simpleReferenceResolver" />
-    <entry key="/InterchangeStudentGrade/StudentGadebookEntry/GradbookEntryReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference" value-ref="simpleReferenceResolver" />
 
     <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value-ref="smooksExtendedReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="smooksExtendedReferenceResolver" />
@@ -142,7 +142,7 @@
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/AssessmentItemReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
-        
+
 
     <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference" value-ref="smooksExtendedReferenceResolver" />
   </util:map>
