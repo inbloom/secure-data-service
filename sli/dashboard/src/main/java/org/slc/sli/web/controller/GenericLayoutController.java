@@ -66,11 +66,11 @@ public abstract class GenericLayoutController {
     protected void addHeaderFooter(ModelMap model) {
         String token = getToken();
         String header = portalWSManager.getHeader(token);
-	if (header != null) {
+        if (header != null) {
             header = header.replace("[$USER_NAME$]", SecurityUtil.getUsername());
             model.addAttribute(Constants.ATTR_HEADER_STRING, header);
             model.addAttribute(Constants.ATTR_FOOTER_STRING, portalWSManager.getFooter(token));
-	}
+        }
     }
 
     protected void setContextPath(ModelMap model, HttpServletRequest request) {
