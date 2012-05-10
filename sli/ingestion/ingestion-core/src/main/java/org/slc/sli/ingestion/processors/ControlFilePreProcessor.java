@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -107,13 +105,14 @@ public class ControlFilePreProcessor implements Processor {
 
             } catch (UnknownHostException e) {
             }
-            SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha MH
+            SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha
+                                                                                                               // MH
                     "", // user
                     "", // targetEdOrg
                     "processUsingNewBatchJob", // Alpha MH (actionUri)
                     "Ingestion", // Alpha MH (appId)
                     "", // origin
-                    ipAddr[0]+"."+ipAddr[1]+"."+ipAddr[2]+"."+ipAddr[3], // executedOn
+                    ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3], // executedOn
                     "", // Alpha MH (Credential - N/A for ingestion)
                     "", // userOrigin
                     new Date(), // Alpha MH (timeStamp)
@@ -122,7 +121,7 @@ public class ControlFilePreProcessor implements Processor {
                     LogLevelType.TYPE_INFO, // Alpha MH (logLevel)
                     "Ingestion process started."); // Alpha MH (logMessage)
 
-             audit(event);
+            audit(event);
 
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
