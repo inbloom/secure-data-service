@@ -11,7 +11,7 @@ When I select "Illinois Sunset School District 4526" and click go
 Scenario: View Matt Sollars
 When I login as "linda.kim" "linda.kim1234"
 And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Proprietary Information"
+And I see a footer on the page that has the text "Proprietary Information"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
@@ -80,7 +80,7 @@ And the grades teardrop color widgets for "SpringSemester2010-2011;FallSemester2
  |F    |teardrop-red       |
 And I click on student "Matt Sollars"
 And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Proprietary Information"
+And I see a footer on the page that has the text "Proprietary Information"
 And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
 And their id shown in proflie is "800000025"
@@ -146,7 +146,7 @@ Then I should only see one view named "Early Literacy View"
 And the list includes: "Mi-Ha Tran"
 And the following students have "ELL" lozenges: "Malcolm Haehn;Dara Nemecek;Lauretta Seip"
 And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Proprietary Information"
+And I see a footer on the page that has the text "Proprietary Information"
 # Early Literacy View
 And the count for id "attendances.absenceCount" for student "Mi-Ha Tran" is "1"
 And the class for id "attendances.absenceCount" for student "Mi-Ha Tran" is "color-widget-green"
@@ -232,7 +232,7 @@ Then I see a list of 25 students
 And the list includes: "Carmen Ortiz"
 And the following students have "ELL" lozenges: "Randolph Vanhooser;Kelvin Zahm;Johnathan Zenz"
 And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Proprietary Information"
+And I see a footer on the page that has the text "Proprietary Information"
 Then I should only see one view named "College Ready ELA View"
 And the count for id "attendances.absenceCount" for student "Carmen Ortiz" is "1"
 And the class for id "attendances.absenceCount" for student "Carmen Ortiz" is "color-widget-green"

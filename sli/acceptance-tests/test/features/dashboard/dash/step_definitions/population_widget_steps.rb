@@ -30,7 +30,7 @@ Then /^I only see "([^"]*)"$/ do |listContent|
       matchCondition = false
     end
   end
-  assert(matchCondition, "School list has more then required string(s) " + listContent)
+  assert(matchCondition, "list has more then required string(s) " + listContent)
 end
 
 When /^I look in the course drop\-down$/ do
