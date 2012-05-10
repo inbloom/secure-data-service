@@ -101,5 +101,5 @@ Scenario: As a user I request for a sandbox account
   And when I click "Accept"
   Then I am directed to an acknowledgement page.
   And an email verification link is generated
-  When I visit the email verification link
+  When I visit "<VALID VERIFICATION LINK>"
   Then I should see the text "Registration Complete!"
