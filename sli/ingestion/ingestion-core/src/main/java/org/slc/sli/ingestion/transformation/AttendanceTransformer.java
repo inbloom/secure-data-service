@@ -83,7 +83,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      * Transforms attendance events from Ed-Fi model into SLI model.
      */
     public void transform() {
-        LOG.debug("Transforming attendance data");
+        LOG.info("Transforming attendance data");
         HashMap<Object, NeutralRecord> newCollection = new HashMap<Object, NeutralRecord>();
         Set<Pair<String, String>> studentSchoolPairs = new HashSet<Pair<String, String>>();
 

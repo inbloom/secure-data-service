@@ -11,15 +11,9 @@ import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
@@ -47,6 +41,10 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Ingestion Persistence Processor.
@@ -283,13 +281,7 @@ public class PersistenceProcessor implements Processor {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setLimit(0);
 
-        if (neutralRecord.getRecordType().equals("studentTranscriptAssociation")) {
-            String studentAcademicRecordId = (String) neutralRecord.getAttributes().remove("studentAcademicRecordId");
-            neutralQuery.addCriteria(new NeutralCriteria("studentAcademicRecordId", "=", studentAcademicRecordId));
-
-            stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
-                    neutralRecord.getRecordType() + "_transformed", job.getId(), neutralQuery);
-        } else if (neutralRecord.getRecordType().equals("session")) {
+        if (neutralRecord.getRecordType().equals("session")) {
             stagedNeutralRecords = neutralRecordMongoAccess.getRecordRepository().findAllForJob("session", job.getId(),
                     neutralQuery);
             encounteredStgCollections.add("session");

@@ -2,7 +2,7 @@
     "collection": "studentTranscriptAssociation_transformed",
     "indexFields":
     [
-        {"name" : "body.studentId", "order" : "1"},
+        {"name" : "body.studentAcademicRecordId", "order" : "1"},
         {"name" : "metaData.externalId", "order" : "1"},
         {"name" : "body.courseId", "order" : "1"}
     ]

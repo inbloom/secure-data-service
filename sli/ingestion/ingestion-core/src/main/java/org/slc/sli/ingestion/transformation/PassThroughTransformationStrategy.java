@@ -79,7 +79,6 @@ public class PassThroughTransformationStrategy extends AbstractTransformationStr
     private void loadCollectionFromDb(String collectionName) {
         Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
 
-        @SuppressWarnings("deprecation")
         Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
                 collectionName, new Query(jobIdCriteria), getJob().getId(), 0, 0);
 

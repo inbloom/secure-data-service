@@ -1,5 +1,5 @@
 {
-    "keyFields" : [ "body.courseId", "body.studentId"],
+    "keyFields" : [ "body.courseId", "body.studentAcademicRecordId"],
 	"references" :
 	[{
         "fieldPath" : "body.courseId","ref" :
@@ -20,9 +20,9 @@
         }
     },
     { 
-        "fieldPath" : "body.studentId","ref" :
+        "fieldPath" : "body.studentAcademicRecordId","ref" :
         {
-	        "collectionName" : "student",
+	        "collectionName" : "studentAcademicRecord",
 	        "choiceOfFields" :
 	        [
 	            [
@@ -30,7 +30,7 @@
 		           	    "path" : "metaData.externalId",
 		                "values" : 
 		                [{
-			                "valueSource" : "body.studentId"
+			                "valueSource" : "body.studentAcademicRecordId"
 		                }]
 		            }
 	            ]

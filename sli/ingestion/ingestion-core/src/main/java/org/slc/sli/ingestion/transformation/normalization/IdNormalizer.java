@@ -35,10 +35,6 @@ public class IdNormalizer {
     private Repository<Entity> entityRepository;
 
     protected static Map<String, ComplexIdNormalizer> complexIdNormalizers = new HashMap<String, ComplexIdNormalizer>();
-    static {
-        complexIdNormalizers.put("studentTranscriptAssociation:body.studentId",
-                new StudentTranscriptAssociationStudentIdComplexIdNormalizer());
-    }
 
     /**
      * Resolves the specified field's reference and returns the associated ID. Returns an empty
