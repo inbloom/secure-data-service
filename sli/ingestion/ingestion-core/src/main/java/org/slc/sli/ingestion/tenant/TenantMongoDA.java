@@ -55,10 +55,10 @@ public class TenantMongoDA implements TenantDA {
     private Map<String, Object> getTenantBody(TenantRecord tenant) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(TENANT_ID, tenant.getTenantId());
-        List<Map<String,String>> landingZones = new ArrayList<Map<String,String>>();
-        if( tenant.getLandingZone() != null ){
-            for( LandingZoneRecord landingZoneRecord : tenant.getLandingZone()){
-                Map<String,String> landingZone = new HashMap<String, String>();
+        List<Map<String, String>> landingZones = new ArrayList<Map<String, String>>();
+        if (tenant.getLandingZone() != null) {
+            for (LandingZoneRecord landingZoneRecord : tenant.getLandingZone()) {
+                Map<String, String> landingZone = new HashMap<String, String>();
                 landingZone.put(EDUCATION_ORGANIZATION, landingZoneRecord.getEducationOrganization());
                 landingZone.put(INGESTION_SERVER, landingZoneRecord.getIngestionServer());
                 landingZone.put(PATH, landingZoneRecord.getPath());
@@ -77,7 +77,7 @@ public class TenantMongoDA implements TenantDA {
         Iterable<Entity> entities = entityRepository.findAll(TENANT_COLLECTION , query);
         
         for (Entity entity : entities) {
-            List<Map<String,String>> landingZones = (List<Map<String,String>>) entity.getBody().get(LANDING_ZONE);
+            List<Map<String, String>> landingZones = (List<Map<String, String>>) entity.getBody().get(LANDING_ZONE);
             if (landingZones != null) {
                 for (Map<String, String> landingZone : landingZones) {
                     String ingestionServer = landingZone.get(INGESTION_SERVER);
@@ -95,7 +95,7 @@ public class TenantMongoDA implements TenantDA {
     
     private String findTenantIdByLzPath(String lzPath) {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("landingZone.path", "=", lzPath));
-        Entity entity = entityRepository.findOne(TENANT_COLLECTION , query);
+        Entity entity = entityRepository.findOne(TENANT_COLLECTION, query);
         return (String) entity.getBody().get(TENANT_ID);
     }
 
