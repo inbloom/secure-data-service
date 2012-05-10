@@ -154,7 +154,7 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>7th Grade English</ID>
         </CourseCode>
-        <Term>First Semester</Term>
+        <Term>Fall Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
         <StateOrganizationId>1</StateOrganizationId>
       </CourseOfferingIdentity>
@@ -182,7 +182,7 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>7th Grade Composition</ID>
         </CourseCode>
-        <Term>Second Semester</Term>
+        <Term>Spring Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
         <StateOrganizationId>1</StateOrganizationId>
       </CourseOfferingIdentity>
