@@ -91,12 +91,12 @@ class TestApprovalEngine < Test::Unit::TestCase
 			assert(roles == [], "Expected empty roles but got #{roles}")
 		end 
 
-		ApprovalEngine.remove_user(@jd_email)
-		assert(!ApprovalEngine.user_exists?(@jd_email))
-		assert(ApprovalEngine.get_roles(@jd_email) == [])
-		ApprovalEngine.remove_user(@td_email)
-		users = ApprovalEngine.get_users().select { |u| !![@jd_email, @td_email].index(u[:email]) }
-		assert(users == [], "Expected empty array got #{users}.")
+		#ApprovalEngine.remove_user(@jd_email)
+		#assert(!ApprovalEngine.user_exists?(@jd_email))
+		#assert(ApprovalEngine.get_roles(@jd_email) == [])
+		#ApprovalEngine.remove_user(@td_email)
+		#users = ApprovalEngine.get_users().select { |u| !![@jd_email, @td_email].index(u[:email]) }
+		#assert(users == [], "Expected empty array got #{users}.")
 	end
 	
 

@@ -102,6 +102,8 @@ class LDAPStorage
 		end
 		
 		LDAP_ATTR_MAPPING.each { |ldap_k, rec_k| attributes[ldap_k] = e_user_info[rec_k] }
+		descr = (COMBINED_LDAP_ATTR_MAPPING.map { |k,v|  "#{k}:#{v}" }).join("\n")
+		attributes[LDAP_DESCRIPTION_FIELD] = descr
 		if !(@ldap.add(:dn => dn, :attributes => attributes))
 			raise ldap_ex("Unable to create user in LDAP: #{attributes}.")
 		end
