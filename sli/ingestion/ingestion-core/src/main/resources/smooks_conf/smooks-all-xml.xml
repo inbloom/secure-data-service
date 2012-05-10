@@ -1051,6 +1051,7 @@
     <!-- MaximumAvilableCredit -->
     <jb:wiring property="maximumAvailableCredit" beanIdRef="MaximumAvailableCreditType" />
     <jb:value property="careerPathway" data="Course/CareerPathway" />
+    <jb:value property="schoolId" data="Course/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode/ID" />
   </jb:bean>
 
   <jb:bean beanId="courseCodeTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/Course">
@@ -1083,7 +1084,7 @@
   <jb:bean beanId="Course_EducationOrganizationReference"
            class="java.util.HashMap"
            createOnElement="InterchangeEducationOrganization/Course">
-      <jb:wiring property="EducationOrganization#educationOrgIdentificationCode" beanIdRef="Course_EducationOrganizationReference_EducationOrgIdentificationCodeArray" />
+      <jb:wiring property="educationOrganization#educationOrgIdentificationCode" beanIdRef="Course_EducationOrganizationReference_EducationOrgIdentificationCodeArray" />
   </jb:bean>
 
   <jb:bean beanId="Course_EducationOrganizationReference_EducationOrgIdentificationCodeArray"
@@ -1095,9 +1096,9 @@
   <jb:bean beanId="Course_EducationOrganizationReference_EducationOrgIdentificationCode"
            class="java.util.HashMap"
            createOnElement="InterchangeEducationOrganization/Course/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode">
-      <jb:value property="EducationOrganization#body.educationOrgIdentificationCode.identificationSystem"
+      <jb:value property="educationOrganization#body.educationOrgIdentificationCode.identificationSystem"
                 data="Course/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode/@IdentificationSystem" />
-      <jb:value property="EducationOrganization#body.educationOrgIdentificationCode.ID"
+      <jb:value property="educationOrganization#body.educationOrgIdentificationCode.ID"
                 data="Course/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode/ID" />
   </jb:bean>
 
