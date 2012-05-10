@@ -36,10 +36,10 @@ import org.slc.sli.validation.schema.TokenSchema;
 @Component
 public class NeutralSchemaFactory implements SchemaFactory {
 
-    @Resource(name="validationStrategyList")
+    @Resource(name = "validationStrategyList")
     private List<BaseValidationRule> validationStrategyList;
 
-    @Resource(name="relaxedValidationStrategyList")
+    @Resource(name = "relaxedValidationStrategyList")
     private List<BaseValidationRule> relaxedValidationStrategyList;
 
     /*
