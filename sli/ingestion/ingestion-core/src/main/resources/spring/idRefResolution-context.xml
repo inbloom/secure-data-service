@@ -94,6 +94,35 @@
     </entry>
     
     
+    <!-- Interchange StaffAssociation -->
+    <entry key="/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffReference.xml" />
+      </bean>
+    </entry>
+    <entry key="/InterchangeStaffAssociation/StaffProgramAssociation/StaffReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeStaffAssociation/StaffProgramAssociation/StaffReference.xml" />
+      </bean>
+    </entry>
+    
+     <entry key="/InterchangeStaffAssociation/TeacherSchoolAssociation/TeacherReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeStaffAssociation/TeacherSchoolAssociation/TeacherReference.xml" />
+      </bean>
+    </entry>
+    
+         <entry key="/InterchangeStaffAssociation/TeacherSectionAssociation/TeacherReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeStaffAssociation/TeacherSectionAssociation/TeacherReference.xml" />
+      </bean>
+    </entry>
+    
+    <!-- end of interchange StaffAssociation -->
   </util:map>
 
   <bean id="smooksExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SmooksExtendedReferenceResolver">
@@ -139,11 +168,14 @@
     <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="smooksExtendedReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
-    <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/AssessmentItemReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
-    <entry key="/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
         
-
+    <entry key="/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeStaffAssociation/StaffProgramAssociation/StaffReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeStaffAssociation/TeacherSchoolAssociation/TeacherReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeStaffAssociation/TeacherSectionAssociation/TeacherReference" value-ref="smooksExtendedReferenceResolver" />
+    
+    
     <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference" value-ref="smooksExtendedReferenceResolver" />
   </util:map>
 </beans>
