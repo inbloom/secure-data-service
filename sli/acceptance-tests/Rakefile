@@ -867,6 +867,10 @@ task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApp
   end
 end
 
+task :adminRightsTests do
+  runTests("test/features/admintools/sli_admin_authorization.feature")
+end
+
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
