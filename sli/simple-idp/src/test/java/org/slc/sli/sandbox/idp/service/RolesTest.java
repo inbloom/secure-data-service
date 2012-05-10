@@ -11,7 +11,7 @@ import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slc.sli.sandbox.idp.service.Roles.Role;
+import org.slc.sli.sandbox.idp.service.RoleService.Role;
 
 /**
  * Unit tests
@@ -19,7 +19,7 @@ import org.slc.sli.sandbox.idp.service.Roles.Role;
 @RunWith(MockitoJUnitRunner.class)
 public class RolesTest {
     
-    Roles roleService = new Roles();
+    RoleService roleService = new RoleService();
     
     @Test
     public void testGetAvailableRoles() {

@@ -1,9 +1,10 @@
 package org.slc.sli.api.security.context;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -83,9 +84,11 @@ public class AssociativeContextHelper {
 
     public List<String> getAssocKeys(String entityType, AssociationDefinition ad) {
 
-        if (ad.getSourceEntity().getType().equals(entityType)) {
+        if (ad.getSourceEntity().getType().equals(entityType)
+            || ad.getSourceEntity().getStoredCollectionName().equals(entityType)) {
             return Arrays.asList(ad.getSourceKey(), ad.getTargetKey());
-        } else if (ad.getTargetEntity().getType().equals(entityType)) {
+        } else if (ad.getTargetEntity().getType().equals(entityType)
+            || ad.getTargetEntity().getStoredCollectionName().equals(entityType)) {
             return Arrays.asList(ad.getTargetKey(), ad.getSourceKey());
         } else {
             throw new IllegalArgumentException("Entity is not a member of association " + entityType + " " + ad.getType());
@@ -150,5 +153,19 @@ public class AssociativeContextHelper {
             foundIds.add((String) body.get(returnedReference));
         }
         return foundIds;
+    }
+
+    /**
+     * Returns a date depending on the grace period
+     * @param gracePeriod
+     * @return
+     */
+    public String getFilterDate(String gracePeriod, Calendar calendar) {
+        if (gracePeriod != null && !gracePeriod.equals("")) {
+            int numDays = Integer.parseInt(gracePeriod) * -1;
+            calendar.add(Calendar.DATE, numDays);
+        }
+
+        return String.format("%1$tY-%1$tm-%1$td", calendar);
     }
 }

@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeBuilder;
@@ -30,6 +30,12 @@ public class BrutePathFinder implements SecurityPathFinder {
     @Autowired
     private EdOrgToChildEdOrgNodeFilter edorgFilter;
 
+    @Autowired
+    private NodeFilter sectionGracePeriodNodeFilter;
+
+    @Autowired
+    private NodeFilter studentGracePeriodNodeFilter;
+
     @PostConstruct
     public void init() {
         nodeMap = new HashMap<String, SecurityNode>();
@@ -39,7 +45,9 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap.put(EntityNames.TEACHER,
                 SecurityNodeBuilder.buildNode(EntityNames.TEACHER, EntityNames.STAFF)
                         .addConnection(EntityNames.SCHOOL, "schoolId", ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS)
-                        .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS)
+                        .addConnection(EntityNames.SECTION, "sectionId", ResourceNames.TEACHER_SECTION_ASSOCIATIONS, sectionGracePeriodNodeFilter)
+                        .addConnection(EntityNames.EDUCATION_ORGANIZATION, "educationOrganizationReference",
+                                ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, edorgFilter)
                         .construct());
         nodeMap.put(
                 EntityNames.SCHOOL,
@@ -111,14 +119,31 @@ public class BrutePathFinder implements SecurityPathFinder {
         nodeMap.put(EntityNames.EDUCATION_ORGANIZATION,
                 SecurityNodeBuilder.buildNode(EntityNames.EDUCATION_ORGANIZATION)
                         .addConnection(EntityNames.STAFF, "staffReference", ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS)
+                        .addConnection(EntityNames.STUDENT, "studentId", ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, studentGracePeriodNodeFilter)
                         .addConnection(EntityNames.SCHOOL, "parentEducationAgencyReference", "")
                         .addConnection(EntityNames.PROGRAM, "programReference", "") //TODO: fix XSD
+                        .addConnection(EntityNames.SECTION, "schoolId", "")
                         .construct());
 
         prePath.put(
                 EntityNames.STAFF + EntityNames.STAFF,
                 Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
                         nodeMap.get(EntityNames.STAFF)));
+
+        prePath.put(
+                EntityNames.STAFF + EntityNames.SECTION,
+                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
+                        nodeMap.get(EntityNames.SECTION)));
+
+        prePath.put(
+                EntityNames.STAFF + EntityNames.COURSE,
+                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
+                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.COURSE)));
+
+        prePath.put(
+                EntityNames.STAFF + EntityNames.SESSION,
+                Arrays.asList(nodeMap.get(EntityNames.STAFF), nodeMap.get(EntityNames.EDUCATION_ORGANIZATION),
+                        nodeMap.get(EntityNames.SECTION), nodeMap.get(EntityNames.SESSION)));
 
         prePath.put(
                 EntityNames.TEACHER + EntityNames.TEACHER,

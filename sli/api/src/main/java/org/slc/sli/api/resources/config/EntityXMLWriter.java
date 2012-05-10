@@ -1,13 +1,18 @@
 package org.slc.sli.api.resources.config;
 
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 import javax.xml.stream.XMLOutputFactory;
@@ -29,6 +34,13 @@ import java.util.Map;
 @Component
 @Produces({ MediaType.APPLICATION_XML, HypermediaType.VENDOR_SLC_XML })
 public class EntityXMLWriter implements MessageBodyWriter<EntityResponse> {
+
+    @Autowired
+    private EntityDefinitionStore entityDefs;
+
+    private static final String TYPE = "type";
+    private static final String HREF = "href";
+
     @Override
     public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         if (type.getName().equals("org.slc.sli.api.representation.EntityResponse")) {
@@ -54,9 +66,16 @@ public class EntityXMLWriter implements MessageBodyWriter<EntityResponse> {
             writeEntity(entityResponse, entityStream);
         } catch (XMLStreamException e) {
             error("Could not write out to XML {}", e);
+            throw new WebApplicationException(e, Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
 
+    /**
+     * Serializes an entity to xml
+     * @param entityResponse
+     * @param entityStream
+     * @throws XMLStreamException
+     */
     protected void writeEntity(EntityResponse entityResponse, OutputStream entityStream) throws XMLStreamException {
         XMLStreamWriter writer = null;
 
@@ -66,9 +85,12 @@ public class EntityXMLWriter implements MessageBodyWriter<EntityResponse> {
             //get the stream writer
             writer = factory.createXMLStreamWriter(entityStream);
 
+            EntityDefinition resourceDef = entityDefs.lookupByEntityType(entityResponse.getEntityCollectionName());
+            String resourceName = (resourceDef != null) ? resourceDef.getResourceName() : entityResponse.getEntityCollectionName();
+
             //start the document
             writer.writeStartDocument();
-            writer.writeStartElement(entityResponse.getEntityCollectionName());
+            writer.writeStartElement(resourceName);
             //recursively add the objects
             writeToXml(entityResponse.getEntity(), entityResponse.getEntityCollectionName(), writer);
             //end the document
@@ -82,6 +104,13 @@ public class EntityXMLWriter implements MessageBodyWriter<EntityResponse> {
         }
     }
 
+    /**
+     * Serializes the given object to xml
+     * @param object The object to write out to
+     * @param key
+     * @param writer
+     * @throws XMLStreamException
+     */
     protected void writeToXml(Object object, String key, XMLStreamWriter writer) throws XMLStreamException {
         if (List.class.isInstance(object)) {
             List values = (List) object;
@@ -96,11 +125,18 @@ public class EntityXMLWriter implements MessageBodyWriter<EntityResponse> {
 
             for (Map.Entry<String, Object> entry : map.entrySet()) {
                 writer.writeStartElement(entry.getKey());
-
                 writeToXml(entry.getValue(), entry.getKey(), writer);
-
                 writer.writeEndElement();
             }
+        } else if (EmbeddedLink.class.isInstance(object)) {
+            EmbeddedLink link = (EmbeddedLink) object;
+            writer.writeStartElement(TYPE);
+            writer.writeCharacters(link.getRel());
+            writer.writeEndElement();
+
+            writer.writeStartElement(HREF);
+            writer.writeCharacters(link.getHref());
+            writer.writeEndElement();
         } else {
             writer.writeCharacters(String.valueOf(object));
         }
