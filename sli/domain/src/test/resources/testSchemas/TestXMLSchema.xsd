@@ -145,8 +145,25 @@
 			<xs:documentation>Test RelaxedBlacklist sequence complex documentation.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="white" type="TestRelaxedBlacklistString" />
-			<xs:element name="nonwhite" type="TestNonRelaxedBlacklistString" />
+			<xs:element name="white" type="TestRelaxedBlacklistString" >
+				<xs:annotation>
+					<xs:documentation>A code or abbreviation that is used to refer to
+						the
+						certification field.
+					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nonwhite" type="TestNonRelaxedBlacklistString" >
+				<xs:annotation>
+					<xs:documentation>A code or abbreviation that is used to refer to
+						the
+						certification field.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -155,8 +172,25 @@
 			<xs:documentation>Test RelaxedBlacklist choice complex documentation.</xs:documentation>
 		</xs:annotation>
 		<xs:choice minOccurs="0" maxOccurs="unbounded">
-			<xs:element name="white" type="TestRelaxedBlacklistString" />
-			<xs:element name="nonwhite" type="TestNonRelaxedBlacklistString" />
+			<xs:element name="white" type="TestRelaxedBlacklistString" >
+				<xs:annotation>
+					<xs:documentation>A code or abbreviation that is used to refer to
+						the
+						certification field.
+					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nonwhite" type="TestNonRelaxedBlacklistString" >
+				<xs:annotation>
+					<xs:documentation>A code or abbreviation that is used to refer to
+						the
+						certification field.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:choice>
 	</xs:complexType>
 
