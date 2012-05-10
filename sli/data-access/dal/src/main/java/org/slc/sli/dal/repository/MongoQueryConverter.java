@@ -211,6 +211,22 @@ public class MongoQueryConverter {
                 }
             }
         });
+        
+        // nin
+        this.operatorImplementations.put("nin", new MongoCriteriaGenerator() {
+            @SuppressWarnings("unchecked")
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
+                if (neutralCriteria.getKey().equals(MONGO_ID)) {
+                    return Criteria.where(MONGO_ID).nin(convertIds(neutralCriteria.getValue()));
+                } else {
+                     try {
+                        return Criteria.where(prefixKey(neutralCriteria)).nin((List<Object>) neutralCriteria.getValue());
+                     } catch (ClassCastException cce) {
+                        throw new QueryParseException("Invalid list of nin values " + neutralCriteria.getValue(), neutralCriteria.toString());
+                     }
+                 }
+             }
+        });
 
     }
 
