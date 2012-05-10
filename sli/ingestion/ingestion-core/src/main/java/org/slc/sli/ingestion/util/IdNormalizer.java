@@ -28,7 +28,7 @@ public class IdNormalizer {
 
     private static final String METADATA_BLOCK = "metaData";
 
-    private static final Logger LOG = LoggerFactory.getLogger( IdNormalizer.class );
+    private static final Logger LOG = LoggerFactory.getLogger(IdNormalizer.class);
 
     /**
      * Resolve references defined by external IDs (from clients) with internal IDs from SLI data

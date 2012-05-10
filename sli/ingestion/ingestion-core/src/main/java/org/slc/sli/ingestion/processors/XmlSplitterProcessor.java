@@ -26,7 +26,7 @@ public class XmlSplitterProcessor  implements Processor {
     public void process(Exchange exchange) throws Exception {
 
 
-        setExchangeHeaders(exchange, false );
+        setExchangeHeaders(exchange, false);
 
 
     }
