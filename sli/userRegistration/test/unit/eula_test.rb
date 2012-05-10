@@ -1,9 +1,7 @@
 require 'test_helper'
 
 class EulaTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+
   test "eula accepted method" do
     fail_params = {:commit => "No!"}
     fail_params2 = {:some_other_key => "blah"}

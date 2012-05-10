@@ -1,24 +1,28 @@
-
 class EulasController < ApplicationController
   
   SUBJECT = "SLI Account Verification Request"
   
-  REST_HEADER = {
-    "Content-Type" => "application/json",
-    "content-type" => "application/json",
-    "accept" => "application/json"
-  }
-  
+  URL=APP_CONFIG['api_base']
+  URL_HEADER = {
+      "Content-Type" => "application/json",
+      "content_type" => "json",
+      "accept" => "application/json"
+      }
+
   # GET /eula 
   def show
+    if !Session.valid?(session)
+      not_found
+    end
+    
     respond_to do |format|
       format.html 
     end
   end
   
   def get_email_info(guid)
-    url = APP_CONFIG['api_base'] + "/" + session[:guuid]
-    res = RestClient.get(url, REST_HEADER){|response, request, result| response }
+    url = URL + "/" + guid
+    res = RestClient.get(url, URL_HEADER){|response, request, result| response }
     
     if (res.code==200)
         jsonDocument = JSON.parse(res.body)
@@ -67,6 +71,15 @@ class EulasController < ApplicationController
       email_user_account_verification()
       render :finish
     else 
+      gUID= session[:guuid]
+      res = RestClient.get(URL+"/"+gUID, URL_HEADER){|response, request, result| response }
+      if (res.code==200)
+            jsonDocument = JSON.parse(res.body)
+            puts(jsonDocument)
+            puts(jsonDocument["userName"])
+            ApplicationHelper.remove_user(jsonDocument["userName"])
+            res = RestClient.delete(URL+"/"+gUID, URL_HEADER){|response, request, result| response }
+        end
       redirect_to APP_CONFIG['redirect_slc_url']
     end
   end

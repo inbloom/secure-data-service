@@ -16,4 +16,12 @@ class EulasControllerTest < ActionController::TestCase
   test "should show eula" do
     assert_response :success
   end
+
+  test "should check for valid session before rendering eula" do 
+    Session.stubs(:valid?).returns(false)
+    assert_raise(ActionController::RoutingError) { get :show}
+
+    Session.stubs(:valid?).returns(true)
+    assert_nothing_raised { get :show }
+  end
 end
