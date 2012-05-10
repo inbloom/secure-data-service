@@ -139,7 +139,7 @@
     <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="smooksExtendedReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
-    <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/AssessmentItemReference" 
+    <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/AssessmentItemReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
         
