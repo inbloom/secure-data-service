@@ -1047,6 +1047,7 @@ desc "Run Dashboard Tests against SDS"
 task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
                          :dashboardSdsContactInfoTests,
                          :dashboardSdsLoginTests,
+                         :dashboardSdsURLValidationTests,
                          :dashboardSdsHSViewTests,
                          :dashboardSdsK3ViewTests,
                          :dashboardSdsPopWidgetTests,
@@ -1077,6 +1078,11 @@ end
 desc "Run dashboard integrated Tests - Login Tests"
 task :dashboardSdsLoginTests do
   runTests("test/features/dashboard/dash/dashboard_login_sds.feature")
+end
+
+desc "Run Dashboard URL Validation tests"
+task :dashboardSdsURLValidationTests do
+    runTests("test/features/dashboard/dash/dashboard_url_validation_sds.feature")
 end
 
 desc "Run dashboard integrated Tests - High School View Tests"
