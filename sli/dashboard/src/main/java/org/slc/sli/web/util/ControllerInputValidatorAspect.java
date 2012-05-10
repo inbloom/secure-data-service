@@ -69,7 +69,7 @@ public class ControllerInputValidatorAspect {
 
     private void validateArg(Object arg, String argName) {
         BindingResult result = new BeanPropertyBindingResult(arg, argName);
-        ValidationUtils.invokeValidator(validator, arg, result);
+        ValidationUtils.invokeValidator(getValidator(), arg, result);
         if (result.hasErrors()) {
             throw new HttpMessageConversionException("Invalid input parameter " + argName, new BindException(result));
         }
@@ -78,5 +78,9 @@ public class ControllerInputValidatorAspect {
     @Autowired
     public void setValidator(Validator validator) {
         this.validator = validator;
+    }
+
+    public Validator getValidator() {
+        return validator;
     }
 }
