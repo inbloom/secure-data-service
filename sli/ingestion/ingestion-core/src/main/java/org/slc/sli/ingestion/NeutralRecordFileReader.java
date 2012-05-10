@@ -17,13 +17,15 @@ import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.util.Utf8;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  */
 public class NeutralRecordFileReader implements Iterator<NeutralRecord> {
 
-//    private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordFileReader.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordFileReader.class);
 
     protected File file;
 
@@ -121,6 +123,7 @@ public class NeutralRecordFileReader implements Iterator<NeutralRecord> {
         } catch (IOException e) {
 //            DE260 - commenting out possibly sensitive data
 //            LOG.error("Could not decode NeutralRecord {}", e);
+            LOG.error("Could not decode NeutralRecord");
         }
         return neutralRecord;
     }
