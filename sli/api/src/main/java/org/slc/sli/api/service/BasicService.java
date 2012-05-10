@@ -136,18 +136,16 @@ public class BasicService implements EntityService {
             return Collections.emptyList();
         }
 
-        if (allowed.size() > 0) {
-            return allowed;
-        } else { // super list logic --> only true when using DefaultEntityContextResolver
-            List<String> results = new ArrayList<String>();
-            Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
+        // super list logic --> only true when using DefaultEntityContextResolver
+        List<String> results = new ArrayList<String>();
+        Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
 
-            for (Entity entity : entities) {
+        for (Entity entity : entities) {
+            if (allowed.contains(entity.getEntityId()))
                 results.add(entity.getEntityId());
-            }
-
-            return results;
         }
+
+        return results;
     }
 
     @Override

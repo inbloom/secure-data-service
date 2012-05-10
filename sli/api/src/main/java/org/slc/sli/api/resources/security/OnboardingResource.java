@@ -66,7 +66,7 @@ public class OnboardingResource {
 
     /**
      * Provision a landing zone for the provide educational organization.
-     * 
+     *
      * @QueryParam stateOrganizationId -- the unique identifier for this ed org
      * @QueryParam tenantId -- the tenant ID for this edorg.
      */
@@ -94,7 +94,7 @@ public class OnboardingResource {
 
     /**
      * Create an EdOrg if it does not exists.
-     * 
+     *
      * @param orgId
      *            The State Educational Organization identifier.
      * @param tenantId
@@ -151,7 +151,22 @@ public class OnboardingResource {
         // create or update the applicationAuthorization collection in mongod for new edorg entity
         createAppAuth(uuid, appIds);
 
-        return Response.status(Status.CREATED).build();
+        String landingZonePath = makeLandingZone();
+        Map<String, String> returnObject = new HashMap<String, String>();
+        returnObject.put("landingZone", landingZonePath);
+        returnObject.put("edOrg", e.getEntityId());
+
+        return Response.status(Status.CREATED).entity(returnObject).build();
+    }
+
+    /**
+     * Generates the landing zone
+     *
+     * @return the location of the landing zone
+     */
+    private String makeLandingZone() {
+        //TODO stub out for now
+        return "landingZoneLocationStub";
     }
 
     /**

@@ -160,7 +160,7 @@ end
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
-task :production => [:apiV1Tests, :securityTests, :ingestionTests, :ingestionOfflineToolTests] do
+task :production => [:apiV1Tests, :securityTests, :onboardingTests, :ingestionTests, :ingestionOfflineToolTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -174,7 +174,7 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :securityTests] do
+task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :onboardingTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -221,7 +221,7 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :in
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
-                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest] do
+                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, :ingestionTenantTest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -243,6 +243,11 @@ end
 desc "Run Ingestion Acceptance SDS Tests"
 task :ingestionAcceptanceSdsTest do
   runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
+end
+
+desc "Run Ingestion Tenant Test"
+task :ingestionTenantTest do
+  runTests("test/features/ingestion/features/ingestion_tenant.feature")
 end
 
 desc "Run Ingestion Session Test"
@@ -867,6 +872,10 @@ task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApp
   end
 end
 
+task :adminRightsTests do
+  runTests("test/features/admintools/sli_admin_authorization.feature")
+end
+
 desc "Run Dataprowler Selenium Tests"
 task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
@@ -917,6 +926,18 @@ task :securityTests => [:realmInit] do
 end
 ############################################################
 # Security tests end
+############################################################
+
+############################################################
+# Onboarding tests start
+############################################################
+desc "Run Onboarding Tests"
+task :onboardingTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/onboarding")
+end
+############################################################
+# Onboarding tests end
 ############################################################
 
 ############################################################
