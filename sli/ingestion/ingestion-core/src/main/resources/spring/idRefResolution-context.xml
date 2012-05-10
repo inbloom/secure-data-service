@@ -39,6 +39,19 @@
           value="idRefResolution/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference.xml" />
       </bean>
     </entry>
+    
+    <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningStandardReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeAssessmentMetadata/LearningObjective/LearningStandardReference.xml" />
+      </bean>
+    </entry>
+    <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference.xml" />
+      </bean>
+    </entry>
     <!-- end of InterchangeAssessmentMetadata  -->
     
     <!--InterchangeStduentGrade -->
@@ -87,9 +100,11 @@
   <util:map id="strategyConfig">
     <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference" value-ref="smooksExtendedReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/AssessmentFamily/AssessmentFamilyReference" value-ref="smooksExtendedReferenceResolver" />
-    <entry key="/InterchangeAssessmentMetadata/AssessmentItem/AssessmentFamilyReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference" value-ref="smooksExtendedReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningStandardReference" value-ref="smooksExtendedReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningStandardReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference" value-ref="smooksExtendedReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentItemReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/Assessment/ObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentItemReference" value-ref="simpleReferenceResolver" />
