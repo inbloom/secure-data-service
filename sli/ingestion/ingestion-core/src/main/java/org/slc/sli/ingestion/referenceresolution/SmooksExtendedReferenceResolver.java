@@ -65,6 +65,7 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
             StreamResult result = new StreamResult(new BufferedOutputStream(new FileOutputStream(convertedContent)));
 
             smooks.filterSource(source, result);
+
         } catch (Exception e) {
             convertedContent = null;
         } finally {
@@ -72,7 +73,12 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
             IOUtils.closeQuietly(out);
         }
 
-
+        //If the file is empty, the configuration could not use to resolve the input
+        if (convertedContent.length() == 0) {
+            LOG.warn("Failed to resolve input with configuration :" + xPath);
+            convertedContent.delete();
+            return null;
+        }
         return convertedContent;
     }
 }
