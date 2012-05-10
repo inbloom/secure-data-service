@@ -1,0 +1,66 @@
+{
+   "name": "Admin Tool",
+   "description":"Administrative tool suite",
+   "version":"1.0",
+   "bootstrap": true,
+   "image_url":"${bootstrap.app.admin.url}/assets/icon.png",
+   "administration_url":"${bootstrap.app.admin.url}",
+   "application_url":"${bootstrap.app.admin.url}",
+   "client_secret":"${bootstrap.app.admin.client_secret}",
+   "client_id":"${bootstrap.app.admin.client_id}",
+   "created_by":"SLIDeveloper",
+   "registration":{
+      "status":"APPROVED",
+      "request_date": 1330521193111,
+      "approval_date": 1330521193111
+   },
+   "redirect_uri":"${bootstrap.app.admin.url}/callback",
+   "is_admin":true,
+   "enabled":true,
+   "behavior":"Iframe App",
+   "developer_info":{
+      "organization":"SLI"
+   },
+   "endpoints":[
+      {
+         "name":"Application Registration",
+         "description":"Register an application that can access SLI API.",
+         "url":"${bootstrap.app.admin.url}/apps",
+         "roles":[
+            "SLC Operator", "Application Developer"
+         ]
+      },
+      {
+         "name":"Application Authorization",
+         "description":"Manage which applications a district's users can see.",
+         "url":"${bootstrap.app.admin.url}/application_authorizations",
+         "roles":[
+            "LEA Administrator"
+         ]
+      },
+      {
+         "name":"Realm Role Mapper",
+         "description":"Control how roles are from a IDP are mapped to SLI roles.",
+         "url":"${bootstrap.app.admin.url}/realms/",
+         "roles":[
+           "Realm Administrator"
+         ]
+      },
+      {
+         "name":"Role Viewer",
+         "description":"View available roles.",
+         "url":"${bootstrap.app.admin.url}",
+         "roles":[
+           "Realm Administrator"
+         ]
+      },
+      {
+         "name":"Provision Landing Zone",
+         "description":"Provision a landing zone for an educational organization.",
+         "url":"${bootstrap.app.admin.url}/landing_zone",
+         "roles":[
+            "SLI Administrator"
+         ]
+      }
+   ]
+}

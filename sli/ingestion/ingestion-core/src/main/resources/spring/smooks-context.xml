@@ -23,6 +23,7 @@
                 <value>${smooks.targetselector.xml.localEducationAgency}</value>
                 <value>${smooks.targetselector.xml.course}</value>
                 <value>${smooks.targetselector.xml.program}</value>
+                <value>${smooks.targetselector.xml.competencyLevelDescriptor}</value>
               </list>
             </constructor-arg>
           </bean>
@@ -90,8 +91,10 @@
             <constructor-arg value="${smooks.config.all.xml}" />
             <constructor-arg>
               <list>
+                
                 <value>${smooks.targetselector.xml.assessment}</value>
                 <value>${smooks.targetselector.xml.objective.assessment}</value>
+                <value>${smooks.targetselector.xml.assessment.item}</value>
                 <value>${smooks.targetselector.xml.assessmentFamily}</value>
                 <value>${smooks.targetselector.xml.learningObjective}</value>
                 <value>InterchangeAssessmentMetadata/AssessmentPeriodDescriptor</value>
@@ -121,6 +124,7 @@
                 <value>${smooks.targetselector.xml.student.studentGradebookEntry}</value>
                 <value>${smooks.targetselector.xml.student.studentAcademicRecord}</value>
                 <value>${smooks.targetselector.xml.student.studentAcademicRecordTemp}</value>
+                <value>${smooks.targetselector.xml.grade}</value>
               </list>
             </constructor-arg>
           </bean>

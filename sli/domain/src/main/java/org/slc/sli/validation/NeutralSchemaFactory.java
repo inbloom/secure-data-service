@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.xml.namespace.QName;
 
-import org.owasp.esapi.reference.validation.BaseValidationRule;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.validation.schema.BooleanSchema;
@@ -24,6 +23,7 @@ import org.slc.sli.validation.schema.ReferenceSchema;
 import org.slc.sli.validation.schema.StringSchema;
 import org.slc.sli.validation.schema.TimeSchema;
 import org.slc.sli.validation.schema.TokenSchema;
+import org.slc.sli.validation.strategy.AbstractBlacklistStrategy;
 
 /**
  *
@@ -36,11 +36,11 @@ import org.slc.sli.validation.schema.TokenSchema;
 @Component
 public class NeutralSchemaFactory implements SchemaFactory {
 
-    @Resource(name="validationStrategyList")
-    private List<BaseValidationRule> validationStrategyList;
+    @Resource(name = "validationStrategyList")
+    private List<AbstractBlacklistStrategy> validationStrategyList;
 
-    @Resource(name="relaxedValidationStrategyList")
-    private List<BaseValidationRule> relaxedValidationStrategyList;
+    @Resource(name = "relaxedValidationStrategyList")
+    private List<AbstractBlacklistStrategy> relaxedValidationStrategyList;
 
     /*
      * (non-Javadoc)

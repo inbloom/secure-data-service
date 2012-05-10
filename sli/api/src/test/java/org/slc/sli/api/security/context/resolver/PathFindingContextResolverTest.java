@@ -116,37 +116,6 @@ public class PathFindingContextResolverTest {
     
     @SuppressWarnings("unchecked")
     @Test
-    public void testFindTeacherToStudent() throws Exception {
-        injector.setDemoContext();
-        Entity mockEntity = Mockito.mock(Entity.class);
-
-        //override for demo user
-        Map<String, Object> mockBody = new HashMap<String, Object>();
-        mockBody.put("staffUniqueStateId", "mock");
-        when(mockEntity.getBody()).thenReturn(mockBody);
-
-        when(mockEntity.getEntityId()).thenReturn("1");
-        List<String> finalList = Arrays.asList(new String[] { "5", "6", "7" });
-        
-        assertTrue(resolver.canResolve(EntityNames.TEACHER, EntityNames.STUDENT));
-        when(
-                mockHelper.findEntitiesContainingReference(eq(EntityNames.TEACHER_SECTION_ASSOCIATION),
-                        eq("teacherId"), eq("sectionId"), any(List.class))).thenReturn(
-                Arrays.asList(new String[] { "2", "3", "4" }));
-        
-        when(
-                mockHelper.findEntitiesContainingReference(eq(EntityNames.STUDENT_SECTION_ASSOCIATION),
-                        eq("sectionId"), eq("studentId"), any(List.class))).thenReturn(finalList);
-        List<String> returned = resolver.findAccessible(mockEntity);
-        // assertTrue(returned.size() == finalList.size());
-        for (String id : finalList) {
-            assertTrue(returned.contains(id));
-        }
-        
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Test
     public void testFindTeacherToTeacher() throws Exception {
         injector.setDemoContext();
         Entity mockEntity = Mockito.mock(Entity.class);

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
+<InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-StudentEnrollment.xsd">
+	<StudentSectionAssociation>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>1000000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+				<UniqueSectionCode>A.P. Calculus Sec 201</UniqueSectionCode>
+			</SectionIdentity>
+		</SectionReference>
+		<HomeroomIndicator>false</HomeroomIndicator>
+	</StudentSectionAssociation>
+	<StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>1000000001</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+                <UniqueSectionCode>A.P. Calculus Sec 201</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <HomeroomIndicator>true</HomeroomIndicator>
+    </StudentSectionAssociation>
+	<StudentSchoolAssociation>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>1000000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<EntryDate>2012-01-01</EntryDate>
+		<EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+	</StudentSchoolAssociation>
+	<StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>1000000001</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-01</EntryDate>
+        <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+        <ExitWithdrawDate>2012-02-02</ExitWithdrawDate>
+        <ExitWithdrawType>Withdrawn due to illness</ExitWithdrawType>
+    </StudentSchoolAssociation>
+</InterchangeStudentEnrollment>

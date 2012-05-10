@@ -4,6 +4,7 @@ class AccountManagementsControllerTest < ActionController::TestCase
   setup do
     @account_managements = Array.new()
     @account_managements.push(@account_managements_fixtures['account1'])
+    $check_slc=false
   end
 
  test "should get index" do

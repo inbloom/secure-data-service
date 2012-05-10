@@ -11685,54 +11685,7 @@
       <StudentAcademicRecordReference ref="SAR-800000025-8"/>
     </CourseTranscript>
 
-    <!-- ReportCard and StudentCompetency records for Matt Sollars grade 3 -->
-    <ReportCard>
-      <StudentCompetencyReference ref="SC-GR3-800000025-1"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-2"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-3"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-4"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-5"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-6"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-7"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-8"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-9"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-10"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-11"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-12"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-13"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-14"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-15"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-16"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-17"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-18"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-19"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-20"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-21"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-22"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-23"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-24"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-25"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-26"/>
-      <StudentCompetencyReference ref="SC-GR3-800000025-27"/>
-      <GPAGivenGradingPeriod>2.8</GPAGivenGradingPeriod>
-      <GPACumulative>2.7</GPACumulative>
-      <StudentReference>
-        <StudentIdentity>
-          <StudentUniqueStateId>800000025</StudentUniqueStateId>
-        </StudentIdentity>
-      </StudentReference>
-      <!--  <GradingPeriodReference ref="GRDP_20070527"/> -->
-      <GradingPeriodReference>
-        <GradingPeriodIdentity>
-          <GradingPeriod>End of Year</GradingPeriod>
-          <SchoolYear>2010-2011</SchoolYear>
-          <EducationOrgIdentificationCode IdentificationSystem="School">
-            <ID>South Daybreak Elementary</ID>
-          </EducationOrgIdentificationCode>
-        </GradingPeriodIdentity>
-      </GradingPeriodReference>
-    </ReportCard>
-
+    <!-- ReportCard, Grade and StudentCompetency records for Matt Sollars grade 3 -->
     <StudentCompetency id="SC-GR3-800000025-1">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
@@ -12354,6 +12307,86 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
     </StudentCompetency>
+    
+    <Grade id="GR-GR3-800000025-1">
+      <LetterGradeEarned>B</LetterGradeEarned>
+      <GradeType>Mid-Term Grade</GradeType>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </Grade>
+    <Grade id="GR-GR3-800000025-2">
+      <LetterGradeEarned>B+</LetterGradeEarned>
+      <GradeType>Final</GradeType>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            <UniqueSectionCode>3rd Grade Homeroom #25</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </Grade>
+
+    <ReportCard>
+      <GradeReference ref="GR-GR3-800000025-1"/>
+      <GradeReference ref="GR-GR3-800000025-2"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-1"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-2"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-3"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-4"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-5"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-6"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-7"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-8"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-9"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-10"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-11"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-12"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-13"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-14"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-15"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-16"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-17"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-18"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-19"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-20"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-21"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-22"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-23"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-24"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-25"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-26"/>
+      <StudentCompetencyReference ref="SC-GR3-800000025-27"/>
+      <GPAGivenGradingPeriod>2.8</GPAGivenGradingPeriod>
+      <GPACumulative>2.7</GPACumulative>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>800000025</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <!--  <GradingPeriodReference ref="GRDP_20070527"/> -->
+      <GradingPeriodReference>
+        <GradingPeriodIdentity>
+          <GradingPeriod>End of Year</GradingPeriod>
+          <SchoolYear>2010-2011</SchoolYear>
+          <EducationOrgIdentificationCode IdentificationSystem="School">
+            <ID>South Daybreak Elementary</ID>
+          </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+      </GradingPeriodReference>
+    </ReportCard>
 
     <!-- learning objectives for kindergartners -->
     <StudentCompetencyObjective>
@@ -12398,78 +12431,6 @@
     </StudentCompetencyObjective>
 
     <!-- grading history for Mi-Ha Tran. Refers to grades already earned in kindergarten. -->
-    <StudentAcademicRecord id="SAR-100000017-1">
-      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
-        <Credit>1</Credit>
-      </CumulativeCreditsAttempted>
-      <StudentReference>
-        <StudentIdentity>
-          <StudentUniqueStateId>100000017</StudentUniqueStateId>
-        </StudentIdentity>
-      </StudentReference>
-      <SessionReference>
-        <SessionIdentity>
-          <SessionName>Spring 2011 South Daybreak Elementary</SessionName>
-        </SessionIdentity>
-      </SessionReference>
-      <ReportCardReference ref="RC-GK-100000017-1"/>
-    </StudentAcademicRecord>
-
-    <ReportCard id="RC-GK-100000017-1">
-      <StudentCompetencyReference ref="SC-100000017-1"/>
-      <StudentCompetencyReference ref="SC-100000017-2"/>
-      <StudentCompetencyReference ref="SC-100000017-3"/>
-      <StudentCompetencyReference ref="SC-100000017-4"/>
-      <StudentCompetencyReference ref="SC-100000017-5"/>
-      <StudentCompetencyReference ref="SC-100000017-6"/>
-      <StudentCompetencyReference ref="SC-100000017-7"/>
-      <StudentCompetencyReference ref="SC-100000017-8"/>
-      <StudentCompetencyReference ref="SC-100000017-9"/>
-      <StudentCompetencyReference ref="SC-100000017-10"/>
-      <StudentCompetencyReference ref="SC-100000017-11"/>
-      <StudentCompetencyReference ref="SC-100000017-12"/>
-      <StudentCompetencyReference ref="SC-100000017-13"/>
-      <StudentCompetencyReference ref="SC-100000017-14"/>
-      <StudentCompetencyReference ref="SC-100000017-15"/>
-      <StudentCompetencyReference ref="SC-100000017-16"/>
-      <StudentCompetencyReference ref="SC-100000017-17"/>
-      <StudentCompetencyReference ref="SC-100000017-18"/>
-      <StudentCompetencyReference ref="SC-100000017-19"/>
-      <StudentCompetencyReference ref="SC-100000017-20"/>
-      <StudentCompetencyReference ref="SC-100000017-21"/>
-      <StudentCompetencyReference ref="SC-100000017-22"/>
-      <StudentCompetencyReference ref="SC-100000017-23"/>
-      <StudentCompetencyReference ref="SC-100000017-24"/>
-      <StudentCompetencyReference ref="SC-100000017-25"/>
-      <StudentCompetencyReference ref="SC-100000017-26"/>
-      <StudentCompetencyReference ref="SC-100000017-27"/>
-      <StudentCompetencyReference ref="SC-100000017-28"/>
-      <StudentCompetencyReference ref="SC-100000017-29"/>
-      <StudentCompetencyReference ref="SC-100000017-30"/>
-      <StudentCompetencyReference ref="SC-100000017-31"/>
-      <StudentCompetencyReference ref="SC-100000017-32"/>
-      <GPAGivenGradingPeriod>2.6</GPAGivenGradingPeriod>
-      <GPACumulative>2.6</GPACumulative>
-      <NumberOfDaysAbsent>2</NumberOfDaysAbsent>
-      <NumberOfDaysInAttendance>183</NumberOfDaysInAttendance>
-      <NumberOfDaysTardy>2</NumberOfDaysTardy>
-      <StudentReference>
-        <StudentIdentity>
-          <StudentUniqueStateId>100000017</StudentUniqueStateId>
-        </StudentIdentity>
-      </StudentReference>
-      <!-- GradingPeriodReference ref="GRDP_20110527" -->
-      <GradingPeriodReference>
-        <GradingPeriodIdentity>
-          <GradingPeriod>End of Year</GradingPeriod>
-          <SchoolYear>2010-2011</SchoolYear>
-          <EducationOrgIdentificationCode IdentificationSystem="School">
-            <ID>South Daybreak Elementary</ID>
-          </EducationOrgIdentificationCode>
-        </GradingPeriodIdentity>
-      </GradingPeriodReference>
-    </ReportCard>
-
     <StudentCompetency id="SC-100000017-1">
       <LearningObjectiveReference>
         <LearningObjectiveIdentity>
@@ -13206,4 +13167,109 @@
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
     </StudentCompetency>
+
+    <Grade id="GR-GRK-100000017-1">
+      <LetterGradeEarned>B-</LetterGradeEarned>
+      <GradeType>Mid-Term Grade</GradeType>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>100000017</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </Grade>
+    <Grade id="GR-GRK-100000017-2">
+      <LetterGradeEarned>B</LetterGradeEarned>
+      <GradeType>Final</GradeType>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentIdentity>
+        <StudentUniqueStateId>100000017</StudentUniqueStateId>
+          </StudentIdentity>
+          <SectionIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            <UniqueSectionCode>Kindergarten Homeroom #38</UniqueSectionCode>
+          </SectionIdentity>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+    </Grade>
+
+    <ReportCard id="RC-GK-100000017-1">
+      <GradeReference ref="GR-GRK-100000017-1"/>
+      <GradeReference ref="GR-GRK-100000017-2"/>
+      <StudentCompetencyReference ref="SC-100000017-1"/>
+      <StudentCompetencyReference ref="SC-100000017-2"/>
+      <StudentCompetencyReference ref="SC-100000017-3"/>
+      <StudentCompetencyReference ref="SC-100000017-4"/>
+      <StudentCompetencyReference ref="SC-100000017-5"/>
+      <StudentCompetencyReference ref="SC-100000017-6"/>
+      <StudentCompetencyReference ref="SC-100000017-7"/>
+      <StudentCompetencyReference ref="SC-100000017-8"/>
+      <StudentCompetencyReference ref="SC-100000017-9"/>
+      <StudentCompetencyReference ref="SC-100000017-10"/>
+      <StudentCompetencyReference ref="SC-100000017-11"/>
+      <StudentCompetencyReference ref="SC-100000017-12"/>
+      <StudentCompetencyReference ref="SC-100000017-13"/>
+      <StudentCompetencyReference ref="SC-100000017-14"/>
+      <StudentCompetencyReference ref="SC-100000017-15"/>
+      <StudentCompetencyReference ref="SC-100000017-16"/>
+      <StudentCompetencyReference ref="SC-100000017-17"/>
+      <StudentCompetencyReference ref="SC-100000017-18"/>
+      <StudentCompetencyReference ref="SC-100000017-19"/>
+      <StudentCompetencyReference ref="SC-100000017-20"/>
+      <StudentCompetencyReference ref="SC-100000017-21"/>
+      <StudentCompetencyReference ref="SC-100000017-22"/>
+      <StudentCompetencyReference ref="SC-100000017-23"/>
+      <StudentCompetencyReference ref="SC-100000017-24"/>
+      <StudentCompetencyReference ref="SC-100000017-25"/>
+      <StudentCompetencyReference ref="SC-100000017-26"/>
+      <StudentCompetencyReference ref="SC-100000017-27"/>
+      <StudentCompetencyReference ref="SC-100000017-28"/>
+      <StudentCompetencyReference ref="SC-100000017-29"/>
+      <StudentCompetencyReference ref="SC-100000017-30"/>
+      <StudentCompetencyReference ref="SC-100000017-31"/>
+      <StudentCompetencyReference ref="SC-100000017-32"/>
+      <GPAGivenGradingPeriod>2.6</GPAGivenGradingPeriod>
+      <GPACumulative>2.6</GPACumulative>
+      <NumberOfDaysAbsent>2</NumberOfDaysAbsent>
+      <NumberOfDaysInAttendance>183</NumberOfDaysInAttendance>
+      <NumberOfDaysTardy>2</NumberOfDaysTardy>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>100000017</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <!-- GradingPeriodReference ref="GRDP_20110527" -->
+      <GradingPeriodReference>
+        <GradingPeriodIdentity>
+          <GradingPeriod>End of Year</GradingPeriod>
+          <SchoolYear>2010-2011</SchoolYear>
+          <EducationOrgIdentificationCode IdentificationSystem="School">
+            <ID>South Daybreak Elementary</ID>
+          </EducationOrgIdentificationCode>
+        </GradingPeriodIdentity>
+      </GradingPeriodReference>
+    </ReportCard>
+
+    <StudentAcademicRecord id="SAR-100000017-1">
+      <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>1</Credit>
+      </CumulativeCreditsAttempted>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>100000017</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SessionReference>
+        <SessionIdentity>
+          <SessionName>Spring 2011 South Daybreak Elementary</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+      <ReportCardReference ref="RC-GK-100000017-1"/>
+    </StudentAcademicRecord>
 </InterchangeStudentGrade>

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.owasp.esapi.reference.validation.BaseValidationRule;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +12,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
+import org.slc.sli.validation.strategy.AbstractBlacklistStrategy;
 
 /**
  *
@@ -25,23 +25,23 @@ import org.slc.sli.validation.ValidationError.ErrorType;
 @Component
 public class StringSchema extends NeutralSchema {
 
-    private List<BaseValidationRule> validationRuleList;
-    private List<BaseValidationRule> relaxedValidationRuleList;
+    private List<AbstractBlacklistStrategy> validationRuleList;
+    private List<AbstractBlacklistStrategy> relaxedValidationRuleList;
 
     // Constructors
     public StringSchema() {
-        this(NeutralSchemaType.STRING.getName(), new ArrayList<BaseValidationRule>(), new ArrayList<BaseValidationRule>());
+        this(NeutralSchemaType.STRING.getName(), new ArrayList<AbstractBlacklistStrategy>(), new ArrayList<AbstractBlacklistStrategy>());
     }
 
     public StringSchema(String xsdType) {
-        this(xsdType, new ArrayList<BaseValidationRule>(), new ArrayList<BaseValidationRule>());
+        this(xsdType, new ArrayList<AbstractBlacklistStrategy>(), new ArrayList<AbstractBlacklistStrategy>());
     }
 
-    public StringSchema(List<BaseValidationRule> validationRuleList, List<BaseValidationRule> relaxedValidationRuleList) {
+    public StringSchema(List<AbstractBlacklistStrategy> validationRuleList, List<AbstractBlacklistStrategy> relaxedValidationRuleList) {
         this(NeutralSchemaType.STRING.getName(), validationRuleList, relaxedValidationRuleList);
     }
 
-    public StringSchema(String xsdType, List<BaseValidationRule> validationRuleList, List<BaseValidationRule> relaxedValidationRuleList) {
+    public StringSchema(String xsdType, List<AbstractBlacklistStrategy> validationRuleList, List<AbstractBlacklistStrategy> relaxedValidationRuleList) {
         super(xsdType);
         this.validationRuleList = validationRuleList;
         this.relaxedValidationRuleList = relaxedValidationRuleList;
@@ -85,6 +85,7 @@ public class StringSchema extends NeutralSchema {
             return false;
         }
         String data = (String) entity;
+
         if (this.getProperties() != null) {
             for (Entry<String, Object> entry : this.getProperties().entrySet()) {
                 if (Restriction.isRestriction(entry.getKey())) {
@@ -118,15 +119,20 @@ public class StringSchema extends NeutralSchema {
                 }
             }
         }
-        if (!isWhitelisted()) {
-            for (BaseValidationRule validationRule : validationRuleList) {
-                if (!validationRule.isValid("StringSchemaContext", data)) {
+        if (isRelaxedBlacklisted()) {
+            System.out.println("Hit relaxed blacklist");
+            for (AbstractBlacklistStrategy validationRule : relaxedValidationRuleList) {
+                boolean isValid = validationRule.isValid("StringSchemaContext", data);
+                if (!addError(isValid, fieldName, entity, "Invalid value caught by relaxed blacklisting strategy: "
+                        + validationRule.getTypeName(), ErrorType.INVALID_VALUE, errors)) {
                     return false;
                 }
             }
         } else {
-            for (BaseValidationRule validationRule : relaxedValidationRuleList) {
-                if (!validationRule.isValid("StringSchemaContext", data)) {
+            for (AbstractBlacklistStrategy validationRule : validationRuleList) {
+                boolean isValid = validationRule.isValid("StringSchemaContext", data);
+                if (!addError(isValid, fieldName, entity, "Invalid value caught by strict blacklisting strategy: "
+                        + validationRule.getTypeName(), ErrorType.INVALID_VALUE, errors)) {
                     return false;
                 }
             }
