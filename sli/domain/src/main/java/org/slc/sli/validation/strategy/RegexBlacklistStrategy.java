@@ -20,10 +20,10 @@ public class RegexBlacklistStrategy extends AbstractBlacklistStrategy {
     private List<Pattern> patternList;
 
     /**
-     * Default constructor, sets typeName to "default"
+     * Default constructor, sets typeName to "RegexBlacklistStrategy"
      */
     public RegexBlacklistStrategy() {
-        super("default");
+        super("RegexBlacklistStrategy");
     }
 
     @Override

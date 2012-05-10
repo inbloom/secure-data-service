@@ -18,10 +18,10 @@ public class CharacterBlacklistStrategy extends AbstractBlacklistStrategy {
     private Set<Character> characterSet;
 
     /**
-     * Default constructor, sets typeName to "default"
+     * Default constructor, sets typeName to "CharacterBlacklistStrategy"
      */
     public CharacterBlacklistStrategy() {
-        super("default");
+        super("CharacterBlacklistStrategy");
     }
 
     @Override

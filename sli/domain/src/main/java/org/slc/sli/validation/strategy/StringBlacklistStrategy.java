@@ -18,10 +18,10 @@ public class StringBlacklistStrategy extends AbstractBlacklistStrategy {
     private Pattern pattern;
 
     /**
-     * Default constructor, sets typeName to "default"
+     * Default constructor, sets typeName to "StringBlacklistStrategy"
      */
     public StringBlacklistStrategy() {
-        super("default");
+        super("StringBlacklistStrategy");
     }
 
     @Override

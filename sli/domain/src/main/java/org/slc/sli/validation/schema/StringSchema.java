@@ -85,6 +85,7 @@ public class StringSchema extends NeutralSchema {
             return false;
         }
         String data = (String) entity;
+
         if (this.getProperties() != null) {
             for (Entry<String, Object> entry : this.getProperties().entrySet()) {
                 if (Restriction.isRestriction(entry.getKey())) {
@@ -119,14 +120,19 @@ public class StringSchema extends NeutralSchema {
             }
         }
         if (isRelaxedBlacklisted()) {
+            System.out.println("Hit relaxed blacklist");
             for (AbstractBlacklistStrategy validationRule : relaxedValidationRuleList) {
-                if (!validationRule.isValid("StringSchemaContext", data)) {
+                boolean isValid = validationRule.isValid("StringSchemaContext", data);
+                if (!addError(isValid, fieldName, entity, "Invalid value caught by relaxed blacklisting strategy: "
+                        + validationRule.getTypeName(), ErrorType.INVALID_VALUE, errors)) {
                     return false;
                 }
             }
         } else {
             for (AbstractBlacklistStrategy validationRule : validationRuleList) {
-                if (!validationRule.isValid("StringSchemaContext", data)) {
+                boolean isValid = validationRule.isValid("StringSchemaContext", data);
+                if (!addError(isValid, fieldName, entity, "Invalid value caught by strict blacklisting strategy: "
+                        + validationRule.getTypeName(), ErrorType.INVALID_VALUE, errors)) {
                     return false;
                 }
             }

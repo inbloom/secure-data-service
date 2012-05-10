@@ -14,9 +14,9 @@
   <bean id="validationStrategyList" class="java.util.ArrayList">
     <constructor-arg>
       <list>
-        <ref bean="characterBlacklistStrategy" />
+        <!-- <ref bean="characterBlacklistStrategy" /> -->
         <!-- <ref bean="regexBlacklistStrategy" /> Not needed until there's regex to check against -->
-        <ref bean="stringBlacklistStrategy" />
+        <!-- <ref bean="stringBlacklistStrategy" /> -->
       </list>
     </constructor-arg>
   </bean>
@@ -24,8 +24,8 @@
   <bean id="relaxedValidationStrategyList" class="java.util.ArrayList">
     <constructor-arg>
       <list>
-        <ref bean="relaxedCharacterBlacklistStrategy" />
-        <ref bean="relaxedStringBlacklistStrategy" />
+        <!-- <ref bean="relaxedCharacterBlacklistStrategy" /> -->
+        <!-- <ref bean="relaxedStringBlacklistStrategy" /> -->
       </list>
     </constructor-arg>
   </bean>
