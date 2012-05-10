@@ -138,4 +138,6 @@ public class ParameterConstants {
     public static final String STUDENT_PROGRAM_ASSOCIATION_ID = "studentProgramAssociationId";
     public static final String STUDENT_COHORT_ASSOCIATION_ID = "studentCohortAssociationId";
     public static final String STAFF_COHORT_ASSOCIATION_ID = "staffCohortAssociationId";
+    public static final String USER_ACCOUNT_ID = "userAccountId";
+    public static final String GRADE_ID = "gradeId";
 }

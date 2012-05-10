@@ -1,7 +1,6 @@
 package org.slc.sli.validation.strategy;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,6 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.owasp.esapi.errors.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -21,30 +21,67 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class CharacterBlacklistStrategyTest {
 
+    private final String PREFIX = "some chars";
+    private final String SUFFIX = "and other chars";
+
     @Autowired
-    AbstractBlacklistStrategy characterBlacklistStrategy;
+    private AbstractBlacklistStrategy characterBlacklistStrategy;
+
+    @Test
+    public void testSpringGetValid() {
+        List<Character> springBadCharList = createSpringBadCharacterList();
+        for (Character c : springBadCharList) {
+            String input = PREFIX + c + SUFFIX;
+            try {
+                characterBlacklistStrategy.getValid("CharacterBlacklistStrategyTest", input);
+                fail("Invalid character passed validation");
+            } catch (ValidationException e) {
+                continue;
+            }
+        }
+
+        List<String> goodStringList = createGoodStringList();
+        List<Character> goodCharList = createCharacterListFromStringList(goodStringList);
+
+        for (Character c : goodCharList) {
+            String input = PREFIX + c + SUFFIX;
+            try {
+                characterBlacklistStrategy.getValid("CharacterBlacklistStrategyTest", input);
+            } catch (ValidationException e) {
+                fail("Valid character did not pass validation" + c);
+            }
+        }
+    }
 
     @Test
     public void testGetValid() {
-        String prefix = "some chars";
-        String suffix = "and other chars";
+        AbstractBlacklistStrategy strategy = new CharacterBlacklistStrategy();
+        List<String> badStringList = createBadStringList();
+        List<Character> badCharList = createCharacterListFromStringList(badStringList);
 
-        List<Character> springBadCharList = createSpringBadCharacterList();
-        for (Character c : springBadCharList) {
-            String input = prefix + c + suffix;
-            assertFalse(characterBlacklistStrategy.isValid("CharacterBlacklistStrategyTest", input));
-        }
+        strategy.setInputCollection(badStringList);
+        strategy.init();
 
-        List<Character> badCharList = createBadCharacterList();
         for (Character c : badCharList) {
-            String input = prefix + c + suffix;
-            assertFalse(characterBlacklistStrategy.isValid("CharacterBlacklistStrategyTest", input));
+            String input = PREFIX + c + SUFFIX;
+            try {
+                strategy.getValid("CharacterBlacklistStrategyTest", input);
+                fail("Invalid character passed validation");
+            } catch (ValidationException e) {
+                continue;
+            }
         }
 
-        List<Character> goodCharList = createGoodCharacterList();
+        List<String> goodStringList = createGoodStringList();
+        List<Character> goodCharList = createCharacterListFromStringList(goodStringList);
+
         for (Character c : goodCharList) {
-            String input = prefix + c + suffix;
-            assertTrue(c + " should be a valid character", characterBlacklistStrategy.isValid("CharacterBlacklistStrategyTest", input));
+            String input = PREFIX + c + SUFFIX;
+            try {
+                characterBlacklistStrategy.getValid("CharacterBlacklistStrategyTest", input);
+            } catch (ValidationException e) {
+                fail("Valid character did not pass validation" + c);
+            }
         }
     }
 
@@ -70,144 +107,170 @@ public class CharacterBlacklistStrategyTest {
         return charList;
     }
 
-    private List<Character> createBadCharacterList() {
+    private List<Character> createCharacterListFromStringList(List<String> stringList) {
         List<Character> charList = new ArrayList<Character>();
-        charList.add(new Character('\u0000'));
-        charList.add(new Character('\u0001'));
-        charList.add(new Character('\u0002'));
-        charList.add(new Character('\u0003'));
-        charList.add(new Character('\u0004'));
-        charList.add(new Character('\u0005'));
-        charList.add(new Character('\u0006'));
-        charList.add(new Character('\u0007'));
-        charList.add(new Character('\u0008'));
-        charList.add(new Character('\u0009'));
-        // can't do \u000A
-        charList.add(new Character('\u000B'));
-        charList.add(new Character('\u000C'));
-        // can't do \u000D
-        charList.add(new Character('\u000E'));
-        charList.add(new Character('\u000F'));
-        charList.add(new Character('\u0010'));
-        charList.add(new Character('\u0011'));
-        charList.add(new Character('\u0012'));
-        charList.add(new Character('\u0013'));
-        charList.add(new Character('\u0014'));
-        charList.add(new Character('\u0015'));
-        charList.add(new Character('\u0016'));
-        charList.add(new Character('\u0017'));
-        charList.add(new Character('\u0018'));
-        charList.add(new Character('\u0019'));
-        charList.add(new Character('\u001A'));
-        charList.add(new Character('\u001B'));
-        charList.add(new Character('\u001C'));
-        charList.add(new Character('\u001D'));
-        charList.add(new Character('\u001E'));
-        charList.add(new Character('\u001F'));
-        charList.add(new Character('\u007F'));
-        charList.add(new Character('\u003C'));
-        charList.add(new Character('\u003E'));
+
+        for (String entry : stringList) {
+            if (entry.isEmpty()) {
+                continue;
+            }
+
+            try {
+                String charStr = entry;
+                if (entry.startsWith("\\u")) {
+                    charStr = entry.substring(2);
+                }
+
+                char c = (char) Integer.parseInt(charStr, 16);
+                charList.add(new Character(c));
+
+            } catch (NumberFormatException e) {
+                continue;
+            }
+        }
 
         return charList;
     }
 
-    private List<Character> createGoodCharacterList() {
-        List<Character> charList = new ArrayList<Character>();
-        charList.add(new Character('\u0020'));
-        charList.add(new Character('\u0021'));
-        charList.add(new Character('\u0022'));
-        charList.add(new Character('\u0023'));
-        charList.add(new Character('\u0024'));
-        charList.add(new Character('\u0025'));
-        charList.add(new Character('\u0026'));
-        // can't do \u0027
-        charList.add(new Character('\u0028'));
-        charList.add(new Character('\u0029'));
-        charList.add(new Character('\u002A'));
-        charList.add(new Character('\u002B'));
-        charList.add(new Character('\u002C'));
-        charList.add(new Character('\u002D'));
-        charList.add(new Character('\u002E'));
-        charList.add(new Character('\u002F'));
-        charList.add(new Character('\u0030'));
-        charList.add(new Character('\u0031'));
-        charList.add(new Character('\u0032'));
-        charList.add(new Character('\u0033'));
-        charList.add(new Character('\u0034'));
-        charList.add(new Character('\u0035'));
-        charList.add(new Character('\u0036'));
-        charList.add(new Character('\u0037'));
-        charList.add(new Character('\u0038'));
-        charList.add(new Character('\u0039'));
-        charList.add(new Character('\u003A'));
-        charList.add(new Character('\u003B'));
-        charList.add(new Character('\u003D'));
-        charList.add(new Character('\u003F'));
-        charList.add(new Character('\u0040'));
-        charList.add(new Character('\u0041'));
-        charList.add(new Character('\u0042'));
-        charList.add(new Character('\u0043'));
-        charList.add(new Character('\u0044'));
-        charList.add(new Character('\u0045'));
-        charList.add(new Character('\u0046'));
-        charList.add(new Character('\u0047'));
-        charList.add(new Character('\u0048'));
-        charList.add(new Character('\u0049'));
-        charList.add(new Character('\u004A'));
-        charList.add(new Character('\u004B'));
-        charList.add(new Character('\u004C'));
-        charList.add(new Character('\u004D'));
-        charList.add(new Character('\u004E'));
-        charList.add(new Character('\u004F'));
-        charList.add(new Character('\u0050'));
-        charList.add(new Character('\u0051'));
-        charList.add(new Character('\u0052'));
-        charList.add(new Character('\u0053'));
-        charList.add(new Character('\u0054'));
-        charList.add(new Character('\u0055'));
-        charList.add(new Character('\u0056'));
-        charList.add(new Character('\u0057'));
-        charList.add(new Character('\u0058'));
-        charList.add(new Character('\u0059'));
-        charList.add(new Character('\u005A'));
-        charList.add(new Character('\u005B'));
-        // can't do \u005C
-        charList.add(new Character('\u005D'));
-        charList.add(new Character('\u005E'));
-        charList.add(new Character('\u005F'));
-        charList.add(new Character('\u0060'));
-        charList.add(new Character('\u0061'));
-        charList.add(new Character('\u0062'));
-        charList.add(new Character('\u0063'));
-        charList.add(new Character('\u0064'));
-        charList.add(new Character('\u0065'));
-        charList.add(new Character('\u0066'));
-        charList.add(new Character('\u0067'));
-        charList.add(new Character('\u0068'));
-        charList.add(new Character('\u0069'));
-        charList.add(new Character('\u006A'));
-        charList.add(new Character('\u006B'));
-        charList.add(new Character('\u006C'));
-        charList.add(new Character('\u006D'));
-        charList.add(new Character('\u006E'));
-        charList.add(new Character('\u006F'));
-        charList.add(new Character('\u0070'));
-        charList.add(new Character('\u0071'));
-        charList.add(new Character('\u0072'));
-        charList.add(new Character('\u0073'));
-        charList.add(new Character('\u0074'));
-        charList.add(new Character('\u0075'));
-        charList.add(new Character('\u0076'));
-        charList.add(new Character('\u0077'));
-        charList.add(new Character('\u0078'));
-        charList.add(new Character('\u0079'));
-        charList.add(new Character('\u007A'));
-        charList.add(new Character('\u007B'));
-        charList.add(new Character('\u007C'));
-        charList.add(new Character('\u007D'));
-        charList.add(new Character('\u007E'));
+    private List<String> createBadStringList() {
+        List<String> stringList = new ArrayList<String>();
 
-        return charList;
+        stringList.add("\\u0000");
+        stringList.add("\\u0001");
+        stringList.add("\\u0002");
+        stringList.add("\\u0003");
+        stringList.add("\\u0004");
+        stringList.add("\\u0005");
+        stringList.add("\\u0006");
+        stringList.add("\\u0007");
+        stringList.add("\\u0008");
+        stringList.add("\\u0009");
+        stringList.add("\\u000A");
+        stringList.add("\\u000B");
+        stringList.add("\\u000C");
+        stringList.add("\\u000D");
+        stringList.add("\\u000E");
+        stringList.add("\\u000F");
+        stringList.add("\\u0010");
+        stringList.add("\\u0011");
+        stringList.add("\\u0012");
+        stringList.add("\\u0013");
+        stringList.add("\\u0014");
+        stringList.add("\\u0015");
+        stringList.add("\\u0016");
+        stringList.add("\\u0017");
+        stringList.add("\\u0018");
+        stringList.add("\\u0019");
+        stringList.add("\\u001A");
+        stringList.add("\\u001B");
+        stringList.add("\\u001C");
+        stringList.add("\\u001D");
+        stringList.add("\\u001E");
+        stringList.add("\\u001F");
+        stringList.add("\\u007F");
+        stringList.add("\\u003C");
+        stringList.add("\\u003E");
+
+        return stringList;
+    }
+
+    private List<String> createGoodStringList() {
+        List<String> stringList = new ArrayList<String>();
+        stringList.add("\\u0020");
+        stringList.add("\\u0021");
+        stringList.add("\\u0022");
+        stringList.add("\\u0023");
+        stringList.add("\\u0024");
+        stringList.add("\\u0025");
+        stringList.add("\\u0026");
+        stringList.add("\\u0027");
+        stringList.add("\\u0028");
+        stringList.add("\\u0029");
+        stringList.add("\\u002A");
+        stringList.add("\\u002B");
+        stringList.add("\\u002C");
+        stringList.add("\\u002D");
+        stringList.add("\\u002E");
+        stringList.add("\\u002F");
+        stringList.add("\\u0030");
+        stringList.add("\\u0031");
+        stringList.add("\\u0032");
+        stringList.add("\\u0033");
+        stringList.add("\\u0034");
+        stringList.add("\\u0035");
+        stringList.add("\\u0036");
+        stringList.add("\\u0037");
+        stringList.add("\\u0038");
+        stringList.add("\\u0039");
+        stringList.add("\\u003A");
+        stringList.add("\\u003B");
+        stringList.add("\\u003D");
+        stringList.add("\\u003F");
+        stringList.add("\\u0040");
+        stringList.add("\\u0041");
+        stringList.add("\\u0042");
+        stringList.add("\\u0043");
+        stringList.add("\\u0044");
+        stringList.add("\\u0045");
+        stringList.add("\\u0046");
+        stringList.add("\\u0047");
+        stringList.add("\\u0048");
+        stringList.add("\\u0049");
+        stringList.add("\\u004A");
+        stringList.add("\\u004B");
+        stringList.add("\\u004C");
+        stringList.add("\\u004D");
+        stringList.add("\\u004E");
+        stringList.add("\\u004F");
+        stringList.add("\\u0050");
+        stringList.add("\\u0051");
+        stringList.add("\\u0052");
+        stringList.add("\\u0053");
+        stringList.add("\\u0054");
+        stringList.add("\\u0055");
+        stringList.add("\\u0056");
+        stringList.add("\\u0057");
+        stringList.add("\\u0058");
+        stringList.add("\\u0059");
+        stringList.add("\\u005A");
+        stringList.add("\\u005B");
+        stringList.add("\\u005C");
+        stringList.add("\\u005D");
+        stringList.add("\\u005E");
+        stringList.add("\\u005F");
+        stringList.add("\\u0060");
+        stringList.add("\\u0061");
+        stringList.add("\\u0062");
+        stringList.add("\\u0063");
+        stringList.add("\\u0064");
+        stringList.add("\\u0065");
+        stringList.add("\\u0066");
+        stringList.add("\\u0067");
+        stringList.add("\\u0068");
+        stringList.add("\\u0069");
+        stringList.add("\\u006A");
+        stringList.add("\\u006B");
+        stringList.add("\\u006C");
+        stringList.add("\\u006D");
+        stringList.add("\\u006E");
+        stringList.add("\\u006F");
+        stringList.add("\\u0070");
+        stringList.add("\\u0071");
+        stringList.add("\\u0072");
+        stringList.add("\\u0073");
+        stringList.add("\\u0074");
+        stringList.add("\\u0075");
+        stringList.add("\\u0076");
+        stringList.add("\\u0077");
+        stringList.add("\\u0078");
+        stringList.add("\\u0079");
+        stringList.add("\\u007A");
+        stringList.add("\\u007B");
+        stringList.add("\\u007C");
+        stringList.add("\\u007D");
+        stringList.add("\\u007E");
+
+        return stringList;
     }
 
 }

@@ -5,24 +5,12 @@ require_relative "../../utils/sli_utils.rb"
 require_relative "../../utils/selenium_common.rb"
 require "date"
 
-SAMPLE_DATA_SET1_CHOICE = "ed_org_High-Level_Ed-Org_from_Sample_Dataset_1"
-SAMPLE_DATA_SET2_CHOICE = "ed_org_High-Level_Ed-Org_from_Sample_Dataset_2"
+SAMPLE_DATA_SET1_CHOICE = "ed_org_IL"
+SAMPLE_DATA_SET2_CHOICE = "ed_org_IL-SUNSET"
 CUSTOM_DATA_SET_CHOICE = "custom"
 
 Given /^there is a production account in ldap for vendor "([^"]*)"$/ do |vendor|
   @sandboxMode=false
-end
-
-When /^I provision$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^a high\-level ed\-org is created in Mongo$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^Landing\-Zone provisioining API is invoked with the high\-level ed\-org information$/ do
-  pending # express the regexp above with the code you wish you had
 end
 
 When /^I go to the provisioning application$/ do
@@ -31,9 +19,17 @@ When /^I go to the provisioning application$/ do
 end
 
 Then /^I can only enter a custom high\-level ed\-org$/ do
-  assertWithWait("Sample data choice exists") {@driver.find_element(:id, SAMPLE_DATA_SET1_CHOICE) == nil}
-  assertWithWait("Sample data choice exists") {@driver.find_element(:id, SAMPLE_DATA_SET2_CHOICE) == nil}
   assertWithWait("Custom data choice does not exist") {@driver.find_element(:id, CUSTOM_DATA_SET_CHOICE) != nil}
+  assert(@driver.find_elements(:id, SAMPLE_DATA_SET1_CHOICE).empty?, "Sample data choices exist on production")
+  assert(@driver.find_elements(:id, SAMPLE_DATA_SET2_CHOICE).empty?, "Sample data choices exist on production")
+end
+
+When /^I set the custom high\-level ed\-org to "([^"]*)"$/ do |arg1|
+  @driver.find_element(:id, "custom_ed_org").send_keys arg1
+end
+
+When /^I select the first sample data set$/ do
+  @driver.find_element(:id, SAMPLE_DATA_SET1_CHOICE).click
 end
 
 When /^I click the Provision button$/ do
@@ -52,4 +48,8 @@ Then /^I can select between the the high level ed\-org of the sample data sets o
   assertWithWait("Sample data choice does not exist") {@driver.find_element(:id, SAMPLE_DATA_SET1_CHOICE) != nil}
   assertWithWait("Sample data choice does not exist") {@driver.find_element(:id, SAMPLE_DATA_SET2_CHOICE) != nil}
   assertWithWait("Custom data choice does not exist") {@driver.find_element(:id, CUSTOM_DATA_SET_CHOICE) != nil}
+end
+
+Then /^I get a conflict error message$/ do
+  assertWithWait("No conflict error message") {@driver.find_element(:id, "conflictMessage") != nil}
 end

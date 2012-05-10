@@ -25,11 +25,15 @@ import org.slc.sli.modeling.xmi.reader.XmiReader;
  */
 public final class XmiCompare {
 
-    private static final Map<String, String> classRenames = classMapping();
+    @SuppressWarnings("unused")
+	private static final Map<String, String> classRenames = classMapping();
 
-    private static final Set<String> investigate = investigate().keySet();
-    private static final QName NOTHING = new QName("NOTHING");
-    private static final Set<String> planned = planned();
+    @SuppressWarnings("unused")
+	private static final Set<String> investigate = investigate().keySet();
+    @SuppressWarnings("unused")
+	private static final QName NOTHING = new QName("NOTHING");
+    @SuppressWarnings("unused")
+	private static final Set<String> planned = planned();
 
     private static final Map<QName, QName> applyClassMappings(final Map<QName, QName> map,
             final Map<String, String> renames) {
@@ -161,6 +165,7 @@ public final class XmiCompare {
         return Collections.unmodifiableMap(renames);
     }
 
+    @SuppressWarnings("unused")
     private static final Set<String> classNames(final Iterable<ClassType> classTypes) {
         final Set<String> names = new HashSet<String>();
         for (final ClassType classType : classTypes) {
@@ -169,6 +174,7 @@ public final class XmiCompare {
         return Collections.unmodifiableSet(names);
     }
 
+    @SuppressWarnings("unused")
     private static final void compareAttributes(final Mapper slim, final Mapper edfi) {
 
         // This is the entire list of SLI feature names.
@@ -311,6 +317,7 @@ public final class XmiCompare {
         return Collections.unmodifiableMap(ignorable);
     }
 
+    @SuppressWarnings("unused")
     private static final Map<String, String> invert(final Map<String, String> mapping) {
         final Map<String, String> inversion = new HashMap<String, String>();
         for (final String lhs : mapping.keySet()) {
@@ -395,6 +402,7 @@ public final class XmiCompare {
         return Collections.unmodifiableSet(outsideScope);
     }
 
+    @SuppressWarnings("unused")
     private static final Set<String> toLower(final Set<String> strings) {
         final Set<String> lower = new HashSet<String>();
         for (final String s : strings) {
@@ -416,23 +424,27 @@ public final class XmiCompare {
         return Collections.unmodifiableSet(planned);
     }
 
+    @SuppressWarnings("unused")
     private static final <T> void print(final List<T> strings) {
         for (final T s : strings) {
             System.out.println("" + s);
         }
     }
 
+    @SuppressWarnings("unused")
     private static final <T> void print(final Map<T, T> strings) {
         for (final T key : strings.keySet()) {
             System.out.println(key + " => " + strings.get(key));
         }
     }
 
+    @SuppressWarnings("unused")
     private static final void printGMT() {
         Calendar c = Calendar.getInstance();
         System.out.println("" + c.getTime());
     }
 
+    @SuppressWarnings("unused")
     private static final <T> Set<T> rename(final Set<T> originals, final Map<T, T> renames) {
         final Set<T> result = new HashSet<T>();
         for (final T original : originals) {
@@ -447,6 +459,7 @@ public final class XmiCompare {
         return Collections.unmodifiableSet(result);
     }
 
+    @SuppressWarnings("unused")
     private static final List<String> sort(final Set<String> strings) {
         final List<String> sortNames = new ArrayList<String>(strings);
         Collections.sort(sortNames);
@@ -465,6 +478,7 @@ public final class XmiCompare {
         return Collections.unmodifiableSet(copy);
     }
 
+    @SuppressWarnings("unused")
     private static final Set<String> subtractEndsWith(final Set<String> strings, final String s) {
         final Set<String> result = new HashSet<String>();
         for (final String name : strings) {

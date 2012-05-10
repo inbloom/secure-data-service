@@ -24,7 +24,12 @@ SLIAdmin::Application.configure do
 
   # Do not compress assets
   config.assets.compress = false
+  
+  # Disable asset logger
+  config.assets.logger = false
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  config.log_level = :debug
 end

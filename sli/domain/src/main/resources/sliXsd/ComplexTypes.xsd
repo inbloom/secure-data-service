@@ -8,6 +8,58 @@
 
 	<!-- This file contains the complex types for the SLI database schema representation. -->
 
+    <xs:complexType name="userAccount">
+        <xs:annotation>
+            <xs:documentation>
+                This entity represents a developer's user account.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="userName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        The user's login ID.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="firstName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        The user's first name.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lastName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        The user's last name.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="environment" type="environmentType">
+                <xs:annotation>
+                    <xs:documentation>
+                        The environment the user account could access.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="validated" type="xs:boolean" >
+                <xs:annotation>
+                    <xs:documentation>Indicator of whether the user
+                    has validated his or her account.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="vendor" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        The user's vendor/company ID (if applicable).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
 	<xs:complexType name="assessment">
 		<xs:annotation>
 			<xs:documentation>
@@ -4339,7 +4391,10 @@
 	</xs:complexType>
 
 	<xs:complexType name="educationOrganization">
-		<xs:annotation>
+	   <xs:annotation>
+            <xs:appinfo>
+                <sli:SecuritySphere>Public</sli:SecuritySphere>
+            </xs:appinfo>
 			<xs:documentation>This entity represents any public or private
 				institution,
 				organization, or agency that provides instructional or
@@ -6074,6 +6129,17 @@
 					<xs:documentation>Indicates the career cluster or pathway the
 						course is associated with as part of a CTE curriculum.
 					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="schoolId" type="reference">
+				<xs:annotation>
+					<xs:documentation>
+						The Education Organization that defines the curriculum and courses offered -
+						often the LEA or school.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>

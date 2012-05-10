@@ -1,13 +1,13 @@
 package org.slc.sli.validation.strategy;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.owasp.esapi.errors.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,26 +20,72 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class RegexBlacklistStrategyTest {
 
+    private final String PREFIX = "some strings";
+    private final String SUFFIX = "and other strings";
+
     @Autowired
-    AbstractBlacklistStrategy regexBlacklistStrategy;
+    private AbstractBlacklistStrategy regexBlacklistStrategy;
 
     @Test
-    public void testGetValid() {
-        String prefix = "some strings";
-        String suffix = "and other strings";
-
-
+    public void testSpringGetValid() {
         List<String> badStringList = createBadStringList();
         for (String s : badStringList) {
-            String input = prefix + s + suffix;
-            assertFalse(s + " should not be a valid string", regexBlacklistStrategy.isValid("RegexBlacklistStrategyTest", input));
+            String input = PREFIX + s + SUFFIX;
+            try {
+                regexBlacklistStrategy.getValid("RegexBlacklistStrategyTest", input);
+                fail("Invalid string passed validation: " + s);
+            } catch (ValidationException e) {
+                continue;
+            }
         }
 
         List<String> goodStringList = createGoodStringList();
         for (String s : goodStringList) {
-            String input = prefix + s + suffix;
-            assertTrue(s + " should be a valid string", regexBlacklistStrategy.isValid("RegexBlacklistStrategyTest", input));
+            String input = PREFIX + s + SUFFIX;
+            try {
+                regexBlacklistStrategy.getValid("RegexBlacklistStrategyTest", input);
+            } catch (ValidationException e) {
+                fail("Valid string did not pass validation" + s);
+            }
         }
+    }
+
+    @Test
+    public void testGetValid() {
+        AbstractBlacklistStrategy strategy = new RegexBlacklistStrategy();
+        List<String> badRegexStringList = createBadRegexStringList();
+
+        strategy.setInputCollection(badRegexStringList);
+        strategy.init();
+
+        List<String> badStringList = createBadStringList();
+        for (String s : badStringList) {
+            String input = PREFIX + s + SUFFIX;
+            try {
+                strategy.getValid("RegexBlacklistStrategyTest", input);
+                fail("Invalid string passed validation: " + s);
+            } catch (ValidationException e) {
+                continue;
+            }
+        }
+
+        List<String> goodStringList = createGoodStringList();
+        for (String s : goodStringList) {
+            String input = PREFIX + s + SUFFIX;
+            try {
+                strategy.getValid("RegexBlacklistStrategyTest", input);
+            } catch (ValidationException e) {
+                fail("Valid string did not pass validation" + s);
+            }
+        }
+    }
+
+    private List<String> createBadRegexStringList() {
+        List<String> regexStringList = new ArrayList<String>();
+        regexStringList.add("\\d{8}");
+        regexStringList.add("[A-Za-z0-9._%'-]+@[A-Za-z0-9.-]+\\.[a-zA-Z]{2,4}");
+        regexStringList.add("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
+        return regexStringList;
     }
 
     private List<String> createBadStringList() {

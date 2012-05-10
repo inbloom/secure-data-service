@@ -14,9 +14,9 @@
   <bean id="validationStrategyList" class="java.util.ArrayList">
     <constructor-arg>
       <list>
-        <ref bean="characterBlacklistStrategy" />
-        <ref bean="regexBlacklistStrategy" />
-        <ref bean="stringBlacklistStrategy" />
+        <!-- <ref bean="characterBlacklistStrategy" /> -->
+        <!-- <ref bean="regexBlacklistStrategy" /> Not needed until there's regex to check against -->
+        <!-- <ref bean="stringBlacklistStrategy" /> -->
       </list>
     </constructor-arg>
   </bean>
@@ -24,7 +24,8 @@
   <bean id="relaxedValidationStrategyList" class="java.util.ArrayList">
     <constructor-arg>
       <list>
-        <ref bean="relaxedCharacterBlacklistStrategy" />
+        <!-- <ref bean="relaxedCharacterBlacklistStrategy" /> -->
+        <!-- <ref bean="relaxedStringBlacklistStrategy" /> -->
       </list>
     </constructor-arg>
   </bean>
@@ -93,6 +94,8 @@
         <value>script</value>
         <value>img</value>
         <value>src</value>
+        <value>onload</value>
+        <value>onunload</value>
       </list>
     </constructor-arg>
   </bean>
@@ -136,6 +139,21 @@
         <value>\u001E</value>   <!-- Control - record separator          -->
         <value>\u001F</value>   <!-- Control - unit separator            -->
         <value>\u007F</value>   <!-- Control - delete                    -->
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="relaxedStringBlacklistStrategy" class="org.slc.sli.validation.strategy.StringBlacklistStrategy">
+    <property name="inputCollection" ref="relaxedStringBlacklist" />
+  </bean>
+  <bean id="relaxedStringBlacklist" class="java.util.ArrayList">
+    <constructor-arg>
+      <list>
+        <value>&lt;script</value>
+        <value>&lt;iframe</value>
+        <value>&lt;frame</value>
+        <value>&lt;embed</value>
+        <value>&lt;meta</value>
       </list>
     </constructor-arg>
   </bean>

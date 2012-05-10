@@ -326,7 +326,7 @@ public abstract class NeutralSchema {
         return (AppInfo) getAnnotation(AnnotationType.APPINFO);
     }
     
-    private Annotation getAnnotation(Annotation.AnnotationType type) {
+    protected Annotation getAnnotation(Annotation.AnnotationType type) {
         if (annotations == null) {
             return null;
         }

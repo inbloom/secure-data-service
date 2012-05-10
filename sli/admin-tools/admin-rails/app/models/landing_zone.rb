@@ -1,25 +1,49 @@
-class LandingZone
+class LandingZone < Ldap
   
   def self.possible_edorgs
     if APP_CONFIG["is_sandbox"]
-      ["High-Level Ed-Org from Sample Dataset 1", "High-Level Ed-Org from Sample Dataset 2"]
+      edOrgs = []
+      edOrgs << EducationOrganization.new(:stateUniqueId => 'IL', :nameOfInstitution => "High-Level Ed-Org from Sample Dataset 1")
+      edOrgs << EducationOrganization.new(:stateUniqueId => 'IL-SUNSET', :nameOfInstitution => "High-Level Ed-Org from Sample Dataset 2")
+      return edOrgs
     else
       []
     end
   end
   
-  def self.provision(edorg_id)
-    edOrg = EducationOrganization.new(:stateUniqueId => edorg_id, 
-                              :nameOfInstitution => 'TEMPORARY_PLACEHOLDER', 
-                              :organizationCategories => 'State Education Agency', 
-                              :address => { 
-                                  :streetNumberName => 'TEMPORARY_PLACEHOLDER', 
-                                  :city => 'TEMPORARY_PLACEHOLDER', 
-                                  :stateAbbreviation => 'TX', 
-                                  :postalCode => 'TEMPORARY_PLACEHOLDER'})
-    saved = edOrg.save()
+  def self.provision(edorg_id, tenant)
+    provision = OnBoarding.new(:stateOrganizationId => edorg_id, :tenantId => tenant)
+    # TODO: catch exception because we still want to create user on LDAP
+    saved = provision.save()
     Rails.logger.info "Provisioning Request: #{edorg_id}, successful? #{saved}"
-    return saved
+    
+    if (saved == false)
+      raise ProvisioningError.new "Could not provision landing zone"
+    end
+  end
+
+  # user_info = {
+  #     :first => "John",
+  #     :last => "Doe", 
+  #     :email => "jdoe@example.com",
+  #     :password => "secret", 
+  #     :vendor => "Acme Inc."
+  #     :emailtoken ... hash string 
+  #     :updated ... datetime
+  #     :status  ... "submitted"
+  #     :homedirectory ... string
+  # }
+  # @@ldap.create_user(user_info)
+
+end
+
+class ProvisioningError < StandardError
+  
+  def initialize(message)
+    @message = message
   end
   
+  def to_s
+    @message
+  end
 end

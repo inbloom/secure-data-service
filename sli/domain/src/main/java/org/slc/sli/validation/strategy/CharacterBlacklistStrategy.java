@@ -17,10 +17,14 @@ public class CharacterBlacklistStrategy extends AbstractBlacklistStrategy {
 
     private Set<Character> characterSet;
 
+    /**
+     * Default constructor, sets typeName to "CharacterBlacklistStrategy"
+     */
     public CharacterBlacklistStrategy() {
-        this("default");
+        super("CharacterBlacklistStrategy");
     }
 
+    @Override
     @PostConstruct
     protected void init() {
         characterSet = new HashSet<Character>();
@@ -47,10 +51,6 @@ public class CharacterBlacklistStrategy extends AbstractBlacklistStrategy {
                 continue;
             }
         }
-    }
-
-    public CharacterBlacklistStrategy(String typeName) {
-        super(typeName);
     }
 
     @Override
