@@ -1,3 +1,5 @@
+require 'mongo'
+
 Transform /^IDs for "([^"]*)"$/ do |idCategory|
     expectedIds = ["edce823c-ee28-4840-ae3d-74d9e9976dc5",
         "67ed9078-431a-465e-adf7-c720d08ef512",
@@ -27,7 +29,6 @@ Then /^I should see that there are "([^"]*)" teachers$/ do |expectedNumTeachers|
 end
 
 Then /^I should get the (IDs for "[^"]*")$/ do |expectedIds|
-  
   table = @driver.find_element(:id, "simple")
   rows = table.find_elements(:xpath, ".//tr")
   headings = rows[0].find_elements(:xpath, ".//th")
@@ -46,3 +47,21 @@ Then /^I should get the (IDs for "[^"]*")$/ do |expectedIds|
   end
   assert(actualIds.sort == expectedIds.sort, "Was expecting a different set of IDs, received #{actualIds.inspect}")
 end
+
+Given /^I remove the application authorizations in sunset$/ do
+  sunset = "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
+  coll()
+  @oldSunsetAuth = @coll.find_one({"body.authId" => sunset})
+  @coll.remove({"body.authId" => sunset})
+end
+
+Then /^I put back the application authorizations in sunset$/ do
+  @coll.insert(@oldSunsetAuth)
+end
+
+def coll
+  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  @coll ||= @db.collection('applicationAuthorization')
+  return @coll
+end
+
