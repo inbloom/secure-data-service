@@ -131,3 +131,11 @@ Given /^I paste my copied URL$/ do
   puts @copiedUrl
   @driver.get @copiedUrl
 end
+
+Then /^I don't see a course selection$/ do
+  begin
+    course = @driver.find_element(:id,"courseSelect")
+  rescue
+    assert(course == nil, "Course is not nil")
+  end
+end
