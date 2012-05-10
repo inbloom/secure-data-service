@@ -1,6 +1,5 @@
 TODO:
 
-	email validation doesn't seem right => email@test.co.uk , jeff.stokes@test.com
 	explicit comparisons to false (if @user_account_registration.valid? ==false)
 	methods _too_ long (ruby convention 6-12 lines per method)
 	too much logic on controllers => delegate to models
