@@ -76,7 +76,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
 
     protected Config getConfig(String componentId) {
         EdOrgKey edOrg = userEdOrgManager.getUserEdOrg(getTokenId());
-        if(edOrg == null) {
+        if (edOrg == null) {
             throw new DashboardException("No data is available for you to view. Please contact your IT administrator");
         }
         return configManager.getComponentConfig(getTokenId(), edOrg, componentId);
