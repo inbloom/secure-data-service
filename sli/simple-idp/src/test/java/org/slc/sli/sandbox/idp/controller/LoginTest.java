@@ -164,7 +164,7 @@ public class LoginTest {
         loginController.setSandboxImpersonationEnabled(true);
         Request reqInfo = Mockito.mock(Request.class);
         Mockito.when(reqInfo.getRealm()).thenReturn(null);
-        Mockito.when(authRequestService.processRequest("SAMLRequest", "SLIAdmin")).thenReturn(reqInfo);
+        Mockito.when(authRequestService.processRequest("SAMLRequest", "")).thenReturn(reqInfo);
         
         @SuppressWarnings("unchecked")
         Map<String, String> attributes = Mockito.mock(HashMap.class);
@@ -183,7 +183,8 @@ public class LoginTest {
         
         ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "", "impersonate", roles,
                 httpSession);
-        
+        Mockito.verify(attributes, Mockito.times(1)).clear();
+        Mockito.verify(attributes, Mockito.times(1)).put("Tenant", "myTenant");
         assertEquals("SAMLResponse", ((SamlAssertion) mov.getModel().get("samlAssertion")).getSamlResponse());
         assertEquals("post", mov.getViewName());
     }
