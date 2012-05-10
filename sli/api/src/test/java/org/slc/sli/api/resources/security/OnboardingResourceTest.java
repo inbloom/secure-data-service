@@ -106,6 +106,9 @@ public class OnboardingResourceTest {
         requestBody.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, "12345");
         Response res = resource.provision(requestBody, null);
         assertTrue(Status.fromStatusCode(res.getStatus()) == Status.CREATED);
+        Map<String, String> result = (Map<String, String>) res.getEntity();
+        assertNotNull(result.get("landingZone"));
+        assertNotNull(result.get("edOrg"));
 
         // check new edorg has been created in mongod
         NeutralQuery query = new NeutralQuery();

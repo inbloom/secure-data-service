@@ -11,6 +11,11 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/assessment.xml" />
       </bean>
     </entry>
+    <entry key="grade">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/grade.xml" />
+      </bean>
+    </entry>
     <entry key="studentTranscriptAssociation">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentTranscriptAssociation.xml" />
@@ -180,6 +185,12 @@
   <bean id="studentDisciplineIncidentAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.StudentDisciplineIncidentAssociationTransformer"
     scope="prototype">
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+  </bean>
+
+  <bean id="gradeTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+        scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="grade" />
   </bean>
 </beans>
 

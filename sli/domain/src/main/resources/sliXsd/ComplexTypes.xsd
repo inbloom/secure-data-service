@@ -6095,6 +6095,17 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="schoolId" type="reference">
+				<xs:annotation>
+					<xs:documentation>
+						The Education Organization that defines the curriculum and courses offered -
+						often the LEA or school.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 

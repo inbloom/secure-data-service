@@ -141,6 +141,13 @@
       <version>${camel.version}</version>
     </dependency>
 
+    <!-- Apache Camel Quartz repository -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-quartz</artifactId>
+      <version>${camel.version}</version>
+    </dependency>
+    
     <!-- Apache Hadoop Core -->
     <dependency>
       <groupId>org.apache.hadoop</groupId>
