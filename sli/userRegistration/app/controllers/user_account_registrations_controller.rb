@@ -45,6 +45,7 @@ class UserAccountRegistrationsController < ApplicationController
                 @redirectPage=false
             else
                 @gUID= jsonDocument[INDEX]["id"]
+                session['guuid'] = @gUID
                 persist_record(false)
             end
         else
@@ -54,7 +55,7 @@ class UserAccountRegistrationsController < ApplicationController
       end
     respond_to do |format|
         if @redirectPage==true
-            format.html  { redirect_to("/eulas?gUid="+@gUID)}
+            format.html  { redirect_to("/eula")}
             format.json  { render :json => @user_account_registration,
                                    action: "/eulas?gUid="+@gUID}
         else
