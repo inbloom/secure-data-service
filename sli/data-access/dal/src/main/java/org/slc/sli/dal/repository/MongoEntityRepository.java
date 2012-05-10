@@ -2,7 +2,6 @@ package org.slc.sli.dal.repository;
 
 import java.util.Date;
 import java.util.Map;
-import java.util.UUID;
 
 import com.mongodb.WriteResult;
 import org.apache.commons.lang3.StringUtils;
@@ -80,18 +79,21 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
             return false;
         }
 
+        //encryption
         MongoEntity encryptedEntity = new MongoEntity(record.getType(), record.getEntityId(),
                 record.getBody(), record.getMetaData());
         encryptedEntity.encrypt(encrypt);
 
+        //set up update query
         Map<String, Object> entityBody = encryptedEntity.getBody();
         Map<String, Object> entityMetaData = encryptedEntity.getMetaData();
         Update update = new Update().set("body", entityBody).set("metaData", entityMetaData);
-        Query idQuery = new Query(Criteria.where("_id").is(UUID.fromString(id)));
+        Query idShardkeyQuery = new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id)));
 
         //attempt update
-        WriteResult result = template.updateFirst(idQuery, update, collection);
+        WriteResult result = template.updateFirst(idShardkeyQuery, update, collection);
         //if no records were updated, try insert
+        //insert goes through the encryption pipeline, so use the unencrypted Entity
         if (result.getN() == 0) {
             template.insert(record, collection);
         }

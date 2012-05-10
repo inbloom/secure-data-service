@@ -38,13 +38,12 @@ public class MongoEntity implements Entity, Serializable {
     private final Map<String, Object> metaData;
 
     public MongoEntity(String type, Map<String, Object> body) {
-        this.type = type;
-        this.body = body;
-        this.metaData = new BasicBSONObject();
-        this.entityId = null;
+        this(type, null, body, null);
     }
 
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData) {
+        this.type = type;
+        this.entityId = id;
         if (body == null) {
             this.body = new BasicBSONObject();
         } else {
@@ -55,8 +54,6 @@ public class MongoEntity implements Entity, Serializable {
         } else {
             this.metaData = metaData;
         }
-        this.type = type;
-        entityId = id;
     }
 
     @Override
@@ -104,17 +101,17 @@ public class MongoEntity implements Entity, Serializable {
         BasicDBObject dbObj = new BasicDBObject();
         dbObj.put("type", type);
 
-        UUID uid = null;
+        final UUID uid;
 
         if (entityId == null) {
-            if (uuidGeneratorStrategy != null) {
-                uid = uuidGeneratorStrategy.randomUUID();
-            } else {
-                log.warn("Generating Type 4 UUID by default because the UUID generator strategy is null.  This will cause issues if this value is being used in a Mongo indexed field (like _id)");
-                uid = UUID.randomUUID();
-            }
+//            if (uuidGeneratorStrategy != null) {
+//                uid = uuidGeneratorStrategy.randomUUID();
+//            } else {
+//                log.warn("Generating Type 4 UUID by default because the UUID generator strategy is null.  This will cause issues if this value is being used in a Mongo indexed field (like _id)");
+//                uid = UUID.randomUUID();
+//            }
+            uid = UUID.randomUUID();
             entityId = uid.toString();
-            //add shard key here
         } else {
             uid = UUID.fromString(entityId);
         }
