@@ -32,7 +32,11 @@ public class RegexBlacklistStrategy extends AbstractBlacklistStrategy {
         }
 
         for (String entry : inputCollection) {
-            patternList.add(Pattern.compile(entry, Pattern.CASE_INSENSITIVE));
+            try {
+                patternList.add(Pattern.compile(entry, Pattern.CASE_INSENSITIVE));
+            } catch (Exception e) {
+                continue;
+            }
         }
     }
 
