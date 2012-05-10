@@ -68,7 +68,9 @@ public class NeutralRecordReadConverter implements Converter<DBObject, NeutralRe
         }
 
         NeutralRecord neutralRecord = new NeutralRecord();
-        neutralRecord.setLocalId(map.get("localId"));
+        if (map.get("localId") != null) {
+            neutralRecord.setLocalId(map.get("localId").toString());
+        }
         neutralRecord.setRecordId(id);
         neutralRecord.setRecordType(type);
         neutralRecord.setAttributes(body);
