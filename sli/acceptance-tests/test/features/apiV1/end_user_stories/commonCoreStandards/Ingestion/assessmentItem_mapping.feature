@@ -16,17 +16,15 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName              | count |
      | assessment                  | 1     |
    And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter                                                                          | searchValue      |
-     | assessment                  | 1                   | body.objectiveAssessment.0.assessmentItem.0.identificationCode                           | AssessmentItem-2 |     
-     | assessment                  | 1                   | body.objectiveAssessment.1.assessmentItem.0.identificationCode                           | AssessmentItem-2 |
-     | assessment                  | 1                   | body.objectiveAssessment.1.assessmentItem.1.identificationCode                           | AssessmentItem-3 |
-     | assessment                  | 1                   | body.objectiveAssessment.2.assessmentItem.0.identificationCode                           | AssessmentItem-1 |     
-     | assessment                  | 1                   | body.assessmentItem.0.identificationCode                                                 | AssessmentItem-3 |
-     | assessment                  | 1                   | body.assessmentItem.1.identificationCode                                                 | AssessmentItem-4 |    
-     | assessment                  | 1                   | body.objectiveAssessment.0.assessmentItem.0.learningStandardReference.learningStandardId | G-C.4 |
-     | assessment                  | 1                   | body.objectiveAssessment.0.assessmentItem.1.learningStandardReference.learningStandardId | G.SRT.2 |
-     | assessment                  | 1                   | body.assessmentItem.0.learningStandardReference.learningStandardId                       | G.SRT.5 |
-     | assessment                  | 1                   | body.assessmentItem.1.learningStandardReference.learningStandardId                       | G.SRT.6 |     
+     | collectionName              | expectedRecordCount | searchParameter                                                                          | searchValue      |  
+     | assessment                  | 1                   | body.assessmentItem.0.identificationCode                                                 | AssessmentItem-1 |
+     | assessment                  | 1                   | body.assessmentItem.1.identificationCode                                                 | AssessmentItem-2 |    
+     | assessment                  | 1                   | body.assessmentItem.2.identificationCode                                                 | AssessmentItem-3 |
+     | assessment                  | 1                   | body.assessmentItem.3.identificationCode                                                 | AssessmentItem-4 |    
+     | assessment                  | 1                   | body.assessmentItem.0.learningStandardReference.0.learningStandardId                     | G-C.4 |
+     | assessment                  | 1                   | body.assessmentItem.1.learningStandardReference.1.learningStandardId                     | G.SRT.3 |
+     | assessment                  | 1                   | body.assessmentItem.2.learningStandardReference.0.learningStandardId                     | G.SRT.5 |
+     | assessment                  | 1                   | body.assessmentItem.3.learningStandardReference.0.learningStandardId                     | G.SRT.6 |     
  
   And I should see "Processed 18 records." in the resulting batch job file
   And I should not see an error log file created
