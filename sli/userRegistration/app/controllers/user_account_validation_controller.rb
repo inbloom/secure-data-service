@@ -36,11 +36,8 @@ class UserAccountValidationController < ApplicationController
   # GET /user_account_registrations/validate/1
   # GET /user_account_registrations/validate/1.json
   def show
-    # TODO: Using Eula.new here becuause of issues with UserAccountValidation. 
-    #       Fix configuration of UserAccountValidation, or use more generic handler 
-    @user_account_validation = Eula.new
-
-    url = "http://localhost:8080/api/rest/v1/userAccounts/" + params[:id]
+    
+    url = APP_CONFIG['api_base'] + "/" + params[:id]
     
     res = RestClient.get(url, REST_HEADER){|response, request, result| response }
     
