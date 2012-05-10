@@ -8,6 +8,10 @@ import javax.annotation.PostConstruct;
 import org.owasp.esapi.errors.ValidationException;
 import org.springframework.stereotype.Component;
 
+/**
+ * Validation strategy to check for invalid characters in String input
+ * @author vmcglaughlin
+ */
 @Component
 public class CharacterBlacklistStrategy extends AbstractBlacklistStrategy {
 
@@ -30,13 +34,15 @@ public class CharacterBlacklistStrategy extends AbstractBlacklistStrategy {
                 continue;
             }
 
-            if (!entry.startsWith("\\u")) {
-                continue;
-            }
-
             try {
-                char c = (char) Integer.parseInt(entry.substring(2), 16);
+                String charStr = entry;
+                if (entry.startsWith("\\u")) {
+                    charStr = entry.substring(2);
+                }
+
+                char c = (char) Integer.parseInt(charStr, 16);
                 characterSet.add(new Character(c));
+
             } catch (NumberFormatException e) {
                 continue;
             }

@@ -10,6 +10,10 @@ import javax.annotation.PostConstruct;
 import org.owasp.esapi.errors.ValidationException;
 import org.springframework.stereotype.Component;
 
+/**
+ * Validation strategy to check for invalid text in String input based on regex
+ * @author vmcglaughlin
+ */
 @Component
 public class RegexBlacklistStrategy extends AbstractBlacklistStrategy {
 
@@ -28,7 +32,11 @@ public class RegexBlacklistStrategy extends AbstractBlacklistStrategy {
         }
 
         for (String entry : inputCollection) {
-            patternList.add(Pattern.compile(entry, Pattern.CASE_INSENSITIVE));
+            try {
+                patternList.add(Pattern.compile(entry, Pattern.CASE_INSENSITIVE));
+            } catch (Exception e) {
+                continue;
+            }
         }
     }
 

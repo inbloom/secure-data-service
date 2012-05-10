@@ -8,6 +8,10 @@ import javax.annotation.PostConstruct;
 import org.owasp.esapi.errors.ValidationException;
 import org.springframework.stereotype.Component;
 
+/**
+ * Validation strategy to check for invalid strings of characters in String input
+ * @author vmcglaughlin
+ */
 @Component
 public class StringBlacklistStrategy extends AbstractBlacklistStrategy {
 
