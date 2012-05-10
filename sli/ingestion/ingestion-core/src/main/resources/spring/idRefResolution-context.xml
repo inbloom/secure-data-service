@@ -52,7 +52,7 @@
   <bean id="simpleReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SimpleReferenceResolver" />
 
   <util:map id="strategyConfig">
-    <entry key="/InterchangeStudentGrade/StudentGadebookEntry/GradbookEntryReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference" value-ref="simpleReferenceResolver" />
 
     <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value-ref="smooksExtendedReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="smooksExtendedReferenceResolver" />
