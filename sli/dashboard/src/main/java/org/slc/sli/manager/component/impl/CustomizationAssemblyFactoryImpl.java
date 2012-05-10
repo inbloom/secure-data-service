@@ -23,6 +23,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.Config.Item;
 import org.slc.sli.entity.Config.Type;
+import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.ConfigManager;
@@ -74,7 +75,11 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     }
 
     protected Config getConfig(String componentId) {
-        return configManager.getComponentConfig(getTokenId(), userEdOrgManager.getUserEdOrg(getTokenId()), componentId);
+        EdOrgKey edOrg = userEdOrgManager.getUserEdOrg(getTokenId());
+        if(edOrg == null) {
+            throw new DashboardException("No data is available for you to view. Please contact your IT administrator");
+        }
+        return configManager.getComponentConfig(getTokenId(), edOrg, componentId);
     }
 
     @Override
