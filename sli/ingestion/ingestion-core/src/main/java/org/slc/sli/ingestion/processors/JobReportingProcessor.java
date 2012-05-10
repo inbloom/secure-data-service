@@ -14,6 +14,12 @@ import java.util.Map.Entry;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -30,10 +36,6 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Writes out a job report and any errors/warnings associated with the job.
@@ -52,12 +54,15 @@ public class JobReportingProcessor implements Processor {
 
     private static final int ERRORS_RESULT_LIMIT = 100;
 
+    @Value("${sli.ingestion.staging.clearOnCompletion}")
+    private String clearOnCompletion;
+
     @Autowired
     private BatchJobDAO batchJobDAO;
 
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
-    
+
     @Override
     public void process(Exchange exchange) {
 
@@ -85,7 +90,9 @@ public class JobReportingProcessor implements Processor {
         } catch (Exception e) {
             LOG.error("Exception encountered in JobReportingProcessor. ", e);
         } finally {
-            neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
+            if (clearOnCompletion == "true") {
+                neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
+            }
             LOG.info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
             if (job != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, job);

@@ -40,6 +40,7 @@ default:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
         sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob MongoDB options (used in ingestion to configure the datalayer)
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
@@ -193,6 +194,7 @@ acceptance-tests:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
         sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
@@ -282,6 +284,7 @@ ci:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
         sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
@@ -362,6 +365,7 @@ dev:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
         sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
@@ -445,6 +449,7 @@ devjuggernauts:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
         sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
@@ -526,6 +531,7 @@ devapp1:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
         sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
@@ -600,6 +606,7 @@ local:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
         sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
@@ -675,6 +682,7 @@ nxbuild2:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
         sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
@@ -748,6 +756,7 @@ team:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
         sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
@@ -868,6 +877,7 @@ perf:
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.mongodb.user:
         sli.ingestion.staging.mongodb.pass:
+        sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
