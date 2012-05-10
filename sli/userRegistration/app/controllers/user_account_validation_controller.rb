@@ -37,7 +37,9 @@ class UserAccountValidationController < ApplicationController
   # GET /user_account_registrations/validate/1.json
   def show
     
-    url = APP_CONFIG['api_base'] + "/" + params[:id]
+    emailToken=params[:id]
+    user_info=ApplicationHelper.get_user_with_emailtoken(emailToken)
+    url = APP_CONFIG['api_base'] + "?userName=" + user_info[:email]+"&environment="+APP_CONFIG["is_sandbox"]? "Sandbox":"Production"
     
     res = RestClient.get(url, REST_HEADER){|response, request, result| response }
     
@@ -49,6 +51,7 @@ class UserAccountValidationController < ApplicationController
         parsedJsonHash["validated"] = true
         putRes = RestClient.put(url, parsedJsonHash.to_json, REST_HEADER){|response, request, result| response }
         if (putRes.code == 204)
+          ApplicationHelper.verify_emai(emailToken)
           @validation_result = ACCOUNT_VERIFICATION_COMPLETE
         else
           @validation_result = UNEXPECTED_VERIFICATION_ERROR

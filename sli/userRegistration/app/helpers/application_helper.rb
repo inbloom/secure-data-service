@@ -87,6 +87,13 @@ module ApplicationHelper
         return user_info[:emailtoken]
     end
 
+    # Returns an individual user via their email token or nil if the user does not exist.
+      def ApprovalEngine.get_user_with_emailtoken(email_token)
+        ApprovalEngine.init(@@ldap,@@emailer,IS_SANDBOX)
+        return ApprovalEngine.get_user_emailtoken(email_token)
+      end
+
+
     #remove user with address
     def self.remove_user(email_address)
         ApprovalEngine.init(@@ldap,@@emailer,IS_SANDBOX)
