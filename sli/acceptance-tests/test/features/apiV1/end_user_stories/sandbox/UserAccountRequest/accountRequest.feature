@@ -38,10 +38,11 @@ Scenario: As an slc operator I want to check if a user accepted EULA
   Given I go to the production account registration page
   And there is an approved account with login name "lalsop@acme.com"
   When I query the database for EULA acceptance
-  Then I get 1 record with "First Name" as "Lance"
-  And "Last Name" as "Alsop"
-  And "Vendor" as  "Acme Corp"
-  And "Email" as "lalsop@acme.com"
+  Then I get 1 record
+  And "First Name" is "Lance"
+  And "Last Name" is "Alsop"
+  And "Vendor" is "Acme Corp"
+  And "Email" is "lalsop@acme.com"
 
 @production
 Scenario: Clicking the "cancel" button - registration form
