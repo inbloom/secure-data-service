@@ -54,7 +54,7 @@ Scenario Outline: Provision a new landing zone twice should fail.
 Scenario: As a Vendor/Developer I use a defined a High Level Ed-Org to Provision my Landing Zone
 Given there is an  account in ldap for vendor "Macro Corp"
 And the account has a tenantId "MacroCorp1234"
-When I provision with high-level ed-org to " Ed Org"
+When I provision with high-level ed-org to " Test Ed Org"
 Then a "Test Ed Org" ed-org is created in Mongo with the tenantId "MacroCorp1234"
 And a request to provision a landing zone is made
 And the directory structure for the landing zone is stored in ldap	
