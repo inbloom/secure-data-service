@@ -68,13 +68,13 @@ public class TransformationFactory implements ApplicationContextAware {
 
     private Set<String> determineCollectionsToConsider(WorkNote workNote, Job job) {
         Set<String> collectionsToConsider = null;
-        if (workNote.getCollection() == null) {
+        if (workNote.getIngestionStagedEntity().getCollectionNameAsStaged() == null) {
 
             collectionsToConsider = defineCollectionsInJob(job);
         } else {
 
             collectionsToConsider = new HashSet<String>();
-            collectionsToConsider.add(workNote.getCollection());
+            collectionsToConsider.add(workNote.getIngestionStagedEntity().getCollectionNameAsStaged());
         }
         return collectionsToConsider;
     }

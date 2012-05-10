@@ -2,7 +2,7 @@ package org.slc.sli.ingestion.routes.orchestra;
 
 import java.util.Set;
 
-import org.slc.sli.ingestion.EdfiEntity;
+import org.slc.sli.ingestion.IngestionStagedEntity;
 
 /**
  *
@@ -11,8 +11,8 @@ import org.slc.sli.ingestion.EdfiEntity;
  */
 public interface StagedEntityTypeDAO {
 
-    Set<EdfiEntity> getStagedEntitiesForJob(String jobId);
+    Set<IngestionStagedEntity> getStagedEntitiesForJob(String jobId);
 
-    void setStagedEntitiesForJob(Set<EdfiEntity> edfiEntities, String jobId);
+    void setStagedEntitiesForJob(Set<IngestionStagedEntity> stagedEntities, String jobId);
 
 }

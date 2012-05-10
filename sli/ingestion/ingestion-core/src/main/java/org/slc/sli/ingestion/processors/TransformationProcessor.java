@@ -64,7 +64,8 @@ public class TransformationProcessor implements Processor {
     private void processTransformations(WorkNote workNote, Exchange exchange) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
-        Metrics metrics = Metrics.createAndStart(workNote.getBatchJobId() + "-" + workNote.getCollection());
+        Metrics metrics = Metrics.createAndStart(workNote.getBatchJobId() + "-"
+                + workNote.getIngestionStagedEntity().getCollectionNameAsStaged());
         stage.getMetrics().add(metrics);
 
         String batchJobId = workNote.getBatchJobId();
@@ -87,7 +88,9 @@ public class TransformationProcessor implements Processor {
 
     /**
      * Invokes transformations strategies
-     * @param workNote TODO
+     *
+     * @param workNote
+     *            TODO
      * @param job
      */
     void performDataTransformations(WorkNote workNote, Job job) {

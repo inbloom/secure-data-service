@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.ingestion.EdfiEntity;
+import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.WorkNoteImpl;
 
@@ -37,15 +37,18 @@ public class AggregationPostProcessor implements Processor {
         String jobId = null;
 
         for (WorkNote workNote : workNoteList) {
-            EdfiEntity entityToRemove = EdfiEntity.fromEntityName(workNote.getCollection());
 
+            // all of these WorkNotes should have the same batchjobid, since this is the aggregation
+            // criteria. grabbing it out of the first one will suffice.
             if (jobId == null) {
                 jobId = workNote.getBatchJobId();
             }
 
-            if (stagedEntityTypeDAO.getStagedEntitiesForJob(jobId).remove(entityToRemove)) {
+            IngestionStagedEntity stagedEntityToRemove = workNote.getIngestionStagedEntity();
 
-                LOG.info("removed EdfiEntity: {}", entityToRemove);
+            if (stagedEntityTypeDAO.getStagedEntitiesForJob(jobId).remove(stagedEntityToRemove)) {
+
+                LOG.info("removed EdfiEntity: {}", stagedEntityToRemove);
             }
         }
         exchange.getIn().setHeader("jobId", jobId);

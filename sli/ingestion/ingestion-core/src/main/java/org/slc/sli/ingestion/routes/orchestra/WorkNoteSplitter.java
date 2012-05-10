@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.ingestion.EdfiEntity;
+import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.WorkNoteImpl;
 
@@ -42,26 +42,26 @@ public class WorkNoteSplitter {
         String jobId = exchange.getIn().getHeader("jobId").toString();
         LOG.info("orchestrating splitting for job: {}", jobId);
 
-        Set<EdfiEntity> stagedEntities = stagedEntityTypeDAO.getStagedEntitiesForJob(jobId);
+        Set<IngestionStagedEntity> stagedEntities = stagedEntityTypeDAO.getStagedEntitiesForJob(jobId);
 
         if (stagedEntities.size() == 0) {
             throw new IllegalStateException("stagedEntities is empty at splitting stage. should have been redirected prior to this point.");
         }
 
-        Set<EdfiEntity> processableEntities = EdfiEntity.cleanse(stagedEntities);
+        Set<IngestionStagedEntity> nextTierEntities = IngestionStagedEntity.cleanse(stagedEntities);
 
-        List<WorkNote> workNoteList = createWorkNotes(processableEntities, jobId);
+        List<WorkNote> workNoteList = createWorkNotes(nextTierEntities, jobId);
 
         return workNoteList;
     }
 
-    private List<WorkNote> createWorkNotes(Set<EdfiEntity> entities, String jobId) {
-        LOG.info("creating WorkNotes for processable entities: {}", entities);
+    private List<WorkNote> createWorkNotes(Set<IngestionStagedEntity> stagedEntities, String jobId) {
+        LOG.info("creating WorkNotes for processable entities: {}", stagedEntities);
 
         List<WorkNote> workNoteList = new ArrayList<WorkNote>();
-        for (EdfiEntity edfiEntity : entities) {
+        for (IngestionStagedEntity stagedEntity : stagedEntities) {
 
-            WorkNote workNote = new WorkNoteImpl(jobId, edfiEntity.getEntityName(), 0, 0);
+            WorkNote workNote = new WorkNoteImpl(jobId, stagedEntity, 0, 0);
             workNoteList.add(workNote);
         }
         return workNoteList;

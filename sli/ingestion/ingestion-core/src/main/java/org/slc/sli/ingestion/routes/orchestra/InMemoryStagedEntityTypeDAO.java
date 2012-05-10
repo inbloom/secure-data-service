@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.ingestion.EdfiEntity;
+import org.slc.sli.ingestion.IngestionStagedEntity;
 
 /**
  *
@@ -14,12 +14,12 @@ import org.slc.sli.ingestion.EdfiEntity;
  */
 public class InMemoryStagedEntityTypeDAO implements StagedEntityTypeDAO {
 
-    private static final Map<String, Set<EdfiEntity>> STAGED_ENTITIES_MAP = new HashMap<String, Set<EdfiEntity>>();
+    private static final Map<String, Set<IngestionStagedEntity>> STAGED_ENTITIES_MAP = new HashMap<String, Set<IngestionStagedEntity>>();
 
     @Override
-    public Set<EdfiEntity> getStagedEntitiesForJob(String jobId) {
+    public Set<IngestionStagedEntity> getStagedEntitiesForJob(String jobId) {
 
-        Set<EdfiEntity> stagedEntities = STAGED_ENTITIES_MAP.get(jobId);
+        Set<IngestionStagedEntity> stagedEntities = STAGED_ENTITIES_MAP.get(jobId);
 
         if (stagedEntities == null) {
             stagedEntities = Collections.emptySet();
@@ -28,8 +28,8 @@ public class InMemoryStagedEntityTypeDAO implements StagedEntityTypeDAO {
     }
 
     @Override
-    public void setStagedEntitiesForJob(Set<EdfiEntity> edfiEntities, String jobId) {
-        STAGED_ENTITIES_MAP.put(jobId, edfiEntities);
+    public void setStagedEntitiesForJob(Set<IngestionStagedEntity> stagedEntities, String jobId) {
+        STAGED_ENTITIES_MAP.put(jobId, stagedEntities);
     }
 
 }

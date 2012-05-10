@@ -4,8 +4,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.Bytes;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -35,16 +46,6 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.Bytes;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 /**
  * Ingestion Persistence Processor.
@@ -107,11 +108,13 @@ public class StagedDataPersistenceProcessor implements Processor {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
             LOG.info("processing persistence: {}", newJob);
 
-            String collectionToProcess = getStagedCollectionName(newJob, workNote.getCollection());
+            String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
+
+            String collectionToProcess = getStagedCollectionName(newJob, collectionNameAsStaged);
 
             LOG.info("PERSISTING DATA IN COLLECTION: {}", collectionToProcess);
 
-            processAndMeasureResource(workNote.getCollection(), collectionToProcess, newJob, stage);
+            processAndMeasureResource(collectionNameAsStaged, collectionToProcess, newJob, stage);
 
             exchange.getIn().setHeader("IngestionMessageType", MessageType.DONE.name());
 
@@ -119,7 +122,7 @@ public class StagedDataPersistenceProcessor implements Processor {
             handleProcessingExceptions(exception, exchange, batchJobId);
         } finally {
             if (newJob != null) {
-                BatchJobUtils.stopStageChunkAndAddToJob(stage, newJob);
+                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
                 batchJobDAO.saveBatchJob(newJob);
             }
         }
@@ -142,13 +145,21 @@ public class StagedDataPersistenceProcessor implements Processor {
         long numFailed = 0;
 
         ErrorReport errorReportForCollection = createDbErrorReport(job.getId(), collectionName);
+
+        String fatalErrorMessage = "ERROR: Fatal problem saving records to database.\n";
         try {
+
             BasicDBObject query = new BasicDBObject("batchJobId", job.getId());
-            DBCursor cursor = getCollectionIterable(transformedCollectionName, query, job.getId());
+            DBCursor cursor = getCollectionIterable(transformedCollectionName, job.getId());
 
             for (DBObject record : cursor) {
+
                 recordNumber++;
+
                 NeutralRecord neutralRecord = neutralRecordReadConverter.convert(record);
+
+                fatalErrorMessage = "ERROR: Fatal problem saving records to database: \n" + "\tEntity\t"
+                        + collectionName + "\n";
 
                 if (!collectionName.equals(transformedCollectionName)) {
                     numFailed += processTransformableNeutralRecord(neutralRecord, getTenantId(job),
@@ -158,12 +169,12 @@ public class StagedDataPersistenceProcessor implements Processor {
                             errorReportForCollection);
                 }
             }
+
         } catch (Exception e) {
-            String fatalErrorMessage = "ERROR: Fatal problem saving records to database: \n" + "\tEntity\t"
-                    + collectionName + "\n";
             errorReportForCollection.fatal(fatalErrorMessage, StagedDataPersistenceProcessor.class);
             LOG.error("Exception when attempting to ingest NeutralRecords in: " + collectionName + ".\n", e);
         } finally {
+
             metrics.setRecordCount(recordNumber);
             metrics.setErrorCount(numFailed);
         }
@@ -347,10 +358,10 @@ public class StagedDataPersistenceProcessor implements Processor {
         this.neutralRecordReadConverter = neutralRecordReadConverter;
     }
 
-    protected DBCursor getCollectionIterable(String collectionName, DBObject query, String jobId) {
+    protected DBCursor getCollectionIterable(String collectionName, String jobId) {
         DBCollection col = neutralRecordMongoAccess.getRecordRepository().getCollectionForJob(collectionName, jobId);
 
-        DBCursor dbcursor = col.find(query);  // new DBCursor(col, query, query);
+        DBCursor dbcursor = col.find();
         dbcursor.addOption(Bytes.QUERYOPTION_NOTIMEOUT);
         dbcursor.batchSize(1000);
 
