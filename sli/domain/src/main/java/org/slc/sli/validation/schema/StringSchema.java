@@ -120,7 +120,6 @@ public class StringSchema extends NeutralSchema {
             }
         }
         if (isRelaxedBlacklisted()) {
-            System.out.println("Hit relaxed blacklist");
             for (AbstractBlacklistStrategy validationRule : relaxedValidationRuleList) {
                 boolean isValid = validationRule.isValid("StringSchemaContext", data);
                 if (!addError(isValid, fieldName, entity, "Invalid value caught by relaxed blacklisting strategy: "

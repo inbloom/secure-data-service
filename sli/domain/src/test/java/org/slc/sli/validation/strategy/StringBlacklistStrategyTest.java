@@ -22,8 +22,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class StringBlacklistStrategyTest {
 
     // trailing and leading spaces required to match word boundaries
-    private final String PREFIX = "some chars ";
-    private final String SUFFIX = " and other chars";
+    private static final String PREFIX = "some chars ";
+    private static final String SUFFIX = " and other chars";
 
     @Autowired
     private AbstractBlacklistStrategy stringBlacklistStrategy;
