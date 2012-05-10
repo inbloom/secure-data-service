@@ -59,11 +59,10 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
         File file = fileEntry.getFile();
 
-            file = process(file);
+        file = process(file);
 
-        if (file != null) {
-            fileEntry.setFile(file);
-        }
+        fileEntry.setFile(file);
+
         return fileEntry;
     }
 
@@ -105,7 +104,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             return xml;
         } else {
             FileUtils.renameFile(semiResolvedXml, xml);
-            return process(semiResolvedXml);
+            return process(xml);
         }
     }
 
@@ -252,7 +251,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                         File resolvedContent = rrs.resolve(currentXPath, contentToAdd);
 
                                         if (resolvedContent != null && !resolvedContent.equals(contentToAdd)) {
-                                            resolvedContent.renameTo(contentToAdd);
+                                            FileUtils.renameFile(resolvedContent, contentToAdd);
                                         }
                                     } else {
                                         LOG.debug("Current XPath [{}] is not supported", currentXPath);
