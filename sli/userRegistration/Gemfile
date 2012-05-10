@@ -43,8 +43,14 @@ end
 # Use unicorn as the app server
 # gem 'unicorn'
 
-# Deploy with Capistrano
-# gem 'capistrano'
+group :deployment, :integration do
+  # Deploy with Capistrano
+  gem 'capistrano'
+  # Multi-stage deployment
+  gem 'capistrano-ext'
+  gem 'thin'
+end
+
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'

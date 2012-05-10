@@ -4,7 +4,6 @@ class EulasController < ApplicationController
     if !Session.valid?(session)
       not_found
     end
-
     respond_to do |format|
       format.html 
     end

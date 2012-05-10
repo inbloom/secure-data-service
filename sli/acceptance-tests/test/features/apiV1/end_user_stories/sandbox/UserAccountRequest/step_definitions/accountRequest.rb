@@ -6,8 +6,8 @@ require_relative '../../../../../utils/selenium_common.rb'
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
   connection = Mongo::Connection.new
-  @db = connection.db("sli")
-  @userRegAppUrl = "http://local.slidev.org:3000"
+  @db = connection.db(PropLoader.getProps['api_database_name'])
+  @userRegAppUrl = PropLoader.getProps['user_registration_app_url']
 end
 
 ###############################################################################
