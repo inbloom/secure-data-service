@@ -86,7 +86,7 @@ db["studentSectionAssociation"].ensureIndex({"body.sectionId":1, "metaData.tenan
 db["studentSectionAssociation"].ensureIndex({"body.studentId":1, "metaData.tenantId":1, "body.sectionId":1});
 db["studentSectionAssociation"].ensureIndex({"body.studentId":1, "metaData.tenantId":1, "metaData.externalId":1});
 db["studentSectionGradebookEntry"].ensureIndex({"metaData.tenantId":1, "metaData.externalId":1});
-db["studentTranscriptAssociation"].ensureIndex({"body.studentId":1, "metaData.tenantId":1, "body.courseId":1});
+db["studentTranscriptAssociation"].ensureIndex({"body.studentAcademicRecordId":1, "metaData.tenantId":1, "body.courseId":1});
 db["studentTranscriptAssociation"].ensureIndex({"body.courseId":1});
 db["teacher"].ensureIndex({"metaData.tenantId":1, "metaData.externalId":1});
 db["teacher"].ensureIndex({"metaData.tenantId":1,"body.staffUniqueStateId":1});
