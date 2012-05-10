@@ -19,28 +19,40 @@ Then I should see following map of entry counts in the corresponding collections
      | studentAssessmentAssociation| 3     |
      | learningStandard            | 6     |
    And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter                                | searchValue                                      |
-     | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | DIBELS.DIBELS Next.DIBELS Next Kindergarten      |
-     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | BOY                                              |
-     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | MOY                                              |
-     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | EOY                                              |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Writing                                      |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Math                                         |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Critical Reading                             |
-     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Arithmetic         |
-     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Algebra            |
-     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Geometry           |
-     | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Writing          |
-     | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Math             |
-     | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Critical Reading |
-     | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Math-Arithmetic  |
-     | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Math-Algebra     |
-     | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Math-Geometry    |
-     | learningStandard            | 6                   | body.subjectArea                               | ELA                                              |
-     | assessment                  | 1                   | body.assessmentItem.0.identificationCode       | AssessmentItem-1 |
-     | assessment                  | 1                   | body.assessmentItem.1.identificationCode       | AssessmentItem-2 |    
-     | assessment                  | 1                   | body.assessmentItem.2.identificationCode       | AssessmentItem-3 |
-     | assessment                  | 1                   | body.assessmentItem.3.identificationCode       | AssessmentItem-4 |
+     | collectionName              | expectedRecordCount | searchParameter                                | searchValue                                      |  searchType |
+     | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | DIBELS.DIBELS Next.DIBELS Next Kindergarten      | string |
+     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | BOY                                              | string |
+     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | MOY                                              | string |
+     | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | EOY                                              | string |
+     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Writing                                      | string |
+     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Math                                         | string |
+     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Critical Reading                             | string |
+     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Arithmetic         | string |
+     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Algebra            | string |
+     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Geometry           | string |
+     | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Writing          | string |
+     | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Math             | string |
+     | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Critical Reading | string |
+     | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Math-Arithmetic  | string |
+     | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Math-Algebra     | string |
+     | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Math-Geometry    | string |
+     | learningStandard            | 6                   | body.subjectArea                               | ELA                                              | string |
+     | assessment                  | 1                   | body.assessmentItem.0.identificationCode       | AssessmentItem-1 | string |
+     | assessment                  | 1                   | body.assessmentItem.0.itemCategory             | True-False       | string |
+     | assessment                  | 1                   | body.assessmentItem.0.maxRawScore              | 5                | integer |
+     | assessment                  | 1                   | body.assessmentItem.0.correctResponse          | False            | string |
+     | assessment                  | 1                   | body.assessmentItem.1.identificationCode       | AssessmentItem-2 | string |
+     | assessment                  | 1                   | body.assessmentItem.1.itemCategory             | True-False       | string |
+     | assessment                  | 1                   | body.assessmentItem.1.maxRawScore              | 5                | integer |
+     | assessment                  | 1                   | body.assessmentItem.1.correctResponse          | True             | string |
+     | assessment                  | 1                   | body.assessmentItem.2.identificationCode       | AssessmentItem-3 | string |
+     | assessment                  | 1                   | body.assessmentItem.2.itemCategory             | True-False       | string |
+     | assessment                  | 1                   | body.assessmentItem.2.maxRawScore              | 5                | integer |
+     | assessment                  | 1                   | body.assessmentItem.2.correctResponse          | True             | string |
+     | assessment                  | 1                   | body.assessmentItem.3.identificationCode       | AssessmentItem-4 | string |
+     | assessment                  | 1                   | body.assessmentItem.3.itemCategory             | True-False       | string |
+     | assessment                  | 1                   | body.assessmentItem.3.maxRawScore              | 5                | integer |
+     | assessment                  | 1                   | body.assessmentItem.3.correctResponse          | False            | string |
      
 
   And I should see "Processed 15 records." in the resulting batch job file
