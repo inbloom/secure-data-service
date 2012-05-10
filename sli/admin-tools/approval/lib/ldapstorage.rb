@@ -19,8 +19,8 @@ class LDAPStorage
 		:displayname          => :emailtoken,
 		:destinationindicator => :status,
 		:homeDirectory        => :homedir,
-		:uidNumber            => :uid, 
-		:gidNumber            => :gid
+		:uidNumber            => :uidnumber, 
+		:gidNumber            => :gidnumber
 	}
 	ENTITY_ATTR_MAPPING = LDAP_ATTR_MAPPING.invert
 
@@ -32,8 +32,8 @@ class LDAPStorage
 
 	# these values are injected when the user is created 
 	ENTITY_CONSTANTS = {
-		:uid => "500", 
-		:gid => "500"
+		:uidnumber => "500", 
+		:gidnumber => "500"
 	}
 
 	# List of fields to fetch from LDAP for user 
@@ -109,10 +109,10 @@ class LDAPStorage
 
 	# returns extended user_info
 	def read_user(email_address)
-		filter = Net::LDAP::Filter.eq( "cn", email_address)
+		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, email_address)
 		return search_map_user_fields(filter, 1)[0]
 	end
-
+	
 	# returns extended user_info for the given emailtoken (see create_user) or nil 
 	def read_user_emailtoken(emailtoken)
 		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:emailtoken].to_s, emailtoken)
@@ -203,7 +203,7 @@ class LDAPStorage
 			dn = get_DN(user_info[:email])
 			ALLOW_UPDATING.each do |attribute|
 				if user_info && (curr_user_info[attribute] != user_info[attribute])
-					@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[:status], user_info[:status])
+					@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[attribute], user_info[attribute])
 				end
 			end
 									
@@ -256,4 +256,3 @@ end
 # usage 
 #require 'approval'
 #storage = LDAPStorage.new("ldap.slidev.org", 389, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-
