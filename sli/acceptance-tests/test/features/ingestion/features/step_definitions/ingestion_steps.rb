@@ -701,11 +701,14 @@ Then /^I should see following map of entry counts in the corresponding collectio
   table.hashes.map do |row|
     @entity_collection = @db.collection(row["collectionName"])
     @entity_count = @entity_collection.count().to_i
-    puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection"
 
     if @entity_count.to_s != row["count"].to_s
       @result = "false"
+      red = "\e[31m"
+      reset = "\e[0m"
     end
+
+    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
   end
 
   assert(@result == "true", "Some records didn't load successfully.")
