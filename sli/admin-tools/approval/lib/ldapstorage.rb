@@ -4,7 +4,7 @@ require 'date'
 
 class LDAPStorage 
 	# set the objectClasses for user objects
-	OBJECT_CLASS = ["inetOrgPerson", "top"]
+	OBJECT_CLASS = ["inetOrgPerson", "posixAccount", "top"]
 
 	# group object classes 
 	GROUP_OBJECT_CLASSES = ["groupOfNames", "top"]
@@ -17,7 +17,10 @@ class LDAPStorage
 		:userpassword         => :password,
 		:o                    => :vendor,
 		:displayname          => :emailtoken,
-		:destinationindicator => :status
+		:destinationindicator => :status,
+		:homeDirectory        => :homedir,
+		:uidNumber            => :uid, 
+		:gidNumber            => :gid
 	}
 	ENTITY_ATTR_MAPPING = LDAP_ATTR_MAPPING.invert
 
@@ -27,6 +30,15 @@ class LDAPStorage
     	:modifyTimestamp => :updated
 	}
 
+	# these values are injected when the user is created 
+	ENTITY_CONSTANTS = {
+		:uid => "500", 
+		:gid => "500"
+	}
+
+	# description field to contain mapping between LDAP and applicaton fields
+	LDAP_DESCRIPTION_FIELD = :description
+
 	# List of fields to fetch from LDAP for user 
 	COMBINED_LDAP_ATTR_MAPPING = LDAP_ATTR_MAPPING.merge(RO_LDAP_ATTR_MAPPING)
 
@@ -35,7 +47,8 @@ class LDAPStorage
 		:last,
 		:password, 
 		:vendor,
-		:emailtoken
+		:emailtoken,
+		:homedir
 	]
 
 	LDAP_DATETIME_FIELDS = Set.new [
@@ -76,18 +89,23 @@ class LDAPStorage
 	def create_user(user_info)
 		cn = user_info[:email]
 		dn = get_DN(user_info[:email])
-		attr = {
+		attributes = {
 			:cn => cn,
 			:objectclass => OBJECT_CLASS,
 		}
 
-		if ENTITY_ATTR_MAPPING.keys().sort != user_info.keys().sort
+		# inject the constant values into the user info 
+		e_user_info = user_info.merge(ENTITY_CONSTANTS)
+
+		if ENTITY_ATTR_MAPPING.keys().sort != e_user_info.keys().sort
 		 	raise "The following attributes #{ENTITY_ATTR_MAPPING.keys} need to be set" 
 		end
-
-		LDAP_ATTR_MAPPING.each { |ldap_k, rec_k| attr[ldap_k] = user_info[rec_k] }
-		if !(@ldap.add(:dn => dn, :attributes => attr))
-			raise ldap_ex("Unable to create user in LDAP: #{user_info}.")
+		
+		LDAP_ATTR_MAPPING.each { |ldap_k, rec_k| attributes[ldap_k] = e_user_info[rec_k] }
+		descr = (COMBINED_LDAP_ATTR_MAPPING.map { |k,v|  "#{k}:#{v}" }).join("\n")
+		attributes[LDAP_DESCRIPTION_FIELD] = descr
+		if !(@ldap.add(:dn => dn, :attributes => attributes))
+			raise ldap_ex("Unable to create user in LDAP: #{attributes}.")
 		end
 	end
 
