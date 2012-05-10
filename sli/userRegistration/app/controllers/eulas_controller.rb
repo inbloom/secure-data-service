@@ -3,6 +3,7 @@ class EulasController < ApplicationController
   # GET /eula 
   def show
     puts "session = #{session}"
+
     respond_to do |format|
       format.html 
     end

@@ -45,7 +45,6 @@ class UserAccountRegistrationsController < ApplicationController
                 @redirectPage=false
             else
                 @gUID= jsonDocument[INDEX]["id"]
-                session['guuid'] = @gUID
                 persist_record(false)
             end
         else
@@ -55,9 +54,10 @@ class UserAccountRegistrationsController < ApplicationController
       end
     respond_to do |format|
         if @redirectPage==true
+            session[:guuid]= @gUID
             format.html  { redirect_to("/eula")}
             format.json  { render :json => @user_account_registration,
-                                   action: "/eulas?gUid="+@gUID}
+                                   action: "/eulas"}
         else
             format.html { render action: "new" }
             format.json { render json: @user_account_registration.errors, status: :unprocessable_entity }
