@@ -1,5 +1,14 @@
 
 class EulasController < ApplicationController
+
+  URL=APP_CONFIG['api_base']
+  URL_HEADER = {
+      "Content-Type" => "application/json",
+      "content_type" => "json",
+      "accept" => "application/json"
+      }
+  INDEX=0
+
   # GET /eula 
   def show
     puts "session = #{session}"
@@ -13,6 +22,15 @@ class EulasController < ApplicationController
     if Eula.accepted?(params)
       render :finish
     else 
+      gUID= session[:guuid]
+      res = RestClient.get(URL+"/"+gUID, URL_HEADER){|response, request, result| response }
+      if (res.code==200)
+            jsonDocument = JSON.parse(res.body)
+            puts(jsonDocument)
+            puts(jsonDocument["userName"])
+            ApplicationHelper.remove_user(jsonDocument["userName"])
+            res = RestClient.delete(URL+"/"+gUID, URL_HEADER){|response, request, result| response }
+        end
       redirect_to APP_CONFIG['redirect_slc_url']
     end
   end
