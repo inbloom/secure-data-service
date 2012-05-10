@@ -7,13 +7,7 @@
 
 
   <util:map id="idRefConfigs" key-type="java.lang.String" value-type="org.milyn.Smooks">
-    <entry key="/InterchangeStudentGrade/StudentGradebookEntry/StudentSectionAssociationReference">
-      <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String"
-          value="idRefResolution/InterchangeStudentGrade/StudentGradebookEntry/StudentSectionAssociationReference.xml" />
-      </bean>
-    </entry>
-    
+      
     <!--InterchangeAssessmentMetadata -->
     <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference">
       <bean class="org.milyn.Smooks">

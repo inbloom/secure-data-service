@@ -66,8 +66,8 @@ public class SmooksExtendedReferenceResolverTest {
 
     @Test
     public void testResolution() throws IOException {
-        File input = IngestionTest.getFile("idRefResolutionData/InterchangeStudentGradeStudentGradebookEntryStudentSectionAssociationReference_input.xml");
-        File expected = IngestionTest.getFile("idRefResolutionData/InterchangeStudentGradeStudentGradebookEntryStudentSectionAssociationReference_expected.xml");
-        test(input, expected, "/InterchangeStudentGrade/StudentGradebookEntry/StudentSectionAssociationReference");
+        File input = IngestionTest.getFile("idRefResolutionData/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_input.xml");
+        File expected = IngestionTest.getFile("idRefResolutionData/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_expected.xml");
+        test(input, expected, "/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference");
     }
 }
