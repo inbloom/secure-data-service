@@ -32,7 +32,6 @@ Then /^I receive a JSON object listing all the admin apps$/ do
 end
 
 And /^the object includes an app URL, admin URL, image URL, description, title, vendor, version, display method, is admin app$/ do
-puts @result[0]
 	assert(@result[0]["application_url"] != nil, "Contains app URL")
 	assert(@result[0]["administration_url"] != nil, "Contains administrative URL")
 	assert(@result[0]["image_url"] != nil, "Contains is image URL")
