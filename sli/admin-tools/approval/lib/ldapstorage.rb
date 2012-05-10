@@ -36,6 +36,9 @@ class LDAPStorage
 		:gid => "500"
 	}
 
+	# description field to contain mapping between LDAP and applicaton fields
+	LDAP_DESCRIPTION_FIELD = :description
+
 	# List of fields to fetch from LDAP for user 
 	COMBINED_LDAP_ATTR_MAPPING = LDAP_ATTR_MAPPING.merge(RO_LDAP_ATTR_MAPPING)
 
@@ -99,9 +102,6 @@ class LDAPStorage
 		end
 		
 		LDAP_ATTR_MAPPING.each { |ldap_k, rec_k| attributes[ldap_k] = e_user_info[rec_k] }
-		puts "ATTRIBUTES:\n"
-		puts attributes 
-		puts "------------------------"
 		if !(@ldap.add(:dn => dn, :attributes => attributes))
 			raise ldap_ex("Unable to create user in LDAP: #{attributes}.")
 		end

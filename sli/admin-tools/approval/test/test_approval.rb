@@ -53,7 +53,6 @@ class TestApprovalEngine < Test::Unit::TestCase
 		jd_emailtoken = ApprovalEngine.add_disabled_user(@jd_user)
 		assert(ApprovalEngine.user_exists?(@jd_email))
 		user = @ldap.read_user(@jd_email)
-		puts "FOUND:\n#{user}"
 		assert(user)
 		assert(user[:email] == @jd_email)
 		assert(user[:status] == ApprovalEngine::STATE_SUBMITTED)
