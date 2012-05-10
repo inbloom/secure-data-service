@@ -131,6 +131,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                     Map<String, Object> item = getAssessmentItem(itemRef);
                     if (item != null) {
                         items.add(item);
+                    } else {
+                        super.getErrorReport(neutralRecord.getSourceFile()).error("Could not resolve AssessmentItemReference.  AssessmentItem with id " + itemRef + " not found.", this);
                     }
                 }
             }
@@ -148,7 +150,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 return item.getAttributes();
             }
         }
-        // TODO log user error
         return null;
     }
 
