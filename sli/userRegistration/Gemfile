@@ -27,6 +27,13 @@ gem 'jquery-rails'
 
 gem 'rest-client'
 
+group :test do
+	gem 'simplecov'
+	gem 'simplecov-rcov'
+	gem "mocha"
+end
+
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
