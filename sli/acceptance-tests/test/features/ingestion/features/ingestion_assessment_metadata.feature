@@ -37,6 +37,10 @@ Then I should see following map of entry counts in the corresponding collections
      | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Math-Algebra     |
      | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Math-Geometry    |
      | learningStandard            | 6                   | body.subjectArea                               | ELA                                              |
+     | assessment                  | 1                   | body.assessmentItem.0.identificationCode       | AssessmentItem-1 |
+     | assessment                  | 1                   | body.assessmentItem.1.identificationCode       | AssessmentItem-2 |    
+     | assessment                  | 1                   | body.assessmentItem.2.identificationCode       | AssessmentItem-3 |
+     | assessment                  | 1                   | body.assessmentItem.3.identificationCode       | AssessmentItem-4 |
      
 
   And I should see "Processed 15 records." in the resulting batch job file

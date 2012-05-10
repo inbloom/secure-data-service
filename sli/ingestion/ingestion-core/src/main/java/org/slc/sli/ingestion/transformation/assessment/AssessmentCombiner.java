@@ -74,8 +74,13 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         loadCollectionFromDb("assessmentFamily");
         LOG.info("AssessmentFamily is loaded into local storage.  Total Count = "
                 + collections.get("assessmentFamily").size());
+
+        loadCollectionFromDb("assessmentItem");
+        LOG.info("AssessmentItem is loaded into local storage.  Total Count = "
+                + collections.get("assessmentItem").size());
     }
 
+    @SuppressWarnings("unchecked")
     public void transform() {
         LOG.debug("Transforming data: Injecting assessmentFamilies into assessment");
 
@@ -117,12 +122,34 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
             }
 
+            List<Map<String, Object>> assessmentItemsRefs = (List<Map<String, Object>>) attrs.get("assessmentItemRefs");
+            if (assessmentItemsRefs != null && assessmentItemsRefs.size() > 0) {
+                List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
+                attrs.put("assessmentItem", items);
+                for (Map<String, Object> assessmentItem : assessmentItemsRefs) {
+                    String itemRef = (String) assessmentItem.get("ref");
+                    Map<String, Object> item = getAssessmentItem(itemRef);
+                    if (item != null) {
+                        items.add(item);
+                    }
+                }
+            }
             attrs.remove("assessmentItemRefs");
 
             neutralRecord.setAttributes(attrs);
             transformedAssessments.put(neutralRecord.getLocalId(), neutralRecord);
         }
 
+    }
+
+    private Map<String, Object> getAssessmentItem(String itemRef) {
+        for (NeutralRecord item : collections.get("assessmentItem").values()) {
+            if (itemRef.equals(item.getLocalId())) {
+                return item.getAttributes();
+            }
+        }
+        // TODO log user error
+        return null;
     }
 
     private Map<String, Object> getAssessmentPeriodDescriptor(String assessmentPeriodDescriptorRef) {
