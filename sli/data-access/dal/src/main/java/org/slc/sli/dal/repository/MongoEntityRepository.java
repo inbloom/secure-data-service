@@ -3,8 +3,6 @@ package org.slc.sli.dal.repository;
 import java.util.Date;
 import java.util.Map;
 
-import com.mongodb.WriteResult;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,45 +58,27 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
         return super.create(entity, collectionName);
     }
 
-    /**
-     * Updates the document inside of Mongo. MongoTemplate will upsert the given document, however
-     * since we are specifying IDs in the DAL instead of letting
-     * Mongo create the document IDs, this method will check for the existence of a document ID
-     * before saving the document.
-     *
-     * @param collection
-     * @param record
-     * @param body
-     * @return True if the document was saved
-     */
     @Override
-    public boolean update(String collection, Entity record, Map<String, Object> body) {
-        Assert.notNull(record, "The given record must not be null!");
-        String id = getRecordId(record);
-        if (StringUtils.isEmpty(id)) {
-            return false;
-        }
+    protected Query getUpdateQuery(Entity entity) {
+        String id = getRecordId(entity);
+        return new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id)));
+    }
 
-        //encryption
-        MongoEntity encryptedEntity = new MongoEntity(record.getType(), record.getEntityId(),
-                record.getBody(), record.getMetaData());
+    @Override
+    protected Entity getEncryptedRecord(Entity entity) {
+        MongoEntity encryptedEntity = new MongoEntity(entity.getType(), entity.getEntityId(),
+                entity.getBody(), entity.getMetaData());
         encryptedEntity.encrypt(encrypt);
+        return encryptedEntity;
+    }
 
+    @Override
+    protected Update getUpdateCommand(Entity entity) {
         //set up update query
-        Map<String, Object> entityBody = encryptedEntity.getBody();
-        Map<String, Object> entityMetaData = encryptedEntity.getMetaData();
+        Map<String, Object> entityBody = entity.getBody();
+        Map<String, Object> entityMetaData = entity.getMetaData();
         Update update = new Update().set("body", entityBody).set("metaData", entityMetaData);
-        Query idShardkeyQuery = new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id)));
-
-        //attempt update
-        WriteResult result = template.updateFirst(idShardkeyQuery, update, collection);
-        //if no records were updated, try insert
-        //insert goes through the encryption pipeline, so use the unencrypted Entity
-        if (result.getN() == 0) {
-            template.insert(record, collection);
-        }
-
-        return true;
+        return update;
     }
 
     @Override

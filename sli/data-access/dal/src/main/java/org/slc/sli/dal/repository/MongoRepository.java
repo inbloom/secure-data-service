@@ -10,6 +10,7 @@ import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
+import com.mongodb.WriteResult;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
 import org.slc.sli.dal.convert.IdConverter;
@@ -184,10 +186,26 @@ public abstract class MongoRepository<T> implements Repository<T> {
             return false;
         }
 
-        template.save(record, collection);
+        Query query = getUpdateQuery(record);
+        T encryptedRecord = getEncryptedRecord(record);
+        Update update = getUpdateCommand(encryptedRecord);
+
+        //attempt update
+        WriteResult result = template.updateFirst(query, update, collection);
+        //if no records were updated, try insert
+        //insert goes through the encryption pipeline, so use the unencrypted record
+        if (result.getN() == 0) {
+            template.insert(record, collection);
+        }
 
         return true;
     }
+
+    protected abstract Query getUpdateQuery(T entity);
+
+    protected abstract T getEncryptedRecord(T entity);
+
+    protected abstract Update getUpdateCommand(T entity);
 
     @Override
     public CommandResult execute(DBObject command) {
