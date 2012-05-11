@@ -127,12 +127,13 @@ function populateCourseMenu(){
         y = "<select id='courseSelect' onChange='clearStudentList();populateSectionMenu()'>";
         y += "<option value='-1'></option>";
         var j = 0;
-        for(j = 0;j < temp.length;j++){
-        	y += "<option value='" +j +"'>"+ temp[j].courseTitle + "</option>";
-        }
-        if(temp.length == 0 ) {
+        if(temp === undefined || temp === null) {
             y = "<select id='courseSelect'>";
             y += "<option value='0'>" + "There are no courses available for you.  Please contact your IT administrator." + "</option>";
+        } else {
+            for(j = 0;j < temp.length;j++){
+        	y += "<option value='" +j +"'>"+ temp[j].courseTitle + "</option>";
+            }
         }
     }
     document.getElementById("courseDiv").innerHTML = y;
