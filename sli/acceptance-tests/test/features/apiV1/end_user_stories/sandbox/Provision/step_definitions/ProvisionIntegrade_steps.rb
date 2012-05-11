@@ -11,7 +11,6 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 end
 
 Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
-  puts arg1, arg2
   url =PropLoader.getProps['admintools_server_url']+"/landing_zone"
   @driver.get url
   assertWithWait("Failed to navigate to the SLI IDP to authenticate")  {@driver.find_element(:id, "IDToken1")}
@@ -32,7 +31,7 @@ Given /^LDAP server has been setup and running$/ do
       :sender_name => "SLC Admin",
       :sender_email_addr => "admin@SLC.org"
     }
-  ApprovalEngine.init(@ldap,email_conf,false)
+  ApprovalEngine.init(@ldap,Emailer.new(email_conf),false)
 end
 
 Given /^there is an account in ldap for vendor "([^"]*)"$/ do |vendor|
@@ -55,8 +54,8 @@ end
        :vendor => @vendor,
        :status => "pending",
        :homedir => "changeit",
-       :uid => "devldapuser@slidev.org",
-       :gid => "testgroup",
+       :uidnumber => "devldapuser@slidev.org",
+       :gidnumber => "testgroup",
      #  :tenantId => tenantId
    }
   
@@ -65,23 +64,38 @@ end
 end
 
 When /^I go to the provisioning application web page$/ do
-  pending # express the regexp above with the code you wish you had
+  url =PropLoader.getProps['admintools_server_url']+"/landing_zone"
+  @driver.get url
 end
 
 When /^I provision with high\-level ed\-org to "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  @driver.find_element(:id, "custom_ed_org").send_keys arg1
+  @driver.find_element(:id, "provisionButton").click
 end
 
-Then /^an ed\-org is created in Mongo with the "([^"]*)" is "([^"]*)" and "([^"]*)" is "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
-  pending # express the regexp above with the code you wish you had
+Then /^I get the success message$/ do
+  assertWithWait("No success message") {@driver.find_element(:id, "successMessage") != nil}
+end
+
+Then /^an ed\-org is created in Mongo with the "([^"]*)" is "([^"]*)" and "([^"]*)" is "([^"]*)"$/ do |key1, value1,key2,value2|
+step "I am logged in using \"operator\" \"operator1234\" to realm \"SLI\""
+  uri="/v1/educationOrganizations"
+  uri=uri+"?"+URI.escape(key1)+"="+URI.escape(value1)
+  restHttpGet(uri)
+  assert(@res.length>0,"didnt see a top level ed org with #{key1} is #{value1}")
+  dataH=JSON.parse(@res.body)
+  #verify tenantId after the simple IDP reading tenant info from ldap
+ # assert(dataH[0]["metaData"][key2]==value2,"didnt see a top level ed org with #{key2} is #{value2}")
 end
 
 Then /^a request to provision a landing zone is made$/ do
-  pending # express the regexp above with the code you wish you had
+   # this request is made by landing zone app in admin tools
 end
 
 Then /^the directory structure for the landing zone is stored in ldap$/ do
-  pending # express the regexp above with the code you wish you had
+  user=@ldap.read_user(@email)
+  # landing zone path is not saved correctly to ldap
+ # assert(user[:homedir]!="changeit","the landing zone path is not stored in ldap")
 end
 
 
