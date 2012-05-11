@@ -66,6 +66,9 @@ Given /^login name "([^"]*)" ([^"]*) in the account request queue$/ do |email, s
   
   @userinfo[:password] = "1234"
   @userinfo[:emailtoken] = "qwerty"
+  @userinfo[:homedir] = "test"
+  @userinfo[:uidnumber] = "devldapuser@slidev.org"
+  @userinfo[:gidnumber] = "testgroup"
   
   # delete if there and create a new user to set fixture
   ApprovalEngine.remove_user(@userinfo[:email])

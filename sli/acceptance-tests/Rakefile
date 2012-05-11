@@ -1236,6 +1236,11 @@ task :provisioningTests => [:importSandboxData, :realmInit] do
     runTests("test/features/sandbox/provisioning.feature")
 end
 
+desc "Run Vendor Developer Provisioning integrade acceptance tests"
+task :provisionIntegradeTests => [:importSandboxData, :realmInit] do
+    runTests("test/features/apiV1/end_user_stories/sandbox/Provision/Provision_Integrade.feature")
+end
+
 ############################################################
 # Ondboarding / Provisioning Tests end
 ############################################################
