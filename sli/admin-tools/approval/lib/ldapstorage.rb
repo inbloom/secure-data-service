@@ -128,6 +128,13 @@ class LDAPStorage
 		return search_map_user_fields(filter)
 	end	
 
+	# returns array of extended user_info for all users or all users with given status 
+	# use constants in approval.rb 
+	def search_users(wildcard_email_address)
+		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, wildcard_email_address)
+		return search_map_user_fields(filter)
+	end	
+
 	# updates the user status from an extended user_info 
 	def update_status(user)
 		if user_exists?(user[:email])

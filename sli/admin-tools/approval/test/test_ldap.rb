@@ -42,14 +42,10 @@ class TestLdap < Test::Unit::TestCase
   Email5 = "pig_cat_cow_porcupine"
 
   def setup
-    puts "Before ldap bind"
     @ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-    puts "After ldap bind"
 
-    puts "before delete"
     @ldap.delete_user(Jd_email)
     @ldap.delete_user(Td_email)
-    puts "after delete"
 
     @ldap.remove_user_group(Td_email, "testgroup")
     @ldap.remove_user_group(Jd_email, "testgroup")
@@ -68,25 +64,19 @@ class TestLdap < Test::Unit::TestCase
   def test_keys
     # to make sure that new tests are added when a new key is added to user_info
     result = @ldap.create_user(User_info)
-    puts "#{result}"
     found_user = @ldap.read_user(Jd_email)
 
     keys = [].concat(All_keys).concat(Ldap_generated_keys)
     unaccounted = found_user.keys.reject{|x| keys.include? x}
-    puts "Unaccounted = #{unaccounted}"
     assert unaccounted.empty?
-    puts "Hostname = #{Socket.gethostname}"
   end
 
   def test_create_read_delete
     result = @ldap.create_user(User_info)
-    puts "#{result}"
     found_user = @ldap.read_user(Jd_email)
     assert_equal_user_info(User_info, found_user)
 
-    puts "DN: #{found_user}"
     found_user.each do |attribute, values|
-      puts "   attr:#{attribute}: #{values}"
       # values.each do |value|
       #   puts "      --->#{value}"
       # end
@@ -101,7 +91,6 @@ class TestLdap < Test::Unit::TestCase
     jd_user_groups = @ldap.get_user_groups(Jd_email)
     assert jd_user_groups.include?("testgroup")
     assert jd_user_groups.include?("abcgroup")
-    puts "Memberships: #{@ldap.get_user_groups(Jd_email)}"
   end
   
   def test_update_user_info
@@ -134,7 +123,6 @@ class TestLdap < Test::Unit::TestCase
     ]
 
     to_update.keys.each do |key|
-      puts "key = #{key}"
       if allow_updating.include? key
         assert_equal to_update[key], updated_found_user[key]
       else
@@ -150,7 +138,7 @@ class TestLdap < Test::Unit::TestCase
   end
 
   # TODO: enable this test when 
-  def dont_test_search_users
+  def test_search_users
     @ldap.create_user(build_user_info Email1)
     @ldap.create_user(build_user_info Email2)
     @ldap.create_user(build_user_info Email3)
@@ -167,7 +155,7 @@ class TestLdap < Test::Unit::TestCase
     assert_equal 1, search_result.size
     
     search_result = @ldap.search_users "*blah blah blah*"
-    assert_equals 0, search_result.size
+    assert_equal 0, search_result.size
   end
 end
 
