@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
@@ -17,7 +16,6 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.handler.ReferenceResolutionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
@@ -49,8 +47,6 @@ public class XmlFileProcessor implements Processor {
     private BatchJobDAO batchJobDAO;
 
     @Override
-    @ExtractBatchJobIdToContext
-    @Profiled
     public void process(Exchange exchange) throws Exception {
 
         String batchJobId = getBatchJobId(exchange);
