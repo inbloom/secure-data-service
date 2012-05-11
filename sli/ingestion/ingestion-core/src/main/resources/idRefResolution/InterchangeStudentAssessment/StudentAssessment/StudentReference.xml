@@ -13,10 +13,11 @@
         <ftl:template>
           <!--
                 <StudentIdentity>
+                <#if (StudentReference.StudentIdentity.StudentUniqueStateId[0])??>
                     <StudentUniqueStateId>
                         ${StudentReference.StudentIdentity.StudentUniqueStateId}
                     </StudentUniqueStateId >
-
+                </#if>
                 </StudentIdentity>
          -->
         </ftl:template>
