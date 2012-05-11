@@ -1036,6 +1036,11 @@ task :dashboardStudentContactInfoLiveTests do
   runTests("test/features/dashboard/dash/contact_info_live.feature")
 end
 
+desc "Run dashboard sad path tests"
+task :dashboardSadPathTests do
+  runTests("test/features/dashboard/dash/dashboard_sad_path.feature")
+end
+
 desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
 task :localDashboardTests do
   Rake::Task["realmInitNoPeople"].invoke
