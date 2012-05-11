@@ -29,6 +29,20 @@
         </SectionReference>
         <HomeroomIndicator>true</HomeroomIndicator>
     </StudentSectionAssociation>
+    <StudentSectionAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>1000000002</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+            <SectionIdentity>
+                <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+                <UniqueSectionCode>A.P. Calculus Sec 201</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <HomeroomIndicator>true</HomeroomIndicator>
+    </StudentSectionAssociation>
 	<StudentSchoolAssociation>
 		<StudentReference>
 			<StudentIdentity>
@@ -58,5 +72,19 @@
         <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
         <ExitWithdrawDate>2012-02-02</ExitWithdrawDate>
         <ExitWithdrawType>Withdrawn due to illness</ExitWithdrawType>
+    </StudentSchoolAssociation>
+    <StudentSchoolAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>1000000002</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <EntryDate>2012-01-01</EntryDate>
+        <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
     </StudentSchoolAssociation>
 </InterchangeStudentEnrollment>
