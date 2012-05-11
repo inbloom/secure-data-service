@@ -1,7 +1,7 @@
 require "selenium-webdriver"
 
-require_relative '../../../../../utils/sli_utils.rb'
-require_relative '../../../../../utils/selenium_common.rb'
+require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../utils/selenium_common.rb'
 
 
 
@@ -36,8 +36,8 @@ Given /^there are accounts in requests pending in the system$/ do
        :vendor => "Macro Corp",
        :status => "pending",
        :homedir => "test",
-       :uidnumber => "devldapuser@slidev.org",
-       :gidnumber => "testgroup"
+       :uidnumber => "500",
+       :gidnumber => "500"
    }
   @ldap.create_user(user_info)
   sleep(1)
@@ -151,8 +151,8 @@ Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
        :vendor => vendor,
        :status => "approved",
        :homedir => "test",
-       :uidnumber => "devldapuser@slidev.org",
-       :gidnumber => "testgroup"
+       :uidnumber => "500",
+       :gidnumber => "500"
    }
   @ldap.create_user(user_info)
   sleep(1)
@@ -170,8 +170,8 @@ def create_account(status, vendor)
        :vendor => vendor,
        :status => status,
        :homedir => "test",
-       :uidnumber => "devldapuser@slidev.org",
-       :gidnumber => "testgroup"
+       :uidnumber => "500",
+       :gidnumber => "500"
    }
   @ldap.create_user(user_info)
   sleep(1)
