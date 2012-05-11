@@ -41,7 +41,7 @@
 		<TeacherUniqueStateId>a</TeacherUniqueStateId>
 		<HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
 	</Teacher>
-	<!--TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>cgray</StaffUniqueStateId>
@@ -60,7 +60,7 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 			<AcademicSubject>English Language and Literature</AcademicSubject>
 		</AcademicSubjects>
-	</TeacherSchoolAssociation-->
+	</TeacherSchoolAssociation>
     <TeacherSectionAssociation>
         <TeacherReference>
             <StaffIdentity>
