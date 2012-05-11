@@ -283,7 +283,7 @@
         <TeacherUniqueStateId>a</TeacherUniqueStateId>
         <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
     </Teacher>
-    <TeacherSchoolAssociation>
+    <!--TeacherSchoolAssociation>
         <TeacherReference>
             <StaffIdentity>
                 <StaffUniqueStateId>jdoe</StaffUniqueStateId>
@@ -302,7 +302,21 @@
             <AcademicSubject>Computer and Information Sciences</AcademicSubject>
             <AcademicSubject>English Language and Literature</AcademicSubject>
         </AcademicSubjects>
-    </TeacherSchoolAssociation>
+    </TeacherSchoolAssociation-->
+    <TeacherSectionAssociation>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>jdoe</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SectionReference>
+            <SectionIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                <UniqueSectionCode>Sec 145</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <ClassroomPosition>Teacher of Record</ClassroomPosition>
+    </TeacherSectionAssociation>
     <!-- Tbear -->
     <Teacher>
         <StaffUniqueStateId>tbear</StaffUniqueStateId>
