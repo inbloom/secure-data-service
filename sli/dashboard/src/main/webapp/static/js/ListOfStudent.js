@@ -127,6 +127,7 @@ function populateCourseMenu(){
         y = "<select id='courseSelect' onChange='clearStudentList();populateSectionMenu()'>";
         y += "<option value='-1'></option>";
         var j = 0;
+
         if(temp === undefined || temp === null) {
             y = "<select id='courseSelect'>";
             y += "<option value='0'>" + "There are no courses available for you.  Please contact your IT administrator." + "</option>";
