@@ -127,7 +127,7 @@ public class ReferenceResolutionHandler extends AbstractIngestionHandler<Ingesti
      *         Output XML file containing entities with resolved references.
      */
     @Override
-    IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+    protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
         // Create the expanded output file.
         Logger log = LoggerFactory.getLogger(ReferenceResolutionHandler.class);
         File inputFile = fileEntry.getFile();
