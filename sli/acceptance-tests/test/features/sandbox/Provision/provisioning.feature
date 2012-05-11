@@ -1,4 +1,4 @@
-Feature: Use the Provisioning REST interface to provision a new sandbox application developer.
+Feature: Use the Provisioning REST interface to provision a new sandbox application developer
 
 Scenario Outline: Deny access to users not using SLI Adminstrator credentials
 
@@ -29,7 +29,7 @@ Scenario Outline: Deny access to users using SLI Administrator credentials from 
 	| Username        | Password            | Operation | StateOrganizationId | TenantId |
 	| "badadmin"      | "badadmin1234"      | "POST"    | "Test"              | "12345"  |
 
-Scenario Outline: Provision a new landing zone.
+Scenario Outline: Provision a new landing zone
 
 	Given I am logged in using <Username> <Password> to realm "SLI"
 	When I try to access the URI "/provision" with operation <Operation> and <StateOrganizationId> and <TenantId> 	
@@ -40,7 +40,7 @@ Scenario Outline: Provision a new landing zone.
 	| Username         | Password             | Operation | StateOrganizationId | TenantId |
 	| "fakerealmadmin" | "fakerealmadmin1234" | "POST"    | "Test"              | "12345"  |
 
-Scenario Outline: Provision a new landing zone twice should fail.
+Scenario Outline: Provision a new landing zone twice should fail
 
 	Given I am logged in using <Username> <Password> to realm "SLI"
 	When I try to access the URI "/provision" with operation <Operation> and <StateOrganizationId> and <TenantId> 	
