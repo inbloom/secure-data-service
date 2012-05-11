@@ -36,13 +36,14 @@ Given /^LDAP server has been setup and running$/ do
 end
 
 Given /^there is an account in ldap for vendor "([^"]*)"$/ do |vendor|
+ clear_users()
 @vendor = vendor
   
 end
 
 Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
-@email="devldapuser@slidev.org"
-clear_user()
+ @email = "devldapuser_#{Socket.gethostname}@slidev.org"
+ clear_users()
 
   user_info = {
       :first => "Loraine",
@@ -98,11 +99,17 @@ Then /^the directory structure for the landing zone is stored in ldap$/ do
  clear_user()
 end
 
-def clear_user
-  if @ldap.user_exists?(@email)
-  @ldap.delete_user(@email)
+
+def clear_users
+  # remove all users that have this hostname in their email address
+  users = @ldap.search_users("*#{Socket.gethostname}*")
+  if users
+    users.each do |u|
+      @ldap.delete_user(u[:email])    
+    end
   end
 end
-  
+
+
 
 

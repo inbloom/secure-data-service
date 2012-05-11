@@ -1,4 +1,5 @@
 require "selenium-webdriver"
+require "socket"
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
@@ -26,7 +27,7 @@ Given /^LDAP server has been setup and running$/ do
 end
 
 Given /^there are accounts in requests pending in the system$/ do
-  clear_user()
+  clear_users()
   sleep(1)
   user_info = {
       :first => "Loraine",
@@ -135,13 +136,13 @@ Then /^his account status changed to "([^"]*)"$/ do |arg1|
     end
   end  
   assert(found,"user account status is not #{arg1}")
-  clear_user()
+  clear_users()
 end
 
 
 
 Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
- clear_user()
+ clear_users()
   sleep(1)
   user_info = {
       :first => "Loraine",
@@ -160,7 +161,7 @@ Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
 end
 
 def create_account(status, vendor)
-  clear_user()
+  clear_users()
   sleep(1)
   user_info = {
       :first => "Loraine",
@@ -178,10 +179,13 @@ def create_account(status, vendor)
   sleep(1)
 end
 
-def clear_user
-  
-  if @ldap.user_exists?(@email)
-  @ldap.delete_user(@email)
-end
+def clear_users
+  # remove all users that have this hostname in their email address
+  users = @ldap.search_users("*#{Socket.gethostname}*")
+  if users
+    users.each do |u|
+      @ldap.delete_user(u[:email])    
+    end
+  end
 end
 
