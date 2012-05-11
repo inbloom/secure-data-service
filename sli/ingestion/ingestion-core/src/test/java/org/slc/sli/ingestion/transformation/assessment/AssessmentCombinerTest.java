@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.transformation.assessment;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -51,6 +52,9 @@ public class AssessmentCombinerTest {
     public static final String OBJ2_ID = "Obj2";
 
     public static final String OBJ1_ID = "Obj1";
+
+    private static final String ASS_ITEM_ID_1 = "assessment-item-1";
+
 
     @Autowired
     private AssessmentCombiner combiner;
@@ -132,6 +136,15 @@ public class AssessmentCombinerTest {
                 repository.findOneForJob("objectiveAssessment", new NeutralQuery(
                         new NeutralCriteria("id", "=", OBJ2_ID)), batchJobId)).thenReturn(buildTestObjAssmt(OBJ2_ID));
 
+        when(
+                repository.findOneForJob("objectiveAssessment", new NeutralQuery(
+                        new NeutralCriteria("id", "=", OBJ2_ID)), batchJobId)).thenReturn(buildTestObjAssmt(OBJ2_ID));
+
+        Map<String, String> itemPath = new HashMap<String, String>();
+        itemPath.put("localId", ASS_ITEM_ID_1);
+        when(repository.findByPathsForJob("assessmentItem", itemPath, batchJobId)).thenReturn(
+                Arrays.asList(buildTestAssessmentItem()));
+
         when(job.getId()).thenReturn(batchJobId);
         when(job.getFiles()).thenReturn(Arrays.asList(fe));
 
@@ -151,6 +164,11 @@ public class AssessmentCombinerTest {
                     neutralRecord.getAttributes().get("assessmentPeriodDescriptor"));
             assertEquals(Arrays.asList(buildTestObjAssmt(OBJ1_ID).getAttributes(), buildTestObjAssmt(OBJ2_ID)
                     .getAttributes()), neutralRecord.getAttributes().get("objectiveAssessment"));
+            List<Map<String, Object>> items = (List<Map<String, Object>>) neutralRecord.getAttributes().get(
+                    "assessmentItem");
+            assertNotNull(items);
+            assertEquals(1, items.size());
+            assertEquals("assessment-item-id", items.get(0).get("identificationCode"));
         }
     }
 
@@ -199,6 +217,7 @@ public class AssessmentCombinerTest {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private NeutralRecord buildTestAssessmentNeutralRecord() {
 
         NeutralRecord assessment = new NeutralRecord();
@@ -254,6 +273,10 @@ public class AssessmentCombinerTest {
 
         assessment.setAttributeField("periodDescriptorRef", PERIOD_DESCRIPTOR_CODE_VALUE);
         assessment.setAttributeField("objectiveAssessmentRefs", Arrays.asList(OBJ1_ID, OBJ2_ID));
+
+        Map<String, Object> item = new HashMap<String, Object>();
+        item.put("ref", ASS_ITEM_ID_1);
+        assessment.setAttributeField("assessmentItemRefs", Arrays.asList(item));
 
         return assessment;
     }
@@ -327,6 +350,13 @@ public class AssessmentCombinerTest {
         rec.setRecordType("objectiveAssessment");
         rec.setAttributeField("identificationCode", idCode);
 
+        return rec;
+    }
+
+    public static NeutralRecord buildTestAssessmentItem() {
+        NeutralRecord rec = new NeutralRecord();
+        rec.setRecordType("assessmentItem");
+        rec.setAttributeField("identificationCode", "assessment-item-id");
         return rec;
     }
 

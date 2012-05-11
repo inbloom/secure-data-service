@@ -1,26 +1,11 @@
 package org.slc.sli.api.resources.security;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.GET;
@@ -33,12 +18,35 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.ResourceNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 
 /**
- * 
+ *
  * @author pwolf
  *
  */
@@ -54,20 +62,40 @@ public class ApplicationAuthorizationResource {
     @Autowired
     Repository<Entity> repo;
 
-    private EntityService service;
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
 
-    public static final String RESOURCE_NAME = "applicationAuthorization"; 
+    private EntityService service;
+    private EntityService applicationService;
+    private EntityService edOrgService;
+
+    public static final String RESOURCE_NAME = "applicationAuthorization";
     private static final Logger LOG = LoggerFactory.getLogger(ApplicationAuthorizationResource.class);
 
     public static final String UUID = "uuid";
     public static final String AUTH_ID = "authId";
     public static final String AUTH_TYPE = "authType";
     public static final String EDORG_AUTH_TYPE = "EDUCATION_ORGANIZATION";
+    public static final String APP_IDS                = "appIds";
+    public static final String STATE_ORGANIZATION_ID  = "stateOrganizationId";
+    public static final String NAME_OF_INSTITUTION    = "nameOfInstitution";
+    public static final String CLIENT_ID              = "clientId";
+    public static final String NAME                   = "name";
+    public static final String DESCRIPTION            = "description";
+
+    public static final String RESOURCE_APPLICATION   = "application";
+    public static final String RESOURCE_EDORG         = "educationOrganization";
 
     @PostConstruct
     public void init() {
         EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
         this.service = def.getService();
+
+        EntityDefinition appDef = store.lookupByResourceName(RESOURCE_APPLICATION);
+        this.applicationService = appDef.getService();
+
+        EntityDefinition edOrgDef = store.lookupByResourceName(ResourceNames.EDUCATION_ORGANIZATIONS);
+        this.edOrgService = edOrgDef.getService();
     }
 
     @GET
@@ -88,19 +116,22 @@ public class ApplicationAuthorizationResource {
 
     @POST
     public Response createAuthorization(EntityBody newAppAuth, @Context final UriInfo uriInfo) {
+
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
             return SecurityUtil.forbiddenResponse();
         }
 
-        verifyAccess((String) newAppAuth.get(AUTH_ID));        
+        verifyAccess((String) newAppAuth.get(AUTH_ID));
+
         String uuid = service.create(newAppAuth);
+        logChanges(uriInfo, null, newAppAuth);
         String uri = uriToString(uriInfo) + "/" + uuid;
         return Response.status(Status.CREATED).header("Location", uri).build();
     }
 
     @PUT
-    @Path("{" + UUID + "}") 
-    public Response updateAuthorization(@PathParam(UUID) String uuid, EntityBody auth) {
+    @Path("{" + UUID + "}")
+    public Response updateAuthorization(@PathParam(UUID) String uuid, EntityBody auth, @Context final UriInfo uriInfo) {
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
             return SecurityUtil.forbiddenResponse();
         }
@@ -121,6 +152,9 @@ public class ApplicationAuthorizationResource {
         }
 
         boolean status = service.update(uuid, auth);
+        if (status) { //if the entity was changed
+            logChanges(uriInfo, oldAuth, auth);
+        }
         if (status) {
             return Response.status(Status.NO_CONTENT).build();
         }
@@ -170,4 +204,100 @@ public class ApplicationAuthorizationResource {
             throw new AccessDeniedException("User can only access " + edOrg);
         }
     }
+
+    private void logChanges(UriInfo uriInfo, EntityBody oldAppAuth, EntityBody newAppAuth) {
+        String oldEdOrgId = "";
+        String newEdOrgId = "";
+        if (oldAppAuth != null && oldAppAuth.get(AUTH_ID) != null) {
+            oldEdOrgId = (String) oldAppAuth.get(AUTH_ID);
+        }
+        if (newAppAuth != null && newAppAuth.get(AUTH_ID) != null) {
+            newEdOrgId = (String) newAppAuth.get(AUTH_ID);
+        }
+
+        List<Object> oldApprovedAppIds      = new ArrayList<Object>();
+        List<Object> newApprovedAppIds      = new ArrayList<Object>();
+        if (oldAppAuth != null && oldAppAuth.get(APP_IDS) != null) {
+            oldApprovedAppIds      = (List<Object>) oldAppAuth.get(APP_IDS);
+        }
+        if (newAppAuth != null && newAppAuth.get(APP_IDS) != null) {
+            newApprovedAppIds      = (List<Object>) newAppAuth.get(APP_IDS);
+        }
+
+        Set<Pair<String, String>> older = new HashSet<Pair<String, String>>();
+        for (Object appId :oldApprovedAppIds) {
+            older.add(Pair.of(oldEdOrgId, (String) appId));
+        }
+
+        Set<Pair<String, String>> newer = new HashSet<Pair<String, String>>();
+        for (Object appId :newApprovedAppIds) {
+            newer.add(Pair.of(newEdOrgId, (String) appId));
+        }
+
+        Set<Pair<String, String>> added = new HashSet<Pair<String, String>>(newer);
+        added.removeAll(older);
+        Set<Pair<String, String>>  deleted   = new HashSet<Pair<String, String>>(older);
+        deleted.removeAll(newer);
+
+        logSecurityEvent(uriInfo, added, true);
+        logSecurityEvent(uriInfo, deleted, false);
+    }
+
+    private void logSecurityEvent(UriInfo uriInfo, Set<Pair<String, String>> edOrgApps, boolean added) {
+        for (Pair<String, String> edOrgApp: edOrgApps) {
+            String edOrgId = edOrgApp.getLeft();
+            String appId = edOrgApp.getRight();
+
+            EntityBody edOrg = null;
+            EntityBody app = null;
+            try {
+                edOrg   = edOrgService.get(edOrgId);
+            } catch (AccessDeniedException e) {
+                LOG.info("No access to EdOrg[" + edOrgId + "].Omitting in Security Log.");
+            }
+            try {
+                app     = applicationService.get(appId);
+            } catch (AccessDeniedException e) {
+                LOG.info("No access to Application[" + appId + "].Omitting in Security Log.");
+            }
+            String stateOrganizationId  = "";
+            String nameOfInstitution    = "";
+            if (edOrg != null) {
+                if (edOrg.get(STATE_ORGANIZATION_ID) != null) {
+                    stateOrganizationId = (String) edOrg.get(STATE_ORGANIZATION_ID);
+                }
+                if (edOrg.get(NAME_OF_INSTITUTION) != null) {
+                    nameOfInstitution = (String) edOrg.get(NAME_OF_INSTITUTION);
+                }
+            }
+
+            String clientId    = "";
+            String name        = "";
+            String description = "";
+            if (app != null) {
+                if (app.get(CLIENT_ID) != null) {
+                    clientId    = (String) app.get(CLIENT_ID);
+                }
+                if (app.get(NAME) != null) {
+                    name        = (String) app.get(NAME);
+                }
+                if (app.get(DESCRIPTION) != null) {
+                    description = (String) app.get(DESCRIPTION);
+                }
+            }
+
+        if (added) {
+           audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
+                   uriInfo,
+                   "ALLOWED [" + appId + ", " + name + ", " + description + "] by Client [" + clientId + "] "
+                 + "TO ACCESS [" + edOrgId + ", " + stateOrganizationId  + ", " + nameOfInstitution + "]"));
+        } else {
+           audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
+                    uriInfo,
+                    "NOT ALLOWED [" + appId + ", " + name + ", " + description + "] by Client [" + clientId + "] "
+                  + "TO ACCESS [" + edOrgId + ", " + stateOrganizationId  + ", " + nameOfInstitution + "]"));
+        }
+      }
+  }
+
 }

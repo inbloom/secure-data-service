@@ -55,11 +55,13 @@ public class SamlRequestDecoder {
         private final String spDestination;
         private final String id;
         private final String idpDestination;
+        private final boolean forceAuthn;
         
-        SamlRequest(String spDestination, String idpDestination, String id) {
+        SamlRequest(String spDestination, String idpDestination, String id, boolean forceAuthn) {
             this.spDestination = spDestination;
             this.idpDestination = idpDestination;
             this.id = id;
+            this.forceAuthn = forceAuthn;
         }
         
         public String getIdpDestination() {
@@ -72,6 +74,9 @@ public class SamlRequestDecoder {
         
         public String getId() {
             return id;
+        }
+        public boolean isForceAuthn(){
+            return forceAuthn;
         }
     }
     
@@ -94,6 +99,7 @@ public class SamlRequestDecoder {
         }
         Element element = doc.getDocumentElement();
         String id = element.getAttribute("ID");
+        boolean forceAuthn = Boolean.valueOf(element.getAttribute("ForceAuthn"));
         String simpleIDPDestination = element.getAttribute("Destination");
         NodeList nodes = element.getElementsByTagName("saml:Issuer");
         String issuer = null;
@@ -112,7 +118,7 @@ public class SamlRequestDecoder {
             throw new IllegalArgumentException("Issuer of AuthnRequest is unknown.");
         }
         
-        return new SamlRequest(responseDestination, simpleIDPDestination, id);
+        return new SamlRequest(responseDestination, simpleIDPDestination, id, forceAuthn);
     }
     
     public void setCotString(String cotString) {

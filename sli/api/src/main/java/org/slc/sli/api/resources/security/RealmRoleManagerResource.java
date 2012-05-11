@@ -1,22 +1,11 @@
 package org.slc.sli.api.resources.security;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.security.roles.RoleRightAccess;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
@@ -33,12 +22,26 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.roles.RoleRightAccess;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Realm role mapping API. Allows full CRUD on realm objects. Primarily intended to allow
@@ -58,14 +61,17 @@ public class RealmRoleManagerResource {
 
     @Autowired
     private RoleRightAccess       roleRightAccess;
-    
+
     private EntityService         service;
-    
+
     @Autowired
     private Repository<Entity> repo;
-    
+
     @Autowired
     private IdConverter idConverter;
+
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
 
     @PostConstruct
     public void init() {
@@ -87,7 +93,7 @@ public class RealmRoleManagerResource {
     @PUT
     @Path("{realmId}")
     @Consumes("application/json")
-    public Response updateClientRole(@PathParam("realmId") String realmId, EntityBody updatedRealm) {
+    public Response updateClientRole(@PathParam("realmId") String realmId, EntityBody updatedRealm, @Context final UriInfo uriInfo) {
         if (!SecurityUtil.hasRight(Right.CRUD_REALM_ROLES)) {
             return SecurityUtil.forbiddenResponse();
         }
@@ -116,6 +122,7 @@ public class RealmRoleManagerResource {
         }
 
         if (service.update(realmId, updatedRealm)) {
+            audit(securityEventBuilder.createSecurityEvent(RealmRoleManagerResource.class.getName(), uriInfo, "Realm [" + updatedRealm.get("name") + "] updated!"));
             return Response.status(Status.NO_CONTENT).build();
         }
         return Response.status(Status.BAD_REQUEST).build();
@@ -123,11 +130,13 @@ public class RealmRoleManagerResource {
 
     @DELETE
     @Path("{realmId}")
-    public Response deleteRealm(@PathParam("realmId") String realmId) {
+    public Response deleteRealm(@PathParam("realmId") String realmId, @Context final UriInfo uriInfo) {
         if (!SecurityUtil.hasRight(Right.CRUD_REALM_ROLES)) {
             return SecurityUtil.forbiddenResponse();
         }
+        EntityBody deletedRealm = service.get(realmId);
         service.delete(realmId);
+        audit(securityEventBuilder.createSecurityEvent(RealmRoleManagerResource.class.getName(), uriInfo, "Realm [" + deletedRealm.get("name") + "] deleted!"));
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -156,6 +165,7 @@ public class RealmRoleManagerResource {
         }
 
         String id = service.create(newRealm);
+        audit(securityEventBuilder.createSecurityEvent(RealmRoleManagerResource.class.getName(), uriInfo, "Realm [" + newRealm.get("name") + "] created!"));
         String uri = uriToString(uriInfo) + "/" + id;
 
         return Response.status(Status.CREATED).header("Location", uri).build();
@@ -239,7 +249,7 @@ public class RealmRoleManagerResource {
         }
         return null;
     }
-    
+
     private Response validateUniqueId(String realmId, String uniqueId) {
         if (uniqueId == null || uniqueId.length() == 0) {
             return null;

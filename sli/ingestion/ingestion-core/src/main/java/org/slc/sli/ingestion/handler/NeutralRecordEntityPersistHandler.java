@@ -49,7 +49,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
     }
 
     @Override
-    Entity doHandling(NeutralRecordEntity entity, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+    protected Entity doHandling(NeutralRecordEntity entity, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
 
         matchEntity(entity, errorReport);
 
@@ -84,7 +84,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
             collectionName = (String) entity.getBody().get("collectionName");
             entity.getBody().remove("collectionName");
         }
-        
+
         if (entity.getEntityId() != null) {
 
             if (!entityRepository.update(collectionName, entity)) {
@@ -225,9 +225,9 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
         if (matchFilter.isEmpty()) {
             return;
         }
-        
+
         String collectionName = entity.getType();
-        
+
         if (collectionName.equals("teacher")) {
             collectionName = "staff";
         } else if (collectionName.equals("school")) {
@@ -266,11 +266,11 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
             for (Map.Entry<String, Object> externalReference : entity.getLocalParentIds().entrySet()) {
                 String referencedCollection = WordUtils.uncapitalize(externalReference.getKey());
                 String referencedId = referencedCollection + "Id";
-                
+
                 if (referencedCollection.contains("#")) {
                     referencedId = referencedCollection.substring(referencedCollection.indexOf("#") + 1);
                 }
-                
+
                 filter.put("body." + referencedId, entity.getBody().get(referencedId).toString());
             }
         } else {

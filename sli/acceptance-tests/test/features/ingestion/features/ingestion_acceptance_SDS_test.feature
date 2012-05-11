@@ -62,7 +62,7 @@ Then I should see following map of entry counts in the corresponding collections
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
-        | studentSectionGradebookEntry| 78    |
+        | studentSectionGradebookEntry| 315   |
         | attendance                  | 75    |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
@@ -99,6 +99,22 @@ Then I should see following map of entry counts in the corresponding collections
        | disciplineIncident          | 1                   | body.incidentIdentifier  | Disruption                 | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-03-04                 | string               |
        | disciplineAction            | 1                   | body.disciplineDate      | 2011-04-04                 | string               |
+       | assessment                  | 1                   | body.assessmentItem.0.identificationCode       | AssessmentItem-1 | string  |
+       | assessment                  | 1                   | body.assessmentItem.0.itemCategory             | True-False       | string  |
+       | assessment                  | 1                   | body.assessmentItem.0.maxRawScore              | 5                | integer |
+       | assessment                  | 1                   | body.assessmentItem.0.correctResponse          | False            | string  |
+       | assessment                  | 1                   | body.assessmentItem.1.identificationCode       | AssessmentItem-2 | string  |
+       | assessment                  | 1                   | body.assessmentItem.1.itemCategory             | True-False       | string  |
+       | assessment                  | 1                   | body.assessmentItem.1.maxRawScore              | 5                | integer |
+       | assessment                  | 1                   | body.assessmentItem.1.correctResponse          | True             | string  |
+       | assessment                  | 1                   | body.assessmentItem.2.identificationCode       | AssessmentItem-3 | string  |
+       | assessment                  | 1                   | body.assessmentItem.2.itemCategory             | True-False       | string  |
+       | assessment                  | 1                   | body.assessmentItem.2.maxRawScore              | 5                | integer |
+       | assessment                  | 1                   | body.assessmentItem.2.correctResponse          | True             | string  |
+       | assessment                  | 1                   | body.assessmentItem.3.identificationCode       | AssessmentItem-4 | string  |
+       | assessment                  | 1                   | body.assessmentItem.3.itemCategory             | True-False       | string  |
+       | assessment                  | 1                   | body.assessmentItem.3.maxRawScore              | 5                | integer |
+       | assessment                  | 1                   | body.assessmentItem.3.correctResponse          | False            | string  |
     And I should see "Processed 15405 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
@@ -199,7 +215,7 @@ Then I should see following map of entry counts in the corresponding collections
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
-        | studentSectionGradebookEntry| 78    |
+        | studentSectionGradebookEntry| 315   |
         | attendance                  | 75    |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
@@ -265,7 +281,7 @@ Then I should see following map of entry counts in the corresponding collections
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
-        | studentSectionGradebookEntry| 78    |
+        | studentSectionGradebookEntry| 315   |
         | attendance                  | 75    |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
