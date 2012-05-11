@@ -12,6 +12,20 @@ development:
     email_host: mon.slidev.org
     email_port: 3000
     admin_realm: Shared Learning Infrastructure
+local-acceptance-tests:
+    api_base: http://local.slidev.org:8080/api/rest
+    client_id: Eg6eseKRzN
+    client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
+    redirect_uri: http://local.slidev.org:2000/callback
+    ldap_host: ldap.slidev.org
+    ldap_port: 389
+    ldap_base: ou=DevTest,dc=slidev,dc=org
+    ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+    ldap_pass: Y;Gtf@w{
+    is_sandbox: false
+    email_host: mon.slidev.org
+    email_port: 3000
+    admin_realm: Shared Learning Infrastructure    
 development_sb:
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
@@ -25,66 +39,6 @@ development_sb:
     is_sandbox: true
     email_host: mon.slidev.org
     email_port: 3000
-    admin_realm: Shared Learning Infrastructure
-test:
-    api_base: https://devapp1.slidev.org/api/rest
-    ldap_host: ldap.slidev.org
-    ldap_port: 389
-    ldap_base: ou=DevTest,dc=slidev,dc=org
-    ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
-    ldap_pass: Y;Gtf@w{
-    is_sandbox: false
-    email_host: mon.slidev.org
-    email_port: 3000
-    admin_realm: Shared Learning Infrastructure
-deployment:
-    api_base: https://nxbuild.slidev.org/api/rest
-    client_id: BsgPgjFApl
-    client_secret: 5Upgg8a5bfX5nA121IIFMDCGVAF6NtH2nAIch0BinjUAWtiH
-    redirect_uri: https://devadmin1.slidev.org/callback
-    ldap_host: ldap.slidev.org
-    ldap_port: 389
-    ldap_base: ou=DevTest,dc=slidev,dc=org
-    ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
-    ldap_pass: Y;Gtf@w{
-    is_sandbox: false
-    email_host: mon.slidev.org
-    email_port: 3000
-    admin_realm: Shared Learning Infrastructure
-integration:
-    api_base: https://testapi1.slidev.org/api/rest
-    client_id: zl9FejUhnV
-    client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
-    redirect_uri: https://testadmin1.slidev.org/callback
-    ldap_host: ldap.slidev.org
-    ldap_port: 389
-    ldap_base: ou=DevTest,dc=slidev,dc=org
-    ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
-    ldap_pass: Y;Gtf@w{
-    admin_realm: Shared Learning Infrastructure
-acceptance-tests:
-    api_base: https://nxbuild.slidev.org/api/rest
-    client_id: zl9FejUhnV
-    client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
-    redirect_uri: https://nxbuild.slidev.org/admin/callback
-    ldap_host: ldap.slidev.org
-    ldap_port: 389
-    ldap_base: ou=DevTest,dc=slidev,dc=org
-    ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
-    ldap_pass: Y;Gtf@w{
-    email_host: mon.slidev.org
-    email_port: 3000
-    admin_realm: Shared Learning Infrastructure
-nxbuild2:
-    api_base: https://nxbuild2.slidev.org/api/rest
-    client_id: zl9FejUhnV
-    client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
-    redirect_uri: https://nxbuild2.slidev.org/admin/callback
-    ldap_host: ldap.slidev.org
-    ldap_port: 389
-    ldap_base: ou=DevTest,dc=slidev,dc=org
-    ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
-    ldap_pass: Y;Gtf@w{
     admin_realm: Shared Learning Infrastructure
 team:
     api_base: https://ci.slidev.org/api/rest
@@ -114,4 +68,14 @@ team_sb:
     email_port: 3000
     is_sandbox: true
     admin_realm: Shared Learning Infrastructure
-    
+test:
+    api_base: https://devapp1.slidev.org/api/rest
+    ldap_host: ldap.slidev.org
+    ldap_port: 389
+    ldap_base: ou=DevTest,dc=slidev,dc=org
+    ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+    ldap_pass: Y;Gtf@w{
+    is_sandbox: false
+    email_host: mon.slidev.org
+    email_port: 3000
+    admin_realm: Shared Learning Infrastructure

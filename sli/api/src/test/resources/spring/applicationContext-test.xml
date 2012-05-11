@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
-	
-	http://www.springframework.org/schema/security
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/util    http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/security
                            http://www.springframework.org/schema/security/spring-security.xsd
-	">
+    ">
 
 
      <bean id="ApplicationProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -23,34 +24,38 @@
          </property>
      </bean>
 
+     <util:properties id="sliProperties" location="file:${sli.conf}"/>
 
-	<bean id="testingAuthenticationProvider"
-		class=" org.springframework.security.authentication.TestingAuthenticationProvider">
-	</bean>
 
-	<context:component-scan base-package="org.slc">
-		<context:exclude-filter type="regex"
-			expression=".*CustomImpl" />
-			<context:exclude-filter type="regex"
-			expression=".*MongoEntityRepository" />
-			<context:exclude-filter type="regex"
-			expression=".*AvroEntityValidator" />
-			<context:exclude-filter type="regex"
-			expression=".*AggregationLoader" />
-			<context:exclude-filter type="regex"
+    <bean id="testingAuthenticationProvider"
+        class=" org.springframework.security.authentication.TestingAuthenticationProvider">
+    </bean>
+
+    <context:component-scan base-package="org.slc">
+        <context:exclude-filter type="regex"
+            expression=".*CustomImpl" />
+            <context:exclude-filter type="regex"
+            expression=".*MongoEntityRepository" />
+            <context:exclude-filter type="regex"
+            expression=".*AvroEntityValidator" />
+            <context:exclude-filter type="regex"
+            expression=".*AggregationLoader" />
+            <context:exclude-filter type="regex"
             expression=".*NeutralSchemaValidator" />
-	</context:component-scan>
+    </context:component-scan>
 
 
-	<context:annotation-config />
+    <context:annotation-config />
 
     <bean id="aggregateURLCreator" class="org.slc.sli.api.resources.url.AggregateURLCreator" scope="request">
-	</bean>
-	
-	<bean id="associationURLCreator" class="org.slc.sli.api.resources.url.AssociationURLCreator" scope="request">
     </bean>
-    
+
+    <bean id="associationURLCreator" class="org.slc.sli.api.resources.url.AssociationURLCreator" scope="request">
+    </bean>
+
     <bean id="EntityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
     <bean id="queryConverterCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
+
+    <import resource="classpath:/spring/validation.xml" />
 </beans>
 

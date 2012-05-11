@@ -7,6 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
 import org.slc.sli.common.util.datetime.DateTimeUtil;
@@ -56,6 +59,29 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
     }
 
     @Override
+    protected Query getUpdateQuery(Entity entity) {
+        String id = getRecordId(entity);
+        return new Query(Criteria.where("_id").is(idConverter.toDatabaseId(id)));
+    }
+
+    @Override
+    protected Entity getEncryptedRecord(Entity entity) {
+        MongoEntity encryptedEntity = new MongoEntity(entity.getType(), entity.getEntityId(),
+                entity.getBody(), entity.getMetaData());
+        encryptedEntity.encrypt(encrypt);
+        return encryptedEntity;
+    }
+
+    @Override
+    protected Update getUpdateCommand(Entity entity) {
+        //set up update query
+        Map<String, Object> entityBody = entity.getBody();
+        Map<String, Object> entityMetaData = entity.getMetaData();
+        Update update = new Update().set("body", entityBody).set("metaData", entityMetaData);
+        return update;
+    }
+
+    @Override
     public boolean update(String collection, Entity entity) {
         validator.validate(entity);
         this.updateTimestamp(entity);
@@ -63,7 +89,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
 //        if (encrypt != null) {
 //            body = encrypt.encrypt(entity.getType(), entity.getBody());
 //        }
-        return super.update(collection, entity, null); //body);
+        return update(collection, entity, null); //body);
     }
 
     /** Add the created and updated timestamp to the document metadata. */

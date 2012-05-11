@@ -31,6 +31,18 @@ Examples:
 	|"agibbs"    |"agibbs1234"    |"NY" |"IT Admin"|"Dawn Elementary"          |"Teachers in Parker Elementary"|
 	|"akopel"    |"akopel1234"    |"IL" |"IT Admin"|"South Daybreak Elementary"|"Students in AP Calculus Sec 201"|
 
+Scenario Outline: Staff listing teachers they have context to
+
+Given I am logged in using <Username> <Password> to realm <Realm>
+And I have a Role attribute that equals <Role>
+And my "school" is <School>
+When I try to access the data for "My Teachers" in my "school" from the API
+Then I get the data containing <Data> returned in json format
+Examples:
+  |Username    |Password        |Realm|Role      |School                     |Data|
+  |"kmelendez" |"kmelendez1234" |"NY" |"Leader"  |"Dawn Elementary"          |"Teachers in Dawn Elementary"|
+  |"akopel"    |"akopel1234"    |"IL" |"IT Admin"|"South Daybreak Elementary"|"Teachers in South Daybreak Elementary"|
+
 Scenario Outline: IT Administrator trying to edit data for own school
 
 Given I am logged in using <Username> <Password> to realm <Realm>
