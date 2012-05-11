@@ -11,6 +11,7 @@ development:
     is_sandbox: false
     email_host: mon.slidev.org
     email_port: 3000
+    email_replace_uri: http://local.slidev.org:3000
     admin_realm: Shared Learning Infrastructure
 local-acceptance-tests:
     api_base: http://local.slidev.org:8080/api/rest
@@ -25,6 +26,7 @@ local-acceptance-tests:
     is_sandbox: false
     email_host: mon.slidev.org
     email_port: 3000
+    email_replace_uri: http://local.slidev.org:2000
     admin_realm: Shared Learning Infrastructure    
 development_sb:
     api_base: http://local.slidev.org:8080/api/rest
@@ -39,6 +41,7 @@ development_sb:
     is_sandbox: true
     email_host: mon.slidev.org
     email_port: 3000
+    email_replace_uri: http://local.slidev.org:3000
     admin_realm: Shared Learning Infrastructure
 team:
     api_base: https://ci.slidev.org/api/rest
@@ -52,6 +55,7 @@ team:
     ldap_pass: Y;Gtf@w{
     email_host: mon.slidev.org
     email_port: 3000
+    email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: false
     admin_realm: Shared Learning Infrastructure
 team_sb:
@@ -66,6 +70,7 @@ team_sb:
     ldap_pass: Y;Gtf@w{
     email_host: mon.slidev.org
     email_port: 3000
+    email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: true
     admin_realm: Shared Learning Infrastructure
 test:

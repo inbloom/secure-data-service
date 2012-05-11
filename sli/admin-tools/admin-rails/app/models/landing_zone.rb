@@ -23,6 +23,7 @@ class LandingZone < Ldap
     if !result.valid?
       raise ProvisioningError.new "Could not provision landing zone"
     end
+    
     user_info[:homedir] = result.attributes[:landingZone]
     @@ldap.update_user_info(user_info)
   end

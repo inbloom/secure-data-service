@@ -3,7 +3,12 @@ require 'approval'
 
 
 class AccountManagement < Ldap
-  @@emailer=Emailer.new({:host=>EMAIL_HOST,:port=>EMAIL_PORT})
+
+  IS_SANDBOX=APP_CONFIG["is_sandbox"]
+  EMAIL_HOST=APP_CONFIG["email_host"]
+  EMAIL_PORT=APP_CONFIG["email_port"]
+  REPLACER={"__URI__" => APP_CONFIG["email_replace_uri"]}
+  @@emailer=Emailer.new({:host=>EMAIL_HOST,:port=>EMAIL_PORT, :replacer=>REPLACER})
 
   attr_accessor :name,:vendor,:lastUpdate,:status,:email,:transitions
 
