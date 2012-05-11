@@ -163,5 +163,33 @@
       </SessionIdentity>
     </SessionReference>
   </Section>
+  <Section>
+    <UniqueSectionCode>Sec 155</UniqueSectionCode>
+    <SequenceOfCourse>4</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Independent study</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>American Literature</LocalCourseCode>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>American Literature</ID>
+        </CourseCode>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>1</StateOrganizationId>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
 
 </InterchangeMasterSchedule>

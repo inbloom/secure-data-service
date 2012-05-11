@@ -632,7 +632,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-91919008-1"/>      
+      <StudentAcademicRecordReference ref="SAR-91919008-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919008-2">
@@ -824,7 +824,7 @@
       </EducationOrganizationReference>
       <StudentAcademicRecordReference ref="SAR-91919010-2"/>
     </CourseTranscript>
-    
+
     <StudentAcademicRecord id="SAR-91919011-1">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -898,7 +898,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-91919011-2"/>      
+      <StudentAcademicRecordReference ref="SAR-91919011-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919012-1">
@@ -1164,7 +1164,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-91919015-1"/>  
+      <StudentAcademicRecordReference ref="SAR-91919015-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919001-1">
@@ -1202,7 +1202,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-91919015-1"/>  
+      <StudentAcademicRecordReference ref="SAR-91919015-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919016-1">
@@ -1316,7 +1316,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-91919017-1"/>  
+      <StudentAcademicRecordReference ref="SAR-91919017-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919017-2">
@@ -1354,7 +1354,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-91919017-2"/>      
+      <StudentAcademicRecordReference ref="SAR-91919017-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919018-1">
@@ -1392,7 +1392,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-91919018-1"/>      
+      <StudentAcademicRecordReference ref="SAR-91919018-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919018-2">
@@ -1430,7 +1430,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-91919018-2"/>      
+      <StudentAcademicRecordReference ref="SAR-91919018-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919019-1">
@@ -1468,7 +1468,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-91919019-1"/>      
+      <StudentAcademicRecordReference ref="SAR-91919019-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919019-2">
@@ -1506,7 +1506,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-91919019-2"/>      
+      <StudentAcademicRecordReference ref="SAR-91919019-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919020-1">
@@ -1544,7 +1544,7 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-91919020-1"/>      
+      <StudentAcademicRecordReference ref="SAR-91919020-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-91919020-2">
@@ -1582,12 +1582,12 @@
           <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-91919020-2"/>      
+      <StudentAcademicRecordReference ref="SAR-91919020-2"/>
     </CourseTranscript>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>84</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1600,11 +1600,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>58</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1617,11 +1617,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>72</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1634,11 +1634,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>99</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1651,11 +1651,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>100</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1668,11 +1668,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>86</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1685,11 +1685,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>43</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1702,11 +1702,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>97</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1719,11 +1719,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>81</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1736,11 +1736,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>88</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1753,11 +1753,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>91</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1770,11 +1770,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>77</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1787,11 +1787,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>78</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1804,11 +1804,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>66</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1821,11 +1821,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>68</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1838,11 +1838,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>79</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1855,11 +1855,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>85</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1872,11 +1872,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>95</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1889,11 +1889,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>55</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1906,11 +1906,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-15</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>61</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1923,12 +1923,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-1"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-1"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>86</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1941,11 +1941,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>56</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1958,11 +1958,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>73</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1975,11 +1975,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>98</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -1992,11 +1992,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>100</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2009,11 +2009,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>81</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2026,11 +2026,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>41</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2043,11 +2043,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>98</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2060,11 +2060,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>87</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2077,11 +2077,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>89</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2094,11 +2094,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>93</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2111,11 +2111,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>76</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2128,11 +2128,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>79</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2145,11 +2145,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>71</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2162,11 +2162,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>69</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2179,11 +2179,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>80</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2196,11 +2196,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>88</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2213,11 +2213,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>94</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2230,11 +2230,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>57</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2247,11 +2247,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>62</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2264,12 +2264,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-2"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-2"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>85</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2282,11 +2282,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>55</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2299,11 +2299,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>72</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2316,11 +2316,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>97</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2333,11 +2333,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>99</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2350,11 +2350,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>80</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2367,11 +2367,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>40</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2384,11 +2384,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>97</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2401,11 +2401,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>86</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2418,11 +2418,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>88</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2435,11 +2435,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>92</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2452,11 +2452,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>75</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2469,11 +2469,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>78</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2486,11 +2486,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>70</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2503,11 +2503,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>68</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2520,11 +2520,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>79</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2537,11 +2537,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>87</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2554,11 +2554,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>93</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2571,11 +2571,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>56</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2588,11 +2588,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>61</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -2605,11 +2605,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-Algebra-11-A-3"/>
+      <GradebookEntryReference ref="GBE-Algebra-11-A-3"/>
     </StudentGradebookEntry>
-    
-    
-    
+
+
+
     <StudentAcademicRecord id="SAR-453827070-1">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -2645,7 +2645,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-453827070-1"/>      
+      <StudentAcademicRecordReference ref="SAR-453827070-1"/>
     </CourseTranscript>
     <StudentAcademicRecord id="SAR-453827070-2">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
@@ -2698,7 +2698,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-943715230-1"/>      
+      <StudentAcademicRecordReference ref="SAR-943715230-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-943715230-2">
@@ -2736,7 +2736,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-943715230-2"/>      
+      <StudentAcademicRecordReference ref="SAR-943715230-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-164420088-1">
@@ -2774,7 +2774,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-164420088-1"/>      
+      <StudentAcademicRecordReference ref="SAR-164420088-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-164420088-2">
@@ -2812,7 +2812,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-164420088-2"/>      
+      <StudentAcademicRecordReference ref="SAR-164420088-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-505331723-1">
@@ -2850,7 +2850,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-505331723-1"/>      
+      <StudentAcademicRecordReference ref="SAR-505331723-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-505331723-2">
@@ -2888,7 +2888,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-505331723-2"/>      
+      <StudentAcademicRecordReference ref="SAR-505331723-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-530425896-1">
@@ -2926,7 +2926,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-530425896-1"/>      
+      <StudentAcademicRecordReference ref="SAR-530425896-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-530425896-2">
@@ -2964,7 +2964,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-530425896-2"/>      
+      <StudentAcademicRecordReference ref="SAR-530425896-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-429526969-1">
@@ -3002,7 +3002,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-429526969-1"/>      
+      <StudentAcademicRecordReference ref="SAR-429526969-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-429526969-2">
@@ -3040,7 +3040,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-429526969-2"/>      
+      <StudentAcademicRecordReference ref="SAR-429526969-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-178828452-1">
@@ -3078,7 +3078,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-178828452-1"/>      
+      <StudentAcademicRecordReference ref="SAR-178828452-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-178828452-2">
@@ -3116,7 +3116,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-178828452-2"/>      
+      <StudentAcademicRecordReference ref="SAR-178828452-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-525878920-1">
@@ -3154,7 +3154,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-525878920-1"/>      
+      <StudentAcademicRecordReference ref="SAR-525878920-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-525878920-2">
@@ -3192,7 +3192,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-525878920-2"/>      
+      <StudentAcademicRecordReference ref="SAR-525878920-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-510152105-1">
@@ -3230,7 +3230,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-510152105-1"/>      
+      <StudentAcademicRecordReference ref="SAR-510152105-1"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-510152105-2">
@@ -3268,7 +3268,7 @@
           <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
         </EducationalOrgIdentity>
       </EducationOrganizationReference>
-      <StudentAcademicRecordReference ref="SAR-510152105-2"/>      
+      <StudentAcademicRecordReference ref="SAR-510152105-2"/>
     </CourseTranscript>
 
     <StudentAcademicRecord id="SAR-802709591-1">
@@ -3346,7 +3346,7 @@
       </EducationOrganizationReference>
       <StudentAcademicRecordReference ref="SAR-802709591-2"/>
     </CourseTranscript>
-    
+
     <StudentAcademicRecord id="SAR-437680177-1">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -4128,7 +4128,7 @@
       </EducationOrganizationReference>
       <StudentAcademicRecordReference ref="SAR-670703438-2"/>
     </CourseTranscript>
-    
+
     <StudentAcademicRecord id="SAR-851123275-1">
       <CumulativeCreditsAttempted CreditType="Carnegie unit" CreditConversion="0">
         <Credit>5</Credit>
@@ -4432,10 +4432,10 @@
       </EducationOrganizationReference>
       <StudentAcademicRecordReference ref="SAR-421216329-2"/>
     </CourseTranscript>
-    
+
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>86</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4448,11 +4448,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>88</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4465,11 +4465,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>83</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4482,12 +4482,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
-    
+
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>76</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4500,11 +4500,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>78</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4517,11 +4517,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>73</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4534,12 +4534,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>85</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4552,11 +4552,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>87</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4569,11 +4569,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>82</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4586,12 +4586,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>66</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4604,11 +4604,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>68</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4621,11 +4621,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>63</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4638,12 +4638,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>96</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4656,11 +4656,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>98</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4673,11 +4673,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>93</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4690,12 +4690,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>43</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4708,11 +4708,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>44</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4725,11 +4725,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>45</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4742,12 +4742,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>54</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4760,11 +4760,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>58</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4777,11 +4777,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>71</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4794,12 +4794,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>81</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4812,11 +4812,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>83</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4829,11 +4829,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>78</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4846,12 +4846,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>71</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4864,11 +4864,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>74</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4881,11 +4881,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>80</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4898,12 +4898,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>86</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4916,11 +4916,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>88</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4933,11 +4933,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>83</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4950,12 +4950,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>91</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4968,11 +4968,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>98</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -4985,11 +4985,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>93</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5002,12 +5002,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>80</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5020,11 +5020,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>78</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5037,11 +5037,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>83</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5054,12 +5054,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>87</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5072,11 +5072,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>90</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5089,11 +5089,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>86</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5106,12 +5106,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>66</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5124,11 +5124,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>58</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5141,11 +5141,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>63</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5158,12 +5158,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>68</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5176,11 +5176,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>78</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5193,11 +5193,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>69</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5210,12 +5210,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>26</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5228,11 +5228,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>28</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5245,11 +5245,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>33</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5262,12 +5262,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>56</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5280,11 +5280,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>58</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5297,11 +5297,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>63</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5314,12 +5314,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>36</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5332,11 +5332,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>48</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5349,11 +5349,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>53</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5366,12 +5366,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>56</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5384,11 +5384,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>58</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5401,11 +5401,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>43</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5418,12 +5418,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>86</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5436,11 +5436,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>88</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5453,11 +5453,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>83</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5470,12 +5470,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>66</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5488,11 +5488,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>78</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5505,11 +5505,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>73</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5522,12 +5522,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>96</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5540,11 +5540,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>98</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5557,11 +5557,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>99</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5574,12 +5574,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>72</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5592,11 +5592,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>78</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5609,11 +5609,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>73</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5626,12 +5626,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>67</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5644,11 +5644,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>69</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5661,11 +5661,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>73</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5678,12 +5678,12 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
-    
+
     <StudentGradebookEntry>
       <DateFulfilled>2011-09-29</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>86</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5696,11 +5696,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-1"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-1"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-13</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>88</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5713,11 +5713,11 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-2"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-2"/>
     </StudentGradebookEntry>
     <StudentGradebookEntry>
       <DateFulfilled>2011-10-27</DateFulfilled>
-      <LetterGradeEarned></LetterGradeEarned>
+
       <NumericGradeEarned>83</NumericGradeEarned>
       <StudentSectionAssociationReference>
         <StudentSectionAssociationIdentity>
@@ -5730,6 +5730,6 @@
           </SectionIdentity>
         </StudentSectionAssociationIdentity>
       </StudentSectionAssociationReference>
-      <GradebookEntryReference id="GBE-8th Grade English-3"/>
+      <GradebookEntryReference ref="GBE-8th Grade English-3"/>
     </StudentGradebookEntry>
 </InterchangeStudentGrade>

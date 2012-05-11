@@ -178,19 +178,19 @@ public class SecurityEvent {
     public String toString() {
         String message;
 
-        message = ((tenantId == null) ? "" : tenantId) + DELIMITER
-                + ((user == null) ? "" : user) + DELIMITER
-                + ((targetEdOrg == null) ? "" : targetEdOrg) + DELIMITER
-                + ((actionUri == null) ? "" : actionUri) + DELIMITER
-                + ((appId == null) ? "" : appId) + DELIMITER
-                + ((origin == null) ? "" : origin) + DELIMITER
-                + ((executedOn == null) ? "" : executedOn) + DELIMITER
-                + ((credential == null) ? "" : credential) + DELIMITER
-                + ((userOrigin == null) ? "" : userOrigin) + DELIMITER
-                + ((timeStamp == null) ? "" : timeStamp) + DELIMITER
+        message = ((timeStamp == null) ? "" : timeStamp) + DELIMITER
                 + ((processNameOrId == null) ? "" : processNameOrId) + DELIMITER
-                + ((className == null) ? "" : className) + DELIMITER
                 + ((logLevel == null) ? LogLevelType.TYPE_INFO.getName() : logLevel.getName()) + DELIMITER
+                + ((executedOn == null) ? "" : executedOn) + DELIMITER
+                + ((appId == null) ? "" : appId) + DELIMITER
+                + ((className == null) ? "" : className) + DELIMITER
+                + ((tenantId == null) ? "" : tenantId) + DELIMITER
+                + ((targetEdOrg == null) ? "" : targetEdOrg) + DELIMITER
+                + ((user == null) ? "" : user) + DELIMITER
+                + ((userOrigin == null) ? "" : userOrigin) + DELIMITER
+                + ((credential == null) ? "" : credential) + DELIMITER
+                + ((actionUri == null) ? "" : actionUri) + DELIMITER
+                + ((origin == null) ? "" : origin) + DELIMITER
                 + ((logMessage == null) ? "" : logMessage);
 
         return message;

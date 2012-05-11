@@ -148,7 +148,7 @@ end
 
 # Run a whole series of acceptance tests
 desc "Run API, Ingestion, Dashboard, SDK, and SimpleIDP acceptance tests"
-task :fullSuite => [:production, :apiSandboxTests, :simpleIDPAuthTests, :dashboardTests, :JavaSDKTests] do
+task :fullSuite => [:production, :simpleIDPAuthTests, :sandboxTests, :provisioningTests, :dashboardTests, :JavaSDKTests, :integrationTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -335,11 +335,6 @@ task :ingestionStudentTranscriptAssociationTests do
   runTests("test/features/ingestion/features/ingestion_StudentTranscriptAssociation.feature")
 end
 
-desc "Run idNamespace Test"
-task :ingestionidNamespaceTest do
-  runTests("test/features/ingestion/features/ingestion_idNamespace.feature")
-end
-
 desc "Run Ingestion Gradebook Entry Test"
 task :ingestionGradebookEntryTests do
   runTests("test/features/ingestion/features/ingestion_GradebookEntry.feature")
@@ -445,6 +440,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1EndUserStoryCustomEntityTests,
                      :v1StudentOptionalFieldsTests,
                      :v1SingleStudentViewTests,
+#                     :v1BlacklistValidationTests,
                      :v1XMLTests] do
   displayFailureReport()
 end
@@ -805,6 +801,12 @@ task :v1SimpleCrudTests do
   runTests("test/features/apiV1/entities/crud_rc")
 end
 
+desc "Run V1 Blacklist/Whitelist input Tests"
+task :v1BlacklistValidationTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/blacklistValidation/blacklistValidation.feature")
+end
+
 desc "Run Account Approval Tests"
 task :accountApprovalTests do
   runTests("test/features/apiV1/end_user_stories/sandbox/AccountApproval/prod_sandbox_AccountApproval.feature")
@@ -881,6 +883,7 @@ task :databrowserTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
+  runTests("test/features/databrowser/databrowser_selective_deny.feature")
   runFixtureAndTests("test/features/databrowser/databrowser_denial.feature", "application", "application_denial_fixture.json")
   displayFailureReport()
   if $SUCCESS
@@ -1034,6 +1037,11 @@ end
 desc "Run dashboard student contact info live tests"
 task :dashboardStudentContactInfoLiveTests do
   runTests("test/features/dashboard/dash/contact_info_live.feature")
+end
+
+desc "Run dashboard sad path tests"
+task :dashboardSadPathTests do
+  runTests("test/features/dashboard/dash/dashboard_sad_path.feature")
 end
 
 desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
