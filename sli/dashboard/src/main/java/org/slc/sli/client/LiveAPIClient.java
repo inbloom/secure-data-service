@@ -498,16 +498,16 @@ public class LiveAPIClient implements APIClient {
         sections = processSections(sections);
         return sections;
     }
-    
+
     private List<GenericEntity> processSections(List<GenericEntity> sections) {
-        if (sections != null ) {
+        if (sections != null) {
             for (GenericEntity section : sections) {
                 // if no section name, fill in with section code
                 if (section.get(Constants.ATTR_SECTION_NAME) == null) {
                     section.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
                 }
             }
-        }  
+        }
         return sections;
     }
 
