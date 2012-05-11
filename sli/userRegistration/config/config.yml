@@ -4,7 +4,7 @@ development:
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
     redirect_uri: http://local.slidev.org:3000/callback
-    redirect_slc_url: http://www.google.com
+    redirect_slc_url: http://www.slcedu.org
     ldap_host: ldap.slidev.org
     ldap_port: 389
     ldap_base: ou=DevTest,dc=slidev,dc=org
@@ -22,7 +22,7 @@ development_sb:
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
     redirect_uri: http://local.slidev.org:3000/callback
-    redirect_slc_url: http://www.google.com
+    redirect_slc_url: http://www.slcedu.org
     ldap_host: ldap.slidev.org
     ldap_port: 389
     ldap_base: ou=Sandbox,ou=DevTest,dc=slidev,dc=org
@@ -48,14 +48,14 @@ test:
     email_sender_name: Administrator
     email_sender_address: noreply@slidev.org
     admin_realm: Shared Learning Infrastructure
-    redirect_slc_url: http://www.google.com
+    redirect_slc_url: http://www.slcedu.org
 deployment:
     api_base: https://nxbuild.slidev.org/api/rest/v1/userAccounts
     validate_base: http://nxbuild.slidev.org:3000/user_account_validation
     client_id: BsgPgjFApl
     client_secret: 5Upgg8a5bfX5nA121IIFMDCGVAF6NtH2nAIch0BinjUAWtiH
     redirect_uri: https://devadmin1.slidev.org/callback
-    redirect_slc_url: http://www.google.com
+    redirect_slc_url: http://www.slcedu.org
     ldap_host: ldap.slidev.org
     ldap_port: 389
     ldap_base: ou=DevTest,dc=slidev,dc=org
@@ -73,7 +73,7 @@ integration:
     client_id: zl9FejUhnV
     client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
     redirect_uri: https://testadmin1.slidev.org/callback
-    redirect_slc_url: http://www.google.com
+    redirect_slc_url: http://www.slcedu.org
     ldap_host: ldap.slidev.org
     ldap_port: 389
     ldap_base: ou=DevTest,dc=slidev,dc=org
@@ -90,7 +90,7 @@ acceptance-tests:
     client_id: zl9FejUhnV
     client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
     redirect_uri: https://nxbuild.slidev.org/admin/callback
-    redirect_slc_url: http://www.google.com
+    redirect_slc_url: http://www.slcedu.org
     ldap_host: ldap.slidev.org
     ldap_port: 389
     ldap_base: ou=DevTest,dc=slidev,dc=org
@@ -107,7 +107,7 @@ nxbuild2:
     client_id: zl9FejUhnV
     client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
     redirect_uri: https://nxbuild2.slidev.org/admin/callback
-    redirect_slc_url: http://www.google.com
+    redirect_slc_url: http://www.slcedu.org
     ldap_host: ldap.slidev.org
     ldap_port: 389
     ldap_base: ou=DevTest,dc=slidev,dc=org
@@ -125,7 +125,7 @@ team:
     client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
     redirect_uri: https://ci.slidev.org:2001/callback
     ldap_host: ldap.slidev.org
-    redirect_slc_url: http://www.google.com
+    redirect_slc_url: http://www.slcedu.org
     ldap_port: 389
     ldap_base: ou=DevTest,dc=slidev,dc=org
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
@@ -142,7 +142,7 @@ team_sb:
     client_id: OY6Nnukmn6
     client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
     redirect_uri: https://ci.slidev.org:2001/callback
-    redirect_slc_url: http://www.google.com
+    redirect_slc_url: http://www.slcedu.org
     ldap_host: ldap.slidev.org
     ldap_port: 389
     ldap_base: ou=DevTest,dc=slidev,dc=org

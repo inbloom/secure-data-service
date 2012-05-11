@@ -12,10 +12,11 @@ Before do
   @userRegAppUrl = PropLoader.getProps['user_registration_app_url']
   @validationBaseSuffix = "/user_account_validation"
 
-  @emailConf = {
+  emailConf = {
       :host => 'mon.slidev.org',
       :port => 3000,
   }
+  intializaApprovalEngineAndLDAP(emailConf, @prod)
 end
 
 ###############################################################################
@@ -24,6 +25,7 @@ end
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
   url = @validationLink                                         if human_readable_id == "VALID VERIFICATION LINK"
+  url = @validationLink                                         if human_readable_id == "ALREADY VERIFIED LINK"
   url = @userRegAppUrl + @validationBaseSuffix + "/invalid123"  if human_readable_id == "INVALID VERIFICATION LINK"
   #return the translated value
   url
@@ -32,6 +34,16 @@ end
 ###############################################################################
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
+
+Given /^there is no registered account for "([^\"]*)" in the SLI database$/ do |email|
+  removeUser(email)
+  step "the account for \"#{email}\" is removed from SLI database"
+end
+
+Given /^there is no registered account for "([^\"]*)" in LDAP$/ do |email|
+  removeUser(email)
+  assert(!ApprovalEngine.user_exists?(email), "#{email} still exists in LDAP")
+end
 
 Given /^I go to the production account registration page$/ do
   @driver.get @userRegAppUrl
@@ -44,9 +56,7 @@ Given /^I go to the sandbox account registration page$/ do
 end
 
 Given /^there is an approved account with login name "([^\"]*)"$/ do |email|
-  @prod ? env = "Production" : env = "Sandbox"
-  coll = @db["userAccount"]
-  records = coll.find("body.userName" => email, "body.environment" => env).to_a
+  records = getRecordsFromMongo("body.userName", email)
   assert(records.size != 0, "No record found for #{email}")
   assert(records.size == 1, "More than one records found for #{email}")
   records.each do |record|
@@ -59,9 +69,6 @@ end
 ###############################################################################
 
 When /^I fill out the field "([^\"]*)" as "([^\"]*)"$/ do |field, value|
-  if field "Email"
-    @emailAddress = value
-  end
   trimmed = field.sub(" ", "")
   @driver.find_element(:xpath, "//input[contains(
     translate(@id, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '#{trimmed.downcase}')
@@ -101,13 +108,11 @@ end
 
 Then /^I am redirected to a page with terms and conditions$/ do
   assert(@driver.current_url.include?("#{@userRegAppUrl}/eula"))
-  assertText("Terms of use")
+  assertText("Terms of Use")
 end
 
 Then /^I receive an error that the account already exists$/ do
-  assert(@driver.find_element(:xpath, "//div[contains(
-    text(), 'Username already exists')
-    ]").size != 0, "Cannot find error message")
+  step "I should see the error message \"User name already exists\""
 end
 
 Then /^I am redirected to the hosting website$/ do
@@ -116,6 +121,8 @@ end
 
 Then /^I am directed to an acknowledgement page.$/ do
   assertText("Your request was submitted.")
+  assertText("You will receive an email asking you to verify your email address, " +
+             "and then provide you with the next steps in the process.")
 end
 
 Then /^I get (\d+) record$/ do |count|
@@ -132,13 +139,24 @@ Then /^"([^\"]*)" is "([^\"]*)"$/ do |inKey, value|
   end
 end
 
-Then /^an email verification link is generated$/ do
-  emailToken = getEmailToken(@emailAddress)
+Then /^an email verification link for "([^\"]*)" is generated$/ do |email|
+  emailToken = getEmailToken(email)
   @validationLink = @userRegAppUrl + @validationBaseSuffix + "/" + emailToken
+  puts @validationLink
 end
 
 Then /^I should see the text "([^\"]*)"$/ do |text|
   assertText(text)
+end
+
+Then /^I should see the error message "([^\"]*)"$/ do |errorMsg|
+  assert(@driver.find_element(:xpath, "//li[contains(text(), '#{errorMsg}')]").size != 0,
+         "Cannot find error message \"#{errorMsg}\"")
+end
+
+Then /^the account for "([^\"]*)" is removed from SLI database$/ do |email|
+  records = getRecordsFromMongo("body.userName", email)
+  assert(records.size == 0, "Account for #{email} is not removed")
 end
 
 ###############################################################################
@@ -148,7 +166,7 @@ end
 def assertText(text)
   @explicitWait.until{@driver.find_element(:tag_name,"body")}
   body = @driver.find_element(:tag_name, "body")
-  assert(body.text.include?(text), "Cannot find the text #{text}")
+  assert(body.text.include?(text), "Cannot find the text \"#{text}\"")
 end
 
 def toCamelCase(key)
@@ -158,7 +176,20 @@ def toCamelCase(key)
 end
 
 def getEmailToken(email)
-  intializaApprovalEngineAndLDAP(@emailConf, @prod)
   userInfo= ApprovalEngine.get_user(email)
   return userInfo[:emailtoken]
+end
+
+def removeUser(email)
+  if ApprovalEngine.user_exists?(email)
+    ApprovalEngine.remove_user(email)
+  end
+  coll = @db["userAccount"]
+  coll.remove("body.userName" => email)
+end
+
+def getRecordsFromMongo(field, value)
+  @prod ? env = "Production" : env = "Sandbox"
+  coll = @db["userAccount"]
+  return coll.find(field => value, "body.environment" => env).to_a
 end
