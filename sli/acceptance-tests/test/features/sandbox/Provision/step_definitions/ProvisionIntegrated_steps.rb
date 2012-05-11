@@ -54,8 +54,8 @@ end
        :vendor => @vendor,
        :status => "pending",
        :homedir => "changeit",
-       :uidnumber => "devldapuser@slidev.org",
-       :gidnumber => "testgroup",
+       :uidnumber => "500",
+       :gidnumber => "500",
      #  :tenantId => tenantId
    }
   
