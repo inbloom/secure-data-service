@@ -106,7 +106,8 @@ public class ApplicationAuthorizationResourceTest {
         auth.put("appIds", Arrays.asList(new String[] {"appId1"}));
         Mockito.when(service.get("some-uuid")).thenReturn(oldAuth);
         Mockito.when(service.update("some-uuid", auth)).thenReturn(Boolean.TRUE);
-        Response resp = resource.updateAuthorization("some-uuid", auth);
+        UriInfo uriInfo = null;
+        Response resp = resource.updateAuthorization("some-uuid", auth, uriInfo);
 
         assertEquals(STATUS_NO_CONTENT, resp.getStatus());
     }
@@ -120,7 +121,8 @@ public class ApplicationAuthorizationResourceTest {
         auth.put("appIds", Arrays.asList(new String[] {"appId1"}));
         Mockito.when(service.get("some-uuid")).thenReturn(oldAuth);
         Mockito.when(service.update("some-uuid", auth)).thenReturn(Boolean.TRUE);
-        Response resp = resource.updateAuthorization("some-uuid", auth);
+        UriInfo uriInfo = null;
+        Response resp = resource.updateAuthorization("some-uuid", auth, null);
 
     }
 
@@ -132,7 +134,8 @@ public class ApplicationAuthorizationResourceTest {
         auth.put("authType", "blah");
         auth.put("appIds", Arrays.asList(new String[] {"appId1"}));
         Mockito.when(service.get("some-uuid")).thenReturn(oldAuth);
-        Response resp = resource.updateAuthorization("some-uuid", auth);
+        UriInfo uriInfo = null;
+        Response resp = resource.updateAuthorization("some-uuid", auth, null);
         assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
     }
 
@@ -144,7 +147,8 @@ public class ApplicationAuthorizationResourceTest {
         auth.put("authId", "somethingDifferent");
         auth.put("appIds", Arrays.asList(new String[] {"appId1"}));
         Mockito.when(service.get("some-uuid")).thenReturn(oldAuth);
-        Response resp = resource.updateAuthorization("some-uuid", auth);
+        UriInfo uriInfo = null;
+        Response resp = resource.updateAuthorization("some-uuid", auth, null);
         assertEquals(STATUS_BAD_REQUEST, resp.getStatus());
     }
 

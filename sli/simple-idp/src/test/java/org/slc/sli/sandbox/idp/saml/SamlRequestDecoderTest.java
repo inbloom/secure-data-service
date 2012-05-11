@@ -30,5 +30,6 @@ public class SamlRequestDecoderTest {
         SamlRequest request = decoder.decode(samlRequestBase64);
         assertEquals("https://devopenam1.slidev.org:80/idp2/SSORedirect/metaAlias/idp", request.getSpDestination());
         assertEquals("sli-22442e5f-b538-476f-8089-a041449c0dca", request.getId());
+        assertEquals(false, request.isForceAuthn());
     }
 }
