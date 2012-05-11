@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-    xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:mongo="http://www.springframework.org/schema/data/mongo"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-        http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd"
-    default-autowire="byName">
-
-        <context:component-scan base-package="org.slc">
-        </context:component-scan>
+        http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+  default-autowire="byName">
 
   <bean id="validationStrategyList" class="java.util.ArrayList">
     <constructor-arg>
       <list>
+        <ref bean="characterBlacklistStrategy" />
+        <!-- <ref bean="regexBlacklistStrategy" /> Not needed until there's regex to check against -->
+        <ref bean="stringBlacklistStrategy" />
       </list>
     </constructor-arg>
   </bean>
@@ -23,11 +24,13 @@
   <bean id="relaxedValidationStrategyList" class="java.util.ArrayList">
     <constructor-arg>
       <list>
+        <ref bean="relaxedCharacterBlacklistStrategy" />
+        <ref bean="relaxedStringBlacklistStrategy" />
       </list>
     </constructor-arg>
   </bean>
 
-<bean id="characterBlacklistStrategy" class="org.slc.sli.validation.strategy.CharacterBlacklistStrategy">
+  <bean id="characterBlacklistStrategy" class="org.slc.sli.validation.strategy.CharacterBlacklistStrategy">
     <property name="inputCollection" ref="characterBlacklist" />
   </bean>
   <bean id="characterBlacklist" class="java.util.ArrayList">
@@ -78,9 +81,6 @@
   <bean id="regexBlacklist" class="java.util.ArrayList">
     <constructor-arg>
       <list>
-        <value>\d{8}</value>    <!-- For test only - fail on 8 consecutive digits -->
-        <value>[A-Za-z0-9._%'-]+@[A-Za-z0-9.-]+\.[a-zA-Z]{2,4}</value> <!-- For test only - fail on email address -->
-        <value>(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)</value> <!-- For test only - fail on IP address -->
       </list>
     </constructor-arg>
   </bean>
@@ -94,6 +94,8 @@
         <value>script</value>
         <value>img</value>
         <value>src</value>
+        <value>onload</value>
+        <value>onunload</value>
       </list>
     </constructor-arg>
   </bean>
@@ -113,11 +115,11 @@
         <value>\u0006</value>   <!-- Control - acknowledge               -->
         <value>\u0007</value>   <!-- Control - bell                      -->
         <value>\u0008</value>   <!-- Control - backspace                 -->
-        <value>\u0009</value>   <!-- Control - horizontal tabulation     -->
-        <value>\u000A</value>   <!-- Control - line feed                 -->
+        <!--  <value>\u0009</value> -->  <!-- Control - horizontal tabulation     -->
+        <!--  <value>\u000A</value> -->  <!-- Control - line feed                 -->
         <value>\u000B</value>   <!-- Control - vertical tabulation       -->
         <value>\u000C</value>   <!-- Control - form feed                 -->
-        <value>\u000D</value>   <!-- Control - carriage return           -->
+        <!--  <value>\u000D</value> -->  <!-- Control - carriage return           -->
         <value>\u000E</value>   <!-- Control - shift out                 -->
         <value>\u000F</value>   <!-- Control - shift in                  -->
         <value>\u0010</value>   <!-- Control - data link escape          -->
@@ -137,6 +139,21 @@
         <value>\u001E</value>   <!-- Control - record separator          -->
         <value>\u001F</value>   <!-- Control - unit separator            -->
         <value>\u007F</value>   <!-- Control - delete                    -->
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="relaxedStringBlacklistStrategy" class="org.slc.sli.validation.strategy.StringBlacklistStrategy">
+    <property name="inputCollection" ref="relaxedStringBlacklist" />
+  </bean>
+  <bean id="relaxedStringBlacklist" class="java.util.ArrayList">
+    <constructor-arg>
+      <list>
+        <value>&lt;script</value>
+        <value>&lt;iframe</value>
+        <value>&lt;frame</value>
+        <value>&lt;embed</value>
+        <value>&lt;meta</value>
       </list>
     </constructor-arg>
   </bean>
