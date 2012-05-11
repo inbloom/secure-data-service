@@ -14,7 +14,6 @@ import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.handler.ReferenceResolutionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -36,9 +35,6 @@ public class XmlFileProcessor implements Processor {
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.XML_FILE_PROCESSOR;
 
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileProcessor.class);
-
-    @Autowired
-    private ReferenceResolutionHandler referenceResolutionHandler;
 
     @Autowired
     private IdRefResolutionHandler idRefResolutionHandler;
@@ -79,8 +75,6 @@ public class XmlFileProcessor implements Processor {
                             resource.getChecksum());
 
                     fe.setFile(new File(resource.getResourceName()));
-
-                    //referenceResolutionHandler.handle(fe, fe.getErrorReport());
 
                     idRefResolutionHandler.handle(fe, fe.getErrorReport());
 
@@ -135,14 +129,6 @@ public class XmlFileProcessor implements Processor {
     public void setIdRefResolutionHandler(
             IdRefResolutionHandler idRefResolutionHandler) {
         this.idRefResolutionHandler = idRefResolutionHandler;
-    }
-
-    public ReferenceResolutionHandler getReferenceResolutionHandler() {
-        return referenceResolutionHandler;
-    }
-
-    public void setReferenceResolutionHandler(ReferenceResolutionHandler referenceResolutionHandler) {
-        this.referenceResolutionHandler = referenceResolutionHandler;
     }
 
     private String getBatchJobId(Exchange exchange) {
