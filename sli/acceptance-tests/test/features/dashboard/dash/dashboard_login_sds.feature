@@ -275,6 +275,62 @@ And their grade is "11"
 And the teacher is "Mr Mark Anthony"
 And the class is "A.P. Calculus Sec 201"
 
+@integration @wip
+Scenario: Login with School Level Leader
+When I navigate to the Dashboard home page
+When I select "Illinois Sunset School District 4526" and click go
+When I login as "mgonzales" "mgonzales1234"
+When I look in the ed org drop-down
+Then I only see "Daybreak School District 4529"
+When I select ed org "Daybreak School District 4529"
+When I look in the school drop-down
+Then I only see "South Daybreak Elementary"
+And I select school "South Daybreak Elementary"
+And I select course "1st Grade Homeroom"
+And I select section "Mrs. Braverman's Homeroom #38"
+Then I see a list of 25 students
+When I enter "Matt" into the "firstName" search box
+And I click the search button
+Then "0" results are returned
+And I click on the browser back button
+Then I see a list of 25 students
+
+@integration @wip
+Scenario: Login with School Level IT admin
+When I navigate to the Dashboard home page
+When I select "Illinois Sunset School District 4526" and click go
+When I login as "akopel" "akopel1234"
+When I look in the ed org drop-down
+Then I only see "Daybreak School District 4529"
+When I select ed org "Daybreak School District 4529"
+When I look in the school drop-down
+Then I only see "South Daybreak Elementary"
+And I select school "South Daybreak Elementary"
+And I select course "1st Grade Homeroom"
+And I select section "Mrs. Braverman's Homeroom #38"
+Then I see a list of 25 students
+And I click on student "Mi-Ha Tran"
+And I view its student profile
+And their name shown in profile is "Mi-Ha Tran"
+And their id shown in proflie is "100000017"
+And their grade is "1"
+And the teacher is "Ms Rebecca Braverman"
+And the class is "Mrs. Braverman's Homeroom #38"
+And the lozenges count is "0"
+
+@integration @wip
+Scenario: Login with School Level aggr viewer
+When I navigate to the Dashboard home page
+When I select "Illinois Sunset School District 4526" and click go
+When I login as "msmith" "msmith1234"
+When I look in the ed org drop-down
+Then I only see "Daybreak School District 4529"
+When I select ed org "Daybreak School District 4529"
+When I look in the school drop-down
+Then I only see "South Daybreak Elementary"
+And I select school "South Daybreak Elementary"
+Then I don't see a course selection
+
 @wip @integration
 Scenario: user in IDP but not in mongo
 #TODO there is a bug in the code right now, enable after bug fix
