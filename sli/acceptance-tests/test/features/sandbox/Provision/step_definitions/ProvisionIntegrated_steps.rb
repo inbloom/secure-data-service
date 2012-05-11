@@ -24,7 +24,8 @@ Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do
 end
 
 Given /^LDAP server has been setup and running$/ do
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+  ldap_base=PropLoader.getProps['ldap.base']
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
   email_conf = {
       :host => 'mon.slidev.org',
       :port => 3000,
@@ -35,15 +36,14 @@ Given /^LDAP server has been setup and running$/ do
 end
 
 Given /^there is an account in ldap for vendor "([^"]*)"$/ do |vendor|
+ clear_users()
 @vendor = vendor
   
 end
 
 Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
-@email="devldapuser@slidev.org"
-if @ldap.user_exists?(@email)
-  @ldap.delete_user(@email)
-end
+ @email = "devldapuser_#{Socket.gethostname}@slidev.org"
+ clear_users()
 
   user_info = {
       :first => "Loraine",
@@ -96,6 +96,20 @@ Then /^the directory structure for the landing zone is stored in ldap$/ do
   user=@ldap.read_user(@email)
   # landing zone path is not saved correctly to ldap
  # assert(user[:homedir]!="changeit","the landing zone path is not stored in ldap")
+ clear_user()
 end
+
+
+def clear_users
+  # remove all users that have this hostname in their email address
+  users = @ldap.search_users("*#{Socket.gethostname}*")
+  if users
+    users.each do |u|
+      @ldap.delete_user(u[:email])    
+    end
+  end
+end
+
+
 
 
