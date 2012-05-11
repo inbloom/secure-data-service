@@ -56,7 +56,7 @@ Then /^I should hit the role mapping page$/ do
   @driver.get @url
 end
 
-Then /^I should see that the page doesn't exist'$/ do
+Then /^I should see that the page doesn't exist$/ do
   assertWithWait("Should not be able to edit roles for non-existent realm") do
     @driver.page_source.index("The page you were looking for doesn't exist") != nil
   end

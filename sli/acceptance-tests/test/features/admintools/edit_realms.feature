@@ -11,7 +11,7 @@ Scenario: Go to edit realms page when having a role other than Realm Administrat
    Then I should get a message that I am not authorized to access the page
 
 Scenario: Realm administrator editing an existing realm
-  Given I am authenticated to SLI IDP as user "fakerealmadmin" with pass "fakerealmadmin1234"
+  Given I am authenticated to SLI IDP as user "fakerealmadmin2" with pass "fakerealmadmin21234"
    When I hit the realm editing URL
     And I should see that I am on the "Fake Realm" edit page
     And I should enter "Edited Fake" into the Display Name field
@@ -21,7 +21,7 @@ Scenario: Realm administrator editing an existing realm
     And I should see that I am on the "Edited Fake" edit page
   
 Scenario: Realm Administrator deleting a existing realm
-  Given I am authenticated to SLI IDP as user "fakerealmadmin" with pass "fakerealmadmin1234"
+  Given I am authenticated to SLI IDP as user "fakerealmadmin2" with pass "fakerealmadmin21234"
   When I hit the realm editing URL
    And I should see that I am on the "Edited Fake" edit page
    And I should click the delete realm link
@@ -30,10 +30,10 @@ Scenario: Realm Administrator deleting a existing realm
    And I should see that I am on the new realm page
    And all of the input fields should be blank
    And I should hit the role mapping page
-   And I should see that the page doesn't exist'
+   And I should see that the page doesn't exist
    
 Scenario: Realm Administrator creating a new realm
-  Given I am authenticated to SLI IDP as user "fakerealmadmin" with pass "fakerealmadmin1234"
+  Given I am authenticated to SLI IDP as user "fakerealmadmin2" with pass "fakerealmadmin21234"
   When I hit the realm editing URL
   And I should see that I am on the new realm page
   And all of the input fields should be blank
