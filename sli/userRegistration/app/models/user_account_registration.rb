@@ -10,6 +10,8 @@ class UserAccountRegistration
    validates_format_of :email, :with => /^[-a-z0-9_+\.]+\@([-a-z0-9]+\.)+[a-z0-9]{2,4}$/i
    validates :password, :confirmation => true #password_confirmation attr
 
+  
+
 
    def initialize(attributes = {})
        attributes.each do |name, value|
@@ -20,4 +22,6 @@ class UserAccountRegistration
      def persisted?
        false
      end
+
+    
 end

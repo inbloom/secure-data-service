@@ -50,6 +50,7 @@ module ApplicationHelper
 
        ApprovalEngine.add_disabled_user(new_user)
        user = @@ldap.read_user(userAccountRegistration.email)
+       puts("#{user}")
     end
 
     # Verify the email address against the backend.
