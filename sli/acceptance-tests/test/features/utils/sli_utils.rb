@@ -329,6 +329,7 @@ module DataProvider
       "authorized_ed_orgs" => []
     }
   end
+
 end
 
 module CreateEntityHash

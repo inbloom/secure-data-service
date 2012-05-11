@@ -134,7 +134,7 @@ public class IdRefResolutionHandlerTest {
             tempInputFile = File.createTempFile("unit", ".test");
 
             FileUtils.copyFile(inputFile, tempInputFile);
-
+            test.execute(tempInputFile);
 
         } finally {
             FileUtils.deleteQuietly(tempInputFile);

@@ -27,7 +27,7 @@
          "description":"Register an application that can access SLI API.",
          "url":"${bootstrap.app.admin.url}/apps",
          "roles":[
-            "SLI Administrator"
+            "SLC Operator", "Application Developer"
          ]
       },
       {
@@ -43,13 +43,21 @@
          "description":"Control how roles are from a IDP are mapped to SLI roles.",
          "url":"${bootstrap.app.admin.url}/realms/",
          "roles":[
-            "SLI Administrator"
+           "Realm Administrator"
          ]
       },
       {
          "name":"Role Viewer",
          "description":"View available roles.",
          "url":"${bootstrap.app.admin.url}",
+         "roles":[
+           "Realm Administrator"
+         ]
+      },
+      {
+         "name":"Provision Landing Zone",
+         "description":"Provision a landing zone for an educational organization.",
+         "url":"${bootstrap.app.admin.url}/landing_zone",
          "roles":[
             "SLI Administrator"
          ]

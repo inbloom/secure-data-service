@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'mongo'
 require 'fileutils'
+require 'socket'
 
 require_relative '../../../utils/sli_utils.rb'
 
@@ -14,7 +15,6 @@ INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_na
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
 INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_data_store']
-INGESTION_TENANT_DISTRICT_MAP = {'IL' => ['Sunset', 'Daybreak'], 'NY' => ['NYC']}
 
 ############################################################
 # STEPS: BEFORE
@@ -29,11 +29,12 @@ Before do
 
   @ingestion_lz_identifer_map = {}
   @tenantColl.find.each do |row|
-    @tenantId = row['tenantId']
-    @landingZones = row['landingZone'].to_a
+    @body = row['body']
+    @tenantId = @body['tenantId']
+    @landingZones = @body['landingZone'].to_a
     @landingZones.each do |lz|
-      if lz['district'] == nil
-        puts 'No district for landing zone, skipping. Tenant id = ' + @tenantId
+      if lz['educationOrganization'] == nil
+        puts 'No educationOrganization for landing zone, skipping. Tenant id = ' + @tenantId
         next
       end
       if lz['path'] == nil
@@ -41,19 +42,79 @@ Before do
         next
       end
 
-      district = lz['district']
+      educationOrganization = lz['educationOrganization']
       path = lz['path']
 
       if path.rindex('/') != (path.length - 1)
         path = path+ '/'
       end
 
-      identifier = @tenantId + '-' + district
+      identifier = @tenantId + '-' + educationOrganization
       puts identifier + " -> " + path
       @ingestion_lz_identifer_map[identifier] = path
     end
   end
+  
+  initializeTenants()
 end
+
+def initializeTenants()
+  @lzs_to_remove  = Array.new
+  
+  defaultLz = @ingestion_lz_identifer_map['IL-Daybreak']
+  assert(defaultLz != nil, "Default landing zone not defined (IL-Daybreak)")
+  
+  if defaultLz.rindex('/') == (defaultLz.length - 1)
+    # remove last character (/)
+    defaultLz = defaultLz[0, defaultLz.length - 1]
+  end
+  
+  # remove last directory
+  if defaultLz.rindex('/') != nil
+    @topLevelLandingZone = defaultLz[0, defaultLz.rindex('/')] + '/'
+    @tenantTopLevelLandingZone = @topLevelLandingZone + "tenant/"
+  elsif defaultLz.rindex('\\') != nil
+    @topLevelLandingZone = defaultLz[0, defaultLz.rindex('\\')] + '\\'
+    @tenantTopLevelLandingZone = @topLevelLandingZone + "tenant\\"
+  end
+  
+  puts "Top level LZ is -> " + @topLevelLandingZone
+  
+  cleanTenants()
+  
+  if !File.directory?(@tenantTopLevelLandingZone)
+    Dir.mkdir(@tenantTopLevelLandingZone)
+  end
+end
+
+def cleanTenants()
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  @tenantColl.remove("type" => "tenantTest")
+  
+  @lzs_to_remove.each do |lz_key|
+    tenant = lz_key
+    edOrg = lz_key
+    
+    # split tenant from edOrg on hyphen
+    if lz_key.index('-') > 0
+      tenant = lz_key[0, lz_key.index('-')]
+      edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
+    end
+    
+    @tenantColl.find("body.tenantId" => tenant, "body.landingZone.educationOrganization" => edOrg).each do |row|
+      @body = row['body']
+      @landingZones = @body['landingZone'].to_a
+      @landingZones.each do |lz|
+        if lz['educationOrganization'] == edOrg
+          @landingZones.delete(lz)
+        end
+      end
+      @tenantColl.save(row)
+    end
+  end
+end
+
 ############################################################
 # STEPS: GIVEN
 ############################################################
@@ -424,6 +485,104 @@ def ensureIndexes(db)
   @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'teacherId' => " ", 'sectionId' => " "}} )
 
 end
+
+Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
+
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  @tenantColl.remove("body.tenantId" => lz_key)
+
+  path = @tenantTopLevelLandingZone + 'tenant_' + rand(1048576).to_s
+  
+  FileUtils.mkdir_p(path)
+  FileUtils.chmod(0777, path)
+ 
+  puts lz_key + " -> " + path
+  
+  ingestionServer = Socket.gethostname
+  
+  tenant = lz_key
+  edOrg = lz_key
+  
+  # split tenant from edOrg on hyphen
+  if lz_key.index('-') > 0
+    tenant = lz_key[0, lz_key.index('-')]
+    edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
+  end
+  
+  @body = {
+    "tenantId" => tenant,
+    "landingZone" => [
+      { 
+        "educationOrganization" => edOrg,
+        "ingestionServer" => ingestionServer,
+        "path" => path
+      }
+    ]
+  }
+  
+  @metaData = {}
+  
+  @newTenant = {
+    "_id" => BSON::Binary.new("HE9cAZldKXq5uZ==", BSON::Binary::SUBTYPE_UUID),
+    "type" => "tenantTest",
+    "body" => @body,
+    "metaData" => @metaData
+  }
+  
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  @tenantColl.save(@newTenant)
+  
+  @ingestion_lz_identifer_map[lz_key] = path + '/'
+  @lzs_to_remove.push(lz_key)
+end
+
+Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
+  tenant = lz_key
+  edOrg = lz_key
+  
+  # split tenant from edOrg on hyphen
+  if lz_key.index('-') > 0
+    tenant = lz_key[0, lz_key.index('-')]
+    edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
+  end
+
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+  
+  matches = @tenantColl.find("body.tenantId" => tenant, "body.landingZone.educationOrganization" => edOrg).to_a
+  puts "Found " + matches.size.to_s + " existing records for " + lz_key
+  
+  assert(matches.size == 0, "Tenant already exists for " + lz_key)
+  
+  @existingTenant = @tenantColl.find_one("body.tenantId" => tenant)
+  
+  @id = @existingTenant['_id']
+  @body = @existingTenant['body']
+  
+  @landingZones = @body['landingZone'].to_a
+  
+  path = @tenantTopLevelLandingZone + 'tenant_' + rand(1048576).to_s
+  
+  FileUtils.mkdir_p(path)
+  FileUtils.chmod(0777, path)
+  puts lz_key + " -> " + path
+  
+  ingestionServer = Socket.gethostname
+  
+  @newLandingZone = { 
+        "educationOrganization" => edOrg,
+        "ingestionServer" => ingestionServer,
+        "path" => path
+      }
+  
+  @landingZones.push(@newLandingZone)
+  @tenantColl.save(@existingTenant)
+  @ingestion_lz_identifer_map[lz_key] = path + '/'
+  @lzs_to_remove.push(lz_key)
+end
+
 ############################################################
 # STEPS: WHEN
 ############################################################
@@ -461,7 +620,7 @@ end
 When /^a batch job log has been created$/ do
   intervalTime = 3 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 900
+  @maxTimeout ? @maxTimeout : @maxTimeout = 300
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
@@ -1086,6 +1245,7 @@ end
 ############################################################
 
 After do
+  cleanTenants()
   @conn.close if @conn != nil
 end
 
