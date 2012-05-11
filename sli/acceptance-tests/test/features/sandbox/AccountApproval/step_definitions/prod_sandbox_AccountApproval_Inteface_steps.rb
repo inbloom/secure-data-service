@@ -181,11 +181,9 @@ end
 def clear_users
   # remove all users that have this hostname in their email address
   users = @ldap.search_users("*#{Socket.gethostname}*")
-  puts "\n\n------------------------------------------------------------------\nUSERS:  #{users}\n\n--------------------------------------------------\n\n"
   if users
     users.each do |u|
       @ldap.delete_user(u[:email])    
-      puts "DELETING: #{u}"
     end
   end
 end
