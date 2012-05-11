@@ -1,6 +1,11 @@
 package org.slc.sli.ingestion.processors;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.camel.Exchange;
@@ -124,32 +129,41 @@ public class StagedDataPersistenceProcessor implements Processor {
         }
     }
 
-    private void processAndMeasureResource(String collectionName, String transformedCollectionName, NewBatchJob newJob,
-            Stage stage) {
-        Metrics metrics = Metrics.createAndStart(newJob.getId() + "-" + collectionName);
-        stage.getMetrics().add(metrics);
-
-        processStagedCollection(collectionName, transformedCollectionName, newJob, metrics);
-
-        metrics.stopMetric();
+    private void processAndMeasureResource(String collectionName, String transformedCollectionName, NewBatchJob newJob, Stage stage) {
+        processStagedCollection(collectionName, transformedCollectionName, newJob, stage);
     }
 
-    private void processStagedCollection(String collectionName, String transformedCollectionName, Job job,
-            Metrics metrics) {
+    private void processStagedCollection(String collectionName, String transformedCollectionName, Job job, Stage stage) {
 
         long recordNumber = 0;
         long numFailed = 0;
 
+        Map<String, Metrics> perFileMetrics = new HashMap<String, Metrics>();
+        
         ErrorReport errorReportForCollection = createDbErrorReport(job.getId(), collectionName);
 
         try {
             DBCursor cursor = getCollectionIterable(transformedCollectionName, job.getId());
 
+            Metrics currentMetric;
+            
             for (DBObject record : cursor) {
+                
                 recordNumber++;
 
                 NeutralRecord neutralRecord = neutralRecordReadConverter.convert(record);
 
+                
+                if (perFileMetrics.containsKey(neutralRecord.getSourceFile())) {
+                    //metrics for this file is established
+                    currentMetric = perFileMetrics.get(neutralRecord.getSourceFile());                    
+                } else {
+                    //establish new metrics
+                    currentMetric = Metrics.createAndStart(neutralRecord.getSourceFile());
+                }
+                
+                currentMetric.setRecordCount(currentMetric.getRecordCount() + 1);
+                
                 if (!collectionName.equals(transformedCollectionName)) {
                     numFailed += processTransformableNeutralRecord(neutralRecord, getTenantId(job),
                             errorReportForCollection);
@@ -157,6 +171,10 @@ public class StagedDataPersistenceProcessor implements Processor {
                     numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, getTenantId(job),
                             errorReportForCollection);
                 }
+                
+                currentMetric.setErrorCount(currentMetric.getErrorCount() + numFailed);
+                
+                perFileMetrics.put(currentMetric.getResourceId(), currentMetric);
             }
 
         } catch (Exception e) {
@@ -165,9 +183,14 @@ public class StagedDataPersistenceProcessor implements Processor {
             errorReportForCollection.fatal(fatalErrorMessage, StagedDataPersistenceProcessor.class);
             LOG.error("Exception when attempting to ingest NeutralRecords in: " + collectionName + ".\n", e);
         } finally {
+            
+            Iterator<Metrics> it = perFileMetrics.values().iterator();
+            while (it.hasNext()) {
+                Metrics m = (Metrics) it.next();
+                m.stopMetric();
+                stage.getMetrics().add(m);
+            }
 
-            metrics.setRecordCount(recordNumber);
-            metrics.setErrorCount(numFailed);
         }
     }
 

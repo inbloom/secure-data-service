@@ -129,6 +129,10 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                     }
                     attendanceAttributes.put("schoolYearAttendance", daily);
                     attendanceRecord.setAttributes(attendanceAttributes);
+                    
+                    //TODO:  This sets attendance record's source file to FIRST attendance record found
+                    attendanceRecord.setSourceFile(((NeutralRecord) studentAttendance.values().iterator().next()).getSourceFile());
+                    
                     newCollection.put(attendanceRecord.getRecordId(), attendanceRecord);
                 } else {
                     LOG.warn("  No daily attendance for student: {} in school: {}", studentId, schoolId);

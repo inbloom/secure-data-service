@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,12 +15,6 @@ import java.util.Map.Entry;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -36,6 +31,11 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * Writes out a job report and any errors/warnings associated with the job.
@@ -236,8 +236,29 @@ public class JobReportingProcessor implements Processor {
 
         // TODO group counts by externallyUploadedResourceId
         List<Metrics> metrics = job.getStageMetrics(BatchJobStageType.PERSISTENCE_PROCESSOR);
-        for (Metrics metric : metrics) {
-
+        Map<String, Metrics> combinedMetricsMap = new HashMap<String, Metrics>();
+        
+        for (Metrics m: metrics) {
+            
+            if (combinedMetricsMap.containsKey(m.getResourceId())) {
+                //metrics exists, we should aggregate
+                Metrics temp = combinedMetricsMap.get(m.getResourceId());
+                
+                temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
+                temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
+                
+                combinedMetricsMap.put(m.getResourceId(), temp);
+                
+            } else {
+                //adding metrics to the map
+                combinedMetricsMap.put(m.getResourceId(), m);
+            }
+            
+        }
+        
+        Collection<Metrics> combinedMetrics = combinedMetricsMap.values();
+        
+        for (Metrics metric : combinedMetrics) {
             ResourceEntry resourceEntry = job.getResourceEntry(metric.getResourceId());
             if (resourceEntry == null) {
                 LOG.error("The resource referenced by metric by resourceId " + metric.getResourceId()
