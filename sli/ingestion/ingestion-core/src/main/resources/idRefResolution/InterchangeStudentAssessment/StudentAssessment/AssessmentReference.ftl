@@ -1,7 +1,9 @@
 <AssessmentIdentity>
+<#if (AssessmentReference.AssessmentIdentity.AssessmentIdentificationCode.ID[0])??>
     <AssessmentIdentificationCode>
         <ID>
-            ${.vars["AssessmentReference"]["AssessmentIdentity"]["AssessmentIdentificationCode"]["ID"]}
+            ${AssessmentReference.AssessmentIdentity.AssessmentIdentificationCode.ID}
         </ID>
     </AssessmentIdentificationCode>
+</#if>
 </AssessmentIdentity>
