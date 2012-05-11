@@ -33,6 +33,7 @@
   <import resource="validation-context.xml" />
   <import resource="handler-context.xml" />
   <import resource="processor-context.xml" />
+  <import resource="idRefResolution-context.xml" />
 
 
   <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"
@@ -111,7 +112,6 @@
     </property>
   </bean>
 
-
   <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor" />
 
   <bean id="entityPersistHandler" class="org.slc.sli.ingestion.handler.EntityPersistHandler">
@@ -127,4 +127,5 @@
     <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler"></property>
     <property name="persistedCollections" ref="persistedEntities" />
   </bean>
+  
 </beans>
