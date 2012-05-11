@@ -12,10 +12,6 @@ When /^I navigate to the SLI Default Roles Admin Page$/ do
   @driver.get url
 end
 
-Then /^I should be redirected to the Realm page$/ do
-  assertWithWait("Failed to be redirected to Realmchooser")  {@driver.current_url.index("/disco/realms/") != nil}
-end
-
 Given /^I am authenticated to SLI IDP$/ do
   @driver.get PropLoader.getProps['admintools_server_url']
   assertWithWait("Failed to navigate to the SLI IDP to authenticate")  {@driver.find_element(:id, "IDToken1")}
@@ -61,42 +57,12 @@ Given /^I have tried to access the SLI Default Roles Admin Page$/ do
   @driver.get url
 end
 
-Given /^I was redirected to the Realm page$/ do
-  assert(@driver.current_url.index("/disco/realms/") != nil, webdriverDebugMessage(@driver,"Failed to be redirected to Realmchooser"))
-end
-
-Given /^I choose my realm$/ do
-  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
-  select.select_by(:text, "Shared Learning Infrastructure")
-  @driver.find_element(:id, "go").click
-end
-
-Given /^I was redirected to the SLI IDP Login page$/ do
-  assert(@driver.current_url.index("/idp") != nil, webdriverDebugMessage(@driver,"Failed to navigate to IDP login page"))
-end
-
 Given /^I am user "([^"]*)"$/ do |arg1|
   #No code needed for this step
 end
 
 Given /^"([^"]*)" is valid "([^"]*)" user$/ do |arg1, arg2|
   #No code needed for this step
-end
-
-When /^I enter "([^"]*)" in the username text field$/ do |arg1|
-  @driver.find_element(:id, "IDToken1").send_keys arg1
-end
-
-When /^I enter "([^"]*)" in the password text field$/ do |arg1|
-  @driver.find_element(:id, "IDToken2").send_keys arg1
-end
-
-When /^I click the Go button$/ do
-  @driver.find_element(:name, "Login.Submit").click
-  begin
-    @driver.switch_to.alert.accept
-  rescue
-  end
 end
 
 Then /^I am now authenticated to SLI IDP$/ do
