@@ -186,6 +186,8 @@
     
     <entry key="/InterchangeStudentDiscipline/DisciplineAction/DisciplineIncidentReference" value-ref="smooksExtendedReferenceResolver" />
     <entry key="/InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/DisciplineIncidentReference" value-ref="simpleReferenceResolver" />
+    
+    <entry key="/InterchangeStudentEnrollment/StudentSchoolAssociation/GraduationPlanReference" value-ref="simpleReferenceResolver" />
 
     <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference" value-ref="smooksExtendedReferenceResolver" />
   </util:map>
