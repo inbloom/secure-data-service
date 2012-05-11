@@ -307,7 +307,7 @@ module DataProvider
        "idp" => {"id" => "http://path.to.nowhere", "redirectEndpoint" => "http://path.to.nowhere/somewhere/else"},
        "saml" => {"field" => []},
        "name" => "a_new_realm",
-       "edOrg" => "fakeedor-97b0-4148-bf75-123e98fa7e44",
+       "edOrg" => "ba987125-a8ed-eafd-bf75-c98a2fcc3dfg",
        "mappings"=> {"role"=>[{"sliRoleName"=>"Educator","clientRoleName"=>["Math teacher","Sci Teacher","Enforcer of Conformity"]},{"sliRoleName"=>"Leader","clientRoleName"=>["Fearless Leader","Imperator","First Consul"]}]}
     }
   end
