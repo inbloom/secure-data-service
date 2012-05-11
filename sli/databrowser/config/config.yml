@@ -12,3 +12,9 @@ team:
     redirect_uri: https://ci.slidev.org:2000/callback
 test:
     api_base: https://devapp1.slidev.org/api/rest/v1
+local-acceptance-tests:
+    api_base: http://local.slidev.org:8080/api/rest/v1
+    client_id: 2zhRrEXh8r
+    client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
+    redirect_uri: http://local.slidev.org:2001/callback
+ 

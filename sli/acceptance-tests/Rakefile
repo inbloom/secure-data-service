@@ -148,7 +148,7 @@ end
 
 # Run a whole series of acceptance tests
 desc "Run API, Ingestion, Dashboard, SDK, and SimpleIDP acceptance tests"
-task :fullSuite => [:production, :apiSandboxTests, :simpleIDPAuthTests, :dashboardTests, :JavaSDKTests] do
+task :fullSuite => [:production, :simpleIDPAuthTests, :sandboxTests, :provisioningTests, :dashboardTests, :JavaSDKTests, :integrationTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
