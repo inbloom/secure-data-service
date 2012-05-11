@@ -2,6 +2,7 @@ package org.slc.sli.test.generators;
 
 import java.util.Map;
 
+import org.slc.sli.test.DataFidelityType;
 import org.slc.sli.test.edfi.entities.AcademicSubjectType;
 import org.slc.sli.test.edfi.entities.Assessment;
 import org.slc.sli.test.edfi.entities.AssessmentCategoryType;
@@ -17,12 +18,24 @@ import org.slc.sli.test.edfi.entities.ObjectiveAssessment;
 import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.meta.AssessmentMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class AssessmentGenerator {
 
-    public static Assessment generateLowFi(AssessmentMeta assessmentMeta, Map<String, ObjectiveAssessment> objAssessMap) {
+    public static Assessment generate(AssessmentMeta assessmentMeta, Map<String, ObjectiveAssessment> objAssessMap) {
+        return generate(MetaRelations.DEFAULT_DATA_FIDELITY_TYPE, assessmentMeta, objAssessMap);
+    }
+    
+    public static Assessment generate(DataFidelityType fidelity, AssessmentMeta assessmentMeta, Map<String, ObjectiveAssessment> objAssessMap) {
         Assessment assessment = new Assessment();
 
+        populateRequiredFields(fidelity, assessmentMeta, objAssessMap, assessment);
+
+        return assessment;
+    }
+
+    private static void populateRequiredFields(DataFidelityType fidelity, AssessmentMeta assessmentMeta,
+            Map<String, ObjectiveAssessment> objAssessMap, Assessment assessment) {
         assessment.setAssessmentTitle(assessmentMeta.id + "Title");
 
         AssessmentIdentificationCode aidCode = new AssessmentIdentificationCode();
@@ -63,7 +76,7 @@ public class AssessmentGenerator {
         }
 
         // AssessmentItemReference
-        for (String assessItemIdString : assessmentMeta.assessmentItemIds) {
+        for (@SuppressWarnings("unused") String assessItemIdString : assessmentMeta.assessmentItemIds) {
             // TODO: this is only modeled as XML ReferenceType... (AssessmentItem is post-alpha?)
         }
 
@@ -90,8 +103,6 @@ public class AssessmentGenerator {
             srType.getSectionIdentity().setUniqueSectionCode(sectionIdString);
             assessment.getSectionReference().add(srType);
         }
-
-        return assessment;
     }
 
     public static AssessmentReferenceType getAssessmentReference(final String assessmentId) {
