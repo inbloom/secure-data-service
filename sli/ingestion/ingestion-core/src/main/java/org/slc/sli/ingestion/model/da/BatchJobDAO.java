@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.Stage;
 
 /**
  *
@@ -27,4 +28,6 @@ public interface BatchJobDAO {
     public Iterable<Error> getBatchJobErrors(String jobId, int limit);
 
     void saveError(Error error);
+
+    public void updateBatchJob(String batchJobId, Stage stage);
 }
