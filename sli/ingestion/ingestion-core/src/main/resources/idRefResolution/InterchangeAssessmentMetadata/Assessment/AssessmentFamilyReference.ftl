@@ -2,7 +2,6 @@
  <#if (AssessmentFamily.AssessmentFamilyIdentificationCode[0])??>
     <AssessmentFamilyIdentificationCode
 
-
         <#if (AssessmentFamily.AssessmentFamilyIdentificationCode.@IdentificationSystem[0])??>
         IdentificationSystem="${AssessmentFamily.AssessmentFamilyIdentificationCode.@IdentificationSystem}"
         </#if>
