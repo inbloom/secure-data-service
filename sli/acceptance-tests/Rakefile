@@ -335,6 +335,11 @@ task :ingestionStudentTranscriptAssociationTests do
   runTests("test/features/ingestion/features/ingestion_StudentTranscriptAssociation.feature")
 end
 
+desc "Run idNamespace Test"
+task :ingestionidNamespaceTest do
+  runTests("test/features/ingestion/features/ingestion_idNamespace.feature")
+end
+
 desc "Run Ingestion Gradebook Entry Test"
 task :ingestionGradebookEntryTests do
   runTests("test/features/ingestion/features/ingestion_GradebookEntry.feature")
