@@ -13,10 +13,10 @@ class EulasController < ApplicationController
   
   def create
     if Eula.accepted?(params)
-      Eula.accept session[:guuid]
+      UserAccountRegistration.accept session[:guuid]
       render :finish
     else 
-      Eula.reject session[:guuid]
+      UserAccountRegistration.reject session[:guuid]
       redirect_to APP_CONFIG['redirect_slc_url']
     end
   end
