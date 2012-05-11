@@ -140,4 +140,23 @@ public class StudentCompetencyResource extends DefaultCrudEndpoint {
                            final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(studentCompetencyId, newEntityBody, headers, uriInfo);
     }
+
+
+    /**
+     * getReportCards
+     *
+     * @param studentCompetencyId
+     *          The id of the student competency
+     * @param headers
+     *          HTTP request headers
+     * @param uriInfo
+     *          URI information including path and query parameters
+     */
+    @GET
+    @Path("{" + ParameterConstants.STUDENT_COMPETENCY_ID + "}" + "/" + PathConstants.REPORT_CARDS)
+    public Response getReportCards(@PathParam(ParameterConstants.STUDENT_COMPETENCY_ID) final String studentCompetencyId,
+                                  @Context HttpHeaders headers,
+                                  @Context final UriInfo uriInfo) {
+       return super.read(ResourceNames.REPORT_CARDS, ParameterConstants.STUDENT_COMPETENCY_ID, studentCompetencyId, headers, uriInfo);
+    }
 }
