@@ -1,0 +1,63 @@
+<StudentIdentity>
+<StudentUniqueStateId>
+    ${StudentReference.StudentUniqueStateId}
+</StudentUniqueStateId >
+<StudentIdentificationCode  IdentificationSystem="${StudentReference.StudentIdentificaitonCode.@identificationSystem}"
+    AssigningOrganizationCode="${StudentReference.StudentIdentificaitonCode.@AssigningOrganizationCode}">
+    <IdentificationCode>
+        ${StudentReference.StudentIdentificationCode.IdentificationCode}
+    </IdentificationCode>
+</StudentIdentificationCode>
+<Name Verification="${StudentReference.Name.@Verification}">
+    <PersonalTitlePrefix>
+        ${StudentReference.Name.PersonalTitlePrefix}
+    </PersonalTitlePrefix>
+    <FirstName>
+        ${StudentReference.Name.FirstName}
+    </FirstName>
+    <MiddleName>
+        ${StudentReference.Name.MiddleName}
+    </MiddleName>
+    <LastName>
+        ${StudentReference.Name.LastName}
+    </LastName>
+    <GenerationCodeSuffix>
+        ${StudentReference.Name.GenerationCodeSuffix}
+    </GenerationCodeSuffix>
+    <MaidenName>
+        ${StudentRerenece.Name.MaidenName}
+    </MaidenName>
+</Name>
+<OtherName OtherNameType="${StudentReference.OtherName.@OtherNameType}">
+    <PersonalTitlePrefix>
+        ${StudentReference.Name.PersonalTitlePrefix}
+    </PersonalTitlePrefix>
+    <FirstName>
+        ${StudentReference.Name.FirstName}
+    </FirstName>
+    <MiddleName>
+        ${StudentReference.Name.MiddleName}
+    </MiddleName>
+    <LastName>
+        ${StudentReference.Name.LastName}
+    </LastName>
+    <GenerationCodeSuffix>
+        ${StudentReference.Name.GenerationCodeSuffix}
+    </GenerationCodeSuffix>
+</OtherName>
+<BirthDate>
+    ${StudentReference.BirthDate}
+</BirthDate>
+<Sex>
+    ${StudentReference.Sex}
+</Sex>
+<HispanicLatinoEthnicity>
+    ${StudentReference.HispanicLatinoEthnicity}
+</HispanicLatinoEthnicity>
+<Race>
+    <RacialCategory>
+        ${StudentReference.Race.RacialCategory}
+    </RacialCategory>
+</Race>
+</StudentIdentity>
+         

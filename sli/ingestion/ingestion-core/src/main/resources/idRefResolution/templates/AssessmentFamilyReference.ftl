@@ -1,0 +1,15 @@
+<AssessmentFamilyIdentity>
+    <AssessmentFamilyIdentificationCode
+        IdentificationSystem="${AssessmentFamily.AssessmentFamilyIdentificationCode.@IdentificationSystem}"
+        AssigningOrganizationCode="${AssessmentFamily.AssessmentFamilyIdentificationCode.@AssigningOrganizationCode}">
+        <ID>
+            ${AssessmentFamily.AssessmentFamilyIdentificationCode.ID}
+        </ID>
+    </AssessmentFamilyIdentificationCode>
+    <AssessmentFamilyTitle>
+        ${AssessmentFamily.AssessmentFamilyTitle}
+    </AssessmentFamilyTitle>
+    <Version>
+        ${AssessmentFamily.Version}
+    </Version>
+</AssessmentFamilyIdentity>
