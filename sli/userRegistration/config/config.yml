@@ -25,7 +25,7 @@ development_sb:
     redirect_slc_url: http://www.google.com
     ldap_host: ldap.slidev.org
     ldap_port: 389
-    ldap_base: ou=DevTest,dc=slidev,dc=org
+    ldap_base: ou=Sandbox,ou=DevTest,dc=slidev,dc=org
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
     is_sandbox: true
