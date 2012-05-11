@@ -4,6 +4,8 @@ import org.slf4j.LoggerFactory;
 import org.slc.sli.common.util.logging.SecurityEvent;
 
 
+import org.slc.sli.common.util.logging.SecurityEvent;
+
 public aspect LoggerCarrierAspect {
 
     declare parents : (org.slc.sli.api..* && !java.lang.Enum+ && !org.slc.sli.api.util.SecurityUtil.SecurityTask+)  implements LoggerCarrier;
