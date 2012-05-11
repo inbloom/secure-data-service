@@ -9,6 +9,7 @@ import junit.framework.Assert;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,16 +66,58 @@ public class SmooksExtendedReferenceResolverTest {
     }
 
     @Test
-    public void testResolutionAllFields() throws IOException {
-        File input = IngestionTest.getFile("idRefResolutionData/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_input.xml");
-        File expected = IngestionTest.getFile("idRefResolutionData/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_expected.xml");
+    public void testAssessmentFamilyReferenceResolutionAllFields() throws IOException {
+        File input = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_input.xml");
+        File expected = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_expected.xml");
         test(input, expected, "/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference");
     }
 
     @Test
-    public void testResolutionSomeFields() throws IOException {
-        File input = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference_inputMissingData.xml");
-        File expected = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference_expectedMissingData.xml");
+    public void testAssessmentFamilyReferenceResolutionSomeFields() throws IOException {
+        File input = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference/AssessmentFamilyReference_inputMissingData.xml");
+        File expected = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference/AssessmentFamilyReference_expectedMissingData.xml");
         test(input, expected, "/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference");
+    }
+
+    @Test
+    public void testLearningStandardReferenceResolutionAllFields() throws IOException {
+        File input = IngestionTest.getFile("idRefResolutionData/LearningStandardReference/LearningStandardReference_input.xml");
+        File expected = IngestionTest.getFile("idRefResolutionData/LearningStandardReference/LearningStandardReference_expected.xml");
+        test(input, expected, "/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference");
+    }
+
+    @Test
+    public void testLearningStandardReferenceResolutionSomeFields() throws IOException {
+        File input = IngestionTest.getFile("idRefResolutionData/LearningStandardReference/LearningStandardReference_inputMissingData.xml");
+        File expected = IngestionTest.getFile("idRefResolutionData/LearningStandardReference/LearningStandardReference_expectedMissingData.xml");
+        test(input, expected, "/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference");
+    }
+
+    @Test
+    public void testLearningObjectiveReferenceResolutionAllFields() throws IOException {
+        File input = IngestionTest.getFile("idRefResolutionData/LearningObjectiveReference/LearningObjectiveReference_input.xml");
+        File expected = IngestionTest.getFile("idRefResolutionData/LearningObjectiveReference/LearningObjectiveReference_expected.xml");
+        test(input, expected, "/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference");
+    }
+
+    @Test
+    public void testLearningObjectiveReferenceResolutionSomeFields() throws IOException {
+        File input = IngestionTest.getFile("idRefResolutionData/LearningObjectiveReference/LearningObjectiveReference_inputMissingData.xml");
+        File expected = IngestionTest.getFile("idRefResolutionData/LearningObjectiveReference/LearningObjectiveReference_expectedMissingData.xml");
+        test(input, expected, "/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference");
+    }
+
+    @Test
+    public void testGradingPeriodReferenceResolutionAllFields() throws IOException {
+        File input = IngestionTest.getFile("idRefResolutionData/GradingPeriodReference/GradingPeriodReference_input.xml");
+        File expected = IngestionTest.getFile("idRefResolutionData/GradingPeriodReference/GradingPeriodReference_expected.xml");
+        test(input, expected, "/InterchangeEducationOrgCalender/Session/GradingPeriodReference");
+    }
+
+    @Test
+    public void testGradingPeriodReferenceResolutionSomeFields() throws IOException {
+        File input = IngestionTest.getFile("idRefResolutionData/GradingPeriodReference/GradingPeriodReference_inputMissingData.xml");
+        File expected = IngestionTest.getFile("idRefResolutionData/GradingPeriodReference/GradingPeriodReference_expectedMissingData.xml");
+        test(input, expected, "/InterchangeEducationOrgCalender/Session/GradingPeriodReference");
     }
 }

@@ -5,11 +5,11 @@
 
     <core:filterSettings type="SAX" defaultSerialization="false" />
 
-    <resource-config selector="GradingPeriod">
+    <resource-config selector="#document">
         <resource>org.milyn.delivery.DomModelCreator</resource>
     </resource-config>
 
-    <ftl:freemarker applyOnElement="GradingPeriod">
+    <ftl:freemarker applyOnElement="#document">
         <ftl:template>
           <!--
             <GradingPeriodReference>
