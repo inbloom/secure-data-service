@@ -1,4 +1,5 @@
 require "selenium-webdriver"
+require "socket"
 
 require_relative '../../../../../utils/sli_utils.rb'
 require_relative '../../../../../utils/selenium_common.rb'
@@ -20,7 +21,7 @@ Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do
 end
 
 Given /^LDAP server has been setup and running$/ do
-  @email = "devldapuser@slidev.org"
+  @email = "devldapuser_#{Socket.gethostname}@slidev.org"
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 end
 
@@ -177,10 +178,13 @@ def create_account(status, vendor)
   sleep(1)
 end
 
-def clear_user
-  
-  if @ldap.user_exists?(@email)
-  @ldap.delete_user(@email)
-end
+def clear_users
+  # remove all users that have this hostname in their email address
+  users = @ldap.search_users("*#{Socket.gethostname}*")
+  if users
+    users.each do |u|
+      @ldap.delete_user(@email)    
+    end
+  end
 end
 
