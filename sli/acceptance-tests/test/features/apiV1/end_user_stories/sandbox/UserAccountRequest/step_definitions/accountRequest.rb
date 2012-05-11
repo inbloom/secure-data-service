@@ -4,19 +4,15 @@ require 'approval'
 require 'active_support/inflector'
 require_relative '../../../../../utils/sli_utils.rb'
 require_relative '../../../../../utils/selenium_common.rb'
-require_relative '../../AccountApproval/step_definitions/approval_steps.rb'
 
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
   @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
-  @userRegAppUrl = PropLoader.getProps['user_registration_app_url']
   @validationBaseSuffix = "/user_account_validation"
-
-  emailConf = {
+  @emailConf = {
       :host => 'mon.slidev.org',
       :port => 3000,
   }
-  intializaApprovalEngineAndLDAP(emailConf, @prod)
 end
 
 ###############################################################################
@@ -46,13 +42,17 @@ Given /^there is no registered account for "([^\"]*)" in LDAP$/ do |email|
 end
 
 Given /^I go to the production account registration page$/ do
-  @driver.get @userRegAppUrl
+  @userRegAppUrl = PropLoader.getProps['user_registration_app_production_url']
   @prod = true
+  initializeApprovalAndLDAP(@emailConf, @prod)
+  @driver.get @userRegAppUrl
 end
 
 Given /^I go to the sandbox account registration page$/ do
-  @driver.get @userRegAppUrl
+  @userRegAppUrl = PropLoader.getProps['user_registration_app_sandbox_url']
   @prod = false
+  initializeApprovalAndLDAP(@emailConf, @prod)
+  @driver.get @userRegAppUrl
 end
 
 Given /^there is an approved account with login name "([^\"]*)"$/ do |email|
@@ -162,6 +162,13 @@ end
 ###############################################################################
 # DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF
 ###############################################################################
+
+def initializeApprovalAndLDAP(emailConf, prod)
+  prod ? ldapBase = "ou=DevTest,dc=slidev,dc=org" : ldapBase = "ou=Sandbox,ou=DevTest,dc=slidev,dc=org"
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, ldapBase, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+  email = Emailer.new emailConf
+  ApprovalEngine.init(@ldap, email, !prod)
+end
 
 def assertText(text)
   @explicitWait.until{@driver.find_element(:tag_name,"body")}

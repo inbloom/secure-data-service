@@ -13,10 +13,10 @@ class EulasController < ApplicationController
   
   def create
     if Eula.accepted?(params)
-      Eula.accept session[:guuid]
+      ApplicationHelper.send_user_verification_email(request.env['HTTP_HOST'], session[:guuid])
       render :finish
     else 
-      Eula.reject session[:guuid]
+      ApplicationHelper.remove_user_account session[:guuid]
       redirect_to APP_CONFIG['redirect_slc_url']
     end
   end

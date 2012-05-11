@@ -1,4 +1,3 @@
-@wip
 Feature: User requests for an account for production or sandbox account
 
 Background:
@@ -30,9 +29,7 @@ Scenario: As a user I request for a production account
   When I visit "<ALREADY VERIFIED LINK>"
   Then I should see the text "Account validation failed!"
   And I should see the text "Account previously verified."
-
-@production
-Scenario: Unhappy path: Verifying email address - invalid link
+  # Unhappy path: invalid link
   When I visit "<INVALID VERIFICATION LINK>"
   Then I should see the text "Account validation failed!"
   And I should see the text "Invalid account verification code."
@@ -59,6 +56,7 @@ Scenario: As an slc operator I want to check if a user accepted EULA
   And "First Name" is "Lance"
   And "Last Name" is "Alsop"
   And "Email" is "lalsop@acme.com"
+  And "Environment" is "Production"
 
 @production
 Scenario: Clicking the "cancel" button - registration form
@@ -110,6 +108,8 @@ Scenario: Unhappy path: invalid form inputs
 @sandbox
 Scenario: As a user I request for a sandbox account
   Given I go to the sandbox account registration page
+  And there is no registered account for "lalsop@acme.com" in the SLI database
+  And there is no registered account for "lalsop@acme.com" in LDAP
   When I fill out the field "First Name" as "Lance"
   And I fill out the field "Last Name" as "Alsop"
   And I fill out the field "Vendor" as "Acme Corp"
@@ -127,7 +127,13 @@ Scenario: As a user I request for a sandbox account
   Then I should see the text "Registration Complete!"
   And I should see the text "An administrator will email you when your account is ready."
 
-@test
-Scenario: As a user I request for a production account
-  And there is no registered account for "lalsop@acme.com" in the SLI database
-  And there is no registered account for "lalsop@acme.com" in LDAP
+@sandbox
+Scenario: As an slc operator I want to check if a user accepted EULA
+  Given I go to the sandbox account registration page
+  And there is an approved account with login name "lalsop@acme.com"
+  When I query the database for EULA acceptance
+  Then I get 1 record
+  And "First Name" is "Lance"
+  And "Last Name" is "Alsop"
+  And "Email" is "lalsop@acme.com"
+  And "Environment" is "Sandbox"

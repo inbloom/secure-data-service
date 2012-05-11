@@ -1,6 +1,5 @@
 development:
     api_base: http://local.slidev.org:8080/api/rest/v1/userAccounts
-    validate_base: http://local.slidev.org:3000/user_account_validation
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
     redirect_uri: http://local.slidev.org:3000/callback
@@ -18,14 +17,13 @@ development:
     admin_realm: Shared Learning Infrastructure
 development_sb:
     api_base: http://local.slidev.org:8080/api/rest/v1/userAccounts
-    validate_base: http://local.slidev.org:3000/user_account_validation
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
     redirect_uri: http://local.slidev.org:3000/callback
     redirect_slc_url: http://www.slcedu.org
     ldap_host: ldap.slidev.org
     ldap_port: 389
-    ldap_base: ou=Sandbox,ou=DevTest,dc=slidev,dc=org
+    ldap_base: ou=DevTest,dc=slidev,dc=org
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
     is_sandbox: true
@@ -36,7 +34,6 @@ development_sb:
     admin_realm: Shared Learning Infrastructure
 test:
     api_base: https://devapp1.slidev.org/api/rest/v1/userAccounts
-    validate_base: http://devapp1.slidev.org:3000/user_account_validation
     ldap_host: ldap.slidev.org
     ldap_port: 389
     ldap_base: ou=DevTest,dc=slidev,dc=org
@@ -51,7 +48,6 @@ test:
     redirect_slc_url: http://www.slcedu.org
 deployment:
     api_base: https://nxbuild.slidev.org/api/rest/v1/userAccounts
-    validate_base: http://nxbuild.slidev.org:3000/user_account_validation
     client_id: BsgPgjFApl
     client_secret: 5Upgg8a5bfX5nA121IIFMDCGVAF6NtH2nAIch0BinjUAWtiH
     redirect_uri: https://devadmin1.slidev.org/callback
@@ -69,7 +65,6 @@ deployment:
     admin_realm: Shared Learning Infrastructure
 integration:
     api_base: https://testapi1.slidev.org/api/rest/v1/userAccounts
-    validate_base: http://testapi1.slidev.org:3000/user_account_validation
     client_id: zl9FejUhnV
     client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
     redirect_uri: https://testadmin1.slidev.org/callback
@@ -86,7 +81,6 @@ integration:
     admin_realm: Shared Learning Infrastructure
 acceptance-tests:
     api_base: https://nxbuild.slidev.org/api/rest/v1/userAccounts
-    validate_base: http://nxbuild.slidev.org:3000/user_account_validation
     client_id: zl9FejUhnV
     client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
     redirect_uri: https://nxbuild.slidev.org/admin/callback
@@ -103,7 +97,6 @@ acceptance-tests:
     admin_realm: Shared Learning Infrastructure
 nxbuild2:
     api_base: https://nxbuild2.slidev.org/api/rest/v1/userAccounts
-    validate_base: http://nxbuild2.slidev.org:3000/user_account_validation
     client_id: zl9FejUhnV
     client_secret: V80Ah5GpjZvA7hNLxWmZ6Hy5mE4tEuSb5z0Re9AXNUkAMVyp
     redirect_uri: https://nxbuild2.slidev.org/admin/callback
@@ -120,7 +113,6 @@ nxbuild2:
     admin_realm: Shared Learning Infrastructure
 team:
     api_base: https://ci.slidev.org/api/rest/v1/userAccounts
-    validate_base: http://ci.slidev.org:3000/user_account_validation
     client_id: OY6Nnukmn6
     client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
     redirect_uri: https://ci.slidev.org:2001/callback
@@ -138,7 +130,6 @@ team:
     admin_realm: Shared Learning Infrastructure
 team_sb:
     api_base: https://ci.slidev.org/api/rest/v1/userAccounts
-    validate_base: http://ci.slidev.org:3000/user_account_validation
     client_id: OY6Nnukmn6
     client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
     redirect_uri: https://ci.slidev.org:2001/callback

@@ -38,10 +38,16 @@ module UserAccountRegistrationsHelper
   end
 
    def self.persist_record(isPost,user_account_registration,gUID="0")
+        
+        if user_account_registration.vendor.nil? or user_account_registration.vendor==""
+           user_account_registration.vendor = "None"
+        end
+        
         post_data={
                 "userName" =>    user_account_registration.email,
                 "firstName" => user_account_registration.firstName,
                 "lastName" => user_account_registration.lastName,
+                "vendor" => user_account_registration.vendor,
                 "validated" => "false",
                 "environment" =>  APP_CONFIG["is_sandbox"]? "Sandbox":"Production"
             }
@@ -62,6 +68,7 @@ module UserAccountRegistrationsHelper
             	success=true
             end
         end
+            puts "commitResult: #{commitResult.code}"
        if success
        		if isPost == true
             ApplicationHelper.add_user(user_account_registration)
