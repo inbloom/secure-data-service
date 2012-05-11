@@ -286,6 +286,20 @@
     <EntryDate>2011-09-01</EntryDate>
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
   </StudentSchoolAssociation>
+    <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000003</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <EntryDate>2011-09-01</EntryDate>
+    <EntryGradeLevel>Eighth grade</EntryGradeLevel>
+  </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
@@ -680,6 +694,62 @@
     <HomeroomIndicator>false</HomeroomIndicator>
   </StudentSectionAssociation>
   <!--8th graders-->
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000001</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>8th Grade Math - Sec 1</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <HomeroomIndicator>true</HomeroomIndicator>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000002</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>8th Grade Math - Sec 1</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <HomeroomIndicator>true</HomeroomIndicator>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000003</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>8th Grade Math - Sec 1</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <HomeroomIndicator>true</HomeroomIndicator>
+  </StudentSectionAssociation>
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>800000025</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <UniqueSectionCode>8th Grade Math - Sec 1</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <HomeroomIndicator>true</HomeroomIndicator>
+  </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
       <StudentIdentity>
