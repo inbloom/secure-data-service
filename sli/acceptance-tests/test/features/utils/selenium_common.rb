@@ -17,7 +17,7 @@ When /^I wait for "([^"]*)" seconds$/ do |secs|
   sleep(Integer(secs))
 end
 
-When /^I was redirected to the "([^"]*)" IDP Login page$/ do |arg1|
+When /^I was redirected to the "([^"]*)" IDP Login page$/ do |idpType|
   if idpType=="OpenAM"
     assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "IDToken1")}
   elsif idpType=="ADFS"
