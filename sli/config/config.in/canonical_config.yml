@@ -137,6 +137,8 @@ default:
         # (only used in data-access)
         sli.encryption.dalKeyPass: changeit
 
+        # (only used in data-access)
+        sli.encryption.dalInitializationVector: aabbccddeeff11223344556677889900
         # (used in common and data-access)
         sli.wildcard.x509certificate.alias: wildcard
 
@@ -448,7 +450,7 @@ team:
         log.path: /storage/logs
         sli.simple-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/simple-idp
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
-        sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
+        sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: false
 
 

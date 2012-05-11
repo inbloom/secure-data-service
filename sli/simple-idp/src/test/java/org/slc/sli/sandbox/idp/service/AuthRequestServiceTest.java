@@ -42,15 +42,4 @@ public class AuthRequestServiceTest {
         assertEquals(null, authService.processRequest(null, null));
     }
     
-    @Test(expected = IllegalArgumentException.class)
-    public void testRealmMismatch() {
-        SamlRequest request = Mockito.mock(SamlRequest.class);
-        Mockito.when(request.getId()).thenReturn("id");
-        Mockito.when(request.getIdpDestination()).thenReturn("http://destination/sp?realm=fakeRealm");
-        
-        Mockito.when(samlDecoder.decode("samlRequest")).thenReturn(request);
-        
-        authService.processRequest("samlRequest", "realm");
-        
-    }
 }
