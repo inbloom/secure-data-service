@@ -20,8 +20,9 @@ Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do
 end
 
 Given /^LDAP server has been setup and running$/ do
-  @email = "devldapuser@slidev.org"
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+  @email = "devldapuser"+Socket.gethostname+"@slidev.org"
+  ldap_base=PropLoader.getProps['ldap.base']
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 end
 
 Given /^there are accounts in requests pending in the system$/ do
