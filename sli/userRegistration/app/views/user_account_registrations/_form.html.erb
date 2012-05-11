@@ -8,7 +8,7 @@
   <div class="field">
     <table>
         <tr class="field">
-            <td><%= f.label :email %></td>
+            <td><%= f.label :email,"Email(User Name)" %></td>
             <td ><%= f.text_field :email %></td>
             <% if @user_account_registration.errors[:email].any? %>
             <td id="error_explanation">
@@ -21,7 +21,7 @@
             <%end%>
         </tr>
         <tr class="field">
-                <td><%= f.label :firstName %></td>
+                <td><%= f.label :firstName ,"First Name"%></td>
                 <td class="textField"><%= f.text_field :firstName %></td>
                 <% if @user_account_registration.errors[:firstName].any? %>
                     <td id="error_explanation">
@@ -34,7 +34,7 @@
                 <%end%>
             </tr>
         <tr class="field">
-                <td><%= f.label :lastName %></td>
+                <td><%= f.label :lastName ,"Last Name"%></td>
                 <td ><%= f.text_field :lastName %></td>
                 <% if @user_account_registration.errors[:lastName].any? %>
                     <td id="error_explanation">
@@ -81,7 +81,13 @@
     </table>
   </div>
   <div class="actions">
-    <%= f.submit "Cancel"%>
-    <%= f.submit "Submit"%>
+    <table>
+        <tr>
+          <td id="CancelButton"><%= f.submit "Cancel", 
+            :id => "cancelRegButton"%></td>
+          <td id="SubmitButton"><%= f.submit "Submit", 
+            :id => "submitRegButton"%></td>
+        </tr>
+    </table>
   </div>
 <% end %>

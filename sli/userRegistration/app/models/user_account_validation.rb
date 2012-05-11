@@ -36,17 +36,26 @@ class UserAccountValidation
   def self.validate_account(guid)
     emailToken=guid
     user_info=ApplicationHelper.get_user_with_emailtoken(emailToken)
-    url = APP_CONFIG['api_base'] + "?userName=" + user_info[:email]+"&environment="+APP_CONFIG["is_sandbox"]? "Sandbox":"Production"
+    environment= APP_CONFIG["is_sandbox"]? "Sandbox":"Production"
+    if user_info.nil?
+      return INVALID_VERIFICATION_CODE
+    end
+    url = APP_CONFIG['api_base'] + "?userName=" + user_info[:email]+"&environment="+ environment
     
     res = RestClient.get(url, REST_HEADER){|response, request, result| response }
     
     if (res.code == 200)
       parsedJsonHash = JSON.parse(res.body)
-      if (parsedJsonHash["validated"] == true)
+      guid=parsedJsonHash[0]["id"]
+      if (parsedJsonHash[0]["validated"] == true)
         return ACCOUNT_PREVIOUSLY_VERIFIED
       else
-        parsedJsonHash["validated"] = true
-        putRes = RestClient.put(url, parsedJsonHash.to_json, REST_HEADER){|response, request, result| response }
+        parsedJsonHash[0]["validated"] = true
+        url =APP_CONFIG['api_base']+"/"+guid
+        puts("#{url}")
+
+        putRes = RestClient.put(url, parsedJsonHash[0].to_json, REST_HEADER){|response, request, result| response }
+        puts("API account validation ********#{putRes}")
         if (putRes.code == 204)
           ApplicationHelper.verify_email(emailToken)
           return ACCOUNT_VERIFICATION_COMPLETE

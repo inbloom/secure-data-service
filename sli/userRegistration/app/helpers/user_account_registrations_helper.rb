@@ -21,7 +21,7 @@ module UserAccountRegistrationsHelper
             jsonDocument = JSON.parse(res.body)
             if(jsonDocument[INDEX].nil?)
                 return persist_record(true,user_account_registration)
-            elsif (jsonDocument[INDEX]["validated"] == "true")
+            elsif (jsonDocument[INDEX]["validated"] == true)
             	API_RESPONSE["redirect"]=false
             	API_RESPONSE["error"]="User name already exists in record"
                 return API_RESPONSE
