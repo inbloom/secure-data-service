@@ -39,6 +39,7 @@ end
 After do |scenario| 
   #puts "Running the After hook for Scenario: #{scenario}"
   @driver.manage.delete_all_cookies unless @driver.nil?
+  @driver.close unless @driver.nil?
 end
 
 AfterStep('@pause') do
