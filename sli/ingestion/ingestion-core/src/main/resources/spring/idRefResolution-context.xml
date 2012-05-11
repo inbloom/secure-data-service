@@ -145,6 +145,83 @@
       </bean>
     </entry>
     <!-- end of interchange StudentParent -->
+    
+    <!-- Interchange EducationOrganization -->
+    <entry key="/InterchangeEducationOrganization/School/ProgramReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/School/ProgramReference.xml" />
+      </bean>
+    </entry>
+        <entry key="/InterchangeEducationOrganization/School/EducationOrganizationPeerReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/School/EducationOrganizationPeerReference.xml" />
+      </bean>
+    </entry>
+        <entry key="/InterchangeEducationOrganization/School/LocalEducationAgencyReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/School/LocalEducationAgencyReference.xml" />
+      </bean>
+    </entry>
+    
+     <entry key="/InterchangeEducationOrganization/Course/EducationOrganizationReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/Course/EducationOrganizationReference.xml" />
+      </bean>
+    </entry>
+    
+    <entry key="/InterchangeEducationOrganization/StateEducationAgency/ProgramReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/StateEducationAgency/ProgramReference.xml" />
+      </bean>
+    </entry>
+        <entry key="/InterchangeEducationOrganization/StateEducationAgency/EducationOrganizationPeerReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/StateEducationAgency/EducationOrganizationPeerReference.xml" />
+      </bean>
+    </entry>
+    
+        <entry key="/InterchangeEducationOrganization/LocalEducationAgency/ProgramReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/ProgramReference.xml" />
+      </bean>
+    </entry>
+        <entry key="/InterchangeEducationOrganization/LocalEducationAgency/EducationOrganizationPeerReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/EducationOrganizationPeerReference.xml" />
+      </bean>
+    </entry>
+        <entry key="/InterchangeEducationOrganization/LocalEducationAgency/LocalEducationAgencyReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/LocalEducationAgencyReference.xml" />
+      </bean>
+    </entry>
+    
+    <entry key="/InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference.xml" />
+      </bean>
+    </entry>
+    
+    <!-- end of Interchange EducationOrganization -->
+    
+    <!-- Interchange MasterSchedule -->
+    <entry key="/InterchangeMasterOrganization/LocalEducationAgency/ProgramReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeMasterOrganization/LocalEducationAgency/ProgramReference.xml" />
+      </bean>
+    </entry>
+    <!-- end of Interchange MasterSchedule -->
 
   </util:map>
 
@@ -204,5 +281,21 @@
     <entry key="/InterchangeStudentEnrollment/StudentSchoolAssociation/GraduationPlanReference" value-ref="simpleReferenceResolver" />
 
     <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference" value-ref="smooksExtendedReferenceResolver" />
+    
+    <entry key="/InterchangeEducationOrganization/School/ProgramReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/School/EducationOrganizationPeerReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/School/LocalEducationAgencyReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/Course/EducationOrganizationReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/StateEducationAgency/ProgramReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/StateEducationAgency/EducationOrganizationPeerReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/LocalEducationAgency/ProgramReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/LocalEducationAgency/EducationOrganizationPeerReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/LocalEducationAgency/LocalEducationAgencyReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/ObjectiveAssessment/AssessmentReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/ObjectiveAssessment/ObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
+    
+    <entry key="/InterchangeMasterOrganization/LocalEducationAgency/ProgramReference" value-ref="smoooksExtendedReferenceResolver" />
+
   </util:map>
 </beans>
