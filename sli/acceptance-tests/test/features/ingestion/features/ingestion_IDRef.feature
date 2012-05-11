@@ -6,7 +6,7 @@ Given I am using local data store
 
 
 Scenario: Post a zip file containing studentAssessmentAssociation with ID References job: Clean Database
-Given I post "ingestion_IDRef.zip" file as the payload of the ingestion job
+Given I post "ingestion_IDReferences.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName               |
      | course                       |
