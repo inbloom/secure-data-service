@@ -65,4 +65,22 @@
   </bean>
 
   <context:component-scan base-package="org.slc.sli.dal" />
+
+<!--   <bean id="validationStrategyList" class="java.util.ArrayList">
+    <constructor-arg>
+      <list>
+        <ref bean="blacklistByCharsetStrategy" />
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="blacklistByCharsetStrategy" class="org.slc.sli.validation.strategy.BlacklistByCharsetStrategy" />
+  <bean id="charsetBlacklist" class="java.util.ArrayList">
+    <constructor-arg>
+      <list>
+      </list>
+    </constructor-arg>
+  </bean> -->
+  <import resource="classpath:/spring/validation.xml" />
+
 </beans>

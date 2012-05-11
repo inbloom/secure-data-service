@@ -22,11 +22,11 @@
     <File>${log.path}/security.log</File>
     <Append>true</Append>
     <encoder>
-      <Pattern>%d - %msg%n</Pattern>
+      <Pattern>%msg%n</Pattern>
     </encoder>
   </appender>
    
-  <logger name="SecurityMonitor" level="INFO">
+  <logger name="SecurityMonitor" level="INFO" additivity="false">
     <appender-ref ref="SECURITY_FILE" />
   </logger>
   
