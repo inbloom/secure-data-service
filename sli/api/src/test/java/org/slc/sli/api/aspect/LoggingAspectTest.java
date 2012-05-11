@@ -16,7 +16,6 @@ import org.springframework.util.StopWatch;
 import org.slc.sli.aspect.LoggerCarrier;
 import org.slc.sli.common.util.logging.SecurityEvent;
 
-
 /**
  * Tests that logging can be done via inter-type declared methods
  *
