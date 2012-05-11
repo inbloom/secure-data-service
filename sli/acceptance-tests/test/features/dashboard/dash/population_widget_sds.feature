@@ -8,7 +8,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
 When I login as "cgray" "cgray1234"
 When I look in the ed org drop-down
-Then I see these values in the drop-down: "Daybreak School District 4529"
+Then I see these values in the drop-down: "Daybreak School District 4529;Illinois State Board of Education"
 
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
@@ -37,11 +37,4 @@ And I should have multiple filters available
 When I select filter "English Language Learner"
 Then I should see a student named "Johnathan Zenz"
 And I should see a student named "Kelvin Zahm"
-And I copy my current URL
-And I logout
-And I paste my copied URL
-When I select "Illinois Sunset School District 4526" and click go
-When I login as "cgray" "cgray1234"
-Then I see a list of 25 students
-#TODO make sure the selected values are correct
 

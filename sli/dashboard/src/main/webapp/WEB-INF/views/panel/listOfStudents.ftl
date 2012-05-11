@@ -9,6 +9,6 @@
     function getTableId() {
         return '${id}';
     }
-    var instHierarchy=DashboardProxy.getData('userEdOrg')['root'];
+    var instHierarchy=dataModel['userEdOrg']['root'];
     populateInstHierarchy();
 </script>

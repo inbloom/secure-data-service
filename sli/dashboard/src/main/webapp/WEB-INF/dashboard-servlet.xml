@@ -16,9 +16,9 @@
     <context:component-scan base-package="org.slc.sli.web"/>
     <context:annotation-config />
     
-    <bean  id="freemarkerConfig" class="org.slc.sli.web.util.HtmlEscapingFreeMarkerTemplateLoader$HtmlEscapingFreeMarkerConfigurer">
+    <bean  id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/views/"/>
-        <property name="freemarkerSettings">
+         <property name="freemarkerSettings">
     	 	<props>
                 <prop key="template_exception_handler">rethrow</prop>
 			</props>

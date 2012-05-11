@@ -136,8 +136,8 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
       	  groupHeaders:groupHeaders
       	});
     	// not elegant, but couldn't figure out a better way to get to grouped headers
-    	var groupRow = $(jQuery(this)[0].grid.hDiv).find('.jqg-second-row-header th:last-child');
-    	groupRow.addClass('end');
+    	var groupRow = $(jQuery(this)[0].grid.hDiv).find('.jqg-second-row-header th');
+    	$(groupRow[groupRow.length - 1].el).addClass('end');
     }
     jQuery(this).removeClass('.ui-widget-header');
     jQuery(this).addClass('.jqgrid-header');

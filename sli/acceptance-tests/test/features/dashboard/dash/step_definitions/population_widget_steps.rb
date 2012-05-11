@@ -30,16 +30,11 @@ Then /^I only see "([^"]*)"$/ do |listContent|
       matchCondition = false
     end
   end
-  assert(matchCondition, "list has more then required string(s) " + listContent)
+  assert(matchCondition, "School list has more then required string(s) " + listContent)
 end
 
 When /^I look in the course drop\-down$/ do
   @dropDownId = "courseSelect"
-  assertMissingField(@dropDownId, "id")
-end
-
-When /^I look at the section drop\-down$/ do
-  @dropDownId = "sectionSelect"
   assertMissingField(@dropDownId, "id")
 end
 
@@ -121,21 +116,4 @@ Then /^I see these values in the section drop\-down: "([^"]*)"$/ do |listContent
   selectContentArray = selectContent.split(";")
   result = (desiredContentArray | selectContentArray) - (desiredContentArray & selectContentArray)
   assert(result == [""], "list content does not match required content: " + listContent)  
-end
-
-Then /^I copy my current URL$/ do
-  @copiedUrl = @driver.current_url
-end
-
-Given /^I paste my copied URL$/ do
-  puts @copiedUrl
-  @driver.get @copiedUrl
-end
-
-Then /^I don't see a course selection$/ do
-  begin
-    course = @driver.find_element(:id,"courseSelect")
-  rescue
-    assert(course == nil, "Course is not nil")
-  end
 end

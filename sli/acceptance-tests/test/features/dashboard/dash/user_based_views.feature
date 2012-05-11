@@ -7,7 +7,6 @@ Background:
   Given I have an open web browser
   Given the server is in "live" mode
 
-@wip
 Scenario: Check user has multiple views available
   When I navigate to the Dashboard home page
   When I select "Sunset School District 4526" and click go
@@ -20,7 +19,7 @@ Scenario: Check user has multiple views available
     And I should have a selectable view named "Middle School ELA View"
     And I should have a selectable view named "College Ready ELA View"
 
-@wip
+
 Scenario: Views are filtered based on student grades
   When I navigate to the Dashboard home page
   When I select "Sunset School District 4526" and click go
@@ -31,7 +30,6 @@ Scenario: Views are filtered based on student grades
     And I select <section> "Sec 923"
   Then I should only see one view named "Middle School ELA View"
 
-@wip
 Scenario: Check changing view changes table headings
   When I navigate to the Dashboard home page
   When I select "Sunset School District 4526" and click go
