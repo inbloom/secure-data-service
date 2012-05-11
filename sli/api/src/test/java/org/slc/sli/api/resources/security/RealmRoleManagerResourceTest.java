@@ -1,15 +1,21 @@
 package org.slc.sli.api.resources.security;
 
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.HashMap;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+
 import junit.framework.Assert;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.api.service.EntityService;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,13 +24,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import javax.ws.rs.core.Response;
-import java.util.HashMap;
-
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * Simple test for ClientRoleManagerResource
@@ -81,12 +85,14 @@ public class RealmRoleManagerResourceTest {
     @Test
     public void testAddClientRole() throws Exception {
         try {
-            resource.updateClientRole("-1", null);
+            UriInfo uriInfo = null;
+            resource.updateClientRole("-1", null, uriInfo);
             assertFalse(false);
         } catch (EntityNotFoundException e) {
             assertTrue(true);
         }
-        Response res = resource.updateClientRole("1234", mapping);
+        UriInfo uriInfo = null;
+        Response res = resource.updateClientRole("1234", mapping, uriInfo);
         Assert.assertEquals(204, res.getStatus());
     }
 
@@ -108,7 +114,8 @@ public class RealmRoleManagerResourceTest {
     public void testUpdateOtherEdOrgRealm() {
         EntityBody temp = new EntityBody();
         temp.put("foo", "foo");
-        Response res = resource.updateClientRole("other-realm", temp);
+        UriInfo uriInfo = null;
+        Response res = resource.updateClientRole("other-realm", temp, uriInfo);
         Assert.assertEquals(403, res.getStatus());
     }
 }
