@@ -21,7 +21,6 @@ module ApplicationHelper
   EMAIL_PORT=APP_CONFIG["email_port"]
   EMAIL_SENDER_NAME=APP_CONFIG["email_sender_name"]
   EMAIL_SENDER_ADDR=APP_CONFIG["email_sender_address"]
-  VALIDATE_BASE=APP_CONFIG["validate_base"]
 
   EMAIL_CONF = {
     :host=>EMAIL_HOST,
@@ -60,11 +59,12 @@ module ApplicationHelper
   # Returns:
   #     Nothing
   #
-  def self.send_user_verification_email(guid)
+  def self.send_user_verification_email(validate_base, guid)
     
     user_email_info = get_email_info guid
+    email_token = get_email_token(user_email_info["email_address"])
     
-    userEmailValidationLink = VALIDATE_BASE + "/" + get_email_token(user_email_info["email_address"])
+    userEmailValidationLink = "http://#{validate_base}/user_account_validation/#{email_token}"
     
     email_message = "Your SLI account has been created pending email verification.\n" <<
       "\n\nPlease visit the following link to confirm your account:\n" <<
