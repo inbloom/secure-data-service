@@ -1,6 +1,6 @@
 require 'json'
 
-require_relative '../../utils/sli_utils.rb'
+require_relative '../../../utils/sli_utils.rb'
 
 Transform /^realm "([^"]*)"$/ do |arg1|
   id = "4cb03fa0-83ad-46e2-a936-09ab31af377e" if arg1 == "SLI"
