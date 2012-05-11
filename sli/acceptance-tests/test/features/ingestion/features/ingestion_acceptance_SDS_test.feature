@@ -62,7 +62,7 @@ Then I should see following map of entry counts in the corresponding collections
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
-        | studentSectionGradebookEntry| 78    |
+        | studentSectionGradebookEntry| 315   |
         | attendance                  | 75    |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
@@ -199,7 +199,7 @@ Then I should see following map of entry counts in the corresponding collections
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
-        | studentSectionGradebookEntry| 78    |
+        | studentSectionGradebookEntry| 315   |
         | attendance                  | 75    |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
@@ -265,7 +265,7 @@ Then I should see following map of entry counts in the corresponding collections
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | gradebookEntry              | 12    |
-        | studentSectionGradebookEntry| 78    |
+        | studentSectionGradebookEntry| 315   |
         | attendance                  | 75    |
         | program                     | 2     |
         | staffProgramAssociation     | 3     |
