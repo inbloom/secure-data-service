@@ -19,10 +19,6 @@
     </encoder>
   </appender>
   
-  <logger name="APICallLogger" level="INFO">
-    <appender-ref ref="API_CALL_LOGGER" />
-  </logger>
-
   <appender name="SECURITY_LOGGER" class="ch.qos.logback.core.FileAppender">
     <file>${log.path}/audit.log</file>
     <Append>true</Append>
@@ -31,6 +27,10 @@
     </encoder>
   </appender>
   
+  <logger name="APICallLogger" level="INFO">
+    <appender-ref ref="API_CALL_LOGGER" />
+  </logger>
+
   <logger name="org.springframework.security" level="INFO" />
   <logger name="org.springframework.beans.factory" level="INFO" />
   <logger name="org.springframework.data.mongodb.core.MongoTemplate" level="INFO" />
@@ -40,6 +40,7 @@
   <logger name="audit" level="INFO">
     <appender-ref ref="SECURITY_LOGGER" />
   </logger>
+
 
   <root level="debug">
     <appender-ref ref="STDOUT" />
