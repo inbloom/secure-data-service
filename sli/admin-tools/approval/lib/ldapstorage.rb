@@ -95,7 +95,7 @@ class LDAPStorage
 		}
 
 		# inject the constant values into the user info 
-		e_user_info = user_info.merge(ENTITY_CONSTANTS)
+		e_user_info = ENTITY_CONSTANTS.merge(user_info)
 
 		if ENTITY_ATTR_MAPPING.keys().sort != e_user_info.keys().sort
 		 	raise "The following attributes #{ENTITY_ATTR_MAPPING.keys} need to be set" 
