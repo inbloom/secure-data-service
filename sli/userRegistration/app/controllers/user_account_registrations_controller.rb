@@ -24,6 +24,7 @@ class UserAccountRegistrationsController < ApplicationController
        redirectPage=false
       else
         response=UserAccountRegistrationsHelper.register_user(@user_account_registration)
+        puts("^^^^^^^^^^^#{response}")
         redirectPage=response["redirect"]
         @user_account_registration.errors.add(:email,response["error"])
         session[:guuid]=response["guuid"]
