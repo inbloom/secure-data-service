@@ -5,6 +5,7 @@ As a secrutiy officer, I want the application to be pretected from attacks via P
 Background:
 Given I have an open web browser
 
+@integration
 Scenario: Invalid componentId PathVariable accessing DataController
 
 Given the server is in "live" mode
@@ -15,6 +16,7 @@ Then I should be redirected to the Dashboard landing page
 When I access "/service/data/h@ck"
 Then I am informed that "the page that you were looking for could not be found"
 
+@integration
 Scenario: Invalid componentId and id PathVariables accessing PanelController
 
 Given the server is in "live" mode
