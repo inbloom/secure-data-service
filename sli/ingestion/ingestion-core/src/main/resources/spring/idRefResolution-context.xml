@@ -215,10 +215,10 @@
     <!-- end of Interchange EducationOrganization -->
     
     <!-- Interchange MasterSchedule -->
-    <entry key="/InterchangeMasterOrganization/LocalEducationAgency/ProgramReference">
+    <entry key="/InterchangeMasterSchedule/Section/CourseOfferingReference">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String"
-          value="idRefResolution/InterchangeMasterOrganization/LocalEducationAgency/ProgramReference.xml" />
+          value="idRefResolution/InterchangeMasterSchedule/Section/CourseOfferingReference.xml" />
       </bean>
     </entry>
     <!-- end of Interchange MasterSchedule -->
@@ -295,7 +295,7 @@
     <entry key="/InterchangeEducationOrganization/ObjectiveAssessment/AssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeEducationOrganization/ObjectiveAssessment/ObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
     
-    <entry key="/InterchangeMasterOrganization/LocalEducationAgency/ProgramReference" value-ref="smoooksExtendedReferenceResolver" />
+    <entry key="/InterchangeMasterSchedule/Section/CourseOfferingReference" value-ref="smooksExtendedReferenceResolver" />
 
   </util:map>
 </beans>
