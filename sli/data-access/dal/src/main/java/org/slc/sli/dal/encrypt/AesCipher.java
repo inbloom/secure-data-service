@@ -19,8 +19,11 @@ import java.util.Properties;
 import javax.annotation.PostConstruct;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 
+import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.binary.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +32,9 @@ import org.springframework.context.ApplicationContext;
 
 /**
  * Encrypts/Decrypts data using AES
- *
+ * 
  * @author Ryan Farris <rfarris@wgen.net>
- *
+ * 
  */
 public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
 
@@ -43,14 +46,15 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
     public AesCipher() {
     }
 
-    public AesCipher(SecretKey key) {
-        this.setKey(key);
+    public AesCipher(SecretKey key, String initializationVector) {
+        this.setKeyAndInitializationVector(key, initializationVector);
     }
 
     @Override
     public String encrypt(Object data) {
         if (data instanceof String) {
-            return "ESTRING:" + encryptFromBytes(StringUtils.getBytesUtf8((String) data));
+            return "ESTRING:"
+                    + encryptFromBytes(StringUtils.getBytesUtf8((String) data));
         } else {
             ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
             DataOutputStream dos = new DataOutputStream(byteOutputStream);
@@ -69,7 +73,8 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
                     dos.writeDouble((Double) data);
                     type = "EDOUBLE:";
                 } else {
-                    throw new RuntimeException("Unsupported type: " + data.getClass().getCanonicalName());
+                    throw new RuntimeException("Unsupported type: "
+                            + data.getClass().getCanonicalName());
                 }
                 dos.flush();
                 dos.close();
@@ -83,8 +88,9 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
 
     @Override
     public Object decrypt(String data) {
-        String[] splitData = org.apache.commons.lang3.StringUtils.split(data, ':');
-        //String[] splitData = data.split(":");
+        String[] splitData = org.apache.commons.lang3.StringUtils.split(data,
+                ':');
+        // String[] splitData = data.split(":");
         if (splitData.length != 2) {
             return null;
         } else {
@@ -106,7 +112,8 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
 
     private Object decryptBinary(String data, Class<?> expectedType) {
         byte[] decoded = decryptToBytes(data);
-        DataInputStream dis = new DataInputStream(new ByteArrayInputStream(decoded));
+        DataInputStream dis = new DataInputStream(new ByteArrayInputStream(
+                decoded));
         try {
             if (Boolean.class.equals(expectedType)) {
                 return dis.readBoolean();
@@ -117,7 +124,8 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
             } else if (Double.class.equals(expectedType)) {
                 return dis.readDouble();
             } else {
-                throw new RuntimeException("Unsupported type: " + expectedType.getCanonicalName());
+                throw new RuntimeException("Unsupported type: "
+                        + expectedType.getCanonicalName());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -168,10 +176,10 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
 
     @SuppressWarnings("unused")
     @PostConstruct
-    private void init() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException,
-            UnrecoverableKeyException {
+    private void init() throws KeyStoreException, NoSuchAlgorithmException,
+            CertificateException, IOException, UnrecoverableKeyException {
 
-        String keyStorePass, keyAlias, keyPass;
+        String keyStorePass, keyAlias, keyPass, initializationVector;
 
         FileInputStream propStream = null;
         try {
@@ -181,6 +189,8 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
             keyStorePass = props.getProperty("sli.encryption.keyStorePass");
             keyAlias = props.getProperty("sli.encryption.dalKeyAlias");
             keyPass = props.getProperty("sli.encryption.dalKeyPass");
+            initializationVector = props
+                    .getProperty("sli.encryption.dalInitializationVector");
         } finally {
             if (propStream != null) {
                 propStream.close();
@@ -188,13 +198,18 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
         }
 
         if (keyStorePass == null) {
-            throw new RuntimeException("No key store password found in properties file.");
+            throw new RuntimeException(
+                    "No key store password found in properties file.");
         }
         if (keyAlias == null) {
             throw new RuntimeException("No key alias found in properties file");
         }
         if (keyPass == null) {
-            throw new RuntimeException("No key password found in properties file");
+            throw new RuntimeException(
+                    "No key password found in properties file");
+        }
+        if (initializationVector == null) {
+            throw new RuntimeException("No initialization vector provided");
         }
 
         KeyStore ks = KeyStore.getInstance("JCEKS");
@@ -210,18 +225,31 @@ public class AesCipher implements org.slc.sli.dal.encrypt.Cipher {
         }
         Key key = ks.getKey(keyAlias, keyPass.toCharArray());
         if (!(key instanceof SecretKey)) {
-            throw new RuntimeException("Expected key of type SecretKey, got " + key.getClass());
+            throw new RuntimeException("Expected key of type SecretKey, got "
+                    + key.getClass());
         }
-        this.setKey((SecretKey) key);
+        this.setKeyAndInitializationVector((SecretKey) key,
+                initializationVector);
     }
 
-    protected void setKey(SecretKey key) {
-        try {
-            this.encryptCipher = Cipher.getInstance("AES");
-            this.encryptCipher.init(Cipher.ENCRYPT_MODE, key);
+    protected void setKeyAndInitializationVector(SecretKey key,
+            String initializationVector) {
 
-            this.decryptCipher = Cipher.getInstance("AES");
-            this.decryptCipher.init(Cipher.DECRYPT_MODE, key);
+        byte[] ivBytes;
+        try {
+            ivBytes = Hex.decodeHex(initializationVector.toCharArray());
+        } catch (DecoderException e) {
+            throw new RuntimeException(e);
+        }
+
+        IvParameterSpec ivspec = new IvParameterSpec(ivBytes);
+
+        try {
+            this.encryptCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            this.encryptCipher.init(Cipher.ENCRYPT_MODE, key, ivspec);
+
+            this.decryptCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            this.decryptCipher.init(Cipher.DECRYPT_MODE, key, ivspec);
         } catch (GeneralSecurityException e) {
             throw new RuntimeException(e);
         }

@@ -11,6 +11,7 @@ import com.mongodb.DBObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.converter.Converter;
 
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
@@ -29,6 +30,7 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
     private EntityEncryption encryptor;
 
     @Autowired
+    @Qualifier("type4UUIDGeneratorStrategy")
     private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
     public EntityEncryption getStagingEncryptor() {

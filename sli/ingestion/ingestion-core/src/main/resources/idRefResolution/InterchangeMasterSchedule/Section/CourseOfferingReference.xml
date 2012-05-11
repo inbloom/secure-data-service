@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.3.xsd"
+                      xmlns:ftl="http://www.milyn.org/xsd/smooks/freemarker-1.1.xsd">
+                      
+    <core:filterSettings type="SAX" defaultSerialization="false" />
+
+    <resource-config selector="#document">
+        <resource>org.milyn.delivery.DomModelCreator</resource>
+    </resource-config>
+   
+    <ftl:freemarker applyOnElement="#docuement">
+        <ftl:template>
+          <!--
+                <CourseOfferingIdentity>
+                    <#if (CourseOffering.LocalCourseCode[0])??>
+                        <LocalCourseCourseCode>
+                            ${CourseOffering.LocalCourseCode}
+                        </LocalCourseCourseCode>
+                    </#if>
+                    
+                    <#if (CourseOffering.CourseCode[0])??>
+                        <CourseCode
+                            <#if (CourseOffering.CourseCode.@IdentificationSystem[0])??>
+                                IdentificationSystem="${CourseOffering.CourseCode.@IdentificationSystem}"
+                            </#if>
+                            <#if (CourseOffering.CourseCode.@AssigningOrganizationCode[0])??>
+                                AssigningOrganizationCode="${CourseOffering.CourseCode.@AssigningOrganizationCode[0]}"
+                            </#if>
+                            >
+                            <#if (CourseOffering.CourseCode.ID[0])??>
+                                <ID>
+                                    ${CourseOffering.CourseCode.ID}
+                                </ID>
+                            </#if>
+                        </CourseCode>
+                    </#if>
+                    
+                    <#if (CourseOffering.Term[0])??>
+                        <Term>
+                            ${CourseOffering.Term}
+                        </Term>
+                    </#if>
+                    
+                    <#if (CourseOffering.SchoolYear[0])??>
+                        <SchoolYear>
+                            ${CourseOffering.SchoolYear}
+                        </SchoolYear>
+                    </#if>
+                    
+                    <#if (CourseOffering.StateOrganizationId[0])?? >
+                    <StateOrganizationId>
+                        ${CourseOffering.StateOrganizationId}
+                    </StateOrganizationId>
+                    </#if>
+                    
+                    <#if (CourseOffering.CourseOfferingIdentificationCode[0])?? >
+                    <CourseOfferingIdentificationCode
+                        <#if (CourseOffering.CourseOfferingIdentificationCode.@IdentificationSystem[0])??> 
+                        IdentificationSystem="${CourseOffering.CourseOfferingIdentificationCode.@IdentificationSystem}"
+                        </#if>
+                        >
+                        <#if (CourseOffering.CourseOfferingIdentificationCode.ID[0])??>
+                        <ID>
+                            ${CourseOffering.CourseOfferingIdentificationCode.ID}
+                        </ID>
+                        </#if>
+                    </CourseOfferingIdentificationCode>
+                    </#if>
+                </CourseOfferingIdentity>
+         -->
+        </ftl:template>
+    </ftl:freemarker>
+
+</smooks-resource-list>

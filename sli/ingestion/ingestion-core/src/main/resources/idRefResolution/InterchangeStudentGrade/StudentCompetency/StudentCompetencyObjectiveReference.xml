@@ -5,11 +5,11 @@
 
     <core:filterSettings type="SAX" defaultSerialization="false" />
 
-    <resource-config selector="StudentCompetencyObjetive">
+    <resource-config selector="#document">
         <resource>org.milyn.delivery.DomModelCreator</resource>
     </resource-config>
 
-    <ftl:freemarker applyOnElement="StudentCompetencyObjective">
+    <ftl:freemarker applyOnElement="#document">
         <ftl:template>
           <!--
                 < StudentCompetencyObjectiveIdentity>

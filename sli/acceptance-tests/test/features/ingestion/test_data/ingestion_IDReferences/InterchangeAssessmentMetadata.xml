@@ -5,6 +5,7 @@
 	<LearningObjective id="LO_1">
 		<LearningObjectiveId>
 			<IdentificationCode>Objective1</IdentificationCode>
+			<ContentStandardName>Common Core</ContentStandardName>
 		</LearningObjectiveId>
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
@@ -16,6 +17,7 @@
 	<LearningObjective id="LO_2">
 		<LearningObjectiveId>
 			<IdentificationCode>Objective2</IdentificationCode>
+			<ContentStandardName>Common Core</ContentStandardName>
 		</LearningObjectiveId>
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
@@ -27,6 +29,7 @@
 	<LearningObjective id="LO_3">
 		<LearningObjectiveId>
 			<IdentificationCode>Objective3</IdentificationCode>
+			<ContentStandardName>Common Core</ContentStandardName>
 		</LearningObjectiveId>
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
@@ -38,6 +41,7 @@
 	<LearningObjective id="LO_4">
 		<LearningObjectiveId>
 			<IdentificationCode>Objective4</IdentificationCode>
+			<ContentStandardName>Common Core</ContentStandardName>
 		</LearningObjectiveId>
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
@@ -49,6 +53,7 @@
 	<LearningObjective id="LO_5">
 		<LearningObjectiveId>
 			<IdentificationCode>Objective5</IdentificationCode>
+			<ContentStandardName>Common Core</ContentStandardName>
 		</LearningObjectiveId>
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
