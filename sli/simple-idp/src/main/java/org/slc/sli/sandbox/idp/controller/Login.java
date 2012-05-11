@@ -68,7 +68,7 @@ public class Login {
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm);
         
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
-        if (user != null) {
+        if (user != null && !requestInfo.isForceAuthn()) {
             LOG.debug("Login request with existing session, skipping authentication");
             SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
                     user.getAttributes(), requestInfo);
