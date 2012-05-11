@@ -1,8 +1,8 @@
 require "selenium-webdriver"
 require 'approval'
 
-require_relative '../../../../../utils/sli_utils.rb'
-require_relative '../../../../../utils/selenium_common.rb'
+require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../utils/selenium_common.rb'
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "sunsetadmin"                                if human_readable_id == "USERID"
@@ -54,8 +54,8 @@ end
        :vendor => @vendor,
        :status => "pending",
        :homedir => "changeit",
-       :uidnumber => "devldapuser@slidev.org",
-       :gidnumber => "testgroup",
+       :uidnumber => "500",
+       :gidnumber => "500",
      #  :tenantId => tenantId
    }
   
