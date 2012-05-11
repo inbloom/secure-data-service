@@ -19,13 +19,12 @@ class UserAccountRegistrationsController < ApplicationController
   # POST /user_account_registrations.json
   def create
     @user_account_registration = UserAccountRegistration.new(params[:user_account_registration])
-    @currEnvironment=APP_CONFIG["is_sandbox"]? "Sandbox":"Production"
-
-    redirectPage=true
+    @user_account_registration.errors.clear
     if @user_account_registration.valid? ==false
        redirectPage=false
       else
         response=UserAccountRegistrationsHelper.register_user(@user_account_registration)
+        puts("^^^^^^^^^^^#{response}")
         redirectPage=response["redirect"]
         @user_account_registration.errors.add(:email,response["error"])
         session[:guuid]=response["guuid"]
