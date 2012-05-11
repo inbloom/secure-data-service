@@ -65,22 +65,6 @@ Given /^"([^"]*)" is valid "([^"]*)" user$/ do |arg1, arg2|
   #No code needed for this step
 end
 
-When /^I enter "([^"]*)" in the username text field$/ do |arg1|
-  @driver.find_element(:id, "IDToken1").send_keys arg1
-end
-
-When /^I enter "([^"]*)" in the password text field$/ do |arg1|
-  @driver.find_element(:id, "IDToken2").send_keys arg1
-end
-
-When /^I click the Go button$/ do
-  @driver.find_element(:name, "Login.Submit").click
-  begin
-    @driver.switch_to.alert.accept
-  rescue
-  end
-end
-
 Then /^I am now authenticated to SLI IDP$/ do
   #No code needed, this is tested implicitly by accessing the admin roles page
 end
