@@ -230,7 +230,7 @@
         </TeacherReference>
         <SchoolReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </SchoolReference>
         <ProgramAssignment>Regular Education</ProgramAssignment>
@@ -244,6 +244,20 @@
             <AcademicSubject>Mathematics</AcademicSubject>
         </AcademicSubjects>
     </TeacherSchoolAssociation>
+    <TeacherSectionAssociation>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SectionReference>
+            <SectionIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                <UniqueSectionCode>Grade 1</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <ClassroomPosition>Teacher of Record</ClassroomPosition>
+    </TeacherSectionAssociation>
     <!-- jdoe -->
     <Teacher>
         <StaffUniqueStateId>jdoe</StaffUniqueStateId>
