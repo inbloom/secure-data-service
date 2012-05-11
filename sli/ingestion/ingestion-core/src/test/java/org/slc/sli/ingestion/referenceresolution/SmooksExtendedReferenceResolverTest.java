@@ -65,9 +65,16 @@ public class SmooksExtendedReferenceResolverTest {
     }
 
     @Test
-    public void testResolution() throws IOException {
+    public void testResolutionAllFields() throws IOException {
         File input = IngestionTest.getFile("idRefResolutionData/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_input.xml");
         File expected = IngestionTest.getFile("idRefResolutionData/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_expected.xml");
-        test(input, expected, "/InterchangeStudentAssessment/StudentAssessment/AssessmentReference");
+        test(input, expected, "/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference");
+    }
+
+    @Test
+    public void testResolutionSomeFields() throws IOException {
+        File input = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference_inputMissingData.xml");
+        File expected = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference_expectedMissingData.xml");
+        test(input, expected, "/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference");
     }
 }

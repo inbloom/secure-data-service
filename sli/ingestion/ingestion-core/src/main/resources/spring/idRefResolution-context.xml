@@ -74,7 +74,7 @@
       </bean>
     </entry>
 
-    
+
 
     <!--Iterchange StudentAssessmenet -->
     <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference">
@@ -90,7 +90,7 @@
           value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/StudentReference.xml" />
       </bean>
     </entry>
-    
+
     <!-- Interchange StaffAssociation -->
     <entry key="/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffReference">
       <bean class="org.milyn.Smooks">
@@ -104,23 +104,23 @@
           value="idRefResolution/InterchangeStaffAssociation/StaffProgramAssociation/StaffReference.xml" />
       </bean>
     </entry>
-    
+
      <entry key="/InterchangeStaffAssociation/TeacherSchoolAssociation/TeacherReference">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String"
           value="idRefResolution/InterchangeStaffAssociation/TeacherSchoolAssociation/TeacherReference.xml" />
       </bean>
     </entry>
-    
+
     <entry key="/InterchangeStaffAssociation/TeacherSectionAssociation/TeacherReference">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String"
           value="idRefResolution/InterchangeStaffAssociation/TeacherSectionAssociation/TeacherReference.xml" />
       </bean>
     </entry>
-    
+
     <!-- end of interchange StaffAssociation -->
-    
+
     <!--interchange StudentDiscipline -->
     <entry key="/InterchangeStudentDiscipline/DisciplineAction/DisciplineIncidentReference">
       <bean class="org.milyn.Smooks">
@@ -129,19 +129,19 @@
       </bean>
     </entry>
     <!-- end of interchange StaffAssociation>= -->
-    
+
     <!-- Interchange StudentParent -->
-    <entry key="/InterchangeStudentParent/StudentPlanAssociation/ParentReference">
+    <entry key="/InterchangeStudentParent/StudentParentAssociation/ParentReference">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String"
-          value="idRefResolution//InterchangeStudentParent/StudentPlanAssociation/ParentReference.xml" />
+          value="idRefResolution//InterchangeStudentParent/StudentParentAssociation/ParentReference.xml" />
       </bean>
     </entry>
-    
-    <entry key="/InterchangeStudentParent/StudentPlanAssociation/StudentReference">
+
+    <entry key="/InterchangeStudentParent/StudentParentAssociation/StudentReference">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String"
-          value="idRefResolution//InterchangeStudentParent/StudentPlanAssociation/StudentReference.xml" />
+          value="idRefResolution/InterchangeStudentParent/StudentParentAssociation/StudentReference.xml" />
       </bean>
     </entry>
     <!-- end of interchange StudentParent -->
@@ -192,15 +192,15 @@
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
-        
+
     <entry key="/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffReference" value-ref="smooksExtendedReferenceResolver" />
     <entry key="/InterchangeStaffAssociation/StaffProgramAssociation/StaffReference" value-ref="smooksExtendedReferenceResolver" />
     <entry key="/InterchangeStaffAssociation/TeacherSchoolAssociation/TeacherReference" value-ref="smooksExtendedReferenceResolver" />
     <entry key="/InterchangeStaffAssociation/TeacherSectionAssociation/TeacherReference" value-ref="smooksExtendedReferenceResolver" />
-    
+
     <entry key="/InterchangeStudentDiscipline/DisciplineAction/DisciplineIncidentReference" value-ref="smooksExtendedReferenceResolver" />
     <entry key="/InterchangeStudentDiscipline/StudentDisciplineIncidentAssociation/DisciplineIncidentReference" value-ref="simpleReferenceResolver" />
-    
+
     <entry key="/InterchangeStudentEnrollment/StudentSchoolAssociation/GraduationPlanReference" value-ref="simpleReferenceResolver" />
 
     <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference" value-ref="smooksExtendedReferenceResolver" />
