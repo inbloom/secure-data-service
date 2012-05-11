@@ -74,4 +74,32 @@ public class IngestionStagedEntity implements Serializable {
         return pure;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((collectionNameAsStaged == null) ? 0 : collectionNameAsStaged.hashCode());
+        result = prime * result + ((edfiEntity == null) ? 0 : edfiEntity.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        IngestionStagedEntity other = (IngestionStagedEntity) obj;
+        if (collectionNameAsStaged == null) {
+            if (other.collectionNameAsStaged != null)
+                return false;
+        } else if (!collectionNameAsStaged.equals(other.collectionNameAsStaged))
+            return false;
+        if (edfiEntity != other.edfiEntity)
+            return false;
+        return true;
+    }
+
 }
