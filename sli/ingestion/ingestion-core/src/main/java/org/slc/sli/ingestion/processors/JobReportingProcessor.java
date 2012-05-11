@@ -345,6 +345,7 @@ public class JobReportingProcessor implements Processor {
             ipAddr = addr.getAddress();
 
         } catch (UnknownHostException e) {
+            LOG.error("Error getting local host", e);
         }
         SecurityEvent event = new SecurityEvent("",  // Alpha MH (tenantId - written in 'message')
                 "", // user
