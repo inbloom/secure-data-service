@@ -66,14 +66,19 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/disciplineAction.xml" />
       </bean>
     </entry>
-        <entry key="session">
-            <bean class="org.milyn.Smooks">
-                <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/session.xml" />
-            </bean>
+    <entry key="session">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/session.xml" />
+      </bean>
     </entry>
     <entry key="studentDisciplineIncidentAssociation">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentDisciplineIncidentAssociation.xml" />
+      </bean>
+    </entry>
+    <entry key="studentSectionGradebookEntry">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentSectionGradebookEntry.xml" />
       </bean>
     </entry>
   </util:map>
@@ -169,6 +174,12 @@
     scope="prototype">
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     <property name="passThroughCollectionName" value="disciplineAction" />
+  </bean>
+
+  <bean id="studentSectionGradebookEntryTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+    scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="studentSectionGradebookEntry" />
   </bean>
 
   <bean id="studentDisciplineIncidentAssociationTransformationStrategy" class="org.slc.sli.ingestion.transformation.StudentDisciplineIncidentAssociationTransformer"

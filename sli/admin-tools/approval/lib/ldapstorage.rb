@@ -95,7 +95,7 @@ class LDAPStorage
 		}
 
 		# inject the constant values into the user info 
-		e_user_info = user_info.merge(ENTITY_CONSTANTS)
+		e_user_info = ENTITY_CONSTANTS.merge(user_info)
 
 		if ENTITY_ATTR_MAPPING.keys().sort != e_user_info.keys().sort
 		 	raise "The following attributes #{ENTITY_ATTR_MAPPING.keys} need to be set" 
@@ -125,6 +125,13 @@ class LDAPStorage
 	# use constants in approval.rb 
 	def read_users(status=nil)
 		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
+		return search_map_user_fields(filter)
+	end	
+
+	# returns array of extended user_info for all users or all users with given status 
+	# use constants in approval.rb 
+	def search_users(wildcard_email_address)
+		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, wildcard_email_address)
 		return search_map_user_fields(filter)
 	end	
 

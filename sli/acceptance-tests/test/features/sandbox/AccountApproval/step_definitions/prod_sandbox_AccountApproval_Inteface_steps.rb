@@ -20,16 +20,17 @@ Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do
 end
 
 Given /^LDAP server has been setup and running$/ do
+  @email = "devldapuser@slidev.org"
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 end
 
 Given /^there are accounts in requests pending in the system$/ do
-  clear_all()
+  clear_user()
   sleep(1)
   user_info = {
       :first => "Loraine",
       :last => "Plyler", 
-       :email => "devldapuser@slidev.org",
+       :email => @email,
        :password => "secret", 
        :emailtoken => "token",
        :vendor => "Macro Corp",
@@ -125,19 +126,26 @@ When /^I click on Ok$/ do
 end
 
 Then /^his account status changed to "([^"]*)"$/ do |arg1|
-  status=@driver.find_element(:id,"status."+@user_name)
-  assert(status.text==arg1,"user account status is not #{arg1}")
+  statuses=@driver.find_elements(:id,"status."+@user_name)
+  found =false
+  statuses.each do |status|
+    if status.text==arg1
+      found=true
+    end
+  end  
+  assert(found,"user account status is not #{arg1}")
+  clear_user()
 end
 
 
 
 Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
- clear_all()
+ clear_user()
   sleep(1)
   user_info = {
       :first => "Loraine",
       :last => "Plyler", 
-       :email => "devldapuser@slidev.org",
+       :email => @email,
        :password => "secret", 
        :emailtoken => "token",
        :vendor => vendor,
@@ -151,12 +159,12 @@ Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
 end
 
 def create_account(status, vendor)
-  clear_all()
+  clear_user()
   sleep(1)
   user_info = {
       :first => "Loraine",
       :last => "Plyler", 
-       :email => "devldapuser@slidev.org",
+       :email => @email,
        :password => "secret", 
        :emailtoken => "token",
        :vendor => vendor,
@@ -169,12 +177,10 @@ def create_account(status, vendor)
   sleep(1)
 end
 
-def clear_all
-  users=@ldap.read_users()
-  if users.length>0
-    users.each do |user|
-      @ldap.delete_user(user[:email])
-    end
-  end
+def clear_user
+  
+  if @ldap.user_exists?(@email)
+  @ldap.delete_user(@email)
+end
 end
 

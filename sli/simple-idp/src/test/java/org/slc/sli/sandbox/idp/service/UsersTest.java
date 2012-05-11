@@ -42,7 +42,6 @@ public class UsersTest {
     
     @Test
     public void testAuthenticate() throws AuthenticationException {
-        userService.setSandboxImpersonationEnabled(false);
         DistinguishedName dn = new DistinguishedName("ou=SLIAdmin");
         Mockito.when(
                 ldapTemplate.authenticate(Mockito.eq(dn), Mockito.eq("(&(objectclass=person)(uid=testuser))"),
@@ -72,7 +71,6 @@ public class UsersTest {
     
     @Test
     public void testSandboxAuthenticate() throws AuthenticationException {
-        userService.setSandboxImpersonationEnabled(true);
         DistinguishedName dn = new DistinguishedName("ou=SLIAdmin");
         Mockito.when(
                 ldapTemplate.authenticate(Mockito.eq(dn), Mockito.eq("(&(objectclass=person)(uid=testuser))"),
@@ -80,7 +78,7 @@ public class UsersTest {
         User mockUser = new User();
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("userName", "Test User");
-        attributes.put("SandboxRealm", "myrealm");
+        attributes.put("Tenant", "mytenant");
         mockUser.attributes = attributes;
         mockUser.userId = "testuser";
         Mockito.when(
@@ -93,17 +91,17 @@ public class UsersTest {
                 ldapTemplate.search(Mockito.eq(dn), Mockito.eq("(&(objectclass=posixGroup)(memberuid=testuser))"),
                         Mockito.any(GroupContextMapper.class))).thenReturn(mockGroups);
         
-        UserService.User user = userService.authenticate("myrealm", "testuser", "testuser1234");
+        UserService.User user = userService.authenticate("SLIAdmin", "testuser", "testuser1234");
         assertEquals("testuser", user.getUserId());
         assertEquals("Test User", user.getAttributes().get("userName"));
+        assertEquals("mytenant", user.getAttributes().get("Tenant"));
         assertEquals(2, user.getRoles().size());
         assertEquals("TestGroup1", user.getRoles().get(0));
         assertEquals("TestGroup2", user.getRoles().get(1));
     }
     @Test
     public void testAttributeExtraction() {
-        userService.setSandboxImpersonationEnabled(false);
-        String desc = "Realm=myRealmId\nTenant=myTenantId\nEdOrg=myEdorgId\nAdminRealm=myAdminRealmId\n";
+        String desc = "Tenant=myTenantId\nEdOrg=myEdorgId\n";
         PersonContextMapper mapper = new PersonContextMapper();
         DirContextAdapter context = Mockito.mock(DirContextAdapter.class);
         Mockito.when(context.getStringAttribute("cn")).thenReturn("Full Name");
@@ -112,9 +110,7 @@ public class UsersTest {
         
         assertEquals("Full Name", user.getAttributes().get("userName"));
         assertEquals("myTenantId", user.getAttributes().get("Tenant"));
-        assertEquals("myRealmId", user.getAttributes().get("Realm"));
         assertEquals("myEdorgId", user.getAttributes().get("EdOrg"));
-        assertEquals("myAdminRealmId", user.getAttributes().get("AdminRealm"));
         
     }
     
