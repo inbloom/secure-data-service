@@ -3,11 +3,12 @@ package org.slc.sli.sandbox.idp.service;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.sandbox.idp.saml.SamlResponseComposer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.sandbox.idp.saml.SamlResponseComposer;
 
 /**
  * Handles building SAML Response
@@ -18,7 +19,7 @@ import org.slc.sli.sandbox.idp.saml.SamlResponseComposer;
 @Component
 public class SamlAssertionService {
 
-//    private static final Logger LOG = LoggerFactory.getLogger(SamlAssertionService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SamlAssertionService.class);
 
     @Autowired
     SamlResponseComposer samlComposer;
@@ -34,7 +35,11 @@ public class SamlAssertionService {
 
     /**
      * Creates the identity assertion SAML Response to send to the API
+<<<<<<< HEAD
+     * 
+=======
      *
+>>>>>>> master
      * @param userId
      *            userId to send back in saml assertion
      * @param roles
@@ -49,12 +54,14 @@ public class SamlAssertionService {
             AuthRequestService.Request requestInfo) {
         String destination = requestInfo.getDestination();
 
-//        DE260 - commenting out possibly sensitive data
-//        LOG.info("Building SAML assertion for user: {} roles: {} attributes: {} inResponseTo: {} destination: {}", new Object[] { userId, roles, attributes,
-//                requestInfo.getRequestId(), destination });
-
-        String issuer = issuerBase + "?realm=" + requestInfo.getRealm();
-
+        LOG.info("Building SAML assertion for user: {} roles: {} attributes: {} inResponseTo: {} destination: {}",
+                new Object[] { userId, roles, attributes, requestInfo.getRequestId(), destination });
+        
+        String issuer = issuerBase;
+        if (requestInfo.getRealm() != null && requestInfo.getRealm().length()>0) {
+            issuer += "?realm=" + requestInfo.getRealm();
+        }
+        
         String encodedResponse = samlComposer.componseResponse(destination, issuer, requestInfo.getRequestId(), userId,
                 attributes, roles);
 

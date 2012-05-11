@@ -94,7 +94,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                     <configuration>
                         <properties>
                             <cargo.logging>low</cargo.logging>
-							<cargo.jvmargs>${TOMCAT_OPTS}</cargo.jvmargs>
+							<cargo.jvmargs>${MAVEN_OPTS}</cargo.jvmargs>
                         </properties>
                         <deployables>
                             <deployable>
@@ -153,6 +153,121 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <version>1.2.1</version>
 
             <executions>
+            
+               <execution>
+                  <id>install admin-ps  gems</id>
+                  <phase>pre-integration-test</phase>
+                   <configuration>
+                       <workingDirectory>../admin-tools/admin-rails</workingDirectory>
+                       <executable>bundle</executable>
+                       <arguments>
+                           <argument>install</argument>
+                       </arguments>
+                   </configuration>
+                  <goals>
+                     <goal>exec</goal>
+                  </goals>
+               </execution>
+            
+               <execution>
+  	               <id>start-admin-rails-app</id>
+                   <phase>pre-integration-test</phase>
+                   <configuration>
+                       <executable>bundle</executable>
+                       <workingDirectory>../admin-tools/admin-rails</workingDirectory>
+                       <arguments>
+                           <argument>exec</argument>
+                           <argument>thin</argument>
+                           <argument>-d</argument>
+                           <argument>-p</argument>
+                           <argument>2000</argument>
+                           <argument>-e</argument>
+                           <argument>local-acceptance-tests</argument>                           
+                           <argument>start</argument>
+                       </arguments>
+                   </configuration>
+                   <goals>
+                       <goal>exec</goal>
+                   </goals>
+               </execution>
+               
+               <execution>
+                   <id>stop-admin-rails-app</id>
+                   <phase>post-integration-test</phase>
+                   <configuration>
+                       <workingDirectory>../admin-tools/admin-rails</workingDirectory>
+                       <executable>bundle</executable>
+	                   <arguments>
+    	                   <argument>exec</argument>
+        	               <argument>thin</argument>
+            	           <argument>-d</argument>
+                           <argument>-p</argument>
+                           <argument>2000</argument>
+                	       <argument>stop</argument>
+					   </arguments>                   
+                   </configuration>                   
+                   <goals>
+                       <goal>exec</goal>
+                   </goals>
+              </execution>
+            
+               <execution>
+                  <id>install databrowser gems</id>
+                  <phase>pre-integration-test</phase>
+                   <configuration>
+                       <workingDirectory>../databrowser</workingDirectory>
+                       <executable>bundle</executable>
+                       <arguments>
+                           <argument>install</argument>
+                       </arguments>
+                   </configuration>
+                  <goals>
+                     <goal>exec</goal>
+                  </goals>
+               </execution>
+            
+               <execution>
+  	               <id>start-databrowser-app</id>
+                   <phase>pre-integration-test</phase>
+                   <configuration>
+                       <executable>bundle</executable>
+                       <workingDirectory>../databrowser</workingDirectory>
+                       <arguments>
+                           <argument>exec</argument>
+                           <argument>thin</argument>
+                           <argument>-d</argument>
+                           <argument>-p</argument>
+                           <argument>2001</argument>
+                           <argument>-e</argument>
+                           <argument>local-acceptance-tests</argument>
+                           <argument>start</argument>
+                       </arguments>
+                   </configuration>
+                   <goals>
+                       <goal>exec</goal>
+                   </goals>
+               </execution>
+               
+               <execution>
+                   <id>stop-databrowser-app</id>
+                   <phase>post-integration-test</phase>
+                   <configuration>
+                   <executable>bundle</executable>
+                       <workingDirectory>../databrowser</workingDirectory>
+                       <arguments>
+                           <argument>exec</argument>
+                           <argument>thin</argument>
+                           <argument>-d</argument>
+                           <argument>-p</argument>
+                           <argument>2001</argument>
+                           <argument>stop</argument>
+                       </arguments>                   
+                   </configuration>
+                   <goals>
+                       <goal>exec</goal>
+                   </goals>
+              </execution>  
+                        
                <execution>
                   <id>install gems</id>
                   <phase>integration-test</phase>
@@ -166,6 +281,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                        </arguments>
                    </configuration>
                </execution>
+               
                 <execution>
                     <id>run tests</id>
                     <phase>integration-test</phase>
@@ -177,8 +293,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                         <arguments>
                             <argument>exec</argument>
                             <argument>rake</argument>
-                            <argument>fullSuite</argument>
-                            <argument>dashboard_server_address=http://local.slidev.org:8080/dashboard</argument>
+                            <argument>admintools_server_url=http://local.slidev.org:2000</argument>
+                            <argument>databrowser_server_url=http://local.slidev.org:2001</argument>
+						    <argument>simpleIDP_login_url=http://local.slidev.org/simple-idp</argument>
+						    <argument>simpleIDP_realm_suffix=local</argument>
+						    <argument>sampleApp_server_address=http://local.slidev.org:8080/</argument>
+                            <argument>${TESTS_TO_RUN}</argument>
                         </arguments>
                     </configuration>
                 </execution>

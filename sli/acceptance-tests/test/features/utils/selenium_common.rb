@@ -3,9 +3,9 @@ def webdriverDebugMessage(driver, message="Webdriver could not achieve expected 
 end
 
 Given /^I have an open web browser$/ do
-  profile = Selenium::WebDriver::Firefox::Profile.new
-  profile['network.http.prompt-temp-redirect'] = false
-  @driver = Selenium::WebDriver.for :firefox, :profile => profile
+  @profile ||= Selenium::WebDriver::Firefox::Profile.new
+  @profile['network.http.prompt-temp-redirect'] = false
+  @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile
   @driver.manage.timeouts.implicit_wait = 4 # seconds
 end
 
@@ -38,7 +38,8 @@ end
 
 After do |scenario| 
   #puts "Running the After hook for Scenario: #{scenario}"
-  @driver.quit if @driver
+  @driver.manage.delete_all_cookies unless @driver.nil?
+  @driver.close unless @driver.nil?
 end
 
 AfterStep('@pause') do
