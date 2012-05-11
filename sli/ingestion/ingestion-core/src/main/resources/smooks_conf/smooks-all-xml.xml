@@ -3709,4 +3709,39 @@
   </jb:bean>
   <!-- End CompetencyLevelDescriptor mapping -->
 
+  <!-- Start gradingPeriod mapping -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
+             createOnElement="InterchangeEducationOrgCalendar/GradingPeriod">
+        <jb:expression property="recordType">'gradingPeriod'</jb:expression>
+        <jb:value property="localId" data="InterchangeEducationOrgCalendar/GradingPeriod/@id" />
+        <jb:wiring property="attributes" beanIdRef="gradingPeriodAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="gradingPeriodAttributes" class="java.util.HashMap"
+             createOnElement="InterchangeEducationOrgCalendar/GradingPeriod">
+        <jb:value property="gradingPeriod" data="InterchangeEducationOrgCalendar/GradingPeriod/GradingPeriod" />
+        <jb:value property="beginDate" data="BeginDate" />
+        <jb:value property="endDate" data="EndDate" />
+        <jb:value property="totalInstructionalDays" data="TotalInstructionalDays" decoder="Integer" />
+        <!--<jb:value property="calendarDateReference" data="CalendarDateReference" /> -->
+  </jb:bean>
+  <!-- End gradingPeriod mapping -->
+
+  <!-- Start calendarDate mapping -->
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
+             createOnElement="InterchangeEducationOrgCalendar/CalendarDate">
+        <jb:expression property="recordType">'calendarDate'</jb:expression>
+        <jb:value property="localId" data="InterchangeEducationOrgCalendar/CalendarDate/@id" />
+        <jb:wiring property="attributes" beanIdRef="calendarDateAttributes" />
+  </jb:bean>
+
+  <jb:bean beanId="calendarDateAttributes" class="java.util.HashMap"
+             createOnElement="InterchangeEducationOrgCalendar/CalendarDate">
+        <jb:value property="date" data="Date" />
+        <jb:value property="calendarEvent" data="CalendarEvent" />
+  </jb:bean>
+  <!-- End calendarDate mapping -->
+
+
+
 </smooks-resource-list>

@@ -1,0 +1,3 @@
+{
+    "keyFields" : [ "metaData.externalId", "body.gradingPeriod", "body.beginDate", "body.endDate" ]
+}
