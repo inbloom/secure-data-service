@@ -44,6 +44,9 @@ public class AuthRequestService {
         public void setRealm(String realm) {
             this.realm = realm;
         }
+        public boolean isForceAuthn(){
+            return saml.isForceAuthn();
+        }
     }
     
     public Request processRequest(String encodedSamlRequest, String realm) {
