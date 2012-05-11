@@ -82,8 +82,14 @@
 
     <xs:complexType name="roleType">
         <xs:sequence>
-            <xs:element name="clientRoleName" type="xs:string"
-                minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="clientRoleName"
+                minOccurs="0" maxOccurs="unbounded">
+                <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="([a-zA-Z0-9\-_ ])*" />
+                        </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
         </xs:sequence>
         <xs:attribute name="sliRoleName" type="xs:string"
             use="required" />
