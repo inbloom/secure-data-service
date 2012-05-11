@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
 import org.slc.sli.dal.repository.MongoRepository;
@@ -42,6 +43,21 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     @Override
     public boolean update(String collection, NeutralRecord neutralRecord) {
         return update(neutralRecord.getRecordType(), neutralRecord, null);
+    }
+
+    @Override
+    protected Query getUpdateQuery(NeutralRecord entity) {
+        throw new UnsupportedOperationException("NeutralReordRepository.getUpdateQuery not implemented");
+    }
+
+    @Override
+    protected NeutralRecord getEncryptedRecord(NeutralRecord entity) {
+        throw new UnsupportedOperationException("NeutralReordRepository.getEncryptedRecord not implemented");
+    }
+
+    @Override
+    protected Update getUpdateCommand(NeutralRecord entity) {
+        throw new UnsupportedOperationException("NeutralReordRepository.getUpdateCommand not implemented");
     }
 
     @Override

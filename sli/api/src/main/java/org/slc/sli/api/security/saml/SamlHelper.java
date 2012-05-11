@@ -92,10 +92,11 @@ public class SamlHelper {
      * Composes AuthnRequest using post binding
      * 
      * @param destination
+     * @param idpType identifier for the type of IDP (1=SimpleIDP, 2=OpenAM, 3=ADFS, Sitminder=4)
      * @return
      */
-    public Pair<String, String> createSamlAuthnRequestForRedirect(String destination) {
-        return composeAuthnRequest(destination, POST_BINDING);
+    public Pair<String, String> createSamlAuthnRequestForRedirect(String destination, int idpType) {
+        return composeAuthnRequest(destination, POST_BINDING, idpType);
     }
     
     /**
@@ -103,20 +104,22 @@ public class SamlHelper {
      * 
      * @param destination idp endpoint
      * @param forceAuthn boolean indicating whether authentication at the idp should be enforced
+     * @param idpType identifier for the type of IDP (1=SimpleIDP, 2=OpenAM, 3=ADFS, Sitminder=4)
      * @return pair {saml message id, encoded saml message}
      */
-    public Pair<String, String> createSamlAuthnRequestForRedirect(String destination, boolean forceAuthn) {
-        return composeAuthnRequest(destination, POST_BINDING, forceAuthn);
+    public Pair<String, String> createSamlAuthnRequestForRedirect(String destination, boolean forceAuthn, int idpType) {
+        return composeAuthnRequest(destination, POST_BINDING, forceAuthn, idpType);
     }
     
     /**
      * Composes AuthnRequest using artifact binding
      * 
      * @param destination
+     * @param idpType identifier for the type of IDP (1=SimpleIDP, 2=OpenAM, 3=ADFS, Sitminder=4)
      * @return
      */
-    public Pair<String, String> createSamlAuthnRequestForRedirectArtifact(String destination) {
-        return composeAuthnRequest(destination, ARTIFACT_BINDING);
+    public Pair<String, String> createSamlAuthnRequestForRedirectArtifact(String destination, int idpType) {
+        return composeAuthnRequest(destination, ARTIFACT_BINDING, idpType);
     }
     
     /**
@@ -187,12 +190,13 @@ public class SamlHelper {
      * SPNameQualifier attribute can be added to NameId, but seems not required. Same as IssuerName
      * 
      * @param destination idp url to where the message is going
+     * @param idpType identifier for the type of IDP (1=SimpleIDP, 2=OpenAM, 3=ADFS, Sitminder=4)
      * @return {generated messageId, deflated, base64-encoded and url encoded saml message} java doesn't have tuples :(
      * @throws Exception
      * 
      */
     @SuppressWarnings("unchecked")
-    private Pair<String, String> composeAuthnRequest(String destination, String binding) {
+    private Pair<String, String> composeAuthnRequest(String destination, String binding, int idpType) {
         Document doc = new Document();
         
         String id = "sli-" + UUID.randomUUID().toString();
@@ -217,13 +221,15 @@ public class SamlHelper {
         
         doc.getRootElement().addContent(nameId);
         
-        Element authnContext = new Element("RequestedAuthnContext", SAMLP_NS);
-        authnContext.getAttributes().add(new Attribute("Comparison", "exact"));
-        Element classRef = new Element("AuthnContextClassRef", SAML_NS);
-        classRef.addContent("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
-        authnContext.addContent(classRef);
-        
-        doc.getRootElement().addContent(authnContext);
+        if(idpType != 4) {
+            Element authnContext = new Element("RequestedAuthnContext", SAMLP_NS);
+            authnContext.getAttributes().add(new Attribute("Comparison", "exact"));
+            Element classRef = new Element("AuthnContextClassRef", SAML_NS);
+            classRef.addContent("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
+            authnContext.addContent(classRef);
+            
+            doc.getRootElement().addContent(authnContext);
+        }
         
         // add signature and digest here
         try {
@@ -246,12 +252,13 @@ public class SamlHelper {
      * @param destination idp url to where the message is going
      * @param binding binding to be specified in saml
      * @param forceAuthn boolean indicating whether authentication at the idp should be forced onto user
+     * @param idpType identifier for the type of IDP (1=SimpleIDP, 2=OpenAM, 3=ADFS, Sitminder=4)
      * @return {generated messageId, deflated, base64-encoded and url encoded saml message} java doesn't have tuples :(
      * @throws Exception
      * 
      */
     @SuppressWarnings("unchecked")
-    private Pair<String, String> composeAuthnRequest(String destination, String binding, boolean forceAuthn) {
+    private Pair<String, String> composeAuthnRequest(String destination, String binding, boolean forceAuthn, int idpType) {
         Document doc = new Document();
         
         String id = "sli-" + UUID.randomUUID().toString();
@@ -276,13 +283,15 @@ public class SamlHelper {
         
         doc.getRootElement().addContent(nameId);
         
-        Element authnContext = new Element("RequestedAuthnContext", SAMLP_NS);
-        authnContext.getAttributes().add(new Attribute("Comparison", "exact"));
-        Element classRef = new Element("AuthnContextClassRef", SAML_NS);
-        classRef.addContent("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
-        authnContext.addContent(classRef);
-        
-        doc.getRootElement().addContent(authnContext);
+        if(idpType!=4){
+            Element authnContext = new Element("RequestedAuthnContext", SAMLP_NS);
+            authnContext.getAttributes().add(new Attribute("Comparison", "exact"));
+            Element classRef = new Element("AuthnContextClassRef", SAML_NS);
+            classRef.addContent("urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
+            authnContext.addContent(classRef);
+            
+            doc.getRootElement().addContent(authnContext);
+        }
         
         // add signature and digest here
         try {

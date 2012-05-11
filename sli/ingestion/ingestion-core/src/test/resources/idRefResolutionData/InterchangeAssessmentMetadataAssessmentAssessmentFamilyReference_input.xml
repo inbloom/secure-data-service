@@ -1,7 +1,9 @@
-<AssessmentReference id="ACT-Family">
-    <AssessmentIdentity>
-        <AssessmentIdentificationCode>
-            <ID>ACT</ID>
-        </AssessmentIdentificationCode>
-    </AssessmentIdentity>
-</AssessmentReference>
+<AssessmentFamily id="ACT-Family">
+    <AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode
+    IdentificationSystem="Test Contractor"
+    AssigningOrganizationCode="Test Org">
+        <ID>ACT</ID>
+    </AssessmentFamilyIdentificationCode>
+    <Version>Ver</Version>
+</AssessmentFamily>

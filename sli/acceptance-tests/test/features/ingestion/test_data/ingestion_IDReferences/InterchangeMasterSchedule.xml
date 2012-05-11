@@ -21,7 +21,7 @@
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
@@ -49,7 +49,7 @@
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Baker School</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
@@ -77,7 +77,7 @@
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Charlie School</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
@@ -105,7 +105,7 @@
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Dog School</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
@@ -133,7 +133,7 @@
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Echo School</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
@@ -161,7 +161,7 @@
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Foxtrot School</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
@@ -189,12 +189,12 @@
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
-        <SessionName>Fall 2012 East Daybreak Junior High</SessionName>
+        <SessionName>Spring 2012 Able School</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -217,12 +217,12 @@
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>Baker School</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
-        <SessionName>Spring 2013 South Daybreak Elementary</SessionName>
+        <SessionName>Spring 2012 Baker School</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -245,12 +245,12 @@
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+        <StateOrganizationId>Charlie School</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
-        <SessionName>Summer 2013 Sunset Central High School</SessionName>
+        <SessionName>Spring 2012 Charlie School</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -273,12 +273,12 @@
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>Dog School</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
-        <SessionName>Fall 2013 Daybreak Central High</SessionName>
+        <SessionName>Spring 2012 Dog School</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -301,12 +301,12 @@
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Echo School</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
-        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+        <SessionName>Spring 2012 Echo School</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -329,12 +329,12 @@
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>Foxtrot School</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
-        <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+        <SessionName>Spring 2012 Foxtrot School</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -357,12 +357,12 @@
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
-        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+        <SessionName>Fall 2011 Able School</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -385,12 +385,12 @@
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
-        <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+        <SessionName>Spring 2012 Able School</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>
@@ -413,12 +413,12 @@
     </CourseOfferingReference>
     <SchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>Able School</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
     <SessionReference>
       <SessionIdentity>
-        <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+        <SessionName>Fall 2012 Able School</SessionName>
       </SessionIdentity>
     </SessionReference>
   </Section>

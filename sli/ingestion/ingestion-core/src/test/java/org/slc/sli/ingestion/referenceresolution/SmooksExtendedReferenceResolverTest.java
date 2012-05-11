@@ -61,15 +61,32 @@ public class SmooksExtendedReferenceResolverTest {
     }
 
     @Test
-    public void testResolution() throws IOException, SAXException {
-        File input = IngestionTest.getFile("idRefResolutionData/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_input.xml");
-        File expected = IngestionTest.getFile("idRefResolutionData/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_expected.xml");
+    public void testResolutionAllFields() throws IOException, SAXException {
+        File input = IngestionTest
+                .getFile("idRefResolutionData/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_input.xml");
+        File expected = IngestionTest
+                .getFile("idRefResolutionData/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_expected.xml");
 
         Map<String, Smooks> config = new HashMap<String, Smooks>();
-        config.put("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference", new Smooks("idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.xml"));
+        config.put("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference", new Smooks(
+                "idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.xml"));
 
         referenceFactory.setIdRefConfigs(config);
 
-        test(input, expected, "/InterchangeStudentAssessment/StudentAssessment/AssessmentReference");
+        test(input, expected, "/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference");
+    }
+
+    @Test
+    public void testResolutionSomeFields() throws IOException, SAXException {
+        File input = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference_inputMissingData.xml");
+        File expected = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference_expectedMissingData.xml");
+
+        Map<String, Smooks> config = new HashMap<String, Smooks>();
+        config.put("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference", new Smooks(
+                "idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.xml"));
+
+        referenceFactory.setIdRefConfigs(config);
+
+        test(input, expected, "/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference");
     }
 }

@@ -12,9 +12,11 @@
     <ftl:freemarker applyOnElement="Cohort">
         <ftl:template>
           <!--
+          <#if (Cohort.CohortIdentifier[0])??>
             <CohortIdentityType>
                 <CohortIdentifier>${Cohort.CohortIdentifier}</CohortIdentifier>
             </CohortIdentityType>
+          </#if>
           -->
         </ftl:template>
     </ftl:freemarker>

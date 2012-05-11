@@ -1,5 +1,9 @@
-<AssessmentIdentity>
-    <AssessmentIdentificationCode>
+<AssessmentFamilyIdentity>
+    <AssessmentFamilyIdentificationCode
+    IdentificationSystem="Test Contractor"
+    AssigningOrganizationCode="Test Org">
         <ID>ACT</ID>
-    </AssessmentIdentificationCode>
-</AssessmentIdentity>
+    </AssessmentFamilyIdentificationCode>
+    <AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
+    <Version>Ver</Version>
+</AssessmentFamilyIdentity>

@@ -137,6 +137,8 @@ default:
         # (only used in data-access)
         sli.encryption.dalKeyPass: changeit
 
+        # (only used in data-access)
+        sli.encryption.dalInitializationVector: aabbccddeeff11223344556677889900
         # (used in common and data-access)
         sli.wildcard.x509certificate.alias: wildcard
 
@@ -248,7 +250,7 @@ devjuggernauts:
 
 
 local:
-    api:
+    api: &API-LOCAL
         <<: *API-DEFAULT
         # local/api/security/security.properties
         #
@@ -268,21 +270,16 @@ local:
         sli.support.email: sli@example.com
 
         api.perf.log.path: target/apilogs/logs
-    data-access:
+        
+    data-access: &DATA-ACCESS-LOCAL
         <<: *DATA-ACCESS-DEFAULT
         # local/data-access/db.properties
         #
         # Set of substitution filters used for local builds
         #
-
         # Hibernate Options
 
-
-
         # MySQL Options -- In memory for local profile
-
-
-
         # Mongo DB Options
 
         sli.mongodb.database: sli
@@ -305,7 +302,7 @@ local:
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
 
-    ingestion:
+    ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
         # local/ingestion/ingestion_conf.properties
         landingzone.inbounddir: target/ingestion/lz/inbound
@@ -319,10 +316,10 @@ local:
         sli.ingestion.queue.workItem.keystorePassword:
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
-    dashboard:
+    dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
 
-    apps:
+    apps: &APPS-LOCAL
         <<: *APPS-DEFAULT
         bootstrap.app.admin.url: http://local.slidev.org:3000
         bootstrap.app.admin.client_id: Eg6eseKRzN
@@ -336,10 +333,8 @@ local:
         bootstrap.app.dashboard.client_id: K2e7Dwhq5J
         bootstrap.app.dashboard.client_secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
 
-
-    misc:
+    misc: &MISC-LOCAL
         <<: *MISC-DEFAULT
-
         # Log4J options
         sli.log4j.rootLogger: INFO, out
         sli.log4j.logger.org.apache.camel: WARN
@@ -347,6 +342,52 @@ local:
         sli.log4j.logger.org.springframework: WARN
 
         log.path: target/logs
+
+
+#
+# Configuration to support running acceptance tests locally via runTestsLocally.sh/.bat and/or acceptance-tests/pom.xml
+#
+local-acceptance-tests:
+    api:
+        <<: *API-LOCAL
+        
+    data-access:
+        <<: *DATA-ACCESS-LOCAL
+
+    ingestion:
+        <<: *INGESTION-LOCAL
+        sli.ingestion.tenant.loadDefaultTenants: false
+
+    dashboard:
+        <<: *DASHBOARD-LOCAL
+        api.server.url: http://local.slidev.org:8080/
+        security.server.url: http://local.slidev.org:8080/
+        portal.footer.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
+        log.level: warn
+        oauth.client.id: K2e7Dwhq5J
+        oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+        oauth.redirect: http://local.slidev.org:8080/dashboard/callback
+
+        #specify "driver" and "custom" directory name for a user domain based configuration
+        panel.config.driver.dir: config
+        panel.config.custom.dir: custom
+
+    apps:
+        <<: *APPS-LOCAL        
+        bootstrap.app.dashboard.url: http://local.slidev.org:8080/dashboard
+        
+        bootstrap.app.admin.url: http://local.slidev.org:2000
+        bootstrap.app.admin.client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
+        bootstrap.app.admin.client_id: Eg6eseKRzN
+        
+        bootstrap.app.databrowser.client_id: 2zhRrEXh8r
+        bootstrap.app.databrowser.client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
+        bootstrap.app.databrowser.url: http://local.slidev.org:2001
+
+    misc:
+        <<: *MISC-LOCAL        
+
 
 
 team:
@@ -448,7 +489,7 @@ team:
         log.path: /storage/logs
         sli.simple-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/simple-idp
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
-        sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
+        sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: false
 
 

@@ -11,7 +11,7 @@
         <TotalInstructionalDays>75</TotalInstructionalDays>
         <EducationOrganizationReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>255901001</StateOrganizationId>
+                <StateOrganizationId>Able School</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
         <GradingPeriodReference ref="GP_1"/>
@@ -25,7 +25,7 @@
         <TotalInstructionalDays>75</TotalInstructionalDays>
         <EducationOrganizationReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>255901001</StateOrganizationId>
+                <StateOrganizationId>Baker School</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
         <GradingPeriodReference ref="GP_2"/>
@@ -40,7 +40,7 @@
         <TotalInstructionalDays>75</TotalInstructionalDays>
         <EducationOrganizationReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>255901001</StateOrganizationId>
+                <StateOrganizationId>Charlie School</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
         <GradingPeriodReference ref="GP_4"/>
@@ -56,7 +56,7 @@
         <TotalInstructionalDays>75</TotalInstructionalDays>
         <EducationOrganizationReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>255901001</StateOrganizationId>
+                <StateOrganizationId>Dog School</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
         <GradingPeriodReference ref="GP_7"/>
@@ -73,7 +73,7 @@
         <TotalInstructionalDays>75</TotalInstructionalDays>
         <EducationOrganizationReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>255901001</StateOrganizationId>
+                <StateOrganizationId>Echo School</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
         <GradingPeriodReference ref="GP_1"/>
@@ -87,7 +87,7 @@
         <TotalInstructionalDays>125</TotalInstructionalDays>
         <EducationOrganizationReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>255901044</StateOrganizationId>
+                <StateOrganizationId>Able School</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
         <GradingPeriodReference ref="GP_2"/>
@@ -102,7 +102,7 @@
         <TotalInstructionalDays>125</TotalInstructionalDays>
         <EducationOrganizationReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>255901044</StateOrganizationId>
+                <StateOrganizationId>Baker School</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
         <GradingPeriodReference ref="GP_4"/>
@@ -118,7 +118,7 @@
         <TotalInstructionalDays>125</TotalInstructionalDays>
         <EducationOrganizationReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>255901044</StateOrganizationId>
+                <StateOrganizationId>Charlie School</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
         <GradingPeriodReference ref="GP_7"/>
@@ -135,12 +135,10 @@
         <TotalInstructionalDays>125</TotalInstructionalDays>
         <EducationOrganizationReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>255901044</StateOrganizationId>
+                <StateOrganizationId>Dog School</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference ref="GP_1"/>
     </Session>
     <Session>
         <SessionName>Spring 2012 Echo School</SessionName>
@@ -151,12 +149,11 @@
         <TotalInstructionalDays>125</TotalInstructionalDays>
         <EducationOrganizationReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>255901044</StateOrganizationId>
+                <StateOrganizationId>Echo School</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference ref="GP_2"/>
+        <GradingPeriodReference ref="GP_3"/>
     </Session>
 
 	<GradingPeriod id="GP_1">
