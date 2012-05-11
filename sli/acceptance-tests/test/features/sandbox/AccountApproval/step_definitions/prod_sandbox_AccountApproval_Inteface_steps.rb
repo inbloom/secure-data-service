@@ -22,11 +22,11 @@ end
 
 Given /^LDAP server has been setup and running$/ do
   @email = "devldapuser_#{Socket.gethostname}@slidev.org"
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, "ou=Local,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
 end
 
 Given /^there are accounts in requests pending in the system$/ do
-  clear_user()
+  clear_users()
   sleep(1)
   user_info = {
       :first => "Loraine",
@@ -135,13 +135,13 @@ Then /^his account status changed to "([^"]*)"$/ do |arg1|
     end
   end  
   assert(found,"user account status is not #{arg1}")
-  clear_user()
+  clear_users()
 end
 
 
 
 Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
- clear_user()
+ clear_users()
   sleep(1)
   user_info = {
       :first => "Loraine",
@@ -160,7 +160,7 @@ Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
 end
 
 def create_account(status, vendor)
-  clear_user()
+  clear_users()
   sleep(1)
   user_info = {
       :first => "Loraine",
@@ -181,9 +181,11 @@ end
 def clear_users
   # remove all users that have this hostname in their email address
   users = @ldap.search_users("*#{Socket.gethostname}*")
+  puts "\n\n------------------------------------------------------------------\nUSERS:  #{users}\n\n--------------------------------------------------\n\n"
   if users
     users.each do |u|
-      @ldap.delete_user(@email)    
+      @ldap.delete_user(u[:email])    
+      puts "DELETING: #{u}"
     end
   end
 end
