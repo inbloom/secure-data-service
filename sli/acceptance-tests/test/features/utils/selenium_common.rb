@@ -37,9 +37,8 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
 end
 
 After do |scenario| 
-  #puts "Running the After hook for Scenario: #{scenario}"
-  @driver.manage.delete_all_cookies unless @driver.nil?
-  @driver.quit unless @driver.nil?
+  #puts "Running the After hook for Scenario: #{scenario}"s
+  @driver.quit if @driver
 end
 
 AfterStep('@pause') do
