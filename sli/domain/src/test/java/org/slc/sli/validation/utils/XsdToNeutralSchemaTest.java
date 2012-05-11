@@ -89,6 +89,100 @@ public class XsdToNeutralSchemaTest {
     }
     
     /**
+    * Test non-RelaxedBlacklist annotations within a simple string documentation.
+    * 
+    * 
+    */
+    @Test
+    public void testNonRelaxedBlacklistStringType() throws IOException {
+        
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        repo.setApplicationContext(appContext);
+        
+        NeutralSchema simpleDoc = repo.getSchema("TestNonRelaxedBlacklistString");
+        assertNotNull(simpleDoc);
+        assertEquals("TestNonRelaxedBlacklistString", simpleDoc.getType());
+        assertTrue("TestNonRelaxedBlacklistString should NOT be RelaxedBlacklist", !simpleDoc.isRelaxedBlacklisted());
+    }
+    
+    /**
+    * Test RelaxedBlacklist annotations within a simple string documentation.
+    * 
+    * 
+    */
+    @Test
+    public void testRelaxedBlacklistStringType() throws IOException {
+        
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        repo.setApplicationContext(appContext);
+        
+        NeutralSchema simpleDoc = repo.getSchema("TestRelaxedBlacklistString");
+        assertNotNull(simpleDoc);
+        assertEquals("TestRelaxedBlacklistString", simpleDoc.getType());
+        assertTrue("TestRelaxedBlacklistString should be RelaxedBlacklist", simpleDoc.isRelaxedBlacklisted());
+    }
+    
+    /**
+    * Test RelaxedBlacklist annotations within a complex string documentation sequence.
+    * 
+    */
+    @Test
+    public void testTestRelaxedBlacklistSequenceComplex() throws IOException {
+        
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        repo.setApplicationContext(appContext);
+        
+        NeutralSchema complexDoc = repo.getSchema("TestRelaxedBlacklistSequenceComplex");
+        assertNotNull(complexDoc);
+        
+        Map<String, NeutralSchema> fields = complexDoc.getFields();
+        for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
+            
+            // base1 has TestRelaxedBlacklistString documentation
+            if (entry.getKey().equals("white")) {
+                assertEquals("TestRelaxedBlacklistString", entry.getValue().getType());
+                assertTrue("TestRelaxedBlacklistString should be RelaxedBlacklist", entry.getValue().isRelaxedBlacklisted());
+            }
+            
+            // simple has TestNonRelaxedBlacklistString documentation
+            if (entry.getKey().equals("nonwhite")) {
+                assertEquals("TestNonRelaxedBlacklistString", entry.getValue().getType());
+                assertTrue("TestNonRelaxedBlacklistString should NOT be RelaxedBlacklist", !entry.getValue().isRelaxedBlacklisted());
+            }
+        }
+    }
+    
+    /**
+    * Test RelaxedBlacklist annotations within a complex string documentation choice.
+    * 
+    */
+    @Test
+    public void testTestRelaxedBlacklistChoiceComplex() throws IOException {
+        
+        XsdToNeutralSchemaRepo repo = new XsdToNeutralSchemaRepo("classpath:testSchemas", new NeutralSchemaFactory());
+        repo.setApplicationContext(appContext);
+        
+        NeutralSchema complexDoc = repo.getSchema("TestRelaxedBlacklistChoiceComplex");
+        assertNotNull(complexDoc);
+        
+        Map<String, NeutralSchema> fields = complexDoc.getFields();
+        for (Map.Entry<String, NeutralSchema> entry : fields.entrySet()) {
+            
+            // base1 has TestRelaxedBlacklistString documentation
+            if (entry.getKey().equals("white")) {
+                assertEquals("TestRelaxedBlacklistString", entry.getValue().getType());
+                assertTrue("TestRelaxedBlacklistString should be RelaxedBlacklist", entry.getValue().isRelaxedBlacklisted());
+            }
+            
+            // simple has TestNonRelaxedBlacklistString documentation
+            if (entry.getKey().equals("nonwhite")) {
+                assertEquals("TestNonRelaxedBlacklistString", entry.getValue().getType());
+                assertTrue("TestNonRelaxedBlacklistString should NOT be RelaxedBlacklist", !entry.getValue().isRelaxedBlacklisted());
+            }
+        }
+    }
+    
+    /**
      * Certain annotations are inheritable when the type is contained within another type.
      * For example, the annotation for personally identifiable information (PII) is inheritable.
      * If a complex type is marked as PII, all of its elements are automatically marked PII.

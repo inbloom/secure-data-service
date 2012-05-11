@@ -1,0 +1,51 @@
+// Place all the styles related to the landing_zone controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+div.provision {
+  overflow:hidden;
+  width:550px;
+  float:left;
+}
+
+div.provisionBlock{
+  overflow:hidden;
+}
+
+div.provisionButtons{
+  overflow:hidden;
+}
+
+div.edOrgIdSelect{
+  overflow:hidden;
+}
+
+div.provision label{
+  float:left;
+  text-align:left;
+  width:250px;
+}
+
+div.provision input{
+  display:block;
+  float:left;
+}
+
+input.radioButton {
+  width:20px;
+}
+
+div.edOrgIdSelect label{
+  visibility:hidden;
+  height:0px;
+}
+
+div.provisionButtons input{
+  margin-top:18px;
+  float:right;
+}
+
+div.sidebar {
+  float:right
+}
+

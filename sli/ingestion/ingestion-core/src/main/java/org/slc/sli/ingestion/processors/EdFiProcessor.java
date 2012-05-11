@@ -71,7 +71,7 @@ public class EdFiProcessor implements Processor {
         }
     }
 
-    private synchronized void processEdFi(Exchange exchange, String batchJobId) {
+    private void processEdFi(Exchange exchange, String batchJobId) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         NewBatchJob newJob = null;
@@ -81,6 +81,12 @@ public class EdFiProcessor implements Processor {
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
 
             boolean anyErrorsProcessingFiles = false;
+
+            if (fileEntryList.size() > 0) {
+                // prepare staging database
+                setupStagingDatabase(batchJobId);
+            }
+
             for (IngestionFileEntry fe : fileEntryList) {
 
                 Metrics metrics = Metrics.createAndStart(fe.getFileName());
@@ -88,9 +94,6 @@ public class EdFiProcessor implements Processor {
 
                 FileProcessStatus fileProcessStatus = new FileProcessStatus();
                 ErrorReport errorReport = fe.getErrorReport();
-
-                // prepare staging database
-                setupStagingDatabase(batchJobId);
 
                 // actually do the processing
                 processFileEntry(fe, errorReport, fileProcessStatus);

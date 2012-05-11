@@ -1,13 +1,16 @@
 package org.slc.sli.api.resources.security;
 
 import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.HashMap;
+
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+
+import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
@@ -33,7 +36,7 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class })
+        DirtiesContextTestExecutionListener.class })
 @DirtiesContext
 public class RealmRoleManagerResourceTest {
     @Autowired
@@ -44,15 +47,24 @@ public class RealmRoleManagerResourceTest {
 
     private EntityService service;
     private EntityBody mapping;
+    private EntityBody realm2;
 
     @Before
     public void setUp() throws Exception {
 
-        injector.setAdminContext();
+        injector.setRealmAdminContext();
 
         mapping = new EntityBody();
         mapping.put("id", "123567324");
         mapping.put("realm_name", "Waffles");
+        mapping.put("edOrg", "fake-ed-org");
+        mapping.put("mappings", new HashMap<String, String>());
+
+        EntityBody realm2 = new EntityBody();
+        realm2.put("id", "other-realm");
+        realm2.put("name", "Other Realm");
+        realm2.put("mappings", new HashMap<String, String>());
+        realm2.put("edOrg", "another-fake-ed-org");
 
         service = mock(EntityService.class);
 
@@ -62,6 +74,7 @@ public class RealmRoleManagerResourceTest {
         when(service.update("1234", mapping)).thenReturn(true);
         when(service.get("-1")).thenReturn(null);
         when(service.get("1234")).thenReturn(mapping);
+        when(service.get("other-realm")).thenReturn(realm2);
     }
 
     @After
@@ -72,18 +85,37 @@ public class RealmRoleManagerResourceTest {
     @Test
     public void testAddClientRole() throws Exception {
         try {
-            resource.updateClientRole("-1", null);
+            UriInfo uriInfo = null;
+            resource.updateClientRole("-1", null, uriInfo);
             assertFalse(false);
         } catch (EntityNotFoundException e) {
             assertTrue(true);
         }
-        Response res = resource.updateClientRole("1234", mapping);
-        assertTrue(res.getStatus() == 204);
+        UriInfo uriInfo = null;
+        Response res = resource.updateClientRole("1234", mapping, uriInfo);
+        Assert.assertEquals(204, res.getStatus());
     }
 
     @Test
-    public void testGetMappings() throws Exception {
-        assertNotNull(resource.getMappings("1234"));
-        assertNull(resource.getMappings("-1"));
+    public void testGetMappingsFound() throws Exception {
+        Response res = resource.getMappings("1234");
+        Assert.assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
+        Assert.assertNotNull(res.getEntity());
+    }
+
+    @Test
+    public void testGetMappingsNotFound() throws Exception {
+        Response res = resource.getMappings("-1");
+        Assert.assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
+        Assert.assertNull(res.getEntity());
+    }
+
+    @Test
+    public void testUpdateOtherEdOrgRealm() {
+        EntityBody temp = new EntityBody();
+        temp.put("foo", "foo");
+        UriInfo uriInfo = null;
+        Response res = resource.updateClientRole("other-realm", temp, uriInfo);
+        Assert.assertEquals(403, res.getStatus());
     }
 }

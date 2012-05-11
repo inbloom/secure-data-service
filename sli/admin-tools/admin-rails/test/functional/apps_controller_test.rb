@@ -6,13 +6,14 @@ class AppsControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    session[:roles] = []
+    session[:roles] = ["Application Developer"]
     get :index
     assert_response :success
     assert_not_nil assigns(:apps)
   end
 
   test "should get new" do
+    session[:roles] = ["Application Developer"]
     get :new
     assert_response :success
   end
@@ -22,7 +23,7 @@ class AppsControllerTest < ActionController::TestCase
     post :create, {:app => @app_fixtures["new"], :app_behavior => "Full Window App"}, {:roles => ["Operator","IT Administrator"]}
     !assigns @app
     assert !flash.nil?
-    assert_redirected_to apps_path
+    assert @response.body =~ /Not Authorized/
   end
 
   # test "should create app" do
@@ -34,6 +35,7 @@ class AppsControllerTest < ActionController::TestCase
   # end
 
   test "should show App" do
+    session[:roles] = ["Application Developer"]
     get :show, id: @Apps[0].id
     assert_response :success
   end

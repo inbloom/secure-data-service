@@ -1,0 +1,60 @@
+{
+    "keyFields" : ["metaData.externalId", "body.studentSectionAssociationId"],
+    "references" :
+    [
+        {
+            "fieldPath" : "body.studentSectionAssociationId",
+            "ref" :
+            {
+                "collectionName" : "studentSectionAssociation",
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "body.studentId",
+                            "values" :
+                            [{
+                                 "ref":
+                                 {
+                                     "collectionName" : "student",
+                                     "choiceOfFields" :
+                                      [
+                                          [
+                                              {
+                                                  "path" : "metaData.externalId",
+                                                  "values" :
+                                                   [{
+                                                         "valueSource" : "body.studentId"
+                                                   }]
+                                              }
+                                          ]
+                                      ]
+                                 }
+                            }]
+                        },
+                        {
+                            "path" : "body.sectionId",
+                            "values" :
+                             [{
+                                 "ref":
+                                 {
+                                     "collectionName" : "section",
+                                     "choiceOfFields" :
+                                      [
+                                          [{
+                                              "path" : "metaData.externalId",
+                                              "values" :
+                                               [{
+                                                   "valueSource" : "body.uniqueSectionCode"
+                                               }]
+                                          }]
+                                      ]
+                                 }
+                             }]
+                        }
+                    ]
+                ]
+            }
+        }
+    ]
+}

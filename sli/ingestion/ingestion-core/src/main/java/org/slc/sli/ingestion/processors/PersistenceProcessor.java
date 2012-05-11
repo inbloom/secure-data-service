@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.camel.Exchange;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.performance.Profiled;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -29,7 +31,7 @@ import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.NeutralRecordFileReader;
 import org.slc.sli.ingestion.Translator;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slc.sli.ingestion.handler.EntityPersistHandler;
+import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler;
 import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
@@ -39,8 +41,8 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
-import org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
@@ -60,13 +62,15 @@ public class PersistenceProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
 
-    @Autowired
-    SmooksEdFi2SLITransformer transformer;
+    private Map<String, EdFi2SLITransformer> transformers;
 
+    private EdFi2SLITransformer defaultEdFi2SLITransformer;
     // spring-loaded list of supported collections
     private Set<String> persistedCollections;
 
-    private EntityPersistHandler entityPersistHandler;
+    private Map<String, ? extends AbstractIngestionHandler<SimpleEntity, Entity>> entityPersistHandlers;
+
+    private AbstractIngestionHandler<SimpleEntity, Entity> defaultEntityPersistHandler;
 
     private NeutralRecordEntityPersistHandler obsoletePersistHandler;
 
@@ -211,10 +215,15 @@ public class PersistenceProcessor implements Processor {
                     // TODO: why is this necessary?
                     stagedNeutralRecord.setRecordType(neutralRecord.getRecordType());
 
+
+                    EdFi2SLITransformer transformer = findTransformer(neutralRecord.getRecordType());
                     List<SimpleEntity> xformedEntities = transformer.handle(stagedNeutralRecord, errorReportForNrFile);
+
                     for (SimpleEntity xformedEntity : xformedEntities) {
 
                         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForNrFile);
+
+                        AbstractIngestionHandler<SimpleEntity, Entity> entityPersistHandler = findHandler(xformedEntity.getType());
                         entityPersistHandler.handle(xformedEntity, errorReportForNrEntity);
 
                         if (errorReportForNrEntity.hasErrors()) {
@@ -230,6 +239,23 @@ public class PersistenceProcessor implements Processor {
         }
         return numFailed;
     }
+
+    private AbstractIngestionHandler<SimpleEntity, Entity> findHandler(String type) {
+        if (entityPersistHandlers.containsKey(type)) {
+            return entityPersistHandlers.get(type);
+        } else {
+            return defaultEntityPersistHandler;
+        }
+    }
+
+    private EdFi2SLITransformer findTransformer(String type) {
+        if (transformers.containsKey(type)) {
+            return transformers.get(type);
+        } else {
+            return defaultEdFi2SLITransformer;
+        }
+    }
+
 
     private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId,
             ErrorReport errorReportForNrFile) {
@@ -339,8 +365,8 @@ public class PersistenceProcessor implements Processor {
         batchJobDAO.saveError(error);
     }
 
-    public void setEntityPersistHandler(EntityPersistHandler entityPersistHandler) {
-        this.entityPersistHandler = entityPersistHandler;
+    public void setEntityPersistHandlers(Map<String, ? extends AbstractIngestionHandler<SimpleEntity, Entity>> entityPersistHandlers) {
+        this.entityPersistHandlers = entityPersistHandlers;
     }
 
     public NeutralRecordEntityPersistHandler getObsoletePersistHandler() {
@@ -357,6 +383,18 @@ public class PersistenceProcessor implements Processor {
 
     public void setPersistedCollections(Set<String> persistedCollections) {
         this.persistedCollections = persistedCollections;
+    }
+
+    public void setTransformers(Map<String, EdFi2SLITransformer> transformers) {
+        this.transformers = transformers;
+    }
+
+    public void setDefaultEdFi2SLITransformer(EdFi2SLITransformer defaultEdFi2SLITransformer) {
+        this.defaultEdFi2SLITransformer = defaultEdFi2SLITransformer;
+    }
+
+    public void setDefaultEntityPersistHandler(AbstractIngestionHandler<SimpleEntity, Entity> defaultEntityPersistHandler) {
+        this.defaultEntityPersistHandler = defaultEntityPersistHandler;
     }
 
 }

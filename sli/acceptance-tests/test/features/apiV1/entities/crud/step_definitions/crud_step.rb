@@ -14,7 +14,8 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #general
-  id = @newId                                   if human_readable_id == "NEWLY CREATED ENTITY URI"
+  id = @entityUri                               if human_readable_id == "ENTITY URI"
+  id = @newId                                   if human_readable_id == "NEWLY CREATED ENTITY ID"
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
 
   #return the translated value
@@ -26,6 +27,13 @@ end
 ###############################################################################
 
 $entityData = {
+  "userAccount" => {
+    "userName" => "bob3@bob.com",
+    "firstName" => "Bob",
+    "lastName" => "Roberts",
+    "validated" => "false",
+    "environment" => "Sandbox"
+  },
   "attendance" => {
     "studentId" => "1563ec1d-924d-4c02-8099-3a0e314ef1d4",
     "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
@@ -86,7 +94,8 @@ $entityData = {
     "maximumAvailableCredit" => {
       "credit" => 1.0
     },
-    "careerPathway" => "Hospitality and Tourism"
+    "careerPathway" => "Hospitality and Tourism",
+    "schoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2"
   },
   "disciplineAction" => {
     "disciplineActionIdentifier" => "Discipline act XXX",
@@ -237,8 +246,18 @@ $entityData = {
       "middleName" => "Hairfire",
       "lastSurname" => "Esquith"
     }
+  },
+  "grade" => {
+    "studentSectionAssociationId" => "bac890d6-b580-4d9d-a0d4-8bce4e8d351a",
+    "letterGradeEarned" => "B+",
+    "gradeType" => "Final"
   }
 }
+
+Given /^entity URI "([^"]*)"$/ do |arg1|
+  @entityUri = arg1
+end
+
 
 Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   @fields = $entityData[arg1]

@@ -31,14 +31,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.slc.sli.config.ViewConfig;
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
+import org.slc.sli.manager.ApiClientManager;
 import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.util.Constants;
-import org.slc.sli.view.TimedLogic2;
+import org.slc.sli.util.TimedLogic;
 
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi
@@ -46,13 +46,15 @@ import org.slc.sli.view.TimedLogic2;
  * enrollment, program, and assessment information in order to deliver the
  * Population Summary interaction.
  *
- * @author Robert Bloh rbloh@wgen.net
+ * @author Robert Bloh
  *
  */
-public class PopulationManagerImpl implements PopulationManager {
+public class PopulationManagerImpl extends ApiClientManager implements PopulationManager {
 
     private static final String ATTENDANCE_TARDY = "Tardy";
     private static final String ATTENDANCE_ABSENCE = "Absence";
+
+    private static final String STUDENT_CACHE = "user.student";
 
     private static Logger log = LoggerFactory.getLogger(PopulationManagerImpl.class);
 
@@ -103,7 +105,7 @@ public class PopulationManagerImpl implements PopulationManager {
     * java.lang.String)
     */
     @Override
-    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, ViewConfig viewConfig,
+    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds,
                                                    String sessionId, String sectionId) {
 
         long startTime = System.nanoTime();
@@ -115,17 +117,6 @@ public class PopulationManagerImpl implements PopulationManager {
         return studentSummaries;
     }
 
-    public List<GenericEntity> getStudentGradeBookEntries(String token, List<String> studentIds, ViewConfig viewConfig,
-                                                          String sessionId, String sectionId) {
-
-        long startTime = System.nanoTime();
-        // Initialize student summaries
-
-        List<GenericEntity> studentSummaries = entityManager.getStudentsWithGradebookEntries(token, sectionId);
-        log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for student section view: {}", (System.nanoTime() - startTime) * 1.0e-9);
-
-        return studentSummaries;
-    }
 
     /*
     * (non-Javadoc)
@@ -137,15 +128,17 @@ public class PopulationManagerImpl implements PopulationManager {
     @Override
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
 
+        String id = (String) sectionId;
+
         // get student summary data
-        List<GenericEntity> studentSummaries = getStudentSummaries(token, null, null, null, (String) sectionId);
+        List<GenericEntity> studentSummaries = getStudentSummaries(token, null, null, id);
 
         // apply assmt filters and flatten assmt data structure for easy
         // fetching
         applyAssessmentFilters(studentSummaries, config);
 
         // data enhancements
-        enhanceListOfStudents(studentSummaries, (String) sectionId);
+        enhanceListOfStudents(studentSummaries, id);
 
         GenericEntity result = new GenericEntity();
         result.put(Constants.ATTR_STUDENTS, studentSummaries);
@@ -309,7 +302,7 @@ public class PopulationManagerImpl implements PopulationManager {
 
     /**
      * Grabs the subject area from the data based on the section ID.
-     *
+     * 
      * @param stuSectAssocs
      * @param sectionId
      * @return
@@ -319,13 +312,33 @@ public class PopulationManagerImpl implements PopulationManager {
         String subjectArea = null;
         for (Map<String, Object> assoc : stuSectAssocs) {
             if (sectionId.equalsIgnoreCase((String) assoc.get(Constants.ATTR_SECTION_ID))) {
-                Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
-                subjectArea = (String) ((Map) sections.get(Constants.ATTR_COURSES)).get(Constants.ATTR_SUBJECTAREA);
+                Map<String, Object> sections = (Map) assoc.get(Constants.ATTR_SECTIONS);
+                subjectArea = getSubjectArea(sections);
                 break;
             }
         }
-
+        
         return subjectArea;
+    }
+    
+    /**
+     * Grabs the Subject Area from a section.
+     * 
+     * @param sections
+     * @return
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private String getSubjectArea(Map<String, Object> sections) {
+        if (sections == null) {
+            return null;
+        }
+        
+        Map<String, Object> courses = (Map) sections.get(Constants.ATTR_COURSES);
+        if (courses == null) {
+            return null;
+        }
+        
+        return (String) courses.get(Constants.ATTR_SUBJECTAREA);
     }
 
     /**
@@ -380,7 +393,7 @@ public class PopulationManagerImpl implements PopulationManager {
      *
      * @param student
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked" })
     private void addFinalGrades(GenericEntity student, String sectionId) {
         try {
             Map<String, Object> transcripts = (Map<String, Object>) student.get(Constants.ATTR_TRANSCRIPT);
@@ -390,21 +403,22 @@ public class PopulationManagerImpl implements PopulationManager {
 
             /*
              * For each student section association, we have to determine if it is in the same
-             * subject area as the sectionid passed.  If it is then we add it to our List.
+             * subject area as the sectionid passed. If it is then we add it to our List.
              * Once we have a list of sections. We can grab all of the semester grades
              * for those sections whose subject area intersect.
              */
             List<Map<String, Object>> stuSectAssocs = (List<Map<String, Object>>) transcripts
                     .get(Constants.ATTR_STUDENT_SECTION_ASSOC);
+            if (stuSectAssocs == null) {
+                return;
+            }
+            
             String subjectArea = getSubjectArea(stuSectAssocs, sectionId);
             List<Map<String, Object>> interSections = new ArrayList<Map<String, Object>>();
-
             for (Map<String, Object> assoc : stuSectAssocs) {
                 Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
                 // This case will catch if the subjectArea is null
-                if (subjectArea == null
-                        || subjectArea.equalsIgnoreCase((String) ((Map) sections.get(Constants.ATTR_COURSES))
-                        .get(Constants.ATTR_SUBJECTAREA))) {
+                if (subjectArea == null || subjectArea.equalsIgnoreCase(getSubjectArea(sections))) {
                     interSections.add(sections);
                 }
             }
@@ -425,15 +439,17 @@ public class PopulationManagerImpl implements PopulationManager {
 
     /**
      * Returns the term and the year as a string for a given student Section association.
+     * 
      * @param stuSectAssocs
      * @param sectionId
      * @return
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private String getSemesterYear(List<Map<String, Object>> stuSectAssocs, String sectionId) {
         String semesterString = null;
         for (Map<String, Object> assoc : stuSectAssocs) {
             if (((String) assoc.get(Constants.ATTR_SECTION_ID)).equalsIgnoreCase(sectionId)) {
-                Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
+                Map<String, Object> sections = (Map) assoc.get(Constants.ATTR_SECTIONS);
                 semesterString = buildSemesterYearString(sections);
                 break;
             }
@@ -443,14 +459,28 @@ public class PopulationManagerImpl implements PopulationManager {
 
     /**
      * Extracts the semester+Year from the section passed.
+     * 
      * @param sections
-     * @return  (e.g. FallSemester2010-2011 )
+     * @return (e.g. FallSemester2010-2011 )
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private String buildSemesterYearString(Map<String, Object> section) {
         String semesterString = null;
-        String term = (String) ((Map) section.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_TERM);
-        String year = (String) ((Map) section.get(Constants.ATTR_SESSIONS)).get(Constants.ATTR_SCHOOL_YEAR);
-        semesterString = term.replaceAll(" ", "") + year.replaceAll(" ", "");
+        if (section == null) {
+            return semesterString;
+        }
+        
+        Map<String, Object> sessions = (Map) section.get(Constants.ATTR_SESSIONS);
+        if (sessions == null) {
+            return semesterString;
+        }
+        
+        String term = (String) sessions.get(Constants.ATTR_TERM);
+        String year = (String) sessions.get(Constants.ATTR_SCHOOL_YEAR);
+        if (term != null && year != null) {
+            semesterString = term.replaceAll(" ", "") + year.replaceAll(" ", "");
+        }
+        
         return semesterString;
     }
 
@@ -460,7 +490,7 @@ public class PopulationManagerImpl implements PopulationManager {
      * @param student
      * @param sectionId
      */
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings("unchecked")
     private void addCurrentSemesterGrades(GenericEntity student, String sectionId) {
         // Sort the grades
         SortedSet<GenericEntity> sortedList = new TreeSet<GenericEntity>(new Comparator<GenericEntity>() {
@@ -570,7 +600,7 @@ public class PopulationManagerImpl implements PopulationManager {
                     String timeSlotStr = assmtFilters.get(assmtFamily);
                     if (timeSlotStr != null) {
 
-                        TimedLogic2.TimeSlot timeSlot = TimedLogic2.TimeSlot.valueOf(timeSlotStr);
+                        TimedLogic.TimeSlot timeSlot = TimedLogic.TimeSlot.valueOf(timeSlotStr);
 
                         // Apply filter. Add result to student summary.
                         Map assmt = applyAssessmentFilter(assmtResults, assmtFamily, timeSlot);
@@ -612,7 +642,7 @@ public class PopulationManagerImpl implements PopulationManager {
      * @return
      */
     private Map applyAssessmentFilter(List<Map<String, Object>> assmtResults, String assmtFamily,
-                                      TimedLogic2.TimeSlot timeSlot) {
+                                      TimedLogic.TimeSlot timeSlot) {
         // filter by assmt family name
         List<Map<String, Object>> studentAssessmentFiltered = filterAssessmentByFamily(assmtResults, assmtFamily);
 
@@ -629,14 +659,14 @@ public class PopulationManagerImpl implements PopulationManager {
         switch (timeSlot) {
 
             case MOST_RECENT_RESULT:
-                chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
+                chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
                 break;
 
             case HIGHEST_EVER:
                 if (!objAssmtCode.equals("")) {
-                    chosenAssessment = TimedLogic2.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
+                    chosenAssessment = TimedLogic.getHighestEverObjAssmt(studentAssessmentFiltered, objAssmtCode);
                 } else {
-                    chosenAssessment = TimedLogic2.getHighestEverAssessment(studentAssessmentFiltered);
+                    chosenAssessment = TimedLogic.getHighestEverAssessment(studentAssessmentFiltered);
                 }
                 break;
 
@@ -656,14 +686,14 @@ public class PopulationManagerImpl implements PopulationManager {
                 * assessmentIds.add(assessmentId); } }
                 */
 
-                chosenAssessment = TimedLogic2.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
+                chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
                 break;
 
             default:
 
                 // Decide whether to throw runtime exception here. Should timed
                 // logic default @@@
-                chosenAssessment = TimedLogic2.getMostRecentAssessment(studentAssessmentFiltered);
+                chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
                 break;
         }
 
@@ -678,22 +708,6 @@ public class PopulationManagerImpl implements PopulationManager {
         return list;
     }
 
-    /**
-     * Get a list of assessment results for one student, filtered by assessment
-     * name
-     *
-     * @param username
-     * @param studentId
-     * @param config
-     * @return
-     */
-    private List<GenericEntity> getStudentAssessments(String username, String studentId, ViewConfig config) {
-
-        // get all assessments for student
-        List<GenericEntity> assmts = entityManager.getStudentAssessments(username, studentId);
-
-        return assmts;
-    }
 
     /*
     * (non-Javadoc)
@@ -727,7 +741,12 @@ public class PopulationManagerImpl implements PopulationManager {
     @Override
     public GenericEntity getStudent(String token, Object studentId, Config.Data config) {
         String key = (String) studentId;
-        return entityManager.getStudentForCSIPanel(token, key);
+        GenericEntity student = getFromCache(STUDENT_CACHE, token, key);
+        if (student == null) {
+            student = entityManager.getStudentForCSIPanel(token, key);
+            putToCache(STUDENT_CACHE, token, key, student);
+        }
+        return student;
     }
 
     /*
@@ -764,8 +783,10 @@ public class PopulationManagerImpl implements PopulationManager {
         NumberFormat nf = NumberFormat.getNumberInstance();
         nf.setMaximumFractionDigits(0);
         int tardyCount = 0, eAbsenceCount = 0, uAbsenceCount = 0, totalCount = 0;
+        String date;
         for (GenericEntity entry : attendanceList) {
-            month = dtf.parseDateTime((String) entry.get(Constants.ATTR_ATTENDANCE_DATE)).toString(dtfMonth);
+            date = (String) entry.get(Constants.ATTR_ATTENDANCE_DATE);
+            month = (date == null) ? null : dtf.parseDateTime(date).toString(dtfMonth);
             if (currentMonth == null) {
                 currentMonth = month;
             } else if (!currentMonth.equals(month)) {
@@ -786,12 +807,14 @@ public class PopulationManagerImpl implements PopulationManager {
                 totalCount = 0;
             }
             String value = (String) entry.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
-            if (value.contains(ATTENDANCE_TARDY)) {
-                tardyCount++;
-            } else if (value.contains("Excused Absence")) {
-                eAbsenceCount++;
-            } else if (value.contains("Unexcused Absence")) {
-                uAbsenceCount++;
+            if (value != null) {
+                if (value.contains(ATTENDANCE_TARDY)) {
+                    tardyCount++;
+                } else if (value.contains("Excused Absence")) {
+                    eAbsenceCount++;
+                } else if (value.contains("Unexcused Absence")) {
+                    uAbsenceCount++;
+                }
             }
             totalCount++;
         }
