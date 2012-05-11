@@ -1,6 +1,5 @@
 package org.slc.sli.entity;
 
-import java.util.Collections;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -13,7 +12,7 @@ import javax.validation.Valid;
  */
 public class ConfigMap {
     @Valid
-    private Map<String, Config> config = Collections.emptyMap();
+    private Map<String, Config> config;
 
     public Map<String, Config> getConfig() {
         return config;
