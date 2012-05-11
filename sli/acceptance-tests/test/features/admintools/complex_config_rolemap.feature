@@ -8,7 +8,7 @@ As an SEA/LEA  Admin, I would like to have the Complex Role Mapping admin tool, 
 Scenario: Reset the mapping to default mappings
  
 Given I have an open web browser
-When I navigate to the Complex\-Configurable Role Mapping Page
+When I navigate to the Complex-Configurable Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "realmadmin" "realmadmin1234" for the "Simple" login page
 Then I have navigated to my Complex-Configurable Role Mapping Page
@@ -20,7 +20,7 @@ Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now o
 Scenario Outline: Creating correct mappings for roles 
  
 Given I have an open web browser
-When I navigate to the Complex\-Configurable Role Mapping Page
+When I navigate to the Complex-Configurable Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "realmadmin" "realmadmin1234" for the "Simple" login page
 Then I have navigated to my Complex-Configurable Role Mapping Page
@@ -38,7 +38,7 @@ Examples:
  
  Scenario Outline: Removing mappings from roles
 Given I have an open web browser
-When I navigate to the Complex\-Configurable Role Mapping Page
+When I navigate to the Complex-Configurable Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "realmadmin" "realmadmin1234" for the "Simple" login page
 Then I have navigated to my Complex-Configurable Role Mapping Page
@@ -55,7 +55,7 @@ Examples:
 Scenario Outline: Creating duplicated mappings for different roles
  
 Given I have an open web browser
-When I navigate to the Complex\-Configurable Role Mapping Page
+When I navigate to the Complex-Configurable Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "realmadmin" "realmadmin1234" for the "Simple" login page
 Then I have navigated to my Complex-Configurable Role Mapping Page
@@ -75,7 +75,7 @@ Examples:
 Scenario Outline: Click Save in case of repeating values for same roles
  
 Given I have an open web browser
-When I navigate to the Complex\-Configurable Role Mapping Page
+When I navigate to the Complex-Configurable Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "realmadmin" "realmadmin1234" for the "Simple" login page
 Then I have navigated to my Complex-Configurable Role Mapping Page
@@ -95,7 +95,7 @@ Examples:
  Scenario Outline: Try to save incorrect values for roles
  
 Given I have an open web browser
-When I navigate to the Complex\-Configurable Role Mapping Page
+When I navigate to the Complex-Configurable Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "realmadmin" "realmadmin1234" for the "Simple" login page
 Then I have navigated to my Complex-Configurable Role Mapping Page
@@ -112,7 +112,7 @@ Examples:
 Scenario: Reset the mapping to default mappings when previous mappings exist
  
 Given I have an open web browser
-When I navigate to the Complex\-Configurable Role Mapping Page
+When I navigate to the Complex-Configurable Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "realmadmin" "realmadmin1234" for the "Simple" login page
 Then I have navigated to my Complex-Configurable Role Mapping Page
