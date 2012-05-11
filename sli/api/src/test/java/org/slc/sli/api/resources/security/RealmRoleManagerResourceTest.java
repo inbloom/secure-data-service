@@ -53,6 +53,7 @@ public class RealmRoleManagerResourceTest {
     private EntityService service;
     private EntityBody mapping;
     private EntityBody realm2;
+    private UriInfo uriInfo = null;
 
     @Before
     public void setUp() throws Exception {
@@ -90,7 +91,7 @@ public class RealmRoleManagerResourceTest {
     @Test
     public void testAddClientRole() throws Exception {
         try {
-            UriInfo uriInfo = null;
+
             resource.updateClientRole("-1", null, uriInfo);
             assertFalse(false);
         } catch (EntityNotFoundException e) {
