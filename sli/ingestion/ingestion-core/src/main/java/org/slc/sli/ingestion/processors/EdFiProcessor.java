@@ -81,6 +81,9 @@ public class EdFiProcessor implements Processor {
 
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
 
+            // prepare staging database
+            setupStagingDatabase(batchJobId);
+            
             boolean anyErrorsProcessingFiles = false;
             for (IngestionFileEntry fe : fileEntryList) {
 
@@ -89,9 +92,6 @@ public class EdFiProcessor implements Processor {
 
                 FileProcessStatus fileProcessStatus = new FileProcessStatus();
                 ErrorReport errorReport = fe.getErrorReport();
-
-                // prepare staging database
-                setupStagingDatabase(batchJobId);
 
                 // actually do the processing
                 processFileEntry(fe, errorReport, fileProcessStatus);
