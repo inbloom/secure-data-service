@@ -10,7 +10,7 @@ Scenario: Reset the mapping to default mappings
 Given I have an open web browser
 When I navigate to the Complex-Configurable Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "realmadmin" "realmadmin1234" for the "Simple" login page
+When I submit the credentials "sunsetrealmadmin2" "sunsetrealmadmin21234" for the "Simple" login page
 Then I have navigated to my Complex-Configurable Role Mapping Page
  When I click on the Reset Mapping button
 And I got warning message saying 'Are you sure you want to reset the role mappings?'
@@ -22,13 +22,13 @@ Scenario Outline: Creating correct mappings for roles
 Given I have an open web browser
 When I navigate to the Complex-Configurable Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "realmadmin" "realmadmin1234" for the "Simple" login page
+When I submit the credentials "sunsetrealmadmin2" "sunsetrealmadmin21234" for the "Simple" login page
 Then I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the role <Role> radio button
 And I enter <Custom Role> in the text field
 And I click the add button
 Then the custom role <Custom Role> is mapped to the default role <Role> 
-And The user <Username> who is a <Custom Role> can now log in to SLI as a <Role> from my realm "SLI"
+And The user <Username> who is a <Custom Role> can now log in to SLI as a <Role> from my realm "IL"
 Examples:
 | Role               | Custom Role | Username  |
 | "Educator"         | "Teacher"   | "teacher" |
@@ -40,11 +40,11 @@ Examples:
 Given I have an open web browser
 When I navigate to the Complex-Configurable Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "realmadmin" "realmadmin1234" for the "Simple" login page
+When I submit the credentials "sunsetrealmadmin2" "sunsetrealmadmin21234" for the "Simple" login page
 Then I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the remove button between role <Role> and custom role <Custom Role>
 Then the custom role <Custom Role> is no longer mapped to the default role <Role> 
-And The user <Username> who is a <Custom Role> can not access SLI as a <Role> from my realm "SLI"
+And The user <Username> who is a <Custom Role> can not access SLI as a <Role> from my realm "IL"
 Examples:
 | Role               | Custom Role | Username  |
 | "Educator"         | "Teacher"   | "teacher" |
@@ -57,7 +57,7 @@ Scenario Outline: Creating duplicated mappings for different roles
 Given I have an open web browser
 When I navigate to the Complex-Configurable Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "realmadmin" "realmadmin1234" for the "Simple" login page
+When I submit the credentials "sunsetrealmadmin2" "sunsetrealmadmin21234" for the "Simple" login page
 Then I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the role <First Role> radio button
 And I enter <Custom Role> in the text field
@@ -77,7 +77,7 @@ Scenario Outline: Click Save in case of repeating values for same roles
 Given I have an open web browser
 When I navigate to the Complex-Configurable Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "realmadmin" "realmadmin1234" for the "Simple" login page
+When I submit the credentials "sunsetrealmadmin2" "sunsetrealmadmin21234" for the "Simple" login page
 Then I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the role <Role> radio button
 And I enter <Custom Role> in the text field
@@ -97,7 +97,7 @@ Examples:
 Given I have an open web browser
 When I navigate to the Complex-Configurable Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "realmadmin" "realmadmin1234" for the "Simple" login page
+When I submit the credentials "sunsetrealmadmin2" "sunsetrealmadmin21234" for the "Simple" login page
 Then I have navigated to my Complex-Configurable Role Mapping Page
 When I click on the role <Role> radio button
 And I enter <Bad Text> in the text field
@@ -114,7 +114,7 @@ Scenario: Reset the mapping to default mappings when previous mappings exist
 Given I have an open web browser
 When I navigate to the Complex-Configurable Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "realmadmin" "realmadmin1234" for the "Simple" login page
+When I submit the credentials "sunsetrealmadmin2" "sunsetrealmadmin21234" for the "Simple" login page
 Then I have navigated to my Complex-Configurable Role Mapping Page
 And I see pre-existing mappings
 When I click on the Reset Mapping button

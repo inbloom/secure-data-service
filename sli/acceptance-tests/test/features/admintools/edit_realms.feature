@@ -5,7 +5,7 @@ Background:
   Given I have an open web browser
    When I hit the realm editing URL
   And I was redirected to the "Simple" IDP Login page
-  And I submit the credentials "fakerealmadmin" "fakerealmadmin1234" for the "Simple" login page
+  And I submit the credentials "fakerealmadmin2" "fakerealmadmin21234" for the "Simple" login page
 
 Scenario: Realm administrator editing an existing realm
     And I should see that I am on the "Fake Realm" edit page
@@ -23,7 +23,7 @@ Scenario: Realm Administrator deleting a existing realm
    And I should see that I am on the new realm page
    And all of the input fields should be blank
    And I should hit the role mapping page
-   And I should see that the page doesn't exist'
+   And I should see that the page doesn't exist
    
 Scenario: Realm Administrator creating a new realm
   And I should see that I am on the new realm page
