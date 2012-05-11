@@ -1,7 +1,5 @@
 package org.slc.sli.unit.controller;
 
-import java.util.Map;
-
 import junit.framework.Assert;
 
 import org.junit.Before;
@@ -12,10 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.entity.Config;
-import org.slc.sli.entity.Config.Condition;
-import org.slc.sli.entity.Config.Data;
-import org.slc.sli.entity.Config.Item;
-import org.slc.sli.entity.Config.Type;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl;
@@ -46,16 +40,7 @@ public class PanelControllerTest {
         public ModelAndViewConfig getModelAndViewConfig(String componentId, Object entityKey, boolean lazyOverride) {
             GenericEntity simpleEntity = new GenericEntity();
             simpleEntity.put("id", componentId);
-
-            Type type = null;
-            Condition condition = null;
-            Item[] items = null;
-
-            Map<String, Object> params = null;
-            Data simpleData = new Data("entity", componentId, true, params);
-
-            Config simpleViewConfig = new Config(componentId, "parent", "name", type, condition, simpleData, items,
-                    "root");
+            Config simpleViewConfig = new Config();
             ModelAndViewConfig simpleModelAndViewConfig = new ModelAndViewConfig();
 
             simpleModelAndViewConfig.addData(componentId, simpleEntity);

@@ -79,6 +79,7 @@ default:
 
         sli.ingestion.tenant.deriveTenants: true
         sli.ingestion.tenant.loadDefaultTenants: true
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard: &DASHBOARD-DEFAULT
 
@@ -92,10 +93,10 @@ default:
         security.server.url: http://local.slidev.org:8080/
 
         # Only used in dashboard
-        portal.footer.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.footer.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
 
         # Only used in dashboard
-        portal.header.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.header.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
 
         # Only used in dashboard
         log.level: warn
@@ -222,14 +223,15 @@ devjuggernauts:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
         api.client: apiClient
         api.server.url: https://devjuggernauts.slidev.org/
         security.server.url: https://devjuggernauts.slidev.org/
-        portal.footer.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer
-        portal.header.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.footer.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: debug
         oauth.client.id: ke9Dgpo3uI
         oauth.client.secret: 3jgkd3dg3dnbmdmJDKnwpKogJj93dHjd08HdaqP9jgdUwbDi
@@ -317,6 +319,7 @@ local:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -406,15 +409,16 @@ team:
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
 
-        sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.loadDefaultTenants: true
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT
         api.client: apiClient
         api.server.url: https://${sli.dev.subdomain}.slidev.org/
         security.server.url: https://${sli.dev.subdomain}.slidev.org/
-        portal.footer.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer
-        portal.header.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.footer.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.header.url: https://devlycans.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: warn
         oauth.client.id: 6TW4tHwcWG
         oauth.client.secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
@@ -448,6 +452,7 @@ team:
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
         sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: false
+
 
 
 perf:
@@ -491,6 +496,7 @@ perf:
         # perf/ingestion/test.properties
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 
 
@@ -519,6 +525,7 @@ test-local:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 
 test-team:
@@ -548,6 +555,7 @@ test-team:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 
 test-perf:
@@ -558,6 +566,7 @@ test-perf:
 
         sli.ingestion.tenant.deriveTenants: false
         sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
 sandbox:
     api:
