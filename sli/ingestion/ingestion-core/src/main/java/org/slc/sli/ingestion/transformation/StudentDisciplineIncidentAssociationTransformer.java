@@ -1,18 +1,16 @@
 package org.slc.sli.ingestion.transformation;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-
-import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * Transforms discipline incident relates entities to allow resolution of
@@ -45,14 +43,10 @@ public class StudentDisciplineIncidentAssociationTransformer extends AbstractTra
     }
 
     private void loadData() {
-        LOG.info("Loading data for transformation.");
-
-        List<String> collectionsToLoad = Arrays.asList("studentDisciplineIncidentAssociation");
-
-        for (String collectionName : collectionsToLoad) {
-            loadCollectionFromDb(collectionName);
-            LOG.info("{} is loaded into local storage.", collectionName);
-        }
+        LOG.info("Loading data for student discipline incident association transformation.");
+        collection = getCollectionFromDb(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, collection.size());
+        LOG.info("Finished loading data for student discipline incident association transformation.");
     }
 
     private void transform() {
@@ -80,27 +74,6 @@ public class StudentDisciplineIncidentAssociationTransformer extends AbstractTra
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
 
             getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getBatchJobId());
-        }
-    }
-
-    /**
-     * Load a collection from the database
-     *
-     * @param collectionName
-     */
-    private void loadCollectionFromDb(String collectionName) {
-        Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
-
-        @SuppressWarnings("deprecation")
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
-                collectionName, new Query(jobIdCriteria), getBatchJobId(), 0, 0);
-
-        NeutralRecord tempNr;
-
-        Iterator<NeutralRecord> iter = data.iterator();
-        while (iter.hasNext()) {
-            tempNr = iter.next();
-            collection.put(tempNr.getRecordId(), tempNr);
         }
     }
 

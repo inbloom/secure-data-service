@@ -2,7 +2,6 @@ package org.slc.sli.ingestion.transformation;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -10,8 +9,6 @@ import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 /**
@@ -97,27 +94,4 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
         }
         LOG.info("Finished persisting transformed data into studentTranscriptAssociation_transformed staging collection.");
     }
-
-    /**
-     * Returns all collection entities found in temp ingestion database
-     *
-     * @param collectionName
-     */
-    private Map<Object, NeutralRecord> getCollectionFromDb(String collectionName) {
-        Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
-
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
-                collectionName, new Query(jobIdCriteria), getJob().getId(), 0, 0);
-
-        Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
-        NeutralRecord tempNr;
-
-        Iterator<NeutralRecord> neutralRecordIterator = data.iterator();
-        while (neutralRecordIterator.hasNext()) {
-            tempNr = neutralRecordIterator.next();
-            collection.put(tempNr.getRecordId(), tempNr);
-        }
-        return collection;
-    }
-
 }
