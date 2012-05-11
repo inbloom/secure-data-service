@@ -94,7 +94,8 @@ $entityData = {
     "maximumAvailableCredit" => {
       "credit" => 1.0
     },
-    "careerPathway" => "Hospitality and Tourism"
+    "careerPathway" => "Hospitality and Tourism",
+    "schoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2"
   },
   "disciplineAction" => {
     "disciplineActionIdentifier" => "Discipline act XXX",
