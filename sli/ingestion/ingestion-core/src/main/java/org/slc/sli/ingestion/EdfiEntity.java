@@ -10,8 +10,12 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Conducts the ingestion job
- *
+ *  Enum listing Ed-Fi entities with their direct dependencies
+ *  Provides services to lookup entities based on collection name
+ *  Provides services to perform an iterative diminiation lookup
+ *  
+ *  TODO:  Needs to be migrated to common
+ *  
  * @author dkornishev
  *
  */
