@@ -155,7 +155,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <executions>
             
                <execution>
-                  <id>install admin-ps  gems</id>
+                  <id>install admin-rails gems</id>
                   <phase>pre-integration-test</phase>
                    <configuration>
                        <workingDirectory>../admin-tools/admin-rails</workingDirectory>
@@ -177,13 +177,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                        <workingDirectory>../admin-tools/admin-rails</workingDirectory>
                        <arguments>
                            <argument>exec</argument>
-                           <argument>thin</argument>
+                           <argument>rails</argument>
+                           <argument>server</argument>
                            <argument>-d</argument>
                            <argument>-p</argument>
                            <argument>2000</argument>
                            <argument>-e</argument>
                            <argument>local-acceptance-tests</argument>                           
-                           <argument>start</argument>
                        </arguments>
                    </configuration>
                    <goals>
@@ -191,25 +191,21 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                    </goals>
                </execution>
                
-               <execution>
+               <!-- execution>
                    <id>stop-admin-rails-app</id>
                    <phase>post-integration-test</phase>
                    <configuration>
                        <workingDirectory>../admin-tools/admin-rails</workingDirectory>
-                       <executable>bundle</executable>
+                       <executable>kill</executable>
 	                   <arguments>
-    	                   <argument>exec</argument>
-        	               <argument>thin</argument>
-            	           <argument>-d</argument>
-                           <argument>-p</argument>
-                           <argument>2000</argument>
-                	       <argument>stop</argument>
+	                   	   <argument>-9</argument>
+	                   	   <argument>&lt; tmp/pids/server.pid</argument>
 					   </arguments>                   
                    </configuration>                   
                    <goals>
                        <goal>exec</goal>
                    </goals>
-              </execution>
+              </execution -->
             
                <execution>
                   <id>install databrowser gems</id>
@@ -234,13 +230,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                        <workingDirectory>../databrowser</workingDirectory>
                        <arguments>
                            <argument>exec</argument>
-                           <argument>thin</argument>
+                           <argument>rails</argument>
+                           <argument>server</argument>
                            <argument>-d</argument>
                            <argument>-p</argument>
                            <argument>2001</argument>
                            <argument>-e</argument>
                            <argument>local-acceptance-tests</argument>
-                           <argument>start</argument>
                        </arguments>
                    </configuration>
                    <goals>
@@ -248,25 +244,21 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                    </goals>
                </execution>
                
-               <execution>
+               <!-- execution>
                    <id>stop-databrowser-app</id>
                    <phase>post-integration-test</phase>
                    <configuration>
-                   <executable>bundle</executable>
+                   <executable>find</executable>
                        <workingDirectory>../databrowser</workingDirectory>
                        <arguments>
-                           <argument>exec</argument>
-                           <argument>thin</argument>
-                           <argument>-d</argument>
-                           <argument>-p</argument>
-                           <argument>2001</argument>
-                           <argument>stop</argument>
+	                   	   <argument>-9</argument>
+	                   	   <argument>&lt; tmp/pids/server.pid</argument>
                        </arguments>                   
                    </configuration>
                    <goals>
                        <goal>exec</goal>
                    </goals>
-              </execution>  
+              </execution -->  
                         
                <execution>
                   <id>install gems</id>
@@ -293,11 +285,24 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                         <arguments>
                             <argument>exec</argument>
                             <argument>rake</argument>
+                            <argument>dashboard_server_address=http://local.slidev.org:8080</argument>
+                            <argument>dashboard_api_server_uri=http://local.slidev.org:8080</argument>
+                            
+                            <argument>realm_page_url=http://local.slidev.org:8080/api/oauth/authorize</argument>
+                            
                             <argument>admintools_server_url=http://local.slidev.org:2000</argument>
+                            
+                            <argument>api_server_url=http://local.slidev.org:8080</argument>
+                            
                             <argument>databrowser_server_url=http://local.slidev.org:2001</argument>
-						    <argument>simpleIDP_login_url=http://local.slidev.org/simple-idp</argument>
-						    <argument>simpleIDP_realm_suffix=local</argument>
-						    <argument>sampleApp_server_address=http://local.slidev.org:8080/</argument>
+                            
+							<argument>sampleApp_server_address=http://local.slidev.org:8080/</argument>
+
+							<argument>simpleIDP_realm_SLI=SimpleIDP Test Realm - SLI</argument>
+							<argument>simpleIDP_realm_suffix=Local</argument>
+                            <argument>simpleIDP_realm_params=response_type%3dcode%26client_id%3dfm67sH6vZZ%26redirect_uri%3dhttp://local.slidev.org:8080/sample/callback</argument>
+                            <argument>simpleIDP_login_url=http://local.slidev.org:8080/simple-idp</argument>
+                            
                             <argument>${TESTS_TO_RUN}</argument>
                         </arguments>
                     </configuration>

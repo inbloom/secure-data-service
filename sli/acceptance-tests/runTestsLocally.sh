@@ -8,6 +8,17 @@ if [ -z "$SLI_ROOT" ]; then
 	exit 1
 fi
 
+echo "Shutting down databrowser and admin-rails..."
+if [ -f ${SLI_ROOT}/databrowser/tmp/pids/server.pid ]; then
+	kill -9 < ${SLI_ROOT}/databrowser/tmp/pids/server.pid
+	rm -f ${SLI_ROOT}/databrowser/tmp/pids/server.pid
+fi
+
+if [ -f ${SLI_ROOT}/admin-tools/admin-rails/tmp/pids/server.pid ]; then
+	kill -9 < ${SLI_ROOT}/admin-tools/admin-rails/tmp/pids/server.pid
+	rm -f ${SLI_ROOT}/admin-tools/admin-rails/tmp/pids/server.pid
+fi
+
 echo "Generating properties file..."
 ${SLI_ROOT}/config/scripts/webapp-provision.rb ${SLI_ROOT}/config/config.in/canonical_config.yml local-acceptance-tests ${SLI_ROOT}/config/properties/sli.properties
 echo "Done."
@@ -26,3 +37,14 @@ else
 fi
 echo "Running test: ${TESTS_TO_RUN}"
 mvn integration-test
+
+echo "Shutting down databrowser and admin-rails..."
+if [ -f ${SLI_ROOT}/databrowser/tmp/pids/server.pid ]; then
+	kill -9 < ${SLI_ROOT}/databrowser/tmp/pids/server.pid
+	rm -f ${SLI_ROOT}/databrowser/tmp/pids/server.pid
+fi
+
+if [ -f ${SLI_ROOT}/admin-tools/admin-rails/tmp/pids/server.pid ]; then
+	kill -9 < ${SLI_ROOT}/admin-tools/admin-rails/tmp/pids/server.pid
+	rm -f ${SLI_ROOT}/admin-tools/admin-rails/tmp/pids/server.pid
+fi
