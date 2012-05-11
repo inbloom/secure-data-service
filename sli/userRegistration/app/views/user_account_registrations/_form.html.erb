@@ -75,7 +75,15 @@
         <tr class="field">
                 <td><%= f.label :vendor %></td>
                 <td><%= f.text_field :vendor %></td>
-                <td></td>
+                 <% if @user_account_registration.errors[:vendor].any? %>
+                    <td id="error_explanation">
+                      <ul>
+                      <% @user_account_registration.errors[:vendor].each do |msg| %>
+                        <li><%= msg %></li>
+                      <% end %>
+                      </ul>
+                    </td>
+                <%end%>
             </tr>
     <tr>
     </table>
