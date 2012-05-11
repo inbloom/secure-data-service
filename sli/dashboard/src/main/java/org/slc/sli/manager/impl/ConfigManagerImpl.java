@@ -7,9 +7,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.GsonBuilder;
 import com.googlecode.ehcache.annotations.Cacheable;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +20,6 @@ import org.slc.sli.entity.EdOrgKey;
 import org.slc.sli.manager.ApiClientManager;
 import org.slc.sli.manager.ConfigManager;
 import org.slc.sli.util.DashboardException;
-import org.slc.sli.util.JsonConverter;
 
 /**
  *
@@ -153,15 +152,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
     }
 
     private Config loadConfig(File f) throws Exception {
-        if (f.exists()) {
-            FileReader fr = new FileReader(f);
-            try {
-                return JsonConverter.fromJson(fr, Config.class);
-            } finally {
-                IOUtils.closeQuietly(fr);
-            }
-        }
-        return null;
+        return (f.exists()) ? new GsonBuilder().create().fromJson(new FileReader(f), Config.class) : null;
     }
 
     protected String getCustomConfigPathForUserDomain(EdOrgKey edOrgKey) {

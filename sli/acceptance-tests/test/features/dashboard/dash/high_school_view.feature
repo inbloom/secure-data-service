@@ -3,8 +3,6 @@ Feature: high school college-ready student list view
 As a SEA/LEA user, I want to see the high school student list view
 on SLI, so I could see high school students results
 
-#test gets run in SDS set instead due to cgray seeting in UDS
-@wip
 Scenario: Check table headers
 Given I have an open web browser
 Given the server is in "live" mode

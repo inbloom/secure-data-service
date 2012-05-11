@@ -93,7 +93,7 @@ public class ConfigManagerTest {
         try {
             configManager.getComponentConfig(null, new EdOrgKey("1"), "fakeConfigId");
         } catch (Throwable t) {
-            Assert.assertEquals("Unable to read local custom config for fakeConfigId", t.getMessage());
+            Assert.assertEquals("Unable to read config for fakeConfigId, for path aa", t.getMessage());
         }
     }
 

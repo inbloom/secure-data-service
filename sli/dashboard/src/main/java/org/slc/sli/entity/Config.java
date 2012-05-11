@@ -5,9 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 import org.slc.sli.util.DashboardException;
 
@@ -49,27 +48,16 @@ public class Config implements Cloneable {
      *
      */
     public static class Item extends Config {
-        @Pattern(regexp = "[a-zA-Z0-9 -/\\+()\"':]{0,150}")
         protected String description;
-        @Pattern(regexp = "[a-zA-Z0-9 \\.-]{0,100}")
         protected String field;
-        @Pattern(regexp = "[a-zA-Z0-9 -/\\+()\"':]{0,150}")
         protected String value;
-        @Pattern(regexp = "[a-zA-Z0-9]{0,20}")
         protected String width;
-        @Pattern(regexp = "[a-zA-Z0-9]{0,20}")
         protected String datatype;
-        @Pattern(regexp = "[a-zA-Z0-9]{0,20}")
         protected String color;
-        @Pattern(regexp = "[a-zA-Z0-9.-]{0,40}")
         protected String style;
-        @Pattern(regexp = "[a-zA-Z0-9 \\.-]{0,30}")
         protected String formatter;
-        @Pattern(regexp = "[a-zA-Z0-9 \\.-]{0,30}")
         protected String sorter;
-        @Pattern(regexp = "[a-zA-Z0-9 \\.-]")
         protected String align;
-        @Valid
         protected Map<String, Object> params;
 
         public String getDescription() {
@@ -169,11 +157,8 @@ public class Config implements Cloneable {
      *
      */
     public static class Data {
-        @Pattern(regexp = "[a-zA-Z0-9]{0,50}")
         protected String entity;
-        @Pattern(regexp = "[a-zA-Z0-9 ]{0,50}")
         protected String cacheKey;
-        @Size(max = 30)
         protected Map<String, Object> params;
         protected boolean lazy;
 
@@ -265,7 +250,6 @@ public class Config implements Cloneable {
      *
      */
     public static class Condition {
-        @Pattern(regexp = "[a-zA-Z0-9 \\.-]{0,30}")
         protected String field;
         protected Object[] value;
 
@@ -283,24 +267,18 @@ public class Config implements Cloneable {
         }
     }
 
+    @NotNull
     @Pattern(regexp = "[a-zA-Z0-9]{1,30}")
     protected String id;
     /**
      * if id of the parent is different from the id - in case when many similar panels share the driver
      */
-    @Pattern(regexp = "[a-zA-Z0-9]{0,30}")
     protected String parentId;
-    @Pattern(regexp = "[a-zA-Z0-9 -/\\+()\"':]{0,150}")
     protected String name;
-
     protected Type type = Type.FIELD;
-    @Valid
     protected Condition condition;
-    @Valid
     protected Data data;
-    @Valid
     protected Item[] items;
-    @Pattern(regexp = "[a-zA-Z0-9 \\.-]{0,30}")
     protected String root;
 
     public Config(String id, String parentId, String name, Type type, Condition condition, Data data, Item[] items, String root) {

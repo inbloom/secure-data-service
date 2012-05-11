@@ -15,9 +15,9 @@ public class JacksonObjectMapperWithOptions extends ObjectMapper {
 
     public JacksonObjectMapperWithOptions() {
         super();
-        this.getJsonFactory().setCharacterEscapes(new HTMLCharacterEscapes());
         configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
         configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+        configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
         configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         configure(DeserializationConfig.Feature.CAN_OVERRIDE_ACCESS_MODIFIERS, true);
         configure(DeserializationConfig.Feature.AUTO_DETECT_FIELDS, true);

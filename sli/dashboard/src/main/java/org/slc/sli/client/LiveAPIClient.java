@@ -41,7 +41,6 @@ public class LiveAPIClient implements APIClient {
     // base urls
     private static final String STAFF_URL = "/v1/staff/";
     private static final String EDORGS_URL = "/v1/educationOrganizations/";
-    private static final String SCHOOLS_URL = "/v1/schools";
     private static final String SECTIONS_URL = "/v1/sections/";
     private static final String STUDENTS_URL = "/v1/students/";
     private static final String TEACHERS_URL = "/v1/teachers/";
@@ -161,8 +160,8 @@ public class LiveAPIClient implements APIClient {
     /**
      * Get a list of schools for the user
      */
-    //@Override
-    private List<GenericEntity> getSchools2(String token, List<String> schoolIds) {
+    @Override
+    public List<GenericEntity> getSchools(String token, List<String> schoolIds) {
 
         List<GenericEntity> schools = null;
         List<GenericEntity> sections = null;
@@ -177,42 +176,6 @@ public class LiveAPIClient implements APIClient {
         schools = getSchoolsForSection(sections, token);
         return schools;
     }
-
-
-    @Override
-    public List<GenericEntity> getSchools(String token, List<String> schoolIds) {
-
-        List<GenericEntity> schools = null;
-
-        // get schools
-        schools = createEntitiesFromAPI(getApiUrl() + SCHOOLS_URL, token);
-
-        // get teachers
-        List<GenericEntity> teachers = null;
-        teachers = createEntitiesFromAPI(getApiUrl() + TEACHERS_URL, token);
-
-        // get sections by looping through teachers
-        List<GenericEntity> sections = new ArrayList<GenericEntity>();
-
-        for (GenericEntity teacher : teachers) {
-            sections.addAll(getSectionsForTeacher(teacher.getId(), token));
-        }
-
-        // match courses and sections to schools
-        // TODO: redo this part without second schools query
-        List<GenericEntity> schools2 = getSchoolsForSection(sections, token);
-        for (GenericEntity school : schools) {
-            for (GenericEntity school2 : schools2) {
-                if (school.getId().equals(school2.getId())) {
-                    school.put(Constants.ATTR_COURSES, school2.get(Constants.ATTR_COURSES));
-                    break;
-                }
-            }
-        }
-
-        return schools;
-    }
-
 
     /**
      * Get a list of student objects, given the student ids
@@ -483,7 +446,14 @@ public class LiveAPIClient implements APIClient {
 
         // call https://<IP address>/api/rest/<version>/sections
         List<GenericEntity> sections = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL, token);
-        sections = processSections(sections);
+        if (sections != null) {
+            for (GenericEntity section : sections) {
+                // if no section name, fill in with section code
+                if (section.get(Constants.ATTR_SECTION_NAME) == null) {
+                    section.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
+                }
+            }
+        }
         return sections;
     }
 
@@ -495,19 +465,16 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> sections = createEntitiesFromAPI(getApiUrl() + TEACHERS_URL + id + TEACHER_SECTION_ASSOC
                 + SECTIONS, token);
 
-        sections = processSections(sections);
-        return sections;
-    }
-    
-    private List<GenericEntity> processSections(List<GenericEntity> sections) {
-        if (sections != null ) {
+        if (sections != null) {
             for (GenericEntity section : sections) {
+
                 // if no section name, fill in with section code
                 if (section.get(Constants.ATTR_SECTION_NAME) == null) {
                     section.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
                 }
             }
-        }  
+        }
+
         return sections;
     }
 

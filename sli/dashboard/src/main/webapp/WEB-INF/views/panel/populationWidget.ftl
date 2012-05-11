@@ -9,7 +9,7 @@
     <p><span id="viewDiv"></span>   <span id="filterDiv"></span></p>
 </div>
 <Script> 
-    var selectedPopulation=DashboardProxy.getData('userEdOrg')['selectedPopulation'];
+    var selectedPopulation=dataModel['userEdOrg']['selectedPopulation'];
     var edOrgIndex = -1
     var schoolIndex = -1;
     var courseIndex = -1;

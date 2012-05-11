@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.ModelAndViewConfig;
 import org.slc.sli.manager.component.CustomizationAssemblyFactory;
@@ -36,12 +35,9 @@ public class PanelController {
             @PathVariable final String componentId, @PathVariable final SafeUUID id, final HttpServletRequest request) {
         // is it a hack
         ModelAndViewConfig mac = customizationAssemblyFactory.getModelAndViewConfig(componentId, id.getId(), true);
-        Config config = mac.getComponentViewConfigMap().get(componentId);
         GenericEntity ge = new GenericEntity();
-        if (config != null && config.getData() != null) {
-            ge.put(Constants.MM_KEY_DATA, mac.getData().get(config.getData().getCacheKey()));
-        }
-        ge.put(Constants.MM_KEY_VIEW_CONFIG, config);
+        ge.put(Constants.MM_KEY_DATA, mac.getData().get(componentId));
+        ge.put(Constants.MM_KEY_VIEW_CONFIG, mac.getComponentViewConfigMap().get(componentId));
         return ge;
     }
 
