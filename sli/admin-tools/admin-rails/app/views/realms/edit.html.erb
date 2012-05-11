@@ -15,12 +15,10 @@
   var SLI_ROLES = <%= @sli_roles.to_json.html_safe %>;
   var UPDATE_URL = '<%= url_for(:action=>"update") %>'
 
-  $(document).ready(function() {
-    initRealmEdit();
-  });
+  
 
   </script>
-
+  <%=javascript_tag "$(document).ready(function() {initRealmEdit();});"%>
   <table>
     <tr>
 

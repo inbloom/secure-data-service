@@ -2,25 +2,37 @@
 <smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
                       xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.3.xsd"
                       xmlns:ftl="http://www.milyn.org/xsd/smooks/freemarker-1.1.xsd">
-                      
+
     <core:filterSettings type="SAX" defaultSerialization="false" />
 
     <resource-config selector="LearningObjective">
         <resource>org.milyn.delivery.DomModelCreator</resource>
     </resource-config>
-   
+
     <ftl:freemarker applyOnElement="LearningObjective">
         <ftl:template>
           <!--
                 <LearningObjectiveIdentity>
-                    <LearningObjectiveId ContentStandardName="${LearningObjective.LearningObjectiveId.@ContentStandardName}">
+                    <LearningObjectiveId
+
+                    <#if (LearningObjective.LearningObjectiveId.@ContentStandardName[0])??>
+                    ContentStandardName="${LearningObjective.LearningObjectiveId.@ContentStandardName}"
+                    </#if>
+                    >
+
+                    <#if (LearningObjective.LearningObjectiveId.IdentificationCode[0])??>
                         <IdentificationCode>
                             ${LearningObjective.LearningObjectiveId.IdentificationCode}
                         </IdentificationCode>
+                    </#if>
+
                     </LearningObjectiveId>
+
+                    <#if (LearningObjective.Objective[0])??>
                     <Objective>
                         ${LearningObjective.Objective}
                     </Objective>
+                    </#if>
                 </LearningObjectiveIdentity>
           -->
         </ftl:template>

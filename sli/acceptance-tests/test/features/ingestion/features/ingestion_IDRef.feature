@@ -31,7 +31,7 @@ Then I should see following map of entry counts in the corresponding collections
      | section                      |   5     |
      | session                      |   5     |
      | student                      |  11     |
-  And I should see "Processed 94 records." in the resulting batch job file records ingested successfully: 78" in the resulting batch job file
+  And I should see "Processed 94 records." in the resulting batch job file
   And I should see "InterchangeAssessmentMetadata.xml records ingested successfully: 11" in the resulting batch job file
   And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 10" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 13" in the resulting batch job file
@@ -39,8 +39,11 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "InterchangeStudentGrade.xml records ingested successfully: 28" in the resulting batch job file
   And I should see "InterchangeStudentParent.xml records ingested successfully: 11" in the resulting batch job file
-  And I should see "There is no ID/IDREF binding for IDREF 'LS_101'" in the resulting warning log file
-  And I should see "There is no ID/IDREF binding for IDREF 'CD_101'" in the resulting warning log file
-  And I should see "There is no ID/IDREF binding for IDREF 'GE_104'" in the resulting warning log file
+  And I should see "Reference not resolved: ref=<LS_101>. No matching id for this ref." in the resulting warning log file
+  And I should see "Reference not resolved: ref=<LO_101>. No matching id for this ref." in the resulting warning log file
+  And I should see "Reference not resolved: ref=<GP_101>. No matching id for this ref." in the resulting warning log file
+  And I should see "Reference not resolved: ref=<CL_101>. No matching id for this ref." in the resulting warning log file
+  And I should see "Reference not resolved: ref=<SSA_101>. No matching id for this ref." in the resulting warning log file
+  And I should see "Reference not resolved: ref=<S_101>. No matching id for this ref." in the resulting warning log file
   And I should see "Not all records were processed completely due to errors" in the resulting batch job file
 

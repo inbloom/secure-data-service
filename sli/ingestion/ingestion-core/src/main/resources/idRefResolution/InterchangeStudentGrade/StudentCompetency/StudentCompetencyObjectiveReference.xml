@@ -12,16 +12,24 @@
     <ftl:freemarker applyOnElement="#document">
         <ftl:template>
           <!--
-                <StudentCompetencyObjectiveIdentity>
-                    <StudentCompetencyObjectiveId>
+                < StudentCompetencyObjectiveIdentity>
+                    < StudentCompetencyObjectiveId>
+
+                    <#if (StudentCompetencyObjective.StudentCompetencyObjectiveId[0])??>
                         <IdentificationCode>
-                            ${StudentCompetencyObjective.StudentCompetencyObjectiveId}
+                            ${ StudentCompetencyObjective.StudentCompetencyObjectiveId}
                         </IdentificationCode>
-                    </StudentCompetencyObjectiveId>
+                    </#if>
+
+                    </ StudentCompetencyObjectiveId>
+
+                    <#if (StudentCompetencyObjective.Objective[0])??>
                     <Objective>
-                        ${StudentCompetencyObjective.Objective}
+                        ${ StudentCompetencyObjective.Objective}
                     </Objective>
-                </StudentCompetencyObjectiveIdentity>
+                    </#if>
+
+                </ StudentCompetencyObjectiveIdentity>
           -->
         </ftl:template>
     </ftl:freemarker>

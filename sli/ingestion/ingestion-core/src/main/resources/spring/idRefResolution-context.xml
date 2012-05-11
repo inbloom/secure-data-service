@@ -74,8 +74,6 @@
       </bean>
     </entry>
 
-
-
     <!--Iterchange StudentAssessmenet -->
     <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference">
       <bean class="org.milyn.Smooks">
@@ -146,10 +144,95 @@
     </entry>
     <!-- end of interchange StudentParent -->
 
+    <!-- Interchange EducationOrganization -->
+    <entry key="/InterchangeEducationOrganization/School/ProgramReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/School/ProgramReference.xml" />
+      </bean>
+    </entry>
+        <entry key="/InterchangeEducationOrganization/School/EducationOrganizationPeerReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/School/EducationOrganizationPeerReference.xml" />
+      </bean>
+    </entry>
+        <entry key="/InterchangeEducationOrganization/School/LocalEducationAgencyReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/School/LocalEducationAgencyReference.xml" />
+      </bean>
+    </entry>
+
+     <entry key="/InterchangeEducationOrganization/Course/EducationOrganizationReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/Course/EducationOrganizationReference.xml" />
+      </bean>
+    </entry>
+
+    <entry key="/InterchangeEducationOrganization/StateEducationAgency/ProgramReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/StateEducationAgency/ProgramReference.xml" />
+      </bean>
+    </entry>
+        <entry key="/InterchangeEducationOrganization/StateEducationAgency/EducationOrganizationPeerReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/StateEducationAgency/EducationOrganizationPeerReference.xml" />
+      </bean>
+    </entry>
+
+        <entry key="/InterchangeEducationOrganization/LocalEducationAgency/ProgramReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/ProgramReference.xml" />
+      </bean>
+    </entry>
+        <entry key="/InterchangeEducationOrganization/LocalEducationAgency/EducationOrganizationPeerReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/EducationOrganizationPeerReference.xml" />
+      </bean>
+    </entry>
+        <entry key="/InterchangeEducationOrganization/LocalEducationAgency/LocalEducationAgencyReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/LocalEducationAgencyReference.xml" />
+      </bean>
+    </entry>
+
+    <entry key="/InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference.xml" />
+      </bean>
+    </entry>
+
+    <!-- end of Interchange EducationOrganization -->
+
+    <!-- Interchange MasterSchedule -->
+    <entry key="/InterchangeMasterSchedule/Section/CourseOfferingReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeMasterSchedule/Section/CourseOfferingReference.xml" />
+      </bean>
+    </entry>
+    <!-- end of Interchange MasterSchedule -->
+
+  </util:map>
+
+  <util:map id="ftlIdRefConfigs" key-type="java.lang.String" value-type="java.lang.String">
+      <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.ftl" />
   </util:map>
 
   <bean id="smooksExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SmooksExtendedReferenceResolver">
     <property name="idRefConfigs" ref="idRefConfigs" />
+  </bean>
+
+  <bean id="freeMarkerExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.FreeMarkerExtendedReferenceResolver">
+    <property name="idRefConfigs" ref="ftlIdRefConfigs" />
   </bean>
 
   <bean id="IdReferenceResolutionHandler" class="org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler">
@@ -187,7 +270,7 @@
     <entry key="/InterchangeStudentGrade/StudentAcademicRecord/DiplomaReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentGrade/StudentGradebookEntry/GradebookEntryReference" value-ref="simpleReferenceResolver" />
 
-    <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="smooksExtendedReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
@@ -204,5 +287,21 @@
     <entry key="/InterchangeStudentEnrollment/StudentSchoolAssociation/GraduationPlanReference" value-ref="simpleReferenceResolver" />
 
     <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference" value-ref="smooksExtendedReferenceResolver" />
+
+    <entry key="/InterchangeEducationOrganization/School/ProgramReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/School/EducationOrganizationPeerReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/School/LocalEducationAgencyReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/Course/EducationOrganizationReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/StateEducationAgency/ProgramReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/StateEducationAgency/EducationOrganizationPeerReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/LocalEducationAgency/ProgramReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/LocalEducationAgency/EducationOrganizationPeerReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/LocalEducationAgency/LocalEducationAgencyReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/ObjectiveAssessment/AssessmentReference" value-ref="simpleReferenceResolver" />
+    <entry key="/InterchangeEducationOrganization/ObjectiveAssessment/ObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
+
+    <entry key="/InterchangeMasterSchedule/Section/CourseOfferingReference" value-ref="smooksExtendedReferenceResolver" />
+
   </util:map>
 </beans>
