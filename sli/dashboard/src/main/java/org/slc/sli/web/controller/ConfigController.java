@@ -81,12 +81,16 @@ public class ConfigController extends GenericLayoutController {
 
     @RequestMapping(value = CONFIG_SAVE_URL, method = RequestMethod.POST)
     @ResponseBody public String saveConfig(@RequestBody @Valid ConfigMap configMap) {
-        String token = SecurityUtil.getToken();
         try {
-            configManager.putCustomConfig(token, userEdOrgManager.getUserEdOrg(token), configMap);
+            putCustomConfig(configMap);
         } catch (RuntimeException re) {
             return "Permission Denied";
         }
         return "Success";
+    }
+
+    public void putCustomConfig(ConfigMap configMap) {
+        String token = SecurityUtil.getToken();
+        configManager.putCustomConfig(token, userEdOrgManager.getUserEdOrg(token), configMap);
     }
 }
