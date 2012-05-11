@@ -53,9 +53,9 @@
                                 alert("The input should be a valid JSON string");
                             }
                         },
-                        error: $("body").ajaxError( function(event, request, settings) {
+                        error: function(event, request, settings) {
                             alert("The input should be a valid JSON string");
-                        }),
+                        },
                     });
                 });
             });

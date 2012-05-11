@@ -12,7 +12,7 @@ When I navigate to the Complex-Configurable Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "realmadmin" "realmadmin1234" for the "Simple" login page
 Then I have navigated to my Complex-Configurable Role Mapping Page
-When I click on the Reset Mapping button
+ When I click on the Reset Mapping button
 And I got warning message saying 'Are you sure you want to reset the role mappings?'
 When I click 'OK'
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
