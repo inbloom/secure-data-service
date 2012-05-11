@@ -65,9 +65,11 @@ public class FreeMarkerExtendedReferenceResolverTest {
         final File expected = IngestionTest.getFile("idRefResolutionData/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_expected.xml");
 
         Map<String, String> config = new HashMap<String, String>();
-        config.put("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference", "idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.ftl");
+        config.put("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference", "idRefResolution/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference.ftl");
 
         referenceFactory.setIdRefConfigs(config);
+
+        test(input, expected, "/InterchangeStudentAssessment/StudentAssessment/AssessmentReference");
 
         Runnable run = new Runnable() {
             @Override
@@ -105,7 +107,7 @@ public class FreeMarkerExtendedReferenceResolverTest {
         Map<String, String> config = new HashMap<String, String>();
         referenceFactory.setIdRefConfigs(config);
 
-        config.put("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference", "idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.ftl");
+        config.put("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference", "idRefResolution/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference.ftl");
 
         Assert.assertNull(referenceFactory.resolve("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference2", null));
     }

@@ -68,8 +68,8 @@ public class SmooksExtendedReferenceResolverTest {
                 .getFile("idRefResolutionData/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_expected.xml");
 
         Map<String, Smooks> config = new HashMap<String, Smooks>();
-        config.put("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference", new Smooks(
-                "idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.xml"));
+        config.put("/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference", new Smooks(
+                "idRefResolution/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference.xml"));
 
         referenceFactory.setIdRefConfigs(config);
 
@@ -82,8 +82,8 @@ public class SmooksExtendedReferenceResolverTest {
         File expected = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference_expectedMissingData.xml");
 
         Map<String, Smooks> config = new HashMap<String, Smooks>();
-        config.put("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference", new Smooks(
-                "idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.xml"));
+        config.put("/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference", new Smooks(
+                "idRefResolution/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference.xml"));
 
         referenceFactory.setIdRefConfigs(config);
 
