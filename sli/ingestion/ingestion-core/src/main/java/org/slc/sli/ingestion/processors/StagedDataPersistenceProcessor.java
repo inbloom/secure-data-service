@@ -1,15 +1,23 @@
 package org.slc.sli.ingestion.processors;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+
+import com.mongodb.Bytes;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -38,15 +46,6 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.mongodb.Bytes;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 /**
  * Ingestion Persistence Processor.
@@ -109,13 +108,7 @@ public class StagedDataPersistenceProcessor implements Processor {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
             LOG.info("processing persistence: {}", newJob);
 
-            String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
-
-            String collectionToProcess = getStagedCollectionName(newJob, collectionNameAsStaged);
-
-            LOG.info("PERSISTING DATA IN COLLECTION: {}", collectionToProcess);
-
-            processAndMeasureResource(collectionNameAsStaged, collectionToProcess, newJob, stage);
+            processWorkNote(workNote, newJob, stage);
 
             exchange.getIn().setHeader("IngestionMessageType", MessageType.DONE.name());
 
@@ -129,64 +122,59 @@ public class StagedDataPersistenceProcessor implements Processor {
         }
     }
 
-    private void processAndMeasureResource(String collectionName, String transformedCollectionName, NewBatchJob newJob, Stage stage) {
-        processStagedCollection(collectionName, transformedCollectionName, newJob, stage);
-    }
-
-    private void processStagedCollection(String collectionName, String transformedCollectionName, Job job, Stage stage) {
+    private void processWorkNote(WorkNote workNote, Job job, Stage stage) {
 
         long recordNumber = 0;
         long numFailed = 0;
 
+        String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
+        String collectionToPersistFrom = getCollectionNameAfterTransform(job, collectionNameAsStaged);
+        LOG.info("PERSISTING DATA IN COLLECTION: {}", collectionToPersistFrom);
+
+        boolean noTransformationWasPerformed = collectionNameAsStaged.equals(collectionToPersistFrom);
+
         Map<String, Metrics> perFileMetrics = new HashMap<String, Metrics>();
-        
-        ErrorReport errorReportForCollection = createDbErrorReport(job.getId(), collectionName);
+        ErrorReport errorReportForCollection = createDbErrorReport(job.getId(), collectionNameAsStaged);
 
         try {
-            DBCursor cursor = getCollectionIterable(transformedCollectionName, job.getId());
+            // TODO: pass WorkNote minimum range to method to start cursor at right place
+            DBCursor cursor = getCollectionIterable(collectionToPersistFrom, job.getId());
 
-            Metrics currentMetric;
-            
+            // TODO: maintain our own counter and iterate only over WorkNote range size
             for (DBObject record : cursor) {
-                
+
                 recordNumber++;
 
                 NeutralRecord neutralRecord = neutralRecordReadConverter.convert(record);
 
-                
-                if (perFileMetrics.containsKey(neutralRecord.getSourceFile())) {
-                    //metrics for this file is established
-                    currentMetric = perFileMetrics.get(neutralRecord.getSourceFile());                    
-                } else {
-                    //establish new metrics
-                    currentMetric = Metrics.createAndStart(neutralRecord.getSourceFile());
-                }
-                
+                Metrics currentMetric = getOrCreateMetricForSourceFile(perFileMetrics, neutralRecord);
                 currentMetric.setRecordCount(currentMetric.getRecordCount() + 1);
-                
-                if (!collectionName.equals(transformedCollectionName)) {
-                    numFailed += processTransformableNeutralRecord(neutralRecord, getTenantId(job),
-                            errorReportForCollection);
-                } else {
+
+                // process NeutralRecord with old or new pipeline
+                if (noTransformationWasPerformed) {
+
                     numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, getTenantId(job),
                             errorReportForCollection);
+                } else {
+
+                    numFailed += processTransformableNeutralRecord(neutralRecord, getTenantId(job),
+                            errorReportForCollection);
                 }
-                
+
                 currentMetric.setErrorCount(currentMetric.getErrorCount() + numFailed);
-                
                 perFileMetrics.put(currentMetric.getResourceId(), currentMetric);
             }
 
         } catch (Exception e) {
             String fatalErrorMessage = "ERROR: Fatal problem saving records to database: \n" + "\tEntity\t"
-                    + collectionName + "\n";
+                    + collectionNameAsStaged + "\n";
             errorReportForCollection.fatal(fatalErrorMessage, StagedDataPersistenceProcessor.class);
-            LOG.error("Exception when attempting to ingest NeutralRecords in: " + collectionName + ".\n", e);
+            LOG.error("Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged + ".\n", e);
         } finally {
-            
+
             Iterator<Metrics> it = perFileMetrics.values().iterator();
             while (it.hasNext()) {
-                Metrics m = (Metrics) it.next();
+                Metrics m = it.next();
                 m.stopMetric();
                 stage.getMetrics().add(m);
             }
@@ -268,7 +256,7 @@ public class StagedDataPersistenceProcessor implements Processor {
      *
      * @return collectionName
      */
-    private String getStagedCollectionName(Job job, String collectionName) {
+    private String getCollectionNameAfterTransform(Job job, String collectionName) {
 
         String collectionNameTransformed = collectionName + "_transformed";
 
@@ -283,6 +271,18 @@ public class StagedDataPersistenceProcessor implements Processor {
             }
         }
         return collectionName;
+    }
+
+    private Metrics getOrCreateMetricForSourceFile(Map<String, Metrics> perFileMetrics, NeutralRecord neutralRecord) {
+        Metrics currentMetric;
+        if (perFileMetrics.containsKey(neutralRecord.getSourceFile())) {
+            // metrics for this file is established
+            currentMetric = perFileMetrics.get(neutralRecord.getSourceFile());
+        } else {
+            // establish new metrics
+            currentMetric = Metrics.createAndStart(neutralRecord.getSourceFile());
+        }
+        return currentMetric;
     }
 
     private DatabaseLoggingErrorReport createDbErrorReport(String batchJobId, String resourceId) {
