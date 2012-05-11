@@ -154,4 +154,22 @@ team_sb:
     email_sender_address: noreply@slidev.org
     is_sandbox: true
     admin_realm: Shared Learning Infrastructure
+production:
+    api_base: http://local.slidev.org:8080/api/rest/v1/userAccounts
+    validate_base: http://local.slidev.org:3000/user_account_validation
+    client_id: Eg6eseKRzN
+    client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
+    redirect_uri: http://local.slidev.org:3000/callback
+    redirect_slc_url: http://www.slcedu.org
+    ldap_host: ldap.slidev.org
+    ldap_port: 389
+    ldap_base: ou=DevTest,dc=slidev,dc=org
+    ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+    ldap_pass: Y;Gtf@w{
+    is_sandbox: false
+    email_host: mon.slidev.org
+    email_port: 3000
+    email_sender_name: Administrator
+    email_sender_address: noreply@slidev.org
+    admin_realm: Shared Learning Infrastructure
     
