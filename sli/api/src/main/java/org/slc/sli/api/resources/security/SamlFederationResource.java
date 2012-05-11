@@ -3,7 +3,11 @@ package org.slc.sli.api.resources.security;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.lang.management.ManagementFactory;
+import java.net.InetAddress;
 import java.net.URI;
+import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -103,16 +107,27 @@ public class SamlFederationResource {
             SecurityEvent event = new SecurityEvent();
 
             event.setClassName(this.getClass().toString());
+            event.setProcessNameOrId(ManagementFactory.getRuntimeMXBean().getName());
+            event.setTimeStamp(new Date());
+
+            try {
+                event.setExecutedOn(InetAddress.getLocalHost().getHostName());
+            } catch (UnknownHostException ue) {
+                LOG.info("Could not find hostname for security event logging!");
+            }
 
             if (this.httpServletRequest != null) {
                 event.setUserOrigin(httpServletRequest.getRemoteHost());
                 event.setAppId(httpServletRequest.getHeader("User-Agent"));
                 event.setActionUri(httpServletRequest.getRequestURI());
                 event.setUser(httpServletRequest.getRemoteUser());
-                event.setLogMessage("SAML message received from " + httpServletRequest.getHeader("Origin") + " is invalid!");
+
+                // the origin header contains the uri info of the idp server that sends the SAML data
+                event.setLogMessage("SAML message received from " + httpServletRequest.getHeader("Origin")
+                        + " is invalid!");
                 event.setLogLevel(LogLevelType.TYPE_WARN);
             } else {
-                event.setLogMessage("This should never happen!!");
+                event.setLogMessage("HttpServletRequest is missing, and this should never happen!!");
                 event.setLogLevel(LogLevelType.TYPE_ERROR);
             }
 
@@ -134,7 +149,8 @@ public class SamlFederationResource {
             throw new IllegalStateException("Failed to locate realm: " + issuer);
         }
 
-        org.jdom.Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS).getChild("AttributeStatement", SamlHelper.SAML_NS);
+        org.jdom.Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS)
+                .getChild("AttributeStatement", SamlHelper.SAML_NS);
         List<org.jdom.Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
 
         LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
@@ -159,7 +175,8 @@ public class SamlFederationResource {
         // {sessionId,redirectURI}
         Pair<String, URI> tuple = this.sessionManager.composeRedirect(inResponseTo, principal);
 
-        return Response.temporaryRedirect(tuple.getRight()).cookie(new NewCookie("_tla", tuple.getLeft(), "/", ".slidev.org", "", 300, false)).build();
+        return Response.temporaryRedirect(tuple.getRight())
+                .cookie(new NewCookie("_tla", tuple.getLeft(), "/", ".slidev.org", "", 300, false)).build();
     }
 
     private Entity fetchOne(String collection, NeutralQuery neutralQuery) {
