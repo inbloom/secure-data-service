@@ -42,15 +42,21 @@ public class AuthRequestServiceTest {
         assertEquals(null, authService.processRequest(null, null));
     }
     
-    @Test(expected = IllegalArgumentException.class)
-    public void testRealmMismatch() {
+    @Test
+    public void testForceAuthn() {
         SamlRequest request = Mockito.mock(SamlRequest.class);
         Mockito.when(request.getId()).thenReturn("id");
-        Mockito.when(request.getIdpDestination()).thenReturn("http://destination/sp?realm=fakeRealm");
-        
+        Mockito.when(request.getIdpDestination()).thenReturn("http://destination/sp?realm=myrealm");
+        Mockito.when(request.isForceAuthn()).thenReturn(true);
         Mockito.when(samlDecoder.decode("samlRequest")).thenReturn(request);
         
-        authService.processRequest("samlRequest", "realm");
+        Request processed = authService.processRequest("samlRequest", "myrealm");
         
+        Mockito.verify(samlDecoder).decode("samlRequest");
+        
+        assertEquals("id", processed.getRequestId());
+        assertEquals("myrealm", processed.getRealm());
+        assertEquals(true, processed.isForceAuthn());
+        assertEquals(null, authService.processRequest(null, null));
     }
 }
