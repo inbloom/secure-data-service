@@ -25,11 +25,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
  * and field query methods for all object classes.
