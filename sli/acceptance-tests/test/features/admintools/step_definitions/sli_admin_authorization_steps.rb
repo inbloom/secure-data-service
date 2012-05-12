@@ -5,8 +5,8 @@ require_relative '../../utils/sli_utils.rb'
 
 
 Given /^I am a valid SLC Operator$/ do
-  @user = 'sunsetoperator' # an :operator
-  @pass = 'sunsetoperator1234'
+  @user = 'slcoperator' # an :operator
+  @pass = 'slcoperator1234'
 end
 
 Given /^I am a valid Super Administrator$/ do
