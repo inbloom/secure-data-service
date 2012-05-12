@@ -10,17 +10,17 @@ Given /^I selected the "([^"]*)" application$/ do |appName|
 end
 
 When /^I look in the ed org drop\-down$/ do
-  @dropDownId = "edOrgSelect"
+  @dropDownId = "edOrgSelectMenu"
   assertMissingField(@dropDownId, "id")
 end
 
 When /^I look in the school drop\-down$/ do
-  @dropDownId = "schoolSelect"
+  @dropDownId = "schoolSelectMenu"
   assertMissingField(@dropDownId, "id")
 end
 
 Then /^I only see "([^"]*)"$/ do |listContent|
-  select = @driver.find_element(:id, @dropDownId + "Menu")
+  select = @driver.find_element(:id, @dropDownId)
   all_options = select.find_elements(:class, "dropdown-menu").first.find_elements(:tag_name, "li")
   matchCondition = true
   # If any list item has a value that is not in the list - set flag to false
@@ -34,19 +34,19 @@ Then /^I only see "([^"]*)"$/ do |listContent|
 end
 
 When /^I look in the course drop\-down$/ do
-  @dropDownId = "courseSelect"
+  @dropDownId = "courseSelectMenu"
   assertMissingField(@dropDownId, "id")
 end
 
 When /^I look at the section drop\-down$/ do
-  @dropDownId = "sectionSelect"
+  @dropDownId = "sectionSelectMenu"
   assertMissingField(@dropDownId, "id")
 end
 
 Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
   puts "@dropDownId = " + @dropDownId
   desiredContentArray = listContent.split(";")
-  select = @driver.find_element(:id, @dropDownId + "Menu")
+  select = @driver.find_element(:id, @dropDownId)
   all_options = select.find_element(:class_name, "dropdown-menu").find_elements(:tag_name, "li")
   matchCondition = true
   selectContent = ""
@@ -57,7 +57,7 @@ Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
   end
   selectContentArray = selectContent.split(";")
   result = (desiredContentArray | selectContentArray) - (desiredContentArray & selectContentArray)
-  assert(result == [""], "list content does not match required content: " + listContent)  
+  assert(result == [], "list content does not match required content: " + listContent)  
 end
 
 Then /^I see a list of (\d+) students$/ do |numOfStudents|
@@ -69,35 +69,30 @@ Then /^I see a list of (\d+) students$/ do |numOfStudents|
 end
 
 When /^I select ed org "([^"]*)"$/ do |optionToSelect|
-  @dropDownId = "edOrgSelect"
-  puts "@dropDownId = " + @dropDownId
+  @dropDownId = "edOrgSelectMenu"
   selectDropdownOption(@dropDownId, optionToSelect)
-  @dropDownId = "schoolSelect"
+  @dropDownId = "schoolSelectMenu"
 end
 
 When /^I select school "([^"]*)"$/ do |optionToSelect|
-  @dropDownId = "schoolSelect"
-  puts "@dropDownId = " + @dropDownId
+  @dropDownId = "schoolSelectMenu"
   selectDropdownOption(@dropDownId, optionToSelect)
-  @dropDownId = "courseSelect"
+  @dropDownId = "courseSelectMenu"
 end
 
 When /^I select course "([^"]*)"$/ do |optionToSelect|
-  @dropDownId = "courseSelect"
-  puts "@dropDownId = " + @dropDownId
+  @dropDownId = "courseSelectMenu"
   selectDropdownOption(@dropDownId, optionToSelect)
-  @dropDownId = "sectionSelect"
+  @dropDownId = "sectionSelectMenu"
 end
 
 When /^I select section "([^"]*)"$/ do |optionToSelect|
-  @dropDownId = "sectionSelect"
-  puts "@dropDownId = " + @dropDownId
+  @dropDownId = "sectionSelectMenu"
   selectDropdownOption(@dropDownId, optionToSelect)
 end
 
 When /^I select user view "([^"]*)"$/ do |optionToSelect|
-  @dropDownId = "viewSelect"
-  puts "@dropDownId = " + @dropDownId
+  @dropDownId = "viewSelectMenu"
   selectDropdownOption(@dropDownId, optionToSelect)
 end
 
@@ -107,10 +102,10 @@ Then /^the list includes: "([^"]*)"$/ do |desiredContent|
 end
 
 Then /^I see these values in the section drop\-down: "([^"]*)"$/ do |listContent|
-  @dropDownId = "sectionSelect"
+  @dropDownId = "sectionSelectMenu"
   desiredContentArray = listContent.split(";")
   select = @explicitWait.until{@driver.find_element(:id, @dropDownId)}
-  all_options = select.find_elements(:class, "dropdown-menu").first.find_elements(:tag_name, "li")
+  all_options = select.find_element(:class, "dropdown-menu").find_elements(:tag_name, "li")
   matchCondition = true
   selectContent = ""
   # If any list item has a value that is not in the list - set flag to false
@@ -134,7 +129,7 @@ end
 
 Then /^I don't see a course selection$/ do
   begin
-    course = @driver.find_element(:id,"courseSelect")
+    course = @driver.find_element(:id,"courseSelectMenu")
   rescue
     assert(course == nil, "Course is not nil")
   end

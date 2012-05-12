@@ -99,17 +99,18 @@ def selectOption(selectFieldId, optionToSelect)
 end
 
 def selectDropdownOption(selectFieldId, optionToSelect)
-  select = @explicitWait.until{@driver.find_element(:id, selectFieldId + "Menu")}
-  puts(select.attribute("text"))
-  all_options = select.find_elements(:class, "dropdown-menu").first.find_elements(:tag_name, "li")
+  puts "dropDownId = " + selectFieldId
+  select = @explicitWait.until{@driver.find_element(:id, selectFieldId)}
+  select.find_element(:tag_name,"a").click
+  all_options = select.find_element(:class_name, "dropdown-menu").find_elements(:tag_name, "li")
   optionFound = false
   all_options.each do |option|
-    if option.find_element(:tag_name, "a").attribute("text") == optionToSelect
+    if (option.find_element(:tag_name, "a").text == optionToSelect)
       optionFound = true
-      option.click
+      option.find_element(:link_text,optionToSelect).click  
       break
     end
-  end  
+  end
   assert(optionFound, "Desired option '" + optionToSelect + "' was not found in '" + @dropDownId + "' list")
 end
 
