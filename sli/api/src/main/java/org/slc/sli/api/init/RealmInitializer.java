@@ -105,10 +105,9 @@ public class RealmInitializer {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private List getFields() {
         List toReturn = new ArrayList();
-        toReturn.add(createField("roles", "cn=([^,]+)"));
-        toReturn.add(createField("authRealm", "ou=[^,]+,(.+)"));
-        toReturn.add(createField("adminRealm", "ou=(.+)"));
-        toReturn.add(createField("edOrg", "ou=(.+)"));
+        toReturn.add(createField("roles", "(.+)"));
+        toReturn.add(createField("Tenant", "(.+)"));
+        toReturn.add(createField("EdOrg", "(.+)"));
         toReturn.add(createField("userId", "(.+)"));
         toReturn.add(createField("userName", "(.+)"));
         return toReturn;
