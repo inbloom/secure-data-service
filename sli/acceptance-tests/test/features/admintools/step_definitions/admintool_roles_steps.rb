@@ -50,8 +50,8 @@ Given /^"([^"]*)" is invalid "([^"]*)" user$/ do |arg1, arg2|
 end
 
 Then /^I am informed that authentication has failed$/ do
-  errorBox = @driver.find_element(:name, "Login.AlertImage")
-  assert(errorBox != nil, webdriverDebugMessage(@driver,"Could not find error message box with name=Login.AlertImage"))
+  errorBox = @driver.find_element(:class, "error-message")
+  assert(errorBox != nil, webdriverDebugMessage(@driver,"Could not find error message div"))
 end
 
 Then /^I do not have access to the SLI Default Roles Admin Page$/ do
