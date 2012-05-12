@@ -20,13 +20,13 @@ When /^I look in the school drop\-down$/ do
 end
 
 Then /^I only see "([^"]*)"$/ do |listContent|
-  select = @driver.find_element(:id, @dropDownId)
-  all_options = select.find_elements(:tag_name, "option")
+  select = @driver.find_element(:id, @dropDownId + "Menu")
+  all_options = select.find_elements(:class, "dropdown-menu").first.find_elements(:tag_name, "li")
   matchCondition = true
   # If any list item has a value that is not in the list - set flag to false
   all_options.each do |option|
-    if option.attribute("text") != listContent and 
-      option.attribute("text") != "" then
+    if option.find_element(:tag_name, "a").attribute("text")  != listContent and 
+      option.find_element(:tag_name, "a").attribute("text") != "" then
       matchCondition = false
     end
   end
@@ -46,13 +46,13 @@ end
 Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
   puts "@dropDownId = " + @dropDownId
   desiredContentArray = listContent.split(";")
-  select = @driver.find_element(:id, @dropDownId)
-  all_options = select.find_elements(:tag_name, "option")
+  select = @driver.find_element(:id, @dropDownId + "Menu")
+  all_options = select.find_element(:class_name, "dropdown-menu").find_elements(:tag_name, "li")
   matchCondition = true
   selectContent = ""
   # If any list item has a value that is not in the list - set flag to false
   all_options.each do |option|
-    selectContent += option.attribute("text") + ";"
+    selectContent += option.find_element(:tag_name, "a").attribute("text") + ";"
     puts "selectContent = " + selectContent
   end
   selectContentArray = selectContent.split(";")
@@ -71,34 +71,34 @@ end
 When /^I select ed org "([^"]*)"$/ do |optionToSelect|
   @dropDownId = "edOrgSelect"
   puts "@dropDownId = " + @dropDownId
-  selectOption(@dropDownId, optionToSelect)
+  selectDropdownOption(@dropDownId, optionToSelect)
   @dropDownId = "schoolSelect"
 end
 
 When /^I select school "([^"]*)"$/ do |optionToSelect|
   @dropDownId = "schoolSelect"
   puts "@dropDownId = " + @dropDownId
-  selectOption(@dropDownId, optionToSelect)
+  selectDropdownOption(@dropDownId, optionToSelect)
   @dropDownId = "courseSelect"
 end
 
 When /^I select course "([^"]*)"$/ do |optionToSelect|
   @dropDownId = "courseSelect"
   puts "@dropDownId = " + @dropDownId
-  selectOption(@dropDownId, optionToSelect)
+  selectDropdownOption(@dropDownId, optionToSelect)
   @dropDownId = "sectionSelect"
 end
 
 When /^I select section "([^"]*)"$/ do |optionToSelect|
   @dropDownId = "sectionSelect"
   puts "@dropDownId = " + @dropDownId
-  selectOption(@dropDownId, optionToSelect)
+  selectDropdownOption(@dropDownId, optionToSelect)
 end
 
 When /^I select user view "([^"]*)"$/ do |optionToSelect|
   @dropDownId = "viewSelect"
   puts "@dropDownId = " + @dropDownId
-  selectOption(@dropDownId, optionToSelect)
+  selectDropdownOption(@dropDownId, optionToSelect)
 end
 
 
@@ -110,7 +110,7 @@ Then /^I see these values in the section drop\-down: "([^"]*)"$/ do |listContent
   @dropDownId = "sectionSelect"
   desiredContentArray = listContent.split(";")
   select = @explicitWait.until{@driver.find_element(:id, @dropDownId)}
-  all_options = select.find_elements(:tag_name, "option")
+  all_options = select.find_elements(:class, "dropdown-menu").first.find_elements(:tag_name, "li")
   matchCondition = true
   selectContent = ""
   # If any list item has a value that is not in the list - set flag to false

@@ -1,6 +1,6 @@
 var listOfStudents = 'listOfStudents';
-var selectedPopulation=dataModel['userEdOrg']['selectedPopulation'];
-var edOrgIndex = -1
+var selectedPopulation=DashboardProxy.getData('userEdOrg')['selectedPopulation'];
+var edOrgIndex = -1;
 var schoolIndex = -1;
 var courseIndex = -1;
 var sectionIndex = -1;
@@ -110,21 +110,24 @@ function getStudentListData()
     }
     
     function clearSelections(currentSelect) {
-    	var selects = { "edOrg":1, "school":2, "course":3, "section":4 };
+    	var selects = { "edOrg":1, "school":2, "course":3, "section":4, "filter":5 };
     	switch(selects[currentSelect]) {
-    		case 1: $("#schoolSelect").val(-1);
+    		case 1: $("#edOrgSelect").val(-1);
+					$("#edOrgSelectMenu .optionText").html("");
+					$("#edOrgSelectMenu .dropdown-menu").html("");
+    		case 2: $("#schoolSelect").val(-1);
     				$("#schoolSelectMenu .optionText").html("");
     				$("#schoolSelectMenu .dropdown-toggle").addClass("disabled");
     				$("#schoolSelectMenu .dropdown-menu").html("");
-    		case 2: $("#courseSelect").val(-1);
+    		case 3: $("#courseSelect").val(-1);
     				$("#courseSelectMenu .optionText").html("");
     				$("#courseSelectMenu .dropdown-toggle").addClass("disabled"); 
     				$("#courseSelectMenu .dropdown-menu").html("");
-    		case 3: $("#sectionSelect").val(-1);
+    		case 4: $("#sectionSelect").val(-1);
     				$("#sectionSelectMenu .optionText").html("");
     				$("#sectionSelectMenu .dropdown-toggle").addClass("disabled");
     				$("#sectionSelectMenu .dropdown-menu").html("");
-    		case 4: $("#filterSelect").val(-1);
+    		case 5: $("#filterSelect").val(-1);
     				$("#filterSelectMenu .optionText").html("");
     				$("#filterSelectMenu .dropdown-toggle").addClass("disabled");
     				$("#filterSelectMenu .dropdown-menu").html("");
@@ -169,6 +172,7 @@ function populateInstHierarchy() {
 	$("#viewSelection").hide();
 	clearSelections("edOrg");
 	DashboardUtil.setDropDownOptions("edOrg", null,  instHierarchy, "name", "", true, function() {
+		clearSelections("school");
 		populateSchoolMenu();
 	});
 }
@@ -177,6 +181,7 @@ function populateSchoolMenu() {
 	var edOrgIndex = $("#edOrgSelect").val();
 	clearSelections("school");
 	DashboardUtil.setDropDownOptions("school", null, instHierarchy[edOrgIndex].schools, "nameOfInstitution", "", true, function() {
+		clearSelections("course");
 		populateCourseMenu();
 	});
 }
@@ -186,6 +191,7 @@ function populateCourseMenu(){
 	var schoolIndex = $("#schoolSelect").val();
 	clearSelections("course");
 	DashboardUtil.setDropDownOptions("course", null, instHierarchy[edOrgIndex].schools[schoolIndex].courses, "courseTitle", "", true, function() {
+		clearSelections("section");
 		populateSectionMenu();
 	});
 }
