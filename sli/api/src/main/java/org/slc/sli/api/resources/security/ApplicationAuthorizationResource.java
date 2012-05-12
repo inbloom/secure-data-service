@@ -239,8 +239,8 @@ public class ApplicationAuthorizationResource {
         Set<Pair<String, String>>  deleted   = new HashSet<Pair<String, String>>(older);
         deleted.removeAll(newer);
 
-        logSecurityEvent(uriInfo, added, true);
-        logSecurityEvent(uriInfo, deleted, false);
+       // logSecurityEvent(uriInfo, added, true);
+        //logSecurityEvent(uriInfo, deleted, false);
     }
 
     private void logSecurityEvent(UriInfo uriInfo, Set<Pair<String, String>> edOrgApps, boolean added) {
