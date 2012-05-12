@@ -29,3 +29,17 @@ end
 # Account Approval tests end
 ############################################################
 
+############################################################
+# Onboarding tests start
+############################################################
+desc "Run Onboarding Tests"
+task :onboardingTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/onboarding")
+end
+############################################################
+# Onboarding tests end
+############################################################
+
+
+

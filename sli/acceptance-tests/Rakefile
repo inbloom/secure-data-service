@@ -150,9 +150,18 @@ task :appInit do
   setFixture("userSession", "oauth_authentication_tokens.json")
 end
 
-# Run a whole series of acceptance tests
+# Run a whole series of acceptance and integration tests
 desc "Run API, Ingestion, Dashboard, SDK, and SimpleIDP acceptance tests"
-task :fullSuite => [:production, :simpleIDPAuthTests, :sandboxTests, :provisioningTests, :dashboardTests, :JavaSDKTests, :integrationTests] do
+task :fullSuite => [
+	:production,
+	:dashboardTests,
+	:ingestionTests,
+	:integrationTests,
+	:JavaSDKTests,
+	:sandboxTests,
+	:adminSandboxTests,
+	:apiSeleniumTests] do
+
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -164,7 +173,7 @@ end
 # This task will be used for end-to-end integration tests but currently just run all
 # available acceptance tests
 desc "Default Task: Run All Acceptances Tests"
-task :production => [:apiV1Tests, :securityTests, :onboardingTests, :ingestionTests, :ingestionOfflineToolTests] do
+task :production => [:apiAndSecurityTests, :ingestionTests, :ingestionOfflineToolTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -317,18 +326,6 @@ task :databrowserTests => [:realmInit] do
 end
 
 ############################################################
-# Onboarding tests start
-############################################################
-desc "Run Onboarding Tests"
-task :onboardingTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/onboarding")
-end
-############################################################
-# Onboarding tests end
-############################################################
-
-############################################################
 # Dashboard tests start
 ############################################################
 desc "Run Dashboard Tests"
@@ -356,6 +353,34 @@ end
 ############################################################
 
 ############################################################
+# Dashboard SDS tests start
+############################################################
+desc "Run Dashboard Tests against SDS"
+task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
+                         :dashboardSdsContactInfoTests,
+                         :dashboardSdsLoginTests,
+                         :dashboardSdsHSViewTests,
+                         :dashboardSdsK3ViewTests,
+                         :dashboardSdsPopWidgetTests,
+                         :dashboardSdsStudentProfileTests,
+                         :dashboardSdsUserBasedViewsTests,
+                         :dashboardSdsAttendanceTests,
+                         :dashboardStudentSearchTests,
+                         :dashboardSdsTranscriptPanelTests,
+                         :dashboardSdsUploadConfigTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+############################################################
+# Dashboard SDS tests end
+############################################################
+
+
+############################################################
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
@@ -373,24 +398,9 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :in
   end
 end
 ############################################################
-# Ingestion tests start
+# Ingestion tests end
 ############################################################
 
-############################################################
-# Ingestion Offline Tool tests start
-############################################################
-desc "Run Ingestion Offline Tool Acceptances Tests"
-task :ingestionOfflineToolTests => [:ingestionOfflineSimpleTest] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-############################################################
-# Ingestion Offline Tool tests end
-############################################################
 
 ############################################################
 # Integration Tests start
@@ -602,4 +612,14 @@ CUKE_EXPAND            This property tells cucumber to expand Scenario Outlines 
 OTHER_TAGS             This property allows you to run tests with debug tags, so pass a tag for this env var ie: @test
 eos
 
+end
+
+desc "Get a list of all available tasks"
+task :tasks do
+    puts "The following are all the available tasks:"
+
+    tasks = Rake.application.tasks
+    tasks.each do |t|
+	    puts ":" + t.to_s
+    end
 end

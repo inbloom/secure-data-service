@@ -179,3 +179,20 @@ end
 ############################################################
 # Ingestion tests end
 ############################################################
+
+############################################################
+# Ingestion Offline Tool tests start
+############################################################
+desc "Run Ingestion Offline Tool Acceptances Tests"
+task :ingestionOfflineToolTests => [:ingestionOfflineSimpleTest] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+############################################################
+# Ingestion Offline Tool tests end
+############################################################
+
