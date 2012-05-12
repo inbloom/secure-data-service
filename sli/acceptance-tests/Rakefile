@@ -189,11 +189,212 @@ task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :onboardingTests] do
 end
 
 
+#desc "Run Liferay Tests"
+#task :liferay => [:liferayTest] do
+ # displayFailureReport()
+#  if $SUCCESS
+ #   puts "Completed All Tests"
+ # else
+ #   raise "Tests have failed"
+ # end
+#end
+
+
+desc "Run all sandbox tests"
+task :sandboxTests => [:apiSandboxTests, :adminSandboxTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+############################################################
+# API V1 tests start
+############################################################
+desc "Run API V1 acceptance tests"
+task :apiV1Tests => [:apiV1EntityTests,
+                     :apiV1EntitySecurityTests,
+                     :apiV1AssociationTests,
+                     :v1homeUriTests,
+                     :v1ValidationTests,
+                     :v1HierarchyTraversalTests,
+                     :v1DirectReferencesTests,
+                     :v1DirectReferenceCollectionsTests,
+                     :v1CascadeDeletionTests,
+                     :v1EncryptionTests,
+                     :v1SortingAndPagingTests,
+                     :v1ListTests,
+                     :v1TargetTests,
+                     :v1EndUserStoryAssessmentTests,
+                     :v1EndUserStoryCustomEntityTests,
+                     :v1StudentOptionalFieldsTests,
+                     :v1SingleStudentViewTests,
+#                     :v1BlacklistValidationTests,
+                     :v1XMLTests] do
+  displayFailureReport()
+end
+
+task :apiV1EntitySecurityTests do
+  # Import the data once, none of these tests edit the data
+  Rake::Task["importSandboxData"].execute
+
+  Rake::Task["v1ProgramSecurityTests"].execute
+  Rake::Task["v1ParentSecurityTests"].execute
+  Rake::Task["v1AttendanceSecurityTests"].execute
+  Rake::Task["v1CohortSecurityTests"].execute
+  Rake::Task["v1DisciplineActionSecurityTests"].execute
+  Rake::Task["v1DisciplineIncidentSecurityTests"].execute
+end
+
+task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
+                                :v1SectionAssessmentAssociationTests,
+                                :v1SessionCourseAssociationTests,
+                                :v1StaffEdOrgAssociationTests,
+                                :v1StaffProgramAssociationTests,
+                                :v1StudentProgramAssociationTests,
+                                :v1StudentAssessmentAssociationTests,
+                                :v1StudentParentAssociationTests,
+                                :v1StudentDisciplineIncidentAssociationTests,
+                                :v1StudentSchoolAssociationTests,
+                                :v1StudentSectionAssociationTests,
+                                :v1StudentTranscriptAssociationTests,
+                                :v1TeacherSchoolAssociationTests,
+                                :v1TeacherSectionAssociationTests,
+                                :v1StaffCohortAssociationTests,
+                                :v1StudentCohortAssociationTests] do
+  # Repair the damage that was done during the tests
+  Rake::Task["importSandboxData"].execute
+end
+############################################################
+# API V1 tests end
+############################################################
+
+############################################################
+# API Selenium tests start
+# NOTE: Do not add these tests to the production run yet!
+#       While they can be run locally without issues,
+#       Firefox cannot start on Jenkins, and will cause
+#       all these tests to fail
+############################################################
+desc "Run API Selenium Tests"
+task :apiSeleniumTests => [:adminToolsTests, :databrowserTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run Admin-Tools Selenium Tests"
+task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools")
+  Rake::Task["importSandboxData"].execute
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run Dataprowler Selenium Tests"
+task :databrowserTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
+  runTests("test/features/databrowser/critical_auth_bugfix.feature")
+  runTests("test/features/databrowser/databrowser_selective_deny.feature")
+  runFixtureAndTests("test/features/databrowser/databrowser_denial.feature", "application", "application_denial_fixture.json")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+############################################################
+# Onboarding tests start
+############################################################
+desc "Run Onboarding Tests"
+task :onboardingTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/onboarding")
+end
+############################################################
+# Onboarding tests end
+############################################################
+
+############################################################
+# Dashboard tests start
+############################################################
+desc "Run Dashboard Tests"
+task :dashboardTests => [:dashboardPopWidgetTests,
+                         :dashboardK3ViewTests,
+                         :dashboardHSViewTests,
+                         :dashboardUserBasedViewTests,
+                         :dashboardIntegratedTests,
+                         :dashboardLoginTests,
+                         :dashboardStudentProfileTests,
+                         :dashboardAssessmentTests,
+                         :dashboardAttendance,
+                         :dashboardStudentHistoricalDataTests,
+                         :dashboardStudentContactInfoLiveTests,
+                         :dashboardStudentGradebookEntryTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+############################################################
+# Dashboard tests end
+############################################################
+
+############################################################
+# Ingestion tests start
+############################################################
+desc "Run Ingestion Acceptances Tests"
+task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
+                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
+                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
+                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
+                         :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
+                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, :ingestionTenantTest] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+############################################################
+# Ingestion tests start
+############################################################
+
+############################################################
+# Ingestion Offline Tool tests start
+############################################################
+desc "Run Ingestion Offline Tool Acceptances Tests"
+task :ingestionOfflineToolTests => [:ingestionOfflineSimpleTest] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+############################################################
+# Ingestion Offline Tool tests end
+############################################################
 
 ############################################################
 # Integration Tests start
 ############################################################
-
 desc "Run Integration Acceptance Tests"
 task :integrationTests => [:realmInitNoPeople] do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
@@ -207,23 +408,40 @@ task :integrationTests => [:realmInitNoPeople] do
     raise "Tests have failed"
   end
 end
-
 ############################################################
 # Integration Tests end
 ############################################################
 
 ############################################################
-# Cross App Tests start
+# API Sandbox Tests start
 ############################################################
-
-desc "Run cross application testing"
-task :crossAppTests do
-  runTests("test/features/cross_app_tests")
+desc "Run Sandbox mode Tests"
+task :adminSandboxTests do
+  @tags = ["~@wip", "@sandbox"]
+  Rake::Task["adminToolsTests"].invoke
+  Rake::Task["accountApprovalInterfaceTests"].invoke
+  Rake::Task["accountApprovalTests"].invoke
 end
+############################################################
+# API Sandbox Tests end
+############################################################
 
 ############################################################
-# Cross App Tests end
+# SDK Tests start
 ############################################################
+desc "Run JavaSDK acceptance tests"
+task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest] do
+    displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+############################################################
+# SDK Tests end
+############################################################
+
 
 
 

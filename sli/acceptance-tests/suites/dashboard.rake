@@ -1,27 +1,6 @@
 ############################################################
 # Dashboard tests start
 ############################################################
-desc "Run Dashboard Tests"
-task :dashboardTests => [:dashboardPopWidgetTests,
-                         :dashboardK3ViewTests,
-                         :dashboardHSViewTests,
-                         :dashboardUserBasedViewTests,
-                         :dashboardIntegratedTests,
-                         :dashboardLoginTests,
-                         :dashboardStudentProfileTests,
-                         :dashboardAssessmentTests,
-                         :dashboardAttendance,
-                         :dashboardStudentHistoricalDataTests,
-                         :dashboardStudentContactInfoLiveTests,
-                         :dashboardStudentGradebookEntryTests] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
 desc "Run Dashboard population widget Tests"
 task :dashboardPopWidgetTests do
   runTests("test/features/dashboard/dash/population_widget.feature")
@@ -93,32 +72,16 @@ task :dashboardStudentContactInfoLiveTests do
   runTests("test/features/dashboard/dash/contact_info_live.feature")
 end
 
+desc "Run dashboard sad path tests"
+task :dashboardSadPathTests do
+  runTests("test/features/dashboard/dash/dashboard_sad_path.feature")
+end
+
 desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
 task :localDashboardTests do
   Rake::Task["realmInitNoPeople"].invoke
   Rake::Task["importUnifiedData"].invoke
   Rake::Task["dashboardTests"].invoke
-end
-
-desc "Run Dashboard Tests against SDS"
-task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
-                         :dashboardSdsContactInfoTests,
-                         :dashboardSdsLoginTests,
-                         :dashboardSdsHSViewTests,
-                         :dashboardSdsK3ViewTests,
-                         :dashboardSdsPopWidgetTests,
-                         :dashboardSdsStudentProfileTests,
-                         :dashboardSdsUserBasedViewsTests,
-                         :dashboardSdsAttendanceTests,
-                         :dashboardStudentSearchTests,
-                         :dashboardSdsTranscriptPanelTests,
-                         :dashboardSdsUploadConfigTests] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
 end
 
 desc "Run dashboard integration tests"
@@ -134,6 +97,11 @@ end
 desc "Run dashboard integrated Tests - Login Tests"
 task :dashboardSdsLoginTests do
   runTests("test/features/dashboard/dash/dashboard_login_sds.feature")
+end
+
+desc "Run Dashboard URL Validation tests"
+task :dashboardSdsURLValidationTests do
+    runTests("test/features/dashboard/dash/dashboard_url_validation_sds.feature")
 end
 
 desc "Run dashboard integrated Tests - High School View Tests"
@@ -185,7 +153,6 @@ desc "Run dashboard student gradebook entry tests"
 task :dashboardStudentGradebookEntryTests do
   runTests("test/features/dashboard/students/StudentGradebookEntry.feature")
 end
-
 ############################################################
 # Dashboard tests end
 ############################################################

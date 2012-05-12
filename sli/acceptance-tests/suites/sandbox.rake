@@ -1,28 +1,10 @@
 ############################################################
 # API Sandbox Tests start
 ############################################################
-desc "Run Sandbox mode Tests"
-task :adminSandboxTests do
-  @tags = ["~@wip", "@sandbox"]
-  Rake::Task["adminToolsTests"].invoke
-  Rake::Task["accountApprovalInterfaceTests"].invoke
-  Rake::Task["accountApprovalTests"].invoke
-end
-
 desc "Run Sandbox API tests"
 task :apiSandboxTests do
   @tags = ["~@wip", "@sandbox"]
   Rake::Task["securityTests"].invoke
-end
-
-desc "Run all sandbox tests"
-task :sandboxTests => [:apiSandboxTests, :adminSandboxTests] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
 end
 ############################################################
 # API Sandbox Tests end

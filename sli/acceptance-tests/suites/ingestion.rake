@@ -1,21 +1,6 @@
 ############################################################
 # Ingestion tests start
 ############################################################
-desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,
-                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
-                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
-                         :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
-                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, :ingestionTenantTest] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
 desc "Run Common Core Standards Tests"
 task :ingestionCommonCoreTest do
   runTests("test/features/ingestion/features/ingestion_common_core_standards.feature")
@@ -182,19 +167,6 @@ task :ingestionDashboardSadPathTest do
   runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
 end
 
-############################################################
-# Ingestion Offline Tool tests start
-############################################################
-desc "Run Ingestion Offline Tool Acceptances Tests"
-task :ingestionOfflineToolTests => [:ingestionOfflineSimpleTest] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
 desc "Run Ingestion Offline Tool Simple Test"
 task :ingestionOfflineSimpleTest do
   runTests("test/features/ingestion/features/offline_validation.feature")
@@ -204,7 +176,6 @@ desc "Run Tenant Purge Test"
 task :ingestionTenantPurgeTests do
   runTests("test/features/ingestion/features/tenant_purge.feature")
 end
-
 ############################################################
 # Ingestion tests end
 ############################################################

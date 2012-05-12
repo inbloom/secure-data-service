@@ -1,65 +1,9 @@
 ############################################################
 # API V1 tests start
 ############################################################
-desc "Run API V1 acceptance tests"
-task :apiV1Tests => [:apiV1EntityTests,
-                     :apiV1EntitySecurityTests,
-                     :apiV1AssociationTests,
-                     :v1homeUriTests,
-                     :v1ValidationTests,
-                     :v1HierarchyTraversalTests,
-                     :v1DirectReferencesTests,
-                     :v1DirectReferenceCollectionsTests,
-                     :v1CascadeDeletionTests,
-                     :v1EncryptionTests,
-                     :v1SortingAndPagingTests,
-                     :v1ListTests,
-                     :v1TargetTests,
-                     :v1EndUserStoryAssessmentTests,
-                     :v1EndUserStoryCustomEntityTests,
-                     :v1StudentOptionalFieldsTests,
-                     :v1SingleStudentViewTests,
-#                     :v1BlacklistValidationTests,
-                     :v1XMLTests] do
-  displayFailureReport()
-end
-
-
 task :apiV1EntityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud")
-end
-
-task :apiV1EntitySecurityTests do
-  # Import the data once, none of these tests edit the data
-  Rake::Task["importSandboxData"].execute
-
-  Rake::Task["v1ProgramSecurityTests"].execute
-  Rake::Task["v1ParentSecurityTests"].execute
-  Rake::Task["v1AttendanceSecurityTests"].execute
-  Rake::Task["v1CohortSecurityTests"].execute
-  Rake::Task["v1DisciplineActionSecurityTests"].execute
-  Rake::Task["v1DisciplineIncidentSecurityTests"].execute
-end
-
-task :apiV1AssociationTests => [:v1SchoolSessionAssociationTests,
-                                :v1SectionAssessmentAssociationTests,
-                                :v1SessionCourseAssociationTests,
-                                :v1StaffEdOrgAssociationTests,
-                                :v1StaffProgramAssociationTests,
-                                :v1StudentProgramAssociationTests,
-                                :v1StudentAssessmentAssociationTests,
-                                :v1StudentParentAssociationTests,
-                                :v1StudentDisciplineIncidentAssociationTests,
-                                :v1StudentSchoolAssociationTests,
-                                :v1StudentSectionAssociationTests,
-                                :v1StudentTranscriptAssociationTests,
-                                :v1TeacherSchoolAssociationTests,
-                                :v1TeacherSectionAssociationTests,
-                                :v1StaffCohortAssociationTests,
-                                :v1StudentCohortAssociationTests] do
-  # Repair the damage that was done during the tests
-  Rake::Task["importSandboxData"].execute
 end
 
 desc "Run V1 XML Tests"
@@ -390,7 +334,6 @@ desc "Run Account Approval Tests"
 task :accountApprovalTests do
   runTests("test/features/apiV1/end_user_stories/sandbox/AccountApproval/prod_sandbox_AccountApproval.feature")
 end
-
 ############################################################
 # API V1 tests end
 ############################################################
