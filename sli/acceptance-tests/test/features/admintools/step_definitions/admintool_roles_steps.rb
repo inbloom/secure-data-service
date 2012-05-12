@@ -12,30 +12,6 @@ When /^I navigate to the SLI Default Roles Admin Page$/ do
   @driver.get url
 end
 
-Given /^I am authenticated to SLI IDP$/ do
-  @driver.get PropLoader.getProps['admintools_server_url']
-  assertWithWait("Failed to navigate to the SLI IDP to authenticate")  {@driver.find_element(:id, "IDToken1")}
-  @driver.find_element(:id, "IDToken1").send_keys "demo"
-  @driver.find_element(:id, "IDToken2").send_keys "changeit"
-  @driver.find_element(:name, "Login.Submit").click
-  begin
-    @driver.switch_to.alert.accept
-  rescue
-  end
-end
-
-Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
-  @driver.get PropLoader.getProps['admintools_server_url']
-  assertWithWait("Failed to navigate to the SLI IDP to authenticate")  {@driver.find_element(:id, "IDToken1")}
-  @driver.find_element(:id, "IDToken1").send_keys arg1
-  @driver.find_element(:id, "IDToken2").send_keys arg2
-  @driver.find_element(:name, "Login.Submit").click
-  begin
-    @driver.switch_to.alert.accept
-  rescue
-  end
-end
-
 Given /^I am authenticated to SEA\/LEA IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
   url = PropLoader.getProps['sea_idp_server_url']+"/UI/Login"
   @driver.get url
