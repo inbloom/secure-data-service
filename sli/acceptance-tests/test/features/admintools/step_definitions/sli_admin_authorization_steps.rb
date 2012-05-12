@@ -36,7 +36,7 @@ When /^I try to authenticate on the Role Mapping Tool$/ do
 end
 
 And /^I login$/ do
-  step "I get redirected to the IDP login page"
-  step "I authenticate with username \"#@user\" and password \"#@pass\""
+  step "I was redirected to the \"Simple\" IDP Login page"
+  step "I submit the credentials \"#@user\" \"#@pass\" for the \"Simple\" login page"
 end
 

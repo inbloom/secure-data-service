@@ -5,7 +5,7 @@ Background:
   Given I have an open web browser
    When I hit the realm editing URL
   And I was redirected to the "Simple" IDP Login page
-  And I submit the credentials "fakerealmadmin2" "fakerealmadmin21234" for the "Simple" login page
+  And I submit the credentials "fakerealmadmin" "fakerealmadmin1234" for the "Simple" login page
 
 Scenario: Realm administrator editing an existing realm
     And I should see that I am on the "Fake Realm" edit page
