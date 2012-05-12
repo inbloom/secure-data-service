@@ -4,6 +4,8 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.slc.sli.web.util.NoBadChars;
+
 
 /**
  * Collection of Config objects for custom config store
@@ -12,6 +14,7 @@ import javax.validation.Valid;
  */
 public class ConfigMap {
     @Valid
+    @NoBadChars(depth = 1)
     private Map<String, Config> config;
 
     public Map<String, Config> getConfig() {

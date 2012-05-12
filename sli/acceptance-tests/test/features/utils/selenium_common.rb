@@ -3,10 +3,10 @@ def webdriverDebugMessage(driver, message="Webdriver could not achieve expected 
 end
 
 Given /^I have an open web browser$/ do
-  profile = Selenium::WebDriver::Firefox::Profile.new
-  profile['network.http.prompt-temp-redirect'] = false
-  @driver = Selenium::WebDriver.for :firefox, :profile => profile
-  @driver.manage.timeouts.implicit_wait = 4 # seconds
+  @profile ||= Selenium::WebDriver::Firefox::Profile.new
+  @profile['network.http.prompt-temp-redirect'] = false
+  @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile
+  @driver.manage.timeouts.implicit_wait = 10 # seconds
 end
 
 When /^I wait for a second$/ do
@@ -37,7 +37,7 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
 end
 
 After do |scenario| 
-  #puts "Running the After hook for Scenario: #{scenario}"
+  #puts "Running the After hook for Scenario: #{scenario}"s
   @driver.quit if @driver
 end
 

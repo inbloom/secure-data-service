@@ -38,7 +38,6 @@ class RealmsController < ApplicationController
   # # PUT /realms/1
    def update
      @realm = Realm.find(params[:id])
-
      params[:realm] = {} if params[:realm] == nil
      params[:realm][:mappings] = params[:mappings] if params[:mappings] != nil
      respond_to do |format|
@@ -101,9 +100,10 @@ private
   # Uses the /role api to get the list of roles
   def get_roles()
     roles = Role.all
+
     toReturn = []
     roles.each do |role|
-      toReturn.push role.name unless role.name == "SLI Administrator"
+      toReturn.push role.name unless role.admin
     end
     toReturn
   end
