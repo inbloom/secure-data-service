@@ -27,6 +27,8 @@ cd ${SLI_ROOT}/acceptance-tests
 
 export MAVEN_OPTS="-XX:PermSize=256m -XX:MaxPermSize=1024m -Dsli.conf=${SLI_ROOT}/config/properties/sli.properties -Dsli.env=local -Dsli.encryption.keyStore=${SLI_ROOT}/data-access/dal/keyStore/localKeyStore.jks"
 
+export BUNDLE_GEMFILE=Gemfile
+
 echo 'Running acceptance tests...'
 mkdir -p target/logs
 
