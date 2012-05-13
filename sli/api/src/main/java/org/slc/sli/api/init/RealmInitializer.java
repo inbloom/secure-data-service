@@ -106,8 +106,8 @@ public class RealmInitializer {
     private List getFields() {
         List toReturn = new ArrayList();
         toReturn.add(createField("roles", "(.+)"));
-        toReturn.add(createField("Tenant", "(.+)"));
-        toReturn.add(createField("EdOrg", "(.+)"));
+        toReturn.add(createField("tenant", "(.+)"));
+        toReturn.add(createField("edOrg", "(.+)"));
         toReturn.add(createField("userId", "(.+)"));
         toReturn.add(createField("userName", "(.+)"));
         return toReturn;

@@ -169,9 +169,9 @@ public class SamlFederationResource {
         principal.setName(attributes.getFirst("userName"));
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
-        principal.setEdOrg(attributes.getFirst("EdOrg"));
-        principal.setAdminRealm(attributes.getFirst("EdOrg"));
-        principal.setTenantId(attributes.getFirst("Tenant"));
+        principal.setEdOrg(attributes.getFirst("edOrg"));
+        principal.setAdminRealm(attributes.getFirst("edOrg"));
+        principal.setTenantId(attributes.getFirst("tenant"));
 
         // {sessionId,redirectURI}
         Pair<String, URI> tuple = this.sessionManager.composeRedirect(inResponseTo, principal);
