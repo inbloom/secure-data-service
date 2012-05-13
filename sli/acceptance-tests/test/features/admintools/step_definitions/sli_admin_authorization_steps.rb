@@ -10,8 +10,8 @@ Given /^I am a valid SLC Operator$/ do
 end
 
 Given /^I am a valid Super Administrator$/ do
-  @user = 'sunsetadmin' # a :super_admin
-  @pass = 'sunsetadmin1234'
+  @user = 'daybreaknorealmadmin' # a :super_admin
+  @pass = 'daybreaknorealmadmin1234'
 end
 
 When /^I try to authenticate on the Application Approval Tool$/ do
