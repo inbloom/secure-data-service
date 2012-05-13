@@ -1,4 +1,3 @@
-
 package org.slc.sli.ingestion.dal;
 
 import com.mongodb.BasicDBObject;
@@ -18,38 +17,37 @@ import org.slc.sli.ingestion.model.Error;
 
 public class ErrorWriteConverter implements Converter<Error, DBObject> {
 
+    private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordWriteConverter.class);
 
-	private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordWriteConverter.class);
+    // private EntityEncryption encryptor;
+    // @Autowired
+    EntityEncryption encryptor;
 
-	// private EntityEncryption encryptor;
-	// @Autowired
-	EntityEncryption encryptor;
+    @Override
+    public DBObject convert(Error error) {
 
-	@Override
-	public DBObject convert(Error error) {
+        String errorDetail;
 
-		String errorDetail;
+        BasicDBObject dbObj = new BasicDBObject();
+        dbObj.put("_class", error.getClass().getName());
+        dbObj.put("batchJobId", error.getBatchJobId());
+        dbObj.put("stageName", error.getStageName());
+        dbObj.put("resourceId", error.getResourceId());
+        dbObj.put("sourceIp", error.getSourceIp());
+        dbObj.put("hostname", error.getHostname());
+        dbObj.put("timestamp", error.getTimestamp());
+        dbObj.put("severity", error.getSeverity());
+        dbObj.put("errorDetail", encryptor.encryptSingleValue(error.getErrorDetail()));
+        return dbObj;
 
-		BasicDBObject dbObj = new BasicDBObject();
-		dbObj.put("_class", error.getClass().getName());
-		dbObj.put("batchJobId", error.getBatchJobId());
-		dbObj.put("stageName", error.getStageName());
-		dbObj.put("resourceId", error.getResourceId());
-		dbObj.put("sourceIp", error.getSourceIp());
-		dbObj.put("hostname", error.getHostname());
-		dbObj.put("timestamp", error.getTimestamp());
-		dbObj.put("severity", error.getSeverity());
-		dbObj.put("errorDetail",encryptor.encryptSingleValue(error.getErrorDetail()));
-		return dbObj;
+    }
 
-	}
+    public EntityEncryption getEncryptor() {
+        return encryptor;
+    }
 
-	public EntityEncryption getEncryptor() {
-		return encryptor;
-	}
-
-	public void setEncryptor(EntityEncryption encryptor) {
-		this.encryptor = encryptor;
-	}
+    public void setEncryptor(EntityEncryption encryptor) {
+        this.encryptor = encryptor;
+    }
 
 }
