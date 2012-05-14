@@ -19,6 +19,7 @@ module UserAccountRegistrationsHelper
       res = RestClient.get(URL+"?userName="+user_account_registration.email+"&environment="+currEnvironment, URL_HEADER){|response, request, result| response }
 
         if (res.code==200)
+            puts("#{res.body}")
             jsonDocument = JSON.parse(res.body)
             puts("***********CHECK API_RESPONSE***********#{jsonDocument}")
             if(jsonDocument[INDEX].nil?)
@@ -31,8 +32,9 @@ module UserAccountRegistrationsHelper
                 return persist_record(false,user_account_registration,jsonDocument[INDEX]["id"])
             end
         else
-            puts("new user")
-            return persist_record(true,user_account_registration)
+          @apiResponse["error"]="Error occurred while storing record"
+          @apiResponse["redirect"]=false
+          return @apiResponse
         end
       
   end
@@ -54,10 +56,11 @@ module UserAccountRegistrationsHelper
         success=false
         if isPost == true
             commitResult= RestClient.post(URL,post_data.to_json,URL_HEADER){|response, request, result| response }
-            puts("#{commitResult}")
+            puts("#{commitResult.code}")
             if commitResult.code ==201
             	success=true
             	headers = commitResult.raw_headers
+              puts("#{headers}")
             	s = headers['location'][0]
             	@apiResponse["guuid"]= s[s.rindex('/')+1..-1]
             end

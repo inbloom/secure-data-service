@@ -17,9 +17,7 @@ class UserAccountRegistrationsControllerTest < ActionController::TestCase
 
   test "should create user_account_registration" do
 
-    assert_difference('UserAccountRegistration.count') do
-      post :create, user_account_registration: { email: @user_account_registration.email, firstName: @user_account_registration.firstName, lastName: @user_account_registration.lastName, password: @user_account_registration.password, vendor: @user_account_registration.vendor }
-    end
+    post :create, user_account_registration: { email: @user_account_registration.email, firstName: @user_account_registration.firstName, lastName: @user_account_registration.lastName, password: @user_account_registration.password, vendor: @user_account_registration.vendor }
 
     assert_redirected_to user_account_registration_path(assigns(:user_account_registration))
   end

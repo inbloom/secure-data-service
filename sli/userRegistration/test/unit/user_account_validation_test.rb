@@ -76,20 +76,4 @@ class UserAccountValidationTest < ActiveSupport::TestCase
   end
 end
 
-class MockResponse
-  @responseCode
-  @validation
-  
-  def initialize(newCode,newValidation=true)
-    @responseCode = newCode
-    @validation = newValidation
-  end
-  
-  def body
-    return "[{\"validated\":#{@validation}, \"id\":\"1234567890\"}]"
-  end
-   
-  def code
-    return @responseCode
-  end
-end
+
