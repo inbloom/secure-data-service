@@ -61,8 +61,8 @@ public class FreeMarkerExtendedReferenceResolverTest {
 
     @Test
     public void testResolution() throws IOException, SAXException {
-        final File input = IngestionTest.getFile("idRefResolutionData/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_input.xml");
-        final File expected = IngestionTest.getFile("idRefResolutionData/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_expected.xml");
+        final File input = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_input.xml");
+        final File expected = IngestionTest.getFile("idRefResolutionData/AssessmentFamilyReference/InterchangeAssessmentMetadataAssessmentAssessmentFamilyReference_expected.xml");
 
         Map<String, String> config = new HashMap<String, String>();
         config.put("/InterchangeStudentAssessment/StudentAssessment/AssessmentReference", "idRefResolution/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference.ftl");
