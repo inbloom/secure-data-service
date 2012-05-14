@@ -101,7 +101,7 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 	
 	if(options === null || options === undefined || options.length == 0) {
 		//select += "<li class=\"selected\"><a href=\"#\">There is no data available for your request.  Please contact your IT administrator.</a></li>";
-                DashboardUtil.displayErrorMessage("There is no data available for your request.  Please contact your IT administrator");
+                DashboardUtil.displayErrorMessage("There is no data available for your request.  Please contact your IT administrator.");
 	} else {
 	    	if (options.length == 1 && autoSelect) {
 			autoSelectOption = 0;
@@ -736,11 +736,15 @@ DashboardUtil.displayErrorMessage = function (error){
     var errors = document.getElementById("losError");
     errors.style.display = "block";
     errors.innerHTML = error;
+    var tabs = document.getElementById("tabs");
+    tabs.style.display = "none";
 }
 
 DashboardUtil.hideErrorMessage = function ( ){
     var errors = document.getElementById("losError");
     errors.style.display = "none";
+    var tabs = document.getElementById("tabs");
+    tabs.style.display = "block";
 }
 
 DashboardUtil.teardrop = {
