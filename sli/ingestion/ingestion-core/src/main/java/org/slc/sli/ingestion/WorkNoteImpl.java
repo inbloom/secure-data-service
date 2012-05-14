@@ -7,14 +7,15 @@ import java.io.Serializable;
  *
  * @author shalka
  */
-public class WorkNoteImpl implements WorkNote, Serializable {
+public final class WorkNoteImpl implements WorkNote, Serializable {
 
     private static final long serialVersionUID = 7526472295622776147L;
 
     private final String batchJobId;
     private final IngestionStagedEntity ingestionStagedEntity;
-    private final long rangeMinimum;
-    private final long rangeMaximum;
+    private final int rangeMinimum;
+    private final int rangeMaximum;
+    private final int batchSize;
 
     /**
      * Default constructor for the WorkOrder class.
@@ -24,11 +25,39 @@ public class WorkNoteImpl implements WorkNote, Serializable {
      * @param minimum
      * @param maximum
      */
-    public WorkNoteImpl(String batchJobId, IngestionStagedEntity ingestionStagedEntity, long minimum, long maximum) {
+    private WorkNoteImpl(String batchJobId, IngestionStagedEntity ingestionStagedEntity, int minimum, int maximum,
+            int batchSize) {
         this.batchJobId = batchJobId;
         this.ingestionStagedEntity = ingestionStagedEntity;
         this.rangeMinimum = minimum;
         this.rangeMaximum = maximum;
+        this.batchSize = batchSize;
+    }
+
+    /**
+     * Create a simple WorkNote, note part of any batch.
+     *
+     * @param batchJobId
+     * @param ingestionStagedEntity
+     * @return
+     */
+    public static WorkNoteImpl createSimpleWorkNote(String batchJobId) {
+        return new WorkNoteImpl(batchJobId, null, 0, 0, 0);
+    }
+
+    /**
+     * Create a WorkNote that is a part of a batch of WorkNotes.
+     *
+     * @param batchJobId
+     * @param ingestionStagedEntity
+     * @param maximum
+     * @param minimum
+     * @param batchSize
+     * @return
+     */
+    public static WorkNoteImpl createBatchedWorkNote(String batchJobId, IngestionStagedEntity ingestionStagedEntity,
+            int minimum, int maximum, int batchSize) {
+        return new WorkNoteImpl(batchJobId, ingestionStagedEntity, minimum, maximum, batchSize);
     }
 
     /**
@@ -57,7 +86,7 @@ public class WorkNoteImpl implements WorkNote, Serializable {
      * @return minimum index value.
      */
     @Override
-    public long getRangeMinimum() {
+    public int getRangeMinimum() {
         return rangeMinimum;
     }
 
@@ -67,14 +96,70 @@ public class WorkNoteImpl implements WorkNote, Serializable {
      * @return maximum index value.
      */
     @Override
-    public long getRangeMaximum() {
+    public int getRangeMaximum() {
         return rangeMaximum;
+    }
+
+    @Override
+    public int getBatchSize() {
+        return batchSize;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((batchJobId == null) ? 0 : batchJobId.hashCode());
+        result = prime * result + batchSize;
+        result = prime * result + ((ingestionStagedEntity == null) ? 0 : ingestionStagedEntity.hashCode());
+        result = prime * result + rangeMaximum;
+        result = prime * result + rangeMinimum;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        WorkNoteImpl other = (WorkNoteImpl) obj;
+        if (batchJobId == null) {
+            if (other.batchJobId != null) {
+                return false;
+            }
+        } else if (!batchJobId.equals(other.batchJobId)) {
+            return false;
+        }
+        if (batchSize != other.batchSize) {
+            return false;
+        }
+        if (ingestionStagedEntity == null) {
+            if (other.ingestionStagedEntity != null) {
+                return false;
+            }
+        } else if (!ingestionStagedEntity.equals(other.ingestionStagedEntity)) {
+            return false;
+        }
+        if (rangeMaximum != other.rangeMaximum) {
+            return false;
+        }
+        if (rangeMinimum != other.rangeMinimum) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
         return "WorkNoteImpl [batchJobId=" + batchJobId + ", ingestionStagedEntity=" + ingestionStagedEntity
-                + ", rangeMinimum=" + rangeMinimum + ", rangeMaximum=" + rangeMaximum + "]";
+                + ", rangeMinimum=" + rangeMinimum + ", rangeMaximum=" + rangeMaximum + ", batchSize=" + batchSize
+                + "]";
     }
 
 }
