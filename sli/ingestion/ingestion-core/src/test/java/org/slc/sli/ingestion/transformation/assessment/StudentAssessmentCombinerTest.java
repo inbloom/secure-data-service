@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.transformation.assessment;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
@@ -115,15 +116,36 @@ public class StudentAssessmentCombinerTest {
                                 buildSOANeutralRecord(AssessmentCombinerTest.OBJ2_ID, "sa2")));
         when(job.getId()).thenReturn(batchJobId);
         when(job.getFiles()).thenReturn(Arrays.asList(fe));
+
+
+        NeutralRecord assessmentItem = buildAssessmentItem("item-id");
+        NeutralRecord sai = buildStudentAssessmentItem("item-id", "sa1");
+
+        Map<String, String> paths = new HashMap<String, String>();
+        paths.put("localParentIds.studentTestResultRef", "sa1");
+        when(repository.findByPathsForJob("studentAssessmentItem", paths, batchJobId)).thenReturn(Arrays.asList(sai));
+
+        Map<String, String> paths2 = new HashMap<String, String>();
+        paths2.put("body.identificationCode", "item-id");
+        when(repository.findByPathsForJob("assessmentItem", paths2, batchJobId)).thenReturn(
+                Arrays.asList(assessmentItem));
     }
 
     @Test
     public void testStudentObjectiveAssessment() throws IOException {
         Collection<NeutralRecord> sas = AssessmentCombinerTest.getTransformedEntities(saCombiner, job, fe);
+        boolean foundSai = false;
         for (NeutralRecord record : sas) {
             assertEquals(2, ((Collection<?>) record.getAttributes().get("studentObjectiveAssessments")).size());
+            if (record.getAttributes().containsKey(StudentAssessmentCombiner.STUDENT_ASSESSMENT_ITEMS_FIELD)) {
+                foundSai = true;
+                List<Map<String, Object>> saItems = (List<Map<String, Object>>) record.getAttributes().get(StudentAssessmentCombiner.STUDENT_ASSESSMENT_ITEMS_FIELD);
+                assertEquals(1, saItems.size());
+
+            }
         }
         assertEquals(2, sas.size());
+        assertTrue(foundSai);
     }
 
     @SuppressWarnings("unchecked")
@@ -192,6 +214,22 @@ public class StudentAssessmentCombinerTest {
         soa.setAttributeField("sTAReference", saRef);
         soa.setAttributeField("oAReference", oaRef);
         return soa;
+    }
+
+    private NeutralRecord buildAssessmentItem(String id) {
+        NeutralRecord rec = new NeutralRecord();
+        rec.setRecordType("assessmentItem");
+        rec.setAttributeField("identificationCode", id);
+        return rec;
+    }
+
+    private NeutralRecord buildStudentAssessmentItem(String assessmentItemId, String studentAssessmentId) {
+        NeutralRecord rec = new NeutralRecord();
+        rec.setRecordType("studentAssessmentItem");
+        rec.setAttributeField("assessmentResponse", "response");
+        rec.getLocalParentIds().put("assessmentItemIdentificatonCode", assessmentItemId);
+        rec.getLocalParentIds().put("studentTestResultRef", studentAssessmentId);
+        return rec;
     }
 
 }

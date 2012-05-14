@@ -64,7 +64,6 @@ public class EntityResourcesCrudTest {
 
     private String[] classesNotToTest = {
             "ReportCardResource",
-            "StudentCompetencyResource",
             "StudentCompetencyObjectiveResource",
             "CompetencyLevelDescriptorResource",
             "CompetencyLevelDescriptorTypeResource",

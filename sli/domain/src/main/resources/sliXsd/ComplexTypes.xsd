@@ -3033,6 +3033,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="assessmentItem" type="assessmentItem">
+            	<xs:annotation>
+                    <xs:documentation>The AssessmentItem to which this studentAssessmentItem is a response to.
+	                </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 

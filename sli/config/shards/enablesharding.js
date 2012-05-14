@@ -1,0 +1,16 @@
+db.runCommand( { enablesharding : "sli" } );
+db.runCommand( { shardcollection : "sli.attendance", key : {_id : 1} } );
+db.runCommand( { shardcollection : "sli.assessment", key : {_id : 1} } );
+db.runCommand( { shardcollection : "sli.studentAssessmentAssociation", key : {_id : 1} } );
+db.runCommand( { shardcollection : "sli.studentSectionAssociation", key : {_id : 1} } );
+db.runCommand( { shardcollection : "sli.student", key : {_id : 1} } );
+db.runCommand( { shardcollection : "sli.parent", key : {_id : 1} } );
+db.runCommand( { shardcollection : "sli.studentParentAssociation", key : {_id : 1} } );
+db.runCommand( { shardcollection : "sli.disciplineIncident", key : {_id : 1} } );
+db.runCommand( { shardcollection : "sli.disciplineAction", key : {_id : 1} } );
+db.runCommand( { shardcollection : "sli.studentDisciplineIncidentAssociation", key : {_id : 1} } );
+db.runCommand( { shardcollection : "sli.studentSchoolAssociation", key : {_id : 1} } );
+db.runCommand( { shardcollection : "sli.studentSectionAssociation", key : {_id : 1} } );
+db.runCommand( { shardcollection : "sli.studentProgramAssociation", key : {_id : 1} } );
+db.runCommand( { shardcollection : "sli.studentAcademicRecord", key : {_id : 1} } );
+db.runCommand( { shardcollection : "sli.studentTranscriptAssociation", key : {_id : 1} } );

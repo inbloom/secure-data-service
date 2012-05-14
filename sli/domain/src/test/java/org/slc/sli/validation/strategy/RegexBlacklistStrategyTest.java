@@ -1,13 +1,13 @@
 package org.slc.sli.validation.strategy;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.owasp.esapi.errors.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -27,31 +27,16 @@ public class RegexBlacklistStrategyTest {
     private AbstractBlacklistStrategy regexBlacklistStrategy;
 
     @Test
-    public void testSpringGetValid() {
+    public void testSpringIsValid() {
         List<String> badStringList = createBadStringList();
-        for (String s : badStringList) {
-            String input = PREFIX + s + SUFFIX;
-            try {
-                regexBlacklistStrategy.getValid("RegexBlacklistStrategyTest", input);
-                fail("Invalid string passed validation: " + s);
-            } catch (ValidationException e) {
-                continue;
-            }
-        }
+        runTestLoop(badStringList, regexBlacklistStrategy, false);
 
         List<String> goodStringList = createGoodStringList();
-        for (String s : goodStringList) {
-            String input = PREFIX + s + SUFFIX;
-            try {
-                regexBlacklistStrategy.getValid("RegexBlacklistStrategyTest", input);
-            } catch (ValidationException e) {
-                fail("Valid string did not pass validation" + s);
-            }
-        }
+        runTestLoop(goodStringList, regexBlacklistStrategy, true);
     }
 
     @Test
-    public void testGetValid() {
+    public void testIsValid() {
         AbstractBlacklistStrategy strategy = new RegexBlacklistStrategy();
         List<String> badRegexStringList = createBadRegexStringList();
 
@@ -59,23 +44,20 @@ public class RegexBlacklistStrategyTest {
         strategy.init();
 
         List<String> badStringList = createBadStringList();
-        for (String s : badStringList) {
-            String input = PREFIX + s + SUFFIX;
-            try {
-                strategy.getValid("RegexBlacklistStrategyTest", input);
-                fail("Invalid string passed validation: " + s);
-            } catch (ValidationException e) {
-                continue;
-            }
-        }
+        runTestLoop(badStringList, strategy, false);
 
         List<String> goodStringList = createGoodStringList();
-        for (String s : goodStringList) {
+        runTestLoop(goodStringList, strategy, true);
+    }
+
+    private void runTestLoop(List<String> inputList, AbstractBlacklistStrategy strategy, boolean shouldPass) {
+        for (String s : inputList) {
             String input = PREFIX + s + SUFFIX;
-            try {
-                strategy.getValid("RegexBlacklistStrategyTest", input);
-            } catch (ValidationException e) {
-                fail("Valid string did not pass validation" + s);
+            boolean isValid = strategy.isValid("CharacterBlacklistStrategyTest", input);
+            if (shouldPass) {
+                assertTrue("Valid string did not pass validation: " + s, isValid);
+            } else {
+                assertFalse("Invalid string passed validation: " + s, isValid);
             }
         }
     }
