@@ -109,7 +109,7 @@ module ApprovalEngine
 				raise "Unknown state transition #{status} => #{target[transition]}."
 		end
     
-    if !@@is_sandbox && (target[transition] == STATE_APPROVED)
+    if !@@is_sandbox && (user[:status] == STATE_APPROVED)
       email = {
         :email_addr => user[:email],
         :name       => "#{user[:first]} #{user[:last]}",
