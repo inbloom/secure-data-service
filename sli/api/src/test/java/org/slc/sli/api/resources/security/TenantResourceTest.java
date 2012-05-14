@@ -3,6 +3,7 @@ package org.slc.sli.api.resources.security;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -33,7 +34,9 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.ResourceConstants;
 
 /**
  * Unit tests for the resource representing a tenant
@@ -90,7 +93,7 @@ public class TenantResourceTest {
         return entity;
     }
 
-/*    private Map<String, Object> createTestAppendEntity() {
+    private Map<String, Object> createTestAppendEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(TenantResourceImpl.TENANT_ID, TENANT_1);
         Map<String, Object> landingZone = new HashMap<String, Object>();
@@ -117,7 +120,7 @@ public class TenantResourceTest {
         entity.put(TenantResourceImpl.LZ, landingZones);
         return entity;
     }
-*/
+
     private Map<String, Object> createTestSecondaryEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(TenantResourceImpl.TENANT_ID, TENANT_3);
@@ -141,7 +144,7 @@ public class TenantResourceTest {
         assertNotNull("ID should not be null", id);
     }
 
-/*    @Test
+    @Test
     public void testCreateAppends() {
         Response response = tenantResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
@@ -165,8 +168,8 @@ public class TenantResourceTest {
         List<Map<String, Object>> landingZones = (List<Map<String, Object>>) body.get(TenantResourceImpl.LZ);
         assertEquals("Should have 2 landing zones", 2, landingZones.size());
     }
-*/
-/*    @Test
+
+    @Test
     public void testRead() {
         //create one entity
         Response createResponse = tenantResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
@@ -192,8 +195,8 @@ public class TenantResourceTest {
             fail("Response entity not recognized: " + response);
         }
     }
-*/
-/*    @Test
+
+    @Test
     public void testDelete() {
         //create one entity
         Response createResponse = tenantResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
@@ -213,8 +216,8 @@ public class TenantResourceTest {
             fail("threw wrong exception: " + e);
         }
     }
-*/
-/*    @Test
+
+    @Test
     public void testUpdate() {
         //create one entity
         Response createResponse = tenantResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
@@ -233,7 +236,7 @@ public class TenantResourceTest {
         assertEquals(TenantResourceImpl.TENANT_ID + " should be " + TENANT_2, body.get(TenantResourceImpl.TENANT_ID), TENANT_2);
         assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
     }
-*/
+
     @Test
     public void testReadAll() {
         //create two entities
@@ -251,7 +254,7 @@ public class TenantResourceTest {
         assertTrue("Should have at least two entities", results.size() >= 2);
     }
 
-/*    @Test
+    @Test
     public void testReadCommaSeparatedResources() {
         Response response = tenantResource.read(getIDList("tenants"), httpHeaders, uriInfo);
         assertEquals("Status code should be 200", Status.OK.getStatusCode(), response.getStatus());
@@ -271,7 +274,7 @@ public class TenantResourceTest {
         assertEquals(TenantResourceImpl.TENANT_ID + " should be " + TENANT_3, body2.get(TenantResourceImpl.TENANT_ID), TENANT_3);
         assertNotNull("Should include links", body2.get(ResourceConstants.LINKS));
     }
-*/
+
     private String getIDList(String resource) {
         //create more resources
         Response createResponse1 = tenantResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);

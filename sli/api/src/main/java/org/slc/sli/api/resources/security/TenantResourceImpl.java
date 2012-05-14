@@ -90,6 +90,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     }
 
     @POST
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public Response create(EntityBody newTenant, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
@@ -97,10 +98,10 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             body.put("message", "You are not authorized to provision tenants or landing zones.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-
-
-        // look up the tenantId; if it exists, add new LZs here to the existing list; otherwise, create
-
+        
+        // look up the tenantId; if it exists, add new LZs here to the existing list; otherwise,
+        // create
+        
         // Create the query
         if (!newTenant.containsKey(LZ) || !newTenant.containsKey(TENANT_ID)) {
             EntityBody body = new EntityBody();
@@ -110,7 +111,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         }
 
         String existingTenantId = createLandingZone(newTenant);
-        
+
         if (null != existingTenantId) {
             // Construct the response
             String uri = ResourceUtil.getURI(uriInfo, "tenants", existingTenantId).toString();
@@ -123,7 +124,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected String createLandingZone(EntityBody newTenant) {
         EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
-
+        
         String tenantId = (String) newTenant.get(TENANT_ID);
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(TENANT_ID, "=", tenantId));
@@ -147,31 +148,30 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         }
         // If no tenant already exist, create
         if (existingIds.size() == 0) {
-            tenantService.create(newTenant);
-            return tenantId;
-        }
-        // If more than exists, something is wrong
-        if (existingIds.size() > 1) {
-            throw new RuntimeException("Internal error: multiple tenant entry with identical IDs");
+            return tenantService.create(newTenant);
         }
 
         String existingTenantId = existingIds.get(0);
-        // combine lzs from existing tenant and new tenant entry, overwriting with values of new tenant entry if there is conflict.
+        // combine lzs from existing tenant and new tenant entry, overwriting with values of new
+        // tenant entry if there is conflict.
         TreeSet allLandingZones = new TreeSet(new Comparator<Object>() {
             @Override
             public int compare(Object o1, Object o2) {
                 Map<String, Object> lz1 = (Map<String, Object>) o1;
                 Map<String, Object> lz2 = (Map<String, Object>) o2;
-                if (!lz1.containsKey(LZ_EDUCATION_ORGANIZATION) || !(lz1.get(LZ_EDUCATION_ORGANIZATION) instanceof String)) {
+                if (!lz1.containsKey(LZ_EDUCATION_ORGANIZATION)
+                        || !(lz1.get(LZ_EDUCATION_ORGANIZATION) instanceof String)) {
                     throw new RuntimeException("Badly formed tenant entry: " + lz1.toString());
                 }
-                if (!lz2.containsKey(LZ_EDUCATION_ORGANIZATION) || !(lz2.get(LZ_EDUCATION_ORGANIZATION) instanceof String)) {
+                if (!lz2.containsKey(LZ_EDUCATION_ORGANIZATION)
+                        || !(lz2.get(LZ_EDUCATION_ORGANIZATION) instanceof String)) {
                     throw new RuntimeException("Badly formed tenant entry: " + lz2.toString());
                 }
-                return ((String) lz1.get(LZ_EDUCATION_ORGANIZATION)).compareTo((String) lz2.get(LZ_EDUCATION_ORGANIZATION));
+                return ((String) lz1.get(LZ_EDUCATION_ORGANIZATION)).compareTo((String) lz2
+                        .get(LZ_EDUCATION_ORGANIZATION));
             }
         });
-
+        
         Set<Map<String, Object>> all = (Set<Map<String, Object>>) allLandingZones; 
         for (Map<String, Object> lz : all) {
             if (lz.get(LZ_EDUCATION_ORGANIZATION).equals(newEdOrg))
@@ -181,13 +181,13 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         EntityBody existingBody = tenantService.get(existingTenantId);
         List existingLandingZones = (List) existingBody.get(LZ);
         allLandingZones.addAll(existingLandingZones);
-        
         List newLandingZones = (List) newTenant.get(LZ);
         allLandingZones.addAll(newLandingZones);
 
         existingBody.put(LZ, new ArrayList(allLandingZones));
         tenantService.update(existingTenantId, existingBody);
-        return tenantId;
+
+        return existingTenantId;
     }
 
     private String randomIngestionServer() {
