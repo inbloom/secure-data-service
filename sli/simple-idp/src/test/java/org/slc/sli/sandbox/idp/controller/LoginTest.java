@@ -169,7 +169,7 @@ public class LoginTest {
         @SuppressWarnings("unchecked")
         Map<String, String> attributes = Mockito.mock(HashMap.class);
         Mockito.when(attributes.get("userName")).thenReturn("Test Name");
-        Mockito.when(attributes.get("Tenant")).thenReturn("myTenant");
+        Mockito.when(attributes.get("tenant")).thenReturn("myTenant");
         
         List<String> roles = Arrays.asList("role1", "role2");
         UserService.User user = new User("userId", roles, attributes);
@@ -184,7 +184,7 @@ public class LoginTest {
         ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "", "impersonate", roles,
                 httpSession, null);
         Mockito.verify(attributes, Mockito.times(1)).clear();
-        Mockito.verify(attributes, Mockito.times(1)).put("Tenant", "myTenant");
+        Mockito.verify(attributes, Mockito.times(1)).put("tenant", "myTenant");
 
         assertEquals("SAMLResponse", ((SamlAssertion) mov.getModel().get("samlAssertion")).getSamlResponse());
         assertEquals("post", mov.getViewName());
