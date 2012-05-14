@@ -1,6 +1,7 @@
 package org.slc.sli.validation.strategy;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,7 +9,6 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.owasp.esapi.errors.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -28,33 +28,17 @@ public class CharacterBlacklistStrategyTest {
     private AbstractBlacklistStrategy characterBlacklistStrategy;
 
     @Test
-    public void testSpringGetValid() {
+    public void testSpringIsValid() {
         List<Character> springBadCharList = createSpringBadCharacterList();
-        for (Character c : springBadCharList) {
-            String input = PREFIX + c + SUFFIX;
-            try {
-                characterBlacklistStrategy.getValid("CharacterBlacklistStrategyTest", input);
-                fail("Invalid character passed validation");
-            } catch (ValidationException e) {
-                continue;
-            }
-        }
+        runTestLoop(springBadCharList, characterBlacklistStrategy, false);
 
         List<String> goodStringList = createGoodStringList();
         List<Character> goodCharList = createCharacterListFromStringList(goodStringList);
-
-        for (Character c : goodCharList) {
-            String input = PREFIX + c + SUFFIX;
-            try {
-                characterBlacklistStrategy.getValid("CharacterBlacklistStrategyTest", input);
-            } catch (ValidationException e) {
-                fail("Valid character did not pass validation" + c);
-            }
-        }
+        runTestLoop(goodCharList, characterBlacklistStrategy, true);
     }
 
     @Test
-    public void testGetValid() {
+    public void testIsValid() {
         AbstractBlacklistStrategy strategy = new CharacterBlacklistStrategy();
         List<String> badStringList = createBadStringList();
         List<Character> badCharList = createCharacterListFromStringList(badStringList);
@@ -62,25 +46,22 @@ public class CharacterBlacklistStrategyTest {
         strategy.setInputCollection(badStringList);
         strategy.init();
 
-        for (Character c : badCharList) {
-            String input = PREFIX + c + SUFFIX;
-            try {
-                strategy.getValid("CharacterBlacklistStrategyTest", input);
-                fail("Invalid character passed validation");
-            } catch (ValidationException e) {
-                continue;
-            }
-        }
+        runTestLoop(badCharList, strategy, false);
 
         List<String> goodStringList = createGoodStringList();
         List<Character> goodCharList = createCharacterListFromStringList(goodStringList);
 
-        for (Character c : goodCharList) {
+        runTestLoop(goodCharList, strategy, true);
+    }
+
+    private void runTestLoop(List<Character> inputList, AbstractBlacklistStrategy strategy, boolean shouldPass) {
+        for (Character c : inputList) {
             String input = PREFIX + c + SUFFIX;
-            try {
-                characterBlacklistStrategy.getValid("CharacterBlacklistStrategyTest", input);
-            } catch (ValidationException e) {
-                fail("Valid character did not pass validation" + c);
+            boolean isValid = strategy.isValid("CharacterBlacklistStrategyTest", input);
+            if (shouldPass) {
+                assertTrue("Valid character did not pass validation: " + c, isValid);
+            } else {
+                assertFalse("Invalid character passed validation", isValid);
             }
         }
     }
@@ -171,6 +152,10 @@ public class CharacterBlacklistStrategyTest {
         stringList.add("\\u003C");
         stringList.add("\\u003E");
 
+        // single character test cases
+        stringList.add("!");
+        stringList.add("_");
+        stringList.add("~");
         return stringList;
     }
 
