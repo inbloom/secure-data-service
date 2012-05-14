@@ -238,7 +238,7 @@ public class AuthController {
 
         // {messageId,encodedSAML}
         int idpType = 1;
-        if(idpId.equals("SLIIDP")){
+        if (idpId.equals("SLIIDP")) {
             idpType = 4; //Siteminder
         }
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint, forceAuthn, idpType);

@@ -225,12 +225,12 @@ public class ApplicationAuthorizationResource {
         }
 
         Set<Pair<String, String>> older = new HashSet<Pair<String, String>>();
-        for (Object appId :oldApprovedAppIds) {
+        for (Object appId : oldApprovedAppIds) {
             older.add(Pair.of(oldEdOrgId, (String) appId));
         }
 
         Set<Pair<String, String>> newer = new HashSet<Pair<String, String>>();
-        for (Object appId :newApprovedAppIds) {
+        for (Object appId : newApprovedAppIds) {
             newer.add(Pair.of(newEdOrgId, (String) appId));
         }
 
