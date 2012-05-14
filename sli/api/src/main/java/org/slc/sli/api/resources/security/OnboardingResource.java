@@ -154,6 +154,7 @@ public class OnboardingResource {
         String landingZonePath = makeLandingZone();
         Map<String, String> returnObject = new HashMap<String, String>();
         returnObject.put("landingZone", landingZonePath);
+        returnObject.put("serverName", "TODO");
         returnObject.put("edOrg", e.getEntityId());
 
         return Response.status(Status.CREATED).entity(returnObject).build();

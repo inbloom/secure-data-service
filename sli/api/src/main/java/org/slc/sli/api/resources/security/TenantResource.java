@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.tenant;
+package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
 import java.util.Comparator;

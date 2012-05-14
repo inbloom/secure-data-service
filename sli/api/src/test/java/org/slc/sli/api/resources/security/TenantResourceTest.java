@@ -1,4 +1,4 @@
-package org.slc.sli.api.resources.tenant;
+package org.slc.sli.api.resources.security;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -32,6 +32,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.security.TenantResource;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.service.EntityNotFoundException;
