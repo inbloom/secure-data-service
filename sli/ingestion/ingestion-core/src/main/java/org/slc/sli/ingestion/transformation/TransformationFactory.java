@@ -40,16 +40,12 @@ public class TransformationFactory implements ApplicationContextAware {
      * @return
      */
     public Transmogrifier createTransmogrifier(WorkNote workNote, Job job) {
-
         Set<String> collectionsToConsider = determineCollectionsToConsider(workNote, job);
-
         List<TransformationStrategy> transformationStrategies = deriveTransformsRequired(collectionsToConsider);
-
         return TransmogrifierImpl.createInstance(job, transformationStrategies);
     }
 
     private List<TransformationStrategy> deriveTransformsRequired(Collection<String> collectionNames) {
-
         List<TransformationStrategy> transformationStrategies = new ArrayList<TransformationStrategy>();
 
         for (String strategy : collectionNames) {

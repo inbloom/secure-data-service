@@ -11,19 +11,16 @@ import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.Type1UUIDGeneratorStrategy;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of
@@ -68,14 +65,12 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     public void loadData() {
         LOG.info("Loading data for attendance transformation.");
-
         List<String> collectionsToLoad = Arrays.asList(EntityNames.STUDENT_SCHOOL_ASSOCIATION);
         for (String collectionName : collectionsToLoad) {
             Map<Object, NeutralRecord> collection = getCollectionFromDb(collectionName);
             collections.put(collectionName, collection);
             LOG.info("{} is loaded into local storage.  Total Count = {}", collectionName, collection.size());
         }
-
         LOG.info("Finished loading data for attendance transformation.");
     }
 
@@ -157,7 +152,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     }
 
     /**
-     * Persists the transformed data into mongo.
+     * Persists the transformed data into staging mongo database.
      */
     public void persist() {
         LOG.info("Persisting transformed data into attendance_transformed staging collection.");
@@ -169,28 +164,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             }
         }
         LOG.info("Finished persisting transformed data into attendance_transformed staging collection.");
-    }
-
-    /**
-     * Returns all collection entities found in temp ingestion database
-     *
-     * @param collectionName
-     */
-    private Map<Object, NeutralRecord> getCollectionFromDb(String collectionName) {
-        Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
-
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
-                collectionName, new Query(jobIdCriteria), getJob().getId(), 0, 0);
-
-        Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
-        NeutralRecord tempNr;
-
-        Iterator<NeutralRecord> neutralRecordIterator = data.iterator();
-        while (neutralRecordIterator.hasNext()) {
-            tempNr = neutralRecordIterator.next();
-            collection.put(tempNr.getRecordId(), tempNr);
-        }
-        return collection;
     }
 
     /**

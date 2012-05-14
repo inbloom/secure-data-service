@@ -1,17 +1,13 @@
 package org.slc.sli.ingestion.transformation;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
+import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * Transformation strategy to persist data as-is, no actual transformation
@@ -28,6 +24,9 @@ public class PassThroughTransformationStrategy extends AbstractTransformationStr
 
     private String passThroughCollectionName;
 
+    /**
+     * Default constructor.
+     */
     public PassThroughTransformationStrategy() {
         this.collection = new HashMap<Object, NeutralRecord>();
     }
@@ -43,52 +42,42 @@ public class PassThroughTransformationStrategy extends AbstractTransformationStr
         persist();
     }
 
+    /**
+     * There are no pre-requisite interchanges for an entity that is undergoing a passthrough
+     * transformation.
+     */
     private void loadData() {
-        LOG.info("Loading data for transformation.");
-
         if (passThroughCollectionName == null || passThroughCollectionName.isEmpty()) {
             LOG.warn("Collection to pass through not specified, null or empty");
             return;
         }
 
-        loadCollectionFromDb(passThroughCollectionName);
+        LOG.info("Loading data for passthrough transformation for {}.", passThroughCollectionName);
+
+        collection = getCollectionFromDb(passThroughCollectionName);
         LOG.info("{} is loaded into local storage.  Total Count = {}", passThroughCollectionName, collection.size());
-    }
 
-    private void transform() {
-        LOG.info("Transforming data: No transformation, straight pass-through");
-    }
-
-    private void persist() {
-        LOG.info("Persisting {} data to storage.", passThroughCollectionName);
-
-        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collection.entrySet()) {
-
-            NeutralRecord neutralRecord = neutralRecordEntry.getValue();
-            neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
-
-            getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
-        }
+        LOG.info("Finished loading data for attendance transformation.");
     }
 
     /**
-     * Load a collection from the database
-     *
-     * @param collectionName
+     * Transformation no-op.
      */
-    private void loadCollectionFromDb(String collectionName) {
-        Criteria jobIdCriteria = Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId());
+    private void transform() {
+        LOG.info("No transformation for {}, passing straight through.", passThroughCollectionName);
+    }
 
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
-                collectionName, new Query(jobIdCriteria), getJob().getId(), 0, 0);
-
-        NeutralRecord tempNr;
-
-        Iterator<NeutralRecord> iter = data.iterator();
-        while (iter.hasNext()) {
-            tempNr = iter.next();
-            collection.put(tempNr.getRecordId(), tempNr);
+    /**
+     * Persists the transformed data into staging mongo database.
+     */
+    private void persist() {
+        LOG.info("Persisting transformed data into {}_transformed staging collection.", passThroughCollectionName);
+        for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : collection.entrySet()) {
+            NeutralRecord neutralRecord = neutralRecordEntry.getValue();
+            neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
+            getNeutralRecordMongoAccess().getRecordRepository().createForJob(neutralRecord, getJob().getId());
         }
+        LOG.info("Finished persisting transformed data into {}_transformed staging collection.", passThroughCollectionName);
     }
 
     /**
