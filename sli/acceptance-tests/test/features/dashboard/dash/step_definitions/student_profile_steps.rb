@@ -30,12 +30,6 @@ Then /^their name shown in profile is "([^"]*)"$/ do |expectedStudentName|
    assert(containsName, "Actual name is :" + @info["Name"]) 
 end
 
-When /^their nickname shown in profile is "([^"]*)"$/ do |expectedNickName|
-  csiContent = @driver.find_element(:class, "csi")
-  nickName = csiContent.find_element(:xpath,".//div[@class='colMain']/small")
-  assert(nickName.text == expectedNickName, "Actual displayed nickname is: " + nickName.text)
-end
-
 Then /^their id shown in proflie is "([^"]*)"$/ do |studentId|
   assert(@info["ID"] == studentId, "Actual ID is: " + @info["ID"])
 end
