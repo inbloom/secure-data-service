@@ -98,13 +98,13 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 	$("#"+name).find("dropdown-menu").html(select);
 	var autoSelectOption = -1;
 	
-	if (options.length == 1 && autoSelect) {
-		autoSelectOption = 0;
-	}
 	
-	if(options.length == 0) {
-		select += "<li><a href=\"#\"</a></li>";
+	if(options === null || options === undefined || options.length == 0) {
+		select += "<li class=\"selected\"><a href=\"#\">There is no data available for your request.  Please contact your IT administrator.</a></li>";
 	} else {
+	    	if (options.length == 1 && autoSelect) {
+			autoSelectOption = 0;
+	    	}
 		if (defaultOptions != undefined && defaultOptions != null) {
 			jQuery.each(defaultOptions, function(val, displayText) {
 				select += "    <li class=\"\"><a href=\"#\">" + displayText + "</a>" +
@@ -293,8 +293,9 @@ DashboardUtil.Grid.Formatters = {
             
             var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
             
-            if (value == undefined || value == null) {
-                "<span class='fuelGauge-perfLevel'>!</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
+            if (value === undefined || value === null) {
+                //return "<span class='fuelGauge-perfLevel'></span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
+                return "<span class='fuelGauge-perfLevel'></span>";
             }
             
             if (!assessments || assessments == undefined) {
