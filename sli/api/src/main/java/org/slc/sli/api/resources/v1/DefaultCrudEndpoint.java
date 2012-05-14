@@ -19,6 +19,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -74,7 +76,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     private final String resourceName;
 
     /* Logger utility to use to output debug, warning, or other messages to the "console" */
-//    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCrudEndpoint.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCrudEndpoint.class);
 
     @Autowired
     private OptionalFieldAppenderFactory factory;
@@ -230,7 +232,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 String resource1 = entityDef.getStoredCollectionName();
 //                String resource2 = endpointEntity.getStoredCollectionName();
 
-//                DE260 - Logging of possibly sensitive data
+                DE260 - Logging of possibly sensitive data
                 // write some information to debug
 //                LOGGER.debug("Attempting to list from {} where {} = {}", new Object[] { resource1, key, value });
 //                LOGGER.debug("Then for each result, ");
@@ -574,10 +576,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         }
 
         // log if entity is restricted.
-        if (entityDef.isRestrictedForLogging() && securityEventBuilder != null) {
-            SecurityEvent event = securityEventBuilder.createSecurityEvent(DefaultCrudEndpoint.class.toString(),
-                    uriInfo, "restricted entity: " + entityDef.getResourceName() + " is accessed.");
-            audit(event);
+        if (entityDef.isRestrictedForLogging()) {
+            if (securityEventBuilder != null) {
+                SecurityEvent event = securityEventBuilder.createSecurityEvent(DefaultCrudEndpoint.class.toString(),
+                        uriInfo, "restricted entity \"" + entityDef.getResourceName() + "\" is accessed.");
+                audit(event);
+            } else {
+                LOGGER.warn("Cannot create security event, when restricted entity \"" + entityDef.getResourceName() + "\" is accessed.");
+            }
         }
 
         return logic.run(entityDef);
