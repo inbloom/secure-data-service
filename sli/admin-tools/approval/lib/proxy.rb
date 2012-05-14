@@ -25,26 +25,30 @@ module ApprovalEngineProxy
     #
     # Check if the provided user exists.
     #
-    # Return: true/false, and whether the user email is already validated
+    # Input: username name of the user
+    # Return: HTTP Response with JSON 'status' (true/false) and 'validated' (true/false) in the body.
     #
-    # Response example:
-    # { exists:true/false, validated: true/false }
+    # Response body example:
+    # { 'exists':true, 'validated':true }
     #
     def doesUserExist(username)
         response = RestClient.get(@@approvalUri + "/doesUserExist/" + username)
-        return response.body
+        return JSON.parse response.body.read
     end
 
     #
     # Submit the user to the ApprovalEngine. If the user already exists,
     # this call is a no-op.
     #
+    # Input:
 	# user_info is a hash with the following fields:
 	#   - first : first name
 	#   - last  : last name
 	#   - email : email address (also serves as the userid)
 	#   - password : password used to log in
 	#   - vendor : optional vendor name
+	#
+	# Return: HTTP Response with JSON 'status' JSON ('submitted' or 'existingUser') in the body.
     #
 	# Input Example:
 	# user_info = {
@@ -54,6 +58,10 @@ module ApprovalEngineProxy
 	#     'password' : 'secret',
 	#     'vendor' : 'Acme Inc.'
 	# }
+	#
+	# Response body example:
+	# { 'status':'submitted' }
+	#
     def submitUser(user_info)
         response = RestClient.post(@@approvalUri + "/user", user_info)
     end
@@ -61,12 +69,15 @@ module ApprovalEngineProxy
     #
     # Update the user.
     #
+    # Input:
 	# user_info is a hash with the following fields:
 	#   - first : first name
 	#   - last  : last name
 	#   - email : email address (also serves as the userid)
 	#   - password : password used to log in
 	#   - vendor : optional vendor name
+	#
+    # Return: HTTP Response with JSON 'status' ('unknownUser', 'updated') in the body.
     #
 	# Input Example:
 	# user_info = {
@@ -76,6 +87,10 @@ module ApprovalEngineProxy
 	#     'password' : 'secret',
 	#     'vendor' : 'Acme Inc.'
 	# }
+	#
+	# Response body example:
+	# { 'status':'unknownUser' }
+	#
     def updateUser(user_info)
         response = RestClient.put(@@approvalUri + "/user", user_info)
     end
@@ -86,7 +101,10 @@ module ApprovalEngineProxy
     # If the user accepts the EULA, this returns the email verification token.
     # Otherwise, the user is discarded and the response token is nil.
     #
-    # Response example:
+    # REturn HTTP Response with JSON 'token' (string) if the user accepts the EULA,
+    # or 'token' (nil) if not.
+    #
+    # Response body example:
     #    { 'token':'abcdefg' }
     #
     def EULAStatus(email, accepted)
@@ -97,10 +115,11 @@ module ApprovalEngineProxy
     # Verify the users email address by checking the token provided in their
     # verification email.
     #
-    # Return one of: 'unknownUser', 'previouslyVerified', 'success'
+    # Return HTTP Response with JSON 'status' ('unknownUser', 'previouslyVerified', 'success')
+    # in the body.
     #
     # Response example:
-    #    { 'result':'success' }
+    #    { 'status':'success' }
     #
     def verifyEmail(verifyToken)
         response = RestClient.get(@@approvalUri + "/verifyEmail/" + verifyToken)
