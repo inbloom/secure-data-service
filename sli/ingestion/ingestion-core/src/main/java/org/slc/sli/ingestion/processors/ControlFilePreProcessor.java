@@ -1,6 +1,10 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.lang.management.ManagementFactory;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Date;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -10,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -69,7 +75,6 @@ public class ControlFilePreProcessor implements Processor {
         // TODO handle IOException or other system error
         NewBatchJob newBatchJob = null;
         try {
-
             File fileForControlFile = exchange.getIn().getBody(File.class);
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
 
@@ -92,6 +97,33 @@ public class ControlFilePreProcessor implements Processor {
             ControlFileDescriptor controlFileDescriptor = new ControlFileDescriptor(controlFile, resolvedLandingZone);
 
             setExchangeHeaders(exchange, controlFileDescriptor, newBatchJob);
+
+            byte[] ipAddr = null;
+            try {
+                InetAddress addr = InetAddress.getLocalHost();
+
+                // Get IP Address
+                ipAddr = addr.getAddress();
+
+            } catch (UnknownHostException e) {
+                LOG.error("Error getting local host", e);
+            }
+            SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha MH
+                    "", // user
+                    "", // targetEdOrg
+                    "processUsingNewBatchJob", // Alpha MH (actionUri)
+                    "Ingestion", // Alpha MH (appId)
+                    "", // origin
+                    ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3], // executedOn
+                    "", // Alpha MH (Credential - N/A for ingestion)
+                    "", // userOrigin
+                    new Date(), // Alpha MH (timeStamp)
+                    ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
+                    this.getClass().getName(), // className
+                    LogLevelType.TYPE_INFO, // Alpha MH (logLevel)
+                    "Ingestion process started."); // Alpha MH (logMessage)
+
+             audit(event);
 
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);

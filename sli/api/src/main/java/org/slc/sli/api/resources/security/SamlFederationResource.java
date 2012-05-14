@@ -3,14 +3,20 @@ package org.slc.sli.api.resources.security;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.lang.management.ManagementFactory;
+import java.net.InetAddress;
 import java.net.URI;
+import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 
@@ -30,6 +36,8 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -67,6 +75,9 @@ public class SamlFederationResource {
     @Value("classpath:saml/samlMetadata.xml.template")
     private Resource metadataTemplateResource;
 
+    @Context
+    private HttpServletRequest httpServletRequest;
+
     private String metadata;
 
     @SuppressWarnings("unused")
@@ -88,7 +99,42 @@ public class SamlFederationResource {
 
         LOG.info("Received a SAML post for SSO...");
 
-        Document doc = saml.decodeSamlPost(postData);
+        Document doc = null;
+
+        try {
+            doc = saml.decodeSamlPost(postData);
+        } catch (Exception e) {
+            SecurityEvent event = new SecurityEvent();
+
+            event.setClassName(this.getClass().toString());
+            event.setProcessNameOrId(ManagementFactory.getRuntimeMXBean().getName());
+            event.setTimeStamp(new Date());
+
+            try {
+                event.setExecutedOn(InetAddress.getLocalHost().getHostName());
+            } catch (UnknownHostException ue) {
+                LOG.info("Could not find hostname for security event logging!");
+            }
+
+            if (this.httpServletRequest != null) {
+                event.setUserOrigin(httpServletRequest.getRemoteHost());
+                event.setAppId(httpServletRequest.getHeader("User-Agent"));
+                event.setActionUri(httpServletRequest.getRequestURI());
+                event.setUser(httpServletRequest.getRemoteUser());
+
+                // the origin header contains the uri info of the idp server that sends the SAML data
+                event.setLogMessage("SAML message received from " + httpServletRequest.getHeader("Origin")
+                        + " is invalid!");
+                event.setLogLevel(LogLevelType.TYPE_WARN);
+            } else {
+                event.setLogMessage("HttpServletRequest is missing, and this should never happen!!");
+                event.setLogLevel(LogLevelType.TYPE_ERROR);
+            }
+
+            audit(event);
+
+            throw e;
+        }
 
         String inResponseTo = doc.getRootElement().getAttributeValue("InResponseTo");
         String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
@@ -103,7 +149,8 @@ public class SamlFederationResource {
             throw new IllegalStateException("Failed to locate realm: " + issuer);
         }
 
-        org.jdom.Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS).getChild("AttributeStatement", SamlHelper.SAML_NS);
+        org.jdom.Element stmt = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS)
+                .getChild("AttributeStatement", SamlHelper.SAML_NS);
         List<org.jdom.Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
 
         LinkedMultiValueMap<String, String> attributes = new LinkedMultiValueMap<String, String>();
@@ -132,6 +179,7 @@ public class SamlFederationResource {
         } else {
             principal = users.locate((String) realm.getBody().get("tenantId"), attributes.getFirst("userId"));
         }
+
         principal.setName(attributes.getFirst("userName"));
         principal.setRoles(attributes.get("roles"));
         principal.setRealm(realm.getEntityId());
@@ -141,7 +189,8 @@ public class SamlFederationResource {
         // {sessionId,redirectURI}
         Pair<String, URI> tuple = this.sessionManager.composeRedirect(inResponseTo, principal);
 
-        return Response.temporaryRedirect(tuple.getRight()).cookie(new NewCookie("_tla", tuple.getLeft(), "/", ".slidev.org", "", 300, false)).build();
+        return Response.temporaryRedirect(tuple.getRight())
+                .cookie(new NewCookie("_tla", tuple.getLeft(), "/", ".slidev.org", "", 300, false)).build();
     }
 
     private Entity fetchOne(String collection, NeutralQuery neutralQuery) {

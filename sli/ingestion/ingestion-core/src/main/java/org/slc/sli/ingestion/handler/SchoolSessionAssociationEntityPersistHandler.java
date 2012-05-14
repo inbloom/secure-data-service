@@ -7,13 +7,14 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * A class used to persist Session and SchoolSessionAssociation in a certain order.
+ *
  * @author ablum
  *
  */
 public class SchoolSessionAssociationEntityPersistHandler extends EntityPersistHandler {
 
     @Override
-     Entity doHandling(SimpleEntity entity, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+    protected Entity doHandling(SimpleEntity entity, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
 
         SimpleEntity session = (SimpleEntity) entity.getBody().remove("session");
 
@@ -22,7 +23,6 @@ public class SchoolSessionAssociationEntityPersistHandler extends EntityPersistH
         entity.getBody().put("sessionId", mongoSession.getEntityId());
 
         return super.doHandling(entity, errorReport, fileProcessStatus);
-
 
     }
 }

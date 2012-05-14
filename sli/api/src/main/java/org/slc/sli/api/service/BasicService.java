@@ -136,18 +136,16 @@ public class BasicService implements EntityService {
             return Collections.emptyList();
         }
 
-        if (allowed.size() > 0) {
-            return allowed;
-        } else { // super list logic --> only true when using DefaultEntityContextResolver
-            List<String> results = new ArrayList<String>();
-            Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
+        // super list logic --> only true when using DefaultEntityContextResolver
+        List<String> results = new ArrayList<String>();
+        Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
 
-            for (Entity entity : entities) {
+        for (Entity entity : entities) {
+            if (allowed.contains(entity.getEntityId()))
                 results.add(entity.getEntityId());
-            }
-
-            return results;
         }
+
+        return results;
     }
 
     @Override
@@ -640,28 +638,26 @@ public class BasicService implements EntityService {
                 String fieldName = entry.getKey();
                 Object value = entry.getValue();
 
-                if (value instanceof Map) {
+                String fieldPath = prefix + fieldName;
+                Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
+                
+                if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
+                    neededRight = Right.ADMIN_ACCESS;
+                }
+                
+                if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
+                    if (Right.READ_GENERAL.equals(neededRight)) {
+                        neededRight = Right.READ_PUBLIC;
+                    }
+                }
+                
+                LOG.debug("Field {} requires {}", fieldPath, neededRight);
+                SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                        .getPrincipal();
+                if (!auths.contains(neededRight) && !principal.getEntity().getEntityId().equals(eb.get("id"))) {
+                    toRemove.add(fieldName);
+                } else if (value instanceof Map) {
                     filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
-                } else {
-                    String fieldPath = prefix + fieldName;
-                    Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
-
-                    if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-                        neededRight = Right.ADMIN_ACCESS;
-                    }
-
-                    if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-                        if (Right.READ_GENERAL.equals(neededRight)) {
-                            neededRight = Right.READ_PUBLIC;
-                        }
-                    }
-
-                    LOG.debug("Field {} requires {}", fieldPath, neededRight);
-                    SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                            .getPrincipal();
-                    if (!auths.contains(neededRight) && !principal.getEntity().getEntityId().equals(eb.get("id"))) {
-                        toRemove.add(fieldName);
-                    }
                 }
             }
 

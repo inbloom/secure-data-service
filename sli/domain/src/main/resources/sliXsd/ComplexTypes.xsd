@@ -356,7 +356,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="MaxRawScore" type="xs:int">
+			<xs:element name="maxRawScore" type="xs:int">
 				<xs:annotation>
 					<xs:documentation>The maximum raw score achievable is all
 						assessment items are correct and scored at the maximum.
@@ -1060,6 +1060,9 @@
 						Standard
 						Commended
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="performanceBaseConversion" type="performanceBaseType">
@@ -1974,6 +1977,9 @@
 				<xs:annotation>
 					<xs:documentation>A shortened description for the service.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="description" type="description"
@@ -1981,6 +1987,9 @@
 				<xs:annotation>
 					<xs:documentation>The description of the service.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="serviceCategory" type="serviceCategory"
@@ -2017,6 +2026,9 @@
 					<xs:documentation>
 						A shortened description for the service.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="description" type="description">
@@ -2024,6 +2036,9 @@
 					<xs:documentation>
 						The description of the service.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:choice>
@@ -2370,8 +2385,6 @@
 					<xs:appinfo>
 						<sli:PersonallyIdentifiableInfo>true
 						</sli:PersonallyIdentifiableInfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2426,10 +2439,6 @@
 						"Spanish origin," can be used in addition to "Hispanic or
 						Latino."
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="oldEthnicity" type="oldEthnicityType"
@@ -2445,10 +2454,6 @@
 						Hispanic
 						5 - White, not of Hispanic origin
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="race" type="raceItemType" minOccurs="0"
@@ -2461,10 +2466,6 @@
 						is listed, it must allow for multiple entries so that each
 						individual can specify all appropriate races.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
-						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="economicDisadvantaged" type="xs:boolean"
@@ -3029,6 +3030,12 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="assessmentItem" type="assessmentItem">
+            	<xs:annotation>
+                    <xs:documentation>The AssessmentItem to which this studentAssessmentItem is a response to.
+	                </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -5034,6 +5041,9 @@
 				<xs:annotation>
 					<xs:documentation>The description of the service.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:choice>
@@ -5301,6 +5311,9 @@
 				<xs:annotation>
 					<xs:documentation>The description of the learning objective.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="academicSubject" type="academicSubjectType">
@@ -5391,6 +5404,9 @@
 					<xs:documentation>A detailed statement of the expectation that is
 						is assessed.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="contentStandard" type="contentStandardType">
@@ -5569,6 +5585,9 @@
 						special
 						education, language immersion, science or performing art.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -5693,6 +5712,9 @@
 						classroom
 						assessment.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="sectionId" type="reference">
@@ -5896,6 +5918,9 @@
 				<xs:annotation>
 					<xs:documentation>The description of he cohort and its purpose.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="cohortType" type="cohortType">
@@ -6052,6 +6077,9 @@
 						covered in the course. Reference may be made to state or national
 						content standards.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="dateCourseAdopted" type="xs:date">
@@ -6107,6 +6135,17 @@
 					<xs:documentation>Indicates the career cluster or pathway the
 						course is associated with as part of a CTE curriculum.
 					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="schoolId" type="reference">
+				<xs:annotation>
+					<xs:documentation>
+						The Education Organization that defines the curriculum and courses offered -
+						often the LEA or school.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -6177,6 +6216,9 @@
 					<xs:documentation>A description of the type of academic
 						distinctions earned by or awarded to the individual.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="honorAwardDate" type="xs:date"
@@ -6208,6 +6250,9 @@
 				<xs:annotation>
 					<xs:documentation>The description of the Assessment Period.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="shortDescription" type="shortDescription"
@@ -6215,6 +6260,9 @@
 				<xs:annotation>
 					<xs:documentation>A shortened description for reference.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="beginDate" type="xs:date" minOccurs="0">
@@ -6362,6 +6410,9 @@
 					<xs:documentation>A shortened description for the
 						behavior.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="description" type="description"
@@ -6369,6 +6420,9 @@
 				<xs:annotation>
 					<xs:documentation>The description of the behavior.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="behaviorCategory" type="behaviorCategoryType">
@@ -6413,6 +6467,9 @@
 				<xs:annotation>
 					<xs:documentation>A shortened description for the discipline
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="description" type="description"
@@ -6420,6 +6477,9 @@
 				<xs:annotation>
 					<xs:documentation>The description of the discipline.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="educationOrganizationId" type="reference"
@@ -6846,6 +6906,9 @@
 						distinctions earned by or
 						awarded to the individual.
 					</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="recognitionAwardDate" type="xs:date"
@@ -6982,6 +7045,9 @@
 			<xs:element name="description" type="description" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The description of the competency Level</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="performanceBaseConversion" type="performanceBaseType" minOccurs="0">
@@ -7005,11 +7071,17 @@
 			<xs:element name="shortDescription" type="shortDescription">
 				<xs:annotation>
 					<xs:documentation>A shortened description for the behavior.</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="description" type="description">
 				<xs:annotation>
 					<xs:documentation>The description of the behavior.</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:choice>
@@ -7028,11 +7100,17 @@
 			<xs:element name="shortDescription" type="shortDescription">
 				<xs:annotation>
 					<xs:documentation>A shortened description for the discipline.</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="description" type="description">
 				<xs:annotation>
 					<xs:documentation>The description of the discipline.</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:choice>
@@ -7051,6 +7129,9 @@
 			<xs:element name="description" type="description">
 				<xs:annotation>
 					<xs:documentation>The description of the competency level.</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:choice>
@@ -7121,6 +7202,9 @@
 			<xs:element name="description" type="description" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The description of the student competency objective.</xs:documentation>
+		            <xs:appinfo>
+						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+		            </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="objectiveGradeLevel" type="gradeLevelType">

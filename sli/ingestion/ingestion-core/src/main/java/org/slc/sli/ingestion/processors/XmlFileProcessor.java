@@ -14,7 +14,6 @@ import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.handler.ReferenceResolutionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -23,6 +22,7 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 
 /**
  * Processes a XML file
@@ -37,7 +37,7 @@ public class XmlFileProcessor implements Processor {
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileProcessor.class);
 
     @Autowired
-    private ReferenceResolutionHandler referenceResolutionHandler;
+    private IdRefResolutionHandler idRefResolutionHandler;
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -76,7 +76,7 @@ public class XmlFileProcessor implements Processor {
 
                     fe.setFile(new File(resource.getResourceName()));
 
-                    referenceResolutionHandler.handle(fe, fe.getErrorReport());
+                    idRefResolutionHandler.handle(fe, fe.getErrorReport());
 
                     hasErrors = aggregateAndPersistErrors(batchJobId, fe);
                 }
@@ -122,12 +122,13 @@ public class XmlFileProcessor implements Processor {
         return fe.getErrorReport().hasErrors();
     }
 
-    public ReferenceResolutionHandler getReferenceResolutionHandler() {
-        return referenceResolutionHandler;
+    public IdRefResolutionHandler getIdRefResolutionHandler() {
+        return idRefResolutionHandler;
     }
 
-    public void setReferenceResolutionHandler(ReferenceResolutionHandler referenceResolutionHandler) {
-        this.referenceResolutionHandler = referenceResolutionHandler;
+    public void setIdRefResolutionHandler(
+            IdRefResolutionHandler idRefResolutionHandler) {
+        this.idRefResolutionHandler = idRefResolutionHandler;
     }
 
     private String getBatchJobId(Exchange exchange) {

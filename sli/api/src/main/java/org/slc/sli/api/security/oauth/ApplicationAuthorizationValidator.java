@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +28,7 @@ import org.slc.sli.domain.Repository;
 @Component
 public class ApplicationAuthorizationValidator {
 
-//    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationAuthorizationValidator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationAuthorizationValidator.class);
 
     @Autowired
     private Repository<Entity> repo;
@@ -118,6 +120,7 @@ public class ApplicationAuthorizationValidator {
 //                DE260 - Logging of possibly sensitive data
                 // this is what the resolver throws if it doesn't find any edorg data
 //                LOGGER.warn("Could not find an associated ed-org for {}.", principal.getExternalId());
+                LOGGER.warn("Could not find an associated ed-org for the given principal.");
             }
             if (edOrgs == null || edOrgs.size() == 0) {   //maybe user is a staff?
                 edOrgs = contextResolverStore.findResolver(EntityNames.STAFF, EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
@@ -150,6 +153,7 @@ public class ApplicationAuthorizationValidator {
         if (toReturn.size() == 0) {
 //            DE260 - Logging of possibly sensitive data
 //            LOGGER.warn("Could not find an associated LEA for {}.", principal.getExternalId());
+            LOGGER.warn("Could not find an associated LEA for the given principal");
         }
         return toReturn;
     }

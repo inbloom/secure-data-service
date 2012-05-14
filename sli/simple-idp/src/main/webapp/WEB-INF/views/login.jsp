@@ -2,7 +2,7 @@
 <%@ page session="false"%>
 <html>
 <head>
-<title>Mock IDP</title>
+<title>Simple IDP</title>
 <style type="text/css">
 .tenant {
 	/* color: #438746 */
@@ -49,7 +49,9 @@
 		</div>
 
 		<div class='form-container'>
-			<div><c:out value="${msg}"/></div>
+			<c:if test="${msg!=null}">
+				<div class="error-message"><c:out value="${msg}"/></div>
+			</c:if>
 			<form id="login_form" name="login_form" action="login" method="post" class="form-horizontal">
 				<input type="hidden" name="realm" value="${realm}"/>
 				<input type="hidden" name="SAMLRequest" value="${SAMLRequest}"/>
