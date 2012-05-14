@@ -1,0 +1,31 @@
+<% district = AdminDelegation.new %>
+
+<!--EducationOrganization.find(district.localEdOrgId).nameOfInstitution-->
+  <h1>District <%=   %> - Delegate District Privileges</h1>
+
+
+
+  <%= form_for(district) do |f| %>
+      <table>
+      <tr>
+        <td><%= f.check_box :ingestDataEnabled %>  </td>
+        <td><%= f.label :ingestDataEnabled, "Ingest District's Data" %> </td>
+      </tr>
+
+      <tr>
+          <td><%= f.check_box :appApprovalEnabled %>    </td>
+          <td><%= f.label :appApprovalEnabled, "Approve Applications" %> </td>
+      </tr>
+
+      <tr>
+          <td><%= f.check_box :viewSecurityEventsEnabled %></td>
+          <td><%= f.label :viewSecurityEventsEnabled, "View Security Events" %></td>
+      </tr>
+      </table>
+
+      <div class="field">
+        <%= f.submit "Save" %>
+      </div>
+
+  <% end %>
+
