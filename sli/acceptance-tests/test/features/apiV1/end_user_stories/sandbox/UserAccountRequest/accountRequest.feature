@@ -57,6 +57,7 @@ Scenario: As an slc operator I want to check if a user accepted EULA
   And "Last Name" is "Alsop"
   And "Email" is "lalsop@acme.com"
   And "Environment" is "Production"
+  And "Vendor" is "Acme Corp"
 
 @production
 Scenario: Clicking the "cancel" button - registration form
@@ -137,3 +138,4 @@ Scenario: As an slc operator I want to check if a user accepted EULA
   And "Last Name" is "Alsop"
   And "Email" is "lalsop@acme.com"
   And "Environment" is "Sandbox"
+  And "Vendor" is "Acme Corp"
