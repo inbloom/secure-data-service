@@ -110,19 +110,20 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
 
-        String existingTenantId = createLandingZone(newTenant);
+        Object response = createLandingZone(newTenant);
 
-        if (null != existingTenantId) {
+        if (response instanceof String) {
             // Construct the response
-            String uri = ResourceUtil.getURI(uriInfo, "tenants", existingTenantId).toString();
+            String uri = ResourceUtil.getURI(uriInfo, "tenants", (String) response).toString();
             return Response.status(Status.CREATED).header("Location", uri).build();
-        } else {
-            return null; //TODO
+        } else if (response instanceof Response) {
+            return (Response) response;
         }
+        throw new RuntimeException("Unexpected return type when provisioning tenant.");
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected String createLandingZone(EntityBody newTenant) {
+    protected Object createLandingZone(EntityBody newTenant) {
         EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
         
         String tenantId = (String) newTenant.get(TENANT_ID);
@@ -132,8 +133,11 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         List<Map<String, Object>> newLzs = (List<Map<String, Object>>) newTenant.get(LZ);
         
         //NOTE: OnboardingResource may only send in one at a time
-        if (1 != newLzs.size())
-            return null; //TODO: return error
+        if (1 != newLzs.size()) {
+            EntityBody body = new EntityBody();
+            body.put("message", "Only one landing zone may be provisioned at a time.  Please submit your requests individually.");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+        }
         
         Map<String, Object> newLz = newLzs.get(0);
         String newEdOrg = (String) newLz.get(LZ_EDUCATION_ORGANIZATION);
@@ -149,6 +153,10 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         // If no tenant already exist, create
         if (existingIds.size() == 0) {
             return tenantService.create(newTenant);
+        }
+        // If more than exists, something is wrong
+        if (existingIds.size() > 1) {
+            throw new RuntimeException("Internal error: multiple tenant entry with identical IDs");
         }
 
         String existingTenantId = existingIds.get(0);
@@ -174,8 +182,11 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         
         Set<Map<String, Object>> all = (Set<Map<String, Object>>) allLandingZones; 
         for (Map<String, Object> lz : all) {
-            if (lz.get(LZ_EDUCATION_ORGANIZATION).equals(newEdOrg))
-                return null; //TODO: return error
+            if (lz.get(LZ_EDUCATION_ORGANIZATION).equals(newEdOrg)) {
+                EntityBody body = new EntityBody();
+                body.put("message", "This tenant/educational organization combination all ready has a landing zone provisioned.");
+                return Response.status(Status.BAD_REQUEST).entity(body).build();
+            }
         }
 
         EntityBody existingBody = tenantService.get(existingTenantId);
