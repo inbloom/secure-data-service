@@ -80,55 +80,58 @@ public class MaestroOutboundProcessor implements Processor {
 
             List<WorkNote> maestroMusicSheet = new ArrayList<WorkNote>();
 
-            long attendanceCount = neutralRecordMongoAccess.getRecordRepository().getCollection("attendance").count();
+            int attendanceCount = (int) neutralRecordMongoAccess.getRecordRepository().getCollection("attendance")
+                    .count();
             LOG.info("Found attendances: {}", attendanceCount);
             if (attendanceCount > ATTENDANCE_RECORD_CUTOFF) {
                 LOG.info("Splitting student attendance interchange.");
-                for (long i = 0; i < attendanceCount; i += ATTENDANCE_CHUNK) {
-                    long chunk = ((i + ATTENDANCE_CHUNK) > attendanceCount) ? (attendanceCount)
-                            : (i + ATTENDANCE_CHUNK);
-                    maestroMusicSheet.add(new WorkNoteImpl(batchJobId, new IngestionStagedEntity(ATTENDANCE_COLLECTION,
-                            EdfiEntity.ATTENDANCE_EVENT), i, chunk - 1));
+                for (int i = 0; i < attendanceCount; i += ATTENDANCE_CHUNK) {
+                    int chunk = ((i + ATTENDANCE_CHUNK) > attendanceCount) ? (attendanceCount) : (i + ATTENDANCE_CHUNK);
+
+                    maestroMusicSheet.add(WorkNoteImpl.createBatchedWorkNote(batchJobId, new IngestionStagedEntity(
+                            ATTENDANCE_COLLECTION, EdfiEntity.ATTENDANCE_EVENT), i, chunk - 1, 0));
                 }
             }
 
-            long assessmentCount = neutralRecordMongoAccess.getRecordRepository()
+            int assessmentCount = (int) neutralRecordMongoAccess.getRecordRepository()
                     .getCollection("studentAssessmentAssociation").count();
             LOG.info("Found assessments: {}", assessmentCount);
             if (assessmentCount > ASSESSMENT_RECORD_CUTOFF) {
                 LOG.info("Splitting student assessment interchange.");
-                for (long i = 0; i < assessmentCount; i += ASSESSMENT_CHUNK) {
-                    long chunk = ((i + ASSESSMENT_CHUNK) > assessmentCount) ? (assessmentCount)
-                            : (i + ASSESSMENT_CHUNK);
-                    maestroMusicSheet.add(new WorkNoteImpl(batchJobId, new IngestionStagedEntity(ASSESSMENT_COLLECTION,
-                            EdfiEntity.ASSESSMENT), i, chunk - 1));
+                for (int i = 0; i < assessmentCount; i += ASSESSMENT_CHUNK) {
+                    int chunk = ((i + ASSESSMENT_CHUNK) > assessmentCount) ? (assessmentCount) : (i + ASSESSMENT_CHUNK);
+
+                    maestroMusicSheet.add(WorkNoteImpl.createBatchedWorkNote(batchJobId, new IngestionStagedEntity(
+                            ASSESSMENT_COLLECTION, EdfiEntity.ASSESSMENT), i, chunk - 1, 0));
                 }
             }
 
-            long studentSchoolCount = neutralRecordMongoAccess.getRecordRepository()
+            int studentSchoolCount = (int) neutralRecordMongoAccess.getRecordRepository()
                     .getCollection("studentSchoolAssociation").count();
-            long studentSectionCount = neutralRecordMongoAccess.getRecordRepository()
+            int studentSectionCount = (int) neutralRecordMongoAccess.getRecordRepository()
                     .getCollection("studentSectionAssociation").count();
             LOG.info("Found student school associations: {}", studentSchoolCount);
             LOG.info("Found student section associations: {}", studentSectionCount);
             if (studentSchoolCount + studentSectionCount > ENROLLMENT_RECORD_CUTOFF) {
                 LOG.info("Splitting student enrollment interchange.");
-                for (long i = 0; i < studentSchoolCount; i++) {
-                    long chunk = ((i + STUDENT_SCHOOL_CHUNK) > studentSchoolCount) ? (studentSchoolCount)
+                for (int i = 0; i < studentSchoolCount; i++) {
+                    int chunk = ((i + STUDENT_SCHOOL_CHUNK) > studentSchoolCount) ? (studentSchoolCount)
                             : (i + STUDENT_SCHOOL_CHUNK);
-                    maestroMusicSheet.add(new WorkNoteImpl(batchJobId, new IngestionStagedEntity(
-                            STUDENT_SCHOOL_ASSOCIATION, EdfiEntity.STUDENT_SCHOOL_ASSOCIATION), i, chunk - 1));
+
+                    maestroMusicSheet.add(WorkNoteImpl.createBatchedWorkNote(batchJobId, new IngestionStagedEntity(
+                            STUDENT_SCHOOL_ASSOCIATION, EdfiEntity.STUDENT_SCHOOL_ASSOCIATION), i, chunk - 1, 0));
                 }
 
-                for (long i = 0; i < studentSectionCount; i++) {
-                    long chunk = ((i + STUDENT_SECTION_CHUNK) > studentSectionCount) ? (studentSectionCount)
+                for (int i = 0; i < studentSectionCount; i++) {
+                    int chunk = ((i + STUDENT_SECTION_CHUNK) > studentSectionCount) ? (studentSectionCount)
                             : (i + STUDENT_SECTION_CHUNK);
-                    maestroMusicSheet.add(new WorkNoteImpl(batchJobId, new IngestionStagedEntity(
-                            STUDENT_SECTION_ASSOCIATION, EdfiEntity.STUDENT_SECTION_ASSOCIATION), i, chunk - 1));
+
+                    maestroMusicSheet.add(WorkNoteImpl.createBatchedWorkNote(batchJobId, new IngestionStagedEntity(
+                            STUDENT_SECTION_ASSOCIATION, EdfiEntity.STUDENT_SECTION_ASSOCIATION), i, chunk - 1, 0));
                 }
             }
 
-            // long studentDisciplineCount =
+            // int studentDisciplineCount =
             // neutralRecordMongoAccess.getRecordRepository().getCollection("studentDisciplineIncidentAssociation").count();
             // LOG.warn("iii - Found student discipline associations: {}", studentDisciplineCount);
 
