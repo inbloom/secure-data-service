@@ -224,7 +224,114 @@
   </util:map>
 
   <util:map id="ftlIdRefConfigs" key-type="java.lang.String" value-type="java.lang.String">
-      <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.ftl" />
+      <!--Interchange StudentAssessmenet -->
+      <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" 
+          value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.ftl" />
+
+      <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" 
+          value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/StudentReference.xml" />
+
+      <!--End of Interchange StudentAssment -->
+
+    <entry key="/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference"
+          value="idRefResolution/InterchangeAssessmentMetadata/Assessment/AssessmentFamilyReference.xml" />
+
+    <entry key="/InterchangeAssessmentMetadata/AssessmentFamily/AssessmentFamilyReference"
+          value="idRefResolution/InterchangeAssessmentMetadata/AssessmentFamily/AssessmentFamilyReference.xml" />
+
+    <entry key="/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference"
+          value="idRefResolution/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference.xml" />
+ 
+    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningStandardReference"
+          value="idRefResolution/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningStandardReference.xml" />
+
+    <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference"
+          value="idRefResolution/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningObjectiveReference.xml" />
+
+
+    <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningStandardReference"
+          value="idRefResolution/InterchangeAssessmentMetadata/LearningObjective/LearningStandardReference.xml" />
+
+    <entry key="/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference"
+          value="idRefResolution/InterchangeAssessmentMetadata/LearningObjective/LearningObjectiveReference.xml" />
+
+
+    <entry key="/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference"
+          value="idRefResolution/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference.xml" />
+
+     <entry key="/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference"
+          value="idRefResolution/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference.xml" />
+
+    <entry key="/InterchangeStudentGrade/GradebookEntry/LearningObjectiveReference"
+          value="idRefResolution/InterchangeStudentGrade/GradebookEntry/LearningObjectiveReference.xml" />
+
+    <!-- Interchange StaffAssociation -->
+    <entry key="/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffReference"
+          value="idRefResolution/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffReference.xml" />
+
+    <entry key="/InterchangeStaffAssociation/StaffProgramAssociation/StaffReference"
+          value="idRefResolution/InterchangeStaffAssociation/StaffProgramAssociation/StaffReference.xml" />
+
+     <entry key="/InterchangeStaffAssociation/TeacherSchoolAssociation/TeacherReference"
+          value="idRefResolution/InterchangeStaffAssociation/TeacherSchoolAssociation/TeacherReference.xml" />
+
+    <entry key="/InterchangeStaffAssociation/TeacherSectionAssociation/TeacherReference"
+          value="idRefResolution/InterchangeStaffAssociation/TeacherSectionAssociation/TeacherReference.xml" />
+
+    <!-- end of interchange StaffAssociation -->
+
+    <!--interchange StudentDiscipline -->
+    <entry key="/InterchangeStudentDiscipline/DisciplineAction/DisciplineIncidentReference"
+          value="idRefResolution/InterchangeStudentDiscipline/DisciplineAction/DisciplineIncidentReference.xml" />
+    <!-- end of interchange StaffAssociation>= -->
+
+    <!-- Interchange StudentParent -->
+    <entry key="/InterchangeStudentParent/StudentParentAssociation/ParentReference"
+          value="idRefResolution//InterchangeStudentParent/StudentParentAssociation/ParentReference.xml" />
+
+    <entry key="/InterchangeStudentParent/StudentParentAssociation/StudentReference"
+          value="idRefResolution/InterchangeStudentParent/StudentParentAssociation/StudentReference.xml" />
+
+    <!-- end of interchange StudentParent -->
+
+    <!-- Interchange EducationOrganization -->
+    <entry key="/InterchangeEducationOrganization/School/ProgramReference"
+          value="idRefResolution/InterchangeEducationOrganization/School/ProgramReference.xml" />
+
+        <entry key="/InterchangeEducationOrganization/School/EducationOrganizationPeerReference"
+          value="idRefResolution/InterchangeEducationOrganization/School/EducationOrganizationPeerReference.xml" />
+
+        <entry key="/InterchangeEducationOrganization/School/LocalEducationAgencyReference"
+          value="idRefResolution/InterchangeEducationOrganization/School/LocalEducationAgencyReference.xml" />
+
+     <entry key="/InterchangeEducationOrganization/Course/EducationOrganizationReference"
+          value="idRefResolution/InterchangeEducationOrganization/Course/EducationOrganizationReference.xml" />
+
+    <entry key="/InterchangeEducationOrganization/StateEducationAgency/ProgramReference"
+          value="idRefResolution/InterchangeEducationOrganization/StateEducationAgency/ProgramReference.xml" />
+
+        <entry key="/InterchangeEducationOrganization/StateEducationAgency/EducationOrganizationPeerReference"
+          value="idRefResolution/InterchangeEducationOrganization/StateEducationAgency/EducationOrganizationPeerReference.xml" />
+
+        <entry key="/InterchangeEducationOrganization/LocalEducationAgency/ProgramReference"
+          value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/ProgramReference.xml" />
+
+        <entry key="/InterchangeEducationOrganization/LocalEducationAgency/EducationOrganizationPeerReference"
+          value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/EducationOrganizationPeerReference.xml" />
+
+        <entry key="/InterchangeEducationOrganization/LocalEducationAgency/LocalEducationAgencyReference"
+          value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/LocalEducationAgencyReference.xml" />
+
+    <entry key="/InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference"
+          value="idRefResolution/InterchangeEducationOrganization/LocalEducationAgency/StateEducationAgencyReference.xml" />
+
+    <!-- end of Interchange EducationOrganization -->
+
+    <!-- Interchange MasterSchedule -->
+    <entry key="/InterchangeMasterSchedule/Section/CourseOfferingReference"
+          value="idRefResolution/InterchangeMasterSchedule/Section/CourseOfferingReference.xml" />
+    <!-- end of Interchange MasterSchedule -->
+
   </util:map>
 
   <bean id="smooksExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SmooksExtendedReferenceResolver">
