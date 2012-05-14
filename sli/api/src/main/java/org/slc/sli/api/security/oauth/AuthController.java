@@ -237,7 +237,8 @@ public class AuthController {
         LOG.debug("creating saml authnrequest with ForceAuthn equal to {}", forceAuthn);
 
         int idpType = 1;
-        if(idpTypeString!=null && idpTypeString.equalsIgnoreCase("Siteminder")){
+
+        if (idpTypeString != null && idpTypeString.equalsIgnoreCase("Siteminder")) {
             idpType = 4; 
         }
         
