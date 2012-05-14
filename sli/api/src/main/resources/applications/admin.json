@@ -16,7 +16,7 @@
    },
    "redirect_uri":"${bootstrap.app.admin.url}/callback",
    "is_admin":true,
-   "enabled":true,
+   "installed":false,
    "behavior":"Iframe App",
    "developer_info":{
       "organization":"SLI"
