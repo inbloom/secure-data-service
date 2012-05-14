@@ -43,16 +43,6 @@ public class RolesAndPermissionsResourceTest {
     @Autowired
     private SecurityContextInjector securityContextInjector;
 
-    private EntityBody createTestRole() {
-        EntityBody role = new EntityBody();
-        List<String> permissions = new ArrayList<String>();
-        permissions.add(Right.READ_RESTRICTED.toString());
-        permissions.add(Right.WRITE_RESTRICTED.toString());
-        role.put("name", "Role1");
-        role.put("rights", permissions);
-        return role;
-    }
-
     @Before
     public void setUp() {
         // inject administrator security context for unit testing

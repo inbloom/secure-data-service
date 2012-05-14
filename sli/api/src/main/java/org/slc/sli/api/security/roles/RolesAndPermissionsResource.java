@@ -53,22 +53,6 @@ public class RolesAndPermissionsResource {
         return roleList;
     }
 
-    /**
-     * A simple method to add a new role to the database.
-     *
-     * @param name
-     *            the name of the new role (eg: Educator)
-     * @param rights
-     *            some list of rights to be added
-     * @see org.slc.sli.common.domain.enums.Right
-     */
-    @POST
-    @Path("/roles")
-    public boolean createRoleWithPermission(String name, List<String> rights) {
-        // TODO prevent default role manipulation
-        return roleAccessor.addRole(RoleBuilder.makeRole(name).addRights(rights).build());
-    }
-
     // Injection method
     public void setRoleAccessor(RoleRightAccess roleRights) {
         roleAccessor = roleRights;
