@@ -100,9 +100,6 @@ module ApplicationHelper
   # Returns : first, last, and user name on associated record
   #
   def self.get_email_info(guid)
-    if (API_BASE.nil? or guid.nil?)
-      return UNKNOWN_EMAIL
-    end
     
     url = API_BASE + "/" + guid
     res = RestClient.get(url, REST_HEADER){|response, request, result| response }
