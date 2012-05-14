@@ -3,16 +3,11 @@ Feature: Edit Realms Page
   
 Background:
   Given I have an open web browser
-
-
-Scenario: Go to edit realms page when having a role other than Realm Administrator
-  Given I am authenticated to SLI IDP as user "leader" with pass "leader1234"
-  When I hit the realm editing URL
-   Then I should get a message that I am not authorized to access the page
+   When I hit the realm editing URL
+  And I was redirected to the "Simple" IDP Login page
+  And I submit the credentials "fakerealmadmin" "fakerealmadmin1234" for the "Simple" login page
 
 Scenario: Realm administrator editing an existing realm
-  Given I am authenticated to SLI IDP as user "fakerealmadmin" with pass "fakerealmadmin1234"
-   When I hit the realm editing URL
     And I should see that I am on the "Fake Realm" edit page
     And I should enter "Edited Fake" into the Display Name field
     And I should click the "Save" button
@@ -21,8 +16,6 @@ Scenario: Realm administrator editing an existing realm
     And I should see that I am on the "Edited Fake" edit page
   
 Scenario: Realm Administrator deleting a existing realm
-  Given I am authenticated to SLI IDP as user "fakerealmadmin" with pass "fakerealmadmin1234"
-  When I hit the realm editing URL
    And I should see that I am on the "Edited Fake" edit page
    And I should click the delete realm link
    Then I should be redirected to a new realm page
@@ -30,11 +23,9 @@ Scenario: Realm Administrator deleting a existing realm
    And I should see that I am on the new realm page
    And all of the input fields should be blank
    And I should hit the role mapping page
-   And I should see that the page doesn't exist'
+   And I should see that the page doesn't exist
    
 Scenario: Realm Administrator creating a new realm
-  Given I am authenticated to SLI IDP as user "fakerealmadmin" with pass "fakerealmadmin1234"
-  When I hit the realm editing URL
   And I should see that I am on the new realm page
   And all of the input fields should be blank
   When I enter valid data into all fields

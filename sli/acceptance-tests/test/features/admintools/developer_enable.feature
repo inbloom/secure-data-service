@@ -9,8 +9,8 @@ Background:
 Scenario: App Developer or Vendor enabling application for a District
 Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
-	And I get redirected to the IDP login page
-	And I authenticate with username "developer" and password "developer1234"
+	And I was redirected to the "Simple" IDP Login page
+	And I submit the credentials "developer" "developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 	And I see the list of (only) my applications
 	And I clicked on the button Edit for the application "Testing App"
@@ -21,17 +21,17 @@ Then the "Testing App" is enabled for Districts
 Then I log out
 Then I log in as a valid SLI Operator "sunsetadmin" from the "SLI" hosted directory
 When I hit the Admin Application Authorization Tool
-	And I get redirected to the IDP login page
-	And I authenticate with username "sunsetadmin" and password "sunsetadmin1234"
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 	Then I am redirected to the Admin Application Authorization Tool
 	Then I see the newly enabled application
 	
 
-Scenario: App Developer or Vendor disabling application for a District
+Scenario: App Developer or Vendor disabling application for a District, part 2
 Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
-	And I get redirected to the IDP login page
-	And I authenticate with username "developer" and password "developer1234"
+	And I was redirected to the "Simple" IDP Login page
+	And I submit the credentials "developer" "developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 	And I see the list of (only) my applications
 	And I clicked on the button Edit for the application "Testing App"
@@ -42,17 +42,17 @@ Then the "Testing App" is enabled for Districts
 Then I log out
 Then I log in as a valid SLI Operator "sunsetadmin" from the "SLI" hosted directory
 When I hit the Admin Application Authorization Tool
-	And I get redirected to the IDP login page
-	And I authenticate with username "sunsetadmin" and password "sunsetadmin1234"
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 	Then I am redirected to the Admin Application Authorization Tool
 	Then I don't see the newly disabled application
 
 @sandbox
-Scenario: App Developer or Vendor disabling application for a District
+Scenario: App Developer or Vendor disabling application for a District, part 3
 Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
-	And I get redirected to the IDP login page
-	And I authenticate with username "developer" and password "developer1234"
+	And I was redirected to the "Simple" IDP Login page
+	And I submit the credentials "developer" "developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 	And I see the list of (only) my applications
 	And I clicked on the button Edit for the application "Testing App"
@@ -63,7 +63,7 @@ Then the "Testing App" is enabled for Districts
 Then I log out
 Then I log in as a valid SLI Operator "sunsetadmin" from the "SLI" hosted directory
 When I hit the Admin Application Authorization Tool
-	And I get redirected to the IDP login page
-	And I authenticate with username "sunsetadmin" and password "sunsetadmin1234"
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 	Then I am redirected to the Admin Application Authorization Tool
 	Then I see the newly enabled application is approved
