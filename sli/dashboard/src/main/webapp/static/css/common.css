@@ -172,6 +172,10 @@ h7 {
     line-height: 18px;vertical-align: middle;color: #999999;font-weight: 100;font-size:13px;
 }
 
+.ui-jqgrid-title {
+    font-size: 14px;
+}
+
 .ui-jqgrid .ui-jqgrid-htable  {
 	border-bottom: 2px solid #000000;
 	border-top: 1px solid #CCCCCC;

@@ -98,13 +98,13 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 	$("#"+name).find("dropdown-menu").html(select);
 	var autoSelectOption = -1;
 	
-	if (options.length == 1 && autoSelect) {
-		autoSelectOption = 0;
-	}
 	
-	if(options.length == 0) {
-		select += "<li><a href=\"#\"</a></li>";
+	if(options === null || options === undefined || options.length == 0) {
+		select += "<li class=\"selected\"><a href=\"#\">There is no data available for your request.  Please contact your IT administrator.</a></li>";
 	} else {
+	    	if (options.length == 1 && autoSelect) {
+			autoSelectOption = 0;
+	    	}
 		if (defaultOptions != undefined && defaultOptions != null) {
 			jQuery.each(defaultOptions, function(val, displayText) {
 				select += "    <li class=\"\"><a href=\"#\">" + displayText + "</a>" +
@@ -113,7 +113,7 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 		}
 		for(var index = 0; index < options.length; index++) {
 			var selected = index == autoSelectOption ? "selected" : "";
-			select += "    <li class=\"" + selected + "\"><a href=\"#\">"+options[index][titleKey]+"</a>" +
+			select += "    <li class=\"" + selected + "\"><a href=\"#\">"+$.jgrid.htmlEncode(options[index][titleKey])+"</a>" +
 	    				"<input type='hidden' value='"+ index + "' id ='selectionValue' /></li>";
 		}
 	}
@@ -205,6 +205,7 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
 
 DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
 {
+
 	// for some reason root config doesn't work with local data, so manually extract
 	if (columnItems.root && panelData != null && panelData != undefined) {
 		panelData = panelData[columnItems.root];
@@ -214,7 +215,12 @@ DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
 	        datatype: 'local', 
 	        height: 'auto',
 	        viewrecords: true,
+	        autoencode: true,
 	        rowNum: 10000};
+        if(panelData === null || panelData === undefined) {
+            gridOptions["data"] = [];
+            gridOptions["caption"] = "There is no data available for your request.";
+        }
 	if (options) {
 		gridOptions = jQuery.extend(gridOptions, options);
 	}
@@ -293,8 +299,9 @@ DashboardUtil.Grid.Formatters = {
             
             var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
             
-            if (value == undefined || value == null) {
-                "<span class='fuelGauge-perfLevel'>!</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
+            if (value === undefined || value === null) {
+                //return "<span class='fuelGauge-perfLevel'></span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
+                return "<span class='fuelGauge-perfLevel'></span>";
             }
             
             if (!assessments || assessments == undefined) {
@@ -329,7 +336,7 @@ DashboardUtil.Grid.Formatters = {
             options.colModel.formatoptions["perfLevel"] = perfLevel;
             options.colModel.formatoptions["perfLevelClass"] = perfLevelClass;
             
-            return "<span class='" + perfLevelClass + " fuelGauge-perfLevel'>" + value + "</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
+            return "<span class='" + perfLevelClass + " fuelGauge-perfLevel'>" + $.jgrid.htmlEncode(value) + "</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
         },
         
         FuelGauge: function(value, options, rowObject) {
@@ -413,7 +420,7 @@ DashboardUtil.Grid.Formatters = {
                     styleClass = "numericGradeColumn"; 
                 }
             } 
-            return div + styleClass + closeDiv + innerHtml + endDiv;
+            return div + styleClass + closeDiv + $.jgrid.htmlEncode(innerHtml) + endDiv;
         },
 
         TearDrop: function(value, options, rowObject) {
@@ -434,7 +441,7 @@ DashboardUtil.Grid.Formatters = {
                 if(course.letterGrade !== null && course.letterGrade !== undefined) {
                     innerHtml = course.letterGrade;
                     styleClass = DashboardUtil.teardrop.getStyle(course.letterGrade, null)
-                    divs = divs + div + styleClass + closeDiv + innerHtml + endDiv;
+                    divs = divs + div + styleClass + closeDiv + $.jgrid.htmlEncode(innerHtml) + endDiv;
                 }
             }
             return divs;
@@ -445,7 +452,7 @@ DashboardUtil.Grid.Formatters = {
           var link = options.colModel.formatoptions.link;
           if(typeof link == 'string')
           {
-            return '<a href="' + contextRootPath + '/' + link + rowObject.id+'">'+value+'</a>';
+            return '<a href="' + contextRootPath + '/' + link + rowObject.id+'">'+$.jgrid.htmlEncode(value)+'</a>';
           }else{
             return value;
           }
