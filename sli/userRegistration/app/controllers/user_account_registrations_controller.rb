@@ -28,7 +28,7 @@ class UserAccountRegistrationsController < ApplicationController
       redirectPage=response["redirect"]
       puts("#{redirectPage}")
       @user_account_registration.errors.add(:email,response["error"])
-      session[:guuid]=response["guuid"]
+      session[:email]=@user_account_registration.email
     end
     puts("#{redirectPage}")
     respond_to do |format|
