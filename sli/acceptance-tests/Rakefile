@@ -455,6 +455,36 @@ end
 
 
 
+############################################################
+# User Registration App Tests
+############################################################
+
+desc "Run User Registration App Tests"
+task :userRegistrationTests => [:userRegistrationProdTests, :userRegistrationSbTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run User Registration App Tests - Production"
+task :userRegistrationProdTests do
+  @tags = ["~@wip", "@production"]
+  runTests("test/features/apiV1/end_user_stories/sandbox/UserAccountRequest/accountRequest.feature")
+end
+
+desc "Run User Registration App Tests - Sandbox"
+task :userRegistrationSbTests do
+  @tags = ["~@wip", "@sandbox"]
+  runTests("test/features/apiV1/end_user_stories/sandbox/UserAccountRequest/accountRequest.feature")
+end
+
+############################################################
+# User Registration App Tests end
+############################################################
+
 desc "Export Storied Test Data"
 task :exportStoriedData do
   Rake::Task["ingestionAcceptanceSdsTest"].execute
