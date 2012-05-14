@@ -214,6 +214,7 @@ DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
 	        datatype: 'local', 
 	        height: 'auto',
 	        viewrecords: true,
+	        autoencode: true,
 	        rowNum: 10000};
 	if (options) {
 		gridOptions = jQuery.extend(gridOptions, options);
@@ -294,7 +295,7 @@ DashboardUtil.Grid.Formatters = {
             var assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
             
             if (value == undefined || value == null) {
-                "<span class='fuelGauge-perfLevel'>!</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
+                return "<span class='fuelGauge-perfLevel'>!</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
             }
             
             if (!assessments || assessments == undefined) {
@@ -329,7 +330,7 @@ DashboardUtil.Grid.Formatters = {
             options.colModel.formatoptions["perfLevel"] = perfLevel;
             options.colModel.formatoptions["perfLevelClass"] = perfLevelClass;
             
-            return "<span class='" + perfLevelClass + " fuelGauge-perfLevel'>" + value + "</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
+            return "<span class='" + perfLevelClass + " fuelGauge-perfLevel'>" + $.jgrid.htmlEncode(value) + "</span>" + DashboardUtil.Grid.Formatters.FuelGauge(value, options, rowObject);
         },
         
         FuelGauge: function(value, options, rowObject) {
@@ -413,7 +414,7 @@ DashboardUtil.Grid.Formatters = {
                     styleClass = "numericGradeColumn"; 
                 }
             } 
-            return div + styleClass + closeDiv + innerHtml + endDiv;
+            return div + styleClass + closeDiv + $.jgrid.htmlEncode(innerHtml) + endDiv;
         },
 
         TearDrop: function(value, options, rowObject) {
@@ -434,7 +435,7 @@ DashboardUtil.Grid.Formatters = {
                 if(course.letterGrade !== null && course.letterGrade !== undefined) {
                     innerHtml = course.letterGrade;
                     styleClass = DashboardUtil.teardrop.getStyle(course.letterGrade, null)
-                    divs = divs + div + styleClass + closeDiv + innerHtml + endDiv;
+                    divs = divs + div + styleClass + closeDiv + $.jgrid.htmlEncode(innerHtml) + endDiv;
                 }
             }
             return divs;
@@ -445,7 +446,7 @@ DashboardUtil.Grid.Formatters = {
           var link = options.colModel.formatoptions.link;
           if(typeof link == 'string')
           {
-            return '<a href="' + contextRootPath + '/' + link + rowObject.id+'">'+value+'</a>';
+            return '<a href="' + contextRootPath + '/' + link + rowObject.id+'">'+$.jgrid.htmlEncode(value)+'</a>';
           }else{
             return value;
           }
