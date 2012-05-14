@@ -59,7 +59,8 @@ input {
     top:0;
     right:0;
 }
-.panel-content .tabular table {
+
+.tabular table {
     border-right: 0 solid #DDDDDD;
     border-top: 0 solid #DDDDDD; 
     vertical-align: top;
@@ -68,18 +69,20 @@ input {
     margin-top: 0;
     table-layout: fixed;
 }
-.panel-content .tabular table tr td{
-    float: right;
+
+.tabular table tr td {
     padding-bottom: 6px;
     padding-left: 4px;
     padding-top: 6px;
     text-align: left;
     line-height: 4px;
 }
-.panel-content .tabular table tr td div{
+
+.tabular table tr td div {
     padding: 0px 0px 12px 0px;
 }
-.panel-content .tabular table th{
+
+.tabular table th{
     color: #999999;
     vertical-align: top; 
     text-align: right;
@@ -89,6 +92,7 @@ input {
     padding-top: 6px;
     line-height: 4px;
 }
+
 h1, h2, h3, h4, h5, h6 {
     color: #333333;
     font-weight: bold;
@@ -1078,11 +1082,6 @@ text-decoration: none;
     margin: 5px;
 }
 
-.csi
-{
-    height: 100px;
-}
-
 .csi .colMain
 {
     margin-left: 20px;
@@ -1098,18 +1097,6 @@ text-decoration: none;
 .csi .studentInfo span
 {
     padding-right: 10px;
-}
-
-.csi .studentInfo .col1
-{
-    float: left;
-    width: 500px;
-}
-
-.csi .studentInfo .col2
-{
-    margin-left: 500px;
-    width: 500px;
 }
 
 .csi .field

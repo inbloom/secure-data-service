@@ -5,12 +5,12 @@
         <h4> District </h4>
         <input type='hidden' value='' id ='edOrgSelect' /> 
         <div class="btn-toolbar">
-            <div class="btn-group" id="edOrgSelectMenu">
-                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+            <div class="btn-group" id="edOrgSelectMenu" name="edOrgSelectMenu">
+                <a class="btn dropdown-toggle" id="edOrgSelectButton" data-toggle="dropdown" href="#">
                     <span class='optionText'> </span>
                     <span class="caret"></span>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" id="edOrgSelectOptions">
                 </ul>
             </div>
         </div>

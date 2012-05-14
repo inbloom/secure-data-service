@@ -233,19 +233,20 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         List<GenericEntity> entities = getUserInstHierarchy(token);
         GenericEntity entity = new GenericEntity();
         // Dashboard expects return one GenericEntity.
-        entity.put("root", entities);
+        entity.put(Constants.ATTR_ROOT, entities);
         if (key != null) {
             // TODO: a better way of searching should be implemented.
             for (GenericEntity org : entities) {
-                HashSet schools = ((HashSet) org.get("schools"));
+                HashSet schools = ((HashSet) org.get(Constants.ATTR_SCHOOLS));
                 for (Object school : schools) {
-                    for (Object course : ((GenericEntity) school).getList("courses")) {
-                        for (Object section : ((GenericEntity) course).getList("sections")) {
+                    for (Object course : ((GenericEntity) school).getList(Constants.ATTR_COURSES)) {
+                        for (Object section : ((GenericEntity) course).getList(Constants.ATTR_SECTIONS)) {
                             if (((GenericEntity) section).getId().equals(key)) {
                                 GenericEntity selectedOrg = new GenericEntity();
-                                selectedOrg.put("name", org.get("name"));
-                                selectedOrg.put("section", section);
-                                entity.put("selectedPopulation", selectedOrg);
+                                selectedOrg.put(Constants.ATTR_NAME, org.get(Constants.ATTR_NAME));
+                                selectedOrg.put(Constants.ATTR_SECTION, section);
+                                entity.put(Constants.ATTR_SELECTED_POPULATION, selectedOrg);
+                                return entity;
                             }
                         }
                     }
