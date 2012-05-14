@@ -31,6 +31,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Component
 @Scope(value = "singleton")
 public class ControllerInputValidatorAspect {
+
+    private class DefaultStringValidatable {
+        @SuppressWarnings("unused")
+        @NoBadChars
+        private String validatableString;
+
+        public DefaultStringValidatable(String validatableString) {
+            this.validatableString = validatableString;
+        }
+    }
+
     private Validator validator;
 
     @Pointcut("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
@@ -70,6 +81,10 @@ public class ControllerInputValidatorAspect {
     private void validateArg(Object arg, String argName) {
         BindingResult result = new BeanPropertyBindingResult(arg, argName);
         ValidationUtils.invokeValidator(getValidator(), arg, result);
+        // force string validation for bad chars
+        if (arg instanceof String) {
+            ValidationUtils.invokeValidator(getValidator(), new DefaultStringValidatable((String) arg), result);
+        }
         if (result.hasErrors()) {
             throw new HttpMessageConversionException("Invalid input parameter " + argName, new BindException(result));
         }

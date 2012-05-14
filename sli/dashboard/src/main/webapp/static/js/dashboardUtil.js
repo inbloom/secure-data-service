@@ -92,6 +92,60 @@ DashboardUtil.makeTabs = function (element)
     $(element).tabs();
 };
 
+DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titleKey, valueKey, autoSelect, callback) {
+	var select =  "";
+	
+	$("#"+name).find("dropdown-menu").html(select);
+	var autoSelectOption = -1;
+	
+	if (options.length == 1 && autoSelect) {
+		autoSelectOption = 0;
+	}
+	
+	if(options.length == 0) {
+		select += "<li><a href=\"#\"</a></li>";
+	} else {
+		if (defaultOptions != undefined && defaultOptions != null) {
+			jQuery.each(defaultOptions, function(val, displayText) {
+				select += "    <li class=\"\"><a href=\"#\">" + displayText + "</a>" +
+				"<input type='hidden' value='"+ val + "' id ='selectionValue' /></li>";
+			});
+		}
+		for(var index = 0; index < options.length; index++) {
+			var selected = index == autoSelectOption ? "selected" : "";
+			select += "    <li class=\"" + selected + "\"><a href=\"#\">"+options[index][titleKey]+"</a>" +
+	    				"<input type='hidden' value='"+ index + "' id ='selectionValue' /></li>";
+		}
+	}
+	
+	$("#"+name + "SelectMenu .dropdown-menu").html(select);
+	$("#"+name + "SelectMenu .disabled").removeClass("disabled");
+	$("#"+name + "SelectMenu .dropdown-menu li").click( function() {
+		$("#"+name + "SelectMenu .selected").removeClass("selected");
+		$("#"+name + "SelectMenu").find(".optionText").html($(this).find("a").html());
+		$("#"+name + "Select").val($(this).find("#selectionValue").val());
+		$(this).addClass("selected");
+		callback();
+	});
+  
+	$("#"+name + "SelectMenu .selected").click();
+	
+};
+
+DashboardUtil.selectDropDownOption = function (name, optionValue, doClick) {
+	$("#" + name + "SelectMenu .dropdown-menu li").each(function() {
+		if (optionValue == $(this).find("#selectionValue").val()) {
+			$(this).addClass("selected");
+			if (doClick) {
+				$(this).click();
+			} else {
+				$("#" + name + "Select").val(optionValue);
+				$("#" + name + "SelectMenu .optionText").html($(this).find("a").html());
+			}
+		}
+	});
+};
+
 jQuery.fn.sliGrid = function(panelConfig, options) {
 	var colNames = [];
     var colModel = [];

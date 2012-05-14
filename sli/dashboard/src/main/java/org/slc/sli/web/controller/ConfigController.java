@@ -84,6 +84,7 @@ public class ConfigController extends GenericLayoutController {
         try {
             putCustomConfig(configMap);
         } catch (RuntimeException re) {
+            logger.error("Error saving config", re);
             return "Permission Denied";
         }
         return "Success";

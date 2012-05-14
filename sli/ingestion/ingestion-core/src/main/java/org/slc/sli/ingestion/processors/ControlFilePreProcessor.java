@@ -106,6 +106,7 @@ public class ControlFilePreProcessor implements Processor {
                 ipAddr = addr.getAddress();
 
             } catch (UnknownHostException e) {
+                LOG.error("Error getting local host", e);
             }
             SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha MH
                     "", // user

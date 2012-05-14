@@ -10,6 +10,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.slc.sli.util.DashboardException;
+import org.slc.sli.web.util.NoBadChars;
 
 /**
  * Main config object for dashboard components
@@ -69,7 +70,9 @@ public class Config implements Cloneable {
         protected String sorter;
         @Pattern(regexp = "[a-zA-Z0-9 \\.-]")
         protected String align;
-        @Valid
+
+        @NoBadChars
+        @Size(max = 30)
         protected Map<String, Object> params;
 
         public String getDescription() {
@@ -174,6 +177,7 @@ public class Config implements Cloneable {
         @Pattern(regexp = "[a-zA-Z0-9 ]{0,50}")
         protected String cacheKey;
         @Size(max = 30)
+        @NoBadChars
         protected Map<String, Object> params;
         protected boolean lazy;
 
