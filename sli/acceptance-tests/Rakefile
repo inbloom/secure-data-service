@@ -43,7 +43,8 @@ $collectionSet = ["student",
                   "attendance",
                   "program",
                   "studentAcademicRecord",
-                  "grade"]
+                  "grade",
+                  "studentCompetency"]
 
 #######################################################################################################
 # Helper defs
@@ -316,7 +317,6 @@ task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
   runTests("test/features/databrowser/databrowser_selective_deny.feature")
-  runFixtureAndTests("test/features/databrowser/databrowser_denial.feature", "application", "application_denial_fixture.json")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -389,7 +389,7 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :in
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
-                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, :ingestionTenantTest] do
+                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -523,7 +523,8 @@ task :importSandboxData do
     "learningStandard" => "learningStandard_fixture.json",
     "learningObjective" => "learningObjective_fixture.json",
     "userAccount" => "userAccount_fixture.json",
-    "grade" => "grade_fixture.json"
+    "grade" => "grade_fixture.json",
+    "studentCompetency" => "studentCompetency_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 

@@ -2,7 +2,7 @@
 <%@ page session="false"%>
 <html>
 <head>
-<title>Mock IDP</title>
+<title>Simple IDP</title>
 <style type="text/css">
 .tenant {
 	/* color: #438746 */
