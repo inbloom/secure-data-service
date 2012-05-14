@@ -35,11 +35,7 @@ public class SamlAssertionService {
 
     /**
      * Creates the identity assertion SAML Response to send to the API
-<<<<<<< HEAD
-     * 
-=======
      *
->>>>>>> master
      * @param userId
      *            userId to send back in saml assertion
      * @param roles
