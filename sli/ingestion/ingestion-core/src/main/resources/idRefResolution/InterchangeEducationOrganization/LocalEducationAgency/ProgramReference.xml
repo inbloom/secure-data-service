@@ -30,7 +30,7 @@
                     </#if>
                     <#if (Program.EducationOrgIdentificationCode[0])??>
                     <EducationOrgIdentificationCode
-                        <#if(Program.EducationOrgIdentificationCode.@IdentificationSystem[0])??>
+                        <#if (Program.EducationOrgIdentificationCode.@IdentificationSystem[0])??>
                          IdentificationSystem="${Program.EducationOrgIdentificationCode.@IdentificationSystem}"
                          </#if>
                          >
