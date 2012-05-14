@@ -38,6 +38,11 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private final IngestionFileEntry fe;
 
     private Map<String, Integer> occurences;
+    private int recordsPerisisted;
+
+    public int getRecordsPerisisted() {
+        return recordsPerisisted;
+    }
 
     private SmooksEdFiVisitor(String beanId, String batchJobId, ErrorReport errorReport, IngestionFileEntry fe) {
         this.beanId = beanId;
@@ -45,6 +50,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         this.errorReport = errorReport;
         this.fe = fe;
         this.occurences = new HashMap<String, Integer>();
+        this.recordsPerisisted = 0;
     }
 
     public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, ErrorReport errorReport,
@@ -60,12 +66,13 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
             nrMongoStagingWriter.writeResource(neutralRecord, batchJobId);
+            this.recordsPerisisted++;
 
         } else {
 
             // Indicate Smooks Validation Failure
             LOG.error(terminationError.getMessage());
-
+            
             if (errorReport != null) {
                 errorReport.error(terminationError.getMessage(), SmooksEdFiVisitor.class);
             }
