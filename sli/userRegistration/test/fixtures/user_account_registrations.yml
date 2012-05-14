@@ -9,7 +9,7 @@ one:
 
 two:
   email: "test2@testsite.com"
-    firstName: "testname2"
-    lastName: "testlastname2"
-    password: "something"
-    vendor: "test2"
+  firstName: "testname2"
+  lastName: "testlastname2"
+  password: "something"
+  vendor: "test2"

@@ -15,4 +15,13 @@ class ActiveSupport::TestCase
   #fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  def load_fixture(name)
+    path = File.join(Rails.root, "test", "fixtures", "#{name}.yml")
+    puts("#{path}")
+    return nil unless File.exists?(path)
+    YAML::load(File.open path)
+  end
+  setup do
+  	#@user_account_registration = load_fixture("user_account_registrations")
+  end
 end

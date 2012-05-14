@@ -2,6 +2,7 @@ require 'test_helper'
 
 class UserAccountRegistrationTest < ActiveSupport::TestCase
     def setup
+        
     end
    def test_initialise
     user_account_registration=UserAccountRegistration.new(
