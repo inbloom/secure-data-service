@@ -232,8 +232,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 String resource1 = entityDef.getStoredCollectionName();
 //                String resource2 = endpointEntity.getStoredCollectionName();
 
-                DE260 - Logging of possibly sensitive data
-                // write some information to debug
+//                 DE260 - Logging of possibly sensitive data
+//                 write some information to debug
 //                LOGGER.debug("Attempting to list from {} where {} = {}", new Object[] { resource1, key, value });
 //                LOGGER.debug("Then for each result, ");
 //                LOGGER.debug(" going to read from {} where \"_id\" = {}.{}",
