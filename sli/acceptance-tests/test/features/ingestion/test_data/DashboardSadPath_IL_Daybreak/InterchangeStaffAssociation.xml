@@ -41,7 +41,7 @@
 		<TeacherUniqueStateId>a</TeacherUniqueStateId>
 		<HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
 	</Teacher>
-	<!--TeacherSchoolAssociation>
+	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>cgray</StaffUniqueStateId>
@@ -60,7 +60,7 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 			<AcademicSubject>English Language and Literature</AcademicSubject>
 		</AcademicSubjects>
-	</TeacherSchoolAssociation-->
+	</TeacherSchoolAssociation>
     <TeacherSectionAssociation>
         <TeacherReference>
             <StaffIdentity>
@@ -230,7 +230,7 @@
         </TeacherReference>
         <SchoolReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </EducationalOrgIdentity>
         </SchoolReference>
         <ProgramAssignment>Regular Education</ProgramAssignment>
@@ -244,6 +244,20 @@
             <AcademicSubject>Mathematics</AcademicSubject>
         </AcademicSubjects>
     </TeacherSchoolAssociation>
+    <TeacherSectionAssociation>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SectionReference>
+            <SectionIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                <UniqueSectionCode>Grade 1</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <ClassroomPosition>Teacher of Record</ClassroomPosition>
+    </TeacherSectionAssociation>
     <!-- jdoe -->
     <Teacher>
         <StaffUniqueStateId>jdoe</StaffUniqueStateId>
@@ -283,7 +297,7 @@
         <TeacherUniqueStateId>a</TeacherUniqueStateId>
         <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
     </Teacher>
-    <TeacherSchoolAssociation>
+    <!--TeacherSchoolAssociation>
         <TeacherReference>
             <StaffIdentity>
                 <StaffUniqueStateId>jdoe</StaffUniqueStateId>
@@ -302,7 +316,21 @@
             <AcademicSubject>Computer and Information Sciences</AcademicSubject>
             <AcademicSubject>English Language and Literature</AcademicSubject>
         </AcademicSubjects>
-    </TeacherSchoolAssociation>
+    </TeacherSchoolAssociation-->
+    <TeacherSectionAssociation>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>jdoe</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SectionReference>
+            <SectionIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                <UniqueSectionCode>Sec 145</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <ClassroomPosition>Teacher of Record</ClassroomPosition>
+    </TeacherSectionAssociation>
     <!-- Tbear -->
     <Teacher>
         <StaffUniqueStateId>tbear</StaffUniqueStateId>

@@ -23,15 +23,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
@@ -42,6 +39,9 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Realm role mapping API. Allows full CRUD on realm objects. Primarily intended to allow
@@ -228,7 +228,8 @@ public class RealmRoleManagerResource {
         for (Map<String, Object> role : roles) {
             String sliRoleName = (String) role.get("sliRoleName");
             List<String> clientRoleNameList = (List<String>) role.get("clientRoleName");
-            if (roleRightAccess.getDefaultRole(sliRoleName) == null) {
+            Role sliRole = roleRightAccess.getDefaultRole(sliRoleName);
+            if (sliRole == null || sliRole.isAdmin()) {
                 res.put("response", "Invalid SLI Role");
                 return Response.status(Status.BAD_REQUEST).build();
             }

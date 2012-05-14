@@ -139,12 +139,12 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             for (GenericEntity edOrg : edOrgs) {
                 String parentEdOrgId = (String) edOrg.get(Constants.ATTR_PARENT_EDORG);
                 String edOrgId = edOrg.getId();
-                // insert ed-org id to - edOrg mapping
-                edOrgIdMap.put(edOrgId, edOrg);
 
-                // if parentedOrgId is not null, it means you are the top
-                // organization
+                // if parentEdOrgId exists, you are not the top organization
                 if (parentEdOrgId != null) {
+
+                    // insert ed-org id to - edOrg mapping
+                    edOrgIdMap.put(edOrgId, edOrg);
 
                     // insert ed-org - school mapping into the reverse map
                     if (!schoolReachableFromEdOrg.keySet().contains(parentEdOrgId)) {
