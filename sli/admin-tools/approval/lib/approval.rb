@@ -110,10 +110,11 @@ module ApprovalEngine
 		end
     
     if !@@is_sandbox && (user[:status] == STATE_APPROVED)
+      # TODO: Below should not be hardcoded and should be configurable by admin.
       email = {
         :email_addr => user[:email],
         :name       => "#{user[:first]} #{user[:last]}",
-        :subject    => "Test Landing Zone Provision",
+        :subject    => "Landing Zone Provisioned",
         :content    => "Landing Zone: __URI__/landing_zone\n\nApp Registration: __URI__/apps"
       }
       @@emailer.send_approval_email email
