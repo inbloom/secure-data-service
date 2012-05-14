@@ -10,9 +10,11 @@ if(selectedPopulation != undefined && selectedPopulation != null) {
     	
     	//find the length of options.
         var edOrgLength = instHierarchy.length;
+        DashboardUtil.hideErrorMessage();
         
         //if options is empty the dropdown should be disabled.
         edOrgIndex = edOrgLength == 1 ?  0 : -1;
+        DashboardUtil.selectDropDownOption("edOrg", i, true);
         if (edOrgLength != 1) {
         	
         	//loop through the options to find the selected option.
