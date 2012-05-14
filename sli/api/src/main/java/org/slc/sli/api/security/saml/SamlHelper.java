@@ -221,7 +221,7 @@ public class SamlHelper {
         
         doc.getRootElement().addContent(nameId);
         
-        if(idpType != 4) {
+        if (idpType != 4) {
             Element authnContext = new Element("RequestedAuthnContext", SAMLP_NS);
             authnContext.getAttributes().add(new Attribute("Comparison", "exact"));
             Element classRef = new Element("AuthnContextClassRef", SAML_NS);
@@ -283,7 +283,7 @@ public class SamlHelper {
         
         doc.getRootElement().addContent(nameId);
         
-        if(idpType!=4){
+        if (idpType != 4) {
             Element authnContext = new Element("RequestedAuthnContext", SAMLP_NS);
             authnContext.getAttributes().add(new Attribute("Comparison", "exact"));
             Element classRef = new Element("AuthnContextClassRef", SAML_NS);

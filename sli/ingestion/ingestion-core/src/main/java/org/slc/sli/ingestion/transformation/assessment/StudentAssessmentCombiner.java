@@ -99,26 +99,34 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     }
 
     private void addStudentAssessmentItems(String studentAssessmentId, List<Map<String, Object>> list) {
-        Map<String, String> paths = new HashMap<String, String>();
-        paths.put("localParentIds.studentTestResultRef", studentAssessmentId);
+        Map<String, String> studentAssessmentItemSearchPaths = new HashMap<String, String>();
+        studentAssessmentItemSearchPaths.put("localParentIds.studentTestResultRef", studentAssessmentId);
 
         Iterable<NeutralRecord> sassItems = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
-                "studentAssessmentItem", paths, getJob().getId());
+                "studentAssessmentItem", studentAssessmentItemSearchPaths, getJob().getId());
 
         if (sassItems != null) {
             for (NeutralRecord sai : sassItems) {
                 String assessmentId = (String) sai.getLocalParentIds().get("assessmentItemIdentificatonCode");
                 if (assessmentId != null) {
-                    Map<String, String> paths2 = new HashMap<String, String>();
-                    paths2.put("body.identificationCode", assessmentId);
+                    Map<String, String> assessmentSearchPath = new HashMap<String, String>();
+                    assessmentSearchPath.put("body.identificationCode", assessmentId);
 
                     Iterable<NeutralRecord> assessmentItems = getNeutralRecordMongoAccess().getRecordRepository()
-                            .findByPathsForJob("assessmentItem", paths2, getJob().getId());
+                            .findByPathsForJob("assessmentItem", assessmentSearchPath, getJob().getId());
 
                     if (assessmentItems.iterator().hasNext()) {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
                         sai.getAttributes().put("assessmentItem", assessmentItem.getAttributes());
+                    } else {
+                        super.getErrorReport(sai.getSourceFile()).error(
+                                "Cannot find AssessmentItem referenced by StudentAssessmentItem.  AssessmentItemIdentificationCode: "
+                                        + assessmentId, this);
                     }
+                } else {
+                    super.getErrorReport(sai.getSourceFile())
+                            .error("StudentAsessmentItem does not contain an AssessmentItemIdentificationCode referencing an AssessmentItem",
+                                    this);
                 }
 
                 list.add(sai.getAttributes());

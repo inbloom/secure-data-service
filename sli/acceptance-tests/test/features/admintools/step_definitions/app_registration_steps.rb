@@ -17,20 +17,6 @@ When /^I hit the Application Registration Tool URL$/ do
   @driver.get(PropLoader.getProps['admintools_server_url']+"/apps/")
 end
 
-When /^I get redirected to the IDP login page$/ do
-  assertWithWait("Failed to navigate to the IDP Login page")  {@driver.find_element(:id, "IDToken1")}
-end
-
-When /^I authenticate with username "([^"]*)" and password "([^"]*)"$/ do |arg1, arg2|
-  @driver.find_element(:id, "IDToken1").send_keys arg1
-  @driver.find_element(:id, "IDToken2").send_keys arg2
-  @driver.find_element(:name, "Login.Submit").click
-  begin
-    @driver.switch_to.alert.accept
-  rescue
-  end  
-end
-
 Then /^I am redirected to the Application Approval Tool page$/ do
   assertWithWait("Failed to navigate to the Admintools App Registration Approval page")  {@driver.page_source.index("Application Registration Approval") != nil}
 end
