@@ -225,10 +225,10 @@
 
   <util:map id="ftlIdRefConfigs" key-type="java.lang.String" value-type="java.lang.String">
       <!--Interchange StudentAssessmenet -->
-      <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" 
+      <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference"
           value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.ftl" />
 
-      <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" 
+      <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference"
           value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/StudentReference.ftl" />
 
       <!--End of Interchange StudentAssment -->
@@ -241,7 +241,7 @@
 
     <entry key="/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference"
           value="idRefResolution/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference.ftl" />
- 
+
     <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningStandardReference"
           value="idRefResolution/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningStandardReference.ftl" />
 
@@ -331,6 +331,11 @@
     <entry key="/InterchangeMasterSchedule/Section/CourseOfferingReference"
           value="idRefResolution/InterchangeMasterSchedule/Section/CourseOfferingReference.ftl" />
     <!-- end of Interchange MasterSchedule -->
+
+    <!-- Interchange StudentCohort -->
+    <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference"
+          value="idRefResolution/InterchangeStudentCohort/StudentCohortAssociation/CohortReference.ftl" />
+    <!-- end of Interchange StudentCohort -->
 
   </util:map>
 

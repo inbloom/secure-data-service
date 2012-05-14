@@ -1,0 +1,21 @@
+<DisciplineIncident id="distruption">
+      <IncidentIdentifier>Disruption</IncidentIdentifier>
+      <IncidentDate>2011-02-01</IncidentDate>
+      <IncidentTime>15:23:02</IncidentTime>
+      <IncidentLocation>On School</IncidentLocation>
+      <ReporterDescription>Student</ReporterDescription>
+      <ReporterName>Gold Finger</ReporterName>
+      <Behaviors><CodeValue>BEH01</CodeValue></Behaviors>
+      <Weapons><Weapon>Club</Weapon></Weapons>
+      <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+      <SchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </SchoolReference>
+      <StaffReference>
+        <StaffIdentity>
+          <StaffUniqueStateId>sbantu</StaffUniqueStateId>
+        </StaffIdentity>
+      </StaffReference>
+  </DisciplineIncident>
