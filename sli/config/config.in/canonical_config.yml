@@ -356,7 +356,7 @@ local-acceptance-tests:
 
     ingestion:
         <<: *INGESTION-LOCAL
-        sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.loadDefaultTenants: true
 
     dashboard:
         <<: *DASHBOARD-LOCAL
@@ -368,10 +368,6 @@ local-acceptance-tests:
         oauth.client.id: K2e7Dwhq5J
         oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
         oauth.redirect: http://local.slidev.org:8080/dashboard/callback
-
-        #specify "driver" and "custom" directory name for a user domain based configuration
-        panel.config.driver.dir: config
-        panel.config.custom.dir: custom
 
     apps:
         <<: *APPS-LOCAL        
