@@ -167,7 +167,7 @@ public class SamlFederationResource {
 
         SLIPrincipal principal;
         String tenant = (String)realm.getBody().get("tenantId");
-        if (tenant == null) {
+        if (tenant == null || tenant.length()<1) {
             // accept the tenantId from the IDP if and only if the realm's tenantId is null
             tenant = attributes.getFirst("tenant");
             if (tenant == null) {
@@ -184,7 +184,7 @@ public class SamlFederationResource {
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
-        principal.setTenantId(attributes.getFirst("tenant"));
+        
 
         // {sessionId,redirectURI}
         Pair<String, URI> tuple = this.sessionManager.composeRedirect(inResponseTo, principal);

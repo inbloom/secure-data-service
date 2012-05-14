@@ -131,9 +131,9 @@ public class Login {
             user.setUserId(impersonateUser);
             user.setRoles(roles);
             // only send the tenant - no other values since this is impersonatation
-            String tenant = user.getAttributes().get("Tenant");
+            String tenant = user.getAttributes().get("tenant");
             user.getAttributes().clear();
-            user.getAttributes().put("Tenant", tenant);
+            user.getAttributes().put("tenant", tenant);
         }
         SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
                 user.getAttributes(), requestInfo);
