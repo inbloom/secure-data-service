@@ -24,7 +24,8 @@ Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
       :host => 'mon.slidev.org',
       :port => 3000,
       :sender_name => @email_name,
-      :sender_email_addr => sender_email_address
+      :sender_email_addr => sender_email_address,
+      :replacer => { "__URI__" => "http://localhost:3000"}
     }
   else
     @rumbster = Rumbster.new(test_port)
@@ -35,7 +36,8 @@ Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
       :host => '127.0.0.1',
       :port => test_port,
       :sender_name => @email_name,
-      :sender_email_addr => sender_email_address
+      :sender_email_addr => sender_email_address,
+      :replacer => { "__URI__" => "http://localhost:3000"}
     }
   end
 end
@@ -160,12 +162,12 @@ def verifyEmail
     found = true if content != nil
     imap.disconnect
     assert(found, "Email was not found on SMTP server")
-    assert(subject.include?("Your account has been approved."), "Subject in email is not correct")
+    assert(subject.include?("Account Approval"), "Subject in email is not correct")
   else
     assert(@message_observer.messages.size == 1, "Number of messages is #{@message_observer.messages.size} but should be 1")
     email = @message_observer.messages.first
     assert(email != nil, "email was not received")
-    assert(email.to[0] == @userinfo[:email], "email address was incorrect")
-    assert(email.subject == "Your account has been approved.", "email did not have correct subject")
+    assert(email.to[0] == @userinfo[:email], "email address is #{email.to[0]} but should be #{@userinfo[:email]}")
+    assert(email.subject.include?("Account Approval"), "email subject is <#{email.subject}> but should be <Account Approval>")
   end
 end

@@ -109,14 +109,31 @@ module ApprovalEngine
 				raise "Unknown state transition #{status} => #{target[transition]}."
 		end
     
-    if !@@is_sandbox && (user[:status] == STATE_APPROVED)
+    if user[:status] == STATE_APPROVED
       # TODO: Below should not be hardcoded and should be configurable by admin.
       email = {
         :email_addr => user[:email],
-        :name       => "#{user[:first]} #{user[:last]}",
-        :subject    => "Landing Zone Provisioned",
-        :content    => "Landing Zone: __URI__/landing_zone\n\nApp Registration: __URI__/apps"
+        :name       => "#{user[:first]} #{user[:last]}"
       }
+      if @@is_sandbox
+        email[:subject] = "Developer Account Approval"
+        email[:content] = "Hello,\n\n" <<
+          "Your request for developer account has been  approved.  There are some additional steps needed before you can use your sandbox environment.\n\n" <<
+          "To provision your landing zone go to:\n" <<
+          "__URI__/landing_zone\n\n" <<
+          "To register your applications go to:\n" <<
+          "__URI__/apps\n\n" <<
+          "Thank you,\n" << 
+          "SLC Operator"
+      else
+        email[:subject] = "Vendor Account Approval"
+        email[:content] = "Hello,\n\n" <<
+          "Your request for vendor account has been  approved.\n\n" << 
+          "To register your applications go to:\n" <<
+          "__URI__/apps\n\n" <<
+          "Thank you,\n" << 
+          "SLC Operator"
+      end
       @@emailer.send_approval_email email
     end
 
