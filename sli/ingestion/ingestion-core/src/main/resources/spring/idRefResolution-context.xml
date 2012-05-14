@@ -89,10 +89,10 @@
       </bean>
     </entry>
 
-     <entry key="/InterchangeEducationOrgCalender/Session/GradingPeriodReference">
+     <entry key="/InterchangeEducationOrgCalendar/Session/GradingPeriodReference">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String"
-          value="idRefResolution/InterchangeEducationOrgCalender/Session/GradingPeriodReference.xml" />
+          value="idRefResolution/InterchangeEducationOrgCalendar/Session/GradingPeriodReference.xml" />
       </bean>
     </entry>
 
@@ -232,10 +232,10 @@
 
   <util:map id="ftlIdRefConfigs" key-type="java.lang.String" value-type="java.lang.String">
       <!--Interchange StudentAssessmenet -->
-      <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" 
+      <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference"
           value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/AssessmentReference.ftl" />
 
-      <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" 
+      <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference"
           value="idRefResolution/InterchangeStudentAssessment/StudentAssessment/StudentReference.ftl" />
 
       <!--End of Interchange StudentAssment -->
@@ -248,7 +248,7 @@
 
     <entry key="/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference"
           value="idRefResolution/InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference.ftl" />
- 
+
     <entry key="/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningStandardReference"
           value="idRefResolution/InterchangeAssessmentMetadata/ObjectiveAssessment/LearningStandardReference.ftl" />
 
@@ -291,6 +291,11 @@
     <entry key="/InterchangeStudentDiscipline/DisciplineAction/DisciplineIncidentReference"
           value="idRefResolution/InterchangeStudentDiscipline/DisciplineAction/DisciplineIncidentReference.ftl" />
     <!-- end of interchange StaffAssociation>= -->
+
+    <!--interchange EducationOrgCalendar -->
+    <entry key="/InterchangeEducationOrgCalendar/Session/GradingPeriodReference"
+          value="idRefResolution/InterchangeEducationOrgCalendar/Session/GradingPeriodReference.ftl" />
+    <!-- end of interchange EducationOrgCalendar>= -->
 
     <!-- Interchange StudentParent -->
     <entry key="/InterchangeStudentParent/StudentParentAssociation/ParentReference"
@@ -402,7 +407,7 @@
 
     <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference" value-ref="freeMarkerExtendedReferenceResolver" />
 
-    <entry key="/InterchangeEducationOrgCalender/Session/GradingPeriodReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeEducationOrgCalendar/Session/GradingPeriodReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeEducationOrganization/School/ProgramReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeEducationOrganization/School/EducationOrganizationPeerReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeEducationOrganization/School/LocalEducationAgencyReference" value-ref="freeMarkerExtendedReferenceResolver" />

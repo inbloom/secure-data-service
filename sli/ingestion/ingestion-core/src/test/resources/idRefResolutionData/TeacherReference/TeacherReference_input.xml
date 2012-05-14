@@ -1,0 +1,38 @@
+    <Teacher>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+        <StaffIdentificationCode IdentificationSystem="Canadian SIN" AssigningOrganizationCode="a">
+            <ID>a</ID>
+        </StaffIdentificationCode>
+        <Name Verification="Drivers license">
+            <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+            <FirstName>Charles</FirstName>
+            <LastSurname>Gray</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthDate>1975-06-29</BirthDate>
+        <Address AddressType="Mailing">
+            <StreetNumberName>123 Smith Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>12345</PostalCode>
+            <BeginDate>1967-08-13</BeginDate>
+            <EndDate>1967-08-13</EndDate>
+        </Address>
+        <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>a</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>dummy@fake.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+        <Race>
+            <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+        </Race>
+        <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+        <YearsOfPriorProfessionalExperience>0</YearsOfPriorProfessionalExperience>
+        <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+        <LoginId>a</LoginId>
+        <TeacherUniqueStateId>a</TeacherUniqueStateId>
+        <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+    </Teacher>
