@@ -205,6 +205,7 @@ jQuery.fn.sliGrid = function(panelConfig, options) {
 
 DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
 {
+
 	// for some reason root config doesn't work with local data, so manually extract
 	if (columnItems.root && panelData != null && panelData != undefined) {
 		panelData = panelData[columnItems.root];
@@ -215,6 +216,10 @@ DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
 	        height: 'auto',
 	        viewrecords: true,
 	        rowNum: 10000};
+        if(panelData === null || panelData === undefined) {
+            gridOptions["data"] = [];
+            gridOptions["caption"] = "There is no data available for your request.";
+        }
 	if (options) {
 		gridOptions = jQuery.extend(gridOptions, options);
 	}
