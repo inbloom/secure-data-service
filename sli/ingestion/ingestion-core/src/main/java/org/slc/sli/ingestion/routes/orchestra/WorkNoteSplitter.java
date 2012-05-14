@@ -28,8 +28,8 @@ public class WorkNoteSplitter {
     
     private static final Logger LOG = LoggerFactory.getLogger(WorkNoteSplitter.class);
     
-    private static final int ENTITY_SPLITTING_THRESHOLD = 25000;
-    private static final int ENTITY_CONSTANT_SPLIT = 10000;
+    private static final int ENTITY_SPLITTING_THRESHOLD = 10000;
+    private static final int ENTITY_CONSTANT_SPLIT = 100;
     
     @Autowired
     private StagedEntityTypeDAO stagedEntityTypeDAO;
@@ -71,14 +71,17 @@ public class WorkNoteSplitter {
             long numRecords = neutralRecordMongoAccess.getRecordRepository().countForJob(
                     stagedEntity.getCollectionNameAsStaged(), new NeutralQuery(0), jobId);
             
-            LOG.info("Found {} records for collection: {}", numRecords, stagedEntity.getCollectionNameAsStaged());
+            LOG.info("Records for collection {}: {}", stagedEntity.getCollectionNameAsStaged(), numRecords);
             
             if (numRecords > ENTITY_SPLITTING_THRESHOLD) {
-                LOG.info("Splitting {} collection.", stagedEntity.getCollectionNameAsStaged());
+                LOG.info("Exceeds Entity Splitting Threshold --> Splitting {} collection.", stagedEntity.getCollectionNameAsStaged());
                 for (long i = 0; i < numRecords; i += ENTITY_CONSTANT_SPLIT) {
                     long chunk = ((i + ENTITY_CONSTANT_SPLIT) > numRecords) ? (numRecords)
                             : (i + ENTITY_CONSTANT_SPLIT);
-                    WorkNote workNote = new WorkNoteImpl(jobId, stagedEntity, 0, chunk - 1);
+                    
+                    LOG.info("work note for collection: {} on range: [{}, {}]", stagedEntity.getCollectionNameAsStaged(), new Object[] {i, chunk - 1});
+                    
+                    WorkNote workNote = new WorkNoteImpl(jobId, stagedEntity, i, chunk - 1);
                     workNoteList.add(workNote);
                 }
             } else {
