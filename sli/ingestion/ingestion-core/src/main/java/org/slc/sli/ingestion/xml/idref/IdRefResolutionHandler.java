@@ -148,7 +148,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return idRefs;
     }
 
-    protected Map<String, File> findMatchingEntities(final File xml, final Set<String> ids, ErrorReport errorReport) {
+    protected Map<String, File> findMatchingEntities(final File xml, final Set<String> ids, final ErrorReport errorReport) {
         final Map<String, File> refContent = new HashMap<String, File>();
 
         for (String id : ids) {
@@ -177,7 +177,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                 Attribute id = start.getAttributeByName(ID_ATTR);
 
-                File content = getContent(xml, xmlEvent, eventReader);
+                File content = getContent(xml, xmlEvent, eventReader, errorReport);
                 refContent.put(id.getValue(), content);
 
                 idsToProcess--;
@@ -378,7 +378,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         }
     }
 
-    private File getContent(File xml, XMLEvent xmlEvent, XMLEventReader eventReader) {
+    private File getContent(File xml, XMLEvent xmlEvent, XMLEventReader eventReader, final ErrorReport errorReport) {
         File snippet = null;
 
         BufferedOutputStream out = null;
@@ -427,6 +427,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                                 xmlEvent = EVENT_FACTORY.createStartElement(start.getName(), newAttrs.iterator(),
                                         start.getNamespaces());
+
+                                errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG5", ref.getValue()), IdRefResolutionHandler.class);
                             }
                         }
                     } else if (xmlEvent.isEndElement()) {
