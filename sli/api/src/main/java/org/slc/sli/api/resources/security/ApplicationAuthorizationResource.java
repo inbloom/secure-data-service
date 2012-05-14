@@ -215,13 +215,13 @@ public class ApplicationAuthorizationResource {
             newEdOrgId = (String) newAppAuth.get(AUTH_ID);
         }
 
-        List<Object> oldApprovedAppIds      = new ArrayList<Object>();
-        List<Object> newApprovedAppIds      = new ArrayList<Object>();
+        List<Object> oldApprovedAppIds = new ArrayList<Object>();
+        List<Object> newApprovedAppIds = new ArrayList<Object>();
         if (oldAppAuth != null && oldAppAuth.get(APP_IDS) != null) {
-            oldApprovedAppIds      = (List<Object>) oldAppAuth.get(APP_IDS);
+            oldApprovedAppIds = (List<Object>) oldAppAuth.get(APP_IDS);
         }
         if (newAppAuth != null && newAppAuth.get(APP_IDS) != null) {
-            newApprovedAppIds      = (List<Object>) newAppAuth.get(APP_IDS);
+            newApprovedAppIds = (List<Object>) newAppAuth.get(APP_IDS);
         }
 
         Set<Pair<String, String>> older = new HashSet<Pair<String, String>>();
@@ -239,24 +239,26 @@ public class ApplicationAuthorizationResource {
         Set<Pair<String, String>>  deleted   = new HashSet<Pair<String, String>>(older);
         deleted.removeAll(newer);
 
-       // logSecurityEvent(uriInfo, added, true);
-        //logSecurityEvent(uriInfo, deleted, false);
+        logSecurityEvent(uriInfo, added, true);
+        logSecurityEvent(uriInfo, deleted, false);
     }
 
     private void logSecurityEvent(UriInfo uriInfo, Set<Pair<String, String>> edOrgApps, boolean added) {
-        for (Pair<String, String> edOrgApp: edOrgApps) {
-            String edOrgId = edOrgApp.getLeft();
+        for (Pair<String, String> edOrgApp : edOrgApps) {
+            String stateId = edOrgApp.getLeft();
             String appId = edOrgApp.getRight();
+            String edOrgId = null;
 
             EntityBody edOrg = null;
             EntityBody app = null;
             try {
-                edOrg   = edOrgService.get(edOrgId);
+                edOrgId = edOrgService.listIds(new NeutralQuery(new NeutralCriteria(STATE_ORGANIZATION_ID, "=", stateId))).iterator().next();
+                edOrg = edOrgService.get(edOrgId);
             } catch (AccessDeniedException e) {
                 LOG.info("No access to EdOrg[" + edOrgId + "].Omitting in Security Log.");
             }
             try {
-                app     = applicationService.get(appId);
+                app = applicationService.get(appId);
             } catch (AccessDeniedException e) {
                 LOG.info("No access to Application[" + appId + "].Omitting in Security Log.");
             }
@@ -271,9 +273,9 @@ public class ApplicationAuthorizationResource {
                 }
             }
 
-            String clientId    = "";
-            String name        = "";
-            String description = "";
+            String clientId = null;
+            String name = null;
+            String description = null;
             if (app != null) {
                 if (app.get(CLIENT_ID) != null) {
                     clientId    = (String) app.get(CLIENT_ID);
@@ -286,18 +288,18 @@ public class ApplicationAuthorizationResource {
                 }
             }
 
-        if (added) {
-           audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
-                   uriInfo,
-                   "ALLOWED [" + appId + ", " + name + ", " + description + "] by Client [" + clientId + "] "
-                 + "TO ACCESS [" + edOrgId + ", " + stateOrganizationId  + ", " + nameOfInstitution + "]"));
-        } else {
-           audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
-                    uriInfo,
-                    "NOT ALLOWED [" + appId + ", " + name + ", " + description + "] by Client [" + clientId + "] "
-                  + "TO ACCESS [" + edOrgId + ", " + stateOrganizationId  + ", " + nameOfInstitution + "]"));
+            if (added) {
+                audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
+                        uriInfo,
+                        "ALLOWED [" + appId + ", " + name + ", " + description + "] by Client [" + clientId + "] "
+                                + "TO ACCESS [" + edOrgId + ", " + stateOrganizationId  + ", " + nameOfInstitution + "]"));
+            } else {
+                audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
+                        uriInfo,
+                        "NOT ALLOWED [" + appId + ", " + name + ", " + description + "] by Client [" + clientId + "] "
+                                + "TO ACCESS [" + edOrgId + ", " + stateOrganizationId  + ", " + nameOfInstitution + "]"));
+            }
         }
-      }
-  }
+    }
 
 }
