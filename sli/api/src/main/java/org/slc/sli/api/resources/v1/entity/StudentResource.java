@@ -663,4 +663,21 @@ public class StudentResource extends DefaultCrudEndpoint {
                 "programId", ResourceNames.PROGRAMS, headers, uriInfo);
     }
 
+    /**
+     * getReportCards
+     *
+     * @param studentId
+     *          The id of the student
+     * @param headers
+     *          HTTP request headers
+     * @param uriInfo
+     *          URI information including path and query parameters
+     */
+    @GET
+    @Path("{" + ParameterConstants.STUDENT_ID + "}" + "/" + PathConstants.REPORT_CARDS)
+    public Response getReportCards(@PathParam(ParameterConstants.STUDENT_ID) final String studentId,
+                                   @Context HttpHeaders headers,
+                                   @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.REPORT_CARDS, ParameterConstants.STUDENT_ID, studentId, headers, uriInfo);
+    }
 }

@@ -37,10 +37,25 @@ public class StringSchema extends NeutralSchema {
         this(xsdType, new ArrayList<AbstractBlacklistStrategy>(), new ArrayList<AbstractBlacklistStrategy>());
     }
 
+    /**
+     * Constructor with parameters for the lists of AbstractBlacklistStrategy instances which will be applied,
+     * depending on AppInfo
+     *
+     * @param validationRuleList
+     * @param relaxedValidationRuleList
+     */
     public StringSchema(List<AbstractBlacklistStrategy> validationRuleList, List<AbstractBlacklistStrategy> relaxedValidationRuleList) {
         this(NeutralSchemaType.STRING.getName(), validationRuleList, relaxedValidationRuleList);
     }
 
+    /**
+     * Constructor with parameters the xsdType and the lists of AbstractBlacklistStrategy instances which will be
+     * applied, depending on AppInfo
+     *
+     * @param xsdType
+     * @param validationRuleList
+     * @param relaxedValidationRuleList
+     */
     public StringSchema(String xsdType, List<AbstractBlacklistStrategy> validationRuleList, List<AbstractBlacklistStrategy> relaxedValidationRuleList) {
         super(xsdType);
         this.validationRuleList = validationRuleList;
@@ -123,7 +138,7 @@ public class StringSchema extends NeutralSchema {
             for (AbstractBlacklistStrategy validationRule : relaxedValidationRuleList) {
                 boolean isValid = validationRule.isValid("StringSchemaContext", data);
                 if (!addError(isValid, fieldName, entity, "Invalid value caught by relaxed blacklisting strategy: "
-                        + validationRule.getTypeName(), ErrorType.INVALID_VALUE, errors)) {
+                        + validationRule.getIdentifier(), ErrorType.INVALID_VALUE, errors)) {
                     return false;
                 }
             }
@@ -131,7 +146,7 @@ public class StringSchema extends NeutralSchema {
             for (AbstractBlacklistStrategy validationRule : validationRuleList) {
                 boolean isValid = validationRule.isValid("StringSchemaContext", data);
                 if (!addError(isValid, fieldName, entity, "Invalid value caught by strict blacklisting strategy: "
-                        + validationRule.getTypeName(), ErrorType.INVALID_VALUE, errors)) {
+                        + validationRule.getIdentifier(), ErrorType.INVALID_VALUE, errors)) {
                     return false;
                 }
             }

@@ -57,7 +57,7 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 10    |
         | session                     | 22    |
         | assessment                  | 19    |
-        | studentAssessmentAssociation| 178   |
+        | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
@@ -115,7 +115,13 @@ Then I should see following map of entry counts in the corresponding collections
        | assessment                  | 1                   | body.assessmentItem.3.itemCategory             | True-False       | string  |
        | assessment                  | 1                   | body.assessmentItem.3.maxRawScore              | 5                | integer |
        | assessment                  | 1                   | body.assessmentItem.3.correctResponse          | False            | string  |
-    And I should see "Processed 15405 records." in the resulting batch job file
+       | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.0.assessmentItem.identificationCode | AssessmentItem-3    | string |
+       | studentAssessmentAssociation | 17                 | body.studentAssessmentItems.0.assessmentResponse                | True                | string |
+       | studentAssessmentAssociation | 17                 | body.studentAssessmentItems.0.assessmentItemResult              | Correct             | string |
+       | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.1.assessmentItem.identificationCode | AssessmentItem-4    | string |
+       | studentAssessmentAssociation | 22                 | body.studentAssessmentItems.1.assessmentResponse                | True                | string |
+       | studentAssessmentAssociation | 22                 | body.studentAssessmentItems.1.assessmentItemResult              | Correct             | string |
+    And I should see "Processed 15430 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -198,19 +204,19 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
-        | student                     | 80    |
-        | studentSchoolAssociation    | 169   |
+        | student                     | 81    |
+        | studentSchoolAssociation    | 170   |
         | course                      | 96    |
         | educationOrganization       | 7     |
         | section                     | 98    |
-        | studentSectionAssociation   | 298   |
+        | studentSectionAssociation   | 299   |
         | staff                       | 21    |
         | staffEducationOrganizationAssociation|17|
         | teacherSchoolAssociation    | 4     |
         | teacherSectionAssociation   | 11    |
         | session                     | 22    |
         | assessment                  | 19    |
-        | studentAssessmentAssociation| 178   |
+        | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
@@ -235,10 +241,10 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | Sunset Central High School | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-SUNSET                  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 26 records." in the resulting batch job file
+    And I should see "Processed 29 records." in the resulting batch job file
     And I should not see an error log file created
-    And I should see "InterchangeStudent.xml records considered: 2" in the resulting batch job file
-    And I should see "InterchangeStudent.xml records ingested successfully: 2" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records considered: 3" in the resulting batch job file
+    And I should see "InterchangeStudent.xml records ingested successfully: 3" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records considered: 3" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records ingested successfully: 3" in the resulting batch job file
@@ -252,8 +258,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStaffAssociation.xml records considered: 15" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records ingested successfully: 15" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records considered: 4" in the resulting batch job file
-    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 4" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records considered: 6" in the resulting batch job file
+    And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 6" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
 
 @smoke @integration @NY-NYC
@@ -264,19 +270,19 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
-        | student                     | 88    |
-        | studentSchoolAssociation    | 177   |
+        | student                     | 89    |
+        | studentSchoolAssociation    | 178   |
         | course                      | 104   |
         | educationOrganization       | 14    |
         | section                     | 114   |
-        | studentSectionAssociation   | 306   |
+        | studentSectionAssociation   | 307   |
         | staff                       | 58    |
         | staffEducationOrganizationAssociation|38|
         | teacherSchoolAssociation    | 20    |
         | teacherSectionAssociation   | 27    |
         | session                     | 26    |
         | assessment                  | 19    |
-        | studentAssessmentAssociation| 178   |
+        | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |

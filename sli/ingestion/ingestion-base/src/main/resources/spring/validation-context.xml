@@ -82,6 +82,9 @@
     class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator">
   </bean>
 
+  <bean id="checksumValidator" class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator">
+  </bean>
+
     <bean id="messageSource"
     class="org.springframework.context.support.ResourceBundleMessageSource">
     <property name="basenames">

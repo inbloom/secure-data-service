@@ -32,8 +32,8 @@ default:
         # Used to bootstrap the admin realm
         bootstrap.admin.realm.name: Shared Learning Infrastructure
         bootstrap.admin.realm.tenantId: SLI	
-        bootstrap.admin.realm.idpId: https://devapp1.slidev.org:443/sp
-        bootstrap.admin.realm.redirectEndpoint: https://devapp1.slidev.org:443/sp/SSORedirect/metaAlias/idp
+        bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
 
 
     data-access: &DATA-ACCESS-DEFAULT
@@ -356,7 +356,7 @@ local-acceptance-tests:
 
     ingestion:
         <<: *INGESTION-LOCAL
-        sli.ingestion.tenant.loadDefaultTenants: false
+        sli.ingestion.tenant.loadDefaultTenants: true
 
     dashboard:
         <<: *DASHBOARD-LOCAL
@@ -368,10 +368,6 @@ local-acceptance-tests:
         oauth.client.id: K2e7Dwhq5J
         oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
         oauth.redirect: http://local.slidev.org:8080/dashboard/callback
-
-        #specify "driver" and "custom" directory name for a user domain based configuration
-        panel.config.driver.dir: config
-        panel.config.custom.dir: custom
 
     apps:
         <<: *APPS-LOCAL        
@@ -407,6 +403,8 @@ team:
         sli.support.email: sli@example.com
 
         api.perf.log.path: /storage/logs
+        bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
         # team/data-access/db.properties
@@ -611,6 +609,8 @@ sandbox:
     api:
         <<: *API-TEAM
         sli.sandbox.autoRegisterApps: true
+        bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
     dashboard:
         <<: *DASHBOARD-TEAM
     ingestion:

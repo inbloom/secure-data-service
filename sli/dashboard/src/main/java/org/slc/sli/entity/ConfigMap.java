@@ -1,9 +1,10 @@
 package org.slc.sli.entity;
 
-import java.util.Collections;
 import java.util.Map;
 
 import javax.validation.Valid;
+
+import org.slc.sli.web.util.NoBadChars;
 
 
 /**
@@ -13,7 +14,8 @@ import javax.validation.Valid;
  */
 public class ConfigMap {
     @Valid
-    private Map<String, Config> config = Collections.emptyMap();
+    @NoBadChars(depth = 1)
+    private Map<String, Config> config;
 
     public Map<String, Config> getConfig() {
         return config;
