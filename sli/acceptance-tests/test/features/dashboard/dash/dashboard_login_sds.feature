@@ -275,7 +275,7 @@ And their grade is "11"
 And the teacher is "Mr Mark Anthony"
 And the class is "A.P. Calculus Sec 201"
 
-@integration @wip
+@integration
 Scenario: Login with School Level Leader
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
@@ -295,7 +295,7 @@ Then "0" results are returned
 And I click on the browser back button
 Then I see a list of 25 students
 
-@integration @wip
+@integration
 Scenario: Login with School Level IT admin
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
@@ -318,7 +318,7 @@ And the teacher is "Ms Rebecca Braverman"
 And the class is "Mrs. Braverman's Homeroom #38"
 And the lozenges count is "0"
 
-@integration @wip
+@integration
 Scenario: Login with School Level aggr viewer
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
