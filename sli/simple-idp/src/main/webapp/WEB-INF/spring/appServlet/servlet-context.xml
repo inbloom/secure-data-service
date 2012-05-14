@@ -32,6 +32,15 @@
     <beans:property name="suffix" value=".jsp" />
   </beans:bean>
 
+  <!-- Include resources from DAL -->
+  <beans:import resource="classpath:/spring/db.xml" />
+  <beans:import resource="classpath:/spring/validation.xml" />
+
+  <beans:bean class="org.slc.sli.sandbox.idp.aspect.LoggerCarrierAspect"
+    factory-method="aspectOf">
+	<beans:property name="template" ref="mongoTemplate" />
+  </beans:bean>
+
   <context:component-scan base-package="org.slc.sli" />
 
 </beans:beans>
