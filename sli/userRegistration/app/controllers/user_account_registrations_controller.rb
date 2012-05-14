@@ -21,14 +21,16 @@ class UserAccountRegistrationsController < ApplicationController
     @user_account_registration = UserAccountRegistration.new(params[:user_account_registration])
     @user_account_registration.errors.clear
     if @user_account_registration.valid? ==false
-       redirectPage=false
-      else
-        response=UserAccountRegistrationsHelper.register_user(@user_account_registration)
-        puts("^^^^^^^^^^^#{response}")
-        redirectPage=response["redirect"]
-        @user_account_registration.errors.add(:email,response["error"])
-        session[:guuid]=response["guuid"]
-      end
+     redirectPage=false
+    else
+      response=UserAccountRegistrationsHelper.register_user(@user_account_registration)
+      puts("^^^^^^^^^^^#{response}")
+      redirectPage=response["redirect"]
+      puts("#{redirectPage}")
+      @user_account_registration.errors.add(:email,response["error"])
+      session[:guuid]=response["guuid"]
+    end
+    puts("#{redirectPage}")
     respond_to do |format|
         if redirectPage==true
             

@@ -1,12 +1,17 @@
 require 'test_helper'
+require "mocha"
 
 class UserAccountRegistrationsControllerTest < ActionController::TestCase
 
   setup do
-    #user_account_registrations=load_fixture("user_account_registrations")
-    #@user_account_registration = load_fixture("user_account_registrations")[0]
-    UserAccountRegistrationsHelper.expects(:register_user).with("km").returns({"email"=>"sweet@itworks.com"})
-    puts "KM Result: " + ApprovalEngine.get_user_emailtoken("km").to_s
+    @user_account_registration=UserAccountRegistration.new(
+        :email=> 'validated@valid.com' ,
+        :firstName => 'test',
+        :lastName => 'testLName',
+        :password => 'secret',
+        :password_confirmation => 'secret',
+        :vendor => 'self'
+    )
  
   end
 
@@ -17,9 +22,16 @@ class UserAccountRegistrationsControllerTest < ActionController::TestCase
 
   test "should create user_account_registration" do
 
-    post :create, user_account_registration: { email: @user_account_registration.email, firstName: @user_account_registration.firstName, lastName: @user_account_registration.lastName, password: @user_account_registration.password, vendor: @user_account_registration.vendor }
+    UserAccountRegistrationsHelper.stubs(:register_user).returns({"redirect"=>true,"error"=>""})
 
-    assert_redirected_to user_account_registration_path(assigns(:user_account_registration))
+    post :create, user_account_registration: { email: @user_account_registration.email, firstName: @user_account_registration.firstName, lastName: @user_account_registration.lastName, password: @user_account_registration.password, vendor: @user_account_registration.vendor }
+    assert_template :controller => "eula", :action => "show"
+  end
+  test "should validate user_account_registration" do
+
+    post :create, user_account_registration: { email: "invalid.com", firstName: @user_account_registration.firstName, lastName: @user_account_registration.lastName, password: @user_account_registration.password, vendor: @user_account_registration.vendor }
+
+    assert_template :new
   end
 
  end
