@@ -1,8 +1,13 @@
 package org.slc.sli.client;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,9 +19,6 @@ import java.util.Set;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
@@ -24,6 +26,8 @@ import org.slc.sli.util.Constants;
 import org.slc.sli.util.ExecutionTimeLogger;
 import org.slc.sli.util.ExecutionTimeLogger.LogExecutionTime;
 import org.slc.sli.util.SecurityUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -91,6 +95,16 @@ public class LiveAPIClient implements APIClient {
     // For now, the live client will use the mock client for api calls not yet
     // implemented
     private MockAPIClient mockClient;
+
+    private String gracePeriod;
+
+    public void setGracePeriod(String gracePeriod) {
+        this.gracePeriod = gracePeriod;
+    }
+
+    public String getGracePeriod() {
+        return this.gracePeriod;
+    }
 
     public LiveAPIClient() {
         mockClient = new MockAPIClient();
@@ -181,23 +195,23 @@ public class LiveAPIClient implements APIClient {
 
     @Override
     public List<GenericEntity> getSchools(String token, List<String> schoolIds) {
-
+        
         List<GenericEntity> schools = null;
-
+        
         // get schools
         schools = createEntitiesFromAPI(getApiUrl() + SCHOOLS_URL, token);
-
+        
         // get teachers
         List<GenericEntity> teachers = null;
         teachers = createEntitiesFromAPI(getApiUrl() + TEACHERS_URL, token);
-
+        
         // get sections by looping through teachers
         List<GenericEntity> sections = new ArrayList<GenericEntity>();
-
+        
         for (GenericEntity teacher : teachers) {
             sections.addAll(getSectionsForTeacher(teacher.getId(), token));
         }
-
+        
         // match courses and sections to schools
         // TODO: redo this part without second schools query
         List<GenericEntity> schools2 = getSchoolsForSection(sections, token);
@@ -209,10 +223,9 @@ public class LiveAPIClient implements APIClient {
                 }
             }
         }
-
+        
         return schools;
     }
-
 
     /**
      * Get a list of student objects, given the student ids
@@ -483,7 +496,12 @@ public class LiveAPIClient implements APIClient {
 
         // call https://<IP address>/api/rest/<version>/sections
         List<GenericEntity> sections = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL, token);
-        sections = processSections(sections);
+        
+        // Enrich sections with session details
+        enrichSectionsWithSessionDetails(token, sections);
+        
+        sections = processSections(sections, true);
+        
         return sections;
     }
 
@@ -495,20 +513,104 @@ public class LiveAPIClient implements APIClient {
         List<GenericEntity> sections = createEntitiesFromAPI(getApiUrl() + TEACHERS_URL + id + TEACHER_SECTION_ASSOC
                 + SECTIONS, token);
 
-        sections = processSections(sections);
+        sections = processSections(sections, false);
         return sections;
     }
 
-    private List<GenericEntity> processSections(List<GenericEntity> sections) {
+    /**
+     * Enrich section entities with session details to be leveraged during filtering
+     *
+     * @param token
+     * @param sections
+     */
+    private void enrichSectionsWithSessionDetails(String token, List<GenericEntity> sections) {
+        
+        List<GenericEntity> sessions = this.getSessions(token);
+        if ((sessions != null) && (sections != null)) {
+            
+            // Setup sessions lookup map
+            Map<String, GenericEntity> sessionMap = new HashMap<String, GenericEntity>();
+            for (GenericEntity session : sessions) {
+                sessionMap.put(session.getId(), session);
+            }
+            
+            // Enrich each section with session entity
+            for (GenericEntity section : sections) {
+                String sessionIdAttribute = (String) section.get(Constants.ATTR_SESSION_ID);
+                if (sessionIdAttribute != null) {
+                    GenericEntity session = sessionMap.get(sessionIdAttribute);
+                    section.put(Constants.ATTR_SESSION, session);
+                }
+            }                
+        }
+    }
+
+    /**
+     * Process sections to ensure section name and filter historical data if specified
+     *
+     * @param sections
+     * @param filterHistoricalData
+     * @return
+     */
+    private List<GenericEntity> processSections(List<GenericEntity> sections, boolean filterHistoricalData) {
+        List<GenericEntity> filteredSections = sections;
+        
+        if (filterHistoricalData) {
+            filteredSections = new ArrayList<GenericEntity>();
+        }
+        
         if (sections != null) {
             for (GenericEntity section : sections) {
+                
                 // if no section name, fill in with section code
                 if (section.get(Constants.ATTR_SECTION_NAME) == null) {
                     section.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
                 }
+                
+                // Filter historical sections/sessions if necessary
+                if (filterHistoricalData) {
+                    Map<String, Object> session = (Map<String, Object>) section.get(Constants.ATTR_SESSION);
+                    
+                    // Verify section has been enriched with session details
+                    if (session != null) {
+                        try {
+                            String endDateAttribute = (String) session.get(Constants.ATTR_SESSION_END_DATE);
+                            DateFormat formatter = new SimpleDateFormat(Constants.ATTR_DATE_FORMAT);
+                            Date sessionEndDate = formatter.parse(endDateAttribute);
+                            
+                            // Verify session end data is present
+                            if (sessionEndDate != null) {
+                                // Setup grace period date
+                                Calendar gracePeriodCalendar = Calendar.getInstance();
+                                gracePeriodCalendar.setTimeInMillis(System.currentTimeMillis());
+                                if (gracePeriod != null && !gracePeriod.equals("")) {
+                                    int daysToSubtract = Integer.parseInt(gracePeriod) * -1;
+                                    gracePeriodCalendar.add(Calendar.DATE, daysToSubtract);
+                                }
+                                
+                                // Setup session end date
+                                Calendar sessionEndCalendar = Calendar.getInstance();
+                                sessionEndCalendar.setTimeInMillis(sessionEndDate.getTime());
+                                
+                                // Add filtered section if grace period adjusted date is before
+                                // or equal to session end date
+                                if (gracePeriodCalendar.compareTo(sessionEndCalendar) <= 0) {
+                                    filteredSections.add(section);
+                                }
+                            }
+                        } catch (NumberFormatException exception) {
+                            LOGGER.warn("Invalid grace period: {}", exception.getMessage());
+                        } catch (IllegalArgumentException exception) {
+                            LOGGER.warn("Invalid session date formatter configuration: {}", exception.getMessage());
+                        } catch (ParseException exception) {
+                            LOGGER.warn("Invalid session date format: {}", exception.getMessage());
+                        }
+                    }
+                }
             }
         }
-        return sections;
+        
+        return filteredSections;
     }
 
     /**
@@ -682,6 +784,17 @@ public class LiveAPIClient implements APIClient {
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    public List<GenericEntity> getSessions(String token) {
+        String url = getApiUrl() + SESSION_URL;
+        try {
+            return createEntitiesFromAPI(url, token);
+        } catch (Exception e) {
+            LOGGER.error(e.toString());
+            return new ArrayList<GenericEntity>();
         }
     }
 

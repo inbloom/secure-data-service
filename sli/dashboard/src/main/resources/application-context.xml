@@ -54,7 +54,7 @@
 	    <property name="apiUrl" value="${api.server.url}" />
 	    <property name="portalHeaderUrl" value="${portal.header.url}" />
 	    <property name="portalFooterUrl" value="${portal.footer.url}" />
-	    
+	    <property name="gracePeriod" value="${sli.security.gracePeriod}" />
 	</bean>
 	
 	<alias alias="apiClientRef" name="${api.client}"/>
