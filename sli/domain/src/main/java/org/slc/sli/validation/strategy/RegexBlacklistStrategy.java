@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 
-import org.owasp.esapi.errors.ValidationException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,7 +19,7 @@ public class RegexBlacklistStrategy extends AbstractBlacklistStrategy {
     private List<Pattern> patternList;
 
     /**
-     * Default constructor, sets typeName to "RegexBlacklistStrategy"
+     * Default constructor, sets identifier to "RegexBlacklistStrategy"
      */
     public RegexBlacklistStrategy() {
         super("RegexBlacklistStrategy");
@@ -45,18 +44,17 @@ public class RegexBlacklistStrategy extends AbstractBlacklistStrategy {
     }
 
     @Override
-    public Object getValid(String context, String input) throws ValidationException {
+    public boolean isValid(String context, String input) {
+        if (input == null) {
+            return false;
+        }
+
         for (Pattern pattern : patternList) {
             Matcher matcher = pattern.matcher(input);
             if (matcher.find()) {
-                throw new BlacklistValidationException("Invalid input: " + input);
+                return false;
             }
         }
-        return input;
-    }
-
-    @Override
-    protected Object sanitize(String context, String input) {
-        return input;
+        return true;
     }
 }

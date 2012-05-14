@@ -251,6 +251,12 @@ $entityData = {
     "studentSectionAssociationId" => "bac890d6-b580-4d9d-a0d4-8bce4e8d351a",
     "letterGradeEarned" => "B+",
     "gradeType" => "Final"
+  },
+  "studentCompetency" => {
+     "competencyLevel" => [{
+       "description" => "really hard competency"
+     }],
+     "diagnosticStatement" => "passed with flying colors"
   }
 }
 

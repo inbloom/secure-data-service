@@ -123,6 +123,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .setRequiredReadRight(Right.ANONYMOUS_ACCESS).setRequiredWriteRight(Right.ANONYMOUS_ACCESS)
                 .buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADE, ResourceNames.GRADES).buildAndRegister(this);
+        factory.makeEntity(EntityNames.STUDENT_COMPETENCY, ResourceNames.STUDENT_COMPETENCIES).buildAndRegister(this);
 
         // adding the association definitions
         AssociationDefinition studentSchoolAssociation = factory.makeAssoc("studentSchoolAssociation", "studentSchoolAssociations")
