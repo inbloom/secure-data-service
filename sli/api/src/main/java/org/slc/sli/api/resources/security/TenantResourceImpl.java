@@ -3,6 +3,7 @@ package org.slc.sli.api.resources.security;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -90,7 +91,6 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     }
 
     @POST
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     public Response create(EntityBody newTenant, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
@@ -122,14 +122,17 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         throw new RuntimeException("Unexpected return type when provisioning tenant.");
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected Object createLandingZone(EntityBody newTenant) {
-        EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
-        
-        String tenantId = (String) newTenant.get(TENANT_ID);
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria(TENANT_ID, "=", tenantId));
+    @Override
+    public Entity createLandingZone(String tenantId, String edOrgId) {
+        //TODO
+        //Object response = createLandingZone(tenantId, edOrgId, null, null);
+        //if (response instanceof Response)
+        //    return (Entity) ((Response) response).getEntity();
+        return null;
+    }
 
+    @SuppressWarnings({"unchecked" })
+    protected Object createLandingZone(EntityBody newTenant) {
         List<Map<String, Object>> newLzs = (List<Map<String, Object>>) newTenant.get(LZ);
         
         //NOTE: OnboardingResource may only send in one at a time
@@ -139,11 +142,23 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
         
+        String tenantId = (String) newTenant.get(TENANT_ID);
+
         Map<String, Object> newLz = newLzs.get(0);
         String newEdOrg = (String) newLz.get(LZ_EDUCATION_ORGANIZATION);
 
-        newLz.put(LZ_INGESTION_SERVER, randomIngestionServer());
-        newLz.put(LZ_PATH, inbounddir + File.pathSeparatorChar + tenantId + "-" + newEdOrg);
+        return createLandingZone(tenantId, newEdOrg, (String) newLz.get(LZ_DESC), (List<String>) newLz.get(LZ_USER_NAMES));
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    protected Object createLandingZone(String tenantId, String edOrgId, String desc, List<String> userNames) {
+        EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
+
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria(TENANT_ID, "=", tenantId));
+
+        String ingestionServer = randomIngestionServer();
+        String path = inbounddir + File.pathSeparatorChar + tenantId + "-" + edOrgId;
 
         // look up ids of existing tenant entries
         List<String> existingIds = new ArrayList<String>();
@@ -152,6 +167,17 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         }
         // If no tenant already exist, create
         if (existingIds.size() == 0) {
+            EntityBody newTenant = new EntityBody();
+            newTenant.put(TENANT_ID, tenantId);
+            Map<String, Object> newLandingZone = new HashMap<String, Object>();
+            newLandingZone.put(LZ_EDUCATION_ORGANIZATION, edOrgId);
+            newLandingZone.put(LZ_DESC, desc);
+            newLandingZone.put(LZ_INGESTION_SERVER, ingestionServer);
+            newLandingZone.put(LZ_PATH, path);
+            List<Map<String, Object>> newLandingZoneList = new ArrayList<Map<String, Object>>();
+            newLandingZoneList.add(newLandingZone);
+            newTenant.put(LZ, newLandingZoneList);
+
             return tenantService.create(newTenant);
         }
         // If more than exists, something is wrong
@@ -182,7 +208,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         
         Set<Map<String, Object>> all = (Set<Map<String, Object>>) allLandingZones; 
         for (Map<String, Object> lz : all) {
-            if (lz.get(LZ_EDUCATION_ORGANIZATION).equals(newEdOrg)) {
+            if (lz.get(LZ_EDUCATION_ORGANIZATION).equals(edOrgId)) {
                 EntityBody body = new EntityBody();
                 body.put("message", "This tenant/educational organization combination all ready has a landing zone provisioned.");
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
@@ -192,13 +218,18 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         EntityBody existingBody = tenantService.get(existingTenantId);
         List existingLandingZones = (List) existingBody.get(LZ);
         allLandingZones.addAll(existingLandingZones);
-        List newLandingZones = (List) newTenant.get(LZ);
-        allLandingZones.addAll(newLandingZones);
+
+        Map<String, Object> newLandingZone = new HashMap<String, Object>();
+        newLandingZone.put(LZ_EDUCATION_ORGANIZATION, edOrgId);
+        newLandingZone.put(LZ_DESC, desc);
+        newLandingZone.put(LZ_INGESTION_SERVER, ingestionServer);
+        newLandingZone.put(LZ_PATH, path);
+        allLandingZones.add(newLandingZone);
 
         existingBody.put(LZ, new ArrayList(allLandingZones));
         tenantService.update(existingTenantId, existingBody);
 
-        return existingTenantId;
+        return existingTenantId;   
     }
 
     private String randomIngestionServer() {
@@ -268,12 +299,6 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         }
 
         return super.update(uuid, tenant, headers, uriInfo);
-    }
-
-    @Override
-    public Entity createLandingZone(String tenantId, String edOrgId) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }
