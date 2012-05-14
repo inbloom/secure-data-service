@@ -403,8 +403,8 @@ team:
         sli.support.email: sli@example.com
 
         api.perf.log.path: /storage/logs
-        bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org:8082/simple-idp?realm=SLIAdmin
-        bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org:8082/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
         # team/data-access/db.properties
@@ -609,8 +609,8 @@ sandbox:
     api:
         <<: *API-TEAM
         sli.sandbox.autoRegisterApps: true
-        bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org:8082/simple-idp?realm=SLIAdmin
-        bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org:8082/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
     dashboard:
         <<: *DASHBOARD-TEAM
     ingestion:
