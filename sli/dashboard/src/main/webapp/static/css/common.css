@@ -216,22 +216,27 @@ th.ui-th-column div {
     font-size: 9px;
     font-weight: bold;
     line-height: 10px;
-    margin-right: 50px;
+    margin-right: 4px;
     margin-top: 2px;
     padding-bottom: 0;
-    width: 17px;
 }
 
 .lozenge-widget-ell
 {
-    color:#33CCFF;
-    border-color: #33CCFF;
+    color:#20c7c5;
+    border-color: #20c7c5;
 }
 
 .lozenge-widget-fre
 {
     color:#8083fc;
     border-color: #8083fc;
+}
+
+.lozenge-widget-504
+{
+    color:#21c1fc;
+    border-color: #21c1fc;
 }
 
 .color-widget-darkgreen
@@ -307,7 +312,6 @@ th.ui-th-column div {
 #viewSelection
 {
    border-top: 2px solid #ccc;
-   border-bottom: 1px solid #ccc;
    margin-top:20px;
 }
 

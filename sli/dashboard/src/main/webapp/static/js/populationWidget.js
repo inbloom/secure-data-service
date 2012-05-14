@@ -164,8 +164,8 @@ function populateFilter() {
 
 function populateView(panelConfigItems) {
 	  $("#viewSelection").show();
-	  
 	  DashboardUtil.setDropDownOptions("view", null, panelConfigItems, "name", "", false, function() {
+		  clearStudentList();
 		  printStudentList();
 	  });
 } 

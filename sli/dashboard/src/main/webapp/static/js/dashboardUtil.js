@@ -606,7 +606,7 @@ DashboardUtil.renderLozenges = function(student) {
 		if (item) {
 			for (var y in condition.value) {
 				if (condition.value[y] == item) {
-					lozenges += '<div class="lozenge-widget ' + configItem.style + '">' + configItem.name + '</span>';
+					lozenges += '<span class="lozenge-widget ' + configItem.style + '">' + configItem.name + '</span>';
 				}
 			}
 		}
