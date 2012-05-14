@@ -96,14 +96,9 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
                 
                 fileProcessStatus.setTotalRecordCount(visitAfter.getRecordsPerisisted());
                 
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (SecurityException e) {
-                e.printStackTrace();
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                LOG.error("Error accessing visitor list in smooks", e);
+                throw new RuntimeException("Error accessing visitor list in smooks", e);
             }
             
         } catch (SmooksException se) {
