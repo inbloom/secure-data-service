@@ -330,7 +330,9 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                 File oldContentToAdd = contentToAdd;
                 contentToAdd = resolvedContent == null ? null : new IdRefFile(resolvedContent);
 
-                org.apache.commons.io.FileUtils.deleteQuietly(oldContentToAdd);
+                if (resolvedContent == null || !resolvedContent.equals(oldContentToAdd)) {
+                    org.apache.commons.io.FileUtils.deleteQuietly(oldContentToAdd);
+                }
 
                 refContent.put(ref.getValue(), contentToAdd);
             }
