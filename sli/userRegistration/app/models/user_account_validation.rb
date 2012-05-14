@@ -26,47 +26,23 @@ class UserAccountValidation
     "status" => "Account validation failed!",
     "message" => "Unexpected verification error. Try again later."
   }
-  
-  REST_HEADER = {
-    "Content-Type" => "application/json",
-    "content-type" => "application/json",
-    "accept" => "application/json"
-  }
+  URL=APP_CONFIG['approval_uri']
     
   def self.validate_account(guid)
     emailToken=guid
-    user_info=ApplicationHelper.get_user_with_emailtoken(emailToken)
-    environment= APP_CONFIG["is_sandbox"]? "Sandbox":"Production"
-    if user_info.nil?
-      return INVALID_VERIFICATION_CODE
-    end
-    url = APP_CONFIG['api_base'] + "?userName=" + user_info[:email]+"&environment="+ environment
-    
-    res = RestClient.get(url, REST_HEADER){|response, request, result| response }
-    
-    if (res.code == 200)
-      parsedJsonHash = JSON.parse(res.body)
-      guid=parsedJsonHash[0]["id"]
-      if (parsedJsonHash[0]["validated"] == true)
-        return ACCOUNT_PREVIOUSLY_VERIFIED
-      else
-        parsedJsonHash[0]["validated"] = true
-        url =APP_CONFIG['api_base']+"/"+guid
-        puts("#{url}")
-
-        putRes = RestClient.put(url, parsedJsonHash[0].to_json, REST_HEADER){|response, request, result| response }
-        puts("API account validation ********#{putRes}")
-        if (putRes.code == 204)
-          ApplicationHelper.verify_email(emailToken)
-          return ACCOUNT_VERIFICATION_COMPLETE
-        else
-          return UNEXPECTED_VERIFICATION_ERROR
-        end
-      end
-    elsif (res.code == 404)
-      return INVALID_VERIFICATION_CODE
+    if APP_CONFIG["is_sandbox"] == true
+      @currEnvironment=true
+     else
+      @currEnvironment=false
+     end
+    ApprovalEngineProxy.init(URL,@currEnvironment)
+    status=ApprovalEngineProxy.verifyEmail(emailToken)
+    if(status["status"] == "success")
+      return ACCOUNT_VERIFICATION_COMPLETE
+    elsif (status["status"] == "previouslyVerified")
+      return ACCOUNT_PREVIOUSLY_VERIFIED
     else
-      return UNEXPECTED_VERIFICATION_ERROR
+      return INVALID_VERIFICATION_CODE
     end 
   end
 end

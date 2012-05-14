@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'proxy'
 
 class UserAccountRegistrationsHelperTest < ActionView::TestCase
 	def setup
@@ -8,13 +9,7 @@ class UserAccountRegistrationsHelperTest < ActionView::TestCase
         :lastName => 'testLName',
         :password => 'secret',
         :vendor => 'self'
-    )
-    if APP_CONFIG["is_sandbox"] == true
-        @currEnvironment=true
-       else
-        @currEnvironment=false
-       end
-       ApprovalEngineProxy.init(APP_CONFIG['approval_uri'],@currEnvironment)		
+    )		
     end
     def test_register_user_validated_user
     	ApprovalEngineProxy.stubs(:doesUserExist).returns({"exists"=>true,"validated"=>true})

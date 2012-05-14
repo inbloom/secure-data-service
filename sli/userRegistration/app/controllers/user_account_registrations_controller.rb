@@ -24,13 +24,10 @@ class UserAccountRegistrationsController < ApplicationController
      redirectPage=false
     else
       response=UserAccountRegistrationsHelper.register_user(@user_account_registration)
-      puts("^^^^^^^^^^^#{response}")
       redirectPage=response["redirect"]
-      puts("#{redirectPage}")
       @user_account_registration.errors.add(:email,response["error"])
       session[:email]=@user_account_registration.email
     end
-    puts("#{redirectPage}")
     respond_to do |format|
         if redirectPage==true
             

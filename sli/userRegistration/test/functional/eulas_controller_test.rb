@@ -1,16 +1,17 @@
 require 'test_helper'
+require 'proxy'
 require 'mocha'
 
 class EulasControllerTest < ActionController::TestCase
  
   test "should respond to post for accept/reject" do
     Eula.stubs(:accepted?).returns(true)
-    ApplicationHelper.stubs(:send_user_verification_email)
+    ApprovalEngineProxy.stubs(:EULAStatus).returns({"token"=>"abcdefg"})
     get :create
     assert_template :finish
 
     Eula.stubs(:accepted?).returns(false)
-    ApplicationHelper.stubs(:remove_user_account)
+    ApprovalEngineProxy.stubs(:EULAStatus).with(anything).returns({"token"=>""})
     get :create
     assert_redirected_to APP_CONFIG['redirect_slc_url']
   end
