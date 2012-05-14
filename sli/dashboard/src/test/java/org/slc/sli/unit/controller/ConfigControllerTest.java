@@ -30,7 +30,6 @@ public class ConfigControllerTest extends ControllerTestBase {
 
         }
     };
-    //private ControllerInputValidatorAspect aspect = Aspects.aspectOf(ControllerInputValidatorAspect.class);
 
     private static final String CONFIG_MAP_LOCATION = "custom/IL-DAYBREAK/customConfig.json";
 
