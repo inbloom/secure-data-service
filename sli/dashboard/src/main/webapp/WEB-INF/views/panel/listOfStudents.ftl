@@ -4,6 +4,7 @@
     <table id="${id}"></table>
   </div>
 <script type="text/javascript" src="/dashboard/static/js/ListOfStudent.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/populationWidget.js"></script>
 <script type="text/javascript">
     function getTableId() {
         return '${id}';

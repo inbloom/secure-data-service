@@ -61,9 +61,12 @@ public final class Constants {
 
 
     // entity attributes
+    public static final String ATTR_ROOT = "root";
+    public static final String ATTR_SELECTED_POPULATION = "selectedPopulation";
     public static final String ATTR_COURSES = "courses";
     public static final String ATTR_SCHOOL_ID = "schoolId";
     public static final String ATTR_SCHOOLS = "schools";
+    public static final String ATTR_SECTION = "section";
     public static final String ATTR_SECTIONS = "sections";
     public static final String ATTR_COURSE = "course";
     public static final String ATTR_SECTION_NAME = "sectionName";
