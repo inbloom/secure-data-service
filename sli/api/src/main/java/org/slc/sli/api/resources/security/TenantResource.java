@@ -1,11 +1,15 @@
 package org.slc.sli.api.resources.security;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 import java.util.TreeSet;
 
+import javax.annotation.PostConstruct;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -22,6 +26,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -52,6 +57,21 @@ public class TenantResource extends DefaultCrudEndpoint {
     @Autowired
     private EntityDefinitionStore store;
 
+    @Value("${landingzone.inbounddir}")
+    private String inbounddir;
+    
+    @Value("${sli.tenant.ingestionServers}")
+    private String ingestionServers;
+
+    private String[] ingestionServerList;
+
+    private Random random = new Random(System.currentTimeMillis());
+
+    @PostConstruct
+    protected void init() {
+        ingestionServerList = ingestionServers.split(",");
+    }
+
     public static final String UUID = "uuid";
     public static final String RESOURCE_NAME = "tenant";
     public static final String TENANT_ID = "tenantId";
@@ -69,7 +89,6 @@ public class TenantResource extends DefaultCrudEndpoint {
     }
 
     @POST
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     public Response create(EntityBody newTenant, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
         if (!SecurityUtil.hasRight(Right.ADMIN_ACCESS)) {
@@ -78,7 +97,6 @@ public class TenantResource extends DefaultCrudEndpoint {
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
 
-        EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
 
         // look up the tenantId; if it exists, add new LZs here to the existing list; otherwise, create
 
@@ -89,9 +107,37 @@ public class TenantResource extends DefaultCrudEndpoint {
                     + "add attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
+
+        String existingTenantId = createLandingZone(newTenant);
+        
+        if (null != existingTenantId) {
+            // Construct the response
+            String uri = ResourceUtil.getURI(uriInfo, "tenants", existingTenantId).toString();
+            return Response.status(Status.CREATED).header("Location", uri).build();
+        } else {
+            return null; //TODO
+        }
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    protected String createLandingZone(EntityBody newTenant) {
+        EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
+
         String tenantId = (String) newTenant.get(TENANT_ID);
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(TENANT_ID, "=", tenantId));
+
+        List<Map<String, Object>> newLzs = (List<Map<String, Object>>) newTenant.get(LZ);
+        
+        //NOTE: OnboardingResource may only send in one at a time
+        if (1 != newLzs.size())
+            return null; //TODO: return error
+        
+        Map<String, Object> newLz = newLzs.get(0);
+        String newEdOrg = (String) newLz.get(LZ_EDUCATION_ORGANIZATION);
+
+        newLz.put(LZ_INGESTION_SERVER, randomIngestionServer());
+        newLz.put(LZ_PATH, inbounddir + File.pathSeparatorChar + tenantId + "-" + newEdOrg);
 
         // look up ids of existing tenant entries
         List<String> existingIds = new ArrayList<String>();
@@ -100,9 +146,8 @@ public class TenantResource extends DefaultCrudEndpoint {
         }
         // If no tenant already exist, create
         if (existingIds.size() == 0) {
-            String id = tenantService.create(newTenant);
-            String uri = ResourceUtil.getURI(uriInfo, "tenants", id).toString();
-            return Response.status(Status.CREATED).header("Location", uri).build();
+            tenantService.create(newTenant);
+            return tenantId;
         }
         // If more than exists, something is wrong
         if (existingIds.size() > 1) {
@@ -126,18 +171,26 @@ public class TenantResource extends DefaultCrudEndpoint {
             }
         });
 
+        Set<Map<String, Object>> all = (Set<Map<String, Object>>) allLandingZones; 
+        for (Map<String, Object> lz : all) {
+            if (lz.get(LZ_EDUCATION_ORGANIZATION).equals(newEdOrg))
+                return null; //TODO: return error
+        }
+
         EntityBody existingBody = tenantService.get(existingTenantId);
         List existingLandingZones = (List) existingBody.get(LZ);
         allLandingZones.addAll(existingLandingZones);
+        
         List newLandingZones = (List) newTenant.get(LZ);
         allLandingZones.addAll(newLandingZones);
 
         existingBody.put(LZ, new ArrayList(allLandingZones));
         tenantService.update(existingTenantId, existingBody);
+        return tenantId;
+    }
 
-        // Construct the response
-        String uri = ResourceUtil.getURI(uriInfo, "tenants", existingTenantId).toString();
-        return Response.status(Status.CREATED).header("Location", uri).build();
+    private String randomIngestionServer() {
+        return ingestionServerList[random.nextInt(ingestionServerList.length)];
     }
 
     @GET
