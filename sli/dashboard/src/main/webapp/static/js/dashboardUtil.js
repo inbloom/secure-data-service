@@ -113,7 +113,7 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 		}
 		for(var index = 0; index < options.length; index++) {
 			var selected = index == autoSelectOption ? "selected" : "";
-			select += "    <li class=\"" + selected + "\"><a href=\"#\">"+options[index][titleKey]+"</a>" +
+			select += "    <li class=\"" + selected + "\"><a href=\"#\">"+$.jgrid.htmlEncode(options[index][titleKey])+"</a>" +
 	    				"<input type='hidden' value='"+ index + "' id ='selectionValue' /></li>";
 		}
 	}
