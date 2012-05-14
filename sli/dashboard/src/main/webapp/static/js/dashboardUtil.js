@@ -100,7 +100,8 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 	
 	
 	if(options === null || options === undefined || options.length == 0) {
-		select += "<li class=\"selected\"><a href=\"#\">There is no data available for your request.  Please contact your IT administrator.</a></li>";
+		//select += "<li class=\"selected\"><a href=\"#\">There is no data available for your request.  Please contact your IT administrator.</a></li>";
+                DashboardUtil.displayErrorMessage("There is no data available for your request.  Please contact your IT administrator");
 	} else {
 	    	if (options.length == 1 && autoSelect) {
 			autoSelectOption = 0;
@@ -219,7 +220,8 @@ DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
 	        rowNum: 10000};
         if(panelData === null || panelData === undefined) {
             gridOptions["data"] = [];
-            gridOptions["caption"] = "There is no data available for your request.";
+            //gridOptions["caption"] = "There is no data available for your request.";
+            DashboardUtil.displayErrorMessage("There is no data available for your request. Please contact your IT administrator.");
         }
 	if (options) {
 		gridOptions = jQuery.extend(gridOptions, options);
@@ -729,6 +731,17 @@ DashboardUtil.checkCondition = function(data, condition) {
     } 
     return false;
 };
+
+DashboardUtil.displayErrorMessage = function (error){
+    var errors = document.getElementById("losError");
+    errors.style.display = "block";
+    errors.innerHTML = error;
+}
+
+DashboardUtil.hideErrorMessage = function ( ){
+    var errors = document.getElementById("losError");
+    errors.style.display = "none";
+}
 
 DashboardUtil.teardrop = {
     GRADE_TREND_CODES: {},
