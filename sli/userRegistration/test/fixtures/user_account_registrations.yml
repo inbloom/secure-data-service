@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  email: "test1@testsite.com"
+  firstName: "testname1"
+  lastName: "testlastname1"
+  password: "something"
+  vendor: "test1"
+
+two:
+  email: "test2@testsite.com"
+    firstName: "testname2"
+    lastName: "testlastname2"
+    password: "something"
+    vendor: "test2"

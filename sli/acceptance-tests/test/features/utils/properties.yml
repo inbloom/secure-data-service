@@ -34,3 +34,7 @@ simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
 simpleIDP_realm_suffix: "Local"
 
 ldap.hostname: ldap.slidev.org
+
+user_registration_app_production_url: "http://local.slidev.org:3000"
+user_registration_app_sandbox_url: "http://local.slidev.org:3001"
+user_registration_app_host_url: "http://www.slcedu.org"
