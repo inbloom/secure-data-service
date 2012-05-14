@@ -16,7 +16,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | assessment                  | 5     |
-     | studentAssessmentAssociation| 3     |
+     | studentAssessmentAssociation| 4     |
      | learningStandard            | 6     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                | searchValue                                      |  searchType |
@@ -53,9 +53,19 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.assessmentItem.3.itemCategory             | True-False       | string |
      | assessment                  | 1                   | body.assessmentItem.3.maxRawScore              | 5                | integer |
      | assessment                  | 1                   | body.assessmentItem.3.correctResponse          | False            | string |
+     # | studentAssessmentAssociation           | 1                   | body.studentAssessmentItem.0.AssessmentItem.identificationCode                                   | AssessmentItem-2               |
+     # | studentAssessmentAssociation           | 1                   | body.studentAssessmentItem.0.StudentObjectiveAssessment.identificationCode                       | SOA_ACT-Math-Pre-Algebral_1    |
+     # | studentAssessmentAssociation           | 1                   | body.studentAssessmentItem.1.AssessmentItem.identificationCode                                   | AssessmentItem-1               |
+     # | studentAssessmentAssociation           | 1                   | body.studentAssessmentItem.1.StudentObjectiveAssessment.identificationCode                       | SOA_ACT-Math-Plane-Geometry_1  |
+     # | studentAssessmentAssociation           | 1                   | body.studentAssessmentItem.2.AssessmentItem.identificationCode                                   | AssessmentItem-3               |
+     # | studentAssessmentAssociation           | 1                   | body.studentAssessmentItem.2.StudentObjectiveAssessment.identificationCode                       | SOA_ACT-Math-Pre-Algebral_1    |
+     | studentAssessmentAssociation           | 1                   | body.studentAssessmentItems.0.assessmentItem.identificationCode | AssessmentItem-4    | string |
+     | studentAssessmentAssociation           | 1                   | body.studentAssessmentItems.0.assessmentResponse                | True                | string |
+     | studentAssessmentAssociation           | 1                   | body.studentAssessmentItems.1.assessmentItem.identificationCode | AssessmentItem-3    | string |
+     | studentAssessmentAssociation           | 1                   | body.studentAssessmentItems.1.assessmentResponse                | True                | string |
      
 
-  And I should see "Processed 15 records." in the resulting batch job file
+  And I should see "Processed 16 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "dibelsAssessmentMetadata.xml records considered: 3" in the resulting batch job file
   And I should see "dibelsAssessmentMetadata.xml records ingested successfully: 3" in the resulting batch job file
@@ -72,6 +82,9 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeStudentAssessment.xml records considered: 3" in the resulting batch job file
   And I should see "InterchangeStudentAssessment.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "InterchangeStudentAssessment.xml records failed: 0" in the resulting batch job file
+  And I should see "actStudentAssessment.xml records considered: 1" in the resulting batch job file
+  And I should see "actStudentAssessment.xml records ingested successfully: 1" in the resulting batch job file
+  And I should see "actStudentAssessment.xml records failed: 0" in the resulting batch job file
   And I should see "basicStandards.xml records considered: 6" in the resulting batch job file
   And I should see "basicStandards.xml records ingested successfully: 6" in the resulting batch job file
   And I should see "basicStandards.xml records failed: 0" in the resulting batch job file
