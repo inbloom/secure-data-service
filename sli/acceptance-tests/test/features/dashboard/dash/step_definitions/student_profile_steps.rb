@@ -8,23 +8,21 @@ When /^I view its student profile$/ do
 
   csiContent = @explicitWait.until{@driver.find_element(:class, "csi")}
   studentInfo = csiContent.find_element(:class, "studentInfo")
-  table_cells = studentInfo.find_elements(:xpath, ".//div[@class='field']/span")
+  table_cells = studentInfo.find_elements(:tag_name,"tr")
   @info = Hash.new
   sName = csiContent.find_element(:xpath, ".//div[@class='colMain']/h1") 
   
   @info["Name"] = sName.text
   puts sName.text
   
-for i in 0..table_cells.length-1
-  if table_cells[i].text.length > 0 
-    puts table_cells[i].text
-      if i % 2 == 0
-        key = table_cells[i].text
-      else
-        @info[key]= table_cells[i].text
-      end
-   end
- end
+  for i in 0..table_cells.length-1
+   th = table_cells[i].find_element(:tag_name,"th") 
+   td = table_cells[i].find_element(:tag_name,"td") 
+   puts th.text[0..th.text.length-2]
+   puts td.text
+   key = th.text[0..th.text.length-2]
+   @info[key]= td.text
+  end
 end
 
 Then /^their name shown in profile is "([^"]*)"$/ do |expectedStudentName|
@@ -70,7 +68,6 @@ end
 
 When /^the lozenges count is "([^"]*)"$/ do |lozengesCount|
   csiContent = @driver.find_element(:class, "csi")
-  labelFound = false
 
   all_lozenges = csiContent.find_elements(:xpath, ".//div[contains(@class,'lozenge-widget')]")
 
