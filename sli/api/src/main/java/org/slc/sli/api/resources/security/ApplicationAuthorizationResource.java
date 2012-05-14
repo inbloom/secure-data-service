@@ -252,8 +252,11 @@ public class ApplicationAuthorizationResource {
             EntityBody edOrg = null;
             EntityBody app = null;
             try {
-                edOrgId = edOrgService.listIds(new NeutralQuery(new NeutralCriteria(STATE_ORGANIZATION_ID, "=", stateId))).iterator().next();
-                edOrg = edOrgService.get(edOrgId);
+                Iterable<String> edorgIds = edOrgService.listIds(new NeutralQuery(new NeutralCriteria(STATE_ORGANIZATION_ID, "=", stateId)));
+                if (edorgIds != null && edorgIds.iterator().hasNext()) {
+                    edOrgId = edorgIds.iterator().next();
+                    edOrg = edOrgService.get(edOrgId);
+                }
             } catch (AccessDeniedException e) {
                 LOG.info("No access to EdOrg[" + edOrgId + "].Omitting in Security Log.");
             }
