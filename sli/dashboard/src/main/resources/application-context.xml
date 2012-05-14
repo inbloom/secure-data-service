@@ -59,8 +59,6 @@
 	
 	<alias alias="apiClientRef" name="${api.client}"/>
 
-    <bean id= "mockClient" class="org.slc.sli.client.MockAPIClient" />
-    
     <bean id="progressManager" class="org.slc.sli.manager.impl.StudentProgressManagerImpl">
         <property name="entityManager" ref="entityManager"/>
     </bean>

@@ -24,21 +24,21 @@ public class NoBadCharsValidator implements ConstraintValidator<NoBadChars, Obje
 
     @Override
     public boolean isValid(Object object, ConstraintValidatorContext context) {
-        return traverseObject(object, context, 0);
+        return traverseObject(object, 0);
     }
 
-    private boolean traverseObject(Object object, ConstraintValidatorContext context, int count) {
+    private boolean traverseObject(Object object, int count) {
         if (count >= depth) {
             return true;
         }
         if (object instanceof String) {
-            return validateString((String) object, context);
+            return validateString((String) object);
         }
         if (object instanceof Map) {
             @SuppressWarnings("unchecked")
             Map<String, ?> map = (Map<String, ?>) object;
             for (Map.Entry<String, ?> item :  map.entrySet()) {
-                if (!(validateString(item.getKey(), context) && traverseObject(item.getValue(), context, count))) {
+                if (!(validateString(item.getKey()) && traverseObject(item.getValue(), count))) {
                     return false;
                 }
             }
@@ -46,7 +46,7 @@ public class NoBadCharsValidator implements ConstraintValidator<NoBadChars, Obje
         if (object instanceof Collection) {
             Collection<?> collection = (Collection<?>) object;
             for (Object item : collection) {
-                if (!traverseObject(item, context, count + 1)) {
+                if (!traverseObject(item, count + 1)) {
                     return false;
                 }
             }
@@ -54,7 +54,7 @@ public class NoBadCharsValidator implements ConstraintValidator<NoBadChars, Obje
         return true;
     }
 
-    private boolean validateString(String s, ConstraintValidatorContext context) {
+    private boolean validateString(String s) {
         return !pattern.matcher(s).find();
     }
 }

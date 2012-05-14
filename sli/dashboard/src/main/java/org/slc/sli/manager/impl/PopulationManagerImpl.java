@@ -43,7 +43,7 @@ import org.slc.sli.util.TimedLogic;
 /**
  * PopulationManager facilitates creation of logical aggregations of EdFi
  * entities/associations such as a student summary comprised of student profile,
- * enrollment, program, and assessment information in order to deliver the
+ * fment, program, and assessment information in order to deliver the
  * Population Summary interaction.
  *
  * @author Robert Bloh
@@ -302,7 +302,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Grabs the subject area from the data based on the section ID.
-     * 
+     *
      * @param stuSectAssocs
      * @param sectionId
      * @return
@@ -317,13 +317,13 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 break;
             }
         }
-        
+
         return subjectArea;
     }
-    
+
     /**
      * Grabs the Subject Area from a section.
-     * 
+     *
      * @param sections
      * @return
      */
@@ -332,12 +332,12 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         if (sections == null) {
             return null;
         }
-        
+
         Map<String, Object> courses = (Map) sections.get(Constants.ATTR_COURSES);
         if (courses == null) {
             return null;
         }
-        
+
         return (String) courses.get(Constants.ATTR_SUBJECTAREA);
     }
 
@@ -412,7 +412,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             if (stuSectAssocs == null) {
                 return;
             }
-            
+
             String subjectArea = getSubjectArea(stuSectAssocs, sectionId);
             List<Map<String, Object>> interSections = new ArrayList<Map<String, Object>>();
             for (Map<String, Object> assoc : stuSectAssocs) {
@@ -439,7 +439,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Returns the term and the year as a string for a given student Section association.
-     * 
+     *
      * @param stuSectAssocs
      * @param sectionId
      * @return
@@ -459,7 +459,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     /**
      * Extracts the semester+Year from the section passed.
-     * 
+     *
      * @param sections
      * @return (e.g. FallSemester2010-2011 )
      */
@@ -469,18 +469,18 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         if (section == null) {
             return semesterString;
         }
-        
+
         Map<String, Object> sessions = (Map) section.get(Constants.ATTR_SESSIONS);
         if (sessions == null) {
             return semesterString;
         }
-        
+
         String term = (String) sessions.get(Constants.ATTR_TERM);
         String year = (String) sessions.get(Constants.ATTR_SCHOOL_YEAR);
         if (term != null && year != null) {
             semesterString = term.replaceAll(" ", "") + year.replaceAll(" ", "");
         }
-        
+
         return semesterString;
     }
 

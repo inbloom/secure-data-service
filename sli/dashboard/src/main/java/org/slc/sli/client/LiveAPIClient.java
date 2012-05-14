@@ -19,6 +19,9 @@ import java.util.Set;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
@@ -26,8 +29,6 @@ import org.slc.sli.util.Constants;
 import org.slc.sli.util.ExecutionTimeLogger;
 import org.slc.sli.util.ExecutionTimeLogger.LogExecutionTime;
 import org.slc.sli.util.SecurityUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -92,10 +93,6 @@ public class LiveAPIClient implements APIClient {
     private RESTClient restClient;
     private Gson gson;
 
-    // For now, the live client will use the mock client for api calls not yet
-    // implemented
-    private MockAPIClient mockClient;
-
     private String gracePeriod;
 
     public void setGracePeriod(String gracePeriod) {
@@ -107,7 +104,6 @@ public class LiveAPIClient implements APIClient {
     }
 
     public LiveAPIClient() {
-        mockClient = new MockAPIClient();
         gson = new Gson();
     }
 
@@ -195,23 +191,23 @@ public class LiveAPIClient implements APIClient {
 
     @Override
     public List<GenericEntity> getSchools(String token, List<String> schoolIds) {
-        
+
         List<GenericEntity> schools = null;
-        
+
         // get schools
         schools = createEntitiesFromAPI(getApiUrl() + SCHOOLS_URL, token);
-        
+
         // get teachers
         List<GenericEntity> teachers = null;
         teachers = createEntitiesFromAPI(getApiUrl() + TEACHERS_URL, token);
-        
+
         // get sections by looping through teachers
         List<GenericEntity> sections = new ArrayList<GenericEntity>();
-        
+
         for (GenericEntity teacher : teachers) {
             sections.addAll(getSectionsForTeacher(teacher.getId(), token));
         }
-        
+
         // match courses and sections to schools
         // TODO: redo this part without second schools query
         List<GenericEntity> schools2 = getSchoolsForSection(sections, token);
@@ -223,7 +219,7 @@ public class LiveAPIClient implements APIClient {
                 }
             }
         }
-        
+
         return schools;
     }
 
@@ -269,14 +265,6 @@ public class LiveAPIClient implements APIClient {
     }
 
     /**
-     * Get custom data
-     */
-    @Override
-    public List<GenericEntity> getCustomData(final String token, String key) {
-        return mockClient.getCustomData(getUsername(), key);
-    }
-
-    /**
      * Get assessment info, given a list of assessment ids
      */
     @Override
@@ -287,14 +275,6 @@ public class LiveAPIClient implements APIClient {
             assmts.add(getAssessment(assmtId, token));
         }
         return assmts;
-    }
-
-    /**
-     * Get program participation, given a list of student ids
-     */
-    @Override
-    public List<GenericEntity> getPrograms(final String token, List<String> studentIds) {
-        return mockClient.getPrograms(getUsername(), studentIds);
     }
 
     /**
@@ -496,12 +476,12 @@ public class LiveAPIClient implements APIClient {
 
         // call https://<IP address>/api/rest/<version>/sections
         List<GenericEntity> sections = createEntitiesFromAPI(getApiUrl() + SECTIONS_URL, token);
-        
+
         // Enrich sections with session details
         enrichSectionsWithSessionDetails(token, sections);
-        
+
         sections = processSections(sections, true);
-        
+
         return sections;
     }
 
@@ -524,16 +504,16 @@ public class LiveAPIClient implements APIClient {
      * @param sections
      */
     private void enrichSectionsWithSessionDetails(String token, List<GenericEntity> sections) {
-        
+
         List<GenericEntity> sessions = this.getSessions(token);
         if ((sessions != null) && (sections != null)) {
-            
+
             // Setup sessions lookup map
             Map<String, GenericEntity> sessionMap = new HashMap<String, GenericEntity>();
             for (GenericEntity session : sessions) {
                 sessionMap.put(session.getId(), session);
             }
-            
+
             // Enrich each section with session entity
             for (GenericEntity section : sections) {
                 String sessionIdAttribute = (String) section.get(Constants.ATTR_SESSION_ID);
@@ -541,7 +521,7 @@ public class LiveAPIClient implements APIClient {
                     GenericEntity session = sessionMap.get(sessionIdAttribute);
                     section.put(Constants.ATTR_SESSION, session);
                 }
-            }                
+            }
         }
     }
 
@@ -554,30 +534,30 @@ public class LiveAPIClient implements APIClient {
      */
     private List<GenericEntity> processSections(List<GenericEntity> sections, boolean filterHistoricalData) {
         List<GenericEntity> filteredSections = sections;
-        
+
         if (filterHistoricalData) {
             filteredSections = new ArrayList<GenericEntity>();
         }
-        
+
         if (sections != null) {
             for (GenericEntity section : sections) {
-                
+
                 // if no section name, fill in with section code
                 if (section.get(Constants.ATTR_SECTION_NAME) == null) {
                     section.put(Constants.ATTR_SECTION_NAME, section.get(Constants.ATTR_UNIQUE_SECTION_CODE));
                 }
-                
+
                 // Filter historical sections/sessions if necessary
                 if (filterHistoricalData) {
                     Map<String, Object> session = (Map<String, Object>) section.get(Constants.ATTR_SESSION);
-                    
+
                     // Verify section has been enriched with session details
                     if (session != null) {
                         try {
                             String endDateAttribute = (String) session.get(Constants.ATTR_SESSION_END_DATE);
                             DateFormat formatter = new SimpleDateFormat(Constants.ATTR_DATE_FORMAT);
                             Date sessionEndDate = formatter.parse(endDateAttribute);
-                            
+
                             // Verify session end data is present
                             if (sessionEndDate != null) {
                                 // Setup grace period date
@@ -587,11 +567,11 @@ public class LiveAPIClient implements APIClient {
                                     int daysToSubtract = Integer.parseInt(gracePeriod) * -1;
                                     gracePeriodCalendar.add(Calendar.DATE, daysToSubtract);
                                 }
-                                
+
                                 // Setup session end date
                                 Calendar sessionEndCalendar = Calendar.getInstance();
                                 sessionEndCalendar.setTimeInMillis(sessionEndDate.getTime());
-                                
+
                                 // Add filtered section if grace period adjusted date is before
                                 // or equal to session end date
                                 if (gracePeriodCalendar.compareTo(sessionEndCalendar) <= 0) {
@@ -609,7 +589,7 @@ public class LiveAPIClient implements APIClient {
                 }
             }
         }
-        
+
         return filteredSections;
     }
 

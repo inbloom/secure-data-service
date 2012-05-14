@@ -1,4 +1,4 @@
-package org.slc.sli.client;
+package org.slc.sli.manager;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.client.APIClient;
 import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.util.Constants;
@@ -164,17 +165,6 @@ public class MockAPIClient implements APIClient {
     public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds) {
 
         return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + MOCK_ASSESSMENT_METADATA_FILE), null);
-    }
-
-    @Override
-    public List<GenericEntity> getCustomData(String token, String key) {
-        return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/custom_" + key + ".json"), null);
-    }
-
-    @Override
-    public List<GenericEntity> getPrograms(final String token, List<String> studentIds) {
-        // TODO: student id logic isn't working yet. for now, pass in null.
-        return this.getEntities(token, getFilename(MOCK_DATA_DIRECTORY + token + "/" + MOCK_PROGRAMS_FILE), null);
     }
 
     @Override

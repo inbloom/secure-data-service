@@ -32,10 +32,6 @@ public interface APIClient {
 
     public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds);
 
-    public List<GenericEntity> getCustomData(final String token, String key);
-
-    public List<GenericEntity> getPrograms(final String token, List<String> studentIds);
-
     public List<GenericEntity> getStudentAttendance(final String token, String studentId, String start, String end);
 
     public GenericEntity getParentEducationalOrganization(final String token, GenericEntity educationalOrganization);
@@ -132,7 +128,7 @@ public interface APIClient {
     public GenericEntity getSession(String token, String sessionId);
 
     public List<GenericEntity> getSessions(String token);
-    
+
     public List<GenericEntity> getSessionsByYear(String token, String schoolYear);
 
     /**

@@ -32,12 +32,14 @@ DashboardProxy = {
 		load : function(componentId, id, callback) {
 			var prx = this;
 			$.ajax({
-				  url: contextRootPath + '/service/component/' + componentId + '/' + id,
+				  async: false,
+				  url: contextRootPath + '/service/component/' + componentId + '/' + (id ? id : ""),
 				  scope: this,
 				  success: function(panel){
-					  prx.data[componentId] = panel.data; 
-					  prx.config[componentId] = panel.viewConfig; 
-					  callback(panel);
+					  jQuery.extend(prx.data, panel.data);
+					  jQuery.extend(prx.config, panel.config);
+					  if (jQuery.isFunction(callback))
+					    callback(panel);
 			      },
 			      error: $("body").ajaxError( function(event, request, settings) {
 			    	  if (request.responseText == "") {
@@ -45,11 +47,16 @@ DashboardProxy = {
 			    	  } else {
 			    		  $(location).attr('href', contextRootPath + "/exception");
 			    	  }
-			      }),
+			      })
 			});
 		},
 		getData: function(componentId) {
-			return this.data[componentId];
+			var config = this.getConfig(componentId);
+			if (config && config.data && config.data.cacheKey) {
+				return this.data[config.data.cacheKey];
+			}
+				
+			return {};
 		},
 		getConfig: function(componentId) {
 			return this.config[componentId];

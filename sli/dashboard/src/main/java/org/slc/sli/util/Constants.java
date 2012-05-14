@@ -58,6 +58,8 @@ public final class Constants {
     public static final String MM_KEY_HISTORICAL = "historicaldata";
     public static final String MM_KEY_GRADEBOOK_ENTRY_DATA = "gradebookEntryData";
     public static final String MM_KEY_LOGGER = "logger";
+    public static final String MM_COMPONENT_ID = "componentId";
+    public static final String MM_ENTITY_ID = "entityId";
 
 
     // entity attributes
@@ -243,6 +245,7 @@ public final class Constants {
     public static final String ROLE_IT_ADMINISTRATOR = "IT Administrator";
     public static final String ROLE_EDUCATOR = "Educator";
     public static final String ROLE_LEADER = "Leader";
+
 
     /**
      * Contains the possible values for FRE participation

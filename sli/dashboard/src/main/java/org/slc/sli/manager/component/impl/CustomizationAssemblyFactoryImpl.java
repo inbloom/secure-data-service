@@ -214,7 +214,7 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             config = config.cloneWithItems(items.toArray(new Config.Item[0]));
         }
         if (componentId != null) {
-            model.addComponentViewConfigMap(componentId, config);
+            model.addConfig(componentId, config);
         }
         return config;
     }
