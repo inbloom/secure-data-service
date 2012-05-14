@@ -472,12 +472,14 @@ end
 desc "Run User Registration App Tests - Production"
 task :userRegistrationProdTests do
   @tags = ["~@wip", "@production"]
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
   runTests("test/features/apiV1/end_user_stories/sandbox/UserAccountRequest/accountRequest.feature")
 end
 
 desc "Run User Registration App Tests - Sandbox"
 task :userRegistrationSbTests do
   @tags = ["~@wip", "@sandbox"]
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.userAccount.drop()\""
   runTests("test/features/apiV1/end_user_stories/sandbox/UserAccountRequest/accountRequest.feature")
 end
 
