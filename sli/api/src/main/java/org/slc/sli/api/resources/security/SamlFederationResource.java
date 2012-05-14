@@ -166,19 +166,18 @@ public class SamlFederationResource {
         attributes = transformer.apply(realm, attributes);
 
         SLIPrincipal principal;
-        if (realm.getBody().get("tenantId") == null) {
+        String tenant = (String)realm.getBody().get("tenantId");
+        if (tenant == null) {
             // accept the tenantId from the IDP if and only if the realm's tenantId is null
-            String tenantId = attributes.getFirst("tenantId");
-            if (tenantId == null) {
-                LOG.error("No tenantId found in either the realm or SAMLResponse. issuer: {}, inResponseTo: {}",
+            tenant = attributes.getFirst("tenant");
+            if (tenant == null) {
+                LOG.error("No tenant found in either the realm or SAMLResponse. issuer: {}, inResponseTo: {}",
                         issuer, inResponseTo);
-                throw new IllegalArgumentException("No tenantId found in either the realm or SAMLResponse. issuer: "
+                throw new IllegalArgumentException("No tenant found in either the realm or SAMLResponse. issuer: "
                         + issuer + ", inResponseTo: ");
             }
-            principal = users.locate(tenantId, attributes.getFirst("userId"));
-        } else {
-            principal = users.locate((String) realm.getBody().get("tenantId"), attributes.getFirst("userId"));
         }
+        principal = users.locate(tenant, attributes.getFirst("userId"));
 
         principal.setName(attributes.getFirst("userName"));
         principal.setRoles(attributes.get("roles"));
