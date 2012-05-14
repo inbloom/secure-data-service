@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.queues.MessageType;
 
 /**
  * WorkNote aggregator to be used from camel
@@ -44,8 +45,17 @@ public class WorkNoteAggregator implements AggregationStrategy {
 
     private Exchange initializeAggregationExchange(Exchange toBeAggregated) {
 
+        WorkNote workNote = toBeAggregated.getIn().getBody(WorkNote.class);
+
+        LOG.info("Setting {} as the aggregation completion size for {}", workNote.getBatchSize(),
+                workNote.getIngestionStagedEntity());
+
         Exchange hasBeenAggregated = toBeAggregated;
 
+        if (MessageType.DATA_TRANSFORMATION.name().equals(toBeAggregated.getIn().getHeader("IngestionMessageType"))) {
+            hasBeenAggregated.getIn().setHeader("workNoteByEntityCount", workNote.getBatchSize());
+            hasBeenAggregated.getIn().setHeader("totalWorkNoteCount", toBeAggregated.getProperty("CamelSplitSize"));
+        }
         hasBeenAggregated.getIn().setBody(new ArrayList<WorkNote>(), List.class);
 
         return hasBeenAggregated;
