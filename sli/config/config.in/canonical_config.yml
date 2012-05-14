@@ -32,8 +32,8 @@ default:
         # Used to bootstrap the admin realm
         bootstrap.admin.realm.name: Shared Learning Infrastructure
         bootstrap.admin.realm.tenantId: SLI	
-        bootstrap.admin.realm.idpId: https://devapp1.slidev.org:443/sp
-        bootstrap.admin.realm.redirectEndpoint: https://devapp1.slidev.org:443/sp/SSORedirect/metaAlias/idp
+        bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
 
 
     data-access: &DATA-ACCESS-DEFAULT
@@ -403,6 +403,8 @@ team:
         sli.support.email: sli@example.com
 
         api.perf.log.path: /storage/logs
+        bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
         # team/data-access/db.properties
@@ -607,6 +609,8 @@ sandbox:
     api:
         <<: *API-TEAM
         sli.sandbox.autoRegisterApps: true
+        bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
     dashboard:
         <<: *DASHBOARD-TEAM
     ingestion:
