@@ -75,7 +75,6 @@ public class TransformationProcessor implements Processor {
 
             performDataTransformations(workNote, newJob);
 
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.PERSIST_REQUEST.name());
         } catch (Exception e) {
             handleProcessingExceptions(exchange, batchJobId, e);
         } finally {

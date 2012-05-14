@@ -110,8 +110,6 @@ public class StagedDataPersistenceProcessor implements Processor {
 
             processWorkNote(workNote, newJob, stage);
 
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.DONE.name());
-
         } catch (Exception exception) {
             handleProcessingExceptions(exception, exchange, batchJobId);
         } finally {
