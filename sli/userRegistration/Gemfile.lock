@@ -148,6 +148,7 @@ DEPENDENCIES
   capistrano
   capistrano-ext
   coffee-rails (~> 3.2.1)
+  execjs
   jquery-rails
   json
   mocha
