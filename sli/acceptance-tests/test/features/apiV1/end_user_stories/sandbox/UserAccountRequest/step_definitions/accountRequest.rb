@@ -170,7 +170,7 @@ end
 ###############################################################################
 
 def initializeApprovalAndLDAP(emailConf, prod)
-  prod ? ldapBase = "ou=DevTest,dc=slidev,dc=org" : ldapBase = "ou=Sandbox,ou=DevTest,dc=slidev,dc=org"
+  ldapBase = "ou=DevTest,dc=slidev,dc=org"
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, ldapBase, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
   email = Emailer.new emailConf
   ApprovalEngine.init(@ldap, email, !prod)
