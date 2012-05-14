@@ -5,7 +5,7 @@ Given I am using local data store
   And I am using preconfigured Ingestion Landing Zone
 
 
-Scenario: Post a zip file containing studentAssessmentAssociation with ID References job: Clean Database
+Scenario: Post a zip file containing studentGradebookEntry with ID References job: Clean Database
 Given I post "ingestion_IDReferences.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName               |
@@ -27,15 +27,15 @@ Then I should see following map of entry counts in the corresponding collections
      | gradebookEntry               |  16     |
      | learningObjective            |   1     |
      | learningStandard             |   6     |
-     | schoolSessionAssociation     |   5     |
-     | section                      |   5     |
-     | session                      |   5     |
+     | schoolSessionAssociation     |  10     |
+     | section                      |   9     |
+     | session                      |  10     |
      | student                      |  11     |
   And I should see "Processed 94 records." in the resulting batch job file
   And I should see "InterchangeAssessmentMetadata.xml records ingested successfully: 11" in the resulting batch job file
   And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 10" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 13" in the resulting batch job file
-  And I should see "InterchangeMasterSchedule.xml records ingested successfully: 5" in the resulting batch job file
+  And I should see "InterchangeMasterSchedule.xml records ingested successfully: 9" in the resulting batch job file
   And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "InterchangeStudentGrade.xml records ingested successfully: 28" in the resulting batch job file
   And I should see "InterchangeStudentParent.xml records ingested successfully: 11" in the resulting batch job file
