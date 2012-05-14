@@ -92,7 +92,24 @@ public class ApprovedApplicationResource {
 
             if (result != null) {
                 if (result.containsKey("endpoints")) {
-                    filterEndpoints((List<Map<String, Object>>) result.get("endpoints"));
+                    List<Map<String, Object>> endpoints = (List<Map<String, Object>>) result.get("endpoints");
+                    filterEndpoints(endpoints);
+                    
+                    //we ended up filtering out all the endpoints - no reason to display the app
+                    if (endpoints.size() == 0) {
+                        continue;
+                    }
+                }
+                
+                if (result.containsKey("roles")) {
+                    List<String> userRoles = getUsersRoles();
+                    List<String> reqRoles = (List<String>) result.get("roles");
+                    List<String> intersection = new ArrayList<String>(reqRoles);
+                    intersection.retainAll(userRoles);
+                    if (userRoles.size() == 0 || intersection.size() == 0) {
+                        debug("Filtering app because users roles {} did not match required roles {}.", userRoles, reqRoles);
+                        continue;
+                    }
                 }
 
                 boolean isAdminApp = result.containsKey("is_admin") ? Boolean.valueOf((Boolean) result.get("is_admin")) : false;
@@ -123,10 +140,15 @@ public class ApprovedApplicationResource {
         }
         return Response.status(Status.OK).entity(results).build();
     }
-
-    private void filterEndpoints(List<Map<String, Object>> endpoints) {
+    
+    private List<String> getUsersRoles() {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<String> userRoles = principal.getRoles();
+        return userRoles;
+    }
+
+    private void filterEndpoints(List<Map<String, Object>> endpoints) {
+        List<String> userRoles = getUsersRoles();
         for (Iterator<Map<String, Object>> i = endpoints.iterator(); i.hasNext();) {
 
             @SuppressWarnings("unchecked")
