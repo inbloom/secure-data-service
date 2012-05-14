@@ -131,7 +131,7 @@ public class PersistenceProcessor implements Processor {
     }
 
     private void processAndMeasureResource(ResourceEntry resource, NewBatchJob newJob, Stage stage) {
-        Metrics metrics = Metrics.createAndStart(resource.getResourceId());
+        Metrics metrics = Metrics.newInstance(resource.getResourceId());
         stage.getMetrics().add(metrics);
 
         if (resource.getResourceName() != null) {
@@ -145,7 +145,6 @@ public class PersistenceProcessor implements Processor {
                 batchJobDAO.saveError(error);
             }
         }
-        metrics.stopMetric();
     }
 
     private void processNeutralRecordsFile(File neutralRecordsFile, Job job, Metrics metrics) throws IOException {

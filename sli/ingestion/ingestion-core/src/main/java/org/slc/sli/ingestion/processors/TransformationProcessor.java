@@ -2,11 +2,6 @@ package org.slc.sli.ingestion.processors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
@@ -22,6 +17,10 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.TransformationFactory;
 import org.slc.sli.ingestion.transformation.Transmogrifier;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Camel processor for transformation of data.
@@ -64,8 +63,11 @@ public class TransformationProcessor implements Processor {
     private void processTransformations(WorkNote workNote, Exchange exchange) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
-        Metrics metrics = Metrics.createAndStart(workNote.getBatchJobId() + "-"
+        Metrics metrics = Metrics.newInstance(workNote.getBatchJobId() + "-"
                 + workNote.getIngestionStagedEntity().getCollectionNameAsStaged());
+
+        //  FIXME: transformation needs to actually count processed records and errors
+        metrics.setRecordCount(workNote.getRangeMaximum() - workNote.getRangeMinimum());
         stage.getMetrics().add(metrics);
 
         String batchJobId = workNote.getBatchJobId();
@@ -79,8 +81,6 @@ public class TransformationProcessor implements Processor {
         } catch (Exception e) {
             handleProcessingExceptions(exchange, batchJobId, e);
         } finally {
-            metrics.stopMetric();
-
             BatchJobUtils.stopStageChunkAndAddToJob(stage, newJob);
             batchJobDAO.saveBatchJob(newJob);
         }

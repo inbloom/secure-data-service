@@ -6,11 +6,6 @@ import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
@@ -32,6 +27,10 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Camel interface for processing our EdFi batch job.
@@ -87,7 +86,7 @@ public class EdFiProcessor implements Processor {
             boolean anyErrorsProcessingFiles = false;
             for (IngestionFileEntry fe : fileEntryList) {
 
-                Metrics metrics = Metrics.createAndStart(fe.getFileName());
+                Metrics metrics = Metrics.newInstance(fe.getFileName());
                 stage.getMetrics().add(metrics);
 
                 FileProcessStatus fileProcessStatus = new FileProcessStatus();
@@ -106,8 +105,6 @@ public class EdFiProcessor implements Processor {
 
                 ResourceEntry resource = BatchJobUtils.createResourceForOutputFile(fe, fileProcessStatus);
                 newJob.getResourceEntries().add(resource);
-
-                metrics.stopMetric();
             }
 
             setExchangeHeaders(exchange, anyErrorsProcessingFiles);
