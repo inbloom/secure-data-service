@@ -211,12 +211,6 @@ end
 
 desc "Run all sandbox tests"
 task :sandboxTests => [:apiSandboxTests, :adminSandboxTests] do
-desc "Run Blacklist Validation Tests"
-task :ingestionBlacklistValidationTests do
-  runTests("test/features/ingestion/features/blacklistValidation_testing.feature")
-end
-
-
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -246,7 +240,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1EndUserStoryCustomEntityTests,
                      :v1StudentOptionalFieldsTests,
                      :v1SingleStudentViewTests,
-                     :v1BlacklistValidationTests,
+#                     :v1BlacklistValidationTests,
                      :v1XMLTests] do
   displayFailureReport()
 end
