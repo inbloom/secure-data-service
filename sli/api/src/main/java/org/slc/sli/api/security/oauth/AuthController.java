@@ -228,7 +228,7 @@ public class AuthController {
         @SuppressWarnings("unchecked")
         Map<String, String> idpData = (Map<String, String>) realmEnt.get("idp");
         String endpoint = idpData.get("redirectEndpoint");
-        String idpId = idpData.get("id");
+        String idpTypeString = idpData.get("idpType");
 
         if (endpoint == null) {
             throw new IllegalArgumentException("realm " + realmIndex + " doesn't have an endpoint");
@@ -236,11 +236,12 @@ public class AuthController {
 
         LOG.debug("creating saml authnrequest with ForceAuthn equal to {}", forceAuthn);
 
-        // {messageId,encodedSAML}
         int idpType = 1;
-        if(idpId.equals("SLIIDP")){
-            idpType = 4; //Siteminder
+        if(idpTypeString!=null && idpTypeString.equalsIgnoreCase("Siteminder")){
+            idpType = 4; 
         }
+        
+        // {messageId,encodedSAML}
         Pair<String, String> tuple = saml.createSamlAuthnRequestForRedirect(endpoint, forceAuthn, idpType);
 
         this.sessionManager.createAppSession(sessionId, clientId, redirectUri, state, tenantId, tuple.getLeft());
