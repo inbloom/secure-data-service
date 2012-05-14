@@ -144,6 +144,11 @@ public class MockAPIClient implements APIClient {
     }
 
     @Override
+    public List<GenericEntity> getSessions(String token) {
+        return new ArrayList<GenericEntity>();
+    }
+
+    @Override
     public List<GenericEntity> getSessionsByYear(String token, String schoolYear) {
         return new ArrayList<GenericEntity>();
     }
