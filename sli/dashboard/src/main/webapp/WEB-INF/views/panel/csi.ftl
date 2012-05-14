@@ -5,20 +5,18 @@
 
 <div id="csi_colMain" class="colMain">
     <h1>${panelData.name.firstName}<#if panelData.name.middleName?? &&  panelData.name.middleName != ""> ${panelData.name.middleName}</#if> ${panelData.name.lastSurname}
-    <#if panelData.name.generationCodeSuffix?? && panelData.name.generationCodeSuffix != ""> ${panelData.name.generationCodeSuffix}</#if></h1>
-    <#if panelData.otherName??>
-    <#list panelData.otherName as oName>
-    <small>
-    <#if oName.otherNameType == "Nickname">
-    (<#if oName.personalTitlePrefix?? &&  oName.personalTitlePrefix != "">${oName.personalTitlePrefix} </#if>
-    ${oName.firstName} 
-    <#if oName.middleName?? &&  oName.middleName != "">${oName.middleName} </#if>
-    ${oName.lastSurname}
-    <#if oName.generationCodeSuffix?? &&  oName.generationCodeSuffix != ""> ${oName.generationCodeSuffix}</#if>)
-    </#if>
-    </small>
-    </#list>
-    </#if>
+    	<#if panelData.name.generationCodeSuffix?? && panelData.name.generationCodeSuffix != ""> ${panelData.name.generationCodeSuffix}</#if>
+        <#if panelData.otherName??>
+		    <#list panelData.otherName as oName>
+			    <small>
+				    <#if oName.otherNameType == "Nickname">
+					    (<#if oName.personalTitlePrefix?? &&  oName.personalTitlePrefix != "">${oName.personalTitlePrefix} </#if>${oName.firstName} 
+					    <#if oName.middleName?? &&  oName.middleName != "">${oName.middleName} </#if>${oName.lastSurname}<#if oName.generationCodeSuffix?? &&  oName.generationCodeSuffix != ""> ${oName.generationCodeSuffix}</#if>)
+					</#if>
+			    </small>
+		    </#list>
+	    </#if>
+    </h1>
     <script>$("#csi_colMain").append(DashboardUtil.renderLozenges(DashboardProxy.getData("${panelConfig.data.cacheKey}")));</script>
     <div class="studentInfo">
         <div class="col1 column">
