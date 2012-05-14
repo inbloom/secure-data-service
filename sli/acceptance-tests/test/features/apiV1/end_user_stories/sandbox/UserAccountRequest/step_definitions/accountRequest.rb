@@ -125,8 +125,14 @@ Then /^I am directed to an acknowledgement page.$/ do
              "and then provide you with the next steps in the process.")
 end
 
-Then /^I get (\d+) record$/ do |count|
-  assert(@validatedRecords.size == convert(count), "Expected #{count}, received #{@validatedRecords.size}")
+Then /^I get (\d+) record for "([^\"]*)"$/ do |count, email|
+  foundRecords = 0
+  @validatedRecords.each do |record|
+    if (record["body"]["userName"] == email)
+      foundRecords = foundRecords + 1
+    end
+  end
+  assert(foundRecords == convert(count), "Expected #{count}, received #{foundRecords}")
 end
 
 Then /^"([^\"]*)" is "([^\"]*)"$/ do |inKey, value|

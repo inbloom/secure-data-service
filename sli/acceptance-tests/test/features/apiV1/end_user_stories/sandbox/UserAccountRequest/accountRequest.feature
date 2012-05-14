@@ -52,7 +52,7 @@ Scenario: As an slc operator I want to check if a user accepted EULA
   Given I go to the production account registration page
   And there is an approved account with login name "lalsop@acme.com"
   When I query the database for EULA acceptance
-  Then I get 1 record
+  Then I get 1 record for "lalsop@acme.com"
   And "First Name" is "Lance"
   And "Last Name" is "Alsop"
   And "Email" is "lalsop@acme.com"
@@ -132,7 +132,7 @@ Scenario: As an slc operator I want to check if a user accepted EULA
   Given I go to the sandbox account registration page
   And there is an approved account with login name "lalsop@acme.com"
   When I query the database for EULA acceptance
-  Then I get 1 record
+  Then I get 1 record for "lalsop@acme.com"
   And "First Name" is "Lance"
   And "Last Name" is "Alsop"
   And "Email" is "lalsop@acme.com"
