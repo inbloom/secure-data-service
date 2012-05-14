@@ -167,6 +167,11 @@ task :ingestionDashboardSadPathTest do
   runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
 end
 
+desc "Run Blacklist Validation Tests"
+task :ingestionBlacklistValidationTests do
+  runTests("test/features/ingestion/features/blacklistValidation_testing.feature")
+end
+
 desc "Run Ingestion Offline Tool Simple Test"
 task :ingestionOfflineSimpleTest do
   runTests("test/features/ingestion/features/offline_validation.feature")
