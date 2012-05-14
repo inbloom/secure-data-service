@@ -63,7 +63,6 @@ public class EntityResourcesCrudTest {
     // this array contains classes that should be excluded
 
     private String[] classesNotToTest = {
-            "ReportCardResource",
             "StudentCompetencyObjectiveResource",
             "CompetencyLevelDescriptorResource",
             "CompetencyLevelDescriptorTypeResource",

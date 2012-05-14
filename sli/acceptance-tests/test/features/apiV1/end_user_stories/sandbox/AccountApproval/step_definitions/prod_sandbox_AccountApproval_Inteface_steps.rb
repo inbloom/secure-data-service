@@ -4,23 +4,13 @@ require_relative '../../../../../utils/sli_utils.rb'
 require_relative '../../../../../utils/selenium_common.rb'
 
 
-
-
-Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
-  url =PropLoader.getProps['admintools_server_url']+"/account_managements"
-  @driver.get url
-  assertWithWait("Failed to navigate to the SLI IDP to authenticate")  {@driver.find_element(:id, "IDToken1")}
-  @driver.find_element(:id, "IDToken1").send_keys arg1
-  @driver.find_element(:id, "IDToken2").send_keys arg2
-  @driver.find_element(:name, "Login.Submit").click
-  begin
-    @driver.switch_to.alert.accept
-  rescue
-  end
-end
-
 Given /^LDAP server has been setup and running$/ do
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+end
+
+Given /^I navigate to the account management page$/ do
+  url =PropLoader.getProps['admintools_server_url']+"/account_managements"
+  @driver.get url
 end
 
 Given /^there are accounts in requests pending in the system$/ do

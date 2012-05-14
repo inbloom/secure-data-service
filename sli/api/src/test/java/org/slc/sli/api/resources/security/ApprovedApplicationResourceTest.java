@@ -109,7 +109,7 @@ public class ApprovedApplicationResourceTest {
         Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(
                 Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
 
-        setupAuth(Right.ADMIN_ACCESS, null);
+        setupAuth(Right.ADMIN_ACCESS, Arrays.asList("LEA Administrator"));
         Response resp = resource.getApplications("");
         List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
         assertTrue(ents.contains(adminApp));
@@ -129,10 +129,9 @@ public class ApprovedApplicationResourceTest {
             
             if (body == adminApp) {
                 foundAdmin = true;
-                assertTrue("no endpoints found for user with no roles", ((List) body.get("endpoints")).size() == 0);
             }
          }
-        assertTrue(foundAdmin);
+        assertFalse("Admin should be filtered out since no endpoints are applicable", foundAdmin);
     }
     
     @Test
@@ -192,7 +191,7 @@ public class ApprovedApplicationResourceTest {
     public void testAdminUserFilterAdmin() {
         Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(
                 Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
-        setupAuth(Right.ADMIN_ACCESS, null);
+        setupAuth(Right.ADMIN_ACCESS, Arrays.asList("LEA Administrator"));
         Response resp = resource.getApplications("true");
         List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
         assertTrue(ents.contains(adminApp));
