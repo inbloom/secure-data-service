@@ -89,6 +89,13 @@
       </bean>
     </entry>
 
+     <entry key="/InterchangeEducationOrgCalender/Session/GradingPeriodReference">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String"
+          value="idRefResolution/InterchangeEducationOrgCalender/Session/GradingPeriodReference.xml" />
+      </bean>
+    </entry>
+
     <!-- Interchange StaffAssociation -->
     <entry key="/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation/StaffReference">
       <bean class="org.milyn.Smooks">
@@ -287,6 +294,8 @@
     <entry key="/InterchangeStudentEnrollment/StudentSchoolAssociation/GraduationPlanReference" value-ref="simpleReferenceResolver" />
 
     <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference" value-ref="smooksExtendedReferenceResolver" />
+
+    <entry key="/InterchangeEducationOrgCalender/Session/GradingPeriodReference" value-ref="smooksExtendedReferenceResolver" />
 
     <entry key="/InterchangeEducationOrganization/School/ProgramReference" value-ref="smooksExtendedReferenceResolver" />
     <entry key="/InterchangeEducationOrganization/School/EducationOrganizationPeerReference" value-ref="smooksExtendedReferenceResolver" />
