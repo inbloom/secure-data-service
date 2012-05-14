@@ -92,7 +92,15 @@ DashboardUtil.makeTabs = function (element)
     $(element).tabs();
 };
 
-DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titleKey, valueKey, autoSelect, callback) {
+DashboardUtil.getShortDisplayText = function(displayText) {
+	if (displayText.length > 18) {
+		return displayText.substring(0,14) + "...";
+	}
+	
+	return displayText;
+};
+
+DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titleKey, valueKey, autoSelect, doShortString, callback) {
 	var select =  "";
 	
 	$("#"+name).find("dropdown-menu").html(select);
@@ -123,7 +131,11 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 	$("#"+name + "SelectMenu .disabled").removeClass("disabled");
 	$("#"+name + "SelectMenu .dropdown-menu li").click( function() {
 		$("#"+name + "SelectMenu .selected").removeClass("selected");
-		$("#"+name + "SelectMenu").find(".optionText").html($(this).find("a").html());
+		var displayText = $(this).find("a").html();
+		if (doShortString) {
+			displayText = DashboardUtil.getShortDisplayText(displayText);
+		}
+		$("#"+name + "SelectMenu").find(".optionText").html(displayText);
 		$("#"+name + "Select").val($(this).find("#selectionValue").val());
 		$(this).addClass("selected");
 		callback();
@@ -133,7 +145,7 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 	
 };
 
-DashboardUtil.selectDropDownOption = function (name, optionValue, doClick) {
+DashboardUtil.selectDropDownOption = function (name, optionValue, doClick, doShortString) {
 	$("#" + name + "SelectMenu .dropdown-menu li").each(function() {
 		if (optionValue == $(this).find("#selectionValue").val()) {
 			$(this).addClass("selected");
@@ -141,7 +153,11 @@ DashboardUtil.selectDropDownOption = function (name, optionValue, doClick) {
 				$(this).click();
 			} else {
 				$("#" + name + "Select").val(optionValue);
-				$("#" + name + "SelectMenu .optionText").html($(this).find("a").html());
+				var displayText = $(this).find("a").html();
+				if (doShortString) {
+					displayText = DashboardUtil.getShortDisplayText(displayText);
+				}
+				$("#" + name + "SelectMenu .optionText").html(displayText);
 			}
 		}
 	});
