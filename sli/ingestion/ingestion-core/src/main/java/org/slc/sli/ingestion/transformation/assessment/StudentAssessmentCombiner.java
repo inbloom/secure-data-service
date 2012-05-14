@@ -40,6 +40,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     public static final String STUDENT_ASSESSMENT_REFERENCE = "sTAReference";
     public static final String OBJECTIVE_ASSESSMENT_REFERENCE = "oAReference";
     public static final String XML_ID_FIELD = "xmlId";
+    public static final String STUDENT_ASSESSMENT_ITEMS_FIELD = "studentAssessmentItems";
 
     @SuppressWarnings("unchecked")
     @Override
@@ -71,6 +72,13 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                             soas.add(resolveSoa(ref, oas));
                         }
                         body.put("studentObjectiveAssessments", soas);
+
+                        List<Map<String, Object>> studentAssessmentItems = new ArrayList<Map<String, Object>>();
+                        addStudentAssessmentItems(id, studentAssessmentItems);
+                        if (studentAssessmentItems.size() > 0) {
+                            body.put(STUDENT_ASSESSMENT_ITEMS_FIELD, studentAssessmentItems);
+                        }
+
                         Map<String, Object> localParentIds = (Map<String, Object>) body.get("parents");
                         body.remove("parents");
                         Map<String, Object> localId = ((DBObject) studentAssessment.get("localId")).toMap();
@@ -86,6 +94,34 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 }
             } catch (IOException e) {
                 LOG.error("Exception occurred while writing transformed student assessments", e);
+            }
+        }
+    }
+
+    private void addStudentAssessmentItems(String studentAssessmentId, List<Map<String, Object>> list) {
+        Map<String, String> paths = new HashMap<String, String>();
+        paths.put("localParentIds.studentTestResultRef", studentAssessmentId);
+
+        Iterable<NeutralRecord> sassItems = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
+                "studentAssessmentItem", paths, getJob().getId());
+
+        if (sassItems != null) {
+            for (NeutralRecord sai : sassItems) {
+                String assessmentId = (String) sai.getLocalParentIds().get("assessmentItemIdentificatonCode");
+                if (assessmentId != null) {
+                    Map<String, String> paths2 = new HashMap<String, String>();
+                    paths2.put("body.identificationCode", assessmentId);
+
+                    Iterable<NeutralRecord> assessmentItems = getNeutralRecordMongoAccess().getRecordRepository()
+                            .findByPathsForJob("assessmentItem", paths2, getJob().getId());
+
+                    if (assessmentItems.iterator().hasNext()) {
+                        NeutralRecord assessmentItem = assessmentItems.iterator().next();
+                        sai.getAttributes().put("assessmentItem", assessmentItem.getAttributes());
+                    }
+                }
+
+                list.add(sai.getAttributes());
             }
         }
     }
