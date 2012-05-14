@@ -28,6 +28,12 @@ module ApplicationHelper
     :sender_name => EMAIL_SENDER_NAME,
     :sender_email_addr => EMAIL_SENDER_ADDR
   }
+  
+  UNKNOWN_EMAIL = {
+    "email_address" => "UNKOWN",
+    "first_name" => "UNKOWN",
+    "last_name" => "UNKOWN",
+  }
 
   @@ldap=LDAPStorage.new(LDAP_HOST,LDAP_PORT,LDAP_BASE,LDAP_USER,LDAP_PASS)
   @@emailer=Emailer.new(EMAIL_CONF)
@@ -42,6 +48,9 @@ module ApplicationHelper
   #     Nothing
   #
   def self.remove_user_account(guid)
+    if (guid.nil?)
+      return
+    end
     res = RestClient.get(API_BASE + "/" + guid, REST_HEADER){|response, request, result| response }
     if (res.code==200)
       jsonDocument = JSON.parse(res.body)
@@ -65,10 +74,14 @@ module ApplicationHelper
     email_token = get_email_token(user_email_info["email_address"])
     
     userEmailValidationLink = "http://#{validate_base}/user_account_validation/#{email_token}"
-    
+      
     email_message = "Your SLI account has been created pending email verification.\n" <<
       "\n\nPlease visit the following link to confirm your account:\n" <<
       "\n\n#{userEmailValidationLink}\n\n"
+      
+    if (email_token.nil?)
+      email_message = "There was a problem creating your account. Please try again."
+    end
     
     @@emailer.send_approval_email(
       user_email_info["email_address"], 
@@ -87,6 +100,10 @@ module ApplicationHelper
   # Returns : first, last, and user name on associated record
   #
   def self.get_email_info(guid)
+    if (API_BASE.nil? or guid.nil?)
+      return UNKNOWN_EMAIL
+    end
+    
     url = API_BASE + "/" + guid
     res = RestClient.get(url, REST_HEADER){|response, request, result| response }
 
@@ -98,11 +115,7 @@ module ApplicationHelper
         "last_name" => jsonDocument["lastName"],
       }
     else 
-      return {
-        "email_address" => "NONE",
-        "first_name" => "NONE",
-        "last_name" => "NONE",
-      }
+      return UNKNOWN_EMAIL
     end
   end
   
@@ -182,7 +195,11 @@ module ApplicationHelper
     puts "Searching LDAP for email token for email address: #{email_address}"
     ApprovalEngine.init(@@ldap,@@emailer,IS_SANDBOX)
     user_info= ApprovalEngine.get_user(email_address)
-    return user_info[:emailtoken]
+    if (user_info.nil?)
+      return nil
+    else
+      return user_info[:emailtoken]
+    end
   end
 
   # Returns an individual user via their email token or nil if the user does not exist.
