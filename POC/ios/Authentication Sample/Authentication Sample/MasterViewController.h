@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ASIHTTPRequest.h"
 
 @class DetailViewController;
 
-@interface MasterViewController : UITableViewController
+@interface MasterViewController : UITableViewController<ASIHTTPRequestDelegate>
 
 @property (strong, nonatomic) DetailViewController *detailViewController;
 

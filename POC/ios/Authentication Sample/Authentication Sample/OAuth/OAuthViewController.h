@@ -7,10 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ASIHTTPRequest.h"
 
-@interface OAuthViewController : UIViewController<UIWebViewDelegate>
+@interface OAuthViewController : UIViewController<UIWebViewDelegate,ASIHTTPRequestDelegate>
 
 @property (nonatomic, retain) UIWebView *web;
 @property (nonatomic, retain) NSString *code;
+
++(BOOL) isAuthenticated;
++(NSString *) getToken;
 
 @end

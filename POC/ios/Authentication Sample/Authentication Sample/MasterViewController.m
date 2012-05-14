@@ -10,6 +10,7 @@
 
 #import "DetailViewController.h"
 #import "OAuthViewController.h"
+#import "SBJson.h"
 
 @interface MasterViewController () {
     NSMutableArray *_objects;
@@ -40,18 +41,30 @@
 {
     [super viewDidLoad];
     
-    //OAuth Check
-    OAuthViewController *vc = [[OAuthViewController alloc] initWithNibName:nil bundle:nil];
-    UINavigationController *modal = [[UINavigationController alloc] initWithRootViewController:vc];
-    [self presentModalViewController:modal animated:YES];
-    [vc release];
-    [modal release];
     
 	// Do any additional setup after loading the view, typically from a nib.
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
     UIBarButtonItem *addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)] autorelease];
     self.navigationItem.rightBarButtonItem = addButton;
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    if(![OAuthViewController isAuthenticated]) {
+        //OAuth Check
+        OAuthViewController *vc = [[OAuthViewController alloc] initWithNibName:nil bundle:nil];
+        UINavigationController *modal = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self presentModalViewController:modal animated:YES];
+        [vc release];
+        [modal release];
+    }
+    else {
+        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://local.slidev.org:8080/api/rest/v1/students"]];
+        [request addRequestHeader:@"Authorization" value:[NSString stringWithFormat:@"Bearer %@", [OAuthViewController getToken]]];
+        [request setDelegate:self];
+        [request startAsynchronous];
+                                   
+    }
 }
 
 - (void)viewDidUnload
@@ -99,8 +112,8 @@
     }
 
 
-    NSDate *object = [_objects objectAtIndex:indexPath.row];
-    cell.textLabel.text = [object description];
+    NSDictionary *object = [_objects objectAtIndex:indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ %@",[object valueForKeyPath:@"name.firstName"], [object valueForKeyPath:@"name.lastSurname"]];
     return cell;
 }
 
@@ -144,6 +157,15 @@
     NSDate *object = [_objects objectAtIndex:indexPath.row];
     self.detailViewController.detailItem = object;
     [self.navigationController pushViewController:self.detailViewController animated:YES];
+}
+
+/**
+ * ASIHTTP Request Delegate
+ */
+- (void) requestFinished:(ASIHTTPRequest *)request {
+    NSLog(@"Student list: %@", [request responseString]);
+    _objects = [[request responseString] JSONValue];
+    [self.tableView reloadData];
 }
 
 @end

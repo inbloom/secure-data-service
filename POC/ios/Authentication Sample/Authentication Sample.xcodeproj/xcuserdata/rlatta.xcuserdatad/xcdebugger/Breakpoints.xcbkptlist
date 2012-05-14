@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Authentication Sample/OAuth/OAuthViewController.m"
-         timestampString = "358712941.711161"
+         timestampString = "358716928.047614"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "23"
-         endingLineNumber = "23"
+         startingLineNumber = "35"
+         endingLineNumber = "35"
          landmarkName = "-loadView"
          landmarkType = "5">
       </FileBreakpoint>
@@ -21,12 +21,38 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Authentication Sample/OAuth/OAuthViewController.m"
-         timestampString = "358712941.711161"
+         timestampString = "358716928.047614"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "28"
-         endingLineNumber = "28"
+         startingLineNumber = "40"
+         endingLineNumber = "40"
          landmarkName = "-viewDidLoad"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Authentication Sample/OAuth/OAuthViewController.m"
+         timestampString = "358716928.047614"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "33"
+         endingLineNumber = "33"
+         landmarkName = "-loadView"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Authentication Sample/OAuth/OAuthViewController.m"
+         timestampString = "358716928.047614"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "60"
+         endingLineNumber = "60"
+         landmarkName = "-getOauthToken"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -34,38 +60,25 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Authentication Sample/MasterViewController.m"
-         timestampString = "358707670.842919"
+         timestampString = "358717342.622808"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "44"
-         endingLineNumber = "44"
-         landmarkName = "-viewDidLoad"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Authentication Sample/OAuth/OAuthViewController.m"
-         timestampString = "358712941.711161"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "21"
-         endingLineNumber = "21"
-         landmarkName = "-loadView"
+         startingLineNumber = "167"
+         endingLineNumber = "167"
+         landmarkName = "-requestFinished:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Authentication Sample/OAuth/OAuthViewController.m"
-         timestampString = "358712941.711161"
+         filePath = "Authentication Sample/MasterViewController.m"
+         timestampString = "358717027.259923"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "52"
-         endingLineNumber = "52"
-         landmarkName = "-webView:didFailLoadWithError:"
+         startingLineNumber = "53"
+         endingLineNumber = "53"
+         landmarkName = "-viewWillAppear:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

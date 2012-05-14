@@ -7,12 +7,24 @@
 //
 
 #import "OAuthViewController.h"
+#import "SBJson.h"
+
 
 @implementation OAuthViewController
 @synthesize web;
 @synthesize code;
 
++(BOOL) isAuthenticated {
+    NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
+    if([token length] > 0) {
+        return YES;
+    }
+    return NO;
+}
 
++(NSString *) getToken {
+    return [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
+}
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     return [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 }
@@ -40,6 +52,16 @@
     [super dealloc];
 }
 
+- (void) getOauthToken {
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://local.slidev.org:8080/api/oauth/token?client_id=EGbI4LaLaL&client_secret=iGdeAGCugi4VwZNtMJR062nNKjB7gRKUjSB0AcZqpn8Beeee&code=%@&redirect_uri=NONCE", self.code]];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request startSynchronous];
+    NSLog(@"Got a response of %@", [request responseString]);
+    NSDictionary *token = [[request responseString] JSONValue];
+    [[NSUserDefaults standardUserDefaults] setObject:[token objectForKey:@"access_token"] forKey:@"token"];
+    [self.navigationController dismissModalViewControllerAnimated:YES];
+}
+
 /**
  * UIWebView Delegate
  */
@@ -51,6 +73,8 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     NSLog(@"didFailWithError %@", [error localizedFailureReason]);
     [self extractCode:[[[error userInfo] valueForKey:@"NSErrorFailingURLKey"] query]];
+    [webView stopLoading];
+    [self getOauthToken];
 }
 
 -(void) extractCode: (NSString *) fromUrl {
