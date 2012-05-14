@@ -344,6 +344,11 @@
           value="idRefResolution/InterchangeMasterSchedule/Section/CourseOfferingReference.ftl" />
     <!-- end of Interchange MasterSchedule -->
 
+    <!-- Interchange StudentCohort -->
+    <entry key="/InterchangeStudentCohort/StudentCohortAssociation/CohortReference"
+          value="idRefResolution/InterchangeStudentCohort/StudentCohortAssociation/CohortReference.ftl" />
+    <!-- end of Interchange StudentCohort -->
+
   </util:map>
 
   <bean id="smooksExtendedReferenceResolver" class="org.slc.sli.ingestion.referenceresolution.SmooksExtendedReferenceResolver">

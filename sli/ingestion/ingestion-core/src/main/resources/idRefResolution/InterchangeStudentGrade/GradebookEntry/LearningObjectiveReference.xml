@@ -21,7 +21,7 @@
                     </#if>
                     >
 
-                    <#if {LearningObjective.LearningObjectiveId.IdentificationCode[0])??>
+                    <#if (LearningObjective.LearningObjectiveId.IdentificationCode[0])??>
                         <IdentificationCode>
                             ${LearningObjective.LearningObjectiveId.IdentificationCode}
                         </IdentificationCode>
@@ -29,7 +29,7 @@
 
                     </LearningObjectiveId>
 
-                    <#if {LearningObjective.Objective[0])??>
+                    <#if (LearningObjective.Objective[0])??>
                     <Objective>
                         ${LearningObjective.Objective}
                     </Objective>
