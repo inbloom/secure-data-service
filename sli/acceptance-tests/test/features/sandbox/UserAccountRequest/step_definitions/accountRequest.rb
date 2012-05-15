@@ -8,7 +8,6 @@ require_relative '../../../utils/selenium_common.rb'
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
   @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
-  @baseUrl = PropLoader.getProps['user_registration_app_production_url']
   @registrationAppSuffix = PropLoader.getProps['registration_app_suffix']
   @validationBaseSuffix = PropLoader.getProps['validation_base_suffix']
   @emailConf = {
@@ -44,6 +43,7 @@ Given /^there is no registered account for "([^\"]*)" in LDAP$/ do |email|
 end
 
 Given /^I go to the production account registration page$/ do
+  @baseUrl = PropLoader.getProps['user_registration_app_production_url']
   userRegAppUrl = @baseUrl + @registrationAppSuffix
   @prod = true
   initializeApprovalAndLDAP(@emailConf, @prod)
@@ -51,6 +51,7 @@ Given /^I go to the production account registration page$/ do
 end
 
 Given /^I go to the sandbox account registration page$/ do
+  @baseUrl = PropLoader.getProps['user_registration_app_sandbox_url']
   userRegAppUrl = @baseUrl + @registrationAppSuffix
   @prod = false
   initializeApprovalAndLDAP(@emailConf, @prod)
