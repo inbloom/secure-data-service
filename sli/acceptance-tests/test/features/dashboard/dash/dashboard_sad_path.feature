@@ -36,8 +36,9 @@ When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I look in the school drop-down
 Then I only see "East Daybreak Junior High"
-When I look in the course drop-down
-Then I only see "There are no courses available for you. Please contact your IT administrator."
+Then I am informed that "There is no data available for your request. Please contact your IT administrator."
+#When I look in the course drop-down
+#Then I only see "There is no data available for your request.  Please contact your IT administrator."
 
 Scenario: No schools in district
 When I select "Illinois Sunset School District 4526" and click go
@@ -56,7 +57,22 @@ Then I only see "American Literature"
 And I select section "Sec 145"
 Then I see a list of 4 students
 
+Scenario: Check empty ISAT assessments
+When I select "Illinois Sunset School District 4526" and click go
+When I login as "linda.kim" "linda.kim1234"
+When I select course "8th Grade English"
+When I select section "8th Grade English - Sec 6"
+Then I am informed that "There is no data available for your request. Please contact your IT administrator."
+#Then I should have a dropdown selector named "viewSelect"
+# Then I should only see one view named "There is no data available for your request.  Please contact your IT administrator."
+When I select course "8th Grade Math"
+When I select section "8th Grade Math - Sec 1"
+And I see a list of 5 students
 
-
-
-
+Scenario: Section without Student grades
+When I select "Illinois Sunset School District 4526" and click go
+When I login as "rbraverman" "rbraverman1234"
+When I select section "Grade 1"
+#Then I should have a dropdown selector named "viewSelect"
+# Then I should only see one view named "There is no data available for your request. Please contact your IT administrator."
+Then I am informed that "There is no data available for your request. Please contact your IT administrator."
