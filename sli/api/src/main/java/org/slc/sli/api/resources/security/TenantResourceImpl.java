@@ -56,8 +56,8 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     @Autowired
     private EntityDefinitionStore store;
     
-    @Value("${landingzone.inbounddir}")
-    private String inbounddir;
+    @Value("${sli.tenant.landingZoneMountPoint}")
+    private String landingZoneMountPoint;
     
     @Value("${sli.tenant.ingestionServers}")
     private String ingestionServers;
@@ -139,7 +139,9 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         query.addCriteria(new NeutralCriteria(TENANT_ID, "=", tenantId));
         
         String ingestionServer = randomIngestionServer();
-        String path = inbounddir + File.pathSeparatorChar + tenantId + "-" + edOrgId;
+        File inboundDirFile = new File(landingZoneMountPoint);
+        File fullPath = new File(inboundDirFile, tenantId + "-" + edOrgId);
+        String path = fullPath.getAbsolutePath();
         
         // look up ids of existing tenant entries
         List<String> existingIds = new ArrayList<String>();

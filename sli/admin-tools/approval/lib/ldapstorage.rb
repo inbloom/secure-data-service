@@ -4,7 +4,7 @@ require 'date'
 
 class LDAPStorage 
 	# set the objectClasses for user objects
-	OBJECT_CLASS = ["inetOrgPerson", "top"]
+	OBJECT_CLASS = ["inetOrgPerson", "posixAccount", "top"]
 
 	# group object classes 
 	GROUP_OBJECT_CLASSES = ["groupOfNames", "top"]
@@ -17,7 +17,10 @@ class LDAPStorage
 		:userpassword         => :password,
 		:o                    => :vendor,
 		:displayname          => :emailtoken,
-		:destinationindicator => :status
+		:destinationindicator => :status,
+		:homeDirectory        => :homedir,
+		:uidNumber            => :uidnumber, 
+		:gidNumber            => :gidnumber
 	}
 	ENTITY_ATTR_MAPPING = LDAP_ATTR_MAPPING.invert
 
@@ -27,6 +30,15 @@ class LDAPStorage
     	:modifyTimestamp => :updated
 	}
 
+	# these values are injected when the user is created 
+	ENTITY_CONSTANTS = {
+		:uidnumber => "500", 
+		:gidnumber => "500"
+	}
+
+	# description field to contain mapping between LDAP and applicaton fields
+	LDAP_DESCRIPTION_FIELD = :description
+
 	# List of fields to fetch from LDAP for user 
 	COMBINED_LDAP_ATTR_MAPPING = LDAP_ATTR_MAPPING.merge(RO_LDAP_ATTR_MAPPING)
 
@@ -35,7 +47,8 @@ class LDAPStorage
 		:last,
 		:password, 
 		:vendor,
-		:emailtoken
+		:emailtoken,
+		:homedir
 	]
 
 	LDAP_DATETIME_FIELDS = Set.new [
@@ -76,27 +89,36 @@ class LDAPStorage
 	def create_user(user_info)
 		cn = user_info[:email]
 		dn = get_DN(user_info[:email])
-		attr = {
+		attributes = {
 			:cn => cn,
 			:objectclass => OBJECT_CLASS,
 		}
 
-		if ENTITY_ATTR_MAPPING.keys().sort != user_info.keys().sort
-		 	raise "The following attributes #{ENTITY_ATTR_MAPPING.keys} need to be set" 
-		end
+		# inject the constant values into the user info 
+		e_user_info = ENTITY_CONSTANTS.merge(user_info)
 
-		LDAP_ATTR_MAPPING.each { |ldap_k, rec_k| attr[ldap_k] = user_info[rec_k] }
-		if !(@ldap.add(:dn => dn, :attributes => attr))
-			raise ldap_ex("Unable to create user in LDAP: #{user_info}.")
+		#if ENTITY_ATTR_MAPPING.keys().sort != e_user_info.keys().sort
+		# 	raise "The following attributes #{ENTITY_ATTR_MAPPING.keys} need to be set" 
+		#end
+
+		if !e_user_info[:homedir]
+		   e_user_info[:homedir] = "/home/example"
+		end
+		
+		LDAP_ATTR_MAPPING.each { |ldap_k, rec_k| attributes[ldap_k] = e_user_info[rec_k] }
+		descr = (COMBINED_LDAP_ATTR_MAPPING.map { |k,v|  "#{k}:#{v}" }).join("\n")
+		# attributes[LDAP_DESCRIPTION_FIELD] = descr
+		if !(@ldap.add(:dn => dn, :attributes => attributes))
+			raise ldap_ex("Unable to create user in LDAP: #{attributes}.")
 		end
 	end
 
 	# returns extended user_info
 	def read_user(email_address)
-		filter = Net::LDAP::Filter.eq( "cn", email_address)
+		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, email_address)
 		return search_map_user_fields(filter, 1)[0]
 	end
-
+	
 	# returns extended user_info for the given emailtoken (see create_user) or nil 
 	def read_user_emailtoken(emailtoken)
 		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:emailtoken].to_s, emailtoken)
@@ -107,6 +129,13 @@ class LDAPStorage
 	# use constants in approval.rb 
 	def read_users(status=nil)
 		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
+		return search_map_user_fields(filter)
+	end	
+
+	# returns array of extended user_info for all users or all users with given status 
+	# use constants in approval.rb 
+	def search_users(wildcard_email_address)
+		filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, wildcard_email_address)
 		return search_map_user_fields(filter)
 	end	
 
@@ -187,7 +216,7 @@ class LDAPStorage
 			dn = get_DN(user_info[:email])
 			ALLOW_UPDATING.each do |attribute|
 				if user_info && (curr_user_info[attribute] != user_info[attribute])
-					@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[:status], user_info[:status])
+					@ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[attribute], user_info[attribute])
 				end
 			end
 									
@@ -240,4 +269,3 @@ end
 # usage 
 #require 'approval'
 #storage = LDAPStorage.new("ldap.slidev.org", 389, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-
