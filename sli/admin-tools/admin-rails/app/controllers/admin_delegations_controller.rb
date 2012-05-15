@@ -17,17 +17,6 @@ class AdminDelegationsController < ApplicationController
     end
   end
 
-  # GET /admin_delegations/1
-  # GET /admin_delegations/1.json
-  def show
-    @admin_delegation = AdminDelegation.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @admin_delegation }
-    end
-  end
-
   # GET /admin_delegations/new
   # GET /admin_delegations/new.json
   def new
@@ -37,11 +26,6 @@ class AdminDelegationsController < ApplicationController
       format.html # new.html.erb
       format.json { render json: @admin_delegation }
     end
-  end
-
-  # GET /admin_delegations/1/edit
-  def edit
-    @admin_delegation = AdminDelegation.find(params[:id])
   end
 
   # POST /admin_delegations
@@ -77,17 +61,6 @@ class AdminDelegationsController < ApplicationController
     end
   end
 
-  # DELETE /admin_delegations/1
-  # DELETE /admin_delegations/1.json
-  def destroy
-    @admin_delegation = AdminDelegation.find(params[:id])
-    @admin_delegation.destroy
-
-    respond_to do |format|
-      format.html { redirect_to admin_delegations_url }
-      format.json { head :ok }
-    end
-  end
 
 
 end
