@@ -212,7 +212,7 @@ end
 
 
 desc "Run all sandbox tests"
-task :sandboxTests => [:apiSandboxTests, :adminSandboxTests] do
+task :sandboxTests => [:apiSandboxTests, :adminSandboxTests, :simpleIdpSandboxTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -544,6 +544,7 @@ task :importSandboxData do
     "learningObjective" => "learningObjective_fixture.json",
     "grade" => "grade_fixture.json",
     "studentCompetency" => "studentCompetency_fixture.json",
+    "adminDelegation" => "adminDelegation_fixture.json",
     "gradingPeriod" => "gradingPeriod_fixture.json",
     "reportCard" => "reportCard_fixture.json"
   ]

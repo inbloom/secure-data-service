@@ -3731,7 +3731,16 @@
         <jb:value property="beginDate" data="BeginDate" />
         <jb:value property="endDate" data="EndDate" />
         <jb:value property="totalInstructionalDays" data="TotalInstructionalDays" decoder="Integer" />
-        <jb:wiring property="calendarDateReference" beanIdRef="calendarDateReference_reference" />
+        <jb:wiring property="calendarDateReference" beanIdRef="calendarDateReference_reference_array" />
+  </jb:bean>
+
+  <jb:bean beanId="calendarDateReference_reference_array" class="java.util.ArrayList" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod">
+        <jb:wiring beanIdRef="calendarDateReference_reference" />
+  </jb:bean>
+
+  <jb:bean beanId="calendarDateReference_reference" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference">
+        <jb:value property="date" data="CalendarDateReference/CalendarDateIdentity/CalendarDate" />
+        <jb:value property="calendarEvent" data="CalendarDateReference/CalendarDateIdentity/CalendarEvent" />
   </jb:bean>
 
   <jb:bean beanId="calendarDateReference_reference" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod">
