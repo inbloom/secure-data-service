@@ -3719,12 +3719,19 @@
 
   <jb:bean beanId="gradingPeriodAttributes" class="java.util.HashMap"
              createOnElement="InterchangeEducationOrgCalendar/GradingPeriod">
+        <!--<jb:value property="gradingPeriodId" data="InterchangeEducationOrgCalendar/GradingPeriod/@id" />-->
         <jb:value property="gradingPeriod" data="InterchangeEducationOrgCalendar/GradingPeriod/GradingPeriod" />
         <jb:value property="beginDate" data="BeginDate" />
         <jb:value property="endDate" data="EndDate" />
         <jb:value property="totalInstructionalDays" data="TotalInstructionalDays" decoder="Integer" />
-        <!--<jb:value property="calendarDateReference" data="CalendarDateReference" /> -->
+        <jb:wiring property="calendarDateReference" beanIdRef="calendarDateReference_reference" />
   </jb:bean>
+
+  <jb:bean beanId="calendarDateReference_reference" class="java.util.HashMap" createOnElement="InterchangeEducationOrgCalendar/GradingPeriod">
+        <jb:value property="date" data="CalendarDateReference/CalendarDateIdentity/CalendarDate" />
+        <jb:value property="calendarEvent" data="CalendarDateReference/CalendarDateIdentity/CalendarEvent" />
+  </jb:bean>
+
   <!-- End gradingPeriod mapping -->
 
   <!-- Start calendarDate mapping -->
@@ -3737,6 +3744,7 @@
 
   <jb:bean beanId="calendarDateAttributes" class="java.util.HashMap"
              createOnElement="InterchangeEducationOrgCalendar/CalendarDate">
+        <!--<jb:value property="calendarDateId" data="InterchangeEducationOrgCalendar/CalendarDate/@id" />-->
         <jb:value property="date" data="Date" />
         <jb:value property="calendarEvent" data="CalendarEvent" />
   </jb:bean>

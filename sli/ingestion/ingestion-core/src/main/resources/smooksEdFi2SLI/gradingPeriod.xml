@@ -26,11 +26,11 @@
 
     <jb:bean beanId="gradingPeriodBody" class="java.util.HashMap"
              createOnElement="attributes">
-        <jb:value property="gradingPeriod" data="GradingPeriod" />
-        <jb:value property="beginDate" data="BeginDate" />
-        <jb:value property="endDate" data="EndDate" />
-        <jb:value property="totalInstructionalDays" data="TotalInstructionalDays" decoder="Integer" />
-        <!--<jb:value property="calendarDateReference" data="CalendarDateReference" />-->
+        <jb:value property="gradingPeriod" data="attributes gradingPeriod" />
+        <jb:value property="beginDate" data="attributes beginDate" />
+        <jb:value property="endDate" data="attributes endDate" />
+        <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" decoder="Integer" />
+        <jb:value property="calendarDateReference" data="attributes calendarDateReference" />
     </jb:bean>
 
 </smooks-resource-list>

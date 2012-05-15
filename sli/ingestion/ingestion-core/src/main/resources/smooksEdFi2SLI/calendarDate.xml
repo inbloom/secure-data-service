@@ -26,8 +26,8 @@
 
     <jb:bean beanId="calendarDateBody" class="java.util.HashMap"
              createOnElement="attributes">
-        <jb:value property="date" data="Date" />
-        <jb:value property="calendarEvent" data="CalendarEvent" />
+        <jb:value property="date" data="attributes date" />
+        <jb:value property="calendarEvent" data="attributes calendarEvent" />
     </jb:bean>
 
 </smooks-resource-list>

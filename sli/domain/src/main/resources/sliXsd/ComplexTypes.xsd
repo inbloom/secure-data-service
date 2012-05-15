@@ -5776,6 +5776,16 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
+            <xs:element name="calendarDateReference" type="reference"
+                        minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Days associated with the grading period.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>calendarDate</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 

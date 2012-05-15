@@ -193,16 +193,17 @@
     <property name="passThroughCollectionName" value="grade" />
   </bean>
 
+  <bean id="calendarDateTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
+          scope="prototype">
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+    <property name="passThroughCollectionName" value="calendarDate" />
+  </bean>
+
   <bean id="gradingPeriodTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
           scope="prototype">
     <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
     <property name="passThroughCollectionName" value="gradingPeriod" />
   </bean>
 
-  <bean id="calendarDateTransformationStrategy" class="org.slc.sli.ingestion.transformation.PassThroughTransformationStrategy"
-          scope="prototype">
-    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
-    <property name="passThroughCollectionName" value="calendarDate" />
-  </bean>
 </beans>
 
