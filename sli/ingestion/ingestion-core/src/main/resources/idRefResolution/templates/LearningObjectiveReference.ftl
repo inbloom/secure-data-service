@@ -8,16 +8,12 @@
     >
     
     <#if (LearningObjective.LearningObjectiveId.IdentificationCode[0])??>
-        <IdentificationCode>
-            ${LearningObjective.LearningObjectiveId.IdentificationCode}
-        </IdentificationCode>
+        <IdentificationCode>${LearningObjective.LearningObjectiveId.IdentificationCode}</IdentificationCode>
     </#if>
     
     </LearningObjectiveId>
     
     <#if (LearningObjective.Objective[0])??>
-    <Objective>
-        ${LearningObjective.Objective}
-    </Objective>
+    <Objective>${LearningObjective.Objective}</Objective>
     </#if>
 </LearningObjectiveIdentity>

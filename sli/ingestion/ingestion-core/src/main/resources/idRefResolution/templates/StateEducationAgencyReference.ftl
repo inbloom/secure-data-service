@@ -1,9 +1,7 @@
 
 <EducationOrgIdentity>
     <#if (StateEducationAgency.StateOrganizationId[0])?? >
-    <StateOrganizationId>
-        ${StateEducationAgency.StateOrganizationId}
-    </StateOrganizationId>
+    <StateOrganizationId>${StateEducationAgency.StateOrganizationId}</StateOrganizationId>
     </#if>
     
     <#if (StateEducationAgency.EducationOrgIdentificationCode[0])?? >
@@ -13,9 +11,7 @@
         </#if>
         >
         <#if (StateEducationAgency.EducationOrgIdentificationCode.ID[0])??>
-        <ID>
-            ${StateEducationAgency.EducationOrgIdentificationCode.ID}
-        </ID>
+        <ID>${StateEducationAgency.EducationOrgIdentificationCode.ID}</ID>
         </#if>
     </EducationOrgIdentificationCode>
     </#if>

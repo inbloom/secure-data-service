@@ -39,7 +39,7 @@
     <entry key="/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference"
           value="idRefResolution/InterchangeStudentGrade/StudentCompetency/LearningObjectiveReference.ftl" />
 
-     <entry key="/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference"
+    <entry key="/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference"
           value="idRefResolution/InterchangeStudentGrade/StudentCompetency/StudentCompetencyObjectiveReference.ftl" />
 
     <entry key="/InterchangeStudentGrade/GradebookEntry/LearningObjectiveReference"

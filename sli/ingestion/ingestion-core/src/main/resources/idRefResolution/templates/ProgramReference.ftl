@@ -1,19 +1,13 @@
 
 <ProgramIdentity>
     <#if (Program.ProgramId[0])??>
-    <ProgramId>
-        ${Program.ProgramId}
-    </ProgramId >
+    <ProgramId>${Program.ProgramId}</ProgramId >
     </#if>
     <#if (Program.ProgramType[0])??>
-    <ProgramType>
-        ${Program.ProgramType}
-    </ProgramType>
+    <ProgramType>${Program.ProgramType}</ProgramType>
     </#if>
     <#if (Program.StateOrganizationId[0])??>
-    <StateOrganizationId>
-        ${Program.StateOrganizationId}
-    </StateOrganizationId>
+    <StateOrganizationId>${Program.StateOrganizationId}</StateOrganizationId>
     </#if>
     <#if (Program.EducationOrgIdentificationCode[0])??>
     <EducationOrgIdentificationCode
@@ -22,9 +16,7 @@
          </#if>
          >
          <#if (Program.EducationOrgIdentificationCode.ID[0])??>
-        <ID>
-            ${Program.EducationOrgIdentificationCode.ID}
-        </ID>
+        <ID>${Program.EducationOrgIdentificationCode.ID}</ID>
         </#if>
     </EducationOrgIdentificationCode>
     </#if>

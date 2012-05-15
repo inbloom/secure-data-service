@@ -1,18 +1,14 @@
-< StudentCompetencyObjectiveIdentity>
-    < StudentCompetencyObjectiveId>
+<StudentCompetencyObjectiveIdentity>
+    <StudentCompetencyObjectiveId>
 
     <#if (StudentCompetencyObjective.StudentCompetencyObjectiveId[0])??>
-        <IdentificationCode>
-            ${ StudentCompetencyObjective.StudentCompetencyObjectiveId}
-        </IdentificationCode>
+        <IdentificationCode>${StudentCompetencyObjective.StudentCompetencyObjectiveId}</IdentificationCode>
     </#if>
 
-    </ StudentCompetencyObjectiveId>
+    </StudentCompetencyObjectiveId>
 
     <#if (StudentCompetencyObjective.Objective[0])??>
-    <Objective>
-        ${ StudentCompetencyObjective.Objective}
-    </Objective>
+    <Objective>${StudentCompetencyObjective.Objective}</Objective>
     </#if>
 
-</ StudentCompetencyObjectiveIdentity>
+</StudentCompetencyObjectiveIdentity>
