@@ -76,6 +76,8 @@
     <value>disciplineAction</value>
     <value>studentDisciplineIncident</value>
     <value>competencyLevelDescriptor</value>
+    <value>gradingPeriod</value>
+    <value>calendarDate</value>
   </util:set>
 
 </beans>

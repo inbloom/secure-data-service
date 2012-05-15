@@ -226,9 +226,9 @@ module ApprovalEngine
 	end
 
 	# Returns an individual user via their email token or nil if the user does not exist.
-    	def ApprovalEngine.get_user_emailtoken(email_token)
-    		return @@storage.read_user_emailtoken(email_token)
-    	end
+	def ApprovalEngine.get_user_emailtoken(email_token)
+		return @@storage.read_user_emailtoken(email_token)
+	end
 
 	# Update the user information that was submitted via the add_user method. 
 	#

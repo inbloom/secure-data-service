@@ -219,6 +219,7 @@ public class SamlHelper {
         nameId.getAttributes().add(new Attribute("SPNameQualifier", this.issuerName));
 
         doc.getRootElement().addContent(nameId);
+        
         if (idpType != 4) {
             Element authnContext = new Element("RequestedAuthnContext", SAMLP_NS);
             authnContext.getAttributes().add(new Attribute("Comparison", "exact"));
@@ -280,6 +281,7 @@ public class SamlHelper {
         nameId.getAttributes().add(new Attribute("SPNameQualifier", this.issuerName));
 
         doc.getRootElement().addContent(nameId);
+        
         if (idpType != 4) {
             Element authnContext = new Element("RequestedAuthnContext", SAMLP_NS);
             authnContext.getAttributes().add(new Attribute("Comparison", "exact"));
