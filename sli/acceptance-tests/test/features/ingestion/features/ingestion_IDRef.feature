@@ -39,11 +39,10 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "InterchangeStudentGrade.xml records ingested successfully: 28" in the resulting batch job file
   And I should see "InterchangeStudentParent.xml records ingested successfully: 11" in the resulting batch job file
-  And I should see "Reference not resolved: ref=<LS_101>. No matching id for this ref." in the resulting warning log file
-  And I should see "Reference not resolved: ref=<LO_101>. No matching id for this ref." in the resulting warning log file
-  And I should see "Reference not resolved: ref=<GP_101>. No matching id for this ref." in the resulting warning log file
-  And I should see "Reference not resolved: ref=<CL_101>. No matching id for this ref." in the resulting warning log file
-  And I should see "Reference not resolved: ref=<SSA_101>. No matching id for this ref." in the resulting warning log file
-  And I should see "Reference not resolved: ref=<S_101>. No matching id for this ref." in the resulting warning log file
+  And I should see "Unable to resolve a reference with ref=[LS_101]: No matching element with id=[LS_101]" in the resulting warning log file
+  And I should see "Unable to resolve a reference with ref=[LO_101]: No matching element with id=[LO_101]" in the resulting warning log file
+  And I should see "Unable to resolve a reference with ref=[GP_101]: No matching element with id=[GP_101]" in the resulting warning log file
+  And I should see "Unable to resolve a reference with ref=[CL_101]: No matching element with id=[CL_101]" in the resulting warning log file
+  And I should see "Unable to resolve a reference with ref=[SSA_101]: No matching element with id=[SSA_101]" in the resulting warning log file
+  And I should see "Unable to resolve a reference with ref=[S_101]: No matching element with id=[S_101]" in the resulting warning log file
   And I should see "Not all records were processed completely due to errors" in the resulting batch job file
-

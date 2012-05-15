@@ -3,6 +3,6 @@
 <#if (Staff.StaffUniqueStateId[0])??>
     <StaffUniqueStateId>
         ${Staff.StaffUniqueStateId}
-    </StaffUniqueSateId>
+    </StaffUniqueStateId>
 </#if>
 </StaffIdentity>
