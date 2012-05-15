@@ -44,19 +44,23 @@ public class AggregationPostProcessor implements Processor {
                 jobId = workNote.getBatchJobId();
             }
 
-            IngestionStagedEntity stagedEntityToRemove = workNote.getIngestionStagedEntity();
-
-            if (stagedEntityTypeDAO.getStagedEntitiesForJob(jobId).remove(stagedEntityToRemove)) {
-
-                LOG.info("removed EdfiEntity: {}", stagedEntityToRemove);
-            }
+            removeWorkNoteFromRemainingEntities(jobId, workNote);
         }
         exchange.getIn().setHeader("jobId", jobId);
 
         if (stagedEntityTypeDAO.getStagedEntitiesForJob(jobId).size() == 0) {
             exchange.getIn().setHeader("processedAllStagedEntities", true);
-            WorkNote workNote = new WorkNoteImpl(jobId, null, 0, 0);
+            WorkNote workNote = WorkNoteImpl.createSimpleWorkNote(jobId);
             exchange.getIn().setBody(workNote);
+        }
+    }
+
+    private void removeWorkNoteFromRemainingEntities(String jobId, WorkNote workNote) {
+
+        IngestionStagedEntity stagedEntityToRemove = workNote.getIngestionStagedEntity();
+
+        if (stagedEntityTypeDAO.removeStagedEntityForJob(stagedEntityToRemove, jobId)) {
+            LOG.info("removed EdfiEntity: {}", stagedEntityToRemove);
         }
     }
 

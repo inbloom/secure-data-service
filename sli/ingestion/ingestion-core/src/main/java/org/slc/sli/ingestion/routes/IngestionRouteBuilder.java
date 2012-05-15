@@ -159,9 +159,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: postExtract
         // we enter here after EdFiProcessor. everything has been staged.
-        // TODO: fix endpoint
         from("direct:postExtract")
             .routeId("postExtract")
+            .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - Entering Maestro orchestration.")
             .process(orchestraPreProcessor)
             .choice()
                 .when(header("stagedEntitiesEmpty").isEqualTo(true))
@@ -172,22 +172,40 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // uses custom bean to split WorkNotes and send to processors
         from("direct:splitter")
             .routeId("splitter")
-            .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Maestro splitting WorkNotes.")
+            .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Maestro deriving and splitting WorkNotes for transformation.")
             .split()
                 .method("WorkNoteSplitter", "split")
             .setHeader("IngestionMessageType", constant(MessageType.DATA_TRANSFORMATION.name()))
             .to(pitNodeQueueUri);
 
-        // aggregates messages correlated by batchJobId, with completion size equal to the number of messages the splitter created (CamelSplitSize)
-        // we enter here after PersistenceProcessor.
-        // aggregationPostProcessor is only invoked once the completion predicate (we're using completionSize) evaluates to true.
-        // we then route back to splitter or stop if finished.
-        // TODO: fix endpoint
+        from("direct:transformCompleted")
+            .routeId("transformCompleted")
+            .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - Maestro pass-through-splitting WorkNotes for persistance.")
+            .split()
+                .method("WorkNoteSplitter", "passThroughSplit")
+            .setHeader("IngestionMessageType", constant(MessageType.PERSIST_REQUEST.name()))
+            .to(pitNodeQueueUri);
+
         from(maestroQueueUri)
             .routeId("aggregator")
-            .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Maestro aggregating WorkNotes.")
+            .choice()
+                .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
+                    .to("direct:aggregateTransforms")
+                .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
+                    .to("direct:aggregatePersists");
+
+        from("direct:aggregateTransforms")
+            .routeId("aggregateTransforms")
+            .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - Maestro aggregating WorkNotes after transformations.")
+            .aggregate(simple("${body.getIngestionStagedEntity}${body.getBatchJobId}"), new WorkNoteAggregator())
+                .completionSize(simple("${in.header.workNoteByEntityCount}"))
+            .to("direct:transformCompleted");
+
+        from("direct:aggregatePersists")
+            .routeId("aggregatePersists")
+            .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - Maestro aggregating WorkNotes after persistances.")
             .aggregate(simple("${body.getBatchJobId}"), new WorkNoteAggregator())
-                .completionSize(simple("${property.CamelSplitSize}"))
+                .completionSize(simple("${in.header.totalWorkNoteCount}"))
             .process(aggregationPostProcessor)
             .choice()
                 .when(header("processedAllStagedEntities").isEqualTo(true))
@@ -301,7 +319,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                     .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Data transformation.")
                     .process(transformationProcessor)
-                    .to(pitNodeQueueUri)
+                    .to(maestroQueueUri)
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
                     .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Persisiting data for file.")

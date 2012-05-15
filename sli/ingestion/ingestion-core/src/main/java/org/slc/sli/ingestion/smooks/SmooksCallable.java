@@ -63,7 +63,7 @@ public class SmooksCallable implements Callable<Boolean> {
 
     public boolean runSmooksFuture() {
         LOG.info("Starting SmooksCallable for: " + fe.getFileName());
-        Metrics metrics = Metrics.createAndStart(fe.getFileName());
+        Metrics metrics = Metrics.newInstance(fe.getFileName());
         stage.addMetrics(metrics);
 
         FileProcessStatus fileProcessStatus = new FileProcessStatus();
@@ -79,8 +79,6 @@ public class SmooksCallable implements Callable<Boolean> {
 
         ResourceEntry resource = BatchJobUtils.createResourceForOutputFile(fe, fileProcessStatus);
         newBatchJob.addResourceEntry(resource);
-
-        metrics.stopMetric();
 
         LOG.info("Finished SmooksCallable for: " + fe.getFileName());
         return (errorCount > 0);

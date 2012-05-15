@@ -26,13 +26,20 @@ public interface WorkNote {
      *
      * @return minimum index value.
      */
-    long getRangeMinimum();
+    int getRangeMinimum();
 
     /**
      * Gets the maximum value of the index [inclusive] to perform work on.
      *
      * @return maximum index value.
      */
-    long getRangeMaximum();
+    int getRangeMaximum();
+
+    /**
+     * If this WorkNote is a part of a batch of WorkNotes, the size of said batch.
+     *
+     * @return size of batch. zero if not a part of a batch.
+     */
+    int getBatchSize();
 
 }

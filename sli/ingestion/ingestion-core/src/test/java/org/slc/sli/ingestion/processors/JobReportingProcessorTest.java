@@ -198,8 +198,7 @@ public class JobReportingProcessorTest {
     }
 
     private List<Stage> createFakeStages() {
-        Metrics m = new Metrics(RESOURCEID, "192.168.59.11", "transform1.slidev.org", BatchJobUtils.getCurrentTimeStamp(),
-                BatchJobUtils.getCurrentTimeStamp(), 50, 5);
+        Metrics m = new Metrics(RESOURCEID);
         List<Metrics> ms = new LinkedList<Metrics>();
         ms.add(m);
         Stage s = new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "finished", BatchJobUtils.getCurrentTimeStamp(),

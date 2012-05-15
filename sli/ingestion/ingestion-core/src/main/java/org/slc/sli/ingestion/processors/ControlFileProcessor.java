@@ -140,7 +140,7 @@ public class ControlFileProcessor implements Processor {
     }
 
     private void setExchangeBody(Exchange exchange, String batchJobId) {
-        WorkNote workNote = new WorkNoteImpl(batchJobId, null, 0, 0);
+        WorkNote workNote = WorkNoteImpl.createSimpleWorkNote(batchJobId);
         exchange.getIn().setBody(workNote, WorkNote.class);
     }
 

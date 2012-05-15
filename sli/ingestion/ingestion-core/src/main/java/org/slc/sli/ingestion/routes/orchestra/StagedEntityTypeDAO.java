@@ -13,6 +13,8 @@ public interface StagedEntityTypeDAO {
 
     Set<IngestionStagedEntity> getStagedEntitiesForJob(String jobId);
 
+    boolean removeStagedEntityForJob(IngestionStagedEntity stagedEntity, String jobId);
+
     void setStagedEntitiesForJob(Set<IngestionStagedEntity> stagedEntities, String jobId);
 
 }

@@ -131,10 +131,6 @@ public class XmlFileProcessor implements Processor {
         this.referenceResolutionHandler = referenceResolutionHandler;
     }
 
-    private String getBatchJobId(Exchange exchange) {
-        return exchange.getIn().getHeader("BatchJobId", String.class);
-    }
-
     private void missingBatchJobIdError(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());

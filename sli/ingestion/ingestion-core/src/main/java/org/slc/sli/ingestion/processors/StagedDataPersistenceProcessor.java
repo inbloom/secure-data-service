@@ -6,18 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.mongodb.Bytes;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -46,6 +36,15 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.mongodb.Bytes;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 /**
  * Ingestion Persistence Processor.
@@ -110,8 +109,6 @@ public class StagedDataPersistenceProcessor implements Processor {
 
             processWorkNote(workNote, newJob, stage);
 
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.DONE.name());
-
         } catch (Exception exception) {
             handleProcessingExceptions(exception, exchange, batchJobId);
         } finally {
@@ -175,7 +172,6 @@ public class StagedDataPersistenceProcessor implements Processor {
             Iterator<Metrics> it = perFileMetrics.values().iterator();
             while (it.hasNext()) {
                 Metrics m = it.next();
-                m.stopMetric();
                 stage.getMetrics().add(m);
             }
 
@@ -280,7 +276,7 @@ public class StagedDataPersistenceProcessor implements Processor {
             currentMetric = perFileMetrics.get(neutralRecord.getSourceFile());
         } else {
             // establish new metrics
-            currentMetric = Metrics.createAndStart(neutralRecord.getSourceFile());
+            currentMetric = Metrics.newInstance(neutralRecord.getSourceFile());
         }
         return currentMetric;
     }
