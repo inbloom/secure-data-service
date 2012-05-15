@@ -32,13 +32,11 @@ And the lozenges include "ELL"
 #And I see a header on the page that has the text "Logout"
 #And I see a footer on the page that has the text "Copyright"
 #Display hide tabs based on grades
-And there are "6" Tabs
+And there are "4" Tabs
 And Tab has a title named "Middle School Overview"
 And Tab has a title named "Attendance and Discipline"
 And Tab has a title named "Assessments"
 And Tab has a title named "Grades and Credits"
-And Tab has a title named "Advanced Academics"
-And Tab has a title named "ELL"
 #Check Enrollment
 And Student Enrollment History has the following entries:
 |Year   |School                     |Gr|Entry Date |Entry Type     |Transfer |Withdraw Date|Withdraw Type    |
