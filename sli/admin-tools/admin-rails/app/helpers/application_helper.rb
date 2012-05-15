@@ -150,7 +150,7 @@ module ApplicationHelper
       :vendor     => userAccountRegistration.vendor,
       :status     => "submitted"
     }
-
+    puts("*******#{new_user}")
     ApprovalEngine.add_disabled_user(new_user)
   end
 

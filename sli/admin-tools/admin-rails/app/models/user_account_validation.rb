@@ -40,7 +40,7 @@ class UserAccountValidation
     if user_info.nil?
       return INVALID_VERIFICATION_CODE
     end
-    url = APP_CONFIG['api_base'] + "?userName=" + user_info[:email]+"&environment="+ environment
+    url = APP_CONFIG['api_base']+"/v1/userAccounts?userName=" + user_info[:email]+"&environment="+ environment
     
     res = RestClient.get(url, REST_HEADER){|response, request, result| response }
     

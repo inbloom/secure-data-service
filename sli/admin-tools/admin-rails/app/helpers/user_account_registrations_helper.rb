@@ -1,7 +1,7 @@
 module UserAccountRegistrationsHelper
 	INDEX=0
 
-  	URL=APP_CONFIG['api_base']
+  	URL=APP_CONFIG['api_base']+"/v1/userAccounts"
   	URL_HEADER = {
       "Content-Type" => "application/json",
       "content_type" => "json",
@@ -17,6 +17,7 @@ module UserAccountRegistrationsHelper
 	     }
       currEnvironment=APP_CONFIG["is_sandbox"]? "Sandbox":"Production"
       res = RestClient.get(URL+"?userName="+user_account_registration.email+"&environment="+currEnvironment, URL_HEADER){|response, request, result| response }
+      puts("#{res}")
 
         if (res.code==200)
             jsonDocument = JSON.parse(res.body)
