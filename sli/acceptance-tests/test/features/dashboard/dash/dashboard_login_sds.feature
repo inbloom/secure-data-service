@@ -289,7 +289,7 @@ And I select school "South Daybreak Elementary"
 And I select course "1st Grade Homeroom"
 And I select section "Mrs. Braverman's Homeroom #38"
 Then I see a list of 25 students
-When I enter "Matt" into the "firstName" search box
+When I enter "Alton" into the "firstName" search box
 And I click the search button
 Then "0" results are returned
 And I click on the browser back button
