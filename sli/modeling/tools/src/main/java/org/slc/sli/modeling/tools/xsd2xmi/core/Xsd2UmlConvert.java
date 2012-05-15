@@ -570,9 +570,15 @@ final class Xsd2UmlConvert {
                     }
 
                     @Override
-                    public void visit(final UmlPackage pkg) {
+                    public void beginPackage(final UmlPackage pkg) {
                         throw new AssertionError();
                     }
+
+                    @Override
+                    public void endPackage(final UmlPackage pkg) {
+                        throw new AssertionError();
+                    }
+
                 }, schemaType.getQName(), annotations(schemaType, config));
             } else if (schemaObject instanceof XmlSchemaElement) {
                 // These are the top-level elements.

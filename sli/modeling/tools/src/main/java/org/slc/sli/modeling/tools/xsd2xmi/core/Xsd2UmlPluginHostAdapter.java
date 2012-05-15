@@ -3,7 +3,6 @@ package org.slc.sli.modeling.tools.xsd2xmi.core;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import javax.xml.namespace.QName;
 
@@ -13,20 +12,19 @@ import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Identifier;
-import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.modeling.uml.index.Mapper;
+import org.slc.sli.modeling.uml.index.ModelIndex;
 
 /**
  * Intentionally package protected.
  */
 final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost {
 
-    private final Mapper mapper;
+    private final ModelIndex mapper;
 
-    public Xsd2UmlPluginHostAdapter(final Mapper mapper) {
+    public Xsd2UmlPluginHostAdapter(final ModelIndex mapper) {
         if (mapper == null) {
             throw new NullPointerException("mapper");
         }
@@ -40,11 +38,9 @@ final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost {
 
     @Override
     public Identifier ensureTagDefinitionId(final String name) {
-        final Set<ModelElement> elements = mapper.lookupByName(name);
-        for (final ModelElement element : elements) {
-            if (element instanceof TagDefinition) {
-                return element.getId();
-            }
+        final TagDefinition tagDefinition = mapper.getTagDefinition(new QName(name));
+        if (null != tagDefinition) {
+            return tagDefinition.getId();
         }
         throw new IllegalArgumentException(name);
     }
@@ -72,9 +68,8 @@ final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost {
 
     @Override
     public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlPluginHost host) {
-        final Type lhsType = getType(lhs.getType());
-        final Type rhsType = getType(rhs.getType());
-        return lhsType.getName().concat(" <-> ").concat(rhsType.getName());
+        // Associations don't have to be named.
+        return "";
     }
 
     @Override
