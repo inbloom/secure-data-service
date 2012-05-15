@@ -26,6 +26,23 @@ class LandingZone < Ldap
     
     user_info[:homedir] = result.attributes[:landingZone]
     @@ldap.update_user_info(user_info)
+
+    # TODO: move this out to a template and not hardcode
+    email = {
+      :email_addr => user_info[:email],
+      :name       => "#{user_info[:first]} #{user_info[:last]}",
+      :subject    => "Landing Zone Provisioned",
+      :content    => "Welcome!\n\n" <<
+        "Your landing zone is now provisioned. Here is the information you'll need to access it\n\n" <<
+        "Ed-Org: #{result.attribute[:edOrg]}\n" <<
+        "Server: #{result.attribute[:serverName]}\n" <<
+        "LZ Directory: #{result.attribute[:landingZone]}\n\n" <<
+        "Sftp to the LZ directory using your ldap credentials.\n\n" <<
+        "Thank you,\n" <<
+        "SLC Operator\n"
+    }
+
+    @@emailer.send_approval_email email
   end
 
 end
