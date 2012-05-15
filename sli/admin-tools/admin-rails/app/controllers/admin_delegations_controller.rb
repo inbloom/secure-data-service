@@ -48,17 +48,10 @@ class AdminDelegationsController < ApplicationController
   # POST /admin_delegations.json
   def create
     @admin_delegation = AdminDelegation.new(params[:admin_delegation])
-    params[:admin_delegation][:appApprovalEnabled] = boolean_fix params[:admin_delegation][:appApprovalEnabled]
-    params[:admin_delegation][:viewSecurityEventsEnabled] = boolean_fix params[:admin_delegation][:viewSecurityEventsEnabled]
-
-    params[:admin_delegation][:ingestDataEnabled] = boolean_fix params[:admin_delegation][:ingestDataEnabled]
-
-    puts("Params are #{params.inspect}")
-
 
     respond_to do |format|
       if @admin_delegation.save
-        format.html { redirect_to @admin_delegation, notice: 'Admin delegation was successfully created.' }
+        format.html { redirect_to admin_delegations_path, notice: 'Admin delegation was successfully created.' }
         format.json { render json: @admin_delegation, status: :created, location: @admin_delegation }
       else
         format.html { render action: "new" }
@@ -70,11 +63,12 @@ class AdminDelegationsController < ApplicationController
   # PUT /admin_delegations/1
   # PUT /admin_delegations/1.json
   def update
-    @admin_delegation = AdminDelegation.find("myEdOrg")
+    @admin_delegation = AdminDelegation.all[0]
+    @admin_delegation.id = "myEdOrg"
 
     respond_to do |format|
       if @admin_delegation.update_attributes(params[:admin_delegation])
-        format.html { redirect_to @admin_delegation, notice: 'Admin delegation was successfully updated.' }
+        format.html { redirect_to admin_delegations_path, notice: 'Admin delegation was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -95,13 +89,5 @@ class AdminDelegationsController < ApplicationController
     end
   end
 
-  def boolean_fix (parameter)
-    case parameter
-    when "1"
-      parameter = true
-    when "0"
-      parameter = false
-    end
-  end
 
 end
