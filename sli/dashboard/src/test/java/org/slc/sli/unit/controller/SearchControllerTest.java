@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.web.controller.SearchController;
-import org.slc.sli.web.util.StudentSearch;
+import org.slc.sli.web.entity.StudentSearch;
 
 /**
  * search test

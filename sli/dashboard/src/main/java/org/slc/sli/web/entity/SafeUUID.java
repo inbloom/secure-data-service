@@ -1,4 +1,4 @@
-package org.slc.sli.web.util;
+package org.slc.sli.web.entity;
 
 import java.util.UUID;
 
