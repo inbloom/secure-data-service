@@ -54,21 +54,21 @@ Before do
       @ingestion_lz_identifer_map[identifier] = path
     end
   end
-  
+
   initializeTenants()
 end
 
 def initializeTenants()
   @lzs_to_remove  = Array.new
-  
+
   defaultLz = @ingestion_lz_identifer_map['IL-Daybreak']
   assert(defaultLz != nil, "Default landing zone not defined (IL-Daybreak)")
-  
+
   if defaultLz.rindex('/') == (defaultLz.length - 1)
     # remove last character (/)
     defaultLz = defaultLz[0, defaultLz.length - 1]
   end
-  
+
   # remove last directory
   if defaultLz.rindex('/') != nil
     @topLevelLandingZone = defaultLz[0, defaultLz.rindex('/')] + '/'
@@ -77,11 +77,11 @@ def initializeTenants()
     @topLevelLandingZone = defaultLz[0, defaultLz.rindex('\\')] + '\\'
     @tenantTopLevelLandingZone = @topLevelLandingZone + "tenant\\"
   end
-  
+
   puts "Top level LZ is -> " + @topLevelLandingZone
-  
+
   cleanTenants()
-  
+
   if !File.directory?(@tenantTopLevelLandingZone)
     Dir.mkdir(@tenantTopLevelLandingZone)
   end
@@ -91,17 +91,17 @@ def cleanTenants()
   @db = @conn[INGESTION_DB_NAME]
   @tenantColl = @db.collection('tenant')
   @tenantColl.remove("type" => "tenantTest")
-  
+
   @lzs_to_remove.each do |lz_key|
     tenant = lz_key
     edOrg = lz_key
-    
+
     # split tenant from edOrg on hyphen
     if lz_key.index('-') > 0
       tenant = lz_key[0, lz_key.index('-')]
       edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
     end
-    
+
     @tenantColl.find("body.tenantId" => tenant, "body.landingZone.educationOrganization" => edOrg).each do |row|
       @body = row['body']
       @landingZones = @body['landingZone'].to_a
@@ -493,47 +493,47 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   @tenantColl.remove("body.tenantId" => lz_key)
 
   path = @tenantTopLevelLandingZone + 'tenant_' + rand(1048576).to_s
-  
+
   FileUtils.mkdir_p(path)
   FileUtils.chmod(0777, path)
- 
+
   puts lz_key + " -> " + path
-  
+
   ingestionServer = Socket.gethostname
-  
+
   tenant = lz_key
   edOrg = lz_key
-  
+
   # split tenant from edOrg on hyphen
   if lz_key.index('-') > 0
     tenant = lz_key[0, lz_key.index('-')]
     edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
   end
-  
+
   @body = {
     "tenantId" => tenant,
     "landingZone" => [
-      { 
+      {
         "educationOrganization" => edOrg,
         "ingestionServer" => ingestionServer,
         "path" => path
       }
     ]
   }
-  
+
   @metaData = {}
-  
+
   @newTenant = {
     "_id" => BSON::Binary.new("HE9cAZldKXq5uZ==", BSON::Binary::SUBTYPE_UUID),
     "type" => "tenantTest",
     "body" => @body,
     "metaData" => @metaData
   }
-  
+
   @db = @conn[INGESTION_DB_NAME]
   @tenantColl = @db.collection('tenant')
   @tenantColl.save(@newTenant)
-  
+
   @ingestion_lz_identifer_map[lz_key] = path + '/'
   @lzs_to_remove.push(lz_key)
 end
@@ -541,7 +541,7 @@ end
 Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
   tenant = lz_key
   edOrg = lz_key
-  
+
   # split tenant from edOrg on hyphen
   if lz_key.index('-') > 0
     tenant = lz_key[0, lz_key.index('-')]
@@ -550,33 +550,33 @@ Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
 
   @db = @conn[INGESTION_DB_NAME]
   @tenantColl = @db.collection('tenant')
-  
+
   matches = @tenantColl.find("body.tenantId" => tenant, "body.landingZone.educationOrganization" => edOrg).to_a
   puts "Found " + matches.size.to_s + " existing records for " + lz_key
-  
+
   assert(matches.size == 0, "Tenant already exists for " + lz_key)
-  
+
   @existingTenant = @tenantColl.find_one("body.tenantId" => tenant)
-  
+
   @id = @existingTenant['_id']
   @body = @existingTenant['body']
-  
+
   @landingZones = @body['landingZone'].to_a
-  
+
   path = @tenantTopLevelLandingZone + 'tenant_' + rand(1048576).to_s
-  
+
   FileUtils.mkdir_p(path)
   FileUtils.chmod(0777, path)
   puts lz_key + " -> " + path
-  
+
   ingestionServer = Socket.gethostname
-  
-  @newLandingZone = { 
+
+  @newLandingZone = {
         "educationOrganization" => edOrg,
         "ingestionServer" => ingestionServer,
         "path" => path
       }
-  
+
   @landingZones.push(@newLandingZone)
   @tenantColl.save(@existingTenant)
   @ingestion_lz_identifer_map[lz_key] = path + '/'
@@ -999,7 +999,6 @@ else
   true
 end
 
-
 def checkForContentInFileGivenPrefix(message, prefix)
 
   if (INGESTION_MODE == 'remote')
@@ -1022,6 +1021,50 @@ def checkForContentInFileGivenPrefix(message, prefix)
     Dir.foreach(@landing_zone_path) do |entry|
       if (entry.rindex(prefix))
         # LAST ENTRY IS OUR FILE
+        @job_status_filename = entry
+      end
+    end
+
+    aFile = File.new(@landing_zone_path + @job_status_filename, "r")
+    puts "STATUS FILENAME = " + @landing_zone_path + @job_status_filename
+    assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
+
+    if aFile
+      file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
+      #puts "FILE CONTENTS = " + file_contents
+
+      if (file_contents.rindex(message) == nil)
+        assert(false, "File doesn't contain correct processing message")
+      end
+      aFile.close
+    else
+       raise "File " + @job_status_filename + "can't be opened"
+    end
+  end
+end
+
+def checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)
+
+  if (INGESTION_MODE == 'remote')
+
+    runShellCommand("chmod 755 " + File.dirname(__FILE__) + "/../../util/ingestionStatus.sh");
+    @resultOfIngestion = runShellCommand(File.dirname(__FILE__) + "/../../util/ingestionStatus.sh " + prefix)
+    #puts "Showing : <" + @resultOfIngestion + ">"
+
+    @messageString = message.to_s
+
+    if @resultOfIngestion.include? @messageString
+      assert(true, "Processed all the records.")
+    else
+      puts "Actual message was " + @resultOfIngestion
+      assert(false, "Didn't process all the records.")
+    end
+
+  else
+    @job_status_filename = ""
+    Dir.foreach(@landing_zone_path) do |entry|
+      if (entry.rindex(prefix) && entry.rindex(xml_name))
+        # XML ENTRY IS OUR FILE
         @job_status_filename = entry
       end
     end
@@ -1118,6 +1161,11 @@ end
 Then /^I should see "([^"]*)" in the resulting warning log file$/ do |message|
     prefix = "warn."
     checkForContentInFileGivenPrefix(message, prefix)
+end
+
+Then /^I should see "([^"]*)" in the resulting warning log file for "([^"]*)"$/ do |message, xml_name|
+    prefix = "warn."
+    checkForContentInFileGivenPrefixAndXMLName(message, prefix, xml_name)
 end
 
 Then /^I should not see an error log file created$/ do

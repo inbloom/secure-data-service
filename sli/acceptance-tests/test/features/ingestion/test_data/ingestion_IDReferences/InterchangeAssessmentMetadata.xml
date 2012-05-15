@@ -35,8 +35,8 @@
 		<Description>I wanna know as much as Grandpa!</Description>
 		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
 		<ObjectiveGradeLevel>Infant/toddler</ObjectiveGradeLevel>
-		<LearningStandardReference ref="LS_1" />
-		<LearningObjectiveReference ref="LO_5" />
+		<LearningStandardReference id="LS_1" ref="LS_1" />
+		<LearningObjectiveReference ref="LO_3" />
 	</LearningObjective>
 	<LearningObjective id="LO_4">
 		<LearningObjectiveId>

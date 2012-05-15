@@ -16,7 +16,7 @@
    },
    "redirect_uri":"${bootstrap.app.admin.url}/callback",
    "is_admin":true,
-   "enabled":true,
+   "installed":false,
    "behavior":"Iframe App",
    "developer_info":{
       "organization":"SLI"
@@ -61,6 +61,14 @@
          "roles":[
             "SLI Administrator"
          ]
-      }
+      },
+      {
+      "name":"Account Approval",
+         "description":"Approve Reject and Disable Accounts",
+         "url":"${bootstrap.app.admin.url}/account_managements",
+         "roles":[
+            "SLC Operator"
+            ]
+       }
    ]
 }

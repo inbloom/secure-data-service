@@ -155,14 +155,14 @@ end
 # Run a whole series of acceptance and integration tests
 desc "Run API, Ingestion, Dashboard, SDK, and SimpleIDP acceptance tests"
 task :fullSuite => [
-	:production,
-	:dashboardTests,
-	:ingestionTests,
-	:integrationTests,
-	:JavaSDKTests,
-	:sandboxTests,
-	:adminSandboxTests,
-	:apiSeleniumTests] do
+  :production,
+  :dashboardTests,
+  :ingestionTests,
+  :integrationTests,
+  :JavaSDKTests,
+  :sandboxTests,
+  :adminSandboxTests,
+  :apiSeleniumTests] do
 
   displayFailureReport()
   if $SUCCESS
@@ -390,7 +390,8 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :in
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
-                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests] do
+                         :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, :ingestionTenantTest,
+                         :ingestionBlacklistValidationTests, :ingestionXXETest] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -421,20 +422,6 @@ task :integrationTests => [:realmInitNoPeople] do
 end
 ############################################################
 # Integration Tests end
-############################################################
-
-############################################################
-# API Sandbox Tests start
-############################################################
-desc "Run Sandbox mode Tests"
-task :adminSandboxTests do
-  @tags = ["~@wip", "@sandbox"]
-  Rake::Task["adminToolsTests"].invoke
-  Rake::Task["accountApprovalInterfaceTests"].invoke
-  Rake::Task["accountApprovalTests"].invoke
-end
-############################################################
-# API Sandbox Tests end
 ############################################################
 
 ############################################################
@@ -623,6 +610,6 @@ task :tasks do
 
     tasks = Rake.application.tasks
     tasks.each do |t|
-	    puts ":" + t.to_s
+      puts ":" + t.to_s
     end
 end

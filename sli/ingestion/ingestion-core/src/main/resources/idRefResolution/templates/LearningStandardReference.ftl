@@ -9,9 +9,7 @@
     >
 
     <#if (LearningStandard.LearningStandardId.IdentificationCode[0])??>
-        <IdentificationCode>
-            ${LearningStandard.LearningStandardId.IdentificationCode}
-        </IdentificationCode>
+        <IdentificationCode>${LearningStandard.LearningStandardId.IdentificationCode}</IdentificationCode>
     </#if>
 
     </LearningStandardId>

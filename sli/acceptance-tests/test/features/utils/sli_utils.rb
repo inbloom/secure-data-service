@@ -314,7 +314,7 @@ module DataProvider
   
   def self.getValidAppData()
     return {
-      "enabled" => true,
+      "installed" => true,
       "redirect_uri" => "https://slidev.org",
       "description" => "Prints hello world.",
       "name" => "Hello World",

@@ -2,7 +2,7 @@ Feature: In order to retreive session details from the API
 
 Scenario: Authenticate with valid session ID and get the session debug context successfully
         
-    Given I login with "demo" and "demo1234"
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And I get an authentication session ID from the gatekeeper
 	When I GET the url "/system/session/debug" using that session ID
     Then I should receive a return code of 200
@@ -22,7 +22,7 @@ Scenario: Deny access when request session debug context with invalid session ID
 
 Scenario: Access the session check resource with valid authentication session ID
 
-    Given I login with "demo" and "demo1234"
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And I get an authentication session ID from the gatekeeper
 	When I GET the url "/system/session/check" using that session ID
     Then I should receive a return code of 200
