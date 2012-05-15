@@ -40,6 +40,8 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | disciplineAction            |
 		| studentDisciplineIncidentAssociation|
         | grade                       |
+        | gradingPeriod               |
+        | calendarDate                |
   When zip file is scp to ingestion landing zone
   And a batch job log has been created
 
@@ -76,6 +78,8 @@ Then I should see following map of entry counts in the corresponding collections
         | disciplineAction            | 2     |
 		| studentDisciplineIncidentAssociation| 4|
         | grade                       | 4     |
+        | gradingPeriod               | 17    |
+        | calendarDate                | 556   |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
@@ -298,9 +302,7 @@ Then I should see following map of entry counts in the corresponding collections
         | disciplineIncident          | 4     |
         | disciplineAction            | 3     |
 		| studentDisciplineIncidentAssociation| 8|
-        | grade                       | 4     |
-        | gradingPeriod               | 17    |
-        | calendarDate                | 556   |
+        | grade                       | 4     |       
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 2                   | metaData.externalId      | 100000006                  | string               |
