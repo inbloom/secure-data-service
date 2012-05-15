@@ -58,7 +58,7 @@ public class WorkNoteSplitter {
 
         List<WorkNote> workNoteList = createWorkNotes(nextTierEntities, jobId);
 
-        LOG.info("Splitting out list of WorkNotes: {}", workNoteList);
+        LOG.info("{} total WorkNotes created and ready for splitting for current tier.", workNoteList.size());
 
         return workNoteList;
     }
