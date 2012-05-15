@@ -36,7 +36,7 @@ default:
         bootstrap.admin.realm.redirectEndpoint: https://devapp1.slidev.org:443/sp/SSORedirect/metaAlias/idp
 
         # Used for populating Tenants and LandingZones
-        sli.tenant.ingestionServers: rcingest01,rcingest02
+        sli.tenant.ingestionServers: rcingest01.slidev.org,rcingest02.slidev.org
 
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
