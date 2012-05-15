@@ -333,9 +333,9 @@ public class RealmRoleManagerResource {
                 if (sliRoleName == null) {
                     sliRoleName = UNKNOWN_SLI_ROLE_NAME;
                 }
-                List<Object> clientRolNames = (List<Object>) sliToClientRole.get("clientRoleName");
-                if (clientRolNames != null) {
-                    for (Object clientRoleName: clientRolNames) {
+                List<Object> clientRoleNames = (List<Object>) sliToClientRole.get("clientRoleName");
+                if (clientRoleNames != null) {
+                    for (Object clientRoleName: clientRoleNames) {
                         oldRoleMapList.add(Pair.of(sliRoleName, realmName + ":" + (String) clientRoleName));
                     }
                 } else {
