@@ -102,10 +102,10 @@ default:
         log.level: warn
 
         # oauth security parameter (only used in dashboard)
-        oauth.client.id: K2e7Dwhq5J
+        oauth.client.id: 54,-8,-115,-125,46,124,-103,-75,74,-81,62,11,30,-55,109,50
 
         # oauth security parameter (only used in dashboard)
-        oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+        oauth.client.secret: 59,43,26,67,-112,27,-25,-97,-115,-45,-84,-88,-101,-22,30,125,84,-93,125,-63,40,118,83,127,-55,-100,69,-84,28,-55,-6,108,-26,42,-50,-103,-16,-34,-22,-39,37,39,98,-108,-26,54,-91,29,-94,-15,23,58,36,-92,96,50,-52,-47,64,-124,-18,-45,-110,1
 
         # oauth security parameter (only used in dashboard)
         oauth.redirect: http://local.slidev.org:8888/dashboard/callback
@@ -128,14 +128,18 @@ default:
         bootstrap.app.dashboard.guid: 1ad39ff1-65f8-4a16-8912-b49872f1ee96
 
     misc: &MISC-DEFAULT
-        # keystore password (used in common and data-access)
+        # keystore password (used in common, data-access, and dashboard)
         sli.encryption.keyStorePass: changeit
 
-        # (only used in data-access)
+        # (only used in data-access, and dashboard)
         sli.encryption.dalKeyAlias: dalKey
 
-        # (only used in data-access)
+        # (only used in data-access, and dashboard)
         sli.encryption.dalKeyPass: changeit
+
+        # (only used in dashboard)
+        sli.encryption.keyStoreLocation: ../data-access/dal/keyStore/
+        sli.encryption.keyStoreFile: ciKeyStore.jks
 
         # (only used in data-access)
         sli.encryption.dalInitializationVector: aabbccddeeff11223344556677889900
