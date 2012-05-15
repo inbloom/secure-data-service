@@ -42,42 +42,6 @@ public class SmooksFileHandlerTest {
     @Autowired
     LocalFileSystemLandingZone lz;
     
-    @Test
-    @Ignore
-    public void firstRecordMissingColumnCsv() throws IOException, SAXException {
-        
-        // Get Input File
-        File inputFile = IngestionTest.getFile("fileLevelTestData/invalidCSV/firstRecordMissingColumn/student.csv");
-        
-        // Create Ingestion File Entry
-        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.CSV, FileType.CSV_STUDENT,
-                inputFile.getName(), MD5.calculate(inputFile));
-        inputFileEntry.setFile(inputFile);
-        
-        FaultsReport errorReport = new FaultsReport();
-        smooksFileHandler.handle(inputFileEntry, errorReport);
-        
-        assertTrue("Missing column should give error.", errorReport.hasErrors());
-    }
-    
-    @Test
-    @Ignore
-    public void incorrectColumnNameCsv() throws IOException, SAXException {
-        
-        // Get Input File
-        File inputFile = IngestionTest.getFile("fileLevelTestData/invalidCSV/IncorrectColumnName/student.csv");
-        
-        // Create Ingestion File Entry
-        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.CSV, FileType.CSV_STUDENT,
-                inputFile.getName(), MD5.calculate(inputFile));
-        inputFileEntry.setFile(inputFile);
-        
-        FaultsReport errorReport = new FaultsReport();
-        smooksFileHandler.handle(inputFileEntry, errorReport);
-        
-        assertTrue("Incorrect column name should give error.", errorReport.hasErrors());
-    }
-    
     /*
      * XML TESTS
      */
