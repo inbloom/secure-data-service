@@ -216,6 +216,31 @@
 		</xs:sequence>
 	</xs:complexType>
 
+	<!-- non RestrictedForLogging complex object -->
+	<xs:complexType name="TestNotRestrictedForLoggingComplex">
+		<xs:annotation>
+			<xs:appinfo>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="base1" type="complexType1" />
+			<xs:element name="base2" type="complexType1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- RestrictedForLogging complex object -->
+	<xs:complexType name="TestRestrictedForLoggingComplex">
+		<xs:annotation>
+			<xs:appinfo>
+				<sli:RestrictedForLogging>true</sli:RestrictedForLogging>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="base1" type="complexType1" />
+			<xs:element name="base2" type="complexType1" />
+		</xs:sequence>
+	</xs:complexType>
+
 
 	<xs:complexType name="TestSecurityComplex">
 		<xs:annotation>

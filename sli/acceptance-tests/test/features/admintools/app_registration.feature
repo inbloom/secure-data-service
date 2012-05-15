@@ -8,8 +8,8 @@ Scenario: SLI Developer Logging in
 
 Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
-And I get redirected to the IDP login page
-And I authenticate with username "developer" and password "developer1234"
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "developer" "developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 And I see all of the applications that are registered to SLI
 And those apps are sorted by the Last Update column
@@ -18,16 +18,16 @@ Scenario: Non-SLI hosted user tries to access the App Registration Tool
 
 Given I am a valid IT Administrator "administrator" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
-And I get redirected to the IDP login page
-And I authenticate with username "administrator" and password "administrator1234"
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "administrator" "administrator1234" for the "Simple" login page
 Then I receive a message that I am not authorized
 
 Scenario: Register a new application
 
 Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
-And I get redirected to the IDP login page
-And I authenticate with username "developer" and password "developer1234"
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "developer" "developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 And I have clicked to the button New
 And I am redirected to a new application page
@@ -42,8 +42,8 @@ And the Registration Status field is Pending
 Scenario: View application details
 Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
-And I get redirected to the IDP login page
-And I authenticate with username "developer" and password "developer1234"
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "developer" "developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 And application "NewApp" does not have an edit link
 When I click on the row of application named "NewApp" in the table
@@ -52,10 +52,10 @@ And I see the details of "NewApp"
 And all the fields are read only 
 
 Scenario: SLC Operator denies application registration request
-Given I am a valid SLC Operator "sunsetoperator" from the "SLI" hosted directory
+Given I am a valid SLC Operator "slcoperator" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
-And I get redirected to the IDP login page
-And I authenticate with username "sunsetoperator" and password "sunsetoperator1234"
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
 Then I am redirected to the Application Approval Tool page
 And the pending apps are on top
 And application "NewApp" is pending approval
@@ -69,8 +69,8 @@ Scenario: Vendor edits denied application
 
 Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
-And I get redirected to the IDP login page
-And I authenticate with username "developer" and password "developer1234"
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "developer" "developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 And I clicked on the button Edit for the application "NewApp"
 And every field except the shared secret and the app ID became editable
@@ -82,10 +82,10 @@ And I the field named "Description" still says "Kittens"
 
 Scenario: SLC Operator accepts application registration request
 
-Given I am a valid SLC Operator "sunsetoperator" from the "SLI" hosted directory
+Given I am a valid SLC Operator "slcoperator" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
-And I get redirected to the IDP login page
-And I authenticate with username "sunsetoperator" and password "sunsetoperator1234"
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
 Then I am redirected to the Application Approval Tool page
 And I see all the applications registered on SLI
 And I see all the applications pending registration
@@ -95,10 +95,10 @@ Then application "NewApp" is registered
 And the 'Y' button is disabled for application "NewApp"
 
 Scenario: SLC Operator un-registers already-registered application
-Given I am a valid SLC Operator "sunsetoperator" from the "SLI" hosted directory
+Given I am a valid SLC Operator "slcoperator" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
-And I get redirected to the IDP login page
-And I authenticate with username "sunsetoperator" and password "sunsetoperator1234"
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
 Then I am redirected to the Application Approval Tool page
 And application "NewApp" is registered
 When I click on 'X' next to application "NewApp"
@@ -112,8 +112,8 @@ Scenario: Deleting Application
 
 Given I am a valid SLI Developer "developer" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
-And I get redirected to the IDP login page
-And I authenticate with username "developer" and password "developer1234"
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "developer" "developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 And I have clicked on the button 'X' for the application named "NewApp"
 And I got warning message saying 'You are trying to remove this application from SLI. By doing so, you will prevent any active user to access it. Do you want to continue?'
@@ -125,8 +125,8 @@ Then the application named "NewApp" is removed from the SLI
 Scenario: App Developer logs-in to App Registration Tool in Sandbox (Vendor in Prod should see own apps respectively)
 	Given I am a valid App Developer
 	When I hit the Application Registration Tool URL
-	And I get redirected to the IDP login page
-	And I authenticate with username "developer" and password "developer1234"
+	And I was redirected to the "Simple" IDP Login page
+	And I submit the credentials "developer" "developer1234" for the "Simple" login page
 	Then I am redirected to the Application Registration Tool page
 	Then I see the list of my registered applications only
 
@@ -134,8 +134,8 @@ Scenario: App Developer logs-in to App Registration Tool in Sandbox (Vendor in P
 Scenario: App Developer registers an application in App Registration Tool in Sandbox
 	Given I am a valid App Developer
 	When I hit the Application Registration Tool URL
-		And I get redirected to the IDP login page
-		And I authenticate with username "developer" and password "developer1234"
+		And I was redirected to the "Simple" IDP Login page
+		And I submit the credentials "developer" "developer1234" for the "Simple" login page
 	Then I am redirected to the Application Registration Tool page
 		And I have clicked to the button New
 		And I am redirected to a new application page
@@ -177,8 +177,3 @@ Scenario: Vendor trying to edit application that is pending registration in prod
 	When I click on <application>
 	Then <application> expands
 		And all the fields are read only
-		
-
-
-
-

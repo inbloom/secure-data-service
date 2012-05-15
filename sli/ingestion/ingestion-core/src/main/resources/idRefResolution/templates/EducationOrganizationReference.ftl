@@ -9,9 +9,7 @@
 
 <EducationOrgIdentity>
     <#if (entityName.StateOrganizationId[0])?? >
-    <StateOrganizationId>
-        ${entityName.StateOrganizationId}
-    </StateOrganizationId>
+    <StateOrganizationId>${entityName.StateOrganizationId}</StateOrganizationId>
     </#if>
     
     <#if (entityName.EducationOrgIdentificationCode[0])?? >
@@ -21,9 +19,7 @@
         </#if>
         >
         <#if (entityName.EducationOrgIdentificationCode.ID[0])??>
-        <ID>
-            ${entityName.EducationOrgIdentificationCode.ID}
-        </ID>
+        <ID>${entityName.EducationOrgIdentificationCode.ID}</ID>
         </#if>
     </EducationOrgIdentificationCode>
     </#if>
