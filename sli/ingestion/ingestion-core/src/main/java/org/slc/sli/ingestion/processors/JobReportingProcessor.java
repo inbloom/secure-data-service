@@ -16,6 +16,12 @@ import java.util.Map.Entry;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -32,11 +38,6 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 /**
  * Writes out a job report and any errors/warnings associated with the job.
@@ -84,7 +85,7 @@ public class JobReportingProcessor implements Processor {
         try {
 
             populateJobFromStageCollection(batchJobId);
-            
+
             job = batchJobDAO.findBatchJobById(batchJobId);
 
             boolean hasErrors = writeErrorAndWarningReports(job);
@@ -94,10 +95,10 @@ public class JobReportingProcessor implements Processor {
         } catch (Exception e) {
             LOG.error("Exception encountered in JobReportingProcessor. ", e);
         } finally {
-            if (clearOnCompletion == "true") {
+            if ("true".equals(clearOnCompletion)) {
                 neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
+                LOG.info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
             }
-            LOG.info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
             if (job != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, job);
                 batchJobDAO.saveBatchJob(job);
@@ -107,20 +108,20 @@ public class JobReportingProcessor implements Processor {
 
     private void populateJobFromStageCollection(String jobId) {
         NewBatchJob job = batchJobDAO.findBatchJobById(jobId);
-        
+
         List<Stage> stages = batchJobDAO.getBatchStagesStoredSeperatelly(jobId);
         Iterator<Stage> it = stages.iterator();
         Stage tempStage;
-        
+
         while (it.hasNext()) {
-            tempStage = (Stage) it.next();
-            
+            tempStage = it.next();
+
             job.addStage(tempStage);
         }
-        
+
         batchJobDAO.saveBatchJob(job);
     }
-    
+
     private void writeBatchJobReportFile(NewBatchJob job, boolean hasErrors) {
 
         PrintWriter jobReportWriter = null;
@@ -257,27 +258,27 @@ public class JobReportingProcessor implements Processor {
         // TODO group counts by externallyUploadedResourceId
         List<Metrics> metrics = job.getStageMetrics(BatchJobStageType.PERSISTENCE_PROCESSOR);
         Map<String, Metrics> combinedMetricsMap = new HashMap<String, Metrics>();
-        
+
         for (Metrics m: metrics) {
-            
+
             if (combinedMetricsMap.containsKey(m.getResourceId())) {
                 //metrics exists, we should aggregate
                 Metrics temp = combinedMetricsMap.get(m.getResourceId());
-                
+
                 temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
                 temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
-                
+
                 combinedMetricsMap.put(m.getResourceId(), temp);
-                
+
             } else {
                 //adding metrics to the map
                 combinedMetricsMap.put(m.getResourceId(), m);
             }
-            
+
         }
-        
+
         Collection<Metrics> combinedMetrics = combinedMetricsMap.values();
-        
+
         for (Metrics metric : combinedMetrics) {
             ResourceEntry resourceEntry = job.getResourceEntry(metric.getResourceId());
             if (resourceEntry == null) {
