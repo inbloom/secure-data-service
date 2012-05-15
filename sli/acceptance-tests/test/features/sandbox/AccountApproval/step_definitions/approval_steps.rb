@@ -141,8 +141,8 @@ end
 
 #### Common methods ##############
 def intializaApprovalEngineAndLDAP(email_conf = @email_conf, prod=true)
-  ldap_base=PropLoader.getProps['ldap.base']
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+  ldap_base=PropLoader.getProps['ldap_base']
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
   
   email = Emailer.new email_conf
   ApprovalEngine.init(@ldap, email, !prod)
