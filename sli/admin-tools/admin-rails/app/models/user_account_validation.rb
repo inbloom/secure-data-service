@@ -51,7 +51,7 @@ class UserAccountValidation
         return ACCOUNT_PREVIOUSLY_VERIFIED
       else
         parsedJsonHash[0]["validated"] = true
-        url =APP_CONFIG['api_base']+"/"+guid
+        url =APP_CONFIG['api_base']+"/v1/userAccounts/"+guid
 
         putRes = RestClient.put(url, parsedJsonHash[0].to_json, REST_HEADER){|response, request, result| response }
         if (putRes.code == 204)

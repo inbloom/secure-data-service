@@ -10,7 +10,7 @@ module ApplicationHelper
     "accept" => "application/json"
   }
 
-  API_BASE=APP_CONFIG["api_base"]
+  API_BASE=APP_CONFIG["api_base"]+"/v1/userAccounts"
   LDAP_HOST=APP_CONFIG["ldap_host"]
   LDAP_PORT=APP_CONFIG["ldap_port"]
   LDAP_BASE=APP_CONFIG["ldap_base"]
@@ -19,8 +19,8 @@ module ApplicationHelper
   IS_SANDBOX=APP_CONFIG["is_sandbox"]
   EMAIL_HOST=APP_CONFIG["email_host"]
   EMAIL_PORT=APP_CONFIG["email_port"]
-  EMAIL_SENDER_NAME=APP_CONFIG["email_sender_name"]
-  EMAIL_SENDER_ADDR=APP_CONFIG["email_sender_address"]
+  EMAIL_SENDER_NAME=APP_CONFIG["email_sender_name_user_reg_app"]
+  EMAIL_SENDER_ADDR=APP_CONFIG["email_sender_address_user_reg_app"]
 
   EMAIL_CONF = {
     :host=>EMAIL_HOST,
@@ -82,14 +82,12 @@ module ApplicationHelper
     if (email_token.nil?)
       email_message = "There was a problem creating your account. Please try again."
     end
-    
-    @@emailer.send_approval_email(
-      user_email_info["email_address"], 
-      user_email_info["first_name"], 
-      user_email_info["last_name"],
-      EMAIL_SUBJECT, 
-      email_message
-    )
+    @@emailer.send_approval_email({
+      :email_addr => user_email_info["email_address"],
+      :name       => user_email_info["first_name"]+" "+user_email_info["last_name"],
+      :subject    => EMAIL_SUBJECT,
+      :content    => email_message
+    })
   end
   
   # Returns a map containing values for email_address, first_name, and last_name.
@@ -103,6 +101,7 @@ module ApplicationHelper
     
     url = API_BASE + "/" + guid
     res = RestClient.get(url, REST_HEADER){|response, request, result| response }
+    puts("EMAIL INFO*******#{res}")
 
     if (res.code==200)
       jsonDocument = JSON.parse(res.body)
@@ -150,7 +149,6 @@ module ApplicationHelper
       :vendor     => userAccountRegistration.vendor,
       :status     => "submitted"
     }
-    puts("*******#{new_user}")
     ApprovalEngine.add_disabled_user(new_user)
   end
 
@@ -185,7 +183,6 @@ module ApplicationHelper
 
   #get email token for a specific user
   def self.get_email_token(email_address)
-    puts "Searching LDAP for email token for email address: #{email_address}"
     ApprovalEngine.init(@@ldap,@@emailer,IS_SANDBOX)
     user_info= ApprovalEngine.get_user(email_address)
     if (user_info.nil?)
