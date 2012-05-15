@@ -44,8 +44,7 @@ $collectionSet = ["student",
                   "program",
                   "studentAcademicRecord",
                   "grade",
-                  "studentCompetency",
-                  "reportCard"]
+                  "studentCompetency"]
 
 #######################################################################################################
 # Helper defs
@@ -525,8 +524,7 @@ task :importSandboxData do
     "learningObjective" => "learningObjective_fixture.json",
     "userAccount" => "userAccount_fixture.json",
     "grade" => "grade_fixture.json",
-    "studentCompetency" => "studentCompetency_fixture.json",
-    "reportCard" => "reportCard_fixture.json"
+    "studentCompetency" => "studentCompetency_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 
