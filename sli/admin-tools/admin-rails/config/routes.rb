@@ -1,4 +1,6 @@
 SLIAdmin::Application.routes.draw do
+  resources :admin_delegations
+
   resources :realm_management
   post "landing_zone/provision", :to => 'landing_zone#provision'
   get "landing_zone/provision", :to => 'landing_zone#success'
