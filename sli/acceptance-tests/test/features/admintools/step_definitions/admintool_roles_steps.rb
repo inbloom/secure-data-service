@@ -1,7 +1,23 @@
 require "selenium-webdriver"
+require 'mongo'
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
+
+############################################################
+# ENVIRONMENT CONFIGURATION - for security event testing
+############################################################
+
+INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
+INGESTION_DB = PropLoader.getProps['ingestion_db']
+
+############################################################
+# STEPS: BEFORE - for security event testing
+############################################################
+
+Before do
+  @conn = Mongo::Connection.new(INGESTION_DB)
+end
 
 Given /^I am not authenticated to SLI IDP$/ do
   @driver.manage.delete_all_cookies
@@ -77,4 +93,40 @@ end
 
 Then /^I am no longer authenticated to SLI IDP$/ do
   pending # express the regexp above with the code you wish you had
+end
+
+Given /^the following collections are empty in datastore:$/ do |table|
+  @db   = @conn[INGESTION_DB_NAME]
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @db[row["collectionName"]]
+    @entity_collection.remove
+
+    puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
+
+    if @entity_collection.count.to_s != "0"
+      @result = "false"
+    end
+  end
+  assert(@result == "true", "Some collections were not cleared successfully.")
+end
+
+Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
+  @db   = @conn[INGESTION_DB_NAME]
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @db.collection(row["collectionName"])
+    @entity_count = @entity_collection.count().to_i
+    puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection"
+
+    if @entity_count.to_s != row["count"].to_s
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Some records didn't load successfully.")
 end

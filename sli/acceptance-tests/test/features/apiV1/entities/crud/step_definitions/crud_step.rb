@@ -27,6 +27,12 @@ end
 ###############################################################################
 
 $entityData = {
+  "gradingPeriod" => {
+    "gradingPeriod" => "Summer Semester", 
+    "beginDate" => "2012-07-01",
+    "endDate" => "2012-07-31",
+    "totalInstructionalDays" => 20
+  },
   "userAccount" => {
     "userName" => "bob3@bob.com",
     "firstName" => "Bob",

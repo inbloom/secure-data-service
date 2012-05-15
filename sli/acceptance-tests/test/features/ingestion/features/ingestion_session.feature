@@ -27,8 +27,8 @@ Then I should see following map of entry counts in the corresponding collections
      | session                     | 5                   | body.totalInstructionalDays                 | 125                     | string               |
      | session                     | 5                   | body.totalInstructionalDays                 | 80                      | string               |
      | schoolSessionAssociation    | 10                  | body.gradingPeriod.gradingPeriod            | Second Six Weeks        | string               |
-  And I should see "Processed 16 records." in the resulting batch job file
+  And I should see "Processed 26 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "Session2.xml records considered: 10" in the resulting batch job file
-  And I should see "Session2.xml records ingested successfully: 10" in the resulting batch job file
+  And I should see "Session2.xml records considered: 20" in the resulting batch job file
+  And I should see "Session2.xml records ingested successfully: 20" in the resulting batch job file
   And I should see "Session2.xml records failed: 0" in the resulting batch job file
