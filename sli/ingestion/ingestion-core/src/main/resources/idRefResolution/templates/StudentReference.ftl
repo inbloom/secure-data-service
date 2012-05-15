@@ -1,120 +1,86 @@
 <StudentIdentity>
-<#if (StudentReference.StudentUniqueStateId[0])??>
-<StudentUniqueStateId>
-    ${StudentReference.StudentUniqueStateId}
-</StudentUniqueStateId >
+<#if (Student.StudentUniqueStateId[0])??>
+<StudentUniqueStateId>${Student.StudentUniqueStateId}</StudentUniqueStateId >
 </#if>
-<#if (StudentReference.StudentIdentificationCode[0])??>
+<#if (Student.StudentIdentificationCode[0])??>
 <StudentIdentificationCode
-    <#if (StudentReference.StudentIdentificaitonCode.@identificationSystem[0])??>  
-    IdentificationSystem="${StudentReference.StudentIdentificaitonCode.@identificationSystem}"
+    <#if (Student.StudentIdentificaitonCode.@identificationSystem[0])??>
+    IdentificationSystem="${Student.StudentIdentificaitonCode.@identificationSystem}"
     </#if>
-    <#if (StudentReference.StudentIdentificaitonCode.@AssigningOrganizationCode[0])??>
-    AssigningOrganizationCode="${StudentReference.StudentIdentificaitonCode.@AssigningOrganizationCode}"
+    <#if (Student.StudentIdentificaitonCode.@AssigningOrganizationCode[0])??>
+    AssigningOrganizationCode="${Student.StudentIdentificaitonCode.@AssigningOrganizationCode}"
     </#if>
     >
-    <#if (StudentReference.StudentIdentificationCode.IdentificationCode[0])??>
-    <IdentificationCode>
-        ${StudentReference.StudentIdentificationCode.IdentificationCode}
-    </IdentificationCode>
+    <#if (Student.StudentIdentificationCode.IdentificationCode[0])??>
+    <IdentificationCode>${Student.StudentIdentificationCode.IdentificationCode}</IdentificationCode>
     </#if>
 </StudentIdentificationCode>
 </#if>
-<#if (StudentReference.Name[0])??>
+<#if (Student.Name[0])??>
 <Name
-    <#if (StudentReference.Name.@Verification[0])??> 
-    Verification="${StudentReference.Name.@Verification}"
+    <#if (Student.Name.@Verification[0])??>
+    Verification="${Student.Name.@Verification}"
     </#if>
     >
-    <#if (StudentReference.Name.PersonalTitlePrefix[0])??>
-    <PersonalTitlePrefix>
-        ${StudentReference.Name.PersonalTitlePrefix}
-    </PersonalTitlePrefix>
+    <#if (Student.Name.PersonalTitlePrefix[0])??>
+    <PersonalTitlePrefix>${Student.Name.PersonalTitlePrefix}</PersonalTitlePrefix>
     </#if>
-    <#if (StudentReference.Name.FirstName[0])??>
-    <FirstName>
-        ${StudentReference.Name.FirstName}
-    </FirstName>
+    <#if (Student.Name.FirstName[0])??>
+    <FirstName>${Student.Name.FirstName}</FirstName>
     </#if>
-    <#if (StudentReference.Name.MiddleName[0])??>
-    <MiddleName>
-        ${StudentReference.Name.MiddleName}
-    </MiddleName>
+    <#if (Student.Name.MiddleName[0])??>
+    <MiddleName>${Student.Name.MiddleName}</MiddleName>
     </#if>
-    <#if (StudentReference.Name.LastName[0])??>
-    <LastName>
-        ${StudentReference.Name.LastName}
-    </LastName>
+    <#if (Student.Name.LastName[0])??>
+    <LastName>${Student.Name.LastName}</LastName>
     </#if>
-    <#if (StudentReference.Name.GenerationCodeSuffix[0])??>
-    <GenerationCodeSuffix>
-        ${StudentReference.Name.GenerationCodeSuffix}
-    </GenerationCodeSuffix>
+    <#if (Student.Name.GenerationCodeSuffix[0])??>
+    <GenerationCodeSuffix>${Student.Name.GenerationCodeSuffix}</GenerationCodeSuffix>
     </#if>
     <#if (StudentRerenece.Name.MaidenName[0])??>
-    <MaidenName>
-        ${StudentRerenece.Name.MaidenName}
-    </MaidenName>
+    <MaidenName>${StudentRerenece.Name.MaidenName}</MaidenName>
     </#if>
 </Name>
 </#if>
 
-<#if (StudentReference.Name[0])??>
+<#if (Student.Name[0])??>
 <OtherName
-    <#if (StudentReference.OtherName.@OtherNameType[0])??>
-    OtherNameType="${StudentReference.OtherName.@OtherNameType}"
+    <#if (Student.OtherName.@OtherNameType[0])??>
+    OtherNameType="${Student.OtherName.@OtherNameType}"
     </#if>
     >
-    <#if (StudentReference.Name.PersonalTitlePrefix[0])??>
-    <PersonalTitlePrefix>
-        ${StudentReference.Name.PersonalTitlePrefix}
-    </PersonalTitlePrefix>
+    <#if (Student.Name.PersonalTitlePrefix[0])??>
+    <PersonalTitlePrefix>${Student.Name.PersonalTitlePrefix}</PersonalTitlePrefix>
     </#if>
-    <#if (StudentReference.Name.FirstName[0])??>
-    <FirstName>
-        ${StudentReference.Name.FirstName}
-    </FirstName>
+    <#if (Student.Name.FirstName[0])??>
+    <FirstName>${Student.Name.FirstName}</FirstName>
     </#if>
-    <#if (StudentReference.Name.MiddleName[0])??>
-    <MiddleName>
-        ${StudentReference.Name.MiddleName}
-    </MiddleName>
+    <#if (Student.Name.MiddleName[0])??>
+    <MiddleName>${Student.Name.MiddleName}</MiddleName>
     </#if>
-    <#if (StudentReference.Name.LastName[0])??>
-    <LastName>
-        ${StudentReference.Name.LastName}
-    </LastName>
+    <#if (Student.Name.LastName[0])??>
+    <LastName>${Student.Name.LastName}</LastName>
     </#if>
-    <#if (StudentReference.Name.GenerationCodeSuffix[0])??>
-    <GenerationCodeSuffix>
-        ${StudentReference.Name.GenerationCodeSuffix}
-    </GenerationCodeSuffix>
+    <#if (Student.Name.GenerationCodeSuffix[0])??>
+    <GenerationCodeSuffix>${Student.Name.GenerationCodeSuffix}</GenerationCodeSuffix>
     </#if>
 </OtherName>
 </#if>
-<#if (StudentReference.BirthDate[0])??>
-<BirthDate>
-    ${StudentReference.BirthDate}
-</BirthDate>
+<#if (Student.BirthDate[0])??>
+<BirthDate>${Student.BirthDate}</BirthDate>
 </#if>
-<#if (StudentReference.Sex[0])??>
-<Sex>
-    ${StudentReference.Sex}
-</Sex>
+<#if (Student.Sex[0])??>
+<Sex>${Student.Sex}</Sex>
 </#if>
-<#if (StudentReference.HispanicLatinoEthnicity[0])??>
-<HispanicLatinoEthnicity>
-    ${StudentReference.HispanicLatinoEthnicity}
-</HispanicLatinoEthnicity>
+<#if (Student.HispanicLatinoEthnicity[0])??>
+<HispanicLatinoEthnicity>${Student.HispanicLatinoEthnicity}</HispanicLatinoEthnicity>
 </#if>
-<#if (StudentReference.Race[0])??>
+<#if (Student.Race[0])??>
 <Race>
-    <#if (StudentReference.Race.RacialCategory[0])??>
-    <RacialCategory>
-        ${StudentReference.Race.RacialCategory}
-    </RacialCategory>
+    <#if (Student.Race.RacialCategory[0])??>
+    <RacialCategory>${Student.Race.RacialCategory}</RacialCategory>
    </#if>
 </Race>
 </#if>
 </StudentIdentity>
-         
+
