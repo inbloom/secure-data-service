@@ -1,3 +1,10 @@
+When /^"([^"]*)" has no "([^"]*)"$/ do |student, attr|
+  studentCell = getStudentCell(student)
+  td = getAttribute(studentCell, attr).strip
+  assert(td.length == 0, "Non-empty value found" + td)
+end
+
+
 # This will return all the TRs of the a grid, 1 for each student
 def getStudentGrid()
    return getGrid(@driver)
