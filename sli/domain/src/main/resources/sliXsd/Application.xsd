@@ -32,7 +32,12 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                
+
+	        <xs:element name="roles" minOccurs="0">
+		    <xs:simpleType>
+	                <xs:list itemType="xs:string" />
+                    </xs:simpleType>
+                </xs:element>                
 
                 <!-- These two are generated during creation -->
                  <xs:element name="client_id" type="xs:string" minOccurs="1" />
@@ -74,7 +79,7 @@
           
 				<xs:element name="created_by" type="xs:string" minOccurs="0" />
                 <xs:element name="is_admin" type="xs:boolean" minOccurs="1" />
-                <xs:element name="enabled" type="xs:boolean" minOccurs="1" />
+                <xs:element name="installed" type="xs:boolean" minOccurs="1" />
                 <xs:element name="developer_info" type="developer_info"
                     minOccurs="1" />
                 <xs:element name="registration" type="registration"

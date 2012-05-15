@@ -34,6 +34,8 @@
             <constructor-arg>
               <list>
                 <value>${smooks.targetselector.xml.session}</value>
+                <value>${smooks.targetselector.xml.gradingPeriod}</value>
+                <value>${smooks.targetselector.xml.calendarDate}</value>
               </list>
             </constructor-arg>
           </bean>
@@ -110,6 +112,7 @@
               <list>
                 <value>${smooks.targetselector.xml.student.assessment}</value>
                 <value>${smooks.targetselector.xml.student.objective.assessment}</value>
+                <value>${smooks.targetselector.xml.student.assessment.item}</value>
               </list>
             </constructor-arg>
           </bean>

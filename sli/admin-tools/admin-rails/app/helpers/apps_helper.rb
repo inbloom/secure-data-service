@@ -12,10 +12,10 @@ module AppsHelper
 
     state_ed_orgs.each do |ed_org|
       next if ed_org.organizationCategories == nil or ed_org.organizationCategories.index("State Education Agency") == nil
-      current_parent = {"id" => ed_org.id, "name" => ed_org.nameOfInstitution}
+      current_parent = {"id" => ed_org.id, "name" => ed_org.nameOfInstitution, "stateOrganizationId" => ed_org.stateOrganizationId}
       child_ed_orgs = EducationOrganization.find(:all, :params => {"parentEducationAgencyReference" => ed_org.id})
       child_ed_orgs.each do |child_ed_org|
-        current_child = {"id" => child_ed_org.id, "name" => child_ed_org.nameOfInstitution}
+        current_child = {"id" => child_ed_org.id, "name" => child_ed_org.nameOfInstitution, "stateOrganizationId" => child_ed_org.stateOrganizationId}
         if result.keys.include?(current_parent)
           result[current_parent].push(current_child)
         else
