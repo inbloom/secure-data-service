@@ -196,7 +196,7 @@ class LDAPStorage
 	  		end
 	  	else
 	  		if !group_found[GROUP_MEMBER_ATTRIBUTE].index(user_dn)
-	  			puts "LDAP: could not add user group"
+	  			puts "LDAP: could not add user group: #{group_found}"
 		  		if !@ldap.modify(:dn => group_dn, :operations => [[:add, GROUP_MEMBER_ATTRIBUTE, user_dn]])
 	  				raise ldap_ex("Could not add #{email_address} to group #{group_id}.")
 		  		end
