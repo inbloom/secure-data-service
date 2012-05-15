@@ -174,6 +174,20 @@ class TestLdap < Test::Unit::TestCase
     search_result = @ldap.search_users "*blah blah blah*"
     assert_equal 0, search_result.size
   end
+
+  def test_minimal_arguments
+    test_user_info = {
+      :first      => "John",
+      :last       => "Doe", 
+      :email      => "#{Jd_email}_#{Socket.gethostname}",
+      :password   => "secret",
+      :emailtoken => "abc",
+      :homedir    => "-", 
+      :status     => "submitted"
+    }
+    @ldap.create_user(test_user_info)
+    @ldap.delete_user(test_user_info[:email])
+  end 
 end
 
 

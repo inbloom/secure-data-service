@@ -36,6 +36,16 @@ class LDAPStorage
 	}
 	ENTITY_ATTR_MAPPING = LDAP_ATTR_MAPPING.invert
 
+	REQUIRED_FIELDS = [
+		:first,
+		:last,
+		:email,
+		:password,
+		:emailtoken,
+		:homedir, 
+		:status
+	]
+
 	# some fields are stored in the description field as 
 	# key/value pairs 
 	PACKED_ENTITY_FIELD_MAPPING = {
@@ -55,7 +65,9 @@ class LDAPStorage
 	# these values are injected when the user is created 
 	ENTITY_CONSTANTS = {
 		:uidnumber => CONST_GROUPID_NUM,
-		:gidnumber => CONST_USERID_NUM
+		:gidnumber => CONST_USERID_NUM,
+		:vendor     => "none",
+
 	}
 
 
@@ -123,10 +135,12 @@ class LDAPStorage
 		# inject the constant values into the user info 
 		e_user_info = ENTITY_CONSTANTS.merge(user_info)
 
-		# make sure the core 
-		#if ENTITY_ATTR_MAPPING.keys().sort != e_user_info.keys().sort
-		# 	raise "The following attributes #{ENTITY_ATTR_MAPPING.keys} need to be set" 
-		#end
+		# make sure the required features are there 
+		REQUIRED_FIELDS.each do |k| 
+			if !e_user_info[k] || (e_user_info[k].strip == "")
+				raise "The following attributes #{REQUIRED_FIELDS} need to be set" 
+			end
+		end
 		
 		LDAP_ATTR_MAPPING.each do |ldap_k, rec_k| 
 			value = (ldap_k == LDAP_PASSWORD_FIELD) ? ldap_md5(e_user_info[rec_k]) : e_user_info[rec_k]
