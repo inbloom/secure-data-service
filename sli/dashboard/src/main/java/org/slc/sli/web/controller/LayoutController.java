@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.slc.sli.web.util.SafeUUID;
+import org.slc.sli.web.entity.SafeUUID;
 
 /**
  * Layout controller for all types of requests.
