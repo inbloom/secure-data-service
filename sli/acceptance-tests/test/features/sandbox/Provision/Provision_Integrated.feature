@@ -1,8 +1,9 @@
-@wip
 Feature: Developer/Vendor can create a High Level Ed-Org and link it to the Landing Zone
 
 Background: 
 Given I have an open web browser
+And I have a "mock" SMTP/Email server configured
+#And I have a "live" SMTP/Email server configured
 And LDAP server has been setup and running
 
 Scenario: As a Vendor/Developer I use a defined High Level Ed-Org to Provision my Landing Zone

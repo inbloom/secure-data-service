@@ -4,6 +4,11 @@ require 'approval'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 
+After do |scenario|
+  @rumbster.stop if @rumbster
+  sleep(1)
+end
+
 Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "sunsetadmin"                                if human_readable_id == "USERID"
   id = "sunsetadmin1234"                            if human_readable_id == "PASSWORD"
@@ -11,12 +16,12 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 end
 
 Given /^I am authenticated to SLI IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
-  url =PropLoader.getProps['admintools_server_url']+"/landing_zone"
+  url = PropLoader.getProps['admintools_server_url']+"/landing_zone"
   @driver.get url
-  assertWithWait("Failed to navigate to the SLI IDP to authenticate")  {@driver.find_element(:id, "IDToken1")}
-  @driver.find_element(:id, "IDToken1").send_keys arg1
-  @driver.find_element(:id, "IDToken2").send_keys arg2
-  @driver.find_element(:name, "Login.Submit").click
+  assertWithWait("Failed to navigate to the SLI IDP to authenticate")  {@driver.find_element(:id, "user_id")}
+  @driver.find_element(:id, "user_id").send_keys arg1
+  @driver.find_element(:id, "password").send_keys arg2
+  @driver.find_element(:id, "login_button").click
   begin
     @driver.switch_to.alert.accept
   rescue
@@ -26,19 +31,18 @@ end
 Given /^LDAP server has been setup and running$/ do
   ldap_base=PropLoader.getProps['ldap.base']
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-  email_conf = {
-      :host => 'mon.slidev.org',
-      :port => 3000,
-      :sender_name => "SLC Admin",
-      :sender_email_addr => "admin@SLC.org"
-    }
-  ApprovalEngine.init(@ldap,Emailer.new(email_conf),false)
+  # email_conf = {
+      # :host => 'mon.slidev.org',
+      # :port => 3000,
+      # :sender_name => "SLC Admin",
+      # :sender_email_addr => "admin@SLC.org"
+    # }
+  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),false)
 end
 
 Given /^there is an account in ldap for vendor "([^"]*)"$/ do |vendor|
- clear_users()
-@vendor = vendor
-  
+  clear_users()
+  @vendor = vendor
 end
 
 Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
@@ -46,25 +50,25 @@ Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
  clear_users()
 
   user_info = {
-      :first => "Loraine",
-      :last => "Plyler", 
-       :email => @email,
-       :password => "secret", 
-       :emailtoken => "token",
-       :vendor => @vendor,
-       :status => "pending",
-       :homedir => "changeit",
-       :uidnumber => "500",
-       :gidnumber => "500",
-     #  :tenantId => tenantId
-   }
-  
+    :first => "Loraine",
+    :last => "Plyler", 
+    :email => @email,
+    :password => "secret", 
+    :emailtoken => "token",
+    :vendor => @vendor,
+    :status => "pending",
+    :homedir => "changeit",
+    :uidnumber => "500",
+    :gidnumber => "500",
+#   :tenantId => tenantId
+  }
+
   @ldap.create_user(user_info)
   ApprovalEngine.change_user_status(@email,"approve",true)
 end
 
 When /^I go to the provisioning application web page$/ do
-  url =PropLoader.getProps['admintools_server_url']+"/landing_zone"
+  url = PropLoader.getProps['admintools_server_url']+"/landing_zone"
   @driver.get url
 end
 
@@ -109,7 +113,4 @@ def clear_users
     end
   end
 end
-
-
-
 

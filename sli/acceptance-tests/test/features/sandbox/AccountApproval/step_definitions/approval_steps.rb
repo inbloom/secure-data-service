@@ -1,6 +1,4 @@
 require 'approval'
-require 'rumbster'
-require 'message_observers'
 require 'net/imap'
 require_relative '../../../utils/sli_utils.rb'
 
@@ -11,35 +9,6 @@ end
 After do |scenario|
   @rumbster.stop if @rumbster
   sleep(1)
-end
-
-Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
-  sender_email_address = "admin@SLC.org"
-  @email_name = "SLC Admin"
-  test_port = 2525
-  @mode = (live_or_mock == "live")
-  
-  if @mode
-    @email_conf = {
-      :host => 'mon.slidev.org',
-      :port => 3000,
-      :sender_name => @email_name,
-      :sender_email_addr => sender_email_address,
-      :replacer => { "__URI__" => "http://localhost:3000"}
-    }
-  else
-    @rumbster = Rumbster.new(test_port)
-    @message_observer = MailMessageObserver.new
-    @rumbster.add_observer @message_observer
-    @rumbster.start
-    @email_conf = {
-      :host => '127.0.0.1',
-      :port => test_port,
-      :sender_name => @email_name,
-      :sender_email_addr => sender_email_address,
-      :replacer => { "__URI__" => "http://localhost:3000"}
-    }
-  end
 end
 
 Given /^a ([^"]*) account request for vendor "([^"]*)"$/ do |environment, vendor|
