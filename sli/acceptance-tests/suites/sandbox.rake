@@ -6,6 +6,14 @@ task :apiSandboxTests do
   @tags = ["~@wip", "@sandbox"]
   Rake::Task["securityTests"].invoke
 end
+
+desc "Run Sandbox mode Tests"
+task :adminSandboxTests do
+  @tags = ["~@wip", "@sandbox"]
+  Rake::Task["adminToolsTests"].invoke
+  Rake::Task["accountApprovalInterfaceTests"].invoke
+  Rake::Task["accountApprovalTests"].invoke
+end
 ############################################################
 # API Sandbox Tests end
 ############################################################
@@ -16,7 +24,7 @@ end
 ############################################################
 desc "Run Account Approval acceptance tests"
 task :accountApprovalInterfaceTests => [:realmInitNoPeople] do
-    runTests("test/features/apiV1/end_user_stories/sandbox/AccountApproval/prod_sandbox_AccountApproval_Inteface.feature")
+    runTests("test/features/sandbox/AccountApproval/prod_sandbox_AccountApproval_Inteface.feature")
 end
 
 desc "Run Account Approval Sandbox acceptance tests"
@@ -25,6 +33,11 @@ task :accountApprovalSandboxTests do
   Rake::Task["accountApprovalInterfaceTests"].invoke
   Rake::Task["accountApprovalTests"].invoke
 end
+
+desc "Run Account Approval Tests"
+task :accountApprovalTests do
+  runTests("test/features/sandbox/AccountApproval/prod_sandbox_AccountApproval.feature")
+end
 ############################################################
 # Account Approval tests end
 ############################################################
@@ -32,11 +45,8 @@ end
 ############################################################
 # Onboarding tests start
 ############################################################
-desc "Run Onboarding Tests"
-task :onboardingTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/onboarding")
-end
+
+
 ############################################################
 # Onboarding tests end
 ############################################################

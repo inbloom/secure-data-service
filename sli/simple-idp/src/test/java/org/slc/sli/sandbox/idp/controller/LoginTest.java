@@ -11,11 +11,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slc.sli.sandbox.idp.service.AuthRequestService;
 import org.slc.sli.sandbox.idp.service.AuthRequestService.Request;
@@ -25,12 +27,16 @@ import org.slc.sli.sandbox.idp.service.SamlAssertionService;
 import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
 import org.slc.sli.sandbox.idp.service.UserService;
 import org.slc.sli.sandbox.idp.service.UserService.User;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Unit tests
  */
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/applicationContext-test.xml" })
 public class LoginTest {
     
     @Mock
@@ -51,6 +57,11 @@ public class LoginTest {
     @InjectMocks
     Login loginController = new Login();
     
+    @Before
+    public void initMocks() throws Exception {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
     public void testLoginSetup() {
         loginController.setSandboxImpersonationEnabled(false);
