@@ -118,6 +118,10 @@
     <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbTenantFactory" />
   </bean>
 
+  <bean class="org.slc.sli.aspect.LoggerCarrierAspect" factory-method="aspectOf">
+    <property name="template" ref="mongoTemplate" />
+  </bean>
+
   <context:component-scan base-package="org.slc.sli.ingestion.tenant" />
 
 </beans>

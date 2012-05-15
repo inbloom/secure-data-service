@@ -114,6 +114,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.SECTIONS, "getSection");
         SINGULAR_LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES, "getLearningObjective");
         SINGULAR_LINK_NAMES.put(ResourceNames.LEARNINGSTANDARDS, "getLearningStandard");
+        SINGULAR_LINK_NAMES.put(ResourceNames.REPORT_CARDS, "getReportCard");
         SINGULAR_LINK_NAMES.put(ResourceNames.SESSIONS, "getSession");
         SINGULAR_LINK_NAMES.put(ResourceNames.SCHOOLS, "getSchool");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENTS, "getStudent");
@@ -123,6 +124,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF, "getStaff");
         SINGULAR_LINK_NAMES.put(ResourceNames.USER_ACCOUNTS, "getUserAccount");
         SINGULAR_LINK_NAMES.put(ResourceNames.GRADES, "getGrade");
+        SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_COMPETENCIES, "getStudentCompetency");
     }
 
     /*
