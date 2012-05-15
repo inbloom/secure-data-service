@@ -6,8 +6,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.Bytes;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -36,15 +46,6 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.mongodb.Bytes;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 /**
  * Ingestion Persistence Processor.
@@ -135,11 +136,14 @@ public class StagedDataPersistenceProcessor implements Processor {
         ErrorReport errorReportForCollection = createDbErrorReport(job.getId(), collectionNameAsStaged);
 
         try {
-            // TODO: pass WorkNote minimum range to method to start cursor at right place
-            DBCursor cursor = getCollectionIterable(collectionToPersistFrom, job.getId());
 
-            // TODO: maintain our own counter and iterate only over WorkNote range size
-            for (DBObject record : cursor) {
+            int maxRecordNumberToPersist = workNote.getRangeMaximum() - workNote.getRangeMinimum();
+
+            DBCursor cursor = getCollectionIterable(collectionToPersistFrom, job.getId(), workNote);
+            Iterator<DBObject> dbObjectIterator = cursor.iterator();
+
+            while (recordNumber <= maxRecordNumberToPersist && dbObjectIterator.hasNext()) {
+                DBObject record = dbObjectIterator.next();
 
                 recordNumber++;
                 persistedFlag = false;
@@ -151,18 +155,20 @@ public class StagedDataPersistenceProcessor implements Processor {
                 // process NeutralRecord with old or new pipeline
                 if (noTransformationWasPerformed) {
                     if (persistedCollections.contains(neutralRecord.getRecordType())) {
-                        numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, getTenantId(job), errorReportForCollection);
+                        numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, getTenantId(job),
+                                errorReportForCollection);
                         persistedFlag = true;
                     }
                 } else {
-                    numFailed += processTransformableNeutralRecord(neutralRecord, getTenantId(job), errorReportForCollection);
+                    numFailed += processTransformableNeutralRecord(neutralRecord, getTenantId(job),
+                            errorReportForCollection);
                     persistedFlag = true;
                 }
 
                 if (persistedFlag) {
                     currentMetric.setRecordCount(currentMetric.getRecordCount() + 1);
                 }
-                
+
                 currentMetric.setErrorCount(currentMetric.getErrorCount() + numFailed);
                 perFileMetrics.put(currentMetric.getResourceId(), currentMetric);
             }
@@ -229,21 +235,22 @@ public class StagedDataPersistenceProcessor implements Processor {
 
     }
 
-    private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId, ErrorReport errorReportForCollection) {
+    private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId,
+            ErrorReport errorReportForCollection) {
         long numFailed = 0;
-        
+
         LOG.debug("processing old-style neutral record: {}", neutralRecord);
-        
+
         NeutralRecordEntity nrEntity = Translator.mapToEntity(neutralRecord, recordNumber);
         nrEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), tenantId);
-        
+
         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
         obsoletePersistHandler.handle(nrEntity, errorReportForNrEntity);
-        
+
         if (errorReportForNrEntity.hasErrors()) {
             numFailed++;
         }
-        
+
         return numFailed;
     }
 
@@ -342,12 +349,13 @@ public class StagedDataPersistenceProcessor implements Processor {
         this.neutralRecordReadConverter = neutralRecordReadConverter;
     }
 
-    protected DBCursor getCollectionIterable(String collectionName, String jobId) {
+    protected DBCursor getCollectionIterable(String collectionName, String jobId, WorkNote workNote) {
         DBCollection col = neutralRecordMongoAccess.getRecordRepository().getCollectionForJob(collectionName, jobId);
 
         DBCursor dbcursor = col.find();
         dbcursor.addOption(Bytes.QUERYOPTION_NOTIMEOUT);
         dbcursor.batchSize(1000);
+        dbcursor.skip(workNote.getRangeMinimum());
 
         return dbcursor;
     }
