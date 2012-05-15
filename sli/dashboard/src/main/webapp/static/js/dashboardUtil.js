@@ -108,13 +108,13 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 	    	}
 		if (defaultOptions != undefined && defaultOptions != null) {
 			jQuery.each(defaultOptions, function(val, displayText) {
-				select += "    <li class=\"\"><a href=\"#\">" + displayText + "</a>" +
+				select += "    <li class=\"\"><a href=\"#\" onclick=\"DashboardUtil.hideErrorMessage()\">" + displayText + "</a>" +
 				"<input type='hidden' value='"+ val + "' id ='selectionValue' /></li>";
 			});
 		}
 		for(var index = 0; index < options.length; index++) {
 			var selected = index == autoSelectOption ? "selected" : "";
-			select += "    <li class=\"" + selected + "\"><a href=\"#\">"+$.jgrid.htmlEncode(options[index][titleKey])+"</a>" +
+			select += "    <li class=\"" + selected + "\"><a href=\"#\" onclick=\"DashboardUtil.hideErrorMessage()\">" +$.jgrid.htmlEncode(options[index][titleKey])+"</a>" +
 	    				"<input type='hidden' value='"+ index + "' id ='selectionValue' /></li>";
 		}
 		
@@ -220,9 +220,8 @@ DashboardUtil.makeGrid = function (tableId, columnItems, panelData, options)
 	        viewrecords: true,
 	        autoencode: true,
 	        rowNum: 10000};
-        if(panelData === null || panelData === undefined) {
+        if(panelData === null || panelData === undefined || panelData.length < 1) {
             gridOptions["data"] = [];
-            //gridOptions["caption"] = "There is no data available for your request.";
             DashboardUtil.displayErrorMessage("There is no data available for your request. Please contact your IT administrator.");
         }
 	if (options) {
@@ -740,22 +739,12 @@ DashboardUtil.displayErrorMessage = function (error){
         errors.style.display = "block";
         errors.innerHTML = error;
     }
-
-    var tabs = document.getElementById("tabs");
-    if(tabs !== undefined && tabs !== null ) {
-        tabs.style.display = "none";
-    }
 }
 
 DashboardUtil.hideErrorMessage = function ( ){
     var errors = document.getElementById("losError");
     if(errors !== undefined && errors !== null ) {
         errors.style.display = "none";
-    }
-
-    var tabs = document.getElementById("tabs");
-    if(tabs !== undefined && tabs !== null ) {
-        tabs.style.display = "block";
     }
 }
 
