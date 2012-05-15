@@ -13,9 +13,9 @@ import java.util.Set;
  *  Enum listing Ed-Fi entities with their direct dependencies
  *  Provides services to lookup entities based on collection name
  *  Provides services to perform an iterative diminiation lookup
- *  
+ *
  *  TODO:  Needs to be migrated to common
- *  
+ *
  * @author dkornishev
  *
  */
@@ -52,7 +52,7 @@ public enum EdfiEntity {
     ACADEMIC_WEEK("academicWeek", Arrays.asList(EdfiEntity.CALENDAR_DATE)), GRADING_PERIOD("gradingPeriod", Arrays.asList(CALENDAR_DATE)), LEARNING_OBJECTIVE("learningObjective", Arrays.asList(LEARNING_STANDARD, SELF)), STATE_EDUCATION_AGENCY(
             "stateEducationAgency", Arrays.asList(PROGRAM, SELF)), EDUCATION_SERVICE_CENTER("educationServiceCenter", Arrays.asList(STATE_EDUCATION_AGENCY, PROGRAM, SELF)), LOCAL_EDUCATION_AGENCY("localEducationAgency", Arrays.asList(
             STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, PROGRAM, SELF)), SCHOOL("school", Arrays.asList(LOCAL_EDUCATION_AGENCY, EDUCATION_ORGANIZATION, CLASS_PERIOD, SELF)), DIPLOMA("diploma", Arrays.asList(SCHOOL)), STUDENT_PARENT_ASSOCIATION(
-            "studentParentAssociation", Arrays.asList(STUDENT, PARENT)), STUDENT_PROGRAM_ASSOCIATION("studentProgramAssociation", Arrays.asList(STUDENT, PROGRAM)), STAFF_PROGRAM_ASSOCIATION("staffProgramAssociation", Arrays.asList(STAFF,
+            "studentParentAssociation", Arrays.asList(STUDENT, PARENT)), STUDENT_PROGRAM_ASSOCIATION("studentProgramAssociation", Arrays.asList(STUDENT, PROGRAM, EDUCATION_ORGANIZATION)), STAFF_PROGRAM_ASSOCIATION("staffProgramAssociation", Arrays.asList(STAFF,
             PROGRAM)), ASSESSMENT_ITEM("assessmentItem", Arrays.asList(LEARNING_STANDARD)),
 
     BEHAVIOR_DESCRIPTOR("behaviorDescriptor", Arrays.asList(STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL)), COHORT("cohort", Arrays.asList(PROGRAM, STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER,
