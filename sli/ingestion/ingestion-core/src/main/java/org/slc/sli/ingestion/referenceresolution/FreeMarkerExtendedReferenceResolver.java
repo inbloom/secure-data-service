@@ -46,6 +46,10 @@ public class FreeMarkerExtendedReferenceResolver implements ReferenceResolutionS
      */
     @Override
     public File resolve(String xPath, File content) {
+        if (xPath.contains("ReportCard")) {
+            LOG.debug("here");
+        }
+
         if (!reassureSmooksResolver(xPath)) {
             return null;
         }

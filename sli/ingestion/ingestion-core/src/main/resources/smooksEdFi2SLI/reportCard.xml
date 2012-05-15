@@ -27,7 +27,6 @@
     <jb:value property="studentId" data="attributes studentId" />
     <!--
     <jb:value property="studentCompetencyId" data="attributes studentCompetencyId" />
-    <jb:value property="gradingPeriodId" data="attributes gradingPeriodId" />
     -->
     <jb:wiring property="grades" beanIdRef="reportCard_gradeIdArray" />
     <jb:value property="gpaGivenGradingPeriod" data="attributes gpaGivenGradingPeriod" decoder="Double" />
@@ -35,6 +34,7 @@
     <jb:value property="numberOfDaysAbsent" data="attributes numberOfDaysAbsent" decoder="Integer" />
     <jb:value property="numberOfDaysInAttendance" data="attributes numberOfDaysInAttendance" decoder="Integer" />
     <jb:value property="numberOfDaysTardy" data="attributes numberOfDaysTardy" decoder="Integer" />
+    <jb:value property="gradingPeriodId" data="attributes gradingPeriodId" />
   </jb:bean>
 
   <jb:bean beanId="reportCard_gradeIdArray" class="java.util.ArrayList" createOnElement="attributes">

@@ -50,6 +50,11 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
     public File resolve(String xPath, File content) {
         Smooks smooks = idRefConfigs.get(xPath);
 
+
+        if (xPath.contains("ReportCard")) {
+            LOG.debug("here");
+        }
+
         if (smooks == null) {
             return null;
         }

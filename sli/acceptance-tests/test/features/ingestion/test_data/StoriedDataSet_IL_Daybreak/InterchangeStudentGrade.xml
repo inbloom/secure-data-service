@@ -12376,7 +12376,7 @@
           <StudentUniqueStateId>800000025</StudentUniqueStateId>
         </StudentIdentity>
       </StudentReference>
-      <!-- <GradingPeriodReference ref="GRDP_20070527"/> -->
+      <GradingPeriodReference ref="GRDP_20070527" />
     </ReportCard>
 
     <!-- learning objectives for kindergartners -->
@@ -13235,7 +13235,7 @@
           <StudentUniqueStateId>100000017</StudentUniqueStateId>
         </StudentIdentity>
       </StudentReference>
-      <!-- <GradingPeriodReference ref="GRDP_20110527"> -->
+      <GradingPeriodReference ref="GRDP_20110527" />
     </ReportCard>
 
     <StudentAcademicRecord id="SAR-100000017-1">

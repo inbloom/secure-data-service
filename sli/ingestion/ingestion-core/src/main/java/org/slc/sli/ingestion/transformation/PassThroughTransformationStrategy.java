@@ -57,6 +57,10 @@ public class PassThroughTransformationStrategy extends AbstractTransformationStr
     }
 
     private void transform() {
+
+        if (passThroughCollectionName.equals("reportCard")) {
+            LOG.error("here");
+        }
         LOG.info("Transforming data: No transformation, straight pass-through");
     }
 

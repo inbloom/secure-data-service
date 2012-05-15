@@ -3774,7 +3774,7 @@
            createOnElement="InterchangeStudentGrade/ReportCard">
     <jb:wiring property="studentCompetencyId" beanIdRef="ReportCard_StudentCompetencyReferenceArray" />
     <jb:value property="studentId" data="ReportCard/StudentReference/StudentIdentity/StudentUniqueStateId" />
-    <jb:wiring property="gradingPeriodId" beanIdRef="ReportCard_GradingPeriodReference" />
+    <jb:value property="gradingPeriodId" data="ReportCard/GradingPeriodReference/GradingPeriodIdentity/GradingPeriod" />
     <jb:wiring property="grades" beanIdRef="ReportCard_GradesReferenceArray" />
     <jb:value property="reportCardId" data="ReportCard/@id" />
     <jb:value property="gpaGivenGradingPeriod" data="ReportCard/GPAGivenGradingPeriod" decoder="Double" />
@@ -3789,7 +3789,6 @@
   </jb:bean>
 
   <jb:bean beanId="ReportCard_StudentCompetencyReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/ReportCard/StudentCompetencyReference">
-
   </jb:bean>
 
   <jb:bean beanId="ReportCard_GradesReferenceArray" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/ReportCard">
@@ -3800,8 +3799,6 @@
     <jb:value property="gradeId" data="GradeReference/GradeIdentity" />
   </jb:bean>
 
-  <jb:bean beanId="ReportCard_GradingPeriodReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/ReportCard">
-  </jb:bean>
   <!-- End ReportCard mapping -->
 
 </smooks-resource-list>
