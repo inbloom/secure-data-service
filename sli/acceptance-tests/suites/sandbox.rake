@@ -52,4 +52,15 @@ end
 ############################################################
 
 
+############################################################
+# Provision tests start
+############################################################
+desc "Run Sandbox Provisioning acceptance tests"
+task :sandboxProvisioning do
+    runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
+end
+
+############################################################
+# Provision tests end
+############################################################
 

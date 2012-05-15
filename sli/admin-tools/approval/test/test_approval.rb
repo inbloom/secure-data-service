@@ -4,8 +4,8 @@ require 'approval'
 require 'test/unit'
 
 class MockEmailer 
-	def send_approval_email(email_address, first, last)
-		@last_call = [email_address, first, last]
+	def send_approval_email(email)
+		@last_call = email
 	end
 end
 
