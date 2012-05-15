@@ -93,7 +93,7 @@
           
 				<xs:element name="created_by" type="xs:string" minOccurs="0" />
                 <xs:element name="is_admin" type="xs:boolean" minOccurs="1" />
-                <xs:element name="enabled" type="xs:boolean" minOccurs="1" />
+                <xs:element name="installed" type="xs:boolean" minOccurs="1" />
                 <xs:element name="developer_info" type="developer_info"
                     minOccurs="1" />
                 <xs:element name="registration" type="registration"
