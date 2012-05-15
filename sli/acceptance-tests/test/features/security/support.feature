@@ -2,7 +2,7 @@ Feature: Authenticated Users can get an address to send support emails.
 
 Scenario: Authenticated SLI user asks for support email
 
-	Given I login with "demo" and "demo1234"
+	Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
 	When I make an API call to get the support email
 	Then I receive JSON response that includes the address
 	
