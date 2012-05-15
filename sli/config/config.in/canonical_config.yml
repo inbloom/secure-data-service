@@ -140,9 +140,6 @@ default:
         # (only used in data-access, and dashboard)
         sli.encryption.dalKeyPass: changeit
 
-        # (only used in dashboard)
-        sli.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
-
         # (only used in data-access)
         sli.encryption.dalInitializationVector: aabbccddeeff11223344556677889900
         # (used in common and data-access)
@@ -335,6 +332,9 @@ local:
 
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
+        
+        # (only used in dashboard)
+        sli.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
 
     apps: &APPS-LOCAL
         <<: *APPS-DEFAULT
