@@ -5,14 +5,38 @@
 <title>Simple IDP</title>
 <style type="text/css">
 
-</style>
-<link href="resources/bootstrap.css" rel="stylesheet">
-</head>
-<body>
-	<h1>Simple IDP</h1>
-	
-	<span>Opps. An eror occurred.</span>
-	
+.error-container {
+	margin-left: auto;
+	margin-right: auto;
+	width: 800px;
+}
 
+.error-header {
+	padding-left: 0;
+	padding-top: 12px;
+	line-height: 28px;
+	border-bottom: 2px solid #CCCCCC;
+	color: #D8D8D8;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 36px;
+	font-weight: normal;
+}
+
+.error-content {
+
+}
+</style>
+</head>
+
+<body>
+	<div class="error-container">
+
+		<div class="error-header">ERROR</div>
+
+		<div class="error-content">
+			<h3>We're sorry, an error occurred. Please try again.</h3>
+		</div>
+
+	</div>
 </body>
 </html>

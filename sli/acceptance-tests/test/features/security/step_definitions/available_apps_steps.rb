@@ -53,10 +53,10 @@ And /^the list contains the admin app$/ do
 	assert(@admin_app != nil, "Admin app found")
 end
 
-And /^the admin app endpoints only contains SLI admin endpoints$/ do
+And /^the admin app endpoints only contains SLI operator endpoints$/ do
 	assert(@admin_app["endpoints"] != nil)
 	@admin_app["endpoints"].each do |endpoint|
-		assert(endpoint["roles"].include? "SLI Administrator")
+		assert(endpoint["roles"].include? "SLC Operator")
 	end
 end
 

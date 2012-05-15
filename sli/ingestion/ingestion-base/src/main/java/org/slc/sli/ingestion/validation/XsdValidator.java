@@ -49,6 +49,7 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
             if (xmlFile == null) {
                 throw new FileNotFoundException();
             }
+            validator.setResourceResolver(new ExternalEntityResolver());
             String sourceXml = ingestionFileEntry.getFile().getAbsolutePath();
             Source sc = new StreamSource(sourceXml);
             validator.setErrorHandler(errorHandler);
@@ -62,6 +63,9 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
             errorReport.error(getFailureMessage("SL_ERR_MSG12", ingestionFileEntry.getFileName()), XsdValidator.class);
         } catch (SAXException e) {
             LOG.error("SAXException", e);
+        } catch (RuntimeException e) {
+            LOG.error("Problem ingesting file: " + ingestionFileEntry.getFileName());
+            LOG.error(e.getMessage());
         } catch (Exception e) {
             LOG.error(e.getMessage());
         }
