@@ -27,7 +27,7 @@ class DeveloperApprovalController < ApplicationController
     # GET /does_user_exist/1
     # GET /does_user_exist/1.json
     def does_user_exist
-        rval = { :exists => true, :validated: => false }
+        rval = { :exists => true, :validated => false }
         user = ApprovalEngine.get_user(params[:id])
 
         if (user.nil?)
@@ -39,7 +39,7 @@ class DeveloperApprovalController < ApplicationController
         end
 
         respond_to do |format|
-            format.any { :status => 200, :content_type: 'application/JSON', :body => @@j.encode(rval) }
+            format.any({ :status => 200, :content_type => 'application/JSON', :body => @@j.encode(rval) })
         end
     end
 
@@ -71,8 +71,8 @@ class DeveloperApprovalController < ApplicationController
 	# { 'status':'submitted', 'verificationToken':'1234abcd' }
 	#
 	# POST /submit_user
-    def submit_user do
-        rval = { :status => 'submitted'. :verificationToken => nil }
+    def submit_user 
+        rval = { :status => 'submitted', :verificationToken => nil }
 
         user_info = @@j.decode(request.body.read)
 
@@ -83,7 +83,7 @@ class DeveloperApprovalController < ApplicationController
         end
 
         respond_to do |format|
-            format.any { :status => 201, :content_type: 'application/JSON', :body => @@j.encode(rval) }
+            format.any({ :status => 201, :content_type => 'application/JSON', :body => @@j.encode(rval) })
         end
     end
 
@@ -115,8 +115,8 @@ class DeveloperApprovalController < ApplicationController
 	# { 'status':'updated', 'verificationToken':'1234abcd' }
 	#
 	# POST /update_user
-    def update_user do
-        rval = { :status => 'unknownUser'. :verificationToken => nil }
+    def update_user 
+        rval = { :status => 'unknownUser', :verificationToken => nil }
 
         user_info = @@j.decode(request.body.read)
         if (ApprovalEngine.user_exists(user_info[:email]))
@@ -125,7 +125,7 @@ class DeveloperApprovalController < ApplicationController
         end
 
         respond_to do |format|
-            format.any { :status => 201, :content_type: 'application/JSON', :body => @@j.encode(rval) }
+            format.any({ :status => 201, :content_type => 'application/JSON', :body => @@j.encode(rval) })
         end
     end
 
@@ -155,7 +155,7 @@ class DeveloperApprovalController < ApplicationController
     # }
     #
     # POST /update_eula_status
-    def update_eula_status do
+    def update_eula_status 
 
         eula_status = @@j.decode(request.body.read)
 
@@ -202,9 +202,9 @@ class DeveloperApprovalController < ApplicationController
 
         respond_to do |format|
             if (!success)
-                format.any  { head :forbidden, INVALID_VERIFICATION_CODE }
+                format.any({ :head => :forbidden}, INVALID_VERIFICATION_CODE )
             else
-                format.any { :status => 200 }
+                format.any({ :status => 200 })
             end
         end
     end
@@ -221,7 +221,7 @@ class DeveloperApprovalController < ApplicationController
     #
     # POST /verify_email/1
     # POST /verify_email/1.json
-    def verify_email do
+    def verify_email 
         token = params[:id]
         rval = { :status => 'success' }
 
@@ -238,7 +238,7 @@ class DeveloperApprovalController < ApplicationController
    		end
 
         respond_to do |format|
-            format.any { :status => 200, :body => @@j.encode(rval) }
+            format.any({ :status => 200, :body => @@j.encode(rval) })
         end
     end
 end
