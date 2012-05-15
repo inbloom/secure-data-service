@@ -9,6 +9,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -81,6 +82,9 @@ public class JobReportingProcessor implements Processor {
         String batchJobId = workNote.getBatchJobId();
         NewBatchJob job = null;
         try {
+
+            populateJobFromStageCollection(batchJobId);
+            
             job = batchJobDAO.findBatchJobById(batchJobId);
 
             boolean hasErrors = writeErrorAndWarningReports(job);
@@ -101,6 +105,22 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
+    private void populateJobFromStageCollection(String jobId) {
+        NewBatchJob job = batchJobDAO.findBatchJobById(jobId);
+        
+        List<Stage> stages = batchJobDAO.getBatchStagesStoredSeperatelly(jobId);
+        Iterator<Stage> it = stages.iterator();
+        Stage tempStage;
+        
+        while (it.hasNext()) {
+            tempStage = (Stage) it.next();
+            
+            job.addStage(tempStage);
+        }
+        
+        batchJobDAO.saveBatchJob(job);
+    }
+    
     private void writeBatchJobReportFile(NewBatchJob job, boolean hasErrors) {
 
         PrintWriter jobReportWriter = null;

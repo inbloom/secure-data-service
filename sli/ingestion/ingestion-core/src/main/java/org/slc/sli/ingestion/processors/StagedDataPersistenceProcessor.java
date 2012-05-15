@@ -114,7 +114,7 @@ public class StagedDataPersistenceProcessor implements Processor {
         } finally {
             if (newJob != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, newJob);
-                batchJobDAO.saveBatchJob(newJob);
+                batchJobDAO.saveBatchJobStageSeparatelly(batchJobId, stage);
             }
         }
     }
