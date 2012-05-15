@@ -1,12 +1,11 @@
-var selectedPopulation=DashboardProxy.getData('userEdOrg')['selectedPopulation'];
-var edOrgIndex = -1;
-var schoolIndex = -1;
-var courseIndex = -1;
-var sectionIndex = -1;
+$(document).ready( function() {
+    var selectedPopulation=DashboardProxy.getData('userEdOrg')['selectedPopulation'];
+    var edOrgIndex = -1;
+    var schoolIndex = -1;
+    var courseIndex = -1;
+    var sectionIndex = -1;
 
-if(selectedPopulation != undefined && selectedPopulation != null) {
-
-    $(document).ready( function() {
+    if(selectedPopulation != undefined && selectedPopulation != null) {
     	
     	//find the length of options.
         var edOrgLength = instHierarchy.length;
@@ -79,8 +78,8 @@ if(selectedPopulation != undefined && selectedPopulation != null) {
                 printStudentList();
             });
         }
-    });
-}
+    }
+});
 
 // When a dropdown is unavailable the preceeding dropdowns should be unavailable
 // set dropdown option to -1, empty dropdown options , clear dropdown text, disable the dropdown.
