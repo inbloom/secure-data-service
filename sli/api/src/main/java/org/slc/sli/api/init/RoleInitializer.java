@@ -28,6 +28,7 @@ public class RoleInitializer {
     public static final String  LEADER            = "Leader";
     public static final String  SLI_ADMINISTRATOR = "SLI Administrator";
     public static final String  LEA_ADMINISTRATOR = "LEA Administrator";
+    public static final String  SEA_ADMINISTRATOR = "SEA Administrator";
     public static final String APP_DEVELOPER = "Application Developer";
     public static final String SLC_OPERATOR = "SLC Operator";
     public static final String REALM_ADMINISTRATOR = "Realm Administrator";
@@ -165,6 +166,11 @@ public class RoleInitializer {
     private Role buildLEAAdmin() {
         LOG.info("Building LEA Administrator default role.");
         return RoleBuilder.makeRole(LEA_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ, Right.READ_PUBLIC }).setAdmin(true).build();
+    }
+
+    private Role buildSEAAdmin() {
+        LOG.info("Building SEA Administrator default role.");
+        return RoleBuilder.makeRole(SEA_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE, Right.READ_PUBLIC }).setAdmin(true).build();
     }
 
     public void setRepository(Repository repo) {
