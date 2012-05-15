@@ -2,8 +2,8 @@ require "selenium-webdriver"
 require "mongo"
 require 'approval'
 require 'active_support/inflector'
-require_relative '../../../../../utils/sli_utils.rb'
-require_relative '../../../../../utils/selenium_common.rb'
+require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../utils/selenium_common.rb'
 
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
