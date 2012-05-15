@@ -8,17 +8,7 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference>
-      <CourseOfferingIdentity>
-        <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
-        <CourseCode IdentificationSystem="CSSC course code">
-          <ID>1st Grade Homeroom</ID>
-        </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </CourseOfferingIdentity>
-    </CourseOfferingReference>
+    <CourseOfferingReference ref="CO_1"/>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Able School</StateOrganizationId>
@@ -36,17 +26,7 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference>
-      <CourseOfferingIdentity>
-        <LocalCourseCode>8th Grade English</LocalCourseCode>
-        <CourseCode IdentificationSystem="CSSC course code">
-          <ID>8th Grade English</ID>
-        </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </CourseOfferingIdentity>
-    </CourseOfferingReference>
+    <CourseOfferingReference ref="CO_2"/>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Baker School</StateOrganizationId>
@@ -64,17 +44,7 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference>
-      <CourseOfferingIdentity>
-        <LocalCourseCode>Club/Team</LocalCourseCode>
-        <CourseCode IdentificationSystem="CSSC course code">
-          <ID>Club/Team</ID>
-        </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
-      </CourseOfferingIdentity>
-    </CourseOfferingReference>
+    <CourseOfferingReference ref="CO_3"/>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Charlie School</StateOrganizationId>
@@ -423,4 +393,31 @@
     </SessionReference>
   </Section>
 
+  <CourseOffering id="CO_1">
+    <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>1st Grade Homeroom</ID>
+    </CourseCode>
+    <Term>First Trimester</Term>
+    <SchoolYear>2000-2001</SchoolYear>
+    <StateOrganizationId>1</StateOrganizationId>
+  </CourseOffering>
+  <CourseOffering id="CO_2">
+     <LocalCourseCode>8th Grade English</LocalCourseCode>
+     <CourseCode IdentificationSystem="CSSC course code">
+       <ID>8th Grade English</ID>
+     </CourseCode>
+     <Term>First Trimester</Term>
+     <SchoolYear>2000-2001</SchoolYear>
+     <StateOrganizationId>1</StateOrganizationId>
+  </CourseOffering>
+  <CourseOffering id="CO_3">
+    <LocalCourseCode>Club/Team</LocalCourseCode>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Club/Team</ID>
+    </CourseCode>
+    <Term>First Trimester</Term>
+    <SchoolYear>2000-2001</SchoolYear>
+    <StateOrganizationId>1</StateOrganizationId>
+  </CourseOffering>
  </InterchangeMasterSchedule>
