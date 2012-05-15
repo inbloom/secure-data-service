@@ -57,6 +57,7 @@ Examples:
 | "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
+| "gradingPeriod"                | "gradingPeriods"          | "gradingPeriod"          | "Second Summer Session"                      |
 
     Scenario Outline: CRUD operations on invalid entities
     Given entity URI <Entity Resource URI>
@@ -97,6 +98,7 @@ Examples:
 | "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
+| "gradingPeriod"                | "gradingPeriods"          | "gradingPeriod"          | "Second Summer Session"                      |
 
     Scenario Outline: Get All Entities
     Given entity URI <Entity Resource URI>
@@ -131,3 +133,4 @@ Examples:
 | "userAccount"                  | "userAccounts"            | 2 |
 | "grade"                        | "grades"                  | 2 |
 | "studentCompetency"            | "studentCompetencies"     | 2 |
+| "gradingPeriod"                | "gradingPeriods"          | 2 |
