@@ -34,3 +34,4 @@ simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
 simpleIDP_realm_suffix: "Local"
 
 ldap.hostname: ldap.slidev.org
+ldap.base: "ou=Local,ou=DevTest,dc=slidev,dc=org"
