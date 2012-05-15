@@ -23,7 +23,9 @@ def getStudentName(studentTr)
 end
 
 def getStudentProgramParticipation(studentTr)
-  return getAttributes(studentTr, getStudentProgramParticipationColumnName())
+  td = getTdBasedOnAttribute(studentTr, getStudentProgramParticipationColumnName())
+  programParticipations = td.find_elements(:tag_name, "span")
+  return programParticipations
 end
 
 #returns an array of grades
