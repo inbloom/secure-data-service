@@ -32,7 +32,7 @@ abstract public class PerformanceTrackingAspect {
 	@AfterReturning(pointcut = "@annotation(returnName)", argNames = "returnName", returning = "returnValue")
 	public void handleStoringReturnPointcut(String returnValue,
 			PutResultInContext returnName) {
-		log.info("StoreReturnPointcut -- Storing a field Into Performance Local Store: "
+		log.debug("StoreReturnPointcut -- Storing a field Into Performance Local Store: "
 				+ returnName.returnName() + " = " + returnValue);
 		store.put(returnName.returnName(), returnValue);
 	}

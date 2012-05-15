@@ -114,7 +114,7 @@ public class StagedDataPersistenceProcessor implements Processor {
         } finally {
             if (newJob != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, newJob);
-                batchJobDAO.saveBatchJob(newJob);
+                batchJobDAO.saveBatchJobStageSeparatelly(batchJobId, stage);
             }
         }
     }
@@ -123,6 +123,7 @@ public class StagedDataPersistenceProcessor implements Processor {
 
         long recordNumber = 0;
         long numFailed = 0;
+        boolean persistedFlag = false;
 
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
         String collectionToPersistFrom = getCollectionNameAfterTransform(job, collectionNameAsStaged);
@@ -141,23 +142,27 @@ public class StagedDataPersistenceProcessor implements Processor {
             for (DBObject record : cursor) {
 
                 recordNumber++;
+                persistedFlag = false;
 
                 NeutralRecord neutralRecord = neutralRecordReadConverter.convert(record);
 
                 Metrics currentMetric = getOrCreateMetricForSourceFile(perFileMetrics, neutralRecord);
-                currentMetric.setRecordCount(currentMetric.getRecordCount() + 1);
 
                 // process NeutralRecord with old or new pipeline
                 if (noTransformationWasPerformed) {
-
-                    numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, getTenantId(job),
-                            errorReportForCollection);
+                    if (persistedCollections.contains(neutralRecord.getRecordType())) {
+                        numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, getTenantId(job), errorReportForCollection);
+                        persistedFlag = true;
+                    }
                 } else {
-
-                    numFailed += processTransformableNeutralRecord(neutralRecord, getTenantId(job),
-                            errorReportForCollection);
+                    numFailed += processTransformableNeutralRecord(neutralRecord, getTenantId(job), errorReportForCollection);
+                    persistedFlag = true;
                 }
 
+                if (persistedFlag) {
+                    currentMetric.setRecordCount(currentMetric.getRecordCount() + 1);
+                }
+                
                 currentMetric.setErrorCount(currentMetric.getErrorCount() + numFailed);
                 perFileMetrics.put(currentMetric.getResourceId(), currentMetric);
             }
@@ -224,24 +229,21 @@ public class StagedDataPersistenceProcessor implements Processor {
 
     }
 
-    private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId,
-            ErrorReport errorReportForCollection) {
+    private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId, ErrorReport errorReportForCollection) {
         long numFailed = 0;
-
-        // only persist if it's in the spring-loaded list of supported record types
-        if (persistedCollections.contains(neutralRecord.getRecordType())) {
-            LOG.debug("processing old-style neutral record: {}", neutralRecord);
-
-            NeutralRecordEntity nrEntity = Translator.mapToEntity(neutralRecord, recordNumber);
-            nrEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), tenantId);
-
-            ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
-            obsoletePersistHandler.handle(nrEntity, errorReportForNrEntity);
-
-            if (errorReportForNrEntity.hasErrors()) {
-                numFailed++;
-            }
+        
+        LOG.debug("processing old-style neutral record: {}", neutralRecord);
+        
+        NeutralRecordEntity nrEntity = Translator.mapToEntity(neutralRecord, recordNumber);
+        nrEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), tenantId);
+        
+        ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
+        obsoletePersistHandler.handle(nrEntity, errorReportForNrEntity);
+        
+        if (errorReportForNrEntity.hasErrors()) {
+            numFailed++;
         }
+        
         return numFailed;
     }
 

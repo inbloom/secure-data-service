@@ -130,7 +130,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 configureLandingZonePollers(workItemQueueUri, lz);
             }
 
-            configureCommonExtractRoute(workItemQueueUri);
+            buildExtractionRoutes(workItemQueueUri);
 
             buildMaestroRoutes(maestroQueueUri, pitNodeQueueUri);
 
@@ -141,7 +141,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
             LOG.info("configuring routes for pit node");
 
-            configurePitNodes(pitNodeQueueUri, maestroQueueUri);
+            buildPitRoutes(pitNodeQueueUri, maestroQueueUri);
         }
     }
 
@@ -157,7 +157,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
      */
     private void buildMaestroRoutes(String maestroQueueUri, String pitNodeQueueUri) {
 
-        // routeId: postExtract
+        // postExtract
         // we enter here after EdFiProcessor. everything has been staged.
         from("direct:postExtract")
             .routeId("postExtract")
@@ -167,42 +167,57 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .when(header("stagedEntitiesEmpty").isEqualTo(true))
                     .to("direct:stop")
                 .otherwise()
-                    .to("direct:splitter");
+                    .to("direct:transformationSplitter");
 
-        // uses custom bean to split WorkNotes and send to processors
-        from("direct:splitter")
-            .routeId("splitter")
+        // transformationSplitter
+        // split WorkNotes into separate Exchanges and drop into the pit node queue.
+        from("direct:transformationSplitter")
+            .routeId("transformationSplitter")
             .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Maestro deriving and splitting WorkNotes for transformation.")
             .split()
                 .method("WorkNoteSplitter", "split")
             .setHeader("IngestionMessageType", constant(MessageType.DATA_TRANSFORMATION.name()))
             .to(pitNodeQueueUri);
 
-        from("direct:transformCompleted")
-            .routeId("transformCompleted")
+        // persistenceSplitter
+        // act as a pass-through, create separate Exchanges for the list of WorkNotes in the incoming exchange
+        // and drop into the pit node queue.
+        from("direct:persistenceSplitter")
+            .routeId("persistenceSplitter")
             .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - Maestro pass-through-splitting WorkNotes for persistance.")
             .split()
                 .method("WorkNoteSplitter", "passThroughSplit")
             .setHeader("IngestionMessageType", constant(MessageType.PERSIST_REQUEST.name()))
             .to(pitNodeQueueUri);
 
+        // aggregationSwitch
+        // a switch to route 'completed' WorkNotes from the maestro queue (coming from pits) to the correct aggregator.
         from(maestroQueueUri)
-            .routeId("aggregator")
+            .routeId("aggregationSwitch")
             .choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
-                    .to("direct:aggregateTransforms")
+                    .to("direct:transformationAggregator")
                 .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
-                    .to("direct:aggregatePersists");
+                    .to("direct:persistenceAggregator");
 
-        from("direct:aggregateTransforms")
-            .routeId("aggregateTransforms")
+        // transformationAggregator
+        // aggregates WorkNotes based on their IngestionStagedEntity + BatchJobId.
+        // the aggregation completion size is pulled from an Exchange header, where it is set by WorkNoteAggregator.
+        // the completion size should be the number of batches created for this IngestionStagedEntity.
+        from("direct:transformationAggregator")
+            .routeId("transformationAggregator")
             .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - Maestro aggregating WorkNotes after transformations.")
             .aggregate(simple("${body.getIngestionStagedEntity}${body.getBatchJobId}"), new WorkNoteAggregator())
                 .completionSize(simple("${in.header.workNoteByEntityCount}"))
-            .to("direct:transformCompleted");
+            .to("direct:persistenceSplitter");
 
-        from("direct:aggregatePersists")
-            .routeId("aggregatePersists")
+        // persistenceAggregator
+        // aggregates WorkNotes based on their BatchJobId.
+        // the aggregation completion size is pulled from an Exchange header, where it is set by WorkNoteAggregator.
+        // the completion size should be the total number of WorkNotes created for this 'tier'.
+        // unless we've processed all staged entities, route back to transformationSplitter for next 'tier.'
+        from("direct:persistenceAggregator")
+            .routeId("persistenceAggregator")
             .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - Maestro aggregating WorkNotes after persistances.")
             .aggregate(simple("${body.getBatchJobId}"), new WorkNoteAggregator())
                 .completionSize(simple("${in.header.totalWorkNoteCount}"))
@@ -211,7 +226,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .when(header("processedAllStagedEntities").isEqualTo(true))
                     .to("direct:stop")
                 .otherwise()
-                    .to("direct:splitter");
+                    .to("direct:transformationSplitter");
     }
 
     /**
@@ -253,7 +268,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
      *
      * @param workItemQueueUri
      */
-    private void configureCommonExtractRoute(String workItemQueueUri) {
+    private void buildExtractionRoutes(String workItemQueueUri) {
 
         // routeId: extraction
         from(workItemQueueUri)
@@ -310,7 +325,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
      *
      * @param pitNodeQueueUri
      */
-    private void configurePitNodes(String pitNodeQueueUri, String maestroQueueUri) {
+    private void buildPitRoutes(String pitNodeQueueUri, String maestroQueueUri) {
 
         // routeId: pitNodes
         from(pitNodeQueueUri)

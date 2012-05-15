@@ -11,9 +11,6 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.springframework.data.mongodb.core.CursorPreparer;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import com.mongodb.DBCursor;
@@ -26,6 +23,8 @@ import com.mongodb.DBCursor;
 @Component
 public class BatchJobMongoDA implements BatchJobDAO {
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
+    private static final String BATCHJOB_STAGE_SEPARATE_COLLECTION = "batchJobStage";
+    
     private static final String BATCHJOBID_FIELDNAME = "batchJobId";
     
     private MongoTemplate batchJobMongoTemplate;
@@ -38,21 +37,16 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
     
     @Override
-    public void updateBatchJob(String batchJobId, Stage stage) {
-          Query query = new Query(Criteria.where("_id").is(batchJobId).and("stageName").is(stage.getStageName()));
-          Update update = Update.update("stages.$.chunks", stage);
-          this.batchJobMongoTemplate.updateFirst(query, update, "newBatchJob");
-         
-          // findAndModify would be better, but would need to move to GA, or manually map stage object :(
-        
-/*        DBCollection col = this.batchJobMongoTemplate.getCollection("newBatchJob");
-        
-        BasicDBObject query = new BasicDBObject("$eq", new BasicDBObject("_id", batchJobId));
-        query.append("$eq", new BasicDBObject("stageName", stage.getStageName()));
-        DBObject update = new BasicDBObject("$push", new BasicDBObject("stages.$.chunks", stage));
-        col.findAndModify(query, update);*/
+    public void saveBatchJobStageSeparatelly(String batchJobId, Stage stage) {
+        stage.setJobId(batchJobId);
+        batchJobMongoTemplate.save(stage, BATCHJOB_STAGE_SEPARATE_COLLECTION);
     }
     
+    @Override
+    public List<Stage> getBatchStagesStoredSeperatelly(String batchJobId) {
+        return batchJobMongoTemplate.find(query(where("jobId").is(batchJobId)), Stage.class, BATCHJOB_STAGE_SEPARATE_COLLECTION);
+    }
+
     @Override
     public NewBatchJob findBatchJobById(String batchJobId) {
         return batchJobMongoTemplate.findOne(query(where("_id").is(batchJobId)), NewBatchJob.class);

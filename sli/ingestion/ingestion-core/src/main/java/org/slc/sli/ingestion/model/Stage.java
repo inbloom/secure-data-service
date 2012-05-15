@@ -19,6 +19,8 @@ public class Stage {
     public Stage() {
     }
 
+    private String jobId;
+
     private String stageName;
     private String status;
     private Date startTimestamp;
@@ -51,6 +53,14 @@ public class Stage {
         return stage;
     }
 
+    public String getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
+    }
+    
     public String getStageName() {
         return stageName;
     }
