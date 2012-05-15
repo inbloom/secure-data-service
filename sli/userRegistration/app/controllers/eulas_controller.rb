@@ -16,7 +16,8 @@ class EulasController < ApplicationController
      eulaStatus ={
       "email" => session[:email],
       "verificationToken" => session[:verificationToken],
-      "accepted" => true
+      "accepted" => true,
+      "validateBase" => request.env['HTTP_HOST']
      }
     ApprovalEngineProxy.init(APP_CONFIG['approval_uri'],@currEnvironment)
     if Eula.accepted?(params)
