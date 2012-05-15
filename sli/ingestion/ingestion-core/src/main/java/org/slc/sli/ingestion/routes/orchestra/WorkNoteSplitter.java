@@ -26,8 +26,8 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 public class WorkNoteSplitter {
     private static final Logger LOG = LoggerFactory.getLogger(WorkNoteSplitter.class);
 
-    private static final int ENTITY_SPLITTING_THRESHOLD = 10000;
-    private static final int ENTITY_CONSTANT_SPLIT = 1000;
+    private static final int ENTITY_SPLITTING_THRESHOLD = 25000;
+    private static final int ENTITY_CONSTANT_SPLIT = 25000;
 
     @Autowired
     private StagedEntityTypeDAO stagedEntityTypeDAO;
