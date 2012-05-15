@@ -179,7 +179,8 @@ class LDAPStorage
 	# enable login and update the status
 	# This means the user is added to the LDAP group that corresponds to the given role
 	def add_user_group(email_address, group_id)
-		user_dn  = get_DN(email_address)
+		#user_dn  = get_DN(email_address)
+		user_dn  = email_address
 		group_dn = get_group_DN(group_id)
 
 		filter = Net::LDAP::Filter.eq( "cn", group_id)
