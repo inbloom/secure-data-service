@@ -207,7 +207,8 @@ class LDAPStorage
 
 	# disable login and update the status 
 	def remove_user_group(email_address, group_id)
-		user_dn = get_DN(email_address)
+		#user_dn = get_DN(email_address)
+		user_dn = email_address
 		group_dn = get_group_DN(group_id)
 
 		filter = Net::LDAP::Filter.eq( "cn", group_id)
@@ -226,7 +227,8 @@ class LDAPStorage
 	end
 
 	def get_user_groups(email_address)
-		user_dn = get_DN(email_address)
+		#user_dn = get_DN(email_address)
+		user_dn = email_address
 		filter = Net::LDAP::Filter.eq( GROUP_MEMBER_ATTRIBUTE, user_dn)
 		@ldap.search(:base => @group_base, :filter => filter).to_a().map do |group|
 			group[:cn][0]
