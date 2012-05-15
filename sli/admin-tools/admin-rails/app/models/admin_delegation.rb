@@ -4,7 +4,7 @@ class AdminDelegation < SessionResource
   self.collection_name = "adminDelegation"
   schema do
     string "localEdOrgId"
-    boolean "ingestDataEnabled", "appApprovalEnabled", "viewSecurityEventsEnabled"
+    boolean "appApprovalEnabled", "viewSecurityEventsEnabled"
   end
 
 end

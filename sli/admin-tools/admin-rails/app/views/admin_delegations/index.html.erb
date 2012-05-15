@@ -6,10 +6,6 @@
   <%= form_for(@admin_delegation) do |f| %>
     <%= f.hidden_field :localEdOrgId %>
       <table>
-      <tr>
-        <td><%= f.check_box :ingestDataEnabled %>  </td>
-        <td><%= f.label :ingestDataEnabled, "Ingest District's Data" %> </td>
-      </tr>
 
       <tr>
           <td><%= f.check_box :appApprovalEnabled %>    </td>
