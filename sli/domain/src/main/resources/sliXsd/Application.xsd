@@ -60,14 +60,7 @@
                     </xs:simpleType>
                 </xs:element>
 
-                <xs:element name="client_secret" minOccurs="1">
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:pattern value="([a-zA-Z0-9])*" />
-                            <xs:minLength value="48" />
-                        </xs:restriction>
-                    </xs:simpleType>
-                </xs:element>
+                <xs:element name="client_secret" type="xs:string" minOccurs="1" />
 
                 <xs:element name="image_url" minOccurs="1">
                     <xs:simpleType>
