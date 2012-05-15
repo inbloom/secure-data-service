@@ -1057,7 +1057,8 @@ task :localDashboardTests do
 end
 
 desc "Run Dashboard Tests against SDS"
-task :dashboardSdsTests => [:dashboardSdsCoreStudentsTests,
+task :dashboardSdsTests => [:dashboardSdsUploadConfigTests,
+                         :dashboardSdsCoreStudentsTests,
                          :dashboardSdsContactInfoTests,
                          :dashboardSdsLoginTests,
                          :dashboardSdsURLValidationTests,
