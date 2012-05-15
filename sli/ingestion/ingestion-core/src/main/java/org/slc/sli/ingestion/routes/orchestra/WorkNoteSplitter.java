@@ -24,11 +24,10 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
  */
 @Component
 public class WorkNoteSplitter {
-
     private static final Logger LOG = LoggerFactory.getLogger(WorkNoteSplitter.class);
 
-    private static final int ENTITY_SPLITTING_THRESHOLD = 25000;
-    private static final int ENTITY_CONSTANT_SPLIT = 10000;
+    private static final int ENTITY_SPLITTING_THRESHOLD = 10000;
+    private static final int ENTITY_CONSTANT_SPLIT = 100;
 
     @Autowired
     private StagedEntityTypeDAO stagedEntityTypeDAO;
@@ -85,21 +84,23 @@ public class WorkNoteSplitter {
             int numRecords = (int) neutralRecordMongoAccess.getRecordRepository().countForJob(
                     stagedEntity.getCollectionNameAsStaged(), new NeutralQuery(), jobId);
 
-            LOG.info("Found {} records for collection: {}", numRecords, stagedEntity.getCollectionNameAsStaged());
-
-            int numberOfBatches = (int) Math.ceil((double) numRecords / ENTITY_SPLITTING_THRESHOLD);
+            LOG.info("Records for collection {}: {}", stagedEntity.getCollectionNameAsStaged(), numRecords);
 
             if (numRecords > ENTITY_SPLITTING_THRESHOLD) {
-                LOG.info("Splitting {} collection.", stagedEntity.getCollectionNameAsStaged());
+                int numberOfBatches = (int) Math.ceil((double) numRecords / ENTITY_CONSTANT_SPLIT);
+
+                LOG.info("Entity split threshold reached. Splitting {} collection into {} batches of WorkNotes.",
+                        stagedEntity.getCollectionNameAsStaged(), numberOfBatches);
+
                 for (int i = 0; i < numRecords; i += ENTITY_CONSTANT_SPLIT) {
                     int chunk = ((i + ENTITY_CONSTANT_SPLIT) > numRecords) ? (numRecords) : (i + ENTITY_CONSTANT_SPLIT);
-                    WorkNote workNote = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, 0, chunk - 1,
+                    WorkNote workNote = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, i, chunk - 1,
                             numberOfBatches);
                     workNoteList.add(workNote);
                 }
             } else {
-                WorkNote workNote = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, 0, numRecords - 1,
-                        numberOfBatches);
+                LOG.info("Creating one WorkNote for collection {}.", stagedEntity.getCollectionNameAsStaged());
+                WorkNote workNote = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, 0, numRecords - 1, 1);
                 workNoteList.add(workNote);
             }
         }
