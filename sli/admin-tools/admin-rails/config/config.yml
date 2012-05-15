@@ -5,12 +5,15 @@ development:
     redirect_uri: http://local.slidev.org:3000/callback
     ldap_host: ldap.slidev.org
     ldap_port: 389
-    ldap_base: ou=DevTest,dc=slidev,dc=org
+    ldap_base: ou=Local,ou=DevTest,dc=slidev,dc=org
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
     is_sandbox: false
+    email_sender_name: SLI Administrator
+    email_sender_address: admin@SLC.org
     email_host: mon.slidev.org
     email_port: 3000
+    email_replace_uri: http://local.slidev.org:3000
     admin_realm: Shared Learning Infrastructure
 local-acceptance-tests:
     api_base: http://local.slidev.org:8080/api/rest
@@ -23,8 +26,11 @@ local-acceptance-tests:
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
     is_sandbox: false
+    email_sender_name: SLI Administrator
+    email_sender_address: admin@SLC.org
     email_host: mon.slidev.org
     email_port: 3000
+    email_replace_uri: http://local.slidev.org:2000
     admin_realm: Shared Learning Infrastructure    
 development_sb:
     api_base: http://local.slidev.org:8080/api/rest
@@ -33,12 +39,15 @@ development_sb:
     redirect_uri: http://local.slidev.org:3000/callback
     ldap_host: ldap.slidev.org
     ldap_port: 389
-    ldap_base: ou=DevTest,dc=slidev,dc=org
+    ldap_base: ou=Local,ou=DevTest,dc=slidev,dc=org
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
     is_sandbox: true
+    email_sender_name: SLI Administrator
+    email_sender_address: admin@SLC.org
     email_host: mon.slidev.org
     email_port: 3000
+    email_replace_uri: http://local.slidev.org:3000
     admin_realm: Shared Learning Infrastructure
 team:
     api_base: https://ci.slidev.org/api/rest
@@ -47,11 +56,14 @@ team:
     redirect_uri: https://ci.slidev.org:2001/callback
     ldap_host: ldap.slidev.org
     ldap_port: 389
-    ldap_base: ou=DevTest,dc=slidev,dc=org
+    ldap_base: ou=ciTest,ou=DevTest,dc=slidev,dc=org
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
+    email_sender_name: SLI Administrator
+    email_sender_address: admin@SLC.org
     email_host: mon.slidev.org
     email_port: 3000
+    email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: false
     admin_realm: Shared Learning Infrastructure
 team_sb:
@@ -61,11 +73,14 @@ team_sb:
     redirect_uri: https://ci.slidev.org:2001/callback
     ldap_host: ldap.slidev.org
     ldap_port: 389
-    ldap_base: ou=DevTest,dc=slidev,dc=org
+    ldap_base: ou=ciTest,ou=DevTest,dc=slidev,dc=org
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
+    email_sender_name: SLI Administrator
+    email_sender_address: admin@SLC.org
     email_host: mon.slidev.org
     email_port: 3000
+    email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: true
     admin_realm: Shared Learning Infrastructure
 test:
@@ -76,6 +91,8 @@ test:
     ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
     ldap_pass: Y;Gtf@w{
     is_sandbox: false
+    email_sender_name: SLI Administrator
+    email_sender_address: admin@SLC.org
     email_host: mon.slidev.org
     email_port: 3000
     admin_realm: Shared Learning Infrastructure
