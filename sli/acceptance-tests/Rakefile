@@ -212,7 +212,7 @@ end
 
 
 desc "Run all sandbox tests"
-task :sandboxTests => [:apiSandboxTests, :adminSandboxTests] do
+task :sandboxTests => [:apiSandboxTests, :adminSandboxTests, :simpleIdpSandboxTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
