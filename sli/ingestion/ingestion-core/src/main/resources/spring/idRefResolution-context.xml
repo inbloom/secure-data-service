@@ -178,8 +178,8 @@
 
     <entry key="/InterchangeEducationOrgCalendar/GradingPeriod/CalendarDateReference" value-ref="smooksExtendedReferenceResolver" />
 
-    <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value-ref="smooksExtendedReferenceResolver" />
-    <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="smooksExtendedReferenceResolver" />
+    <entry key="/InterchangeStudentAssessment/StudentAssessment/AssessmentReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeStudentAssessment/StudentAssessment/StudentReference" value-ref="freeMarkerExtendedReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentAssessmentItem/StudentObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
     <entry key="/InterchangeStudentAssessment/StudentObjectiveAssessment/StudentTestAssessmentReference" value-ref="simpleReferenceResolver" />
