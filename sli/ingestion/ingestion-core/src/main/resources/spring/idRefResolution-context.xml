@@ -74,7 +74,7 @@
 
     <!-- Interchange StudentParent -->
     <entry key="/InterchangeStudentParent/StudentParentAssociation/ParentReference"
-          value="idRefResolution//InterchangeStudentParent/StudentParentAssociation/ParentReference.ftl" />
+          value="idRefResolution/InterchangeStudentParent/StudentParentAssociation/ParentReference.ftl" />
 
     <entry key="/InterchangeStudentParent/StudentParentAssociation/StudentReference"
           value="idRefResolution/InterchangeStudentParent/StudentParentAssociation/StudentReference.ftl" />
@@ -199,6 +199,9 @@
     <entry key="/InterchangeEducationOrganization/ObjectiveAssessment/ObjectiveAssessmentReference" value-ref="simpleReferenceResolver" />
 
     <entry key="/InterchangeMasterSchedule/Section/CourseOfferingReference" value-ref="freeMarkerExtendedReferenceResolver" />
+
+    <entry key="/InterchangeStudentParent/StudentParentAssociation/StudentReference" value-ref="freeMarkerExtendedReferenceResolver" />
+    <entry key="/InterchangeStudentParent/StudentParentAssociation/ParentReference" value-ref="freeMarkerExtendedReferenceResolver" />
 
   </util:map>
 </beans>

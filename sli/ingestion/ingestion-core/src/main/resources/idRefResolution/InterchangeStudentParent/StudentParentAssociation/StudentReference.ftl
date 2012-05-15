@@ -1,1 +1,1 @@
-<#include "../../templates/StduentRefernce.ftl">
+<#include "../../templates/StudentReference.ftl">
