@@ -54,6 +54,8 @@ development_sb:
     email_replace_uri: http://local.slidev.org:3000
     admin_realm: Shared Learning Infrastructure
     redirect_slc_url: http://www.slcedu.org
+    email_sender_name_user_reg_app: Administrator
+    email_sender_address_user_reg_app: noreply@slidev.org
 team:
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6

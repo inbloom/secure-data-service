@@ -1,3 +1,0 @@
-port: 3001
-daemonize: true
-pid: /tmp/pid/thin-admin.pid
