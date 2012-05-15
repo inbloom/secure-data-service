@@ -33,5 +33,9 @@ class UserAccountRegistrationsControllerTest < ActionController::TestCase
 
     assert_template :new
   end
+  test "should validate cancel registration" do
+    post :create,:commit=>"Cancel"
+    assert_redirected_to APP_CONFIG['redirect_slc_url']
+  end
 
  end
