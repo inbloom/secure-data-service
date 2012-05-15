@@ -19,6 +19,7 @@ import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.manager.ApiClientManager;
 import org.slc.sli.manager.UserEdOrgManager;
 import org.slc.sli.util.Constants;
+import org.slc.sli.util.DashboardException;
 
 /**
  * Retrieves and applies necessary business logic to obtain institution data
@@ -62,6 +63,10 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
             // read parent organization
             GenericEntity parentEdOrg = getParentEducationalOrganization(getToken(), school);
+            if(parentEdOrg == null) {
+                throw new DashboardException("No data is available for you to view. Please contact your IT administrator.");
+            }
+            
             @SuppressWarnings("unchecked")
             LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) parentEdOrg
                     .get(Constants.METADATA);
