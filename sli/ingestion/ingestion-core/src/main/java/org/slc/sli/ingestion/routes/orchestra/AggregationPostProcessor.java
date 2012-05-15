@@ -29,7 +29,7 @@ public class AggregationPostProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        LOG.info("Aggregation result {} ", exchange);
+        LOG.info("Aggregation completed for current tier. Will now remove entities in tier from processing pool.");
 
         @SuppressWarnings("unchecked")
         List<WorkNote> workNoteList = exchange.getIn().getBody(List.class);
@@ -49,6 +49,8 @@ public class AggregationPostProcessor implements Processor {
         exchange.getIn().setHeader("jobId", jobId);
 
         if (stagedEntityTypeDAO.getStagedEntitiesForJob(jobId).size() == 0) {
+            LOG.info("Processing pool is now empty, continue out of orchestra routes.");
+
             exchange.getIn().setHeader("processedAllStagedEntities", true);
             WorkNote workNote = WorkNoteImpl.createSimpleWorkNote(jobId);
             exchange.getIn().setBody(workNote);
@@ -60,7 +62,7 @@ public class AggregationPostProcessor implements Processor {
         IngestionStagedEntity stagedEntityToRemove = workNote.getIngestionStagedEntity();
 
         if (stagedEntityTypeDAO.removeStagedEntityForJob(stagedEntityToRemove, jobId)) {
-            LOG.info("removed EdfiEntity: {}", stagedEntityToRemove);
+            LOG.info("removed EdfiEntity from processing pool: {}", stagedEntityToRemove);
         }
     }
 

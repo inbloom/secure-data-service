@@ -6,6 +6,11 @@ import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
@@ -27,10 +32,6 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Camel interface for processing our EdFi batch job.
@@ -71,6 +72,8 @@ public class EdFiProcessor implements Processor {
     }
 
     private void processEdFi(WorkNote workNote, Exchange exchange) {
+        LOG.info("Starting stage: {}", BATCH_JOB_STAGE);
+
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = workNote.getBatchJobId();
@@ -82,7 +85,7 @@ public class EdFiProcessor implements Processor {
 
             // prepare staging database
             setupStagingDatabase(batchJobId);
-            
+
             boolean anyErrorsProcessingFiles = false;
             for (IngestionFileEntry fe : fileEntryList) {
 
@@ -124,6 +127,7 @@ public class EdFiProcessor implements Processor {
         if (fe.getFileType() != null) {
             FileFormat fileFormat = fe.getFileType().getFileFormat();
             if (fileFormat == FileFormat.EDFI_XML) {
+                LOG.info("Processing file: {}", fe.getFile().getPath());
 
                 smooksFileHandler.handle(fe, errorReport, fileProcessStatus);
 

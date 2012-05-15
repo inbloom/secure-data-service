@@ -47,12 +47,12 @@ public class WorkNoteAggregator implements AggregationStrategy {
 
         WorkNote workNote = toBeAggregated.getIn().getBody(WorkNote.class);
 
-        LOG.info("Setting {} as the aggregation completion size for {}", workNote.getBatchSize(),
-                workNote.getIngestionStagedEntity());
-
         Exchange hasBeenAggregated = toBeAggregated;
 
         if (MessageType.DATA_TRANSFORMATION.name().equals(toBeAggregated.getIn().getHeader("IngestionMessageType"))) {
+            LOG.info("Setting {} as the aggregation completion size for {}", workNote.getBatchSize(),
+                    workNote.getIngestionStagedEntity());
+
             hasBeenAggregated.getIn().setHeader("workNoteByEntityCount", workNote.getBatchSize());
             hasBeenAggregated.getIn().setHeader("totalWorkNoteCount", toBeAggregated.getProperty("CamelSplitSize"));
         }
