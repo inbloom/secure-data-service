@@ -62,6 +62,9 @@ public class StudentResourceTest {
     StudentResource studentResource; //class under test
 
     @Autowired
+    ReportCardResource reportCardResource;
+
+    @Autowired
     CohortResource cohortResource;
 
     @Autowired
@@ -689,6 +692,22 @@ public class StudentResourceTest {
         Response response = studentResource.readWithGrade(studentId, httpHeaders, uriInfo);
         EntityBody body = ResourceTestUtil.assertions(response);
         assertEquals("Grade level should match", "First grade", body.get("gradeLevel"));
+    }
+
+    @Test
+    public void testGetReportCards() {
+        final String studentResourceName = "StudentResource";
+        final String reportCardResourceName = "ReportCardResource";
+        Response createResponse = studentResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity(studentResourceName)), httpHeaders, uriInfo);
+        String studentId = ResourceTestUtil.parseIdFromLocation(createResponse);
+        Map<String, Object> map = ResourceTestUtil.createTestEntity(reportCardResourceName);
+        map.put(ParameterConstants.STUDENT_ID, studentId);
+        reportCardResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = studentResource.getReportCards(studentId, httpHeaders, uriInfo);
+        EntityBody body = ResourceTestUtil.assertions(response);
+        assertEquals(studentId, body.get(ParameterConstants.STUDENT_ID));
     }
 
     private String getIDList(String resource) {
