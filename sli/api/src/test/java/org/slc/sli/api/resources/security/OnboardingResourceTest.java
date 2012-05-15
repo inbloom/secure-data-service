@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.security.TenantResource.LandingZoneInfo;
 import org.slc.sli.api.resources.v1.HypermediaType;
@@ -77,6 +78,7 @@ public class OnboardingResourceTest {
     
     @Before
     public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
         injector.setDeveloperContext();
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
