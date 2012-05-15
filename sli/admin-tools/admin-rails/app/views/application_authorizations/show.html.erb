@@ -14,7 +14,7 @@
     apps = App.all
 
     #The reason map is being used is to put the apps in the order that they were authorized
-    authorizedApps = @application_authorization.appIds.map{|appId| apps.detect{|app| app.id == appId}}
+    authorizedApps = @application_authorization.appIds.map{|appId| apps.detect{|app| app.id == appId }}
     unauthorizedApps = apps.select {|app| @application_authorization.appIds.find_index(app.id) == nil}
     apps = authorizedApps + unauthorizedApps
     apps.each do |app|
