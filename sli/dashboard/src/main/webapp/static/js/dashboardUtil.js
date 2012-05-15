@@ -92,15 +92,7 @@ DashboardUtil.makeTabs = function (element)
     $(element).tabs();
 };
 
-DashboardUtil.getShortDisplayText = function(displayText) {
-	if (displayText.length > 18) {
-		return displayText.substring(0,14) + "...";
-	}
-	
-	return displayText;
-};
-
-DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titleKey, valueKey, autoSelect, doShortString, callback) {
+DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titleKey, valueKey, autoSelect, callback) {
 	var select =  "";
 	
 	$("#"+name).find("dropdown-menu").html(select);
@@ -125,17 +117,15 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 			select += "    <li class=\"" + selected + "\"><a href=\"#\">"+$.jgrid.htmlEncode(options[index][titleKey])+"</a>" +
 	    				"<input type='hidden' value='"+ index + "' id ='selectionValue' /></li>";
 		}
+		
+		$("#"+name + "SelectMenu").find(".optionText").html("Choose one");
 	}
 	
 	$("#"+name + "SelectMenu .dropdown-menu").html(select);
 	$("#"+name + "SelectMenu .disabled").removeClass("disabled");
 	$("#"+name + "SelectMenu .dropdown-menu li").click( function() {
 		$("#"+name + "SelectMenu .selected").removeClass("selected");
-		var displayText = $(this).find("a").html();
-		if (doShortString) {
-			displayText = DashboardUtil.getShortDisplayText(displayText);
-		}
-		$("#"+name + "SelectMenu").find(".optionText").html(displayText);
+		$("#"+name + "SelectMenu").find(".optionText").html($(this).find("a").html());
 		$("#"+name + "Select").val($(this).find("#selectionValue").val());
 		$(this).addClass("selected");
 		callback();
@@ -145,7 +135,7 @@ DashboardUtil.setDropDownOptions = function (name, defaultOptions, options, titl
 	
 };
 
-DashboardUtil.selectDropDownOption = function (name, optionValue, doClick, doShortString) {
+DashboardUtil.selectDropDownOption = function (name, optionValue, doClick) {
 	$("#" + name + "SelectMenu .dropdown-menu li").each(function() {
 		if (optionValue == $(this).find("#selectionValue").val()) {
 			$(this).addClass("selected");
@@ -153,11 +143,7 @@ DashboardUtil.selectDropDownOption = function (name, optionValue, doClick, doSho
 				$(this).click();
 			} else {
 				$("#" + name + "Select").val(optionValue);
-				var displayText = $(this).find("a").html();
-				if (doShortString) {
-					displayText = DashboardUtil.getShortDisplayText(displayText);
-				}
-				$("#" + name + "SelectMenu .optionText").html(displayText);
+				$("#" + name + "SelectMenu .optionText").html($(this).find("a").html());
 			}
 		}
 	});

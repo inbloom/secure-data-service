@@ -318,9 +318,13 @@ th.ui-th-column div {
 }
 
 #populationSelect .menuBox {
-    width: 17%;
-    margin: 5px;
+    width: 18.5%;
+    padding: 5px;
     display: inline-block;
+}
+
+#populationSelect, #viewSelection{
+    min-width: 920px;
 }
 
 #populationSelect .menuBox select { 
@@ -809,7 +813,7 @@ button.btn.small, input[type="submit"].btn.small {
 }
 
 .btn-group {
-  width:90%;
+  width:100%;
   position: relative;
   *zoom: 1;
   *margin-left: .3em;
@@ -892,9 +896,9 @@ button.btn.small, input[type="submit"].btn.small {
   outline: 0;
 }
 .btn-group .dropdown-toggle {
-  width:90%;
-  padding-left: 8px;
-  padding-right: 8px;
+  width:97%;
+  padding-left: 5px;
+  padding-right: 5px;
   -webkit-box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.125), inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.125), inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.125), inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -920,6 +924,15 @@ button.btn.small, input[type="submit"].btn.small {
 }
 .btn .optionText {
   float:left;
+}
+
+#populationSelect .btn .optionText {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    width: 85%;
+    text-align: left;
 }
 .btn .caret {
   margin: 5px;
