@@ -166,7 +166,7 @@ public class OnboardingResource {
         } catch (TenantResourceCreationException trce) {
             EntityBody entity = new EntityBody();
             body.put("message", trce.getMessage());
-            return Response.status(Status.BAD_REQUEST).entity(entity).build(); //TODO
+            return Response.status(trce.getStatus()).entity(entity).build();
         }
     }
 

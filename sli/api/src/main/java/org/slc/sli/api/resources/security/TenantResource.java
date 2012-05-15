@@ -1,5 +1,7 @@
 package org.slc.sli.api.resources.security;
 
+import javax.ws.rs.core.Response;
+
 public interface TenantResource {
     
     LandingZoneInfo createLandingZone(String tenantId, String edOrgId)
@@ -47,6 +49,8 @@ public interface TenantResource {
          * 
          */
         private static final long serialVersionUID = 1L;
+        
+        private Response.Status status;
 
         /**
          * Constructs a new exception with the specified detail message.  The
@@ -56,10 +60,13 @@ public interface TenantResource {
          * @param   message   the detail message. The detail message is saved for 
          *          later retrieval by the {@link #getMessage()} method.
          */
-        public TenantResourceCreationException(String message) {
+        public TenantResourceCreationException(Response.Status s, String message) {
             super(message);
+            status = s;
         }
 
-
+        public Response.Status getStatus() {
+            return status;
+        }
     }
 }

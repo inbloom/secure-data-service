@@ -115,7 +115,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         } catch (TenantResourceCreationException e) {            
             EntityBody body = new EntityBody();
             body.put("message", e.getMessage());
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
+            return Response.status(e.getStatus()).entity(body).build();
         }
     }
     
@@ -132,7 +132,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                 return new LandingZoneInfo((String) lz.get(LZ_PATH), (String) lz.get(LZ_INGESTION_SERVER));
             }
         }
-        throw new TenantResourceCreationException("Failed to find landing zone information after creation.");
+        throw new TenantResourceCreationException(Status.INTERNAL_SERVER_ERROR, "Failed to find landing zone information after creation.");
     }
     
     @SuppressWarnings({ "unchecked" })
@@ -142,7 +142,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         
         // NOTE: OnboardingResource may only send in one at a time
         if (1 != newLzs.size()) {
-            throw new TenantResourceCreationException(
+            throw new TenantResourceCreationException(Status.BAD_REQUEST,
                     "Only one landing zone may be provisioned at a time.  Please submit your requests individually.");
         }
         
@@ -216,7 +216,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         Set<Map<String, Object>> all = (Set<Map<String, Object>>) allLandingZones;
         for (Map<String, Object> lz : all) {
             if (lz.get(LZ_EDUCATION_ORGANIZATION).equals(edOrgId)) {
-                throw new TenantResourceCreationException(
+                throw new TenantResourceCreationException(Status.CONFLICT,
                         "This tenant/educational organization combination all ready has a landing zone provisioned.");
             }
         }
