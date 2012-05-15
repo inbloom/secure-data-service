@@ -74,7 +74,10 @@ public class SamlFederationResource {
 
     @Value("classpath:saml/samlMetadata.xml.template")
     private Resource metadataTemplateResource;
-
+    
+    @Value("${sli.api.cookieDomain}")
+    private String apiCookieDomain;
+    
     @Context
     private HttpServletRequest httpServletRequest;
 
@@ -190,7 +193,7 @@ public class SamlFederationResource {
         Pair<String, URI> tuple = this.sessionManager.composeRedirect(inResponseTo, principal);
 
         return Response.temporaryRedirect(tuple.getRight())
-                .cookie(new NewCookie("_tla", tuple.getLeft(), "/", ".slidev.org", "", 300, false)).build();
+                .cookie(new NewCookie("_tla", tuple.getLeft(), "/", apiCookieDomain, "", 300, false)).build();
     }
 
     private Entity fetchOne(String collection, NeutralQuery neutralQuery) {
