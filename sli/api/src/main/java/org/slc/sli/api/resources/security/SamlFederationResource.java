@@ -201,9 +201,21 @@ public class SamlFederationResource {
     private String getUserNameFromEntity(Entity entity) {
         if (entity != null) {
             @SuppressWarnings("rawtypes")
-            Map name = (Map) entity.getBody().get("name");
-            if (name != null) {
-                return name.get("firstName") + " " + name.get("lastSurname");
+            Map nameMap = (Map) entity.getBody().get("name");
+            if (nameMap != null) {
+                StringBuffer name = new StringBuffer();
+                if (nameMap.containsKey("personalTitlePrefix")) {
+                    name.append((String) nameMap.get("personalTitlePrefix"));
+                    name.append(" ");
+                }
+                name.append((String) nameMap.get("firstName"));
+                name.append(" ");
+                name.append((String) nameMap.get("lastSurname"));
+                if (nameMap.containsKey("generationCodeSuffix")) {
+                    name.append(" ");
+                    name.append((String) nameMap.get("generationCodeSuffix"));
+                }
+                return name.toString();
             }
         }
         return null;
