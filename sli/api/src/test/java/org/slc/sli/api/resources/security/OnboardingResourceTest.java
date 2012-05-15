@@ -25,8 +25,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.security.TenantResource.LandingZoneInfo;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -84,7 +84,7 @@ public class OnboardingResourceTest {
         when(headers.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(headers.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
         
-        mockTenantResource = mock(TenantResource.class);
+        // mockTenantResource = mock(TenantResource.class);
         
         // clear all related collections
         repo.deleteAll("educationOrganization");
@@ -113,13 +113,15 @@ public class OnboardingResourceTest {
         requestBody.put(OnboardingResource.STATE_EDORG_ID, "TestOrg");
         requestBody.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, "12345");
         
-        Map<String, Object> tenantBody = new HashMap<String, Object>();
+        LandingZoneInfo landingZone = new LandingZoneInfo("LANDING ZONE", "INGESTION SERVER");
+        
+        Map<String, String> tenantBody = new HashMap<String, String>();
         tenantBody.put("landingZone", "LANDING ZONE");
         tenantBody.put("ingestionServer", "INGESTION SERVER");
         
-        Entity tenantEntity = Mockito.mock(Entity.class);
-        when(tenantEntity.getBody()).thenReturn(tenantBody);
-        when(mockTenantResource.createLandingZone("12345", "TestOrg")).thenReturn(tenantEntity);
+        // Entity tenantEntity = Mockito.mock(Entity.class);
+        // when(tenantEntity.getBody()).thenReturn(tenantBody);
+        when(mockTenantResource.createLandingZone("12345", "TestOrg")).thenReturn(landingZone);
         
         Response res = resource.provision(requestBody, null);
         assertTrue(Status.fromStatusCode(res.getStatus()) == Status.CREATED);
@@ -220,4 +222,5 @@ public class OnboardingResourceTest {
         body.put("developer_info", developerInfo);
         return body;
     }
+    
 }
