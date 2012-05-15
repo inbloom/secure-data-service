@@ -76,6 +76,23 @@ public class PropertiesDecryptor {
         return new String(decodedBytes);
     }
     
+    
+    
+    public String getEncryptedByteCSString(String toEncode) throws Exception {
+        byte[] encoded = encryptCipher.doFinal(toEncode.getBytes());
+        
+        String s = "";
+        String delim = "";
+        
+        for (byte byteElement : encoded) {
+            s += delim + byteElement;
+            delim = ",";
+        }
+        
+        
+        return s;
+    }
+    
     public String getDecryptedClientSecret() {
         return decryptedClientSecret;
     }
@@ -83,5 +100,5 @@ public class PropertiesDecryptor {
     public String getDecryptedClientId() {
         return decryptedClientId;
     }
-
+    
 }
