@@ -6,7 +6,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
- * Safe ID string
+ * Validatable UUID string to be accepted as a modelattribute, requestparam, or pathvariable
  * @author agrebneva
  *
  */
